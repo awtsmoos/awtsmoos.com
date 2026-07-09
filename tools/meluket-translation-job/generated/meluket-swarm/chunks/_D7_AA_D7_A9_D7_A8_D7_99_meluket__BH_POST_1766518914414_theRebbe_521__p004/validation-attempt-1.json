@@ -1,0 +1,904 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 172,
+    "returned": 172,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914414_theRebbe_521\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914414_theRebbe_521__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains the symbolism of the Mount of Olives, the olive's bitterness representing the level of Kesser, and the future revelation of the essential level through the splitting of the mountain.</sectionSummaryBrief>\n    <t s=\"0\">And this is: “And His feet shall stand on that day upon the Mount of Olives,”</t>\n    <t s=\"1\">for olives are [the fruit] from which oil is made,</t>\n    <t s=\"2\">[yet] the olives themselves are bitter,</t>\n    <t s=\"3\">as our sages, of blessed memory, said,</t>\n    <t s=\"4\">“The dove said… ‘Let my sustenance be as bitter as an olive…’”</t>\n    <t s=\"5\">And there are two interpretations of this.</t>\n    <t s=\"6\">And our sages, of blessed memory, said that the olive causes one to forget his learning—but the oil that comes from the olive restores his learning.</t>\n    <t s=\"7\">And the concept in [terms of] Divine service is,</t>\n    <t s=\"8\">that the olive represents the service of subjugation and transformation,</t>\n    <t s=\"9\">which is analogous to the crushing of the olive.</t>\n    <t s=\"10\">Behold, it is written,</t>\n    <t s=\"11\">“Crushed for the luminary,”</t>\n    <t s=\"12\">that through the service of crushing, one reaches the level of “luminary,”</t>\n    <t s=\"13\">the source of light,</t>\n    <t s=\"14\">from which the level of Chochmah is found,</t>\n    <t s=\"15\">[which is] oil.</t>\n    <t s=\"16\">And this means that the olive, from which oil is made, alludes to the level of Kesser</t>\n    <t s=\"17\">(Kesser she’b’Kesser),</t>\n    <t s=\"18\">which is above the level of Chochmah S’tima’ah,</t>\n    <t s=\"19\">for this is why the olive is bitter,</t>\n    <t s=\"20\">because sweetness pertains to light and bitterness to darkness,</t>\n    <t s=\"21\">as it is written,</t>\n    <t s=\"22\">“And sweet is the light,”</t>\n    <t s=\"23\">and since Kesser is a level of darkness,</t>\n    <t s=\"24\">the level of “He made darkness His hiding place,”</t>\n    <t s=\"25\">and as the statement [says],</t>\n    <t s=\"26\">“The Supreme Kesser, although it is a clear light, a brilliant light, it is dark in comparison to the Cause of Causes,”</t>\n    <t s=\"27\">therefore the olive, which indicates the level of Kesser, is bitter.</t>\n    <t s=\"28\">And behold, the Mount of Olives is above even the level of olives.</t>\n    <t s=\"29\">And as explained above regarding the matter of Kesser she’b’Kesser and Chochmah she’b’Kesser</t>\n    <t s=\"30\">(olive and oil),</t>\n    <t s=\"31\">that the level of Kesser she’b’Kesser is qualitatively distinct from the level of Chochmah she’b’Kesser,</t>\n    <t s=\"32\">so too is it regarding the relationship of olives to the Mount of Olives,</t>\n    <t s=\"33\">that the level of the Mount of Olives is qualitatively distinct from the level of olives,</t>\n    <t s=\"34\">for this is why the growth of olives from the Mount of Olives is only from the level of</t>\n    <t s=\"35\">(the power)</t>\n    <t s=\"36\">of growth that exists in the mountain,</t>\n    <t s=\"37\">but the level of the inanimate within the inanimate of it,</t>\n    <t s=\"38\">which is the essence of the mountain,</t>\n    <t s=\"39\">is distinct from the olives.</t>\n    <t s=\"40\">And as is known regarding the matter of growth,</t>\n    <t s=\"41\">that it comes not from the essence of the earth but only from the level of growth within it,</t>\n    <t s=\"42\">therefore, if one recited the blessing “Who creates the fruit of the tree” over [a fruit], he fulfills his obligation [if he intended] “Who creates the fruit of the ground,”</t>\n    <t s=\"43\">for it grows from the ground,</t>\n    <t s=\"44\">for the nourishment of the tree’s branches is not from the essence of the earth but only from the power of growth within it.</t>\n    <t s=\"45\">From this one understands the immense wonder of the concept of the Mount of Olives,</t>\n    <t s=\"46\">that it is qualitatively distinct even from the level of olives.</t>\n    <t s=\"47\">And this is what is written: “And the Mount of Olives shall split,”</t>\n    <t s=\"48\">that in the future, the level of the Mount of Olives itself will be drawn down,</t>\n    <t s=\"49\">namely, the level of the inanimate within the inanimate of it.</t>\n    <t s=\"50\">For this is the concept of “and it shall split,”</t>\n    <t s=\"51\">for behold, it is known and explained regarding the matter of the Ushpizin that Yaakov says, “Then your light shall burst forth like the dawn,”</t>\n    <t s=\"52\">that although the light drawn down through the bursting is minute,</t>\n    <t s=\"53\">nevertheless, the cause of the bursting is due to the overwhelming intensity of the light,</t>\n    <t s=\"54\">as is known the parable of a barrel that is filled to overflowing until it cannot contain the liquid within it,</t>\n    <t s=\"55\">that then it bursts with cracks and fissures, and the liquid emerges through the cracks,</t>\n    <t s=\"56\">and although the amount of liquid that emerges through the cracks is minute,</t>\n    <t s=\"57\">this bursting indicates the filling of the barrel, etc.,</t>\n    <t s=\"58\">and this means that in the light of the bursting, the power of the level of the essence, which is above the level of revelation and whose source is from there, is revealed,</t>\n    <t s=\"59\">as explained in the Siddur, Shaar HaSukkos,</t>\n    <t s=\"60\">and even more so here.</t>\n    <t s=\"61\">And this is the concept of “And the Mount of Olives itself shall split”—not through a partition</t>\n    <t s=\"62\">(the walls of the barrel)</t>\n    <t s=\"63\">etc., but rather the level of the essence of the Mount of Olives will be drawn down,</t>\n    <t s=\"64\">the level of the inanimate within it,</t>\n    <t s=\"65\">which is above the level of cause for the olives.</t>\n    <t s=\"66\">And this is</t>\n    <t s=\"67\">what is written: “And the Mount of Olives shall split… towards the east and towards the sea,”</t>\n    <t s=\"68\">for east and sea are front and back,</t>\n    <t s=\"69\">and it is the level of length drawn from above downward, analogous to the line of the Vav that is drawn from above downward.</t>\n    <t s=\"70\">Behold, the general manner of drawing down is that as the light proceeds and is drawn down, it diminishes,</t>\n    <t s=\"71\">but this is specifically when the beginning of the drawing down is from a level that pertains to the chain of descent,</t>\n    <t s=\"72\">however, in the future, when there will be the splitting of the Mount of Olives and [the light] will be drawn from the level of the essence that is above the chain of descent,</t>\n    <t s=\"73\">then the drawing down will be towards the east and towards the sea,</t>\n    <t s=\"74\">above and below equally.</t>\n    <t s=\"75\">And this is also what is written afterwards: “And half of the mountain shall move northward and half of it southward,”</t>\n    <t s=\"76\">northward and southward are the left line and the right line.</t>\n    <t s=\"77\">Behold, in the future, when there will be “And the Mount of Olives shall split,” then “and it shall move… northward” [indicates] the nullification of the lines from their existence, or their inclusion in the manner of “there is no left in this Ancient One,” etc.</t>\n    <t s=\"78\">And this is also what concludes: “On that day, Hashem will be One and His Name will be One,” and our sages, of blessed memory, said,</t>\n    <t s=\"79\">“Just as I am written, I am called,”</t>\n    <t s=\"80\">for because there will then be the drawing down of the essence, which is above and below equally,</t>\n    <t s=\"81\">therefore below will be as it is above,</t>\n    <t s=\"82\">called as it is written.</t>\n    <t s=\"83\">And this is also the connection between the two interpretations of “And His feet shall stand on that day upon the Mount of Olives,”</t>\n    <t s=\"84\">for from the aspect of the elevation of the level of “upon the Mount of Olives,” from this aspect there will then be judgment in standing,</t>\n    <t s=\"85\">for the concept of standing indicates the drawing down from the head to the foot equally,</t>\n    <t s=\"86\">as is known</t>\n    <t s=\"87\">regarding the matter of “You stand for them in their time of distress,”</t>\n    <t s=\"88\">that even when, from the aspect of Divine service</t>\n    <t s=\"89\">(of the internal powers),</t>\n    <t s=\"90\">Israel is in a state of their distress,</t>\n    <t s=\"91\">from which aspect a literal time of their distress is created,</t>\n    <t s=\"92\">behold, “in all their distress, He is distressed,”</t>\n    <t s=\"93\">and then “You stand for them in their time of distress,”</t>\n    <t s=\"94\">that the standing is what is drawn from the head directly to the foot.</t>\n    <t s=\"95\">And this is also what will be in the future, that judgment will be in standing,</t>\n    <t s=\"96\">for judgment is the matter of clarifications.</t>\n    <t s=\"97\">Behold, from the aspect of “And the Mount of Olives shall split,” that the essence will be drawn down,</t>\n    <t s=\"98\">for then the drawing down will be forward and seaward equally</t>\n    <t s=\"99\">(like the matter of standing, which is drawn from head to foot),</t>\n    <t s=\"100\">then there will be judgment upon the nations,</t>\n    <t s=\"101\">that even the nations will be clarified, etc.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that the future revelation is drawn down through the service of the \"feet,\" specifically the practical mitzvah of charity in the generation of the footsteps of Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">And behold, all these matters are drawn down through Divine service,</t>\n    <t s=\"1\">and so it is also regarding the matter of “And His feet shall stand on that day upon the Mount of Olives,” that this is drawn down through the service of the level of feet,</t>\n    <t s=\"2\">as the statement [says],</t>\n    <t s=\"3\">“The feet reach to the feet.”</t>\n    <t s=\"4\">And the concept is,</t>\n    <t s=\"5\">behold, during the time when the Holy Temple stood, there was then a revelation of G-dliness,</t>\n    <t s=\"6\">and so it was also after the destruction,</t>\n    <t s=\"7\">and even more so in the days of Rabbi [Yehudah HaNasi],</t>\n    <t s=\"8\">and in this generation it is said, “The fallen Sukkah of Dovid,”</t>\n    <t s=\"9\">[falling] from level to level.</t>\n    <t s=\"10\">Therefore, at first, the main service and clarifications were in the level of Chabad, and therefore the Tannaim and Amoraim primarily occupied themselves with Torah study,</t>\n    <t s=\"11\">as opposed to the service of prayer,</t>\n    <t s=\"12\">to the extent that there were those who prayed only once in thirty days, etc.</t>\n    <t s=\"13\">And in the later period,</t>\n    <t s=\"14\">behold, then the main service was in [the Sefiros of] Chagat,</t>\n    <t s=\"15\">“There is no worship like the worship of love,”</t>\n    <t s=\"16\">which is the service of the heart,</t>\n    <t s=\"17\">the service of prayer.</t>\n    <t s=\"18\">However, in the time of the footsteps of Moshiach, when the level of the Sukkah of Dovid has fallen to the level of feet and heels, which is the level of Asiyah,</t>\n    <t s=\"19\">behold, now the main service is in the level of Nehi,</t>\n    <t s=\"20\">and in the level of action,</t>\n    <t s=\"21\">in the actual performance of the mitzvos,</t>\n    <t s=\"22\">and particularly in the act of charity, which encompasses all the mitzvos,</t>\n    <t s=\"23\">as explained in Igeres HaKodesh.</t>\n    <t s=\"24\">And this is a great merit-finding</t>\n    <t s=\"25\">(a powerful merit-finding)</t>\n    <t s=\"26\">for this generation,</t>\n    <t s=\"27\">that all of Israel in this generation in all countries are most distinguished in the giving of charity,</t>\n    <t s=\"28\">in a manner that was not so in previous generations,</t>\n    <t s=\"29\">for through this service they raise the Sukkah of Dovid from its fall,</t>\n    <t s=\"30\">as explained in Igeres HaKodesh there.</t>\n    <t s=\"31\">And this is particularly relevant to the days of Sukkos,</t>\n    <t s=\"32\">and as it is brought in the Zohar regarding the matter of the Ushpizin, and explained in the Siddur, Shaar HaSukkos,</t>\n    <t s=\"33\">that one must distribute money to the poor on the eve of Sukkos.</t>\n    <t s=\"34\">And through the service of charity in action,</t>\n    <t s=\"35\">the level of feet,</t>\n    <t s=\"36\">the feet of the Nukva arouse the feet of the Duchra,</t>\n    <t s=\"37\">and through this is drawn down “And His feet shall stand on that day upon the Mount of Olives,”</t>\n    <t s=\"38\">for “the feet reach to the feet,”</t>\n    <t s=\"39\">and through this the essence, which is above the level of revelation, is drawn down,</t>\n    <t s=\"40\">in the manner explained in the Siddur, Shaar Lag BaOmer,</t>\n    <t s=\"41\">that specifically in the level of Hod she’b’Hod is the essence drawn down.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section concludes that the praise of the nations and the future redemption are drawn through the service of Sukkos and Shemini Atzeres, bringing the essential revelation into the entire year.</sectionSummaryBrief>\n    <t s=\"0\">And this is: “Praise Hashem, all nations; extol Him, all peoples! For His kindness has overwhelmed us, and the truth of Hashem is forever.”</t>\n    <t s=\"1\">[This refers to] the level of His kindness that is above the chain of descent, and as “His kindness has overwhelmed us,”</t>\n    <t s=\"2\">and likewise the level of “the truth of Hashem,”</t>\n    <t s=\"3\">will be drawn down also into the world,</t>\n    <t s=\"4\">so that He will be called as He is written,</t>\n    <t s=\"5\">and from this aspect even the nations will be clarified,</t>\n    <t s=\"6\">and as explained above, that from the revelation of “And His feet shall stand, etc.,” there will also be judgment upon the nations, which is the matter of clarifications.</t>\n    <t s=\"7\">And it is that through the offering of the seventy bulls that are offered during the festival of Sukkos, the seventy guardian angels are subdued to holiness, and they are subjugated to Israel,</t>\n    <t s=\"8\">and then only good is drawn down to Israel, and the great joy of “the time of our rejoicing” during the festival of Sukkos, and “Whoever has not seen the rejoicing of the House of Drawing Water has never seen true joy in his life.”</t>\n    <t s=\"9\">And afterwards, they come to Shemini Atzeres,</t>\n    <t s=\"10\">“Israel and the King alone,”</t>\n    <t s=\"11\">for Shemini Atzeres pertains to and alludes to the revelation of the future,</t>\n    <t s=\"12\">and as our sages, of blessed memory, said,</t>\n    <t s=\"13\">“The lyre of the days of Moshiach will have eight strings,”</t>\n    <t s=\"14\">for on Shemini Atzeres</t>\n    <t s=\"15\">(and in the future),</t>\n    <t s=\"16\">the drawing down is from the level of oil</t>\n    <t s=\"17\">(in an oily manner),</t>\n    <t s=\"18\">and “one who gives with a generous eye gives [abundantly].”</t>\n    <t s=\"19\">And behold, the matters of Tishrei are all-inclusive for the entire year and are for the purpose of drawing them down throughout the entire year,</t>\n    <t s=\"20\">and “the time of our rejoicing” is that the joy of Sukkos and Shemini Atzeres is drawn down throughout the entire year,</t>\n    <t s=\"21\">and even to “and everlasting joy upon their heads,”</t>\n    <t s=\"22\">with the coming of Moshiach our righteousness, who will wage the war of Hashem and succeed,</t>\n    <t s=\"23\">and “I will make a city into a heap,”</t>\n    <t s=\"24\">that the kingdom of the kelipah will be nullified,</t>\n    <t s=\"25\">“From the destruction of Tyre, Jerusalem will be rebuilt,”</t>\n    <t s=\"26\">the holy city, and the Temple will be built in its place,</t>\n    <t s=\"27\">speedily in our days, Amen.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914414_theRebbe_521",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914414_theRebbe_521__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains the symbolism of the Mount of Olives, the olive's bitterness representing the level of Kesser, and the future revelation of the essential level through the splitting of the mountain.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And this is: “And His feet shall stand on that day upon the Mount of Olives,”"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "for olives are [the fruit] from which oil is made,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "[yet] the olives themselves are bitter,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "as our sages, of blessed memory, said,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "“The dove said… ‘Let my sustenance be as bitter as an olive…’”"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "And there are two interpretations of this."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "And our sages, of blessed memory, said that the olive causes one to forget his learning—but the oil that comes from the olive restores his learning."
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "And the concept in [terms of] Divine service is,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "that the olive represents the service of subjugation and transformation,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "which is analogous to the crushing of the olive."
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "Behold, it is written,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "“Crushed for the luminary,”"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "that through the service of crushing, one reaches the level of “luminary,”"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "the source of light,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "from which the level of Chochmah is found,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "[which is] oil."
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "And this means that the olive, from which oil is made, alludes to the level of Kesser"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "(Kesser she’b’Kesser),"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "which is above the level of Chochmah S’tima’ah,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "for this is why the olive is bitter,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "because sweetness pertains to light and bitterness to darkness,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "“And sweet is the light,”"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "and since Kesser is a level of darkness,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "the level of “He made darkness His hiding place,”"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "and as the statement [says],"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "“The Supreme Kesser, although it is a clear light, a brilliant light, it is dark in comparison to the Cause of Causes,”"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "therefore the olive, which indicates the level of Kesser, is bitter."
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "And behold, the Mount of Olives is above even the level of olives."
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "And as explained above regarding the matter of Kesser she’b’Kesser and Chochmah she’b’Kesser"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "(olive and oil),"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "that the level of Kesser she’b’Kesser is qualitatively distinct from the level of Chochmah she’b’Kesser,"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "so too is it regarding the relationship of olives to the Mount of Olives,"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "that the level of the Mount of Olives is qualitatively distinct from the level of olives,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "for this is why the growth of olives from the Mount of Olives is only from the level of"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "(the power)"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "of growth that exists in the mountain,"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "but the level of the inanimate within the inanimate of it,"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "which is the essence of the mountain,"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "is distinct from the olives."
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "And as is known regarding the matter of growth,"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "that it comes not from the essence of the earth but only from the level of growth within it,"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "therefore, if one recited the blessing “Who creates the fruit of the tree” over [a fruit], he fulfills his obligation [if he intended] “Who creates the fruit of the ground,”"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "for it grows from the ground,"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "for the nourishment of the tree’s branches is not from the essence of the earth but only from the power of growth within it."
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "From this one understands the immense wonder of the concept of the Mount of Olives,"
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "that it is qualitatively distinct even from the level of olives."
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "And this is what is written: “And the Mount of Olives shall split,”"
+          },
+          {
+            "v": 9,
+            "s": 48,
+            "translation": "that in the future, the level of the Mount of Olives itself will be drawn down,"
+          },
+          {
+            "v": 9,
+            "s": 49,
+            "translation": "namely, the level of the inanimate within the inanimate of it."
+          },
+          {
+            "v": 9,
+            "s": 50,
+            "translation": "For this is the concept of “and it shall split,”"
+          },
+          {
+            "v": 9,
+            "s": 51,
+            "translation": "for behold, it is known and explained regarding the matter of the Ushpizin that Yaakov says, “Then your light shall burst forth like the dawn,”"
+          },
+          {
+            "v": 9,
+            "s": 52,
+            "translation": "that although the light drawn down through the bursting is minute,"
+          },
+          {
+            "v": 9,
+            "s": 53,
+            "translation": "nevertheless, the cause of the bursting is due to the overwhelming intensity of the light,"
+          },
+          {
+            "v": 9,
+            "s": 54,
+            "translation": "as is known the parable of a barrel that is filled to overflowing until it cannot contain the liquid within it,"
+          },
+          {
+            "v": 9,
+            "s": 55,
+            "translation": "that then it bursts with cracks and fissures, and the liquid emerges through the cracks,"
+          },
+          {
+            "v": 9,
+            "s": 56,
+            "translation": "and although the amount of liquid that emerges through the cracks is minute,"
+          },
+          {
+            "v": 9,
+            "s": 57,
+            "translation": "this bursting indicates the filling of the barrel, etc.,"
+          },
+          {
+            "v": 9,
+            "s": 58,
+            "translation": "and this means that in the light of the bursting, the power of the level of the essence, which is above the level of revelation and whose source is from there, is revealed,"
+          },
+          {
+            "v": 9,
+            "s": 59,
+            "translation": "as explained in the Siddur, Shaar HaSukkos,"
+          },
+          {
+            "v": 9,
+            "s": 60,
+            "translation": "and even more so here."
+          },
+          {
+            "v": 9,
+            "s": 61,
+            "translation": "And this is the concept of “And the Mount of Olives itself shall split”—not through a partition"
+          },
+          {
+            "v": 9,
+            "s": 62,
+            "translation": "(the walls of the barrel)"
+          },
+          {
+            "v": 9,
+            "s": 63,
+            "translation": "etc., but rather the level of the essence of the Mount of Olives will be drawn down,"
+          },
+          {
+            "v": 9,
+            "s": 64,
+            "translation": "the level of the inanimate within it,"
+          },
+          {
+            "v": 9,
+            "s": 65,
+            "translation": "which is above the level of cause for the olives."
+          },
+          {
+            "v": 9,
+            "s": 66,
+            "translation": "And this is"
+          },
+          {
+            "v": 9,
+            "s": 67,
+            "translation": "what is written: “And the Mount of Olives shall split… towards the east and towards the sea,”"
+          },
+          {
+            "v": 9,
+            "s": 68,
+            "translation": "for east and sea are front and back,"
+          },
+          {
+            "v": 9,
+            "s": 69,
+            "translation": "and it is the level of length drawn from above downward, analogous to the line of the Vav that is drawn from above downward."
+          },
+          {
+            "v": 9,
+            "s": 70,
+            "translation": "Behold, the general manner of drawing down is that as the light proceeds and is drawn down, it diminishes,"
+          },
+          {
+            "v": 9,
+            "s": 71,
+            "translation": "but this is specifically when the beginning of the drawing down is from a level that pertains to the chain of descent,"
+          },
+          {
+            "v": 9,
+            "s": 72,
+            "translation": "however, in the future, when there will be the splitting of the Mount of Olives and [the light] will be drawn from the level of the essence that is above the chain of descent,"
+          },
+          {
+            "v": 9,
+            "s": 73,
+            "translation": "then the drawing down will be towards the east and towards the sea,"
+          },
+          {
+            "v": 9,
+            "s": 74,
+            "translation": "above and below equally."
+          },
+          {
+            "v": 9,
+            "s": 75,
+            "translation": "And this is also what is written afterwards: “And half of the mountain shall move northward and half of it southward,”"
+          },
+          {
+            "v": 9,
+            "s": 76,
+            "translation": "northward and southward are the left line and the right line."
+          },
+          {
+            "v": 9,
+            "s": 77,
+            "translation": "Behold, in the future, when there will be “And the Mount of Olives shall split,” then “and it shall move… northward” [indicates] the nullification of the lines from their existence, or their inclusion in the manner of “there is no left in this Ancient One,” etc."
+          },
+          {
+            "v": 9,
+            "s": 78,
+            "translation": "And this is also what concludes: “On that day, Hashem will be One and His Name will be One,” and our sages, of blessed memory, said,"
+          },
+          {
+            "v": 9,
+            "s": 79,
+            "translation": "“Just as I am written, I am called,”"
+          },
+          {
+            "v": 9,
+            "s": 80,
+            "translation": "for because there will then be the drawing down of the essence, which is above and below equally,"
+          },
+          {
+            "v": 9,
+            "s": 81,
+            "translation": "therefore below will be as it is above,"
+          },
+          {
+            "v": 9,
+            "s": 82,
+            "translation": "called as it is written."
+          },
+          {
+            "v": 9,
+            "s": 83,
+            "translation": "And this is also the connection between the two interpretations of “And His feet shall stand on that day upon the Mount of Olives,”"
+          },
+          {
+            "v": 9,
+            "s": 84,
+            "translation": "for from the aspect of the elevation of the level of “upon the Mount of Olives,” from this aspect there will then be judgment in standing,"
+          },
+          {
+            "v": 9,
+            "s": 85,
+            "translation": "for the concept of standing indicates the drawing down from the head to the foot equally,"
+          },
+          {
+            "v": 9,
+            "s": 86,
+            "translation": "as is known"
+          },
+          {
+            "v": 9,
+            "s": 87,
+            "translation": "regarding the matter of “You stand for them in their time of distress,”"
+          },
+          {
+            "v": 9,
+            "s": 88,
+            "translation": "that even when, from the aspect of Divine service"
+          },
+          {
+            "v": 9,
+            "s": 89,
+            "translation": "(of the internal powers),"
+          },
+          {
+            "v": 9,
+            "s": 90,
+            "translation": "Israel is in a state of their distress,"
+          },
+          {
+            "v": 9,
+            "s": 91,
+            "translation": "from which aspect a literal time of their distress is created,"
+          },
+          {
+            "v": 9,
+            "s": 92,
+            "translation": "behold, “in all their distress, He is distressed,”"
+          },
+          {
+            "v": 9,
+            "s": 93,
+            "translation": "and then “You stand for them in their time of distress,”"
+          },
+          {
+            "v": 9,
+            "s": 94,
+            "translation": "that the standing is what is drawn from the head directly to the foot."
+          },
+          {
+            "v": 9,
+            "s": 95,
+            "translation": "And this is also what will be in the future, that judgment will be in standing,"
+          },
+          {
+            "v": 9,
+            "s": 96,
+            "translation": "for judgment is the matter of clarifications."
+          },
+          {
+            "v": 9,
+            "s": 97,
+            "translation": "Behold, from the aspect of “And the Mount of Olives shall split,” that the essence will be drawn down,"
+          },
+          {
+            "v": 9,
+            "s": 98,
+            "translation": "for then the drawing down will be forward and seaward equally"
+          },
+          {
+            "v": 9,
+            "s": 99,
+            "translation": "(like the matter of standing, which is drawn from head to foot),"
+          },
+          {
+            "v": 9,
+            "s": 100,
+            "translation": "then there will be judgment upon the nations,"
+          },
+          {
+            "v": 9,
+            "s": 101,
+            "translation": "that even the nations will be clarified, etc."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that the future revelation is drawn down through the service of the \"feet,\" specifically the practical mitzvah of charity in the generation of the footsteps of Moshiach.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And behold, all these matters are drawn down through Divine service,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "and so it is also regarding the matter of “And His feet shall stand on that day upon the Mount of Olives,” that this is drawn down through the service of the level of feet,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "as the statement [says],"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "“The feet reach to the feet.”"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "And the concept is,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "behold, during the time when the Holy Temple stood, there was then a revelation of G-dliness,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "and so it was also after the destruction,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "and even more so in the days of Rabbi [Yehudah HaNasi],"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "and in this generation it is said, “The fallen Sukkah of Dovid,”"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "[falling] from level to level."
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "Therefore, at first, the main service and clarifications were in the level of Chabad, and therefore the Tannaim and Amoraim primarily occupied themselves with Torah study,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "as opposed to the service of prayer,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "to the extent that there were those who prayed only once in thirty days, etc."
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "And in the later period,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "behold, then the main service was in [the Sefiros of] Chagat,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "“There is no worship like the worship of love,”"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "which is the service of the heart,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "the service of prayer."
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "However, in the time of the footsteps of Moshiach, when the level of the Sukkah of Dovid has fallen to the level of feet and heels, which is the level of Asiyah,"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "behold, now the main service is in the level of Nehi,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "and in the level of action,"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "in the actual performance of the mitzvos,"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "and particularly in the act of charity, which encompasses all the mitzvos,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "as explained in Igeres HaKodesh."
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "And this is a great merit-finding"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "(a powerful merit-finding)"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "for this generation,"
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "that all of Israel in this generation in all countries are most distinguished in the giving of charity,"
+          },
+          {
+            "v": 10,
+            "s": 28,
+            "translation": "in a manner that was not so in previous generations,"
+          },
+          {
+            "v": 10,
+            "s": 29,
+            "translation": "for through this service they raise the Sukkah of Dovid from its fall,"
+          },
+          {
+            "v": 10,
+            "s": 30,
+            "translation": "as explained in Igeres HaKodesh there."
+          },
+          {
+            "v": 10,
+            "s": 31,
+            "translation": "And this is particularly relevant to the days of Sukkos,"
+          },
+          {
+            "v": 10,
+            "s": 32,
+            "translation": "and as it is brought in the Zohar regarding the matter of the Ushpizin, and explained in the Siddur, Shaar HaSukkos,"
+          },
+          {
+            "v": 10,
+            "s": 33,
+            "translation": "that one must distribute money to the poor on the eve of Sukkos."
+          },
+          {
+            "v": 10,
+            "s": 34,
+            "translation": "And through the service of charity in action,"
+          },
+          {
+            "v": 10,
+            "s": 35,
+            "translation": "the level of feet,"
+          },
+          {
+            "v": 10,
+            "s": 36,
+            "translation": "the feet of the Nukva arouse the feet of the Duchra,"
+          },
+          {
+            "v": 10,
+            "s": 37,
+            "translation": "and through this is drawn down “And His feet shall stand on that day upon the Mount of Olives,”"
+          },
+          {
+            "v": 10,
+            "s": 38,
+            "translation": "for “the feet reach to the feet,”"
+          },
+          {
+            "v": 10,
+            "s": 39,
+            "translation": "and through this the essence, which is above the level of revelation, is drawn down,"
+          },
+          {
+            "v": 10,
+            "s": 40,
+            "translation": "in the manner explained in the Siddur, Shaar Lag BaOmer,"
+          },
+          {
+            "v": 10,
+            "s": 41,
+            "translation": "that specifically in the level of Hod she’b’Hod is the essence drawn down."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section concludes that the praise of the nations and the future redemption are drawn through the service of Sukkos and Shemini Atzeres, bringing the essential revelation into the entire year.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And this is: “Praise Hashem, all nations; extol Him, all peoples! For His kindness has overwhelmed us, and the truth of Hashem is forever.”"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "[This refers to] the level of His kindness that is above the chain of descent, and as “His kindness has overwhelmed us,”"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "and likewise the level of “the truth of Hashem,”"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "will be drawn down also into the world,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "so that He will be called as He is written,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "and from this aspect even the nations will be clarified,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "and as explained above, that from the revelation of “And His feet shall stand, etc.,” there will also be judgment upon the nations, which is the matter of clarifications."
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "And it is that through the offering of the seventy bulls that are offered during the festival of Sukkos, the seventy guardian angels are subdued to holiness, and they are subjugated to Israel,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "and then only good is drawn down to Israel, and the great joy of “the time of our rejoicing” during the festival of Sukkos, and “Whoever has not seen the rejoicing of the House of Drawing Water has never seen true joy in his life.”"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "And afterwards, they come to Shemini Atzeres,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "“Israel and the King alone,”"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "for Shemini Atzeres pertains to and alludes to the revelation of the future,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "and as our sages, of blessed memory, said,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "“The lyre of the days of Moshiach will have eight strings,”"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "for on Shemini Atzeres"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "(and in the future),"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "the drawing down is from the level of oil"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "(in an oily manner),"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "and “one who gives with a generous eye gives [abundantly].”"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "And behold, the matters of Tishrei are all-inclusive for the entire year and are for the purpose of drawing them down throughout the entire year,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "and “the time of our rejoicing” is that the joy of Sukkos and Shemini Atzeres is drawn down throughout the entire year,"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "and even to “and everlasting joy upon their heads,”"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "with the coming of Moshiach our righteousness, who will wage the war of Hashem and succeed,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "and “I will make a city into a heap,”"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "that the kingdom of the kelipah will be nullified,"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "“From the destruction of Tyre, Jerusalem will be rebuilt,”"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "the holy city, and the Temple will be built in its place,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "speedily in our days, Amen."
+          }
+        ]
+      }
+    ]
+  }
+}

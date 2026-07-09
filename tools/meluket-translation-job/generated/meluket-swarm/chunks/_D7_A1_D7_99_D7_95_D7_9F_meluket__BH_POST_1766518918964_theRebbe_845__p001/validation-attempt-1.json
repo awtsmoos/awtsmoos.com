@@ -1,0 +1,304 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 52,
+    "returned": 52,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918964_theRebbe_845\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918964_theRebbe_845__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section is a placeholder with no text.</sectionSummaryBrief>\n    <t s=\"0\">*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>The verse about Aaron's staff blossoming almonds is explained in Likkutei Torah, where almonds symbolize speed, alluding to the swiftness of the priesthood's influence.</sectionSummaryBrief>\n    <t s=\"0\">\"And behold, the staff of Aaron had blossomed... and produced almonds.\"</t>\n    <t s=\"1\">And it is explained in Likkutei Torah, in the discourse beginning with this verse,</t>\n    <t s=\"2\">that the reason it specifically produced almonds is that almonds ripen more quickly than any other fruit.</t>\n    <t s=\"3\">[And Likkutei Torah adds there,</t>\n    <t s=\"4\">that therefore they are called \"shkeidim,\" from the term \"shkidah,\" meaning haste and speed,</t>\n    <t s=\"5\">as it is written,</t>\n    <t s=\"6\">\"a rod of an almond tree... for I am hastening (shokeid) My word to perform it.\"</t>\n    <t s=\"7\">And it can be said</t>\n    <t s=\"8\">that the intention of this addition is to hint that the speed inherent in almonds is their essential quality,</t>\n    <t s=\"9\">and as is known</t>\n    <t s=\"10\">that the name of a thing indicates its essence],</t>\n    <t s=\"11\">and therefore they allude to the priesthood,</t>\n    <t s=\"12\">because the influences drawn down through Aharon the Kohen</t>\n    <t s=\"13\">[Aharon — the letters spell \"ra'ah\" (seeing)]</t>\n    <t s=\"14\">are with speed.</t>\n    <t s=\"15\">And likewise, this applies to all the Kohanim, the sons of Aharon,</t>\n    <t s=\"16\">for when the Kohanim bless the people,</t>\n    <t s=\"17\">influence is drawn down below with great speed, without delays</t>\n    <t s=\"18\">(as will be explained in section 7).</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>The root of all influence is from the attribute of Chesed of Atzilus, which descends through the worlds, requiring daily judgment and prayer for it to manifest in physical matters.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">that the root of all influences is from the attribute of His kindness,</t>\n    <t s=\"3\">the Chesed of Atzilus.</t>\n    <t s=\"4\">And in order for physical influences—</t>\n    <t s=\"5\">children, life, and sustenance—</t>\n    <t s=\"6\">to be drawn from the Chesed of Atzilus, it is through the descent and progression of Chesed through all the levels from Atzilus to Asiyah.</t>\n    <t s=\"7\">And at every transmission from one level to the next, there is judgment and adjudication</t>\n    <t s=\"8\">as to whether the influence will be drawn into the lower level or remain in the higher level.</t>\n    <t s=\"9\">And this is why we pray and ask daily, \"Heal us,\"</t>\n    <t s=\"10\">\"Bless upon us,\"</t>\n    <t s=\"11\">even though a person's sustenance is fixed for him from Rosh Hashanah to Yom Kippur</t>\n    <t s=\"12\">(and the intention here in \"sustenance\" includes all three matters: children, life, and sustenance),</t>\n    <t s=\"13\">because the writing and sealing for good on Rosh Hashanah and Yom Kippur is the drawing of Chesed into Malchus of Atzilus,</t>\n    <t s=\"14\">and for the influence of Chesed to be in physical matters, it is through the descent and enclothing of the Chesed of Malchus of Atzilus into the Chesed of Beriah,</t>\n    <t s=\"15\">and afterward into the Chesed of Yetzirah and Asiyah.</t>\n    <t s=\"16\">And this is the meaning of \"a person is judged every day,\"</t>\n    <t s=\"17\">even though his verdict was already concluded on Rosh Hashanah and Yom Kippur,</t>\n    <t s=\"18\">because the judgment on Rosh Hashanah and Yom Kippur is that Chesed be drawn to the person in Malchus of Atzilus,</t>\n    <t s=\"19\">and the judgment in which a person is judged every day is</t>\n    <t s=\"20\">whether he is worthy that the Chesed already drawn upon his soul above on Rosh Hashanah and Yom Kippur will descend and be drawn</t>\n    <t s=\"21\">(through Beriah, Yetzirah, and Asiyah until it is drawn)</t>\n    <t s=\"22\">down into this physical world,</t>\n    <t s=\"23\">or whether the Chesed will remain above and additional delight will be added for him above.</t>\n    <t s=\"24\">Therefore we pray every day, \"Heal us\" and \"Bless upon us,\" etc.,</t>\n    <t s=\"25\">that the Chesed allotted to him on Rosh Hashanah and Yom Kippur be drawn down into this physical world,</t>\n    <t s=\"26\">and within this world itself—into physical matters.</t>\n    <t s=\"27\">And there is another aspect to the daily judgment,</t>\n    <t s=\"28\">that since the Chesed above is spiritual Chesed,</t>\n    <t s=\"29\">even after the verdict that it be drawn down into this world,</t>\n    <t s=\"30\">there is judgment and adjudication regarding which specific matter the Chesed will be drawn into.</t>\n    <t s=\"31\">Therefore, they instituted praying every day the thirteen middle blessings, which include requests for all the needs of the individual and all the needs of the community.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918964_theRebbe_845",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918964_theRebbe_845__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section is a placeholder with no text.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "The verse about Aaron's staff blossoming almonds is explained in Likkutei Torah, where almonds symbolize speed, alluding to the swiftness of the priesthood's influence.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And behold, the staff of Aaron had blossomed... and produced almonds.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is explained in Likkutei Torah, in the discourse beginning with this verse,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that the reason it specifically produced almonds is that almonds ripen more quickly than any other fruit."
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "[And Likkutei Torah adds there,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "that therefore they are called \"shkeidim,\" from the term \"shkidah,\" meaning haste and speed,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "\"a rod of an almond tree... for I am hastening (shokeid) My word to perform it.\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "that the intention of this addition is to hint that the speed inherent in almonds is their essential quality,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "and as is known"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "that the name of a thing indicates its essence],"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "and therefore they allude to the priesthood,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "because the influences drawn down through Aharon the Kohen"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "[Aharon — the letters spell \"ra'ah\" (seeing)]"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "are with speed."
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "And likewise, this applies to all the Kohanim, the sons of Aharon,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "for when the Kohanim bless the people,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "influence is drawn down below with great speed, without delays"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "(as will be explained in section 7)."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "The root of all influence is from the attribute of Chesed of Atzilus, which descends through the worlds, requiring daily judgment and prayer for it to manifest in physical matters.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the root of all influences is from the attribute of His kindness,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "the Chesed of Atzilus."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "And in order for physical influences—"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "children, life, and sustenance—"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "to be drawn from the Chesed of Atzilus, it is through the descent and progression of Chesed through all the levels from Atzilus to Asiyah."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "And at every transmission from one level to the next, there is judgment and adjudication"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "as to whether the influence will be drawn into the lower level or remain in the higher level."
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And this is why we pray and ask daily, \"Heal us,\""
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "\"Bless upon us,\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "even though a person's sustenance is fixed for him from Rosh Hashanah to Yom Kippur"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "(and the intention here in \"sustenance\" includes all three matters: children, life, and sustenance),"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "because the writing and sealing for good on Rosh Hashanah and Yom Kippur is the drawing of Chesed into Malchus of Atzilus,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and for the influence of Chesed to be in physical matters, it is through the descent and enclothing of the Chesed of Malchus of Atzilus into the Chesed of Beriah,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "and afterward into the Chesed of Yetzirah and Asiyah."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And this is the meaning of \"a person is judged every day,\""
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "even though his verdict was already concluded on Rosh Hashanah and Yom Kippur,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "because the judgment on Rosh Hashanah and Yom Kippur is that Chesed be drawn to the person in Malchus of Atzilus,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "and the judgment in which a person is judged every day is"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "whether he is worthy that the Chesed already drawn upon his soul above on Rosh Hashanah and Yom Kippur will descend and be drawn"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "(through Beriah, Yetzirah, and Asiyah until it is drawn)"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "down into this physical world,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "or whether the Chesed will remain above and additional delight will be added for him above."
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "Therefore we pray every day, \"Heal us\" and \"Bless upon us,\" etc.,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "that the Chesed allotted to him on Rosh Hashanah and Yom Kippur be drawn down into this physical world,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "and within this world itself—into physical matters."
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "And there is another aspect to the daily judgment,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "that since the Chesed above is spiritual Chesed,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "even after the verdict that it be drawn down into this world,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "there is judgment and adjudication regarding which specific matter the Chesed will be drawn into."
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "Therefore, they instituted praying every day the thirteen middle blessings, which include requests for all the needs of the individual and all the needs of the community."
+          }
+        ]
+      }
+    ]
+  }
+}

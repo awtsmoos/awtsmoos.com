@@ -1,0 +1,714 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 134,
+    "returned": 134,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916418_theRebbe_902\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916418_theRebbe_902__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section introduces the mitzvah of writing a Sefer Torah, citing the Rambam and the Tzemach Tzedek's explanation based on the Alter Rebbe's discourse on \"Vayichtov Moshe.\"</sectionSummaryBrief>\n    <t s=\"0\">To understand the concept of writing a Sefer Torah,</t>\n    <t s=\"1\">as stated in the Rambam,</t>\n    <t s=\"2\">that it is a positive commandment upon every single man</t>\n    <t s=\"3\">of Israel to write a Sefer Torah for himself,</t>\n    <t s=\"4\">as it is stated,</t>\n    <t s=\"5\">\"And now, write for yourselves this song,\"</t>\n    <t s=\"6\">and the king is commanded to write one Sefer Torah for himself for the sake of the King, in addition to the book he has when he is a commoner, as it is stated,</t>\n    <t s=\"7\">\"And it shall be, when he sits upon the throne of his kingdom, he shall write for himself a copy of this Torah... and it shall be with him, and he shall read in it all the days of his life...\"</t>\n    <t s=\"8\">And the first one to write a Sefer Torah was Moshe Rabbeinu,</t>\n    <t s=\"9\">who is the Ra'aya Meheimna (Faithful Shepherd) of all Israel,</t>\n    <t s=\"10\">and the extension of Moshe in every generation,</t>\n    <t s=\"11\">and he finished it on the eve of the holy Shabbos,</t>\n    <t s=\"12\">as explained in many places.</t>\n    <t s=\"13\">— Here, the Tzemach Tzedek writes,</t>\n    <t s=\"14\">that the concept of writing a Sefer Torah is understood based on what the Alter Rebbe explains regarding \"Vayichtov Moshe\" (And Moshe wrote),</t>\n    <t s=\"15\">and as will be discussed below.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains the Alter Rebbe's discourse on \"Eileh Masei,\" detailing the journey of the soul's descent and ascent, and how Moshe's writing enables the elevation from the source to the journeys.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And it is written,</t>\n    <t s=\"2\">\"These are the journeys of the children of Israel who went out of the land of Egypt,\"</t>\n    <t s=\"3\">and the Alter Rebbe notes in his discourses on \"Eileh Masei,\"</t>\n    <t s=\"4\">that the phrase \"Eileh Masei\" is in the plural,</t>\n    <t s=\"5\">and it concludes \"who went out of the land of Egypt,\"</t>\n    <t s=\"6\">yet leaving the land of Egypt was only the first departure and journey</t>\n    <t s=\"7\">(when they traveled from Raamses to Sukkot).</t>\n    <t s=\"8\">And he explains this,</t>\n    <t s=\"9\">that all forty-two journeys until their encampment across the Jordan from Jericho,</t>\n    <t s=\"10\">in the Holy Land, may it be rebuilt and established speedily in our days through our righteous Moshiach,</t>\n    <t s=\"11\">are all called \"who went out of the land of Egypt.\"</t>\n    <t s=\"12\">And about this it says,</t>\n    <t s=\"13\">\"And Moshe wrote their goings forth according to their journeys... and these are their journeys according to their goings forth.\"</t>\n    <t s=\"14\">And the Alter Rebbe notes on this,</t>\n    <t s=\"15\">that one must understand why, regarding \"Vayichtov Moshe,\" it places \"their goings forth\" before \"their journeys\"</t>\n    <t s=\"16\">(\"And Moshe wrote their goings forth according to their journeys\")</t>\n    <t s=\"17\">and afterwards it reverses the order and says \"and these are their journeys according to their goings forth.\"</t>\n    <t s=\"18\">And he explains,</t>\n    <t s=\"19\">based on the known principle that the ultimate purpose of the soul's descent into the body,</t>\n    <t s=\"20\">that the soul descended from a high peak into a deep pit,</t>\n    <t s=\"21\">which is the aspect of the Egypt of the world,</t>\n    <t s=\"22\">or at least the Egypt of holiness,</t>\n    <t s=\"23\">is for a superior purpose.</t>\n    <t s=\"24\">And the ascent is to a level higher than the place from which it descended,</t>\n    <t s=\"25\">as explained in many places,</t>\n    <t s=\"26\">that specifically through this it is understood why the descent occurred,</t>\n    <t s=\"27\">because through the descent it reaches a level higher than its place of descent.</t>\n    <t s=\"28\">And this is \"and these are their journeys according to their goings forth,\"</t>\n    <t s=\"29\">the ascent from below to above,</t>\n    <t s=\"30\">to the aspect of \"their goings forth.\"</t>\n    <t s=\"31\">And the preparation and empowerment for this is \"And Moshe wrote their goings forth according to their journeys,\"</t>\n    <t s=\"32\">meaning,</t>\n    <t s=\"33\">that Moshe</t>\n    <t s=\"34\">[the Ra'aya Meheimna,</t>\n    <t s=\"35\">the faithful shepherd of all Israel in all generations]</t>\n    <t s=\"36\">wrote</t>\n    <t s=\"37\">(and writing is a concept of drawing down)</t>\n    <t s=\"38\">and drew down from the aspect of \"their goings forth,\"</t>\n    <t s=\"39\">the source of the souls of Israel,</t>\n    <t s=\"40\">to \"their journeys,\"</t>\n    <t s=\"41\">the aspect of the soul clothed in the body.</t>\n    <t s=\"42\">And it says \"their goings forth\"</t>\n    <t s=\"43\">(and not \"their departure\" or the like),</t>\n    <t s=\"44\">whose meaning is like a \"spring,\"</t>\n    <t s=\"45\">that the thing drawn from it is as if in a spontaneous manner.</t>\n    <t s=\"46\">For \"their goings forth\" is a level about which it cannot be said that something is influenced from it and a change occurs in it,</t>\n    <t s=\"47\">but rather a \"spring,\"</t>\n    <t s=\"48\">in a spontaneous manner.</t>\n    <t s=\"49\">Nevertheless,</t>\n    <t s=\"50\">specifically from there the matter is drawn downward,</t>\n    <t s=\"51\">as it is written,</t>\n    <t s=\"52\">\"And He blew into his nostrils the breath of life,\"</t>\n    <t s=\"53\">and one who blows, blows from within himself, from his innermost and interiority.</t>\n    <t s=\"54\">And furthermore,</t>\n    <t s=\"55\">that in the matter of \"Vayichtov\"</t>\n    <t s=\"56\">(Moshe)</t>\n    <t s=\"57\">is also included the concept of sealing,</t>\n    <t s=\"58\">as it is brought in the Gemara</t>\n    <t s=\"59\">in the explanation of \"and he shall write for her a book...\"</t>\n    <t s=\"60\">that according to Rabbi Meir</t>\n    <t s=\"61\">[who is so called because he illuminates the eyes of the sages in halachah]</t>\n    <t s=\"62\">\"and he shall write\" means he shall seal.</t>\n    <t s=\"63\">That is,</t>\n    <t s=\"64\">Moshe effected the matter of writing and sealing of the aspect of \"their goings forth\" to \"their journeys.\"</t>\n    <t s=\"65\">And through this it was possible afterwards for there to be and to actually occur \"and these are their journeys according to their goings forth,\"</t>\n    <t s=\"66\">the ascent from below to above,</t>\n    <t s=\"67\">as mentioned above.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains the seventh tikkun of the beard, \"Emes,\" as a revelation of light without the concealment of hairs, analogous to the face where wisdom is openly visible.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of the matter is</t>\n    <t s=\"2\">(as explained in the aforementioned discourses),</t>\n    <t s=\"3\">that it is stated in the Zohar</t>\n    <t s=\"4\">that the seventh tikkun of the thirteen tikkunei d'ikna (rectifications of the beard) is the tikkun of \"Emes\" (Truth).</t>\n    <t s=\"5\">For although all the thirteen tikkunei d'ikna are drawn from above the entire order of Hishtalshelus (chain of descent) entirely,</t>\n    <t s=\"6\">therefore the thirteen attributes of mercy rectify all blemishes,</t>\n    <t s=\"7\">as explained in Igeres HaTeshuvah,</t>\n    <t s=\"8\">nevertheless, they are called tikkunei d'ikna,</t>\n    <t s=\"9\">the hairs of the beard.</t>\n    <t s=\"10\">For the concept of a hair is,</t>\n    <t s=\"11\">that although its nourishment is from the brains within the skull,</t>\n    <t s=\"12\">nevertheless, the manner of the flow of vitality into the hair is through the interruption of the bone of the skull,</t>\n    <t s=\"13\">which is an aspect of an immense contraction,</t>\n    <t s=\"14\">to the extent that if a person cuts the hair of his head, he feels no pain at all.</t>\n    <t s=\"15\">And the analogy from this is understood Above,</t>\n    <t s=\"16\">that although the flow in the aspect of the hairs of the beard is supernal and above the order of Hishtalshelus,</t>\n    <t s=\"17\">nevertheless, the manner of the flow is only in the aspect of an illumination that comes through a great contraction called hairs.</t>\n    <t s=\"18\">Not so the seventh tikkun of the thirteen tikkunei d'ikna,</t>\n    <t s=\"19\">which is the tikkun of \"Emes,\"</t>\n    <t s=\"20\">in it the light is drawn and revealed without the contraction of the aspect of hairs.</t>\n    <t s=\"21\">Its analogy in man below is the part of the face free of hairs,</t>\n    <t s=\"22\">as explained in the Zohar.</t>\n    <t s=\"23\">And furthermore,</t>\n    <t s=\"24\">that it is said, \"A man's wisdom illuminates his face,\"</t>\n    <t s=\"25\">for in the illumination of a person's face, the novelty of the new flow from the aspect of wisdom is recognizable,</t>\n    <t s=\"26\">like Rabbi Avahu,</t>\n    <t s=\"27\">whose face shone because he found a new Tosefta.</t>\n    <t s=\"28\">And the change in his face was in a manner revealed to all,</t>\n    <t s=\"29\">as it is brought in the Gemara</t>\n    <t s=\"30\">regarding Rabbi Yehudah, that even the non-Jew recognized that his face was shining,</t>\n    <t s=\"31\">because \"a man's wisdom illuminates his face.\"</t>\n    <t s=\"32\">And this is one of the differences between the flow in hairs and the flow in the face,</t>\n    <t s=\"33\">for although the hairs are drawn from the brains in the head,</t>\n    <t s=\"34\">and even afterwards they receive vitality from the brains in the head,</t>\n    <t s=\"35\">to the extent that through this they grow and increase,</t>\n    <t s=\"36\">nevertheless,</t>\n    <t s=\"37\">what is seen and revealed is only the hairs themselves,</t>\n    <t s=\"38\">and the vitality within them is not recognizable in them,</t>\n    <t s=\"39\">to the extent that even the fact that they receive vitality is not recognizable in them.</t>\n    <t s=\"40\">Not so the flow in the face, of \"a man's wisdom illuminates his face,\"</t>\n    <t s=\"41\">for in his face, wisdom is recognizable.</t>\n    <t s=\"42\">And this is why the seventh tikkun is called \"Emes,\"</t>\n    <t s=\"43\">for the concept of truth is that it has no changes,</t>\n    <t s=\"44\">because the novelty</t>\n    <t s=\"45\">(the elevation)</t>\n    <t s=\"46\">of this tikkun is that it does not change</t>\n    <t s=\"47\">(become concealed)</t>\n    <t s=\"48\">through the flow,</t>\n    <t s=\"49\">for even as it is drawn, it shines in a revealed manner.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916418_theRebbe_902",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916418_theRebbe_902__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section introduces the mitzvah of writing a Sefer Torah, citing the Rambam and the Tzemach Tzedek's explanation based on the Alter Rebbe's discourse on \"Vayichtov Moshe.\"",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "To understand the concept of writing a Sefer Torah,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "as stated in the Rambam,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that it is a positive commandment upon every single man"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "of Israel to write a Sefer Torah for himself,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "\"And now, write for yourselves this song,\""
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "and the king is commanded to write one Sefer Torah for himself for the sake of the King, in addition to the book he has when he is a commoner, as it is stated,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "\"And it shall be, when he sits upon the throne of his kingdom, he shall write for himself a copy of this Torah... and it shall be with him, and he shall read in it all the days of his life...\""
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "And the first one to write a Sefer Torah was Moshe Rabbeinu,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "who is the Ra'aya Meheimna (Faithful Shepherd) of all Israel,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and the extension of Moshe in every generation,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "and he finished it on the eve of the holy Shabbos,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "as explained in many places."
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "— Here, the Tzemach Tzedek writes,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "that the concept of writing a Sefer Torah is understood based on what the Alter Rebbe explains regarding \"Vayichtov Moshe\" (And Moshe wrote),"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "and as will be discussed below."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains the Alter Rebbe's discourse on \"Eileh Masei,\" detailing the journey of the soul's descent and ascent, and how Moshe's writing enables the elevation from the source to the journeys.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And it is written,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "\"These are the journeys of the children of Israel who went out of the land of Egypt,\""
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "and the Alter Rebbe notes in his discourses on \"Eileh Masei,\""
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that the phrase \"Eileh Masei\" is in the plural,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "and it concludes \"who went out of the land of Egypt,\""
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "yet leaving the land of Egypt was only the first departure and journey"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "(when they traveled from Raamses to Sukkot)."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And he explains this,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "that all forty-two journeys until their encampment across the Jordan from Jericho,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "in the Holy Land, may it be rebuilt and established speedily in our days through our righteous Moshiach,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "are all called \"who went out of the land of Egypt.\""
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And about this it says,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "\"And Moshe wrote their goings forth according to their journeys... and these are their journeys according to their goings forth.\""
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "And the Alter Rebbe notes on this,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "that one must understand why, regarding \"Vayichtov Moshe,\" it places \"their goings forth\" before \"their journeys\""
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "(\"And Moshe wrote their goings forth according to their journeys\")"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "and afterwards it reverses the order and says \"and these are their journeys according to their goings forth.\""
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "based on the known principle that the ultimate purpose of the soul's descent into the body,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "that the soul descended from a high peak into a deep pit,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "which is the aspect of the Egypt of the world,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "or at least the Egypt of holiness,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "is for a superior purpose."
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "And the ascent is to a level higher than the place from which it descended,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "as explained in many places,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "that specifically through this it is understood why the descent occurred,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "because through the descent it reaches a level higher than its place of descent."
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "And this is \"and these are their journeys according to their goings forth,\""
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "the ascent from below to above,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "to the aspect of \"their goings forth.\""
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "And the preparation and empowerment for this is \"And Moshe wrote their goings forth according to their journeys,\""
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "meaning,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "that Moshe"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "[the Ra'aya Meheimna,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "the faithful shepherd of all Israel in all generations]"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "wrote"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "(and writing is a concept of drawing down)"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "and drew down from the aspect of \"their goings forth,\""
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "the source of the souls of Israel,"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "to \"their journeys,\""
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "the aspect of the soul clothed in the body."
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "And it says \"their goings forth\""
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "(and not \"their departure\" or the like),"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "whose meaning is like a \"spring,\""
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "that the thing drawn from it is as if in a spontaneous manner."
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "For \"their goings forth\" is a level about which it cannot be said that something is influenced from it and a change occurs in it,"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "but rather a \"spring,\""
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "in a spontaneous manner."
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "specifically from there the matter is drawn downward,"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "\"And He blew into his nostrils the breath of life,\""
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "and one who blows, blows from within himself, from his innermost and interiority."
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "that in the matter of \"Vayichtov\""
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "(Moshe)"
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "is also included the concept of sealing,"
+          },
+          {
+            "v": 4,
+            "s": 58,
+            "translation": "as it is brought in the Gemara"
+          },
+          {
+            "v": 4,
+            "s": 59,
+            "translation": "in the explanation of \"and he shall write for her a book...\""
+          },
+          {
+            "v": 4,
+            "s": 60,
+            "translation": "that according to Rabbi Meir"
+          },
+          {
+            "v": 4,
+            "s": 61,
+            "translation": "[who is so called because he illuminates the eyes of the sages in halachah]"
+          },
+          {
+            "v": 4,
+            "s": 62,
+            "translation": "\"and he shall write\" means he shall seal."
+          },
+          {
+            "v": 4,
+            "s": 63,
+            "translation": "That is,"
+          },
+          {
+            "v": 4,
+            "s": 64,
+            "translation": "Moshe effected the matter of writing and sealing of the aspect of \"their goings forth\" to \"their journeys.\""
+          },
+          {
+            "v": 4,
+            "s": 65,
+            "translation": "And through this it was possible afterwards for there to be and to actually occur \"and these are their journeys according to their goings forth,\""
+          },
+          {
+            "v": 4,
+            "s": 66,
+            "translation": "the ascent from below to above,"
+          },
+          {
+            "v": 4,
+            "s": 67,
+            "translation": "as mentioned above."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains the seventh tikkun of the beard, \"Emes,\" as a revelation of light without the concealment of hairs, analogous to the face where wisdom is openly visible.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And the explanation of the matter is"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(as explained in the aforementioned discourses),"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that it is stated in the Zohar"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "that the seventh tikkun of the thirteen tikkunei d'ikna (rectifications of the beard) is the tikkun of \"Emes\" (Truth)."
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "For although all the thirteen tikkunei d'ikna are drawn from above the entire order of Hishtalshelus (chain of descent) entirely,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "therefore the thirteen attributes of mercy rectify all blemishes,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "as explained in Igeres HaTeshuvah,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "nevertheless, they are called tikkunei d'ikna,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "the hairs of the beard."
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "For the concept of a hair is,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "that although its nourishment is from the brains within the skull,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "nevertheless, the manner of the flow of vitality into the hair is through the interruption of the bone of the skull,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "which is an aspect of an immense contraction,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "to the extent that if a person cuts the hair of his head, he feels no pain at all."
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "And the analogy from this is understood Above,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "that although the flow in the aspect of the hairs of the beard is supernal and above the order of Hishtalshelus,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "nevertheless, the manner of the flow is only in the aspect of an illumination that comes through a great contraction called hairs."
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "Not so the seventh tikkun of the thirteen tikkunei d'ikna,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "which is the tikkun of \"Emes,\""
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "in it the light is drawn and revealed without the contraction of the aspect of hairs."
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "Its analogy in man below is the part of the face free of hairs,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "as explained in the Zohar."
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "that it is said, \"A man's wisdom illuminates his face,\""
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "for in the illumination of a person's face, the novelty of the new flow from the aspect of wisdom is recognizable,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "like Rabbi Avahu,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "whose face shone because he found a new Tosefta."
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "And the change in his face was in a manner revealed to all,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "as it is brought in the Gemara"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "regarding Rabbi Yehudah, that even the non-Jew recognized that his face was shining,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "because \"a man's wisdom illuminates his face.\""
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "And this is one of the differences between the flow in hairs and the flow in the face,"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "for although the hairs are drawn from the brains in the head,"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "and even afterwards they receive vitality from the brains in the head,"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "to the extent that through this they grow and increase,"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "what is seen and revealed is only the hairs themselves,"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "and the vitality within them is not recognizable in them,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "to the extent that even the fact that they receive vitality is not recognizable in them."
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "Not so the flow in the face, of \"a man's wisdom illuminates his face,\""
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "for in his face, wisdom is recognizable."
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "And this is why the seventh tikkun is called \"Emes,\""
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "for the concept of truth is that it has no changes,"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "because the novelty"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "(the elevation)"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "of this tikkun is that it does not change"
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "(become concealed)"
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "through the flow,"
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "for even as it is drawn, it shines in a revealed manner."
+          }
+        ]
+      }
+    ]
+  }
+}

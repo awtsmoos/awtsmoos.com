@@ -1,0 +1,459 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 83,
+    "returned": 83,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917648_theRebbe_921\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the purpose of creation in Tishrei (measurement and limitation) is to ultimately reveal the boundless light of Nissan through the service of Torah and mitzvos, reconciling the two opinions of when the world was created.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And it may be said,</t>\n    <t s=\"2\">that this is the case regarding Tishrei and Nissan.</t>\n    <t s=\"3\">That the ultimate intention in the creation of Tishrei</t>\n    <t s=\"4\">(\"In the beginning [G-d] created\")</t>\n    <t s=\"5\">—when the world was created with measure and limitation—is so that through the service of Torah and mitzvos there will be in it the revelation of the boundless light of Nissan</t>\n    <t s=\"6\">(\"This month is for you\").</t>\n    <t s=\"7\">And this can be connected with what is explained elsewhere38</t>\n    <t s=\"8\">regarding the two opinions</t>\n    <t s=\"9\">concerning the time of creation:39</t>\n    <t s=\"10\">The opinion of Rabbi Eliezer that the world was created in Tishrei</t>\n    <t s=\"11\">(the 25th of Elul40),</t>\n    <t s=\"12\">and the opinion of Rabbi Yehoshua that the world was created in Nissan</t>\n    <t s=\"13\">(the 25th of Adar41)—</t>\n    <t s=\"14\">that both these are the words of the living G-d,</t>\n    <t s=\"15\">except that in Nissan it arose in [G-d's] thought to create,</t>\n    <t s=\"16\">and the actual creation was in Tishrei42</t>\n    <t s=\"17\">(which is after Nissan).</t>\n    <t s=\"18\">And according to the known principle that the intention and purpose of the action is the preceding thought,</t>\n    <t s=\"19\">it may be said,</t>\n    <t s=\"20\">that this—that the thought to create the world was in Nissan—</t>\n    <t s=\"21\">its intention is,</t>\n    <t s=\"22\">that the intention and purpose of the creation of the world in Tishrei</t>\n    <t s=\"23\">(measurement and limitation)</t>\n    <t s=\"24\">is that there should be in it the revelation of Nissan, which is beyond limitation.</t>\n    <t s=\"25\">However, in order that the intention be completed—that even within the boundary there be a revelation of the boundless light—the actual creation was in a manner that in its revealed state the intention was not felt in it,</t>\n    <t s=\"26\">through which a limited world was created,</t>\n    <t s=\"27\">and through Torah and mitzvos the revelation of the boundless light of Ein Sof is drawn into the limited world,</t>\n    <t s=\"28\">for the beginning of this revelation was at the Exodus from Egypt,</t>\n    <t s=\"29\">\"This month is for you.\"</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that after the Exodus and the Giving of the Torah, the counting of months begins from Nissan, because the renewal of the months is a revelation of the boundless light that transcends the world, and this was revealed after the Exodus.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And based on this, we can explain why after the Exodus from Egypt and the Giving of the Torah,</t>\n    <t s=\"2\">the counting of the months of the year is from Nissan,</t>\n    <t s=\"3\">even though the months of the year are revelations that pertain to creation and the source of their drawing down is from the light that relates to the worlds,</t>\n    <t s=\"4\">for according to the nature and definition of the world, it is impossible for there to be in it the revelations of the months of the year,</t>\n    <t s=\"5\">because even the months of the year are \"months\" (chadoshim) from the term \"renewal\" (chiddush)</t>\n    <t s=\"6\">(the opposite of the definition of \"world\"),</t>\n    <t s=\"7\">and that which is drawn into the world</t>\n    <t s=\"8\">(whose vitality is from the light that is enclothed in it)</t>\n    <t s=\"9\">—the revelations of the months of the year from the light that is above enclothement in the world—was like a preparation for the revelation of \"months\" in the absolute sense,</t>\n    <t s=\"10\">the light that is above any relation to the worlds.</t>\n    <t s=\"11\">[And it may be said that this is what our sages said:43</t>\n    <t s=\"12\">\"When the Holy One, blessed be He, chose His world, He established in it new moons</t>\n    <t s=\"13\">(and years),\"</t>\n    <t s=\"14\">that this—that new moons were established in the world</t>\n    <t s=\"15\">(which are the opposite of the definition of \"world\" as above)</t>\n    <t s=\"16\">—is because the Holy One, blessed be He, chose His world,</t>\n    <t s=\"17\">for it may be said that the concept of \"He chose His world\" is the revelation of the intention of creation.</t>\n    <t s=\"18\">For the creation of the world was</t>\n    <t s=\"19\">(as above)</t>\n    <t s=\"20\">in a manner that the intention was not felt in it,</t>\n    <t s=\"21\">and when the Holy One, blessed be He, chose His world, He began to illuminate in it something of the intention of creation.]</t>\n    <t s=\"22\">But before the Exodus from Egypt,</t>\n    <t s=\"23\">since all matters were then in constriction and limitation,</t>\n    <t s=\"24\">therefore,</t>\n    <t s=\"25\">the elevation that was felt in the renewal of the months of the year was only that they are truly beyond limitation,</t>\n    <t s=\"26\">and therefore Tishrei was then the first of the months of the year.</t>\n    <t s=\"27\">But after the revelation of the Exodus from Egypt and the Giving of the Torah, it was revealed that the renewal of the months of the year</t>\n    <t s=\"28\">(which was previously)</t>\n    <t s=\"29\">is a preparation for the revelation of the Exodus from Egypt and the Giving of the Torah,</t>\n    <t s=\"30\">and therefore now Nissan is also the first of the months of the year,</t>\n    <t s=\"31\">and the counting of the months is from Nissan.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section discusses that the beginning of the revelation of the month of Nissan, which is first also for the months of the year, occurs on the Shabbat when the new month of Nissan is blessed, especially when Rosh Chodesh falls on a Thursday, connecting it to the 25th of Adar when the thought to create arose, which is the ultimate purpose of creation—a dwelling for G-d in the lower worlds, to be fully realized in the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And 4)</t>\n    <t s=\"2\">Now, the beginning of the revelation of the month of Nissan,</t>\n    <t s=\"3\">which is first also for the months of the year,</t>\n    <t s=\"4\">is from the Shabbat of blessing the new month of Nissan,</t>\n    <t s=\"5\">and particularly when the determination of Rosh Chodesh is in the middle of the week</t>\n    <t s=\"6\">(before Shabbat)</t>\n    <t s=\"7\">—for then they read on the Shabbat before Rosh Chodesh</t>\n    <t s=\"8\">(the Shabbat of blessing)</t>\n    <t s=\"9\">the portion of \"HaChodesh\" (This month).44</t>\n    <t s=\"10\">And all the more so when the determination of Rosh Chodesh Nissan is on Thursday</t>\n    <t s=\"11\">(as it was in the year of the Exodus from Egypt45),</t>\n    <t s=\"12\">for then the determination of the Shabbat of blessing Nissan and the portion of \"HaChodesh\" is on the 25th of Adar, on which [the thought] arose in [G-d's] thought to create the world,</t>\n    <t s=\"13\">for this thought is the intention and purpose of the actual creation,</t>\n    <t s=\"14\">that even within the boundary of the world</t>\n    <t s=\"15\">(as it was created in Tishrei)</t>\n    <t s=\"16\">there should be a revelation of the boundless light of Ein Sof</t>\n    <t s=\"17\">(Nissan),</t>\n    <t s=\"18\">through which the intention of a dwelling place for Him, blessed be He, in the lower worlds is completed.</t>\n    <t s=\"19\">For this revelation will be primarily in the future redemption,</t>\n    <t s=\"20\">for in Nissan they were redeemed and in Nissan they are destined to be redeemed.46</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917648_theRebbe_921",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the purpose of creation in Tishrei (measurement and limitation) is to ultimately reveal the boundless light of Nissan through the service of Torah and mitzvos, reconciling the two opinions of when the world was created.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that this is the case regarding Tishrei and Nissan."
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "That the ultimate intention in the creation of Tishrei"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "(\"In the beginning [G-d] created\")"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "—when the world was created with measure and limitation—is so that through the service of Torah and mitzvos there will be in it the revelation of the boundless light of Nissan"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "(\"This month is for you\")."
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "And this can be connected with what is explained elsewhere38"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "regarding the two opinions"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "concerning the time of creation:39"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "The opinion of Rabbi Eliezer that the world was created in Tishrei"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "(the 25th of Elul40),"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "and the opinion of Rabbi Yehoshua that the world was created in Nissan"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "(the 25th of Adar41)—"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "that both these are the words of the living G-d,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "except that in Nissan it arose in [G-d's] thought to create,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "and the actual creation was in Tishrei42"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "(which is after Nissan)."
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "And according to the known principle that the intention and purpose of the action is the preceding thought,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "it may be said,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "that this—that the thought to create the world was in Nissan—"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "its intention is,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "that the intention and purpose of the creation of the world in Tishrei"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "(measurement and limitation)"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "is that there should be in it the revelation of Nissan, which is beyond limitation."
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "However, in order that the intention be completed—that even within the boundary there be a revelation of the boundless light—the actual creation was in a manner that in its revealed state the intention was not felt in it,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "through which a limited world was created,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "and through Torah and mitzvos the revelation of the boundless light of Ein Sof is drawn into the limited world,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "for the beginning of this revelation was at the Exodus from Egypt,"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "\"This month is for you.\""
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that after the Exodus and the Giving of the Torah, the counting of months begins from Nissan, because the renewal of the months is a revelation of the boundless light that transcends the world, and this was revealed after the Exodus.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And based on this, we can explain why after the Exodus from Egypt and the Giving of the Torah,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "the counting of the months of the year is from Nissan,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "even though the months of the year are revelations that pertain to creation and the source of their drawing down is from the light that relates to the worlds,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "for according to the nature and definition of the world, it is impossible for there to be in it the revelations of the months of the year,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "because even the months of the year are \"months\" (chadoshim) from the term \"renewal\" (chiddush)"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "(the opposite of the definition of \"world\"),"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "and that which is drawn into the world"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(whose vitality is from the light that is enclothed in it)"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "—the revelations of the months of the year from the light that is above enclothement in the world—was like a preparation for the revelation of \"months\" in the absolute sense,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "the light that is above any relation to the worlds."
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "[And it may be said that this is what our sages said:43"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "\"When the Holy One, blessed be He, chose His world, He established in it new moons"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "(and years),\""
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "that this—that new moons were established in the world"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "(which are the opposite of the definition of \"world\" as above)"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "—is because the Holy One, blessed be He, chose His world,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "for it may be said that the concept of \"He chose His world\" is the revelation of the intention of creation."
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "For the creation of the world was"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "(as above)"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "in a manner that the intention was not felt in it,"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "and when the Holy One, blessed be He, chose His world, He began to illuminate in it something of the intention of creation.]"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "But before the Exodus from Egypt,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "since all matters were then in constriction and limitation,"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "therefore,"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "the elevation that was felt in the renewal of the months of the year was only that they are truly beyond limitation,"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "and therefore Tishrei was then the first of the months of the year."
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "But after the revelation of the Exodus from Egypt and the Giving of the Torah, it was revealed that the renewal of the months of the year"
+          },
+          {
+            "v": 10,
+            "s": 28,
+            "translation": "(which was previously)"
+          },
+          {
+            "v": 10,
+            "s": 29,
+            "translation": "is a preparation for the revelation of the Exodus from Egypt and the Giving of the Torah,"
+          },
+          {
+            "v": 10,
+            "s": 30,
+            "translation": "and therefore now Nissan is also the first of the months of the year,"
+          },
+          {
+            "v": 10,
+            "s": 31,
+            "translation": "and the counting of the months is from Nissan."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section discusses that the beginning of the revelation of the month of Nissan, which is first also for the months of the year, occurs on the Shabbat when the new month of Nissan is blessed, especially when Rosh Chodesh falls on a Thursday, connecting it to the 25th of Adar when the thought to create arose, which is the ultimate purpose of creation—a dwelling for G-d in the lower worlds, to be fully realized in the future redemption.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And 4)"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "Now, the beginning of the revelation of the month of Nissan,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "which is first also for the months of the year,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "is from the Shabbat of blessing the new month of Nissan,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "and particularly when the determination of Rosh Chodesh is in the middle of the week"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "(before Shabbat)"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "—for then they read on the Shabbat before Rosh Chodesh"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "(the Shabbat of blessing)"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "the portion of \"HaChodesh\" (This month).44"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "And all the more so when the determination of Rosh Chodesh Nissan is on Thursday"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "(as it was in the year of the Exodus from Egypt45),"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "for then the determination of the Shabbat of blessing Nissan and the portion of \"HaChodesh\" is on the 25th of Adar, on which [the thought] arose in [G-d's] thought to create the world,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "for this thought is the intention and purpose of the actual creation,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "that even within the boundary of the world"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "(as it was created in Tishrei)"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "there should be a revelation of the boundless light of Ein Sof"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "(Nissan),"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "through which the intention of a dwelling place for Him, blessed be He, in the lower worlds is completed."
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "For this revelation will be primarily in the future redemption,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "for in Nissan they were redeemed and in Nissan they are destined to be redeemed.46"
+          }
+        ]
+      }
+    ]
+  }
+}

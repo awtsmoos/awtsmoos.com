@@ -1,0 +1,389 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 69,
+    "returned": 69,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918005_theRebbe_76\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section analyzes the precise wording of the verse \"As in the days of your exodus,\" questioning why the future redemption's wonders are compared to those of the Exodus, and explains that the verse implies the future wonders will be both greater and also similar in kind to the Exodus wonders.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">Now, the precise point</t>\n    <t s=\"2\">(in the maamar)</t>\n    <t s=\"3\">regarding the mention of the Exodus from Egypt in the future redemption is seemingly also in the verse \"As in the days of your exodus, etc.,\"</t>\n    <t s=\"4\">for since the revelations that will be in the future redemption will be vastly superior to the revelations that were in the Exodus from Egypt,</t>\n    <t s=\"5\">what does it mean when it says \"As in the days of your exodus from the land of Egypt, I will show him wonders,\"</t>\n    <t s=\"6\">[implying] that the superiority of the future redemption is that even then there will be \"I will show him wonders\" like it was in the Exodus from Egypt.</t>\n    <t s=\"7\">And to add,</t>\n    <t s=\"8\">the precise point in the verse \"As in the days of your exodus, etc.\" is seemingly a greater precision than that of mentioning the Exodus from Egypt in the future redemption.</t>\n    <t s=\"9\">For the remembrance of the Exodus from Egypt in the future will only be in a secondary manner,</t>\n    <t s=\"10\">[And the precise point in the maamar is that due to the magnitude of the superiority of the future redemption relative to the redemption of the Exodus from Egypt, there would not need to be</t>\n    <t s=\"11\">(seemingly)</t>\n    <t s=\"12\">a mention of the Exodus from Egypt then, even in a secondary manner],</t>\n    <t s=\"13\">but not so in the verse \"As in the days of your exodus from the land of Egypt, etc.\"</t>\n    <t s=\"14\">(\"As in the days\" with a comparative kaf)</t>\n    <t s=\"15\">implies that the main matter of wonders was in the Exodus from Egypt, and the verse innovates that also in the future redemption there will be wonders like those that were in the Exodus from Egypt.</t>\n    <t s=\"16\">And although it is explained in many places</t>\n    <t s=\"17\">that the interpretation of \"As in the days of your exodus from the land of Egypt, I will show him wonders\" is that the wonders that will be in the future redemption will be wonders also relative to the wonders that were in the days of your exodus from the land of Egypt,</t>\n    <t s=\"18\">[as our Rabbis, of blessed memory, said</t>\n    <t s=\"19\">on the verse \"I will show him wonders,\"</t>\n    <t s=\"20\">\"I will show him what I did not show to the forefathers, for the miracles and wonders that I am destined to perform for the children are greater than the wonder and wonders that I performed for the forefathers, and so it says,</t>\n    <t s=\"21\">'To Him Who alone does great wonders, for His kindness endures forever'\"],</t>\n    <t s=\"22\">nevertheless,</t>\n    <t s=\"23\">from the fact that the verse says that the wonders that will be in the future redemption will be \"as in the days of your exodus from the land of Egypt,\"</t>\n    <t s=\"24\">it implies that in the wonders that will be in the future redemption there will be two virtues.</t>\n    <t s=\"25\">That the wonders will be exceedingly great wonders,</t>\n    <t s=\"26\">wonders also relative to the wonders that were in the Exodus from Egypt.</t>\n    <t s=\"27\">And an additional virtue,</t>\n    <t s=\"28\">that the wonders then will be \"as in the days of your exodus from the land of Egypt.\"</t>\n    <t s=\"29\">And the main innovation and virtue is</t>\n    <t s=\"30\">(not that the wonders then will be exceedingly great wonders,</t>\n    <t s=\"31\">but rather)</t>\n    <t s=\"32\">this: that the wonders then will be \"as in the days of your exodus from the land of Egypt.\"</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section categorizes miracles into two general types: those above nature and those clothed in nature, further subdividing the latter into three levels based on how discernible the miracle is within its natural garment.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">Now, the explanation of the matter is,</t>\n    <t s=\"2\">that in miracles there are</t>\n    <t s=\"3\">(generally)</t>\n    <t s=\"4\">two types.</t>\n    <t s=\"5\">Miracles that are above nature</t>\n    <t s=\"6\">[like the miracles that were in the Exodus from Egypt,</t>\n    <t s=\"7\">the turning of water into blood, etc., and up to the miracle of the Splitting of the Sea, where the sea became dry land],</t>\n    <t s=\"8\">and miracles that are clothed in natural ways.</t>\n    <t s=\"9\">And within these themselves there are three modes</t>\n    <t s=\"10\">(generally).</t>\n    <t s=\"11\">The natural garments are in a manner that it is recognizable that they are only a garment for the miracle that is clothed within them.</t>\n    <t s=\"12\">Like the miracles of Chanukah and Purim,</t>\n    <t s=\"13\">and likewise all miracles for which one recites the blessing \"Blessed... Who performed miracles\"</t>\n    <t s=\"14\">(a wall fell on him and he was saved,</t>\n    <t s=\"15\">and the like),</t>\n    <t s=\"16\">for although they are clothed in natural ways, nevertheless the miracle within them is openly recognizable.</t>\n    <t s=\"17\">Below this – the natural garments conceal the miracle that is clothed within them,</t>\n    <t s=\"18\">but nevertheless it is recognizable that an unusual event occurred,</t>\n    <t s=\"19\">like the four who are required to give thanks,</t>\n    <t s=\"20\">for on these miracles one does not recite the blessing \"Blessed... Who performed miracles,\" but one brings a thanksgiving offering and recites the blessing of HaGomel.</t>\n    <t s=\"21\">Below this – the natural garments completely conceal and hide the miracle,</t>\n    <t s=\"22\">to the extent that it is not at all recognizable that an unusual event occurred.</t>\n    <t s=\"23\">As it is written, \"To Him Who alone does great wonders,\" and our Rabbis, of blessed memory, said,</t>\n    <t s=\"24\">\"Even the beneficiary of the miracle does not recognize his miracle.\"</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains why the maamar cites the verse \"To Him Who alone does great wonders\" regarding the future redemption, clarifying that the source of miracles completely hidden in nature is from the level of \"Alone,\" which is the highest source, and thus the future wonders will be drawn from that level.</sectionSummaryBrief>\n    <t s=\"0\">And one must understand why the maamar brings the aforementioned statement of our Rabbis, of blessed memory, on the verse \"I will show him wonders,\" [citing] the verse \"To Him Who alone does great wonders,\"</t>\n    <t s=\"1\">for in this very statement of our Rabbis, of blessed memory, it says that the wonders that will be in the future redemption will be greater wonders than the wonders that were in the Exodus from Egypt,</t>\n    <t s=\"2\">and nevertheless it brings on this the verse \"To Him Who alone does great wonders,\" which refers to miracles that are completely hidden, to the extent that even the beneficiary of the miracle does not recognize them.</t>\n    <t s=\"3\">And the Tzemach Tzedek explains,</t>\n    <t s=\"4\">that the source of miracles clothed in nature is from a place more elevated than the source of miracles that are above nature.</t>\n    <t s=\"5\">And the more miracles are clothed in nature, it indicates that their source is from a more elevated place.</t>\n    <t s=\"6\">And this is \"To Him Who alone does great wonders,\"</t>\n    <t s=\"7\">that the source of miracles that are completely clothed in nature, in a manner that the beneficiary of the miracle does not recognize his miracle,</t>\n    <t s=\"8\">is from the aspect of \"Alone.\"</t>\n    <t s=\"9\">And this is why the aforementioned statement of our Rabbis, of blessed memory, regarding the wonders that will be in the future redemption brings the verse \"To Him Who alone does great wonders,\"</t>\n    <t s=\"10\">that the wonders that will be in the future redemption will be drawn from the aspect of \"Alone.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918005_theRebbe_76",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section analyzes the precise wording of the verse \"As in the days of your exodus,\" questioning why the future redemption's wonders are compared to those of the Exodus, and explains that the verse implies the future wonders will be both greater and also similar in kind to the Exodus wonders.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "Now, the precise point"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(in the maamar)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "regarding the mention of the Exodus from Egypt in the future redemption is seemingly also in the verse \"As in the days of your exodus, etc.,\""
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "for since the revelations that will be in the future redemption will be vastly superior to the revelations that were in the Exodus from Egypt,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "what does it mean when it says \"As in the days of your exodus from the land of Egypt, I will show him wonders,\""
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "[implying] that the superiority of the future redemption is that even then there will be \"I will show him wonders\" like it was in the Exodus from Egypt."
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "And to add,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "the precise point in the verse \"As in the days of your exodus, etc.\" is seemingly a greater precision than that of mentioning the Exodus from Egypt in the future redemption."
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "For the remembrance of the Exodus from Egypt in the future will only be in a secondary manner,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "[And the precise point in the maamar is that due to the magnitude of the superiority of the future redemption relative to the redemption of the Exodus from Egypt, there would not need to be"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "(seemingly)"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "a mention of the Exodus from Egypt then, even in a secondary manner],"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "but not so in the verse \"As in the days of your exodus from the land of Egypt, etc.\""
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "(\"As in the days\" with a comparative kaf)"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "implies that the main matter of wonders was in the Exodus from Egypt, and the verse innovates that also in the future redemption there will be wonders like those that were in the Exodus from Egypt."
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "And although it is explained in many places"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "that the interpretation of \"As in the days of your exodus from the land of Egypt, I will show him wonders\" is that the wonders that will be in the future redemption will be wonders also relative to the wonders that were in the days of your exodus from the land of Egypt,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "[as our Rabbis, of blessed memory, said"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "on the verse \"I will show him wonders,\""
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "\"I will show him what I did not show to the forefathers, for the miracles and wonders that I am destined to perform for the children are greater than the wonder and wonders that I performed for the forefathers, and so it says,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "'To Him Who alone does great wonders, for His kindness endures forever'\"],"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "from the fact that the verse says that the wonders that will be in the future redemption will be \"as in the days of your exodus from the land of Egypt,\""
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "it implies that in the wonders that will be in the future redemption there will be two virtues."
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "That the wonders will be exceedingly great wonders,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "wonders also relative to the wonders that were in the Exodus from Egypt."
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "And an additional virtue,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "that the wonders then will be \"as in the days of your exodus from the land of Egypt.\""
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "And the main innovation and virtue is"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "(not that the wonders then will be exceedingly great wonders,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "but rather)"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "this: that the wonders then will be \"as in the days of your exodus from the land of Egypt.\""
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section categorizes miracles into two general types: those above nature and those clothed in nature, further subdividing the latter into three levels based on how discernible the miracle is within its natural garment.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "Now, the explanation of the matter is,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that in miracles there are"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(generally)"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "two types."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "Miracles that are above nature"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "[like the miracles that were in the Exodus from Egypt,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "the turning of water into blood, etc., and up to the miracle of the Splitting of the Sea, where the sea became dry land],"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and miracles that are clothed in natural ways."
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "And within these themselves there are three modes"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "(generally)."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "The natural garments are in a manner that it is recognizable that they are only a garment for the miracle that is clothed within them."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "Like the miracles of Chanukah and Purim,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and likewise all miracles for which one recites the blessing \"Blessed... Who performed miracles\""
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "(a wall fell on him and he was saved,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "and the like),"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "for although they are clothed in natural ways, nevertheless the miracle within them is openly recognizable."
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "Below this – the natural garments conceal the miracle that is clothed within them,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "but nevertheless it is recognizable that an unusual event occurred,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "like the four who are required to give thanks,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "for on these miracles one does not recite the blessing \"Blessed... Who performed miracles,\" but one brings a thanksgiving offering and recites the blessing of HaGomel."
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "Below this – the natural garments completely conceal and hide the miracle,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "to the extent that it is not at all recognizable that an unusual event occurred."
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "As it is written, \"To Him Who alone does great wonders,\" and our Rabbis, of blessed memory, said,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "\"Even the beneficiary of the miracle does not recognize his miracle.\""
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains why the maamar cites the verse \"To Him Who alone does great wonders\" regarding the future redemption, clarifying that the source of miracles completely hidden in nature is from the level of \"Alone,\" which is the highest source, and thus the future wonders will be drawn from that level.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And one must understand why the maamar brings the aforementioned statement of our Rabbis, of blessed memory, on the verse \"I will show him wonders,\" [citing] the verse \"To Him Who alone does great wonders,\""
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "for in this very statement of our Rabbis, of blessed memory, it says that the wonders that will be in the future redemption will be greater wonders than the wonders that were in the Exodus from Egypt,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "and nevertheless it brings on this the verse \"To Him Who alone does great wonders,\" which refers to miracles that are completely hidden, to the extent that even the beneficiary of the miracle does not recognize them."
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "And the Tzemach Tzedek explains,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "that the source of miracles clothed in nature is from a place more elevated than the source of miracles that are above nature."
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "And the more miracles are clothed in nature, it indicates that their source is from a more elevated place."
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "And this is \"To Him Who alone does great wonders,\""
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "that the source of miracles that are completely clothed in nature, in a manner that the beneficiary of the miracle does not recognize his miracle,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "is from the aspect of \"Alone.\""
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And this is why the aforementioned statement of our Rabbis, of blessed memory, regarding the wonders that will be in the future redemption brings the verse \"To Him Who alone does great wonders,\""
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "that the wonders that will be in the future redemption will be drawn from the aspect of \"Alone.\""
+          }
+        ]
+      }
+    ]
+  }
+}

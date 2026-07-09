@@ -1,0 +1,16 @@
+{
+  "B_H": true,
+  "completedAt": "2026-07-09T08:07:44.424Z",
+  "attempt": 1,
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 99,
+    "returned": 99,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  }
+}

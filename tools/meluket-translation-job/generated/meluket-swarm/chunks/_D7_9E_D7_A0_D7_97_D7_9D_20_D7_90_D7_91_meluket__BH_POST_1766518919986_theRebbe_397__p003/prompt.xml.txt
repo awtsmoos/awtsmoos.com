@@ -1,0 +1,112 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919986_theRebbe_397" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919986_theRebbe_397__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919986_theRebbe_397" title="מאמר לא היו ימים טובים לישראל תשל"ה" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919986_theRebbe_397__p003">
+  <section v="6">
+    <src s="0">והנה מכיון שבחינת הכתר</src>
+    <src s="1">(מלך עילאה)</src>
+    <src s="2">היא למעלה מהשתלשלות,</src>
+    <src s="3">לכן גם העבודה שבאדם הממשכת בחינה זו,</src>
+    <src s="4">צריכה להיות למעלה מהשתלשלות הכחות שבו,</src>
+    <src s="5">בבחינת בכל מאדך.</src>
+    <src s="6">כי ע"י העבודה דתומ"צ כמו שהיא בבחינת מדידה והגבלה</src>
+    <src s="7">(השתלשלות שבאדם),</src>
+    <src s="8">נמשך האור שבבחינת השתלשלות.</src>
+    <src s="9">והגם שע"י העבודה דתומ"צ</src>
+    <src s="10">(גם כשהעבודה היא במדידה והגבלה)</src>
+    <src s="11">נמשך אור נעלה יותר מהבחי' דג"ע,</src>
+    <src s="12">וכדמוכח ממ"ש40</src>
+    <src s="13">ויניחהו בג"ע לעבדה ולשמרה,</src>
+    <src s="14">לעבדה זה רמ"ח מ"ע ולשמרה זה שס"ה מל"ת41,</src>
+    <src s="15">והיינו שהג"ע אצל אדה"ר לא הי' בחינת קבלת שכר כ"א שהג"ע הי' מקום עבודתו,</src>
+    <src s="16">וע"י עבודתו בג"ע המשיך אורות נעלים יותר מהבחי' דג"ע42,</src>
+    <src s="17">מ"מ,</src>
+    <src s="18">זה מה שנמשך ע"י העבודה כמו שהיא במדידה ע"פ תורה הוא רק מה ששייך לעולם,</src>
+    <src s="19">והוא מה שע"י התורה נעשה קיום העולם,</src>
+    <src s="20">כדאיתא בגמרא43</src>
+    <src s="21">אם ישראל מקבלים התורה אתם מתקיימין.</src>
+    <src s="22">אבל המשכת האור שלמעלה מהשתלשלות היא ע"י העבודה דבכל מאדך דוקא.</src>
+  </section>
+  <section v="7">
+    <src s="0">וע"פ הנ"ל יובן מה שמקדים בהמאמר הפירוש דבמלך לשדה נעבד להביאור בהמעלה דט"ו באב על ט"ו בניסן וט"ו בתשרי,</src>
+    <src s="1">כי מעלת ט"ו באב על ט"ו בניסן וט"ו בתשרי הוא דוגמת המעלה דמלך לשדה נעבד על בחינת שדה כמו שהיא מצד עצמה.</src>
+    <src s="2">דהנה מעלת הג"ע</src>
+    <src s="3">(שדה)</src>
+    <src s="4">שהוא בחינת יתרון ארץ,</src>
+    <src s="5">היינו מה שהעולם הוא בשלימות</src>
+    <src s="6">(כנ"ל),</src>
+    <src s="7">הוא דוגמת קיימא סיהרא באשלמותא.</src>
+    <src s="8">אמנם,</src>
+    <src s="9">שלימות זו היא רק השלימות דעולם,</src>
+    <src s="10">וגם מה שמיתוסף בג"ע ע"י העבודה דלעבדה ולשמרה</src>
+    <src s="11">(כמו שהיא במדידה דתורה)</src>
+    <src s="12">הוא רק מה ששייך לעולם,</src>
+    <src s="13">ועד"ז הוא גם בנוגע לשלימות הלבנה דט"ו בניסן וט"ו בתשרי,</src>
+    <src s="14">שמצד ענין התורה.</src>
+    <src s="15">משא"כ שלימות הלבנה דט"ו באב,</src>
+    <src s="16">מכיון שהיא באה לאחרי הירידה דט"ב שירידה זו מעוררת העבודה דבכל מאדך</src>
+    <src s="17">(כמשי"ת לקמן),</src>
+    <src s="18">היא דוגמת מלך לשדה נעבד,</src>
+    <src s="19">אור שלמעלה מהשתלשלות.</src>
+  </section>
+  <section v="8">
+    <src s="0">והנה בכדי לבוא להעבודה דבכל מאדך שלמעלה ממדידה והגבלה,</src>
+    <src s="1">הוא ע"י התבוננות בהמצרים וגבולים דעולם.</src>
+    <src s="2">כי ע"י שהוא מרגיש את המצרים וגבולים דעולם,</src>
+    <src s="3">הנה זה גופא מעורר אותו שיצא מהמצרים וגבולים,</src>
+    <src s="4">ושעבודתו תהי' למעלה ממדידה והגבלה.</src>
+    <src s="5">וכל מה שמרגיש יותר את המצרים וגבולים,</src>
+    <src s="6">שנוסף להמצרים והגבלות דעולם בכלל ישנם גם דברים המונעים ומבלבלים לעבודת ה',</src>
+    <src s="7">כמו הרעבון והחולי</src>
+    <src s="8">[דכשהאדם הוא רעב וחולה א"א שיבין וישתכל כו' ולא יוכל לעבוד את ה'44</src>
+    <src s="9">(היינו45</src>
+    <src s="10">שבכדי לעבוד את ה' כשהוא חולה צריך להשתדלות מיוחדת)],</src>
+    <src s="11">ועאכו"כ ההעלמות וההסתרים שבזמן הגלות,</src>
+    <src s="12">הנה כל מה שמרגיש יותר את המצרים וגבולים,</src>
+    <src s="13">זה מביא אותו יותר להעבודה דבכל מאדך,</src>
+    <src s="14">היציאה ממיצר וגבול.</src>
+    <src s="15">ובזה יובן מה שמביא בדרוש הנ"ל את פירוש השני שבזהר,</src>
+    <src s="16">שמלך לשדה נעבד הוא לגריעותא,</src>
+    <src s="17">ששדה הוא בחינת שדה דלעו"ז</src>
+    <src s="18">(בשדה מצאה46),</src>
+    <src s="19">ומלך לשדה נעבד הוא מה שספירת המלכות רגלי' יורדות כו' ומתעלמת בשדה דלעו"ז,</src>
+    <src s="20">כי ההתבוננות בהענין דמלך לשדה נעבד כמו שהוא לגריעותא,</src>
+    <src s="21">שהו"ע גלות השכינה</src>
+    <src s="22">[שהסיבה לזה ששכינתא בגלותא הוא הגלות דישראל,</src>
+    <src s="23">מה שגלינו מפני חטאינו],</src>
+    <src s="24">הנה התבוננות זו מעוררת אותו שעבודתו תהי' למעלה ממדידה והגבלה,</src>
+    <src s="25">ועי"ז נמשך אור שלמעלה מהשתלשלות,</src>
+    <src s="26">מלך לשדה נעבד למעליותא.</src>
+  </section>
+</awtsmoosMeluketSource>

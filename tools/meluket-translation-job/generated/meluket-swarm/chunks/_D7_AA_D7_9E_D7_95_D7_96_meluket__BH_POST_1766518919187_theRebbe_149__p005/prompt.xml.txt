@@ -1,0 +1,172 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919187_theRebbe_149" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919187_theRebbe_149" title="מאמר וידבר זאת חוקת תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p005">
+  <section v="12">
+    <src s="0">ז)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דלפי הנ"ל</src>
+    <src s="3">[שתפלתו של משה שיומשך עצמות אוא"ס במלכות הוא מפני שמשה הוא דעת עליון ולכן ביכלתו להמשיך אור זה במלכות],</src>
+    <src s="4">המשכת הגילוי במלכות ע"י משה הוא</src>
+    <src s="5">(לכאורה)</src>
+    <src s="6">בדרך מלמעלה למטה48.</src>
+    <src s="7">ומהו"ע תפלה למשה</src>
+    <src s="8">(תפלת עשיר),</src>
+    <src s="9">דתפלה היא מלמטה למעלה.</src>
+    <src s="10">ויש לומר הביאור בזה,</src>
+    <src s="11">דכשההמשכה במלכות היא בדרך מלמעלה למטה,</src>
+    <src s="12">אזי,</src>
+    <src s="13">גם כשהגילוי הוא עצמות אוא"ס שלמעלה מענין הצמצום,</src>
+    <src s="14">דבכללות הוא בחינת עצם האור שלא נגע בו הצמצום,</src>
+    <src s="15">מ"מ,</src>
+    <src s="16">כיון דזה שאין שייך שיסתלק האור מהמלכות הוא מפני שהאור הוא למעלה מענין הצמצום,</src>
+    <src s="17">הרי בנוגע להמלכות,</src>
+    <src s="18">אין זה אמיתית הענין דבנין עדי עד,</src>
+    <src s="19">מכיון שמצד המלכות אפשר שיסתלק ממנה האור.</src>
+    <src s="20">ואמיתית הענין דבנין עדי עד הוא כשהמשכת גילוי זה במלכות הוא</src>
+    <src s="21">(לא רק מצד למעלה אלא גם)</src>
+    <src s="22">מצד המלכות49.</src>
+    <src s="23">וזהו תפלה למשה,</src>
+    <src s="24">דתפלה היא עבודת הנבראים,</src>
+    <src s="25">ולכן ההמשכה שע"י תפלה היא באופן ששייכת להמטה עצמו,</src>
+    <src s="26">להנבראים וכן לספירת המלכות שורש הנבראים.</src>
+    <src s="27">אלא שההמשכה שע"י תפלה בכלל,</src>
+    <src s="28">כיון שתפלה היא עבודת הנבראים,</src>
+    <src s="29">לכן ההמשכה שע"י זה היא המשכה ששייכת לעולמות50,</src>
+    <src s="30">ובההמשכה שע"י תפלה למשה,</src>
+    <src s="31">שתי המעלות.</src>
+    <src s="32">המשכת עצמות אוא"ס שלמעלה משייכות לעולמות,</src>
+    <src s="33">ואעפ"כ ההמשכה היא נמשכת במלכות ובאופן שהיא שייכת להמלכות עצמה.</src>
+  </section>
+  <section v="13">
+    <src s="0">ח)</src>
+    <src s="1">ובעומק יותר יש לומר,</src>
+    <src s="2">שהיתרון בההמשכה שע"י תפלת משה לגבי ההמשכה בדרך מלמעלה למטה,</src>
+    <src s="3">הוא לא רק באופן ההמשכה</src>
+    <src s="4">(שההמשכה שע"י תפלת משה שייכת יותר להמטה,</src>
+    <src s="5">כנ"ל)</src>
+    <src s="6">אלא גם בההמשכה עצמה.</src>
+    <src s="7">והענין הוא,</src>
+    <src s="8">דהטעם על זה שכל מה שנברא בששת ימי בראשית צריך תיקון51,</src>
+    <src s="9">הוא,</src>
+    <src s="10">כי כוונת הבריאה היא בשביל עבודת האדם,</src>
+    <src s="11">ולכן נברא העולם באופן שתיקונו יהי' ע"י עבודת האדם,</src>
+    <src s="12">שעי"ז נעשה האדם שותף להקב"ה במעשה בראשית52.</src>
+    <src s="13">וזהו גם הטעם על זה שהתהוות העולמות מהמלכות היתה ע"י הצמצום שנחסר האור מבחינת המלכות</src>
+    <src s="14">[וכמ"ש53</src>
+    <src s="15">את עשית את השמים גו',</src>
+    <src s="16">את חסר ה',</src>
+    <src s="17">דזה שהמלכות נעשית מקור להוות את העולמות</src>
+    <src s="18">(עשית את השמים גו')</src>
+    <src s="19">הוא ע"י שנחסרו ממנה ה' פרצופים,</src>
+    <src s="20">את חסר ה'54.</src>
+    <src s="21">וי"ל דהחסרון שהי' בהמלכות שממנה נברא העולם הוא השורש והסיבה להחסרון דהעולם,</src>
+    <src s="22">דכל מה שנברא בששת ימי בראשית צריך תיקון],</src>
+    <src s="23">הוא בכדי שמילוי החסרון דהמלכות יהי' ע"י עבודת האדם.</src>
+    <src s="24">ולהוסיף,</src>
+    <src s="25">דהגם שהצמצום הי' רק בהאור השייך לעולמות,</src>
+    <src s="26">באור הגבול</src>
+    <src s="27">(שורש הממלא)</src>
+    <src s="28">וגם באור הבל"ג</src>
+    <src s="29">(שורש הסובב),</src>
+    <src s="30">[אלא שפעולת הצמצום באור הגבול הוא55</src>
+    <src s="31">בהאור עצמו,</src>
+    <src s="32">שנעשה בו ירידה והגבלה ועד שנעשה מקור להוות את העולמות,</src>
+    <src s="33">ופעולת הצמצום באור הבל"ג הוא רק55</src>
+    <src s="34">שלא יאיר במקום החלל56.</src>
+    <src s="35">דזהו שבעיגול הגדול</src>
+    <src s="36">(אור הבל"ג)</src>
+    <src s="37">נגע בו הצמצום,</src>
+    <src s="38">דענין נגיעת הצמצום הוא שהאור יהי' רק שם</src>
+    <src s="39">(בהעיגול)</src>
+    <src s="40">ולא יתגלה לחוץ57]</src>
+    <src s="41">אבל בעצם האור לא הי' הצמצום כלל,</src>
+    <src s="42">היינו שהצמצום גם לא נגע בו</src>
+    <src s="43">[שלכן,</src>
+    <src s="44">מצד אור זה אפשר להיות הגילוי גם בעולמות],</src>
+    <src s="45">מ"מ,</src>
+    <src s="46">כיון שהכוונה בכל הגילויים</src>
+    <src s="47">(גם בהגילוי דעצם האור שלמעלה מגדר עולמות,</src>
+    <src s="48">למעלה גם מ</src>
+    <src s="49">(השורש ד)</src>
+    <src s="50">סובב כל עלמין)</src>
+    <src s="51">הוא בשביל ישראל,</src>
+    <src s="52">לכן,</src>
+    <src s="53">גם המשכת אור זה היא ע"י עבודת האדם.</src>
+  </section>
+  <section v="14">
+    <src s="0">ט)</src>
+    <src s="1">ועפ"ז יש לבאר מ"ש בהמאמר58</src>
+    <src s="2">דהגילויים שלמעלה יש ג' מדריגות בכללות.</src>
+    <src s="3">ממלא כל עלמין,</src>
+    <src s="4">סובב כל עלמין ועצמות אוא"ס שלמעלה מממלא וסובב.</src>
+    <src s="5">ובג' מדריגות אלה הם ג' האהבות שבפסוק59</src>
+    <src s="6">ואהבת,</src>
+    <src s="7">בכל לבבך,</src>
+    <src s="8">בכל נפשך ובכל מאדך.</src>
+    <src s="9">האהבה דבכל לבבך היא בבחינת ממלא כל עלמין,</src>
+    <src s="10">דכיון שהחיות דבחי' ממכ"ע הוא מלובש בהנבראים בפנימיותם,</src>
+    <src s="11">לכן,</src>
+    <src s="12">ע"י ההתבוננות נרגש חיות זה גם בנפש הבהמית,</src>
+    <src s="13">והאהבה היא בכל לבבך בשני יצריך60.</src>
+    <src s="14">האהבה דבכל נפשך היא בבחינת סוכ"ע,</src>
+    <src s="15">דכיון שאור הסובב הוא למעלה מהתלבשות בעולמות,</src>
+    <src s="16">לכן,</src>
+    <src s="17">ע"י שנרגש בו ההפלאה דאוא"ס</src>
+    <src s="18">(סובב),</src>
+    <src s="19">אהבתו את הוי' היא באופן דמסירת נפש</src>
+    <src s="20">[בכל נפשך,</src>
+    <src s="21">אפילו נוטל את נפשך60],</src>
+    <src s="22">שרוצה לצאת ממציאותו וליכלל באוא"ס.</src>
+    <src s="23">ואהבה זו היא רק בנפש האלקית.</src>
+    <src s="24">כי ההשגה</src>
+    <src s="25">[באופן דהכרה והרגשה,</src>
+    <src s="26">שאז דוקא מביאה ההשגה לאהבה]</src>
+    <src s="27">בההפלאה דאוא"ס יכולה להיות רק בנפש האלקית,</src>
+    <src s="28">ששרשה הוא בשם הוי'61,</src>
+    <src s="29">סובב.</src>
+    <src s="30">והאהבה דבכל מאדך היא בעצמות אוא"ס שלמעלה גם מסובב.</src>
+    <src s="31">כי אמיתית הבל"ג הוא בעצמות אוא"ס</src>
+    <src s="32">(משא"כ אור הסובב יש בו איזה ציור והגבלה),</src>
+    <src s="33">ולכן,</src>
+    <src s="34">האהבה שע"י גילוי עצמות אוא"ס היא בכל מאדך,</src>
+    <src s="35">בלי גבול.</src>
+    <src s="36">ולאחרי שמבאר השייכות דג' האהבות לג' מדריגות הנ"ל,</src>
+    <src s="37">מסיים,</src>
+    <src s="38">דמזה מובן ענינם של ג' המדריגות,</src>
+    <src s="39">דממלא הוא מתלבש בעולמות,</src>
+    <src s="40">וסובב הוא למעלה מהתלבשות אבל שייך לעולמות,</src>
+    <src s="41">ועצמות אוא"ס אינו בגדר עולמות.</src>
+  </section>
+</awtsmoosMeluketSource>

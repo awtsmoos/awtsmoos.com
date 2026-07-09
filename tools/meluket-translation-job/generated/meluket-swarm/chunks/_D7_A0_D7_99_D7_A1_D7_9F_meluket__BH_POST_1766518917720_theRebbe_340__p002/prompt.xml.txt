@@ -1,0 +1,109 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917720_theRebbe_340" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917720_theRebbe_340" title="מאמר ויקרא אל משה תשל"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ועפ"ז יש לומר,</src>
+    <src s="2">דזה שבהתחלת ספר הקרבנות כתיב אדם כי יקריב,</src>
+    <src s="3">דזה שישראל נק' אדם הוא משום דואתם הדבקים גו',</src>
+    <src s="4">שהוא הדביקות דאורות,</src>
+    <src s="5">הוא,</src>
+    <src s="6">כי הכח שיש בישראל להקריב קרבנות הוא</src>
+    <src s="7">(בעיקר)</src>
+    <src s="8">לפי שדביקותם בהקב"ה היא בדרגת הדביקות דאורות.</src>
+    <src s="9">וזה שאיתא במדרש דהקרבת קרבנות קשורה עם דרגת הדביקות</src>
+    <src s="10">(דאזור)</src>
+    <src s="11">דכלים,</src>
+    <src s="12">יש לומר,</src>
+    <src s="13">כי עיקר הקרבנות הוא שעל ידם הוא קיום העולם,</src>
+    <src s="14">[כדאיתא בירושלמי18</src>
+    <src s="15">עה"פ19</src>
+    <src s="16">לנטוע שמים וליסוד ארץ אלו הקרבנות,</src>
+    <src s="17">כי ע"י הקרבנות מתקיימים חוקות שמים וארץ20],</src>
+    <src s="18">אלא שהכח הזה שיש בקרבנות הוא ע"י שהמקריב את הקרבנות הוא אדם</src>
+    <src s="19">(שלמעלה מעולם),</src>
+    <src s="20">כדאיתא בזהר21</src>
+    <src s="21">דמ"ש אדם כי יקריב</src>
+    <src s="22">[שבד' השמות אדם גבר אנוש איש22,</src>
+    <src s="23">שם אדם מורה על מדריגה הכי עליונה דכתיב23</src>
+    <src s="24">ויברא אלקים את האדם בצלמו גו']</src>
+    <src s="25">הוא לפי דקיומא דעלמין עילאין ותתאין הוא ע"י הקרבנות.</src>
+    <src s="26">ולכן,</src>
+    <src s="27">גם בעבודתו של אדם המקריב צ"ל שני ענינים.</src>
+    <src s="28">דענין הקרבנות עצמם הוא ע"י עבודת האדם בדרגת הכלים שבו.</src>
+    <src s="29">[דזה שהקרבנות הם קיומא דעלמא הוא ע"י שיש בהם מכל הסוגים דצח"מ דעולם,</src>
+    <src s="30">הקרבנות עצמם שבאים מדצ"ח,</src>
+    <src s="31">והאדם המקריב24].</src>
+    <src s="32">והכח בקרבנות לקיים העולם ע"י שהמקריב אותם הוא אדם שמובדל מעולם,</src>
+    <src s="33">הוא ע"י עבודת האדם בדרגת האורות שבו.</src>
+  </section>
+  <section v="4">
+    <src s="0">וזהו שענין אדם כי יקריב הוא דוקא בתחלת ספר הקרבנות,</src>
+    <src s="1">כי הקרבנות עצמם הם מן הבהמה וגו',</src>
+    <src s="2">שבזה נכללת גם הבהמה שבאדם,</src>
+    <src s="3">נפש הבהמית25.</src>
+    <src s="4">וזה נעשה על ידי בחינת ב"ן דנפש האלקית26,</src>
+    <src s="5">ב"ן בגימטריא בהמה27,</src>
+    <src s="6">דבכללות הוא28</src>
+    <src s="7">הנשמה כמו שהיא בדרגת כלים.</src>
+    <src s="8">אלא שהכח לזה הוא ע"י בחינת מ"ה דנפש האלקית,</src>
+    <src s="9">מ"ה בגימטריא אדם29,</src>
+    <src s="10">דבכללות הוא28</src>
+    <src s="11">דרגת האורות דהנשמה,</src>
+    <src s="12">ולכן הפתיחה דספר הקרבנות הוא אדם כי יקריב.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">והנה ידוע30</src>
+    <src s="2">דתורה ומצוות הם דוגמת אורות וכלים.</src>
+    <src s="3">ועפ"ז יש לומר,</src>
+    <src s="4">דשתי דרגות הנ"ל בהדביקות דישראל בהקב"ה,</src>
+    <src s="5">נעשים ע"י לימוד התורה וקיום המצוות.</src>
+    <src s="6">ע"י קיום המצוות – הדביקות דכלים,</src>
+    <src s="7">וע"י עסק התורה – הדביקות דאורות.</src>
+    <src s="8">ועפ"ז יש לקשר זה עם מה דאיתא בתיקוני זהר31,</src>
+    <src s="9">שג' התפלות שחרית מנחה וערבית הם כנגד ארי' שור ונשר,</src>
+    <src s="10">וענין אדם כי יקריב דא אורייתא.</src>
+    <src s="11">ובגין דא תקינו בצלותא למשמע בה ספר תורה,</src>
+    <src s="12">למהוי בה קרבנא שלים באדם כו' זאת32</src>
+    <src s="13">התורה אדם.</src>
+    <src s="14">ויש לומר הביאור בזה,</src>
+    <src s="15">דזה שתפלות הם כנגד קרבנות33</src>
+    <src s="16">הוא כנגד הקרבנות עצמם</src>
+    <src s="17">[דענין התפלה הוא בירור נפש הבהמית ע"ד הקרבת הבהמה],</src>
+    <src s="18">וענין אדם כי יקריב דא אורייתא הוא הכח דישראל להקריב קרבנות להיותם בחינת אדם,</src>
+    <src s="19">דביקות דאורות שנעשית ע"י עסק התורה.</src>
+  </section>
+</awtsmoosMeluketSource>

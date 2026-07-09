@@ -1,0 +1,279 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 47,
+    "returned": 47,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914005_theRebbe_415\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914005_theRebbe_415__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the header information for the maamar \"Shuva Yisrael\" from Shabbos Shuva 5736.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">Shabbos Parshas Haazinu,</t>\n    <t s=\"2\">Shabbos Shuva,</t>\n    <t s=\"3\">5736</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that the maamar is an unedited talk.</sectionSummaryBrief>\n    <t s=\"0\">(Unedited talk)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section raises the question of why the verse says \"Shuva Yisrael\" instead of \"Shuva Yaakov,\" given that Yisrael is a higher name, and explores the difficulty of sin being associated with that level.</sectionSummaryBrief>\n    <t s=\"0\">\"Return, Yisrael, to Hashem your G-d, for you have stumbled in your iniquity.\"</t>\n    <t s=\"1\">\"Take words with you... and say to Him, 'Forgive all iniquity... and let us render the calves of our lips.'\"</t>\n    <t s=\"2\">And the precise point in the discourses of our Nesi'im is known, regarding what is written \"Shuva Yisrael,\"</t>\n    <t s=\"3\">for seemingly,</t>\n    <t s=\"4\">since it speaks about the matter of teshuvah, it should have said \"Shuva Yaakov\" and not \"Shuva Yisrael,\" which is a name of superiority.</t>\n    <t s=\"5\">For Yisrael is an expression of \"for you have striven with G-d and with men and have prevailed,\"</t>\n    <t s=\"6\">and also the reason for calling the name Yisrael is \"for you have striven,\"</t>\n    <t s=\"7\">but Yaakov is from the term \"heel,\" and also the reason for calling the name Yaakov is because \"his hand was grasping the heel of Esav,\"</t>\n    <t s=\"8\">and not merely a heel in general, but the heel of Esav,</t>\n    <t s=\"9\">and if so, it should have said \"Shuva Yaakov,\" and why does it say \"Shuva Yisrael\"?</t>\n    <t s=\"10\">And especially according to what is stated, \"and He saw no iniquity in Yisrael\"</t>\n    <t s=\"11\">(in contrast to Yaakov).</t>\n    <t s=\"12\">And moreover, this is even more so from what the verse continues, \"for you have stumbled in your iniquity,\"</t>\n    <t s=\"13\">for \"iniquity\" refers to intentional sins,</t>\n    <t s=\"14\">and behold, even regarding unintentional sins it is stated in Igeres HaKodesh</t>\n    <t s=\"15\">from the teaching of the Arizal</t>\n    <t s=\"16\">that unintentional sins are due to the overpowering of the Nefesh HaBahamis</t>\n    <t s=\"17\">[this being the reason for Rashi's statement in Tractate Shevuos</t>\n    <t s=\"18\">that even an unintentional sinner requires atonement],</t>\n    <t s=\"19\">and if so, behold, even the matter of unintentional sins is not relevant to the level of Yisrael,</t>\n    <t s=\"20\">and all the more so the matter of \"you have stumbled in your iniquity,\"</t>\n    <t s=\"21\">intentional sins,</t>\n    <t s=\"22\">and why does it say \"Shuva Yisrael\" and not \"Shuva Yaakov\"?</t>\n    <t s=\"23\">And also, one must understand what is written, \"Take words with you,\"</t>\n    <t s=\"24\">for seemingly, when it says \"Shuva Yisrael,\" the intention is for teshuvah as it should be,</t>\n    <t s=\"25\">and since it is a mitzvah to confess</t>\n    <t s=\"26\">(when one does teshuvah),</t>\n    <t s=\"27\">behold, \"Shuva Yisrael\" also includes the matter of confession,</t>\n    <t s=\"28\">for although the essence of teshuvah is in the heart,</t>\n    <t s=\"29\">nevertheless, confession is also among the essentials of teshuvah,</t>\n    <t s=\"30\">if so, what does \"Take words with you\" add?</t>\n    <t s=\"31\">And also, one must understand what is written, \"say to Him, 'Forgive all iniquity,'\"</t>\n    <t s=\"32\">for seemingly, since he has already done teshuvah</t>\n    <t s=\"33\">(\"Shuva Yisrael\"),</t>\n    <t s=\"34\">behold, certainly he is forgiven for his transgressions,</t>\n    <t s=\"35\">and why is it necessary to say and request, \"Forgive all iniquity\"?</t>\n    <t s=\"36\">And also, one must understand what is written afterwards, \"and let us render the calves of our lips,\" which enumerates lofty levels</t>\n    <t s=\"37\">(first, \"Shuva Yisrael...,\"</t>\n    <t s=\"38\">and then \"Take words with you...,\"</t>\n    <t s=\"39\">and then \"say to Him...,\"</t>\n    <t s=\"40\">until it comes to \"and let us render the calves of our lips\"),</t>\n    <t s=\"41\">that after all the preceding matters, it only comes to \"and let us render the calves of our lips,\" which is only in place of the offerings, and not the actual offerings themselves.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914005_theRebbe_415",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914005_theRebbe_415__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the header information for the maamar \"Shuva Yisrael\" from Shabbos Shuva 5736.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Haazinu,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Shabbos Shuva,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "5736"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section notes that the maamar is an unedited talk.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "(Unedited talk)"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section raises the question of why the verse says \"Shuva Yisrael\" instead of \"Shuva Yaakov,\" given that Yisrael is a higher name, and explores the difficulty of sin being associated with that level.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"Return, Yisrael, to Hashem your G-d, for you have stumbled in your iniquity.\""
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "\"Take words with you... and say to Him, 'Forgive all iniquity... and let us render the calves of our lips.'\""
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "And the precise point in the discourses of our Nesi'im is known, regarding what is written \"Shuva Yisrael,\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "since it speaks about the matter of teshuvah, it should have said \"Shuva Yaakov\" and not \"Shuva Yisrael,\" which is a name of superiority."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "For Yisrael is an expression of \"for you have striven with G-d and with men and have prevailed,\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and also the reason for calling the name Yisrael is \"for you have striven,\""
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "but Yaakov is from the term \"heel,\" and also the reason for calling the name Yaakov is because \"his hand was grasping the heel of Esav,\""
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "and not merely a heel in general, but the heel of Esav,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "and if so, it should have said \"Shuva Yaakov,\" and why does it say \"Shuva Yisrael\"?"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And especially according to what is stated, \"and He saw no iniquity in Yisrael\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(in contrast to Yaakov)."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And moreover, this is even more so from what the verse continues, \"for you have stumbled in your iniquity,\""
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "for \"iniquity\" refers to intentional sins,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and behold, even regarding unintentional sins it is stated in Igeres HaKodesh"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "from the teaching of the Arizal"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "that unintentional sins are due to the overpowering of the Nefesh HaBahamis"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "[this being the reason for Rashi's statement in Tractate Shevuos"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "that even an unintentional sinner requires atonement],"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "and if so, behold, even the matter of unintentional sins is not relevant to the level of Yisrael,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "and all the more so the matter of \"you have stumbled in your iniquity,\""
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "intentional sins,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "and why does it say \"Shuva Yisrael\" and not \"Shuva Yaakov\"?"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "And also, one must understand what is written, \"Take words with you,\""
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "for seemingly, when it says \"Shuva Yisrael,\" the intention is for teshuvah as it should be,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "and since it is a mitzvah to confess"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "(when one does teshuvah),"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "behold, \"Shuva Yisrael\" also includes the matter of confession,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "for although the essence of teshuvah is in the heart,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "nevertheless, confession is also among the essentials of teshuvah,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "if so, what does \"Take words with you\" add?"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "And also, one must understand what is written, \"say to Him, 'Forgive all iniquity,'\""
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "for seemingly, since he has already done teshuvah"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "(\"Shuva Yisrael\"),"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "behold, certainly he is forgiven for his transgressions,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "and why is it necessary to say and request, \"Forgive all iniquity\"?"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "And also, one must understand what is written afterwards, \"and let us render the calves of our lips,\" which enumerates lofty levels"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "(first, \"Shuva Yisrael...,\""
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "and then \"Take words with you...,\""
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "and then \"say to Him...,\""
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "until it comes to \"and let us render the calves of our lips\"),"
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "that after all the preceding matters, it only comes to \"and let us render the calves of our lips,\" which is only in place of the offerings, and not the actual offerings themselves."
+          }
+        ]
+      }
+    ]
+  }
+}

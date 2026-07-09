@@ -1,0 +1,354 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 62,
+    "returned": 62,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919515_theRebbe_764\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p009\">\n  <section v=\"24\">\n    <sectionSummaryBrief>Through the revelation of the unity of Havayah and Elokim in the Third Beis HaMikdash, where even place becomes a vessel for the transcendent, a semblance of this revelation will be drawn into the entire world, primarily in the redemption after the Temple's construction, which is eternal because the world becomes a vessel for it, as explained in Likkutei Torah regarding the merit of Yaakov's attribute of truth, and similarly the ingathering of exiles will involve all six directions.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And 4)</t>\n    <t s=\"2\">And through the revelation of the unity of Havayah and Elokim</t>\n    <t s=\"3\">(in the aforementioned manner)</t>\n    <t s=\"4\">that will be in the Beis HaMikdash</t>\n    <t s=\"5\">(the third)</t>\n    <t s=\"6\">that even the place</t>\n    <t s=\"7\">(which came into being from the name Elokim)</t>\n    <t s=\"8\">is a vessel for the revelation of Havayah, which is above place,</t>\n    <t s=\"9\">a semblance of this revelation will be drawn also into the entire world.</t>\n    <t s=\"10\">And this revelation will be primarily in the redemption that follows the building of the Beis HaMikdash.</t>\n    <t s=\"11\">For the reason that the future redemption will be an eternal redemption, after which exile is impossible, is that the world will be a vessel for the redemption.</t>\n    <t s=\"12\">And as explained in Likkutei Torah69</t>\n    <t s=\"13\">that the third redemption is in the merit of Yaakov, whose attribute is the attribute of truth, in which change does not apply,</t>\n    <t s=\"14\">for the essence of the matter of bilug</t>\n    <t s=\"15\">(the attribute of truth)</t>\n    <t s=\"16\">is that the staff is a vessel for it.</t>\n    <t s=\"17\">And similarly regarding the matter of the ingathering of exiles</t>\n    <t s=\"18\">(of the redemption),</t>\n    <t s=\"19\">it will be in all six directions</t>\n    <t s=\"20\">(of place),</t>\n    <t s=\"21\">\"From the east I will bring your seed, and from the west I will gather you; I will say to the north, 'Give up,' and to the south, 'Do not withhold; bring My sons from afar, and My daughters from the ends of the earth'.\"70</t>\n    <t s=\"22\">It can be said that \"afar\" and \"ends\" correspond to the two directions of above and below.</t>\n    <t s=\"23\">And it can be said,</t>\n    <t s=\"24\">that the ingathering of the exiles from all six directions will be in a manner that the six directions assist in this.71</t>\n  </section>\n  <section v=\"25\">\n    <sectionSummaryBrief>Although the revelation drawn into the world is only a semblance of that in the Beis HaMikdash itself, there is an advantage to this drawing down, because in the Beis HaMikdash the unity of Havayah and Elokim is not as apparent from the aspect of Elokim, whereas this is revealed specifically through its extension into the world, a mundane place, explaining why the redemption follows the Temple's construction.</sectionSummaryBrief>\n    <t s=\"0\">And now, even though the revelation that will be drawn into the world will be only a semblance of the revelation in the Beis HaMikdash itself,</t>\n    <t s=\"1\">nevertheless, there is an advantage in the drawing down into the world.</t>\n    <t s=\"2\">For the unity of Havayah and Elokim in the Beis HaMikdash itself,</t>\n    <t s=\"3\">since it is not a place of the profane,</t>\n    <t s=\"4\">it is not so apparent in this that the unity of Havayah and Elokim is also from the aspect of the name Elokim,</t>\n    <t s=\"5\">and the revelation of this matter</t>\n    <t s=\"6\">(that the unity is also from the aspect of the name Elokim)</t>\n    <t s=\"7\">is primarily through the drawing of a semblance of the revelation of the Beis HaMikdash into the world,</t>\n    <t s=\"8\">a mundane place.</t>\n    <t s=\"9\">And based on this, we can explain the advantage of the redemption over the Beis HaMikdash</t>\n    <t s=\"10\">[which is why the redemption will be after the building of the Beis HaMikdash,</t>\n    <t s=\"11\">as above in section 2],</t>\n    <t s=\"12\">for the drawing down of the revelation of the Beis HaMikdash into the world will be</t>\n    <t s=\"13\">(primarily)</t>\n    <t s=\"14\">in the redemption,</t>\n    <t s=\"15\">as above.</t>\n  </section>\n  <section v=\"26\">\n    <sectionSummaryBrief>The primary revelation of the unity of Havayah and Elokim, where the unity is also from the aspect of Elokim, will be at the resurrection of the dead after the ingathering of exiles, the last of all, for the revelation in the world is limited, whereas at the resurrection, when the body's vitality comes from the Sovev, there will be both advantages—revelation of the Sovev within the body whose source is from the name Elokim.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">A)</t>\n    <t s=\"2\">And the primary revelation of the unity of Havayah and Elokim</t>\n    <t s=\"3\">(that the unity is also from the aspect of Elokim)</t>\n    <t s=\"4\">will be at the resurrection of the dead that follows the ingathering of exiles,</t>\n    <t s=\"5\">the last of them all.</t>\n    <t s=\"6\">For the revelation that will be in the world</t>\n    <t s=\"7\">(redemption from exile and ingathering of exiles)</t>\n    <t s=\"8\">is a limited revelation</t>\n    <t s=\"9\">(relative to the revelations that will be in the future),</t>\n    <t s=\"10\">and as above, it is only a semblance of the revelation of the Beis HaMikdash,</t>\n    <t s=\"11\">and at the resurrection of the dead,</t>\n    <t s=\"12\">when the vitality of the body will then be from the Sovev72</t>\n    <t s=\"13\">[higher than the vitality of the soul,</t>\n    <t s=\"14\">which is why,</t>\n    <t s=\"15\">the soul will be nourished from the body72],</t>\n    <t s=\"16\">there will be both advantages.</t>\n    <t s=\"17\">Revelation of bilug</t>\n    <t s=\"18\">(Sovev),</t>\n    <t s=\"19\">and this revelation will be in the body, whose source is73</t>\n    <t s=\"20\">from the name Elokim.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919515_theRebbe_764",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p009"
+    },
+    "sections": [
+      {
+        "v": 24,
+        "sectionSummaryBrief": "Through the revelation of the unity of Havayah and Elokim in the Third Beis HaMikdash, where even place becomes a vessel for the transcendent, a semblance of this revelation will be drawn into the entire world, primarily in the redemption after the Temple's construction, which is eternal because the world becomes a vessel for it, as explained in Likkutei Torah regarding the merit of Yaakov's attribute of truth, and similarly the ingathering of exiles will involve all six directions.",
+        "translations": [
+          {
+            "v": 24,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 24,
+            "s": 1,
+            "translation": "And 4)"
+          },
+          {
+            "v": 24,
+            "s": 2,
+            "translation": "And through the revelation of the unity of Havayah and Elokim"
+          },
+          {
+            "v": 24,
+            "s": 3,
+            "translation": "(in the aforementioned manner)"
+          },
+          {
+            "v": 24,
+            "s": 4,
+            "translation": "that will be in the Beis HaMikdash"
+          },
+          {
+            "v": 24,
+            "s": 5,
+            "translation": "(the third)"
+          },
+          {
+            "v": 24,
+            "s": 6,
+            "translation": "that even the place"
+          },
+          {
+            "v": 24,
+            "s": 7,
+            "translation": "(which came into being from the name Elokim)"
+          },
+          {
+            "v": 24,
+            "s": 8,
+            "translation": "is a vessel for the revelation of Havayah, which is above place,"
+          },
+          {
+            "v": 24,
+            "s": 9,
+            "translation": "a semblance of this revelation will be drawn also into the entire world."
+          },
+          {
+            "v": 24,
+            "s": 10,
+            "translation": "And this revelation will be primarily in the redemption that follows the building of the Beis HaMikdash."
+          },
+          {
+            "v": 24,
+            "s": 11,
+            "translation": "For the reason that the future redemption will be an eternal redemption, after which exile is impossible, is that the world will be a vessel for the redemption."
+          },
+          {
+            "v": 24,
+            "s": 12,
+            "translation": "And as explained in Likkutei Torah69"
+          },
+          {
+            "v": 24,
+            "s": 13,
+            "translation": "that the third redemption is in the merit of Yaakov, whose attribute is the attribute of truth, in which change does not apply,"
+          },
+          {
+            "v": 24,
+            "s": 14,
+            "translation": "for the essence of the matter of bilug"
+          },
+          {
+            "v": 24,
+            "s": 15,
+            "translation": "(the attribute of truth)"
+          },
+          {
+            "v": 24,
+            "s": 16,
+            "translation": "is that the staff is a vessel for it."
+          },
+          {
+            "v": 24,
+            "s": 17,
+            "translation": "And similarly regarding the matter of the ingathering of exiles"
+          },
+          {
+            "v": 24,
+            "s": 18,
+            "translation": "(of the redemption),"
+          },
+          {
+            "v": 24,
+            "s": 19,
+            "translation": "it will be in all six directions"
+          },
+          {
+            "v": 24,
+            "s": 20,
+            "translation": "(of place),"
+          },
+          {
+            "v": 24,
+            "s": 21,
+            "translation": "\"From the east I will bring your seed, and from the west I will gather you; I will say to the north, 'Give up,' and to the south, 'Do not withhold; bring My sons from afar, and My daughters from the ends of the earth'.\"70"
+          },
+          {
+            "v": 24,
+            "s": 22,
+            "translation": "It can be said that \"afar\" and \"ends\" correspond to the two directions of above and below."
+          },
+          {
+            "v": 24,
+            "s": 23,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 24,
+            "s": 24,
+            "translation": "that the ingathering of the exiles from all six directions will be in a manner that the six directions assist in this.71"
+          }
+        ]
+      },
+      {
+        "v": 25,
+        "sectionSummaryBrief": "Although the revelation drawn into the world is only a semblance of that in the Beis HaMikdash itself, there is an advantage to this drawing down, because in the Beis HaMikdash the unity of Havayah and Elokim is not as apparent from the aspect of Elokim, whereas this is revealed specifically through its extension into the world, a mundane place, explaining why the redemption follows the Temple's construction.",
+        "translations": [
+          {
+            "v": 25,
+            "s": 0,
+            "translation": "And now, even though the revelation that will be drawn into the world will be only a semblance of the revelation in the Beis HaMikdash itself,"
+          },
+          {
+            "v": 25,
+            "s": 1,
+            "translation": "nevertheless, there is an advantage in the drawing down into the world."
+          },
+          {
+            "v": 25,
+            "s": 2,
+            "translation": "For the unity of Havayah and Elokim in the Beis HaMikdash itself,"
+          },
+          {
+            "v": 25,
+            "s": 3,
+            "translation": "since it is not a place of the profane,"
+          },
+          {
+            "v": 25,
+            "s": 4,
+            "translation": "it is not so apparent in this that the unity of Havayah and Elokim is also from the aspect of the name Elokim,"
+          },
+          {
+            "v": 25,
+            "s": 5,
+            "translation": "and the revelation of this matter"
+          },
+          {
+            "v": 25,
+            "s": 6,
+            "translation": "(that the unity is also from the aspect of the name Elokim)"
+          },
+          {
+            "v": 25,
+            "s": 7,
+            "translation": "is primarily through the drawing of a semblance of the revelation of the Beis HaMikdash into the world,"
+          },
+          {
+            "v": 25,
+            "s": 8,
+            "translation": "a mundane place."
+          },
+          {
+            "v": 25,
+            "s": 9,
+            "translation": "And based on this, we can explain the advantage of the redemption over the Beis HaMikdash"
+          },
+          {
+            "v": 25,
+            "s": 10,
+            "translation": "[which is why the redemption will be after the building of the Beis HaMikdash,"
+          },
+          {
+            "v": 25,
+            "s": 11,
+            "translation": "as above in section 2],"
+          },
+          {
+            "v": 25,
+            "s": 12,
+            "translation": "for the drawing down of the revelation of the Beis HaMikdash into the world will be"
+          },
+          {
+            "v": 25,
+            "s": 13,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 25,
+            "s": 14,
+            "translation": "in the redemption,"
+          },
+          {
+            "v": 25,
+            "s": 15,
+            "translation": "as above."
+          }
+        ]
+      },
+      {
+        "v": 26,
+        "sectionSummaryBrief": "The primary revelation of the unity of Havayah and Elokim, where the unity is also from the aspect of Elokim, will be at the resurrection of the dead after the ingathering of exiles, the last of all, for the revelation in the world is limited, whereas at the resurrection, when the body's vitality comes from the Sovev, there will be both advantages—revelation of the Sovev within the body whose source is from the name Elokim.",
+        "translations": [
+          {
+            "v": 26,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 26,
+            "s": 1,
+            "translation": "A)"
+          },
+          {
+            "v": 26,
+            "s": 2,
+            "translation": "And the primary revelation of the unity of Havayah and Elokim"
+          },
+          {
+            "v": 26,
+            "s": 3,
+            "translation": "(that the unity is also from the aspect of Elokim)"
+          },
+          {
+            "v": 26,
+            "s": 4,
+            "translation": "will be at the resurrection of the dead that follows the ingathering of exiles,"
+          },
+          {
+            "v": 26,
+            "s": 5,
+            "translation": "the last of them all."
+          },
+          {
+            "v": 26,
+            "s": 6,
+            "translation": "For the revelation that will be in the world"
+          },
+          {
+            "v": 26,
+            "s": 7,
+            "translation": "(redemption from exile and ingathering of exiles)"
+          },
+          {
+            "v": 26,
+            "s": 8,
+            "translation": "is a limited revelation"
+          },
+          {
+            "v": 26,
+            "s": 9,
+            "translation": "(relative to the revelations that will be in the future),"
+          },
+          {
+            "v": 26,
+            "s": 10,
+            "translation": "and as above, it is only a semblance of the revelation of the Beis HaMikdash,"
+          },
+          {
+            "v": 26,
+            "s": 11,
+            "translation": "and at the resurrection of the dead,"
+          },
+          {
+            "v": 26,
+            "s": 12,
+            "translation": "when the vitality of the body will then be from the Sovev72"
+          },
+          {
+            "v": 26,
+            "s": 13,
+            "translation": "[higher than the vitality of the soul,"
+          },
+          {
+            "v": 26,
+            "s": 14,
+            "translation": "which is why,"
+          },
+          {
+            "v": 26,
+            "s": 15,
+            "translation": "the soul will be nourished from the body72],"
+          },
+          {
+            "v": 26,
+            "s": 16,
+            "translation": "there will be both advantages."
+          },
+          {
+            "v": 26,
+            "s": 17,
+            "translation": "Revelation of bilug"
+          },
+          {
+            "v": 26,
+            "s": 18,
+            "translation": "(Sovev),"
+          },
+          {
+            "v": 26,
+            "s": 19,
+            "translation": "and this revelation will be in the body, whose source is73"
+          },
+          {
+            "v": 26,
+            "s": 20,
+            "translation": "from the name Elokim."
+          }
+        ]
+      }
+    ]
+  }
+}

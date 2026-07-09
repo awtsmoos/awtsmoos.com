@@ -1,0 +1,133 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920519_theRebbe_475" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920519_theRebbe_475__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920519_theRebbe_475" title="מאמר אתם נצבים תשט"ז" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920519_theRebbe_475__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">ובזה יובן מ"ש ישפוט תבל בצדק,</src>
+    <src s="2">דהנה,</src>
+    <src s="3">מבואר בלקו"ת52</src>
+    <src s="4">שתבל הוא ב"פ ארי',</src>
+    <src s="5">והיינו שבאופן העבודה דארי' שהו"ע עבודת האהבה53</src>
+    <src s="6">(כללות העבודה,</src>
+    <src s="7">כמאמר54</src>
+    <src s="8">לית פולחנא כפולחנא דרחימותא)</src>
+    <src s="9">יש ב' בחינות,</src>
+    <src s="10">ובכללות הרי זה ההפרש שבין שרפים לאופנים,</src>
+    <src s="11">שהשרפים אומרים קדוש לפי שמשיגים איך שהוא ית' קדוש ומובדל מגדר עולמות ולכן הם רוצים ליכלל וליבטל אליו ית',</src>
+    <src s="12">וזהו מחמת הטעם וההשגה בגדולת אוא"ס ב"ה,</src>
+    <src s="13">אבל האופנים הם ברעש גדול מחמת העדר ההשגה.</src>
+    <src s="14">וכמו"כ ישנם ב' בחי' אלו בנש"י,</src>
+    <src s="15">יש בעלי דעה המשיגים גדולת הבורא ית',</src>
+    <src s="16">והם רוצים להכלל מחמת ההשגה</src>
+    <src s="17">(שזוהי עבודה שבבחי' ראי'),</src>
+    <src s="18">ויש בחי' המון עם שאינם משיגים כלל,</src>
+    <src s="19">ועכ"ז הם רוצים ליכלל כו',</src>
+    <src s="20">כדמיון האופנים</src>
+    <src s="21">(שזוהי עבודה שבבחי' שמיעה,</src>
+    <src s="22">קבלת עול),</src>
+    <src s="23">כי כאו"א מישראל יכול לבוא לבחי' ארי'.</src>
+    <src s="24">ולכן נאמר ישפוט תבל דוקא,</src>
+    <src s="25">כי בבחי' תבל מרומזים ב' הבחי' שבנש"י.</src>
+    <src s="26">וזהו גם מש"נ ישפוט תבל בצדק,</src>
+    <src s="27">ב' צדק,</src>
+    <src s="28">שהם ב' הבחי' דצדק,</src>
+    <src s="29">צדק דצדקה ותפלה,</src>
+    <src s="30">וצדק דתורה</src>
+    <src s="31">(כנ"ל).</src>
+  </section>
+  <section v="10">
+    <src s="0">ז)</src>
+    <src s="1">אמנם ענין המשפט</src>
+    <src s="2">(ישפוט תבל בצדק)</src>
+    <src s="3">אינו ענין של דין בלבד,</src>
+    <src s="4">אלא הכוונה היא שעי"ז יומשך גילוי אור נעלה ביותר.</src>
+    <src s="5">והענין בזה,</src>
+    <src s="6">שכללות ענין הדין למעלה הוא בשביל שעי"ז יהי' גילוי אור נעלה יותר,</src>
+    <src s="7">וכפי שמצינו גבי ר"ה וסוכות</src>
+    <src s="8">[שמרומזים בתיבת ארי'</src>
+    <src s="9">(שזהו"ע תבל,</src>
+    <src s="10">ב"פ ארי'),</src>
+    <src s="11">כידוע55</src>
+    <src s="12">שארי' ר"ת אלול ראש השנה יום הכיפורים הושענא רבה],</src>
+    <src s="13">שעז"נ56</src>
+    <src s="14">שמאלו תחת לראשי וימינו תחבקני,</src>
+    <src s="15">היינו,</src>
+    <src s="16">שבחי' שמאלו שהוא הדין דר"ה הרי זה רק בשביל להיות הגילוי דימינו תחבקני בחג הסוכות.</src>
+    <src s="17">ויתירה מזה,</src>
+    <src s="18">שלא זו בלבד שענין הדין הוא בשביל שעי"ז יהי' גילוי אור נעלה יותר,</src>
+    <src s="19">אלא שמלכתחילה אין זה ענין של דין כלל,</src>
+    <src s="20">כי אם,</src>
+    <src s="21">ע"ד שנתבאר בזהר57</src>
+    <src s="22">על הפסוק58</src>
+    <src s="23">שמים לא זכו בעיניו,</src>
+    <src s="24">שענין זה הוא למעליותא,</src>
+    <src s="25">שמפני חביבותן לכן לא זכו בעיניו,</src>
+    <src s="26">וכמשל האדם שיש לו כלי נאה או בנין נאה,</src>
+    <src s="27">שכל מה שהכלי חביב עליו יותר הוא מתקנה יותר ודומה לו שעדיין לא ניתקנה היטב וצריכה תיקון עדיין.</src>
+  </section>
+  <section v="11">
+    <src s="0">וזהו ג"כ מש"נ59</src>
+    <src s="1">והוא ישפוט תבל בצדק,</src>
+    <src s="2">והוא דייקא,</src>
+    <src s="3">וידוע מארז"ל60</src>
+    <src s="4">חמשה הוא לטובה כו' אית לן חד הוא טבא מן כולהון,</src>
+    <src s="5">הוא ה' אלקינו61,</src>
+    <src s="6">שמדת רחמיו לעולם.</src>
+    <src s="7">והענין בזה,</src>
+    <src s="8">דהנה,</src>
+    <src s="9">ענין הדין ומשפט הוא מצד שם אלקים,</src>
+    <src s="10">כמ"ש14</src>
+    <src s="11">כי המשפט לאלקים הוא,</src>
+    <src s="12">ומ"מ נאמר כאן לפני הוי' כי בא לשפוט.</src>
+    <src s="13">אך הענין הוא,</src>
+    <src s="14">כידוע שיש62</src>
+    <src s="15">ב' בחי' שמות אלקים,</src>
+    <src s="16">הא',</src>
+    <src s="17">כמ"ש63</src>
+    <src s="18">וידעת גו' כי הוי' הוא האלקים.</src>
+    <src s="19">והב',</src>
+    <src s="20">ששם הוי' בעלותו לעתיק כאלקים יחשב.</src>
+    <src s="21">וזהו מש"נ לפני הוי' כי בא לשפוט,</src>
+    <src s="22">למעלה משם הוי',</src>
+    <src s="23">והיינו לפי ששם הוי' עולה לעתיק,</src>
+    <src s="24">שלכן כאלקים יחשב,</src>
+    <src s="25">ששם הו"ע הדין ומשפט.</src>
+    <src s="26">וזהו גם מ"ש והוא ישפוט תבל בצדק,</src>
+    <src s="27">והוא דייקא,</src>
+    <src s="28">הוא דא עתיקא64,</src>
+    <src s="29">ובבחי' זו הנה גם הדין הו"ע של רחמים,</src>
+    <src s="30">היינו שענינו הוא צחצוח הכלי.</src>
+  </section>
+</awtsmoosMeluketSource>

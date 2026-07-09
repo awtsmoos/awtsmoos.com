@@ -1,0 +1,624 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 116,
+    "returned": 116,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917294_theRebbe_722\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917294_theRebbe_722__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the essence of the sacrifices and the incense offering is the service of the Mishkan, with the incense specifically involving the sense of smell which has the power to transform the side of impurity.</sectionSummaryBrief>\n    <t s=\"0\">Now, the matter of the sacrifices and the act of the incense offering is the service of the Mishkan,</t>\n    <t s=\"1\">and as explained in the maamar of the day of the Hilula, the primary service in the Mishkan and the Temple is the matter of the sacrifices</t>\n    <t s=\"2\">(which also includes the act of the incense offering),</t>\n    <t s=\"3\">and therefore the Mishkan was specifically made of acacia wood, etc.</t>\n    <t s=\"4\">(as explained there)</t>\n    <t s=\"5\">And nevertheless, \"I will dwell among them\" was fulfilled,</t>\n    <t s=\"6\">for behold, the general concept of the sacrifices is the matter of drawing near all the powers,</t>\n    <t s=\"7\">and even to the drawing near which is the secret of the sacrifice ascending to the secret of Ein Sof,</t>\n    <t s=\"8\">However, there is a distinction between ordinary sacrifices and the act of the incense offering,</t>\n    <t s=\"9\">for sacrifices are called \"eating,\" as it is stated,</t>\n    <t s=\"10\">\"My sacrifice, My food, My fire-offerings,\" etc.,</t>\n    <t s=\"11\">and therefore Israel is called \"My friend,\"</t>\n    <t s=\"12\">for the explanation of \"My friend\" is \"My sustainer\" through the two daily offerings, etc., as brought in the Midrash,</t>\n    <t s=\"13\">\"Israel sustains their Father in Heaven,\"</t>\n    <t s=\"14\">In contrast, the act of the incense offering is the matter of smell,</t>\n    <t s=\"15\">And although from the perspective of the concept of inclusion in holiness, there is also the matter of smell in the sacrifices,</t>\n    <t s=\"16\">as it is stated, \"a pleasing fragrance to the L-rd,\"</t>\n    <t s=\"17\">nevertheless, the essence of the sacrifices is the matter of eating,</t>\n    <t s=\"18\">And therefore, the place where they distinguish between the right nostril and the left nostril</t>\n    <t s=\"19\">is specifically regarding the incense,</t>\n    <t s=\"20\">because specifically with the incense, its primary concept is smell,</t>\n    <t s=\"21\">And therefore, it is specifically in the power of the incense to transform the side of impurity,</t>\n    <t s=\"22\">For behold, the sacrifices must be specifically from what is permitted to the mouth,</t>\n    <t s=\"23\">In contrast, with the incense there is also the matter of mor (myrrh), which is the concept of the side of impurity, as the Alter Rebbe explains</t>\n    <t s=\"24\">regarding the matter of \"six months with the oil of myrrh\" and \"Mordechai, pure myrrh,\"</t>\n    <t s=\"25\">And not only is the myrrh from the side of impurity,</t>\n    <t s=\"26\">but rather, each and every one of the incense spices is connected with the matter of the side of impurity,</t>\n    <t s=\"27\">for specifically in the incense there are eleven spices</t>\n    <t s=\"28\">(and if one is missing, etc.),</t>\n    <t s=\"29\">meaning that each of the incense spices is one of the eleven,</t>\n    <t s=\"30\">for eleven is the concept of the side of impurity, which is not</t>\n    <t s=\"31\">(as in holiness, where it is)</t>\n    <t s=\"32\">ten and not eleven,</t>\n    <t s=\"33\">And furthermore, these eleven spices correspond to the eleven chieftains of Esau,</t>\n    <t s=\"34\">meaning that each of the incense spices corresponds to one of the chieftains of Esau,</t>\n    <t s=\"35\">and thus each of the eleven spices is connected with the matter of the side of impurity,</t>\n    <t s=\"36\">for the concept of the incense is to transform the side of impurity into holiness,</t>\n    <t s=\"37\">and the power for this is because the incense is the matter of smell, which reaches higher than sacrifices.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the sense of smell reaches the essence of the soul and can awaken from sleep, which is why the High Priest's service on Yom Kippur was specifically with incense in the Holy of Holies, and connects this to the verse \"I am asleep but my heart is awake.\"</sectionSummaryBrief>\n    <t s=\"0\">Now, the superiority of smell is that it reaches the very essence of the soul,</t>\n    <t s=\"1\">and therefore, it is in the power of smell,</t>\n    <t s=\"2\">and specifically a strong smell,</t>\n    <t s=\"3\">to awaken from sleep,</t>\n    <t s=\"4\">for this is specifically in the power of smell and not in the power of eating,</t>\n    <t s=\"5\">and on the contrary,</t>\n    <t s=\"6\">eating causes sleep,</t>\n    <t s=\"7\">and therefore it is stated in Tractate Yoma</t>\n    <t s=\"8\">that the High Priest must minimize his eating on the eve of Yom Kippur,</t>\n    <t s=\"9\">because food brings sleep,</t>\n    <t s=\"10\">in contrast, smell awakens from sleep,</t>\n    <t s=\"11\">since it reaches the essence of the soul,</t>\n    <t s=\"12\">And this is why the service of the High Priest on Yom Kippur, once a year, was specifically with incense, which is the matter of smell,</t>\n    <t s=\"13\">For just as in a person below, smell has the power to awaken the essence of the soul,</t>\n    <t s=\"14\">so too in the Temple, the service with smell is in the Holy of Holies,</t>\n    <t s=\"15\">And although he also entered there with the blood of the sacrifices,</t>\n    <t s=\"16\">nevertheless, the primary service in the Holy of Holies was with incense,</t>\n    <t s=\"17\">and the innovation of the act of the incense on Yom Kippur is in the Holy of Holies,</t>\n    <t s=\"18\">And due to the superiority of the concept of the incense, therefore \"no man shall be in the Tent of Meeting,\" etc.,</t>\n    <t s=\"19\">and also throughout the year</t>\n    <t s=\"20\">(in Chassidus, this concept is explained regarding Yom Kippur,</t>\n    <t s=\"21\">but it is so throughout the year</t>\n    <t s=\"22\">due to the superiority of the incense),</t>\n    <t s=\"23\">for it is the matter of smell that reaches the essence of the soul,</t>\n    <t s=\"24\">And just as in the physical, it is specifically in the power of smell to awaken from sleep, so too in the spiritual, in order to awaken from sleep, it is specifically through smell,</t>\n    <t s=\"25\">Now, the concept of sleep is explained in the maamar of Purim</t>\n    <t s=\"26\">regarding the verse,</t>\n    <t s=\"27\">\"I am asleep, but my heart is awake; the voice of my Beloved knocks,\" etc.,</t>\n    <t s=\"28\">And this means that although the Congregation of Israel is asleep in exile,</t>\n    <t s=\"29\">nevertheless, since \"my heart is awake,\"</t>\n    <t s=\"30\">meaning that the Yechidah of the soul is complete and awake for each and every one,</t>\n    <t s=\"31\">therefore \"the voice of my Beloved knocks: Open for me,\"</t>\n    <t s=\"32\">in order that I may be \"my sister, my friend, my dove, my perfect one,\"</t>\n    <t s=\"33\">(And in the aforementioned maamar, this verse of \"I am asleep,\" etc., and the continuation of the verses, \"I have taken off my tunic,\" etc., are explained,</t>\n    <t s=\"34\">the explanation of which is that after \"the voice of my Beloved knocks,\")</t>\n    <t s=\"35\">the Congregation of Israel answers, \"I have taken off my tunic; how can I put it on again?\"</t>\n    <t s=\"36\">And the Rebbe Maharash and the Tzemach Tzedek bring in their notes on Shir HaShirim</t>\n    <t s=\"37\">(on the verse,</t>\n    <t s=\"38\">\"My Beloved sent forth His hand,\" etc.)</t>\n    <t s=\"39\">that in Midrash Rabbah on Shir HaShirim on the verse \"I have taken off my tunic,\" etc., it is stated,</t>\n    <t s=\"40\">that it refers to the priestly garments and the royal garments that were removed from them in exile,</t>\n    <t s=\"41\">for at first glance, the connection of the priestly garments, etc., to here is not understood,</t>\n    <t s=\"42\">and they explain,</t>\n    <t s=\"43\">that since \"I am asleep in exile and the voice of my Beloved knocks to awaken from sleep,\"</t>\n    <t s=\"44\">therefore the response to this is \"I have taken off my tunic,\"</t>\n    <t s=\"45\">for she lacks the priestly garments, etc.,</t>\n    <t s=\"46\">and therefore it is impossible for there to be the service of the sacrifices, which are called \"a pleasing fragrance to the L-rd,\"</t>\n    <t s=\"47\">and especially the act of the incense, which is the matter of smell,</t>\n    <t s=\"48\">and smell awakens from sleep,</t>\n    <t s=\"49\">and since \"I have taken off my priestly garments\" and there is no fragrance of the sacrifices and the incense,</t>\n    <t s=\"50\">therefore \"how can I put it on again\" to be aroused to the level of \"my sister, my friend,\" etc.,</t>\n    <t s=\"51\">And to this, the Holy Spirit responds in the name of the Holy One, blessed be He, \"I have washed my feet; how can I soil them?\"</t>\n    <t s=\"52\">For the Holy Temple is called</t>\n    <t s=\"53\">the \"footstool\" of the Holy One, blessed be He,</t>\n    <t s=\"54\">and in the Holy Temple was the indwelling of the Shechinah,</t>\n    <t s=\"55\">as it is stated,</t>\n    <t s=\"56\">\"Behold, the heavens and the heavens of heavens cannot contain You, how much less this house,\"</t>\n    <t s=\"57\">which is a standing question,</t>\n    <t s=\"58\">but after \"I have washed my feet,\"</t>\n    <t s=\"59\">meaning, I have washed Myself from being clothed in the Holy Temple,</t>\n    <t s=\"60\">therefore \"how can I,\" etc.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that while prayer substitutes for sacrifices and incense in exile, it only draws down into the internality of the worlds, whereas the actual sacrifices and commandments draw down into the externality of the worlds, which is why the Congregation of Israel laments the loss of the priestly garments.</sectionSummaryBrief>\n    <t s=\"0\">And although even in the time of exile there is the matter of the sacrifices of prayer, for \"they instituted prayers corresponding to the sacrifices,\"</t>\n    <t s=\"1\">and likewise there is also the matter of the incense now,</t>\n    <t s=\"2\">which is the concept of the Minchah prayer,</t>\n    <t s=\"3\">which is called the \"Minchah offering of incense,\"</t>\n    <t s=\"4\">and as explained in the discourses that elucidate the superiority of the Minchah prayer over the other prayers,</t>\n    <t s=\"5\">and even Elijah was not answered except during the Minchah prayer,</t>\n    <t s=\"6\">as stated in the Haftarah of this Shabbos,</t>\n    <t s=\"7\">However, the drawing down that comes through prayer is only in the internality of the worlds,</t>\n    <t s=\"8\">and it is known that the drawing down must also be in the externality of the worlds, as explained regarding the matter of Torah, that it must be \"to those who bring it forth\" by mouth</t>\n    <t s=\"9\">specifically,</t>\n    <t s=\"10\">and as the Alter Rebbe elaborates in Tanya,</t>\n    <t s=\"11\">and likewise with mitzvos, it must be specifically the action of the mitzvos,</t>\n    <t s=\"12\">to the extent that the entire concept of Torah and mitzvos is specifically below in this physical world, for \"you descended to Egypt,\"</t>\n    <t s=\"13\">And with sacrifices, indeed it is so, that through them there is a revelation of the drawing down also in the externality of the worlds,</t>\n    <t s=\"14\">in contrast, through the prayers that \"they instituted in place of the sacrifices,\" the drawing down is only in the internality of the worlds,</t>\n    <t s=\"15\">And because through the mitzvos the drawing down is in the externality of the worlds,</t>\n    <t s=\"16\">therefore the Congregation of Israel answers, \"I have taken off my tunic,\" etc.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917294_theRebbe_722",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917294_theRebbe_722__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the essence of the sacrifices and the incense offering is the service of the Mishkan, with the incense specifically involving the sense of smell which has the power to transform the side of impurity.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "Now, the matter of the sacrifices and the act of the incense offering is the service of the Mishkan,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "and as explained in the maamar of the day of the Hilula, the primary service in the Mishkan and the Temple is the matter of the sacrifices"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(which also includes the act of the incense offering),"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "and therefore the Mishkan was specifically made of acacia wood, etc."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "(as explained there)"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "And nevertheless, \"I will dwell among them\" was fulfilled,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "for behold, the general concept of the sacrifices is the matter of drawing near all the powers,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "and even to the drawing near which is the secret of the sacrifice ascending to the secret of Ein Sof,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "However, there is a distinction between ordinary sacrifices and the act of the incense offering,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "for sacrifices are called \"eating,\" as it is stated,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "\"My sacrifice, My food, My fire-offerings,\" etc.,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "and therefore Israel is called \"My friend,\""
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "for the explanation of \"My friend\" is \"My sustainer\" through the two daily offerings, etc., as brought in the Midrash,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "\"Israel sustains their Father in Heaven,\""
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "In contrast, the act of the incense offering is the matter of smell,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "And although from the perspective of the concept of inclusion in holiness, there is also the matter of smell in the sacrifices,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "as it is stated, \"a pleasing fragrance to the L-rd,\""
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "nevertheless, the essence of the sacrifices is the matter of eating,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "And therefore, the place where they distinguish between the right nostril and the left nostril"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "is specifically regarding the incense,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "because specifically with the incense, its primary concept is smell,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "And therefore, it is specifically in the power of the incense to transform the side of impurity,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "For behold, the sacrifices must be specifically from what is permitted to the mouth,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "In contrast, with the incense there is also the matter of mor (myrrh), which is the concept of the side of impurity, as the Alter Rebbe explains"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "regarding the matter of \"six months with the oil of myrrh\" and \"Mordechai, pure myrrh,\""
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "And not only is the myrrh from the side of impurity,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "but rather, each and every one of the incense spices is connected with the matter of the side of impurity,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "for specifically in the incense there are eleven spices"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "(and if one is missing, etc.),"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "meaning that each of the incense spices is one of the eleven,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "for eleven is the concept of the side of impurity, which is not"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "(as in holiness, where it is)"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "ten and not eleven,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "And furthermore, these eleven spices correspond to the eleven chieftains of Esau,"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "meaning that each of the incense spices corresponds to one of the chieftains of Esau,"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "and thus each of the eleven spices is connected with the matter of the side of impurity,"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "for the concept of the incense is to transform the side of impurity into holiness,"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "and the power for this is because the incense is the matter of smell, which reaches higher than sacrifices."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the sense of smell reaches the essence of the soul and can awaken from sleep, which is why the High Priest's service on Yom Kippur was specifically with incense in the Holy of Holies, and connects this to the verse \"I am asleep but my heart is awake.\"",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "Now, the superiority of smell is that it reaches the very essence of the soul,"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "and therefore, it is in the power of smell,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "and specifically a strong smell,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "to awaken from sleep,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "for this is specifically in the power of smell and not in the power of eating,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "eating causes sleep,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "and therefore it is stated in Tractate Yoma"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "that the High Priest must minimize his eating on the eve of Yom Kippur,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "because food brings sleep,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "in contrast, smell awakens from sleep,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "since it reaches the essence of the soul,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And this is why the service of the High Priest on Yom Kippur, once a year, was specifically with incense, which is the matter of smell,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "For just as in a person below, smell has the power to awaken the essence of the soul,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "so too in the Temple, the service with smell is in the Holy of Holies,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "And although he also entered there with the blood of the sacrifices,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "nevertheless, the primary service in the Holy of Holies was with incense,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "and the innovation of the act of the incense on Yom Kippur is in the Holy of Holies,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "And due to the superiority of the concept of the incense, therefore \"no man shall be in the Tent of Meeting,\" etc.,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "and also throughout the year"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "(in Chassidus, this concept is explained regarding Yom Kippur,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "but it is so throughout the year"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "due to the superiority of the incense),"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "for it is the matter of smell that reaches the essence of the soul,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "And just as in the physical, it is specifically in the power of smell to awaken from sleep, so too in the spiritual, in order to awaken from sleep, it is specifically through smell,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "Now, the concept of sleep is explained in the maamar of Purim"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "regarding the verse,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "\"I am asleep, but my heart is awake; the voice of my Beloved knocks,\" etc.,"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "And this means that although the Congregation of Israel is asleep in exile,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "nevertheless, since \"my heart is awake,\""
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "meaning that the Yechidah of the soul is complete and awake for each and every one,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "therefore \"the voice of my Beloved knocks: Open for me,\""
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "in order that I may be \"my sister, my friend, my dove, my perfect one,\""
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "(And in the aforementioned maamar, this verse of \"I am asleep,\" etc., and the continuation of the verses, \"I have taken off my tunic,\" etc., are explained,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "the explanation of which is that after \"the voice of my Beloved knocks,\")"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "the Congregation of Israel answers, \"I have taken off my tunic; how can I put it on again?\""
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "And the Rebbe Maharash and the Tzemach Tzedek bring in their notes on Shir HaShirim"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "(on the verse,"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "\"My Beloved sent forth His hand,\" etc.)"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "that in Midrash Rabbah on Shir HaShirim on the verse \"I have taken off my tunic,\" etc., it is stated,"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "that it refers to the priestly garments and the royal garments that were removed from them in exile,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "for at first glance, the connection of the priestly garments, etc., to here is not understood,"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "and they explain,"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "that since \"I am asleep in exile and the voice of my Beloved knocks to awaken from sleep,\""
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "therefore the response to this is \"I have taken off my tunic,\""
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "for she lacks the priestly garments, etc.,"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "and therefore it is impossible for there to be the service of the sacrifices, which are called \"a pleasing fragrance to the L-rd,\""
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "and especially the act of the incense, which is the matter of smell,"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "and smell awakens from sleep,"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "and since \"I have taken off my priestly garments\" and there is no fragrance of the sacrifices and the incense,"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "therefore \"how can I put it on again\" to be aroused to the level of \"my sister, my friend,\" etc.,"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "And to this, the Holy Spirit responds in the name of the Holy One, blessed be He, \"I have washed my feet; how can I soil them?\""
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "For the Holy Temple is called"
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "the \"footstool\" of the Holy One, blessed be He,"
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "and in the Holy Temple was the indwelling of the Shechinah,"
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "\"Behold, the heavens and the heavens of heavens cannot contain You, how much less this house,\""
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "which is a standing question,"
+          },
+          {
+            "v": 4,
+            "s": 58,
+            "translation": "but after \"I have washed my feet,\""
+          },
+          {
+            "v": 4,
+            "s": 59,
+            "translation": "meaning, I have washed Myself from being clothed in the Holy Temple,"
+          },
+          {
+            "v": 4,
+            "s": 60,
+            "translation": "therefore \"how can I,\" etc."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that while prayer substitutes for sacrifices and incense in exile, it only draws down into the internality of the worlds, whereas the actual sacrifices and commandments draw down into the externality of the worlds, which is why the Congregation of Israel laments the loss of the priestly garments.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And although even in the time of exile there is the matter of the sacrifices of prayer, for \"they instituted prayers corresponding to the sacrifices,\""
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "and likewise there is also the matter of the incense now,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "which is the concept of the Minchah prayer,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "which is called the \"Minchah offering of incense,\""
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "and as explained in the discourses that elucidate the superiority of the Minchah prayer over the other prayers,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "and even Elijah was not answered except during the Minchah prayer,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "as stated in the Haftarah of this Shabbos,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "However, the drawing down that comes through prayer is only in the internality of the worlds,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "and it is known that the drawing down must also be in the externality of the worlds, as explained regarding the matter of Torah, that it must be \"to those who bring it forth\" by mouth"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "specifically,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "and as the Alter Rebbe elaborates in Tanya,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "and likewise with mitzvos, it must be specifically the action of the mitzvos,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "to the extent that the entire concept of Torah and mitzvos is specifically below in this physical world, for \"you descended to Egypt,\""
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "And with sacrifices, indeed it is so, that through them there is a revelation of the drawing down also in the externality of the worlds,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "in contrast, through the prayers that \"they instituted in place of the sacrifices,\" the drawing down is only in the internality of the worlds,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "And because through the mitzvos the drawing down is in the externality of the worlds,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "therefore the Congregation of Israel answers, \"I have taken off my tunic,\" etc."
+          }
+        ]
+      }
+    ]
+  }
+}

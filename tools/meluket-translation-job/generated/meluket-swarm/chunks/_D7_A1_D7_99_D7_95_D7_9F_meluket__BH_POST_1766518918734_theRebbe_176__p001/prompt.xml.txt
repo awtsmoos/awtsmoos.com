@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918734_theRebbe_176" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918734_theRebbe_176" title="מאמר וידבר אלוקים את כל הדברים האלה תשכ"ח" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ב' דחג השבועות ה'תשכ"ח</src>
+  </section>
+  <section v="1">
+    <src s="0">וידבר אלקים את כל הדברים האלה לאמר אנכי גו'1,</src>
+    <src s="1">ומדייק אדמו"ר הזקן2</src>
+    <src s="2">מהו אומרו את כל הדברים האלה,</src>
+    <src s="3">דלכאורה הול"ל וידבר אלקים אנכי גו'.</src>
+    <src s="4">ומבאר,</src>
+    <src s="5">דכל הדברים האלה קאי3</src>
+    <src s="6">על כל התורה כולה,</src>
+    <src s="7">כולל כל מה שתלמיד ותיק עתיד לחדש וכו'4.</src>
+    <src s="8">וזהו וידבר אלקים את כל הדברים האלה,</src>
+    <src s="9">דבעשרת הדברות</src>
+    <src s="10">(אנכי וגו')</src>
+    <src s="11">נכלל כל התורה כולה</src>
+    <src s="12">(כל הדברים האלה).</src>
+    <src s="13">ויש לקשר זה עם פירוש רש"י עה"פ5,</src>
+    <src s="14">דמ"ש את כל הדברים האלה</src>
+    <src s="15">(קודם לאנכי גו')</src>
+    <src s="16">הוא ללמד שכל עשרת הדברות נאמרו</src>
+    <src s="17">(תחילה)</src>
+    <src s="18">בדיבור אחד,</src>
+    <src s="19">ואח"כ חזר ופירש כל דיבור ודיבור בפ"ע,</src>
+    <src s="20">דתוכנם של שני הפירושים הוא,</src>
+    <src s="21">שנתינת התורה היתה בדרך כלל ופרט.</src>
+    <src s="22">אלא שלפי פירוש רש"י מדבר הכתוב בעשרת הדברות עצמם,</src>
+    <src s="23">שמתחילה נאמרו בבחינת כלל</src>
+    <src s="24">(דיבור אחד)</src>
+    <src s="25">ואח"כ נפרטו כל דיבור ודיבור בפ"ע,</src>
+    <src s="26">ולפי פירוש אדמו"ר הזקן מדבר הכתוב בהפרטים דתורה,</src>
+    <src s="27">שגם הם ניתנו תחילה בבחינת כלל,</src>
+    <src s="28">בעשרת הדברות,</src>
+    <src s="29">ואח"כ נפרטו ונמשכו בגילוי.</src>
+    <src s="30">ויש להוסיף,</src>
+    <src s="31">שגם זה גופא</src>
+    <src s="32">(הפירוט והגילוי דעשרת הדברות)</src>
+    <src s="33">הי' באופן דכלל ופרט.</src>
+    <src s="34">דתחילת ההמשכה והפירוט דעשרת הדברות הוא בתורה שבכתב,</src>
+    <src s="35">ואח"כ נפרט בפרטיות יותר בתורה שבעל פה,</src>
+    <src s="36">דכל התורה שבעל פה היא פירוש6</src>
+    <src s="37">וביאור דתורה שבכתב7</src>
+    <src s="38">(מנא הני מילי אמר קרא),</src>
+    <src s="39">והתורה שבעל פה גופא היא ג"כ באופן דכלל ופרט,</src>
+    <src s="40">משנה ברייתא8</src>
+    <src s="41">גמרא וכו' עד כל מה שתלמיד ותיק עתיד לחדש.</src>
+    <src s="42">וצריך להבין9,</src>
+    <src s="43">מכיון שכל הפרטים דתורה,</src>
+    <src s="44">עד לכל מה שתלמיד ותיק עתיד לחדש,</src>
+    <src s="45">הכל ניתן למשה בסיני4,</src>
+    <src s="46">למה לא ניתנו מלכתחילה באופן גלוי,</src>
+    <src s="47">ומדוע ניתנו תחילה בבחינת כלל.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה10</src>
+    <src s="2">ממה שמצינו עד"ז גם בבריאת העולם</src>
+    <src s="3">(אסתכל באורייתא וברא עלמא11),</src>
+    <src s="4">שהיתה באופן דכלל ופרט.</src>
+    <src s="5">דאמרו רז"ל12</src>
+    <src s="6">בעשרה מאמרות נברא העולם כו' במאמר אחד יכול להבראות,</src>
+    <src s="7">וידוע13</src>
+    <src s="8">דמאמר אחד הוא המאמר דבראשית</src>
+    <src s="9">(בראשית נמי מאמר הוא14),</src>
+    <src s="10">שהוא מאמר כללי שכולל ט' המאמרות שלאחריו.</src>
+    <src s="11">דזהו מ"ש15</src>
+    <src s="12">בראשית ברא אלקים את השמים ואת הארץ וארז"ל16</src>
+    <src s="13">את השמים לרבות צבאיהם ואת הארץ לרבות צבאי',</src>
+    <src s="14">שכל הנבראים נתהוו מהמאמר דבראשית</src>
+    <src s="15">(להיותו מאמר כללי שכולל את כל המאמרות).</src>
+    <src s="16">אלא שהיו בבחינת כלל17,</src>
+    <src s="17">ואח"כ נפרט המאמר דבראשית בהט' מאמרות שלאחריו18,</src>
+    <src s="18">ועי"ז נעשו הנבראים בבחינת התחלקות פרטים.</src>
+  </section>
+</awtsmoosMeluketSource>

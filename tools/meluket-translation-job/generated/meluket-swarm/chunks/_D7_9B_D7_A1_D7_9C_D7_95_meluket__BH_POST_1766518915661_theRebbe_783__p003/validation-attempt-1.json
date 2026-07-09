@@ -1,0 +1,644 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 120,
+    "returned": 120,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915661_theRebbe_783\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>The continuation of the maamar explains that the flow through the blessing of \"Your pious ones\" is like the flow through Torah, which brings about a change and innovation in the world automatically, without effort, as in the example of Rashbi bringing rain through Torah study.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And it continues in the maamar,</t>\n    <t s=\"2\">that the flow that is through the blessing of \"Your pious ones\" is in the manner of the flow that is through Torah.</t>\n    <t s=\"3\">For through Torah, a change and innovation is made in the world</t>\n    <t s=\"4\">[meaning, a new thing is made that did not exist even in the root and source of the world],</t>\n    <t s=\"5\">and the change and innovation is</t>\n    <t s=\"6\">(not in the way of a request,</t>\n    <t s=\"7\">as in prayer, but rather)</t>\n    <t s=\"8\">in a spontaneous manner.</t>\n    <t s=\"9\">And like Rashbi, who brought down rainfall through his Torah study19,</t>\n    <t s=\"10\">for in order for there to be rainfall after it had been decreed that there would be a cessation of rain,</t>\n    <t s=\"11\">it is through drawing down a new will,</t>\n    <t s=\"12\">and nevertheless, through Torah study,</t>\n    <t s=\"13\">the flow was in a spontaneous manner,</t>\n    <t s=\"14\">without labor and exertion.</t>\n    <t s=\"15\">And it can be said,</t>\n    <t s=\"16\">that what is stated in the maamar, that the flow through the blessing of \"Your pious ones\" is like the flow through Torah,</t>\n    <t s=\"17\">is not only to bring an example of a flow that has both virtues</t>\n    <t s=\"18\">(of prayer and of blessing)</t>\n    <t s=\"19\">but also because through this example, additional elucidation is added regarding the superiority of \"Your pious ones will bless You.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This explains that the Torah study of the Tannaim and Amoraim brought about a true innovation in the world through a command, while Rashbi's innovation was that the rain came through Torah study alone without any explicit command.</sectionSummaryBrief>\n    <t s=\"0\">And the concept is,</t>\n    <t s=\"1\">that it is explained in Likkutei Torah20</t>\n    <t s=\"2\">regarding the awesome miracles performed by several Tannaim and Amoraim,</t>\n    <t s=\"3\">like Rebbe Pinchas ben Yair who said, \"Ginnai River, split your waters for me\"21,</t>\n    <t s=\"4\">for through their Torah study they drew down a revelation of the Ein Sof that is above the chain of descent.</t>\n    <t s=\"5\">And based on this,</t>\n    <t s=\"6\">also in the flow through the Torah study of all the Tannaim and Amoraim, there were two matters</t>\n    <t s=\"7\">(virtues)</t>\n    <t s=\"8\">mentioned above.</t>\n    <t s=\"9\">That through their Torah study, a change and innovation was made in the world</t>\n    <t s=\"10\">[a true innovation that did not exist even in the root and source of the world22],</t>\n    <t s=\"11\">and like the splitting of the river,</t>\n    <t s=\"12\">which is a change and innovation even relative to its root and source of the river23</t>\n    <t s=\"13\">— the virtue of prayer,</t>\n    <t s=\"14\">and that the change was made</t>\n    <t s=\"15\">(not through a request,</t>\n    <t s=\"16\">but rather)</t>\n    <t s=\"17\">through the command of Rebbe Pinchas ben Yair — the virtue of blessing, which is in the manner of a command.</t>\n    <t s=\"18\">And it can be said,</t>\n    <t s=\"19\">that the innovation in this, that Rashbi brought down rainfall through his Torah study, relative to the awesome miracles performed by several Tannaim and Amoraim through their Torah study, is24,</t>\n    <t s=\"20\">that the change in the world that all the Tannaim and Amoraim made was through their command and decree,</t>\n    <t s=\"21\">like Rebbe Pinchas ben Yair who commanded and decreed upon the river to split its waters,</t>\n    <t s=\"22\">and the innovation of bringing rain through the Torah study of Rashbi is,</t>\n    <t s=\"23\">that although in the discourse he said there was no command at all</t>\n    <t s=\"24\">(not even a hint),</t>\n    <t s=\"25\">nevertheless,</t>\n    <t s=\"26\">through his Torah study, rainfall occurred.</t>\n    <t s=\"27\">And based on this it can be said,</t>\n    <t s=\"28\">that this that the maamar brings the example of rainfall through Torah study is in order to hint that in this manner is the flow through the blessing of \"Your pious ones will bless You\"</t>\n    <t s=\"29\">(as will be explained in section 12).</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>The maamar explains the connection of \"they will bless You\" (the flow into Malchus from the Ein Sof) to \"Your pious ones,\" based on the Rambam's distinction between tzedakah (giving what is due) and chesed (giving beyond what is due), where chesed corresponds to drawing down a new light of Atik into Malchus.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the maamar explains the connection of \"they will bless You\"</t>\n    <t s=\"2\">[the flow into Malchus</t>\n    <t s=\"3\">(You)</t>\n    <t s=\"4\">from the Ein Sof that is above the chain of descent]</t>\n    <t s=\"5\">to \"Your pious ones,\"</t>\n    <t s=\"6\">based on what the Rambam wrote25</t>\n    <t s=\"7\">the distinction between chesed and tzedakah,</t>\n    <t s=\"8\">that tzedakah is the matter of fairness</t>\n    <t s=\"9\">(tzedakah from the word tzedek and fairness)</t>\n    <t s=\"10\">to give each one according to what is fitting for him,</t>\n    <t s=\"11\">and chesed is an abundance of good, to do good more than he is worthy.</t>\n    <t s=\"12\">And the maamar brings,</t>\n    <t s=\"13\">that what the Rambam said, that tzedakah is the influence to each one according to what is fitting for him, is as it is written</t>\n    <t s=\"14\">(regarding the commandment of tzedakah26)</t>\n    <t s=\"15\">\"enough for his lack that he lacks,\"</t>\n    <t s=\"16\">and our Sages said27</t>\n    <t s=\"17\">\"enough for his lack\" — and you are not commanded to enrich him.</t>\n    <t s=\"18\">And chesed</t>\n    <t s=\"19\">[which is an abundance of good, to do good more than he is worthy]</t>\n    <t s=\"20\">is an influence in abundance</t>\n    <t s=\"21\">(above filling the lack),</t>\n    <t s=\"22\">wealth.</t>\n    <t s=\"23\">And likewise above, in the flow into the Sefirah of Malchus,</t>\n    <t s=\"24\">that the matter of tzedakah is the drawing down of the revelation that pertains to Malchus,</t>\n    <t s=\"25\">through which its lack is filled.</t>\n    <t s=\"26\">[And as is known28</t>\n    <t s=\"27\">regarding the matter of \"You have made the heavens etc.\"29,</t>\n    <t s=\"28\">\"You\" lacks the letter Hei,</t>\n    <t s=\"29\">that this that Malchus becomes a source to bring forth the worlds</t>\n    <t s=\"30\">(\"You have made the heavens etc.\")</t>\n    <t s=\"31\">is through that five partzufim were lacking from it</t>\n    <t s=\"32\">(Keter,</t>\n    <t s=\"33\">Chochmah,</t>\n    <t s=\"34\">Binah,</t>\n    <t s=\"35\">Zeir Anpin and Malchus,</t>\n    <t s=\"36\">and that which remains is only the externality of Malchus,</t>\n    <t s=\"37\">Malchus of Malchus)].</t>\n    <t s=\"38\">And the matter of chesed is the drawing down of a revelation of light that is above any connection to Malchus, drawn into Malchus.</t>\n    <t s=\"39\">And this is what our Sages said30</t>\n    <t s=\"40\">\"Who is a pious one? One who acts piously with his Maker,\"</t>\n    <t s=\"41\">and it is explained in the Tikunim31,</t>\n    <t s=\"42\">\"with his Maker\" — with his nest,</t>\n    <t s=\"43\">\"his Maker\" is Zeir Anpin</t>\n    <t s=\"44\">(for Atzilus is called a possession32,</t>\n    <t s=\"45\">and Zeir Anpin is the end of Atzilus33),</t>\n    <t s=\"46\">and \"his nest\" is Malchus</t>\n    <t s=\"47\">(as stated in Pardes34</t>\n    <t s=\"48\">that Malchus is called a nest),</t>\n    <t s=\"49\">and the matter of \"acting piously with his nest\" is that he draws into Malchus a revelation of a new light</t>\n    <t s=\"50\">(above the light that was removed from it),</t>\n    <t s=\"51\">wealth.</t>\n    <t s=\"52\">And in the matter of the Sefiros, it is the innerness of Keter,</t>\n    <t s=\"53\">Atik.</t>\n    <t s=\"54\">For the flow of the externality of Keter,</t>\n    <t s=\"55\">Arich,</t>\n    <t s=\"56\">is included in filling the lack35.</t>\n    <t s=\"57\">For since Arich is the root and source of the emanated beings, except that it encompasses them</t>\n    <t s=\"58\">(Sovev),</t>\n    <t s=\"59\">it is included in the light that pertains to the worlds</t>\n    <t s=\"60\">(Malchus),</t>\n    <t s=\"61\">therefore,</t>\n    <t s=\"62\">when this light is not revealed in Malchus,</t>\n    <t s=\"63\">Malchus is lacking,</t>\n    <t s=\"64\">and when it is drawn and revealed,</t>\n    <t s=\"65\">the lack is filled36.</t>\n    <t s=\"66\">And Atik is the lower level of the Emanator,</t>\n    <t s=\"67\">the Ein Sof that is above any connection to the worlds</t>\n    <t s=\"68\">(above even a connection in the manner of Sovev and encompassing),</t>\n    <t s=\"69\">wealth36.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915661_theRebbe_783",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "The continuation of the maamar explains that the flow through the blessing of \"Your pious ones\" is like the flow through Torah, which brings about a change and innovation in the world automatically, without effort, as in the example of Rashbi bringing rain through Torah study.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And it continues in the maamar,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that the flow that is through the blessing of \"Your pious ones\" is in the manner of the flow that is through Torah."
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "For through Torah, a change and innovation is made in the world"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "[meaning, a new thing is made that did not exist even in the root and source of the world],"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "and the change and innovation is"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "(not in the way of a request,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "as in prayer, but rather)"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "in a spontaneous manner."
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "And like Rashbi, who brought down rainfall through his Torah study19,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "for in order for there to be rainfall after it had been decreed that there would be a cessation of rain,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "it is through drawing down a new will,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "and nevertheless, through Torah study,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "the flow was in a spontaneous manner,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "without labor and exertion."
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "that what is stated in the maamar, that the flow through the blessing of \"Your pious ones\" is like the flow through Torah,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "is not only to bring an example of a flow that has both virtues"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "(of prayer and of blessing)"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "but also because through this example, additional elucidation is added regarding the superiority of \"Your pious ones will bless You.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This explains that the Torah study of the Tannaim and Amoraim brought about a true innovation in the world through a command, while Rashbi's innovation was that the rain came through Torah study alone without any explicit command.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And the concept is,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "that it is explained in Likkutei Torah20"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "regarding the awesome miracles performed by several Tannaim and Amoraim,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "like Rebbe Pinchas ben Yair who said, \"Ginnai River, split your waters for me\"21,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "for through their Torah study they drew down a revelation of the Ein Sof that is above the chain of descent."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "And based on this,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "also in the flow through the Torah study of all the Tannaim and Amoraim, there were two matters"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "(virtues)"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "mentioned above."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "That through their Torah study, a change and innovation was made in the world"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "[a true innovation that did not exist even in the root and source of the world22],"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "and like the splitting of the river,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "which is a change and innovation even relative to its root and source of the river23"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "— the virtue of prayer,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "and that the change was made"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "(not through a request,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "but rather)"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "through the command of Rebbe Pinchas ben Yair — the virtue of blessing, which is in the manner of a command."
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "that the innovation in this, that Rashbi brought down rainfall through his Torah study, relative to the awesome miracles performed by several Tannaim and Amoraim through their Torah study, is24,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "that the change in the world that all the Tannaim and Amoraim made was through their command and decree,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "like Rebbe Pinchas ben Yair who commanded and decreed upon the river to split its waters,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "and the innovation of bringing rain through the Torah study of Rashbi is,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "that although in the discourse he said there was no command at all"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "(not even a hint),"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "through his Torah study, rainfall occurred."
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "And based on this it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "that this that the maamar brings the example of rainfall through Torah study is in order to hint that in this manner is the flow through the blessing of \"Your pious ones will bless You\""
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "(as will be explained in section 12)."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "The maamar explains the connection of \"they will bless You\" (the flow into Malchus from the Ein Sof) to \"Your pious ones,\" based on the Rambam's distinction between tzedakah (giving what is due) and chesed (giving beyond what is due), where chesed corresponds to drawing down a new light of Atik into Malchus.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And the maamar explains the connection of \"they will bless You\""
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "[the flow into Malchus"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(You)"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "from the Ein Sof that is above the chain of descent]"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "to \"Your pious ones,\""
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "based on what the Rambam wrote25"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "the distinction between chesed and tzedakah,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "that tzedakah is the matter of fairness"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "(tzedakah from the word tzedek and fairness)"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "to give each one according to what is fitting for him,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "and chesed is an abundance of good, to do good more than he is worthy."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "And the maamar brings,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "that what the Rambam said, that tzedakah is the influence to each one according to what is fitting for him, is as it is written"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "(regarding the commandment of tzedakah26)"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "\"enough for his lack that he lacks,\""
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "and our Sages said27"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "\"enough for his lack\" — and you are not commanded to enrich him."
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "And chesed"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "[which is an abundance of good, to do good more than he is worthy]"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "is an influence in abundance"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "(above filling the lack),"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "wealth."
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "And likewise above, in the flow into the Sefirah of Malchus,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "that the matter of tzedakah is the drawing down of the revelation that pertains to Malchus,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "through which its lack is filled."
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "[And as is known28"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "regarding the matter of \"You have made the heavens etc.\"29,"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "\"You\" lacks the letter Hei,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "that this that Malchus becomes a source to bring forth the worlds"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "(\"You have made the heavens etc.\")"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "is through that five partzufim were lacking from it"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "(Keter,"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "Chochmah,"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "Binah,"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "Zeir Anpin and Malchus,"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "and that which remains is only the externality of Malchus,"
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "Malchus of Malchus)]."
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "And the matter of chesed is the drawing down of a revelation of light that is above any connection to Malchus, drawn into Malchus."
+          },
+          {
+            "v": 8,
+            "s": 39,
+            "translation": "And this is what our Sages said30"
+          },
+          {
+            "v": 8,
+            "s": 40,
+            "translation": "\"Who is a pious one? One who acts piously with his Maker,\""
+          },
+          {
+            "v": 8,
+            "s": 41,
+            "translation": "and it is explained in the Tikunim31,"
+          },
+          {
+            "v": 8,
+            "s": 42,
+            "translation": "\"with his Maker\" — with his nest,"
+          },
+          {
+            "v": 8,
+            "s": 43,
+            "translation": "\"his Maker\" is Zeir Anpin"
+          },
+          {
+            "v": 8,
+            "s": 44,
+            "translation": "(for Atzilus is called a possession32,"
+          },
+          {
+            "v": 8,
+            "s": 45,
+            "translation": "and Zeir Anpin is the end of Atzilus33),"
+          },
+          {
+            "v": 8,
+            "s": 46,
+            "translation": "and \"his nest\" is Malchus"
+          },
+          {
+            "v": 8,
+            "s": 47,
+            "translation": "(as stated in Pardes34"
+          },
+          {
+            "v": 8,
+            "s": 48,
+            "translation": "that Malchus is called a nest),"
+          },
+          {
+            "v": 8,
+            "s": 49,
+            "translation": "and the matter of \"acting piously with his nest\" is that he draws into Malchus a revelation of a new light"
+          },
+          {
+            "v": 8,
+            "s": 50,
+            "translation": "(above the light that was removed from it),"
+          },
+          {
+            "v": 8,
+            "s": 51,
+            "translation": "wealth."
+          },
+          {
+            "v": 8,
+            "s": 52,
+            "translation": "And in the matter of the Sefiros, it is the innerness of Keter,"
+          },
+          {
+            "v": 8,
+            "s": 53,
+            "translation": "Atik."
+          },
+          {
+            "v": 8,
+            "s": 54,
+            "translation": "For the flow of the externality of Keter,"
+          },
+          {
+            "v": 8,
+            "s": 55,
+            "translation": "Arich,"
+          },
+          {
+            "v": 8,
+            "s": 56,
+            "translation": "is included in filling the lack35."
+          },
+          {
+            "v": 8,
+            "s": 57,
+            "translation": "For since Arich is the root and source of the emanated beings, except that it encompasses them"
+          },
+          {
+            "v": 8,
+            "s": 58,
+            "translation": "(Sovev),"
+          },
+          {
+            "v": 8,
+            "s": 59,
+            "translation": "it is included in the light that pertains to the worlds"
+          },
+          {
+            "v": 8,
+            "s": 60,
+            "translation": "(Malchus),"
+          },
+          {
+            "v": 8,
+            "s": 61,
+            "translation": "therefore,"
+          },
+          {
+            "v": 8,
+            "s": 62,
+            "translation": "when this light is not revealed in Malchus,"
+          },
+          {
+            "v": 8,
+            "s": 63,
+            "translation": "Malchus is lacking,"
+          },
+          {
+            "v": 8,
+            "s": 64,
+            "translation": "and when it is drawn and revealed,"
+          },
+          {
+            "v": 8,
+            "s": 65,
+            "translation": "the lack is filled36."
+          },
+          {
+            "v": 8,
+            "s": 66,
+            "translation": "And Atik is the lower level of the Emanator,"
+          },
+          {
+            "v": 8,
+            "s": 67,
+            "translation": "the Ein Sof that is above any connection to the worlds"
+          },
+          {
+            "v": 8,
+            "s": 68,
+            "translation": "(above even a connection in the manner of Sovev and encompassing),"
+          },
+          {
+            "v": 8,
+            "s": 69,
+            "translation": "wealth36."
+          }
+        ]
+      }
+    ]
+  }
+}

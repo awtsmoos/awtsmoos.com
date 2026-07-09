@@ -1,0 +1,554 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 102,
+    "returned": 102,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518916062_theRebbe_542\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>Just as in human faculties, so too above there is the concept of concealment and revelation, which is the matter of lights and vessels, with the distinction that from the perspective of concealment it is \"I, Havayah, have not changed,\" but as it is drawn forth afterward in revelation, there exist the names of the Ten Sefiros, ten and not nine, ten and not eleven, even allowing for change, all of which is from the aspect of revelation where the vessel operates.</sectionSummaryBrief>\n    <t s=\"0\">And just as it is in the faculties of man,</t>\n    <t s=\"1\">so too above there is the concept of concealment and revelation,</t>\n    <t s=\"2\">which is the matter of lights and vessels,</t>\n    <t s=\"3\">and the distinction is,</t>\n    <t s=\"4\">that from the aspect of concealment</t>\n    <t s=\"5\">(the concept of the light),</t>\n    <t s=\"6\">it is in the manner of \"I, Havayah, have not changed,\"</t>\n    <t s=\"7\">but as it is drawn forth afterward in revelation,</t>\n    <t s=\"8\">then there exist the names of the Ten Sefiros,</t>\n    <t s=\"9\">ten and not nine, ten and not eleven,</t>\n    <t s=\"10\">even to the point that the concept of change can exist,</t>\n    <t s=\"11\">all of which is from the aspect of revelation,</t>\n    <t s=\"12\">in which the concept of the vessel operates.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>Based on this, the maamar explains how human intellect is drawn from above it, through letters (the vessels of thought, speech, and writing) which reveal the light of intellect, and this process of revelation through letters applies to the descent of intellect through the Four Worlds, enabling the concept of Ten Sefiros and change, until the intellect is grasped above the letters.</sectionSummaryBrief>\n    <t s=\"0\">D)</t>\n    <t s=\"1\">And the maamar continues,</t>\n    <t s=\"2\">that based on this it will also be understood how the intellect of man is drawn from above him.</t>\n    <t s=\"3\">And as an introduction, that the concept of the revelation of intellect is through the letters,</t>\n    <t s=\"4\">as is known,</t>\n    <t s=\"5\">that letters are from the term \"ata boker\" (the morning has come),</t>\n    <t s=\"6\">for through them the morning of the light of intellect is drawn and revealed.</t>\n    <t s=\"7\">For behold,</t>\n    <t s=\"8\">in order that the light of intellect come into revelation even to oneself,</t>\n    <t s=\"9\">that is,</t>\n    <t s=\"10\">that the intellect as it is in the essence of the soul,</t>\n    <t s=\"11\">be drawn from it the power of the intellective faculty,</t>\n    <t s=\"12\">and from it be drawn afterward the revealed intellect and wisdom,</t>\n    <t s=\"13\">then there must be the concept of letters in the intellect,</t>\n    <t s=\"14\">the letters of thought.</t>\n    <t s=\"15\">And in order that it be drawn and revealed also to another,</t>\n    <t s=\"16\">this must come also in the letters of speech,</t>\n    <t s=\"17\">or lower still in the letters of writing.</t>\n    <t s=\"18\">And as we see with a teacher and student,</t>\n    <t s=\"19\">that the teacher speaks a matter of intellect in the letters of speech or writes it in the letters of writing,</t>\n    <t s=\"20\">and the student hears the letters of speech or learns from the writing,</t>\n    <t s=\"21\">and that is,</t>\n    <t s=\"22\">that the drawing of intellect from the teacher to the student is specifically through the letters,</t>\n    <t s=\"23\">for through them the intellect is drawn in revelation,</t>\n    <t s=\"24\">so that then it can be called by the name Chochmah, Binah, and Daas,</t>\n    <t s=\"25\">a specific Chochmah,</t>\n    <t s=\"26\">and then change applies to it,</t>\n    <t s=\"27\">smallness and greatness, etc.</t>\n    <t s=\"28\">And afterward, when the student learns the matter from the letters in which the intellect was revealed to him,</t>\n    <t s=\"29\">then he arrives at the understanding of the intellect in a manner that he no longer needs the letters,</t>\n    <t s=\"30\">and that is,</t>\n    <t s=\"31\">that he arrives at the intellect as it is above letters,</t>\n    <t s=\"32\">where the letters are nullified relative to the light of the intellect,</t>\n    <t s=\"33\">to the point that this has an effect also in the aspect that is above the internal and revealed powers in man.</t>\n    <t s=\"34\">And behold,</t>\n    <t s=\"35\">just as the revelation of man's intellect is through the letters,</t>\n    <t s=\"36\">so too regarding the drawing of man's intellect that has descended from the power of Chochmah in the Ten Sefiros of Asiyah,</t>\n    <t s=\"37\">this matter is accomplished through the letters, which are the vessels in the Ten Sefiros of Asiyah.</t>\n    <t s=\"38\">And likewise regarding the Ten Sefiros of Asiyah, which are drawn from the Ten Sefiros of Yetzirah,</t>\n    <t s=\"39\">and the Ten Sefiros of Yetzirah from the Ten Sefiros of Beriyah,</t>\n    <t s=\"40\">and the Ten Sefiros of Beriyah from the Ten Sefiros of Atzilus,</t>\n    <t s=\"41\">that also in them there is the concept of lights and vessels,</t>\n    <t s=\"42\">that through this they receive from the letters and vessels that are above them</t>\n    <t s=\"43\">(as will be explained below)</t>\n    <t s=\"44\">the concept of lights is made in them, and afterward also the concept of vessels.</t>\n    <t s=\"45\">And then the concept of Ten Sefiros applies,</t>\n    <t s=\"46\">ten and not nine, etc.,</t>\n    <t s=\"47\">and also the concept of the essence of Chochmah and Binah, etc.,</t>\n    <t s=\"48\">and also the concept of will, which has in it the concept of change,</t>\n    <t s=\"49\">that a new will be drawn, etc.</t>\n    <t s=\"50\">[As it is in man,</t>\n    <t s=\"51\">that only when the faculties are in revelation</t>\n    <t s=\"52\">(after they are drawn from the essence of the soul, where all matters exist in a manner that they are not revealed),</t>\n    <t s=\"53\">then they have length, breadth, and depth,</t>\n    <t s=\"54\">to the point that they divide into the number ten,</t>\n    <t s=\"55\">as explained in the Pardes at its beginning,</t>\n    <t s=\"56\">that all matters of the world are in the number ten].</t>\n    <t s=\"57\">But in the world of Atzilus, they are in the manner of a point,</t>\n    <t s=\"58\">this being the general concept of the World of Points (Olam HaNekudim),</t>\n    <t s=\"59\">which are ten lights in ten vessels,</t>\n    <t s=\"60\">but they are in the form of a point,</t>\n    <t s=\"61\">and as mentioned above, that this concept is drawn from above it,</t>\n    <t s=\"62\">in the manner of the drawing of man's intellect from the Ten Sefiros of Asiyah,</t>\n    <t s=\"63\">Asiyah from Yetzirah,</t>\n    <t s=\"64\">Yetzirah from Beriyah, and Beriyah from Atzilus.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>However, all the above concerns concealment and revelation, but to understand how a bounded entity can come into being from the boundless light of Ein Sof, the maamar explains that this cannot occur through a chain of descent from concealment to revelation, but rather through the concept of the Tzimtzum called the \"empty space,\" which is a complete removal, after which a single line is drawn, enabling the concept of boundary.</sectionSummaryBrief>\n    <t s=\"0\">E)</t>\n    <t s=\"1\">However, all that was said above is regarding concealment and revelation,</t>\n    <t s=\"2\">that is,</t>\n    <t s=\"3\">that the matters which are initially in concealment,</t>\n    <t s=\"4\">with all their superiority and virtues,</t>\n    <t s=\"5\">are drawn and come into revelation.</t>\n    <t s=\"6\">But still it must be understood,</t>\n    <t s=\"7\">how can the creation of a bounded entity come from the light of Ein Sof, which is unbounded?</t>\n    <t s=\"8\">And regarding this, the maamar continues,</t>\n    <t s=\"9\">that this matter cannot be in a manner of a chain of descent from concealment to revelation,</t>\n    <t s=\"10\">not even through a chain of descent of many levels,</t>\n    <t s=\"11\">but rather,</t>\n    <t s=\"12\">as it is stated in Etz Chayim at its beginning, that there had to be the concept of the Tzimtzum called the \"empty space\" (makom panui),</t>\n    <t s=\"13\">which removed His light to the side,</t>\n    <t s=\"14\">and this is the concept of the first Tzimtzum, which is in the manner of complete removal,</t>\n    <t s=\"15\">and afterward a single line (kav) was drawn,</t>\n    <t s=\"16\">and through this the concept of boundary can exist,</t>\n    <t s=\"17\">and that is,</t>\n    <t s=\"18\">that even though prior to this there were infinite Sefiros,</t>\n    <t s=\"19\">or completely above the category of Sefiros,</t>\n    <t s=\"20\">nevertheless, through the Tzimtzum, a source for the concept of boundary was at least made,</t>\n    <t s=\"21\">and as explained in several discourses,</t>\n    <t s=\"22\">that even the world of Atzilus itself is a matter of the unbounded,</t>\n    <t s=\"23\">except that in it was made the concept that outside of Atzilus is the matter of boundary.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518916062_theRebbe_542",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "Just as in human faculties, so too above there is the concept of concealment and revelation, which is the matter of lights and vessels, with the distinction that from the perspective of concealment it is \"I, Havayah, have not changed,\" but as it is drawn forth afterward in revelation, there exist the names of the Ten Sefiros, ten and not nine, ten and not eleven, even allowing for change, all of which is from the aspect of revelation where the vessel operates.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And just as it is in the faculties of man,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "so too above there is the concept of concealment and revelation,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "which is the matter of lights and vessels,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "and the distinction is,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that from the aspect of concealment"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "(the concept of the light),"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "it is in the manner of \"I, Havayah, have not changed,\""
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "but as it is drawn forth afterward in revelation,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "then there exist the names of the Ten Sefiros,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "ten and not nine, ten and not eleven,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "even to the point that the concept of change can exist,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "all of which is from the aspect of revelation,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "in which the concept of the vessel operates."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "Based on this, the maamar explains how human intellect is drawn from above it, through letters (the vessels of thought, speech, and writing) which reveal the light of intellect, and this process of revelation through letters applies to the descent of intellect through the Four Worlds, enabling the concept of Ten Sefiros and change, until the intellect is grasped above the letters.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "D)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And the maamar continues,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that based on this it will also be understood how the intellect of man is drawn from above him."
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "And as an introduction, that the concept of the revelation of intellect is through the letters,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "as is known,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "that letters are from the term \"ata boker\" (the morning has come),"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "for through them the morning of the light of intellect is drawn and revealed."
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "For behold,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "in order that the light of intellect come into revelation even to oneself,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "that is,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "that the intellect as it is in the essence of the soul,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "be drawn from it the power of the intellective faculty,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "and from it be drawn afterward the revealed intellect and wisdom,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "then there must be the concept of letters in the intellect,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "the letters of thought."
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "And in order that it be drawn and revealed also to another,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "this must come also in the letters of speech,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "or lower still in the letters of writing."
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "And as we see with a teacher and student,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "that the teacher speaks a matter of intellect in the letters of speech or writes it in the letters of writing,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "and the student hears the letters of speech or learns from the writing,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "and that is,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "that the drawing of intellect from the teacher to the student is specifically through the letters,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "for through them the intellect is drawn in revelation,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "so that then it can be called by the name Chochmah, Binah, and Daas,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "a specific Chochmah,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "and then change applies to it,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "smallness and greatness, etc."
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "And afterward, when the student learns the matter from the letters in which the intellect was revealed to him,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "then he arrives at the understanding of the intellect in a manner that he no longer needs the letters,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and that is,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "that he arrives at the intellect as it is above letters,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "where the letters are nullified relative to the light of the intellect,"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "to the point that this has an effect also in the aspect that is above the internal and revealed powers in man."
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "And behold,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "just as the revelation of man's intellect is through the letters,"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "so too regarding the drawing of man's intellect that has descended from the power of Chochmah in the Ten Sefiros of Asiyah,"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "this matter is accomplished through the letters, which are the vessels in the Ten Sefiros of Asiyah."
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "And likewise regarding the Ten Sefiros of Asiyah, which are drawn from the Ten Sefiros of Yetzirah,"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "and the Ten Sefiros of Yetzirah from the Ten Sefiros of Beriyah,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "and the Ten Sefiros of Beriyah from the Ten Sefiros of Atzilus,"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "that also in them there is the concept of lights and vessels,"
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "that through this they receive from the letters and vessels that are above them"
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "(as will be explained below)"
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "the concept of lights is made in them, and afterward also the concept of vessels."
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "And then the concept of Ten Sefiros applies,"
+          },
+          {
+            "v": 7,
+            "s": 46,
+            "translation": "ten and not nine, etc.,"
+          },
+          {
+            "v": 7,
+            "s": 47,
+            "translation": "and also the concept of the essence of Chochmah and Binah, etc.,"
+          },
+          {
+            "v": 7,
+            "s": 48,
+            "translation": "and also the concept of will, which has in it the concept of change,"
+          },
+          {
+            "v": 7,
+            "s": 49,
+            "translation": "that a new will be drawn, etc."
+          },
+          {
+            "v": 7,
+            "s": 50,
+            "translation": "[As it is in man,"
+          },
+          {
+            "v": 7,
+            "s": 51,
+            "translation": "that only when the faculties are in revelation"
+          },
+          {
+            "v": 7,
+            "s": 52,
+            "translation": "(after they are drawn from the essence of the soul, where all matters exist in a manner that they are not revealed),"
+          },
+          {
+            "v": 7,
+            "s": 53,
+            "translation": "then they have length, breadth, and depth,"
+          },
+          {
+            "v": 7,
+            "s": 54,
+            "translation": "to the point that they divide into the number ten,"
+          },
+          {
+            "v": 7,
+            "s": 55,
+            "translation": "as explained in the Pardes at its beginning,"
+          },
+          {
+            "v": 7,
+            "s": 56,
+            "translation": "that all matters of the world are in the number ten]."
+          },
+          {
+            "v": 7,
+            "s": 57,
+            "translation": "But in the world of Atzilus, they are in the manner of a point,"
+          },
+          {
+            "v": 7,
+            "s": 58,
+            "translation": "this being the general concept of the World of Points (Olam HaNekudim),"
+          },
+          {
+            "v": 7,
+            "s": 59,
+            "translation": "which are ten lights in ten vessels,"
+          },
+          {
+            "v": 7,
+            "s": 60,
+            "translation": "but they are in the form of a point,"
+          },
+          {
+            "v": 7,
+            "s": 61,
+            "translation": "and as mentioned above, that this concept is drawn from above it,"
+          },
+          {
+            "v": 7,
+            "s": 62,
+            "translation": "in the manner of the drawing of man's intellect from the Ten Sefiros of Asiyah,"
+          },
+          {
+            "v": 7,
+            "s": 63,
+            "translation": "Asiyah from Yetzirah,"
+          },
+          {
+            "v": 7,
+            "s": 64,
+            "translation": "Yetzirah from Beriyah, and Beriyah from Atzilus."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "However, all the above concerns concealment and revelation, but to understand how a bounded entity can come into being from the boundless light of Ein Sof, the maamar explains that this cannot occur through a chain of descent from concealment to revelation, but rather through the concept of the Tzimtzum called the \"empty space,\" which is a complete removal, after which a single line is drawn, enabling the concept of boundary.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "E)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "However, all that was said above is regarding concealment and revelation,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that is,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "that the matters which are initially in concealment,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "with all their superiority and virtues,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "are drawn and come into revelation."
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "But still it must be understood,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "how can the creation of a bounded entity come from the light of Ein Sof, which is unbounded?"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "And regarding this, the maamar continues,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "that this matter cannot be in a manner of a chain of descent from concealment to revelation,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "not even through a chain of descent of many levels,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "but rather,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "as it is stated in Etz Chayim at its beginning, that there had to be the concept of the Tzimtzum called the \"empty space\" (makom panui),"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "which removed His light to the side,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "and this is the concept of the first Tzimtzum, which is in the manner of complete removal,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "and afterward a single line (kav) was drawn,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "and through this the concept of boundary can exist,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "and that is,"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "that even though prior to this there were infinite Sefiros,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "or completely above the category of Sefiros,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "nevertheless, through the Tzimtzum, a source for the concept of boundary was at least made,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "and as explained in several discourses,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "that even the world of Atzilus itself is a matter of the unbounded,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "except that in it was made the concept that outside of Atzilus is the matter of boundary."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,141 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p009">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" title="מאמר באתי לגני תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p009">
+  <section v="24">
+    <src s="0">י)</src>
+    <src s="1">ד)</src>
+    <src s="2">וממשיך בהמאמר,</src>
+    <src s="3">דיצרו של אדם מתגבר עליו להטרידו ולבלבלו בעת העבודה דוקא.</src>
+    <src s="4">וכמו שנראה במוחש,</src>
+    <src s="5">שדוקא בעת העבודה דתורה ותפלה או בקיום איזה מצוה,</src>
+    <src s="6">אז נדמה לו,</src>
+    <src s="7">אשר דוקא בשעה זו הוא צריך לעשות איזה ענין שנוגע לו ביותר.</src>
+    <src s="8">דמחשבות אלו דנה"ב הם בכדי לבלבל את הנפש האלקית.</src>
+    <src s="9">והראי',</src>
+    <src s="10">שבזמנים אחרים אין נופלים לו מחשבות כאלו.</src>
+    <src s="11">וע"פ מה שנתבאר לעיל</src>
+    <src s="12">(סעיף ז וסעיף יו"ד)</src>
+    <src s="13">שהענינים שבאדם</src>
+    <src s="14">(המבוארים בפרק העשרים)</src>
+    <src s="15">הם השרש דענינים אלו שבעולם</src>
+    <src s="16">(המבוארים בפרקים הקודמים),</src>
+    <src s="17">יש לומר,</src>
+    <src s="18">דזה שמחשבות אלו מתקבלות בהאדם,</src>
+    <src s="19">דהגם שרואה שמחשבות אלו נופלים דוקא בעת העבודה</src>
+    <src s="20">[שמזה צריך להבין גם מצד השכל דנפש הבהמית שמחשבות אלו הם רק בכדי לבלבלו מתורה ועבודה]</src>
+    <src s="21">ואעפ"כ המחשבות מתקבלים אצלו,</src>
+    <src s="22">הוא ענין השקר שבאדם,</src>
+    <src s="23">שממנו משתלשל השקר דעולם,</src>
+    <src s="24">מה שהעולם מראה את עצמו למציאות</src>
+    <src s="25">(המבואר בפרקים הקודמים).</src>
+  </section>
+  <section v="25">
+    <src s="0">ט)</src>
+    <src s="1">ו)</src>
+    <src s="2">והנה ידוע מ"ש אדמו"ר מהר"ש בהמשך מים רבים</src>
+    <src s="3">(תרל"ו)</src>
+    <src s="4">בתחלתו,</src>
+    <src s="5">עה"פ108</src>
+    <src s="6">אולת אדם תסלף דרכו ועל ה' יזעף לבו,</src>
+    <src s="7">שכל הרעות הבאות לאדם,</src>
+    <src s="8">הוא עצמו גרם לזה.</src>
+    <src s="9">וכמו אדם המסכן עצמו עבור מותרות,</src>
+    <src s="10">דכאשר קורה לו אסון,</src>
+    <src s="11">ה"ה עצמו גרם לזה,</src>
+    <src s="12">כיון שהי' יכול להסתפק בלחם לאכול ובגד ללבוש.</src>
+    <src s="13">ויתירה מזו,</src>
+    <src s="14">שאפילו באם רוצה עשירות,</src>
+    <src s="15">באם הי' יודע</src>
+    <src s="16">(וזה הי' מונח אצלו)</src>
+    <src s="17">שברכת ה' היא תעשיר109,</src>
+    <src s="18">וזה שצריך גם לעשי' בדרך הטבע כמ"ש110</src>
+    <src s="19">וברכך הוי' אלקיך בכל אשר תעשה הוא רק מפני שרצה הקב"ה שהברכה</src>
+    <src s="20">(שלמעלה)</src>
+    <src s="21">תומשך ע"י לבושי הטבע,</src>
+    <src s="22">אזי היתה העשי' שלו רק באופן דיגיע כפיך111,</src>
+    <src s="23">יגיעת כפים ושאר אברים החיצונים ולא יגיעת המוח והלב112,</src>
+    <src s="24">ומכ"ש שלא הי' מסכן עצמו עבור זה.</src>
+    <src s="25">ויש לקשר זה עם המבואר בהמשך הנ"ל בתחלתו113</src>
+    <src s="26">שמים רבים הם טרדות הפרנסה והמחשבות שבעניני עוה"ז,</src>
+    <src s="27">דזה שאולת אדם תסלף דרכו גו' כי רעות הבאות לאדם הוא עצמו גרם לזה,</src>
+    <src s="28">קאי גם על מים רבים הנ"ל.</src>
+    <src s="29">דזה שהמחשבות בעניני פרנסה מטרידים אותו,</src>
+    <src s="30">ועד שמשום זה אינו יכול לעסוק בתורה ועבודה,</src>
+    <src s="31">הוא עצמו גרם לזה.</src>
+    <src s="32">דבאם הי' מתבונן כדבעי דברכת ה' היא תעשיר,</src>
+    <src s="33">המחשבות בעניני פרנסה לא היו מטרידים אותו.</src>
+    <src s="34">ועד"ז הוא בנוגע לכל המחשבות המטרידים את האדם ומבלבלים אותו מתורה ועבודה,</src>
+    <src s="35">שברובם,</src>
+    <src s="36">הוא ע"י שהאדם הביא עצמו לזה.</src>
+    <src s="37">והיינו שמצד ההעלם וההסתר דהעולם,</src>
+    <src s="38">כולל גם ההעלם וההסתר דהגוף ודנפש הבהמית,</src>
+    <src s="39">כמו שהוא מצד עצמו,</src>
+    <src s="40">גם לאחרי הירידה דחטא עה"ד וגם בזמן הגלות,</src>
+    <src s="41">לא הי' מעלים ומסתיר כ"כ,</src>
+    <src s="42">ועיקר ההעלם וההסתר הוא ע"י שהאדם עצמו גרם לזה.</src>
+    <src s="43">ומזה מובן במכ"ש בנוגע להמחשבות הנ"ל</src>
+    <src s="44">(סעיף יד)</src>
+    <src s="45">שנופלים להאדם בשעת התורה והתפלה,</src>
+    <src s="46">שבאם הי' עושה חשבון דזה שהם נופלים בשעת העבודה דוקא הוא כי כל ענינם הוא לבלבלו מתורה ועבודה,</src>
+    <src s="47">אזי,</src>
+    <src s="48">לא רק שמחשבות כאלו לא היו מתקבלים אצלו אלא שגם לא היו נופלים לו מלכתחילה.</src>
+  </section>
+  <section v="26">
+    <src s="0">ט)</src>
+    <src s="1">ז)</src>
+    <src s="2">והנה גם כשהאדם הביא עצמו לידי מצב כזה,</src>
+    <src s="3">שאז העבודה אצלו היא קשה עוד יותר,</src>
+    <src s="4">הנה ע"י עבודת התפלה יש לו הנתינת כח להתגבר.</src>
+    <src s="5">וכיון שכל הענינים הם מדה כנגד מדה,</src>
+    <src s="6">הנה גם עבודת התפלה עצמה באה ע"י יגיעה גדולה ועצומה.</src>
+    <src s="7">הן בנוגע לההתבוננות שבתפלה עצמה,</src>
+    <src s="8">שהיא יגיעה רבה כמבואר בתניא114,</src>
+    <src s="9">ובפרט שההתבוננות צריכה להיות התבוננות פרטית דוקא,</src>
+    <src s="10">שמצד זה תכבד עליו העבודה עוד יותר,</src>
+    <src s="11">כמו שמבאר אדמו"ר</src>
+    <src s="12">(מהורש"ב)</src>
+    <src s="13">נ"ע בקונטרס העבודה115.</src>
+    <src s="14">והן בנוגע לההכנה שלפני התפלה,</src>
+    <src s="15">כמו שמבאר אדמו"ר</src>
+    <src s="16">(מהורש"ב)</src>
+    <src s="17">נ"ע בקונטרס התפלה116,</src>
+    <src s="18">שקודם התפלה צריך להתייגע להסיר מדעתו כל טרדא שלא יטריד ויבלבל אותו בתפלה.</src>
+    <src s="19">ומבאר שם,</src>
+    <src s="20">שגם אלו שנדמה להם שאינם יכולים להסיר הטרדות מלבם,</src>
+    <src s="21">הנה בשומם אל לבם דכשהולכים לישון הם מסירים את הטרדות והדאגות,</src>
+    <src s="22">ובאם בשביל ענין גשמי המוכרח להגוף ביכלתו להסיר הטרדות,</src>
+    <src s="23">מכ"ש שביכלתם לפעול זאת בדבר הנוגע לנפשם.</src>
+  </section>
+</awtsmoosMeluketSource>

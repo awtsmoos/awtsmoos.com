@@ -1,0 +1,95 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916210_theRebbe_473" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916210_theRebbe_473__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916210_theRebbe_473" title="מאמר יהודה אתה יודוך תשל"ח" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916210_theRebbe_473__p002">
+  <section v="3">
+    <src s="0">יהודה אתה יודוך אחיך וגו'1,</src>
+    <src s="1">ומבאר כ"ק אדמו"ר הזקן בתו"א ריש פרשתנו2,</src>
+    <src s="2">שיהודה הוא על שם הפעם אודה את הוי'3</src>
+    <src s="3">הוא בחי' הודי' שבכללות נשמות ישראל,</src>
+    <src s="4">ובכדי שהודי' זו תהי' בהתגלות הוא ע"י אחיך,</src>
+    <src s="5">ראובן שמעון ולוי</src>
+    <src s="6">[האחים של יהודה שנולדו לפניו].</src>
+    <src s="7">וזהו יודוך אחיך,</src>
+    <src s="8">שאחיך</src>
+    <src s="9">[ראובן שמעון ולוי]</src>
+    <src s="10">הם הגורמים ומביאים בחי' ההודי' דיהודה</src>
+    <src s="11">(שתהי' בהתגלות).</src>
+    <src s="12">ומבאר שם,</src>
+    <src s="13">שראובן ושמעון הו"ע ב' פרשיות דק"ש ולוי הו"ע אמת ויציב</src>
+    <src s="14">(שלאחרי ק"ש),</src>
+    <src s="15">ועי"ז באים אח"כ לשמו"ע,</src>
+    <src s="16">בחי' ההודי' והביטול דבחי' יהודה.</src>
+  </section>
+  <section v="4">
+    <src s="0">ב)</src>
+    <src s="1">והענין הוא</src>
+    <src s="2">(כמבואר בתו"א שם),</src>
+    <src s="3">דהנה ראובן הוא על שם כי ראה גו'4,</src>
+    <src s="4">שמעון על שם כי שמע גו'5.</src>
+    <src s="5">וענינם בעבודת ה'</src>
+    <src s="6">(בכאו"א מישראל),</src>
+    <src s="7">בחי' ראובן הוא שעבודתו לקונו היא לא בבחי' השגה לבד כ"א בבחי' ראי'.</src>
+    <src s="8">והיינו שההתאמתות שלו באלקות היא בוודאות הכי גדולה,</src>
+    <src s="9">בדוגמת אדם שרואה איזה דבר שאין שייך שיהי' אצלו שום ספק בזה,</src>
+    <src s="10">מכיון שהוא עצמו ראה את הדבר6.</src>
+    <src s="11">ועד"ז הוא בעבודת ה',</src>
+    <src s="12">שההתבוננות שלו</src>
+    <src s="13">[ובפרט בענין דהשגחה פרטית7]</src>
+    <src s="14">היא באופן</src>
+    <src s="15">(דהסתכלות8)</src>
+    <src s="16">שהענין מתאמת אצלו כאילו הוא רואה בראי' חושית ממש.</src>
+    <src s="17">ומראי' זו הוא בא לבחי' אהבת הוי',</src>
+    <src s="18">וכמ"ש4</src>
+    <src s="19">(גבי קריאת שם ראובן)</src>
+    <src s="20">כי ראה גו' כי עתה יאהבני.</src>
+    <src s="21">והו"ע פרשה ראשונה דק"ש,</src>
+    <src s="22">ואהבת את הוי' אלקיך גו'9.</src>
+  </section>
+  <section v="5">
+    <src s="0">ובחי' שמעון</src>
+    <src s="1">(על שם כי שמע גו')</src>
+    <src s="2">הוא שהעבודה שלו היא בבחי' שמיעה והשגה לבד ולא בבחי' ראי'.</src>
+    <src s="3">ומכיון שאז הוא עדיין בבחי' ריחוק</src>
+    <src s="4">[בדוגמת אדם השומע איזה דבר שמספרים לו,</src>
+    <src s="5">אבל הוא עצמו לא ראה],</src>
+    <src s="6">לכן אצלו העבודה בקו היראה.</src>
+    <src s="7">והו"ע פרשה שני' דק"ש,</src>
+    <src s="8">והי' אם שמוע תשמעו גו' השמרו לכם פן יפתה גו'10.</src>
+    <src s="9">דמכיון שענין האלקות אצלו הוא רק בבחי' שמיעה</src>
+    <src s="10">(אם שמוע תשמעו),</src>
+    <src s="11">לכן צריכה להיות עבודתו בקו היראה</src>
+    <src s="12">(השמרו לכם גו').</src>
+  </section>
+</awtsmoosMeluketSource>

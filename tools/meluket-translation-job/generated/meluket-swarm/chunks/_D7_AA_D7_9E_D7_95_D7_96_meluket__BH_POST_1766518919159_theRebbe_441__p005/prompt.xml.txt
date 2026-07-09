@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919159_theRebbe_441" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919159_theRebbe_441__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919159_theRebbe_441" title="מאמר ה' לי בעוזרי תשי"ז" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919159_theRebbe_441__p005">
+  <section v="12">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">הרי עסק התורה דדוד באופן דזמירות היו לי חוקיך הוא בבחינת התורה כמו שהיא מצד רצון העצמי</src>
+    <src s="2">(כנ"ל בארוכה),</src>
+    <src s="3">והיאך שייך שזה יהי' שלא כפי אמיתית הכוונה.</src>
+    <src s="4">ויש לומר הביאור בזה,</src>
+    <src s="5">ע"פ מ"ש בהמאמר בתחילתו בענין הוי' אחד48,</src>
+    <src s="6">דפירוש אחד זה הוא יחיד,</src>
+    <src s="7">ומה שאומרים אחד ולא יחיד הוא להורות דהוי' ואלקים כולא חד49.</src>
+    <src s="8">והענין הוא,</src>
+    <src s="9">דאמיתית ענין אחדות הוי' הוא שהאחדות היא גם מצד העולם.</src>
+    <src s="10">וזהו מ"ש הוי' אחד,</src>
+    <src s="11">דבאם הי' כתיב הוי' יחיד,</src>
+    <src s="12">הי' הפירוש בזה שיחודו ית' הוא מצד אוא"ס</src>
+    <src s="13">(ולא מצד העולם),</src>
+    <src s="14">ובכדי להדגיש שיחודו ית' הוא גם מצד העולם,</src>
+    <src s="15">ואפילו מצד העולם כמו שנברא משם אלקים שמעלים ומסתיר על שם הוי',</src>
+    <src s="16">לכן נאמר50</src>
+    <src s="17">הוי' אחד,</src>
+    <src s="18">שגם החי"ת והדל"ת שהם ז' רקיעים וארץ וד' רוחות העולם,</src>
+    <src s="19">הם בטלים להאל"ף יחידו של עולם51.</src>
+    <src s="20">דמכיון שהוי' ואלקים כולא חד,</src>
+    <src s="21">הרי שם אלקים אינו מסתיר באמת,</src>
+    <src s="22">ולכן,</src>
+    <src s="23">גם העולם שנתהווה משם אלקים הוא בטל באמת ואין עוד מלבדו52.</src>
+    <src s="24">ועד להביטול בדרגת ואופן דיחיד שלמעלה מאחד.</src>
+    <src s="25">וע"י היחוד דשני הענינים</src>
+    <src s="26">(שיחודו ית' הוא באופן דיחיד,</src>
+    <src s="27">ושענין זה הוא גם מצד העולם),</src>
+    <src s="28">עי"ז הוא גילוי כח העצמות שכולל ומחבר הענין דאחד ודיחיד.</src>
+  </section>
+  <section v="13">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">ויש להוסיף,</src>
+    <src s="3">דשם הוי'</src>
+    <src s="4">(הוי' אחד)</src>
+    <src s="5">מורה על כל ג' הענינים</src>
+    <src s="6">(אחד ויחיד וכח העצמות שמחברם).</src>
+    <src s="7">דבהוי' יש ג' ענינים: א' הוי' מלשון מהוה53,</src>
+    <src s="8">דפירוש זה בשם הוי' מורה על שייכותו לעולמות,</src>
+    <src s="9">ב' הוי' מלשון הי' הוה ויהי'54,</src>
+    <src s="10">דפירוש זה בשם הוי' מורה שהוא למעלה מעולמות,</src>
+    <src s="11">וענין הג' בשם הוי' הוא שהוי' הוא שם העצם55,</src>
+    <src s="12">היינו שהוא מורה על עצמותו ית'.</src>
+    <src s="13">דהגם שבפרדס56</src>
+    <src s="14">כתב דזה ששם הוי' הוא שם העצם הוא רק לעצם הספירות,</src>
+    <src s="15">היינו האורות המתלבשים בכלים,</src>
+    <src s="16">הרי המסקנא דתורת החסידות57</src>
+    <src s="17">היא דפירוש שם העצם הוא בהעצמות.</src>
+    <src s="18">והנה מכיון שכל ג' הענינים הם באותו שם,</src>
+    <src s="19">הרי מובן58</src>
+    <src s="20">שהם שייכים זל"ז.</src>
+    <src s="21">והיינו דההתאחדות דשני הפירושים בהוי',</src>
+    <src s="22">הוי' לשון מהוה והוי' מלשון הי' הוה ויהי' כאחד,</src>
+    <src s="23">הוא מצד זה שהוי' הוא שם העצם.</src>
+    <src s="24">ונמצא,</src>
+    <src s="25">דע"י שהוי' שלמעלה מעולמות</src>
+    <src s="26">(הי' הוה ויהי' כאחד)</src>
+    <src s="27">נמשך בהוי' לשון מהוה,</src>
+    <src s="28">אף שבחיצוניות הו"ע של ירידה,</src>
+    <src s="29">הנה עי"ז דוקא מתגלה שם העצם שבו.</src>
+    <src s="30">ולא עוד אלא שגילוי שם העצם דהוי' הוא בעיקר בהוי' לשון מהוה.</src>
+    <src s="31">וכמבואר בכ"מ57</src>
+    <src s="32">דמה ששם הוי' הוא שם העצם שמורה על העצמות הוא כי ההתהוות יש מאין היא דוקא בכח העצמות שמציאותו מעצמותו59.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">ג)</src>
+    <src s="2">ועפ"ז יובן גם מ"ש הרמב"ם60</src>
+    <src s="3">(הובא במאמר הנ"ל בתחילתו)</src>
+    <src s="4">יסוד היסודות ועמוד החכמות לידע שיש שם מצוי ראשון והוא ממציא כל נמצא,</src>
+    <src s="5">וכל הנמצאים משמים וארץ ומה שביניהם לא נמצאו אלא מאמיתת המצאו.</src>
+    <src s="6">דמצות הידיעה היא בג' ענינים.</src>
+    <src s="7">שיש שם מצוי ראשון,</src>
+    <src s="8">שהוא ממציא כל נמצא,</src>
+    <src s="9">ושכל הנמצאים כו' לא נמצאו אלא מאמיתת המצאו.</src>
+    <src s="10">דג' ענינים אלו הם נגד ג' ענינים הנ"ל בהוי'.</src>
+    <src s="11">יסוד היסודות ועמוד החכמות הוא ר"ת הוי'61.</src>
+    <src s="12">מצוי ראשון הוא שהוא קדום לכל,</src>
+    <src s="13">למעלה מהבריאה.</src>
+    <src s="14">ממציא כל נמצא הוא הוי' לשון מהוה.</src>
+    <src s="15">וכל הנמצאים כו' לא נמצאו אלא מאמיתת המצאו,</src>
+    <src s="16">אמיתת המצאו הוא העצמות שמציאותו מעצמותו62,</src>
+    <src s="17">דהתהוות הנמצאים יש מאין הוא בכח העצמות</src>
+    <src s="18">(כנ"ל),</src>
+    <src s="19">ענין שם העצם.</src>
+  </section>
+</awtsmoosMeluketSource>

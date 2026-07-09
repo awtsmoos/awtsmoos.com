@@ -1,0 +1,279 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 47,
+    "returned": 47,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914575_theRebbe_239\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914575_theRebbe_239__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar delivered on Motzaei Shabbos Bereishis 5738.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">Motzaei Shabbos Bereishis – in his room – 5738</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the famous question of why the Torah begins with Bereishis rather than the first commandment, and introduces the concept of the unification of Sovev and Memaleh.</sectionSummaryBrief>\n    <t s=\"0\">\"In the beginning, G-d created the heavens and the earth.\"</t>\n    <t s=\"1\">And our Sages, of blessed memory, said:</t>\n    <t s=\"2\">Rabbi Yitzchak said: The Torah should have begun only from \"This month is for you,\" etc.</t>\n    <t s=\"3\">Why did it begin with Bereishis? Because of \"the power of His works He declared to His people, to give them the inheritance of the nations,\"</t>\n    <t s=\"4\">So that if the nations of the world say to Israel, \"You are robbers, for you conquered the lands of the seven nations,\" they will say to them, \"All the earth belongs to the Holy One, blessed be He; He created it and gave it to whomever is upright in His eyes. By His will He gave it to them, and by His will He took it from them and gave it to us.\"</t>\n    <t s=\"5\">And this is explained in the discourses of our Nesi'im,</t>\n    <t s=\"6\">That this matter—that the Torah should have begun from \"This month is for you\"—is,</t>\n    <t s=\"7\">Because the concept of \"this month\" is the unification of Sovev and Memaleh.</t>\n    <t s=\"8\">For \"month\" (Chodesh) is the aspect of Malchus,</t>\n    <t s=\"9\">\"The month of his wife,\"</t>\n    <t s=\"10\">The aspect of Memaleh Kol Almin,</t>\n    <t s=\"11\">And \"this\" (Zeh) is the concept of revelation</t>\n    <t s=\"12\">[As our Sages, of blessed memory, said:</t>\n    <t s=\"13\">He showed with his finger and said \"this\"],</t>\n    <t s=\"14\">Yesod and Z'eir Anpin,</t>\n    <t s=\"15\">The unification of Sovev Kol Almin and Memaleh Kol Almin.</t>\n    <t s=\"16\">And the meaning of \"this month</t>\n    <t s=\"17\">(for you)</t>\n    <t s=\"18\">\" is that within the aspect of Memaleh Kol Almin</t>\n    <t s=\"19\">(month)</t>\n    <t s=\"20\">there will be a revelation of Sovev Kol Almin</t>\n    <t s=\"21\">(this).</t>\n    <t s=\"22\">And the Torah should have begun from \"This month is for you,\"</t>\n    <t s=\"23\">Because the purpose of the Torah and its mitzvos is the matter of the unification of Sovev and Memaleh.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the drawing down of the Sovev through Torah and mitzvos originates in the Ein Sof before the Tzimtzum, and that the Torah begins with \"this month\" to emphasize this.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">Now, the concept of drawing down the Sovev through Torah and mitzvos, in its first root, is the drawing down of the Ein Sof that precedes the Tzimtzum.</t>\n    <t s=\"2\">And as it is brought in the beginning of the Emek HaMelech,</t>\n    <t s=\"3\">That the creation of the worlds was through the first Tzimtzum that occurred in the Ein Sof, leaving a void and empty space,</t>\n    <t s=\"4\">And from this is the root of the coming into being of the vessels and the existence of the worlds</t>\n    <t s=\"5\">(the matter of Maaseh Bereishis).</t>\n    <t s=\"6\">And what is written:</t>\n    <t s=\"7\">\"And He placed him in the Garden of Eden to work it and to guard it\"</t>\n    <t s=\"8\">[Which refers to the service of Torah and mitzvos,</t>\n    <t s=\"9\">\"To work it\" refers to the 248 positive commandments, and \"to guard it\" refers to the 365 negative commandments]</t>\n    <t s=\"10\">Is to draw down additional lights through the line (Kav) from the Ein Sof that precedes the Tzimtzum,</t>\n    <t s=\"11\">Until in the future there will be a revelation of the Ein Sof in the place of the void, as it was before the Tzimtzum.</t>\n    <t s=\"12\">And this is why the Torah should have begun only from \"This month is for you,\" etc.,</t>\n    <t s=\"13\">Because the narrative of Maaseh Bereishis is entirely after the Tzimtzum,</t>\n    <t s=\"14\">And since the essence of the Torah is the drawing down of the Ein Sof that is above the Tzimtzum,</t>\n    <t s=\"15\">It was necessary to begin the Torah</t>\n    <t s=\"16\">(not with Maaseh Bereishis,</t>\n    <t s=\"17\">but rather)</t>\n    <t s=\"18\">From \"this month,\" which is the matter of drawing down the aspect of the Sovev</t>\n    <t s=\"19\">(\"this\"),</t>\n    <t s=\"20\">Whose root is the drawing down of the Ein Sof that precedes the Tzimtzum.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914575_theRebbe_239",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914575_theRebbe_239__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar delivered on Motzaei Shabbos Bereishis 5738.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Motzaei Shabbos Bereishis – in his room – 5738"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the famous question of why the Torah begins with Bereishis rather than the first commandment, and introduces the concept of the unification of Sovev and Memaleh.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"In the beginning, G-d created the heavens and the earth.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And our Sages, of blessed memory, said:"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "Rabbi Yitzchak said: The Torah should have begun only from \"This month is for you,\" etc."
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "Why did it begin with Bereishis? Because of \"the power of His works He declared to His people, to give them the inheritance of the nations,\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "So that if the nations of the world say to Israel, \"You are robbers, for you conquered the lands of the seven nations,\" they will say to them, \"All the earth belongs to the Holy One, blessed be He; He created it and gave it to whomever is upright in His eyes. By His will He gave it to them, and by His will He took it from them and gave it to us.\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And this is explained in the discourses of our Nesi'im,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "That this matter—that the Torah should have begun from \"This month is for you\"—is,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "Because the concept of \"this month\" is the unification of Sovev and Memaleh."
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "For \"month\" (Chodesh) is the aspect of Malchus,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "\"The month of his wife,\""
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "The aspect of Memaleh Kol Almin,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "And \"this\" (Zeh) is the concept of revelation"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "[As our Sages, of blessed memory, said:"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "He showed with his finger and said \"this\"],"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "Yesod and Z'eir Anpin,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "The unification of Sovev Kol Almin and Memaleh Kol Almin."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And the meaning of \"this month"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "(for you)"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "\" is that within the aspect of Memaleh Kol Almin"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "(month)"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "there will be a revelation of Sovev Kol Almin"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "(this)."
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "And the Torah should have begun from \"This month is for you,\""
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "Because the purpose of the Torah and its mitzvos is the matter of the unification of Sovev and Memaleh."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the drawing down of the Sovev through Torah and mitzvos originates in the Ein Sof before the Tzimtzum, and that the Torah begins with \"this month\" to emphasize this.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "Now, the concept of drawing down the Sovev through Torah and mitzvos, in its first root, is the drawing down of the Ein Sof that precedes the Tzimtzum."
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "And as it is brought in the beginning of the Emek HaMelech,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "That the creation of the worlds was through the first Tzimtzum that occurred in the Ein Sof, leaving a void and empty space,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "And from this is the root of the coming into being of the vessels and the existence of the worlds"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(the matter of Maaseh Bereishis)."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And what is written:"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "\"And He placed him in the Garden of Eden to work it and to guard it\""
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "[Which refers to the service of Torah and mitzvos,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "\"To work it\" refers to the 248 positive commandments, and \"to guard it\" refers to the 365 negative commandments]"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "Is to draw down additional lights through the line (Kav) from the Ein Sof that precedes the Tzimtzum,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "Until in the future there will be a revelation of the Ein Sof in the place of the void, as it was before the Tzimtzum."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And this is why the Torah should have begun only from \"This month is for you,\" etc.,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "Because the narrative of Maaseh Bereishis is entirely after the Tzimtzum,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And since the essence of the Torah is the drawing down of the Ein Sof that is above the Tzimtzum,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "It was necessary to begin the Torah"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "(not with Maaseh Bereishis,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "but rather)"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "From \"this month,\" which is the matter of drawing down the aspect of the Sovev"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(\"this\"),"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "Whose root is the drawing down of the Ein Sof that precedes the Tzimtzum."
+          }
+        ]
+      }
+    ]
+  }
+}

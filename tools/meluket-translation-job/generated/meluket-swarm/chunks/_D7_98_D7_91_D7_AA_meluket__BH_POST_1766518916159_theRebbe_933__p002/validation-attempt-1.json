@@ -1,0 +1,984 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 188,
+    "returned": 188,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916159_theRebbe_933\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains the current superiority of Yosef (Zeir Anpin) over Yehudah (Malchus) in the chain of descent, and how the future revelation will reverse this by revealing Malchus's higher root.</sectionSummaryBrief>\n    <t s=\"0\">And similarly regarding Yosef and Yehudah,</t>\n    <t s=\"1\">that Yosef is</t>\n    <t s=\"2\">(Yesod)</t>\n    <t s=\"3\">of Zeir Anpin and Yehudah is Malchus,</t>\n    <t s=\"4\">that now Yosef is above Yehudah,</t>\n    <t s=\"5\">it is,</t>\n    <t s=\"6\">because in the order of the chain of descent,</t>\n    <t s=\"7\">Zeir Anpin is above Malchus.</t>\n    <t s=\"8\">[And this is \"And Yehudah approached him and said, 'Bi Adoni,'\"</t>\n    <t s=\"9\">for the explanation of \"Bi Adoni\" is that in Yehudah</t>\n    <t s=\"10\">(Bi)</t>\n    <t s=\"11\">the flow will be drawn from Yosef the Righteous</t>\n    <t s=\"12\">(Adoni),</t>\n    <t s=\"13\">because Malchus receives flow from Zeir Anpin].</t>\n    <t s=\"14\">And in the future to come,</t>\n    <t s=\"15\">when the root of Malchus will be revealed,</t>\n    <t s=\"16\">which is above the root of Zeir Anpin,</t>\n    <t s=\"17\">it will be \"And My servant Dovid shall be king over them.\"</t>\n    <t s=\"18\">And explanation is needed,</t>\n    <t s=\"19\">for since the matter of \"And Yehudah approached him\" is that Yosef</t>\n    <t s=\"20\">(Zeir Anpin,</t>\n    <t s=\"21\">growing)</t>\n    <t s=\"22\">is above Yehudah</t>\n    <t s=\"23\">(Malchus,</t>\n    <t s=\"24\">inanimate),</t>\n    <t s=\"25\">behold, in the maamar whose beginning is \"And Yehudah approached him,\"</t>\n    <t s=\"26\">its subject is not</t>\n    <t s=\"27\">(seemingly)</t>\n    <t s=\"28\">to explain the reason why the Beis HaMikdash was inanimate.</t>\n    <t s=\"29\">And from the fact that in the maamar beginning \"And Yehudah approached him\" it explains that this, that the Beis HaMikdash was inanimate, is because the Beis HaMikdash was a semblance of the World to Come,</t>\n    <t s=\"30\">when Malchus will be</t>\n    <t s=\"31\">(inanimate)</t>\n    <t s=\"32\">above all the Sefiros,</t>\n    <t s=\"33\">it is proven,</t>\n    <t s=\"34\">that although in the revelation of the matter of \"And Yehudah approached him\" Zeir Anpin is above Malchus,</t>\n    <t s=\"35\">there is in it</t>\n    <t s=\"36\">(in \"And Yehudah approached him\"),</t>\n    <t s=\"37\">in its inwardness and concealment,</t>\n    <t s=\"38\">the superiority of Malchus over Zeir Anpin,</t>\n    <t s=\"39\">like the revelation of the future to come.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains Yehudah's statement \"for you are like Pharaoh\" as a means to elevate Yosef by drawing from the Kesser, which is above the chain of descent, through the Sefirah of Yesod.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And this will be understood by prefacing that when Yehudah wanted to arouse Yosef to draw down flow to him,</t>\n    <t s=\"2\">he said to him,</t>\n    <t s=\"3\">\"For you are like Pharaoh.\"</t>\n    <t s=\"4\">And the explanation of this is,</t>\n    <t s=\"5\">that because the drawing down from Zeir Anpin</t>\n    <t s=\"6\">(Yosef)</t>\n    <t s=\"7\">to Malchus</t>\n    <t s=\"8\">(Yehudah)</t>\n    <t s=\"9\">is a descent,</t>\n    <t s=\"10\">therefore Yehudah explained to Yosef,</t>\n    <t s=\"11\">that on the contrary,</t>\n    <t s=\"12\">through this there will be an ascent in Zeir Anpin,</t>\n    <t s=\"13\">that he will be \"like you, like Pharaoh.\"</t>\n    <t s=\"14\">And the concept is,</t>\n    <t s=\"15\">that Pharaoh is the aspect of Kesser which is above the chain of descent.</t>\n    <t s=\"16\">And this is what is said,</t>\n    <t s=\"17\">\"And you shall give a fifth to Pharaoh and four parts shall be yours,\"</t>\n    <t s=\"18\">the four parts are Chochmah, Binah, Zeir Anpin, and Malchus,</t>\n    <t s=\"19\">and the fifth is Kesser which is above the chain of descent.</t>\n    <t s=\"20\">And it can be said,</t>\n    <t s=\"21\">that this, that \"four parts shall be yours\" comes after \"a fifth to Pharaoh,\"</t>\n    <t s=\"22\">it is,</t>\n    <t s=\"23\">that through the fifth to Pharaoh,</t>\n    <t s=\"24\">the drawing down of Kesser which is above the chain of descent,</t>\n    <t s=\"25\">also the four parts</t>\n    <t s=\"26\">[that shall be yours,</t>\n    <t s=\"27\">in the chain of descent]</t>\n    <t s=\"28\">are in a more elevated manner.</t>\n    <t s=\"29\">And as it is brought in the Zohar,</t>\n    <t s=\"30\">that Pharaoh is that from which all illuminations are broken through and revealed,</t>\n    <t s=\"31\">it can be said,</t>\n    <t s=\"32\">that the explanation of \"all illuminations are broken through\" is,</t>\n    <t s=\"33\">that through the drawing down of Kesser</t>\n    <t s=\"34\">(Pharaoh),</t>\n    <t s=\"35\">also the revelations</t>\n    <t s=\"36\">(illuminations)</t>\n    <t s=\"37\">of the chain of descent are in a manner of \"breaking through,\"</t>\n    <t s=\"38\">above limitation.</t>\n    <t s=\"39\">And although the matters in the chain of descent</t>\n    <t s=\"40\">(the four parts)</t>\n    <t s=\"41\">are always drawn from Kesser which is above the chain of descent,</t>\n    <t s=\"42\">nevertheless,</t>\n    <t s=\"43\">their drawing down from Kesser</t>\n    <t s=\"44\">(in the usual manner)</t>\n    <t s=\"45\">is in a way that Kesser is separate from them and therefore they are in limitation,</t>\n    <t s=\"46\">and the matter of \"a fifth to Pharaoh and four parts shall be yours\" is,</t>\n    <t s=\"47\">that even as they are drawn down in revelation</t>\n    <t s=\"48\">(in the chain of descent),</t>\n    <t s=\"49\">it is felt in them that their drawing down is from Kesser which is above the chain of descent,</t>\n    <t s=\"50\">and then they are in a manner of \"breaking through.\"</t>\n    <t s=\"51\">And the drawing down in this manner is through the Sefirah of Yesod.</t>\n    <t s=\"52\">For his matter of Yesod is that it influences to Malchus,</t>\n    <t s=\"53\">and in order for the influence to be below it is through the drawing down from Kesser.</t>\n    <t s=\"54\">And this is what was said,</t>\n    <t s=\"55\">\"Pharaoh\"</t>\n    <t s=\"56\">(Kesser)</t>\n    <t s=\"57\">to Yosef</t>\n    <t s=\"58\">(Yesod)</t>\n    <t s=\"59\">\"You shall be over my house, and at your command all my people shall kiss, etc.,</t>\n    <t s=\"60\">and without you no man shall lift his hand or his foot,\"</t>\n    <t s=\"61\">that the drawing down from Kesser</t>\n    <t s=\"62\">(i.e., the additional light drawn from Kesser)</t>\n    <t s=\"63\">in all the levels of the chain of descent</t>\n    <t s=\"64\">(all my people)</t>\n    <t s=\"65\">is through the Sefirah of Yesod,</t>\n    <t s=\"66\">\"at your command\"</t>\n    <t s=\"67\">(of Yosef).</t>\n    <t s=\"68\">And nevertheless</t>\n    <t s=\"69\">(only)</t>\n    <t s=\"70\">\"the throne I will be greater than you,\"</t>\n    <t s=\"71\">that this, that Yesod draws from Kesser, is from the aspect of Kesser as it relates to the chain of descent</t>\n    <t s=\"72\">[therefore,</t>\n    <t s=\"73\">the revelation of this drawing down is that the matters of the chain of descent are in a manner of \"breaking through\"],</t>\n    <t s=\"74\">but the throne,</t>\n    <t s=\"75\">the loftiness and exaltation,</t>\n    <t s=\"76\">i.e., Kesser itself which is elevated and separate from the chain of descent,</t>\n    <t s=\"77\">is not drawn down through Yesod.</t>\n    <t s=\"78\">And this is the superiority of Malchus over Yesod,</t>\n    <t s=\"79\">that the root of Malchus is in Kesser itself.</t>\n    <t s=\"80\">But in Malchus,</t>\n    <t s=\"81\">its root is in concealment,</t>\n    <t s=\"82\">and its revelation is through Zeir Anpin.</t>\n    <t s=\"83\">And through Zeir Anpin revealing in Malchus its root</t>\n    <t s=\"84\">(the essence of Kesser),</t>\n    <t s=\"85\">also Zeir Anpin is elevated to this level.</t>\n    <t s=\"86\">And this is what Yehudah said to Yosef, \"Bi Adoni etc., for you are like Pharaoh,\"</t>\n    <t s=\"87\">that through the drawing down into Malchus</t>\n    <t s=\"88\">(Bi,</t>\n    <t s=\"89\">in Yehudah)</t>\n    <t s=\"90\">of the flow from Yesod</t>\n    <t s=\"91\">(Adoni,</t>\n    <t s=\"92\">Yosef),</t>\n    <t s=\"93\">through which the root of Malchus will be revealed in it,</t>\n    <t s=\"94\">the essence of Kesser,</t>\n    <t s=\"95\">through this he will be</t>\n    <t s=\"96\">(like you)</t>\n    <t s=\"97\">like Pharaoh,</t>\n    <t s=\"98\">that the essence of Kesser will be drawn into him.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section clarifies that the unique revelation of the essence of Kesser occurs specifically when Malchus receives the flow from Yesod, analogous to the power of speech whose root is in the essence of the soul.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And explanation is needed,</t>\n    <t s=\"2\">behold, also this, that Yesod draws from Kesser, is because his matter of Yesod is that he influences to Malchus</t>\n    <t s=\"3\">(as above in section 3),</t>\n    <t s=\"4\">and nevertheless, this, that Yesod draws from Kesser, is only from the aspect of Kesser as it relates to the chain of descent,</t>\n    <t s=\"5\">and what is added through the matter of \"Bi Adoni\"</t>\n    <t s=\"6\">[that in Malchus the flow is drawn from Yesod]</t>\n    <t s=\"7\">that specifically through this is the drawing down of the essence of Kesser.</t>\n    <t s=\"8\">And the explanation of this can be said,</t>\n    <t s=\"9\">that the matter of \"Bi Adoni\" is</t>\n    <t s=\"10\">(not that Yesod influences to Malchus,</t>\n    <t s=\"11\">but),</t>\n    <t s=\"12\">that in Malchus the flow is drawn from Yesod,</t>\n    <t s=\"13\">\"Bi Adoni.\"</t>\n    <t s=\"14\">And the revelation of Kesser that is drawn through Malchus receiving the flow from Yesod is a more elevated revelation than the revelation of Kesser that is drawn through Yesod influencing Malchus.</t>\n    <t s=\"15\">And the concept is,</t>\n    <t s=\"16\">that the analogy for the Sefirah of Malchus in the powers of the soul is the power of speech</t>\n    <t s=\"17\">(Malchus is the mouth).</t>\n    <t s=\"18\">And among the reasons for this is,</t>\n    <t s=\"19\">for the difference between the power of speech and all the powers is,</t>\n    <t s=\"20\">that all the powers in a person are for his own need,</t>\n    <t s=\"21\">and the power of speech is</t>\n    <t s=\"22\">(not for his own need but)</t>\n    <t s=\"23\">for the sake of another.</t>\n    <t s=\"24\">And moreover,</t>\n    <t s=\"25\">that this, that speech is heard by another, is because it goes out externally and becomes separate from the person speaking,</t>\n    <t s=\"26\">from this it is understood also regarding the power of speech</t>\n    <t s=\"27\">(before one actually speaks),</t>\n    <t s=\"28\">that although the power of speech is within the person himself,</t>\n    <t s=\"29\">its matter is that it has the potential to go out of its existence and speak to another.</t>\n    <t s=\"30\">And similarly is it in Malchus,</t>\n    <t s=\"31\">that even when it is in Atzilus</t>\n    <t s=\"32\">(before it descends to enliven and bring into being the creations)</t>\n    <t s=\"33\">it is the root and source of the creations.</t>\n    <t s=\"34\">And it can be said,</t>\n    <t s=\"35\">that from the explanations on this, that the root of the power of speech is in the essence of the soul</t>\n    <t s=\"36\">(above the root of all the powers),</t>\n    <t s=\"37\">it is,</t>\n    <t s=\"38\">for the powers that are from the side of the revelations of the soul,</t>\n    <t s=\"39\">their matter is that they are a revelation of the soul</t>\n    <t s=\"40\">(revelation is in closeness to the thing it reveals),</t>\n    <t s=\"41\">and since the matter of the power of speech is that it has the potential to go out of its existence</t>\n    <t s=\"42\">(the opposite of the matter of closeness,</t>\n    <t s=\"43\">revelation)</t>\n    <t s=\"44\">it is because its root is in the essence of the soul,</t>\n    <t s=\"45\">which is not limited by the matter of revelation,</t>\n    <t s=\"46\">and it has the capacity to also be in concealment,</t>\n    <t s=\"47\">and even to the ultimate concealment,</t>\n    <t s=\"48\">going out of its existence.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916159_theRebbe_933",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains the current superiority of Yosef (Zeir Anpin) over Yehudah (Malchus) in the chain of descent, and how the future revelation will reverse this by revealing Malchus's higher root.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And similarly regarding Yosef and Yehudah,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that Yosef is"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(Yesod)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "of Zeir Anpin and Yehudah is Malchus,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "that now Yosef is above Yehudah,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "it is,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "because in the order of the chain of descent,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "Zeir Anpin is above Malchus."
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "[And this is \"And Yehudah approached him and said, 'Bi Adoni,'\""
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "for the explanation of \"Bi Adoni\" is that in Yehudah"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "(Bi)"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "the flow will be drawn from Yosef the Righteous"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(Adoni),"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "because Malchus receives flow from Zeir Anpin]."
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "And in the future to come,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "when the root of Malchus will be revealed,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "which is above the root of Zeir Anpin,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "it will be \"And My servant Dovid shall be king over them.\""
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "And explanation is needed,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "for since the matter of \"And Yehudah approached him\" is that Yosef"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "(Zeir Anpin,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "growing)"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "is above Yehudah"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "(Malchus,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "inanimate),"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "behold, in the maamar whose beginning is \"And Yehudah approached him,\""
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "its subject is not"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "(seemingly)"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "to explain the reason why the Beis HaMikdash was inanimate."
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "And from the fact that in the maamar beginning \"And Yehudah approached him\" it explains that this, that the Beis HaMikdash was inanimate, is because the Beis HaMikdash was a semblance of the World to Come,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "when Malchus will be"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "(inanimate)"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "above all the Sefiros,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "it is proven,"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "that although in the revelation of the matter of \"And Yehudah approached him\" Zeir Anpin is above Malchus,"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "there is in it"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "(in \"And Yehudah approached him\"),"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "in its inwardness and concealment,"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "the superiority of Malchus over Zeir Anpin,"
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "like the revelation of the future to come."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains Yehudah's statement \"for you are like Pharaoh\" as a means to elevate Yosef by drawing from the Kesser, which is above the chain of descent, through the Sefirah of Yesod.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And this will be understood by prefacing that when Yehudah wanted to arouse Yosef to draw down flow to him,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "he said to him,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "\"For you are like Pharaoh.\""
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "And the explanation of this is,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "that because the drawing down from Zeir Anpin"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(Yosef)"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "to Malchus"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "(Yehudah)"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "is a descent,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "therefore Yehudah explained to Yosef,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "that on the contrary,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "through this there will be an ascent in Zeir Anpin,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "that he will be \"like you, like Pharaoh.\""
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "And the concept is,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "that Pharaoh is the aspect of Kesser which is above the chain of descent."
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "And this is what is said,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "\"And you shall give a fifth to Pharaoh and four parts shall be yours,\""
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "the four parts are Chochmah, Binah, Zeir Anpin, and Malchus,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "and the fifth is Kesser which is above the chain of descent."
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "that this, that \"four parts shall be yours\" comes after \"a fifth to Pharaoh,\""
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "it is,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "that through the fifth to Pharaoh,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "the drawing down of Kesser which is above the chain of descent,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "also the four parts"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "[that shall be yours,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "in the chain of descent]"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "are in a more elevated manner."
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "And as it is brought in the Zohar,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "that Pharaoh is that from which all illuminations are broken through and revealed,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "that the explanation of \"all illuminations are broken through\" is,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "that through the drawing down of Kesser"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "(Pharaoh),"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "also the revelations"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "(illuminations)"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "of the chain of descent are in a manner of \"breaking through,\""
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "above limitation."
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "And although the matters in the chain of descent"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "(the four parts)"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "are always drawn from Kesser which is above the chain of descent,"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "their drawing down from Kesser"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "(in the usual manner)"
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "is in a way that Kesser is separate from them and therefore they are in limitation,"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "and the matter of \"a fifth to Pharaoh and four parts shall be yours\" is,"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "that even as they are drawn down in revelation"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "(in the chain of descent),"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "it is felt in them that their drawing down is from Kesser which is above the chain of descent,"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "and then they are in a manner of \"breaking through.\""
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "And the drawing down in this manner is through the Sefirah of Yesod."
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "For his matter of Yesod is that it influences to Malchus,"
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "and in order for the influence to be below it is through the drawing down from Kesser."
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "And this is what was said,"
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "\"Pharaoh\""
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "(Kesser)"
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "to Yosef"
+          },
+          {
+            "v": 4,
+            "s": 58,
+            "translation": "(Yesod)"
+          },
+          {
+            "v": 4,
+            "s": 59,
+            "translation": "\"You shall be over my house, and at your command all my people shall kiss, etc.,"
+          },
+          {
+            "v": 4,
+            "s": 60,
+            "translation": "and without you no man shall lift his hand or his foot,\""
+          },
+          {
+            "v": 4,
+            "s": 61,
+            "translation": "that the drawing down from Kesser"
+          },
+          {
+            "v": 4,
+            "s": 62,
+            "translation": "(i.e., the additional light drawn from Kesser)"
+          },
+          {
+            "v": 4,
+            "s": 63,
+            "translation": "in all the levels of the chain of descent"
+          },
+          {
+            "v": 4,
+            "s": 64,
+            "translation": "(all my people)"
+          },
+          {
+            "v": 4,
+            "s": 65,
+            "translation": "is through the Sefirah of Yesod,"
+          },
+          {
+            "v": 4,
+            "s": 66,
+            "translation": "\"at your command\""
+          },
+          {
+            "v": 4,
+            "s": 67,
+            "translation": "(of Yosef)."
+          },
+          {
+            "v": 4,
+            "s": 68,
+            "translation": "And nevertheless"
+          },
+          {
+            "v": 4,
+            "s": 69,
+            "translation": "(only)"
+          },
+          {
+            "v": 4,
+            "s": 70,
+            "translation": "\"the throne I will be greater than you,\""
+          },
+          {
+            "v": 4,
+            "s": 71,
+            "translation": "that this, that Yesod draws from Kesser, is from the aspect of Kesser as it relates to the chain of descent"
+          },
+          {
+            "v": 4,
+            "s": 72,
+            "translation": "[therefore,"
+          },
+          {
+            "v": 4,
+            "s": 73,
+            "translation": "the revelation of this drawing down is that the matters of the chain of descent are in a manner of \"breaking through\"],"
+          },
+          {
+            "v": 4,
+            "s": 74,
+            "translation": "but the throne,"
+          },
+          {
+            "v": 4,
+            "s": 75,
+            "translation": "the loftiness and exaltation,"
+          },
+          {
+            "v": 4,
+            "s": 76,
+            "translation": "i.e., Kesser itself which is elevated and separate from the chain of descent,"
+          },
+          {
+            "v": 4,
+            "s": 77,
+            "translation": "is not drawn down through Yesod."
+          },
+          {
+            "v": 4,
+            "s": 78,
+            "translation": "And this is the superiority of Malchus over Yesod,"
+          },
+          {
+            "v": 4,
+            "s": 79,
+            "translation": "that the root of Malchus is in Kesser itself."
+          },
+          {
+            "v": 4,
+            "s": 80,
+            "translation": "But in Malchus,"
+          },
+          {
+            "v": 4,
+            "s": 81,
+            "translation": "its root is in concealment,"
+          },
+          {
+            "v": 4,
+            "s": 82,
+            "translation": "and its revelation is through Zeir Anpin."
+          },
+          {
+            "v": 4,
+            "s": 83,
+            "translation": "And through Zeir Anpin revealing in Malchus its root"
+          },
+          {
+            "v": 4,
+            "s": 84,
+            "translation": "(the essence of Kesser),"
+          },
+          {
+            "v": 4,
+            "s": 85,
+            "translation": "also Zeir Anpin is elevated to this level."
+          },
+          {
+            "v": 4,
+            "s": 86,
+            "translation": "And this is what Yehudah said to Yosef, \"Bi Adoni etc., for you are like Pharaoh,\""
+          },
+          {
+            "v": 4,
+            "s": 87,
+            "translation": "that through the drawing down into Malchus"
+          },
+          {
+            "v": 4,
+            "s": 88,
+            "translation": "(Bi,"
+          },
+          {
+            "v": 4,
+            "s": 89,
+            "translation": "in Yehudah)"
+          },
+          {
+            "v": 4,
+            "s": 90,
+            "translation": "of the flow from Yesod"
+          },
+          {
+            "v": 4,
+            "s": 91,
+            "translation": "(Adoni,"
+          },
+          {
+            "v": 4,
+            "s": 92,
+            "translation": "Yosef),"
+          },
+          {
+            "v": 4,
+            "s": 93,
+            "translation": "through which the root of Malchus will be revealed in it,"
+          },
+          {
+            "v": 4,
+            "s": 94,
+            "translation": "the essence of Kesser,"
+          },
+          {
+            "v": 4,
+            "s": 95,
+            "translation": "through this he will be"
+          },
+          {
+            "v": 4,
+            "s": 96,
+            "translation": "(like you)"
+          },
+          {
+            "v": 4,
+            "s": 97,
+            "translation": "like Pharaoh,"
+          },
+          {
+            "v": 4,
+            "s": 98,
+            "translation": "that the essence of Kesser will be drawn into him."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section clarifies that the unique revelation of the essence of Kesser occurs specifically when Malchus receives the flow from Yesod, analogous to the power of speech whose root is in the essence of the soul.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And explanation is needed,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "behold, also this, that Yesod draws from Kesser, is because his matter of Yesod is that he influences to Malchus"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "(as above in section 3),"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "and nevertheless, this, that Yesod draws from Kesser, is only from the aspect of Kesser as it relates to the chain of descent,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "and what is added through the matter of \"Bi Adoni\""
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "[that in Malchus the flow is drawn from Yesod]"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "that specifically through this is the drawing down of the essence of Kesser."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "And the explanation of this can be said,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "that the matter of \"Bi Adoni\" is"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "(not that Yesod influences to Malchus,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "but),"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "that in Malchus the flow is drawn from Yesod,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "\"Bi Adoni.\""
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "And the revelation of Kesser that is drawn through Malchus receiving the flow from Yesod is a more elevated revelation than the revelation of Kesser that is drawn through Yesod influencing Malchus."
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "And the concept is,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "that the analogy for the Sefirah of Malchus in the powers of the soul is the power of speech"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "(Malchus is the mouth)."
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "And among the reasons for this is,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "for the difference between the power of speech and all the powers is,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "that all the powers in a person are for his own need,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "and the power of speech is"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "(not for his own need but)"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "for the sake of another."
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "that this, that speech is heard by another, is because it goes out externally and becomes separate from the person speaking,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "from this it is understood also regarding the power of speech"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "(before one actually speaks),"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "that although the power of speech is within the person himself,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "its matter is that it has the potential to go out of its existence and speak to another."
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "And similarly is it in Malchus,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "that even when it is in Atzilus"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "(before it descends to enliven and bring into being the creations)"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "it is the root and source of the creations."
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "that from the explanations on this, that the root of the power of speech is in the essence of the soul"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "(above the root of all the powers),"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "it is,"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "for the powers that are from the side of the revelations of the soul,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "their matter is that they are a revelation of the soul"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "(revelation is in closeness to the thing it reveals),"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "and since the matter of the power of speech is that it has the potential to go out of its existence"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "(the opposite of the matter of closeness,"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "revelation)"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "it is because its root is in the essence of the soul,"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "which is not limited by the matter of revelation,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "and it has the capacity to also be in concealment,"
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "and even to the ultimate concealment,"
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "going out of its existence."
+          }
+        ]
+      }
+    ]
+  }
+}

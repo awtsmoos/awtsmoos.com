@@ -1,0 +1,449 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 81,
+    "returned": 81,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920191_theRebbe_834\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920191_theRebbe_834__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the repentance of Elul, heralded by the shofar, has an advantage over the repentance of Rosh Hashanah because it reaches above the will of mitzvos, stemming from the essence of Israel that precedes the Torah.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And behold, similarly it is regarding the matter of repentance of Elul,</t>\n    <t s=\"2\">that this blowing of the shofar in Elul is</t>\n    <t s=\"3\">(as brought above from the Tur)</t>\n    <t s=\"4\">in order to warn Israel to repent,</t>\n    <t s=\"5\">which has an advantage over the repentance of Rosh Hashanah.</t>\n    <t s=\"6\">For although the repentance of Elul is for undesirable matters,</t>\n    <t s=\"7\">as understood from what is said in the writings of the Ariza\"l38</t>\n    <t s=\"8\">that Elul is an acronym for A.</t>\n    <t s=\"9\">neh L.</t>\n    <t s=\"10\">ido V.</t>\n    <t s=\"11\">samti L.</t>\n    <t s=\"12\">ach39,</t>\n    <t s=\"13\">that the cities of refuge are a correction for undesirable matters</t>\n    <t s=\"14\">[And it could be said,</t>\n    <t s=\"15\">that this that the repentance of Elul is hinted at in A.</t>\n    <t s=\"16\">neh L.</t>\n    <t s=\"17\">ido V.</t>\n    <t s=\"18\">samti L.</t>\n    <t s=\"19\">ach, that the atonement of the cities of refuge is for one who kills a soul unintentionally40,</t>\n    <t s=\"20\">is because through the repentance of Rosh Chodesh Elul, intentional sins become like unintentional ones, and the repentance of Elul is to correct the unintentional sins],</t>\n    <t s=\"21\">and the repentance of Rosh Hashanah, which comes after the undesirable matters have already been corrected</t>\n    <t s=\"22\">(also the unintentional sins)41</t>\n    <t s=\"23\">through the repentance of Elul, is</t>\n    <t s=\"24\">(primarily)</t>\n    <t s=\"25\">supernal repentance42,</t>\n    <t s=\"26\">nevertheless,</t>\n    <t s=\"27\">there is an advantage in the repentance of Elul over the repentance of Rosh Hashanah.</t>\n    <t s=\"28\">For the repentance of Rosh Hashanah</t>\n    <t s=\"29\">is hinted at in the mitzvah of shofar blowing,</t>\n    <t s=\"30\">as the Rambam says43</t>\n    <t s=\"31\">even though shofar blowing on Rosh Hashanah is a decree of Scripture,</t>\n    <t s=\"32\">it contains a hint,</t>\n    <t s=\"33\">meaning: Awaken, sleepers, from your sleep, etc., and return in repentance.</t>\n    <t s=\"34\">And although the matter of repentance hinted at in the shofar is above the mitzvah of shofar blowing44,</t>\n    <t s=\"35\">as is known regarding the concept of a hint,</t>\n    <t s=\"36\">that the hinted matter is above the thing that hints at it, to the extent that it is not clothed in the thing and is only a hint alone45,</t>\n    <t s=\"37\">nevertheless, this that the matter is at least hinted at in the thing,</t>\n    <t s=\"38\">is because there is a similarity between them.</t>\n    <t s=\"39\">And since shofar blowing on Rosh Hashanah is a mitzvah,</t>\n    <t s=\"40\">therefore,</t>\n    <t s=\"41\">also the repentance hinted at in it has a connection to the service of Torah and mitzvos.</t>\n    <t s=\"42\">And the main quality of repentance,</t>\n    <t s=\"43\">that it reaches the Owner of Will</t>\n    <t s=\"44\">(above the will of mitzvos)46,</t>\n    <t s=\"45\">is the repentance of Elul.</t>\n    <t s=\"46\">For this that repentance reaches above the will of mitzvos is47</t>\n    <t s=\"47\">because Israel preceded the Torah48,</t>\n    <t s=\"48\">and therefore,</t>\n    <t s=\"49\">the quality of repentance is primarily when the repentance comes from the person</t>\n    <t s=\"50\">(Israel)</t>\n    <t s=\"51\">himself,</t>\n    <t s=\"52\">the repentance of Elul,</t>\n    <t s=\"53\">\"I am for my Beloved.\"</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that the acronym Elul from \"I am for my Beloved and my Beloved is for me\" shows that the service of Elul reaches the Essence, from which all revelations of Rosh Hashanah and Yom Kippur are drawn, and thus the shofar blasts of Elul contain all the sounds of Rosh Hashanah.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And this is \"I am for my Beloved and my Beloved is for me,\" the acronym of Elul,</t>\n    <t s=\"2\">that this that \"my Beloved is for me\" is included in the acronym Elul,</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">because this that through the service of \"I am for my Beloved\"</t>\n    <t s=\"5\">(in Elul)</t>\n    <t s=\"6\">the drawing down of \"my Beloved is for me\" is effected on Rosh Hashanah and Yom Kippur, is because the service of \"I am for my Beloved\" reaches the Awtsmoos from which all revelations are drawn</t>\n    <t s=\"7\">(as above at the end of section 11),</t>\n    <t s=\"8\">and it is found that in \"I am for my Beloved\" of Elul, the drawing down of \"my Beloved is for me\" is also included.</t>\n    <t s=\"9\">And it could be said,</t>\n    <t s=\"10\">that this is what the shofar blasts of the month of Elul</t>\n    <t s=\"11\">(according to the custom of Chabad49)</t>\n    <t s=\"12\">are Tashrat, Tashat, Tarat,</t>\n    <t s=\"13\">all the sounds that are blown on Rosh Hashanah,</t>\n    <t s=\"14\">for in the shofar blasts of Elul exist all the matters that are in the shofar blasts of Rosh Hashanah.</t>\n    <t s=\"15\">And this that in Elul they blow ten sounds and not one hundred sounds,</t>\n    <t s=\"16\">perhaps it could be said,</t>\n    <t s=\"17\">that this is because the shofar blasts of Elul</t>\n    <t s=\"18\">(since they are the root of the matters that are drawn down on Rosh Hashanah)</t>\n    <t s=\"19\">are above division.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section concludes with a prayer that through our service, especially the service of Elul, the redemption will be hastened, hinted at by the acronym Elul for \"To Hashem I will sing.\"</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And 4)</t>\n    <t s=\"2\">May it be His will that through our deeds and our service50,</t>\n    <t s=\"3\">and particularly through the service of Elul,</t>\n    <t s=\"4\">the redemption will be brought closer and hastened even more,</t>\n    <t s=\"5\">and as hinted in this that Elul is an acronym for \"To Hashem I will sing, I will sing to Hashem\"51,</t>\n    <t s=\"6\">for then all sparks will go out from the exile52.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920191_theRebbe_834",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920191_theRebbe_834__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the repentance of Elul, heralded by the shofar, has an advantage over the repentance of Rosh Hashanah because it reaches above the will of mitzvos, stemming from the essence of Israel that precedes the Torah.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And behold, similarly it is regarding the matter of repentance of Elul,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "that this blowing of the shofar in Elul is"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(as brought above from the Tur)"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "in order to warn Israel to repent,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "which has an advantage over the repentance of Rosh Hashanah."
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "For although the repentance of Elul is for undesirable matters,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "as understood from what is said in the writings of the Ariza\"l38"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "that Elul is an acronym for A."
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "neh L."
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "ido V."
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "samti L."
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "ach39,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "that the cities of refuge are a correction for undesirable matters"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "[And it could be said,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "that this that the repentance of Elul is hinted at in A."
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "neh L."
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "ido V."
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "samti L."
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "ach, that the atonement of the cities of refuge is for one who kills a soul unintentionally40,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "is because through the repentance of Rosh Chodesh Elul, intentional sins become like unintentional ones, and the repentance of Elul is to correct the unintentional sins],"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "and the repentance of Rosh Hashanah, which comes after the undesirable matters have already been corrected"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "(also the unintentional sins)41"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "through the repentance of Elul, is"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "supernal repentance42,"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "there is an advantage in the repentance of Elul over the repentance of Rosh Hashanah."
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "For the repentance of Rosh Hashanah"
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "is hinted at in the mitzvah of shofar blowing,"
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "as the Rambam says43"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "even though shofar blowing on Rosh Hashanah is a decree of Scripture,"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "it contains a hint,"
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "meaning: Awaken, sleepers, from your sleep, etc., and return in repentance."
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "And although the matter of repentance hinted at in the shofar is above the mitzvah of shofar blowing44,"
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "as is known regarding the concept of a hint,"
+          },
+          {
+            "v": 12,
+            "s": 36,
+            "translation": "that the hinted matter is above the thing that hints at it, to the extent that it is not clothed in the thing and is only a hint alone45,"
+          },
+          {
+            "v": 12,
+            "s": 37,
+            "translation": "nevertheless, this that the matter is at least hinted at in the thing,"
+          },
+          {
+            "v": 12,
+            "s": 38,
+            "translation": "is because there is a similarity between them."
+          },
+          {
+            "v": 12,
+            "s": 39,
+            "translation": "And since shofar blowing on Rosh Hashanah is a mitzvah,"
+          },
+          {
+            "v": 12,
+            "s": 40,
+            "translation": "therefore,"
+          },
+          {
+            "v": 12,
+            "s": 41,
+            "translation": "also the repentance hinted at in it has a connection to the service of Torah and mitzvos."
+          },
+          {
+            "v": 12,
+            "s": 42,
+            "translation": "And the main quality of repentance,"
+          },
+          {
+            "v": 12,
+            "s": 43,
+            "translation": "that it reaches the Owner of Will"
+          },
+          {
+            "v": 12,
+            "s": 44,
+            "translation": "(above the will of mitzvos)46,"
+          },
+          {
+            "v": 12,
+            "s": 45,
+            "translation": "is the repentance of Elul."
+          },
+          {
+            "v": 12,
+            "s": 46,
+            "translation": "For this that repentance reaches above the will of mitzvos is47"
+          },
+          {
+            "v": 12,
+            "s": 47,
+            "translation": "because Israel preceded the Torah48,"
+          },
+          {
+            "v": 12,
+            "s": 48,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 12,
+            "s": 49,
+            "translation": "the quality of repentance is primarily when the repentance comes from the person"
+          },
+          {
+            "v": 12,
+            "s": 50,
+            "translation": "(Israel)"
+          },
+          {
+            "v": 12,
+            "s": 51,
+            "translation": "himself,"
+          },
+          {
+            "v": 12,
+            "s": 52,
+            "translation": "the repentance of Elul,"
+          },
+          {
+            "v": 12,
+            "s": 53,
+            "translation": "\"I am for my Beloved.\""
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that the acronym Elul from \"I am for my Beloved and my Beloved is for me\" shows that the service of Elul reaches the Essence, from which all revelations of Rosh Hashanah and Yom Kippur are drawn, and thus the shofar blasts of Elul contain all the sounds of Rosh Hashanah.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And this is \"I am for my Beloved and my Beloved is for me,\" the acronym of Elul,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "that this that \"my Beloved is for me\" is included in the acronym Elul,"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "is,"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "because this that through the service of \"I am for my Beloved\""
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "(in Elul)"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "the drawing down of \"my Beloved is for me\" is effected on Rosh Hashanah and Yom Kippur, is because the service of \"I am for my Beloved\" reaches the Awtsmoos from which all revelations are drawn"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "(as above at the end of section 11),"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "and it is found that in \"I am for my Beloved\" of Elul, the drawing down of \"my Beloved is for me\" is also included."
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "And it could be said,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "that this is what the shofar blasts of the month of Elul"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "(according to the custom of Chabad49)"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "are Tashrat, Tashat, Tarat,"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "all the sounds that are blown on Rosh Hashanah,"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "for in the shofar blasts of Elul exist all the matters that are in the shofar blasts of Rosh Hashanah."
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "And this that in Elul they blow ten sounds and not one hundred sounds,"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "perhaps it could be said,"
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "that this is because the shofar blasts of Elul"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "(since they are the root of the matters that are drawn down on Rosh Hashanah)"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "are above division."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section concludes with a prayer that through our service, especially the service of Elul, the redemption will be hastened, hinted at by the acronym Elul for \"To Hashem I will sing.\"",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And 4)"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "May it be His will that through our deeds and our service50,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "and particularly through the service of Elul,"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "the redemption will be brought closer and hastened even more,"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "and as hinted in this that Elul is an acronym for \"To Hashem I will sing, I will sing to Hashem\"51,"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "for then all sparks will go out from the exile52."
+          }
+        ]
+      }
+    ]
+  }
+}

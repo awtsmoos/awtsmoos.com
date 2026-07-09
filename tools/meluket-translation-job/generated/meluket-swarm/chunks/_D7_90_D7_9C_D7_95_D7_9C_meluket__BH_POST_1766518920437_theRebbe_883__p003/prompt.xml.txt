@@ -1,0 +1,98 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920437_theRebbe_883" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920437_theRebbe_883__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920437_theRebbe_883" title="מאמר אתם נצבים תשל"ט" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920437_theRebbe_883__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">ומזה יובן ענין הכריתת ברית בבחי' נפש,</src>
+    <src s="2">דכשם שענין הברית כפשוטו הוא שממשיך מענין שלמעלה מטעם ודעת,</src>
+    <src s="3">דלכן אין שייך בו שום שינוי כלל וכן יקום,</src>
+    <src s="4">דעי"ז מאחדים הפכים,</src>
+    <src s="5">וכמבואר בלקו"ת28</src>
+    <src s="6">דע"י שעוברים בין הבתרים נעשים לאחדים כאחד ממש29,</src>
+    <src s="7">עד"ז יובן בענין הכריתת ברית בנפש שבשביל איחוד הסתים וגליא שבנפש צ"ל ענין הברית שהוא ההמשכה ממקום עליון ביותר בנפש</src>
+    <src s="8">(ע"ד הנ"ל בתורה).</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">וזהו גם ענין הכריתת ברית בבחי' עולם שלפני הכניסה לארץ כפשוטה,</src>
+    <src s="2">כי תבוא אל הארץ גו' וירשתה וישבת בה.</src>
+    <src s="3">דהנה מבואר בכ"מ30</src>
+    <src s="4">שענין הכניסה לארץ ישראל הי' הירידה מעולם המחשבה או מעולם הדיבור לעולם המעשה,</src>
+    <src s="5">ירידה למטה מטה לארץ אוכלת יושבי'31,</src>
+    <src s="6">וכיון שהי' צריך להיות החיבור דמעלה מעלה עם המטה מטה,</src>
+    <src s="7">לכן הי' צריך להיות לפנ"ז כריתת ברית מיוחדת לבד הברית אשר כרת אתם בחורב,</src>
+    <src s="8">כי גם אחרי הברית שבחורב היו עדיין דור דעה32</src>
+    <src s="9">(בחי' מחשבה או בחי' דיבור),</src>
+    <src s="10">משא"כ כאן הי' צריך להיות הירידה למטה מטה,</src>
+    <src s="11">עד שפעלו שתהי' טובה הארץ מאד מאד33,</src>
+    <src s="12">הנה לזה הי' צ"ל כריתת ברית מיוחדת34.</src>
+  </section>
+  <section v="8">
+    <src s="0">ז)</src>
+    <src s="1">והנה כשם שיש ענין הכריתת ברית בנפש ובעולם כן הוא גם בשנה,</src>
+    <src s="2">דבראש השנה הוא בחי' כניסה לארץ ישראל בשנה35</src>
+    <src s="3">ובכל שנה קודם ראש השנה צריך כריתת ברית מחדש.</src>
+    <src s="4">והענין הוא,</src>
+    <src s="5">דהנה בראש השנה הוא שלימות עבודת האדם,</src>
+    <src s="6">דאז הקב"ה אומר תמליכוני עליכם36</src>
+    <src s="7">[דההחלטה על בריאת העולם היא ע"י נשמות ישראל וכמאמר37</src>
+    <src s="8">במי נמלך בנשמותיהן של צדיקים,</src>
+    <src s="9">ועמך כולם צדיקים38,</src>
+    <src s="10">וכמבואר בארוכה בתורת הרב המגיד באור תורה ובלקו"א בתחלתו39</src>
+    <src s="11">דע"י שעלה לפניו ית' התענוג מעבודת הצדיקים כו' וכמשל האב המצייר לעצמו את בנו הקטן כו'.</src>
+    <src s="12">וכן הוא בכל ראש השנה דההמלכה היא ע"י ישראל דוקא],</src>
+    <src s="13">ועי"ז היא ההחלטה להיות מלך על כל העולם.</src>
+    <src s="14">ומההחלטה שבראש השנה נמשך לכל ימות השנה,</src>
+    <src s="15">דלכן נקרא ראש השנה ולא תחלת השנה,</src>
+    <src s="16">כמבואר בארוכה בעטרת ראש בתחלתו40</src>
+    <src s="17">שהוא בדוגמת הראש הכולל את כל האברים,</src>
+    <src s="18">וגם אח"כ כאשר האברים נמצאים כל אחד במקומו הנה הראש הוא המנהיג אותם,</src>
+    <src s="19">דכן הוא בראש השנה שהוא המנהיג את כל ימות השנה,</src>
+    <src s="20">ועד שנמשך במעשה בפועל.</src>
+    <src s="21">שזהו ענין המשכה מן הקצה אל הקצה.</src>
+    <src s="22">וגם כללות ענין ההחלטה להיות מלך נמשך ע"י הכתרת נשמות ישראל שהם עצמם שרשם למעלה אפילו מתורה,</src>
+    <src s="23">ומשם נמשך למטה דוקא ע"י פסק דין בתורה,</src>
+    <src s="24">היינו ההוראות שבתורה בנוגע למעשה בפועל,</src>
+    <src s="25">אשר כדי לבוא לפסק דין אמיתי צריך להתייגע כדי לבוא אל האמת לאמיתו</src>
+    <src s="26">(כמבואר בהמשך יו"ט של ראש השנה שחל להיות בשבת מכ"ק אדמו"ר נ"ע41</src>
+    <src s="27">ובדרושי כ"ק מו"ח אדמו"ר נשיא דורנו ממלא מקומו),</src>
+    <src s="28">הנה כל זה הוא המשכה מן הקצה הכי עליון אל הקצה הכי תחתון.</src>
+    <src s="29">ולכן צריך להיות לפנ"ז ענין הכריתת ברית במיוחד,</src>
+    <src s="30">שע"י הכריתת ברית נעשים כל בני ישראל</src>
+    <src s="31">(ועמך כולם צדיקים)</src>
+    <src s="32">חד עם עצמות ומהות,</src>
+    <src s="33">בדוגמת הברית כפשוטו בגשמיות.</src>
+  </section>
+</awtsmoosMeluketSource>

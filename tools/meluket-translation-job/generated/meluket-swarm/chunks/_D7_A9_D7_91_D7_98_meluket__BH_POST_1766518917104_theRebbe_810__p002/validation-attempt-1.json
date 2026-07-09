@@ -1,0 +1,589 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 109,
+    "returned": 109,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917104_theRebbe_810\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917104_theRebbe_810__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the name \"kerashim\" (planks) for the acacia wood of the Mishkan indicates the transformation of worldly falsehood into holiness, and analyzes the letters of the word to show how the letters kuf and reish represent the side of impurity while the letter shin represents truth.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the Rebbe, my father-in-law, continues in the maamar in chapter 6,</t>\n    <t s=\"2\">that through this one can also understand why the acacia wood from which they built the Mishkan is called \"kerashim\" (planks), as it says,</t>\n    <t s=\"3\">\"And you shall make the planks for the Mishkan of acacia wood, standing upright.\"</t>\n    <t s=\"4\">For the name \"kerashim\"</t>\n    <t s=\"5\">[which is the name by which it is called in the Holy Tongue]</t>\n    <t s=\"6\">indicates the content of their essence.</t>\n    <t s=\"7\">And it is that which connects and the falsehood of the world is clarified and transformed into a plank of the Mishkan,</t>\n    <t s=\"8\">a connection of holiness</t>\n    <t s=\"9\">(as will be explained later in the maamar of the Hilula, chapter 10).</t>\n    <t s=\"10\">And it is in the manner explained above regarding the matter of acacia wood,</t>\n    <t s=\"11\">that this is the transformation from the foolishness of idolatry</t>\n    <t s=\"12\">(the falsehood of the world)</t>\n    <t s=\"13\">to the foolishness of holiness</t>\n    <t s=\"14\">(the planks of the Mishkan).</t>\n    <t s=\"15\">Now, this matter that is in the word \"keresh\" (plank)</t>\n    <t s=\"16\">(which before it is transformed into holiness indicates falsehood)</t>\n    <t s=\"17\">is hinted at not only in the word as a whole, but also in its letters,</t>\n    <t s=\"18\">and it is explained in the maamar in chapter 6</t>\n    <t s=\"19\">prefaced by what is said in the introduction to the Zohar,</t>\n    <t s=\"20\">that the letters kuf and reish are letters that appear on the side of impurity,</t>\n    <t s=\"21\">and in order to endure, they take the letter shin within them</t>\n    <t s=\"22\">(for the letter shin is a letter of truth).</t>\n    <t s=\"23\">And the connection of the letters kuf and reish to the side of impurity is explained in the maamar there,</t>\n    <t s=\"24\">that kuf and reish correspond to dalet and hei.</t>\n    <t s=\"25\">For dalet and reish resemble each other in their form and also in their meaning,</t>\n    <t s=\"26\">for dalet is an expression of poverty and indigence, and likewise reish is an expression of poverty and destitution,</t>\n    <t s=\"27\">but nevertheless they are differentiated and distant from each other to the utmost,</t>\n    <t s=\"28\">from one extreme to the other.</t>\n    <t s=\"29\">For dalet is a letter of holiness and reish is a letter of idolatry,</t>\n    <t s=\"30\">therefore when one exchanges these letters with each other, it destroys worlds, Heaven forbid.</t>\n    <t s=\"31\">And he brings two examples of this.</t>\n    <t s=\"32\">One example from the dalet of \"Echad\" (One),</t>\n    <t s=\"33\">the line of \"do good,\"</t>\n    <t s=\"34\">that if one were to exchange it, Heaven forbid, with the letter reish, it would destroy worlds,</t>\n    <t s=\"35\">and a second example from the reish of \"Do not bow down to another god,\"</t>\n    <t s=\"36\">the line of \"turn away from evil,\"</t>\n    <t s=\"37\">that if one were to exchange, Heaven forbid, the reish with a dalet, it would destroy worlds.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains the difference between the letters dalet and reish in their form, showing that the dalet has a yud behind it indicating self-nullification, while the reish lacks this and therefore represents selfhood and the side of impurity.</sectionSummaryBrief>\n    <t s=\"0\">Now, the difference between the letter dalet and the letter reish in their form</t>\n    <t s=\"1\">[for the form of the letters indicates the manner of their drawing down]</t>\n    <t s=\"2\">is explained in the maamar there,</t>\n    <t s=\"3\">that the letter dalet has a yud behind it,</t>\n    <t s=\"4\">for the letter yud</t>\n    <t s=\"5\">[being the smallest of all letters,</t>\n    <t s=\"6\">to the point that it is merely a point]</t>\n    <t s=\"7\">indicates self-nullification.</t>\n    <t s=\"8\">And this is the point of explanation in the distinction between the letter dalet and reish</t>\n    <t s=\"9\">(even though both indicate poverty),</t>\n    <t s=\"10\">that the letter reish,</t>\n    <t s=\"11\">since it does not have a yud indicating self-nullification,</t>\n    <t s=\"12\">is the matter of selfhood,</t>\n    <t s=\"13\">and therefore it is among the letters that appear on the side of impurity</t>\n    <t s=\"14\">(and the matter of the poverty of the side of impurity is that they have no connection to G-dliness),</t>\n    <t s=\"15\">but not so the letter dalet,</t>\n    <t s=\"16\">since it has a yud indicating self-nullification,</t>\n    <t s=\"17\">the matter of its poverty is the matter of self-nullification.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the drawing down of the Shechinah to create a dwelling place below is specifically through the service of self-nullification, as exemplified by the connection between Rosh Chodesh (the new moon) and the giving of the Torah, and by Moshe's extreme humility.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">Now, the matter of self-nullification</t>\n    <t s=\"2\">(explained in the maamar, chapter 6)</t>\n    <t s=\"3\">comes as a continuation of the matter of \"I have come to My garden, My sister, My bride\"</t>\n    <t s=\"4\">(the content of the entire maamar).</t>\n    <t s=\"5\">That is,</t>\n    <t s=\"6\">the drawing down of the Shechinah below,</t>\n    <t s=\"7\">that there be a dwelling place for Him, blessed be He, in the lower realms,</t>\n    <t s=\"8\">is specifically through the service of self-nullification.</t>\n    <t s=\"9\">And since the making of the dwelling place is through the Torah,</t>\n    <t s=\"10\">for this is that the entire creation is for the sake of the Torah, as our Rabbis, of blessed memory, said,</t>\n    <t s=\"11\">\"For the sake of the Torah which is called 'reishis' (beginning),\"</t>\n    <t s=\"12\">it is therefore understood</t>\n    <t s=\"13\">that the preparation for the giving of the Torah is the matter of self-nullification.</t>\n    <t s=\"14\">And as the Alter Rebbe explains</t>\n    <t s=\"15\">on the verse,</t>\n    <t s=\"16\">\"In the third month... on this day they came to the Sinai desert,\"</t>\n    <t s=\"17\">and our Rabbis, of blessed memory, expounded</t>\n    <t s=\"18\">that it refers to Rosh Chodesh (the new moon),</t>\n    <t s=\"19\">which is not understood,</t>\n    <t s=\"20\">what is the connection of their coming to the Sinai desert</t>\n    <t s=\"21\">(the preparation for the giving of the Torah)</t>\n    <t s=\"22\">to Rosh Chodesh,</t>\n    <t s=\"23\">and also why Rosh Chodesh is called in this verse by the expression \"on this day,\"</t>\n    <t s=\"24\">and the Alter Rebbe explains based on what our Rabbis, of blessed memory, said,</t>\n    <t s=\"25\">\"Israel counts by the moon,\"</t>\n    <t s=\"26\">that the moon has nothing of its own,</t>\n    <t s=\"27\">the matter of self-nullification.</t>\n    <t s=\"28\">And this is the connection of Rosh Chodesh to the giving of the Torah,</t>\n    <t s=\"29\">that just as the moon at the time of its birth</t>\n    <t s=\"30\">(the matter of Rosh Chodesh)</t>\n    <t s=\"31\">is merely a point</t>\n    <t s=\"32\">(for a point is the matter of self-nullification),</t>\n    <t s=\"33\">and moreover,</t>\n    <t s=\"34\">that a moment before its birth it is in concealment and hiddenness entirely, not in a state of existence at all</t>\n    <t s=\"35\">(not even the existence of a point),</t>\n    <t s=\"36\">so too, the preparation for the giving of the Torah is the matter of self-nullification.</t>\n    <t s=\"37\">And this is also why the Torah was given specifically through Moshe,</t>\n    <t s=\"38\">because Moshe was in the ultimate state of self-nullification, as it says,</t>\n    <t s=\"39\">\"And the man Moshe was very humble, more than any person on the face of the earth,\"</t>\n    <t s=\"40\">\"humble\" is the matter of \"poor\"</t>\n    <t s=\"41\">and it is the matter of the self-nullification of the letter dalet, from the expression of poverty and indigence,</t>\n    <t s=\"42\">and due to his self-nullification, the Torah was given through him.</t>\n    <t s=\"43\">And this is also why all the prophets prophesied through the term \"koh\" (thus) and Moshe prophesied through the term \"zeh\" (this),</t>\n    <t s=\"44\">\"zeh\" is the level of Chochmah (wisdom),</t>\n    <t s=\"45\">and the drawing down of Chochmah is through self-nullification,</t>\n    <t s=\"46\">therefore Moshe prophesied through \"zeh.\"</t>\n    <t s=\"47\">And this is also why Rosh Chodesh is called in this verse by the expression \"on this day,\"</t>\n    <t s=\"48\">\"day\" is light and revelation, and this is the level of Chochmah as above,</t>\n    <t s=\"49\">and \"this day\" is the revelation of the level of Chochmah.</t>\n    <t s=\"50\">And through the matter of Rosh Chodesh, which indicates self-nullification as above,</t>\n    <t s=\"51\">there is brought about \"on this day,\"</t>\n    <t s=\"52\">the revelation of the level of Chochmah.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917104_theRebbe_810",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917104_theRebbe_810__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the name \"kerashim\" (planks) for the acacia wood of the Mishkan indicates the transformation of worldly falsehood into holiness, and analyzes the letters of the word to show how the letters kuf and reish represent the side of impurity while the letter shin represents truth.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the Rebbe, my father-in-law, continues in the maamar in chapter 6,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that through this one can also understand why the acacia wood from which they built the Mishkan is called \"kerashim\" (planks), as it says,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "\"And you shall make the planks for the Mishkan of acacia wood, standing upright.\""
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "For the name \"kerashim\""
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "[which is the name by which it is called in the Holy Tongue]"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "indicates the content of their essence."
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "And it is that which connects and the falsehood of the world is clarified and transformed into a plank of the Mishkan,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "a connection of holiness"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "(as will be explained later in the maamar of the Hilula, chapter 10)."
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "And it is in the manner explained above regarding the matter of acacia wood,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "that this is the transformation from the foolishness of idolatry"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(the falsehood of the world)"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "to the foolishness of holiness"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "(the planks of the Mishkan)."
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "Now, this matter that is in the word \"keresh\" (plank)"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "(which before it is transformed into holiness indicates falsehood)"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "is hinted at not only in the word as a whole, but also in its letters,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "and it is explained in the maamar in chapter 6"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "prefaced by what is said in the introduction to the Zohar,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "that the letters kuf and reish are letters that appear on the side of impurity,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "and in order to endure, they take the letter shin within them"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "(for the letter shin is a letter of truth)."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "And the connection of the letters kuf and reish to the side of impurity is explained in the maamar there,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "that kuf and reish correspond to dalet and hei."
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "For dalet and reish resemble each other in their form and also in their meaning,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "for dalet is an expression of poverty and indigence, and likewise reish is an expression of poverty and destitution,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "but nevertheless they are differentiated and distant from each other to the utmost,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "from one extreme to the other."
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "For dalet is a letter of holiness and reish is a letter of idolatry,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "therefore when one exchanges these letters with each other, it destroys worlds, Heaven forbid."
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "And he brings two examples of this."
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "One example from the dalet of \"Echad\" (One),"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "the line of \"do good,\""
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "that if one were to exchange it, Heaven forbid, with the letter reish, it would destroy worlds,"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "and a second example from the reish of \"Do not bow down to another god,\""
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "the line of \"turn away from evil,\""
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "that if one were to exchange, Heaven forbid, the reish with a dalet, it would destroy worlds."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains the difference between the letters dalet and reish in their form, showing that the dalet has a yud behind it indicating self-nullification, while the reish lacks this and therefore represents selfhood and the side of impurity.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "Now, the difference between the letter dalet and the letter reish in their form"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "[for the form of the letters indicates the manner of their drawing down]"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "is explained in the maamar there,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "that the letter dalet has a yud behind it,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "for the letter yud"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "[being the smallest of all letters,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "to the point that it is merely a point]"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "indicates self-nullification."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And this is the point of explanation in the distinction between the letter dalet and reish"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(even though both indicate poverty),"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "that the letter reish,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "since it does not have a yud indicating self-nullification,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "is the matter of selfhood,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and therefore it is among the letters that appear on the side of impurity"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "(and the matter of the poverty of the side of impurity is that they have no connection to G-dliness),"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "but not so the letter dalet,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "since it has a yud indicating self-nullification,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "the matter of its poverty is the matter of self-nullification."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the drawing down of the Shechinah to create a dwelling place below is specifically through the service of self-nullification, as exemplified by the connection between Rosh Chodesh (the new moon) and the giving of the Torah, and by Moshe's extreme humility.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "Now, the matter of self-nullification"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(explained in the maamar, chapter 6)"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "comes as a continuation of the matter of \"I have come to My garden, My sister, My bride\""
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "(the content of the entire maamar)."
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "That is,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "the drawing down of the Shechinah below,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "that there be a dwelling place for Him, blessed be He, in the lower realms,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "is specifically through the service of self-nullification."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And since the making of the dwelling place is through the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "for this is that the entire creation is for the sake of the Torah, as our Rabbis, of blessed memory, said,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "\"For the sake of the Torah which is called 'reishis' (beginning),\""
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "it is therefore understood"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "that the preparation for the giving of the Torah is the matter of self-nullification."
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "And as the Alter Rebbe explains"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "\"In the third month... on this day they came to the Sinai desert,\""
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "and our Rabbis, of blessed memory, expounded"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "that it refers to Rosh Chodesh (the new moon),"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "which is not understood,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "what is the connection of their coming to the Sinai desert"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "(the preparation for the giving of the Torah)"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "to Rosh Chodesh,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "and also why Rosh Chodesh is called in this verse by the expression \"on this day,\""
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "and the Alter Rebbe explains based on what our Rabbis, of blessed memory, said,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "\"Israel counts by the moon,\""
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "that the moon has nothing of its own,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "the matter of self-nullification."
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "And this is the connection of Rosh Chodesh to the giving of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "that just as the moon at the time of its birth"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "(the matter of Rosh Chodesh)"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "is merely a point"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "(for a point is the matter of self-nullification),"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "that a moment before its birth it is in concealment and hiddenness entirely, not in a state of existence at all"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "(not even the existence of a point),"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "so too, the preparation for the giving of the Torah is the matter of self-nullification."
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "And this is also why the Torah was given specifically through Moshe,"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "because Moshe was in the ultimate state of self-nullification, as it says,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "\"And the man Moshe was very humble, more than any person on the face of the earth,\""
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "\"humble\" is the matter of \"poor\""
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "and it is the matter of the self-nullification of the letter dalet, from the expression of poverty and indigence,"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "and due to his self-nullification, the Torah was given through him."
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "And this is also why all the prophets prophesied through the term \"koh\" (thus) and Moshe prophesied through the term \"zeh\" (this),"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "\"zeh\" is the level of Chochmah (wisdom),"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "and the drawing down of Chochmah is through self-nullification,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "therefore Moshe prophesied through \"zeh.\""
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "And this is also why Rosh Chodesh is called in this verse by the expression \"on this day,\""
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "\"day\" is light and revelation, and this is the level of Chochmah as above,"
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "and \"this day\" is the revelation of the level of Chochmah."
+          },
+          {
+            "v": 5,
+            "s": 50,
+            "translation": "And through the matter of Rosh Chodesh, which indicates self-nullification as above,"
+          },
+          {
+            "v": 5,
+            "s": 51,
+            "translation": "there is brought about \"on this day,\""
+          },
+          {
+            "v": 5,
+            "s": 52,
+            "translation": "the revelation of the level of Chochmah."
+          }
+        ]
+      }
+    ]
+  }
+}

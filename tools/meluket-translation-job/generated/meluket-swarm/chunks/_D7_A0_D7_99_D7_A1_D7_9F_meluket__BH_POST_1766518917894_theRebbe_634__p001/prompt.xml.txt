@@ -1,0 +1,105 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917894_theRebbe_634" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917894_theRebbe_634__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917894_theRebbe_634" title="מאמר כימי צאתך תשי"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917894_theRebbe_634__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אחרון של פסח ה'תשי"ב*</src>
+  </section>
+  <section v="1">
+    <src s="0">כימי צאתך מארץ מצרים אראנו נפלאות1,</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">הרי גאולה העתידה תהי' נעלית הרבה יותר מהגאולה דיציאת מצרים</src>
+    <src s="3">[שלכן,</src>
+    <src s="4">לפי דעת בן זומא2,</src>
+    <src s="5">אין מזכירין יציאת מצרים בימות המשיח.</src>
+    <src s="6">וגם לדעת חכמים2</src>
+    <src s="7">שמזכירין יציאת מצרים בימות המשיח,</src>
+    <src s="8">לפי שיש מעלה ביציאת מצרים גם לגבי גאולה העתידה,</src>
+    <src s="9">הגאולה דיציאת מצרים תהי' טפילה לגאולה העתידה2],</src>
+    <src s="10">ומהו אומרו כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="11">שהעילוי דגאולה העתידה הוא שגם אז יהי' אראנו נפלאות כמו שהי' ביציאת מצרים.</src>
+    <src s="12">גם צריך להבין שמדייק אראנו נפלאות,</src>
+    <src s="13">שעיקר המעלה דגאולה העתידה היא לא בהנפלאות עצמם שיהיו אז אלא בזה שהקב"ה יראה את הנפלאות.</src>
+    <src s="14">גם צריך להבין אומרו אראנו לשון נסתר,</src>
+    <src s="15">הרי בתחלה אומר</src>
+    <src s="16">(כימי)</src>
+    <src s="17">צאתך לשון נוכח,</src>
+    <src s="18">והול"ל אראך.</src>
+    <src s="19">ומ"ש בזהר3</src>
+    <src s="20">דמ"ש אראנו לשון נסתר הוא לפי שאראנו קאי על משה,</src>
+    <src s="21">צריך ביאור הקשר דפירוש זה עם הפירוש כפשוטו שאראנו קאי על ישראל.</src>
+  </section>
+  <section v="2">
+    <src s="0">ונקודת הביאור בזה,</src>
+    <src s="1">דבנסים יש</src>
+    <src s="2">(בכללות)</src>
+    <src s="3">שני סוגים.</src>
+    <src s="4">נסים שלמעלה מהטבע</src>
+    <src s="5">[כהנסים שהיו ביציאת מצרים,</src>
+    <src s="6">הפיכת מים לדם וכו' ועד להנס דקריעת ים סוף שנהפך ים ליבשה],</src>
+    <src s="7">ונסים המלובשים בדרכי הטבע.</src>
+    <src s="8">ובהם גופא שני אופנים.</src>
+    <src s="9">שלבושי הטבע הם באופן שניכר שהם רק לבוש להנס שמתלבש בהם.</src>
+    <src s="10">כנסים דחנוכה ופורים,</src>
+    <src s="11">דעם היותם מלובשים בדרכי הטבע,</src>
+    <src s="12">מ"מ הי' ניכר בגילוי</src>
+    <src s="13">(ועד שראו כל אפסי ארץ4)</src>
+    <src s="14">הנס שבהם.</src>
+    <src s="15">ושלבושי הטבע מעלימים על הנס שמלובש בהם5.</src>
+    <src s="16">וידוע6</src>
+    <src s="17">דשרש הנסים המלובשים בטבע הוא ממקום נעלה יותר משרש הנסים שלמעלה מהטבע.</src>
+    <src s="18">ושרש הנסים שמלובשים בטבע באופן שאין ניכר אפילו שלבושי הטבע הם רק לבוש הוא ממקום נעלה עוד יותר7.</src>
+    <src s="19">כמ"ש8</src>
+    <src s="20">לעושה נפלאות גדולות לבדו ואמרו רז"ל9</src>
+    <src s="21">אפילו בעל הנס אינו מכיר בנסו,</src>
+    <src s="22">שהשרש דנפלאות אלו</src>
+    <src s="23">(שאין בעל הנס מכיר בנסו)</src>
+    <src s="24">הוא מבחינת לבדו10.</src>
+    <src s="25">וזהו החידוש בזה שבגאולה העתידה יהי' אראנו נפלאות,</src>
+    <src s="26">כי הנפלאות שבגאולה העתידה יומשכו ממנו ית' לבדו,</src>
+    <src s="27">כמרז"ל11</src>
+    <src s="28">לשעבר</src>
+    <src s="29">(ביציאת מצרים)</src>
+    <src s="30">אני ובית דיני הייתי מהלך לפניהם אבל לעתיד לבוא אני לבדי,</src>
+    <src s="31">דהנסים שהיו ביציאת מצרים נמשכו ממנו ית' דרך בית דינו והנסים שבגאולה העתידה יהיו ממנו לבדו</src>
+    <src s="32">(שלא ע"י בית דינו)12.</src>
+    <src s="33">וזהו החידוש דאראנו נפלאות,</src>
+    <src s="34">דהגם שהנפלאות הנמשכים ממנו ית' לבדו הם</src>
+    <src s="35">(בדרך כלל)</src>
+    <src s="36">באופן שהוא לבדו יודע שזה נס,</src>
+    <src s="37">מ"מ יהי' אראנו נפלאות,</src>
+    <src s="38">שיהי' נראה בגילוי הנס שבהם.</src>
+  </section>
+</awtsmoosMeluketSource>

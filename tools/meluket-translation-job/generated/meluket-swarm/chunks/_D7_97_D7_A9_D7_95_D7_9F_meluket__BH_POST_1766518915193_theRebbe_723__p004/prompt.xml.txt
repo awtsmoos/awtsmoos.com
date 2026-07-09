@@ -1,0 +1,115 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915193_theRebbe_723" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915193_theRebbe_723" title="מאמר ויאמר לו יהונתן תשמ"ה" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p004">
+  <section v="9">
+    <src s="0">וזהו27 יצחק בן אברהם אברהם הוליד את יצחק,</src>
+    <src s="1">יצחק בן אברהם</src>
+    <src s="2">(שיצחק עצמו הוא בן אברהם)</src>
+    <src s="3">הוא שההעלאה עצמה באה ע"י קדימת ההמשכה,</src>
+    <src s="4">ואברהם הוליד את יצחק,</src>
+    <src s="5">הוליד הוא לשון פועל יוצא שנותן את כח התולדה ביצחק,</src>
+    <src s="6">הוא,</src>
+    <src s="7">שהכח שבהעלאת המטה להגיע למעלה נמשך</src>
+    <src s="8">(מתגלה)</src>
+    <src s="9">ע"י ההמשכה מלמעלה</src>
+    <src s="10">(שלפני ההעלאה).</src>
+    <src s="11">ויש לומר,</src>
+    <src s="12">שעד"ז הוא בויאמר לו יהונתן מחר חודש,</src>
+    <src s="13">המשכת הנתינת כח מז"א למלכות על הענין דמחר חודש,</src>
+    <src s="14">שיש בזה שני ענינים,</src>
+    <src s="15">דוגמת שני הענינים שבההמשכה מאברהם ליצחק.</src>
+    <src s="16">הנתינת כח על הענין דיפקד מושבך,</src>
+    <src s="17">הביטול וההעלאה דמלכות – ע"ד יצחק בן אברהם,</src>
+    <src s="18">והנתינת כח שע"י יפקד מושבך יהי' ונפקדת – ע"ד אברהם הוליד את יצחק.</src>
+  </section>
+  <section v="10">
+    <src s="0">ו)</src>
+    <src s="1">והנה בהמעלה דהעלאה מלמטה למעלה לגבי המשכה מלמעלה למטה,</src>
+    <src s="2">שני ענינים.</src>
+    <src s="3">שההעלאה מלמטה למעלה מעוררת וממשכת ממקום נעלה יותר מההמשכה הבאה מלמעלה מצד עצמה.</src>
+    <src s="4">[וכמובא לעיל מהדרושים שהמעלה דהעלאה לגבי המשכה היא ע"ד אשה מזרעת תחלה יולדת זכר,</src>
+    <src s="5">שהולדת האהבה שבבחינת זכר</src>
+    <src s="6">(אהבה רבה)</src>
+    <src s="7">באה מהאתערותא דלעילא28,</src>
+    <src s="8">אלא שזה שהאתערותא דלעילא נמשכת מפנימיות האור</src>
+    <src s="9">(שלכן נולד ממנה אהבה רבה)</src>
+    <src s="10">הוא מפני שהמשכתה הוא על ידי האתערותא דלתתא28].</src>
+    <src s="11">והמעלה דההעלאה עצמה,</src>
+    <src s="12">שהיא נעלית יותר גם מההמשכה שע"י העלאה.</src>
+    <src s="13">וכמבואר בהדרושים29</src>
+    <src s="14">המעלה דאור חוזר</src>
+    <src s="15">(העלאה)</src>
+    <src s="16">שהוא חוזר לקדמות המאציל ממש.</src>
+    <src s="17">ולכן לע"ל יאמר ליצחק דוקא כי אתה אבינו30,</src>
+    <src s="18">לפי שאז יתגלה המעלה שבהעלאה עצמה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דשני הענינים שייכים זל"ז.</src>
+    <src s="2">דזה שע"י ההעלאה,</src>
+    <src s="3">ההמשכה היא נעלית יותר,</src>
+    <src s="4">הוא מצד העילוי שבהעלאה עצמה.</src>
+    <src s="5">אלא שעכשיו,</src>
+    <src s="6">שעיקר המעלה היא בההמשכה מלמעלה,</src>
+    <src s="7">המעלה דהעלאה היא שההמשכה שעל ידה היא המשכה נעלית יותר,</src>
+    <src s="8">ולע"ל תתגלה המעלה דהעלאה עצמה31.</src>
+    <src s="9">ועפ"ז יש לומר,</src>
+    <src s="10">דענין יצחק</src>
+    <src s="11">[בן אברהם]</src>
+    <src s="12">הוא נעלה יותר מהענין ד</src>
+    <src s="13">[אברהם]</src>
+    <src s="14">הוליד את יצחק.</src>
+    <src s="15">דענין הוליד את יצחק,</src>
+    <src s="16">המשכת כח ההולדה ביצחק,</src>
+    <src s="17">הולדת האהבה שבבחינת זכר על ידי העלאת מ"ן</src>
+    <src s="18">(אשה כי תזריע),</src>
+    <src s="19">הוא מעלת ההמשכה שעל ידי ההעלאה.</src>
+    <src s="20">וענין יצחק</src>
+    <src s="21">(בן אברהם)</src>
+    <src s="22">הוא מעלת ההעלאה עצמה.</src>
+    <src s="23">וזהו שביצחק בן אברהם נאמר יצחק לפני אברהם,</src>
+    <src s="24">ובאברהם הוליד את יצחק נאמר אברהם לפני יצחק32,</src>
+    <src s="25">כי באברהם הוליד את יצחק,</src>
+    <src s="26">עיקר המעלה היא בההמשכה,</src>
+    <src s="27">ולכן ההתחלה והעיקר הוא אברהם,</src>
+    <src s="28">וביצחק בן אברהם</src>
+    <src s="29">(יצחק עצמו),</src>
+    <src s="30">עיקר המעלה היא בההעלאה,</src>
+    <src s="31">ולכן נאמר תחלה יצחק,</src>
+    <src s="32">כי הוא העיקר</src>
+    <src s="33">(ואח"כ מבאר שהדרך לבוא לההעלאה דיצחק הוא על ידי המשכה מלמעלה למטה,</src>
+    <src s="34">בן אברהם).</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,267 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 47,
+    "returned": 47,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916972_theRebbe_524\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916972_theRebbe_524__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>Through the revelations of the Nesi'im, additional strength is given to each Jew to serve with the power of Atik, especially on the day of the hillula and during Minchah of Shabbos, leading to the ultimate revelation of the inner dimension of Atik in the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">b)</t>\n    <t s=\"2\">And behold,</t>\n    <t s=\"3\">as mentioned above,</t>\n    <t s=\"4\">that through the Nesi'im revealing all this to us,</t>\n    <t s=\"5\">there is an additional increase in the empowerment given to each and every one of the hosts of Havayah</t>\n    <t s=\"6\">[and particularly the hosts of Havayah of this generation of ours,</t>\n    <t s=\"7\">the seventh generation from the Alter Rebbe,</t>\n    <t s=\"8\">and the ninth generation from the Baal Shem Tov,</t>\n    <t s=\"9\">and immediately this generation becomes</t>\n    <t s=\"10\">(the last generation of exile)</t>\n    <t s=\"11\">the generation of redemption,</t>\n    <t s=\"12\">the tenth generation that goes toward Moshiach Tzidkeinu],</t>\n    <t s=\"13\">that his service should be with strength without changes</t>\n    <t s=\"14\">(since each and every Jew is connected to Atik, in which there is no change),</t>\n    <t s=\"15\">for although a person's service must be in three lines</t>\n    <t s=\"16\">(turn from evil, do good, and seek peace)</t>\n    <t s=\"17\">nevertheless, there must be in this the strength that comes from Atik, which is above lines</t>\n    <t s=\"18\">(similar to what was explained above regarding the connection of man with non-man).</t>\n    <t s=\"19\">And particularly on the day of the hillula,</t>\n    <t s=\"20\">for then,</t>\n    <t s=\"21\">all of his deeds, Torah, and service</t>\n    <t s=\"22\">(of the baal hahillula)</t>\n    <t s=\"23\">are revealed,</t>\n    <t s=\"24\">and in a manner of \"He works salvations in the midst of the earth\"64,</t>\n    <t s=\"25\">that even in the midst of the earth</t>\n    <t s=\"26\">(the crudeness of the earth)65</t>\n    <t s=\"27\">the salvations that are above the chain of descent are drawn down and revealed,</t>\n    <t s=\"28\">and especially since from the day of the hillula we immediately come to Shabbos Kodesh and are now in the time of Minchah of Shabbos,</t>\n    <t s=\"29\">the ratzon of all ratzonim</t>\n    <t s=\"30\">(the aspect of Atik),</t>\n    <t s=\"31\">for then there is an additional increase in the empowerment given to each and every one of the children of Israel,</t>\n    <t s=\"32\">the hosts of Havayah,</t>\n    <t s=\"33\">to serve his service with strength without changes,</t>\n    <t s=\"34\">through which the main dwelling of the Shechinah in the lower realms is drawn down,</t>\n    <t s=\"35\">as it was at the beginning of creation,</t>\n    <t s=\"36\">and even more so,</t>\n    <t s=\"37\">for although even at the beginning of creation it is written66</t>\n    <t s=\"38\">\"toldos\" is written plene67,</t>\n    <t s=\"39\">the world was created in its fullness68,</t>\n    <t s=\"40\">\"these are the generations of Peretz\"69,</t>\n    <t s=\"41\">\"toldos\" plene67,</t>\n    <t s=\"42\">it is higher than the \"toldos\" plene of the beginning of creation,</t>\n    <t s=\"43\">until there will also be the revelation of the innerness of Atik,</t>\n    <t s=\"44\">which will be specifically in the future to come70,</t>\n    <t s=\"45\">in the true and complete redemption through Moshiach Tzidkeinu,</t>\n    <t s=\"46\">very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916972_theRebbe_524",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916972_theRebbe_524__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "Through the revelations of the Nesi'im, additional strength is given to each Jew to serve with the power of Atik, especially on the day of the hillula and during Minchah of Shabbos, leading to the ultimate revelation of the inner dimension of Atik in the future redemption.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "b)"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "And behold,"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "as mentioned above,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "that through the Nesi'im revealing all this to us,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "there is an additional increase in the empowerment given to each and every one of the hosts of Havayah"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "[and particularly the hosts of Havayah of this generation of ours,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "the seventh generation from the Alter Rebbe,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "and the ninth generation from the Baal Shem Tov,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "and immediately this generation becomes"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "(the last generation of exile)"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "the generation of redemption,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "the tenth generation that goes toward Moshiach Tzidkeinu],"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "that his service should be with strength without changes"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "(since each and every Jew is connected to Atik, in which there is no change),"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "for although a person's service must be in three lines"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "(turn from evil, do good, and seek peace)"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "nevertheless, there must be in this the strength that comes from Atik, which is above lines"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "(similar to what was explained above regarding the connection of man with non-man)."
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "And particularly on the day of the hillula,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "for then,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "all of his deeds, Torah, and service"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "(of the baal hahillula)"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "are revealed,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "and in a manner of \"He works salvations in the midst of the earth\"64,"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "that even in the midst of the earth"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "(the crudeness of the earth)65"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "the salvations that are above the chain of descent are drawn down and revealed,"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "and especially since from the day of the hillula we immediately come to Shabbos Kodesh and are now in the time of Minchah of Shabbos,"
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "the ratzon of all ratzonim"
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "(the aspect of Atik),"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "for then there is an additional increase in the empowerment given to each and every one of the children of Israel,"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "the hosts of Havayah,"
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "to serve his service with strength without changes,"
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "through which the main dwelling of the Shechinah in the lower realms is drawn down,"
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "as it was at the beginning of creation,"
+          },
+          {
+            "v": 12,
+            "s": 36,
+            "translation": "and even more so,"
+          },
+          {
+            "v": 12,
+            "s": 37,
+            "translation": "for although even at the beginning of creation it is written66"
+          },
+          {
+            "v": 12,
+            "s": 38,
+            "translation": "\"toldos\" is written plene67,"
+          },
+          {
+            "v": 12,
+            "s": 39,
+            "translation": "the world was created in its fullness68,"
+          },
+          {
+            "v": 12,
+            "s": 40,
+            "translation": "\"these are the generations of Peretz\"69,"
+          },
+          {
+            "v": 12,
+            "s": 41,
+            "translation": "\"toldos\" plene67,"
+          },
+          {
+            "v": 12,
+            "s": 42,
+            "translation": "it is higher than the \"toldos\" plene of the beginning of creation,"
+          },
+          {
+            "v": 12,
+            "s": 43,
+            "translation": "until there will also be the revelation of the innerness of Atik,"
+          },
+          {
+            "v": 12,
+            "s": 44,
+            "translation": "which will be specifically in the future to come70,"
+          },
+          {
+            "v": 12,
+            "s": 45,
+            "translation": "in the true and complete redemption through Moshiach Tzidkeinu,"
+          },
+          {
+            "v": 12,
+            "s": 46,
+            "translation": "very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,187 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914855_theRebbe_522" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914855_theRebbe_522__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914855_theRebbe_522" title="מאמר ואשה אחת תשמ"ו" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914855_theRebbe_522__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">וביאור הענין בפרטיות יותר,</src>
+    <src s="2">יובן ע"פ מ"ש בלקו"ת22</src>
+    <src s="3">דענין את ובנייך תחיי בנותר הוא ע"ד מה שארז"ל23</src>
+    <src s="4">עה"פ24</src>
+    <src s="5">לשארית נחלתו,</src>
+    <src s="6">למי שמשים עצמו כשיריים.</src>
+    <src s="7">ומבאר שם25,</src>
+    <src s="8">דשיריים הם המקיפים שלמעלה מהשתלשלות.</src>
+    <src s="9">דהאור שנמשך בעולמות</src>
+    <src s="10">(בפנימיות)</src>
+    <src s="11">הוא הארה בלבד,</src>
+    <src s="12">ועיקר האור</src>
+    <src s="13">(המקיפים)</src>
+    <src s="14">נשאר למעלה,</src>
+    <src s="15">שיריים.</src>
+    <src s="16">ובכדי להמשיך המקיפים,</src>
+    <src s="17">הוא ע"י הביטול.</src>
+    <src s="18">וזהו למי שמשים עצמו כשיריים,</src>
+    <src s="19">דע"י שמשים עצמו כשיריים כפשוטו,</src>
+    <src s="20">ביטול,</src>
+    <src s="21">עי"ז דוקא הוא ממשיך המקיפים,</src>
+    <src s="22">שיריים.</src>
+    <src s="23">דכאשר עבודתו היא בבחינת מציאות,</src>
+    <src s="24">גם כשהעבודה היא בתכלית העילוי,</src>
+    <src s="25">ההמשכה שעל ידה היא אור השייך להשתלשלות</src>
+    <src s="26">(מציאות),</src>
+    <src s="27">ובכדי להמשיך השיריים דלמעלה</src>
+    <src s="28">(שלמעלה מבחינת מציאות)</src>
+    <src s="29">הוא דוקא ע"י הביטול.</src>
+    <src s="30">[וכמבואר גם בתו"א26</src>
+    <src s="31">עה"פ27</src>
+    <src s="32">השמים כסאי והארץ הדום רגלי אי זה בית גו' ואל זה אביט אל עני ונכה רוח,</src>
+    <src s="33">דההמשכה שע"י שמים וארץ שהם תורה</src>
+    <src s="34">(שמים)</src>
+    <src s="35">ומצוות</src>
+    <src s="36">(ארץ)</src>
+    <src s="37">הוא אור פנימי,</src>
+    <src s="38">ובכדי להמשיך המקיפים,</src>
+    <src s="39">אי זה בית גו',</src>
+    <src s="40">דבית הוא מקיף</src>
+    <src s="41">(ובמקיפים עצמם מקיף הרחוק),</src>
+    <src s="42">הוא ע"י הביטול,</src>
+    <src s="43">עני ונכה רוח].</src>
+    <src s="44">ומבאר בלקו"ת שם,</src>
+    <src s="45">דזהו מה שארז"ל28</src>
+    <src s="46">עה"פ ואת ובנייך תחיי בנותר עד שיחיו המתים,</src>
+    <src s="47">דנותר הוא מה שנשאר למעלה בבחינת מקיף,</src>
+    <src s="48">ובמקיפים עצמם הוא מקיף הרחוק,</src>
+    <src s="49">עתיק</src>
+    <src s="50">(דאריך הוא מקיף הקרוב ועתיק הוא מקיף הרחוק29),</src>
+    <src s="51">וזהו תחיי בנותר עד שיחיו המתים,</src>
+    <src s="52">דתחיית המתים הוא ע"י טלא דנטיף מעתיקא30.</src>
+  </section>
+  <section v="4">
+    <src s="0">וזוהי המעלה דענין תחיי בנותר שבא על ידי המרירות מזה שהוא כלי ריקן</src>
+    <src s="1">(פירוש השני בכלים ריקים אל תמעיטי)</src>
+    <src s="2">על הענין דתחיי בנותר שבא על ידי שעוסק בתורה ומצוות הגם שאין לו אהוי"ר</src>
+    <src s="3">(פירוש הראשון בכלים ריקים אל תמעיטי),</src>
+    <src s="4">כי היתרון</src>
+    <src s="5">(נותר)</src>
+    <src s="6">בזה שעוסק בתומ"צ גם כשאין לו אהבה ויראה הוא זה שאז קיום התומ"צ שלו קשור עם כח המסירת נפש,</src>
+    <src s="7">דענין המסירת נפש הוא מצד עצם הנשמה שלמעלה מכחות הגלויים</src>
+    <src s="8">(אהוי"ר).</src>
+    <src s="9">אבל מ"מ,</src>
+    <src s="10">כיון שע"י עסק התומ"צ</src>
+    <src s="11">(גם כשקיום התומ"צ הוא ע"י שזוכר ענין מסירת נפשו לה')</src>
+    <src s="12">אינו מתבטל ממציאותו</src>
+    <src s="13">[שהרי זה שהוא מקיים תומ"צ תלוי ברצונו,</src>
+    <src s="14">רצון</src>
+    <src s="15">(מציאות)</src>
+    <src s="16">האדם31],</src>
+    <src s="17">הגילוי דעצם הנשמה שבזה הוא רק כמו ששייכת לכחות הגלויים</src>
+    <src s="18">[דע"י שזוכר ענין מסירת נפשו לה' שמצד עצם הנשמה,</src>
+    <src s="19">הרצון שלו בתומ"צ הוא בתוקף גדול].</src>
+    <src s="20">ולכן,</src>
+    <src s="21">גם ההמשכה שנמשכת מלמעלה עי"ז,</src>
+    <src s="22">הוא האור שלמעלה מהשתלשלות כמו שהוא שייך להשתלשלות,</src>
+    <src s="23">דבכללות הוא מקיף הקרוב,</src>
+    <src s="24">אריך.</src>
+    <src s="25">והיתרון שנעשה על ידי ההרגש והמרירות מזה שהוא כלי ריקן,</src>
+    <src s="26">מכיון שעי"ז הוא מתבטל ממציאותו,</src>
+    <src s="27">נמשך עי"ז הגילוי דעצם הנשמה כמו שהיא למעלה משייכות לכחות הגלויים.</src>
+    <src s="28">ועד"ז הוא בההמשכה שנמשכת עי"ז מלמעלה,</src>
+    <src s="29">דע"י שמרגיש בעצמו שהוא כלי ריקן שאין בו שום מעלה והוא כמו שיריים בעיניו</src>
+    <src s="30">(דבר המיותר,</src>
+    <src s="31">נותר),</src>
+    <src s="32">הענין דתחיי בנותר שעי"ז הוא המשכת מקיף הרחוק,</src>
+    <src s="33">עתיק32.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">וצריך להבין מ"ש את ובנייך תחיי בנותר,</src>
+    <src s="2">שגם האהבה והיראה דהנשמה</src>
+    <src s="3">(בנייך)</src>
+    <src s="4">יחיו בנותר,</src>
+    <src s="5">דלכאורה,</src>
+    <src s="6">מכיון שנותר הוא מקיף,</src>
+    <src s="7">ובפרט להפירוש שנותר הוא מקיף הרחוק,</src>
+    <src s="8">איך שייך שיומשך ממנו חיות לכחות הפנימיים</src>
+    <src s="9">(אהבה ויראה).</src>
+    <src s="10">ויש לבאר זה ע"פ מ"ש אדמו"ר</src>
+    <src s="11">(מהורש"ב)</src>
+    <src s="12">נ"ע בעל יום ההולדת במאמרו ד"ה כי33</src>
+    <src s="13">המצוה הזאת אשר אנכי מצוך היום לא נפלאת היא ממך ולא רחוקה היא34</src>
+    <src s="14">(בספר המאמרים שלו שמכינים עתה לדפוס35),</src>
+    <src s="15">דשני הלשונות נפלאת ורחוקה הם בעתיק ואריך.</src>
+    <src s="16">דפלא</src>
+    <src s="17">[שהוא לשון הפרשה והבדלה]</src>
+    <src s="18">הוא בעתיק,</src>
+    <src s="19">שנעתק ונבדל מהשתלשלות,</src>
+    <src s="20">וריחוק הוא באריך,</src>
+    <src s="21">דלשון ריחוק מורה שיש לו שייכות להדבר שהוא רחוק ממנו,</src>
+    <src s="22">וכמו אמרתי אחכמה והיא רחוקה ממני36,</src>
+    <src s="23">דזה שאמרתי אחכמה הוא לפי שהחכמה שייכת אליו,</src>
+    <src s="24">ורק שהיא רחוקה ממנו37.</src>
+    <src s="25">ומבאר שם,</src>
+    <src s="26">דמ"ש כי המצוה הזאת גו' לא נפלאת היא ממך גו',</src>
+    <src s="27">ממך דוקא,</src>
+    <src s="28">הוא,</src>
+    <src s="29">כי כיון שהמצוות הם רצון העליון,</src>
+    <src s="30">רצון שלמעלה מטעם,</src>
+    <src s="31">הם בבחינת פלא וריחוק38.</src>
+    <src s="32">ומכ"ש מצות התשובה</src>
+    <src s="33">(דהמצוה הזאת קאי על מצות התשובה,</src>
+    <src s="34">כמ"ש הרמב"ן וכמה מפרשים39)</src>
+    <src s="35">שהיא למעלה מהרצון דמצוות</src>
+    <src s="36">[וכמבואר בכ"מ40,</src>
+    <src s="37">דזה שע"י התשובה מתמלאים כל הפגמים הוא לפי שתשובה מגעת באוא"ס בעל הרצון</src>
+    <src s="38">(שלמעלה מהרצון דמצוות),</src>
+    <src s="39">ועד שהיא מגעת בהעצמות41,</src>
+    <src s="40">דזהו מ"ש כי המצוה הזאת אשר אנכי מצוך,</src>
+    <src s="41">אנכי מי שאנכי42]</src>
+    <src s="42">שהיא בודאי בבחינת פלא וריחוק.</src>
+    <src s="43">דתשובה תתאה היא בבחינת ריחוק ותשובה עילאה היא בבחינת פלא.</src>
+    <src s="44">כי תשובה תתאה היא במקיף דחי',</src>
+    <src s="45">מקיף הקרוב.</src>
+    <src s="46">וגם ההמשכה מלמעלה הנמשכת ע"י תשובה תתאה היא המקיף דאור ישר שיש לו שייכות להפנימי,</src>
+    <src s="47">דבכללות הוא אריך.</src>
+    <src s="48">ותשובה עילאה היא במקיף דיחידה,</src>
+    <src s="49">מקיף הרחוק.</src>
+    <src s="50">וגם ההמשכה מלמעלה שנמשכת עי"ז היא המקיף דאור חוזר שלמעלה משייכות לפנימיות,</src>
+    <src s="51">דבכללות הוא עתיק.</src>
+    <src s="52">ומ"ש לא נפלאת היא ממך ולא רחוקה היא,</src>
+    <src s="53">הוא ממך דוקא,</src>
+    <src s="54">מנשמות ישראל.</src>
+    <src s="55">דנש"י יש בהם הכל,</src>
+    <src s="56">וגם מלמעלה נותנים להם הכל,</src>
+    <src s="57">ולכן אין זה נפלא ורחוק מהם.</src>
+  </section>
+</awtsmoosMeluketSource>

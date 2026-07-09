@@ -1,0 +1,136 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918306_theRebbe_932" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918306_theRebbe_932" title="מאמר השמים כסאי תשל"ו" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p003">
+  <section v="6">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שכתוב ואל זה אביט אל עני ונכה רוח לאחרי השמים כסאי גו',</src>
+    <src s="2">אף שגם האמונה שלמטה מהדעת היא בהעצמות</src>
+    <src s="3">[וכמובן מהידוע32</src>
+    <src s="4">דזה ששם שמים שגור בפי כל הוא מפני שהמאור הוא בהתגלות],</src>
+    <src s="5">הוא,</src>
+    <src s="6">כי הבטה</src>
+    <src s="7">(ואל זה אביט)</src>
+    <src s="8">הוא גילוי</src>
+    <src s="9">(כמו דבר שרואה בעיניו),</src>
+    <src s="10">וגילוי העצמות הוא33</src>
+    <src s="11">בהאמונה שלמעלה מהדעת.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">שג' ענינים אלה</src>
+    <src s="3">[עניות שבתחילת העבודה,</src>
+    <src s="4">העבודה דהשמים כסאי גו',</src>
+    <src s="5">והעניות שלאחרי העבודה דהשמים כסאי]</src>
+    <src s="6">הם ע"ד ג' החלוקות שבפירות האילן</src>
+    <src s="7">(שבפרשתנו34),</src>
+    <src s="8">ג' שני ערלה,</src>
+    <src s="9">שנה הרביעית ושנה החמישית.</src>
+    <src s="10">והענין הוא35,</src>
+    <src s="11">דארץ היא מלכות ואילן הוא ז"א,</src>
+    <src s="12">ונטיעת אילן בארץ</src>
+    <src s="13">(כי תבואו אל הארץ ונטעתם כל עץ מאכל36)</src>
+    <src s="14">הוא המשכת ז"א במלכות.</src>
+    <src s="15">דבהמשכה זו ישנם ג' דרגות.</src>
+    <src s="16">דבג' שנים הראשונות,</src>
+    <src s="17">מקבלת המלכות רק מג' ספירות האחרונות דז"א,</src>
+    <src s="18">נצח הוד ויסוד.</src>
+    <src s="19">ומכיון שעיקר ענינם של מדות אלו הוא שעל ידם באה ההשפעה בפועל37,</src>
+    <src s="20">לכן,</src>
+    <src s="21">גם המדות נה"י הם דוגמת המלכות38</src>
+    <src s="22">שהיא שרש ומקור הנבראים,</src>
+    <src s="23">שנותנים מקום ליש,</src>
+    <src s="24">ואפשר להיות מהם יניקה לחיצונים.</src>
+    <src s="25">דזהו הקשר של הפירוש</src>
+    <src s="26">(הנ"ל)</src>
+    <src s="27">שג' שנים הראשונות הם כנגד ג' המדות נה"י,</src>
+    <src s="28">עם הפירוש39</src>
+    <src s="29">שג' שנים הראשונות הם כנגד ג' קליפות הטמאות,</src>
+    <src s="30">כי כשהמלכות מקבלת רק מנה"י אפשר להיות יניקה לג' קליפות הטמאות.</src>
+    <src s="31">ולכן הפירות דג' שנים אלו הם ערלה ואסורים בהנאה.</src>
+    <src s="32">ובשנה הרביעית מקבלת המלכות מת"ת</src>
+    <src s="33">(משליש התחתון שבו או משני שלישים שבו).</src>
+    <src s="34">ולכן הפירות דשנה הרביעית הם קודש הילולים להוי'40,</src>
+    <src s="35">דהילול הוא בת"ת כמ"ש41</src>
+    <src s="36">ומהללים לשם תפארתך.</src>
+    <src s="37">ובשנה החמישית מקבלת המלכות גם משליש העליון דת"ת.</src>
+    <src s="38">וזהו ובשנה החמישית גו' להוסיף לכם תבואתו42,</src>
+    <src s="39">דד' הבחינות תנה"י</src>
+    <src s="40">(שבשנה הרביעית)</src>
+    <src s="41">שייכים לד' אותיות הוי',</src>
+    <src s="42">ובשנה החמישית,</src>
+    <src s="43">נמשך תוספות אור מקוצו של יו"ד,</src>
+    <src s="44">כתר.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">וביאור הענין דג' חלוקות אלו בעבודת האדם,</src>
+    <src s="2">יש לומר,</src>
+    <src s="3">דענין המלכות הוא קיום התומ"צ בפועל ממש,</src>
+    <src s="4">במחשבה דיבור ומעשה.</src>
+    <src s="5">וזה שמקיים תומ"צ בפועל ממש הוא ע"י המשכת וגילוי המדות בהמחשבה דיבור ומעשה.</src>
+    <src s="6">ויש בזה ג' אופנים.</src>
+    <src s="7">דכשההמשכה היא רק מנה"י</src>
+    <src s="8">(דמדות אלו הם רק בנוגע לפועל),</src>
+    <src s="9">הנה אף שנה"י הם שוקיים43</src>
+    <src s="10">ורגלים שמוליכים אותו למקום הראוי,</src>
+    <src s="11">ללכת בדרך הוי',</src>
+    <src s="12">מ"מ,</src>
+    <src s="13">כיון שאין לו חיות בקיום התומ"צ</src>
+    <src s="14">(דהחיות בתומ"צ הוא ע"י אהבה ויראה דוקא),</src>
+    <src s="15">לכן אפשר שבמשך הזמן תהי' חלישות בעבודתו,</src>
+    <src s="16">ובפרט בקדש עצמך במותר לך44,</src>
+    <src s="17">ועד שיבוא מזה לדברים האסורים</src>
+    <src s="18">(כולל גם דברים האסורים בהנאה45).</src>
+    <src s="19">ולכן העבודה שלו צריכה להיות באופן של אתכפיא.</src>
+    <src s="20">ויש לומר,</src>
+    <src s="21">שהוא ע"ד האמונה שלמטה מהדעת</src>
+    <src s="22">(העניות שלפני העבודה דהשמים כסאי),</src>
+    <src s="23">שגם אמונה זו היא בעצמות אלא שאין בזה גילוי העצמות</src>
+    <src s="24">(כנ"ל סוף סעיף ד).</src>
+    <src s="25">וע"ד המבואר בלקו"ת46</src>
+    <src s="26">(בענין ג' שני ערלה כפשוטם),</src>
+    <src s="27">דזה ששובר תאוותו וממתין ג' שנים ומקיים מל"ת דשלש שנים יהי' לכם ערלים36</src>
+    <src s="28">הוא כענין מודים אנחנו לך41,</src>
+    <src s="29">שההודאה היא לך,</src>
+    <src s="30">למהותו ועצמותו ית',</src>
+    <src s="31">אלא שאין זה באופן של הילול,</src>
+    <src s="32">דהילול הוא גילוי</src>
+    <src s="33">[כמובא בלקו"ת47</src>
+    <src s="34">שהילול הוא לשון הארה כמו בהלו נרו48],</src>
+    <src s="35">ורק באופן של הודאה,</src>
+    <src s="36">העלם.</src>
+  </section>
+</awtsmoosMeluketSource>

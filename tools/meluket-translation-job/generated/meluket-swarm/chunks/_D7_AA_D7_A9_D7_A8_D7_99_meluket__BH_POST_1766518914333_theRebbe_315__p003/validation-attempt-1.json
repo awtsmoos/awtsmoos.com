@@ -1,0 +1,589 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 109,
+    "returned": 109,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914333_theRebbe_315\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the knowledge of dwelling in sukkot is part of the mitzvah itself, and that the sukkah's shade comes from the cloud of incense of Yom Kippur, which is a transcendent encompassing light that must be drawn inward through daat and the four species.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And this is “In sukkot you shall dwell… so that your generations may know that I caused the children of Israel to dwell in sukkot…”</t>\n    <t s=\"2\">that this knowledge is</t>\n    <t s=\"3\">(not only a matter of the intention of the mitzvah,</t>\n    <t s=\"4\">but also)</t>\n    <t s=\"5\">a part of the fulfillment of the mitzvah itself,</t>\n    <t s=\"6\">(as is also evident from the wording of the Alter Rebbe in his Shulchan Aruch).</t>\n    <t s=\"7\">For the sechach of the sukkah is made</t>\n    <t s=\"8\">(as above)</t>\n    <t s=\"9\">from the cloud of the incense of Yom Kippur,</t>\n    <t s=\"10\">[and the connection of the sukkah to the cloud of incense is both from the aspect that the sukkah is made for shade, and a cloud is like shade</t>\n    <t s=\"11\">(as above),</t>\n    <t s=\"12\">and also from the aspect that “I caused the children of Israel to dwell in sukkot” refers to the clouds of glory],</t>\n    <t s=\"13\">for the matter of the cloud of incense of Yom Kippur is the aspect of the encompassing light that is above reason and intellect,</t>\n    <t s=\"14\">and on the festival of Sukkot, this encompassing light must be drawn into inwardness,</t>\n    <t s=\"15\">“in sukkot you shall dwell,”</t>\n    <t s=\"16\">and the drawing into inwardness is specifically through daat,</t>\n    <t s=\"17\">as is explained at length in the continuation of the discourse “And So” of the Baal HaHilula.</t>\n    <t s=\"18\">And in particular through taking the four species,</t>\n    <t s=\"19\">which indicate the matter of unity,</t>\n    <t s=\"20\">through which daat is drawn</t>\n    <t s=\"21\">(also in the aspect of Nukva)</t>\n    <t s=\"22\">downward further,</t>\n    <t s=\"23\">into the inwardness of each and every Jew.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the descent of the soul into the body and the clothing of mitzvot in physical objects is a descent for the sake of ascent, as the soul's root is in Tikkun while the body and physical objects come from Tohu, and through the soul's work it elevates the sparks of Tohu and draws its superior lights into the vessels of Tikkun.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And an explanation of the matter in greater depth will be understood based on what the Baal HaHilula explains in the continuation of the aforementioned discourses,</t>\n    <t s=\"2\">regarding the matter of the descent of the soul into the body,</t>\n    <t s=\"3\">and likewise regarding the matter of the descent of the mitzvot and their clothing in physical things,</t>\n    <t s=\"4\">[as in the mitzvah of sacrifices, where one must specifically offer a physical animal,</t>\n    <t s=\"5\">and likewise the incense is specifically from eleven physical spices,</t>\n    <t s=\"6\">and likewise the sechach of the sukkah</t>\n    <t s=\"7\">(which is analogous to the matter of the incense)</t>\n    <t s=\"8\">is from a physical thing, from the waste of the threshing floor and the winepress,</t>\n    <t s=\"9\">and so it is with the rest of the mitzvot],</t>\n    <t s=\"10\">which is a descent for the sake of ascent.</t>\n    <t s=\"11\">For the root of the soul is from the aspect of Tikkun,</t>\n    <t s=\"12\">and the root of the body and the Nefesh HaBahamis,</t>\n    <t s=\"13\">and likewise the root of the physical things in which the mitzvot are clothed,</t>\n    <t s=\"14\">is in the aspect of Tohu that preceded Tikkun.</t>\n    <t s=\"15\">And through the soul descending below and clothing itself in the body and Nefesh HaBahamis and engaging in Torah and mitzvot that are clothed in physical things,</t>\n    <t s=\"16\">through this it refines the sparks of Tohu that fell below into the body, Nefesh HaBahamis, and physical things</t>\n    <t s=\"17\">(in which the mitzvot are clothed)</t>\n    <t s=\"18\">and elevates them to their root,</t>\n    <t s=\"19\">and through this the lights of Tohu, which are superior to the lights of Tikkun, are drawn to them,</t>\n    <t s=\"20\">as is known that the lights of Tikkun are limited lights, and in Tohu there were abundant lights.</t>\n    <t s=\"21\">And in particular according to what is explained there,</t>\n    <t s=\"22\">that the abundance of the light of Tohu is not only an abundance in quantity</t>\n    <t s=\"23\">(meaning it is of the same type as the lights of Tikkun, only in very great abundance),</t>\n    <t s=\"24\">but rather,</t>\n    <t s=\"25\">the lights of Tohu are of an entirely different type.</t>\n    <t s=\"26\">And all the more so from what our sages said</t>\n    <t s=\"27\">about the light created on the first day, that a person could see with it from one end of the world to the other,</t>\n    <t s=\"28\">that the explanation of the phrase “from one end of the world to the other”</t>\n    <t s=\"29\">(although it seemingly should have said “from the beginning of the world to its end”)</t>\n    <t s=\"30\">is that all the worlds in general are divided into two aspects,</t>\n    <t s=\"31\">the hidden world and the revealed world,</t>\n    <t s=\"32\">and the intent of “from one end of the world to the other” is from the end of the world of the revealed world from above downward to its end of the hidden world from below upward,</t>\n    <t s=\"33\">from which it is understood that the abundance of this light</t>\n    <t s=\"34\">(the light created on the first day)</t>\n    <t s=\"35\">relative to the light of the other days is not only an abundance in quantity, but an abundance that is incomparable.</t>\n    <t s=\"36\">And all this is within the world of Tikkun itself</t>\n    <t s=\"37\">[for even the light created on the first day is from the aspect of Tikkun],</t>\n    <t s=\"38\">that all the lights of Tikkun are limited lights.</t>\n    <t s=\"39\">And from this it is understood all the more so regarding the abundance of light that was in the aspect of Tohu,</t>\n    <t s=\"40\">that in addition to the abundance in quantity,</t>\n    <t s=\"41\">there was</t>\n    <t s=\"42\">(and this is its main superiority)</t>\n    <t s=\"43\">a light that is entirely different in value from the light of Tikkun.</t>\n    <t s=\"44\">And through the soul,</t>\n    <t s=\"45\">whose root is from the aspect of Tikkun,</t>\n    <t s=\"46\">refining and rectifying the sparks that fell below into physical things,</t>\n    <t s=\"47\">through this the abundant lights of Tohu are drawn into the abundant vessels of Tikkun.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the soul's descent is a descent for the sake of ascent, adding a superior elevation through refining sparks from Tohu, as illustrated by the verse about man living by the word of God in bread, which comes from Tohu and gives life to the soul from Tikkun, resulting in an incomparable elevation.</sectionSummaryBrief>\n    <t s=\"0\">And this is that the descent of the soul into the body is a descent for the sake of ascent,</t>\n    <t s=\"1\">for the root of the soul is</t>\n    <t s=\"2\">(as above)</t>\n    <t s=\"3\">in the aspect of Tikkun</t>\n    <t s=\"4\">[except that within Tikkun itself it is in the highest aspect,</t>\n    <t s=\"5\">for “Israel arose in thought”],</t>\n    <t s=\"6\">and through it descending from a high roof</t>\n    <t s=\"7\">to a deep pit and refining the sparks that fell below, below</t>\n    <t s=\"8\">(to a deep pit),</t>\n    <t s=\"9\">for this very fact that they fell to the very lowest level is because their root is on the very highest level,</t>\n    <t s=\"10\">through this an additional elevation is made in it, higher than it was before its descent.</t>\n    <t s=\"11\">And it is known from the teaching of the AriZal on the verse “For not by bread alone does man live, but by every utterance of the mouth of God does man live,”</t>\n    <t s=\"12\">that this that bread gives life to man</t>\n    <t s=\"13\">(even though bread is vegetative and man is a speaker)</t>\n    <t s=\"14\">is not from the bread alone,</t>\n    <t s=\"15\">but rather,</t>\n    <t s=\"16\">from the utterance of the mouth of God that is in the bread,</t>\n    <t s=\"17\">namely from the utterance</t>\n    <t s=\"18\">“Let the earth sprout vegetation.”</t>\n    <t s=\"19\">And this that man needs specifically the utterance of the mouth of God that is in the bread</t>\n    <t s=\"20\">(even though the word of God from the utterance</t>\n    <t s=\"21\">“Let us make man” is also clothed in man)</t>\n    <t s=\"22\">is because the utterance of the mouth of God that is in the bread is from the aspect of Tohu,</t>\n    <t s=\"23\">and therefore specifically through it does man, who is from the aspect of Tikkun, live.</t>\n    <t s=\"24\">And just as it is with bread,</t>\n    <t s=\"25\">so it is with all matters of man</t>\n    <t s=\"26\">[for bread includes all matters of eating and drinking</t>\n    <t s=\"27\">and also all of man's needs],</t>\n    <t s=\"28\">including also man's service in Torah and mitzvot,</t>\n    <t s=\"29\">that through man refining physical things</t>\n    <t s=\"30\">[by doing them for the sake of Heaven,</t>\n    <t s=\"31\">and certainly through fulfilling mitzvot with the physical things themselves],</t>\n    <t s=\"32\">behold, by the utterance of the mouth of God that is in the physical things does man live,</t>\n    <t s=\"33\">meaning that an additional elevation is added to the soul of man, higher than it was before its descent.</t>\n    <t s=\"34\">And since the light of Tohu is entirely different in value</t>\n    <t s=\"35\">(as above),</t>\n    <t s=\"36\">therefore the elevation that is added to the soul is also an incomparable elevation.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914333_theRebbe_315",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the knowledge of dwelling in sukkot is part of the mitzvah itself, and that the sukkah's shade comes from the cloud of incense of Yom Kippur, which is a transcendent encompassing light that must be drawn inward through daat and the four species.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And this is “In sukkot you shall dwell… so that your generations may know that I caused the children of Israel to dwell in sukkot…”"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that this knowledge is"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(not only a matter of the intention of the mitzvah,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "but also)"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "a part of the fulfillment of the mitzvah itself,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "(as is also evident from the wording of the Alter Rebbe in his Shulchan Aruch)."
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "For the sechach of the sukkah is made"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(as above)"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "from the cloud of the incense of Yom Kippur,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "[and the connection of the sukkah to the cloud of incense is both from the aspect that the sukkah is made for shade, and a cloud is like shade"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "(as above),"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "and also from the aspect that “I caused the children of Israel to dwell in sukkot” refers to the clouds of glory],"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "for the matter of the cloud of incense of Yom Kippur is the aspect of the encompassing light that is above reason and intellect,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "and on the festival of Sukkot, this encompassing light must be drawn into inwardness,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "“in sukkot you shall dwell,”"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "and the drawing into inwardness is specifically through daat,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "as is explained at length in the continuation of the discourse “And So” of the Baal HaHilula."
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "And in particular through taking the four species,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "which indicate the matter of unity,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "through which daat is drawn"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "(also in the aspect of Nukva)"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "downward further,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "into the inwardness of each and every Jew."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the descent of the soul into the body and the clothing of mitzvot in physical objects is a descent for the sake of ascent, as the soul's root is in Tikkun while the body and physical objects come from Tohu, and through the soul's work it elevates the sparks of Tohu and draws its superior lights into the vessels of Tikkun.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And an explanation of the matter in greater depth will be understood based on what the Baal HaHilula explains in the continuation of the aforementioned discourses,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "regarding the matter of the descent of the soul into the body,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "and likewise regarding the matter of the descent of the mitzvot and their clothing in physical things,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "[as in the mitzvah of sacrifices, where one must specifically offer a physical animal,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "and likewise the incense is specifically from eleven physical spices,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "and likewise the sechach of the sukkah"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "(which is analogous to the matter of the incense)"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "is from a physical thing, from the waste of the threshing floor and the winepress,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "and so it is with the rest of the mitzvot],"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "which is a descent for the sake of ascent."
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "For the root of the soul is from the aspect of Tikkun,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "and the root of the body and the Nefesh HaBahamis,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "and likewise the root of the physical things in which the mitzvot are clothed,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "is in the aspect of Tohu that preceded Tikkun."
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "And through the soul descending below and clothing itself in the body and Nefesh HaBahamis and engaging in Torah and mitzvot that are clothed in physical things,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "through this it refines the sparks of Tohu that fell below into the body, Nefesh HaBahamis, and physical things"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "(in which the mitzvot are clothed)"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "and elevates them to their root,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "and through this the lights of Tohu, which are superior to the lights of Tikkun, are drawn to them,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "as is known that the lights of Tikkun are limited lights, and in Tohu there were abundant lights."
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "And in particular according to what is explained there,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "that the abundance of the light of Tohu is not only an abundance in quantity"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "(meaning it is of the same type as the lights of Tikkun, only in very great abundance),"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "but rather,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "the lights of Tohu are of an entirely different type."
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "And all the more so from what our sages said"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "about the light created on the first day, that a person could see with it from one end of the world to the other,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "that the explanation of the phrase “from one end of the world to the other”"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "(although it seemingly should have said “from the beginning of the world to its end”)"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "is that all the worlds in general are divided into two aspects,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "the hidden world and the revealed world,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "and the intent of “from one end of the world to the other” is from the end of the world of the revealed world from above downward to its end of the hidden world from below upward,"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "from which it is understood that the abundance of this light"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "(the light created on the first day)"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "relative to the light of the other days is not only an abundance in quantity, but an abundance that is incomparable."
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "And all this is within the world of Tikkun itself"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "[for even the light created on the first day is from the aspect of Tikkun],"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "that all the lights of Tikkun are limited lights."
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "And from this it is understood all the more so regarding the abundance of light that was in the aspect of Tohu,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "that in addition to the abundance in quantity,"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "there was"
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "(and this is its main superiority)"
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "a light that is entirely different in value from the light of Tikkun."
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "And through the soul,"
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "whose root is from the aspect of Tikkun,"
+          },
+          {
+            "v": 7,
+            "s": 46,
+            "translation": "refining and rectifying the sparks that fell below into physical things,"
+          },
+          {
+            "v": 7,
+            "s": 47,
+            "translation": "through this the abundant lights of Tohu are drawn into the abundant vessels of Tikkun."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that the soul's descent is a descent for the sake of ascent, adding a superior elevation through refining sparks from Tohu, as illustrated by the verse about man living by the word of God in bread, which comes from Tohu and gives life to the soul from Tikkun, resulting in an incomparable elevation.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And this is that the descent of the soul into the body is a descent for the sake of ascent,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "for the root of the soul is"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "(as above)"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "in the aspect of Tikkun"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "[except that within Tikkun itself it is in the highest aspect,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "for “Israel arose in thought”],"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "and through it descending from a high roof"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "to a deep pit and refining the sparks that fell below, below"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(to a deep pit),"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "for this very fact that they fell to the very lowest level is because their root is on the very highest level,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "through this an additional elevation is made in it, higher than it was before its descent."
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "And it is known from the teaching of the AriZal on the verse “For not by bread alone does man live, but by every utterance of the mouth of God does man live,”"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "that this that bread gives life to man"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "(even though bread is vegetative and man is a speaker)"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "is not from the bread alone,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "but rather,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "from the utterance of the mouth of God that is in the bread,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "namely from the utterance"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "“Let the earth sprout vegetation.”"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "And this that man needs specifically the utterance of the mouth of God that is in the bread"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "(even though the word of God from the utterance"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "“Let us make man” is also clothed in man)"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "is because the utterance of the mouth of God that is in the bread is from the aspect of Tohu,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "and therefore specifically through it does man, who is from the aspect of Tikkun, live."
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "And just as it is with bread,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "so it is with all matters of man"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "[for bread includes all matters of eating and drinking"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "and also all of man's needs],"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "including also man's service in Torah and mitzvot,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "that through man refining physical things"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "[by doing them for the sake of Heaven,"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "and certainly through fulfilling mitzvot with the physical things themselves],"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "behold, by the utterance of the mouth of God that is in the physical things does man live,"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "meaning that an additional elevation is added to the soul of man, higher than it was before its descent."
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "And since the light of Tohu is entirely different in value"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "(as above),"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "therefore the elevation that is added to the soul is also an incomparable elevation."
+          }
+        ]
+      }
+    ]
+  }
+}

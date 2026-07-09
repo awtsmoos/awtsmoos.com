@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919159_theRebbe_441" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919159_theRebbe_441__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919159_theRebbe_441" title="מאמר ה' לי בעוזרי תשי"ז" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919159_theRebbe_441__p004">
+  <section v="9">
+    <src s="0">ט)</src>
+    <src s="1">והנה החילוק שבין העבודה דעדות להעבודה דחוקים הוא דוגמת החילוק שביניהם בענין המצוות עצמם.</src>
+    <src s="2">ויובן זה ע"פ הידוע44</src>
+    <src s="3">שהרצון דמצוות כמו שהוא מצד העצמות הוא רצון עצמי שאינו בשביל איזה כוונה שתושלם ע"י המצוות,</src>
+    <src s="4">והתכלית דמצוות</src>
+    <src s="5">(מצד רצון זה)</src>
+    <src s="6">הוא המצוות עצמם.</src>
+    <src s="7">ומזה מובן,</src>
+    <src s="8">דזה שהמצוות ממשיכים ומגלים עצמות אוא"ס בעולם,</src>
+    <src s="9">עם היות שההמשכה היא מצד זה שהמצוות הם רצונו ית' שלמעלה מטעם,</src>
+    <src s="10">מ"מ,</src>
+    <src s="11">מכיון שזהו ענין שנעשה ע"י המצוות,</src>
+    <src s="12">הרי זה בדוגמת טעם.</src>
+    <src s="13">ואמיתית הענין דרצון העצמי של עצמותו ית' הוא בהמצוות גופא.</src>
+    <src s="14">וזהו מה שהעבודה דעדות היא העבודה דרעותא דלבא והעבודה דחוקים היא העבודה דקבלת עול,</src>
+    <src s="15">כי ענין העדות שבמצוות,</src>
+    <src s="16">מכיון שהוא המשכה וגילוי,</src>
+    <src s="17">הכלי לזה הוא הרצון,</src>
+    <src s="18">שגם הרצון שמצד עצם הנשמה היא תנועה דהמשכה והתפשטות</src>
+    <src s="19">(מציאות),</src>
+    <src s="20">והכלי לענין החוקים דמצוות שהוא רצון עצמי ממש שלמעלה מגילוי הוא הביטול דקבלת עול,</src>
+    <src s="21">ביטול שמצד העצם שלמעלה מכל ענין דהתפשטות.</src>
+  </section>
+  <section v="10">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">וזהו זמירות היו לי חוקיך</src>
+    <src s="3">(דוקא),</src>
+    <src s="4">שכוונתו בזה היא לשלול לא רק הענין דמשפטים אלא גם הענין דעדות.</src>
+    <src s="5">כי בדרגת העדות נשארה עדיין איזו מציאות.</src>
+    <src s="6">ולא רק מצד האדם,</src>
+    <src s="7">שגם הרצון שלו שלמעלה מטו"ד</src>
+    <src s="8">(רעו"ד)</src>
+    <src s="9">הוא מציאות</src>
+    <src s="10">(כנ"ל),</src>
+    <src s="11">אלא גם מצד המצוות שבדרגת עדות,</src>
+    <src s="12">מכיון שענינם הוא המשכת וגילוי אוא"ס בעולם.</src>
+    <src s="13">ואמיתית ושלימות ההכרה שכל העולמות בטלים במציאות לגבי דקדוק אחד דתורה הוא דוקא בהדרגא דחוקים,</src>
+    <src s="14">שהדקדוקים דתורה</src>
+    <src s="15">(שמצד בחינה זו)</src>
+    <src s="16">הם ענין עצמי מצד שרשם העצמי שבתורה,</src>
+    <src s="17">שלמעלה משייכות לעולם.</src>
+  </section>
+  <section v="11">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">וממשיך בהמאמר45,</src>
+    <src s="3">דמה שדוד נענש על זה46</src>
+    <src s="4">הוא כי עסק התורה דדוד הי' באופן דלזמר עריצים</src>
+    <src s="5">(כנ"ל),</src>
+    <src s="6">ותכלית הכוונה היא כמ"ש47</src>
+    <src s="7">לא תהו בראה לשבת יצרה,</src>
+    <src s="8">להתעסק בעבודת הבירורים ולהמשיך גילוי אור בעולם.</src>
+    <src s="9">דזהו המעלה שבתפלה לגבי תורה,</src>
+    <src s="10">דתפלה הוא בירור והעלאה,</src>
+    <src s="11">היינו שע"י התפלה מתבררים הניצוצות ומזדככים ועולים למעלה,</src>
+    <src s="12">משא"כ תורה היא המשכה מלמעלה,</src>
+    <src s="13">והבירור ע"י התורה הוא בדרך דחי'.</src>
+    <src s="14">וכשרצה דוד לברר בירורים ע"י התורה,</src>
+    <src s="15">שהוא בדרך דחי',</src>
+    <src s="16">לזמר עריצים,</src>
+    <src s="17">נענש על זה,</src>
+    <src s="18">כי תכלית הכוונה הוא לשבת יצרה.</src>
+  </section>
+</awtsmoosMeluketSource>

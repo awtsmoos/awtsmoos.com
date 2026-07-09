@@ -1,0 +1,28 @@
+{
+  "id": "1f651bf7-f103-4a63-896e-26c22e31f0e6",
+  "object": "chat.completion",
+  "created": 1783583826,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920519_theRebbe_475\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920519_theRebbe_475__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar, including the Torah portion and the Hebrew date.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven,</t>\n    <t s=\"1\">Shabbos Parshas Nitzavim-Vayeilech,</t>\n    <t s=\"2\">the 25th of Elul*,</t>\n    <t s=\"3\">the year 5716</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that the maamar is an unedited draft.</sectionSummaryBrief>\n    <t s=\"0\">(Unedited draft)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the verse \"You are standing today, all of you\" refers to Rosh Hashanah, the Day of Judgment, and that standing signifies being vindicated in judgment.</sectionSummaryBrief>\n    <t s=\"0\">\"You are standing today, all of you, before Hashem your G-d: your heads, your tribes, etc., from the hewer of your wood to the drawer of your water.\"</t>\n    <t s=\"1\">Now, this portion</t>\n    <t s=\"2\">is always read before Rosh Hashanah.</t>\n    <t s=\"3\">And it is hinted in the word \"today\" that it refers to Rosh Hashanah,</t>\n    <t s=\"4\">as it is stated</t>\n    <t s=\"5\">by our teacher who received from his teacher the Maggid, and his teacher from his teacher the Baal Shem Tov, that \"today\" refers to Rosh Hashanah,</t>\n    <t s=\"6\">which is the Day of Judgment,</t>\n    <t s=\"7\">and as it is stated,</t>\n    <t s=\"8\">\"And it was the day,\"</t>\n    <t s=\"9\">and the Targum translates: \"And it was the great Day of Judgment,\"</t>\n    <t s=\"10\">for Rosh Hashanah is the day of judgment and justice,</t>\n    <t s=\"11\">and this is the blessing: \"You are standing today, all of you,\"</t>\n    <t s=\"12\">that you, all of you, from your heads, your tribes, to the hewer of your wood and the drawer of your water,</t>\n    <t s=\"13\">are standing, enduring and existing,</t>\n    <t s=\"14\">meaning that they are vindicated in judgment.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1087,
+    "completion_tokens": 708,
+    "total_tokens": 1795,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 831
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

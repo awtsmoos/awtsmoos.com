@@ -1,0 +1,28 @@
+{
+  "id": "d9ab4948-26d0-47fd-98df-0c21570158fe",
+  "object": "chat.completion",
+  "created": 1783583940,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917575_theRebbe_481\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917575_theRebbe_481__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the proof from the obligation for a husband to visit his wife before a journey shows that the unification (Pekidah) occurred even during the time of the Temple's pledging, as seen in the cherubim embracing during the destruction.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And one may add,</t>\n    <t s=\"2\">that this which [the Alter Rebbe] brings in Likkutei Torah as a proof that the unification is called \"Pekidah\" from that which our sages of blessed memory said, \"A man is obligated to visit his wife,\"</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">because this statement of our sages of blessed memory speaks of the obligation to visit his wife at the time when he is going out on a journey,</t>\n    <t s=\"5\">and in this it hints,</t>\n    <t s=\"6\">that in addition to the matter of the \"Pekudei HaMishkan\" (the accountings of the Tabernacle),</t>\n    <t s=\"7\">that the intention in this—that the Sanctuary was pledged—is in order that through repentance there will be afterward</t>\n    <t s=\"8\">(in the future to come)</t>\n    <t s=\"9\">the unification</t>\n    <t s=\"10\">(Pekidah)</t>\n    <t s=\"11\">in a more elevated manner,</t>\n    <t s=\"12\">even during this very time itself</t>\n    <t s=\"13\">(when the Sanctuary was pledged)</t>\n    <t s=\"14\">there was the unification.</t>\n    <t s=\"15\">And as is explained elsewhere,</t>\n    <t s=\"16\">what our sages of blessed memory said,</t>\n    <t s=\"17\">\"At the time when the gentiles entered the Sanctuary, they saw the cherubim intertwined with each other,\"</t>\n    <t s=\"18\">for this is seemingly perplexing,</t>\n    <t s=\"19\">for cherubim intertwined with each other indicates the greatness of the affection of the Holy One, blessed be He, and Israel, like the affection of a man and a woman,</t>\n    <t s=\"20\">and at the time when the gentiles entered the Sanctuary, it was seemingly the opposite of affection.</t>\n    <t s=\"21\">And the explanation of this is,</t>\n    <t s=\"22\">that since during the time of exile the Congregation of Israel is like a woman whose husband has gone to a country overseas,</t>\n    <t s=\"23\">therefore,</t>\n    <t s=\"24\">before the departure of the husband</t>\n    <t s=\"25\">(the Holy One, blessed be He)</t>\n    <t s=\"26\">on the journey,</t>\n    <t s=\"27\">there was the \"Pekidah\" (visitation/unification),</t>\n    <t s=\"28\">and therefore the cherubim were then like the embracing</t>\n    <t s=\"29\">of a man and his wife.</t>\n    <t s=\"30\">However, the Pekidah that took place then was in concealment,</t>\n    <t s=\"31\">and in revelation there was the destruction and the exile,</t>\n    <t s=\"32\">and the intention in this is that through the service during the time of exile,</t>\n    <t s=\"33\">and particularly through the service of repentance,</t>\n    <t s=\"34\">the Pekidah will be revealed in the building of the Third Holy Temple,</t>\n    <t s=\"35\">and then the pledge will also be returned,</t>\n    <t s=\"36\">the Mishkan and the Mishkan of Testimony,</t>\n    <t s=\"37\">with the coming of Mashiach Tzidkeinu, speedily and truly.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1457,
+    "completion_tokens": 1021,
+    "total_tokens": 2478,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 1073
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

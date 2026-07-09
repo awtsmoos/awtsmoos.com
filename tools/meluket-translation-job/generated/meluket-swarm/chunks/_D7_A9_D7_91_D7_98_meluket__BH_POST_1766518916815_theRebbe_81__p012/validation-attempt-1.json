@@ -1,0 +1,182 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 30,
+    "returned": 30,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916815_theRebbe_81\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p012\">\n  <section v=\"33\">\n    <sectionSummaryBrief>This section explains the connection between the conclusion of chapter twenty and the revelation of Atzmus Ein Sof, based on the height of the entrance to the Ulam being forty cubits, alluding to the two aspects of Kesser.</sectionSummaryBrief>\n    <t s=\"0\">20)</t>\n    <t s=\"1\">b)</t>\n    <t s=\"2\">Now we must explain the connection of this matter to the conclusion and seal of chapter twenty,</t>\n    <t s=\"3\">based on what is explained in Likkutei Torah,</t>\n    <t s=\"4\">that the entrance of the Ulam was forty cubits high,</t>\n    <t s=\"5\">twice twenty,</t>\n    <t s=\"6\">meaning,</t>\n    <t s=\"7\">that twenty in gematria is Kesser,</t>\n    <t s=\"8\">and twice twenty</t>\n    <t s=\"9\">(forty)</t>\n    <t s=\"10\">are the two aspects within Kesser,</t>\n    <t s=\"11\">Atik and Arich.</t>\n    <t s=\"12\">And it is explained there,</t>\n    <t s=\"13\">that the entrance of the Ulam had no doors and was always open by itself,</t>\n    <t s=\"14\">meaning,</t>\n    <t s=\"15\">that man’s service is not of sufficient worth to awaken and draw down the aspect of Kesser that is above the chain of descent,</t>\n    <t s=\"16\">rather, through the perfection of service,</t>\n    <t s=\"17\">it is drawn down by itself.</t>\n    <t s=\"18\">And based on what is explained elsewhere</t>\n    <t s=\"19\">that an arousal from below reaches not only ChS (Chochmah Stima’ah) but also the Gulgalta of Arich,</t>\n    <t s=\"20\">it can be said,</t>\n    <t s=\"21\">that this—that the entrance of the Ulam was always open by itself—is primarily from the aspect of Atik within it.</t>\n    <t s=\"22\">And based on this, we can explain the connection of the revelation of the innerness and Atzmus of Ein Sof to the conclusion and seal of chapter twenty,</t>\n    <t s=\"23\">for the conclusion and seal of twenty is the second aspect of Kesser,</t>\n    <t s=\"24\">Atik,</t>\n    <t s=\"25\">and within Atik itself—the innerness of Atik,</t>\n    <t s=\"26\">until the innerness and Atzmus of Ein Sof.</t>\n    <t s=\"27\">And the perfection of this revelation will be in the entrance of the Ulam of the Third Beis HaMikdash,</t>\n    <t s=\"28\">which will be built speedily in our days by Moshiach Tzidkeinu,</t>\n    <t s=\"29\">very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916815_theRebbe_81",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p012"
+    },
+    "sections": [
+      {
+        "v": 33,
+        "sectionSummaryBrief": "This section explains the connection between the conclusion of chapter twenty and the revelation of Atzmus Ein Sof, based on the height of the entrance to the Ulam being forty cubits, alluding to the two aspects of Kesser.",
+        "translations": [
+          {
+            "v": 33,
+            "s": 0,
+            "translation": "20)"
+          },
+          {
+            "v": 33,
+            "s": 1,
+            "translation": "b)"
+          },
+          {
+            "v": 33,
+            "s": 2,
+            "translation": "Now we must explain the connection of this matter to the conclusion and seal of chapter twenty,"
+          },
+          {
+            "v": 33,
+            "s": 3,
+            "translation": "based on what is explained in Likkutei Torah,"
+          },
+          {
+            "v": 33,
+            "s": 4,
+            "translation": "that the entrance of the Ulam was forty cubits high,"
+          },
+          {
+            "v": 33,
+            "s": 5,
+            "translation": "twice twenty,"
+          },
+          {
+            "v": 33,
+            "s": 6,
+            "translation": "meaning,"
+          },
+          {
+            "v": 33,
+            "s": 7,
+            "translation": "that twenty in gematria is Kesser,"
+          },
+          {
+            "v": 33,
+            "s": 8,
+            "translation": "and twice twenty"
+          },
+          {
+            "v": 33,
+            "s": 9,
+            "translation": "(forty)"
+          },
+          {
+            "v": 33,
+            "s": 10,
+            "translation": "are the two aspects within Kesser,"
+          },
+          {
+            "v": 33,
+            "s": 11,
+            "translation": "Atik and Arich."
+          },
+          {
+            "v": 33,
+            "s": 12,
+            "translation": "And it is explained there,"
+          },
+          {
+            "v": 33,
+            "s": 13,
+            "translation": "that the entrance of the Ulam had no doors and was always open by itself,"
+          },
+          {
+            "v": 33,
+            "s": 14,
+            "translation": "meaning,"
+          },
+          {
+            "v": 33,
+            "s": 15,
+            "translation": "that man’s service is not of sufficient worth to awaken and draw down the aspect of Kesser that is above the chain of descent,"
+          },
+          {
+            "v": 33,
+            "s": 16,
+            "translation": "rather, through the perfection of service,"
+          },
+          {
+            "v": 33,
+            "s": 17,
+            "translation": "it is drawn down by itself."
+          },
+          {
+            "v": 33,
+            "s": 18,
+            "translation": "And based on what is explained elsewhere"
+          },
+          {
+            "v": 33,
+            "s": 19,
+            "translation": "that an arousal from below reaches not only ChS (Chochmah Stima’ah) but also the Gulgalta of Arich,"
+          },
+          {
+            "v": 33,
+            "s": 20,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 33,
+            "s": 21,
+            "translation": "that this—that the entrance of the Ulam was always open by itself—is primarily from the aspect of Atik within it."
+          },
+          {
+            "v": 33,
+            "s": 22,
+            "translation": "And based on this, we can explain the connection of the revelation of the innerness and Atzmus of Ein Sof to the conclusion and seal of chapter twenty,"
+          },
+          {
+            "v": 33,
+            "s": 23,
+            "translation": "for the conclusion and seal of twenty is the second aspect of Kesser,"
+          },
+          {
+            "v": 33,
+            "s": 24,
+            "translation": "Atik,"
+          },
+          {
+            "v": 33,
+            "s": 25,
+            "translation": "and within Atik itself—the innerness of Atik,"
+          },
+          {
+            "v": 33,
+            "s": 26,
+            "translation": "until the innerness and Atzmus of Ein Sof."
+          },
+          {
+            "v": 33,
+            "s": 27,
+            "translation": "And the perfection of this revelation will be in the entrance of the Ulam of the Third Beis HaMikdash,"
+          },
+          {
+            "v": 33,
+            "s": 28,
+            "translation": "which will be built speedily in our days by Moshiach Tzidkeinu,"
+          },
+          {
+            "v": 33,
+            "s": 29,
+            "translation": "very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

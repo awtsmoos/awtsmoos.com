@@ -1,0 +1,161 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918734_theRebbe_176" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918734_theRebbe_176" title="מאמר וידבר אלוקים את כל הדברים האלה תשכ"ח" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p002">
+  <section v="3">
+    <src s="0">והנה כמו שהוא בעשרה מאמרות כפי שנמשכו בפועל ובגילוי</src>
+    <src s="1">(בספירת המלכות19),</src>
+    <src s="2">שהמאמר דבראשית הוא מאמר כללי שכולל כל המאמרות,</src>
+    <src s="3">עד"ז הוא בשרשם,</src>
+    <src s="4">בהעשר ספירות,</src>
+    <src s="5">שהמאמר דבראשית הוא כלל,</src>
+    <src s="6">ויש בזה כמה דרגות20.</src>
+    <src s="7">דבתרגום ירושלמי איתא בראשית בחוכמתא21,</src>
+    <src s="8">שהחכמה22</src>
+    <src s="9">היא כלל שכוללת כל הספירות.</src>
+    <src s="10">ובתרגום אונקלוס איתא בראשית בקדמין,</src>
+    <src s="11">והיינו הרצון דכתר שלמעלה מהחכמה22,</src>
+    <src s="12">ועד למחשבה הקדומה דא"ק שהוא הרצון הכללי על כללות ההשתלשלות,</src>
+    <src s="13">ולמעלה יותר הרצון לברוא עולמות כמו שהוא לפני הצמצום,</src>
+    <src s="14">שהוא בחינת כלל גם לגבי מחשבה הקדומה דא"ק.</src>
+    <src s="15">ולפני הצמצום גופא יש ג"כ כלל ופרט,</src>
+    <src s="16">דלאחרי שעלה ברצונו שיער בעצמו בכח כל מה שעתיד להיות בפועל,</src>
+    <src s="17">דהרצון וההשערה הם בחינת כלל ופרט23.</src>
+    <src s="18">ונמצא,</src>
+    <src s="19">דכמו שההמשכה דתורה היא בבחינת כלל ופרט בכו"כ דרגות,</src>
+    <src s="20">כנ"ל,</src>
+    <src s="21">עד"ז הוא בההמשכה דעולמות שהיא בבחינת כלל ופרט בכו"כ דרגות.</src>
+    <src s="22">וגם בזה צריך להבין,</src>
+    <src s="23">הרי הכוונה בבריאת העולמות היא שיהיו נבראים פרטיים בהתחלקות,</src>
+    <src s="24">וכוונה זו היא הסיבה להתעוררות הרצון לפני הצמצום בכדי שימשך ממנו אח"כ</src>
+    <src s="25">(ע"י ריבוי השתלשלות)</src>
+    <src s="26">עשרה מאמרות פרטיים שמהם יתהוו נבראים פרטיים,</src>
+    <src s="27">וא"כ הי' צריך להיות לכאורה התעוררות הרצון מלכתחילה בבחינת פרט באופן שיהי' אפשר להיות ממנו התהוות נבראים פרטיים כפי הכוונה,</src>
+    <src s="28">ולמה הי' התעוררות הרצון בתחילה בבחינת כלל.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה ע"פ משל דהשפעת שכל מרב לתלמיד,</src>
+    <src s="2">דאמרו חז"ל24</src>
+    <src s="3">לעולם ישנה אדם לתלמידו בדרך קצרה,</src>
+    <src s="4">וידוע25</src>
+    <src s="5">הדיוק בהלשון דרך קצרה</src>
+    <src s="6">(ולא שכל קצר),</src>
+    <src s="7">שצריך להשפיע להתלמיד כל העומק והפרטים שבהשכל,</src>
+    <src s="8">אלא שכל זה צריך ללמדו בדרך קצרה,</src>
+    <src s="9">בדיבורים קצרים,</src>
+    <src s="10">שמהם יוכל התלמיד להבין כל הפרטים.</src>
+    <src s="11">וכמו המשנה ששנה לנו רבינו הקדוש,</src>
+    <src s="12">שבלשון המשנה ישנם</src>
+    <src s="13">(בהעלם)</src>
+    <src s="14">כל הפרטים,</src>
+    <src s="15">האורך הרוחב והעומק,</src>
+    <src s="16">שנתבאר אח"כ בגמרא,</src>
+    <src s="17">אלא שבמשנה הם בקיצור נמרץ26.</src>
+    <src s="18">והטעם על זה</src>
+    <src s="19">(שההשפעה צריכה להיות בדרך קצרה דוקא)</src>
+    <src s="20">הוא,</src>
+    <src s="21">כי באם ישפיע לו</src>
+    <src s="22">(בתחילה)</src>
+    <src s="23">כל הפרטים בגילוי,</src>
+    <src s="24">יתבלבלו חושי התלמיד,</src>
+    <src s="25">וגם אפשר שמצד ריבוי ההתפשטות ילך בדרך עקלתון,</src>
+    <src s="26">ולכן צריך ללמדו בדרך קצרה דוקא,</src>
+    <src s="27">שעי"ז בא השכל בציור מוגבל</src>
+    <src s="28">(שהוא יודע את הענין בכללותו),</src>
+    <src s="29">ועי"ז,</src>
+    <src s="30">הנה גם לאחרי שמעיין בהפרטים,</src>
+    <src s="31">בריבוי סברות,</src>
+    <src s="32">תהי' ההתפשטות לפי אופן הציור של הדיבורים הקצרים ולא ילך בדרך עקלתון.</src>
+    <src s="33">וכמו שהוא בההשפעה להתלמיד בפועל,</src>
+    <src s="34">דתחילת ההשפעה צריכה להיות בדרך קצרה דוקא,</src>
+    <src s="35">עד"ז הוא גם בהמצאת השכל השייך להתלמיד בהרב עצמו,</src>
+    <src s="36">דתחילת המשכת</src>
+    <src s="37">(והמצאת)</src>
+    <src s="38">השכל היא בבחינת נקודה.</src>
+    <src s="39">דהנה ידוע27</src>
+    <src s="40">שבשכל הרב כלול גם חיצוניות השכל ששייך להתלמיד,</src>
+    <src s="41">אלא,</src>
+    <src s="42">שבהיותו כלול בשכל הרב,</src>
+    <src s="43">הנה נוסף לזה שאינו ניכר שם בפ"ע</src>
+    <src s="44">(להיותו כלול ומעורב עם הפנימיות),</src>
+    <src s="45">הנה גם חיצוניות השכל</src>
+    <src s="46">(השייך להתלמיד)</src>
+    <src s="47">הוא בריבוי אור,</src>
+    <src s="48">ולכן צריך הרב לצמצם את שכלו,</src>
+    <src s="49">היינו להעלים את שכלו העצמי שלא יאיר כלל,</src>
+    <src s="50">שעי"ז נבדל החיצוניות מהפנימיות וניכר בפ"ע,</src>
+    <src s="51">וגם החיצוניות שנמצא אצלו אז הוא בבחינת נקודה בלבד,</src>
+    <src s="52">ורק לאחרי זה</src>
+    <src s="53">(לפני שמשפיע בפועל)</src>
+    <src s="54">הוא משער בעצמו את הפרטים שישפיע אל המקבל.</src>
+    <src s="55">והטעם על זה שבתחילה בא השכל בבחינת נקודה הוא,</src>
+    <src s="56">כי באם השכל ששייך להתלמיד הי' נמצא מלכתחילה באופן דהתפשטות בריבוי פרטים,</src>
+    <src s="57">יהיו אז הפרטים באופן כמו שהם נובעים משכל הרב,</src>
+    <src s="58">בריבוי אור,</src>
+    <src s="59">ולא יהיו מכוונים ומתאימים לחושי התלמיד.</src>
+    <src s="60">ולכן,</src>
+    <src s="61">המצאת השכל בתחילה הוא בבחינת נקודה</src>
+    <src s="62">(ענין של התעלמות),</src>
+    <src s="63">שעי"ז נגבל השכל.</src>
+    <src s="64">דעם היות שבהנקודה כלולים כל הפרטים שישפיע אח"כ להתלמיד</src>
+    <src s="65">[ויתירה מזו,</src>
+    <src s="66">שיש בהנקודה בהעלם גם מפנימיות השכל28],</src>
+    <src s="67">מ"מ,</src>
+    <src s="68">מכיון שכל זה הוא בהעלם,</src>
+    <src s="69">הנה עי"ז נעשה הגבלה וציור</src>
+    <src s="70">(כללית)</src>
+    <src s="71">בהשכל שיהי' באופן ששייך להשפיע אותו להתלמיד,</src>
+    <src s="72">ולאחרי שנעשה בו הגבלה זו,</src>
+    <src s="73">הנה גם לאחרי שנמשך ברוחב והתפשטות</src>
+    <src s="74">(כשמפרט את הפרטים),</src>
+    <src s="75">יהי' הרוחב כפי אופן ההגבלה והציור של הנקודה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">והנמשל מזה יובן למעלה,</src>
+    <src s="2">דבכדי שהאור שמהווה את העולמות יהי' לפי ערך הנבראים,</src>
+    <src s="3">באופן שיוכל להאיר בהם בפנימיות,</src>
+    <src s="4">הוצרך להיות תחילה ההמשכה באופן דכלל ופרט.</src>
+    <src s="5">כי מכיון שהעולמות הם באין ערוך לגבי אוא"ס,</src>
+    <src s="6">לכן,</src>
+    <src s="7">באם ההמשכה מאוא"ס היתה מלכתחילה בריבוי פרטים,</src>
+    <src s="8">היו אז הפרטים בבלי גבול</src>
+    <src s="9">(כמו שהם מצד אוא"ס),</src>
+    <src s="10">ולכן הוצרך להיות תחילה ההמשכה באופן דכלל,</src>
+    <src s="11">שעי"ז נעשה ציור כללי בהאור שיהי' לפי ערך העולמות,</src>
+    <src s="12">ועי"ז,</src>
+    <src s="13">גם הפרטים שנמשכו אח"כ הם לפי ציור זה.</src>
+  </section>
+</awtsmoosMeluketSource>

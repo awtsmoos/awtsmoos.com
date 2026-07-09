@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917153_theRebbe_141" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917153_theRebbe_141__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917153_theRebbe_141" title="מאמר ואלה המשפטים תשל"ח" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917153_theRebbe_141__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצאי ש"פ משפטים,</src>
+    <src s="2">מבה"ח אדר ראשון – בחדרו – ה'תשל"ח*</src>
+  </section>
+  <section v="1">
+    <src s="0">ואלה המשפטים אשר תשים לפניהם1,</src>
+    <src s="1">ומדייק בזה כ"ק אדמו"ר הזקן בתו"א ריש פרשתנו2</src>
+    <src s="2">דצלה"ב דלפניהם משמע לשון רבים וכי תקנה הוא לשון יחיד,</src>
+    <src s="3">והול"ל כי יקנו.</src>
+    <src s="4">גם ידוע הדיוק3</src>
+    <src s="5">מפני מה התחיל כל המשפטים בדין עבד עברי דוקא</src>
+    <src s="6">[דזהו גם כוונת המדרש4</src>
+    <src s="7">עה"פ באמרו אני קניתי אתכם במצרים וכו',</src>
+    <src s="8">לבאר טעם התחלת ואלה המשפטים בדין עבד עברי].</src>
+    <src s="9">ועוד כמה דיוקים עה"פ,</src>
+    <src s="10">כמבואר בדרושי רבותינו נשיאינו ממלאי מקומו.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דהנה מ"ש ואלה המשפטים וגו' הו"ע כללי כמובן גם מפי' רז"ל שקאי על כללות ענין לימוד התורה.</src>
+    <src s="3">וזהו ג"כ מ"ש תשים</src>
+    <src s="4">(ל' יחיד)</src>
+    <src s="5">דקאי על משה,</src>
+    <src s="6">כי ענינו של משה הו"ע התורה5,</src>
+    <src s="7">ואח"כ אומר לפניהם</src>
+    <src s="8">(ל' רבים),</src>
+    <src s="9">היינו שע"י היתה המשכת התורה לכאו"א מישראל עד סוף כל הדורות,</src>
+    <src s="10">וכמ"ש6</src>
+    <src s="11">זכרו תורת משה עבדי,</src>
+    <src s="12">עד לתינוק המתחיל לדבר שאביו מלמדו תורה7,</src>
+    <src s="13">והיינו הפסוק8</src>
+    <src s="14">תורה צוה לנו משה גו'.</src>
+    <src s="15">וכמו"כ ישנה הוראה כללית בפסוק זה גם באופן לימוד התורה,</src>
+    <src s="16">שצ"ל באופן מסויים דוקא כדרז"ל9</src>
+    <src s="17">במ"ש תשים לפניהם שהרב שלמד כו' חוזר ושונה הדבר אפי' כמה פעמים עד שיבינו עומק ההלכה בטעמה היטב,</src>
+    <src s="18">ומוסיף עוד אדה"ז בזה בסיום הל' ת"ת שלו10</src>
+    <src s="19">דצריך אתה לשים לפניהם טעם המיישב תלמודם ומשימו בלבם</src>
+    <src s="20">[וי"ל דבמ"ש אדה"ז שמשימו בלבם מפרש דמ"ש</src>
+    <src s="21">(תשים)</src>
+    <src s="22">לפניהם היינו לפנימיותם11,</src>
+    <src s="23">דזהו כשמשימו בהלב],</src>
+    <src s="24">שזהו ענין כללי בלימוד התורה דכאו"א מישראל</src>
+    <src s="25">(שהרי לימוד התורה היא מצוה שבגופו,</src>
+    <src s="26">שכל א' מחויב בה).</src>
+    <src s="27">וכמ"ש12</src>
+    <src s="28">ושננתם לבניך ודרז"ל13</src>
+    <src s="29">שיהיו דברי תורה שנונים ומחודדים בפיך</src>
+    <src s="30">(שזהו כענין הנ"ל שההלכה צ"ל ברורה ומסודרה וכו'),</src>
+    <src s="31">דזהו חיוב על כאו"א מישראל</src>
+    <src s="32">[שהרי נוסף על החיוב דושננתם לבניך,</src>
+    <src s="33">צ"ל השינון בדברי תורה גם בלימוד האב</src>
+    <src s="34">(והרב)</src>
+    <src s="35">עצמו,</src>
+    <src s="36">ואדרבה,</src>
+    <src s="37">דוקא עי"ז שתחלה ישנו אצלו השינון בדברי תורה אפ"ל אח"כ ושננתם</src>
+    <src s="38">(גם)</src>
+    <src s="39">לבניך].</src>
+    <src s="40">ועפ"ז מובן14</src>
+    <src s="41">מ"ש ואלה המשפטים אשר תשים לפניהם מיד לאחר פרשת מ"ת,</src>
+    <src s="42">כי בפסוק זה ישנה הוראה כללית באופן</src>
+    <src s="43">[לימוד התורה דכאו"א</src>
+    <src s="44">[הן בהלימוד עם עצמו,</src>
+    <src s="45">וכן בושננתם לבניך כפשוטו,</src>
+    <src s="46">ולבניך אלו התלמידים כדחז"ל15</src>
+    <src s="47">עה"פ]</src>
+    <src s="48">ע"פ דרז"ל הנ"ל ובעיקר באופן]</src>
+    <src s="49">עבודת האדם לקונו.</src>
+  </section>
+</awtsmoosMeluketSource>

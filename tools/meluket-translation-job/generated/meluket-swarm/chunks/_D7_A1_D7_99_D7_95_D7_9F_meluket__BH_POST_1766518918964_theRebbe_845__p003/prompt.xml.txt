@@ -1,0 +1,144 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918964_theRebbe_845" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918964_theRebbe_845__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918964_theRebbe_845" title="מאמר והנה פרח מטה אהרן תשל"ג" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918964_theRebbe_845__p003">
+  <section v="6">
+    <src s="0">והנה הסדר דשלשה לבושי הנפש הוא מחשבה דיבור ומעשה23.</src>
+    <src s="1">ובכדי שתהי' ההמשכה מהשכל</src>
+    <src s="2">(או מהמדות)</src>
+    <src s="3">למעשה הוא ע"י המחשבה והדיבור24.</src>
+    <src s="4">והמחשבה שעל ידה נמשך ל</src>
+    <src s="5">(הדיבור ו)</src>
+    <src s="6">המעשה היא שחושב איך לעשות.</src>
+    <src s="7">וכיון שמחשבה זו היא נפרדת מהשכל</src>
+    <src s="8">[שהמחשבה שהיתה אצלו תחלה,</src>
+    <src s="9">כשדן בשכלו והחליט שראוי לעשות,</src>
+    <src s="10">היתה בטילה להשכל</src>
+    <src s="11">(לדיון השכל ולהחלטתו),</src>
+    <src s="12">וענינה של המחשבה הוא רק שעל ידה נרגש השכל.</src>
+    <src s="13">משא"כ המחשבה איך לעשות הוא מהות בפ"ע שנפרד מהשכל],</src>
+    <src s="14">לכן,</src>
+    <src s="15">ההמשכה25</src>
+    <src s="16">מהחלטת השכל להמחשבה לעשות היא ע"י עיכוב,</src>
+    <src s="17">בשני ענינים הנ"ל.</src>
+    <src s="18">שהחלטת השכל אינה מחייבת את המחשבה,</src>
+    <src s="19">ויתירה מזו,</src>
+    <src s="20">שבכדי להמשיך הענין במחשבה,</src>
+    <src s="21">צריך לדון עוד פעם.</src>
+    <src s="22">ועד"ז הוא בההמשכה ממחשבה לדיבור,</src>
+    <src s="23">דכיון שהדיבור הוא למטה ממחשבה,</src>
+    <src s="24">דמחשבה היא לעצמו והדיבור הוא לזולתו,</src>
+    <src s="25">לכן,</src>
+    <src s="26">ההמשכה שממחשבה לדיבור היא ע"י עיכוב.</src>
+    <src s="27">וגם בזה שני ענינים הנ"ל.</src>
+    <src s="28">דהמחשבה</src>
+    <src s="29">(מצד עצמה)</src>
+    <src s="30">אינה מחייבת את הדיבור,</src>
+    <src s="31">שאפשר שישאר הענין במחשבתו ולא יחשוב אפילו אם לדבר בזה,</src>
+    <src s="32">ויתירה מזו,</src>
+    <src s="33">שבנוגע לדיבור</src>
+    <src s="34">(גם כשחושב אם לדבר)</src>
+    <src s="35">יש אצלו ספק והוא צריך להתייעץ ולדון על זה.</src>
+    <src s="36">דכיון שמחשבה היא לעצמו ודיבור הוא לזולתו,</src>
+    <src s="37">לכן,</src>
+    <src s="38">גם לאחרי שהחליט בנוגע למחשבה,</src>
+    <src s="39">הוא מסופק עדיין אם להביא זה גם בדיבור,</src>
+    <src s="40">לגלות לזולתו.</src>
+    <src s="41">ועד"ז הוא בההמשכה מדיבור למעשה,</src>
+    <src s="42">דכיון שהמעשה נפרד יותר מהדיבור,</src>
+    <src s="43">לכן ההמשכה מדיבור למעשה היא ע"י עיכוב,</src>
+    <src s="44">בשני ענינים הנ"ל.</src>
+    <src s="45">שהדיבור אינו מחייב את המעשה,</src>
+    <src s="46">ושבכדי להמשיך מדיבור למעשה,</src>
+    <src s="47">צריך להתייעץ ולדון עוד פעם.</src>
+    <src s="48">וע"פ הידוע26</src>
+    <src s="49">שמחשבה ודיבור שייכים זל"ז,</src>
+    <src s="50">דאותם האותיות שהיו תחלה במחשבה נמשכים אח"כ בדיבור,</src>
+    <src s="51">משא"כ המעשה הוא ענין בפ"ע,</src>
+    <src s="52">יש לומר,</src>
+    <src s="53">שהעיכוב בההמשכה מדיבור למעשה</src>
+    <src s="54">(בנוגע לשני ענינים הנ"ל)</src>
+    <src s="55">הוא עיכוב גדול יותר מהעיכוב בההמשכה ממחשבה לדיבור.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">ועד"ז הוא בהנמשל למעלה,</src>
+    <src s="2">דהדין ומשפט שבר"ה ויוהכ"פ הוא המשכת החסד במלכות דאצילות</src>
+    <src s="3">(כנ"ל סעיף ב),</src>
+    <src s="4">וידוע27</src>
+    <src s="5">שאצילות ובי"ע הם דוגמת כחות הפנימיים</src>
+    <src s="6">(שכל ומדות)</src>
+    <src s="7">וג' הלבושים מחשבה דיבור ומעשה,</src>
+    <src s="8">ולכן,</src>
+    <src s="9">אף שהדין ומשפט שבר"ה ויוהכ"פ הוא בנוגע לההשפעה בעוה"ז הגשמי,</src>
+    <src s="10">מ"מ,</src>
+    <src s="11">כיון שכללות האצילות</src>
+    <src s="12">(גם המלכות דאצילות)</src>
+    <src s="13">הוא דוגמת כחות הפנימיים שלמעלה ממחדומ"ע,</src>
+    <src s="14">הכתיבה וחתימה טובה שבר"ה ויוהכ"פ שיומשך שפע גשמי היא דוגמת החלטת השכל שראוי הדבר לעשותו,</src>
+    <src s="15">שהמעשה</src>
+    <src s="16">(כמו שהוא בהחלטת השכל)</src>
+    <src s="17">כלול בהשכל,</src>
+    <src s="18">ובכדי שתומשך ההשפעה בעולם העשי'</src>
+    <src s="19">[ובפרט בעוה"ז הגשמי]</src>
+    <src s="20">צריכה להיות תחלה ההמשכה בעולם המחשבה</src>
+    <src s="21">(בריאה)</src>
+    <src s="22">ועולם הדיבור</src>
+    <src s="23">(יצירה).</src>
+    <src s="24">וההמשכה ממלכות דאצילות לבריאה,</src>
+    <src s="25">ועד"ז מבריאה ליצירה,</src>
+    <src s="26">ומכש"כ מיצירה לעשי',</src>
+    <src s="27">הוא ע"י עיכוב,</src>
+    <src s="28">בשני ענינים הנ"ל,</src>
+    <src s="29">כנ"ל.</src>
+  </section>
+  <section v="8">
+    <src s="0">ועפ"ז יש לבאר,</src>
+    <src s="1">שיכול להיות שהשפע שנקצב בר"ה ויוהכ"פ יומשך ברוחניות ועד שאפשר שההמשכה ברוחניות תהי' בג"ע,</src>
+    <src s="2">אף שהדין דר"ה ויוהכ"פ הוא בנוגע להשפעה גשמית,</src>
+    <src s="3">כי באצילות,</src>
+    <src s="4">ועד"ז בבריאה ויצירה,</src>
+    <src s="5">גם ענינים הגשמיים שדנים עליהם הם כלולים ברוחניות,</src>
+    <src s="6">בדוגמת המעשה שבהחלטת השכל,</src>
+    <src s="7">ועד"ז במחשבה ודיבור,</src>
+    <src s="8">שהמעשה כלול בהשכל.</src>
+    <src s="9">וזהו גם שבכל יום יש דין ומשפט באיזה ענין יומשך החסד,</src>
+    <src s="10">אף שהדין ומשפט שבר"ה ויוהכ"פ הוא בנוגע לכל הפרטים,</src>
+    <src s="11">כי הענינים דעשי' כמו שהם בשרשם באצילות,</src>
+    <src s="12">ועד"ז בבריאה ויצירה,</src>
+    <src s="13">הם מופשטים מציור גשמי,</src>
+    <src s="14">ולכן,</src>
+    <src s="15">יש דין ומשפט באיזה אופן תצטייר ההשפעה בגשמיות.</src>
+  </section>
+</awtsmoosMeluketSource>

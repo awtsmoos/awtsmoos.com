@@ -1,0 +1,52 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917950_theRebbe_524" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917950_theRebbe_524" title="מאמר על שלושה דברים תשי"ד" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p007">
+  <section v="18">
+    <src s="0">והמשכה זו היא ע"י העבודה בג' הדברים עכשיו.</src>
+    <src s="1">אלא שעכשיו הוא בהעלם,</src>
+    <src s="2">ולע"ל יהי' זה בגילוי,</src>
+    <src s="3">וכמשנת"ל</src>
+    <src s="4">(במאמר הקודם63)</src>
+    <src s="5">שבמשיח יהי' החיבור דמעלה ומטה,</src>
+    <src s="6">ועל ידו יומשך זה גם בכל העולם,</src>
+    <src s="7">שיהי' מלאה הארץ דיעה את הוי'64,</src>
+    <src s="8">שגם הארץ הגשמיית</src>
+    <src s="9">(דומם,</src>
+    <src s="10">מטה מטה)</src>
+    <src s="11">תהי' מלאה דיעה את הוי'</src>
+    <src s="12">(מעלה מעלה),</src>
+    <src s="13">בביאת משיח צדקנו בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

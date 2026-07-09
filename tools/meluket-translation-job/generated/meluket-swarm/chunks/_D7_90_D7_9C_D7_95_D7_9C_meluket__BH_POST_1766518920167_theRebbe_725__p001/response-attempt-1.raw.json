@@ -1,0 +1,28 @@
+{
+  "id": "0017e2e4-91b9-4649-8e88-700b87bb5cb5",
+  "object": "chat.completion",
+  "created": 1783583813,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920167_theRebbe_725\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920167_theRebbe_725__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header information for the maamar, including the Torah portion, month, and year.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Re'eh,</t>\n    <t s=\"2\">Rosh Chodesh Elul,</t>\n    <t s=\"3\">the year 5726</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that Elul is the acronym for \"Ani l'Dodi v'Dodi li,\" where the month of Elul is the arousal from below, serving as a preparation for the drawing down from above on Rosh Hashanah and Yom Kippur, yet the letters for \"v'Dodi li\" are also within the word Elul itself.</sectionSummaryBrief>\n    <t s=\"0\">\"I am for my Beloved and my Beloved is for me\"</t>\n    <t s=\"1\">is the acronym for Elul,</t>\n    <t s=\"2\">and it is explained in Likkutei Torah in the maamar beginning with the words \"Zeh\"</t>\n    <t s=\"3\">the connection of Elul to \"I am for my Beloved and my Beloved is for me,\"</t>\n    <t s=\"4\">for in Elul there is an arousal from below,</t>\n    <t s=\"5\">\"I am for my Beloved,\"</t>\n    <t s=\"6\">and on Rosh Hashanah and Yom Kippur there is the drawing down from above to below</t>\n    <t s=\"7\">(an arousal from above),</t>\n    <t s=\"8\">\"and my Beloved is for me.\"</t>\n    <t s=\"9\">And the drawing down on Rosh Hashanah and Yom Kippur comes about through the arousal from below that is in Elul.</t>\n    <t s=\"10\">And this is that Elul is the acronym for \"I am for my Beloved and my Beloved is for me\"</t>\n    <t s=\"11\">[that also \"and my Beloved is for me\" is included in the acronym of Elul],</t>\n    <t s=\"12\">for the arousal from below in Elul</t>\n    <t s=\"13\">(\"I am for my Beloved\")</t>\n    <t s=\"14\">is</t>\n    <t s=\"15\">(also)</t>\n    <t s=\"16\">a preparation for the drawing down</t>\n    <t s=\"17\">(\"and my Beloved is for me\")</t>\n    <t s=\"18\">that is on Rosh Hashanah and Yom Kippur.</t>\n    <t s=\"19\">And explanation is needed,</t>\n    <t s=\"20\">for from the fact that the letters vav and lamed</t>\n    <t s=\"21\">(the acronym for \"and my Beloved is for me\")</t>\n    <t s=\"22\">are from the word Elul itself,</t>\n    <t s=\"23\">it implies,</t>\n    <t s=\"24\">that the month of Elul is not only a preparation for \"and my Beloved is for me,\"</t>\n    <t s=\"25\">but that in the month of Elul there is also the concept of \"and my Beloved is for me.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that in Elul, the revelation of the Thirteen Attributes of Mercy provides the power from above for the service of \"I am for my Beloved,\" but the service itself comes from the person, which is the advantage of Elul over the Ten Days of Repentance.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And the maamar continues,</t>\n    <t s=\"2\">that in Elul is the time of the Thirteen Attributes of Mercy.</t>\n    <t s=\"3\">For although in Elul it is \"I am for my Beloved,\"</t>\n    <t s=\"4\">an arousal from below,</t>\n    <t s=\"5\">nevertheless,</t>\n    <t s=\"6\">the arousal from below of the person,</t>\n    <t s=\"7\">and especially when he is distant from G-dliness,</t>\n    <t s=\"8\">is through an awakening and giving of power from above.</t>\n    <t s=\"9\">And the revelation of the Thirteen Attributes of Mercy in Elul,</t>\n    <t s=\"10\">for this revelation is for each and every one of Israel,</t>\n    <t s=\"11\">even for those who are most distant,</t>\n    <t s=\"12\">is the giving of power from above for the service of \"I am for my Beloved.\"</t>\n    <t s=\"13\">However, the revelation in Elul is</t>\n    <t s=\"14\">(primarily)</t>\n    <t s=\"15\">only a giving of power</t>\n    <t s=\"16\">(and not that the revelation awakens the person),</t>\n    <t s=\"17\">and the service itself comes from the person,</t>\n    <t s=\"18\">\"I am for my Beloved.\"</t>\n    <t s=\"19\">And this is the advantage of Elul over the Ten Days of Repentance,</t>\n    <t s=\"20\">for during the Ten Days of Repentance and especially on Rosh Hashanah and Yom Kippur,</t>\n    <t s=\"21\">the revelation is in a manner that the revelation awakens the person and the person's service is like a result of the revelation from above.</t>\n    <t s=\"22\">And the main concept and advantage of the person's service</t>\n    <t s=\"23\">(service with his own power)</t>\n    <t s=\"24\">\"I am for my Beloved,\"</t>\n    <t s=\"25\">is in Elul.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1787,
+    "completion_tokens": 1512,
+    "total_tokens": 3299,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1531
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

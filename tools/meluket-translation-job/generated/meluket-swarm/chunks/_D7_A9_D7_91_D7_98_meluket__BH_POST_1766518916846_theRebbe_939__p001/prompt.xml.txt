@@ -1,0 +1,92 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" title="מאמר באתי לגני תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"ק ומוצאי ש"ק פ' בשלח,</src>
+    <src s="2">י"א שבט,</src>
+    <src s="3">ה'תשל"א</src>
+  </section>
+  <section v="1">
+    <src s="0">באתי לגני אחותי כלה1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר בעל ההילולא בהמאמר דיום ההסתלקות ויום ההילולא שלו2,</src>
+    <src s="2">דאיתא במדרש רבה</src>
+    <src s="3">(במקומו)</src>
+    <src s="4">לגני לגנוני,</src>
+    <src s="5">למקום שהי' עיקרי בתחלה,</src>
+    <src s="6">דעיקר שכינה בתחתונים היתה,</src>
+    <src s="7">אלא שע"י הענינים הבלתי רצויים</src>
+    <src s="8">(מתחיל מחטא עץ הדעת)</src>
+    <src s="9">נסתלקה השכינה מלמטה למעלה עד לרקיע השביעי,</src>
+    <src s="10">ואח"כ עמדו צדיקים</src>
+    <src s="11">(מתחיל מאברהם אבינו)</src>
+    <src s="12">והורידו את השכינה מלמעלה למטה,</src>
+    <src s="13">עד שבא משה שהוא השביעי,</src>
+    <src s="14">וכל השביעין חביבין3,</src>
+    <src s="15">והורידה למטה בארץ.</src>
+    <src s="16">דענין זה</src>
+    <src s="17">(המשכת וירידת השכינה למטה בארץ)</src>
+    <src s="18">נעשה בעיקר4</src>
+    <src s="19">ע"י המשכן שעשה משה כמ"ש5</src>
+    <src s="20">ועשו לי מקדש ושכנתי בתוכם.</src>
+    <src s="21">וזהו צדיקים יירשו ארץ וישכנו לעד עלי'6,</src>
+    <src s="22">שצדיקים הם משכינים</src>
+    <src s="23">(ממשיכים7)</src>
+    <src s="24">את השכינה שנק' עד,</src>
+    <src s="25">שוכן עד מרום וקדוש8,</src>
+    <src s="26">שתהי' בגילוי למטה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ולהעיר,</src>
+    <src s="1">שבמדרש שם מבאר תחלה פירוש הפסוק צדיקים יירשו ארץ גו' ולאח"ז אומר שעיקר השראת השכינה בארץ היתה ביום שהוקם המשכן,</src>
+    <src s="2">ובהמאמר משנה את סדר הענינים,</src>
+    <src s="3">שהפסוק צדיקים יירשו ארץ גו' מובא בהמאמר לאחרי שאומר שעיקר ההמשכה היתה ע"י עשיית המשכן.</src>
+    <src s="4">ויש לומר,</src>
+    <src s="5">שבזה מרמז,</src>
+    <src s="6">דזה שצדיקים ממשיכים השכינה למטה</src>
+    <src s="7">(וישכנו לעד עלי'),</src>
+    <src s="8">הכוונה בזה היא לא רק לההמשכה שע"י שבעה הצדיקים שמאברהם עד משה</src>
+    <src s="9">(ע"י עשיית המשכן),</src>
+    <src s="10">אלא גם לההמשכה שלאחרי ההמשכה שהיתה ע"י עשיית המשכן.</src>
+    <src s="11">שגם לאחרי ההמשכה שהיתה ע"י עשיית המשכן,</src>
+    <src s="12">אף שהיתה המשכה נעלית ביותר,</src>
+    <src s="13">ממשיכים צדיקים,</src>
+    <src s="14">ועמך כולם צדיקים9,</src>
+    <src s="15">המשכה נעלית עוד יותר.</src>
+    <src s="16">דלאחרי ההמשכה שע"י שבעה הצדיקים,</src>
+    <src s="17">ובפרט ע"י משה שעל ידו נמשכה השכינה למטה בארץ,</src>
+    <src s="18">עי"ז ניתן הכח לכאו"א מישראל להמשיך עוד יותר.</src>
+  </section>
+</awtsmoosMeluketSource>

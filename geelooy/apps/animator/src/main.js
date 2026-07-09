@@ -14,6 +14,7 @@ import { MobileViewportGuardian } from './rectification/MobileViewportGuardian.j
 import { DebugSystem } from './debug/DebugSystem.js';
 import { SelectionBridge } from './interaction/SelectionBridge.js';
 import { NLESystem } from './nle/NLESystem.js';
+import { CartoonStudioPanel } from './studio/CartoonStudioPanel.js';
 
 /** Boot with runtime proof: stale preserved scenes are purged unless legacy=1. */
 async function boot() {
@@ -41,6 +42,7 @@ async function boot() {
   app.director.play(sequence, 0);
   AutoPlayCovenant.resume(app);
   NLESystem.install(app);
+  CartoonStudioPanel.install(app);
 
   const awakenRuach = () => {
     RuachInterface.awaken(app.state);
@@ -50,7 +52,7 @@ async function boot() {
 
   RenderLoop.start(app);
   window.__AWTSMOOS_PARK_APP__ = app;
-  console.log('B"H - [main] Runtime proof boot complete.', app.state.get('scene'));
+  console.log('B"H - [main] Cartoon studio boot complete.', app.state.get('scene'));
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

@@ -1,0 +1,239 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 39,
+    "returned": 39,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915124_theRebbe_182\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>Based on the above, the work of \"Yitzchak sowed\" involves the descent of the Nefesh HaElokis' powers into mitzvos and refining the Nefesh HaBahamis, and \"finding one hundred gates\" refers to the ascent of the Nefesh HaElokis resulting from this sowing.</sectionSummaryBrief>\n    <t s=\"0\">d)</t>\n    <t s=\"1\">Now, according to the above, that the service of \"Yitzchak sowed\" is the sowing</t>\n    <t s=\"2\">(descent and enclothing)</t>\n    <t s=\"3\">of the powers of the Nefesh HaElokis in the fulfillment of the mitzvos and in the refinement of the Nefesh HaBahamis,</t>\n    <t s=\"4\">it must be said,</t>\n    <t s=\"5\">that the matter of \"and he found one hundred gates\" is</t>\n    <t s=\"6\">(not an influx from Above that comes through the fulfillment of Torah and mitzvos in and of itself,</t>\n    <t s=\"7\">but rather)</t>\n    <t s=\"8\">the ascent of the Nefesh HaElokis that comes about through the descent of its powers in the action of the mitzvos and in the refinement of the Nefesh HaBahamis,</t>\n    <t s=\"9\">the growth that comes through the sowing.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>The one hundred gates are two sets of fifty gates of Binah, corresponding to the two levels within Binah: Yovel and the side of Yovel.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation is,</t>\n    <t s=\"1\">as explained in the maamar24,</t>\n    <t s=\"2\">that one hundred gates are fifty gates of Binah twice.</t>\n    <t s=\"3\">And the explanation is,</t>\n    <t s=\"4\">that in Binah there are two levels</t>\n    <t s=\"5\">(in general).</t>\n    <t s=\"6\">Yovel and the side of Yovel25.</t>\n    <t s=\"7\">Yovel is Binah itself,</t>\n    <t s=\"8\">and the side of Yovel is not Binah itself, but only what is drawn from it26.</t>\n    <t s=\"9\">And this is fifty gates of Binah twice,</t>\n    <t s=\"10\">fifty gates from the side of Yovel and fifty gates of Yovel27</t>\n    <t s=\"11\">itself.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>The fifty gates of Binah are the lowest level of Binah through which intellect is drawn into the emotions, and even the gates of Yovel itself are intellects related to the emotions, with two levels within them.</sectionSummaryBrief>\n    <t s=\"0\">Now, it is explained elsewhere28</t>\n    <t s=\"1\">in the explanation of the fifty gates of Binah,</t>\n    <t s=\"2\">that just as a gate, in its simple sense, is at the end of the courtyard through which one goes outside,</t>\n    <t s=\"3\">so too regarding the fifty gates of Binah,</t>\n    <t s=\"4\">they are in the lowest level of Binah,</t>\n    <t s=\"5\">through which intellect is drawn into the emotions</t>\n    <t s=\"6\">(for the drawing of intellect into the emotions is an exit outward from the intellect).</t>\n    <t s=\"7\">And based on this, it can be said,</t>\n    <t s=\"8\">that also the fifty gates in Yovel itself are in the intellects that relate to the emotions,</t>\n    <t s=\"9\">except that within these intellects themselves there are two levels.</t>\n    <t s=\"10\">The gates from the side of Yovel, which are the actual source for the emotions</t>\n    <t s=\"11\">[like the inclination of the intellect,</t>\n    <t s=\"12\">an intellect that inclines toward Chessed and an intellect that inclines toward Gevurah28],</t>\n    <t s=\"13\">and the gates of Yovel itself, which are in the intellect itself that is above the inclination toward the emotions,</t>\n    <t s=\"14\">and the matter of the gates indicating an exit outward is that this entire intellect</t>\n    <t s=\"15\">(even before its inclination toward the emotions)</t>\n    <t s=\"16\">is an intellect that relates to the emotions29.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915124_theRebbe_182",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "Based on the above, the work of \"Yitzchak sowed\" involves the descent of the Nefesh HaElokis' powers into mitzvos and refining the Nefesh HaBahamis, and \"finding one hundred gates\" refers to the ascent of the Nefesh HaElokis resulting from this sowing.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "d)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, according to the above, that the service of \"Yitzchak sowed\" is the sowing"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "(descent and enclothing)"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "of the powers of the Nefesh HaElokis in the fulfillment of the mitzvos and in the refinement of the Nefesh HaBahamis,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "it must be said,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "that the matter of \"and he found one hundred gates\" is"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "(not an influx from Above that comes through the fulfillment of Torah and mitzvos in and of itself,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "but rather)"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "the ascent of the Nefesh HaElokis that comes about through the descent of its powers in the action of the mitzvos and in the refinement of the Nefesh HaBahamis,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "the growth that comes through the sowing."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "The one hundred gates are two sets of fifty gates of Binah, corresponding to the two levels within Binah: Yovel and the side of Yovel.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "as explained in the maamar24,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that one hundred gates are fifty gates of Binah twice."
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "that in Binah there are two levels"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "(in general)."
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "Yovel and the side of Yovel25."
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "Yovel is Binah itself,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "and the side of Yovel is not Binah itself, but only what is drawn from it26."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And this is fifty gates of Binah twice,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "fifty gates from the side of Yovel and fifty gates of Yovel27"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "itself."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "The fifty gates of Binah are the lowest level of Binah through which intellect is drawn into the emotions, and even the gates of Yovel itself are intellects related to the emotions, with two levels within them.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "Now, it is explained elsewhere28"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "in the explanation of the fifty gates of Binah,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that just as a gate, in its simple sense, is at the end of the courtyard through which one goes outside,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "so too regarding the fifty gates of Binah,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "they are in the lowest level of Binah,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "through which intellect is drawn into the emotions"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "(for the drawing of intellect into the emotions is an exit outward from the intellect)."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "that also the fifty gates in Yovel itself are in the intellects that relate to the emotions,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "except that within these intellects themselves there are two levels."
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "The gates from the side of Yovel, which are the actual source for the emotions"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "[like the inclination of the intellect,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "an intellect that inclines toward Chessed and an intellect that inclines toward Gevurah28],"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "and the gates of Yovel itself, which are in the intellect itself that is above the inclination toward the emotions,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "and the matter of the gates indicating an exit outward is that this entire intellect"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "(even before its inclination toward the emotions)"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "is an intellect that relates to the emotions29."
+          }
+        ]
+      }
+    ]
+  }
+}

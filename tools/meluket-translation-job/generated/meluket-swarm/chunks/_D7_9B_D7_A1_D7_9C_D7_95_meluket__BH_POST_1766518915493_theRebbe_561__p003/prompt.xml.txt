@@ -1,0 +1,178 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915493_theRebbe_561" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915493_theRebbe_561__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915493_theRebbe_561" title="מאמר וכל בניך תשמ"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915493_theRebbe_561__p003">
+  <section v="6">
+    <src s="0">ו)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">הרי התורה היא נצחית36,</src>
+    <src s="3">וכל הסיפורים וההוראות שבתורה הם הוראות נצחיות,</src>
+    <src s="4">ומכיון שהעבודה עכשיו היא בדרך מלמטה למעלה,</src>
+    <src s="5">למה נכתב בתורה,</src>
+    <src s="6">ובאריכות,</src>
+    <src s="7">הסיפור דוישלח יעקב גו' אל עשו,</src>
+    <src s="8">שתוכנו הוא בירור מלמעלה למטה.</src>
+    <src s="9">וביותר צריך ביאור מה שמסופר בתורה</src>
+    <src s="10">(שהיא נצחית)</src>
+    <src s="11">גם סדר הבירור דיעקב,</src>
+    <src s="12">הבירור דג"ר</src>
+    <src s="13">(לבן)</src>
+    <src s="14">לפני הבירור דז"ת</src>
+    <src s="15">(עשו).</src>
+    <src s="16">ויש לומר הביאור,</src>
+    <src s="17">דזה שאצל יעקב אבינו הי' הבירור בדרך מלמעלמ"ט הוא</src>
+    <src s="18">(ככל מעשה אבות37</src>
+    <src s="19">שהם)</src>
+    <src s="20">סימן ונתינת כח לבנים38</src>
+    <src s="21">על עבודה זו גופא.</src>
+    <src s="22">והיינו,</src>
+    <src s="23">דנוסף על זה שהבירור דיעקב בדרך מלמעלה למטה הוא נתינת כח על הבירור בדרך מלמטה למעלה</src>
+    <src s="24">(עיקר הבירור דעכשיו),</src>
+    <src s="25">הוא נתינת כח גם על ענין הבירור בדרך מלמעלה למטה דבנים,</src>
+    <src s="26">הבירור שע"י תורה.</src>
+    <src s="27">ובתורה גופא – הבירור שע"י פנימיות התורה,</src>
+    <src s="28">דעיקר ענין הבירור בדרך מלמעלה למטה הוא בפנימיות התורה.</src>
+    <src s="29">וכמשנת"ל</src>
+    <src s="30">(בד"ה פדה בשלום39)</src>
+    <src s="31">בארוכה,</src>
+    <src s="32">דהבירור שע"י נגלה דתורה,</src>
+    <src s="33">מכיון שנתלבשה בעה"ד טו"ר בכדי לברר בירורים,</src>
+    <src s="34">הוא דוגמת הבירור בדרך מלמטה למעלה,</src>
+    <src s="35">בהתלבשות</src>
+    <src s="36">(בדרך מלחמה),</src>
+    <src s="37">משא"כ הבירור שע"י פנימיות התורה,</src>
+    <src s="38">אילנא דחיי</src>
+    <src s="39">(שאינה מלובשת בטו"ר)40,</src>
+    <src s="40">הוא שלא בדרך התלבשות,</src>
+    <src s="41">מלמעלה למטה.</src>
+  </section>
+  <section v="7">
+    <src s="0">ז)</src>
+    <src s="1">והנה חילוק הנ"ל שבין נגלה דתורה לפנימיות התורה הוא בכללות,</src>
+    <src s="2">אבל בפרטיות,</src>
+    <src s="3">יש בכל א' מהם שני הענינים</src>
+    <src s="4">(כי תורה כללות ופרטות נאמרה41).</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">כמ"ש אדה"ז,</src>
+    <src s="7">בעל הגאולה די"ט כסלו</src>
+    <src s="8">[דשבת זה מיני' מתברכין כולהו יומין שלאחריו42,</src>
+    <src s="9">כולל יום הגאולה י"ט כסלו]</src>
+    <src s="10">בתניא43</src>
+    <src s="11">דלימוד פנימיות התורה היא "מצוה רמה44</src>
+    <src s="12">ונשאה כו' ומביאה ללב שלם",</src>
+    <src s="13">היינו,</src>
+    <src s="14">דבלימוד פנימיות התורה שני ענינים.</src>
+    <src s="15">הא',</src>
+    <src s="16">שמביאה ללב שלם,</src>
+    <src s="17">דענין זה שבפנימיות התורה שייך לבירור המדות,</src>
+    <src s="18">והב',</src>
+    <src s="19">שהלימוד והידיעה דפנימיות התורה</src>
+    <src s="20">(מצד עצמו)</src>
+    <src s="21">הוא "מצוה רמה ונשאה" – ענין פנימיות התורה שלמעלה מבירורים45.</src>
+    <src s="22">ועד"ז לאידך גיסא,</src>
+    <src s="23">שגם בנגלה דתורה ישנם ענינים שלמעלה מענין הבירורים.</src>
+    <src s="24">וכמו הלימוד באופן ד"דרוש וקבל שכר"46</src>
+    <src s="25">שאינו נוגע למעשה,</src>
+    <src s="26">שהוא</src>
+    <src s="27">(בנגלה דתורה גופא)</src>
+    <src s="28">למעלה מענין הבירורים.</src>
+    <src s="29">וענין זה</src>
+    <src s="30">(שגם בנגלה דתורה יש ענין שלמעלה מבירורים)</src>
+    <src s="31">מודגש יותר בתורה שבכתב.</src>
+    <src s="32">דלימוד התושב"כ בהבנה והשגה,</src>
+    <src s="33">ובפרט לימוד ההוראות שבה</src>
+    <src s="34">(הן בההלכות דתושב"כ והן בהסיפורים שבה)</src>
+    <src s="35">בנוגע למעשה,</src>
+    <src s="36">שייך לענין הבירורים,</src>
+    <src s="37">משא"כ לימוד הסיפורים דתושב"כ כמו שהם מצד עצמם47,</src>
+    <src s="38">ומכ"ש הקריאה בתושב"כ שלמעלה מהשגה לגמרי</src>
+    <src s="39">(שגם זה שאינו מבין אפילו פירוש המלות מקיים מצות ת"ת48),</src>
+    <src s="40">הוא כמו פנימיות התורה שלמעלה מבירורים.</src>
+    <src s="41">וכמבואר בלקו"ת49</src>
+    <src s="42">דפנימיות התורה היא בכלל שליש50</src>
+    <src s="43">במקרא.</src>
+    <src s="44">ועד"ז הוא גם לאידך גיסא,</src>
+    <src s="45">שגם בספר התניא,</src>
+    <src s="46">התושב"כ דחסידות51</src>
+    <src s="47">(פנימיות התורה),</src>
+    <src s="48">יש גם ענין ששייך לבירורים,</src>
+    <src s="49">כמ"ש אדה"ז בההקדמה וגם בהשער</src>
+    <src s="50">(של התניא)</src>
+    <src s="51">שהוא מיוסד על פסוק52</src>
+    <src s="52">כי קרוב אליך הדבר מאד בפיך ובלבבך לעשותו לבאר היטב איך הוא קרוב מאד כו',</src>
+    <src s="53">היינו שהכוונה והתכלית דספר התניא הוא לבאר איך לעשותו53.</src>
+    <src s="54">אלא שענין זה</src>
+    <src s="55">[שהן בנגלה דתורה והן בפנימיות התורה ישנם שני הענינים]</src>
+    <src s="56">הוא בפרטיות,</src>
+    <src s="57">אבל בכללות,</src>
+    <src s="58">נגלה דתורה שייכת לבירורים</src>
+    <src s="59">(ובאופן דהתלבשות),</src>
+    <src s="60">ופנימיות התורה היא אילנא דחיי שלמעלה מענין הבירורים,</src>
+    <src s="61">והבירור שנעשה ע"י לימוד פנימיות התורה הוא שלא בדרך התלבשות.</src>
+  </section>
+  <section v="8">
+    <src s="0">ח)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דכמו שהבירור דיעקב,</src>
+    <src s="3">להיותו באופן דמלמעלמ"ט</src>
+    <src s="4">(ע"י גילוי אור עליון),</src>
+    <src s="5">הי' גם בהסדר דמלמעלה למטה,</src>
+    <src s="6">שבירר הג"ר לפני שבירר המדות,</src>
+    <src s="7">עד"ז הוא גם בפנימיות התורה,</src>
+    <src s="8">דע"י לימוד החסידות בהבנה והשגה,</src>
+    <src s="9">נעשה בירור המוחין וגם דנפש הבהמית,</src>
+    <src s="10">כולל גם המוחין שלמעלה משייכות למדות.</src>
+    <src s="11">דהבירור שע"י נגלה דתורה הוא</src>
+    <src s="12">(בעיקר)</src>
+    <src s="13">בהמדות ובהמוחין השייכים למדות,</src>
+    <src s="14">משא"כ ע"י לימוד פנימיות התורה,</src>
+    <src s="15">מכיון שהיא "מצוה רמה ונשאה" מצד עצמה</src>
+    <src s="16">(למעלה מזה ש"מביאה ללב שלם"),</src>
+    <src s="17">נעשה הבירור גם בעצם המוחין.</src>
+    <src s="18">והגם שהכיבוש דקיני קניזי וקדמוני</src>
+    <src s="19">(עצם המוחין שלמעלה ממדות)</src>
+    <src s="20">יהי' רק לעת"ל</src>
+    <src s="21">(לאחרי השלימות דבירור המדות והמוחין השייכים למדות),</src>
+    <src s="22">מ"מ,</src>
+    <src s="23">מעין זה הוא גם עכשיו ע"י לימוד פנימיות התורה.</src>
+    <src s="24">וזהו מה שמסופר בתורה אופן הבירור דיעקב</src>
+    <src s="25">(ע"י גילוי אור עליון)</src>
+    <src s="26">וגם סדר הבירור</src>
+    <src s="27">(שהתחיל בהבירור דג"ר),</src>
+    <src s="28">דשני ענינים אלו הם</src>
+    <src s="29">(ככל הענינים שבתורה)</src>
+    <src s="30">הוראות נצחיות גם עכשיו,</src>
+    <src s="31">כנ"ל.</src>
+  </section>
+</awtsmoosMeluketSource>

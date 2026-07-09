@@ -1,0 +1,116 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916371_theRebbe_639" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916371_theRebbe_639__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916371_theRebbe_639" title="מאמר וידבר אלוקים אל משה תשל"א" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916371_theRebbe_639__p003">
+  <section v="6">
+    <src s="0">ויש להוסיף ביאור במ"ש בהמשך הכתוב לכל אשר יקראוהו באמת,</src>
+    <src s="1">כי הענין דקרוב לכל קוראיו בשוה,</src>
+    <src s="2">הוא מצד קריאה סתם,</src>
+    <src s="3">קריאה חיצונית,</src>
+    <src s="4">ולמעלה מזה הוא הקירוב לכל אשר יקראוהו באמת,</src>
+    <src s="5">שהו"ע קריאה פנימית,</src>
+    <src s="6">שהיא קריאה באמת,</src>
+    <src s="7">שאז הוא קרוב ביותר,</src>
+    <src s="8">וכמבואר במ"א22</src>
+    <src s="9">שיקראוהו באמת קאי על התורה,</src>
+    <src s="10">אין אמת אלא תורה23,</src>
+    <src s="11">שדוקא ע"י התורה היא ההמשכה הפנימית.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ועפ"ז24 יש לבאר בתוס' ביאור השייכות של גילוי הוי' דלעילא ליצי"מ ומ"ת,</src>
+    <src s="2">כי בכדי שתהי' הירידה גם לתחתונים</src>
+    <src s="3">(שזה נתחדש במ"ת)</src>
+    <src s="4">צ"ל ההמשכה מבחינה נעלית יותר.</src>
+    <src s="5">ע"ד המבואר בהמאמר שבכדי שיהי' "אלוקי המלך" ובפרט "ואברכה שמך לעולם ועד" צ"ל "ארוממך".</src>
+    <src s="6">וזהו וידבר אלקים אל משה ויאמר אליו אני הוי',</src>
+    <src s="7">שבתחילה הי' הגילוי דשם הוי' ע"י שם אלקים דוקא,</src>
+    <src s="8">ושמי הוי' דלעילא לא נודעתי להם.</src>
+    <src s="9">אבל כדי להוציא ישראל ממצרים ושיהי' מ"ת,</src>
+    <src s="10">צ"ל נמשך ממקום גבוה יותר,</src>
+    <src s="11">מבחי' הוי' דלעילא.</src>
+    <src s="12">הנה כתיב25</src>
+    <src s="13">גדול הוי' ומהולל מאד בעיר אלקינו,</src>
+    <src s="14">ואמרז"ל26</src>
+    <src s="15">אימתי הוא גדול כשהוא בעיר אלקינו,</src>
+    <src s="16">שע"י עיר אלקינו27</src>
+    <src s="17">בא הוי' בריבוי התחלקות להוות ריבוי נבראים,</src>
+    <src s="18">מה רבו מעשיך הוי'28</src>
+    <src s="19">(וגם ההתהוות דמה גדלו מעשיך הוי'29</src>
+    <src s="20">הוא ע"י שבא בעיר אלקינו דוקא).</src>
+    <src s="21">אמנם בחי' הוי' מצד עצמו הוא למעלה מהתחלקות,</src>
+    <src s="22">הי' הוה ויהי' כאחד30,</src>
+    <src s="23">ועד לאחדות הפשוטה,</src>
+    <src s="24">שזהו ולגדולתו אין חקר31,</src>
+    <src s="25">שהוא בחי' גדולת הוי' שמצ"ע.</src>
+    <src s="26">והנה בחי' שם הוי' כפי שנתצמצם ע"י שם אלקים,</src>
+    <src s="27">מכיון שהוא אור מצומצם ומוגבל,</src>
+    <src s="28">נמשך רק לאצילות,</src>
+    <src s="29">ובכדי שיומשך גם למטה בעולמות בי"ע,</src>
+    <src s="30">ועד לעוה"ז התחתון שאין תחתון למטה ממנו32</src>
+    <src s="31">(חיבור עליונים ותחתונים שנתחדש במ"ת),</src>
+    <src s="32">צ"ל נמשך שם הוי' שלמעלה מהתלבשות בשם אלקים,</src>
+    <src s="33">שהוא בחי' הוי' דלעילא.</src>
+    <src s="34">ועפ"ז יובן מה שפירש"י לא נכרתי להם במדת אמיתית שלי,</src>
+    <src s="35">שלכאורה איך שייך לומר שלא נגלה להאבות מדת אמיתית,</src>
+    <src s="36">ובפרט ליעקב שמדתו היא מדת האמת33.</src>
+    <src s="37">אלא שהכוונה היא שלא נתגלה להם בחי' הוי' דלעילא,</src>
+    <src s="38">שהוא מדת אמיתית שלו דוקא,</src>
+    <src s="39">וע"ד מ"ש תתן אמת ליעקב34,</src>
+    <src s="40">שגם ליעקב שמדתו מדת האמת,</src>
+    <src s="41">צריך להמשיך בחי' אמת העליון אמת ה'35.</src>
+    <src s="42">וזהו מה שנתחדש ביצי"מ ומ"ת,</src>
+    <src s="43">שהאיר אז בחי' שם הוי' דלעילא,</src>
+    <src s="44">ובפרטיות יותר,</src>
+    <src s="45">שם הוי' דבחי' עתיק.</src>
+    <src s="46">ועד"ז יהי' לעתיד לבא,</src>
+    <src s="47">שנאמר36</src>
+    <src s="48">כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="49">שיהי' אז גילוי שם הוי' דלעילא,</src>
+    <src s="50">בחי' מדת אמיתית שלי,</src>
+    <src s="51">ועוד יותר מבזמן יצי"מ37,</src>
+    <src s="52">כי אראנו הנפלאות מה שביצי"מ ופני לא יראו38.</src>
+    <src s="53">והנה כל הגילויים דלעתיד תלויים39</src>
+    <src s="54">במעשינו ועבודתינו במשך זמן הגלות,</src>
+    <src s="55">לכן צ"ל עכשיו העבודה למעלה ממדידה והגבלה,</src>
+    <src s="56">וע"ד דחז"ל עה"פ וארא שצ"ל העבודה באופן דלא הרהרו40,</src>
+    <src s="57">ואני הוי',</src>
+    <src s="58">נאמן41</src>
+    <src s="59">לשלם שכר טוב ולקיים הבטחותיו והוצאתי והצלתי וגאלתי ולקחתי42</src>
+    <src s="60">– שנאמר למשה רעיא מהימנא,</src>
+    <src s="61">הוא גואל ראשון הוא גואל אחרון43,</src>
+    <src s="62">יבוא ויגאלנו ויוליכנו קוממיות לארצנו,</src>
+    <src s="63">בעגלא דידן.</src>
+  </section>
+</awtsmoosMeluketSource>

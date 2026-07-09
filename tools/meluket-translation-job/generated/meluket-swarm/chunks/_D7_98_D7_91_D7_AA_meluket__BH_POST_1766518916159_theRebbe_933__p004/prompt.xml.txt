@@ -1,0 +1,168 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916159_theRebbe_933" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916159_theRebbe_933" title="מאמר ודוד עבדי תשל"ב" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">ועפ"ז יש לבאר מה שהובא לעיל מתו"א דפירוש בי אדוני הוא שבו יומשך השפע מיוסף הצדיק,</src>
+    <src s="2">דלכאורה,</src>
+    <src s="3">כיון שיהודה ביקש זה מיוסף,</src>
+    <src s="4">הרי הי' צריך לבקשו שהוא</src>
+    <src s="5">(יוסף)</src>
+    <src s="6">ימשיך השפע אליו,</src>
+    <src s="7">ולמה ביקש מיוסף שבו</src>
+    <src s="8">(ביהודה)</src>
+    <src s="9">יומשך השפע29.</src>
+    <src s="10">ויש לומר הביאור בזה ע"פ הידוע30</src>
+    <src s="11">בענין אורות וכלים</src>
+    <src s="12">(דז"א ומלכות</src>
+    <src s="13">(יוסף ויהודה)</src>
+    <src s="14">הם דוגמת אורות וכלים),</src>
+    <src s="15">דזה שהאורות נמשכים להתלבש בכלים הוא מפני ששורש הכלים הוא למעלה משורש האורות,</src>
+    <src s="16">וכיון שבהאורות נרגשת מעלת הכלים שמצד שרשם31,</src>
+    <src s="17">לכן הם נמשכים להתלבש בכלים.</src>
+    <src s="18">ויש לומר,</src>
+    <src s="19">דכיון שאורות הם גילוי,</src>
+    <src s="20">לכן,</src>
+    <src s="21">גם המעלה דכלים</src>
+    <src s="22">(שמצד שרשם)</src>
+    <src s="23">כמו שנרגשת בהאורות הוא זה שע"י הכלים מתגלה הבל"ג שבענין הגילוי</src>
+    <src s="24">[דע"י שהאורות מתלבשים בכלים,</src>
+    <src s="25">הם נמשכים גם בעולמות בי"ע,</src>
+    <src s="26">ועד בעולם הזה הגשמי].</src>
+    <src s="27">ועד"ז הוא בז"א ומלכות,</src>
+    <src s="28">דזה שז"א רוצה להשפיע למלכות</src>
+    <src s="29">[דכל השפעה היא ברצון32]</src>
+    <src s="30">מפני שהוא מרגיש המעלה דמלכות שמצד שרשה,</src>
+    <src s="31">עיקר ההרגש הוא זה שע"י ההשפעה במלכות תהי' ההמשכה דז"א בשלימות</src>
+    <src s="32">[שע"י המלכות,</src>
+    <src s="33">יומשך גם בבי"ע,</src>
+    <src s="34">עד בעולם הזה].</src>
+    <src s="35">ולכן אמר יהודה ליוסף בי אדוני,</src>
+    <src s="36">שהמשכת השפע מז"א למלכות תהי'</src>
+    <src s="37">(לא בכדי שההמשכה דז"א תהי' בשלימות,</src>
+    <src s="38">אלא)</src>
+    <src s="39">בכדי שבהמלכות יומשך השפע33,</src>
+    <src s="40">בי אדוני.</src>
+    <src s="41">ועל ידי זה דוקא יהי' כמוך כפרעה,</src>
+    <src s="42">עליית ז"א לעצם הכתר.</src>
+    <src s="43">דבחינת הכתר שמתגלית בז"א ע"י שההמשכה דז"א נמשכת למטה מטה,</src>
+    <src s="44">ענין הבלי גבול</src>
+    <src s="45">(דכתר)</src>
+    <src s="46">שביכלתו להיות נמשך למטה מטה,</src>
+    <src s="47">הוא הגילוי דכתר,</src>
+    <src s="48">וע"י שיוסף</src>
+    <src s="49">(ז"א)</src>
+    <src s="50">ימשיך השפע ליהודה</src>
+    <src s="51">(מלכות)</src>
+    <src s="52">בכדי שבמלכות יומשך השפע</src>
+    <src s="53">(בי אדוני),</src>
+    <src s="54">עי"ז יהי' בו גילוי עצם הכתר.</src>
+  </section>
+  <section v="10">
+    <src s="0">ח)</src>
+    <src s="1">וצריך ביאור,</src>
+    <src s="2">דכיון שענינו של ז"א</src>
+    <src s="3">(יוסף)</src>
+    <src s="4">הוא גילוי,</src>
+    <src s="5">הרי אין שייך לכאורה שיהי' בו ענין שאינו גילוי,</src>
+    <src s="6">ואיך פעל יהודה אצל יוסף ענין דבי אדוני,</src>
+    <src s="7">שימשיך שפע למלכות בשביל המלכות,</src>
+    <src s="8">המשכה שאינה שייכת</src>
+    <src s="9">(לכאורה)</src>
+    <src s="10">לענין הגילויים.</src>
+    <src s="11">ויובן זה בהקדים34</src>
+    <src s="12">המבואר בלקו"ת פרשת בהעלותך את הנרות35</src>
+    <src s="13">וגם בהדרושים דפרשת ויגש36</src>
+    <src s="14">בענין כי עבדך ערב את הנער גו'37,</src>
+    <src s="15">דזה שישראל ערבים זה בזה38</src>
+    <src s="16">הוא מפני שהם מעורבים זה בזה</src>
+    <src s="17">(ערבים לשון מעורבים).</src>
+    <src s="18">דזהו מהטעמים על זה שכנסת ישראל נמשלה להמנורה</src>
+    <src s="19">(מנורת זהב כולה39),</src>
+    <src s="20">דכמו שבמנורה נאמר40</src>
+    <src s="21">מקשה תיעשה המנורה,</src>
+    <src s="22">דע"י המקשה שמקישים אותה מה שלמעלה יורד למטה ומה שלמטה עולה למעלה ונתערב הכל יחד,</src>
+    <src s="23">כן כל ישראל מעורבים</src>
+    <src s="24">(וכלולים)</src>
+    <src s="25">זה בזה,</src>
+    <src s="26">עד שלא ימצא בהם ראש וסוף41.</src>
+    <src s="27">וזהו אתם קרויין אדם42,</src>
+    <src s="28">שכל ישראל הם</src>
+    <src s="29">(כמו)</src>
+    <src s="30">אדם אחד.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שכל ישראל הם כמו אדם אחד הוא למעלה יותר מזה שכל ישראל מעורבים זה בזה.</src>
+    <src s="2">דלשון מעורבים זה בזה שייך בדברים מחולקים שנתערבו יחד.</src>
+    <src s="3">וכן הוא גם בענין דמקשה תיעשה המנורה,</src>
+    <src s="4">שההתכללות דמקשה היא באופן שישנם שני הענינים דמעלה ומטה,</src>
+    <src s="5">אלא שהם מעורבים זה בזה,</src>
+    <src s="6">דמה שלמעלה יורד למטה ומה שלמטה עולה למעלה.</src>
+    <src s="7">אבל זה שכל ישראל הם כמו אדם אחד הוא למעלה מהתחלקות.</src>
+    <src s="8">ויש לומר43,</src>
+    <src s="9">דזה שאתם קרויין אדם הוא,</src>
+    <src s="10">כי גם בההתאחדות דאברי גוף האדם שני הענינים.</src>
+    <src s="11">שכל האברים משלימים זה את זה,</src>
+    <src s="12">כי כולם צריכים זה לזה.</src>
+    <src s="13">דכמו שהראש משפיע בהרגל כן הרגל משפיע בהראש.</src>
+    <src s="14">ובנוגע לענין זה</src>
+    <src s="15">(שהרגל משפיע בהראש)</src>
+    <src s="16">נקרא הרגל בשם ראש.</src>
+    <src s="17">דבהתכללות זו ישנה ההתחלקות דראש ורגל,</src>
+    <src s="18">אלא דכיון שכל אבר הוא ראש</src>
+    <src s="19">[כי כל אבר יש לו מעלה מיוחדת,</src>
+    <src s="20">שמצד זה הוא משפיע בכל האברים],</src>
+    <src s="21">לכן,</src>
+    <src s="22">ההתכללות שלהם היא באופן שלא ימצא בהם ראש וסוף.</src>
+    <src s="23">ועד"ז הוא בישראל,</src>
+    <src s="24">שבכל אחד מישראל יש מעלה מיוחדת,</src>
+    <src s="25">ומעלה זו הוא משפיע לשאר כל ישראל.</src>
+    <src s="26">ונמצא שכל ישראל משלימים זה את זה,</src>
+    <src s="27">באופן שלא ימצא בהם ראש וסוף.</src>
+    <src s="28">[היינו,</src>
+    <src s="29">שישנו ענין דראש וסוף,</src>
+    <src s="30">אלא שא"א לקבוע</src>
+    <src s="31">(לא ימצא)</src>
+    <src s="32">מיהו הראש ומיהו הסוף].</src>
+    <src s="33">ועוד ענין בהאחדות דאברי גוף האדם,</src>
+    <src s="34">שעיקר ענינה הוא זה שהם חלק מגוף האדם.</src>
+    <src s="35">דענין זה הוא בשוה בכל האברים.</src>
+    <src s="36">ועד"ז הוא בישראל,</src>
+    <src s="37">שכל אחד מישראל הוא חלק מכלל ישראל,</src>
+    <src s="38">שמצד ענין זה,</src>
+    <src s="39">כל ישראל הם עצם אחד44.</src>
+  </section>
+</awtsmoosMeluketSource>

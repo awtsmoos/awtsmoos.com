@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917720_theRebbe_340" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917720_theRebbe_340" title="מאמר ויקרא אל משה תשל"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ ויקרא,</src>
+    <src s="2">ג' ניסן ה'תשל"ב</src>
+  </section>
+  <section v="1">
+    <src s="0">ויקרא אל משה וידבר הוי' אליו מאוהל מועד גו' אדם כי יקריב מכם גו'1,</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">הרי לכל דיברות ולכל אמירות ולכל ציוויים קדמה קריאה לשון חיבה2,</src>
+    <src s="3">ולמה נאמרה הקריאה</src>
+    <src s="4">(בפירוש)</src>
+    <src s="5">בפרשת קרבנות דוקא3.</src>
+    <src s="6">והנה בפשטות יש לומר,</src>
+    <src s="7">דמ"ש ויקרא בפרשת קרבנות הוא,</src>
+    <src s="8">לפי שתחלת הדיבור מאוהל מועד היתה פרשה זו4.</src>
+    <src s="9">אבל זה גופא צריך ביאור,</src>
+    <src s="10">מה שהתחלת הדיבור מאוהל מועד היתה פרשת הקרבנות דוקא3.</src>
+    <src s="11">ומזה משמע,</src>
+    <src s="12">שהגילוי דתורה</src>
+    <src s="13">(ענינו של אוהל מועד)</src>
+    <src s="14">הוא בעיקר בדיני קרבנות.</src>
+    <src s="15">ויש לומר,</src>
+    <src s="16">דזהו גם מה שספר ויקרא</src>
+    <src s="17">(ספר הקרבנות5)</src>
+    <src s="18">הוא החמור שבספרים6.</src>
+    <src s="19">וזהו גם מה שהוא ספר השלישי דה' הספרים שבתורה,</src>
+    <src s="20">דמעלת התורה שהיא אוריאן תליתאי7</src>
+    <src s="21">הוא בגילוי יותר בדיני הקרבנות דתורה.</src>
+    <src s="22">וזהו גם שזה שלכל הדיברות דתורה קדמה קריאה לשון חיבה למידין ממ"ש בפרשת הקרבנות,</src>
+    <src s="23">כי גם מעלה זו דתורה עיקר הגילוי שלה הוא בדיני הקרבנות.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לבאר זה ע"פ מ"ש אדמו"ר</src>
+    <src s="2">(מהורש"ב)</src>
+    <src s="3">נ"ע בעל ההילולא דב' ניסן במאמרו ד"ה אדם כי יקריב8,</src>
+    <src s="4">דלכאורה הול"ל כי תקריבו9</src>
+    <src s="5">ומבלי להזכיר מי הוא המקריב.</src>
+    <src s="6">ומביא בהמאמר10,</src>
+    <src s="7">דאיתא בזהר11</src>
+    <src s="8">זכאין אינון ישראל דקוב"ה קרא לון אדם כו' אדם כי יקריב מכם,</src>
+    <src s="9">מאי טעמא קרא לון אדם משום דכתיב12</src>
+    <src s="10">ואתם הדבקים בהוי' אלקיכם גו'.</src>
+    <src s="11">ועפ"ז מבאר מ"ש אדם כי יקריב</src>
+    <src s="12">(אדם דוקא),</src>
+    <src s="13">כי הכח שיש בישראל13</src>
+    <src s="14">להקריב קרבנות הוא לפי שהם בחינת אדם,</src>
+    <src s="15">שהם דבוקים בהקב"ה.</src>
+    <src s="16">וממשיך בהמאמר,</src>
+    <src s="17">שעד"ז איתא במדרש14,</src>
+    <src s="18">דזה שהקב"ה צוה את ישראל להקריב קרבנות הוא מפני שהן דבוקין לי,</src>
+    <src s="19">הדא הוא דכתיב15</src>
+    <src s="20">כי כאשר ידבק האזור אל מתני איש גו'.</src>
+    <src s="21">ומבאר בהמאמר16,</src>
+    <src s="22">שבמדרש מדבר בענין הדביקות דכלים,</src>
+    <src s="23">שהכלים הם17</src>
+    <src s="24">בבחינת מציאות והיחוד</src>
+    <src s="25">(הדביקות)</src>
+    <src s="26">שלהם אינו יחוד עצמי,</src>
+    <src s="27">וכמו כאשר ידבק האזור גו' שהאזור הוא מציאות לעצמו אלא שדבוק להאדם,</src>
+    <src s="28">ובזהר מדבר בענין הדביקות דאורות,</src>
+    <src s="29">שהדביקות והיחוד דאורות הוא יחוד עצמי17,</src>
+    <src s="30">ולכן מביא הכתוב ואתם הדבקים בהוי' אלקיכם,</src>
+    <src s="31">דביקות ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

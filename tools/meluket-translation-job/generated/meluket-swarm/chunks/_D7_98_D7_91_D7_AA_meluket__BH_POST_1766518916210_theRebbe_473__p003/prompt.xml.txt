@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916210_theRebbe_473" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916210_theRebbe_473__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916210_theRebbe_473" title="מאמר יהודה אתה יודוך תשל"ח" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916210_theRebbe_473__p003">
+  <section v="6">
+    <src s="0">ובחי' לוי על שם ילוה אישי אלי11</src>
+    <src s="1">הוא מה שאחר ק"ש אומרים אמת ויציב וכו' הדבר הזה עלינו,</src>
+    <src s="2">הדבר הזה קאי על התורה,</src>
+    <src s="3">כי ע"י התורה נעשה ילוה אישי אלי</src>
+    <src s="4">(כדלקמן).</src>
+  </section>
+  <section v="7">
+    <src s="0">ג)</src>
+    <src s="1">וביאור הענין,</src>
+    <src s="2">הנה ג' בחינות הנ"ל</src>
+    <src s="3">(ראובן שמעון ולוי)</src>
+    <src s="4">הם ג' הקוין שעליהם העולם עומד12</src>
+    <src s="5">[גם העולם קטן זה האדם13,</src>
+    <src s="6">אתם קרויין אדם14]</src>
+    <src s="7">תורה עבודה וגמ"ח.</src>
+    <src s="8">בחי' ראובן</src>
+    <src s="9">(אהבה)</src>
+    <src s="10">הוא קו הגמ"ח.</src>
+    <src s="11">כי כאשר יש לו אהבת ה' יש לו גם אהבת ישראל</src>
+    <src s="12">[שהרי אהבת ה' ואהבת ישראל הם כולא חד15],</src>
+    <src s="13">ולכן,</src>
+    <src s="14">עבודתו היא בקו הגמ"ח,</src>
+    <src s="15">כי אהבה היא16</src>
+    <src s="16">סיבת החסד ופנימיותה,</src>
+    <src s="17">המשכה מלמעלמ"ט.</src>
+    <src s="18">ובחי' שמעון</src>
+    <src s="19">(יראה)</src>
+    <src s="20">הוא קו העבודה,</src>
+    <src s="21">ענין התפלה,</src>
+    <src s="22">קו השמאל</src>
+    <src s="23">[ובתפלה גופא הו"ע פרשה שני' דק"ש,</src>
+    <src s="24">כנ"ל],</src>
+    <src s="25">העלאה מלמטלמ"ע.</src>
+    <src s="26">ובחי' לוי על שם ילוה אישי אלי הוא קו התורה,</src>
+    <src s="27">כי ע"י אורייתא ישראל וקוב"ה כולא חד17.</src>
+    <src s="28">וזהו"ע ילוה אישי אלי,</src>
+    <src s="29">כי ע"י התורה נעשה חיבור עם אישי זה הקב"ה,</src>
+    <src s="30">עד שישראל וקוב"ה כולא חד.</src>
+    <src s="31">וזהו מה שבחי' לוי הו"ע אמת ויציב כו' הדבר הזה שקאי</src>
+    <src s="32">(כנ"ל)</src>
+    <src s="33">על התורה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ד)</src>
+    <src s="1">וזהו יהודה אתה יודוך אחיך,</src>
+    <src s="2">שהעבודה דבחי'</src>
+    <src s="3">(אחיך)</src>
+    <src s="4">ראובן שמעון ולוי,</src>
+    <src s="5">ב' פרשיות דק"ש ואמת ויציב,</src>
+    <src s="6">היא הקדמה והכנה לבחי' יהודה,</src>
+    <src s="7">העבודה דשמו"ע,</src>
+    <src s="8">הודי' וביטול,</src>
+    <src s="9">כעבדא קמי' מרי'18.</src>
+    <src s="10">שהביטול דתפלת העמידה הוא ביטול בתכלית למעלה גם מהביטול דק"ש.</src>
+    <src s="11">וכמובן גם מחילוקי הדינים</src>
+    <src s="12">(בענין הפסק וכו')</src>
+    <src s="13">בין ק"ש לשמו"ע19.</src>
+    <src s="14">וענין זה</src>
+    <src s="15">[מה שע"י העבודה דבחי' ראובן שמעון ולוי מגיעים אח"כ לבחי' יהודה</src>
+    <src s="16">(בן הרביעי)]</src>
+    <src s="17">הוא ע"ד הידוע20</src>
+    <src s="18">בענין ג' הכתרים</src>
+    <src s="19">[כתר תורה כתר כהונה וכתר מלכות,</src>
+    <src s="20">שהם בג' הקוין תורה עבודה וגמ"ח21]</src>
+    <src s="21">וכתר שם טוב שעולה על גביהן22</src>
+    <src s="22">[שהוא למעלה מהם],</src>
+    <src s="23">שבכדי להגיע לבחי' כתר שם טוב הוא ע"י ג' הכתרים,</src>
+    <src s="24">עולה על גביהן.</src>
+  </section>
+</awtsmoosMeluketSource>

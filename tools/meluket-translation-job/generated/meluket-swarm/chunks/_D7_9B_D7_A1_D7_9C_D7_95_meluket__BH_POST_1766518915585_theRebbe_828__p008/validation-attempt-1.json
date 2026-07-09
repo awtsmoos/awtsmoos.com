@@ -1,0 +1,289 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 49,
+    "returned": 49,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915585_theRebbe_828\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>Even lower daat is true, but it must be connected to upper daat to reveal its infinite source.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">A)</t>\n    <t s=\"2\">And this is that also lower daat is truth, and nevertheless the connection of lower daat with upper daat is necessary</t>\n    <t s=\"3\">(see above section 4),</t>\n    <t s=\"4\">for the matter of the truth of lower daat is because its content</t>\n    <t s=\"5\">(in inwardness)</t>\n    <t s=\"6\">is the revelation of above, without end,</t>\n    <t s=\"7\">and this matter is revealed through its connection with upper daat.</t>\n  </section>\n  <section v=\"22\">\n    <sectionSummaryBrief>The perfection of nature's governance is achieved when the revelation of above-nature is drawn into it.</sectionSummaryBrief>\n    <t s=\"0\">And likewise regarding the governance of nature,</t>\n    <t s=\"1\">that although the governance of nature is also that \"You are He who brought forth the ten tikkunim... to govern the worlds through them,\"</t>\n    <t s=\"2\">nevertheless, the perfection of the governance of nature is when the revelation of above-nature is drawn into it,</t>\n    <t s=\"3\">for specifically through this it is revealed that the matter of \"to govern the worlds through them\" has its root in the aspect of \"You.\"</t>\n  </section>\n  <section v=\"23\">\n    <sectionSummaryBrief>The connection of lower and upper daat, and nature with above-nature, is achieved through the revelation of the Essence above both, enabling the drawing of Atzmus into the world.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">B)</t>\n    <t s=\"2\">And now, this that was explained above</t>\n    <t s=\"3\">(section 10)</t>\n    <t s=\"4\">that when it is felt in the two intellects</t>\n    <t s=\"5\">(of upper daat and lower daat)</t>\n    <t s=\"6\">that their content is to reveal the matters that are in Ein Sof</t>\n    <t s=\"7\">(which is above without end and below without limit)</t>\n    <t s=\"8\">the two intellects are one matter,</t>\n    <t s=\"9\">is in generality.</t>\n    <t s=\"10\">But in particularity,</t>\n    <t s=\"11\">even the matters of above without end and below without limit</t>\n    <t s=\"12\">(as they are in Ein Sof46)</t>\n    <t s=\"13\">are two matters.</t>\n    <t s=\"14\">And based on this,</t>\n    <t s=\"15\">in order for there to be the connection of lower daat with upper daat,</t>\n    <t s=\"16\">and likewise the connection of nature with above-nature,</t>\n    <t s=\"17\">it is through the revelation of the Essence that is above both of them.</t>\n    <t s=\"18\">And it can be said,</t>\n    <t s=\"19\">that this is what is stated in the maamar47</t>\n    <t s=\"20\">that the drawing of the revelation of above-nature into nature is through the drawing from the aspect of \"You are One,\"</t>\n    <t s=\"21\">even though the revelation of above-nature is also through the drawing of the aspect of \"You is supreme,\"</t>\n    <t s=\"22\">for the matter of above-nature that comes from the side of \"You is supreme,\"</t>\n    <t s=\"23\">above the chain of descent,</t>\n    <t s=\"24\">is not drawn into nature</t>\n    <t s=\"25\">(the chain of descent),</t>\n    <t s=\"26\">and the drawing of the revelation of above-nature into nature is through the drawing of the aspect of \"You is One.\"</t>\n    <t s=\"27\">And this is also the reason for the necessity of the connection of the two matters of nature and above-nature,</t>\n    <t s=\"28\">for each of the two matters has its root in the light of Ein Sof,</t>\n    <t s=\"29\">and through the connection of the two matters is the drawing of the Awtsmoos.</t>\n    <t s=\"30\">That is,</t>\n    <t s=\"31\">that through this there is the possibility</t>\n    <t s=\"32\">(even from the side of the world)</t>\n    <t s=\"33\">that through avodah there will be in the world the drawing of the revelation of the Awtsmoos,</t>\n    <t s=\"34\">and through this the intention of the creation of the world</t>\n    <t s=\"35\">(nature)</t>\n    <t s=\"36\">is completed, that the Holy One, blessed be He, desired to have for Himself a dwelling place in the lower realms48.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915585_theRebbe_828",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p008"
+    },
+    "sections": [
+      {
+        "v": 21,
+        "sectionSummaryBrief": "Even lower daat is true, but it must be connected to upper daat to reveal its infinite source.",
+        "translations": [
+          {
+            "v": 21,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 21,
+            "s": 1,
+            "translation": "A)"
+          },
+          {
+            "v": 21,
+            "s": 2,
+            "translation": "And this is that also lower daat is truth, and nevertheless the connection of lower daat with upper daat is necessary"
+          },
+          {
+            "v": 21,
+            "s": 3,
+            "translation": "(see above section 4),"
+          },
+          {
+            "v": 21,
+            "s": 4,
+            "translation": "for the matter of the truth of lower daat is because its content"
+          },
+          {
+            "v": 21,
+            "s": 5,
+            "translation": "(in inwardness)"
+          },
+          {
+            "v": 21,
+            "s": 6,
+            "translation": "is the revelation of above, without end,"
+          },
+          {
+            "v": 21,
+            "s": 7,
+            "translation": "and this matter is revealed through its connection with upper daat."
+          }
+        ]
+      },
+      {
+        "v": 22,
+        "sectionSummaryBrief": "The perfection of nature's governance is achieved when the revelation of above-nature is drawn into it.",
+        "translations": [
+          {
+            "v": 22,
+            "s": 0,
+            "translation": "And likewise regarding the governance of nature,"
+          },
+          {
+            "v": 22,
+            "s": 1,
+            "translation": "that although the governance of nature is also that \"You are He who brought forth the ten tikkunim... to govern the worlds through them,\""
+          },
+          {
+            "v": 22,
+            "s": 2,
+            "translation": "nevertheless, the perfection of the governance of nature is when the revelation of above-nature is drawn into it,"
+          },
+          {
+            "v": 22,
+            "s": 3,
+            "translation": "for specifically through this it is revealed that the matter of \"to govern the worlds through them\" has its root in the aspect of \"You.\""
+          }
+        ]
+      },
+      {
+        "v": 23,
+        "sectionSummaryBrief": "The connection of lower and upper daat, and nature with above-nature, is achieved through the revelation of the Essence above both, enabling the drawing of Atzmus into the world.",
+        "translations": [
+          {
+            "v": 23,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 23,
+            "s": 1,
+            "translation": "B)"
+          },
+          {
+            "v": 23,
+            "s": 2,
+            "translation": "And now, this that was explained above"
+          },
+          {
+            "v": 23,
+            "s": 3,
+            "translation": "(section 10)"
+          },
+          {
+            "v": 23,
+            "s": 4,
+            "translation": "that when it is felt in the two intellects"
+          },
+          {
+            "v": 23,
+            "s": 5,
+            "translation": "(of upper daat and lower daat)"
+          },
+          {
+            "v": 23,
+            "s": 6,
+            "translation": "that their content is to reveal the matters that are in Ein Sof"
+          },
+          {
+            "v": 23,
+            "s": 7,
+            "translation": "(which is above without end and below without limit)"
+          },
+          {
+            "v": 23,
+            "s": 8,
+            "translation": "the two intellects are one matter,"
+          },
+          {
+            "v": 23,
+            "s": 9,
+            "translation": "is in generality."
+          },
+          {
+            "v": 23,
+            "s": 10,
+            "translation": "But in particularity,"
+          },
+          {
+            "v": 23,
+            "s": 11,
+            "translation": "even the matters of above without end and below without limit"
+          },
+          {
+            "v": 23,
+            "s": 12,
+            "translation": "(as they are in Ein Sof46)"
+          },
+          {
+            "v": 23,
+            "s": 13,
+            "translation": "are two matters."
+          },
+          {
+            "v": 23,
+            "s": 14,
+            "translation": "And based on this,"
+          },
+          {
+            "v": 23,
+            "s": 15,
+            "translation": "in order for there to be the connection of lower daat with upper daat,"
+          },
+          {
+            "v": 23,
+            "s": 16,
+            "translation": "and likewise the connection of nature with above-nature,"
+          },
+          {
+            "v": 23,
+            "s": 17,
+            "translation": "it is through the revelation of the Essence that is above both of them."
+          },
+          {
+            "v": 23,
+            "s": 18,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 23,
+            "s": 19,
+            "translation": "that this is what is stated in the maamar47"
+          },
+          {
+            "v": 23,
+            "s": 20,
+            "translation": "that the drawing of the revelation of above-nature into nature is through the drawing from the aspect of \"You are One,\""
+          },
+          {
+            "v": 23,
+            "s": 21,
+            "translation": "even though the revelation of above-nature is also through the drawing of the aspect of \"You is supreme,\""
+          },
+          {
+            "v": 23,
+            "s": 22,
+            "translation": "for the matter of above-nature that comes from the side of \"You is supreme,\""
+          },
+          {
+            "v": 23,
+            "s": 23,
+            "translation": "above the chain of descent,"
+          },
+          {
+            "v": 23,
+            "s": 24,
+            "translation": "is not drawn into nature"
+          },
+          {
+            "v": 23,
+            "s": 25,
+            "translation": "(the chain of descent),"
+          },
+          {
+            "v": 23,
+            "s": 26,
+            "translation": "and the drawing of the revelation of above-nature into nature is through the drawing of the aspect of \"You is One.\""
+          },
+          {
+            "v": 23,
+            "s": 27,
+            "translation": "And this is also the reason for the necessity of the connection of the two matters of nature and above-nature,"
+          },
+          {
+            "v": 23,
+            "s": 28,
+            "translation": "for each of the two matters has its root in the light of Ein Sof,"
+          },
+          {
+            "v": 23,
+            "s": 29,
+            "translation": "and through the connection of the two matters is the drawing of the Awtsmoos."
+          },
+          {
+            "v": 23,
+            "s": 30,
+            "translation": "That is,"
+          },
+          {
+            "v": 23,
+            "s": 31,
+            "translation": "that through this there is the possibility"
+          },
+          {
+            "v": 23,
+            "s": 32,
+            "translation": "(even from the side of the world)"
+          },
+          {
+            "v": 23,
+            "s": 33,
+            "translation": "that through avodah there will be in the world the drawing of the revelation of the Awtsmoos,"
+          },
+          {
+            "v": 23,
+            "s": 34,
+            "translation": "and through this the intention of the creation of the world"
+          },
+          {
+            "v": 23,
+            "s": 35,
+            "translation": "(nature)"
+          },
+          {
+            "v": 23,
+            "s": 36,
+            "translation": "is completed, that the Holy One, blessed be He, desired to have for Himself a dwelling place in the lower realms48."
+          }
+        ]
+      }
+    ]
+  }
+}

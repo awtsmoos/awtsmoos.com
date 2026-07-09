@@ -1,0 +1,28 @@
+{
+  "id": "af0664b8-5e59-4da1-96dc-5d0839014d66",
+  "object": "chat.completion",
+  "created": 1783582151,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914548_theRebbe_632\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914548_theRebbe_632__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header for the maamar, dated Shemini Atzeret 5741.</sectionSummaryBrief>\n    <t s=\"0\">B'Siyata D'Shmaya.</t>\n    <t s=\"1\">The day of Simchat Torah, 5741.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the verse about the king sending the people on Shemini Atzeret is a spiritual reality every year, involving the absorption of all the matters of Tishrei and the acceptance of the yoke of Heaven.</sectionSummaryBrief>\n    <t s=\"0\">\"On the eighth day he sent the people away, and they blessed the king, and went to their tents, joyful and glad of heart for all the goodness that the L-rd had done for Dovid His servant and for Yisrael His people.\"</t>\n    <t s=\"1\">Now, this verse is the conclusion and seal of the Haftarah of Shemini Atzeret.</t>\n    <t s=\"2\">From this it is understood,</t>\n    <t s=\"3\">that although \"he sent</t>\n    <t s=\"4\">(the king)</t>\n    <t s=\"5\">the people away, and they blessed the king, etc.\" in its simple sense occurred only once,</t>\n    <t s=\"6\">on Shemini Atzeret following the inauguration of the Holy Temple,</t>\n    <t s=\"7\">[in contrast to the years after that,</t>\n    <t s=\"8\">we do not find that they needed to take permission from the king</t>\n    <t s=\"9\">(and to bless him)</t>\n    <t s=\"10\">to go from the Temple to their tents],</t>\n    <t s=\"11\">nevertheless, the spiritual concept is present on Shemini Atzeret of every single year.</t>\n    <t s=\"12\">And as explained in Likkutei Torah</t>\n    <t s=\"13\">and in several discourses beginning with this phrase,</t>\n    <t s=\"14\">that on Shemini Atzeret there is the absorption</t>\n    <t s=\"15\">(\"Atzeret\" connotes absorption)</t>\n    <t s=\"16\">of all the matters of the month of Tishrei,</t>\n    <t s=\"17\">beginning from the concept of \"Make Me king over you\" of Rosh Hashanah.</t>\n    <t s=\"18\">And up to the point that one of the interpretations of \"Shemini Atzeret\" is from the term for kingship</t>\n    <t s=\"19\">(like \"this one</t>\n    <t s=\"20\">shall restrain [ya'atzor] My people\"),</t>\n    <t s=\"21\">from this it is understood,</t>\n    <t s=\"22\">that the matter of kingship on Shemini Atzeret is among its primary concepts.</t>\n    <t s=\"23\">And this is that the concept of \"he sent</t>\n    <t s=\"24\">(the king)</t>\n    <t s=\"25\">the people away, etc.\" occurs on Shemini Atzeret every single year,</t>\n    <t s=\"26\">for on Shemini Atzeret the acceptance of the yoke of the kingdom of Heaven is drawn forth for the entire year.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section discusses the variant in Divrei HaYamim mentioning the 23rd day and Shlomo, explaining that the sending on the first day relates to Dovid, while the sending on the 23rd relates to both Dovid and Shlomo, corresponding to the two days of Shemini Atzeret.</sectionSummaryBrief>\n    <t s=\"0\">And now, in Divrei HaYamim</t>\n    <t s=\"1\">it is written: \"And on the twenty-third day of the seventh month he sent the people away, etc.\",</t>\n    <t s=\"2\">and the Tzemach Tzedek explains in his glosses to Likkutei Torah on this discourse,</t>\n    <t s=\"3\">that this is a hint to the second day of the Diaspora festivals</t>\n    <t s=\"4\">(for the second day of Shemini Atzeret is on the 23rd of Tishrei).</t>\n    <t s=\"5\">And it needs to be understood,</t>\n    <t s=\"6\">behold, Shemini Atzeret has several concepts,</t>\n    <t s=\"7\">and why is the hint of the second day of Shemini Atzeret specifically in the concept of \"he sent the people away\".</t>\n    <t s=\"8\">Also, it needs to be understood what is stated there in Divrei HaYamim: \"for all the goodness that the L-rd had done for Dovid and for Shlomo, etc.\".</t>\n    <t s=\"9\">For it can be said,</t>\n    <t s=\"10\">that these two variations</t>\n    <t s=\"11\">[that in Divrei HaYamim it is written \"And on the twenty-third day, etc.\",</t>\n    <t s=\"12\">and there it adds \"and for Shlomo\"]</t>\n    <t s=\"13\">are related to each other.</t>\n    <t s=\"14\">That is to say,</t>\n    <t s=\"15\">the concept of \"he sent the people away\" on the eighth day</t>\n    <t s=\"16\">(the first day of Shemini Atzeret)</t>\n    <t s=\"17\">pertains to Dovid,</t>\n    <t s=\"18\">and the concept of \"he sent the people away\" on the twenty-third day of the seventh month</t>\n    <t s=\"19\">(the second day of Shemini Atzeret)</t>\n    <t s=\"20\">pertains to Dovid and to Shlomo.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1845,
+    "completion_tokens": 1486,
+    "total_tokens": 3331,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 1461
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

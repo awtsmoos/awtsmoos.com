@@ -1,0 +1,81 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" title="מאמר שובה ישראל תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ האזינו,</src>
+    <src s="2">שבת תשובה,</src>
+    <src s="3">ה'תשל"ז*</src>
+  </section>
+  <section v="1">
+    <src s="0">שובה ישראל עד הוי' אלקיך גו' קחו עמכם דברים ושובו אל הוי'1,</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דכשאומר שובה ישראל הרי הכוונה היא לתשובה כדבעי,</src>
+    <src s="3">ומכיון שמ"ע להתוודות</src>
+    <src s="4">(כשעושה תשובה)2,</src>
+    <src s="5">ועד שהוידוי הוא מעיקרי התשובה3,</src>
+    <src s="6">הרי בשובה ישראל נכלל גם וידוי דברים,</src>
+    <src s="7">ומה מוסיף בקחו עמכם דברים4.</src>
+    <src s="8">כן צ"ל ההמשך מה שאומר ושובו אל הוי',</src>
+    <src s="9">דמזה משמע שלאחרי התשובה דשובה ישראל גו',</src>
+    <src s="10">צריכה להיות עוד תשובה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים מה שנתבאר לעיל5,</src>
+    <src s="2">דמ"ש שובה ישראל עד הוי' אלקיך</src>
+    <src s="3">(אף שלכאורה הול"ל להוי' אלקיך),</src>
+    <src s="4">הוא,</src>
+    <src s="5">כפירוש אדמו"ר הזקן6,</src>
+    <src s="6">שהתשובה צריכה להיות עד שהוי' יהי' אלקיך.</src>
+    <src s="7">ועוד פירוש7</src>
+    <src s="8">בשובה ישראל עד,</src>
+    <src s="9">שעד קאי על בחינה שלמעלה שנק' בשם עד8.</src>
+    <src s="10">וגם בזה שתי דרגות,</src>
+    <src s="11">עד ועד בכלל ועד ולא עד בכלל.</src>
+    <src s="12">עד ועד בכלל הוא</src>
+    <src s="13">(בד"כ)</src>
+    <src s="14">בהמדריגות שבסדר השתלשלות,</src>
+    <src s="15">שכל המדריגות שבהשתלשלות הם בערך זל"ז,</src>
+    <src s="16">ולכן,</src>
+    <src s="17">גם כשנמצא במדריגה תחתונה יש לו כבר שייכות להמדריגות שלמעלה ממנה,</src>
+    <src s="18">ועד למדריגה הכי עליונה,</src>
+    <src s="19">עד ועד בכלל.</src>
+    <src s="20">ועד ולא עד בכלל הוא בלמעלה מהשתלשלות,</src>
+    <src s="21">שגם כשהוא נמצא בדרגא הכי עליונה שבהשתלשלות,</src>
+    <src s="22">לא יגיע עי"ז להדרגא שלמעלה מהשתלשלות,</src>
+    <src s="23">עד ולא עד בכלל.</src>
+  </section>
+</awtsmoosMeluketSource>

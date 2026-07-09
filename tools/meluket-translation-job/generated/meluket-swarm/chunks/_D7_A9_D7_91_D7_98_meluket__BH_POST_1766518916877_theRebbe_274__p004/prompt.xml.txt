@@ -1,0 +1,165 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916877_theRebbe_274" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916877_theRebbe_274" title="מאמר באתי לגני תשל"ב" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">ויש להוסיף,</src>
+    <src s="2">דענין זה</src>
+    <src s="3">[המעלה שבענין ההעלאה מלמטלמ"ע</src>
+    <src s="4">(ביטול היש לאין)</src>
+    <src s="5">שבעבודת הקרבנות]</src>
+    <src s="6">שייך להמבואר בתחלת ההמשך,</src>
+    <src s="7">שתכלית הכוונה דבריאת והתהוות כל העולמות הוא שעל ידם תהי' התהוות עוה"ז התחתון,</src>
+    <src s="8">ועי"ז תושלם הכוונה דדירה בתחתונים.</src>
+    <src s="9">והענין הוא,</src>
+    <src s="10">דמהטעמים על זה שהתהוות עוה"ז התחתון היתה באופן שבתחלה נתהוו עולמות העליונים ועל ידם דוקא נעשה ההתהוות דעוה"ז התחתון</src>
+    <src s="11">(אף שלכאורה הי' צריך להיות מלכתחילה ההתהוות דעוה"ז התחתון),</src>
+    <src s="12">הוא,</src>
+    <src s="13">כי ענין דירה בתחתונים הוא שהתחתונים</src>
+    <src s="14">(הנבראים דעוה"ז התחתון)</src>
+    <src s="15">יהיו בטלים לאלקות,</src>
+    <src s="16">וזה נעשה ע"י שהתהוות התחתונים הוא מהעליונים.</src>
+    <src s="17">דע"י שמשיגים שהחיות שבהם הי' כלול תחילה בהעליונים ואח"כ ירד למטה</src>
+    <src s="18">(ועד לירידה באין ערוך),</src>
+    <src s="19">נעשה בהם ענין הרצוא ליכלל בשרשם,</src>
+    <src s="20">שעי"ז הם בטלים ממציאותם.</src>
+    <src s="21">ויש לומר,</src>
+    <src s="22">דענין זה מרומז גם בהכלל שכל ירידה היא לצורך עלי'.</src>
+    <src s="23">דנוסף להפירוש שהכוונה דהירידה היא בכדי שעי"ז תהי' עלי' למדריגה נעלית יותר מהמדריגה שלפני הירידה,</src>
+    <src s="24">יש להוסיף בזה עוד פירוש,</src>
+    <src s="25">שהכוונה בהירידה</src>
+    <src s="26">(וההשתלשלות)</src>
+    <src s="27">דעולמות</src>
+    <src s="28">[היינו בזה שהתהוות עוה"ז התחתון היתה באופן שבתחילה נתהוו עולמות העליונים וירדו ממדריגה למדריגה</src>
+    <src s="29">(מעולם לעולם)</src>
+    <src s="30">עד שנתהווה מהם עוה"ז התחתון]</src>
+    <src s="31">הוא בכדי שיהי' ענין העלי',</src>
+    <src s="32">רצוא והעלאה32.</src>
+    <src s="33">וכמו"כ הוא בנוגע להאור האלקי שמהווה את הנבראים33,</src>
+    <src s="34">דמהטעמים על זה שבתחלה הי' האור כלול בהמאור,</src>
+    <src s="35">דאור זה הוא למעלה משייכות לעולמות</src>
+    <src s="36">[וכידוע שבאוא"ס שלפני הצמצום</src>
+    <src s="37">(דהאור שלפני הצמצום הוא</src>
+    <src s="38">(בדרך כלל)</src>
+    <src s="39">אור הכלול במאור)</src>
+    <src s="40">לא הי' נתינת מקום לעולמות],</src>
+    <src s="41">וע"י הצמצום</src>
+    <src s="42">(צמצום שבדרך סילוק)</src>
+    <src s="43">נמשך ממנו</src>
+    <src s="44">(מאוא"ס שלפני הצמצום)</src>
+    <src s="45">אור הקו שיש לו שייכות לעולמות,</src>
+    <src s="46">ואח"כ היו עוד כו"כ צמצומים</src>
+    <src s="47">(ירידות)</src>
+    <src s="48">בהאור עד שנעשה מקור להוות את הנבראים</src>
+    <src s="49">(אף שלכאורה הי' צריך להיות מלכתחילה המשכת אור זה),</src>
+    <src s="50">הוא,</src>
+    <src s="51">בכדי שבהנבראים יהי' הרצוא והעלי' להכלל בהאור שלמעלה משייכות לעולמות,</src>
+    <src s="52">ועי"ז יהיו בטלים לאלקות בתכלית הביטול,</src>
+    <src s="53">ביטול במציאות.</src>
+    <src s="54">[וכידוע34</src>
+    <src s="55">שהביטול שמצד גילוי האור שלפי ערך העולמות,</src>
+    <src s="56">הוא רק ביטול היש,</src>
+    <src s="57">ואמיתית ענין הביטול,</src>
+    <src s="58">ביטול במציאות,</src>
+    <src s="59">הוא דוקא מצד האור שלמעלה משייכות לעולמות].</src>
+  </section>
+  <section v="10">
+    <src s="0">ח)</src>
+    <src s="1">וביאור הענין בפרטיות יותר,</src>
+    <src s="2">יובן בהקדים מה שבקרבנות נאמר35</src>
+    <src s="3">ריח ניחוח ופירשו חז"ל36</src>
+    <src s="4">נח"ר לפני שאמרתי ונעשה רצוני,</src>
+    <src s="5">וצריך להבין,</src>
+    <src s="6">הרי זה שאמרתי ונעשה רצוני הוא בכל המצוות,</src>
+    <src s="7">ואעפ"כ נאמר זה בקרבנות דוקא.</src>
+    <src s="8">ומבאר אדמו"ר הזקן37</src>
+    <src s="9">בהקדים מה שארז"ל38</src>
+    <src s="10">עד שלא נברא העולם הי' הוא ושמו בלבד.</src>
+    <src s="11">דשמו הוא בחינת מלכות,</src>
+    <src s="12">שהיא מקור ההשפעה וחיות הנבראים,</src>
+    <src s="13">ושמו שהי' קודם שנברא העולם הוא בחינת המלכות כמו שהיתה כלולה בא"ס ב"ה,</src>
+    <src s="14">דבהיותה שם אינה בבחינת מציאות,</src>
+    <src s="15">כמו אור הכלול במאור שאינו במציאות.</src>
+    <src s="16">ואח"כ נעשה התפשטות האור והזיו להחיות39</src>
+    <src s="17">הנבראים מאין ליש.</src>
+    <src s="18">ומבאר,</src>
+    <src s="19">דזה שהאור ירד ממדריגתו</src>
+    <src s="20">(כמו שהי' כלול בא"ס)</src>
+    <src s="21">להחיות הנבראים מאין ליש,</src>
+    <src s="22">הוא לצורך עלי',</src>
+    <src s="23">בכדי שיהי' מיש לאין,</src>
+    <src s="24">היינו,</src>
+    <src s="25">שהיש יהי' בטל ונכלל באור א"ס ב"ה ממש.</src>
+    <src s="26">ועפ"ז מבאר זה שבקרבנות</src>
+    <src s="27">(דוקא)</src>
+    <src s="28">נאמר ריח ניחוח</src>
+    <src s="29">(ניחוח מלשון נחת רוח),</src>
+    <src s="30">כי עיקר הנח"ר והתענוג דלמעלה הוא מזה שהיש מתבטל ונעשה בחינת אין,</src>
+    <src s="31">ועיקר הביטול יש לאין הוא במעשה הקרבנות.</src>
+    <src s="32">דענין הקרבנות הוא העלאה מלמטה למעלה,</src>
+    <src s="33">שהתחתון יוצא ומתבטל ממציאותו ועולה</src>
+    <src s="34">(נכלל)</src>
+    <src s="35">למעלה</src>
+    <src s="36">(כדלקמן).</src>
+  </section>
+  <section v="11">
+    <src s="0">ולהוסיף40,</src>
+    <src s="1">דנוסף לההעלאה דהקרבן עצמו,</src>
+    <src s="2">שהבהמה שהקריבו ע"ג המזבח היתה נשרפת</src>
+    <src s="3">(מתבטלת ממציאותה)</src>
+    <src s="4">ונכללת באש של מעלה,</src>
+    <src s="5">נעשה עי"ז העלאה גם במלאכים העליונים.</src>
+    <src s="6">כמ"ש41</src>
+    <src s="7">את קרבני לחמי לאשי,</src>
+    <src s="8">אשי הם השרפים,</src>
+    <src s="9">והקרבן הוא הלחם והמזון שלהם,</src>
+    <src s="10">שמוסיף בהם כח וחיות להבטל ולהכלל באוא"ס ועד לאשתאבא42</src>
+    <src s="11">בגופא דמלכא.</src>
+    <src s="12">וזהו"ע השיר שהי' בשעת הקרבת הקרבנות,</src>
+    <src s="13">כי כל עלי' היא ע"י שיר.</src>
+    <src s="14">כמארז"ל43</src>
+    <src s="15">כל בעלי השיר יוצאין בשיר ונמשכים בשיר,</src>
+    <src s="16">ומובא בלקו"ת44</src>
+    <src s="17">בשם ס' לקו"א של הה"מ,</src>
+    <src s="18">דבעלי השיר הם המלאכים45</src>
+    <src s="19">[ויש לקשר זה עם הפירוש</src>
+    <src s="20">(בפשטות)</src>
+    <src s="21">שבעלי שיר הם חיות שנותנים שיר בצוארם46,</src>
+    <src s="22">כי גם המלאכים נק' בשם חיות ובהמות47],</src>
+    <src s="23">ופירוש יוצאין בשיר הוא,</src>
+    <src s="24">שע"י השיר שאומרים המלאכים הם יוצאים מהכלים שלהם,</src>
+    <src s="25">להתכלל באוא"ס ב"ה.</src>
+  </section>
+</awtsmoosMeluketSource>

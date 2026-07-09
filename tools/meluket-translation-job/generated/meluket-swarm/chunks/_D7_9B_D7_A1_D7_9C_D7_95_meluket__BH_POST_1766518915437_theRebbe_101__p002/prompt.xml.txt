@@ -1,0 +1,92 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915437_theRebbe_101" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915437_theRebbe_101__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915437_theRebbe_101" title="מאמר אשר ברא תשל"ט" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915437_theRebbe_101__p002">
+  <section v="3">
+    <src s="0">והנה ע"י עסק התורה פועלים גם בהעולם שיהי' כלי לאלקות.</src>
+    <src s="1">דע"י שהתורה נסעה וירדה כו' עד שנתלבשה בדברים גשמיים בכדי שיוכל האדם לתפוס אותה במחשבה דיבור ומעשה שלו19,</src>
+    <src s="2">הנה עי"ז ממשיכים גם בהעולם.</src>
+    <src s="3">דהנה ידוע20</src>
+    <src s="4">שעשרה מאמרות שבהם נברא העולם21</src>
+    <src s="5">הם מכוונים כנגד עשרת הדברות,</src>
+    <src s="6">כדאיתא בזהר22</src>
+    <src s="7">עה"פ23</src>
+    <src s="8">עשרה עשרה הכף בשקל הקודש,</src>
+    <src s="9">ולכן ע"י עסק התורה</src>
+    <src s="10">(עשרת הדברות)</src>
+    <src s="11">פועלים בהעשרה מאמרות,</src>
+    <src s="12">שגם הם יהיו בשקל הקודש24.</src>
+  </section>
+  <section v="4">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שעשרה מאמרות ועשרת הדברות שקולים זה כנגד זה,</src>
+    <src s="2">הכוונה בזה היא גם שכל אחד פועל בהשני.</src>
+    <src s="3">דכמו שעשרת הדברות פועלים</src>
+    <src s="4">(כנ"ל)</src>
+    <src s="5">בהעשרה מאמרות,</src>
+    <src s="6">וכמאמר25</src>
+    <src s="7">אסתכל באורייתא וברא עלמא,</src>
+    <src s="8">שבריאת העולם היא ע"י העשרה מאמרות כמו שהם בתורה26,</src>
+    <src s="9">שירדו אח"כ בבחי' מילין דהדיוטא27</src>
+    <src s="10">להוות את העולם,</src>
+    <src s="11">עד"ז הוא לאידך,</src>
+    <src s="12">שעבודת האדם בעניני העולם שנברא בהעשרה מאמרות מילין דהדיוטא פועלת בעשרת הדברות</src>
+    <src s="13">[שלכן יש פירוש28</src>
+    <src s="14">במאמר הזהר עה"פ עשרה עשרה גו',</src>
+    <src s="15">שעשרה מאמרות הם גבוהים מעשרת הדברות].</src>
+    <src s="16">וי"ל שהוא ע"פ המבואר באגה"ק29</src>
+    <src s="17">שבירור הלכה בתורה הוא ע"י נשמה בגוף דוקא,</src>
+    <src s="18">ולכן באים העליונים לשמוע חידושי תורה מהתחתונים</src>
+    <src s="19">(וכמרז"ל30</src>
+    <src s="20">עה"פ31</src>
+    <src s="21">חברים מקשיבים לקולך).</src>
+    <src s="22">ועד שהקב"ה אומר למלאכי השרת לי מה אתם שואלים אני ואתם נלך אצל ב"ד של מטה32.</src>
+  </section>
+  <section v="5">
+    <src s="0">ועד"ז הוא גם בחתן וכלה,</src>
+    <src s="1">דעם היות שהחתן וכלה שלמטה משתלשלים מבחי' חתן וכלה שלמעלה,</src>
+    <src s="2">שענינם בספירות הוא ז"א ומלכות33,</src>
+    <src s="3">ולמעלה יותר קוב"ה ושכינתי'</src>
+    <src s="4">(חתן וכלה)</src>
+    <src s="5">הו"ע אוא"ס שלפני הצמצום והקו כמבואר בארוכה בדרושי כ"ק אדמו"ר מהר"ש34,</src>
+    <src s="6">ועד שהענין דקוב"ה ושכינתי' הוא גם לפני הצמצום35,</src>
+    <src s="7">מ"מ,</src>
+    <src s="8">ע"י העבודה למטה דוקא</src>
+    <src s="9">(ובפרטיות ע"י שמחת חתן וכלה שלמטה)</src>
+    <src s="10">ממשיכים תוספת אור בחתן וכלה שלמעלה גם כמו שהם בשרשם הראשון לפני הצמצום.</src>
+    <src s="11">וע"ד שע"י עסק התורה והמצוות שלמטה דוקא נעשה יחוד קוב"ה ושכינתי'36</src>
+    <src s="12">כמבואר בתניא37,</src>
+    <src s="13">גם כמו שהם למעלה מעלה.</src>
+  </section>
+</awtsmoosMeluketSource>

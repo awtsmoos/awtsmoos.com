@@ -1,0 +1,28 @@
+{
+  "id": "5f0537b9-d370-42dd-98cb-282828e2af4b",
+  "object": "chat.completion",
+  "created": 1783582271,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916694_theRebbe_636\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916694_theRebbe_636__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>Regarding the spirit of folly, a Jew who transgresses God's will is certainly no worse than a gentile who does so.</sectionSummaryBrief>\n    <t s=\"0\">[And regarding the spirit of folly etc. – certainly a Jewish person who transgresses His will is no worse than a gentile who transgresses His will.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>Gentiles are on a lower level than Jews, yet the spirit of folly can cause them to deny God entirely, unlike Jews where it only conceals the Divine soul's wisdom.</sectionSummaryBrief>\n    <t s=\"0\">And on the contrary: gentiles are on a lower level than the Children of Israel</t>\n    <t s=\"1\">(although from this perspective they are not worse)</t>\n    <t s=\"2\">– for with them, the spirit of folly can cover and conceal even the matter of \"they call Him God of gods,\"</t>\n    <t s=\"3\">so that they deny the existence of God entirely,</t>\n    <t s=\"4\">and not like with the Children of Israel,</t>\n    <t s=\"5\">for the spirit of folly of the kelipah \"clothes the Divine soul up to the level of its wisdom,</t>\n    <t s=\"6\">but not including it,</t>\n    <t s=\"7\">because of the light of God that is clothed in wisdom\"</t>\n    <t s=\"8\">(Tanya, chapter 24),</t>\n    <t s=\"9\">unlike gentiles,</t>\n    <t s=\"10\">who do not possess the level of wisdom of the Divine soul].</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>The Tanya states that a transgressing Jew is far worse than the sitra achra and impure animals, but not worse than gentiles, since gentiles also have the spirit of folly to transgress.</sectionSummaryBrief>\n    <t s=\"0\">Therefore: the language in Tanya chapter 24 is that \"a person who transgresses His will is much worse and lower than the sitra achra and kelipah...</t>\n    <t s=\"1\">and more than all the things that flow from it in this world, which are impure beasts, animals, impure birds, creeping things, and reptiles,\"</t>\n    <t s=\"2\">and it is not said that he is worse than gentiles – because,</t>\n    <t s=\"3\">from the aspect of the spirit of folly, even gentiles can transgress His will,</t>\n    <t s=\"4\">and only the sitra achra and kelipah and all the impure animals that flow from it,</t>\n    <t s=\"5\">for whom the matter of the spirit of folly does not apply,</t>\n    <t s=\"6\">cannot transgress His will at all</t>\n    <t s=\"7\">(and the example of this is specifically from the fact that \"no harmful beast rules over a person etc.,\"</t>\n    <t s=\"8\">for it is impossible to be otherwise).</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1277,
+    "completion_tokens": 818,
+    "total_tokens": 2095,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1021
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

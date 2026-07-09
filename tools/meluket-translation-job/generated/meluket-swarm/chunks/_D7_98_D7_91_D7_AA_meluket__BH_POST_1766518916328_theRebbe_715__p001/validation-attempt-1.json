@@ -1,0 +1,294 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 50,
+    "returned": 50,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916328_theRebbe_715\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header for the maamar of Shabbos Parshas Va'eira, Mevarchim Chodesh Shevat 5735.</sectionSummaryBrief>\n    <t s=\"0\">B'S\"D.</t>\n    <t s=\"1\">Shabbos Parshas Va'eira,</t>\n    <t s=\"2\">Mevarchim Chodesh Shevat 5735*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section discusses Rashi's commentary on the verse, the Rebbe Maharash's question about the name Havayah being called the true attribute, and the explanation that even Havayah is only an illumination, with a future revelation beyond measure.</sectionSummaryBrief>\n    <t s=\"0\">\"And I appeared to Avraham, to Yitzchak, and to Yaakov as Kel Shakai, and My name Havayah I was not known to them.\"</t>\n    <t s=\"1\">And Rashi explains: \"I was not recognized by them in My true attribute.\"</t>\n    <t s=\"2\">And the Admo\"r Maharash, in his maamar beginning with this discourse,</t>\n    <t s=\"3\">[asks:] All the names of the Holy One, blessed be He, are true,</t>\n    <t s=\"4\">and nevertheless he says that specifically the name Havayah is the true attribute.</t>\n    <t s=\"5\">Also, one must understand, on the other hand, what Rashi says that the name Havayah is the true attribute—</t>\n    <t s=\"6\">[for] the name Havayah is the essential name,</t>\n    <t s=\"7\">which is above measurement and limitation,</t>\n    <t s=\"8\">and nevertheless he says that even the name Havayah is</t>\n    <t s=\"9\">(only)</t>\n    <t s=\"10\">\"My true attribute,\"</t>\n    <t s=\"11\">\"attribute\" from the term measurement and limitation.</t>\n    <t s=\"12\">And he explains in the maamar,</t>\n    <t s=\"13\">that even the name Havayah is only an illumination, and therefore it is called an attribute.</t>\n    <t s=\"14\">And at the conclusion of the maamar,</t>\n    <t s=\"15\">[it is stated] that there is a level that is above the revelation of Havayah at present.</t>\n    <t s=\"16\">And from this it is implied,</t>\n    <t s=\"17\">that the revelation of Havayah that will be in the future is above attribute.</t>\n    <t s=\"18\">And one can connect this with what the Alter Rebbe said</t>\n    <t s=\"19\">(the Baal HaHilula of 24 Teves),</t>\n    <t s=\"20\">that the reason that the name Havayah \"I was not known to them\"</t>\n    <t s=\"21\">(to the Patriarchs)</t>\n    <t s=\"22\">is because the Torah was not given to them,</t>\n    <t s=\"23\">and the revelation of the name Havayah is through the giving of the Torah.</t>\n    <t s=\"24\">And based on this, it can be said,</t>\n    <t s=\"25\">that since in the future there will be the revelation of the inner dimension of the Torah, which is above measurement,</t>\n    <t s=\"26\">therefore, also the revelation of Havayah in the future will be above attribute.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section questions the novelty of the name Kel Shakai revealed to Avraham at the covenant of circumcision, given that this name was already used in creation, and concludes that the revelation to Avraham was of a higher level.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">Now, that \"I appeared to Avraham as Kel Shakai\" is</t>\n    <t s=\"2\">what the Holy One, blessed be He, said to Avraham</t>\n    <t s=\"3\">(at the commandment of circumcision):</t>\n    <t s=\"4\">\"I am Kel Shakai; walk before Me and be perfect.\"</t>\n    <t s=\"5\">For the revelation that was to Avraham at the commandment of circumcision was certainly a most elevated revelation,</t>\n    <t s=\"6\">and one must understand</t>\n    <t s=\"7\">(as the maamar points out),</t>\n    <t s=\"8\">[that] the name Shakai was already present at the creation of the world,</t>\n    <t s=\"9\">as it is stated in the Gemara:</t>\n    <t s=\"10\">\"What is the meaning of that which is written, 'I am Kel Shakai'? I am He who said to My world 'enough,' for the firmament was stretching and expanding until the Holy One, blessed be He, rebuked it and said to it 'enough.'\"</t>\n    <t s=\"11\">And what is the novelty in that the Holy One, blessed be He, said to Avraham \"I am Kel Shakai\"?</t>\n    <t s=\"12\">And ostensibly, it could be said,</t>\n    <t s=\"13\">that the creation of the world is in a manner of concealment and hiding of the Creator from the created,</t>\n    <t s=\"14\">and through the Holy One, blessed be He, saying to Avraham \"I am Kel Shakai,\"</t>\n    <t s=\"15\">He illuminated this name to him in a revealed way.</t>\n    <t s=\"16\">But from the language of the verse \"I am Kel Shakai,\" it implies that with this statement, the Holy One, blessed be He, revealed to him a new matter that was not present in the world before this.</t>\n    <t s=\"17\">And from this it is proven,</t>\n    <t s=\"18\">that the revelation of the name Shakai that was to Avraham is more elevated than that of \"I said to My world 'enough'\"</t>\n    <t s=\"19\">(as will be explained in section 3).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916328_theRebbe_715",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header for the maamar of Shabbos Parshas Va'eira, Mevarchim Chodesh Shevat 5735.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B'S\"D."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Va'eira,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Mevarchim Chodesh Shevat 5735*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section discusses Rashi's commentary on the verse, the Rebbe Maharash's question about the name Havayah being called the true attribute, and the explanation that even Havayah is only an illumination, with a future revelation beyond measure.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And I appeared to Avraham, to Yitzchak, and to Yaakov as Kel Shakai, and My name Havayah I was not known to them.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And Rashi explains: \"I was not recognized by them in My true attribute.\""
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "And the Admo\"r Maharash, in his maamar beginning with this discourse,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "[asks:] All the names of the Holy One, blessed be He, are true,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "and nevertheless he says that specifically the name Havayah is the true attribute."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "Also, one must understand, on the other hand, what Rashi says that the name Havayah is the true attribute—"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "[for] the name Havayah is the essential name,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "which is above measurement and limitation,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "and nevertheless he says that even the name Havayah is"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "(only)"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "\"My true attribute,\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "\"attribute\" from the term measurement and limitation."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And he explains in the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "that even the name Havayah is only an illumination, and therefore it is called an attribute."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "And at the conclusion of the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "[it is stated] that there is a level that is above the revelation of Havayah at present."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And from this it is implied,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "that the revelation of Havayah that will be in the future is above attribute."
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "And one can connect this with what the Alter Rebbe said"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "(the Baal HaHilula of 24 Teves),"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "that the reason that the name Havayah \"I was not known to them\""
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "(to the Patriarchs)"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "is because the Torah was not given to them,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "and the revelation of the name Havayah is through the giving of the Torah."
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "that since in the future there will be the revelation of the inner dimension of the Torah, which is above measurement,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "therefore, also the revelation of Havayah in the future will be above attribute."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section questions the novelty of the name Kel Shakai revealed to Avraham at the covenant of circumcision, given that this name was already used in creation, and concludes that the revelation to Avraham was of a higher level.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "Now, that \"I appeared to Avraham as Kel Shakai\" is"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "what the Holy One, blessed be He, said to Avraham"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(at the commandment of circumcision):"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "\"I am Kel Shakai; walk before Me and be perfect.\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "For the revelation that was to Avraham at the commandment of circumcision was certainly a most elevated revelation,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and one must understand"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "(as the maamar points out),"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "[that] the name Shakai was already present at the creation of the world,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "as it is stated in the Gemara:"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "\"What is the meaning of that which is written, 'I am Kel Shakai'? I am He who said to My world 'enough,' for the firmament was stretching and expanding until the Holy One, blessed be He, rebuked it and said to it 'enough.'\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "And what is the novelty in that the Holy One, blessed be He, said to Avraham \"I am Kel Shakai\"?"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And ostensibly, it could be said,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that the creation of the world is in a manner of concealment and hiding of the Creator from the created,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and through the Holy One, blessed be He, saying to Avraham \"I am Kel Shakai,\""
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "He illuminated this name to him in a revealed way."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "But from the language of the verse \"I am Kel Shakai,\" it implies that with this statement, the Holy One, blessed be He, revealed to him a new matter that was not present in the world before this."
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "And from this it is proven,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "that the revelation of the name Shakai that was to Avraham is more elevated than that of \"I said to My world 'enough'\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(as will be explained in section 3)."
+          }
+        ]
+      }
+    ]
+  }
+}

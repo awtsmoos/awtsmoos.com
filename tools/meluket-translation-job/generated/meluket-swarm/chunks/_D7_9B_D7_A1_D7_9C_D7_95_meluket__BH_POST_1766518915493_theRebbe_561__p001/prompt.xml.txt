@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915493_theRebbe_561" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915493_theRebbe_561__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915493_theRebbe_561" title="מאמר וכל בניך תשמ"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915493_theRebbe_561__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ וישלח,</src>
+    <src s="2">י"ד כסלו ה'תשמ"א*</src>
+  </section>
+  <section v="1">
+    <src s="0">וכל בניך לימודי הוי' ורב שלום בניך1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר במאמרו ד"ה זה2</src>
+    <src s="2">(שבקונטרס דרושי חתונה תרפ"ט3),</src>
+    <src s="3">דבורב שלום בניך שני פירושים.</src>
+    <src s="4">הא',</src>
+    <src s="5">דפירוש ורב שלום בניך הוא שיהי' רוב שלום לבניך,</src>
+    <src s="6">כפירוש המצודת דוד והתרגום.</src>
+    <src s="7">והב',</src>
+    <src s="8">דפירוש ורב שלום בניך הוא שע"י בניך נעשה ריבוי שלום בעולם,</src>
+    <src s="9">כמאמר רז"ל4</src>
+    <src s="10">תלמידי חכמים מרבים שלום בעולם שנאמר וכל בניך לימודי הוי' ורב שלום בניך אל תקרי בניך אלא בוניך.</src>
+    <src s="11">ומבאר בהמאמר,</src>
+    <src s="12">דזה מה שתלמידי חכמים נק' בוניך הוא כמארז"ל5</src>
+    <src s="13">מאי בנאין אלו תלמידי חכמים שעוסקין בבנינו של עולם.</src>
+    <src s="14">ומזה מובן,</src>
+    <src s="15">דזה שתלמידי חכמים מרבים שלום בעולם הוא לא מצד המעלה דתלמידי חכמים</src>
+    <src s="16">(לימוד התורה)</src>
+    <src s="17">כמו שהיא מצד עצמה,</src>
+    <src s="18">אלא עי"ז שהם עוסקים בבנינו של עולם,</src>
+    <src s="19">שע"י עסקם בתורה נעשה הבירור דעולם.</src>
+    <src s="20">וזהו וכל בניך לימודי הוי' ורב שלום בניך,</src>
+    <src s="21">שמבאר כאן שני ענינים.</src>
+    <src s="22">וכל בניך לימודי הוי',</src>
+    <src s="23">דפירוש לימודי הוי' הוא דאלפין באורייתא דהוי'6</src>
+    <src s="24">– המעלה דתלמידי חכמים מצד עצמם,</src>
+    <src s="25">ואח"כ מוסיף ורב שלום בניך א"ת בניך אלא בוניך,</src>
+    <src s="26">הבירור דעולם</src>
+    <src s="27">(בוניך)</src>
+    <src s="28">וריבוי השלום בעולם,</src>
+    <src s="29">שנעשה ע"י עסק התורה.</src>
+    <src s="30">ובסיום המאמר7,</src>
+    <src s="31">דע"י הענין דורב שלום בניך א"ת בניך אלא בוניך,</src>
+    <src s="32">בנאים העוסקים בבנינו של עולם,</src>
+    <src s="33">עי"ז יקויים גם בהם ורב שלום בניך,</src>
+    <src s="34">כמ"ש8</src>
+    <src s="35">וראה בנים לבניך שלום על ישראל,</src>
+    <src s="36">היינו,</src>
+    <src s="37">דע"י הבירור דעולם שנעשה ע"י עסק התורה דהתלמידי חכמים,</src>
+    <src s="38">נמשך ריבוי שלום גם להתלמידי חכמים עצמם</src>
+    <src s="39">(כפירוש המצודות והתרגום בורב שלום בניך).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לקשר זה עם מ"ש בריש פרשתנו9</src>
+    <src s="2">וישלח יעקב מלאכים לפניו אל עשו אחיו גו' כה תאמרון גו' עם לבן גרתי ואחר עד עתה,</src>
+    <src s="3">דמשמעות הכתוב הוא שיעקב צריך לבוא תחלה אל עשו,</src>
+    <src s="4">ולכן נתן טעם על זה שנתאחר לבוא אליו,</src>
+    <src s="5">עם לבן גרתי</src>
+    <src s="6">(ולכן10)</src>
+    <src s="7">ואחר עד עתה.</src>
+    <src s="8">וצריך להבין11</src>
+    <src s="9">למה צריך למהר לבוא אל עשו ועד שצריך לטעם על זה שנתאחר.</src>
+    <src s="10">וגם צריך להבין12</src>
+    <src s="11">מה שפירש רש"י גרתי בגימטריא תרי"ג,</src>
+    <src s="12">עם לבן גרתי ותרי"ג מצוות שמרתי,</src>
+    <src s="13">הרי יעקב ידע שעשו אינו מייקר ענין קיום המצוות,</src>
+    <src s="14">ומה מודיע לו ששמר תרי"ג מצוות.</src>
+    <src s="15">והנה ידוע הביאור בזה13,</src>
+    <src s="16">דהברכות שברך יצחק את יעקב הן בכדי לברר את עשו,</src>
+    <src s="17">אלא בכדי שיוכל לברר את עשו הי' צ"ל תחלה עבודתו בבית לבן.</src>
+    <src s="18">וזהו מה שאמר יעקב עם לבן גרתי ואחר עד עתה,</src>
+    <src s="19">דהטעם על שנתאחר ללכת לעשו לבררו עד עתה</src>
+    <src s="20">(אף שלכאורה הוצרך לבררו תיכף לאחרי שקיבל הברכות)</src>
+    <src s="21">הוא כי</src>
+    <src s="22">(עד עכשיו)</src>
+    <src s="23">עם לבן גרתי ותרי"ג מצוות שמרתי,</src>
+    <src s="24">ולאחרי שגמר עבודתו בבית לבן,</src>
+    <src s="25">שלח מיד אל עשו לבררו.</src>
+  </section>
+</awtsmoosMeluketSource>

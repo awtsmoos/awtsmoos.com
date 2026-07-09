@@ -1,0 +1,131 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919735_theRebbe_388" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919735_theRebbe_388__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919735_theRebbe_388" title="מאמר ציון במשפט תפדה תשמ"א" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919735_theRebbe_388__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והנה יש עוד פירוש בושבי',</src>
+    <src s="2">דשבי' הוא מלשון השבה,</src>
+    <src s="3">ההשבה מן הגולה20.</src>
+    <src s="4">דלשון השבה</src>
+    <src s="5">[ובפרט כאשר הוא בסמיכות לתיבת תפדה שלפנ"ז]</src>
+    <src s="6">מורה שגם לפני ההשבה אינו בגלות,</src>
+    <src s="7">ורק שהוא נמצא במקום אחר</src>
+    <src s="8">(מקום הגולה)</src>
+    <src s="9">וצריך לחזור ולשוב למקומו.</src>
+    <src s="10">ועפ"ז שבי' הם נעלים יותר מאלו שנאמר עליהם תפדה.</src>
+    <src s="11">כי לשון פדי' נופל על מי שהוא בגלות21</src>
+    <src s="12">(משא"כ בזה שהוא רק נמצא במקום הגולה)</src>
+    <src s="13">וצריך לפדי' מהגלות.</src>
+    <src s="14">וצריך להבין,</src>
+    <src s="15">היאך שייך שפדייתם של אלו שהם בגלות היא במשפט</src>
+    <src s="16">(ע"פ שורת הדין),</src>
+    <src s="17">וההשבה של אלו שנמצאים רק במקום הגולה</src>
+    <src s="18">(שהם נעלים יותר)</src>
+    <src s="19">היא בצדקה.</src>
+    <src s="20">וגם צריך להבין,</src>
+    <src s="21">מי הם שני הסוגים שעליהם נאמר תפדה ושבי'.</src>
+    <src s="22">הרי תפדה נאמר בנוגע לציון שקאי</src>
+    <src s="23">(כנ"ל)</src>
+    <src s="24">על ישראל העוסקים בתומ"צ,</src>
+    <src s="25">ואעפ"כ הם בגלות וצריכים לפדי',</src>
+    <src s="26">ומהי זכותם של אלו שנק' בשם שבי' שאינם בגלות.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">ויובן בהקדים המבואר בהמאמר7,</src>
+    <src s="2">דענין גלות ושבי' שייך דוקא בהכלים,</src>
+    <src s="3">להיותם בבחי' מציאות דבר,</src>
+    <src s="4">משא"כ בהאור,</src>
+    <src s="5">שהוא בבחי' אין,</src>
+    <src s="6">אין שייך גלות.</src>
+    <src s="7">וענין זה</src>
+    <src s="8">(דבאור אין שייך גלות)</src>
+    <src s="9">מובן גם בפשטות.</src>
+    <src s="10">שהרי מעט אור דוחה הרבה מן החושך22,</src>
+    <src s="11">והיינו דגם לאחרי ירידת והמשכת האור בבחי' מדידה והגבלה</src>
+    <src s="12">[שאז דוקא שייך לומר מעט או הרבה],</src>
+    <src s="13">גם אז הוא דוחה את החושך,</src>
+    <src s="14">ועד שאפילו מעט אור דוחה הרבה חושך.</src>
+    <src s="15">ויתירה מזו,</src>
+    <src s="16">שהחושך נדחה ממילא מפני האור23.</src>
+    <src s="17">[דבתחלת הבריאה היו אור וחושך משתמשים בערבוביא24,</src>
+    <src s="18">אבל לאחרי שויבדל אלקים בין האור ובין החושך25,</src>
+    <src s="19">החושך נדחה מפני האור].</src>
+    <src s="20">ומזה מובן גם בפשטות,</src>
+    <src s="21">דבאור אין שייך ענין הגלות,</src>
+    <src s="22">כי החושך</src>
+    <src s="23">(דהגלות)</src>
+    <src s="24">נדחה מפני האור.</src>
+  </section>
+  <section v="5">
+    <src s="0">והנה עד"ז הוא גם בנשמה וגוף,</src>
+    <src s="1">שהם דוגמת אור וכלי26.</src>
+    <src s="2">וכידוע מאמר כ"ק מו"ח אדמו"ר27</src>
+    <src s="3">שרק הגוף הוא בגלות ולא הנשמה.</src>
+    <src s="4">והיינו,</src>
+    <src s="5">דהגם שהנשמה היא מלובשת בגוף והגוף הוא בגלות,</src>
+    <src s="6">מ"מ בנוגע להנשמה אין זה ענין של גלות.</src>
+    <src s="7">ורק שמצד זה שהגוף הוא בגלות,</src>
+    <src s="8">הנשמה שמלובשת בו היא נמצאת שלא במקומה וצריכה להשבה.</src>
+    <src s="9">וכמרז"ל28</src>
+    <src s="10">אני ישנה בגלותא ולבי ער,</src>
+    <src s="11">דגם כשאני ישנה בגלותא,</src>
+    <src s="12">הנשמה</src>
+    <src s="13">(ולבי29)</src>
+    <src s="14">היא ער.</src>
+    <src s="15">דמכיון שהנשמה היא חלק אלוקה ממעל ממש30,</src>
+    <src s="16">דגם כשהיא באופן ד"ממש" מלשון ממשות31</src>
+    <src s="17">היינו שהיא מלובשת בגוף גשמי,</src>
+    <src s="18">היא חלק אלוקה ממעל</src>
+    <src s="19">[ועד שהיא חלק אלוקה ממעל ממש],</src>
+    <src s="20">וידוע מאמר הבעש"ט32</src>
+    <src s="21">שכשאתה תופס במקצת מן העצם אתה תופס בכולו,</src>
+    <src s="22">לכן,</src>
+    <src s="23">גם לאחרי ירידתה והתלבשותה בגוף בכח המפליא לעשות33,</src>
+    <src s="24">ואפילו בזמן הגלות,</src>
+    <src s="25">אינה בגלות וכו'.</src>
+    <src s="26">ועפ"ז יש לומר,</src>
+    <src s="27">דהלשון ושבי' קאי לא רק על סוג מיוחד שבישראל,</src>
+    <src s="28">אלא גם על הנשמה דכאו"א מישראל.</src>
+    <src s="29">דמכיון שהנשמה אינה בגלות,</src>
+    <src s="30">אין שייך בה הלשון פדי'.</src>
+    <src s="31">אלא שאעפ"כ צריכה להשבה,</src>
+    <src s="32">כי מכיון שהנשמה מלובשת בהגוף,</src>
+    <src s="33">ועד שהיא מתפעלת ממאורעי הגוף34,</src>
+    <src s="34">ע"י הגלות דהגוף,</src>
+    <src s="35">גם הנשמה נמצאת במקום הגלות,</src>
+    <src s="36">ולכן צריכה להשבה.</src>
+  </section>
+</awtsmoosMeluketSource>

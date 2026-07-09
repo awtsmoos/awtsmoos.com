@@ -1,0 +1,102 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918942_theRebbe_422" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918942_theRebbe_422__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918942_theRebbe_422" title="מאמר וישלח יהושוע תשל"ו" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918942_theRebbe_422__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ שלח,</src>
+    <src s="2">כ"ח סיון,</src>
+    <src s="3">מבה"ח תמוז,</src>
+    <src s="4">ה'תשל"ו*</src>
+  </section>
+  <section v="1">
+    <src s="0">וישלח יהושע גו' שנים אנשים מרגלים גו'1,</src>
+    <src s="1">ומבאר בלקו"ת</src>
+    <src s="2">(ד"ה זה2)</src>
+    <src s="3">החילוק בין המרגלים ששלח יהושע להמרגלים ששלח משה,</src>
+    <src s="4">דבמרגלים ששלח משה כתיב3</src>
+    <src s="5">שלח לך לדעתך אני איני מצוה לך,</src>
+    <src s="6">משא"כ שילוח המרגלים דיהושע הי'</src>
+    <src s="7">(לא מדעתו אלא)</src>
+    <src s="8">ע"פ ציווי ה'.</src>
+    <src s="9">ועוד חילוק,</src>
+    <src s="10">דהמרגלים ששלח יהושע היו רק ליריחו,</src>
+    <src s="11">מנעולה של ארץ ישראל4,</src>
+    <src s="12">ועי"ז תרו את כל הארץ5,</src>
+    <src s="13">משא"כ המרגלים ששלח משה הלכו בכל הארץ לארכה ולרחבה6.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ונקודת הביאור בזה,</src>
+    <src s="2">שהציווי דכיבוש הארץ</src>
+    <src s="3">(ברוחניות)</src>
+    <src s="4">הוא</src>
+    <src s="5">(ככל הציוויים שבתורה)</src>
+    <src s="6">ענין נצחי בכל דור ודור7.</src>
+    <src s="7">דכאו"א מישראל צריך לכבוש8</src>
+    <src s="8">כל הכחות והענינים דגופו ונפשו הבהמית</src>
+    <src s="9">(ארץ כנען)</src>
+    <src s="10">ולעשותם כלים לאלקות</src>
+    <src s="11">(ארץ ישראל).</src>
+    <src s="12">והחילוק בין יריחו לכללות הארץ בנפש האדם הוא9,</src>
+    <src s="13">דיריחו הוא ג' הלבושים מחשבה דיבור ומעשה</src>
+    <src s="14">[כי יריחו הוא מלשון ריח,</src>
+    <src s="15">ולבושים שייכים לריח,</src>
+    <src s="16">וכרמז לשון הזהר10</src>
+    <src s="17">בריחא דלבושייכו],</src>
+    <src s="18">וכללות הארץ</src>
+    <src s="19">(ארץ ז' עממין)</src>
+    <src s="20">הם המדות שבאדם.</src>
+    <src s="21">וזהו מה שהציווי</src>
+    <src s="22">(ליהושע)</src>
+    <src s="23">לשלוח מרגלים הי' שילכו</src>
+    <src s="24">(רק)</src>
+    <src s="25">ליריחו,</src>
+    <src s="26">כי מחשבה דיבור ומעשה הם ברשותו של אדם,</src>
+    <src s="27">ולכן יש ציווי לכאו"א לתור ולבחון את המחשבה דיבור ומעשה שלו שיהיו כולם להוי'.</src>
+    <src s="28">משא"כ המדות שבלב אינם ברשותו של כל אדם,</src>
+    <src s="29">דצדיקים</src>
+    <src s="30">(דוקא)</src>
+    <src s="31">לבם ברשותם11,</src>
+    <src s="32">ולכן במרגלים ששלח משה לתור את כל הארץ</src>
+    <src s="33">(לבחון את המדות,</src>
+    <src s="34">שיהיו כולם להוי')</src>
+    <src s="35">כתיב שלח לך לדעתך,</src>
+    <src s="36">אני איני מצוה לך,</src>
+    <src s="37">כי העבודה דכיבוש המדות</src>
+    <src s="38">(בשלימות)</src>
+    <src s="39">היא דוקא ע"י גילוי בחי' משה,</src>
+    <src s="40">ואינה שוה לכל נפש.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916230_theRebbe_919" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916230_theRebbe_919__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916230_theRebbe_919" title="מאמר הבאים ישרש יעקב תשמ"ח" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916230_theRebbe_919__p005">
+  <section v="12">
+    <src s="0">ו)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דלפי ביאור הנ"ל,</src>
+    <src s="3">השייכות דקיום המצוות עכשיו</src>
+    <src s="4">(פירוש השני)</src>
+    <src s="5">להגאולה</src>
+    <src s="6">(פירוש הראשון)</src>
+    <src s="7">הוא בהענין דישרש יעקב,</src>
+    <src s="8">שענינה של המשכת השרש עכשיו הוא שההמשכה תהי' בגילוי,</src>
+    <src s="9">ומזה שאומר בהמאמר</src>
+    <src s="10">(בתחלתו,</src>
+    <src s="11">עוד לפני שמעתיק הת"י)</src>
+    <src s="12">שהת"י מפרש הפסוק על הגאולה,</src>
+    <src s="13">מובן שזהו עיקר הפירוש,</src>
+    <src s="14">ומזה משמע דזה שהפירוש שישרש יעקב קאי על קיום המצוות עכשיו בא לאחרי ובהמשך לפירוש הת"י,</src>
+    <src s="15">הוא,</src>
+    <src s="16">לפי שקיום המצוות עכשיו בא בהמשך לכללות ענין הגאולה.</src>
+  </section>
+  <section v="13">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שמקדים בהמאמר הפירוש שקאי על הגאולה,</src>
+    <src s="2">הוא,</src>
+    <src s="3">כי כל הענינים נמשכים מהתורה,</src>
+    <src s="4">אסתכל באורייתא וברא עלמא37,</src>
+    <src s="5">וע"י שבתורה מקדימים ענין הגאולה,</src>
+    <src s="6">נמשך כך גם בעולם שהגאולה תהי' בהקדם יותר.</src>
+    <src s="7">ולהוסיף,</src>
+    <src s="8">דכאשר יהודי</src>
+    <src s="9">(ומכ"ש נשיא38)</src>
+    <src s="10">חושב ע"ד ענין טוב,</src>
+    <src s="11">המחשבה שלו פועלת שכן יהי' בפועל.</src>
+    <src s="12">כמאמר הצ"צ שנתפרסם ע"י כ"ק מו"ח אדמו"ר39</src>
+    <src s="13">טראַכט גוט וועט זיין גוט.</src>
+    <src s="14">וסיפר כ"ק מו"ח אדמו"ר40</src>
+    <src s="15">שהצ"צ אמר מאמר זה לאחד החסידים,</src>
+    <src s="16">וע"י מחשבתו של החסיד איז געוואָרן גוט בפועל.</src>
+    <src s="17">ויש לומר,</src>
+    <src s="18">דזה שכ"ק מו"ח אדמו"ר הוסיף סיפור הנ"ל,</src>
+    <src s="19">הוא כי ע"י שאירע כן בפועל,</src>
+    <src s="20">נמשך זה גם בגשמיות.</src>
+    <src s="21">וע"ד הידוע41</src>
+    <src s="22">דזה שהנביאים עשו גם פעולות</src>
+    <src s="23">(בגשמיות)</src>
+    <src s="24">בהתאם לנבואתם,</src>
+    <src s="25">הוא,</src>
+    <src s="26">כי עי"ז נעשה הקשר דהנבואה עם</src>
+    <src s="27">(גשמיות)</src>
+    <src s="28">העולם.</src>
+    <src s="29">ויש לומר,</src>
+    <src s="30">דכאשר המחשבה באה בדיבור ומכ"ש במעשה,</src>
+    <src s="31">היא פועלת עוד יותר.</src>
+    <src s="32">ועאכו"כ בנידון דידן,</src>
+    <src s="33">דנוסף לזה שהמחשבה דהצ"צ</src>
+    <src s="34">(להקדים הפירוש שהבאים ישרש יעקב קאי על הגאולה)</src>
+    <src s="35">באה בכתב</src>
+    <src s="36">(מעשה),</src>
+    <src s="37">הוא גם חלק בתורה.</src>
+  </section>
+  <section v="14">
+    <src s="0">ז)</src>
+    <src s="1">ויהי רצון,</src>
+    <src s="2">שע"י הדיבור בענינים אלו ימהרו ויזרזו כל זה עוד יותר,</src>
+    <src s="3">ובפרט ע"י העבודה דהפצת היהדות בכלל והפצת המעינות בפרט42,</src>
+    <src s="4">שזוהי הכנה קרובה לקיום היעוד43</src>
+    <src s="5">מלאה הארץ דעה את הוי' כמים לים מכסים,</src>
+    <src s="6">סיום וחותם ספרו של הרמב"ם44</src>
+    <src s="7">(בעל ההילולא דכ"ף טבת45),</src>
+    <src s="8">שענין זה קשור גם עם התחלת ספרו לידע שיש שם מצוי ראשון.</src>
+    <src s="9">וזה קשור גם עם הספר תניא קדישא ספרו של אדמו"ר הזקן</src>
+    <src s="10">(בעל ההילולא דכ"ד טבת46),</src>
+    <src s="11">בו47</src>
+    <src s="12">נתבארו הענינים דידיעת השם.</src>
+    <src s="13">ויהי רצון שזכותם של בעלי ההילולא שקיבצו וליקטו בספריהם הנ"ל כל עניני התורה – ספר משנה תורה שמקבץ48</src>
+    <src s="14">כל ההלכות דנגלה דתורה,</src>
+    <src s="15">וספר לקוטי אמרים</src>
+    <src s="16">(תניא)</src>
+    <src s="17">המלקט כל הענינים דפנימיות התורה,</src>
+    <src s="18">וגם הספרים תורה אור ולקוטי תורה שבהם נלקטו המאמרים העיקריים49</src>
+    <src s="19">של אדמו"ר הזקן כפי שנסדרו ע"י הצ"צ – יקרב וימהר עוד יותר קיום היעוד שבההפטורה50</src>
+    <src s="20">ואתם תלוקטו לאחד אחד בני ישראל,</src>
+    <src s="21">ע"י הקב"ה עצמו51,</src>
+    <src s="22">שבקרוב ממש ילקט את כולנו,</src>
+    <src s="23">ונלך כולנו יחד לארץ הקודש</src>
+    <src s="24">(כמו שתהי' בהרחבה,</src>
+    <src s="25">ירחיב ה' אלקיך את גבולך52)</src>
+    <src s="26">ושם גופא – לירושלים ולבית המקדש שיבנה במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

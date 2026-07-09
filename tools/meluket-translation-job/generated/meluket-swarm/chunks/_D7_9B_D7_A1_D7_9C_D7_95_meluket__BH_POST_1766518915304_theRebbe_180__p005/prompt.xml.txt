@@ -1,0 +1,133 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" title="מאמר ושבתי בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p005">
+  <section v="12">
+    <src s="0">ט)</src>
+    <src s="1">וזהו שהעבודה שלאחרי ויצא יעקב מבאר שבע וילך חרנה</src>
+    <src s="2">(ירידת הנשמה בגוף)</src>
+    <src s="3">היא ויקח מאבני המקום גו'.</src>
+    <src s="4">דהנה ידוע74</src>
+    <src s="5">שהכוונה בירידת הנשמה למטה היא לא בשביל הנשמה אלא בכדי לברר ולזכך הגוף ונה"ב וחלקו בעולם,</src>
+    <src s="6">שעי"ז דוקא נתגלה הכוונה דנתאוה75</src>
+    <src s="7">הקב"ה להיות לו ית' דירה בתחתונים,</src>
+    <src s="8">בתחתון שאין תחתון למטה ממנו76.</src>
+    <src s="9">וזהו שעיקר עבודת הנשמה בירידתה למטה</src>
+    <src s="10">(ויצא יעקב גו' חרנה)</src>
+    <src s="11">הוא ויקח מאבני המקום גו',</src>
+    <src s="12">"מקום" הוא מציאות כזו שהאור האלקי שבו הוא בהעלם והסתר</src>
+    <src s="13">[וכנ"ל</src>
+    <src s="14">(סעיף ו)</src>
+    <src s="15">דזה ששם הוי'</src>
+    <src s="16">(ברבוע)</src>
+    <src s="17">בגימטריא מקום – הכוונה בזה היא,</src>
+    <src s="18">ששם הוי' הוא בהעלם והסתר בהמקום</src>
+    <src s="19">(באופן דגימטריא).</src>
+    <src s="20">דהגם שכל מציאות המקום</src>
+    <src s="21">(עולם)</src>
+    <src s="22">הוא ששם הוי' מהווה אותו תמיד מאין ליש,</src>
+    <src s="23">מ"מ אופן מציאותו של שם הוי' בהעולם הוא רק באופן של גימטריא,</src>
+    <src s="24">בחי' העלם והסתר],</src>
+    <src s="25">ובזה גופא – אבני המקום,</src>
+    <src s="26">אבני לשון רבים</src>
+    <src s="27">(כנ"ל),</src>
+    <src s="28">והתכלית דירידת הנשמה למטה</src>
+    <src s="29">(ויצא יעקב גו' חרנה)</src>
+    <src s="30">הוא</src>
+    <src s="31">(לא בשביל האור שנמשך לה ע"י תורה ומצוות,</src>
+    <src s="32">כי אם)</src>
+    <src s="33">בשביל העבודה דויקח מאבני המקום,</src>
+    <src s="34">לקחת את הדברים התחתונים</src>
+    <src s="35">(הגוף ונה"ב וחלקו בעולם),</src>
+    <src s="36">ובאופן דויקח שנעשה בעה"ב ומושל ושולט עליהם,</src>
+    <src s="37">ולעשות מהם דירה לו ית'.</src>
+  </section>
+  <section v="13">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דבענין הבירורים גופא יש יתרון בהבירור דדברי הרשות ע"י שעושה אותם לשם שמים על הבירור דדברים הגשמיים שע"י קיום המצוות,</src>
+    <src s="2">כי ע"י הבירור דדברי הרשות</src>
+    <src s="3">(שגם כשעושה אותם לשם שמים הם נשארים דברי הרשות,</src>
+    <src s="4">מעשיך)</src>
+    <src s="5">נשלמת יותר הכוונה דדירה בתחתונים,</src>
+    <src s="6">תחתון שאין תחתון למטה ממנו.</src>
+    <src s="7">ועפ"ז יובן יותר זה שהעבודה</src>
+    <src s="8">(שבשבילה ירדה הנשמה למטה)</src>
+    <src s="9">היא "ויקח מאבני המקום",</src>
+    <src s="10">ד"מקום" הוא מציאות כזו שהאור האלקי שבו הוא בהעלם והסתר כנ"ל,</src>
+    <src s="11">דיש לומר,</src>
+    <src s="12">שקאי</src>
+    <src s="13">(בעיקר)</src>
+    <src s="14">על דברי הרשות,</src>
+    <src s="15">שגם לאחרי העבודה הם "מעשיך" דהאדם.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">ועפ"ז יובן גם גודל העלי' דאבני המקום</src>
+    <src s="3">[לאחרי שנעשים אבן אחת,</src>
+    <src s="4">ע"י עבודת הבירורים],</src>
+    <src s="5">שהם מתעלים למעלה מבחי' הראש דיעקב</src>
+    <src s="6">(וישם מראשותיו),</src>
+    <src s="7">ועד אשר</src>
+    <src s="8">(לאחרי גמר הבירורים)</src>
+    <src s="9">והאבן הזאת גו' יהי' בית אלקים,</src>
+    <src s="10">שהכוונה בזה היא</src>
+    <src s="11">(כנ"ל סעיף א)</src>
+    <src s="12">לא לאלקים סתם כ"א לבחי' והי' הוי' לי לאלקים.</src>
+    <src s="13">דהנה ידוע77</src>
+    <src s="14">שתכלית הכוונה האמיתית בבריאת והתהוות העולמות הוא מה שנתאוה הקב"ה להיות לו ית' דירה בתחתונים,</src>
+    <src s="15">בעוה"ז הגשמי שאין תחתון למטה ממנו.</src>
+    <src s="16">דהגם שיש כמה טעמים לברה"ע78</src>
+    <src s="17">[בגין דישתמודעון לי'79</src>
+    <src s="18">ובכדי שיתגלו שלימות כוחותיו כו'80],</src>
+    <src s="19">הנה טעמים אלו הם בנשמות דאצילות</src>
+    <src s="20">(הטעם בגין דישתמודעון)</src>
+    <src s="21">ובבחי' האצילות</src>
+    <src s="22">(הטעם בכדי שיתגלו),</src>
+    <src s="23">ומקום ושרש טעמים אלו הוא בבחי' הגילויים.</src>
+    <src s="24">משא"כ ענין נתאוה הקב"ה להיות לו ית' דירה בתחתונים</src>
+    <src s="25">[שמצד זה הוצרך להיות התהוות עוה"ז התחתון דוקא שאין תחתון למטה ממנו]</src>
+    <src s="26">הוא בעצמותו ית'.</src>
+    <src s="27">וכמאמר רבינו הזקן81</src>
+    <src s="28">(בענין נתאוה כו' דירה בתחתונים)</src>
+    <src s="29">"אויף אַ תאוה איז קיין קשיא",</src>
+    <src s="30">שהענין דנתאוה הוא בעצמותו ית' שאין שייך שם ענין הקושיות.</src>
+    <src s="31">וזהו והאבן הזאת גו' יהי' בית אלקים,</src>
+    <src s="32">שהכוונה באלקים כאן היא לבחי' העלם העצמי,</src>
+    <src s="33">שהדברים הגשמיים דוקא</src>
+    <src s="34">(בחינת אבן,</src>
+    <src s="35">דומם)</src>
+    <src s="36">יהיו בית ודירה לעצמותו ית'.</src>
+  </section>
+</awtsmoosMeluketSource>

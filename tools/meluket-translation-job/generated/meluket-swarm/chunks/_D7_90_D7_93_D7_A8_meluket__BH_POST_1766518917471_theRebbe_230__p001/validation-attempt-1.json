@@ -1,0 +1,364 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 64,
+    "returned": 64,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917471_theRebbe_230\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917471_theRebbe_230__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section introduces the maamar for Purim of the year 5725.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Purim</t>\n    <t s=\"2\">(Maamar 1),</t>\n    <t s=\"3\">5725</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the phrase \"on that night\" refers to the essence of the miracle, which is the stirring of the King of the world from His slumber caused by Israel's sleep in exile.</sectionSummaryBrief>\n    <t s=\"0\">\"On that night the sleep of the king fled.\"</t>\n    <t s=\"1\">And it needs to be understood,</t>\n    <t s=\"2\">its saying \"on that night,\"</t>\n    <t s=\"3\">for seemingly,</t>\n    <t s=\"4\">even if it had said \"on a night\" simply, they would know that it refers to the night in which the events written in the preceding verses occurred.</t>\n    <t s=\"5\">And this can be explained based on what my revered father-in-law, the Rebbe, brings in his maamar beginning with the word \"Zeh\"</t>\n    <t s=\"6\">that it is stated in the Minhagei Maharil</t>\n    <t s=\"7\">that from \"on that night\" one must raise his voice in its reading, because this is the essence of the miracle.</t>\n    <t s=\"8\">And he explains in the maamar based on what is stated in the Yalkut</t>\n    <t s=\"9\">that \"the sleep of the king fled\" refers to the King of the world.</t>\n    <t s=\"10\">For when Israel are in a state of sleep,</t>\n    <t s=\"11\">sleep is caused, as it were, in the King of the world.</t>\n    <t s=\"12\">And as it is written,</t>\n    <t s=\"13\">\"I am asleep,\" and it is stated in the Zohar</t>\n    <t s=\"14\">\"in exile,\"</t>\n    <t s=\"15\">that through the sleep of Israel during the time of exile,</t>\n    <t s=\"16\">they cause sleep, as it were, above.</t>\n    <t s=\"17\">And this is that \"on that night the sleep of the king fled\" is the essence of the miracle,</t>\n    <t s=\"18\">\"night\" is the time of exile,</t>\n    <t s=\"19\">which is a time of sleep</t>\n    <t s=\"20\">(above),</t>\n    <t s=\"21\">and this—that \"on that night\"</t>\n    <t s=\"22\">(exile)</t>\n    <t s=\"23\">\"the sleep of the king fled,\" the King of the world—is the essence of the miracle.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the phrase \"on that night\" indicates a double concealment, and the miracle was that even in such extreme concealment, the sleep of the King of the world fled.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we can explain the precision of the verse \"on that night,\"</t>\n    <t s=\"1\">it is a term of concealment, indicating hiddenness</t>\n    <t s=\"2\">(two times concealment,</t>\n    <t s=\"3\">\"night\" and \"that\"),</t>\n    <t s=\"4\">that in addition to the hiddenness and concealment of exile</t>\n    <t s=\"5\">(\"night\")</t>\n    <t s=\"6\">in general,</t>\n    <t s=\"7\">behold then,</t>\n    <t s=\"8\">in the days of Achashverosh,</t>\n    <t s=\"9\">the hiddenness and concealment was even greater,</t>\n    <t s=\"10\">a double concealment.</t>\n    <t s=\"11\">And as it is stated in the Gemara,</t>\n    <t s=\"12\">\"Esther from the Torah—where? 'And I,</t>\n    <t s=\"13\">hiding, I will hide.'\"</t>\n    <t s=\"14\">And according to the teaching of the Baal Shem Tov</t>\n    <t s=\"15\">that the explanation of \"hiding, I will hide\"</t>\n    <t s=\"16\">(two times)</t>\n    <t s=\"17\">is that the concealment is itself concealed,</t>\n    <t s=\"18\">it can be said,</t>\n    <t s=\"19\">that so too is the explanation of \"on that night,\"</t>\n    <t s=\"20\">that the night of exile is in a manner of concealment,</t>\n    <t s=\"21\">meaning that they do not feel that the exile is night and darkness,</t>\n    <t s=\"22\">they place</t>\n    <t s=\"23\">darkness for light.</t>\n    <t s=\"24\">And the verse precisely states \"on that night the sleep of the king fled,\"</t>\n    <t s=\"25\">to emphasize more the greatness and intensity</t>\n    <t s=\"26\">of the miracle.</t>\n    <t s=\"27\">For although the sleep of Israel then was sleep to the utmost</t>\n    <t s=\"28\">[and according to what is explained elsewhere</t>\n    <t s=\"29\">the difference between sleep and deep slumber,</t>\n    <t s=\"30\">that those who sleep know that the dream is only a dream, which is false, unlike those in deep slumber who think the falsehood is truth],</t>\n    <t s=\"31\">which causes such sleep, as it were, also above,</t>\n    <t s=\"32\">nevertheless,</t>\n    <t s=\"33\">\"the sleep of the king fled,\" the King of the world,</t>\n    <t s=\"34\">even ordinary sleep,</t>\n    <t s=\"35\">fled.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917471_theRebbe_230",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917471_theRebbe_230__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section introduces the maamar for Purim of the year 5725.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Purim"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "(Maamar 1),"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "5725"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that the phrase \"on that night\" refers to the essence of the miracle, which is the stirring of the King of the world from His slumber caused by Israel's sleep in exile.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"On that night the sleep of the king fled.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "its saying \"on that night,\""
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "even if it had said \"on a night\" simply, they would know that it refers to the night in which the events written in the preceding verses occurred."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And this can be explained based on what my revered father-in-law, the Rebbe, brings in his maamar beginning with the word \"Zeh\""
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that it is stated in the Minhagei Maharil"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "that from \"on that night\" one must raise his voice in its reading, because this is the essence of the miracle."
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "And he explains in the maamar based on what is stated in the Yalkut"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "that \"the sleep of the king fled\" refers to the King of the world."
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "For when Israel are in a state of sleep,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "sleep is caused, as it were, in the King of the world."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And as it is written,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "\"I am asleep,\" and it is stated in the Zohar"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "\"in exile,\""
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that through the sleep of Israel during the time of exile,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "they cause sleep, as it were, above."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "And this is that \"on that night the sleep of the king fled\" is the essence of the miracle,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "\"night\" is the time of exile,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "which is a time of sleep"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "(above),"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "and this—that \"on that night\""
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "(exile)"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "\"the sleep of the king fled,\" the King of the world—is the essence of the miracle."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the phrase \"on that night\" indicates a double concealment, and the miracle was that even in such extreme concealment, the sleep of the King of the world fled.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And based on this, we can explain the precision of the verse \"on that night,\""
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "it is a term of concealment, indicating hiddenness"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "(two times concealment,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "\"night\" and \"that\"),"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that in addition to the hiddenness and concealment of exile"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(\"night\")"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "in general,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "behold then,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "in the days of Achashverosh,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "the hiddenness and concealment was even greater,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "a double concealment."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "And as it is stated in the Gemara,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "\"Esther from the Torah—where? 'And I,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "hiding, I will hide.'\""
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And according to the teaching of the Baal Shem Tov"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "that the explanation of \"hiding, I will hide\""
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "(two times)"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "is that the concealment is itself concealed,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that so too is the explanation of \"on that night,\""
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "that the night of exile is in a manner of concealment,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "meaning that they do not feel that the exile is night and darkness,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "they place"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "darkness for light."
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "And the verse precisely states \"on that night the sleep of the king fled,\""
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "to emphasize more the greatness and intensity"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "of the miracle."
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "For although the sleep of Israel then was sleep to the utmost"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "[and according to what is explained elsewhere"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "the difference between sleep and deep slumber,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "that those who sleep know that the dream is only a dream, which is false, unlike those in deep slumber who think the falsehood is truth],"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "which causes such sleep, as it were, also above,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "\"the sleep of the king fled,\" the King of the world,"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "even ordinary sleep,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "fled."
+          }
+        ]
+      }
+    ]
+  }
+}

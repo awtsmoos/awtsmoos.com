@@ -1,0 +1,414 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 74,
+    "returned": 74,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915437_theRebbe_101\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915437_theRebbe_101__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the cause of creation and the entire chain of descent is the kindness within Ein Sof, which is the principle of revelation, and that the name Kel precedes Elokim because revelation precedes contraction.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And the explanation of the matter:</t>\n    <t s=\"2\">It is known that the cause of the creation of the world and the entire order of the chain of descent is the kindness within Ein Sof,</t>\n    <t s=\"3\">as is explained at length in the discourse \"Atah Echad\" of the Mitteler Rebbe54</t>\n    <t s=\"4\">and in several of his discourses.</t>\n    <t s=\"5\">And the matter of the kindness within Ein Sof is the entirety of the principle of revelation,</t>\n    <t s=\"6\">and as the Tzemach Tzedek explains in his notes on Tehillim55</t>\n    <t s=\"7\">on the verse56</t>\n    <t s=\"8\">\"Kel, Elokim, Hashem spoke and called to the earth,\"</t>\n    <t s=\"9\">that these names exist even before the tzimtzum,</t>\n    <t s=\"10\">Kel</t>\n    <t s=\"11\">(kindness)</t>\n    <t s=\"12\">indicates the beginning of the revelation of the light</t>\n    <t s=\"13\">(that which filled the place of the void57).</t>\n    <t s=\"14\">Therefore the name Kel precedes the name Elokim,</t>\n    <t s=\"15\">for first is the matter of revelation, and it is the root and cause of coming-into-being,</t>\n    <t s=\"16\">and afterwards</t>\n    <t s=\"17\">(in order for their actual coming-into-being to be possible)</t>\n    <t s=\"18\">there was the tzimtzum,</t>\n    <t s=\"19\">Elokim.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that even in the coming-into-being itself where tzimtzum precedes, the tzimtzum itself is also from kindness, like a father contracting his intellect for his young son, ultimately for the sake of a dwelling place for His very Essence.</sectionSummaryBrief>\n    <t s=\"0\">And also in the coming-into-being itself, in which the tzimtzum precedes, as our sages said58</t>\n    <t s=\"1\">\"At first it arose in thought to create the world with the attribute of judgment,\"</t>\n    <t s=\"2\">nevertheless, in addition to the fact that the tzimtzum is for the sake of revelation</t>\n    <t s=\"3\">(as explained in the continuation of the discourse of Ta\"aR\"B59</t>\n    <t s=\"4\">and in many places),</t>\n    <t s=\"5\">the tzimtzum itself is also from the aspect of kindness,</t>\n    <t s=\"6\">and as the Maggid explains60</t>\n    <t s=\"7\">that the tzimtzum above is like a father who contracts his intellect etc. for the sake of his young son etc., love caused the tzimtzum.</t>\n    <t s=\"8\">That is, the tzimtzum is in order that the light be drawn down and received in the lower beings,</t>\n    <t s=\"9\">to the extent that there will be drawn down into them a revelation of a light more elevated than the light that shone in revelation before the tzimtzum61.</t>\n    <t s=\"10\">And to the extent that there will be a dwelling place for Him, blessed be He,</t>\n    <t s=\"11\">for His very Essence</t>\n    <t s=\"12\">[in the analogy of a person's dwelling,</t>\n    <t s=\"13\">that the person's essence dwells in the dwelling]62,</t>\n    <t s=\"14\">and that the Essence will be in them in revelation, as it is said63</t>\n    <t s=\"15\">\"And your Teacher will no longer be concealed.\"</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the cause of the structure of kindness is \"He desires kindness,\" a desire and delight that is above kindness itself, which is a descent relative to the Essence of Ein Sof, and therefore the term \"creation\" is used for the groom, while \"formation\" is used for the name Kel.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the cause of the structure of kindness</t>\n    <t s=\"2\">(in order that there be the coming-into-being of the world)</t>\n    <t s=\"3\">is that \"He desires kindness\"64.</t>\n    <t s=\"4\">And the matter of \"He desires kindness\" is above kindness</t>\n    <t s=\"5\">(not only above kindness as it is in the emotions, but above even its root as it is in the intellect etc.),</t>\n    <t s=\"6\">for its meaning is desire,</t>\n    <t s=\"7\">will and delight,</t>\n    <t s=\"8\">except that the desire is that there be kindness65.</t>\n    <t s=\"9\">And this desire is the cause of the structure of kindness from which the world is built.</t>\n    <t s=\"10\">And it can be said,</t>\n    <t s=\"11\">that \"chatan\" (groom), from the term \"chot darga\" (descending a level), is the aspect of desire</t>\n    <t s=\"12\">(kindness)</t>\n    <t s=\"13\">that is above kindness.</t>\n    <t s=\"14\">For this, that there was aroused in the will and desire that there be kindness, is a descent</t>\n    <t s=\"15\">(chot darga)</t>\n    <t s=\"16\">relative to the Essence of Ein Sof.</t>\n    <t s=\"17\">[And it can be said that this is what is said in the discourse66</t>\n    <t s=\"18\">that \"chatan\" is connection,</t>\n    <t s=\"19\">and it is that Ein Sof connected itself, as it were, to create the world,</t>\n    <t s=\"20\">for it can be said,</t>\n    <t s=\"21\">that this, that Ein Sof connected itself, as it were, to create the world, is the matter of will and desire.]</t>\n    <t s=\"22\">And since the descent to be \"He desires kindness\" is a descent beyond comparison,</t>\n    <t s=\"23\">therefore the term \"creation\" (briah) applies to it,</t>\n    <t s=\"24\">\"which He created... the groom.\"</t>\n    <t s=\"25\">Based on this, it will also be understood why regarding the groom the term \"creation\" is used,</t>\n    <t s=\"26\">and regarding the name Kel the term \"formation\" (yetzirah) is used</t>\n    <t s=\"27\">(\"before Me no god was formed\"),</t>\n    <t s=\"28\">for \"He desires kindness\"</t>\n    <t s=\"29\">(which is only a desire and will that there be kindness)</t>\n    <t s=\"30\">is above form,</t>\n    <t s=\"31\">and therefore only the term \"creation\" applies to it,</t>\n    <t s=\"32\">but not so regarding kindness</t>\n    <t s=\"33\">(the name Kel in kindness),</t>\n    <t s=\"34\">even as it is before the tzimtzum,</t>\n    <t s=\"35\">since it is a form</t>\n    <t s=\"36\">(of kindness),</t>\n    <t s=\"37\">the term \"formation\" applies to it.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915437_theRebbe_101",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915437_theRebbe_101__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the cause of creation and the entire chain of descent is the kindness within Ein Sof, which is the principle of revelation, and that the name Kel precedes Elokim because revelation precedes contraction.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And the explanation of the matter:"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "It is known that the cause of the creation of the world and the entire order of the chain of descent is the kindness within Ein Sof,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "as is explained at length in the discourse \"Atah Echad\" of the Mitteler Rebbe54"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "and in several of his discourses."
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "And the matter of the kindness within Ein Sof is the entirety of the principle of revelation,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "and as the Tzemach Tzedek explains in his notes on Tehillim55"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "on the verse56"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "\"Kel, Elokim, Hashem spoke and called to the earth,\""
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "that these names exist even before the tzimtzum,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "Kel"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "(kindness)"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "indicates the beginning of the revelation of the light"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "(that which filled the place of the void57)."
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "Therefore the name Kel precedes the name Elokim,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "for first is the matter of revelation, and it is the root and cause of coming-into-being,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "and afterwards"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "(in order for their actual coming-into-being to be possible)"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "there was the tzimtzum,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "Elokim."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that even in the coming-into-being itself where tzimtzum precedes, the tzimtzum itself is also from kindness, like a father contracting his intellect for his young son, ultimately for the sake of a dwelling place for His very Essence.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And also in the coming-into-being itself, in which the tzimtzum precedes, as our sages said58"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "\"At first it arose in thought to create the world with the attribute of judgment,\""
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "nevertheless, in addition to the fact that the tzimtzum is for the sake of revelation"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "(as explained in the continuation of the discourse of Ta\"aR\"B59"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "and in many places),"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "the tzimtzum itself is also from the aspect of kindness,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "and as the Maggid explains60"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "that the tzimtzum above is like a father who contracts his intellect etc. for the sake of his young son etc., love caused the tzimtzum."
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "That is, the tzimtzum is in order that the light be drawn down and received in the lower beings,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "to the extent that there will be drawn down into them a revelation of a light more elevated than the light that shone in revelation before the tzimtzum61."
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "And to the extent that there will be a dwelling place for Him, blessed be He,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "for His very Essence"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "[in the analogy of a person's dwelling,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "that the person's essence dwells in the dwelling]62,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "and that the Essence will be in them in revelation, as it is said63"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "\"And your Teacher will no longer be concealed.\""
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the cause of the structure of kindness is \"He desires kindness,\" a desire and delight that is above kindness itself, which is a descent relative to the Essence of Ein Sof, and therefore the term \"creation\" is used for the groom, while \"formation\" is used for the name Kel.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And the cause of the structure of kindness"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "(in order that there be the coming-into-being of the world)"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "is that \"He desires kindness\"64."
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "And the matter of \"He desires kindness\" is above kindness"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "(not only above kindness as it is in the emotions, but above even its root as it is in the intellect etc.),"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "for its meaning is desire,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "will and delight,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "except that the desire is that there be kindness65."
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "And this desire is the cause of the structure of kindness from which the world is built."
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "that \"chatan\" (groom), from the term \"chot darga\" (descending a level), is the aspect of desire"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "(kindness)"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "that is above kindness."
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "For this, that there was aroused in the will and desire that there be kindness, is a descent"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "(chot darga)"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "relative to the Essence of Ein Sof."
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "[And it can be said that this is what is said in the discourse66"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "that \"chatan\" is connection,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "and it is that Ein Sof connected itself, as it were, to create the world,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "for it can be said,"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "that this, that Ein Sof connected itself, as it were, to create the world, is the matter of will and desire.]"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "And since the descent to be \"He desires kindness\" is a descent beyond comparison,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "therefore the term \"creation\" (briah) applies to it,"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "\"which He created... the groom.\""
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "Based on this, it will also be understood why regarding the groom the term \"creation\" is used,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "and regarding the name Kel the term \"formation\" (yetzirah) is used"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "(\"before Me no god was formed\"),"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "for \"He desires kindness\""
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "(which is only a desire and will that there be kindness)"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "is above form,"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "and therefore only the term \"creation\" applies to it,"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "but not so regarding kindness"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "(the name Kel in kindness),"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "even as it is before the tzimtzum,"
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "since it is a form"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "(of kindness),"
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "the term \"formation\" applies to it."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,103 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918840_theRebbe_178" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918840_theRebbe_178" title="מאמר רני ושמחי תשכ"ז" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p003">
+  <section v="6">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">שהמעלה דהעבודה דבתי על העבודה דאחותי ואמי היא גם בנוגע להאדם העובד.</src>
+    <src s="2">שבהעבודה דאחותי ואמי נרגש בדקות מציאותו של האדם העובד,</src>
+    <src s="3">גודל העילוי דהעבודה שלו</src>
+    <src s="4">[העילוי דהעבודה עצמה</src>
+    <src s="5">(העבודה דעסק התורה,</src>
+    <src s="6">ומכש"כ העבודה דמס"נ),</src>
+    <src s="7">והעילוי שנעשה ע"י עבודתו,</src>
+    <src s="8">שנעשה אח להקב"ה ויתירה מזו שמשפיע כביכול בהקב"ה],</src>
+    <src s="9">ובהעבודה דבתי</src>
+    <src s="10">(קיום המצוות)</src>
+    <src s="11">נרגש הביטול שלו23,</src>
+    <src s="12">הן בנוגע להעבודה עצמה,</src>
+    <src s="13">שכל עבודתו היא רק לקיים ציווי הקב"ה,</src>
+    <src s="14">והן בנוגע לההמשכה שע"י עבודתו,</src>
+    <src s="15">דזה שע"י קיום המצוות נמשך עצמות אוא"ס הוא לא מצד ענינו של האדם המקיים את המצוות אלא מפני שהמצוות הם רצון וציווי העצמות.</src>
+    <src s="16">ויש לומר,</src>
+    <src s="17">דע"י הביטול הוא נעשה כלי להאור שנמשך ע"י המצוות.</src>
+    <src s="18">וזהו כי הנני בא ושכנתי בתוכך,</src>
+    <src s="19">שההמשכה דהנני בא,</src>
+    <src s="20">אני בעצמי כביכול,</src>
+    <src s="21">היא בתוכך,</src>
+    <src s="22">בפנימיות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ד)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דכיון שאמי היא העבודה דמס"נ,</src>
+    <src s="3">דמס"נ הו"ע הביטול,</src>
+    <src s="4">ובפרט לפי המובא לעיל</src>
+    <src s="5">(סעיף ב)</src>
+    <src s="6">דהעטרה שעטרה כנס"י</src>
+    <src s="7">(אמו)</src>
+    <src s="8">להקב"ה הוא ע"י שהקדימו נעשה לנשמע,</src>
+    <src s="9">שהביטול דהקדמת נעשה לנשמע הוא הביטול לבעל הרצון24,</src>
+    <src s="10">מהי המעלה בהביטול דבתי על הביטול דאמי.</src>
+    <src s="11">ויש לומר בזה,</src>
+    <src s="12">שהביטול דהקדמת נעשה לנשמע,</src>
+    <src s="13">הוא שישראל קיבלו עליהם עול מלכות שמים.</src>
+    <src s="14">ולכן,</src>
+    <src s="15">אף שהביטול דקבלת עול מלכות שמים הוא</src>
+    <src s="16">(לא רק בנוגע לכח המעשה שלו,</src>
+    <src s="17">שיעשה כל מה שיצטווה,</src>
+    <src s="18">אלא גם)</src>
+    <src s="19">בעצם מציאותו25,</src>
+    <src s="20">שכל מציאותו הוא זה שהוא עבדו של המלך,</src>
+    <src s="21">מלך מלכי המלכים הקב"ה,</src>
+    <src s="22">מ"מ,</src>
+    <src s="23">כיון שהקבלת עול מלכות שמים באה מצד האדם,</src>
+    <src s="24">שהוא קיבל עליו להיות עבדו של המלך,</src>
+    <src s="25">הרי בביטול זה מעורבת גם מציאותו של האדם</src>
+    <src s="26">[ועד"ז הוא בנוגע להמס"נ דבחי' אמי,</src>
+    <src s="27">שהמס"נ היא מצד טבע הנשמה26].</src>
+    <src s="28">ואמיתית הביטול הוא כשהביטול הוא מצד האדון.</src>
+  </section>
+  <section v="8">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזהו מ"ש27</src>
+    <src s="2">כי לי בני ישראל עבדים עבדי הם אשר הוצאתי אותם מארץ מצרים,</src>
+    <src s="3">דזה שישראל הם עבדים של הקב"ה הוא</src>
+    <src s="4">(לא רק מפני שהם קיבלו עול מלכותו ית',</src>
+    <src s="5">אלא גם)</src>
+    <src s="6">מפני שהקב"ה הוציא אותם מארץ מצרים,</src>
+    <src s="7">שעי"ז הם מוכרחים להיות עבדים28.</src>
+    <src s="8">וענין זה נמשך בעיקר בשעת מתן תורה29.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,203 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 33,
+    "returned": 33,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914882_theRebbe_998\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>Through drawing down the aspect of \"one hundred years\" (the Supernal King) into the externality of Malchus and the lower worlds, an elevation occurs within it, revealing the intention of Atzmus.</sectionSummaryBrief>\n    <t s=\"0\">And to add,</t>\n    <t s=\"1\">that through the drawing down of the aspect of one hundred years</t>\n    <t s=\"2\">(the Supernal King)</t>\n    <t s=\"3\">into the externality of Malchus and particularly into Beriah, Yetzirah, and Asiyah,</t>\n    <t s=\"4\">an elevation occurs within it.</t>\n    <t s=\"5\">For the Supernal King in its own essence is light</t>\n    <t s=\"6\">(except that it is a light that is above drawing down and revelation),</t>\n    <t s=\"7\">and through its drawing down below,</t>\n    <t s=\"8\">the intention of Atzmus is revealed within it.</t>\n    <t s=\"9\">And based on this,</t>\n    <t s=\"10\">the order of the matters in the verse is from below to above,</t>\n    <t s=\"11\">both regarding Sarah,</t>\n    <t s=\"12\">that the more she was elevated to a higher level, the more she drew down the aspect of one hundred years below,</t>\n    <t s=\"13\">and also regarding the matter of the one hundred years itself,</t>\n    <t s=\"14\">that through its drawing down below, an elevation occurs within it.</t>\n    <t s=\"15\">And this is \"the two lives of Sarah, all equal for good,\"</t>\n    <t s=\"16\">for the light in its own essence is the aspect of one hundred years,</t>\n    <t s=\"17\">one hundred refers to the division of details, except that they are all unified as one,</t>\n    <t s=\"18\">\"year\" is a singular term,</t>\n    <t s=\"19\">and afterward it says \"the two lives of Sarah\" without mentioning a number,</t>\n    <t s=\"20\">above the category of division.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>After drawing down the aspect of one hundred years into the lower worlds, this revelation extends into the physical body composed of four elements, enhancing the connection of soul and body for long life, Torah, mitzvos, and Chassidic years, expanding to the essential expanse toward Moshiach with eternal joy.</sectionSummaryBrief>\n    <t s=\"0\">And the verse continues with \"Kiryat Arba, which is Chevron,\"</t>\n    <t s=\"1\">for after the drawing down of the aspect of one hundred years into Beriah, Yetzirah, and Asiyah,</t>\n    <t s=\"2\">this revelation is drawn into the physical body that is connected</t>\n    <t s=\"3\">(Chevron)</t>\n    <t s=\"4\">from four elements,</t>\n    <t s=\"5\">and through this there is an increase in the connection of the soul and the body</t>\n    <t s=\"6\">for length of days and good years,</t>\n    <t s=\"7\">years of Torah and mitzvos,</t>\n    <t s=\"8\">Chassidic years,</t>\n    <t s=\"9\">and in a manner of expansion to the essential expanse,</t>\n    <t s=\"10\">and they go toward Moshiach our righteous one,</t>\n    <t s=\"11\">and in a manner of \"eternal joy upon their heads.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914882_theRebbe_998",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "Through drawing down the aspect of \"one hundred years\" (the Supernal King) into the externality of Malchus and the lower worlds, an elevation occurs within it, revealing the intention of Atzmus.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "And to add,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "that through the drawing down of the aspect of one hundred years"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "(the Supernal King)"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "into the externality of Malchus and particularly into Beriah, Yetzirah, and Asiyah,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "an elevation occurs within it."
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "For the Supernal King in its own essence is light"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "(except that it is a light that is above drawing down and revelation),"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "and through its drawing down below,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "the intention of Atzmus is revealed within it."
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "And based on this,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "the order of the matters in the verse is from below to above,"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "both regarding Sarah,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "that the more she was elevated to a higher level, the more she drew down the aspect of one hundred years below,"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "and also regarding the matter of the one hundred years itself,"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "that through its drawing down below, an elevation occurs within it."
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "And this is \"the two lives of Sarah, all equal for good,\""
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "for the light in its own essence is the aspect of one hundred years,"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "one hundred refers to the division of details, except that they are all unified as one,"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "\"year\" is a singular term,"
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "and afterward it says \"the two lives of Sarah\" without mentioning a number,"
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "above the category of division."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "After drawing down the aspect of one hundred years into the lower worlds, this revelation extends into the physical body composed of four elements, enhancing the connection of soul and body for long life, Torah, mitzvos, and Chassidic years, expanding to the essential expanse toward Moshiach with eternal joy.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "And the verse continues with \"Kiryat Arba, which is Chevron,\""
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "for after the drawing down of the aspect of one hundred years into Beriah, Yetzirah, and Asiyah,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "this revelation is drawn into the physical body that is connected"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "(Chevron)"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "from four elements,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "and through this there is an increase in the connection of the soul and the body"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "for length of days and good years,"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "years of Torah and mitzvos,"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "Chassidic years,"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "and in a manner of expansion to the essential expanse,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "and they go toward Moshiach our righteous one,"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "and in a manner of \"eternal joy upon their heads.\""
+          }
+        ]
+      }
+    ]
+  }
+}

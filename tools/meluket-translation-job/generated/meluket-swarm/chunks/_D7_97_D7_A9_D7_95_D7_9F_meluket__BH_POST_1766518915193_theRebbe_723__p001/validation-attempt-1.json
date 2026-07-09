@@ -1,0 +1,349 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 61,
+    "returned": 61,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915193_theRebbe_723\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">B'Siyata D'Shmaya.</t>\n    <t s=\"1\">Shabbos Parshas Toldos,</t>\n    <t s=\"2\">Mevarchim HaChodesh and Erev Rosh Chodesh Kislev, 5745</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the verse \"And Yonasan said to him: Tomorrow is the new moon, and you will be missed, for your seat will be vacant,\" connecting it to the concept of nullification and the drawing down of a new light.</sectionSummaryBrief>\n    <t s=\"0\">\"And Yonasan said to him: Tomorrow is the new moon, and you will be missed, for your seat will be vacant.\"</t>\n    <t s=\"1\">And the Tzemach Tzedek explains in his maamar beginning with these words,</t>\n    <t s=\"2\">that Dovid</t>\n    <t s=\"3\">is the aspect of Malchus,</t>\n    <t s=\"4\">which includes all the souls of Israel,</t>\n    <t s=\"5\">for all of Israel are children of kings.</t>\n    <t s=\"6\">And the concept of \"you will be missed, for your seat will be vacant\" is,</t>\n    <t s=\"7\">that through the vacating</t>\n    <t s=\"8\">(the absence)</t>\n    <t s=\"9\">of the place of your seat,</t>\n    <t s=\"10\">[which is] nullification,</t>\n    <t s=\"11\">through this there will be \"you will be missed,\"</t>\n    <t s=\"12\">the drawing down of the remembrance</t>\n    <t s=\"13\">from above.</t>\n    <t s=\"14\">For remembrance is a very lofty aspect</t>\n    <t s=\"15\">(as will be explained below).</t>\n    <t s=\"16\">And this is the connection of \"you will be missed, for your seat will be vacant\" with \"tomorrow is the new moon,\"</t>\n    <t s=\"17\">because on the eve of Rosh Chodesh there is concealment and hiding of the moon,</t>\n    <t s=\"18\">until that in the moment before the molad not even a point remains of it,</t>\n    <t s=\"19\">and through this there is afterwards</t>\n    <t s=\"20\">(tomorrow)</t>\n    <t s=\"21\">a new month,</t>\n    <t s=\"22\">the renewed birth of the moon,</t>\n    <t s=\"23\">the drawing down of a new light from the sun to the moon,</t>\n    <t s=\"24\">which did not shine in it previously.</t>\n    <t s=\"25\">And so too is it with Israel, who are compared to the moon,</t>\n    <t s=\"26\">that through their nullification,</t>\n    <t s=\"27\">a most exalted light is drawn into them,</t>\n    <t s=\"28\">a new light.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the new light drawn down is called \"remembrance,\" because it is the light of Ein Sof that is beyond relation to worlds, drawn specifically through nullification.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this drawing down of the new light is called \"you will be missed,\"</t>\n    <t s=\"2\">[which is] remembrance,</t>\n    <t s=\"3\">because,</t>\n    <t s=\"4\">the drawing down of light that relates to worlds</t>\n    <t s=\"5\">(even a light that is above worlds but relates to worlds)</t>\n    <t s=\"6\">is not a true novelty,</t>\n    <t s=\"7\">and a new light is the light of Ein Sof that is beyond relation to worlds.</t>\n    <t s=\"8\">And this is that the drawing down of this light is called \"you will be missed,\"</t>\n    <t s=\"9\">because remembrance is in Ein Sof that is beyond relation to worlds.</t>\n    <t s=\"10\">And as explained elsewhere,</t>\n    <t s=\"11\">that just as in man the concept of remembrance applies only to something that is not significant in his eyes</t>\n    <t s=\"12\">(to the extent that it is easy to forget it),</t>\n    <t s=\"13\">so too is it above,</t>\n    <t s=\"14\">that the concept of remembrance is in Ein Sof that is beyond relation to worlds,</t>\n    <t s=\"15\">for everything before Him is considered as nothing.</t>\n    <t s=\"16\">And this is \"you will be missed, for your seat will be vacant,\"</t>\n    <t s=\"17\">that the drawing down of the light that is beyond relation to worlds</t>\n    <t s=\"18\">(\"you will be missed\")</t>\n    <t s=\"19\">is specifically through nullification</t>\n    <t s=\"20\">(\"for your seat will be vacant\").</t>\n    <t s=\"21\">For when a person's service is connected with his own existence</t>\n    <t s=\"22\">(an existence of holiness),</t>\n    <t s=\"23\">the drawing down that is drawn through the service is from the aspect of light that relates to worlds</t>\n    <t s=\"24\">(existence),</t>\n    <t s=\"25\">and in order for there to be a drawing down of the light that is beyond relation to worlds,</t>\n    <t s=\"26\">for everything before Him is considered as nothing,</t>\n    <t s=\"27\">it is through nullification,</t>\n    <t s=\"28\">\"for your seat will be vacant.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915193_theRebbe_723",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B'Siyata D'Shmaya."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Toldos,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Mevarchim HaChodesh and Erev Rosh Chodesh Kislev, 5745"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the verse \"And Yonasan said to him: Tomorrow is the new moon, and you will be missed, for your seat will be vacant,\" connecting it to the concept of nullification and the drawing down of a new light.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And Yonasan said to him: Tomorrow is the new moon, and you will be missed, for your seat will be vacant.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Tzemach Tzedek explains in his maamar beginning with these words,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that Dovid"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "is the aspect of Malchus,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "which includes all the souls of Israel,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "for all of Israel are children of kings."
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And the concept of \"you will be missed, for your seat will be vacant\" is,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "that through the vacating"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(the absence)"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "of the place of your seat,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "[which is] nullification,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "through this there will be \"you will be missed,\""
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "the drawing down of the remembrance"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "from above."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "For remembrance is a very lofty aspect"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "(as will be explained below)."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And this is the connection of \"you will be missed, for your seat will be vacant\" with \"tomorrow is the new moon,\""
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "because on the eve of Rosh Chodesh there is concealment and hiding of the moon,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "until that in the moment before the molad not even a point remains of it,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "and through this there is afterwards"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "(tomorrow)"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "a new month,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "the renewed birth of the moon,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "the drawing down of a new light from the sun to the moon,"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "which did not shine in it previously."
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "And so too is it with Israel, who are compared to the moon,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "that through their nullification,"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "a most exalted light is drawn into them,"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "a new light."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the new light drawn down is called \"remembrance,\" because it is the light of Ein Sof that is beyond relation to worlds, drawn specifically through nullification.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that this drawing down of the new light is called \"you will be missed,\""
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "[which is] remembrance,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "because,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "the drawing down of light that relates to worlds"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(even a light that is above worlds but relates to worlds)"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "is not a true novelty,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and a new light is the light of Ein Sof that is beyond relation to worlds."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And this is that the drawing down of this light is called \"you will be missed,\""
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "because remembrance is in Ein Sof that is beyond relation to worlds."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And as explained elsewhere,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "that just as in man the concept of remembrance applies only to something that is not significant in his eyes"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "(to the extent that it is easy to forget it),"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "so too is it above,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that the concept of remembrance is in Ein Sof that is beyond relation to worlds,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "for everything before Him is considered as nothing."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And this is \"you will be missed, for your seat will be vacant,\""
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "that the drawing down of the light that is beyond relation to worlds"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "(\"you will be missed\")"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "is specifically through nullification"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "(\"for your seat will be vacant\")."
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "For when a person's service is connected with his own existence"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "(an existence of holiness),"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "the drawing down that is drawn through the service is from the aspect of light that relates to worlds"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "(existence),"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "and in order for there to be a drawing down of the light that is beyond relation to worlds,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "for everything before Him is considered as nothing,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "it is through nullification,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "\"for your seat will be vacant.\""
+          }
+        ]
+      }
+    ]
+  }
+}

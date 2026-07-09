@@ -1,0 +1,244 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 40,
+    "returned": 40,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919340_theRebbe_24\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">13 Tammuz,</t>\n    <t s=\"2\">5742*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that while even one person studying Torah draws down Divine revelation, the drawing down through Torah study of many (ten) is a loftier revelation, analogous to communal prayer drawing down the Thirteen Attributes of Mercy.</sectionSummaryBrief>\n    <t s=\"0\">\"Ten who sit and engage in Torah, the Shechinah dwells among them... even five... even three... even two... even one\"1,</t>\n    <t s=\"1\">and the Rebbe, my father-in-law, the leader of the generation, the Baal HaGeulah, explains in his maamar beginning with the words \"This was given\" for the first celebration of Yud-Beis Tammuz</t>\n    <t s=\"2\">(the year 5688)2,</t>\n    <t s=\"3\">that although3</t>\n    <t s=\"4\">even one who sits and engages in Torah</t>\n    <t s=\"5\">(and certainly two, three, and five)</t>\n    <t s=\"6\">draws down a revelation of G-dliness</t>\n    <t s=\"7\">(\"the Shechinah dwells\"4),</t>\n    <t s=\"8\">nevertheless,</t>\n    <t s=\"9\">the drawing down through Torah study of many</t>\n    <t s=\"10\">(ten5)</t>\n    <t s=\"11\">is a loftier drawing down6.</t>\n    <t s=\"12\">For just as regarding prayer, our sages, of blessed memory, said7</t>\n    <t s=\"13\">\"The prayer of the many is not rejected,\" as it is stated8</t>\n    <t s=\"14\">\"Behold, G-d is mighty and does not despise,\"</t>\n    <t s=\"15\">for the many, in their prayer, draw down the Thirteen Attributes of Mercy9,</t>\n    <t s=\"16\">so too is it regarding Torah,</t>\n    <t s=\"17\">that through Torah study of many, a revelation of a higher light is drawn down.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the term \"many\" (rabbim) refers specifically to ten Jews, because ten Jews represent and include all ten types of Israel, constituting the greatest possible multitude.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation of the expression of our sages, of blessed memory, \"the prayer of the many\"</t>\n    <t s=\"1\">[and in the maamar he uses the term \"many\" also regarding Torah],</t>\n    <t s=\"2\">even though it speaks regarding ten</t>\n    <t s=\"3\">[and the term \"many\" also applies to less than ten,</t>\n    <t s=\"4\">and on the other hand,</t>\n    <t s=\"5\">even ten is not the completeness of \"many,\"</t>\n    <t s=\"6\">for there is a greater multitude10],</t>\n    <t s=\"7\">is to be understood,</t>\n    <t s=\"8\">with an introduction:</t>\n    <t s=\"9\">that the reason that a matter done in the presence of ten Jews is the greatest public display</t>\n    <t s=\"10\">(and we do not find a distinction regarding public display between ten and more than ten)</t>\n    <t s=\"11\">is,</t>\n    <t s=\"12\">because ten Jews are11</t>\n    <t s=\"13\">analogous to and include the ten types of Israel</t>\n    <t s=\"14\">(\"your heads, your tribes... until the hewer of your wood and the drawer of your water\"12),</t>\n    <t s=\"15\">and public display before ten Jews is like public display before all of Israel.</t>\n    <t s=\"16\">And this is that ten Jews are called by the name \"many\"</t>\n    <t s=\"17\">(simply),</t>\n    <t s=\"18\">the greatest multitude, than which there is no greater multitude.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919340_theRebbe_24",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "13 Tammuz,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "5742*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that while even one person studying Torah draws down Divine revelation, the drawing down through Torah study of many (ten) is a loftier revelation, analogous to communal prayer drawing down the Thirteen Attributes of Mercy.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"Ten who sit and engage in Torah, the Shechinah dwells among them... even five... even three... even two... even one\"1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and the Rebbe, my father-in-law, the leader of the generation, the Baal HaGeulah, explains in his maamar beginning with the words \"This was given\" for the first celebration of Yud-Beis Tammuz"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(the year 5688)2,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "that although3"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "even one who sits and engages in Torah"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "(and certainly two, three, and five)"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "draws down a revelation of G-dliness"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "(\"the Shechinah dwells\"4),"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "the drawing down through Torah study of many"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "(ten5)"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "is a loftier drawing down6."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "For just as regarding prayer, our sages, of blessed memory, said7"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "\"The prayer of the many is not rejected,\" as it is stated8"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "\"Behold, G-d is mighty and does not despise,\""
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "for the many, in their prayer, draw down the Thirteen Attributes of Mercy9,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "so too is it regarding Torah,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "that through Torah study of many, a revelation of a higher light is drawn down."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the term \"many\" (rabbim) refers specifically to ten Jews, because ten Jews represent and include all ten types of Israel, constituting the greatest possible multitude.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And the explanation of the expression of our sages, of blessed memory, \"the prayer of the many\""
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "[and in the maamar he uses the term \"many\" also regarding Torah],"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "even though it speaks regarding ten"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "[and the term \"many\" also applies to less than ten,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "and on the other hand,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "even ten is not the completeness of \"many,\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "for there is a greater multitude10],"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "is to be understood,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "with an introduction:"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "that the reason that a matter done in the presence of ten Jews is the greatest public display"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "(and we do not find a distinction regarding public display between ten and more than ten)"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "is,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "because ten Jews are11"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "analogous to and include the ten types of Israel"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "(\"your heads, your tribes... until the hewer of your wood and the drawer of your water\"12),"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "and public display before ten Jews is like public display before all of Israel."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And this is that ten Jews are called by the name \"many\""
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "(simply),"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "the greatest multitude, than which there is no greater multitude."
+          }
+        ]
+      }
+    ]
+  }
+}

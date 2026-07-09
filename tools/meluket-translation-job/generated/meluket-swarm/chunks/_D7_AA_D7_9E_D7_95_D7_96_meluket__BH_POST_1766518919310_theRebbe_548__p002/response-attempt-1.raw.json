@@ -1,0 +1,28 @@
+{
+  "id": "d3c5338f-559a-470c-85a3-fdfcc95060c2",
+  "object": "chat.completion",
+  "created": 1783583937,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919310_theRebbe_548\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>The distinction between a miracle occurring by day or by night corresponds to whether the miracle is in a manner of revelation or concealment.</sectionSummaryBrief>\n    <t s=\"0\">And it may be said,</t>\n    <t s=\"1\">that the distinction in the time when the miracle occurred,</t>\n    <t s=\"2\">day or night,</t>\n    <t s=\"3\">corresponds to the level and manner of the miracle,</t>\n    <t s=\"4\">whether the miracle is in a manner of light and revelation</t>\n    <t s=\"5\">(day)</t>\n    <t s=\"6\">or whether it is in a manner of concealment</t>\n    <t s=\"7\">(night).</t>\n    <t s=\"8\">And based on this, it may also be sweetened that the miracle is in a manner of day,</t>\n    <t s=\"9\">light and revelation.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>A miracle, from the term meaning \"elevation,\" elevates nature and the time and place in which it occurs.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of the matter</t>\n    <t s=\"2\">(the connection of the time when the miracle occurred to the miracle)</t>\n    <t s=\"3\">will be understood by prefacing the known concept that a miracle (nes) is from the term meaning elevation (herim).</t>\n    <t s=\"4\">For through the miracle, an elevation and ascent is made in nature.</t>\n    <t s=\"5\">And this is what we say, \"Blessed is He who performed a miracle for me in this place,\"</t>\n    <t s=\"6\">for even the place, which is boundary and nature, is elevated through the miracle that is above nature.</t>\n    <t s=\"7\">And from this it is understood that the same applies regarding the time in which the miracle occurred,</t>\n    <t s=\"8\">and as we say in the blessing of the miracles</t>\n    <t s=\"9\">(of Chanukah and Purim)</t>\n    <t s=\"10\">that He performed miracles for our forefathers in those days, at this time.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>There are two general types of miracles: those above nature and those clothed in nature, with two subcategories regarding the concealment of the miracle within its natural garment.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And the explanation of the matter in more detail,</t>\n    <t s=\"2\">it is known</t>\n    <t s=\"3\">that in miracles there are</t>\n    <t s=\"4\">(generally)</t>\n    <t s=\"5\">two types.</t>\n    <t s=\"6\">Miracles that are above nature</t>\n    <t s=\"7\">[like the miracles that were in the Exodus from Egypt,</t>\n    <t s=\"8\">the turning of water to blood, etc., and up to the miracle of the Splitting of the Sea, when the sea became dry land],</t>\n    <t s=\"9\">and miracles that are clothed in natural ways.</t>\n    <t s=\"10\">And within these themselves, there are two manners.</t>\n    <t s=\"11\">The natural garments are in a manner that it is recognizable in them that they are only a garment for the miracle that is clothed within them.</t>\n    <t s=\"12\">Like the miracles of Chanukah and Purim</t>\n    <t s=\"13\">(and similarly the miracles of the redemption of Yud Tes Kislev</t>\n    <t s=\"14\">and Yud Beis Tammuz),</t>\n    <t s=\"15\">for even though they are clothed in natural ways,</t>\n    <t s=\"16\">nevertheless, it was recognizably revealed</t>\n    <t s=\"17\">(to the extent that \"all the ends of the earth saw\")</t>\n    <t s=\"18\">the miracle within them.</t>\n    <t s=\"19\">And the natural garments conceal and hide the miracle that is clothed within them.</t>\n    <t s=\"20\">To the extent that sometimes they conceal and hide it completely,</t>\n    <t s=\"21\">so that it is not recognizable at all that it is a miracle,</t>\n    <t s=\"22\">\"the master of the miracle does not recognize his miracle.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1609,
+    "completion_tokens": 1166,
+    "total_tokens": 2775,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 1225
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

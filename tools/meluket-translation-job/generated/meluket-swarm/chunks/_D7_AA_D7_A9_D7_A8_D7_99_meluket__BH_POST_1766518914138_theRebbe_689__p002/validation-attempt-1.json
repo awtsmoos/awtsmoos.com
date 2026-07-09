@@ -1,0 +1,278 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 48,
+    "returned": 48,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914138_theRebbe_689\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914138_theRebbe_689__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>To understand how teshuvah draws from the depth beyond depth, we first introduce the two levels of teshuvah: the concept of teshuvah and the essence of teshuvah.</sectionSummaryBrief>\n    <t s=\"0\">And to understand this,</t>\n    <t s=\"1\">how through the service of teshuvah we draw from the aspect of the depth to within the depth above,</t>\n    <t s=\"2\">we must first preface what is explained in the continuation of Rosh HaShanah 5692</t>\n    <t s=\"3\">(fifty years ago),</t>\n    <t s=\"4\">that there are two levels in teshuvah,</t>\n    <t s=\"5\">the concept of teshuvah and the essence of teshuvah.</t>\n    <t s=\"6\">For the concept of teshuvah is teshuvah concerning particular matters or even concerning general matters,</t>\n    <t s=\"7\">but even though the teshuvah is not for sin and iniquity</t>\n    <t s=\"8\">and transgression, nevertheless its concept is that one ascends in his service in the good itself,</t>\n    <t s=\"9\">going and adding in the perfection of his service until this particular service is as it should be and as required,</t>\n    <t s=\"10\">and until through completing all the particular matters, his entire service is as required.</t>\n    <t s=\"11\">However, the essence of teshuvah is that from the place where he stands in his spiritual standing and state, he ascends</t>\n    <t s=\"12\">(he transforms himself)</t>\n    <t s=\"13\">to a more elevated place,</t>\n    <t s=\"14\">which is a new standing and state, until it is not at all comparable to his previous state.</t>\n    <t s=\"15\">That is, he ascends to a supernal state that is utterly incomparable, until one cannot speak of it in terms of higher and lower,</t>\n    <t s=\"16\">for the term \"higher\" indicates that there is a lower and it is higher in relation to it,</t>\n    <t s=\"17\">but the essence of teshuvah is on such a level that it is not within the category and comparison of higher and lower,</t>\n    <t s=\"18\">that it is not at all related to the previous state</t>\n    <t s=\"19\">(in terms of superiority),</t>\n    <t s=\"20\">until a new reality is made that is made from absolute nothing and naught.</t>\n    <t s=\"21\">And through standing in a standing and state that is not at all comparable,</t>\n    <t s=\"22\">this affects all the particular services and all the most particular details,</t>\n    <t s=\"23\">that everything will be rectified as required.</t>\n    <t s=\"24\">That is, since he is in a new standing and state in a manner that all the deeds he does are good,</t>\n    <t s=\"25\">as the language of our sages, of blessed memory,</t>\n    <t s=\"26\">and the precise order in this: teshuvah and good deeds,</t>\n    <t s=\"27\">that through teshuvah there will be the ultimate perfection in the deeds</t>\n    <t s=\"28\">and the ultimate perfection in the good and the ultimate perfection in Israel who perform the good deeds.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>Through teshuvah from the depth of the heart, the essence of teshuvah, we call and draw from the depth of depths above, unifying Israel and the Holy One, blessed be He, as one.</sectionSummaryBrief>\n    <t s=\"0\">And this is: \"A Song of Ascents: From the depths I called You, Hashem,\"</t>\n    <t s=\"1\">for through teshuvah from the depth of the heart,</t>\n    <t s=\"2\">depth within depth,</t>\n    <t s=\"3\">which is the essence of teshuvah,</t>\n    <t s=\"4\">through this we call and draw from above from the aspect of the depth of depths,</t>\n    <t s=\"5\">and to such a depth that is not within the category of levels at all.</t>\n    <t s=\"6\">And through this, all the prayers in this psalm are fulfilled simply,</t>\n    <t s=\"7\">for the aspect of the supernal depth above is drawn,</t>\n    <t s=\"8\">the aspect of the depth that is above \"depths\" in the plural,</t>\n    <t s=\"9\">until it is above any category of depth,</t>\n    <t s=\"10\">and it descends to the very lowest and in actual revelation,</t>\n    <t s=\"11\">even in time,</t>\n    <t s=\"12\">immediately and at once,</t>\n    <t s=\"13\">and there will be the nullification of all limitations and the revelation of the true Ein Sof below,</t>\n    <t s=\"14\">and moreover,</t>\n    <t s=\"15\">for with Him, blessed be He, the category of above and below does not apply, rather everything is one,</t>\n    <t s=\"16\">and this is founded and accomplished through the depth of Israel and the depth above becoming one thing,</t>\n    <t s=\"17\">\"From the depths I called You\"</t>\n    <t s=\"18\">so that Israel and the Holy One, blessed be He, become entirely one.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914138_theRebbe_689",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914138_theRebbe_689__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "To understand how teshuvah draws from the depth beyond depth, we first introduce the two levels of teshuvah: the concept of teshuvah and the essence of teshuvah.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And to understand this,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "how through the service of teshuvah we draw from the aspect of the depth to within the depth above,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "we must first preface what is explained in the continuation of Rosh HaShanah 5692"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "(fifty years ago),"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "that there are two levels in teshuvah,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "the concept of teshuvah and the essence of teshuvah."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "For the concept of teshuvah is teshuvah concerning particular matters or even concerning general matters,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "but even though the teshuvah is not for sin and iniquity"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "and transgression, nevertheless its concept is that one ascends in his service in the good itself,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "going and adding in the perfection of his service until this particular service is as it should be and as required,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and until through completing all the particular matters, his entire service is as required."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "However, the essence of teshuvah is that from the place where he stands in his spiritual standing and state, he ascends"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(he transforms himself)"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "to a more elevated place,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "which is a new standing and state, until it is not at all comparable to his previous state."
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "That is, he ascends to a supernal state that is utterly incomparable, until one cannot speak of it in terms of higher and lower,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "for the term \"higher\" indicates that there is a lower and it is higher in relation to it,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "but the essence of teshuvah is on such a level that it is not within the category and comparison of higher and lower,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "that it is not at all related to the previous state"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "(in terms of superiority),"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "until a new reality is made that is made from absolute nothing and naught."
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "And through standing in a standing and state that is not at all comparable,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "this affects all the particular services and all the most particular details,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "that everything will be rectified as required."
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "That is, since he is in a new standing and state in a manner that all the deeds he does are good,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "as the language of our sages, of blessed memory,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "and the precise order in this: teshuvah and good deeds,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "that through teshuvah there will be the ultimate perfection in the deeds"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "and the ultimate perfection in the good and the ultimate perfection in Israel who perform the good deeds."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "Through teshuvah from the depth of the heart, the essence of teshuvah, we call and draw from the depth of depths above, unifying Israel and the Holy One, blessed be He, as one.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And this is: \"A Song of Ascents: From the depths I called You, Hashem,\""
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "for through teshuvah from the depth of the heart,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "depth within depth,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "which is the essence of teshuvah,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "through this we call and draw from above from the aspect of the depth of depths,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "and to such a depth that is not within the category of levels at all."
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "And through this, all the prayers in this psalm are fulfilled simply,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "for the aspect of the supernal depth above is drawn,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "the aspect of the depth that is above \"depths\" in the plural,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "until it is above any category of depth,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "and it descends to the very lowest and in actual revelation,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "even in time,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "immediately and at once,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and there will be the nullification of all limitations and the revelation of the true Ein Sof below,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "for with Him, blessed be He, the category of above and below does not apply, rather everything is one,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "and this is founded and accomplished through the depth of Israel and the depth above becoming one thing,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "\"From the depths I called You\""
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "so that Israel and the Holy One, blessed be He, become entirely one."
+          }
+        ]
+      }
+    ]
+  }
+}

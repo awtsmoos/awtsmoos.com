@@ -1,0 +1,214 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 34,
+    "returned": 34,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919837_theRebbe_328\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919837_theRebbe_328__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section questions the greatness of the fifteenth of Av, given that its concept existed before the events associated with that date.</sectionSummaryBrief>\n    <t s=\"0\">Also, one must understand,</t>\n    <t s=\"1\">that since the concept of the fifteenth of Av is in the manner of the concept of the fifteen cubits of hangings for the shoulder that were in the courtyard of the Mishkan,</t>\n    <t s=\"2\">which existed even before the concept of the fifteenth of Av,</t>\n    <t s=\"3\">even before the first event that occurred on the fifteenth of Av,</t>\n    <t s=\"4\">the day on which the generation of the wilderness ceased to die,</t>\n    <t s=\"5\">[and moreover — even before the sending of the spies, because of which the matter of the generation of the wilderness was decreed],</t>\n    <t s=\"6\">what is the greatness and novelty of the fifteenth of Av,</t>\n    <t s=\"7\">to the extent that there were no better days for Israel than the fifteenth of Av.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the festival of the fifteenth of Av is connected to revelation, as it marks the day when it became clear that the generation of the wilderness had ceased to die.</sectionSummaryBrief>\n    <t s=\"0\">Now, this concept</t>\n    <t s=\"1\">(that the festival of the fifteenth of Av is connected to the concept of revelation)</t>\n    <t s=\"2\">is also understood from the fact that among the reasons for establishing the festival of the fifteenth of Av is that it is the day on which the generation of the wilderness ceased to die</t>\n    <t s=\"3\">(as above, section 2),</t>\n    <t s=\"4\">for the content of the day on which the generation of the wilderness ceased to die is,</t>\n    <t s=\"5\">that then it was clarified and revealed,</t>\n    <t s=\"6\">the matter became evident retroactively,</t>\n    <t s=\"7\">that the ninth of Av is the day on which the generation of the wilderness ceased to die.</t>\n    <t s=\"8\">And nevertheless they established the festival on the fifteenth of Av,</t>\n    <t s=\"9\">on which it was clarified and revealed that the generation of the wilderness had ceased to die,</t>\n    <t s=\"10\">for this festival is connected to the concept of revelation.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section draws a parallel between the cessation of the decree of the generation of the wilderness and the cessation of the decree of the destruction and exile, with full revelation on the fifteenth of Av.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this will be understood by prefacing,</t>\n    <t s=\"2\">that just as the decree of the generation of the wilderness ended on the ninth of Av,</t>\n    <t s=\"3\">except that they did not know for certain until the moon was filled on the fifteenth,</t>\n    <t s=\"4\">so too regarding the decree of the destruction of the Holy Temple and the exile,</t>\n    <t s=\"5\">the nullification of this decree is on the ninth of Av,</t>\n    <t s=\"6\">for on the ninth of Av Mashiach was born,</t>\n    <t s=\"7\">and on the night after the ninth of Av they sanctify the moon, the concept of which</t>\n    <t s=\"8\">(of the sanctification of the moon)</t>\n    <t s=\"9\">is that they</t>\n    <t s=\"10\">are destined to be renewed like it,</t>\n    <t s=\"11\">but the revelation of this concept</t>\n    <t s=\"12\">(and in its completeness)</t>\n    <t s=\"13\">is on the fifteenth of Av,</t>\n    <t s=\"14\">on which is the fullness and completeness of the moon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919837_theRebbe_328",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919837_theRebbe_328__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section questions the greatness of the fifteenth of Av, given that its concept existed before the events associated with that date.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "Also, one must understand,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that since the concept of the fifteenth of Av is in the manner of the concept of the fifteen cubits of hangings for the shoulder that were in the courtyard of the Mishkan,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "which existed even before the concept of the fifteenth of Av,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "even before the first event that occurred on the fifteenth of Av,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "the day on which the generation of the wilderness ceased to die,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "[and moreover — even before the sending of the spies, because of which the matter of the generation of the wilderness was decreed],"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "what is the greatness and novelty of the fifteenth of Av,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "to the extent that there were no better days for Israel than the fifteenth of Av."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the festival of the fifteenth of Av is connected to revelation, as it marks the day when it became clear that the generation of the wilderness had ceased to die.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "Now, this concept"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "(that the festival of the fifteenth of Av is connected to the concept of revelation)"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "is also understood from the fact that among the reasons for establishing the festival of the fifteenth of Av is that it is the day on which the generation of the wilderness ceased to die"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(as above, section 2),"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "for the content of the day on which the generation of the wilderness ceased to die is,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "that then it was clarified and revealed,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "the matter became evident retroactively,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "that the ninth of Av is the day on which the generation of the wilderness ceased to die."
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "And nevertheless they established the festival on the fifteenth of Av,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "on which it was clarified and revealed that the generation of the wilderness had ceased to die,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "for this festival is connected to the concept of revelation."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section draws a parallel between the cessation of the decree of the generation of the wilderness and the cessation of the decree of the destruction and exile, with full revelation on the fifteenth of Av.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And this will be understood by prefacing,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that just as the decree of the generation of the wilderness ended on the ninth of Av,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "except that they did not know for certain until the moon was filled on the fifteenth,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "so too regarding the decree of the destruction of the Holy Temple and the exile,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "the nullification of this decree is on the ninth of Av,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "for on the ninth of Av Mashiach was born,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "and on the night after the ninth of Av they sanctify the moon, the concept of which"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(of the sanctification of the moon)"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "is that they"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "are destined to be renewed like it,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "but the revelation of this concept"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "(and in its completeness)"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "is on the fifteenth of Av,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "on which is the fullness and completeness of the moon."
+          }
+        ]
+      }
+    ]
+  }
+}

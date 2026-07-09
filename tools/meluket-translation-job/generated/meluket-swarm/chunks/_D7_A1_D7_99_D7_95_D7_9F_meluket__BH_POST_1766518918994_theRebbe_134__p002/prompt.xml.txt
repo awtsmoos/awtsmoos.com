@@ -1,0 +1,162 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918994_theRebbe_134" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918994_theRebbe_134__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918994_theRebbe_134" title="מאמר בשעה שעלה משה למרום תשכ"א" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918994_theRebbe_134__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דטענת המלאכים על נתינת התורה לישראל לא היתה על זה שנותנים את התורה לנשמות</src>
+    <src s="3">(ישראל),</src>
+    <src s="4">כי גם המלאכים ידעו שנשמות הם במדריגה נעלית יותר מהמלאכים,</src>
+    <src s="5">אלא טענתם היתה על זה שנותנים את התורה להגוף,</src>
+    <src s="6">כלשון הגמרא,</src>
+    <src s="7">אתה מבקש ליתנה לבשר ודם.</src>
+    <src s="8">ויתירה מזה,</src>
+    <src s="9">שגם בנוגע להגוף,</src>
+    <src s="10">לא היתה טענתם על זה שנותנים התורה לגוף בכלל</src>
+    <src s="11">(גוף רוחני),</src>
+    <src s="12">אלא על נתינת התורה לגוף האדם שהוא גוף גשמי,</src>
+    <src s="13">כלשון הגמרא</src>
+    <src s="14">(הנ"ל)</src>
+    <src s="15">אתה מבקש ליתנה לבשר ודם.</src>
+  </section>
+  <section v="4">
+    <src s="0">וביאור הענין9,</src>
+    <src s="1">דהנה מצינו ששירת המלאכים נזכרה בנביאים,</src>
+    <src s="2">וכמ"ש בההפטרה דחג השבועות,</src>
+    <src s="3">ואשמע אחרי קול רעש גדול10,</src>
+    <src s="4">וכתיב קול כנפיהם כקול מים רבים כקול שדי גו'11,</src>
+    <src s="5">והאופנים וחיות הקודש ברעש גדול12,</src>
+    <src s="6">משא"כ שירת הנשמות לא מצינו בנביאים.</src>
+    <src s="7">והיינו,</src>
+    <src s="8">שיש גם שירת הנשמות,</src>
+    <src s="9">שהרי הנשמות יש להם עליות תמיד,</src>
+    <src s="10">כמ"ש13</src>
+    <src s="11">ילכו מחיל אל חיל,</src>
+    <src s="12">וכמ"ש14</src>
+    <src s="13">והי' מדי חודש בחדשו ומדי שבת בשבתו יבוא כל בשר גו',</src>
+    <src s="14">שהו"ע הילוך ועליית הנשמות שעולים לגן עדן העליון וחוזרים לגן עדן התחתון ועולים עוד הפעם לגן עדן העליון,</src>
+    <src s="15">וידוע שכל עלי' היא ע"י שיר,</src>
+    <src s="16">וכמאמר15</src>
+    <src s="17">כל בעלי השיר יוצאין בשיר ונמשכין בשיר,</src>
+    <src s="18">וכיון שעליית הנשמות היא למעלה יותר מעליית המלאכים,</src>
+    <src s="19">הרי מובן שגם שירת הנשמות היא יותר משירת המלאכים,</src>
+    <src s="20">ומ"מ לא נזכר בנביאים שירת הנשמות.</src>
+    <src s="21">וטעם הדבר מבואר בלקוטי תורה16,</src>
+    <src s="22">לפי שהמלאכים הם בעלי נפש וגוף,</src>
+    <src s="23">דהגם שנקראים שכלים נבדלים17,</src>
+    <src s="24">הרי זה דוקא בערך הגוף שלמטה,</src>
+    <src s="25">אבל מ"מ גם המלאכים יש להם גוף,</src>
+    <src s="26">וכמ"ש18</src>
+    <src s="27">עושה מלאכיו רוחות משרתיו אש לוהט,</src>
+    <src s="28">ופירש הרמב"ן19</src>
+    <src s="29">שקאי על גוף המלאכים.</src>
+    <src s="30">והיינו,</src>
+    <src s="31">שאי אפשר לפרש שקאי על נפש המלאכים,</src>
+    <src s="32">כי בנפש המלאכים לא שייך ענין אש ורוח כלל,</src>
+    <src s="33">דעם היות שאש ורוח הם ב' יסודות הדקים,</src>
+    <src s="34">ובזה גופא הרי המלאכים הם מדקות היסודות,</src>
+    <src s="35">כדמוכח מפי' הרמב"ן,</src>
+    <src s="36">מ"מ הרי הם יסודות.</src>
+    <src s="37">וענין זה לא שייך בנפש המלאכים,</src>
+    <src s="38">שהו"ע המדות אהבה ויראה,</src>
+    <src s="39">מחנה מיכאל בחסד ומחנה גבריאל בגבורה20,</src>
+    <src s="40">ובפרט ע"פ המבואר בתניא21</src>
+    <src s="41">בשם הזהר22</src>
+    <src s="42">שישנם מלאכים שכליים,</src>
+    <src s="43">שהרי בענין המדות ומכ"ש בענין השכל לא שייך גם ענין יסודות הדקים.</src>
+    <src s="44">ועכצ"ל דמ"ש עושה מלאכיו רוחות גו' קאי על גוף המלאכים.</src>
+    <src s="45">ומכיון שהמלאכים הם בעלי גוף,</src>
+    <src s="46">לכן השירה שלהם נשמעת באזני הנביאים.</src>
+    <src s="47">משא"כ שירת הנשמות שאין להם גוף כלל,</src>
+    <src s="48">וענין השירה שלהם הוא ענין ההשגה ואהבה ויראה,</src>
+    <src s="49">הנה זה אי אפשר שהנביא ישמע.</src>
+    <src s="50">וכמו שהוא בענין השמיעה,</src>
+    <src s="51">כן הוא גם בענין הראי',</src>
+    <src s="52">שהמלאכים נתפסים בראי',</src>
+    <src s="53">וכמ"ש23</src>
+    <src s="54">וירא והנה שלשה אנשים נצבים עליו,</src>
+    <src s="55">דכיון שהמלאכים יש להם גוף,</src>
+    <src s="56">והיינו שגם במעמדם ומצבם יש להם גוף,</src>
+    <src s="57">לכן אפשר שיתלבשו למטה יותר,</src>
+    <src s="58">עד שיהיו נתפסים בראי' כו'.</src>
+  </section>
+  <section v="5">
+    <src s="0">ומכל זה מובן שטענת המלאכים על נתינת התורה לישראל לא היתה מצד הנשמה,</src>
+    <src s="1">שהרי הנשמות הם למעלה מהמלאכים,</src>
+    <src s="2">אלא מצד הגוף.</src>
+    <src s="3">והיינו,</src>
+    <src s="4">שגם המלאכים ידעו שמתן תורה צריך להיות לנשמות בגופים דוקא,</src>
+    <src s="5">ומ"מ טענו שתינתן התורה אליהם,</src>
+    <src s="6">דכיון שגם הם בעלי גוף,</src>
+    <src s="7">הרי גם זה יספיק לנתינת התורה,</src>
+    <src s="8">ולא יהי' צורך לתת התורה לגוף בו"ד,</src>
+    <src s="9">שמצד הבשר ורתיחות הדמים אפשר להיות ענין בלתי רצוי כו'.</src>
+    <src s="10">ועל זה השיבו להם,</src>
+    <src s="11">כלום למצרים ירדתם כו' יצר הרע יש ביניכם,</src>
+    <src s="12">היינו שלא מספיק המצרים והגבולים של גופות המלאכים,</src>
+    <src s="13">אלא צריך למצרים וגבולים כאלו ששייך בהם יצר הרע,</src>
+    <src s="14">וגם אותו צריך להפוך לטוב,</src>
+    <src s="15">וכמאמר הבעש"ט24</src>
+    <src s="16">עה"פ25</src>
+    <src s="17">סור מרע ועשה טוב,</src>
+    <src s="18">שצריך לסור מהרע ולעשות ממנו שיהי' טוב,</src>
+    <src s="19">ולכן ניתנה תורה לגוף בשר ודם דוקא26.</src>
+    <src s="20">ועד"ז בנוגע לטענת המלאכים בעת בריאת העולם ובמשכן</src>
+    <src s="21">[כמשנת"ל שג' ענינים אלה שייכים זל"ז,</src>
+    <src s="22">שקיום העשרה מאמרות</src>
+    <src s="23">(שמהם נברא העולם תמיד,</src>
+    <src s="24">כתורת הבעש"ט27</src>
+    <src s="25">עה"פ28</src>
+    <src s="26">לעולם הוי' דברך נצב בשמים,</src>
+    <src s="27">שהדבר הוי' צריך להיות תמיד בהנברא להוותו ולהחיותו ולקיימו),</src>
+    <src s="28">נמשך מעשרת הדברות שבתורה,</src>
+    <src s="29">שהתורה היא המשלמת את תכלית כוונת הבריאה שיהי' העולם מקדש ומשכן לו ית'],</src>
+    <src s="30">שטענתם היתה שמספיק גם גוף רוחני של מלאכים.</src>
+    <src s="31">ועל זה השיבו להם שצריך לגוף בשר ודם דוקא,</src>
+    <src s="32">כי,</src>
+    <src s="33">כל מה שברא הקב"ה בעולמו לא בראו אלא לכבודו,</src>
+    <src s="34">שנאמר29</src>
+    <src s="35">כל הנקרא בשמי ולכבודי בראתיו יצרתיו אף עשיתיו30,</src>
+    <src s="36">וכתיב31</src>
+    <src s="37">אנכי עשיתי ארץ ואדם עלי' בראתי,</src>
+    <src s="38">עשיתי הוא מלשון לעשות לתקן32,</src>
+    <src s="39">היינו שתכלית הבריאה הוא לתקן ולהעלות את כל הבריאה ולעשותה ע"י התורה מקדש ומשכן לו ית',</src>
+    <src s="40">ובשביל זה צריך לגוף בו"ד דוקא,</src>
+    <src s="41">שעי"ז יוכלו להעלות גם את המטה ביותר.</src>
+    <src s="42">וכידוע המשל33</src>
+    <src s="43">מהגבהת הבנין שצריך להגבי' אותו מתחתיתו דוקא,</src>
+    <src s="44">משא"כ אם יגביהו מאמצעיתו אזי לא יוגבה תחתיתו.</src>
+  </section>
+</awtsmoosMeluketSource>

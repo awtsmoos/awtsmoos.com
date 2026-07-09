@@ -1,0 +1,28 @@
+{
+  "id": "c6322533-7cf4-4621-838d-c22b8be6549e",
+  "object": "chat.completion",
+  "created": 1783584549,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketRepair heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915834_theRebbe_708\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p003\">\n  <t v=\"7\" s=\"18\">Specifically.</t>\n</awtsmoosMeluketRepair>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 332,
+    "completion_tokens": 126,
+    "total_tokens": 458,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 332
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

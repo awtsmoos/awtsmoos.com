@@ -1,0 +1,116 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" title="מאמר ושבתי בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">והנה ג' ענינים הנ"ל שהיו ביעקב –</src>
+    <src s="2">(א)</src>
+    <src s="3">יציאתו מבאר שבע לחרן,</src>
+    <src s="4">(ב)</src>
+    <src s="5">עבודתו</src>
+    <src s="6">(לאחרי היציאה מבאר שבע)</src>
+    <src s="7">ויקח מאבני המקום גו',</src>
+    <src s="8">(ג)</src>
+    <src s="9">(שע"י התפלה שלו)</src>
+    <src s="10">נעשתה האבן הזאת</src>
+    <src s="11">(שלקח מאבני המקום)</src>
+    <src s="12">בית אלקים – ישנם גם בכאו"א מישראל.</src>
+    <src s="13">דמעשה אבות סימן ונתינת כח לבנים</src>
+    <src s="14">(כנ"ל סעיף ב),</src>
+    <src s="15">ובפרט הענינים דיעקב.</src>
+    <src s="16">דמכיון ששופרי' דיעקב מעין שופרי' דאדה"ר57,</src>
+    <src s="17">ונשמתו כלולה מכל הנשמות שבישראל</src>
+    <src s="18">(כנשמת אדה"ר58)59,</src>
+    <src s="19">הרי עבודתו של יעקב</src>
+    <src s="20">(ויקח מאבני המקום גו')</src>
+    <src s="21">היא נתינת כח לבנים ביתר שאת וביתר עוז.</src>
+  </section>
+  <section v="10">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דויצא יעקב מבאר שבע וילך חרנה קאי60</src>
+    <src s="2">על ירידת הנשמה בגוף,</src>
+    <src s="3">שירדה מאיגרא61</src>
+    <src s="4">רמה</src>
+    <src s="5">(באר שבע)</src>
+    <src s="6">לבירא עמיקתא</src>
+    <src s="7">(חרנה).</src>
+    <src s="8">וכמו שיעקב,</src>
+    <src s="9">בכדי שיוכל ללכת לחרן נמשך לו כח נעלה יותר – ענין צוה ישועות יעקב</src>
+    <src s="10">(כנ"ל סעיף ה),</src>
+    <src s="11">עד"ז הוא גם בוילך חרנה שבכאו"א מישראל,</src>
+    <src s="12">שלפני ירידת הנשמה למטה לבירא עמיקתא,</src>
+    <src s="13">שזהו"ע וילך חרנה,</src>
+    <src s="14">נותנים לה כח במיוחד שתוכל לעבוד עבודתה בבירור הגוף ונפש הבהמית וחלקה בעולם.</src>
+    <src s="15">וכידוע62</src>
+    <src s="16">בענין משביעין אותו תהי צדיק ואל תהי רשע63.</src>
+    <src s="17">וזהו מ"ש ויצא יעקב מבאר שבע גו',</src>
+    <src s="18">שפירוש מבאר שבע הוא64</src>
+    <src s="19">מה שמשביעין אותו תהי צדיק כו'</src>
+    <src s="20">[שיש בזה ג' פירושים,</src>
+    <src s="21">שבועה,</src>
+    <src s="22">שובע ושבע,</src>
+    <src s="23">כמבואר בכ"מ65]</src>
+    <src s="24">שהוא נתינת כח במיוחד על עבודת הנשמה בירידתה למטה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ח)</src>
+    <src s="1">והנה עבודת הנשמה בירידתה למטה היא</src>
+    <src s="2">(בכללות)</src>
+    <src s="3">בשני ענינים.</src>
+    <src s="4">א',</src>
+    <src s="5">לימוד התורה וקיום המצוות,</src>
+    <src s="6">דע"י לימוד התורה וקיום המצוות למטה דוקא מתעלית הנשמה למעלה יותר מכמו שהיתה קודם ירידתה.</src>
+    <src s="7">וכידוע66</src>
+    <src s="8">דהתורה והמצוות שלמטה דוקא נעשים לבוש להנשמה בג"ע שעל ידם היא משגת ונהנית מאוא"ס.</src>
+    <src s="9">וב',</src>
+    <src s="10">הבירור דגוף ודנפש הבהמית וחלקו בעולם.</src>
+    <src s="11">שזה נעשה ע"י קיום המצוות67,</src>
+    <src s="12">וי"ל עוד יותר – ע"י העבודה דכל מעשיך יהיו לשם שמים68,</src>
+    <src s="13">ובפרט ע"י בכל דרכיך דעהו69,</src>
+    <src s="14">דלא רק שעשייתו דברי הרשות תהי' לשם שמים,</src>
+    <src s="15">אלא שגם בהם גופא</src>
+    <src s="16">(בכל דרכיך)</src>
+    <src s="17">יהי' דעהו70</src>
+    <src s="18">[דעת באלקות,</src>
+    <src s="19">שדעת הוא למעלה גם מחכמה,</src>
+    <src s="20">כמבואר בארוכה בהמשך עת"ר71</src>
+    <src s="21">ובכ"מ].</src>
+    <src s="22">וזהו ונתן לי לחם לאכול ובגד ללבוש ושבתי בשלום אל בית אבי,</src>
+    <src s="23">לחם לאכול ובגד ללבוש הוא לימוד התורה וקיום המצוות72</src>
+    <src s="24">כידוע73</src>
+    <src s="25">שתורה היא לחם ומזון הנשמה והמצוות הם לבושים דהנשמה,</src>
+    <src s="26">ושבתי בשלום הו"ע עבודת הבירורים.</src>
+  </section>
+</awtsmoosMeluketSource>

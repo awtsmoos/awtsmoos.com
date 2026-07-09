@@ -1,0 +1,145 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917442_theRebbe_735" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917442_theRebbe_735" title="מאמר על כן קראו תשי"ג" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דהטעם על זה שהמן הפיל פור בכדי להגיע לבחינת הגורל שלמעלה מהשתלשלות,</src>
+    <src s="3">אף שאז</src>
+    <src s="4">[בימי אחשורוש,</src>
+    <src s="5">גם קודם שהפיל פור]</src>
+    <src s="6">היתה ההנהגה מצד למעלה מהשתלשלות,</src>
+    <src s="7">הוא,</src>
+    <src s="8">לפי שבחינת הגורל הוא למעלה יותר גם מבחינת אחשורוש מי שאחרית וראשית שלו.</src>
+    <src s="9">והענין הוא,</src>
+    <src s="10">דמזה עצמו שנקרא בשם אחשורוש מי שאחרית וראשית שלו,</src>
+    <src s="11">מוכח,</src>
+    <src s="12">שגם לגבי' ישנם הענינים דאחרית וראשית47,</src>
+    <src s="13">אלא שהם שוין לגבי'.</src>
+    <src s="14">[ולהעיר ממ"ש53</src>
+    <src s="15">עשה משתה לכל שריו ועבדיו ואח"כ לכל העם הנמצאים בשושן,</src>
+    <src s="16">ומבואר בלקו"ת54</src>
+    <src s="17">שהגילוי שהי' לכל העם הי' למטה במדריגה מהגילוי שהי' לשריו ועבדיו.</src>
+    <src s="18">ולהוסיף,</src>
+    <src s="19">שגם בהגילוי שהי' לכל העם היו כו"כ חילוקי דרגות,</src>
+    <src s="20">הראוי לחצר לחצר הראוי לגינה לגינה הראוי לביתן לביתן55.</src>
+    <src s="21">ויש לומר,</src>
+    <src s="22">שמצד בחינת ההשתלשלות,</src>
+    <src s="23">הגילוי הוא רק לשרים ועבדים,</src>
+    <src s="24">וזה שהי' הגילוי גם לכל העם</src>
+    <src s="25">(ועד לאלה שראויים רק לחצר)</src>
+    <src s="26">הוא לפי שהגילוי הי' מבחי' אחשורוש שאחרית וראשית שלו.</src>
+    <src s="27">ומ"מ הגילוי להעם הי' למטה מהגילוי לשריו ועבדיו</src>
+    <src s="28">(וגם בהגילוי להעם היו כמה דרגות),</src>
+    <src s="29">כי זה שאחרית וראשית שלו הוא שלגבי' אחרית וראשית הם בשוה,</src>
+    <src s="30">אבל בנוגע להגילוי שלו בעולמות,</src>
+    <src s="31">בעולמות העליונים</src>
+    <src s="32">(ראשית)</src>
+    <src s="33">הוא בגילוי יותר מבעולמות התחתונים</src>
+    <src s="34">(אחרית)56].</src>
+    <src s="35">משא"כ בבחינת הגורל אין מלכתחילה הענין דראשית ואחרית,</src>
+    <src s="36">כמובן מזה שהגורל הוא</src>
+    <src s="37">(בכלל)</src>
+    <src s="38">בשני דברים שוים</src>
+    <src s="39">(כנ"ל סעיף ב).</src>
+    <src s="40">וכמו שהוא בנוגע להענינים דראשית ואחרית</src>
+    <src s="41">(מעלה ומטה),</src>
+    <src s="42">עד"ז הוא בנוגע לקדושה וסט"א,</src>
+    <src s="43">שמצד הדרגא דאחשורוש יש חילוק בין קדושה לסט"א,</src>
+    <src s="44">אלא שמצד הרוממות שלו אין זה תופס מקום</src>
+    <src s="45">(כ"כ),</src>
+    <src s="46">ולכן אפשר להיות יניקה גם לסט"א</src>
+    <src s="47">[ח"ש דק"נ ורוש דגקה"ט57],</src>
+    <src s="48">ועד שתהי' התגברות הסט"א על הקדושה – הושחרו פניהם של ישראל57</src>
+    <src s="49">[וי"ל ע"ד שממית בידים תתפש והיא בהיכלי מלך58</src>
+    <src s="50">(אף שהיא מלכלכת את ההיכל),</src>
+    <src s="51">כי מצד רוממותו של המלך אינו נותן לב להקפיד לגרשה59],</src>
+    <src s="52">אבל לא להשמידם ח"ו.</src>
+    <src s="53">וכשביקש המן להשמיד את כל היהודים</src>
+    <src s="54">(ח"ו היל"ת)</src>
+    <src s="55">הפיל פור הוא הגורל60,</src>
+    <src s="56">דכיון שבבחינת הגורל אין מלכתחילה חילוק בין קדושה לסט"א</src>
+    <src s="57">[ובפרט לפי המבואר לעיל</src>
+    <src s="58">(סעיף ג' וד')</src>
+    <src s="59">שהגורל הוא לא רק למעלה מהשתלשלות אלא למעלה גם מהרצון דתומ"צ],</src>
+    <src s="60">לכן חשב שעי"ז יוכל ח"ו להפיק את זממו.</src>
+  </section>
+  <section v="10">
+    <src s="0">ח)</src>
+    <src s="1">והנה כמו שגורל הוא למעלה מהשכל ולמעלה גם מהרצון,</src>
+    <src s="2">עד"ז הוא בנוגע לבחירה שהוא למעלה משכל ולמעלה גם מרצון.</src>
+    <src s="3">דכאשר שכלו מחייב שדבר זה ראוי לבחור בו,</src>
+    <src s="4">וגם כשהוא רוצה באיזה דבר</src>
+    <src s="5">(רצון שלמעלה מהשכל),</src>
+    <src s="6">הרי הוא מוכרח בזה ואין זה בחירה חפשית,</src>
+    <src s="7">ואמיתית ענין הבחירה הוא כשהבחירה שלו היא לא מצד השכל וגם לא מצד הרצון61,</src>
+    <src s="8">אלא שכך בוחר בבחירתו החפשית.</src>
+    <src s="9">והחילוק בין גורל ובחירה הוא,</src>
+    <src s="10">דכשאדם עושה גורל ומחליט דכמו שיפול הגורל כן יהי' רצונו,</src>
+    <src s="11">הרצון שלו הוא לא מצד האדם אלא מפני שכן נפל הגורל,</src>
+    <src s="12">ובחירה היא שהאדם הוא הבוחר.</src>
+    <src s="13">ומזה מובן,</src>
+    <src s="14">דבחירה היא למעלה מגורל.</src>
+    <src s="15">דגורל הוא הדרגא בנפש שהיא מוגדרת ומוכרחת בזה ששני הדברים הם שוים לגבה,</src>
+    <src s="16">וענין הבחירה הוא שאינו מוגדר ומוכרח באיזה דברים,</src>
+    <src s="17">כולל דברים שוים לגבי',</src>
+    <src s="18">וביכלתו לבחור במה שירצה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דבבחירה ישנם שני הענינים.</src>
+    <src s="2">הדרגא דנפש שלמעלה משכל שלגבה שני הדברים הם בשוה – דרגת הגורל,</src>
+    <src s="3">וזה שהוא בוחר כמו שרוצה</src>
+    <src s="4">(הגם ששני הדברים הם שוים</src>
+    <src s="5">(לגבי'))</src>
+    <src s="6">הוא בא מעצם הנפש.</src>
+    <src s="7">וע"י הבחירה,</src>
+    <src s="8">ההמשכה מהעצם להדרגא דגורל</src>
+    <src s="9">(הדרגא שלגבה שני הדברים הם בשוה),</src>
+    <src s="10">גם הגורל</src>
+    <src s="11">(הגם שמצד עצמו אפשר להיות בשני האופנים)</src>
+    <src s="12">הוא כפי הבחירה.</src>
+    <src s="13">וע"ד מ"ש62</src>
+    <src s="14">אתה תומיך גורלי,</src>
+    <src s="15">שהקב"ה תומך את הגורל שיהי' כפי בחירת העצמות.</src>
+    <src s="16">וזהו מ"ש63</src>
+    <src s="17">יבחר לנו את נחלתינו את גאון יעקב גו',</src>
+    <src s="18">דביעקב כתיב64</src>
+    <src s="19">יעקב חבל נחלתו ותרגם אונקלוס יעקב עדב אחסנתי' דעדב הוא גורל65,</src>
+    <src s="20">וענין יבחר גו' את גאון יעקב הוא66,</src>
+    <src s="21">שגם בדרגת הגורל שלמעלה מהשתלשלות שהכל שוים שם,</src>
+    <src s="22">הבחירה היא בישראל דוקא.</src>
+  </section>
+</awtsmoosMeluketSource>

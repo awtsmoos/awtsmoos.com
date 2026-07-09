@@ -1,0 +1,28 @@
+{
+  "id": "770b354c-861c-4218-b38e-7313814f4e68",
+  "object": "chat.completion",
+  "created": 1783582111,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913794_theRebbe_460\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913794_theRebbe_460__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the mitzvah of the day on Rosh Hashanah is the shofar, which draws down the revelation of the two trumpets, representing the unification of G-d and Israel through the soul's root in Atzmus, culminating in the ultimate purpose of a dwelling place for the Awtsmoos in this lowly world.</sectionSummaryBrief>\n    <t s=\"0\">e)</t>\n    <t s=\"1\">And this is “And on the day of your rejoicing… and you shall sound with trumpets… I am the L-rd your G-d.”</t>\n    <t s=\"2\">“And you shall sound” refers to the sounding of the shofar,</t>\n    <t s=\"3\">for the mitzvah of the day</t>\n    <t s=\"4\">(Rosh Hashanah)</t>\n    <t s=\"5\">is with the shofar,</t>\n    <t s=\"6\">as it is stated in the Mishnah:</t>\n    <t s=\"7\">The shofar is prolonged and the trumpets are shortened, for the mitzvah of the day is with the shofar.</t>\n    <t s=\"8\">And through this, the matter of the trumpets is also drawn down and revealed,</t>\n    <t s=\"9\">that the Holy One, blessed be He, and Israel are two halves of a form,</t>\n    <t s=\"10\">meaning that Israel are rooted in His very Essence (Atzmus) and they determine the will</t>\n    <t s=\"11\">(as above, regarding “Whom did He consult? The souls of the righteous”),</t>\n    <t s=\"12\">and from the determined will it is drawn to the revealed will, etc., until it is drawn down below in this world,</t>\n    <t s=\"13\">and this is the main point.</t>\n    <t s=\"14\">That is, the drawing down through all the levels—</t>\n    <t s=\"15\">delight, will, intellect, emotions, and kingship, etc.—is an intermediary through which it is then drawn down into this world.</t>\n    <t s=\"16\">And as explained in the holy Tanya,</t>\n    <t s=\"17\">that in the entire order of the chain of descent, it is a descent from the light of His countenance,</t>\n    <t s=\"18\">and the ultimate intention is this lowly world, below which there is no lower,</t>\n    <t s=\"19\">a deep pit,</t>\n    <t s=\"20\">specifically in it</t>\n    <t s=\"21\">(in this lowly world)</t>\n    <t s=\"22\">was man created and in it was given the soul, literally a part of G-d from above,</t>\n    <t s=\"23\">and through his service in Torah and mitzvos</t>\n    <t s=\"24\">(“to work it and to guard it”)</t>\n    <t s=\"25\">the intention of a dwelling place in the lower realms is completed,</t>\n    <t s=\"26\">a dwelling place for His Essence and Being,</t>\n    <t s=\"27\">so that “these are the generations of Peretz, Peretz is written fully,”</t>\n    <t s=\"28\">which is higher even than it was at the beginning of creation, for “the world was created in its fullness,”</t>\n    <t s=\"29\">“Peretz begot… Dovid,”</t>\n    <t s=\"30\">Dovid, the King Messiah,</t>\n    <t s=\"31\">who will build the Holy Temple,</t>\n    <t s=\"32\">and it will be “and you shall sound with trumpets… before your G-d,”</t>\n    <t s=\"33\">“with trumpets and the sound of the shofar, shout before the King, the L-rd,”</t>\n    <t s=\"34\">literally</t>\n    <t s=\"35\">(in the Holy Temple)</t>\n    <t s=\"36\">below ten handbreadths.</t>\n    <t s=\"37\">For through the service during the time of exile, “sound the shofar at the new moon,”</t>\n    <t s=\"38\">“improve your deeds,”</t>\n    <t s=\"39\">and in a novel manner, as the precise wording of the verse “sound at the new moon a shofar”</t>\n    <t s=\"40\">(and not “sound a shofar at the new moon”),</t>\n    <t s=\"41\">as is known the explanation of the Baal Shem Tov</t>\n    <t s=\"42\">on this,</t>\n    <t s=\"43\">through this is brought about the matter of “make for yourself two trumpets… for summoning the congregation and for journeying of the camps,”</t>\n    <t s=\"44\">to gather all of Israel together and for journeying and proceeding from strength to strength,</t>\n    <t s=\"45\">from a deep pit to a high roof,</t>\n    <t s=\"46\">and the matter of “when</t>\n    <t s=\"47\">you go to war,” war with the animal soul,</t>\n    <t s=\"48\">and you will be saved through subjugation and transformation,</t>\n    <t s=\"49\">and through this it will be “and you shall sound with trumpets before your G-d” in the third Holy Temple, which will be built very soon by our righteous Messiah,</t>\n    <t s=\"50\">and all this in the manner of “and on the day of your rejoicing,”</t>\n    <t s=\"51\">and “everlasting joy upon their heads,”</t>\n    <t s=\"52\">speedily in our days, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1974,
+    "completion_tokens": 1451,
+    "total_tokens": 3425,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1974
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

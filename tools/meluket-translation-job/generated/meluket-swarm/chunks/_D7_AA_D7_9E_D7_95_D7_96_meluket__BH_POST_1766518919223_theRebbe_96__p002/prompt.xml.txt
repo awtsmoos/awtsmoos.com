@@ -1,0 +1,175 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" title="מאמר תפלה למשה תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p002">
+  <section v="3">
+    <src s="0">ועפ"ז יש לבאר מה שמביא בהשיחה מאמר המדרש אחד עשר מזמורים אמר משה,</src>
+    <src s="1">שבזה מרמז השייכות דהמזמור תפלה למשה לגאולה העתידה,</src>
+    <src s="2">שענינו של מזמור זה</src>
+    <src s="3">[שהוא הראש והתחילה20</src>
+    <src s="4">דאחד עשר המזמורים]</src>
+    <src s="5">הוא המשכת אחד</src>
+    <src s="6">(חד ולא בחושבן)</src>
+    <src s="7">בעשר</src>
+    <src s="8">(בכל העשר ספירות,</src>
+    <src s="9">עד במלכות).</src>
+    <src s="10">ועפ"ז יש לבאר מה שממשיך בהשיחה דמעון הוא אותיות נועם21,</src>
+    <src s="11">דמבואר בהדרושים ד"ה תפלה למשה22</src>
+    <src s="12">דמעון הוא מלכות</src>
+    <src s="13">[ונקראת בשם מעון,</src>
+    <src s="14">מלשון דירה ובית ע"ד ביתו זו אשתו23]</src>
+    <src s="15">ונועם</src>
+    <src s="16">(תענוג)</src>
+    <src s="17">הוא עתיק,</src>
+    <src s="18">ומעון אותיות נועם הוא ששורש המלכות הוא בעתיק24.</src>
+    <src s="19">ויש לומר,</src>
+    <src s="20">דזה שמביא בהשיחה בהמשך להענין דאחד עשר שמעון הוא אותיות נועם,</src>
+    <src s="21">הוא לרמז,</src>
+    <src s="22">שהגילוי דאחד</src>
+    <src s="23">(חד ולא בחושבן)</src>
+    <src s="24">בעשר</src>
+    <src s="25">(עשר ספירות)</src>
+    <src s="26">יהי' בעיקר במלכות,</src>
+    <src s="27">כי שורש המלכות הוא בעתיק.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">וביאור הענין בפרטיות יותר,</src>
+    <src s="2">יובן ע"פ מ"ש אדמו"ר</src>
+    <src s="3">(מהורש"ב)</src>
+    <src s="4">נ"ע במאמר ד"ה זה25,</src>
+    <src s="5">דאיתא בזהר26</src>
+    <src s="6">שתפלה למשה היא תפלת עשיר27.</src>
+    <src s="7">דזהו החילוק בין תפלה לדוד28</src>
+    <src s="8">לתפלה למשה,</src>
+    <src s="9">דתפלה לדוד היא תפלת עני ותפלה למשה היא תפלת עשיר.</src>
+    <src s="10">ומדייק בהמאמר,</src>
+    <src s="11">הרי ענין התפלה הוא שמתפלל להקב"ה שימלא את מחסורו29,</src>
+    <src s="12">וכיון שהעשיר אינו חסר שום דבר30,</src>
+    <src s="13">מהו ענין תפלת עשיר.</src>
+    <src s="14">וביותר צריך ביאור ע"פ מה שארז"ל31</src>
+    <src s="15">עה"פ32</src>
+    <src s="16">די מחסורו אשר יחסר לו,</src>
+    <src s="17">די מחסורו ואי אתה מצווה לעשרו,</src>
+    <src s="18">אשר יחסר לו אפילו סוס לרכוב עליו ועבד לרוץ לפניו.</src>
+    <src s="19">דמזה מובן שענין העשירות הוא לא רק שאינו חסר שום דבר</src>
+    <src s="20">(אפילו סוס לרכוב עליו ועבד לרוץ לפניו)</src>
+    <src s="21">אלא שהוא מושפע בריבוי השפע33.</src>
+    <src s="22">ועפ"ז צריך להבין עוד יותר מהו ענין תפלת עשיר.</src>
+    <src s="23">ומבואר בכ"מ34</src>
+    <src s="24">וגם במאמר הנ"ל35,</src>
+    <src s="25">דתפלת עשיר היא לא בשביל עצמו.</src>
+    <src s="26">וכדאיתא במדרש36</src>
+    <src s="27">עה"פ תפלה למשה,</src>
+    <src s="28">משל למה הדבר דומה לשלשה שבאו ליטול כו' מאת המלך כו',</src>
+    <src s="29">בא השלישי,</src>
+    <src s="30">אמר לו המלך מה אתה מבקש,</src>
+    <src s="31">אמר לו,</src>
+    <src s="32">איני מבקש על עצמי דבר,</src>
+    <src s="33">אלא מדינה פלונית היא חרבה והיא שלך,</src>
+    <src s="34">גזור שתיבנה כו',</src>
+    <src s="35">כך משה לא ביקש לעצמו אלא בשביל ישראל.</src>
+    <src s="36">ולכאורה ביאור זה צריך לביאור נוסף.</src>
+    <src s="37">דכיון שתפלה היא עבודה שבלב37,</src>
+    <src s="38">הרי מובן,</src>
+    <src s="39">שגם כשמתפלל עבור אחרים התפלה שלו היא באופן שהחסרון שלהם נוגע ללבו</src>
+    <src s="40">(של האדם המתפלל)</src>
+    <src s="41">וכאילו שהוא עצמו הוא החסר</src>
+    <src s="42">(וכל שהחסרון שלהם נוגע לו יותר,</src>
+    <src s="43">תפלתו היא גדולה יותר),</src>
+    <src s="44">הרי,</src>
+    <src s="45">שגם התפלה עבור אחרים היא מצד זה שהוא חסר,</src>
+    <src s="46">ולמה נק' בשם תפלת עשיר.</src>
+  </section>
+  <section v="5">
+    <src s="0">ונקודת הביאור בזה הוא,</src>
+    <src s="1">דענין העשירות הוא לא רק שיש לו די צרכיו בהרחבה,</src>
+    <src s="2">ועוד יותר מדי צרכיו,</src>
+    <src s="3">אלא שהוא עשיר בעצם.</src>
+    <src s="4">והענין הוא,</src>
+    <src s="5">דעשיר ועני הוא משפיע ומקבל38.</src>
+    <src s="6">דמזה מובן,</src>
+    <src s="7">שגם כשיש לו שפע מרובה אבל השפע שיש לו הוא לא משל עצמו אלא שקיבל מאחרים,</src>
+    <src s="8">הוא עני,</src>
+    <src s="9">מקבל.</src>
+    <src s="10">וענין העשיר הוא,</src>
+    <src s="11">שמצד עצמו יש לו הכל</src>
+    <src s="12">[ויש לקשר זה עם מארז"ל39</src>
+    <src s="13">אין עני אלא בדעת ואין עשיר אלא בדעת,</src>
+    <src s="14">כי דעת הוא הכרה והרגשה40,</src>
+    <src s="15">ומהמעלות שבהכרה והרגשה על השכלה והשגה</src>
+    <src s="16">(חכמה ובינה),</src>
+    <src s="17">הוא,</src>
+    <src s="18">דכשאדם משכיל ומבין איזה דבר אין זה שהוא בעצמו יודע את הדבר41</src>
+    <src s="19">ורק שמקבל41</src>
+    <src s="20">את הידיעה מהשכל שהשפיע לו ידיעה זו.</src>
+    <src s="21">וענין ההכרה וההרגשה הוא,</src>
+    <src s="22">שהוא בעצמו מכיר ומרגיש את הדבר42.</src>
+    <src s="23">וזהו שענין העניות והעשירות הוא בעיקר בדעת,</src>
+    <src s="24">דכיון שהידיעה שמצד ההשכלה וההבנה היא כמו ידיעה נקנית אבל הוא בעצמו אינו יודע,</src>
+    <src s="25">לכן,</src>
+    <src s="26">גם לאחרי שיש לו השכלה והבנה הוא נשאר עני</src>
+    <src s="27">(חסר),</src>
+    <src s="28">וע"י הדעת דוקא הוא יוצא מעניותו ונעשה עשיר.</src>
+    <src s="29">והנה ידוע43</src>
+    <src s="30">דענין התוקף הוא בדעת.</src>
+    <src s="31">דכשאדם מחליט לעשות איזה דבר מפני שמכיר ומרגיש שכן צריך לעשות,</src>
+    <src s="32">ההחלטה היא בתוקף גדול הרבה יותר מההחלטה שמצד ההבנה וההשגה.</src>
+    <src s="33">והטעם על זה הוא,</src>
+    <src s="34">דהשגה היא בדרך שקו"ט,</src>
+    <src s="35">שנותנת מקום להשגה אחרת.</src>
+    <src s="36">ולכן ההחלטה שמצד ההשגה אינה בתוקף כ"כ44.</src>
+    <src s="37">וההכרה וההרגשה היא בעצם הסברא,</src>
+    <src s="38">דבעצם הסברא אין נתינת מקום לסברא הפכית,</src>
+    <src s="39">ולכן ההחלטה שמצד ההכרה אינה משתנית.</src>
+    <src s="40">ועפ"ז יש לומר,</src>
+    <src s="41">דזה שהחו"ב עצמם</src>
+    <src s="42">(בלי דעת)</src>
+    <src s="43">הם בחינת עניות,</src>
+    <src s="44">הוא לא רק בנוגע להאדם</src>
+    <src s="45">[כי הידיעה שמצד חו"ב היא דבר נוסף על האדם והאדם עצמו הוא חסר הידיעה,</src>
+    <src s="46">עני],</src>
+    <src s="47">אלא גם בנוגע לההשכלה וההשגה עצמם,</src>
+    <src s="48">כיון שבההשגה דחו"ב יש נתינת מקום להשגה הפכית].</src>
+    <src s="49">וכיון שהוא עשיר בעצם,</src>
+    <src s="50">הרי מובן,</src>
+    <src s="51">שאין שייך בו חסרון45.</src>
+    <src s="52">ולכן,</src>
+    <src s="53">הגם שהחסרון של אלה שהתפלל עבורם נוגע לו ביותר,</src>
+    <src s="54">והתפלה שמתפלל עבורם היא כאילו שהוא עצמו הי' החסר,</src>
+    <src s="55">מ"מ,</src>
+    <src s="56">לא נעשה עי"ז חסרון בו,</src>
+    <src s="57">ותפלתו היא תפלת עשיר.</src>
+  </section>
+</awtsmoosMeluketSource>

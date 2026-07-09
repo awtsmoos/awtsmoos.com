@@ -1,0 +1,130 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914964_theRebbe_974" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914964_theRebbe_974__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914964_theRebbe_974" title="מאמר ויהיו חיי שרה תשמ"ה" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914964_theRebbe_974__p003">
+  <section v="6">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דמבואר בהמאמר26,</src>
+    <src s="2">דשרה היא בחינת מלכות27</src>
+    <src s="3">[שלכן נקראת שרה מלשון שררה28]</src>
+    <src s="4">וחיין עילאין הם הספירות שלמעלה ממלכות.</src>
+    <src s="5">וע"פ הידוע29</src>
+    <src s="6">(ומבואר גם במאמר הנ"ל30)</src>
+    <src s="7">ששרש המלכות הוא למעלה משרש כל הספירות,</src>
+    <src s="8">דשרש כל הספירות הוא באריך ושרש המלכות הוא ברדל"א,</src>
+    <src s="9">יש לומר,</src>
+    <src s="10">שע"י המשכת הספירות במלכות,</src>
+    <src s="11">ובאופן שהם מתאחדים עם המלכות ועד שדילה הוו חיין,</src>
+    <src s="12">נעשה עלי' בהספירות,</src>
+    <src s="13">שנמשך בהם מעין הגילוי דרדל"א</src>
+    <src s="14">(שרש המלכות)31.</src>
+    <src s="15">ועי"ז,</src>
+    <src s="16">הם מתכללים ומתאחדים כולם כאחד,</src>
+    <src s="17">כולן שוין.</src>
+    <src s="18">וזהו שבויהיו חיי שרה נאמר מאה שנה ועשרים שנה ושבע שנים,</src>
+    <src s="19">ובשני חיי שרה אינו מפרט המספרים דמאה עשרים ושבע,</src>
+    <src s="20">כי החיין עילאין</src>
+    <src s="21">(ספירות)</src>
+    <src s="22">כמו שהם מצד עצמם,</src>
+    <src s="23">כולל גם כמו שנמשכים במלכות אבל באופן שהחיין עילאין והמלכות הם שני ענינים</src>
+    <src s="24">(זכתה לחיין עילאין),</src>
+    <src s="25">הם בהתחלקות,</src>
+    <src s="26">ובכללות נחלקים לג' בחינות</src>
+    <src s="27">(מאה,</src>
+    <src s="28">עשרים ושבע)32,</src>
+    <src s="29">וע"י שנעשים ענינם של המלכות</src>
+    <src s="30">[שני חיי שרה,</src>
+    <src s="31">דילה הוו],</src>
+    <src s="32">מאיר בהם הגילוי דשרש המלכות שלמעלה מהתחלקות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ויש להוסיף,</src>
+    <src s="2">דשלילת ההתחלקות שבשני חיי שרה הוא בשני ענינים.</src>
+    <src s="3">שאינם נחלקים לג' חלוקות דמאה עשרים ושבע,</src>
+    <src s="4">כנ"ל סעיף ד.</src>
+    <src s="5">ויתירה מזו,</src>
+    <src s="6">דבג' החלוקות דמאה ועשרים ושבע,</src>
+    <src s="7">אף שכל אחד מהם הו"ע כללי,</src>
+    <src s="8">מ"מ,</src>
+    <src s="9">כיון שהכלל הוא במספר מסויים</src>
+    <src s="10">(מאה,</src>
+    <src s="11">עשרים,</src>
+    <src s="12">שבע)</src>
+    <src s="13">הרי יש בו</src>
+    <src s="14">(בהעלם עכ"פ)</src>
+    <src s="15">פרטים מחולקים.</src>
+    <src s="16">והטעם שבשני חיי שרה לא נאמר מספר</src>
+    <src s="17">(גם לא המספר מאה ועשרים ושבע,</src>
+    <src s="18">שאינו נחלק לג' חלוקות)</src>
+    <src s="19">הוא,</src>
+    <src s="20">לפי שהם למעלה גם מענין דהתחלקות פרטים כמו שהם כלולים בהכלל.</src>
+  </section>
+  <section v="8">
+    <src s="0">וביאור הענין בפרטיות יותר,</src>
+    <src s="1">יובן בהקדים המבואר בכ"מ33,</src>
+    <src s="2">דמאה שנה הוא כתר</src>
+    <src s="3">(אריך)</src>
+    <src s="4">שכולל את כל העשר ספירות כמו שהם בשלימות היותר משובחת34,</src>
+    <src s="5">שכל אחד מהם כלול מעשר,</src>
+    <src s="6">מאה.</src>
+    <src s="7">ובהטעם שנאמר</src>
+    <src s="8">(מאה)</src>
+    <src s="9">שנה לשון יחיד,</src>
+    <src s="10">שני ביאורים.</src>
+    <src s="11">כי ההתחלקות דהספירות</src>
+    <src s="12">(חכמה,</src>
+    <src s="13">בינה וכו')</src>
+    <src s="14">הוא בספירות הגלויות משא"כ בהיותם כלולים בשרשם</src>
+    <src s="15">(אריך)</src>
+    <src s="16">הם כלולים כולם כאחד35.</src>
+    <src s="17">ויתירה מזו,</src>
+    <src s="18">דבחינת עתיק אינה בגדר עשר ספירות</src>
+    <src s="19">(היינו שאינה גם מקור לעשר ספירות),</src>
+    <src s="20">וע"י הגילוי דעתיק שמאיר באריך,</src>
+    <src s="21">גם הספירות הכלולות באריך,</src>
+    <src s="22">מאה,</src>
+    <src s="23">הם בבחינת שנה לשון יחיד36.</src>
+    <src s="24">עשרים שנה הם חכמה ובינה שכל אחד מהם כלול מיו"ד.</src>
+    <src s="25">וגם בהם נאמר שנה לשון יחיד,</src>
+    <src s="26">כי חו"ב הם37</src>
+    <src s="27">תרין ריעין דלא מתפרשין.</src>
+    <src s="28">ושבע שנים הם שבעת המדות.</src>
+    <src s="29">ונאמר שבע שנים לשון רבים,</src>
+    <src s="30">כי המדות הם בהתחלקות.</src>
+    <src s="31">ועפ"ז יובן עוד יותר העילוי דשני חיי שרה שלא נאמר בהם מספר,</src>
+    <src s="32">שהם למעלה יותר גם ממאה שנה לשון יחיד,</src>
+    <src s="33">גם להביאור דמאה שנה לשון יחיד הוא מצד הגילוי דעתיק38.</src>
+  </section>
+</awtsmoosMeluketSource>

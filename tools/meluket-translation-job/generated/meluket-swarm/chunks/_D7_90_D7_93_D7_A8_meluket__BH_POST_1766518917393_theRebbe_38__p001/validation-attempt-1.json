@@ -1,0 +1,198 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 32,
+    "returned": 32,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917393_theRebbe_38\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917393_theRebbe_38__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header for the maamar on Purim of the year 5711.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Purim,</t>\n    <t s=\"2\">[5]711*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section discusses the puzzling acceptance of the Torah by the Jews in the time of Haman, explaining that it required the service of self-nullification (Mesiras Nefesh) throughout the year.</sectionSummaryBrief>\n    <t s=\"0\">\"And the Jews accepted that which they had already undertaken, etc.\" And the Rebbe asks: it is astonishing, etc. And in the time of exile, etc., and particularly in the time of Haman when the decree was, etc., and specifically then they fulfilled what they had already accepted.</t>\n    <t s=\"1\">And he answers: that then they were in a state of Mesiras Nefesh (self-sacrifice) the entire year.</t>\n    <t s=\"2\">And behold, why was it specifically necessary to have service in Mesiras Nefesh in order to fulfill that which they had already begun?</t>\n    <t s=\"3\">One must preface an explanation of the matter of \"that which they had already begun,\" which refers to the time of the Giving of the Torah (Matan Torah),</t>\n    <t s=\"4\">For the innovation at the Giving of the Torah was, as is known, the giving of the Torah and mitzvos specifically in physicality,</t>\n    <t s=\"5\">Meaning to nullify the decree that \"the Romans shall not descend, etc.,\"</t>\n    <t s=\"6\">And therefore they were given specifically to souls in bodies, in their union together.</t>\n    <t s=\"7\">And also in Torah and mitzvos there must be a union of the physical aspect within them and the spirituality,</t>\n    <t s=\"8\">Meaning that one makes it a mitzvah,</t>\n    <t s=\"9\">And this too is only after refinement in exile.</t>\n    <t s=\"10\">And therefore, also in the fulfillment of Torah and mitzvos there are several modes,</t>\n    <t s=\"11\">The first: one who performs Torah and mitzvos as \"the commandments of men learned by rote,\" without vitality, or not for its own sake, with the motive that they will make him a rabbi and the like, which is not vitality,</t>\n    <t s=\"12\">Or out of fear of G-d, which is not vitality but rather the opposite—contraction and constriction.</t>\n    <t s=\"13\">The second: one who does the above out of love for Hashem with great vitality, which comes from his soul that spreads forth and overcomes,</t>\n    <t s=\"14\">Which generally includes service out of nature, or habit that has become nature, or service according to the intellect and understanding,</t>\n    <t s=\"15\">And there is also that which is above intellect and understanding, which is not an independent entity, but rather he desires to fulfill the will of the Creator.</t>\n    <t s=\"16\">And corresponding to these distinctions, there are also distinctions within the Torah itself.</t>\n    <t s=\"17\">Torah in order to know the deed,</t>\n    <t s=\"18\">For this is specifically the purpose,</t>\n    <t s=\"19\">And consequently there are limitations within it,</t>\n    <t s=\"20\">The law of a holiday on its holiday, and the like,</t>\n    <t s=\"21\">And specifically \"in the four [orders] we teach.\"</t>\n    <t s=\"22\">The study of Torah for its own sake, wherein \"he will delight in her love constantly\" because of her intrinsic virtue, at least according to intellect and understanding.</t>\n    <t s=\"23\">And above the aforementioned: [study] for its own sake truly, for the sake of the Torah,</t>\n    <t s=\"24\">Meaning above intellect and understanding,</t>\n    <t s=\"25\">For then he also connects the Torah that issues from wisdom to its source in the Holy One, blessed be He.</t>\n    <t s=\"26\">And through what can this be? This too is by one showing in himself that he is in a state of Mesiras Nefesh.</t>\n    <t s=\"27\">And there must always be a connection of the Torah to its source,</t>\n    <t s=\"28\">For ostensibly, one could say</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917393_theRebbe_38",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917393_theRebbe_38__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header for the maamar on Purim of the year 5711.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Purim,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "[5]711*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section discusses the puzzling acceptance of the Torah by the Jews in the time of Haman, explaining that it required the service of self-nullification (Mesiras Nefesh) throughout the year.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And the Jews accepted that which they had already undertaken, etc.\" And the Rebbe asks: it is astonishing, etc. And in the time of exile, etc., and particularly in the time of Haman when the decree was, etc., and specifically then they fulfilled what they had already accepted."
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And he answers: that then they were in a state of Mesiras Nefesh (self-sacrifice) the entire year."
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "And behold, why was it specifically necessary to have service in Mesiras Nefesh in order to fulfill that which they had already begun?"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "One must preface an explanation of the matter of \"that which they had already begun,\" which refers to the time of the Giving of the Torah (Matan Torah),"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "For the innovation at the Giving of the Torah was, as is known, the giving of the Torah and mitzvos specifically in physicality,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "Meaning to nullify the decree that \"the Romans shall not descend, etc.,\""
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And therefore they were given specifically to souls in bodies, in their union together."
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "And also in Torah and mitzvos there must be a union of the physical aspect within them and the spirituality,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "Meaning that one makes it a mitzvah,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "And this too is only after refinement in exile."
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "And therefore, also in the fulfillment of Torah and mitzvos there are several modes,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "The first: one who performs Torah and mitzvos as \"the commandments of men learned by rote,\" without vitality, or not for its own sake, with the motive that they will make him a rabbi and the like, which is not vitality,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "Or out of fear of G-d, which is not vitality but rather the opposite—contraction and constriction."
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "The second: one who does the above out of love for Hashem with great vitality, which comes from his soul that spreads forth and overcomes,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "Which generally includes service out of nature, or habit that has become nature, or service according to the intellect and understanding,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "And there is also that which is above intellect and understanding, which is not an independent entity, but rather he desires to fulfill the will of the Creator."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And corresponding to these distinctions, there are also distinctions within the Torah itself."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "Torah in order to know the deed,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "For this is specifically the purpose,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "And consequently there are limitations within it,"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "The law of a holiday on its holiday, and the like,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "And specifically \"in the four [orders] we teach.\""
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "The study of Torah for its own sake, wherein \"he will delight in her love constantly\" because of her intrinsic virtue, at least according to intellect and understanding."
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "And above the aforementioned: [study] for its own sake truly, for the sake of the Torah,"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "Meaning above intellect and understanding,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "For then he also connects the Torah that issues from wisdom to its source in the Holy One, blessed be He."
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "And through what can this be? This too is by one showing in himself that he is in a state of Mesiras Nefesh."
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "And there must always be a connection of the Torah to its source,"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "For ostensibly, one could say"
+          }
+        ]
+      }
+    ]
+  }
+}

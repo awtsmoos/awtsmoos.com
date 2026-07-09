@@ -1,0 +1,87 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918104_theRebbe_982" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918104_theRebbe_982" title="מאמר כל ישראל תשל"ג" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה ידוע29</src>
+    <src s="2">דזה שבהחיוב דקיום המצוות כל ישראל הם שוים ובהחיוב דלימוד התורה יש כו"כ מדריגות,</src>
+    <src s="3">דביושבי אהל שיש להם פנאי החיוב דוהגית30</src>
+    <src s="4">בו יומם ולילה הוא כפשוטו,</src>
+    <src s="5">ובעלי עסקים יוצאים ידי חובתם בפרק אחד שחרית ופרק אחד ערבית31,</src>
+    <src s="6">הוא,</src>
+    <src s="7">כי המצוות הם רצון העליון</src>
+    <src s="8">(כנ"ל),</src>
+    <src s="9">ורצון הוא למעלה מהתחלקות,</src>
+    <src s="10">והתורה היא חכמתו ית',</src>
+    <src s="11">ובחכמה יש התחלקות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ויש לומר,</src>
+    <src s="1">שעד"ז הוא בנוגע ללימוד התורה וקיום המצוות בפועל,</src>
+    <src s="2">דזה שקיום המצוות הוא בכל ישראל,</src>
+    <src s="3">דאפילו פושעי ישראל מלאים מצוות כרימון32,</src>
+    <src s="4">משא"כ בלימוד התורה,</src>
+    <src s="5">הוא,</src>
+    <src s="6">כי אפשר להיות איזה חסרון בישראל רק בהגילויים33,</src>
+    <src s="7">וכיון שהמצוות הם רצון העליון ושייכים להגוף שבו הוא בחירת העצמות,</src>
+    <src s="8">לכן ענין זה</src>
+    <src s="9">(בקיום המצוות)</src>
+    <src s="10">הוא בכל ישראל.</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">וזהו34 כל ישראל יש להם חלק לעולם הבא,</src>
+    <src s="2">דהגם שהגילוי דעולם הבא</src>
+    <src s="3">(עולם התחי')</src>
+    <src s="4">הוא נעלה יותר מהגילוי דג"ע ומ"מ גילוי זה יהי' לכל ישראל,</src>
+    <src s="5">כי בג"ע הוא הגילוי דהתורה שלומדים בעוה"ז,</src>
+    <src s="6">ולע"ל בעולם התחי' יהי' הגילוי דהמצוות שמקיימים עכשיו.</src>
+    <src s="7">וכיון שקיום המצוות הוא בכל ישראל כנ"ל,</src>
+    <src s="8">לכן,</src>
+    <src s="9">כל ישראל יש להם חלק לעולם הבא.</src>
+    <src s="10">וזהו שהגילוי דעולם התחי' יהי' לנשמות בגופים דוקא,</src>
+    <src s="11">כי קיום המצוות שייך בעיקר להגוף,</src>
+    <src s="12">כנ"ל.</src>
+    <src s="13">ויש לומר,</src>
+    <src s="14">דזה שהגילוי דעולם התחי' יהי' גם להנשמות</src>
+    <src s="15">(שיתלבשו אז בהגוף),</src>
+    <src s="16">הוא ע"ד מאמר רז"ל35</src>
+    <src s="17">גדול תלמוד שמביא לידי מעשה,</src>
+    <src s="18">דע"י שהתלמוד מביא לידי מעשה נעשה גדלות בתלמוד.</src>
+    <src s="19">[וע"ד המבואר בהמשך תרס"ו36,</src>
+    <src s="20">דכאשר הלימוד הוא בנוגע לפסק דין בפועל ממש,</src>
+    <src s="21">אז הוא מייגע עצמו יותר ובא לעמקות יתירה בהענין].</src>
+  </section>
+</awtsmoosMeluketSource>

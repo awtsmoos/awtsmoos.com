@@ -1,0 +1,135 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915857_theRebbe_394" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915857_theRebbe_394__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915857_theRebbe_394" title="מאמר ת"ר מצות נר חנוכה תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915857_theRebbe_394__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצאי ש"פ מקץ,</src>
+    <src s="2">שבת חנוכה,</src>
+    <src s="3">ה'תשל"ח*</src>
+  </section>
+  <section v="1">
+    <src s="0">תנו רבנן מצות נר חנוכה כו' בית שמאי אומרים יום ראשון מדליק שמונה מכאן ואילך פוחת והולך ובית הלל אומרים יום ראשון מדליק אחת מכאן ואילך מוסיף והולך,</src>
+    <src s="1">טעמא דב"ש כנגד פרי החג וטעמא דב"ה דמעלין בקודש כו'1.</src>
+    <src s="2">וידוע דיוק כ"ק אדמו"ר הזקן2,</src>
+    <src s="3">מה ענין נר חנוכה לפרי החג.</src>
+    <src s="4">ובפרט לפי מ"ש כ"ק אדמו"ר הצ"צ3,</src>
+    <src s="5">שגם ב"ה לא פליגי רק משום דמעלין בקודש.</src>
+    <src s="6">ומה שמבואר בכ"מ4</src>
+    <src s="7">שהשייכות דחנוכה לסוכות היא ששניהם הם שמונה ימים,</src>
+    <src s="8">דמספר שמונה מורה על בחינה שלמעלה מהשתלשלות5,</src>
+    <src s="9">הרי זה גופא צריך ביאור,</src>
+    <src s="10">מהו הקשר דסוכות וחנוכה לבחינה שלמעלה מהשתלשלות,</src>
+    <src s="11">שמצד זה הם שמונה ימים.</src>
+    <src s="12">וגם,</src>
+    <src s="13">הרי זה שתיקנו נרות חנוכה הוא מפני הנס שהי' בנרות המקדש,</src>
+    <src s="14">ומכיון שבמקדש היו ז' נרות,</src>
+    <src s="15">מדוע בחנוכה יש שמונה נרות</src>
+    <src s="16">(וימים)6.</src>
+    <src s="17">וגם צריך להבין מה שהפערגליַיך</src>
+    <src s="18">(ההשוואה)</src>
+    <src s="19">דנרות חנוכה הוא</src>
+    <src s="20">(לא לחג הסוכות בכלל,</src>
+    <src s="21">אלא)</src>
+    <src s="22">לפרי החג דוקא,</src>
+    <src s="23">דלכאורה,</src>
+    <src s="24">הרי נרות חנוכה שייכים להמנורה</src>
+    <src s="25">(נרות חנוכה הם מפני הנס שהי' בנרות המנורה),</src>
+    <src s="26">ופרי החג הקריבו</src>
+    <src s="27">(ככל הקרבנות)</src>
+    <src s="28">על גבי המזבח,</src>
+    <src s="29">והרי מנורה ומזבח הם שני כלים שונים7</src>
+    <src s="30">[ובפרט לפי המבואר בקבלה ובחסידות8],</src>
+    <src s="31">ונרות וקרבנות עבודות שונות,</src>
+    <src s="32">ועד ששלך</src>
+    <src s="33">(נרות)</src>
+    <src s="34">גדולה משלהם</src>
+    <src s="35">(קרבנות)</src>
+    <src s="36">כו' אינן בטלין לעולם9.</src>
+    <src s="37">וגם צריך להבין מה שמצותה</src>
+    <src s="38">(של נ"ח)</src>
+    <src s="39">היא משתשקע החמה1,</src>
+    <src s="40">דידוע הדיוק בזה10,</src>
+    <src s="41">דנרות המקדש הדליקו מפלג המנחה,</src>
+    <src s="42">שעה ורביע קודם השקיעה11,</src>
+    <src s="43">וכיון שנרות חנוכה הם</src>
+    <src s="44">(כנ"ל)</src>
+    <src s="45">מפני הנס שהי' בנרות המקדש</src>
+    <src s="46">[ובפרט שכל דתקון רבנן כעין דאורייתא תקון12],</src>
+    <src s="47">הי' ראוי לכאורה שתהי' זמן הדלקתם כנרות המקדש,</src>
+    <src s="48">ולמה מצותה היא דוקא משתשקע החמה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ונקודת הביאור בזה13,</src>
+    <src s="2">דענינם של נרות חנוכה הוא להאיר את החושך.</src>
+    <src s="3">דהנה הנס דחנוכה הי' לאחרי שנכנסו היונים להיכל וטימאו כל השמנים שבהיכל1,</src>
+    <src s="4">שהתגברות החושך</src>
+    <src s="5">(דהיונים)14</src>
+    <src s="6">היתה עד כדי כך,</src>
+    <src s="7">דלא רק שנכנסו להיכל וטימאוהו,</src>
+    <src s="8">אלא שטמאו גם את כל השמנים שבהיכל.</src>
+    <src s="9">דשמן הוא בחינת קודש</src>
+    <src s="10">(כמ"ש15</src>
+    <src s="11">שמן משחת קודש)16,</src>
+    <src s="12">קודש מלה בגרמי'17</src>
+    <src s="13">(בדוגמת השמן שצף18</src>
+    <src s="14">על גבי כל המשקין ואינו מתערב עמהם)19.</src>
+    <src s="15">דמזה מובן,</src>
+    <src s="16">שזה שטימאו את כל השמנים שבהיכל,</src>
+    <src s="17">נוגע</src>
+    <src s="18">(בפרט זה)</src>
+    <src s="19">עוד יותר מזה שטימאו את ההיכל,</src>
+    <src s="20">אף שקדושת ההיכל היא דרגא נעלית בעשר קדושות20.</src>
+    <src s="21">וכדמוכח גם מזה שגם לאחרי שבאו בניך כו' וטיהרו את מקדשך21,</src>
+    <src s="22">הנה בכדי שיוכלו להדליק את המנורה הוצרכו לנס דוקא,</src>
+    <src s="23">מתחיל מהנס22</src>
+    <src s="24">שמצאו פך אחד שמן טהור חתום בחותמו של כהן גדול23,</src>
+    <src s="25">אור א"ס שלמעלה מהשתלשלות,</src>
+    <src s="26">שלגבי אור זה גם24</src>
+    <src s="27">חושך לא יחשיך,</src>
+    <src s="28">ואדרבא אור זה מאיר את החושך שגם החושך יאיר,</src>
+    <src s="29">והוי'25</src>
+    <src s="30">(בתוס' וא"ו)</src>
+    <src s="31">יגי' חשכי26.</src>
+    <src s="32">וזהו שנ"ח מצותה משתשקע החמה דוקא,</src>
+    <src s="33">כי ענין נרות חנוכה הוא להאיר את החושך.</src>
+    <src s="34">וזהו גם מה שנרות חנוכה הם שמונה דוקא</src>
+    <src s="35">(וכן יומי דחנוכה תמניא אינון27),</src>
+    <src s="36">שמספר שמונה מורה</src>
+    <src s="37">(כנ"ל ס"א)</src>
+    <src s="38">על בחינה שלמעלה מהשתלשלות,</src>
+    <src s="39">שמצד בחינה זו דוקא אפשר להאיר גם את החושך28.</src>
+  </section>
+</awtsmoosMeluketSource>

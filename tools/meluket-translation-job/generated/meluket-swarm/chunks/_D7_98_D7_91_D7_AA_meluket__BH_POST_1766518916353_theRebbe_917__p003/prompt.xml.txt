@@ -1,0 +1,97 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916353_theRebbe_917" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916353_theRebbe_917" title="מאמר ואלה שמות תשל"ז" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה כל הגילויים דלעתיד תלויים במעשינו ועבודתינו במשך השית אלפי שנין דהוה עלמא32,</src>
+    <src s="2">וזהו הענין דוימררו את חייהם כמו שהוא ברוחניות,</src>
+    <src s="3">דבעבודה קשה דא קושיא,</src>
+    <src s="4">בחומר דא ק"ו,</src>
+    <src s="5">ובלבנים דא ליבון הלכתא33,</src>
+    <src s="6">וואָס ער מאַטערט זיך אין לימוד התורה להוציא הלכה ברורה ע"י ריבוי שקו"ט,</src>
+    <src s="7">ובמצב דבמחשכים הושיבני34</src>
+    <src s="8">זה תלמוד בבלי35,</src>
+    <src s="9">עד שמלבן</src>
+    <src s="10">(ער וואַשט אויס)</src>
+    <src s="11">את הקושיות ורמינהו וכו' עד שההלכה מאירה ומזהירה.</src>
+    <src s="12">דזהו עיקר ענין התורה,</src>
+    <src s="13">הלכה פסוקה וברורה,</src>
+    <src s="14">דזהו מעלת המשניות שהם הלכה פסוקה וכו'36,</src>
+    <src s="15">ולכן ארז"ל37</src>
+    <src s="16">אין הגלויות מתכנסות אלא בזכות משניות שנאמר38</src>
+    <src s="17">גם כי יתנו בגוים עתה אקבצם39.</src>
+    <src s="18">ועד"ז ענין הליבון גם בעבודת התפלה,</src>
+    <src s="19">וכמבואר בתורת חיים40.</src>
+    <src s="20">וע"י הענין דוימררו וגו' בתורה ותפלה כנ"ל,</src>
+    <src s="21">הנה מחליפים</src>
+    <src s="22">(מ'פאַרבייט)</src>
+    <src s="23">יסורי גלות זה האחרון.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">וזהו מ"ש ואלה שמות בני ישראל וגו',</src>
+    <src s="2">שע"י הענין דשמות בנ"י פועלים הגאולה שלאח"ז.</src>
+    <src s="3">דענין שמות בנ"י הוא,</src>
+    <src s="4">כדאיתא במדרש41</src>
+    <src s="5">דראובן שמעון נחתין ראובן שמעון סלקין,</src>
+    <src s="6">שלא שינו את שמם,</src>
+    <src s="7">והיינו דלא רק שעמדו בתוקף על עיקרי התומ"צ,</src>
+    <src s="8">ואפילו לא על תומ"צ סתם,</src>
+    <src s="9">כ"א גם על עניני זהירות וכו' עד שאפילו לא שינו את שמם.</src>
+    <src s="10">ועאכו"כ שהי' אצלם עניני התומ"צ עצמם כדבעי.</src>
+    <src s="11">ועד"ז עכשיו בגלות זה שעומדים בתוקף אפילו על ענינים פשוטים כמו שלא לשנות השם וכו',</src>
+    <src s="12">ועאכו"כ כו'.</src>
+  </section>
+  <section v="8">
+    <src s="0">וכן הוא בתורה,</src>
+    <src s="1">שענינה הוא ג"כ הענין דשמות,</src>
+    <src s="2">דכל התורה היא שמותיו של הקב"ה42,</src>
+    <src s="3">הנה פועלים המשכה דבחינת ואלה שמות,</src>
+    <src s="4">וכנ"ל דכל התורה היא שמותיו של הקב"ה.</src>
+    <src s="5">ויש ס"ר אותיות לתורה43,</src>
+    <src s="6">שמות דהקב"ה,</src>
+    <src s="7">ומבין צירופים אלו – הקדוש יותר השבע שמות שאינם נמחקים44,</src>
+    <src s="8">ומהם גופא – בחינת שמו הגדול45,</src>
+    <src s="9">שזהו בחינת הגילוי דלעתיד שפועלים ע"י העבודה דעכשיו</src>
+    <src s="10">(כנ"ל).</src>
+    <src s="11">וההמשכה דבחינת שמו הגדול היתה כבר בימי חנוכה שאז הי' כמ"ש</src>
+    <src s="12">(בועל הנסים)</src>
+    <src s="13">להודות ולהלל לשמך הגדול,</src>
+    <src s="14">ובאופן נצחי,</src>
+    <src s="15">דהנרות הללו אינן בטלין לעולם46,</src>
+    <src s="16">אבל המשכה זו היא בהעלם,</src>
+    <src s="17">וגילוי בחינת שמו הגדול יהי' לעתיד.</src>
+  </section>
+</awtsmoosMeluketSource>

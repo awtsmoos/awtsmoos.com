@@ -1,0 +1,118 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919126_theRebbe_561" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919126_theRebbe_561" title="מאמר יהי ה' אלוקינו עמנו תשכ"ד" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p004">
+  <section v="9">
+    <src s="0">ד)</src>
+    <src s="1">והנה לשון עם שייך כשיש דמיון בין שני הדברים.</src>
+    <src s="2">כדרשת רז"ל20</src>
+    <src s="3">עה"פ21</src>
+    <src s="4">והתייצבו שם עמך,</src>
+    <src s="5">עמך בדומין לך.</src>
+    <src s="6">דהגם שלשון עם מורה על דבר טפל</src>
+    <src s="7">(כנ"ל סעיף ב),</src>
+    <src s="8">מ"מ,</src>
+    <src s="9">יש לו דמיון להעיקר.</src>
+    <src s="10">ועד"ז הוא בלשון את,</src>
+    <src s="11">שמורה על דבר טפל כדרשת רז"ל22</src>
+    <src s="12">עה"פ23</src>
+    <src s="13">את בשרו את הטפל לבשרו,</src>
+    <src s="14">ומ"מ הוא בדומה להעיקר,</src>
+    <src s="15">כדרשת רז"ל20</src>
+    <src s="16">עה"פ24</src>
+    <src s="17">ונשאו אתך,</src>
+    <src s="18">אתך בדומין לך.</src>
+    <src s="19">ומבואר בספרי דקדוק25,</src>
+    <src s="20">דהטפל המרומז בלשון את הוא טפל יותר מהטפל שבלשון עם26.</src>
+    <src s="21">ועפ"ז,</src>
+    <src s="22">בלשון את עיקר ההדגשה הוא שהדבר</src>
+    <src s="23">(שאומרים עליו את)</src>
+    <src s="24">הוא רק טפל,</src>
+    <src s="25">ובלשון עם עיקר ההדגשה הוא על הדמיון דשני הדברים.</src>
+    <src s="26">ומזה מובן,</src>
+    <src s="27">שעיקר ההדגשה ביהי הוי' אלקינו עמנו הוא לא שהוי' אלקינו הוא טפל כביכול להאדם,</src>
+    <src s="28">אלא הדמיון כביכול שביניהם.</src>
+    <src s="29">ויש לומר,</src>
+    <src s="30">שהדמיון שביניהם הוא בהענין דעיקר וטפל.</src>
+    <src s="31">דכמו שהשלימות דעבודת האדם היא כשהעבודה שלו היא בכח עצמו27,</src>
+    <src s="32">שלכן הוי' אלקינו הוא טפל כביכול להאדם</src>
+    <src s="33">(כנ"ל סעיף ב),</src>
+    <src s="34">עד"ז הוא לאידך,</src>
+    <src s="35">שהשלימות דעבודת האדם היא כשעבודתו</src>
+    <src s="36">[גם העבודה בכח עצמו,</src>
+    <src s="37">וגם העבודה דמס"נ,</src>
+    <src s="38">כולל גם המס"נ על ענינים שע"פ דין אין מחוייב למסור נפשו עליהם]</src>
+    <src s="39">היא לא מפני שהוא רוצה לעבוד את ה' אלא מפני שהוא בטל לאלקות.</src>
+    <src s="40">דכיון שביטולו להקב"ה הוא ביטול בתכלית,</src>
+    <src s="41">לכן,</src>
+    <src s="42">כל מצוה ומצוה</src>
+    <src s="43">(גם כשע"פ דין אין מחוייב למסור נפשו על זה)</src>
+    <src s="44">היא אצלו באופן שאין שייך כלל שלא לקיימה,</src>
+    <src s="45">אפילו כשקיומה הוא ע"י מס"נ.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דע"י הביטול לאלקות,</src>
+    <src s="2">מיתוסף גם בהמס"נ28.</src>
+    <src s="3">דכאשר המס"נ שלו היא מפני שהוא רוצה והחליט לקיים ציווי הקב"ה גם כשצריך לזה מס"נ,</src>
+    <src s="4">הרי יש אצלו נתינת מקום שאפשר להיות גם באופן אחר,</src>
+    <src s="5">וזה שבפועל הוא עומד במס"נ הוא רק מפני שהחליט כן.</src>
+    <src s="6">משא"כ כשהמס"נ שלו היא מפני ביטולו להקב"ה,</src>
+    <src s="7">שלכן כל מצוה שצוה הקב"ה היא אצלו באופן שאין שייך כלל שלא לקיימה,</src>
+    <src s="8">הרי אז אין נתינת מקום כלל שיהי' באופן אחר.</src>
+  </section>
+  <section v="11">
+    <src s="0">ה)</src>
+    <src s="1">וזהו יהי הוי' אלקינו עמנו כאשר הי' עם אבותינו,</src>
+    <src s="2">דבעבודת האבות מודגשים שני ענינים הנ"ל.</src>
+    <src s="3">שקיימו כל התורה עד שלא ניתנה29,</src>
+    <src s="4">דבזה מודגש שעבודתם היתה</src>
+    <src s="5">(לא מפני הציווי מלמעלה,</src>
+    <src s="6">אלא)</src>
+    <src s="7">בכח עצמם.</src>
+    <src s="8">ואעפ"כ היו בתכלית הביטול,</src>
+    <src s="9">דהאבות הן הן המרכבה30.</src>
+    <src s="10">וביטול המרכבה להרוכב הוא ביטול בתכלית.</src>
+    <src s="11">דביטול המרכבה להרוכב הוא לא מצד הרצון דהמרכבה</src>
+    <src s="12">(שרוצה להיות בטילה להרוכב ומרכבה אליו),</src>
+    <src s="13">אלא מצד הרוכב.</src>
+    <src s="14">וכיון שבביטול יש כו"כ דרגות,</src>
+    <src s="15">לכן,</src>
+    <src s="16">מבקשים יהי הוי' אלקינו עמנו כאשר הי' עם אבותינו,</src>
+    <src s="17">שהענין דיהי הוי' אלקינו עמנו,</src>
+    <src s="18">הביטול שלנו לאלקות,</src>
+    <src s="19">יהי' כאשר הי' עם אבותינו,</src>
+    <src s="20">ביטול דמרכבה.</src>
+  </section>
+</awtsmoosMeluketSource>

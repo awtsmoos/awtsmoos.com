@@ -1,0 +1,89 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914855_theRebbe_522" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914855_theRebbe_522__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914855_theRebbe_522" title="מאמר ואשה אחת תשמ"ו" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914855_theRebbe_522__p004">
+  <section v="9">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שאומר לא נפלאת היא ממך ולא רחוקה היא,</src>
+    <src s="2">הכוונה בזה היא להתומ"צ כמו שהם בבחינת פלא וריחוק,</src>
+    <src s="3">וגם להתומ"צ כמו שהם מצד עצמם</src>
+    <src s="4">(קודם ירידתם,</src>
+    <src s="5">שאז אין שייך לומר עליהם גם התואר דפלא וריחוק),</src>
+    <src s="6">שגם דרגא זו דתומ"צ לא נפלאת היא ממך ולא רחוקה היא.</src>
+    <src s="7">כי במתן תורה ניתנו לישראל כל הדרגות דתורה,</src>
+    <src s="8">גם הדרגא דתורה כמו שהיא מצד עצמה</src>
+    <src s="9">(לפני ירידתה להיות שייכת לעולמות),</src>
+    <src s="10">ועד לאורייתא וקוב"ה כולא חד54.</src>
+  </section>
+  <section v="10">
+    <src s="0">ח)</src>
+    <src s="1">והנה עד"ז הוא להפירוש דהמצוה הזאת קאי על מצות התשובה,</src>
+    <src s="2">דזה שתשובה היא בבחינת פלא וריחוק,</src>
+    <src s="3">הוא כמו שירדה להיות נמשכת למטה,</src>
+    <src s="4">אבל כמו שהיא מצד עצמה,</src>
+    <src s="5">אין שייך בה גם התוארים פלא וריחוק.</src>
+    <src s="6">והגם שהפלא והריחוק דתשובה הם באופן נעלה יותר מהפלא והריחוק שבכל המצוות</src>
+    <src s="7">[דהפלא והריחוק שבכל המצוות הו"ע הרצון והחכמה</src>
+    <src s="8">(כנ"ל סעיף ו),</src>
+    <src s="9">וכיון שתשובה היא בבעל הרצון</src>
+    <src s="10">(כנ"ל סעיף ד),</src>
+    <src s="11">מובן,</src>
+    <src s="12">שהפלא והריחוק דתשובה הם באופן נעלה יותר],</src>
+    <src s="13">מ"מ,</src>
+    <src s="14">מכיון שהתואר פלא</src>
+    <src s="15">(ומכ"ש התואר דריחוק),</src>
+    <src s="16">גם כמו שהוא בתכלית העילוי,</src>
+    <src s="17">מורה שהדבר המופלא יש לו איזו שייכות להדבר שמופלא ממנו,</src>
+    <src s="18">לכן,</src>
+    <src s="19">בהדרגא דתשובה כמו שהיא מצד עצמה</src>
+    <src s="20">(בעל הרצון),</src>
+    <src s="21">אין שייך לומר לשון פלא וריחוק.</src>
+    <src s="22">ומ"ש שהמצוה הזאת</src>
+    <src s="23">(תשובה)</src>
+    <src s="24">היא נפלאת ורחוקה,</src>
+    <src s="25">הוא,</src>
+    <src s="26">לאחרי ירידתה להיות נמשכת למטה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דמ"ש לא נפלאת היא ממך ולא רחוקה היא,</src>
+    <src s="2">הכוונה בזה היא להתשובה כמו שהיא בבחינת פלא וריחוק וגם להתשובה כמו שהיא מצד שרשה בבעל הרצון</src>
+    <src s="3">(שלמעלה מהתואר דפלא וריחוק),</src>
+    <src s="4">שגם דרגא זו דתשובה לא נפלאת היא ממך ולא רחוקה היא.</src>
+    <src s="5">וזהו מ"ש כי המצוה הזאת אשר אנכי מצוך גו',</src>
+    <src s="6">שגם התשובה כמו שהיא מצד אנכי,</src>
+    <src s="7">אנכי מי שאנכי,</src>
+    <src s="8">לא נפלאת היא ממך ולא רחוקה היא.</src>
+  </section>
+</awtsmoosMeluketSource>

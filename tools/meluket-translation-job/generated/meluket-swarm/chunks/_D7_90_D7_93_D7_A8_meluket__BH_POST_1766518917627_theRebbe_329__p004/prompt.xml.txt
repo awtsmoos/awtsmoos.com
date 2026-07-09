@@ -1,0 +1,133 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917627_theRebbe_329" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917627_theRebbe_329__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917627_theRebbe_329" title="מאמר החודש הזה לכם תשל"ה" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917627_theRebbe_329__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">ועפ"ז יש לבאר התיווך דשני פסקי הדינים בנוגע להגאולה,</src>
+    <src s="2">שאין ישראל נגאלין אלא בתשובה ושבניסן עתידין ליגאל,</src>
+    <src s="3">כי זה שישראל עושין תשובה בסוף גלותן</src>
+    <src s="4">[שבגלות עצמו,</src>
+    <src s="5">עיקר ההעלם וההסתר דהגלות הוא בסופו],</src>
+    <src s="6">הוא באופן שנרגש בהם,</src>
+    <src s="7">דזה שעושין תשובה הוא לא מצד ציור המציאות של האדם העושה תשובה51</src>
+    <src s="8">אלא מפני שהבטיחה תורה שבסוף הגלות יעשו תשובה.</src>
+    <src s="9">בחינת ניסן,</src>
+    <src s="10">בת,</src>
+    <src s="11">שאין לו משל עצמו כלום והוא מקבל מלמעלה.</src>
+    <src s="12">והגם שהתשובה היא ברצונו ובבחירתו52,</src>
+    <src s="13">וכלשון הרמב"ם שסוף ישראל לעשות תשובה,</src>
+    <src s="14">עשי' ועבודה דישראל</src>
+    <src s="15">[ודלא כההתעוררות תשובה הבאה ע"י הכרוזים שמלמעלה53],</src>
+    <src s="16">מ"מ עשיית התשובה דישראל שבסוף הגלות היא לא מצד הציור שלהם מצד עצמם,</src>
+    <src s="17">אלא מפני שהבטחת התורה פועלת עליהם שיעשו תשובה.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזהו מה שישראל עושין תשובה ומיד הן נגאלין32,</src>
+    <src s="2">דכאשר עשיית התשובה היא מצד האדם עצמו</src>
+    <src s="3">(שהוא במצב וציור כזה ששייך לתשובה),</src>
+    <src s="4">הגם שתשובה בכלל היא באופן דדילוג54</src>
+    <src s="5">מ"מ יש בה איזה סדר והדרגה.</src>
+    <src s="6">דכיון שהאדם הוא מוגבל,</src>
+    <src s="7">גם בהדילוג שלו יש סדר55.</src>
+    <src s="8">שבתחלה הוא בא לתשובה תתאה ואח"כ לתשובה עילאה55</src>
+    <src s="9">ועד שהוא נגאל לגמרי מהמצב</src>
+    <src s="10">(גלות)</src>
+    <src s="11">שהי' לפני התשובה.</src>
+    <src s="12">וזה שישראל עושין תשובה בסוף גלותן ומיד הן נגאלין,</src>
+    <src s="13">הוא,</src>
+    <src s="14">לפי שעשיית תשובה זו היא באופן דבת</src>
+    <src s="15">(מצד הבטחת התורה),</src>
+    <src s="16">שהביטול דבת מגיע בעצמות אוא"ס שלמעלה מהשתלשלות</src>
+    <src s="17">(כנ"ל סעיף ה),</src>
+    <src s="18">ולכן,</src>
+    <src s="19">התשובה דבת היא למעלה מסדר והדרגה</src>
+    <src s="20">(למעלה גם מהסדר דדילוג).</src>
+  </section>
+  <section v="11">
+    <src s="0">ז)</src>
+    <src s="1">והנה זה שהבטחת התורה פועלת על האדם שיעשה תשובה מעצמו,</src>
+    <src s="2">הוא חיבור דניסן ותשרי.</src>
+    <src s="3">דזה שהתשובה</src>
+    <src s="4">(שבסוף הגלות)</src>
+    <src s="5">היא שישראל עושין תשובה בכח עצמם,</src>
+    <src s="6">מלמטה למעלה</src>
+    <src s="7">[ודלא כביציאת מצרים,</src>
+    <src s="8">שחפצם של ישראל לצאת מטומאת מצרים ולדבקה בו ית' היתה מצד הגילוי מלמעלה,</src>
+    <src s="9">שלכן יציאתם ממצרים היתה באופן דכי56</src>
+    <src s="10">ברח העם57],</src>
+    <src s="11">הוא הענין והמעלה דתשרי.</src>
+    <src s="12">וזה שעשיית התשובה היא מצד הבטחת התורה,</src>
+    <src s="13">שלכן היא באופן דמיד הן נגאלין,</src>
+    <src s="14">למעלה מסדר והדרגה,</src>
+    <src s="15">הוא המעלה דניסן.</src>
+    <src s="16">וכמשנת"ל</src>
+    <src s="17">(סעיף ב)</src>
+    <src s="18">שהמעלה דניסן לגבי תשרי הוא שבניסן הוא המשכת אור הבל"ג.</src>
+    <src s="19">ויש לומר,</src>
+    <src s="20">דזה שבניסן דוקא עתידין ליגאל,</src>
+    <src s="21">אף שבהתשובה שבסוף הגלות</src>
+    <src s="22">(שעל ידה תבוא הגאולה)</src>
+    <src s="23">ישנם שני הענינים והמעלות,</src>
+    <src s="24">דניסן ודתשרי,</src>
+    <src s="25">הוא,</src>
+    <src s="26">כי הכח להחיבור דתשרי וניסן בעבודת האדם הוא כי תכלית58</src>
+    <src s="27">הכוונה בהבריאה דתשרי</src>
+    <src s="28">(בראשית ברא)</src>
+    <src s="29">שאז נברא העולם במדידה והגבלה הוא בכדי שע"י העבודה דתומ"צ יהי' בו הגילוי דניסן</src>
+    <src s="30">(החודש הזה לכם).</src>
+    <src s="31">וזהו שהמחשבה לברוא את העולם היתה בניסן,</src>
+    <src s="32">שהמחשבה היא הכוונה והתכלית של העשי' שלאחרי המחשבה</src>
+    <src s="33">(כנ"ל סעיף ב),</src>
+    <src s="34">כי הכוונה והתכלית דבריאת העולם דתשרי</src>
+    <src s="35">(מדידה והגבלה)</src>
+    <src s="36">הוא שיהי' בו הגילוי דניסן שלמעלה מהגבלה.</src>
+    <src s="37">אלא שבכדי שתושלם הכוונה שגם בהגבול יהי' גילוי הבל"ג היתה הבריאה בפועל באופן שבגילוי לא הי' נרגש בה הכוונה.</src>
+    <src s="38">שעי"ז נברא עולם מוגבל.</src>
+    <src s="39">וע"י מעשינו ועבודתינו ובפרט בזמן הגלות,</src>
+    <src s="40">מתגלה שהפנימיות</src>
+    <src s="41">(הכוונה והתכלית)</src>
+    <src s="42">דהגבול שנברא בתשרי הוא שיהי' בו גילוי הבל"ג.</src>
+    <src s="43">וזהו שעשיית התשובה שבסוף הגלות</src>
+    <src s="44">(עשיית ופעולת האדם שנברא בתשרי,</src>
+    <src s="45">גבול)</src>
+    <src s="46">היא באופן דבל"ג</src>
+    <src s="47">(ניסן),</src>
+    <src s="48">כי ע"י מעשינו ועבודתינו מתגלה שענינו הפנימי דהגבול שנברא בתשרי הוא הבל"ג דניסן.</src>
+    <src s="49">וזהו בניסן עתידין ליגאל,</src>
+    <src s="50">כי אז יתגלה שגם הגבול דתשרי,</src>
+    <src s="51">פנימיותו הוא הבל"ג דניסן.</src>
+  </section>
+</awtsmoosMeluketSource>

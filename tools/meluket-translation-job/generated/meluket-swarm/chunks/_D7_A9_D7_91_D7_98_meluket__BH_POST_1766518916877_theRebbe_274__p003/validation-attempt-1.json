@@ -1,0 +1,559 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 103,
+    "returned": 103,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916877_theRebbe_274\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>The maamar continues that the service of the offerings is a spiritual service in the soul, and explains the verse \"Adam ki yakriv mikem\" as referring to the animal within one's heart.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the maamar continues,</t>\n    <t s=\"2\">that the service of the offerings is a spiritual service in the soul.</t>\n    <t s=\"3\">And it brings a proof for this from the matter of the participation of the Kohanim and Levi'im in their service and their song and music at the time of bringing the offering,</t>\n    <t s=\"4\">which are spiritual matters.</t>\n    <t s=\"5\">[And as explained in many places,</t>\n    <t s=\"6\">that the drawing down that was in the offerings was through the service of the Kohanim,</t>\n    <t s=\"7\">and the elevation of the offerings was through the song and music of the Levi'im].</t>\n    <t s=\"8\">And this is the meaning of what is written,</t>\n    <t s=\"9\">\"Adam ki yakriv mikem\" etc.,</t>\n    <t s=\"10\">for seemingly it should have said \"Adam mikem ki yakriv,\"</t>\n    <t s=\"11\">in that this hints,</t>\n    <t s=\"12\">that the offering must be not only from an animal literally, but also \"from you\"</t>\n    <t s=\"13\">(from yourselves),</t>\n    <t s=\"14\">from the animal that is in a person's heart.</t>\n    <t s=\"15\">And it can be said,</t>\n    <t s=\"16\">that what is said in the maamar that the service of the offerings is</t>\n    <t s=\"17\">(also)</t>\n    <t s=\"18\">a spiritual service in the soul of man</t>\n    <t s=\"19\">[even though that the service of the offerings being the service of it'hapcha applies also to offerings in their literal sense,</t>\n    <t s=\"20\">for when one takes an animal whose vitality is from the kelipah of nogah</t>\n    <t s=\"21\">and makes it an offering to Hashem,</t>\n    <t s=\"22\">this is a matter of it'hapcha chashocha l'nehora (transforming darkness into light)],</t>\n    <t s=\"23\">is connected to what was said at the beginning of the maamar,</t>\n    <t s=\"24\">that the explanation of \"And they shall make Me a Sanctuary and I will dwell in their midst\"</t>\n    <t s=\"25\">(in the plural)</t>\n    <t s=\"26\">is within each and every one of Israel.</t>\n    <t s=\"27\">For from this it is understood,</t>\n    <t s=\"28\">that just as in the Mishkan and Mikdash,</t>\n    <t s=\"29\">the main drawing down was through the service of the offerings</t>\n    <t s=\"30\">[for although the drawing down that was drawn into it through the making of the Mikdash is a most lofty drawing down</t>\n    <t s=\"31\">(that through \"And they shall make Me a Sanctuary\" there came to be \"And I will dwell in their midst,\"</t>\n    <t s=\"32\">and \"I will dwell\" — I Myself),</t>\n    <t s=\"33\">nevertheless,</t>\n    <t s=\"34\">the drawing down that was drawn into it through the service of the offerings is even loftier],</t>\n    <t s=\"35\">so too is it regarding the Mikdash within each one of Israel,</t>\n    <t s=\"36\">that even after the service of \"And they shall make Me a Sanctuary\"</t>\n    <t s=\"37\">(that a person makes himself into a Sanctuary for Him, blessed be He),</t>\n    <t s=\"38\">through which there comes to be \"And I will dwell in their midst,\"</t>\n    <t s=\"39\">there must be the service of \"Adam ki yakriv mikem,\"</t>\n    <t s=\"40\">through which there will be drawn into him an even loftier drawing down,</t>\n    <t s=\"41\">the essential matter of \"And I will dwell in their midst.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>The service in the Mishkan and Mikdash is the service of it'kafya leading to it'hapcha, and the drawing down through it'kafya is loftier than through it'hapcha, which is more evident in the soul's service.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And this will be understood by prefacing what is said in the maamar</t>\n    <t s=\"2\">(at the beginning of the chapter),</t>\n    <t s=\"3\">that the service that was in the Mishkan and Mikdash is the service of it'kafya which brings about it'hapcha.</t>\n    <t s=\"4\">For at the beginning of the maamar it says,</t>\n    <t s=\"5\">that the service through which the main dwelling of the Shechinah below is drawn down is the service of it'kafya and it'hapcha</t>\n    <t s=\"6\">[for although it brings there the statement \"When it'kafya sitra achara, the glory of the Holy One, blessed be He, is revealed in all worlds,\"</t>\n    <t s=\"7\">nevertheless, it speaks of both matters,</t>\n    <t s=\"8\">it'kafya and it'hapcha.</t>\n    <t s=\"9\">And on the contrary,</t>\n    <t s=\"10\">the main explanation</t>\n    <t s=\"11\">(at the beginning of the maamar)</t>\n    <t s=\"12\">is regarding the superiority of it'hapcha,</t>\n    <t s=\"13\">that through the darkness being transformed into light, the advantage of light is made],</t>\n    <t s=\"14\">and in this chapter</t>\n    <t s=\"15\">(the second chapter),</t>\n    <t s=\"16\">when it speaks of the service that was in the Mishkan and Mikdash</t>\n    <t s=\"17\">(after their making),</t>\n    <t s=\"18\">it says,</t>\n    <t s=\"19\">that the service in the Mishkan and Mikdash is the service of it'kafya which brings about it'hapcha.</t>\n    <t s=\"20\">And it can be said,</t>\n    <t s=\"21\">that from the explanations on this, that the drawing down through the service of the offerings is a loftier drawing down than the drawing down through the making of the Mikdash</t>\n    <t s=\"22\">(as above in section 5),</t>\n    <t s=\"23\">it is,</t>\n    <t s=\"24\">because the emphasis in the service of the making of the Mikdash is the matter of it'hapcha</t>\n    <t s=\"25\">[that the person and the world are transformed into a Sanctuary for Him, blessed be He],</t>\n    <t s=\"26\">and the novelty in the service of the offerings is that in it is emphasized</t>\n    <t s=\"27\">(also)</t>\n    <t s=\"28\">the matter of it'kafya</t>\n    <t s=\"29\">(as will be explained),</t>\n    <t s=\"30\">and the drawing down through the service of it'kafya is loftier than the drawing down through the service of it'hapcha.</t>\n    <t s=\"31\">And based on this, there is room to add explanation in what is explained</t>\n    <t s=\"32\">(at length)</t>\n    <t s=\"33\">the matter of the service of the offerings as it is in the service of man,</t>\n    <t s=\"34\">for in offerings in their literal sense,</t>\n    <t s=\"35\">only the matter of it'hapcha is revealed and apparent</t>\n    <t s=\"36\">[that the animal whose vitality is from the kelipah of nogah is transformed into an offering to Hashem],</t>\n    <t s=\"37\">and the matter of it'kafya in the service of the offerings is more evident in the service of the offerings in the soul of man.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>The superiority of it'kafya over it'hapcha is that it'kafya is the matter of self-nullification and exiting one's existence, which draws down the true level of Ayin, and this is the essence of the offerings' elevation.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation of the matter of it'kafya in the service of the offerings,</t>\n    <t s=\"1\">will be understood by prefacing,</t>\n    <t s=\"2\">that the superiority of it'kafya over it'hapcha is,</t>\n    <t s=\"3\">that the matter of it'hapcha is that the thing remains in its existence, except that its existence is an existence of holiness,</t>\n    <t s=\"4\">and it'kafya is the matter of nullification,</t>\n    <t s=\"5\">exiting one's existence.</t>\n    <t s=\"6\">And this is the reason for this, that the drawing down through the service of it'kafya is loftier than the drawing down through the service of it'hapcha,</t>\n    <t s=\"7\">because through a person exiting his own existence and becoming a state of Ayin (nothingness),</t>\n    <t s=\"8\">he arouses and draws down the true Ayin</t>\n    <t s=\"9\">(which is above existence).</t>\n    <t s=\"10\">And based on this, we can explain the connection of the service of the offerings</t>\n    <t s=\"11\">(also of offerings in their literal sense)</t>\n    <t s=\"12\">to it'kafya,</t>\n    <t s=\"13\">for the matter of offerings is an elevation from below to above</t>\n    <t s=\"14\">(as will be explained in section 8 and onward),</t>\n    <t s=\"15\">for the matter of elevation from below to above is that the lower being nullifies its existence and is included in the higher</t>\n    <t s=\"16\">[and simply put, it is,</t>\n    <t s=\"17\">that the animal was burned</t>\n    <t s=\"18\">(nullified from its existence)</t>\n    <t s=\"19\">and included in the fire above],</t>\n    <t s=\"20\">and this matter</t>\n    <t s=\"21\">[that the yesh (something) is nullified and becomes a state of Ayin]</t>\n    <t s=\"22\">is the content of the matter of it'kafya.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916877_theRebbe_274",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "The maamar continues that the service of the offerings is a spiritual service in the soul, and explains the verse \"Adam ki yakriv mikem\" as referring to the animal within one's heart.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And the maamar continues,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that the service of the offerings is a spiritual service in the soul."
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "And it brings a proof for this from the matter of the participation of the Kohanim and Levi'im in their service and their song and music at the time of bringing the offering,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "which are spiritual matters."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "[And as explained in many places,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "that the drawing down that was in the offerings was through the service of the Kohanim,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "and the elevation of the offerings was through the song and music of the Levi'im]."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "And this is the meaning of what is written,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "\"Adam ki yakriv mikem\" etc.,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "for seemingly it should have said \"Adam mikem ki yakriv,\""
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "in that this hints,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that the offering must be not only from an animal literally, but also \"from you\""
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "(from yourselves),"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "from the animal that is in a person's heart."
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "that what is said in the maamar that the service of the offerings is"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "(also)"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "a spiritual service in the soul of man"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "[even though that the service of the offerings being the service of it'hapcha applies also to offerings in their literal sense,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "for when one takes an animal whose vitality is from the kelipah of nogah"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "and makes it an offering to Hashem,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "this is a matter of it'hapcha chashocha l'nehora (transforming darkness into light)],"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "is connected to what was said at the beginning of the maamar,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "that the explanation of \"And they shall make Me a Sanctuary and I will dwell in their midst\""
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "(in the plural)"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "is within each and every one of Israel."
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "For from this it is understood,"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "that just as in the Mishkan and Mikdash,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "the main drawing down was through the service of the offerings"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "[for although the drawing down that was drawn into it through the making of the Mikdash is a most lofty drawing down"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "(that through \"And they shall make Me a Sanctuary\" there came to be \"And I will dwell in their midst,\""
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "and \"I will dwell\" — I Myself),"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "the drawing down that was drawn into it through the service of the offerings is even loftier],"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "so too is it regarding the Mikdash within each one of Israel,"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "that even after the service of \"And they shall make Me a Sanctuary\""
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "(that a person makes himself into a Sanctuary for Him, blessed be He),"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "through which there comes to be \"And I will dwell in their midst,\""
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "there must be the service of \"Adam ki yakriv mikem,\""
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "through which there will be drawn into him an even loftier drawing down,"
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "the essential matter of \"And I will dwell in their midst.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "The service in the Mishkan and Mikdash is the service of it'kafya leading to it'hapcha, and the drawing down through it'kafya is loftier than through it'hapcha, which is more evident in the soul's service.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what is said in the maamar"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "(at the beginning of the chapter),"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "that the service that was in the Mishkan and Mikdash is the service of it'kafya which brings about it'hapcha."
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "For at the beginning of the maamar it says,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "that the service through which the main dwelling of the Shechinah below is drawn down is the service of it'kafya and it'hapcha"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "[for although it brings there the statement \"When it'kafya sitra achara, the glory of the Holy One, blessed be He, is revealed in all worlds,\""
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "nevertheless, it speaks of both matters,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "it'kafya and it'hapcha."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And on the contrary,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "the main explanation"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(at the beginning of the maamar)"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "is regarding the superiority of it'hapcha,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "that through the darkness being transformed into light, the advantage of light is made],"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "and in this chapter"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "(the second chapter),"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "when it speaks of the service that was in the Mishkan and Mikdash"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "(after their making),"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "it says,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "that the service in the Mishkan and Mikdash is the service of it'kafya which brings about it'hapcha."
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "that from the explanations on this, that the drawing down through the service of the offerings is a loftier drawing down than the drawing down through the making of the Mikdash"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "(as above in section 5),"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "it is,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "because the emphasis in the service of the making of the Mikdash is the matter of it'hapcha"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "[that the person and the world are transformed into a Sanctuary for Him, blessed be He],"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "and the novelty in the service of the offerings is that in it is emphasized"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "(also)"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "the matter of it'kafya"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "(as will be explained),"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and the drawing down through the service of it'kafya is loftier than the drawing down through the service of it'hapcha."
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "And based on this, there is room to add explanation in what is explained"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "(at length)"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "the matter of the service of the offerings as it is in the service of man,"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "for in offerings in their literal sense,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "only the matter of it'hapcha is revealed and apparent"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "[that the animal whose vitality is from the kelipah of nogah is transformed into an offering to Hashem],"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "and the matter of it'kafya in the service of the offerings is more evident in the service of the offerings in the soul of man."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "The superiority of it'kafya over it'hapcha is that it'kafya is the matter of self-nullification and exiting one's existence, which draws down the true level of Ayin, and this is the essence of the offerings' elevation.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And the explanation of the matter of it'kafya in the service of the offerings,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "will be understood by prefacing,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that the superiority of it'kafya over it'hapcha is,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "that the matter of it'hapcha is that the thing remains in its existence, except that its existence is an existence of holiness,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "and it'kafya is the matter of nullification,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "exiting one's existence."
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "And this is the reason for this, that the drawing down through the service of it'kafya is loftier than the drawing down through the service of it'hapcha,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "because through a person exiting his own existence and becoming a state of Ayin (nothingness),"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "he arouses and draws down the true Ayin"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "(which is above existence)."
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "And based on this, we can explain the connection of the service of the offerings"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "(also of offerings in their literal sense)"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "to it'kafya,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "for the matter of offerings is an elevation from below to above"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "(as will be explained in section 8 and onward),"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "for the matter of elevation from below to above is that the lower being nullifies its existence and is included in the higher"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "[and simply put, it is,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "that the animal was burned"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "(nullified from its existence)"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "and included in the fire above],"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "and this matter"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "[that the yesh (something) is nullified and becomes a state of Ayin]"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "is the content of the matter of it'kafya."
+          }
+        ]
+      }
+    ]
+  }
+}

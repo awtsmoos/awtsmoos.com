@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917648_theRebbe_921" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917648_theRebbe_921" title="מאמר החודש הזה לכם תשל"ט" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצש"ק פ' ויקהל-פקודי,</src>
+    <src s="2">פ' החודש,</src>
+    <src s="3">כ"ה אדר ה'תשל"ט*</src>
+  </section>
+  <section v="1">
+    <src s="0">החודש הזה לכם ראש חדשים ראשון הוא לכם לחדשי השנה1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר במאמרו ד"ה זה</src>
+    <src s="2">(בתחלת בואו לארה"ב)2</src>
+    <src s="3">דאיתא בתרגום יונתן עה"פ3</src>
+    <src s="4">בירח האיתנים גו' הוא חודש השביעי</src>
+    <src s="5">(שקאי על חודש תשרי),</src>
+    <src s="6">דעתיקייא קרן לי' ירחא קדמאה כו' וכען הוא ירחא שביעאה,</src>
+    <src s="7">שקודם מתן תורה4</src>
+    <src s="8">הי' נקרא תשרי בשם חודש הראשון לפי שבו נברא העולם5,</src>
+    <src s="9">וכען,</src>
+    <src s="10">לאחרי יציאת מצרים ומתן תורה,</src>
+    <src s="11">ניסן הוא חודש הראשון ותשרי הוא חודש השביעי.</src>
+    <src s="12">ומדייק בזה,</src>
+    <src s="13">דמכיון שבתחלה הי' תשרי חודש הראשון למה נשתנה שניסן יהי' הראשון.</src>
+    <src s="14">ואם מפני הגאולה שהיתה בניסן,</src>
+    <src s="15">הא גופא צריך ביאור,</src>
+    <src s="16">הרי אתחלתא דגאולה הי' בתשרי,</src>
+    <src s="17">דבר"ה</src>
+    <src s="18">(אחד בתשרי)</src>
+    <src s="19">בטלה עבודה מאבותינו6,</src>
+    <src s="20">ולמה חודש הגאולה</src>
+    <src s="21">(שלימה)</src>
+    <src s="22">הוא ניסן דוקא.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ולהעיר,</src>
+    <src s="2">שבכמה דרושים7</src>
+    <src s="3">הדיוק בזה שניסן הוא ראש חדשים הוא בזה שאחד בתשרי הוא ראש השנה</src>
+    <src s="4">(דזה שאחד בתשרי הוא ראש השנה הוא גם עכשיו לאחרי יציאת מצרים ומתן תורה),</src>
+    <src s="5">דמכיון שזה שנקרא בשם ראש השנה הוא8</src>
+    <src s="6">לפי שהוא כולל החיות של כל השנה בדוגמת הראש שכולל החיות של כל אברי הגוף,</src>
+    <src s="7">ונחלק אח"כ לי"ב ראשי חדשים וכל ר"ח ללמ"ד</src>
+    <src s="8">(כ"ט)</src>
+    <src s="9">יום,</src>
+    <src s="10">הרי נמצא שהחיות דחודש ניסן הוא מתשרי,</src>
+    <src s="11">וכאן נאמר שניסן הוא ראש חדשים וראשון לחדשי השנה</src>
+    <src s="12">(גם לחודש תשרי).</src>
+    <src s="13">ומבארים בזה7,</src>
+    <src s="14">דהחיות שנמשך בתשרי על כל השנה הוא בבחינת גבול ומדה</src>
+    <src s="15">(שבכללות הוא החיות שמלובש בהנבראים בפנימיותם),</src>
+    <src s="16">שהוא השרש דהנהגת הטבע.</src>
+    <src s="17">וזה שניסן נק' ראש הוא בנוגע להמשכת אוא"ס הבל"ג,</src>
+    <src s="18">שהוא השרש דהנהגה ניסית שלמעלה מהטבע.</src>
+    <src s="19">ועפ"ז מבארים9</src>
+    <src s="20">גם זה שתשרי הוא ראש השנה וניסן ראש חדשים,</src>
+    <src s="21">כי הנהגת הטבע,</src>
+    <src s="22">שהיא תמיד בשוה,</src>
+    <src s="23">היא דוגמת מהלך השמש</src>
+    <src s="24">(שנה מלשון משנה10,</src>
+    <src s="25">שאותו הדבר חוזר ונשנה עוד פעם),</src>
+    <src s="26">והנהגה ניסית שענינה הוא חידוש</src>
+    <src s="27">[שלפעמים הקב"ה משדד הנהגת הטבע למשך זמן],</src>
+    <src s="28">היא דוגמת מהלך הירח,</src>
+    <src s="29">שהיא מתחדשת בכל חודש</src>
+    <src s="30">(חודש מלשון חידוש11).</src>
+    <src s="31">ויש לומר,</src>
+    <src s="32">דזה שמדייק במאמר זה שלפני יציאת מצרים הי' תשרי ראשון לחדשים,</src>
+    <src s="33">ההדגשה בזה היא,</src>
+    <src s="34">שלפני יציאת מצרים הי' תשרי הראשון והראש גם להמשכת אלקות שלמעלה מהטבע</src>
+    <src s="35">[וכמובן גם מזה שגם התחלת הגאולה דיציאת מצרים היתה בתשרי],</src>
+    <src s="36">ולמה נשתנה עכשיו שניסן הוא הראשון.</src>
+  </section>
+</awtsmoosMeluketSource>

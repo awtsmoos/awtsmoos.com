@@ -1,0 +1,224 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 36,
+    "returned": 36,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918353_theRebbe_128\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>Opening header with the date and Torah portion for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Tazria-Metzora,</t>\n    <t s=\"2\">3 Iyar 5747*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>Explains the verse \"A garden locked, my sister, my bride\" and the Targum's interpretation that Israel locks their gates to the Holy One, blessed be He, meaning their delight is only in G-dliness.</sectionSummaryBrief>\n    <t s=\"0\">\"A garden locked, my sister, my bride, a spring sealed, a fountain sealed.\"</t>\n    <t s=\"1\">And the Rebbe Maharash, whose birthday is the 2nd of Iyar, brings in the maamar of Parshas Tazria-Metzora in the continuation \"Matzah Zo\" of 5640,</t>\n    <t s=\"2\">the explanation of the Targum,</t>\n    <t s=\"3\">that just as the Garden of Eden is locked and no one can enter it except the souls of the righteous,</t>\n    <t s=\"4\">so too Israel lock their gates to their Master, the Holy One, blessed be He.</t>\n    <t s=\"5\">And he explains in the maamar,</t>\n    <t s=\"6\">that \"gan\" (garden) is delight,</t>\n    <t s=\"7\">and the concept of \"a garden locked\" is that the delight is only in G-dliness,</t>\n    <t s=\"8\">\"and with You I do not desire.\"</t>\n    <t s=\"9\">And it is noteworthy that in the preceding maamar</t>\n    <t s=\"10\">he explains that \"a garden locked\" is \"turn away from evil.\"</t>\n    <t s=\"11\">For the concept of \"turn away from evil\" is primarily in actual deed.</t>\n    <t s=\"12\">And the innovation in this maamar</t>\n    <t s=\"13\">(according to the explanation of the Targum)</t>\n    <t s=\"14\">is,</t>\n    <t s=\"15\">that \"a garden locked\" means that even his delight is only in G-dliness.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>Questions why the Targum specifies the Garden of Eden, since the simple metaphor of a locked garden already implies that one's delight is only in G-dliness.</sectionSummaryBrief>\n    <t s=\"0\">Now, in the Metzudas Dovid on the verse he explains,</t>\n    <t s=\"1\">that Israel are like a locked garden that no one can enter except the owner of the garden.</t>\n    <t s=\"2\">And it needs to be understood,</t>\n    <t s=\"3\">after all, that \"gan\" is delight is also in a simple garden,</t>\n    <t s=\"4\">and if so,</t>\n    <t s=\"5\">even from the parable of a simple locked garden it is understood that the concept of \"they lock their gates\" is that his delight is only in G-dliness,</t>\n    <t s=\"6\">and what is added in understanding the concept of \"Israel lock their gates\" through the explanation that \"a garden locked\" refers to the Garden of Eden?</t>\n    <t s=\"7\">And especially since \"a garden locked\" simply</t>\n    <t s=\"8\">(according to the explanation of the Metzudas Dovid)</t>\n    <t s=\"9\">seems to correspond more to the moral.</t>\n    <t s=\"10\">For since \"a garden locked\" in the moral is the delight of the person</t>\n    <t s=\"11\">(Israel)</t>\n    <t s=\"12\">that is locked and closed from delighting in the delights of the world,</t>\n    <t s=\"13\">the parable that corresponds to this, seemingly, is from a simple garden,</t>\n    <t s=\"14\">and why does the Targum explain that \"a garden locked\" refers to the Garden of Eden, which is</t>\n    <t s=\"15\">(from the outset)</t>\n    <t s=\"16\">the delight in G-dliness.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918353_theRebbe_128",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "Opening header with the date and Torah portion for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Tazria-Metzora,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "3 Iyar 5747*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "Explains the verse \"A garden locked, my sister, my bride\" and the Targum's interpretation that Israel locks their gates to the Holy One, blessed be He, meaning their delight is only in G-dliness.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"A garden locked, my sister, my bride, a spring sealed, a fountain sealed.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe Maharash, whose birthday is the 2nd of Iyar, brings in the maamar of Parshas Tazria-Metzora in the continuation \"Matzah Zo\" of 5640,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "the explanation of the Targum,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "that just as the Garden of Eden is locked and no one can enter it except the souls of the righteous,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "so too Israel lock their gates to their Master, the Holy One, blessed be He."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And he explains in the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that \"gan\" (garden) is delight,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "and the concept of \"a garden locked\" is that the delight is only in G-dliness,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "\"and with You I do not desire.\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "And it is noteworthy that in the preceding maamar"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "he explains that \"a garden locked\" is \"turn away from evil.\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "For the concept of \"turn away from evil\" is primarily in actual deed."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And the innovation in this maamar"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "(according to the explanation of the Targum)"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "is,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that \"a garden locked\" means that even his delight is only in G-dliness."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "Questions why the Targum specifies the Garden of Eden, since the simple metaphor of a locked garden already implies that one's delight is only in G-dliness.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "Now, in the Metzudas Dovid on the verse he explains,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that Israel are like a locked garden that no one can enter except the owner of the garden."
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "after all, that \"gan\" is delight is also in a simple garden,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "and if so,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "even from the parable of a simple locked garden it is understood that the concept of \"they lock their gates\" is that his delight is only in G-dliness,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and what is added in understanding the concept of \"Israel lock their gates\" through the explanation that \"a garden locked\" refers to the Garden of Eden?"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "And especially since \"a garden locked\" simply"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "(according to the explanation of the Metzudas Dovid)"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "seems to correspond more to the moral."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "For since \"a garden locked\" in the moral is the delight of the person"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(Israel)"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "that is locked and closed from delighting in the delights of the world,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "the parable that corresponds to this, seemingly, is from a simple garden,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and why does the Targum explain that \"a garden locked\" refers to the Garden of Eden, which is"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(from the outset)"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "the delight in G-dliness."
+          }
+        ]
+      }
+    ]
+  }
+}

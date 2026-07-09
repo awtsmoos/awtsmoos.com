@@ -1,0 +1,659 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 123,
+    "returned": 123,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919663_theRebbe_89\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919663_theRebbe_89__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains the two levels in the soul—Tzion (the essence of the soul) and captivity (the soul's powers in the body)—and their respective redemptions through judgment and charity.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">Now, it is explained in the discourses beginning “Tzion b’mishpat tipadeh u’shveha b’tzedakah”</t>\n    <t s=\"2\">(of the Alter Rebbe and our Rebbes, his successors),</t>\n    <t s=\"3\">that this verse speaks about two levels.</t>\n    <t s=\"4\">Tzion,</t>\n    <t s=\"5\">which, although it is in exile and therefore requires redemption,</t>\n    <t s=\"6\">nevertheless is not in a state of captivity,</t>\n    <t s=\"7\">and therefore its redemption from exile is through judgment.</t>\n    <t s=\"8\">And the level of “and her captives,”</t>\n    <t s=\"9\">who are actual captives,</t>\n    <t s=\"10\">and their redemption from captivity is specifically through charity.</t>\n    <t s=\"11\">And the explanation of these two levels in man,</t>\n    <t s=\"12\">is in the soul, which is the essence of man</t>\n    <t s=\"13\">(as stated in Tanya, chapter 32),</t>\n    <t s=\"14\">“You are called ‘man’”</t>\n    <t s=\"15\">on account of “the likeness of the Supernal One,”</t>\n    <t s=\"16\">the soul</t>\n    <t s=\"17\">exists as it is above its investment in the body,</t>\n    <t s=\"18\">the essence of the soul,</t>\n    <t s=\"19\">the innermost point of the heart, etc.,</t>\n    <t s=\"20\">and the part of the soul that is invested in the body,</t>\n    <t s=\"21\">which generally are the revealed faculties of the soul that are in a state of investment,</t>\n    <t s=\"22\">called the “foot” of the soul.</t>\n    <t s=\"23\">And concerning this it is said, “Tzion shall be redeemed through judgment and her captives through charity,”</t>\n    <t s=\"24\">“Tzion” refers to the essence of the soul, the level of the innermost point of the heart,</t>\n    <t s=\"25\">and in this level, the matter of captivity and subjugation to the other side, G-d forbid, does not apply,</t>\n    <t s=\"26\">only the matter of exile.</t>\n    <t s=\"27\">However, regarding the soul’s powers that are in a state of investment in the body, the matter of captivity does apply,</t>\n    <t s=\"28\">and concerning this it says, “and her captives through charity,”</t>\n    <t s=\"29\">that even the soul’s powers</t>\n    <t s=\"30\">(that are in a state of investment in the body)</t>\n    <t s=\"31\">which are actual captives of the other side,</t>\n    <t s=\"32\">will be redeemed through charity.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the level of the innermost point of the heart (Tzion) is above change, and when it is revealed, it causes the Torah words to be new every day in all the soul's faculties and garments.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And to explain the matter of the level of the innermost point of the heart</t>\n    <t s=\"2\">(called by the name “Tzion”),</t>\n    <t s=\"3\">the aforementioned discourses bring</t>\n    <t s=\"4\">the verse,</t>\n    <t s=\"5\">“And these words which I command you today,” and our sages said,</t>\n    <t s=\"6\">“Every day they should be in your eyes as new.”</t>\n    <t s=\"7\">One must understand how this is possible</t>\n    <t s=\"8\">[for this matter of “every day they should be in your eyes as new” must be</t>\n    <t s=\"9\">(like all matters of the true Torah)</t>\n    <t s=\"10\">in truth,</t>\n    <t s=\"11\">and since the Holy One, blessed be He, only asks according to one’s ability,</t>\n    <t s=\"12\">it is proven that it is within man’s power to attain this,</t>\n    <t s=\"13\">yet seemingly, since man is limited and subject to change,</t>\n    <t s=\"14\">how can he come to the point that every day they are in his eyes as new?]</t>\n    <t s=\"15\">And the explanation of this</t>\n    <t s=\"16\">(as understood from the aforementioned discourses),</t>\n    <t s=\"17\">is that this is due to the level of the innermost point of the heart, which is above the matter of change,</t>\n    <t s=\"18\">and therefore,</t>\n    <t s=\"19\">when the innermost point of the heart is as it should be</t>\n    <t s=\"20\">(i.e., it is revealed),</t>\n    <t s=\"21\">it also affects the soul’s powers that are invested in the body,</t>\n    <t s=\"22\">and also the soul’s garments—thought, speech, and action—</t>\n    <t s=\"23\">so that even in them the words of Torah will be as new,</t>\n    <t s=\"24\">for through the revelation of the level of the innermost point of the heart,</t>\n    <t s=\"25\">even the revealed faculties of the soul are in their perfection.</t>\n    <t s=\"26\">And this is why Israel are called</t>\n    <t s=\"27\">(in this verse)</t>\n    <t s=\"28\">by the name “Tzion”</t>\n    <t s=\"29\">[as the Tzemach Tzedek said,</t>\n    <t s=\"30\">that the interpretation</t>\n    <t s=\"31\">(of “For Tzion shall be redeemed through judgment”)</t>\n    <t s=\"32\">that Tzion refers to the city</t>\n    <t s=\"33\">(or to the entire Land of Israel)</t>\n    <t s=\"34\">is somewhat forced.</t>\n    <t s=\"35\">And he explains that Tzion refers to the people of Israel],</t>\n    <t s=\"36\">for Tzion is a term meaning “sign,”</t>\n    <t s=\"37\">and when the</t>\n    <t s=\"38\">(revelation of the)</t>\n    <t s=\"39\">level of the innermost point of the heart shines in a person,</t>\n    <t s=\"40\">then he is in the level of Tzion, meaning “sign,”</t>\n    <t s=\"41\">(a mere sign),</t>\n    <t s=\"42\">that his entire existence is only a sign of the matters above.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that through the three things mentioned in the verse—Torah, charity, and sacrifices—performed with total self-nullification, Israel become called Tzion, a mere sign of the supernal matters.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, the aforementioned explanation</t>\n    <t s=\"2\">(of the Tzemach Tzedek)</t>\n    <t s=\"3\">that Tzion refers to the people of Israel,</t>\n    <t s=\"4\">is understood there based on the statement of the Jerusalem Talmud</t>\n    <t s=\"5\">on the verse,</t>\n    <t s=\"6\">“And I have placed My words in your mouth and covered you with the shadow of My hand, to plant the heavens and to lay the foundations of the earth, and to say to Tzion, ‘You are My people.’”</t>\n    <t s=\"7\">We searched the entire Scripture and did not find that Israel are called Tzion except here</t>\n    <t s=\"8\">(where it is stated)</t>\n    <t s=\"9\">“and to say to Tzion, ‘You are My people.’”</t>\n    <t s=\"10\">And the Tzemach Tzedek explains,</t>\n    <t s=\"11\">that through the three things in this verse</t>\n    <t s=\"12\">(according to the Jerusalem Talmud’s interpretation there)</t>\n    <t s=\"13\">“And I have placed My words in your mouth”—this is Torah</t>\n    <t s=\"14\">[“The word of the L-rd”—this is halachah,</t>\n    <t s=\"15\">i.e., Torah],</t>\n    <t s=\"16\">“and covered you with the shadow of My hand”—this is acts of kindness</t>\n    <t s=\"17\">[which is the entirety of all the mitzvos,</t>\n    <t s=\"18\">and the mitzvos are garments,</t>\n    <t s=\"19\">“covered you”],</t>\n    <t s=\"20\">“to plant the heavens and to lay the foundations of the earth”—these are the sacrifices</t>\n    <t s=\"21\">[for through the sacrifices the statutes of heaven and earth are sustained.</t>\n    <t s=\"22\">And through the sacrifices</t>\n    <t s=\"23\">(and prayer)</t>\n    <t s=\"24\">the unification of Zeir Anpin and Nukvah, called heaven and earth, is effected],</t>\n    <t s=\"25\">through the fulfillment of these three things, Israel are in the level of Tzion.</t>\n    <t s=\"26\">That is,</t>\n    <t s=\"27\">when these three things are in their perfection</t>\n    <t s=\"28\">(and as they are hinted at in this verse),</t>\n    <t s=\"29\">the study of Torah is with ultimate self-nullification, to the point that the speech does not come from itself, but rather the word of G-d speaks in it, like the manner of the Shechinah speaking from the throat</t>\n    <t s=\"30\">(of Moshe),</t>\n    <t s=\"31\">for this is “And I have placed My words in your mouth”—that the word of G-d speaks in his mouth,</t>\n    <t s=\"32\">and likewise his fulfillment of the mitzvos is in a state of self-nullification,</t>\n    <t s=\"33\">so that his existence is not felt, but rather he is covered</t>\n    <t s=\"34\">(“covered you”)</t>\n    <t s=\"35\">in the shadow of My hand</t>\n    <t s=\"36\">(the hand of the Holy One, blessed be He)</t>\n    <t s=\"37\">i.e., the level of the mitzvos as they are the mitzvos of G-d.</t>\n    <t s=\"38\">And certainly this is so in the area of service,</t>\n    <t s=\"39\">that his service is “to plant the heavens and to lay the foundations of the earth.”</t>\n    <t s=\"40\">(And as it is stated in the Zohar,</t>\n    <t s=\"41\">that through one’s involvement in matters of Torah, that matter becomes new heavens and a new earth,</t>\n    <t s=\"42\">meaning that his speech of Torah is analogous to the speech of the Holy One, blessed be He,</t>\n    <t s=\"43\">“Just as I, through My speech, created heaven and earth… so too you.”)</t>\n    <t s=\"44\">Now, through the fulfillment of the aforementioned three things in such a manner,</t>\n    <t s=\"45\">the Congregation of Israel are called by the name “Tzion,”</t>\n    <t s=\"46\">meaning they are not in a state of independent existence, but rather their existence is that they are a sign of the supernal matters.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919663_theRebbe_89",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919663_theRebbe_89__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains the two levels in the soul—Tzion (the essence of the soul) and captivity (the soul's powers in the body)—and their respective redemptions through judgment and charity.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "Now, it is explained in the discourses beginning “Tzion b’mishpat tipadeh u’shveha b’tzedakah”"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(of the Alter Rebbe and our Rebbes, his successors),"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "that this verse speaks about two levels."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "Tzion,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "which, although it is in exile and therefore requires redemption,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "nevertheless is not in a state of captivity,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "and therefore its redemption from exile is through judgment."
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "And the level of “and her captives,”"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "who are actual captives,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and their redemption from captivity is specifically through charity."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "And the explanation of these two levels in man,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "is in the soul, which is the essence of man"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(as stated in Tanya, chapter 32),"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "“You are called ‘man’”"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "on account of “the likeness of the Supernal One,”"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "the soul"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "exists as it is above its investment in the body,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "the essence of the soul,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "the innermost point of the heart, etc.,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "and the part of the soul that is invested in the body,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "which generally are the revealed faculties of the soul that are in a state of investment,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "called the “foot” of the soul."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "And concerning this it is said, “Tzion shall be redeemed through judgment and her captives through charity,”"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "“Tzion” refers to the essence of the soul, the level of the innermost point of the heart,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "and in this level, the matter of captivity and subjugation to the other side, G-d forbid, does not apply,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "only the matter of exile."
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "However, regarding the soul’s powers that are in a state of investment in the body, the matter of captivity does apply,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "and concerning this it says, “and her captives through charity,”"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "that even the soul’s powers"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "(that are in a state of investment in the body)"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "which are actual captives of the other side,"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "will be redeemed through charity."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the level of the innermost point of the heart (Tzion) is above change, and when it is revealed, it causes the Torah words to be new every day in all the soul's faculties and garments.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And to explain the matter of the level of the innermost point of the heart"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(called by the name “Tzion”),"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "the aforementioned discourses bring"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "the verse,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "“And these words which I command you today,” and our sages said,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "“Every day they should be in your eyes as new.”"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "One must understand how this is possible"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "[for this matter of “every day they should be in your eyes as new” must be"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(like all matters of the true Torah)"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "in truth,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "and since the Holy One, blessed be He, only asks according to one’s ability,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "it is proven that it is within man’s power to attain this,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "yet seemingly, since man is limited and subject to change,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "how can he come to the point that every day they are in his eyes as new?]"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "And the explanation of this"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "(as understood from the aforementioned discourses),"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "is that this is due to the level of the innermost point of the heart, which is above the matter of change,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "when the innermost point of the heart is as it should be"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "(i.e., it is revealed),"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "it also affects the soul’s powers that are invested in the body,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "and also the soul’s garments—thought, speech, and action—"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "so that even in them the words of Torah will be as new,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "for through the revelation of the level of the innermost point of the heart,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "even the revealed faculties of the soul are in their perfection."
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "And this is why Israel are called"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "(in this verse)"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "by the name “Tzion”"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "[as the Tzemach Tzedek said,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "that the interpretation"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "(of “For Tzion shall be redeemed through judgment”)"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "that Tzion refers to the city"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "(or to the entire Land of Israel)"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "is somewhat forced."
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "And he explains that Tzion refers to the people of Israel],"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "for Tzion is a term meaning “sign,”"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "and when the"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "(revelation of the)"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "level of the innermost point of the heart shines in a person,"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "then he is in the level of Tzion, meaning “sign,”"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "(a mere sign),"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "that his entire existence is only a sign of the matters above."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that through the three things mentioned in the verse—Torah, charity, and sacrifices—performed with total self-nullification, Israel become called Tzion, a mere sign of the supernal matters.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "Now, the aforementioned explanation"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(of the Tzemach Tzedek)"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that Tzion refers to the people of Israel,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "is understood there based on the statement of the Jerusalem Talmud"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "“And I have placed My words in your mouth and covered you with the shadow of My hand, to plant the heavens and to lay the foundations of the earth, and to say to Tzion, ‘You are My people.’”"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "We searched the entire Scripture and did not find that Israel are called Tzion except here"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "(where it is stated)"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "“and to say to Tzion, ‘You are My people.’”"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "And the Tzemach Tzedek explains,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "that through the three things in this verse"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "(according to the Jerusalem Talmud’s interpretation there)"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "“And I have placed My words in your mouth”—this is Torah"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "[“The word of the L-rd”—this is halachah,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "i.e., Torah],"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "“and covered you with the shadow of My hand”—this is acts of kindness"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "[which is the entirety of all the mitzvos,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "and the mitzvos are garments,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "“covered you”],"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "“to plant the heavens and to lay the foundations of the earth”—these are the sacrifices"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "[for through the sacrifices the statutes of heaven and earth are sustained."
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "And through the sacrifices"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "(and prayer)"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "the unification of Zeir Anpin and Nukvah, called heaven and earth, is effected],"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "through the fulfillment of these three things, Israel are in the level of Tzion."
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "That is,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "when these three things are in their perfection"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "(and as they are hinted at in this verse),"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "the study of Torah is with ultimate self-nullification, to the point that the speech does not come from itself, but rather the word of G-d speaks in it, like the manner of the Shechinah speaking from the throat"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "(of Moshe),"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "for this is “And I have placed My words in your mouth”—that the word of G-d speaks in his mouth,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "and likewise his fulfillment of the mitzvos is in a state of self-nullification,"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "so that his existence is not felt, but rather he is covered"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "(“covered you”)"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "in the shadow of My hand"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "(the hand of the Holy One, blessed be He)"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "i.e., the level of the mitzvos as they are the mitzvos of G-d."
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "And certainly this is so in the area of service,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "that his service is “to plant the heavens and to lay the foundations of the earth.”"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "(And as it is stated in the Zohar,"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "that through one’s involvement in matters of Torah, that matter becomes new heavens and a new earth,"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "meaning that his speech of Torah is analogous to the speech of the Holy One, blessed be He,"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "“Just as I, through My speech, created heaven and earth… so too you.”)"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "Now, through the fulfillment of the aforementioned three things in such a manner,"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "the Congregation of Israel are called by the name “Tzion,”"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "meaning they are not in a state of independent existence, but rather their existence is that they are a sign of the supernal matters."
+          }
+        ]
+      }
+    ]
+  }
+}

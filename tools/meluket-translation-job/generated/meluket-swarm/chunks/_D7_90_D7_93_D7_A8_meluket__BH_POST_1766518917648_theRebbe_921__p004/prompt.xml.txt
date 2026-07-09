@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917648_theRebbe_921" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917648_theRebbe_921" title="מאמר החודש הזה לכם תשל"ט" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">שעד"ז הוא בנוגע לתשרי וניסן.</src>
+    <src s="3">שתכלית הכוונה בהבריאה דתשרי</src>
+    <src s="4">(בראשית ברא)</src>
+    <src s="5">שאז נברא העולם במדידה והגבלה הוא בכדי שע"י העבודה דתומ"צ יהי' בו גילוי הבל"ג דניסן</src>
+    <src s="6">(החודש הזה לכם).</src>
+    <src s="7">ויש לקשר זה עם המבואר במק"א38</src>
+    <src s="8">בענין ב' הדיעות.</src>
+    <src s="9">בזמן הבריאה39</src>
+    <src s="10">– דעת ר' אליעזר שבתשרי נברא העולם</src>
+    <src s="11">(כ"ה אלול40)</src>
+    <src s="12">ודעת ר' יהושע שבניסן נברא העולם</src>
+    <src s="13">(כ"ה אדר41)</src>
+    <src s="14">– שאלו ואלו דברי אלקים חיים,</src>
+    <src s="15">אלא שבניסן עלה במחשבה לברוא,</src>
+    <src s="16">והבריאה בפועל היתה בתשרי42</src>
+    <src s="17">(שלאחרי ניסן).</src>
+    <src s="18">וע"פ הידוע שהכוונה והתכלית של עשי' היא המחשבה שלפני',</src>
+    <src s="19">יש לומר,</src>
+    <src s="20">דזה שהמחשבה לברוא את העולם היתה בניסן,</src>
+    <src s="21">הכוונה בזה היא,</src>
+    <src s="22">שהכוונה והתכלית דבריאת העולם בתשרי</src>
+    <src s="23">(מדידה והגבלה)</src>
+    <src s="24">הוא שיהי' בו הגילוי דניסן שלמעלה מהגבלה.</src>
+    <src s="25">אלא שבכדי שתושלם הכוונה שגם בהגבול יהי' גילוי הבל"ג היתה הבריאה בפועל באופן שבגילוי לא הי' נרגש בה הכוונה,</src>
+    <src s="26">שעי"ז נברא עולם מוגבל,</src>
+    <src s="27">וע"י התומ"צ נמשך בעולם המוגבל הגילוי דאוא"ס הבל"ג,</src>
+    <src s="28">דהתחלת גילוי זה הי' ביציאת מצרים,</src>
+    <src s="29">החודש הזה לכם.</src>
+  </section>
+  <section v="10">
+    <src s="0">ט)</src>
+    <src s="1">ועפ"ז יש לבאר מה שלאחרי יציאת מצרים ומתן תורה,</src>
+    <src s="2">גם המנין דחדשי השנה הוא מניסן,</src>
+    <src s="3">הגם שחדשי השנה הם גילויים השייכים להבריאה ושרש המשכתם הוא מהאור השייך לעולמות,</src>
+    <src s="4">כי מצד ענין וגדר העולם א"א שיהי' בו הגילויים דחדשי השנה,</src>
+    <src s="5">כי גם חדשי השנה הם חדשים מלשון חידוש</src>
+    <src s="6">(היפך הגדר דעולם),</src>
+    <src s="7">וזה שנמשך בעולם</src>
+    <src s="8">(שחיותו הוא מהאור שמתלבש בו)</src>
+    <src s="9">הגילויים דחדשי השנה מהאור שלמעלה מהתלבשות בעולם הי' כמו הקדמה להגילוי דחדשים סתם,</src>
+    <src s="10">האור שלמעלה משייכות לעולמות.</src>
+    <src s="11">[ויש לומר דזהו שארז"ל43</src>
+    <src s="12">משבחר הקב"ה בעולמו קבע בו ראשי חדשים</src>
+    <src s="13">(ושנים),</src>
+    <src s="14">דזה שנקבע בעולם ראשי חדשים</src>
+    <src s="15">(שהם היפך הגדר דעולם כנ"ל)</src>
+    <src s="16">הוא מצד זה שבחר הקב"ה בעולמו,</src>
+    <src s="17">דיש לומר שענין בחר בעולמו הוא הגילוי דכוונת הבריאה.</src>
+    <src s="18">דבריאת העולם היתה</src>
+    <src s="19">(כנ"ל)</src>
+    <src s="20">באופן שלא הי' נרגש בה הכוונה,</src>
+    <src s="21">וכשבחר הקב"ה בעולמו התחיל להאיר בו קצת כוונת הבריאה].</src>
+    <src s="22">אלא שלפני יציאת מצרים,</src>
+    <src s="23">כיון שכל הענינים היו אז במיצר והגבלה,</src>
+    <src s="24">לכן,</src>
+    <src s="25">העילוי שהי' נרגש בהחידוש דחדשי השנה הוא רק שהם למעלה מהגבלה ממש,</src>
+    <src s="26">ולכן הי' אז תשרי הראשון לחדשי השנה.</src>
+    <src s="27">אבל לאחרי הגילוי דיציאת מצרים ומתן תורה נתגלה שהחידוש דחדשי השנה</src>
+    <src s="28">(שהי' מקודם)</src>
+    <src s="29">הוא הקדמה להגילוי דיציאת מצרים ומתן תורה,</src>
+    <src s="30">ולכן עכשיו ניסן הוא ראשון גם לחדשי השנה,</src>
+    <src s="31">ומנין החדשים הוא מניסן.</src>
+  </section>
+  <section v="11">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">והנה התחלת הגילוי דחודש ניסן,</src>
+    <src s="3">שהוא ראשון גם לחדשי השנה,</src>
+    <src s="4">הוא משבת מברכים ראש חודש ניסן,</src>
+    <src s="5">ובפרט כשהקביעות דראש חודש הוא באמצע השבוע</src>
+    <src s="6">(לפני שבת)</src>
+    <src s="7">שאז קוראין בהשבת שלפני ר"ח</src>
+    <src s="8">(שבת מברכים)</src>
+    <src s="9">פרשת החודש44.</src>
+    <src s="10">ועאכו"כ כשהקביעות דר"ח ניסן היא ביום ה'</src>
+    <src s="11">(כמו שהי' בהשנה דיציאת מצרים45)</src>
+    <src s="12">שאז הקביעות דשבת מברכים ניסן ודש"פ החודש הוא בכ"ה אדר שבו עלה במחשבה לברוא את העולם,</src>
+    <src s="13">דמחשבה זו היא הכוונה והתכלית של הבריאה בפועל,</src>
+    <src s="14">שגם בהגבול דעולם</src>
+    <src s="15">(כמו שנברא בתשרי)</src>
+    <src s="16">יהי' גילוי אוא"ס הבל"ג</src>
+    <src s="17">(ניסן),</src>
+    <src s="18">שעי"ז נשלמת הכוונה דדירה לו ית' בתחתונים.</src>
+    <src s="19">דגילוי זה יהי' בעיקר בגאולה העתידה,</src>
+    <src s="20">דבניסן נגאלו ובניסן עתידין ליגאל46.</src>
+  </section>
+</awtsmoosMeluketSource>

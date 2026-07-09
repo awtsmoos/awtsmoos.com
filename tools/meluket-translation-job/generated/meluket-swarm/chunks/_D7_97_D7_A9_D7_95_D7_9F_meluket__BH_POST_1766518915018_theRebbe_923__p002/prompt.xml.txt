@@ -1,0 +1,167 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915018_theRebbe_923" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915018_theRebbe_923__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915018_theRebbe_923" title="מאמר ואברהם זקן תשל"ז" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915018_theRebbe_923__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והגם שגם זקן בא בימים הוא בחינת עתיק יומין,</src>
+    <src s="2">כדאיתא במדרש15</src>
+    <src s="3">שאמר הקב"ה לאברהם בא ולבוש לבושי שנאמר ואברהם זקן בא בימים,</src>
+    <src s="4">ופירש במתנות כהונה דזה שבא בימים הוא לבושו של הקב"ה הוא כי הקב"ה נק'16</src>
+    <src s="5">עתיק יומין</src>
+    <src s="6">[והצ"צ17</src>
+    <src s="7">מוסיף שגם זקן</src>
+    <src s="8">(דיקנא18)</src>
+    <src s="9">הוא לבושו דהקב"ה,</src>
+    <src s="10">כי בעתיק יומין כתיב16</src>
+    <src s="11">לבושי' כתלג חיוור19</src>
+    <src s="12">שהוא20</src>
+    <src s="13">בחינת י"ג תיקוני דיקנא],</src>
+    <src s="14">יש לומר,</src>
+    <src s="15">שהכוונה בזה היא</src>
+    <src s="16">(לא לעתיק ממש,</src>
+    <src s="17">אלא21)</src>
+    <src s="18">לאריך שנקרא ג"כ בשם עתיק יומין22</src>
+    <src s="19">[ויש לומר דזה שאריך נקרא בשם עתיק יומין הוא לפי שבו מלובשים ז"ת דעתיק23],</src>
+    <src s="20">משא"כ כל הוא עתיק עצמו.</src>
+    <src s="21">ויתירה מזו,</src>
+    <src s="22">שבעתיק גופא הוא בחינת ג"ר דעתיק שאינם מלובשים באריך24,</src>
+    <src s="23">ועד לבחינת פנימיות עתיק ולמעלה יותר,</src>
+    <src s="24">וכנ"ל</src>
+    <src s="25">(סעיף א)</src>
+    <src s="26">מהמאמר שכל הוא בחינת העלם העצמי.</src>
+    <src s="27">וזהו שהענין דזקן בא בימים מייחס הכתוב לאברהם</src>
+    <src s="28">(ואברהם זקן בא בימים)</src>
+    <src s="29">משא"כ בנוגע כל אומר שהוי' ברך את אברהם בכל,</src>
+    <src s="30">כי זה שהי' לאברהם בחינת זקן בא בימים,</src>
+    <src s="31">שהוא בחיצוניות הכתר,</src>
+    <src s="32">המשיך זה ע"י עבודתו.</src>
+    <src s="33">ויש לומר,</src>
+    <src s="34">דזוהי גם השייכות דהפירוש שזקן בא בימים הוא לבושו דהקב"ה עם הפירוש25</src>
+    <src s="35">שזקן הוא זה שקנה חכמה26</src>
+    <src s="36">(תורה)</src>
+    <src s="37">ובא בימים הוא לבושי המצוות27,</src>
+    <src s="38">כי זה שהי' לאברהם לבושו של הקב"ה,</src>
+    <src s="39">המשיך זה ע"י התורה והמצוות שלו.</src>
+  </section>
+  <section v="4">
+    <src s="0">ויש לבאר זה בפרטיות יותר,</src>
+    <src s="1">דזקן ובא בימים הם שתי מדריגות.</src>
+    <src s="2">זקן שהוא י"ג תיקוני דיקנא,</src>
+    <src s="3">הוא במוחא סתימאה דאריך,</src>
+    <src s="4">ובא בימים הוא אריך עצמו</src>
+    <src s="5">[דזה שאריך נקרא בשם עתיק יומין28</src>
+    <src s="6">הוא בעיקר בעצמיות אריך],</src>
+    <src s="7">גלגלתא דאריך.</src>
+    <src s="8">וזוהי השייכות דשני ענינים אלו</src>
+    <src s="9">(זקן ובא בימים)</src>
+    <src s="10">שלמעלה</src>
+    <src s="11">(לבושו של הקב"ה)</src>
+    <src s="12">עם שני ענינים אלו בעבודת האדם,</src>
+    <src s="13">כי מוחא סתימאה דאריך הוא פנימי,</src>
+    <src s="14">השרש דתורה29,</src>
+    <src s="15">וגלגלתא דאריך הוא מקיף,</src>
+    <src s="16">השרש דמצוות29.</src>
+    <src s="17">וע"י עסק התורה דאברהם,</src>
+    <src s="18">זקן שקנה חכמה,</src>
+    <src s="19">המשיך בחינת הדיקנא ומוחא סתימאה דאריך</src>
+    <src s="20">(זקן),</src>
+    <src s="21">וע"י שהי' בא בימים,</src>
+    <src s="22">לבושי המצוות,</src>
+    <src s="23">המשיך בחינת גלגלתא30</src>
+    <src s="24">דאריך</src>
+    <src s="25">(בא בימים).</src>
+    <src s="26">משא"כ כל שהוא בחינת עתיק,</src>
+    <src s="27">אין אתעדל"ת מגעת לשם,</src>
+    <src s="28">ולכן כתיב וה' ברך את אברהם בכל,</src>
+    <src s="29">אתערותא דלעילא הבאה מלמעלה.</src>
+    <src s="30">אלא שאתערותא דלעילא זו31</src>
+    <src s="31">שורה ומתגלה דוקא לאחרי שלימות העבודה</src>
+    <src s="32">(והאתערותא דלעילא שע"י האתערותא דלתתא),</src>
+    <src s="33">לכן,</src>
+    <src s="34">מה שברך ה' את אברהם בכל הי' זה דוקא לאחרי שעמד בעשר נסיונות,</src>
+    <src s="35">כנ"ל</src>
+    <src s="36">(סעיף ב בתחלתו).</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">והנה גם בבחינת כל</src>
+    <src s="2">(עתיק)</src>
+    <src s="3">שלמעלה מבא בימים</src>
+    <src s="4">(אריך)</src>
+    <src s="5">יש כמה מדריגות.</src>
+    <src s="6">וכמובן מהמבואר בהמאמר</src>
+    <src s="7">(ד"ה ואברהם זקן)</src>
+    <src s="8">דהצ"צ32,</src>
+    <src s="9">שבתחלה אומר,</src>
+    <src s="10">שאברהם זכה לבחינת כל ע"י קיום מל"ת וגם בבחינה זו דכל אומר שהוא פנימיות עתיק</src>
+    <src s="11">[כמבואר שם,</src>
+    <src s="12">דזה שוהוי' ברך את אברהם בכל הוא לאחרי שנאמר בא בימים,</src>
+    <src s="13">כי ימים הם מ"ע,</src>
+    <src s="14">וע"י העבודה דבא בימים קיום מ"ע זכה לבחינת אריך</src>
+    <src s="15">(בחינת בא בימים דלמעלה),</src>
+    <src s="16">משא"כ זה שזכה לבחינת כל שזכה לזה ע"י קיום מל"ת הוא פנימיות עתיק שלמעלה מאריך33],</src>
+    <src s="17">ולאח"ז אומר שאברהם זכה לזה ע"י העשרה נסיונות</src>
+    <src s="18">(כנ"ל סעיף ב מהמדרש),</src>
+    <src s="19">דיש לומר,</src>
+    <src s="20">שבחינת כל שזכה ע"י הנסיונות הוא נעלה יותר מבחינת כל שזכה ע"י קיום מל"ת.</src>
+    <src s="21">וי"ל הביאור בזה,</src>
+    <src s="22">דבחינת עתיק</src>
+    <src s="23">(כל)</src>
+    <src s="24">שזכה ע"י קיום מל"ת,</src>
+    <src s="25">יש לו שייכות להשתלשלות,</src>
+    <src s="26">ולכן,</src>
+    <src s="27">עבודת האדם שעל ידה זוכה לזה היא עבודה שתלוי' ברצונו</src>
+    <src s="28">(היינו עבודה שבסדר והדרגה),</src>
+    <src s="29">אלא שבזה גופא,</src>
+    <src s="30">מכיון שעתיק הוא למעלה מהשתלשלות,</src>
+    <src s="31">לכן העבודה היא לא בעשי' אלא בשב ואל תעשה,</src>
+    <src s="32">שלילה34.</src>
+    <src s="33">משא"כ בחינת עתיק</src>
+    <src s="34">(כל)</src>
+    <src s="35">שזכה ע"י הנסיונות,</src>
+    <src s="36">הוא נעתק ונבדל לגמרי,</src>
+    <src s="37">וכנ"ל</src>
+    <src s="38">(סעיף א)</src>
+    <src s="39">מהמאמר שהוא העלם העצמי.</src>
+    <src s="40">ולכן,</src>
+    <src s="41">כשעבודת האדם היא תלוי' ברצונו,</src>
+    <src s="42">אין לה שום דמיון35</src>
+    <src s="43">לבחינה זו דעתיק שנעתק ומובדל לגמרי.</src>
+    <src s="44">ורק ע"י העבודה דנסיונות שאינה תלוי' ברצון האדם</src>
+    <src s="45">[שהרי אסור לאדם להעמיד עצמו בנסיון,</src>
+    <src s="46">ולא עוד אלא שנצטווינו לבקש אל תביאנו לידי נסיון36],</src>
+    <src s="47">עי"ז דוקא זוכים לגילוי בחינה זו.</src>
+  </section>
+</awtsmoosMeluketSource>

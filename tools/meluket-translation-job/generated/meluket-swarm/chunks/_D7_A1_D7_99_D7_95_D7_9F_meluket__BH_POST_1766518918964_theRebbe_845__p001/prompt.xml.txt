@@ -1,0 +1,94 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918964_theRebbe_845" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918964_theRebbe_845__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918964_theRebbe_845" title="מאמר והנה פרח מטה אהרן תשל"ג" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918964_theRebbe_845__p001">
+  <section v="0">
+    <src s="0">*</src>
+  </section>
+  <section v="1">
+    <src s="0">והנה פרח מטה אהרן גו' ויגמול שקדים1,</src>
+    <src s="1">ומבואר בלקו"ת ד"ה זה2,</src>
+    <src s="2">דהטעם שגמל שקדים דוקא הוא כי שקדים הם ממהרים להגמר יותר מכל הפירות3</src>
+    <src s="3">[ומוסיף בלקו"ת שם4,</src>
+    <src s="4">שלכן נקראים בשם שקדים מלשון שקידה ומהירות,</src>
+    <src s="5">כמ"ש5</src>
+    <src s="6">מקל שקד גו' כי שוקד אני על דברי לעשותו.</src>
+    <src s="7">ויש לומר,</src>
+    <src s="8">שהכוונה בהוספה זו היא לרמז דהמהירות שבשקדים הוא ענינם,</src>
+    <src s="9">וכידוע6</src>
+    <src s="10">ששמו של דבר מורה על ענינו],</src>
+    <src s="11">ולכן רומזים על הכהונה,</src>
+    <src s="12">כי ההשפעות הנמשכות ע"י אהרן הכהן</src>
+    <src s="13">[אהרן אותיות נראה7]</src>
+    <src s="14">הן במהירות.</src>
+    <src s="15">ועד"ז הוא בנוגע לכל הכהנים בני אהרן,</src>
+    <src s="16">דכשהכהנים מברכים את העם,</src>
+    <src s="17">נמשכת השפע למטה במהירות גדולה בלי עיכובים</src>
+    <src s="18">(כדלקמן סעיף ז).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והענין הוא8,</src>
+    <src s="2">דשורש כל ההשפעות הוא ממדת חסדו ית',</src>
+    <src s="3">חסד דאצילות.</src>
+    <src s="4">ובכדי שיומשכו מהחסד שבאצילות השפעות גשמיות,</src>
+    <src s="5">בני חיי ומזוני,</src>
+    <src s="6">הוא ע"י שהחסד יורד ומשתלשל בכל המדריגות שמאצילות ועד עשי'.</src>
+    <src s="7">ובכל המשכה ממדריגה למדריגה יש דין ומשפט,</src>
+    <src s="8">אם תומשך השפע בהמדריגה שלמטה או שתשאר בהמדריגה שלמעלה.</src>
+    <src s="9">וזהו שמתפללים ומבקשים בכל יום רפאנו,</src>
+    <src s="10">ברך עלינו,</src>
+    <src s="11">אף שמזונותיו של אדם קצובים לו מר"ה ועד יוהכ"פ9</src>
+    <src s="12">(והכוונה במזונותיו כאן היא לכל ג' הענינים דבני חיי ומזוני10),</src>
+    <src s="13">כי הכתיבה וחתימה טובה שבר"ה ויוהכ"פ הוא המשכת החסד במלכות דאצילות,</src>
+    <src s="14">ובכדי שתהי' השפעת החסד בענינים גשמיים הוא ע"י ירידת והתלבשות החסד דמלכות דאצילות בהחסד דבריאה,</src>
+    <src s="15">ולאח"ז בהחסד דיצירה ודעשי'.</src>
+    <src s="16">וזהו אדם נידון בכל יום11,</src>
+    <src s="17">אף שכבר נגמר דינו בר"ה וביוהכ"פ,</src>
+    <src s="18">כי הדין שבר"ה וביוהכ"פ הוא שיומשך החסד להאדם במלכות דאצילות,</src>
+    <src s="19">והדין שאדם נידון בכל יום הוא,</src>
+    <src s="20">אם הוא ראוי שהחסד שנמשך כבר על נפשו למעלה בר"ה ויוהכ"פ ירד ויומשך</src>
+    <src s="21">(בבריאה יצירה ועשי' עד שיומשך)</src>
+    <src s="22">למטה בעוה"ז הגשמי,</src>
+    <src s="23">או שישאר החסד למעלה ויוסיפו לו תענוג למעלה.</src>
+    <src s="24">ולכן מתפללים בכל יום רפאנו וברך עלינו וכו',</src>
+    <src s="25">שהחסד שנקצב לו בר"ה וביוהכ"פ יומשך למטה בעוה"ז הגשמי,</src>
+    <src s="26">ובעוה"ז עצמו – בענינים גשמיים.</src>
+    <src s="27">ועוד ענין בהדין שבכל יום12,</src>
+    <src s="28">דכיון שהחסד שלמעלה הוא חסד רוחני,</src>
+    <src s="29">הרי גם לאחרי הפס"ד שיומשך למטה בעוה"ז,</src>
+    <src s="30">יש דין ומשפט באיזה ענין יומשך החסד.</src>
+    <src s="31">ולכן תיקנו להתפלל בכל יום י"ב ברכות אמצעיות שיש בהן שאלת כל צרכי האדם וצרכי הציבור כולן13.</src>
+  </section>
+</awtsmoosMeluketSource>

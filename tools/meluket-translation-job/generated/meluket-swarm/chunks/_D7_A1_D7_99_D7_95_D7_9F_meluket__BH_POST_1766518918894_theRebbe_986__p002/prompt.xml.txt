@@ -1,0 +1,158 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918894_theRebbe_986" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918894_theRebbe_986__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918894_theRebbe_986" title="מאמר בהעלותך את הנרות תשל"ד" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918894_theRebbe_986__p002">
+  <section v="3">
+    <src s="0">ויובן זה ע"פ מ"ש בלקו"ת15</src>
+    <src s="1">שז' הנרות דהמנורה הם ז' סוגי בנ"י בעבודת ה',</src>
+    <src s="2">יש עובד מאהבה משוך כמים</src>
+    <src s="3">(חסד)</src>
+    <src s="4">ויש מאהבה כרשפי אש</src>
+    <src s="5">(גבורה)</src>
+    <src s="6">וכו'.</src>
+    <src s="7">ויש לומר,</src>
+    <src s="8">דזה שז' סוגים אלה</src>
+    <src s="9">(אף שהחילוק שביניהם הוא רק באופן עבודתם)</src>
+    <src s="10">נק' ז' נרות</src>
+    <src s="11">(דמזה שהנשמה קרוי' נר16</src>
+    <src s="12">משמע שהם ז' סוגי נשמות),</src>
+    <src s="13">הוא,</src>
+    <src s="14">כי כיון שאני נבראתי לשמש את קוני17</src>
+    <src s="15">(ובפרט להגירסא18</src>
+    <src s="16">אני לא נבראתי אלא לשמש את קוני),</src>
+    <src s="17">לכן,</src>
+    <src s="18">החילוק באופן עבודתם</src>
+    <src s="19">(השימוש את קונם)</src>
+    <src s="20">נוגע לעצם מציאותם.</src>
+    <src s="21">וע"פ המבואר במק"א19</src>
+    <src s="22">בדיוק לשון רז"ל אני נבראתי לשמש את קוני,</src>
+    <src s="23">דזה שענינו של האדם</src>
+    <src s="24">(הנשמה)</src>
+    <src s="25">הוא לשמש את קונו,</src>
+    <src s="26">הוא בנוגע לבריאתו,</src>
+    <src s="27">ירידת הנשמה לבריאה,</src>
+    <src s="28">אבל הנשמה עצמה כמו שהיא בבחינת טהורה היא20</src>
+    <src s="29">(למעלה מבחינת אתה בראתה20),</src>
+    <src s="30">כיון שהיא חלק אלוקה ממעל ממש21,</src>
+    <src s="31">אינה אמצעי לאיזה ענין אחר</src>
+    <src s="32">(גם לא להענין דלשמש את קונה)</src>
+    <src s="33">והתכלית הוא בה בעצמה,</src>
+    <src s="34">מובן,</src>
+    <src s="35">שההתחלקות דנשמות באופן עבודתם היא רק בהדרגא דאתה בראתה,</src>
+    <src s="36">ולא בעצם מהותם.</src>
+    <src s="37">ועפ"ז יש לומר,</src>
+    <src s="38">דמ"ש בהעלותך את הנרות,</src>
+    <src s="39">נרות סתם</src>
+    <src s="40">(ולא שבעת הנרות),</src>
+    <src s="41">הוא לרמז שהעלי' דהנשמות</src>
+    <src s="42">(בהעלותך את הנרות)</src>
+    <src s="43">היא</src>
+    <src s="44">(גם)</src>
+    <src s="45">בהדרגא דטהורה היא שלמעלה מהתחלקות,</src>
+    <src s="46">נרות סתם.</src>
+    <src s="47">דזה שמובא לעיל</src>
+    <src s="48">(מהמאמר)</src>
+    <src s="49">שבהעלותך את הנרות הוא בנשמות דבי"ע,</src>
+    <src s="50">דכיון שע"י ירידתם לבי"ע טבע הרצוא והעלי' שלהם הוא בהעלם לכן צריך לעורר ולגלות טבע העלי' שלהם,</src>
+    <src s="51">בהעלותך את הנרות,</src>
+    <src s="52">הוא התחלת העלי'.</src>
+    <src s="53">אבל עי"ז נעשית בהם</src>
+    <src s="54">(אח"כ)</src>
+    <src s="55">עלי' נעלית יותר,</src>
+    <src s="56">שהם מתעלים למעלה יותר גם מכמו שהיו קודם ירידתם.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה ע"פ תורת הרב המגיד22</src>
+    <src s="2">עה"פ בהעלותך את הנרות,</src>
+    <src s="3">דנרות הם המצוות כמ"ש23</src>
+    <src s="4">כי נר מצוה.</src>
+    <src s="5">דכמו שהנר שורה בו אור,</src>
+    <src s="6">כך המצוה הפנימיות</src>
+    <src s="7">(האור)</src>
+    <src s="8">שלה הוא אהבה ויראה.</src>
+    <src s="9">ופירוש בהעלותך את הנרות</src>
+    <src s="10">(דפירוש את הוא</src>
+    <src s="11">(גם)</src>
+    <src s="12">עם)</src>
+    <src s="13">הוא,</src>
+    <src s="14">שתעלה את עצמך עם המצוות,</src>
+    <src s="15">והעלי' היא אל מול פני המנורה,</src>
+    <src s="16">להפנימיות.</src>
+    <src s="17">וע"ד מ"ש24</src>
+    <src s="18">וידבר אלקים את כל הדברים האלה לאמר אנכי גו',</src>
+    <src s="19">שהכוונה דכל המצוות</src>
+    <src s="20">(כל הדברים האלה)</src>
+    <src s="21">היא לאמר,</src>
+    <src s="22">שהאדם</src>
+    <src s="23">(יחשוב ו)</src>
+    <src s="24">יאמר אנכי ולא יהי' לך,</src>
+    <src s="25">היינו או"י</src>
+    <src s="26">(ר"ת אנכי ולא יהי',</src>
+    <src s="27">וגם ר"ת)</src>
+    <src s="28">אהבה ויראה</src>
+    <src s="29">(דאנכי הוא אהבה ולא יהי' לך יראה),</src>
+    <src s="30">על פני פי' פנימיות,</src>
+    <src s="31">שהפנימיות הוא הקב"ה.</src>
+    <src s="32">וזהו אל מול פני המנורה.</src>
+    <src s="33">יאירו שבעת הנרות הם שבעת ימי הבנין,</src>
+    <src s="34">אהבה ויראה ותפארת וכו'.</src>
+  </section>
+  <section v="5">
+    <src s="0">ולכאורה הכוונה בזה,</src>
+    <src s="1">דבהפנימיות דמצוות שני ענינים.</src>
+    <src s="2">שעל ידי קיום המצוות</src>
+    <src s="3">(הנר,</src>
+    <src s="4">הכלי)</src>
+    <src s="5">באים לאהוי"ר25</src>
+    <src s="6">(האור),</src>
+    <src s="7">דזהו שאנכי ולא יהי'</src>
+    <src s="8">(כללות כל המצוות26)</src>
+    <src s="9">ר"ת או"י אהבה ויראה,</src>
+    <src s="10">דפנימיות זו היא כמו אור הנר שהאור והנר הם בערך זה לזה,</src>
+    <src s="11">ועי"ז נמשך בהם אח"כ פנימיות נעלית יותר – על פני27,</src>
+    <src s="12">אמיתית הפנימיות שהוא הקב"ה.</src>
+    <src s="13">ועפ"ז יובן גם הקשר דשני הענינים דבהעלותך את הנרות להפירוש דנרות הם הנשמות,</src>
+    <src s="14">גילוי טבע הרצוא והעלי' בנשמות דבי"ע ושעי"ז נעשה בהם עלי' למעלה יותר גם מכמו שהיו באצילות קודם ירידתם לבי"ע,</src>
+    <src s="15">דזה שהנשמה מתעוררת ברצוא</src>
+    <src s="16">(אהבה רבה שלמעלה מטעם ודעת28),</src>
+    <src s="17">הגם שעלי' זו היא אל מול פני המנורה</src>
+    <src s="18">(בחי' פנימיות),</src>
+    <src s="19">היא דרגא הראשונה דפנימיות</src>
+    <src s="20">(דוגמת אהוי"ר שנמשכים ע"י המצוות),</src>
+    <src s="21">ועי"ז היא מתעלית למעלה יותר גם מכמו שהיתה באצילות,</src>
+    <src s="22">דרגא השני' דפנימיות,</src>
+    <src s="23">על פני.</src>
+  </section>
+</awtsmoosMeluketSource>

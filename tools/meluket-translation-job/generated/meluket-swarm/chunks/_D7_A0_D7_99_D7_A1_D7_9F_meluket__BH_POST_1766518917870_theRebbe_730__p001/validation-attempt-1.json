@@ -1,0 +1,284 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 48,
+    "returned": 48,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917870_theRebbe_730\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917870_theRebbe_730__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Erev Shabbat Kodesh Parshat Chayei Sarah,</t>\n    <t s=\"2\">26 Marcheshvan 5716*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the verse \"Ashrei tevchar v'tekarev\" is recited before circumcision, corresponding to four levels, and that circumcision draws down from above the chain of descent.</sectionSummaryBrief>\n    <t s=\"0\">\"Ashrei tevchar v'tekarev yishkon chatsereicha, nisbe'ah b'tuv beitecha, kedosh heichalecha\"1,</t>\n    <t s=\"1\">Now, this verse is recited before the covenant of circumcision,</t>\n    <t s=\"2\">as it is brought in the Siddur, the order of circumcision.</t>\n    <t s=\"3\">And the source for this is what is stated in the Zohar2:</t>\n    <t s=\"4\">\"The early pious ones... when they would bring their sons for this sacrifice, they would open and say, 'Ashrei tevchar v'tekarev yishkon chatsereicha...'\"</t>\n    <t s=\"5\">[And although in the Zohar there it says \"the early pious ones,\" etc.,</t>\n    <t s=\"6\">the Alter Rebbe wrote in his Siddur3</t>\n    <t s=\"7\">that this is a matter equal for every soul.]</t>\n    <t s=\"8\">And the explanation of the connection of this verse to the covenant of circumcision is,</t>\n    <t s=\"9\">that in this verse four matters are enumerated:</t>\n    <t s=\"10\">\"Chatzereicha\" (your courtyards) in the plural, two aspects of courtyard4,</t>\n    <t s=\"11\">\"Beitecha\" (your house), and \"Heichalecha\" (your palace).</t>\n    <t s=\"12\">And the order of the matters in the verse is from below upward.</t>\n    <t s=\"13\">As it is brought in the Zohar there,</t>\n    <t s=\"14\">\"First 'chatzereicha,' then 'beitecha,' and then 'heichalecha,'</t>\n    <t s=\"15\">this one is more internal than that one, and this one is higher than that one.\"</t>\n    <t s=\"16\">And it can be said,</t>\n    <t s=\"17\">that these four matters correspond to the four worlds of Atzilut, Beriah, Yetzirah, and Asiyah (ABiYA)</t>\n    <t s=\"18\">(as will be explained below, section 6).</t>\n    <t s=\"19\">Therefore, this verse is recited before the circumcision,</t>\n    <t s=\"20\">for through circumcision there is a drawing down from above the chain of descent,</t>\n    <t s=\"21\">and in order for this drawing down to be, there must first be the completeness of the chain of descent</t>\n    <t s=\"22\">(the four worlds)</t>\n    <t s=\"23\">as will be explained below</t>\n    <t s=\"24\">(section 7).</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the difference between a courtyard and a house, and between a covered and uncovered courtyard, in simple terms and in halachah.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">that the difference between a courtyard and a house</t>\n    <t s=\"3\">(in their simple sense)</t>\n    <t s=\"4\">is,</t>\n    <t s=\"5\">that a house is a person's dwelling, and in the courtyard are found the animals and birds,</t>\n    <t s=\"6\">as it is brought in the Mishnah5:</t>\n    <t s=\"7\">\"If one would place an animal in the courtyard... and raise chickens\"6.</t>\n    <t s=\"8\">And within the courtyard itself there are two types:</t>\n    <t s=\"9\">a covered courtyard and an uncovered courtyard.</t>\n    <t s=\"10\">For the difference between a covered courtyard and an uncovered courtyard is also in halachah:</t>\n    <t s=\"11\">An uncovered courtyard</t>\n    <t s=\"12\">(when it is more than two se'ah, by Torah law it is a private domain, but by rabbinic law it is a karmelit, because it resembles a public domain7),</t>\n    <t s=\"13\">and a covered courtyard is a private domain even by rabbinic law8.</t>\n    <t s=\"14\">And the difference between them simply,</t>\n    <t s=\"15\">is that the guarding of animals is also in an uncovered courtyard</t>\n    <t s=\"16\">[and it only requires that the courtyard be surrounded by partitions],</t>\n    <t s=\"17\">and the guarding of birds</t>\n    <t s=\"18\">(which can fly over the partitions)</t>\n    <t s=\"19\">is specifically in a covered courtyard.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917870_theRebbe_730",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917870_theRebbe_730__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Erev Shabbat Kodesh Parshat Chayei Sarah,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "26 Marcheshvan 5716*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that the verse \"Ashrei tevchar v'tekarev\" is recited before circumcision, corresponding to four levels, and that circumcision draws down from above the chain of descent.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"Ashrei tevchar v'tekarev yishkon chatsereicha, nisbe'ah b'tuv beitecha, kedosh heichalecha\"1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "Now, this verse is recited before the covenant of circumcision,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "as it is brought in the Siddur, the order of circumcision."
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "And the source for this is what is stated in the Zohar2:"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "\"The early pious ones... when they would bring their sons for this sacrifice, they would open and say, 'Ashrei tevchar v'tekarev yishkon chatsereicha...'\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "[And although in the Zohar there it says \"the early pious ones,\" etc.,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "the Alter Rebbe wrote in his Siddur3"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "that this is a matter equal for every soul.]"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "And the explanation of the connection of this verse to the covenant of circumcision is,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "that in this verse four matters are enumerated:"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "\"Chatzereicha\" (your courtyards) in the plural, two aspects of courtyard4,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "\"Beitecha\" (your house), and \"Heichalecha\" (your palace)."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And the order of the matters in the verse is from below upward."
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "As it is brought in the Zohar there,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "\"First 'chatzereicha,' then 'beitecha,' and then 'heichalecha,'"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "this one is more internal than that one, and this one is higher than that one.\""
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "that these four matters correspond to the four worlds of Atzilut, Beriah, Yetzirah, and Asiyah (ABiYA)"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "(as will be explained below, section 6)."
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "Therefore, this verse is recited before the circumcision,"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "for through circumcision there is a drawing down from above the chain of descent,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "and in order for this drawing down to be, there must first be the completeness of the chain of descent"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "(the four worlds)"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "as will be explained below"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "(section 7)."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the difference between a courtyard and a house, and between a covered and uncovered courtyard, in simple terms and in halachah.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the difference between a courtyard and a house"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(in their simple sense)"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "is,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "that a house is a person's dwelling, and in the courtyard are found the animals and birds,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "as it is brought in the Mishnah5:"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "\"If one would place an animal in the courtyard... and raise chickens\"6."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And within the courtyard itself there are two types:"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "a covered courtyard and an uncovered courtyard."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "For the difference between a covered courtyard and an uncovered courtyard is also in halachah:"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "An uncovered courtyard"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "(when it is more than two se'ah, by Torah law it is a private domain, but by rabbinic law it is a karmelit, because it resembles a public domain7),"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "and a covered courtyard is a private domain even by rabbinic law8."
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And the difference between them simply,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "is that the guarding of animals is also in an uncovered courtyard"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "[and it only requires that the courtyard be surrounded by partitions],"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "and the guarding of birds"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "(which can fly over the partitions)"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "is specifically in a covered courtyard."
+          }
+        ]
+      }
+    ]
+  }
+}

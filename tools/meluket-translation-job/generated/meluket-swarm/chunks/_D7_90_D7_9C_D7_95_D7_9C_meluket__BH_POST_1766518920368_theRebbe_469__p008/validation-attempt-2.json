@@ -1,0 +1,304 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 52,
+    "returned": 52,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920368_theRebbe_469\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920368_theRebbe_469__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>The maamar brings three matters, including the concept of \"and He did not desire\" relating to the service of tzaddikim, and explains that the advantage of teshuvah is also present in mitzvah observance, though teshuvah has two modes.</sectionSummaryBrief>\n    <t s=\"0\">And the maamar brings the three matters,</t>\n    <t s=\"1\">also the concept of \"and He did not desire\" which is in the manner of the service of the tzaddikim,</t>\n    <t s=\"2\">even though the main concept of the virtue of the lower one</t>\n    <t s=\"3\">(Your people)</t>\n    <t s=\"4\">is in the service of teshuvah</t>\n    <t s=\"5\">(as above),</t>\n    <t s=\"6\">for the concept and elevation in teshuvah</t>\n    <t s=\"7\">(which effects change)</t>\n    <t s=\"8\">is also in the observance of the mitzvos</t>\n    <t s=\"9\">(of tzaddikim),</t>\n    <t s=\"10\">as brought in the maamar from the Yerushalmi: How great is the power of those who perform mitzvos.</t>\n    <t s=\"11\">Except that in the service of teshuvah it is in revelation.</t>\n    <t s=\"12\">And in teshuvah itself there are two modes,</t>\n    <t s=\"13\">\"And He will turn... and because He loved you...,\"</t>\n    <t s=\"14\">in each of which there is an advantage as above section 10.</t>\n  </section>\n  <section v=\"22\">\n    <sectionSummaryBrief>The phrase \"Your people, Israel\" indicates two separate blessings—one for the simple folk and one for the learned—yet the single \"bless\" shows they are one, as the blessing for the simple draws from the essence and extends to Israel's inner powers.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">3)</t>\n    <t s=\"2\">And one may add,</t>\n    <t s=\"3\">that this which it says \"Your people, Israel\"</t>\n    <t s=\"4\">(and not \"Your people and</t>\n    <t s=\"5\">Israel,\"</t>\n    <t s=\"6\">for even in this language it is emphasized that \"Your people\" and \"Israel\" are two matters)</t>\n    <t s=\"7\">is in order to hint that they are two blessings,</t>\n    <t s=\"8\">a blessing for Your people and a blessing for Israel</t>\n    <t s=\"9\">(as above section 2).</t>\n    <t s=\"10\">For in addition to that \"bless Your people\" is drawn afterward through them to all of Israel,</t>\n    <t s=\"11\">there is another blessing—\"Israel.\"</t>\n    <t s=\"12\">And it may be said,</t>\n    <t s=\"13\">that \"bless Your people,\"</t>\n    <t s=\"14\">simple people who observe Torah and mitzvos with innocence and simplicity, is the drawing from the aspect of the Essence</t>\n    <t s=\"15\">(wool),</t>\n    <t s=\"16\">for the concept of simplicity is from the simplicity of the essence of the soul.</t>\n    <t s=\"17\">And \"bless Israel\"</t>\n    <t s=\"18\">(those who know Torah)</t>\n    <t s=\"19\">is a drawing that pertains to the matter of revelations</t>\n    <t s=\"20\">(snow).</t>\n    <t s=\"21\">And nevertheless it says \"bless\" one time,</t>\n    <t s=\"22\">in order to hint,</t>\n    <t s=\"23\">that they are one matter.</t>\n    <t s=\"24\">For \"bless Your people\"</t>\n    <t s=\"25\">is the blessing that is drawn to Israel,</t>\n    <t s=\"26\">that is,</t>\n    <t s=\"27\">the drawing of the Essence into the inner powers,</t>\n    <t s=\"28\">so that the inner powers</t>\n    <t s=\"29\">(even from the aspect of their depiction)</t>\n    <t s=\"30\">will be according to the Essence,</t>\n    <t s=\"31\">as above sections 9 and 10.</t>\n  </section>\n  <section v=\"23\">\n    <sectionSummaryBrief>A verse never departs from its plain meaning, and may it be speedily in our days that He bless Your people Israel literally, in both spiritual and physical matters—children, life, and ample sustenance.</sectionSummaryBrief>\n    <t s=\"0\">And a verse never departs from its plain meaning,</t>\n    <t s=\"1\">and may it be speedily and in our very days, \"and bless Your people Israel\" literally,</t>\n    <t s=\"2\">both in spiritual matters and in physical matters,</t>\n    <t s=\"3\">in children, life, and ample sustenance,</t>\n    <t s=\"4\">from His full, open, holy, and broad hand.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920368_theRebbe_469",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920368_theRebbe_469__p008"
+    },
+    "sections": [
+      {
+        "v": 21,
+        "sectionSummaryBrief": "The maamar brings three matters, including the concept of \"and He did not desire\" relating to the service of tzaddikim, and explains that the advantage of teshuvah is also present in mitzvah observance, though teshuvah has two modes.",
+        "translations": [
+          {
+            "v": 21,
+            "s": 0,
+            "translation": "And the maamar brings the three matters,"
+          },
+          {
+            "v": 21,
+            "s": 1,
+            "translation": "also the concept of \"and He did not desire\" which is in the manner of the service of the tzaddikim,"
+          },
+          {
+            "v": 21,
+            "s": 2,
+            "translation": "even though the main concept of the virtue of the lower one"
+          },
+          {
+            "v": 21,
+            "s": 3,
+            "translation": "(Your people)"
+          },
+          {
+            "v": 21,
+            "s": 4,
+            "translation": "is in the service of teshuvah"
+          },
+          {
+            "v": 21,
+            "s": 5,
+            "translation": "(as above),"
+          },
+          {
+            "v": 21,
+            "s": 6,
+            "translation": "for the concept and elevation in teshuvah"
+          },
+          {
+            "v": 21,
+            "s": 7,
+            "translation": "(which effects change)"
+          },
+          {
+            "v": 21,
+            "s": 8,
+            "translation": "is also in the observance of the mitzvos"
+          },
+          {
+            "v": 21,
+            "s": 9,
+            "translation": "(of tzaddikim),"
+          },
+          {
+            "v": 21,
+            "s": 10,
+            "translation": "as brought in the maamar from the Yerushalmi: How great is the power of those who perform mitzvos."
+          },
+          {
+            "v": 21,
+            "s": 11,
+            "translation": "Except that in the service of teshuvah it is in revelation."
+          },
+          {
+            "v": 21,
+            "s": 12,
+            "translation": "And in teshuvah itself there are two modes,"
+          },
+          {
+            "v": 21,
+            "s": 13,
+            "translation": "\"And He will turn... and because He loved you...,\""
+          },
+          {
+            "v": 21,
+            "s": 14,
+            "translation": "in each of which there is an advantage as above section 10."
+          }
+        ]
+      },
+      {
+        "v": 22,
+        "sectionSummaryBrief": "The phrase \"Your people, Israel\" indicates two separate blessings—one for the simple folk and one for the learned—yet the single \"bless\" shows they are one, as the blessing for the simple draws from the essence and extends to Israel's inner powers.",
+        "translations": [
+          {
+            "v": 22,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 22,
+            "s": 1,
+            "translation": "3)"
+          },
+          {
+            "v": 22,
+            "s": 2,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 22,
+            "s": 3,
+            "translation": "that this which it says \"Your people, Israel\""
+          },
+          {
+            "v": 22,
+            "s": 4,
+            "translation": "(and not \"Your people and"
+          },
+          {
+            "v": 22,
+            "s": 5,
+            "translation": "Israel,\""
+          },
+          {
+            "v": 22,
+            "s": 6,
+            "translation": "for even in this language it is emphasized that \"Your people\" and \"Israel\" are two matters)"
+          },
+          {
+            "v": 22,
+            "s": 7,
+            "translation": "is in order to hint that they are two blessings,"
+          },
+          {
+            "v": 22,
+            "s": 8,
+            "translation": "a blessing for Your people and a blessing for Israel"
+          },
+          {
+            "v": 22,
+            "s": 9,
+            "translation": "(as above section 2)."
+          },
+          {
+            "v": 22,
+            "s": 10,
+            "translation": "For in addition to that \"bless Your people\" is drawn afterward through them to all of Israel,"
+          },
+          {
+            "v": 22,
+            "s": 11,
+            "translation": "there is another blessing—\"Israel.\""
+          },
+          {
+            "v": 22,
+            "s": 12,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 22,
+            "s": 13,
+            "translation": "that \"bless Your people,\""
+          },
+          {
+            "v": 22,
+            "s": 14,
+            "translation": "simple people who observe Torah and mitzvos with innocence and simplicity, is the drawing from the aspect of the Essence"
+          },
+          {
+            "v": 22,
+            "s": 15,
+            "translation": "(wool),"
+          },
+          {
+            "v": 22,
+            "s": 16,
+            "translation": "for the concept of simplicity is from the simplicity of the essence of the soul."
+          },
+          {
+            "v": 22,
+            "s": 17,
+            "translation": "And \"bless Israel\""
+          },
+          {
+            "v": 22,
+            "s": 18,
+            "translation": "(those who know Torah)"
+          },
+          {
+            "v": 22,
+            "s": 19,
+            "translation": "is a drawing that pertains to the matter of revelations"
+          },
+          {
+            "v": 22,
+            "s": 20,
+            "translation": "(snow)."
+          },
+          {
+            "v": 22,
+            "s": 21,
+            "translation": "And nevertheless it says \"bless\" one time,"
+          },
+          {
+            "v": 22,
+            "s": 22,
+            "translation": "in order to hint,"
+          },
+          {
+            "v": 22,
+            "s": 23,
+            "translation": "that they are one matter."
+          },
+          {
+            "v": 22,
+            "s": 24,
+            "translation": "For \"bless Your people\""
+          },
+          {
+            "v": 22,
+            "s": 25,
+            "translation": "is the blessing that is drawn to Israel,"
+          },
+          {
+            "v": 22,
+            "s": 26,
+            "translation": "that is,"
+          },
+          {
+            "v": 22,
+            "s": 27,
+            "translation": "the drawing of the Essence into the inner powers,"
+          },
+          {
+            "v": 22,
+            "s": 28,
+            "translation": "so that the inner powers"
+          },
+          {
+            "v": 22,
+            "s": 29,
+            "translation": "(even from the aspect of their depiction)"
+          },
+          {
+            "v": 22,
+            "s": 30,
+            "translation": "will be according to the Essence,"
+          },
+          {
+            "v": 22,
+            "s": 31,
+            "translation": "as above sections 9 and 10."
+          }
+        ]
+      },
+      {
+        "v": 23,
+        "sectionSummaryBrief": "A verse never departs from its plain meaning, and may it be speedily in our days that He bless Your people Israel literally, in both spiritual and physical matters—children, life, and ample sustenance.",
+        "translations": [
+          {
+            "v": 23,
+            "s": 0,
+            "translation": "And a verse never departs from its plain meaning,"
+          },
+          {
+            "v": 23,
+            "s": 1,
+            "translation": "and may it be speedily and in our very days, \"and bless Your people Israel\" literally,"
+          },
+          {
+            "v": 23,
+            "s": 2,
+            "translation": "both in spiritual matters and in physical matters,"
+          },
+          {
+            "v": 23,
+            "s": 3,
+            "translation": "in children, life, and ample sustenance,"
+          },
+          {
+            "v": 23,
+            "s": 4,
+            "translation": "from His full, open, holy, and broad hand."
+          }
+        ]
+      }
+    ]
+  }
+}

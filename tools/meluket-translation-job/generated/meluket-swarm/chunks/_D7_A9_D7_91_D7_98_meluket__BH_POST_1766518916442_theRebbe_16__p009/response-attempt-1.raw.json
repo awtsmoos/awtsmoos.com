@@ -1,0 +1,28 @@
+{
+  "id": "734e5b1a-7090-455a-a9a1-47e9e97cf373",
+  "object": "chat.completion",
+  "created": 1783582278,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916442_theRebbe_16\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916442_theRebbe_16__p009\">\n  <section v=\"24\">\n    <sectionSummaryBrief>After a brief talk by the Rebbe, the recitation of \"Lamnatzeiach Yaanecha\" and the completion of the Torah scroll.</sectionSummaryBrief>\n    <t s=\"0\">After a brief talk by the Rebbe shlita,</t>\n    <t s=\"1\">the recitation of the verses of \"Lamnatzeiach Yaanecha\" by R. Shalom HaLevi Lewitin obm, with the congregation responding verse by verse,</t>\n    <t s=\"2\">and the melodies of our Rebbes — the writing of the Torah scroll was completed.</t>\n  </section>\n  <section v=\"25\">\n    <sectionSummaryBrief>After reciting \"Atah Hareisa,\" the Torah scroll was rolled, crowned, and carried to the Ark, and the Rebbe recited the Shehecheyanu blessing over a new fruit.</sectionSummaryBrief>\n    <t s=\"0\">And after reciting the verses of \"Atah Hareisa\"21,</t>\n    <t s=\"1\">the melody \"Perazot Teishev Yerushalayim\",</t>\n    <t s=\"2\">the rolling of the Torah scroll and the donning of the \"crown\"22</t>\n    <t s=\"3\">by the Rebbe shlita,</t>\n    <t s=\"4\">the carrying of the Torah scroll to the Holy Ark under a chuppah and accompanied by candles — the Rebbe shlita recited the \"Shehecheyanu\" blessing aloud,</t>\n    <t s=\"5\">and ate a new fruit.</t>\n  </section>\n  <section v=\"26\">\n    <sectionSummaryBrief>Afterwards, the Rebbe delivered a maamar beginning \"Lehavin Inyan Ksivas Sefer Torah\" and a short talk.</sectionSummaryBrief>\n    <t s=\"0\">Afterwards, he delivered a maamar beginning with the words \"Lehavin Inyan Ksivas Sefer Torah\",</t>\n    <t s=\"1\">which is printed here,</t>\n    <t s=\"2\">and a short talk.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 986,
+    "completion_tokens": 584,
+    "total_tokens": 1570,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 602
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

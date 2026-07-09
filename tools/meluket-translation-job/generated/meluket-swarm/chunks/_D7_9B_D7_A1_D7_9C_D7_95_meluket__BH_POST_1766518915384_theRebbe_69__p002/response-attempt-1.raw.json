@@ -1,0 +1,28 @@
+{
+  "id": "ec1282d0-7200-49ac-aa66-d8aec1f6fe33",
+  "object": "chat.completion",
+  "created": 1783582170,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915384_theRebbe_69\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915384_theRebbe_69__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the \"complete rest\" desired by God refers to the simple unity beyond the three lines, even before the tzimtzum, and that specifically souls in bodies can recognize this.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And he continues in the maamar,</t>\n    <t s=\"2\">that which is stated, \"a complete rest that You desire\"</t>\n    <t s=\"3\">(after he specifies the three lines of ChaGaT in all four levels mentioned above)</t>\n    <t s=\"4\">is the aspect of the completeness of all,</t>\n    <t s=\"5\">the simple unity,</t>\n    <t s=\"6\">which is above the three lines,</t>\n    <t s=\"7\">even above the source of the three lines as they are before the tzimtzum.</t>\n    <t s=\"8\">And about this it says, \"May Your children recognize and know,\"</t>\n    <t s=\"9\">that \"Your children\"</t>\n    <t s=\"10\">(specifically souls in bodies)</t>\n    <t s=\"11\">will recognize and know even this level.</t>\n    <t s=\"12\">And the reason for this is,</t>\n    <t s=\"13\">because \"from You is their rest,\"</t>\n    <t s=\"14\">that their rest</t>\n    <t s=\"15\">(of Shabbat)</t>\n    <t s=\"16\">is from You,</t>\n    <t s=\"17\">from You literally.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section connects the phrase \"from You is their rest\" to the letter kaf of the word \"from You,\" indicating Keter, which is the Ein Sof itself, above even the ChaGaT of Ein Sof.</sectionSummaryBrief>\n    <t s=\"0\">And one can connect this with the known explanation</t>\n    <t s=\"1\">in the interpretation of \"for from You is their rest,\"</t>\n    <t s=\"2\">(\"from You\" [Meyitecha] is the letters)</t>\n    <t s=\"3\">\"from Your kaf\" [Meyitecha] which is Keter,</t>\n    <t s=\"4\">from there is their rest.</t>\n    <t s=\"5\">For just as in the chain of descent of the four worlds ABiYA,</t>\n    <t s=\"6\">the beginning of the chain of descent is from Atzilus and Keter is above the chain of descent,</t>\n    <t s=\"7\">so too is it in the chain of descent of the four levels mentioned above</t>\n    <t s=\"8\">(which are analogous to ABiYA),</t>\n    <t s=\"9\">that the beginning of the chain of descent is from</t>\n    <t s=\"10\">(the aspect of ChaGaT that is)</t>\n    <t s=\"11\">before the tzimtzum</t>\n    <t s=\"12\">(the aspect of Atzilus of the entirety),</t>\n    <t s=\"13\">and the aspect of Keter</t>\n    <t s=\"14\">(there)</t>\n    <t s=\"15\">is the aspect of the Ein Sof itself</t>\n    <t s=\"16\">(which is above even the ChaGaT that is in Ein Sof),</t>\n    <t s=\"17\">\"from You\" literally.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the rest of Shabbat comes from the essence of the soul, the level of Yechidah, which is equal in all Jews regardless of their spiritual stature.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And the explanation of the matter</t>\n    <t s=\"2\">(that the rest of Shabbat is \"from You\" literally),</t>\n    <t s=\"3\">behold, the rest of Shabbat is from the essence of the soul,</t>\n    <t s=\"4\">the aspect of Yechidah.</t>\n    <t s=\"5\">And as is explained in the maamar,</t>\n    <t s=\"6\">that this is the reason that the rest of Shabbat is equal among all of Israel,</t>\n    <t s=\"7\">and there is no difference in it between the great ones of the world and the truly simple masses</t>\n    <t s=\"8\">(unlike the prayer of Shabbat,</t>\n    <t s=\"9\">and likewise the eating of Shabbat,</t>\n    <t s=\"10\">which in great tzaddikim are in a much more elevated manner than in simple people),</t>\n    <t s=\"11\">for in the aspect of Yechidah all of Israel are equal,</t>\n    <t s=\"12\">and it is found in its completeness in every soul of Israel, even in the lowly and light ones.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1688,
+    "completion_tokens": 1274,
+    "total_tokens": 2962,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1432
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

@@ -1,0 +1,103 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916998_theRebbe_249" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916998_theRebbe_249__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916998_theRebbe_249" title="מאמר ארבעה ראשי שנים תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916998_theRebbe_249__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ד' חמשה עשר בשבט ה'תשל"א</src>
+  </section>
+  <section v="1">
+    <src s="0">ארבעה ראשי שנים הם באחד בניסן כו' באחד באלול כו' באחד בתשרי כו' באחד בשבט ראש השנה לאילן כדברי בית שמאי,</src>
+    <src s="1">בית הלל אומרים בחמשה עשר בו1,</src>
+    <src s="2">והלכה כבית הלל2.</src>
+    <src s="3">וצריך להבין טעם השינוי דר"ה לאילן מג' ראשי שנים הראשונים,</src>
+    <src s="4">שג' ראשי שנים הראשונים הם בראש חודש ור"ה לאילן הוא בחמשה עשר.</src>
+    <src s="5">ולהוסיף,</src>
+    <src s="6">דע"פ המבואר במק"א3</src>
+    <src s="7">שהשייכות דג' הרגלים4</src>
+    <src s="8">ליום הט"ו בחודש הוא כי ביום הט"ו הוא שלימות הלבנה,</src>
+    <src s="9">שזה מורה גם על השלימות דישראל שמונין ללבנה ודומין ללבנה5,</src>
+    <src s="10">צריך לומר,</src>
+    <src s="11">דזה שרובם של הראשי שנים</src>
+    <src s="12">[ולדעת ב"ש כל ד' הראשי שנים]</src>
+    <src s="13">הם בראש חודש,</src>
+    <src s="14">בעת מולד הלבנה שאז הלבנה היא רק נקודה,</src>
+    <src s="15">הוא לפי שענין ראש השנה הוא שבו נמשך הענין שהוא ר"ה אליו,</src>
+    <src s="16">והענינים כמו שהם בתחלת המשכתם הם רק נקודה,</src>
+    <src s="17">ועפ"ז צריך להבין עוד יותר מה שר"ה לאילן הוא בחמשה עשר6.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים המבואר בכמה דרושים7,</src>
+    <src s="2">דזה שהרגלים נקבעו בזמני גמר ואסיפת התבואות</src>
+    <src s="3">[דחג הפסח צריך להיות בזמן האביב</src>
+    <src s="4">(זמן גמר שעורים)8</src>
+    <src s="5">ויתרה מזה בחג השבועות שנקרא בשם9</src>
+    <src s="6">חג הקציר10</src>
+    <src s="7">על שם בכורי קציר חטים11,</src>
+    <src s="8">וכן חג הסוכות שנקרא בשם חג האסיף12],</src>
+    <src s="9">המכוון הוא</src>
+    <src s="10">(בעיקר)</src>
+    <src s="11">לתבואה הרוחניית,</src>
+    <src s="12">הם ישראל,</src>
+    <src s="13">דכתיב בהו13</src>
+    <src s="14">קודש ישראל להוי' ראשית תבואתה גו'.</src>
+    <src s="15">וזה שהרגלים צריכים להיות בזמני גמר ואסיפת התבואות בגשמיות</src>
+    <src s="16">[ועד שבשביל זה מעברים את השנה14],</src>
+    <src s="17">הוא,</src>
+    <src s="18">כי כל הענינים שבגשמיות משתלשלים מענינם ברוחניות15.</src>
+    <src s="19">ועפ"ז יש לומר גם בנוגע ר"ה לאילן,</src>
+    <src s="20">שעיקר ענינו הוא שהוא ר"ה להאדם</src>
+    <src s="21">(אתם קרויין אדם16)</src>
+    <src s="22">שנמשל לאילן,</src>
+    <src s="23">כמ"ש17</src>
+    <src s="24">כי האדם עץ השדה,</src>
+    <src s="25">ומזה נשתלשל שהוא ר"ה לאילן כפשוטו בגשמיות.</src>
+    <src s="26">וע"פ מארז"ל18</src>
+    <src s="27">עה"פ17</src>
+    <src s="28">כי האדם עץ השדה אם תלמיד חכם כו',</src>
+    <src s="29">יש לומר,</src>
+    <src s="30">דזה שישראל נקראים בשם תבואה</src>
+    <src s="31">(חטים שעורים וכו'19)</src>
+    <src s="32">הוא מצד העבודה שלהם בקיום המצוות</src>
+    <src s="33">(כדלקמן),</src>
+    <src s="34">וזה שנקראים בשם אילן</src>
+    <src s="35">(עץ השדה)</src>
+    <src s="36">הוא ע"י עסק התורה.</src>
+    <src s="37">ויש לומר דזהו מ"ש כי האדם עץ השדה</src>
+    <src s="38">(אדם דייקא),</src>
+    <src s="39">דשם אדם הוא על שם השכל</src>
+    <src s="40">(כמבואר בכ"מ החילוק בין אדם לאיש20).</src>
+  </section>
+</awtsmoosMeluketSource>

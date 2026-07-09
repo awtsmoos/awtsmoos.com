@@ -1,0 +1,694 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 130,
+    "returned": 130,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914464_theRebbe_108\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This explains that the unity of Havayah and Elokim in Atzilus, where Havayah is the source of lights and Elokim of vessels, leads to the knowledge that there is nothing besides Him.</sectionSummaryBrief>\n    <t s=\"0\">And this is “You have been shown to know that Havayah is Elokim,”</t>\n    <t s=\"1\">for in the ten Sefiros of Atzilus</t>\n    <t s=\"2\">(also in the Chochmah, Binah, and Daas of Atzilus)</t>\n    <t s=\"3\">there are lights and vessels.</t>\n    <t s=\"4\">For the source of the lights is from Havayah and the source of the vessels is from Elokim.</t>\n    <t s=\"5\">And through the knowledge that Havayah is Elokim,</t>\n    <t s=\"6\">that Havayah and Elokim are entirely one,</t>\n    <t s=\"7\">one comes to the knowledge that there is nothing besides Him.</t>\n    <t s=\"8\">For the two names Havayah and Elokim, as they are in themselves,</t>\n    <t s=\"9\">are two different matters,</t>\n    <t s=\"10\">and moreover they are two opposite matters,</t>\n    <t s=\"11\">for Havayah is revelation and Elokim is contraction and concealment.</t>\n    <t s=\"12\">And this that Havayah and Elokim are entirely one is because both of them are names of the Holy One, blessed be He, who is above both of them,</t>\n    <t s=\"13\">except that thus it arose in His will, blessed be He, that His revelation should be in the two lines of without limit and limit</t>\n    <t s=\"14\">(revelation and contraction),</t>\n    <t s=\"15\">and therefore,</t>\n    <t s=\"16\">even after they are drawn into revelation in the matter of the names,</t>\n    <t s=\"17\">when they are two opposite matters,</t>\n    <t s=\"18\">they are interincluded with one another,</t>\n    <t s=\"19\">to the extent that Havayah and Elokim are entirely one.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section details the levels of unity of lights and vessels (Havayah and Elokim) from the concealed Sefiros up to the level of the power of ability, where the ability to reveal and not to reveal are truly one.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And behold, this that the lights and the vessels</t>\n    <t s=\"2\">(Havayah and Elokim)</t>\n    <t s=\"3\">in their source are entirely one,</t>\n    <t s=\"4\">has several levels.</t>\n    <t s=\"5\">For in general, this is the matter of the ten concealed Sefiros.</t>\n    <t s=\"6\">For also in the concealed Sefiros there are</t>\n    <t s=\"7\">(analogous to)</t>\n    <t s=\"8\">lights and vessels,</t>\n    <t s=\"9\">and they are the source of the lights and vessels of the revealed Sefiros,</t>\n    <t s=\"10\">except that in the concealed Sefiros they are entirely one.</t>\n    <t s=\"11\">For just as the matter of the division of the Sefiros</t>\n    <t s=\"12\">(Chochmah,</t>\n    <t s=\"13\">Binah, etc.)</t>\n    <t s=\"14\">is in the revealed Sefiros, but the concealed Sefiros are all included together as one in a manner of intermingling and unification,</t>\n    <t s=\"15\">so too is it regarding the matter of the division of lights and vessels,</t>\n    <t s=\"16\">that in the concealed Sefiros they are</t>\n    <t s=\"17\">(the lights and the vessels)</t>\n    <t s=\"18\">in unification.</t>\n    <t s=\"19\">But in particular,</t>\n    <t s=\"20\">even in the concealed Sefiros,</t>\n    <t s=\"21\">lights and vessels are two matters.</t>\n    <t s=\"22\">And this that Havayah and Elokim are entirely one is in the general light that precedes the contraction.</t>\n    <t s=\"23\">For it is known</t>\n    <t s=\"24\">that in the light that precedes the contraction there are two general levels.</t>\n    <t s=\"25\">That the light in itself is infinite</t>\n    <t s=\"26\">[and the Sefiros from the perspective of the light itself are Sefiros without end],</t>\n    <t s=\"27\">and it is the source of the surrounding light,</t>\n    <t s=\"28\">and from the aspect that it arose in His will to emanate etc., there is in it also the source of the ten Sefiros</t>\n    <t s=\"29\">(the concealed Sefiros),</t>\n    <t s=\"30\">and it is the source of the filling light.</t>\n    <t s=\"31\">And this is that His great name before the contraction is analogous to Havayah with the vowel points of Elokim,</t>\n    <t s=\"32\">that in itself it is infinite,</t>\n    <t s=\"33\">Havayah,</t>\n    <t s=\"34\">except that nevertheless it also includes the source of the light of limit</t>\n    <t s=\"35\">(filling),</t>\n    <t s=\"36\">Elokim.</t>\n    <t s=\"37\">And since this inclusion of the source of the light of limit is because it arose in His will</t>\n    <t s=\"38\">(of the Ein Sof, blessed be He)</t>\n    <t s=\"39\">that there should be ten Sefiros,</t>\n    <t s=\"40\">for the true matter of will is that even after He desires something, the essence of the thing He desires is</t>\n    <t s=\"41\">(not the thing in itself,</t>\n    <t s=\"42\">but rather)</t>\n    <t s=\"43\">to complete that which He desires,</t>\n    <t s=\"44\">therefore,</t>\n    <t s=\"45\">the source of the light of limit as it is before the contraction</t>\n    <t s=\"46\">is</t>\n    <t s=\"47\">(not a matter in itself,</t>\n    <t s=\"48\">but rather)</t>\n    <t s=\"49\">one with</t>\n    <t s=\"50\">(the will of)</t>\n    <t s=\"51\">the Ein Sof, blessed be He.</t>\n    <t s=\"52\">And this is also understood from what is brought above, that His great name before the contraction is analogous to Havayah with the vowel points of Elokim,</t>\n    <t s=\"53\">meaning it is one name that includes the two matters of Havayah and Elokim.</t>\n    <t s=\"54\">However, in more particularity,</t>\n    <t s=\"55\">since even in will there is a grasp of place for the thing that is desired</t>\n    <t s=\"56\">(for specifically through this thing the will is completed),</t>\n    <t s=\"57\">therefore,</t>\n    <t s=\"58\">this that in the light before the contraction there is a source for the surrounding light</t>\n    <t s=\"59\">(without limit,</t>\n    <t s=\"60\">Havayah)</t>\n    <t s=\"61\">and a source for the filling light</t>\n    <t s=\"62\">(limit,</t>\n    <t s=\"63\">Elokim),</t>\n    <t s=\"64\">they are like two matters.</t>\n    <t s=\"65\">And the true matter of Havayah and Elokim being entirely one is in the aspect of ability</t>\n    <t s=\"66\">(which is above the matter of the Sefiros,</t>\n    <t s=\"67\">where even Sefiros without end do not apply),</t>\n    <t s=\"68\">that this that it is in His ability to illuminate</t>\n    <t s=\"69\">(the source of Havayah)</t>\n    <t s=\"70\">and that it is in His ability not to illuminate</t>\n    <t s=\"71\">(the source of Elokim)</t>\n    <t s=\"72\">is truly one.</t>\n    <t s=\"73\">And analogous to what is explained elsewhere,</t>\n    <t s=\"74\">that in the light before the contraction,</t>\n    <t s=\"75\">even in the light that precedes the ascent of the will,</t>\n    <t s=\"76\">revelation and concealment are two matters.</t>\n    <t s=\"77\">And therefore,</t>\n    <t s=\"78\">the service as it is from the perspective of the light before the contraction is to draw down a multitude of light</t>\n    <t s=\"79\">(analogous to how before the contraction there was a strengthening of the power of revelation over the power of concealment).</t>\n    <t s=\"80\">But in order for there to be a transformation of darkness into light,</t>\n    <t s=\"81\">that the darkness itself should become light,</t>\n    <t s=\"82\">this is specifically from the matter of ability.</t>\n    <t s=\"83\">For since the ability to illuminate</t>\n    <t s=\"84\">(the source of light)</t>\n    <t s=\"85\">and the ability not to illuminate</t>\n    <t s=\"86\">(the source of darkness)</t>\n    <t s=\"87\">are truly one,</t>\n    <t s=\"88\">therefore,</t>\n    <t s=\"89\">by reaching the aspect of ability,</t>\n    <t s=\"90\">even darkness is transformed into light.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section connects the knowledge that Havayah is Elokim to the knowledge that there is nothing besides Him, explaining that through seeing their unity in divine service, one reaches the level of ability which is the very essence.</sectionSummaryBrief>\n    <t s=\"0\">And this is the connection of “Havayah is Elokim” with “there is nothing besides Him,”</t>\n    <t s=\"1\">that through the knowledge that Havayah is Elokim one comes to the knowledge that there is nothing besides Him</t>\n    <t s=\"2\">(as above, section 5),</t>\n    <t s=\"3\">for from seeing that Havayah and Elokim are united as truly one,</t>\n    <t s=\"4\">which in the service of man is “And you shall love Havayah your Elokim with all your heart, with both your inclinations,”</t>\n    <t s=\"5\">that even the evil inclination</t>\n    <t s=\"6\">(whose source is from the concealment of Elokim)</t>\n    <t s=\"7\">loves Havayah</t>\n    <t s=\"8\">(like the good inclination, whose source is from the revelation of Havayah),</t>\n    <t s=\"9\">from this one knows that there is nothing besides Him,</t>\n    <t s=\"10\">that the source of the two matters</t>\n    <t s=\"11\">(of the revelation of Havayah and the concealment of Elokim)</t>\n    <t s=\"12\">is this that it is in His ability to illuminate and in His ability not to illuminate,</t>\n    <t s=\"13\">for the matter of ability is not a thing at all apart from the Essence, but rather it is that the Essence is able,</t>\n    <t s=\"14\">there is nothing besides Him.</t>\n    <t s=\"15\">And this is also what is said at the beginning of the verse, “You have been shown to know,”</t>\n    <t s=\"16\">You have shown Yourself so that one should know You,</t>\n    <t s=\"17\">for since the matter of ability is that the Essence is able,</t>\n    <t s=\"18\">the knowledge of the matter of ability is the knowledge of the Essence.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914464_theRebbe_108",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This explains that the unity of Havayah and Elokim in Atzilus, where Havayah is the source of lights and Elokim of vessels, leads to the knowledge that there is nothing besides Him.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And this is “You have been shown to know that Havayah is Elokim,”"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "for in the ten Sefiros of Atzilus"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "(also in the Chochmah, Binah, and Daas of Atzilus)"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "there are lights and vessels."
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "For the source of the lights is from Havayah and the source of the vessels is from Elokim."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "And through the knowledge that Havayah is Elokim,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "that Havayah and Elokim are entirely one,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "one comes to the knowledge that there is nothing besides Him."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "For the two names Havayah and Elokim, as they are in themselves,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "are two different matters,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "and moreover they are two opposite matters,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "for Havayah is revelation and Elokim is contraction and concealment."
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "And this that Havayah and Elokim are entirely one is because both of them are names of the Holy One, blessed be He, who is above both of them,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "except that thus it arose in His will, blessed be He, that His revelation should be in the two lines of without limit and limit"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "(revelation and contraction),"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "even after they are drawn into revelation in the matter of the names,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "when they are two opposite matters,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "they are interincluded with one another,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "to the extent that Havayah and Elokim are entirely one."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section details the levels of unity of lights and vessels (Havayah and Elokim) from the concealed Sefiros up to the level of the power of ability, where the ability to reveal and not to reveal are truly one.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And behold, this that the lights and the vessels"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "(Havayah and Elokim)"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "in their source are entirely one,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "has several levels."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "For in general, this is the matter of the ten concealed Sefiros."
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "For also in the concealed Sefiros there are"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "(analogous to)"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "lights and vessels,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "and they are the source of the lights and vessels of the revealed Sefiros,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "except that in the concealed Sefiros they are entirely one."
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "For just as the matter of the division of the Sefiros"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "(Chochmah,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "Binah, etc.)"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "is in the revealed Sefiros, but the concealed Sefiros are all included together as one in a manner of intermingling and unification,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "so too is it regarding the matter of the division of lights and vessels,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that in the concealed Sefiros they are"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "(the lights and the vessels)"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "in unification."
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "But in particular,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "even in the concealed Sefiros,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "lights and vessels are two matters."
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "And this that Havayah and Elokim are entirely one is in the general light that precedes the contraction."
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "For it is known"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "that in the light that precedes the contraction there are two general levels."
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "That the light in itself is infinite"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "[and the Sefiros from the perspective of the light itself are Sefiros without end],"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "and it is the source of the surrounding light,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "and from the aspect that it arose in His will to emanate etc., there is in it also the source of the ten Sefiros"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "(the concealed Sefiros),"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and it is the source of the filling light."
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "And this is that His great name before the contraction is analogous to Havayah with the vowel points of Elokim,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "that in itself it is infinite,"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "Havayah,"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "except that nevertheless it also includes the source of the light of limit"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "(filling),"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "Elokim."
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "And since this inclusion of the source of the light of limit is because it arose in His will"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "(of the Ein Sof, blessed be He)"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "that there should be ten Sefiros,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "for the true matter of will is that even after He desires something, the essence of the thing He desires is"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "(not the thing in itself,"
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "but rather)"
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "to complete that which He desires,"
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "therefore,"
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "the source of the light of limit as it is before the contraction"
+          },
+          {
+            "v": 7,
+            "s": 46,
+            "translation": "is"
+          },
+          {
+            "v": 7,
+            "s": 47,
+            "translation": "(not a matter in itself,"
+          },
+          {
+            "v": 7,
+            "s": 48,
+            "translation": "but rather)"
+          },
+          {
+            "v": 7,
+            "s": 49,
+            "translation": "one with"
+          },
+          {
+            "v": 7,
+            "s": 50,
+            "translation": "(the will of)"
+          },
+          {
+            "v": 7,
+            "s": 51,
+            "translation": "the Ein Sof, blessed be He."
+          },
+          {
+            "v": 7,
+            "s": 52,
+            "translation": "And this is also understood from what is brought above, that His great name before the contraction is analogous to Havayah with the vowel points of Elokim,"
+          },
+          {
+            "v": 7,
+            "s": 53,
+            "translation": "meaning it is one name that includes the two matters of Havayah and Elokim."
+          },
+          {
+            "v": 7,
+            "s": 54,
+            "translation": "However, in more particularity,"
+          },
+          {
+            "v": 7,
+            "s": 55,
+            "translation": "since even in will there is a grasp of place for the thing that is desired"
+          },
+          {
+            "v": 7,
+            "s": 56,
+            "translation": "(for specifically through this thing the will is completed),"
+          },
+          {
+            "v": 7,
+            "s": 57,
+            "translation": "therefore,"
+          },
+          {
+            "v": 7,
+            "s": 58,
+            "translation": "this that in the light before the contraction there is a source for the surrounding light"
+          },
+          {
+            "v": 7,
+            "s": 59,
+            "translation": "(without limit,"
+          },
+          {
+            "v": 7,
+            "s": 60,
+            "translation": "Havayah)"
+          },
+          {
+            "v": 7,
+            "s": 61,
+            "translation": "and a source for the filling light"
+          },
+          {
+            "v": 7,
+            "s": 62,
+            "translation": "(limit,"
+          },
+          {
+            "v": 7,
+            "s": 63,
+            "translation": "Elokim),"
+          },
+          {
+            "v": 7,
+            "s": 64,
+            "translation": "they are like two matters."
+          },
+          {
+            "v": 7,
+            "s": 65,
+            "translation": "And the true matter of Havayah and Elokim being entirely one is in the aspect of ability"
+          },
+          {
+            "v": 7,
+            "s": 66,
+            "translation": "(which is above the matter of the Sefiros,"
+          },
+          {
+            "v": 7,
+            "s": 67,
+            "translation": "where even Sefiros without end do not apply),"
+          },
+          {
+            "v": 7,
+            "s": 68,
+            "translation": "that this that it is in His ability to illuminate"
+          },
+          {
+            "v": 7,
+            "s": 69,
+            "translation": "(the source of Havayah)"
+          },
+          {
+            "v": 7,
+            "s": 70,
+            "translation": "and that it is in His ability not to illuminate"
+          },
+          {
+            "v": 7,
+            "s": 71,
+            "translation": "(the source of Elokim)"
+          },
+          {
+            "v": 7,
+            "s": 72,
+            "translation": "is truly one."
+          },
+          {
+            "v": 7,
+            "s": 73,
+            "translation": "And analogous to what is explained elsewhere,"
+          },
+          {
+            "v": 7,
+            "s": 74,
+            "translation": "that in the light before the contraction,"
+          },
+          {
+            "v": 7,
+            "s": 75,
+            "translation": "even in the light that precedes the ascent of the will,"
+          },
+          {
+            "v": 7,
+            "s": 76,
+            "translation": "revelation and concealment are two matters."
+          },
+          {
+            "v": 7,
+            "s": 77,
+            "translation": "And therefore,"
+          },
+          {
+            "v": 7,
+            "s": 78,
+            "translation": "the service as it is from the perspective of the light before the contraction is to draw down a multitude of light"
+          },
+          {
+            "v": 7,
+            "s": 79,
+            "translation": "(analogous to how before the contraction there was a strengthening of the power of revelation over the power of concealment)."
+          },
+          {
+            "v": 7,
+            "s": 80,
+            "translation": "But in order for there to be a transformation of darkness into light,"
+          },
+          {
+            "v": 7,
+            "s": 81,
+            "translation": "that the darkness itself should become light,"
+          },
+          {
+            "v": 7,
+            "s": 82,
+            "translation": "this is specifically from the matter of ability."
+          },
+          {
+            "v": 7,
+            "s": 83,
+            "translation": "For since the ability to illuminate"
+          },
+          {
+            "v": 7,
+            "s": 84,
+            "translation": "(the source of light)"
+          },
+          {
+            "v": 7,
+            "s": 85,
+            "translation": "and the ability not to illuminate"
+          },
+          {
+            "v": 7,
+            "s": 86,
+            "translation": "(the source of darkness)"
+          },
+          {
+            "v": 7,
+            "s": 87,
+            "translation": "are truly one,"
+          },
+          {
+            "v": 7,
+            "s": 88,
+            "translation": "therefore,"
+          },
+          {
+            "v": 7,
+            "s": 89,
+            "translation": "by reaching the aspect of ability,"
+          },
+          {
+            "v": 7,
+            "s": 90,
+            "translation": "even darkness is transformed into light."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section connects the knowledge that Havayah is Elokim to the knowledge that there is nothing besides Him, explaining that through seeing their unity in divine service, one reaches the level of ability which is the very essence.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And this is the connection of “Havayah is Elokim” with “there is nothing besides Him,”"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "that through the knowledge that Havayah is Elokim one comes to the knowledge that there is nothing besides Him"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "(as above, section 5),"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "for from seeing that Havayah and Elokim are united as truly one,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "which in the service of man is “And you shall love Havayah your Elokim with all your heart, with both your inclinations,”"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "that even the evil inclination"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "(whose source is from the concealment of Elokim)"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "loves Havayah"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(like the good inclination, whose source is from the revelation of Havayah),"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "from this one knows that there is nothing besides Him,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "that the source of the two matters"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "(of the revelation of Havayah and the concealment of Elokim)"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "is this that it is in His ability to illuminate and in His ability not to illuminate,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "for the matter of ability is not a thing at all apart from the Essence, but rather it is that the Essence is able,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "there is nothing besides Him."
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "And this is also what is said at the beginning of the verse, “You have been shown to know,”"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "You have shown Yourself so that one should know You,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "for since the matter of ability is that the Essence is able,"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "the knowledge of the matter of ability is the knowledge of the Essence."
+          }
+        ]
+      }
+    ]
+  }
+}

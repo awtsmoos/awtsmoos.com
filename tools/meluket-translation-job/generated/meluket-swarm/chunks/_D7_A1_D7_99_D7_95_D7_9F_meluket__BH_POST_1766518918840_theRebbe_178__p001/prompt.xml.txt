@@ -1,0 +1,64 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918840_theRebbe_178" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918840_theRebbe_178" title="מאמר רני ושמחי תשכ"ז" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ בהעלותך,</src>
+    <src s="2">ט' סיון ה'תשכ"ז</src>
+  </section>
+  <section v="1">
+    <src s="0">רני ושמחי בת ציון גו'1,</src>
+    <src s="1">ומדייק אדמו"ר הזקן בתו"א</src>
+    <src s="2">(דרושי חנוכה)</src>
+    <src s="3">ד"ה זה2,</src>
+    <src s="4">דלכאורה הי' צריך להתחיל ההפטורה דשבת חנוכה בפסוק3</src>
+    <src s="5">ויאמר אלי גו' ראיתי והנה מנורת זהב גו',</src>
+    <src s="6">ולמה מתחילין ברני ושמחי בת ציון.</src>
+    <src s="7">ומבאר שם4,</src>
+    <src s="8">שהשייכות דרני ושמחי בת ציון לחנוכה היא,</src>
+    <src s="9">כי בת ציון קאי על כנסת ישראל בזמן הגלות,</src>
+    <src s="10">דבזמן הבית נקראת כנסת ישראל בשם ציון ובזמן הגלות נקראת בת ציון,</src>
+    <src s="11">כמבואר שם בארוכה.</src>
+  </section>
+  <section v="2">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">דדיוק הנ"ל</src>
+    <src s="2">[שהתחלת ההפטורה היא רני ושמחי בת ציון ולא ראיתי והנה מנורת זהב]</src>
+    <src s="3">הוא גם בההפטורה דשבת פרשת בהעלותך,</src>
+    <src s="4">שבסמיכות לזמן מתן תורתינו,</src>
+    <src s="5">דמתן תורה הו"ע חירות5,</src>
+    <src s="6">ואעפ"כ גם התחלת ההפטורה דש"פ בהעלותך היא רני ושמחי בת ציון.</src>
+  </section>
+</awtsmoosMeluketSource>

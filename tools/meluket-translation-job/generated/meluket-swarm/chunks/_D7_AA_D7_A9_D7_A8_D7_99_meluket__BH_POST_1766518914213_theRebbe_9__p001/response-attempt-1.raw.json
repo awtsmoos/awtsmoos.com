@@ -1,0 +1,28 @@
+{
+  "id": "4c7753b2-93d5-412c-a137-e68b175375e1",
+  "object": "chat.completion",
+  "created": 1783582136,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914213_theRebbe_9\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section opens the maamar with the heading and the date of the 13th of Tishrei, the yahrtzeit of the Rebbe Maharash.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">13 Tishrei</t>\n    <t s=\"2\">(Yahrtzeit of the Rebbe Maharash),</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section gives the precise time of the discourse: the eve of the holiday of Sukkos, 5738.</sectionSummaryBrief>\n    <t s=\"0\">Erev Sukkos,</t>\n    <t s=\"1\">5738*.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section notes that the maamar is a transcript (hanachah).</sectionSummaryBrief>\n    <t s=\"0\">Transcript.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 738,
+    "completion_tokens": 333,
+    "total_tokens": 1071,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 354
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

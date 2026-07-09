@@ -1,0 +1,28 @@
+{
+  "id": "15c87ea1-02a9-4b56-bd88-6f674a184e4c",
+  "object": "chat.completion",
+  "created": 1783583862,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518920021_theRebbe_64\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920021_theRebbe_64__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Erev Shabbat Parshat Va'etchanan,</t>\n    <t s=\"2\">the fifteenth of Av, 5738*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that the text is an unedited draft.</sectionSummaryBrief>\n    <t s=\"0\">(A draft.</t>\n    <t s=\"1\">Not proofread.)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section discusses the order of Torah and mitzvos in the two paragraphs of Shema, and the precise language used for Torah study in each.</sectionSummaryBrief>\n    <t s=\"0\">\"And you shall teach them to your children and speak of them,\"</t>\n    <t s=\"1\">and afterwards it is stated, \"And you shall bind them as a sign upon your hand, etc.,\"</t>\n    <t s=\"2\">the mitzvah of tefillin,</t>\n    <t s=\"3\">about which our sages, of blessed memory, said,</t>\n    <t s=\"4\">\"The entire Torah is equated to tefillin,\"</t>\n    <t s=\"5\">the intention of which is regarding the mitzvos of the Torah,</t>\n    <t s=\"6\">and this means,</t>\n    <t s=\"7\">that the verse precedes the matter of Torah to the matter of mitzvos.</t>\n    <t s=\"8\">And it is known the precise observation of our Nesi'im,</t>\n    <t s=\"9\">that in the second paragraph of Shema it is stated,</t>\n    <t s=\"10\">\"And you shall bind them as a sign upon your hand, etc., and you shall teach them to your children, etc.,\"</t>\n    <t s=\"11\">that this verse is in reverse order,</t>\n    <t s=\"12\">preceding the matter of mitzvos</t>\n    <t s=\"13\">(the mitzvah of tefillin)</t>\n    <t s=\"14\">to the matter of Torah.</t>\n    <t s=\"15\">Also, one must understand what is the reason that the order where Torah precedes mitzvos is specifically in the first paragraph of Shema,</t>\n    <t s=\"16\">and the order where mitzvos precede Torah is specifically in the second paragraph of Shema.</t>\n    <t s=\"17\">Also, one must understand the precise language regarding the matter of Torah,</t>\n    <t s=\"18\">that in the first paragraph it is stated, \"And you shall sharpen them, etc.,\"</t>\n    <t s=\"19\">according to Rashi's explanation</t>\n    <t s=\"20\">(from the midrashim of our sages, of blessed memory),</t>\n    <t s=\"21\">that it is an expression of sharpening,</t>\n    <t s=\"22\">that they should be sharp in your mouth, so that if a person asks you something</t>\n    <t s=\"23\">(a halachah)</t>\n    <t s=\"24\">you will not need to stammer over it, but rather tell him immediately</t>\n    <t s=\"25\">(and only afterwards is it stated, \"and speak of them\"),</t>\n    <t s=\"26\">whereas in the second paragraph it is stated, \"And you shall teach them, etc.,\"</t>\n    <t s=\"27\">which this term includes all modes of study</t>\n    <t s=\"28\">(even if the study is not in a manner of being sharp in your mouth, etc.).</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1444,
+    "completion_tokens": 1002,
+    "total_tokens": 2446,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1188
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

@@ -1,0 +1,479 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 87,
+    "returned": 87,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917980_theRebbe_758\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917980_theRebbe_758__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the superiority of the root of Netzach is explained to clarify why the future revelation comes specifically through the service of the exile period, which is in a manner of victory from the innermost aspect of Keter.</sectionSummaryBrief>\n    <t s=\"0\">And it may be said,</t>\n    <t s=\"1\">that what is explained in the maamar</t>\n    <t s=\"2\">(and at length)</t>\n    <t s=\"3\">regarding the superiority of the root of Netzach is</t>\n    <t s=\"4\">(also)</t>\n    <t s=\"5\">in order to explain the reason for this, that the revelation of the future to come comes specifically through the prior service of the time of exile.</t>\n    <t s=\"6\">For since the service in the time of exile is in a manner of victory,</t>\n    <t s=\"7\">and the root of Netzach is from the innerness of Keter,</t>\n    <t s=\"8\">the aspect of “He sets darkness as His hiding place”39</t>\n    <t s=\"9\">which is above revelation,</t>\n    <t s=\"10\">therefore through the service of the time of exile, there will be revealed in the future also those matters that are above comprehension and vision40</t>\n    <t s=\"11\">(above even the comprehension and vision of the future),</t>\n    <t s=\"12\">and only that Mashiach will reveal them in a manner of kingship,</t>\n    <t s=\"13\">as mentioned above.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section elaborates that the descent of the soul is for the sake of an ascent, and this explains why the future revelation, even that of Mashiach as a teacher, comes specifically through the service of exile, analogous to the two effects of the first contraction on the infinite light and the finite light.</sectionSummaryBrief>\n    <t s=\"0\">d)</t>\n    <t s=\"1\">And he continues in the maamar41,</t>\n    <t s=\"2\">that the explanation of this matter</t>\n    <t s=\"3\">(that the revelation of the future comes specifically through the service of the time of exile)</t>\n    <t s=\"4\">will be understood from the matter of the descent of the soul below,</t>\n    <t s=\"5\">that the descent is for the sake of an ascent.</t>\n    <t s=\"6\">For from this it is understood also regarding the descent of exile,</t>\n    <t s=\"7\">that it is for the sake of an ascent.</t>\n    <t s=\"8\">That specifically through the service in the time of exile there will be the revelation of the future, which is more elevated than the revelation that was in the time of the Temple.</t>\n    <t s=\"9\">And it may be said,</t>\n    <t s=\"10\">that this additional explanation</t>\n    <t s=\"11\">(that the intention of the descent of exile is from the outset for the sake of an ascent)</t>\n    <t s=\"12\">is in order to explain the reason for this, that even the revelation of Mashiach who will reveal as a teacher,</t>\n    <t s=\"13\">in comprehension and vision,</t>\n    <t s=\"14\">comes specifically through the service of the time of exile</t>\n    <t s=\"15\">(even though the matter of comprehension, and all the more so vision, was specifically in the time of the Temple,</t>\n    <t s=\"16\">as mentioned above).</t>\n    <t s=\"17\">And this will be understood from the matter of the descent in the totality of Hishtalshelus,</t>\n    <t s=\"18\">that the beginning of the descent is the first contraction,</t>\n    <t s=\"19\">and it is known42</t>\n    <t s=\"20\">that the effect of the contraction is both upon the Ein Sof blessed be He and upon the light that is in the aspect of limitation</t>\n    <t s=\"21\">(the light to illuminate the worlds).</t>\n    <t s=\"22\">That the effect of the contraction upon the light of the blessed Ein Sof is that it becomes concealed and included in its source,</t>\n    <t s=\"23\">and does not shine in revelation in the place of the void,</t>\n    <t s=\"24\">meaning that the effect of the contraction upon this light is not upon the light itself.</t>\n    <t s=\"25\">And the reason may be said,</t>\n    <t s=\"26\">that since this light is above the value of the worlds,</t>\n    <t s=\"27\">the contraction does not have the capacity to effect in it descent and limitation,</t>\n    <t s=\"28\">and all the effect of the contraction upon this light is that it not shine in the place of the void.</t>\n    <t s=\"29\">However, the effect of the contraction upon the light to illuminate the worlds is upon the light itself,</t>\n    <t s=\"30\">and in several matters,</t>\n    <t s=\"31\">first, that before the contraction this light was mixed and included in the light of the blessed Ein Sof, and through the contraction it became separate by itself43,</t>\n    <t s=\"32\">by which it descended from its level,</t>\n    <t s=\"33\">second, that by being drawn through the leap of the contraction, not in an orderly progression, it comes into an aspect of division into ten Sefiros</t>\n    <t s=\"34\">[and as explained at length44,</t>\n    <t s=\"35\">that the matter of the Sefiros that are in the light is not only from the aspect of the vessels, but rather,</t>\n    <t s=\"36\">that the matter of the Sefiros is also from the aspect of the light],</t>\n    <t s=\"37\">third, that through the contraction the light becomes clothed</t>\n    <t s=\"38\">(afterward)</t>\n    <t s=\"39\">in the vessels, by which it comes into materialization,</t>\n    <t s=\"40\">becoming like the vessels.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section parallels the two aspects of the first contraction to the concealment of the soul's descent and the concealment of exile, distinguishing between matters that remain above and are not clothed in the body, and matters that become materialized and obscured.</sectionSummaryBrief>\n    <t s=\"0\">e)</t>\n    <t s=\"1\">And now, similarly is it also regarding the concealment of the descent of the soul below</t>\n    <t s=\"2\">(that all concealments, their root is from the concealment</t>\n    <t s=\"3\">(of contraction)</t>\n    <t s=\"4\">the first),</t>\n    <t s=\"5\">that it has two matters,</t>\n    <t s=\"6\">analogous to the two matters mentioned above in the first contraction45.</t>\n    <t s=\"7\">First,</t>\n    <t s=\"8\">that when the soul was above,</t>\n    <t s=\"9\">all its powers shone in revelation,</t>\n    <t s=\"10\">and in its descent below,</t>\n    <t s=\"11\">they are in concealment.</t>\n    <t s=\"12\">That this concealment is not that the body conceals,</t>\n    <t s=\"13\">but rather,</t>\n    <t s=\"14\">that these matters of the soul remain above and are not clothed in the body46,</t>\n    <t s=\"15\">analogous to that which the light of the blessed Ein Sof does not shine in the place of the void.</t>\n    <t s=\"16\">And second,</t>\n    <t s=\"17\">that even those matters that do become clothed in the body,</t>\n    <t s=\"18\">they are in materialization,</t>\n    <t s=\"19\">analogous to the concealment in the light of the line from the aspect of the vessels47.</t>\n    <t s=\"20\">And similarly is it also regarding the concealment of exile,</t>\n    <t s=\"21\">that it contains analogues of these two matters48.</t>\n    <t s=\"22\">First,</t>\n    <t s=\"23\">that in the time of exile the revelations of the Holy Temple do not exist,</t>\n    <t s=\"24\">and it is that since the Holy Temple was destroyed, we are unable to ascend and be seen,</t>\n    <t s=\"25\">that there is no vision of Elokus.</t>\n    <t s=\"26\">And second, that even the comprehension in the time of exile is not true comprehension,</t>\n    <t s=\"27\">and this is</t>\n    <t s=\"28\">(not only from the aspect that the revelations of the Holy Temple do not exist,</t>\n    <t s=\"29\">but also)</t>\n    <t s=\"30\">from the aspect of the concealment and hiding of exile,</t>\n    <t s=\"31\">which conceals and hides the comprehension of Elokus.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917980_theRebbe_758",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917980_theRebbe_758__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the superiority of the root of Netzach is explained to clarify why the future revelation comes specifically through the service of the exile period, which is in a manner of victory from the innermost aspect of Keter.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that what is explained in the maamar"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "(and at length)"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "regarding the superiority of the root of Netzach is"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "(also)"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "in order to explain the reason for this, that the revelation of the future to come comes specifically through the prior service of the time of exile."
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "For since the service in the time of exile is in a manner of victory,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "and the root of Netzach is from the innerness of Keter,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "the aspect of “He sets darkness as His hiding place”39"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "which is above revelation,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "therefore through the service of the time of exile, there will be revealed in the future also those matters that are above comprehension and vision40"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "(above even the comprehension and vision of the future),"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "and only that Mashiach will reveal them in a manner of kingship,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "as mentioned above."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section elaborates that the descent of the soul is for the sake of an ascent, and this explains why the future revelation, even that of Mashiach as a teacher, comes specifically through the service of exile, analogous to the two effects of the first contraction on the infinite light and the finite light.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "d)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And he continues in the maamar41,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that the explanation of this matter"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(that the revelation of the future comes specifically through the service of the time of exile)"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "will be understood from the matter of the descent of the soul below,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "that the descent is for the sake of an ascent."
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "For from this it is understood also regarding the descent of exile,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "that it is for the sake of an ascent."
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "That specifically through the service in the time of exile there will be the revelation of the future, which is more elevated than the revelation that was in the time of the Temple."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "that this additional explanation"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(that the intention of the descent of exile is from the outset for the sake of an ascent)"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "is in order to explain the reason for this, that even the revelation of Mashiach who will reveal as a teacher,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "in comprehension and vision,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "comes specifically through the service of the time of exile"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "(even though the matter of comprehension, and all the more so vision, was specifically in the time of the Temple,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "as mentioned above)."
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "And this will be understood from the matter of the descent in the totality of Hishtalshelus,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "that the beginning of the descent is the first contraction,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "and it is known42"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "that the effect of the contraction is both upon the Ein Sof blessed be He and upon the light that is in the aspect of limitation"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "(the light to illuminate the worlds)."
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "That the effect of the contraction upon the light of the blessed Ein Sof is that it becomes concealed and included in its source,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "and does not shine in revelation in the place of the void,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "meaning that the effect of the contraction upon this light is not upon the light itself."
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "And the reason may be said,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "that since this light is above the value of the worlds,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "the contraction does not have the capacity to effect in it descent and limitation,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "and all the effect of the contraction upon this light is that it not shine in the place of the void."
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "However, the effect of the contraction upon the light to illuminate the worlds is upon the light itself,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and in several matters,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "first, that before the contraction this light was mixed and included in the light of the blessed Ein Sof, and through the contraction it became separate by itself43,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "by which it descended from its level,"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "second, that by being drawn through the leap of the contraction, not in an orderly progression, it comes into an aspect of division into ten Sefiros"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "[and as explained at length44,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "that the matter of the Sefiros that are in the light is not only from the aspect of the vessels, but rather,"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "that the matter of the Sefiros is also from the aspect of the light],"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "third, that through the contraction the light becomes clothed"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "(afterward)"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "in the vessels, by which it comes into materialization,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "becoming like the vessels."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section parallels the two aspects of the first contraction to the concealment of the soul's descent and the concealment of exile, distinguishing between matters that remain above and are not clothed in the body, and matters that become materialized and obscured.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "e)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And now, similarly is it also regarding the concealment of the descent of the soul below"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "(that all concealments, their root is from the concealment"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(of contraction)"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "the first),"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "that it has two matters,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "analogous to the two matters mentioned above in the first contraction45."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "First,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "that when the soul was above,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "all its powers shone in revelation,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "and in its descent below,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "they are in concealment."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "That this concealment is not that the body conceals,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "but rather,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "that these matters of the soul remain above and are not clothed in the body46,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "analogous to that which the light of the blessed Ein Sof does not shine in the place of the void."
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "And second,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "that even those matters that do become clothed in the body,"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "they are in materialization,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "analogous to the concealment in the light of the line from the aspect of the vessels47."
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "And similarly is it also regarding the concealment of exile,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "that it contains analogues of these two matters48."
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "First,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "that in the time of exile the revelations of the Holy Temple do not exist,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "and it is that since the Holy Temple was destroyed, we are unable to ascend and be seen,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "that there is no vision of Elokus."
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "And second, that even the comprehension in the time of exile is not true comprehension,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "and this is"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "(not only from the aspect that the revelations of the Holy Temple do not exist,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "but also)"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "from the aspect of the concealment and hiding of exile,"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "which conceals and hides the comprehension of Elokus."
+          }
+        ]
+      }
+    ]
+  }
+}

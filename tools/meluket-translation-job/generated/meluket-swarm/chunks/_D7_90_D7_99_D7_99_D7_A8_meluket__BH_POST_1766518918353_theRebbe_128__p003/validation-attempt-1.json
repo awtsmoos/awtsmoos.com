@@ -1,0 +1,319 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 55,
+    "returned": 55,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918353_theRebbe_128\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This explains that just as each day begins with new creation and then Torah study after many mitzvos, so too in the yearly cycle, after the mitzvos of Pesach and Sefiras HaOmer, comes the time of the giving of the Torah.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this is also one of the reasons for the fact that before the holiday of Shavuos, the time of the giving of our Torah, there are several specific mitzvos,</t>\n    <t s=\"2\">the mitzvos of the holiday of Pesach and the mitzvah of Sefiras HaOmer.</t>\n    <t s=\"3\">For just as each day,</t>\n    <t s=\"4\">when a person becomes a new creation,</t>\n    <t s=\"5\">(the main point)</t>\n    <t s=\"6\">the study of Torah is after the fulfillment of several mitzvos</t>\n    <t s=\"7\">(Krias Shema,</t>\n    <t s=\"8\">Tefillin,</t>\n    <t s=\"9\">Prayer, etc.),</t>\n    <t s=\"10\">so too is it in the seasons of the year,</t>\n    <t s=\"11\">that on the holiday of Pesach, each and every year, is the birth of Israel,</t>\n    <t s=\"12\">that after the fulfillment of the specific mitzvos of these times</t>\n    <t s=\"13\">(the mitzvos of the holiday of Pesach and the days of Sefiras HaOmer)</t>\n    <t s=\"14\">is the time of the giving of our Torah.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section compares the sanctification of a woman through marriage to the sanctification of the Jewish people through mitzvos, explaining that mitzvos draw down inner vitality, yet this remains only in the external heart, like a betrothed woman.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And he continues in the maamar,</t>\n    <t s=\"2\">that just as the betrothal of a man and woman in its simple sense is by the man giving her an object</t>\n    <t s=\"3\">(a coin or something worth a coin)</t>\n    <t s=\"4\">with which she can purchase the life of her soul,</t>\n    <t s=\"5\">so too is it regarding the fact that the Holy One, blessed be He, sanctified us with His mitzvos,</t>\n    <t s=\"6\">that through the fulfillment of the mitzvos, vitality is drawn down to the person who fulfills the mitzvos,</t>\n    <t s=\"7\">as it is stated,</t>\n    <t s=\"8\">\"which a person shall do and live by them.\"</t>\n    <t s=\"9\">And although the mitzvos are the Supernal Will,</t>\n    <t s=\"10\">for Will is a level of Sovev (Transcendent) which in its own essence is holy and separate from the worlds,</t>\n    <t s=\"11\">nevertheless,</t>\n    <t s=\"12\">from this light is drawn down vitality to the person who fulfills the mitzvos,</t>\n    <t s=\"13\">an inner vitality.</t>\n    <t s=\"14\">And it is also understood from this that the light drawn down through the mitzvos affects</t>\n    <t s=\"15\">(not only his thought, speech and action,</t>\n    <t s=\"16\">but)</t>\n    <t s=\"17\">also his emotions, and even his will and delight,</t>\n    <t s=\"18\">as brought above</t>\n    <t s=\"19\">(sections 1-2)</t>\n    <t s=\"20\">from the maamar,</t>\n    <t s=\"21\">that through the mitzvos he becomes separated from lusts and all evil traits,</t>\n    <t s=\"22\">and that the matter of \"they bind their openings\"</t>\n    <t s=\"23\">(which is accomplished through the mitzvos)</t>\n    <t s=\"24\">is that he has no delight except in Elokus.</t>\n    <t s=\"25\">However, all this is only in the externality of the heart and is not yet absorbed into the innermost depth of his heart.</t>\n    <t s=\"26\">Therefore she is called a betrothed woman.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the Targum's interpretation of \"a garden locked\" refers to Gan Eden, which only the souls of the righteous can enter, and that the concept of \"binding their openings\" through mitzvos is the foundation for the maamar's explanation of \"You have sanctified us with Your mitzvos.\"</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we can explain the interpretation of the Targum that \"a garden locked\" refers to Gan Eden, into which no one can enter except the souls of the righteous,</t>\n    <t s=\"1\">for the matter of \"they bind their openings\" in the aforementioned manner, that even his delight is only in Elokus,</t>\n    <t s=\"2\">is through the drawing down of light from above</t>\n    <t s=\"3\">(through the fulfillment of mitzvos),</t>\n    <t s=\"4\">and therefore the analogy for this is from Gan Eden,</t>\n    <t s=\"5\">a Divine delight</t>\n    <t s=\"6\">(from above).</t>\n    <t s=\"7\">And it can be said,</t>\n    <t s=\"8\">that this which the maamar brings</t>\n    <t s=\"9\">(at its beginning)</t>\n    <t s=\"10\">the interpretation of the Targum,</t>\n    <t s=\"11\">is,</t>\n    <t s=\"12\">because this interpretation is the foundation for the explanation in the maamar that \"they bind their openings\" is the matter of \"You have sanctified us with Your mitzvos.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918353_theRebbe_128",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This explains that just as each day begins with new creation and then Torah study after many mitzvos, so too in the yearly cycle, after the mitzvos of Pesach and Sefiras HaOmer, comes the time of the giving of the Torah.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that this is also one of the reasons for the fact that before the holiday of Shavuos, the time of the giving of our Torah, there are several specific mitzvos,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "the mitzvos of the holiday of Pesach and the mitzvah of Sefiras HaOmer."
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "For just as each day,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "when a person becomes a new creation,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "(the main point)"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "the study of Torah is after the fulfillment of several mitzvos"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "(Krias Shema,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "Tefillin,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "Prayer, etc.),"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "so too is it in the seasons of the year,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "that on the holiday of Pesach, each and every year, is the birth of Israel,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that after the fulfillment of the specific mitzvos of these times"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "(the mitzvos of the holiday of Pesach and the days of Sefiras HaOmer)"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "is the time of the giving of our Torah."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section compares the sanctification of a woman through marriage to the sanctification of the Jewish people through mitzvos, explaining that mitzvos draw down inner vitality, yet this remains only in the external heart, like a betrothed woman.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And he continues in the maamar,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that just as the betrothal of a man and woman in its simple sense is by the man giving her an object"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(a coin or something worth a coin)"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "with which she can purchase the life of her soul,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "so too is it regarding the fact that the Holy One, blessed be He, sanctified us with His mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "that through the fulfillment of the mitzvos, vitality is drawn down to the person who fulfills the mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "\"which a person shall do and live by them.\""
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And although the mitzvos are the Supernal Will,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "for Will is a level of Sovev (Transcendent) which in its own essence is holy and separate from the worlds,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "from this light is drawn down vitality to the person who fulfills the mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "an inner vitality."
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "And it is also understood from this that the light drawn down through the mitzvos affects"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "(not only his thought, speech and action,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "but)"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "also his emotions, and even his will and delight,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "as brought above"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(sections 1-2)"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "from the maamar,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "that through the mitzvos he becomes separated from lusts and all evil traits,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "and that the matter of \"they bind their openings\""
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "(which is accomplished through the mitzvos)"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "is that he has no delight except in Elokus."
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "However, all this is only in the externality of the heart and is not yet absorbed into the innermost depth of his heart."
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "Therefore she is called a betrothed woman."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that the Targum's interpretation of \"a garden locked\" refers to Gan Eden, which only the souls of the righteous can enter, and that the concept of \"binding their openings\" through mitzvos is the foundation for the maamar's explanation of \"You have sanctified us with Your mitzvos.\"",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And based on this, we can explain the interpretation of the Targum that \"a garden locked\" refers to Gan Eden, into which no one can enter except the souls of the righteous,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "for the matter of \"they bind their openings\" in the aforementioned manner, that even his delight is only in Elokus,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "is through the drawing down of light from above"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(through the fulfillment of mitzvos),"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "and therefore the analogy for this is from Gan Eden,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "a Divine delight"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "(from above)."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "that this which the maamar brings"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "(at its beginning)"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "the interpretation of the Targum,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "is,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "because this interpretation is the foundation for the explanation in the maamar that \"they bind their openings\" is the matter of \"You have sanctified us with Your mitzvos.\""
+          }
+        ]
+      }
+    ]
+  }
+}

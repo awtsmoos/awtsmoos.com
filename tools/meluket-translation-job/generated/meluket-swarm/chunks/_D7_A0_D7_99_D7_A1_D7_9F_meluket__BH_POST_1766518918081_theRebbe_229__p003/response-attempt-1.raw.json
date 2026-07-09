@@ -1,0 +1,28 @@
+{
+  "id": "4c4d72b3-9823-4c77-9b15-a264e21f69e3",
+  "object": "chat.completion",
+  "created": 1783583836,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918081_theRebbe_229\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918081_theRebbe_229__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section expresses the wish that all this be revealed tangibly, like pointing at the matzah and wine of the future feast of Moshiach, with joy and without any delay.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And may it be His will that all this be in actual revelation, in a manner that each one points with his finger and says, \"This!\"</t>\n    <t s=\"2\">— analogous to the feast of Moshiach, where they point with the finger at the matzah and the wine,</t>\n    <t s=\"3\">and in the inner dimension—analogous to the matzah and the cups of the feast of Moshiach, which become blood and flesh like his flesh,</t>\n    <t s=\"4\">and out of joy and goodness of heart,</t>\n    <t s=\"5\">and immediately, forthwith,</t>\n    <t s=\"6\">that it should not delay even for the blink of an eye.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 799,
+    "completion_tokens": 355,
+    "total_tokens": 1154,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 543
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

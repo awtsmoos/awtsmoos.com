@@ -1,0 +1,294 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 50,
+    "returned": 50,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914779_theRebbe_200\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914779_theRebbe_200__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the heading and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Motzaei Shabbos Parshas Noach – in his room – 5738 (1978).</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that \"many waters\" refer to all the distractions of livelihood, yet they cannot extinguish the hidden love in every Jewish soul, and \"rivers\" refer to constant rushing thoughts that also cannot wash away this love.</sectionSummaryBrief>\n    <t s=\"0\">\"Many waters cannot extinguish the love, and rivers cannot wash it away, etc.\"</t>\n    <t s=\"1\">And it is brought in the discourses of our Nesi'im,</t>\n    <t s=\"2\">that \"many waters\" are all the distractions of livelihood and the thoughts concerning matters of this world,</t>\n    <t s=\"3\">and nevertheless they cannot extinguish the hidden love that exists in every soul of Israel,</t>\n    <t s=\"4\">\"and rivers cannot wash it away,\"</t>\n    <t s=\"5\">that even when the aforementioned thoughts are extremely distracting,</t>\n    <t s=\"6\">to the point that they race about continuously without any interruption at all,</t>\n    <t s=\"7\">like rivers</t>\n    <t s=\"8\">that flow constantly without cessation and move and go with a great current,</t>\n    <t s=\"9\">nevertheless, they cannot wash away the love</t>\n    <t s=\"10\">(and they cannot extinguish it).</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section clarifies the precise wording \"distractions of livelihood,\" explaining that one need only involve his external faculties in work, not his inner powers, and that even when one has such distractions, they cannot extinguish the hidden love.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the explanation of the precise wording \"distractions of livelihood,\"</t>\n    <t s=\"2\">behold it is written,</t>\n    <t s=\"3\">\"The labor of your hands when you eat, etc.\"</t>\n    <t s=\"4\">And the precise point regarding this is known,</t>\n    <t s=\"5\">specifically \"the labor of your hands,\" but not the labor of the mind and heart.</t>\n    <t s=\"6\">And this means that although</t>\n    <t s=\"7\">(from the aspect that influence in this world is drawn through the garment of nature)</t>\n    <t s=\"8\">there must be action in which the supernal influence is clothed,</t>\n    <t s=\"9\">as it is written,</t>\n    <t s=\"10\">\"And Hashem your G-d will bless you in all that you do\"</t>\n    <t s=\"11\">(specifically),</t>\n    <t s=\"12\">and even to the point that sometimes</t>\n    <t s=\"13\">(due to the greatness of the concealment and hiding)</t>\n    <t s=\"14\">effort is also needed,</t>\n    <t s=\"15\">nevertheless, one need only occupy in this action his external powers,</t>\n    <t s=\"16\">\"the labor of your hands\"</t>\n    <t s=\"17\">[hands and other external limbs],</t>\n    <t s=\"18\">but not his inner and lofty powers</t>\n    <t s=\"19\">(that are in the mind and heart),</t>\n    <t s=\"20\">for these powers must be dedicated to serving his Master,</t>\n    <t s=\"21\">for this is the purpose of his creation.</t>\n    <t s=\"22\">And although, since the influence is concealed and hidden in the garments of nature, one must also use his intellect for the sake of the occupation,</t>\n    <t s=\"23\">it is only what is necessary for the action,</t>\n    <t s=\"24\">but not in a manner of exertion in cleverness and schemes.</t>\n    <t s=\"25\">And especially since \"the blessing of Hashem enriches,\"</t>\n    <t s=\"26\">and the occupation is merely a garment for the blessing of Hashem</t>\n    <t s=\"27\">(and not that the occupation is the source of his livelihood, G-d forbid),</t>\n    <t s=\"28\">it is therefore understood,</t>\n    <t s=\"29\">that analogous to garments in the simple sense, \"one who multiplies garments has not added anything,</t>\n    <t s=\"30\">and on the contrary,</t>\n    <t s=\"31\">he spoils more.\"</t>\n    <t s=\"32\">And this is the precise wording \"distractions of livelihood,\"</t>\n    <t s=\"33\">that although he is in a lowly state where he has distractions of livelihood</t>\n    <t s=\"34\">[which shows that he does not contemplate properly within himself that the blessing of Hashem enriches],</t>\n    <t s=\"35\">nevertheless,</t>\n    <t s=\"36\">behold, even the distractions cannot extinguish, G-d forbid, the hidden love that is in every Jew.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914779_theRebbe_200",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914779_theRebbe_200__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the heading and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Motzaei Shabbos Parshas Noach – in his room – 5738 (1978)."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that \"many waters\" refer to all the distractions of livelihood, yet they cannot extinguish the hidden love in every Jewish soul, and \"rivers\" refer to constant rushing thoughts that also cannot wash away this love.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"Many waters cannot extinguish the love, and rivers cannot wash it away, etc.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is brought in the discourses of our Nesi'im,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that \"many waters\" are all the distractions of livelihood and the thoughts concerning matters of this world,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "and nevertheless they cannot extinguish the hidden love that exists in every soul of Israel,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "\"and rivers cannot wash it away,\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that even when the aforementioned thoughts are extremely distracting,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "to the point that they race about continuously without any interruption at all,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "like rivers"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "that flow constantly without cessation and move and go with a great current,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "nevertheless, they cannot wash away the love"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "(and they cannot extinguish it)."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section clarifies the precise wording \"distractions of livelihood,\" explaining that one need only involve his external faculties in work, not his inner powers, and that even when one has such distractions, they cannot extinguish the hidden love.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the explanation of the precise wording \"distractions of livelihood,\""
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "behold it is written,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "\"The labor of your hands when you eat, etc.\""
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "And the precise point regarding this is known,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "specifically \"the labor of your hands,\" but not the labor of the mind and heart."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And this means that although"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "(from the aspect that influence in this world is drawn through the garment of nature)"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "there must be action in which the supernal influence is clothed,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "\"And Hashem your G-d will bless you in all that you do\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(specifically),"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and even to the point that sometimes"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "(due to the greatness of the concealment and hiding)"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "effort is also needed,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "nevertheless, one need only occupy in this action his external powers,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "\"the labor of your hands\""
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "[hands and other external limbs],"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "but not his inner and lofty powers"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(that are in the mind and heart),"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "for these powers must be dedicated to serving his Master,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "for this is the purpose of his creation."
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "And although, since the influence is concealed and hidden in the garments of nature, one must also use his intellect for the sake of the occupation,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "it is only what is necessary for the action,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "but not in a manner of exertion in cleverness and schemes."
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "And especially since \"the blessing of Hashem enriches,\""
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "and the occupation is merely a garment for the blessing of Hashem"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "(and not that the occupation is the source of his livelihood, G-d forbid),"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "it is therefore understood,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "that analogous to garments in the simple sense, \"one who multiplies garments has not added anything,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "he spoils more.\""
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "And this is the precise wording \"distractions of livelihood,\""
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "that although he is in a lowly state where he has distractions of livelihood"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "[which shows that he does not contemplate properly within himself that the blessing of Hashem enriches],"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "behold, even the distractions cannot extinguish, G-d forbid, the hidden love that is in every Jew."
+          }
+        ]
+      }
+    ]
+  }
+}

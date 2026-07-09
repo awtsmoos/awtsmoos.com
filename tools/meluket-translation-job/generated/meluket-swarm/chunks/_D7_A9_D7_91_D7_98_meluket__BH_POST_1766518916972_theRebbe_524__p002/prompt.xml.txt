@@ -1,0 +1,119 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916972_theRebbe_524" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916972_theRebbe_524__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916972_theRebbe_524" title="מאמר באתי לגני תשמ"ח" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916972_theRebbe_524__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והנה ידוע14</src>
+    <src s="2">שהציווי ועשו לי מקדש הוא גם על המקדש,</src>
+    <src s="3">בית ראשון בית שני,</src>
+    <src s="4">וגם ביהמ"ק השלישי שיבנה במהרה בימינו.</src>
+    <src s="5">ומזה מובן,</src>
+    <src s="6">דכמו שהמשכת עיקר שכינה במשכן היתה ע"י העבודה שלמעלה ממדידה והגבלה,</src>
+    <src s="7">שטות דקדושה שלמעלה מטעם ודעת,</src>
+    <src s="8">עד"ז הוא בנוגע להמשכת עיקר שכינה בביהמ"ק,</src>
+    <src s="9">שזה נעשה ע"י העבודה דשטות דקדושה שלמעלה ממדידה והגבלה.</src>
+    <src s="10">דע"י מעשינו ועבודתינו במשך זמן הגלות באופן דשטות דקדושה שלמעלה מטעם ודעת,</src>
+    <src s="11">עי"ז ועשו לי,</src>
+    <src s="12">עשיית ביהמ"ק השלישי שיבנה במהרה בימינו,</src>
+    <src s="13">שיהי' נעלה עוד יותר מהמשכן וביהמ"ק הא' והב',</src>
+    <src s="14">מקדש אד' כוננו ידיך15.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">וזהו מה שישראל נק' בשם צבאות הוי'16</src>
+    <src s="2">במשך כל הדורות,</src>
+    <src s="3">דכאו"א מישראל הוא חייל בצבאות השם,</src>
+    <src s="4">שיוצא צבא למלחמה,</src>
+    <src s="5">לכבוש את העולם ולעשותו דירה לו ית'.</src>
+    <src s="6">וזה מה שישראל נק' בשם צבאות ה'</src>
+    <src s="7">(צבא דייקא)</src>
+    <src s="8">הוא להורות,</src>
+    <src s="9">שעבודתם צריכה להיות באופן שלא יתחשבו עם חשבונות שע"פ טו"ד,</src>
+    <src s="10">שטות דקדושה שלמעלה מטו"ד,</src>
+    <src s="11">בדוגמת צבא כפשוטו.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">וממשיך בהמאמר17,</src>
+    <src s="2">דכמו שבמלחמה בגשמיות,</src>
+    <src s="3">בכדי לנצח את המלחמה מבזבז המלך את כל האוצרות שנקבצו במשך כמה שנים מדור אחר דור18,</src>
+    <src s="4">דהגם שע"ד הרגיל הנה לא רק שאין משתמשים בהם</src>
+    <src s="5">(אפילו לצורך גדול)</src>
+    <src s="6">אלא יתירה מזו,</src>
+    <src s="7">שהם כמוסים וגנוזים מעין כל רואה,</src>
+    <src s="8">ומ"מ בכדי לנצח את המנגד,</src>
+    <src s="9">הנה לא רק שמשתמשים בהאוצרות אלא שגם מבזבזים אותם,</src>
+    <src s="10">דבזבוז הוא למעלה מחשבון מדידה והגבלה,</src>
+    <src s="11">והטעם לזה הוא כי הנצח מושרש בעצם הנפש דשם</src>
+    <src s="12">(בעצם הנפש)</src>
+    <src s="13">אין שייך שום חשבונות,</src>
+    <src s="14">עד"ז הוא גם למעלה,</src>
+    <src s="15">שבכדי שצבאות ה' ינצחו את המלחמה,</src>
+    <src s="16">לכבוש את העולם ולעשותו דירה לו ית',</src>
+    <src s="17">נותנים להם בחי' האוצר שלמעלה,</src>
+    <src s="18">ולא עוד,</src>
+    <src s="19">אלא שנתינת האוצרות להם הוא באופן דבזבוז,</src>
+    <src s="20">למעלה מחשבון.</src>
+    <src s="21">והגם שגם בנתינה</src>
+    <src s="22">(ע"ד הרגיל)</src>
+    <src s="23">אמרו19</src>
+    <src s="24">כל הנותן בעין יפה נותן,</src>
+    <src s="25">הרי גם "עין יפה" הוא תואר של מדידה והגבלה,</src>
+    <src s="26">משא"כ כשהנתינה היא באופן דבזבוז,</src>
+    <src s="27">אין בה הגבלות.</src>
+    <src s="28">והטעם על זה</src>
+    <src s="29">(שבכדי שהצבאות ה' ינצחו את המלחמה,</src>
+    <src s="30">נותנים להם את האוצרות ובאופן דבזבוז)</src>
+    <src s="31">הוא,</src>
+    <src s="32">כי שרש הנצח הוא בפנימיות הכתר20,</src>
+    <src s="33">דשם</src>
+    <src s="34">(בפנימיות הכתר)</src>
+    <src s="35">אין שייך שום חשבונות.</src>
+    <src s="36">והגם שנתינת האוצרות ובאופן דבזבוז היא ע"י השרים ומפקדי המלחמה,</src>
+    <src s="37">נשיאי ישראל שבכל דור,</src>
+    <src s="38">עד לנשיא דורנו בעל ההילולא,</src>
+    <src s="39">הרי עיקר הכוונה בזה הוא שהאוצרות יומשכו ויותנו להאנשי חיל,</src>
+    <src s="40">צבאות הוי',</src>
+    <src s="41">שעל ידם נעשה הנצחון בפועל21.</src>
+    <src s="42">וזהו גם מה שהנצחון שיהי' ע"י העבודה דצבאות ה'</src>
+    <src s="43">(בביהמ"ק השלישי)</src>
+    <src s="44">הוא נצחון נצחי</src>
+    <src s="45">(הוי' ימלוך לעולם ועד22),</src>
+    <src s="46">דמכיון שהנתינת כח על עבודתם היא מפנימיות הכתר,</src>
+    <src s="47">דבפנימיות הכתר אין שייך ענין השינויים,</src>
+    <src s="48">לכן גם העבודה דהצבאות ה' היא בתוקף חזק בלי שינויים,</src>
+    <src s="49">ובמילא גם הנצחון שע"י העבודה הוא נצחי שאין שייך בו הפסק ושינוי.</src>
+  </section>
+</awtsmoosMeluketSource>

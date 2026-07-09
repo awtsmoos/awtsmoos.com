@@ -1,0 +1,145 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" title="מאמר לך אמר לבי תש"כ" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p005">
+  <section v="12">
+    <src s="0">ועד"ז הוא למעלה,</src>
+    <src s="1">דבשם אלקים אפשר להיות</src>
+    <src s="2">(ע"י ריבוי צמצומים)</src>
+    <src s="3">יניקה לחיצונים,</src>
+    <src s="4">ועד לאלקים אחרים45.</src>
+    <src s="5">וע"פ המבואר בכ"מ46</src>
+    <src s="6">דשם אלקים הוא לא רק המגן ונרתק שמעלים ומסתיר על האור דשם הוי',</src>
+    <src s="7">אלא שגם האור דשם הוי' כמו שנמשך ומתצמצם ע"י שם אלקים להיות מקור לנבראים,</src>
+    <src s="8">שבכללות הוא אור הממלא,</src>
+    <src s="9">נקרא אלקים,</src>
+    <src s="10">יש לומר שעד"ז הוא באור הממלא.</src>
+    <src s="11">דמכיון שההתהוות משם אלקים</src>
+    <src s="12">(אור הממלא)</src>
+    <src s="13">היא בדרך התלבשות,</src>
+    <src s="14">הנבראים שמתהווים ממנו הם תופסים מקום,</src>
+    <src s="15">והביטול שלהם הוא רק ביטול היש47,</src>
+    <src s="16">ולכן אפשר להשתלשל מזה ישות ממש48,</src>
+    <src s="17">ועד להישות דע"ז</src>
+    <src s="18">(אלקים אחרים).</src>
+    <src s="19">ובכדי שלא יהי' נתינת מקום לישות ולעו"ז,</src>
+    <src s="20">הוא דוקא ע"י הגילוי דשם הוי'</src>
+    <src s="21">(אור הסובב),</src>
+    <src s="22">שההתהוות ממנו היא באופן דבדרך ממילא,</src>
+    <src s="23">והנבראים אינם תופסים מקום לגבי',</src>
+    <src s="24">ביטול במציאות47.</src>
+    <src s="25">וע"פ המבואר לעיל</src>
+    <src s="26">(סעיף ה)</src>
+    <src s="27">שגם שם הוי' הוא מקור להתהוות,</src>
+    <src s="28">בהכרח שגם לגבי שם הוי' יש איזה תפיסת מקום להנבראים49,</src>
+    <src s="29">ואמיתית הביטול הוא דוקא לגבי עצמות אוא"ס שלמעלה מהוי' שאינו בגדר מקור לעולמות.</src>
+    <src s="30">ועפ"ז יש לומר שבכדי לשלול בתכלית שלא תהי' נתינת מקום לישות,</src>
+    <src s="31">הוא דוקא ע"י הגילוי דעצמות אוא"ס שלמעלה מהוי'.</src>
+    <src s="32">וזהו מ"ש50</src>
+    <src s="33">לא יהי' לך אלקים אחרים על פני,</src>
+    <src s="34">שבכדי שלא יהי' שום נתינת מקום לאלקים אחרים הוא ע"י על פני,</src>
+    <src s="35">דאמיתית הענין דפני הוא עצמות אוא"ס שלמעלה מהוי'.</src>
+  </section>
+  <section v="13">
+    <src s="0">ז)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דשני הפירושים בלך אמר לבי בקשו פני</src>
+    <src s="3">(שלך הוא בשבילך ובשליחותך,</src>
+    <src s="4">ושלך הוא במקומך),</src>
+    <src s="5">וגם שני הפירושים</src>
+    <src s="6">(בהמאמר)</src>
+    <src s="7">בבקשו</src>
+    <src s="8">(בקשה ותחינה,</src>
+    <src s="9">בקשה וחיפוש),</src>
+    <src s="10">הם בהתאם לשתי הדרגות בפני.</src>
+    <src s="11">דבהפנימיות דשם הוי'</src>
+    <src s="12">(שהוא בחי' פנימיות לגבי שם אלקים),</src>
+    <src s="13">שדוגמתו באדם הוא הארת נקודת הלב,</src>
+    <src s="14">פירוש לך הוא בשבילך ובשליחותך.</src>
+    <src s="15">היינו שהלב הוא שלוחו של הקב"ה,</src>
+    <src s="16">דענינו של שליח הוא ששולחים אותו לעשות איזה דבר.</src>
+    <src s="17">והשליחות שבדרגא זו שבפנימיות הלב הוא להאיר בחיצוניות הלב כדי לנצח המלחמה עם הנפש הבהמית,</src>
+    <src s="18">דעיקר הנצחון</src>
+    <src s="19">(שע"י גילוי דרגא זו)</src>
+    <src s="20">הוא בהלבושים מחשבה דיבור ומעשה,</src>
+    <src s="21">אלא שבכדי שהמחשבה דיבור ומעשה יהיו בשלימות הוא ע"י המדות שבלב51,</src>
+    <src s="22">עבודה עם הלב.</src>
+    <src s="23">ועפ"ז פירוש בקשו פני הוא בקשה וחיפוש,</src>
+    <src s="24">לחפש בכל עניניו שיהיו בהתאם לבחי' פני</src>
+    <src s="25">(פני הוי').</src>
+    <src s="26">ובהפנימיות דאוא"ס שלמעלה מהוי',</src>
+    <src s="27">שדוגמתו באדם היא עצמות נקודת הלב,</src>
+    <src s="28">פירוש לך הוא במקומך,</src>
+    <src s="29">וכמובא לעיל</src>
+    <src s="30">(סוף סעיף ב)</src>
+    <src s="31">מהמאמר שהוא נקודת היהדות שבכל אחד מישראל שמקושרת בהעצמות</src>
+    <src s="32">(במקומך).</src>
+    <src s="33">דבדרגא זו אין שייך ענין השליחות,</src>
+    <src s="34">כי נקודת היהדות אינה אמצעי לענין אחר</src>
+    <src s="35">(מילוי השליחות),</src>
+    <src s="36">והתכלית הוא בה עצמה52.</src>
+    <src s="37">והעבודה בנוגע לדרגא זו היא – עבודה בהלב עצמו,</src>
+    <src s="38">שיהי' בגילוי.</src>
+    <src s="39">דפנימיות הלב כמו שהוא מצד עצמו הוא בהעלם53,</src>
+    <src s="40">והעבודה בו היא לעורר אותו שיהי' בגילוי.</src>
+    <src s="41">ועפ"ז פירוש בקשו פני הוא בקשה ותחינה,</src>
+    <src s="42">דבקשה ותחינה היא</src>
+    <src s="43">(כהלשון בהמאמר)</src>
+    <src s="44">בהתעוררות גדולה.</src>
+  </section>
+  <section v="14">
+    <src s="0">ח)</src>
+    <src s="1">והנה מבואר במק"א54,</src>
+    <src s="2">שבהעלי' דהנשמה שע"י ירידתה למטה,</src>
+    <src s="3">שני ענינים.</src>
+    <src s="4">שע"י שגם בהיותה מלובשת בגוף ונה"ב היא עובדת את ה',</src>
+    <src s="5">מתגלה תוקף ההתקשרות שלה עם הקב"ה,</src>
+    <src s="6">שגם ההעלם וההסתר דהגוף ונה"ב אינו יכול לעשות גרעון בההתקשרות שלה.</src>
+    <src s="7">ושע"י עבודתה למטה נעשה ענין חדש,</src>
+    <src s="8">הבירור והזיכוך דהגוף ונה"ב וחלקו בעולם.</src>
+    <src s="9">וכיון שענין זה</src>
+    <src s="10">(הבירור והזיכוך דהגוף וכו')</src>
+    <src s="11">הוא התחדשות</src>
+    <src s="12">(ולא גילוי ההעלם),</src>
+    <src s="13">הוא נעלה יותר מגילוי תוקף ההתקשרות דהנשמה.</src>
+    <src s="14">וע"פ הידוע55</src>
+    <src s="15">שבירור וזיכוך הגוף ונה"ב</src>
+    <src s="16">(שבשביל זה ירדה הנשמה למטה56)</src>
+    <src s="17">הוא דוקא ע"י אהבה ויראה שבהתגלות הלב,</src>
+    <src s="18">חיצוניות הלב,</src>
+    <src s="19">יש לומר,</src>
+    <src s="20">שיש יתרון בהשליחות דהארת נקודת הלב לחיצוניות הלב,</src>
+    <src s="21">על העבודה דגילוי נקודת היהדות.</src>
+  </section>
+</awtsmoosMeluketSource>

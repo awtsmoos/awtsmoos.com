@@ -1,0 +1,324 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 56,
+    "returned": 56,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915018_theRebbe_923\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915018_theRebbe_923__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header for the maamar, including the Torah portion and date.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbat Parshat Chayei Sarah,</t>\n    <t s=\"2\">Erev Rosh Chodesh Kislev, 5737.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section discusses the verse \"And Avraham was old, advanced in days, and Hashem blessed Avraham with everything,\" and questions the meaning of \"everything\" as a hidden, boundless source.</sectionSummaryBrief>\n    <t s=\"0\">\"And Avraham was old, advanced in days, and Hashem blessed Avraham with everything.\"</t>\n    <t s=\"1\">And the Rebbe [the Rebbe Rashab]</t>\n    <t s=\"2\">(the Rebbe Shalom Ber)</t>\n    <t s=\"3\">of blessed memory, in his maamar beginning with this discourse</t>\n    <t s=\"4\">(from the year 5666),</t>\n    <t s=\"5\">precisely notes that it says \"with everything\" in a general way, and does not specify with what He blessed him.</t>\n    <t s=\"6\">And the point of the explanation:</t>\n    <t s=\"7\">\"Everything\" is the aspect of the essential concealment,</t>\n    <t s=\"8\">from which all revelations are drawn.</t>\n    <t s=\"9\">As it is brought in the Zohar</t>\n    <t s=\"10\">on the verse \"And Hashem blessed Avraham with everything,\"</t>\n    <t s=\"11\">that Avraham was blessed from the place from which all blessings emanate.</t>\n    <t s=\"12\">Therefore it says \"with everything\" in a general way and does not specify details,</t>\n    <t s=\"13\">because it is the aspect of the boundless, which is above details.</t>\n    <t s=\"14\">And one must understand the connection and relevance of the Zohar's interpretation that \"everything\" is the place from which all blessings emanate, with Rashi's commentary on the verse,</t>\n    <t s=\"15\">that \"everything\" refers to Yitzchak</t>\n    <t s=\"16\">(\"everything\" in gematria equals \"ben\" [son]).</t>\n    <t s=\"17\">And also,</t>\n    <t s=\"18\">from the continuation of the verses it seems that this verse</t>\n    <t s=\"19\">(\"And Avraham was old, etc.\")</t>\n    <t s=\"20\">is an introduction to \"And Avraham said to his servant, etc., 'And you shall take a wife for my son, for Yitzchak.'\"</t>\n    <t s=\"21\">And one must understand what is the connection of \"And Hashem blessed Avraham with everything,\"</t>\n    <t s=\"22\">that he was blessed from the place from which all blessings emanate,</t>\n    <t s=\"23\">to this—that he sent his servant to take a wife for his son.</t>\n    <t s=\"24\">Also, one must understand the greatness of the elevation of the marriage of Yitzchak and Rivkah, that it is loftier even than the aspect of \"everything\"</t>\n    <t s=\"25\">(the place from which all blessings emanate),</t>\n    <t s=\"26\">to the point that this—that Hashem blessed Avraham with everything—is only an introduction to the marriage of Yitzchak and Rivkah.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that Avraham's ten trials correspond to the ten Sefiros, while \"everything\" refers to the innermost aspect of Kesser, which is beyond human arousal.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And this will be understood by prefacing what is brought in the Midrash:</t>\n    <t s=\"2\">\"The Holy One, blessed be He, does not elevate a person to greatness until He tests and examines him, etc. And so you find with Avraham our father: the Holy One, blessed be He, tested him with ten trials, and he withstood them, and afterwards He blessed him, as it is said, 'And Hashem blessed Avraham with everything.'\"</t>\n    <t s=\"3\">And the Tzemach Tzedek explains,</t>\n    <t s=\"4\">that the ten trials correspond to the ten Sefiros,</t>\n    <t s=\"5\">whereas \"everything\" is the innermost aspect of Kesser, which is not</t>\n    <t s=\"6\">included in the count of the ten Sefiros.</t>\n    <t s=\"7\">For in that aspect,</t>\n    <t s=\"8\">no arousal from below reaches there.</t>\n    <t s=\"9\">And after Avraham withstood the ten trials corresponding to the ten Sefiros, in which arousal from below is relevant,</t>\n    <t s=\"10\">then He blessed him with \"everything,\"</t>\n    <t s=\"11\">the innermost aspect of Kesser.</t>\n    <t s=\"12\">And it can be said,</t>\n    <t s=\"13\">that this is also the precise language of the verse: \"And Avraham was old, advanced in days, and Hashem blessed Avraham with everything\"—</t>\n    <t s=\"14\">that this—that he was old, advanced in days,</t>\n    <t s=\"15\">even though it is a blessing from the Holy One, blessed be He,</t>\n    <t s=\"16\">the verse attributes it to Avraham</t>\n    <t s=\"17\">(\"And Avraham was old, advanced in days\"),</t>\n    <t s=\"18\">whereas regarding \"everything,\" it does not say that Avraham had \"everything,\" but rather that \"Hashem blessed Avraham with everything.\"</t>\n    <t s=\"19\">The explanation of this can be said:</t>\n    <t s=\"20\">That which he was blessed with old age and days is an arousal from above that is aroused and drawn down by means of an arousal from below,</t>\n    <t s=\"21\">the service of Avraham,</t>\n    <t s=\"22\">whereas that which he was blessed with \"everything\" is an arousal from above that comes from above, to which no arousal from below reaches.</t>\n    <t s=\"23\">[And that this blessing came specifically after he withstood the ten trials is because there must be a place</t>\n    <t s=\"24\">that is complete],</t>\n    <t s=\"25\">therefore it is written regarding it, \"And Hashem blessed, etc.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915018_theRebbe_923",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915018_theRebbe_923__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the opening header for the maamar, including the Torah portion and date.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbat Parshat Chayei Sarah,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Erev Rosh Chodesh Kislev, 5737."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section discusses the verse \"And Avraham was old, advanced in days, and Hashem blessed Avraham with everything,\" and questions the meaning of \"everything\" as a hidden, boundless source.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And Avraham was old, advanced in days, and Hashem blessed Avraham with everything.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe [the Rebbe Rashab]"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(the Rebbe Shalom Ber)"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "of blessed memory, in his maamar beginning with this discourse"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "(from the year 5666),"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "precisely notes that it says \"with everything\" in a general way, and does not specify with what He blessed him."
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And the point of the explanation:"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "\"Everything\" is the aspect of the essential concealment,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "from which all revelations are drawn."
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "As it is brought in the Zohar"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "on the verse \"And Hashem blessed Avraham with everything,\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "that Avraham was blessed from the place from which all blessings emanate."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "Therefore it says \"with everything\" in a general way and does not specify details,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "because it is the aspect of the boundless, which is above details."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "And one must understand the connection and relevance of the Zohar's interpretation that \"everything\" is the place from which all blessings emanate, with Rashi's commentary on the verse,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that \"everything\" refers to Yitzchak"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "(\"everything\" in gematria equals \"ben\" [son])."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "And also,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "from the continuation of the verses it seems that this verse"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "(\"And Avraham was old, etc.\")"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "is an introduction to \"And Avraham said to his servant, etc., 'And you shall take a wife for my son, for Yitzchak.'\""
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "And one must understand what is the connection of \"And Hashem blessed Avraham with everything,\""
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "that he was blessed from the place from which all blessings emanate,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "to this—that he sent his servant to take a wife for his son."
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "Also, one must understand the greatness of the elevation of the marriage of Yitzchak and Rivkah, that it is loftier even than the aspect of \"everything\""
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "(the place from which all blessings emanate),"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "to the point that this—that Hashem blessed Avraham with everything—is only an introduction to the marriage of Yitzchak and Rivkah."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that Avraham's ten trials correspond to the ten Sefiros, while \"everything\" refers to the innermost aspect of Kesser, which is beyond human arousal.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what is brought in the Midrash:"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "\"The Holy One, blessed be He, does not elevate a person to greatness until He tests and examines him, etc. And so you find with Avraham our father: the Holy One, blessed be He, tested him with ten trials, and he withstood them, and afterwards He blessed him, as it is said, 'And Hashem blessed Avraham with everything.'\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "And the Tzemach Tzedek explains,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that the ten trials correspond to the ten Sefiros,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "whereas \"everything\" is the innermost aspect of Kesser, which is not"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "included in the count of the ten Sefiros."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "For in that aspect,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "no arousal from below reaches there."
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And after Avraham withstood the ten trials corresponding to the ten Sefiros, in which arousal from below is relevant,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "then He blessed him with \"everything,\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "the innermost aspect of Kesser."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that this is also the precise language of the verse: \"And Avraham was old, advanced in days, and Hashem blessed Avraham with everything\"—"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that this—that he was old, advanced in days,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "even though it is a blessing from the Holy One, blessed be He,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "the verse attributes it to Avraham"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "(\"And Avraham was old, advanced in days\"),"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "whereas regarding \"everything,\" it does not say that Avraham had \"everything,\" but rather that \"Hashem blessed Avraham with everything.\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "The explanation of this can be said:"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "That which he was blessed with old age and days is an arousal from above that is aroused and drawn down by means of an arousal from below,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "the service of Avraham,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "whereas that which he was blessed with \"everything\" is an arousal from above that comes from above, to which no arousal from below reaches."
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "[And that this blessing came specifically after he withstood the ten trials is because there must be a place"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "that is complete],"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "therefore it is written regarding it, \"And Hashem blessed, etc.\""
+          }
+        ]
+      }
+    ]
+  }
+}

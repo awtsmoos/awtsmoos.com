@@ -1,0 +1,77 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916371_theRebbe_639" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916371_theRebbe_639__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916371_theRebbe_639" title="מאמר וידבר אלוקים אל משה תשל"א" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916371_theRebbe_639__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ וארא,</src>
+    <src s="2">מבה"ח שבט,</src>
+    <src s="3">ה'תשל"א*</src>
+  </section>
+  <section v="1">
+    <src s="0">(הנחה בלתי מוגה)</src>
+  </section>
+  <section v="2">
+    <src s="0">וידבר אלקים אל משה ויאמר אליו אני ה' וארא אל אברהם אל יצחק ואל יעקב גו' ושמי הוי' לא נודעתי להם1.</src>
+    <src s="1">וידוע הדיוק2</src>
+    <src s="2">בזה מבעל ההילולא במה שאומר ושמי הוי' לא נודעתי להם,</src>
+    <src s="3">הלא נאמר שם הוי' וכמה פעמים בדיבור להאבות,</src>
+    <src s="4">וכמו שהקשה בפירש"י.</src>
+    <src s="5">גם צריך להבין מה שאומר כאן דוקא אני הוי',</src>
+    <src s="6">מה השייכות דשם הוי' ליצי"מ ולמ"ת</src>
+    <src s="7">(שקשורים זב"ז,</src>
+    <src s="8">כמ"ש3</src>
+    <src s="9">בהוציאך את העם ממצרים תעבדון את האלקים על ההר הזה).</src>
+    <src s="10">והנה מהמבואר בד"ה זה בתו"א,</src>
+    <src s="11">מובן,</src>
+    <src s="12">שלהאבות נתגלה שם הוי' רק ע"י שם אלקים,</src>
+    <src s="13">שבכללות הוא בחי' שם הוי' דלתתא,</src>
+    <src s="14">אבל שם הוי' דלעילא לא נודעתי להם,</src>
+    <src s="15">משא"כ במ"ת נתגלה שם הוי' שלמעלה מהתלבשות בשם אלקים,</src>
+    <src s="16">בחי' שם הוי' דלעילא.</src>
+    <src s="17">שלכן קודם מ"ת הי' הגזירה4</src>
+    <src s="18">שהעליונים לא ירדו לתחתונים והתחתונים לא יעלו לעליונים,</src>
+    <src s="19">ובמ"ת ביטל הקב"ה את הגזירה ואמר התחתונים יעלו לעליונים,</src>
+    <src s="20">והעליונים ירדו לתחתונים,</src>
+    <src s="21">ואני המתחיל,</src>
+    <src s="22">שנאמר5</src>
+    <src s="23">וירד הוי' על הר סיני,</src>
+    <src s="24">וכתיב6</src>
+    <src s="25">ואל משה אמר עלה אל ה'.</src>
+    <src s="26">וזהו מה שנאמר לו כאן אני הוי',</src>
+    <src s="27">שמתחיל גילוי חדש,</src>
+    <src s="28">שיתגלה שם הוי' שלמעלה מהתלבשות בשם אלקים,</src>
+    <src s="29">שם הוי' דלעילא.</src>
+  </section>
+</awtsmoosMeluketSource>

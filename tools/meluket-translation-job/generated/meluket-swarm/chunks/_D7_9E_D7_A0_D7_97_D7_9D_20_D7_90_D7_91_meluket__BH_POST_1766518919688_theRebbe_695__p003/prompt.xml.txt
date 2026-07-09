@@ -1,0 +1,66 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919688_theRebbe_695" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919688_theRebbe_695__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919688_theRebbe_695" title="מאמר ציון במשפט תפדה תשל"ה" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919688_theRebbe_695__p003">
+  <section v="6">
+    <src s="0">ט)</src>
+    <src s="1">ז)</src>
+    <src s="2">ועפ"ז יתאימו ב' הפירושים בושבי' בצדקה,</src>
+    <src s="3">שהפירוש שושבי' בצדקה הוא למטה מציון במשפט תפדה הוא ע"ד תלמוד גדול.</src>
+    <src s="4">אמנם מצד זה שלעתיד יהי' מעשה גדול</src>
+    <src s="5">[וענין זה ישנו גם עכשיו,</src>
+    <src s="6">כנ"ל],</src>
+    <src s="7">הנה מצד זה,</src>
+    <src s="8">ושבי' בצדקה הוא למעלה מציון במשפט תפדה.</src>
+    <src s="9">וכמו שהוא בענין הצדקה,</src>
+    <src s="10">שמצד הענינים דלעתיד יש בה מעלה לגבי תורה כנ"ל,</src>
+    <src s="11">עד"ז הוא גם בענין התשובה</src>
+    <src s="12">(ושבי'),</src>
+    <src s="13">שיש בה מעלה לגבי תורה,</src>
+    <src s="14">וכמארז"ל30</src>
+    <src s="15">שאלו לתורה כו' שאלו להקב"ה אמר יעשה תשובה ויתכפר לו.</src>
+    <src s="16">אלא שמעלה זו שבתשובה היא באה לאחרי קדימת התורה,</src>
+    <src s="17">שלכן מקדים שאלו לתורה כו'</src>
+    <src s="18">[ועד"ז הוא גם בנוגע מה שמקדים שאלו לחכמה כו' שאלו לנבואה כו'],</src>
+    <src s="19">לפי שתחילה צ"ל הענין ד</src>
+    <src s="20">[חכמה נבואה ו]</src>
+    <src s="21">תורה,</src>
+    <src s="22">ומזה באים למעלת התשובה,</src>
+    <src s="23">שאמיתית ענין מעלת התשובה תתגלה לעתיד,</src>
+    <src s="24">ומשיח אתא לאתבא צדיקייא בתיובתא,</src>
+    <src s="25">ואמרו רז"ל שגאולה העתידה תהי' ע"י התשובה דוקא,</src>
+    <src s="26">דישראל עושין תשובה ומיד הן נגאלין31,</src>
+    <src s="27">בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

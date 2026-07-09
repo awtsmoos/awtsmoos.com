@@ -1,0 +1,694 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 130,
+    "returned": 130,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914911_theRebbe_655\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section analyzes the repetition of \"the years of Sarah's life\" in the verse, citing the Rebbe Rashab's explanation that \"the lives of Sarah\" refers to her attaining supernal life, while \"the years of Sarah's life\" indicates that these lives became her own possession, and explores the connection between Chava, Noach, and Sarah.</sectionSummaryBrief>\n    <t s=\"0\">\"And the lives of Sarah were one hundred years and twenty years and seven years, the years of Sarah's life.\"</t>\n    <t s=\"1\">And the Rebbe</t>\n    <t s=\"2\">(the Rebbe Rashab)</t>\n    <t s=\"3\">of blessed memory, the birthday owner, in his discourse beginning with the words \"Zeh\" of the year 5652, precisely notes:</t>\n    <t s=\"4\">What is the meaning of the phrase \"the years of Sarah's life\"?</t>\n    <t s=\"5\">After all, it already says \"And the lives of Sarah were\"</t>\n    <t s=\"6\">[and it specifies her years in hundreds, tens, and ones],</t>\n    <t s=\"7\">so why the repetition of saying \"the years of Sarah's life\"?</t>\n    <t s=\"8\">And it also must be said,</t>\n    <t s=\"9\">(as the Zohar precisely notes)</t>\n    <t s=\"10\">why specifically regarding Sarah is it said \"the years of her life\"</t>\n    <t s=\"11\">[to the extent that the entire portion</t>\n    <t s=\"12\">(Chayei Sarah)</t>\n    <t s=\"13\">is named after this,</t>\n    <t s=\"14\">implying</t>\n    <t s=\"15\">that this is the content of the entire section],</t>\n    <t s=\"16\">while this is not said regarding the other matriarchs.</t>\n    <t s=\"17\">And he brings in this regard the statement of the Zohar:</t>\n    <t s=\"18\">\"Chava came into the world and attached herself to the serpent,\"</t>\n    <t s=\"19\">etc. \"Noach came</t>\n    <t s=\"20\">into the world, what is written about him?</t>\n    <t s=\"21\">'And he drank of the wine and became drunk,' etc. Sarah came and descended and ascended\"</t>\n    <t s=\"22\">[and did not attach herself to him],</t>\n    <t s=\"23\">as it is said,</t>\n    <t s=\"24\">\"And Avram went up from Egypt, he and his wife,\" and therefore she merited supernal life.</t>\n    <t s=\"25\">And it concludes</t>\n    <t s=\"26\">(in the Zohar there)</t>\n    <t s=\"27\">\"And therefore, the lives were hers.\"</t>\n    <t s=\"28\">And based on this, the Rebbe</t>\n    <t s=\"29\">(the Rebbe Rashab)</t>\n    <t s=\"30\">of blessed memory, in his aforementioned discourse, explains</t>\n    <t s=\"31\">the two aforementioned precise points:</t>\n    <t s=\"32\">that specifically regarding Sarah it is said \"the years of her life\"</t>\n    <t s=\"33\">(which is not said regarding the other matriarchs)</t>\n    <t s=\"34\">because specifically Sarah,</t>\n    <t s=\"35\">by means of her descending and ascending,</t>\n    <t s=\"36\">merited supernal life.</t>\n    <t s=\"37\">And the reason for the repetition of saying \"the years of Sarah's life,\"</t>\n    <t s=\"38\">even though it already stated at the beginning \"And the lives of Sarah were,\"</t>\n    <t s=\"39\">is that \"And the lives of Sarah were\" refers to what she merited—supernal life,</t>\n    <t s=\"40\">while \"the years of Sarah's life\" is the matter of \"the lives were hers,\"</t>\n    <t s=\"41\">meaning not only that she merited supernal life, but also that the lives became hers,</t>\n    <t s=\"42\">\"they were hers.\"</t>\n    <t s=\"43\">And one must understand the content of these two matters.</t>\n    <t s=\"44\">And also one must understand,</t>\n    <t s=\"45\">from the language of the Zohar—\"Chava came,\" \"Noach came,\" \"Sarah came\"—it is understood</t>\n    <t s=\"46\">that there is a connection between these three matters.</t>\n    <t s=\"47\">That is, Chava and Noach sought to accomplish the same matter that Sarah accomplished,</t>\n    <t s=\"48\">but they did not succeed,</t>\n    <t s=\"49\">and moreover, through this, a descent occurred for them</t>\n    <t s=\"50\">(she attached herself to the serpent,</t>\n    <t s=\"51\">he became drunk).</t>\n    <t s=\"52\">Not so Sarah,</t>\n    <t s=\"53\">for even though there was also for her</t>\n    <t s=\"54\">(at first)</t>\n    <t s=\"55\">a descent,</t>\n    <t s=\"56\">through this descent there was afterward an ascent—</t>\n    <t s=\"57\">she descended and ascended.</t>\n    <t s=\"58\">And one must understand the connection of these three matters.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the deeds of the Patriarchs are a sign for the children, providing not only guidance but also the power for every Jew to perform their divine service, and this applies to the matriarchs as well, particularly Sarah.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">Now, \"the deeds of the Patriarchs are a sign for the children,\"</t>\n    <t s=\"2\">and it is known that the intent of \"sign\" here is not only a sign and instruction but also the granting of power.</t>\n    <t s=\"3\">And it is like the known concept</t>\n    <t s=\"4\">regarding the matter of \"Rabbi so-and-so opened,\" etc.,</t>\n    <t s=\"5\">that after he opened the channel and the path,</t>\n    <t s=\"6\">and certainly when he paved the way,</t>\n    <t s=\"7\">through this, power is given to each and every one to be able to perform this service,</t>\n    <t s=\"8\">and he does not need such great effort</t>\n    <t s=\"9\">(as in the first time).</t>\n    <t s=\"10\">And certainly this is so regarding the deeds of the Patriarchs,</t>\n    <t s=\"11\">since they are the Patriarchs of each and every Jew,</t>\n    <t s=\"12\">and the matters and services of theirs are inherited by each and every Jew.</t>\n    <t s=\"13\">And so it is also regarding the matriarchs,</t>\n    <t s=\"14\">and particularly regarding Sarah our mother,</t>\n    <t s=\"15\">the first of the four matriarchs,</t>\n    <t s=\"16\">and it is written regarding her,</t>\n    <t s=\"17\">\"Everything that Sarah tells you, listen to her voice.\"</t>\n    <t s=\"18\">And from this it is understood that the aforementioned matter,</t>\n    <t s=\"19\">\"Sarah came and descended and ascended,\"</t>\n    <t s=\"20\">is</t>\n    <t s=\"21\">(like all deeds of the Patriarchs and Matriarchs)</t>\n    <t s=\"22\">an instruction and also a granting of power in the service of each and every Jew.</t>\n    <t s=\"23\">And one must understand the lesson of \"descended and ascended\" in the service of the children after the Giving of the Torah.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that divine service must be performed with joy, as joy is essential for perfection and for drawing down G‑dliness, and the lack of joy brings punishment, as stated in the verse \"because you did not serve the L‑rd your G‑d with joy.\"</sectionSummaryBrief>\n    <t s=\"0\">C)</t>\n    <t s=\"1\">And the point of the matter is as the birthday owner explains in his aforementioned discourse,</t>\n    <t s=\"2\">that divine service must be specifically with joy, as it is written,</t>\n    <t s=\"3\">\"Serve the L‑rd with joy.\"</t>\n    <t s=\"4\">To the extent that joy in divine service is a great principle,</t>\n    <t s=\"5\">and as is known the explanation of the Arizal,</t>\n    <t s=\"6\">brought in the Tanya,</t>\n    <t s=\"7\">on the verse,</t>\n    <t s=\"8\">\"Because you did not serve the L‑rd your G‑d with joy,\" etc.</t>\n    <t s=\"9\">And it is stated in Torah Ohr</t>\n    <t s=\"10\">that what the Arizal merited—the Holy Spirit—</t>\n    <t s=\"11\">was through the joy of a mitzvah.</t>\n    <t s=\"12\">[And since this is a story in the Torah</t>\n    <t s=\"13\">(the Oral Torah)</t>\n    <t s=\"14\">from the term \"hora'ah\" (instruction),</t>\n    <t s=\"15\">this is an instruction for each and every Jew],</t>\n    <t s=\"16\">that when the service is with joy,</t>\n    <t s=\"17\">then the service is perfect</t>\n    <t s=\"18\">[and through this, perfection is also brought about in the world.</t>\n    <t s=\"19\">For the purpose of creation is for the sake of Israel, who are called \"first,\"</t>\n    <t s=\"20\">and the meaning of \"for the sake of Israel\" is for the sake of the service of Israel</t>\n    <t s=\"21\">[for this is their primary existence,</t>\n    <t s=\"22\">as our Sages said,</t>\n    <t s=\"23\">\"I was not created except to serve my Creator\"],</t>\n    <t s=\"24\">meaning that Israel, through their service, cause the world to be in ultimate perfection.</t>\n    <t s=\"25\">For although the world was created in its fullness,</t>\n    <t s=\"26\">and particularly according to the known concept</t>\n    <t s=\"27\">that one of the reasons for the creation of the world is that it arose in His will, blessed be He, to bestow goodness upon His creations,</t>\n    <t s=\"28\">for it is the nature of the good to do good,</t>\n    <t s=\"29\">from which it is understood that the creation of the world</t>\n    <t s=\"30\">(from the outset)</t>\n    <t s=\"31\">was in perfection,</t>\n    <t s=\"32\">nevertheless,</t>\n    <t s=\"33\">this very matter—to bestow goodness upon His creations—</t>\n    <t s=\"34\">is one of the reasons for this, that it arose in His will, blessed be He, that creation be for the sake of</t>\n    <t s=\"35\">Israel and for the sake of the Torah,</t>\n    <t s=\"36\">so that through this, perfect goodness will be drawn down to the creations,</t>\n    <t s=\"37\">by means of Israel, who through their service will add perfection to the world,</t>\n    <t s=\"38\">a perfection loftier than the perfection of the world as it is from the aspect of creation.</t>\n    <t s=\"39\">And since the perfection of service is when it is with joy,</t>\n    <t s=\"40\">therefore, through this, additional perfection is also added to the world,</t>\n    <t s=\"41\">which is brought about through the service of Israel].</t>\n    <t s=\"42\">And not only is the perfection of service when it is with joy,</t>\n    <t s=\"43\">but joy in divine service is also an absolute necessity in divine service,</t>\n    <t s=\"44\">so that when joy is lacking in divine service, punishment, G‑d forbid, comes upon this, as it is written,</t>\n    <t s=\"45\">\"Because you did not serve the L‑rd your G‑d with joy,\" etc.,</t>\n    <t s=\"46\">for the matter of service is to draw down a revelation of G‑dliness below, and this is accomplished through joy.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914911_theRebbe_655",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section analyzes the repetition of \"the years of Sarah's life\" in the verse, citing the Rebbe Rashab's explanation that \"the lives of Sarah\" refers to her attaining supernal life, while \"the years of Sarah's life\" indicates that these lives became her own possession, and explores the connection between Chava, Noach, and Sarah.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "\"And the lives of Sarah were one hundred years and twenty years and seven years, the years of Sarah's life.\""
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the Rebbe"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "of blessed memory, the birthday owner, in his discourse beginning with the words \"Zeh\" of the year 5652, precisely notes:"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "What is the meaning of the phrase \"the years of Sarah's life\"?"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "After all, it already says \"And the lives of Sarah were\""
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "[and it specifies her years in hundreds, tens, and ones],"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "so why the repetition of saying \"the years of Sarah's life\"?"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "And it also must be said,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "(as the Zohar precisely notes)"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "why specifically regarding Sarah is it said \"the years of her life\""
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "[to the extent that the entire portion"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(Chayei Sarah)"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "is named after this,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "implying"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "that this is the content of the entire section],"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "while this is not said regarding the other matriarchs."
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "And he brings in this regard the statement of the Zohar:"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "\"Chava came into the world and attached herself to the serpent,\""
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "etc. \"Noach came"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "into the world, what is written about him?"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "'And he drank of the wine and became drunk,' etc. Sarah came and descended and ascended\""
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "[and did not attach herself to him],"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "as it is said,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "\"And Avram went up from Egypt, he and his wife,\" and therefore she merited supernal life."
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "And it concludes"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(in the Zohar there)"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "\"And therefore, the lives were hers.\""
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "And based on this, the Rebbe"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "of blessed memory, in his aforementioned discourse, explains"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "the two aforementioned precise points:"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "that specifically regarding Sarah it is said \"the years of her life\""
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "(which is not said regarding the other matriarchs)"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "because specifically Sarah,"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "by means of her descending and ascending,"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "merited supernal life."
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "And the reason for the repetition of saying \"the years of Sarah's life,\""
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "even though it already stated at the beginning \"And the lives of Sarah were,\""
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "is that \"And the lives of Sarah were\" refers to what she merited—supernal life,"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "while \"the years of Sarah's life\" is the matter of \"the lives were hers,\""
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "meaning not only that she merited supernal life, but also that the lives became hers,"
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "\"they were hers.\""
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "And one must understand the content of these two matters."
+          },
+          {
+            "v": 3,
+            "s": 44,
+            "translation": "And also one must understand,"
+          },
+          {
+            "v": 3,
+            "s": 45,
+            "translation": "from the language of the Zohar—\"Chava came,\" \"Noach came,\" \"Sarah came\"—it is understood"
+          },
+          {
+            "v": 3,
+            "s": 46,
+            "translation": "that there is a connection between these three matters."
+          },
+          {
+            "v": 3,
+            "s": 47,
+            "translation": "That is, Chava and Noach sought to accomplish the same matter that Sarah accomplished,"
+          },
+          {
+            "v": 3,
+            "s": 48,
+            "translation": "but they did not succeed,"
+          },
+          {
+            "v": 3,
+            "s": 49,
+            "translation": "and moreover, through this, a descent occurred for them"
+          },
+          {
+            "v": 3,
+            "s": 50,
+            "translation": "(she attached herself to the serpent,"
+          },
+          {
+            "v": 3,
+            "s": 51,
+            "translation": "he became drunk)."
+          },
+          {
+            "v": 3,
+            "s": 52,
+            "translation": "Not so Sarah,"
+          },
+          {
+            "v": 3,
+            "s": 53,
+            "translation": "for even though there was also for her"
+          },
+          {
+            "v": 3,
+            "s": 54,
+            "translation": "(at first)"
+          },
+          {
+            "v": 3,
+            "s": 55,
+            "translation": "a descent,"
+          },
+          {
+            "v": 3,
+            "s": 56,
+            "translation": "through this descent there was afterward an ascent—"
+          },
+          {
+            "v": 3,
+            "s": 57,
+            "translation": "she descended and ascended."
+          },
+          {
+            "v": 3,
+            "s": 58,
+            "translation": "And one must understand the connection of these three matters."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the deeds of the Patriarchs are a sign for the children, providing not only guidance but also the power for every Jew to perform their divine service, and this applies to the matriarchs as well, particularly Sarah.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "Now, \"the deeds of the Patriarchs are a sign for the children,\""
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "and it is known that the intent of \"sign\" here is not only a sign and instruction but also the granting of power."
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "And it is like the known concept"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "regarding the matter of \"Rabbi so-and-so opened,\" etc.,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "that after he opened the channel and the path,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "and certainly when he paved the way,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "through this, power is given to each and every one to be able to perform this service,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and he does not need such great effort"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(as in the first time)."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "And certainly this is so regarding the deeds of the Patriarchs,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "since they are the Patriarchs of each and every Jew,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "and the matters and services of theirs are inherited by each and every Jew."
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "And so it is also regarding the matriarchs,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "and particularly regarding Sarah our mother,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "the first of the four matriarchs,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "and it is written regarding her,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "\"Everything that Sarah tells you, listen to her voice.\""
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "And from this it is understood that the aforementioned matter,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "\"Sarah came and descended and ascended,\""
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "is"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "(like all deeds of the Patriarchs and Matriarchs)"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "an instruction and also a granting of power in the service of each and every Jew."
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "And one must understand the lesson of \"descended and ascended\" in the service of the children after the Giving of the Torah."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that divine service must be performed with joy, as joy is essential for perfection and for drawing down G‑dliness, and the lack of joy brings punishment, as stated in the verse \"because you did not serve the L‑rd your G‑d with joy.\"",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "C)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And the point of the matter is as the birthday owner explains in his aforementioned discourse,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "that divine service must be specifically with joy, as it is written,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "\"Serve the L‑rd with joy.\""
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "To the extent that joy in divine service is a great principle,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "and as is known the explanation of the Arizal,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "brought in the Tanya,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "\"Because you did not serve the L‑rd your G‑d with joy,\" etc."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And it is stated in Torah Ohr"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "that what the Arizal merited—the Holy Spirit—"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "was through the joy of a mitzvah."
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "[And since this is a story in the Torah"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "(the Oral Torah)"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "from the term \"hora'ah\" (instruction),"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "this is an instruction for each and every Jew],"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "that when the service is with joy,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "then the service is perfect"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "[and through this, perfection is also brought about in the world."
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "For the purpose of creation is for the sake of Israel, who are called \"first,\""
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "and the meaning of \"for the sake of Israel\" is for the sake of the service of Israel"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "[for this is their primary existence,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "as our Sages said,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "\"I was not created except to serve my Creator\"],"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "meaning that Israel, through their service, cause the world to be in ultimate perfection."
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "For although the world was created in its fullness,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "and particularly according to the known concept"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "that one of the reasons for the creation of the world is that it arose in His will, blessed be He, to bestow goodness upon His creations,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "for it is the nature of the good to do good,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "from which it is understood that the creation of the world"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "(from the outset)"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "was in perfection,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "this very matter—to bestow goodness upon His creations—"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "is one of the reasons for this, that it arose in His will, blessed be He, that creation be for the sake of"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "Israel and for the sake of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "so that through this, perfect goodness will be drawn down to the creations,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "by means of Israel, who through their service will add perfection to the world,"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "a perfection loftier than the perfection of the world as it is from the aspect of creation."
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "And since the perfection of service is when it is with joy,"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "therefore, through this, additional perfection is also added to the world,"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "which is brought about through the service of Israel]."
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "And not only is the perfection of service when it is with joy,"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "but joy in divine service is also an absolute necessity in divine service,"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "so that when joy is lacking in divine service, punishment, G‑d forbid, comes upon this, as it is written,"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "\"Because you did not serve the L‑rd your G‑d with joy,\" etc.,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "for the matter of service is to draw down a revelation of G‑dliness below, and this is accomplished through joy."
+          }
+        ]
+      }
+    ]
+  }
+}

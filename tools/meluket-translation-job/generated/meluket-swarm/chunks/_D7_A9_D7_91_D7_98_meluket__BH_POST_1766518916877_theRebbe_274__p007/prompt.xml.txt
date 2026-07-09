@@ -1,0 +1,131 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916877_theRebbe_274" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916877_theRebbe_274" title="מאמר באתי לגני תשל"ב" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p007">
+  <section v="18">
+    <src s="0">וממשיך בהמאמר79,</src>
+    <src s="1">דזה שנאמר ועמך לא חפצתי</src>
+    <src s="2">(חפצתי דייקא),</src>
+    <src s="3">הוא כי לשון רצון הוא</src>
+    <src s="4">(גם)</src>
+    <src s="5">בחיצוניות הרצון,</src>
+    <src s="6">ועד שגם רצון שבא ע"י כפי' נקרא רצון,</src>
+    <src s="7">כמו כופין80</src>
+    <src s="8">אותו עד שיאמר רוצה אני81,</src>
+    <src s="9">וחפץ הוא פנימיות הרצון.</src>
+    <src s="10">וזהו ועמך לא חפצתי,</src>
+    <src s="11">כי רצון</src>
+    <src s="12">(חיצוניות הרצון)</src>
+    <src s="13">יש לו גם בהגילויים דסדר ההשתלשלות,</src>
+    <src s="14">אלא שהחפץ שלו</src>
+    <src s="15">(פנימיות הרצון)</src>
+    <src s="16">הוא בעצמות אוא"ס.</src>
+    <src s="17">ויש לומר,</src>
+    <src s="18">דזה שיש לו רצון בהגילויים דסדר ההשתלשלות הוא,</src>
+    <src s="19">כי כמו שמלמעלה למטה,</src>
+    <src s="20">ההתהוות דעוה"ז התחתון מהעצמות היא ע"י אמצעות הגילויים,</src>
+    <src s="21">כולל גם הגילויים דהשתלשלות,</src>
+    <src s="22">עד"ז הוא בהעלי' מלמטה למעלה,</src>
+    <src s="23">שהעלי' וההתכללות בעצמות אוא"ס היא ע"י הגילויים דהשתלשלות,</src>
+    <src s="24">ולכן הוא רוצה בהם.</src>
+    <src s="25">אלא שהרצון בהם הוא חיצוניות הרצון,</src>
+    <src s="26">בכדי שעל ידם יגיע לעצמות אוא"ס.</src>
+    <src s="27">ולהעיר,</src>
+    <src s="28">דבכ"מ82</src>
+    <src s="29">מבואר בפירוש הכתוב83</src>
+    <src s="30">כי חסד חפצתי ולא זבח,</src>
+    <src s="31">שהחפץ,</src>
+    <src s="32">פנימיות הרצון,</src>
+    <src s="33">הוא שיהי' חסד,</src>
+    <src s="34">המשכה למטה,</src>
+    <src s="35">והרצון בזבח</src>
+    <src s="36">(קרבנות),</src>
+    <src s="37">העלאה מלמטה למעלה,</src>
+    <src s="38">הוא רק חיצוניות הרצון בשביל ההמשכה שנעשית ע"י ההעלאה.</src>
+    <src s="39">ובמאמר זה משמע,</src>
+    <src s="40">שהחפץ,</src>
+    <src s="41">פנימיות הרצון</src>
+    <src s="42">[דישראל,</src>
+    <src s="43">ומזה מובן שכ"ה גם למעלה,</src>
+    <src s="44">כי ישראל הם בניו דהקב"ה,</src>
+    <src s="45">ורצון הבן הוא רצון האב],</src>
+    <src s="46">הוא גם בההעלאה מלמטה למעלה.</src>
+  </section>
+  <section v="19">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וממשיך בהמאמר79,</src>
+    <src s="3">דהגם שהאהבה דמי לי בשמים ועמך לא חפצתי היא</src>
+    <src s="4">(בעיקר)</src>
+    <src s="5">בנפש האלקית,</src>
+    <src s="6">מ"מ,</src>
+    <src s="7">ע"י אריכות ההתבוננות,</src>
+    <src s="8">גם נפש הבהמית תסכים לזה.</src>
+    <src s="9">דזהו שלאחרי שמע ישראל גו' אחד נאמר ואהבת את ה' אלקיך בכל לבבך בשני יצריך84,</src>
+    <src s="10">שע"י ההתבוננות דנפש האלקית</src>
+    <src s="11">(שמע ישראל)</src>
+    <src s="12">בענין אחד,</src>
+    <src s="13">אנת הוא חד ולא בחושבן,</src>
+    <src s="14">גם נפש הבהמית באה לאהבה זו.</src>
+    <src s="15">וכמו שמבאר אדמו"ר</src>
+    <src s="16">(מהורש"ב)</src>
+    <src s="17">נ"ע בהמשך תרס"ו85,</src>
+    <src s="18">דע"י שנפש האלקית מבינה ומשיגה הענין דהוי' אחד,</src>
+    <src s="19">פועל זה גם על נפש הבהמית שתבין עכ"פ שבהכרח לומר כן,</src>
+    <src s="20">אף שהענין עצמו אינו מושג אצלה.</src>
+    <src s="21">ומוסיף</src>
+    <src s="22">(בהמשך תרס"ו)</src>
+    <src s="23">עוד ענין,</src>
+    <src s="24">דכיון שנפש האלקית מלובשת בנפש הבהמית,</src>
+    <src s="25">לכן,</src>
+    <src s="26">בהרשפי אש דנפש האלקית נשרף ונכלה גם נפש הבהמית.</src>
+    <src s="27">ולהוסיף,</src>
+    <src s="28">דע"י שנפש הבהמית נכללת בהרשפי אש דנפש האלקית,</src>
+    <src s="29">נמשך גילוי נעלה יותר מהגילוי שנמשך ע"י האהבה דנפש האלקית.</src>
+    <src s="30">וכמבואר בהמשך ההילולא שע"י העבודה דאתכפיא ואתהפכא נמשך האור שבכולהו עלמין בשוה,</src>
+    <src s="31">אור שלמעלה משייכות לעולמות.</src>
+    <src s="32">[ולהעיר,</src>
+    <src s="33">דענין זה מבאר בההמשך גם בסיום וחותם פרק שני,</src>
+    <src s="34">בהמשך להמבואר שם שנה"ב עולה ונכלל ברשפי אש דנפש האלקית].</src>
+  </section>
+  <section v="20">
+    <src s="0">וע"י מעשינו ועבודתינו במשך זמן הגלות86,</src>
+    <src s="1">שעיקר הענין דאתכפיא ואתהפכא הוא בזמן הגלות,</src>
+    <src s="2">נעשה המשכת עיקר שכינה בתחתונים עוד יותר מכמו שהי' בביהמ"ק,</src>
+    <src s="3">אלא שעכשיו הוא בהעלם והגילוי דהמשכה זו יהי' לע"ל.</src>
+    <src s="4">ויהי רצון שבקרוב ממש יקויים מ"ש בפרשתינו87</src>
+    <src s="5">ובני ישראל יוצאים ביד רמה ובריש גלי88,</src>
+    <src s="6">ושכל זה יהי' בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

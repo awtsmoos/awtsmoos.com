@@ -1,0 +1,884 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 168,
+    "returned": 168,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916658_theRebbe_485\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916658_theRebbe_485__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section questions why a Jew who sins is considered more separated from G-d than the kelipah and sitra achra, and explains that the concept of \"Eloka d'Elokayya\" relates to the prohibition of shituf for Jews, rooted in the distinction between the immanent light (Memaleh Kol Almin) and the transcendent light (Sovev Kol Almin).</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">Now, at first glance, it is not understood what is said, that a person who commits a transgression is more separated than the kelipah and sitra achra, because they do not transgress the will of the King and they call Him \"Eloka d'Elokayya\" (G-d of gods),</t>\n    <t s=\"2\">for this calling Him \"Eloka d'Elokayya\" is idolatry,</t>\n    <t s=\"3\">since they grant dominion to the constellations or to the supernal ministers,</t>\n    <t s=\"4\">and in this they transgress the will of the Supreme One, blessed be He,</t>\n    <t s=\"5\">so why then is a person who commits a transgression worse than them?</t>\n    <t s=\"6\">However, the concept is that \"Eloka d'Elokayya\" is a matter of shituf (association), and regarding shituf, only Israel is warned, not the children of Noah,</t>\n    <t s=\"7\">as stated by the Rama\"z</t>\n    <t s=\"8\">and in many places,</t>\n    <t s=\"9\">and so it is implied by the Rambam</t>\n    <t s=\"10\">(in Sefer HaMitzvos 31)</t>\n    <t s=\"11\">who wrote that the warning about [G-d's] unity is from the verse</t>\n    <t s=\"12\">\"Hear O Israel, the L-rd our G-d, the L-rd is One,\"</t>\n    <t s=\"13\">from which it is implied</t>\n    <t s=\"14\">that a Ben Noach is not warned about this,</t>\n    <t s=\"15\">for in the verse it says \"Israel\" specifically.</t>\n    <t s=\"16\">And the concept is that in the Divine vitality of the worlds, there are two modes of vitality,</t>\n    <t s=\"17\">Memaleh Kol Almin (the immanent light that fills all worlds) and Sovev Kol Almin (the transcendent light that surrounds all worlds),</t>\n    <t s=\"18\">for the vitality of Memaleh Kol Almin comes in a state of enclothing within the worlds,</t>\n    <t s=\"19\">as the Sages said,</t>\n    <t s=\"20\">\"Just as the soul fills the body, so too the Holy One, blessed be He, fills the world,\"</t>\n    <t s=\"21\">and this means that just as the revealed vitality that is enclothed in the body comes in a state of division according to the mode of the limbs,</t>\n    <t s=\"22\">for the vitality in one limb is not comparable to the vitality in another limb,</t>\n    <t s=\"23\">because due to the difference in the limbs, there is also a difference in the vitality.</t>\n    <t s=\"24\">And since the vitality changes according to the mode of the limbs,</t>\n    <t s=\"25\">it is therefore understood that the body occupies space relative to this vitality,</t>\n    <t s=\"26\">for this reason it changes according to the mode of the limbs,</t>\n    <t s=\"27\">and because it occupies space relative to the vitality,</t>\n    <t s=\"28\">behold, even though it feels the vitality and is nullified to it,</t>\n    <t s=\"29\">nevertheless, it is not nullified in [its] existence.</t>\n    <t s=\"30\">And so too will it be understood regarding the light of Memaleh Kol Almin, which is enclothed within the worlds,</t>\n    <t s=\"31\">that the nullification of the creations to this vitality</t>\n    <t s=\"32\">is not a nullification in [their] existence,</t>\n    <t s=\"33\">unlike the light of Sovev Kol Almin,</t>\n    <t s=\"34\">and likewise the vitality that is not revealed in the body,</t>\n    <t s=\"35\">relative to which the creations do not occupy any space at all.</t>\n    <t s=\"36\">Therefore, this vitality is in a state of concealment,</t>\n    <t s=\"37\">for even though they apprehend that there is also the vitality of Sovev Kol Almin,</t>\n    <t s=\"38\">nevertheless, they do not feel it.</t>\n    <t s=\"39\">And it is like the concept of the creation of yesh me'ayin (existence from nothingness), where the nothingness is in concealment,</t>\n    <t s=\"40\">for even though the yesh (existent) knows and apprehends that there is the ayin (nothingness) that brings it into existence,</t>\n    <t s=\"41\">nevertheless, it does not feel the ayin, because it is in concealment.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that only Israel was warned about shituf because their souls are rooted in Atzmus and the light of Sovev Kol Almin, where no place exists for anything other than G-d, whereas the nations of the world and kelipah are rooted in the external aspect of the will and the immanent light, making a sinning Jew worse than kelipah due to his higher root.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Based on this, it will be understood why specifically Israel was warned about shituf and not a Ben Noach,</t>\n    <t s=\"2\">for behold, the souls of Israel are rooted in the Atzmus (Essence),</t>\n    <t s=\"3\">and below that—in the light of Sovev Kol Almin,</t>\n    <t s=\"4\">and because in this level there is no place for any matter other than G-dliness,</t>\n    <t s=\"5\">therefore they believe that \"there is nothing besides Him,\"</t>\n    <t s=\"6\">meaning not only that there is no other G-d besides Him,</t>\n    <t s=\"7\">but rather that there is no existence besides Him, and certainly no thing that has any dominion or authority,</t>\n    <t s=\"8\">all this is because their root is from such a level where there is no place for any existence,</t>\n    <t s=\"9\">and therefore they were commanded regarding this,</t>\n    <t s=\"10\">unlike the nations of the world, who have no connection to the light of Sovev,</t>\n    <t s=\"11\">for their root is from the external aspect of the will.</t>\n    <t s=\"12\">And as is known,</t>\n    <t s=\"13\">the souls of Israel have their root from the internal aspect of the will, and the nations of the world have their root from the external aspect of the will.</t>\n    <t s=\"14\">For just as below, in a person, the internal aspect of the will is for a thing that is itself the purpose,</t>\n    <t s=\"15\">unlike something that is merely secondary to some matter,</t>\n    <t s=\"16\">behold, it has no internal aspect of the will, only the external aspect of the will,</t>\n    <t s=\"17\">so too will it be understood Above,</t>\n    <t s=\"18\">that the souls of Israel, who are the purpose,</t>\n    <t s=\"19\">have their root from the internal aspect of the will,</t>\n    <t s=\"20\">and the nations of the world have their root from the external aspect of the will.</t>\n    <t s=\"21\">And particularly the kelipah and sitra achra, whose entire intention is that a person should overcome them to subdue them.</t>\n    <t s=\"22\">And because their root is only from the external aspect of the will,</t>\n    <t s=\"23\">and the external aspect of the will comes in the light of Memaleh,</t>\n    <t s=\"24\">for in the light of Memaleh there is a place for something outside of it,</t>\n    <t s=\"25\">therefore they are not warned about shituf,</t>\n    <t s=\"26\">and only through comprehension and contemplation do they know,</t>\n    <t s=\"27\">and are warned about this,</t>\n    <t s=\"28\">that there is an existence above them and above their vitality, and they call Him \"Eloka d'Elokayya.\"</t>\n    <t s=\"29\">And therefore, a person who commits a transgression is worse than the kelipah and sitra achra,</t>\n    <t s=\"30\">for even though this calling Him \"Eloka d'Elokayya\" is also idolatry, which is contrary to His will, blessed be He,</t>\n    <t s=\"31\">nevertheless, they are not doing something contrary to the level of the will to which they have a connection,</t>\n    <t s=\"32\">unlike a Jew who commits a transgression,</t>\n    <t s=\"33\">since his root is from the internal aspect of the will,</t>\n    <t s=\"34\">therefore, even though that same matter for a non-Jew is not rebellion,</t>\n    <t s=\"35\">for a Jew it is rebellion,</t>\n    <t s=\"36\">because it is contrary to the will with which he is connected</t>\n    <t s=\"37\">(with which he is bound),</t>\n    <t s=\"38\">and therefore he is worse than the kelipah and sitra achra and is utterly separated from G-dliness.</t>\n    <t s=\"39\">And because it is the nature of every Jew that he does not want and cannot be separated from G-dliness, therefore it is not applicable at all that he should commit a transgression,</t>\n    <t s=\"40\">were it not for the spirit of foolishness that covers the truth,</t>\n    <t s=\"41\">due to which it seems to him that he does not thereby become separated from G-dliness.</t>\n    <t s=\"42\">And the proof of this is that when there is some matter where there is no room for error or to think that it does not separate one from G-dliness,</t>\n    <t s=\"43\">behold, then even the most light and lowly person stands with mesirus nefesh (self-sacrifice) not to transgress His will, blessed be He,</t>\n    <t s=\"44\">because he knows that through the transgression he becomes separated from G-dliness,</t>\n    <t s=\"45\">G-d forbid.</t>\n    <t s=\"46\">And as stated by the Mitteler Rebbe,</t>\n    <t s=\"47\">that even one who multiplies his wickedness with all the transgressions in the world,</t>\n    <t s=\"48\">behold, he too actually gives his life for the sanctification of G-d's name,</t>\n    <t s=\"49\">because he knows that he becomes separated from G-dliness, and this he cannot bear in any way.</t>\n    <t s=\"50\">And because the source of this matter is that the souls of Israel have their root from the Atzmus, which is above division, as mentioned, therefore it is found in every single one,</t>\n    <t s=\"51\">and without any division at all,</t>\n    <t s=\"52\">meaning that this is the same in the greatest of the great and in the lightest of the light,</t>\n    <t s=\"53\">and furthermore, even the lightest of the light, when the movement of mesirus nefesh is aroused within him, behold, all the matters of his soul align with this movement,</t>\n    <t s=\"54\">for even in speech and action alone, even if his mouth and heart are not equal,</t>\n    <t s=\"55\">he stands with mesirus nefesh,</t>\n    <t s=\"56\">because this movement is above division,</t>\n    <t s=\"57\">and therefore, all the powers of his soul are included within it.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the nature of every Jew to be unable to be separated from G-dliness stems from the root of the soul in the Atzmus, transmitted through the internal aspect of the vessels (penimiyus hakelim) which is united with the essence of the light, as illustrated by the difference between external and internal influence.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And an explanation of the concept, that it is the nature of every Jewish person that he does not want and cannot be separated from G-dliness,</t>\n    <t s=\"2\">behold, it is stated in the Aruch HaShulchan</t>\n    <t s=\"3\">that there is one small created spark that is enclothed in a created spark called Yechidah.</t>\n    <t s=\"4\">And the manner of this enclothing is that they become one thing.</t>\n    <t s=\"5\">And this is found in every single Jew, without regard</t>\n    <t s=\"6\">(not looking)</t>\n    <t s=\"7\">to his revealed powers and the matters that come from the aspect of the other four names that she has.</t>\n    <t s=\"8\">And behold, even though the created spark has its root from the vessels, as the Tzemach Tzedek wrote at length,</t>\n    <t s=\"9\">and vessels are a matter of limitation and division,</t>\n    <t s=\"10\">nevertheless, it is known that the root of the souls is from the internal aspect of the vessels,</t>\n    <t s=\"11\">and particularly the level of Yechidah, whose root is from the light of the quarry of souls, which is a garment for the quarry of the Sefiros,</t>\n    <t s=\"12\">which are the external aspect of Adam Kadmon and the internal aspect of Adam Kadmon,</t>\n    <t s=\"13\">for the quarry of souls is the external aspect of Adam Kadmon, and the quarry of the Sefiros is the internal aspect of Adam Kadmon,</t>\n    <t s=\"14\">and these are not two separate things from each other,</t>\n    <t s=\"15\">but rather, the souls, whose root is from the internal aspect of the vessels,</t>\n    <t s=\"16\">behold, the internal aspect of the vessels is united with the light that is enclothed within them,</t>\n    <t s=\"17\">for just as in physicality, the inner part of the vessel is in close proximity to the thing enclothed within it,</t>\n    <t s=\"18\">so too is it in spirituality, that the internal aspect of the vessel is united with the light enclothed within it, and even more so, it is also united with the essence of the light,</t>\n    <t s=\"19\">[unlike] the external aspect of the vessel,</t>\n    <t s=\"20\">whose function is to influence outward—behold, besides the fact that it is not united with the light enclothed within it,</t>\n    <t s=\"21\">the light that passes through the vessel and is drawn outward is only the light that is drawn to another,</t>\n    <t s=\"22\">meaning the light to which influence and revelation to something outside of it pertains,</t>\n    <t s=\"23\">unlike the internal aspect of the vessel,</t>\n    <t s=\"24\">behold, besides the fact that it is united with the light within it,</t>\n    <t s=\"25\">it is also united with the essence of the light,</t>\n    <t s=\"26\">which, through the chain of descent, does not come to something outside of it,</t>\n    <t s=\"27\">and this is analogous to the difference between the influence of intellect and the influence of a drop [of seed],</t>\n    <t s=\"28\">for the influence of intellect, when a teacher influences his student,</t>\n    <t s=\"29\">is only an external influence,</t>\n    <t s=\"30\">and therefore, after a period of time, it does not remain standing in the mind of the student,</t>\n    <t s=\"31\">for even though he understands everything the teacher said to him,</t>\n    <t s=\"32\">nevertheless, it does not remain standing in his mind,</t>\n    <t s=\"33\">because it is only an external influence,</t>\n    <t s=\"34\">unlike the influence of a drop, which is an internal influence to beget something similar to oneself,</t>\n    <t s=\"35\">behold, what he begets similar to himself</t>\n    <t s=\"36\">is not only similar to his revealed matters and revealed powers, but rather similar to the essence,</t>\n    <t s=\"37\">and therefore it is possible that the son's power may be greater than the father's power,</t>\n    <t s=\"38\">but even this is from the father's power,</t>\n    <t s=\"39\">because the begetting of something similar to oneself is a begetting similar to the essence.</t>\n    <t s=\"40\">And this begetting of something similar to oneself, similar to the essence, is because it is an essential influence,</t>\n    <t s=\"41\">for the essence influences him, and it comes from the essence of the light that is united in the internal aspect of the vessel,</t>\n    <t s=\"42\">and even though this also comes through the external aspect of the vessel and the drawing down is outside of it,</t>\n    <t s=\"43\">behold, this does not come in the manner of a chain of descent, but rather through a break,</t>\n    <t s=\"44\">via a leap.</t>\n    <t s=\"45\">For through the chain of descent, it is impossible for it to come to something outside of it,</t>\n    <t s=\"46\">because it is an essential influence.</t>\n    <t s=\"47\">And so too will it be understood Above, regarding the root of the souls, that their root is from the Atzmus and is drawn down also through the essence of the light,</t>\n    <t s=\"48\">and this drawing down is not in the angels, but specifically in the souls,</t>\n    <t s=\"49\">because their root is from the internal aspect of the vessels, which are united with the essence of the light, and through this they are also united with the root of the essence of the light</t>\n    <t s=\"50\">(with that from which the essence of the light itself is taken).</t>\n    <t s=\"51\">And based on this, it will be understood that even though the root of the souls is from the vessels or from the quarry of souls, which is the external aspect of Adam Kadmon,</t>\n    <t s=\"52\">nevertheless, since the internal aspect of the vessel is united with the essence of the light, as mentioned,</t>\n    <t s=\"53\">behold, it is also united with the internal aspect of Adam Kadmon.</t>\n    <t s=\"54\">And as is explained in Likkutei Torah,</t>\n    <t s=\"55\">the discourse \"Lamnatzeach Al HaShminis,\" that milah (circumcision) is above Shabbos,</t>\n    <t s=\"56\">for Shabbos is the seven days of the periphery,</t>\n    <t s=\"57\">and rains fall on Shabbos, which is the aspect of the external aspect of Adam Kadmon,</t>\n    <t s=\"58\">and milah is the internal aspect of Adam Kadmon, which is above Shabbos,</t>\n    <t s=\"59\">therefore one Shabbos must pass over him beforehand,</t>\n    <t s=\"60\">and nevertheless, it has a connection to Shabbos, which is the external aspect of Adam Kadmon,</t>\n    <t s=\"61\">for through having one Shabbos pass over him, which is the external aspect of Adam Kadmon,</t>\n    <t s=\"62\">it is possible to achieve the matter of milah, which is the internal aspect of Adam Kadmon,</t>\n    <t s=\"63\">so too will it be understood regarding the root of the souls, that even though their root is from the external aspect of Adam Kadmon, nevertheless they are also united with the internal aspect of Adam Kadmon.</t>\n    <t s=\"64\">And based on this, it will be understood why it is the nature of every Jew that he cannot be separated from G-dliness,</t>\n    <t s=\"65\">for since their root is in the Atzmus, and it is similar to Him, so to speak,</t>\n    <t s=\"66\">and in the Atzmus there is no place for any matter other than G-dliness,</t>\n    <t s=\"67\">therefore it is the nature of every Jew that he cannot be separated from G-dliness in any way.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916658_theRebbe_485",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916658_theRebbe_485__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section questions why a Jew who sins is considered more separated from G-d than the kelipah and sitra achra, and explains that the concept of \"Eloka d'Elokayya\" relates to the prohibition of shituf for Jews, rooted in the distinction between the immanent light (Memaleh Kol Almin) and the transcendent light (Sovev Kol Almin).",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "Now, at first glance, it is not understood what is said, that a person who commits a transgression is more separated than the kelipah and sitra achra, because they do not transgress the will of the King and they call Him \"Eloka d'Elokayya\" (G-d of gods),"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "for this calling Him \"Eloka d'Elokayya\" is idolatry,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "since they grant dominion to the constellations or to the supernal ministers,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "and in this they transgress the will of the Supreme One, blessed be He,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "so why then is a person who commits a transgression worse than them?"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "However, the concept is that \"Eloka d'Elokayya\" is a matter of shituf (association), and regarding shituf, only Israel is warned, not the children of Noah,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "as stated by the Rama\"z"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "and in many places,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "and so it is implied by the Rambam"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "(in Sefer HaMitzvos 31)"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "who wrote that the warning about [G-d's] unity is from the verse"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "\"Hear O Israel, the L-rd our G-d, the L-rd is One,\""
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "from which it is implied"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "that a Ben Noach is not warned about this,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "for in the verse it says \"Israel\" specifically."
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "And the concept is that in the Divine vitality of the worlds, there are two modes of vitality,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "Memaleh Kol Almin (the immanent light that fills all worlds) and Sovev Kol Almin (the transcendent light that surrounds all worlds),"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "for the vitality of Memaleh Kol Almin comes in a state of enclothing within the worlds,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "as the Sages said,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "\"Just as the soul fills the body, so too the Holy One, blessed be He, fills the world,\""
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "and this means that just as the revealed vitality that is enclothed in the body comes in a state of division according to the mode of the limbs,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "for the vitality in one limb is not comparable to the vitality in another limb,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "because due to the difference in the limbs, there is also a difference in the vitality."
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "And since the vitality changes according to the mode of the limbs,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "it is therefore understood that the body occupies space relative to this vitality,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "for this reason it changes according to the mode of the limbs,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "and because it occupies space relative to the vitality,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "behold, even though it feels the vitality and is nullified to it,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "nevertheless, it is not nullified in [its] existence."
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "And so too will it be understood regarding the light of Memaleh Kol Almin, which is enclothed within the worlds,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "that the nullification of the creations to this vitality"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "is not a nullification in [their] existence,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "unlike the light of Sovev Kol Almin,"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "and likewise the vitality that is not revealed in the body,"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "relative to which the creations do not occupy any space at all."
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "Therefore, this vitality is in a state of concealment,"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "for even though they apprehend that there is also the vitality of Sovev Kol Almin,"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "nevertheless, they do not feel it."
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "And it is like the concept of the creation of yesh me'ayin (existence from nothingness), where the nothingness is in concealment,"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "for even though the yesh (existent) knows and apprehends that there is the ayin (nothingness) that brings it into existence,"
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "nevertheless, it does not feel the ayin, because it is in concealment."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that only Israel was warned about shituf because their souls are rooted in Atzmus and the light of Sovev Kol Almin, where no place exists for anything other than G-d, whereas the nations of the world and kelipah are rooted in the external aspect of the will and the immanent light, making a sinning Jew worse than kelipah due to his higher root.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "Based on this, it will be understood why specifically Israel was warned about shituf and not a Ben Noach,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "for behold, the souls of Israel are rooted in the Atzmus (Essence),"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "and below that—in the light of Sovev Kol Almin,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "and because in this level there is no place for any matter other than G-dliness,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "therefore they believe that \"there is nothing besides Him,\""
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "meaning not only that there is no other G-d besides Him,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "but rather that there is no existence besides Him, and certainly no thing that has any dominion or authority,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "all this is because their root is from such a level where there is no place for any existence,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "and therefore they were commanded regarding this,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "unlike the nations of the world, who have no connection to the light of Sovev,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "for their root is from the external aspect of the will."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And as is known,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "the souls of Israel have their root from the internal aspect of the will, and the nations of the world have their root from the external aspect of the will."
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "For just as below, in a person, the internal aspect of the will is for a thing that is itself the purpose,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "unlike something that is merely secondary to some matter,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "behold, it has no internal aspect of the will, only the external aspect of the will,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "so too will it be understood Above,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "that the souls of Israel, who are the purpose,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "have their root from the internal aspect of the will,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "and the nations of the world have their root from the external aspect of the will."
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "And particularly the kelipah and sitra achra, whose entire intention is that a person should overcome them to subdue them."
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "And because their root is only from the external aspect of the will,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "and the external aspect of the will comes in the light of Memaleh,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "for in the light of Memaleh there is a place for something outside of it,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "therefore they are not warned about shituf,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "and only through comprehension and contemplation do they know,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "and are warned about this,"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "that there is an existence above them and above their vitality, and they call Him \"Eloka d'Elokayya.\""
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "And therefore, a person who commits a transgression is worse than the kelipah and sitra achra,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "for even though this calling Him \"Eloka d'Elokayya\" is also idolatry, which is contrary to His will, blessed be He,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "nevertheless, they are not doing something contrary to the level of the will to which they have a connection,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "unlike a Jew who commits a transgression,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "since his root is from the internal aspect of the will,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "therefore, even though that same matter for a non-Jew is not rebellion,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "for a Jew it is rebellion,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "because it is contrary to the will with which he is connected"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "(with which he is bound),"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "and therefore he is worse than the kelipah and sitra achra and is utterly separated from G-dliness."
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "And because it is the nature of every Jew that he does not want and cannot be separated from G-dliness, therefore it is not applicable at all that he should commit a transgression,"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "were it not for the spirit of foolishness that covers the truth,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "due to which it seems to him that he does not thereby become separated from G-dliness."
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "And the proof of this is that when there is some matter where there is no room for error or to think that it does not separate one from G-dliness,"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "behold, then even the most light and lowly person stands with mesirus nefesh (self-sacrifice) not to transgress His will, blessed be He,"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "because he knows that through the transgression he becomes separated from G-dliness,"
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "G-d forbid."
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "And as stated by the Mitteler Rebbe,"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "that even one who multiplies his wickedness with all the transgressions in the world,"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "behold, he too actually gives his life for the sanctification of G-d's name,"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "because he knows that he becomes separated from G-dliness, and this he cannot bear in any way."
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "And because the source of this matter is that the souls of Israel have their root from the Atzmus, which is above division, as mentioned, therefore it is found in every single one,"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "and without any division at all,"
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "meaning that this is the same in the greatest of the great and in the lightest of the light,"
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "and furthermore, even the lightest of the light, when the movement of mesirus nefesh is aroused within him, behold, all the matters of his soul align with this movement,"
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "for even in speech and action alone, even if his mouth and heart are not equal,"
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "he stands with mesirus nefesh,"
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "because this movement is above division,"
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "and therefore, all the powers of his soul are included within it."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the nature of every Jew to be unable to be separated from G-dliness stems from the root of the soul in the Atzmus, transmitted through the internal aspect of the vessels (penimiyus hakelim) which is united with the essence of the light, as illustrated by the difference between external and internal influence.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And an explanation of the concept, that it is the nature of every Jewish person that he does not want and cannot be separated from G-dliness,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "behold, it is stated in the Aruch HaShulchan"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that there is one small created spark that is enclothed in a created spark called Yechidah."
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "And the manner of this enclothing is that they become one thing."
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "And this is found in every single Jew, without regard"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "(not looking)"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "to his revealed powers and the matters that come from the aspect of the other four names that she has."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "And behold, even though the created spark has its root from the vessels, as the Tzemach Tzedek wrote at length,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "and vessels are a matter of limitation and division,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "nevertheless, it is known that the root of the souls is from the internal aspect of the vessels,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "and particularly the level of Yechidah, whose root is from the light of the quarry of souls, which is a garment for the quarry of the Sefiros,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "which are the external aspect of Adam Kadmon and the internal aspect of Adam Kadmon,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "for the quarry of souls is the external aspect of Adam Kadmon, and the quarry of the Sefiros is the internal aspect of Adam Kadmon,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "and these are not two separate things from each other,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "but rather, the souls, whose root is from the internal aspect of the vessels,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "behold, the internal aspect of the vessels is united with the light that is enclothed within them,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "for just as in physicality, the inner part of the vessel is in close proximity to the thing enclothed within it,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "so too is it in spirituality, that the internal aspect of the vessel is united with the light enclothed within it, and even more so, it is also united with the essence of the light,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "[unlike] the external aspect of the vessel,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "whose function is to influence outward—behold, besides the fact that it is not united with the light enclothed within it,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "the light that passes through the vessel and is drawn outward is only the light that is drawn to another,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "meaning the light to which influence and revelation to something outside of it pertains,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "unlike the internal aspect of the vessel,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "behold, besides the fact that it is united with the light within it,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "it is also united with the essence of the light,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "which, through the chain of descent, does not come to something outside of it,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "and this is analogous to the difference between the influence of intellect and the influence of a drop [of seed],"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "for the influence of intellect, when a teacher influences his student,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "is only an external influence,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "and therefore, after a period of time, it does not remain standing in the mind of the student,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "for even though he understands everything the teacher said to him,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "nevertheless, it does not remain standing in his mind,"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "because it is only an external influence,"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "unlike the influence of a drop, which is an internal influence to beget something similar to oneself,"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "behold, what he begets similar to himself"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "is not only similar to his revealed matters and revealed powers, but rather similar to the essence,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "and therefore it is possible that the son's power may be greater than the father's power,"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "but even this is from the father's power,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "because the begetting of something similar to oneself is a begetting similar to the essence."
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "And this begetting of something similar to oneself, similar to the essence, is because it is an essential influence,"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "for the essence influences him, and it comes from the essence of the light that is united in the internal aspect of the vessel,"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "and even though this also comes through the external aspect of the vessel and the drawing down is outside of it,"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "behold, this does not come in the manner of a chain of descent, but rather through a break,"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "via a leap."
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "For through the chain of descent, it is impossible for it to come to something outside of it,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "because it is an essential influence."
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "And so too will it be understood Above, regarding the root of the souls, that their root is from the Atzmus and is drawn down also through the essence of the light,"
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "and this drawing down is not in the angels, but specifically in the souls,"
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "because their root is from the internal aspect of the vessels, which are united with the essence of the light, and through this they are also united with the root of the essence of the light"
+          },
+          {
+            "v": 5,
+            "s": 50,
+            "translation": "(with that from which the essence of the light itself is taken)."
+          },
+          {
+            "v": 5,
+            "s": 51,
+            "translation": "And based on this, it will be understood that even though the root of the souls is from the vessels or from the quarry of souls, which is the external aspect of Adam Kadmon,"
+          },
+          {
+            "v": 5,
+            "s": 52,
+            "translation": "nevertheless, since the internal aspect of the vessel is united with the essence of the light, as mentioned,"
+          },
+          {
+            "v": 5,
+            "s": 53,
+            "translation": "behold, it is also united with the internal aspect of Adam Kadmon."
+          },
+          {
+            "v": 5,
+            "s": 54,
+            "translation": "And as is explained in Likkutei Torah,"
+          },
+          {
+            "v": 5,
+            "s": 55,
+            "translation": "the discourse \"Lamnatzeach Al HaShminis,\" that milah (circumcision) is above Shabbos,"
+          },
+          {
+            "v": 5,
+            "s": 56,
+            "translation": "for Shabbos is the seven days of the periphery,"
+          },
+          {
+            "v": 5,
+            "s": 57,
+            "translation": "and rains fall on Shabbos, which is the aspect of the external aspect of Adam Kadmon,"
+          },
+          {
+            "v": 5,
+            "s": 58,
+            "translation": "and milah is the internal aspect of Adam Kadmon, which is above Shabbos,"
+          },
+          {
+            "v": 5,
+            "s": 59,
+            "translation": "therefore one Shabbos must pass over him beforehand,"
+          },
+          {
+            "v": 5,
+            "s": 60,
+            "translation": "and nevertheless, it has a connection to Shabbos, which is the external aspect of Adam Kadmon,"
+          },
+          {
+            "v": 5,
+            "s": 61,
+            "translation": "for through having one Shabbos pass over him, which is the external aspect of Adam Kadmon,"
+          },
+          {
+            "v": 5,
+            "s": 62,
+            "translation": "it is possible to achieve the matter of milah, which is the internal aspect of Adam Kadmon,"
+          },
+          {
+            "v": 5,
+            "s": 63,
+            "translation": "so too will it be understood regarding the root of the souls, that even though their root is from the external aspect of Adam Kadmon, nevertheless they are also united with the internal aspect of Adam Kadmon."
+          },
+          {
+            "v": 5,
+            "s": 64,
+            "translation": "And based on this, it will be understood why it is the nature of every Jew that he cannot be separated from G-dliness,"
+          },
+          {
+            "v": 5,
+            "s": 65,
+            "translation": "for since their root is in the Atzmus, and it is similar to Him, so to speak,"
+          },
+          {
+            "v": 5,
+            "s": 66,
+            "translation": "and in the Atzmus there is no place for any matter other than G-dliness,"
+          },
+          {
+            "v": 5,
+            "s": 67,
+            "translation": "therefore it is the nature of every Jew that he cannot be separated from G-dliness in any way."
+          }
+        ]
+      }
+    ]
+  }
+}

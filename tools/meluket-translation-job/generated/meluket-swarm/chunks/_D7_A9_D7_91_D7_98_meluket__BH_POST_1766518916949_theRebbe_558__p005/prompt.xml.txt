@@ -1,0 +1,113 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916949_theRebbe_558" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916949_theRebbe_558__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916949_theRebbe_558" title="מאמר באתי לגני תש"מ" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916949_theRebbe_558__p005">
+  <section v="12">
+    <src s="0">ט)</src>
+    <src s="1">וזהו מ"ש ויהי בעצם היום הזה יצאו כל צבאות הוי' מארץ מצרים ולאח"ז כתיב ויהי בעצם היום הזה הוציא הוי' את בנ"י מארץ מצרים על צבאותם,</src>
+    <src s="2">צבאות הוי' לשון סמוך הם הצבאות שנתבררו בגלות מצרים ונתעלו ליכלל בשם הוי',</src>
+    <src s="3">שלכן נק' צבאות הוי' לפי שהם טפלים וסמוכים ונכללים בשם הוי'66.</src>
+    <src s="4">ומצד הניצוצות שנתבררו ע"י ישראל,</src>
+    <src s="5">גם ישראל נק' צבאות הוי'.</src>
+    <src s="6">ויתירה מזו – הוציא הוי' את בני ישראל גו' על צבאותם הוא זה שישראל הם למעלה מבחי' הניצוצות שנתבררו66.</src>
+    <src s="7">דמכיון שישראל הם המבררים את הניצוצות הרי הם למעלה מהם.</src>
+  </section>
+  <section v="13">
+    <src s="0">וזוהי השייכות דצבאות הוי' ועל צבאותם להשם צבאות,</src>
+    <src s="1">דע"י העבודה דבירור הניצוצות והתכללותם בהוי',</src>
+    <src s="2">צבאות הוי',</src>
+    <src s="3">שע"י עבודה זו נעשים ישראל על צבאותם,</src>
+    <src s="4">למעלה מבחי' הניצוצות,</src>
+    <src s="5">הנה עי"ז ממשיכים ריבוי אור ממקום עליון ביותר</src>
+    <src s="6">(שלמעלה מבחינת התורה כמו שהיא בגילוי),</src>
+    <src s="7">ואור זה בוקע את כל הפרסאות והמסכים שבין אצילות לבי"ע,</src>
+    <src s="8">עד שגם בבי"ע נעשה איהו וגרמוהי חד כמו באצילות.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">וביאור הענין</src>
+    <src s="2">(השייכות דצבאות הוי' לשם צבאות)</src>
+    <src s="3">בעומק יותר,</src>
+    <src s="4">הנה שם צבאות הוא בנצח והוד.</src>
+    <src s="5">ומבאר כ"ק מו"ח אדמו"ר בההמשך דיום ההילולא67,</src>
+    <src s="6">שמדת הנצח נטוע ומושרש בעצם הנפש,</src>
+    <src s="7">ובשביל נצחון המלחמה מתגלה מעצם הנפש.</src>
+    <src s="8">ולכן ע"י העבודה דמדת הנצח,</src>
+    <src s="9">נצחון המלחמה</src>
+    <src s="10">(עם נה"ב),</src>
+    <src s="11">נמשך ומתגלה מעצמות אוא"ס,</src>
+    <src s="12">כמבואר בארוכה בההמשך,</src>
+    <src s="13">ובארוכה יותר</src>
+    <src s="14">(עם כמה פרטים נוספים)</src>
+    <src s="15">בדרושי כ"ק אדמו"ר</src>
+    <src s="16">(מהורש"ב)</src>
+    <src s="17">נ"ע68,</src>
+    <src s="18">עד לענין צדקת פרזונו בישראל69,</src>
+    <src s="19">פרזונו לשון פרזות ע"ד מ"ש70</src>
+    <src s="20">פרזות תשב ירושלים בלי חומה,</src>
+    <src s="21">למעלה ממדוה"ג.</src>
+    <src s="22">ועפ"ז יובן מה שע"י העבודה דצבאות הוי' ממשיכים שם צבאות,</src>
+    <src s="23">דהנה ידועה תורת הרב המגיד71</src>
+    <src s="24">(בענין במי נמלך בנשמותיהן של צדיקים72),</src>
+    <src s="25">דישראל גם קודם שנבראו</src>
+    <src s="26">(קודם כל סדר ההשתל' שאודותו נמלך)</src>
+    <src s="27">הי' נחקק צורתם בו ית'.</src>
+    <src s="28">וע"י עבודת בנ"י נמשך ומתגלה ענין זה.</src>
+    <src s="29">ולכן ע"י העבודה דצבאות הוי',</src>
+    <src s="30">נמשך שם צבאות,</src>
+    <src s="31">כי שם זה הוא</src>
+    <src s="32">(כנ"ל)</src>
+    <src s="33">בנצח והוד,</src>
+    <src s="34">וכמו שמבאר אאמו"ר73</src>
+    <src s="35">בארוכה שהאותיות דשם צבאות וסדרן</src>
+    <src s="36">(צ"ב,</src>
+    <src s="37">ב' יודי"ן דאל"ף,</src>
+    <src s="38">ו"ת)</src>
+    <src s="39">מורים על נצח והוד</src>
+    <src s="40">[בפרדס74</src>
+    <src s="41">ובכ"מ בקבלה איתא דשם צבאות הוא גם ביסוד,</src>
+    <src s="42">אבל מה שנוגע כאן הוא ענין שם צבאות כמו שהוא בנצח והוד],</src>
+    <src s="43">ומכיון שצורתם של ישראל חקוקה בו ית'</src>
+    <src s="44">(כנ"ל),</src>
+    <src s="45">לכן ע"י העבודה דצבאות הוי',</src>
+    <src s="46">העבודה דנצח,</src>
+    <src s="47">נעשה ענין שם צבאות שהוא בנצח</src>
+    <src s="48">(והוד).</src>
+    <src s="49">והיינו שע"י העבודה דנצחון המלחמה,</src>
+    <src s="50">נמשך ומתגלה מעצמות אוא"ס,</src>
+    <src s="51">וע"י המשכה זו נעשה איהו וגרמוהי חד</src>
+    <src s="52">(גם)</src>
+    <src s="53">בבי"ע.</src>
+  </section>
+</awtsmoosMeluketSource>

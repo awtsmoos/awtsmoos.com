@@ -1,0 +1,714 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 134,
+    "returned": 134,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914186_theRebbe_341\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914186_theRebbe_341__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the sukkah represents a non-divisible encompassing light, unlike garments, and raises the question of how \"dwelling\" (settledness) applies to such an encompassing, along with the three mentions of dwelling in the verses and the purpose for future generations.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the point of the explanation in all these matters,</t>\n    <t s=\"2\">is that the sukkah is a matter of the encompassing [light]13.</t>\n    <t s=\"3\">And not like the encompassing of a garment,</t>\n    <t s=\"4\">which, despite being in the category of encompassing, nevertheless has division,</t>\n    <t s=\"5\">garments of the head, garments of the body, and garments of the leg</t>\n    <t s=\"6\">(and in each one according to the measure of the one clothed in it).</t>\n    <t s=\"7\">But not so the encompassing of the sukkah, which has no division,</t>\n    <t s=\"8\">for it encompasses his head and most of him14</t>\n    <t s=\"9\">[and the intention in this is—like his head and his entirety,</t>\n    <t s=\"10\">for the majority is like the entirety],</t>\n    <t s=\"11\">the head, the body, and the leg as one15.</t>\n    <t s=\"12\">And based on this, one must understand what is said, \"In sukkot you shall dwell\"</t>\n    <t s=\"13\">[as is precisely stated in many places in the discourses of our Nesi'im,</t>\n    <t s=\"14\">and also in the Hemshech of 566616],</t>\n    <t s=\"15\">behold, an encompassing [light]</t>\n    <t s=\"16\">(and especially as above)</t>\n    <t s=\"17\">is not in the category of settlement,</t>\n    <t s=\"18\">and if so, what is the matter of \"in sukkot you shall dwell\"</t>\n    <t s=\"19\">[and also it says \"in sukkot\"</t>\n    <t s=\"20\">(with the letter beit17)].</t>\n    <t s=\"21\">And this matter</t>\n    <t s=\"22\">(settlement in the sukkah)</t>\n    <t s=\"23\">is stated three times,</t>\n    <t s=\"24\">\"In sukkot you shall dwell... dwelt in sukkot... in sukkot I caused to dwell.\"</t>\n    <t s=\"25\">Also, one must understand what is said, \"so that your generations may know that I caused the children of Israel to dwell in sukkot\"</t>\n    <t s=\"26\">(that the reason for \"in sukkot you shall dwell\" is so that future generations18</t>\n    <t s=\"27\">will know that \"I caused [them] to dwell in sukkot\"),</t>\n    <t s=\"28\">for since the mitzvah of sukkah is not among the mitzvot dependent on the land nor among the mitzvot dependent on the time of the Temple,</t>\n    <t s=\"29\">its observance will be throughout all generations19,</t>\n    <t s=\"30\">for this Torah shall not be exchanged, Heaven forbid.</t>\n    <t s=\"31\">And if so, behold, the knowledge</t>\n    <t s=\"32\">(that \"I caused [them] to dwell in sukkot\")</t>\n    <t s=\"33\">of future generations will be through the fact that they themselves dwell in sukkot,</t>\n    <t s=\"34\">and what is [the meaning of] \"in sukkot you shall dwell... so that your generations may know,\"</t>\n    <t s=\"35\">that the knowledge of future generations will be through the \"in sukkot you shall dwell\" of the previous generations.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the sukkah is an encompassing light, revealed from the concealment of the holidays, with the numerical value of its roofing (skhakh) corresponding to the shofar blasts and the incense of Yom Kippur, making it a non-divisible encompassing.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of this is</t>\n    <t s=\"2\">(as stated above)</t>\n    <t s=\"3\">that the sukkah is a matter of encompassing.</t>\n    <t s=\"4\">For it is written20,</t>\n    <t s=\"5\">\"In the covert for the day of our festival,\"</t>\n    <t s=\"6\">that all the matters that are in concealment</t>\n    <t s=\"7\">(covering and concealment)</t>\n    <t s=\"8\">in the days before our festival day, are revealed in Sukkot21.</t>\n    <t s=\"9\">And like the matter of the shofar of Rosh HaShanah,</t>\n    <t s=\"10\">that the mitzvah of the day is with the shofar22,</t>\n    <t s=\"11\">it comes in revelation to our festival day,</t>\n    <t s=\"12\">in the roofing (skhakh) of the sukkah.</t>\n    <t s=\"13\">For this is what [the word] skhakh</t>\n    <t s=\"14\">[for all \"sukkot\" in scripture means roofing, implying that a wall is not called a sukkah23]</t>\n    <t s=\"15\">has the numerical value of one hundred24,</t>\n    <t s=\"16\">corresponding to the one hundred sounds of the shofar that it is the custom25</t>\n    <t s=\"17\">of Israel</t>\n    <t s=\"18\">(and the custom of Israel is Torah)</t>\n    <t s=\"19\">to blow on Rosh HaShanah.</t>\n    <t s=\"20\">And also the details of the sounds are hinted at in the letters of skhakh,</t>\n    <t s=\"21\">the letter samekh (60) for the sounds of tekiah,</t>\n    <t s=\"22\">the letter khaf (20) for the sounds of shevarim and the letter khaf (20) for teruah26.</t>\n    <t s=\"23\">And similarly, it is also regarding the matter of the incense of Yom HaKippurim that comes in revelation to our festival day,</t>\n    <t s=\"24\">as is known27,</t>\n    <t s=\"25\">that the roofing of the sukkah is made from the cloud of the incense of Yom HaKippurim.</t>\n    <t s=\"26\">And even though on Yom HaKippurim there already exists the matter of revelation,</t>\n    <t s=\"27\">for the main matter of \"in the covert\"</t>\n    <t s=\"28\">(\"the month is covered\")</t>\n    <t s=\"29\">is at the beginning of the month,</t>\n    <t s=\"30\">on Rosh HaShanah,</t>\n    <t s=\"31\">nevertheless, the revelation of Yom HaKippurim</t>\n    <t s=\"32\">(its essence)</t>\n    <t s=\"33\">is above28,</t>\n    <t s=\"34\">but not so on Sukkot, the revelation is drawn down below, to the extent that</t>\n    <t s=\"35\">(the roofing of the sukkah,</t>\n    <t s=\"36\">which comes from the cloud of the incense of Yom HaKippurim)</t>\n    <t s=\"37\">is also seen by fleshly eyes</t>\n    <t s=\"38\">[And it can be said that the beginning of this revelation is in the days between Yom HaKippurim and Sukkot,</t>\n    <t s=\"39\">for then is the preparation for the mitzvah of sukkah and then the making of the sukkah29.</t>\n    <t s=\"40\">That is, in these days there is the preparation and the beginning of the drawing down of the revelation</t>\n    <t s=\"41\">(of Yom HaKippurim)</t>\n    <t s=\"42\">whose essence is above—also below].</t>\n    <t s=\"43\">And this is that the sukkah is a category of encompassing.</t>\n    <t s=\"44\">For behold, the difference between incense and sacrifices is30,</t>\n    <t s=\"45\">that regarding sacrifices it is written31,</t>\n    <t s=\"46\">\"My bread for My fire,\"</t>\n    <t s=\"47\">for bread is a matter of inwardness</t>\n    <t s=\"48\">(and there are sacrifices that are also eaten by the kohanim,</t>\n    <t s=\"49\">and sacrifices that are eaten also by the owners and by every person),</t>\n    <t s=\"50\">but not so incense</t>\n    <t s=\"51\">(and especially that of Yom HaKippurim)</t>\n    <t s=\"52\">is encompassing.</t>\n    <t s=\"53\">Therefore, its revelation to our festival day is also in a matter of encompassing,</t>\n    <t s=\"54\">the encompassing of the roofing.</t>\n    <t s=\"55\">And since it is related to the Holy of Holies, which is the true essence of the matter of encompassing,</t>\n    <t s=\"56\">therefore, the encompassing of the sukkah, drawn from the cloud of the incense of Yom HaKippurim, is above the encompassing of a garment and has no division,</t>\n    <t s=\"57\">to the extent that it encompasses even the garments of the head, body, and leg as one.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the sukkah's non-divisible encompassing brings peace (shalom) between the animal and divine souls, within the divine soul, and in the world, paralleling the future peace through knowledge, as the sukkah's roofing reveals the level of Atik.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And this is the connection of the sukkah to the matter of peace, as it is said, \"And spread over us the sukkah of Your peace,\"</t>\n    <t s=\"2\">for since the sukkah is a matter of encompassing</t>\n    <t s=\"3\">(which is above division),</t>\n    <t s=\"4\">from the encompassing of the sukkah is drawn the matter of peace,</t>\n    <t s=\"5\">peace is made between the Nefesh HaElokis and the Nefesh HaBahamis,</t>\n    <t s=\"6\">and also peace in all the levels of the Nefesh HaElokis itself,</t>\n    <t s=\"7\">for since the sukkah encompasses all the matters of a person,</t>\n    <t s=\"8\">from his head to his foot,</t>\n    <t s=\"9\">therefore through it peace is made in all the levels within a person.</t>\n    <t s=\"10\">And to the extent that through the sukkah peace is also made in the world,</t>\n    <t s=\"11\">and as is known32,</t>\n    <t s=\"12\">that the sukkah is analogous to Noah's ark,</t>\n    <t s=\"13\">in which there was the matter of peace</t>\n    <t s=\"14\">(for even though all the animals were together in the ark,</t>\n    <t s=\"15\">nevertheless they did not harm nor destroy each other),</t>\n    <t s=\"16\">and similar to the peace that will be in the future, \"they shall not harm nor destroy\"33.</t>\n    <t s=\"17\">And even though the encompassing of the sukkah is the category of the externality of Binah, and Noah's ark is the category of the inwardness of Binah,</t>\n    <t s=\"18\">and in the future it will be above even the category of the inwardness of Binah as it is in its place,</t>\n    <t s=\"19\">nevertheless, the peace of the category of the encompassing of the sukkah is analogous to the peace of the future.</t>\n    <t s=\"20\">For the reason that \"they shall not harm nor destroy\"</t>\n    <t s=\"21\">(in the future)</t>\n    <t s=\"22\">is through Daas</t>\n    <t s=\"23\">(and as the verse concludes)</t>\n    <t s=\"24\">\"for the earth shall be filled with the knowledge of Havayah,\"</t>\n    <t s=\"25\">and therefore, the encompassing of the sukkah, whose matter is \"so that they may know\"34</t>\n    <t s=\"26\">(the matter of Daas),</t>\n    <t s=\"27\">also brings about the matter of peace analogous to the peace of the future.</t>\n    <t s=\"28\">And especially according to the explanation35</t>\n    <t s=\"29\">of the connection of the sukkah's roofing to the cloud of the incense of Yom HaKippurim, whose matter is the category of Atik</t>\n    <t s=\"30\">[and analogous to the totality of the matter of Yom HaKippurim,</t>\n    <t s=\"31\">the day obligated in five prayers36,</t>\n    <t s=\"32\">because it is the category of Atik],</t>\n    <t s=\"33\">for in the category of Binah</t>\n    <t s=\"34\">(even in the externality of Binah37)</t>\n    <t s=\"35\">there is the revelation of Atik,</t>\n    <t s=\"36\">for the revelation of Atik is in Binah,</t>\n    <t s=\"37\">behold, the category of Atik that is revealed in the roofing of the sukkah</t>\n    <t s=\"38\">brings about the matter of peace,</t>\n    <t s=\"39\">therefore the sukkah is called \"the sukkah of Your peace.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914186_theRebbe_341",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914186_theRebbe_341__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the sukkah represents a non-divisible encompassing light, unlike garments, and raises the question of how \"dwelling\" (settledness) applies to such an encompassing, along with the three mentions of dwelling in the verses and the purpose for future generations.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the point of the explanation in all these matters,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "is that the sukkah is a matter of the encompassing [light]13."
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "And not like the encompassing of a garment,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "which, despite being in the category of encompassing, nevertheless has division,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "garments of the head, garments of the body, and garments of the leg"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(and in each one according to the measure of the one clothed in it)."
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "But not so the encompassing of the sukkah, which has no division,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "for it encompasses his head and most of him14"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "[and the intention in this is—like his head and his entirety,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "for the majority is like the entirety],"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "the head, the body, and the leg as one15."
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "And based on this, one must understand what is said, \"In sukkot you shall dwell\""
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "[as is precisely stated in many places in the discourses of our Nesi'im,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "and also in the Hemshech of 566616],"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "behold, an encompassing [light]"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "(and especially as above)"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "is not in the category of settlement,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "and if so, what is the matter of \"in sukkot you shall dwell\""
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "[and also it says \"in sukkot\""
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "(with the letter beit17)]."
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "And this matter"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "(settlement in the sukkah)"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "is stated three times,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "\"In sukkot you shall dwell... dwelt in sukkot... in sukkot I caused to dwell.\""
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "Also, one must understand what is said, \"so that your generations may know that I caused the children of Israel to dwell in sukkot\""
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(that the reason for \"in sukkot you shall dwell\" is so that future generations18"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "will know that \"I caused [them] to dwell in sukkot\"),"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "for since the mitzvah of sukkah is not among the mitzvot dependent on the land nor among the mitzvot dependent on the time of the Temple,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "its observance will be throughout all generations19,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "for this Torah shall not be exchanged, Heaven forbid."
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "And if so, behold, the knowledge"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "(that \"I caused [them] to dwell in sukkot\")"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "of future generations will be through the fact that they themselves dwell in sukkot,"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "and what is [the meaning of] \"in sukkot you shall dwell... so that your generations may know,\""
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "that the knowledge of future generations will be through the \"in sukkot you shall dwell\" of the previous generations."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the sukkah is an encompassing light, revealed from the concealment of the holidays, with the numerical value of its roofing (skhakh) corresponding to the shofar blasts and the incense of Yom Kippur, making it a non-divisible encompassing.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And the explanation of this is"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(as stated above)"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "that the sukkah is a matter of encompassing."
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "For it is written20,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "\"In the covert for the day of our festival,\""
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "that all the matters that are in concealment"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "(covering and concealment)"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "in the days before our festival day, are revealed in Sukkot21."
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "And like the matter of the shofar of Rosh HaShanah,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "that the mitzvah of the day is with the shofar22,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "it comes in revelation to our festival day,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "in the roofing (skhakh) of the sukkah."
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "For this is what [the word] skhakh"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "[for all \"sukkot\" in scripture means roofing, implying that a wall is not called a sukkah23]"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "has the numerical value of one hundred24,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "corresponding to the one hundred sounds of the shofar that it is the custom25"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "of Israel"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "(and the custom of Israel is Torah)"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "to blow on Rosh HaShanah."
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "And also the details of the sounds are hinted at in the letters of skhakh,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "the letter samekh (60) for the sounds of tekiah,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "the letter khaf (20) for the sounds of shevarim and the letter khaf (20) for teruah26."
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "And similarly, it is also regarding the matter of the incense of Yom HaKippurim that comes in revelation to our festival day,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "as is known27,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "that the roofing of the sukkah is made from the cloud of the incense of Yom HaKippurim."
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "And even though on Yom HaKippurim there already exists the matter of revelation,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "for the main matter of \"in the covert\""
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "(\"the month is covered\")"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "is at the beginning of the month,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "on Rosh HaShanah,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "nevertheless, the revelation of Yom HaKippurim"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "(its essence)"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "is above28,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "but not so on Sukkot, the revelation is drawn down below, to the extent that"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "(the roofing of the sukkah,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "which comes from the cloud of the incense of Yom HaKippurim)"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "is also seen by fleshly eyes"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "[And it can be said that the beginning of this revelation is in the days between Yom HaKippurim and Sukkot,"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "for then is the preparation for the mitzvah of sukkah and then the making of the sukkah29."
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "That is, in these days there is the preparation and the beginning of the drawing down of the revelation"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "(of Yom HaKippurim)"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "whose essence is above—also below]."
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "And this is that the sukkah is a category of encompassing."
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "For behold, the difference between incense and sacrifices is30,"
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "that regarding sacrifices it is written31,"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "\"My bread for My fire,\""
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "for bread is a matter of inwardness"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "(and there are sacrifices that are also eaten by the kohanim,"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "and sacrifices that are eaten also by the owners and by every person),"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "but not so incense"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "(and especially that of Yom HaKippurim)"
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "is encompassing."
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "Therefore, its revelation to our festival day is also in a matter of encompassing,"
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "the encompassing of the roofing."
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "And since it is related to the Holy of Holies, which is the true essence of the matter of encompassing,"
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "therefore, the encompassing of the sukkah, drawn from the cloud of the incense of Yom HaKippurim, is above the encompassing of a garment and has no division,"
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "to the extent that it encompasses even the garments of the head, body, and leg as one."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the sukkah's non-divisible encompassing brings peace (shalom) between the animal and divine souls, within the divine soul, and in the world, paralleling the future peace through knowledge, as the sukkah's roofing reveals the level of Atik.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And this is the connection of the sukkah to the matter of peace, as it is said, \"And spread over us the sukkah of Your peace,\""
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "for since the sukkah is a matter of encompassing"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "(which is above division),"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "from the encompassing of the sukkah is drawn the matter of peace,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "peace is made between the Nefesh HaElokis and the Nefesh HaBahamis,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and also peace in all the levels of the Nefesh HaElokis itself,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "for since the sukkah encompasses all the matters of a person,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "from his head to his foot,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "therefore through it peace is made in all the levels within a person."
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "And to the extent that through the sukkah peace is also made in the world,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "and as is known32,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "that the sukkah is analogous to Noah's ark,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "in which there was the matter of peace"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "(for even though all the animals were together in the ark,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "nevertheless they did not harm nor destroy each other),"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "and similar to the peace that will be in the future, \"they shall not harm nor destroy\"33."
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "And even though the encompassing of the sukkah is the category of the externality of Binah, and Noah's ark is the category of the inwardness of Binah,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "and in the future it will be above even the category of the inwardness of Binah as it is in its place,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "nevertheless, the peace of the category of the encompassing of the sukkah is analogous to the peace of the future."
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "For the reason that \"they shall not harm nor destroy\""
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "(in the future)"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "is through Daas"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "(and as the verse concludes)"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "\"for the earth shall be filled with the knowledge of Havayah,\""
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "and therefore, the encompassing of the sukkah, whose matter is \"so that they may know\"34"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "(the matter of Daas),"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "also brings about the matter of peace analogous to the peace of the future."
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "And especially according to the explanation35"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "of the connection of the sukkah's roofing to the cloud of the incense of Yom HaKippurim, whose matter is the category of Atik"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "[and analogous to the totality of the matter of Yom HaKippurim,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "the day obligated in five prayers36,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "because it is the category of Atik],"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "for in the category of Binah"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "(even in the externality of Binah37)"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "there is the revelation of Atik,"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "for the revelation of Atik is in Binah,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "behold, the category of Atik that is revealed in the roofing of the sukkah"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "brings about the matter of peace,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "therefore the sukkah is called \"the sukkah of Your peace.\""
+          }
+        ]
+      }
+    ]
+  }
+}

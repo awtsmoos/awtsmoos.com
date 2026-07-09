@@ -1,0 +1,438 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 80,
+    "returned": 80,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918788_theRebbe_204\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918788_theRebbe_204__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the revelation of \"You were shown to know\" occurred at the Giving of the Torah, connecting it to the dew of Torah, which is one with Atzmus Ein Sof, and links this to Moshe, Dovid, and the Baal Shem Tov.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And this is \"You were shown to know that Hashem, He is the Elokim, there is none else besides Him,\"</t>\n    <t s=\"2\">that this matter was given at the time of the Giving of the Torah,</t>\n    <t s=\"3\">and in this manner it is drawn down in every year at the time of the giving of our Torah,</t>\n    <t s=\"4\">for at the time of the Giving of the Torah there was a revelation of the aspect of the dew of Torah,</t>\n    <t s=\"5\">the aspect of the dew of the bdellium that drips from the Ancient One,</t>\n    <t s=\"6\">which is one with the Awtsmoos of Ein Sof, blessed is He,</t>\n    <t s=\"7\">\"You\" are the very Awtsmoos of Ein Sof, blessed is He.</t>\n    <t s=\"8\">And it can be said that this is also what is known</t>\n    <t s=\"9\">that the holiday of Shavuos is connected with Moshe Rabbeinu,</t>\n    <t s=\"10\">who received the Torah at Sinai at that time,</t>\n    <t s=\"11\">and with King Dovid and the Baal Shem Tov,</t>\n    <t s=\"12\">for on Atzeres is the day of the yahrtzeit of King Dovid</t>\n    <t s=\"13\">[and this matter is emphasized especially in this year,</t>\n    <t s=\"14\">since Dovid died on Shabbos,</t>\n    <t s=\"15\">and in this year the second day of Yom Tov of Atzeres falls on Shabbos]</t>\n    <t s=\"16\">and also the day of the yahrtzeit of the Baal Shem Tov</t>\n    <t s=\"17\">(as mentioned above).</t>\n    <t s=\"18\">[And it can be said further,</t>\n    <t s=\"19\">that the holiday of Shavuos is also the day of the yahrtzeit</t>\n    <t s=\"20\">of Moshe Rabbeinu.</t>\n    <t s=\"21\">For at the time of the Giving of the Torah, the souls of all of Israel flew away and He returned them with dew, etc.,</t>\n    <t s=\"22\">and it is necessarily to say that this matter was in all of Israel,</t>\n    <t s=\"23\">from their smallest to their greatest,</t>\n    <t s=\"24\">for certainly the matter of the dew of resurrection</t>\n    <t s=\"25\">(the dew of Torah)</t>\n    <t s=\"26\">was drawn to each and every one of Israel,</t>\n    <t s=\"27\">including Moshe Rabbeinu.</t>\n    <t s=\"28\">And thus it is found that on this day there was also the matter of the departure of the soul</t>\n    <t s=\"29\">(their souls flew away)</t>\n    <t s=\"30\">in Moshe Rabbeinu,</t>\n    <t s=\"31\">the matter of a yahrtzeit].</t>\n    <t s=\"32\">And these three</t>\n    <t s=\"33\">(Moshe Rabbeinu, King Dovid, and the Baal Shem Tov)</t>\n    <t s=\"34\">are connected with the matter of drawing down the aspect of the dew of Torah</t>\n    <t s=\"35\">(the inner dimension of the Torah)</t>\n    <t s=\"36\">into Israel in a manner of understanding and comprehension.</t>\n    <t s=\"37\">For regarding Moshe it is written, \"The Torah that Moshe commanded us is an inheritance for the congregation of Yaakov,\"</t>\n    <t s=\"38\">that he gave and transmitted the entire Torah</t>\n    <t s=\"39\">(including the aspect of the dew of Torah)</t>\n    <t s=\"40\">to all of Israel in a manner of inheritance,</t>\n    <t s=\"41\">for the true essence of inheritance is when it is found in the full ownership of the heir,</t>\n    <t s=\"42\">meaning that there is in this understanding and comprehension, etc.</t>\n    <t s=\"43\">And in this manner was the matter of Dovid,</t>\n    <t s=\"44\">Dovid, the King Moshiach,</t>\n    <t s=\"45\">for the matter of Moshiach is the revelation of the inner dimension of the Torah in the future.</t>\n    <t s=\"46\">[And this matter is emphasized at this time,</t>\n    <t s=\"47\">close to the conclusion of Shabbos,</t>\n    <t s=\"48\">the time of the meal of Dovid, the King Moshiach].</t>\n    <t s=\"49\">And in this manner is also the matter of the Baal Shem Tov,</t>\n    <t s=\"50\">who revealed the inner dimension of the Torah in a manner of the spreading of the wellsprings outward.</t>\n    <t s=\"51\">For at the time of the Giving of the Torah, this matter</t>\n    <t s=\"52\">(the aspect of the dew of Torah)</t>\n    <t s=\"53\">was in concealment</t>\n    <t s=\"54\">(relatively),</t>\n    <t s=\"55\">and afterwards it was revealed more through Dovid,</t>\n    <t s=\"56\">and afterwards it was revealed even more through the Baal Shem Tov and his students and the students of his students,</t>\n    <t s=\"57\">until my master, father-in-law, the Rebbe, the Nasi of our generation,</t>\n    <t s=\"58\">whose innovation was the spreading of the wellsprings of the inner dimension of the Torah</t>\n    <t s=\"59\">(the dew of Torah)</t>\n    <t s=\"60\">outward.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section states that the Torah is eternal, and every Jew, including women, is empowered to study the aspect of the dew of Torah with understanding, culminating in the simple revelation of the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">Now, the Torah is eternal,</t>\n    <t s=\"2\">meaning that it is an eternal instruction for all of Israel,</t>\n    <t s=\"3\">and He only asks according to their ability,</t>\n    <t s=\"4\">that to each and every one</t>\n    <t s=\"5\">[for even to women was the giving of the Torah and the receiving of the Torah,</t>\n    <t s=\"6\">and on the contrary,</t>\n    <t s=\"7\">it is written first,</t>\n    <t s=\"8\">\"Thus shall you say to the house of Yaakov,\" these are the women,</t>\n    <t s=\"9\">and in a manner of gentle speech]</t>\n    <t s=\"10\">the power is given that there should be study of the aspect of the dew in the Torah,</t>\n    <t s=\"11\">and in a manner of understanding and comprehension.</t>\n    <t s=\"12\">And just as in every law of the Torah the main thing is the simple action,</t>\n    <t s=\"13\">so too is it in this matter of the revelation of the aspect of the dew of Torah in the future,</t>\n    <t s=\"14\">that the main thing is that it should be in simplicity,</t>\n    <t s=\"15\">\"The word of Hashem, this is the law; we will come to the word of Hashem, this is the end,\"</t>\n    <t s=\"16\">in the true and complete redemption through Moshiach our righteous one,</t>\n    <t s=\"17\">speedily in our days,</t>\n    <t s=\"18\">literally immediately.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918788_theRebbe_204",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918788_theRebbe_204__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the revelation of \"You were shown to know\" occurred at the Giving of the Torah, connecting it to the dew of Torah, which is one with Atzmus Ein Sof, and links this to Moshe, Dovid, and the Baal Shem Tov.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And this is \"You were shown to know that Hashem, He is the Elokim, there is none else besides Him,\""
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that this matter was given at the time of the Giving of the Torah,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "and in this manner it is drawn down in every year at the time of the giving of our Torah,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "for at the time of the Giving of the Torah there was a revelation of the aspect of the dew of Torah,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "the aspect of the dew of the bdellium that drips from the Ancient One,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "which is one with the Awtsmoos of Ein Sof, blessed is He,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "\"You\" are the very Awtsmoos of Ein Sof, blessed is He."
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "And it can be said that this is also what is known"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "that the holiday of Shavuos is connected with Moshe Rabbeinu,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "who received the Torah at Sinai at that time,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "and with King Dovid and the Baal Shem Tov,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "for on Atzeres is the day of the yahrtzeit of King Dovid"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "[and this matter is emphasized especially in this year,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "since Dovid died on Shabbos,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "and in this year the second day of Yom Tov of Atzeres falls on Shabbos]"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "and also the day of the yahrtzeit of the Baal Shem Tov"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "(as mentioned above)."
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "[And it can be said further,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "that the holiday of Shavuos is also the day of the yahrtzeit"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "of Moshe Rabbeinu."
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "For at the time of the Giving of the Torah, the souls of all of Israel flew away and He returned them with dew, etc.,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "and it is necessarily to say that this matter was in all of Israel,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "from their smallest to their greatest,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "for certainly the matter of the dew of resurrection"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "(the dew of Torah)"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "was drawn to each and every one of Israel,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "including Moshe Rabbeinu."
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "And thus it is found that on this day there was also the matter of the departure of the soul"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "(their souls flew away)"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "in Moshe Rabbeinu,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "the matter of a yahrtzeit]."
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "And these three"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "(Moshe Rabbeinu, King Dovid, and the Baal Shem Tov)"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "are connected with the matter of drawing down the aspect of the dew of Torah"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "(the inner dimension of the Torah)"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "into Israel in a manner of understanding and comprehension."
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "For regarding Moshe it is written, \"The Torah that Moshe commanded us is an inheritance for the congregation of Yaakov,\""
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "that he gave and transmitted the entire Torah"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "(including the aspect of the dew of Torah)"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "to all of Israel in a manner of inheritance,"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "for the true essence of inheritance is when it is found in the full ownership of the heir,"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "meaning that there is in this understanding and comprehension, etc."
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "And in this manner was the matter of Dovid,"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "Dovid, the King Moshiach,"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "for the matter of Moshiach is the revelation of the inner dimension of the Torah in the future."
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "[And this matter is emphasized at this time,"
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "close to the conclusion of Shabbos,"
+          },
+          {
+            "v": 9,
+            "s": 48,
+            "translation": "the time of the meal of Dovid, the King Moshiach]."
+          },
+          {
+            "v": 9,
+            "s": 49,
+            "translation": "And in this manner is also the matter of the Baal Shem Tov,"
+          },
+          {
+            "v": 9,
+            "s": 50,
+            "translation": "who revealed the inner dimension of the Torah in a manner of the spreading of the wellsprings outward."
+          },
+          {
+            "v": 9,
+            "s": 51,
+            "translation": "For at the time of the Giving of the Torah, this matter"
+          },
+          {
+            "v": 9,
+            "s": 52,
+            "translation": "(the aspect of the dew of Torah)"
+          },
+          {
+            "v": 9,
+            "s": 53,
+            "translation": "was in concealment"
+          },
+          {
+            "v": 9,
+            "s": 54,
+            "translation": "(relatively),"
+          },
+          {
+            "v": 9,
+            "s": 55,
+            "translation": "and afterwards it was revealed more through Dovid,"
+          },
+          {
+            "v": 9,
+            "s": 56,
+            "translation": "and afterwards it was revealed even more through the Baal Shem Tov and his students and the students of his students,"
+          },
+          {
+            "v": 9,
+            "s": 57,
+            "translation": "until my master, father-in-law, the Rebbe, the Nasi of our generation,"
+          },
+          {
+            "v": 9,
+            "s": 58,
+            "translation": "whose innovation was the spreading of the wellsprings of the inner dimension of the Torah"
+          },
+          {
+            "v": 9,
+            "s": 59,
+            "translation": "(the dew of Torah)"
+          },
+          {
+            "v": 9,
+            "s": 60,
+            "translation": "outward."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section states that the Torah is eternal, and every Jew, including women, is empowered to study the aspect of the dew of Torah with understanding, culminating in the simple revelation of the future redemption.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "Now, the Torah is eternal,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "meaning that it is an eternal instruction for all of Israel,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "and He only asks according to their ability,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "that to each and every one"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "[for even to women was the giving of the Torah and the receiving of the Torah,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "it is written first,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "\"Thus shall you say to the house of Yaakov,\" these are the women,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "and in a manner of gentle speech]"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "the power is given that there should be study of the aspect of the dew in the Torah,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "and in a manner of understanding and comprehension."
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "And just as in every law of the Torah the main thing is the simple action,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "so too is it in this matter of the revelation of the aspect of the dew of Torah in the future,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "that the main thing is that it should be in simplicity,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "\"The word of Hashem, this is the law; we will come to the word of Hashem, this is the end,\""
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "in the true and complete redemption through Moshiach our righteous one,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "speedily in our days,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "literally immediately."
+          }
+        ]
+      }
+    ]
+  }
+}

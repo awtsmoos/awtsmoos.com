@@ -1,0 +1,304 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 52,
+    "returned": 52,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917950_theRebbe_524\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains that the request in the verse \"Ad-noy, open my lips, and my mouth will declare Your praise\" is for our prayer to be like the prayer of Rosh Chodesh and its sons, encompassing both the elevated nature of their prayer and the aspect of Torah within it.</sectionSummaryBrief>\n    <t s=\"0\">And this is that the request in the verse \"Ad-noy, open my lips, and my mouth will declare Your praise\" is that our prayer should be like the prayer of Rosh Chodesh and his sons,</t>\n    <t s=\"1\">for in the elevation of the prayer of Rosh Chodesh and his sons,</t>\n    <t s=\"2\">there are two matters.</t>\n    <t s=\"3\">The elevation of the prayer</t>\n    <t s=\"4\">(of theirs)</t>\n    <t s=\"5\">itself,</t>\n    <t s=\"6\">that the raising of the Mayin Nukvin of their prayer is much loftier than the raising of the Mayin Nukvin of ordinary prayer,</t>\n    <t s=\"7\">and that in their prayer there was also the aspect of Torah.</t>\n    <t s=\"8\">And in the request of the aforementioned verse,</t>\n    <t s=\"9\">[there are] both matters.</t>\n    <t s=\"10\">For the request \"and my mouth will declare Your praise\" is that his prayer should be like one who answers after the caller, after the prayer of the Holy One, blessed be He, and the prayer of the Holy One, blessed be He is no less</t>\n    <t s=\"11\">than the prayer of Rosh Chodesh and his sons.</t>\n    <t s=\"12\">And the request \"Ad-noy, open my lips\" in Torah is that in his prayer there should also be the elevation of Torah,</t>\n    <t s=\"13\">an influence from above to below.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section explains that through the inter-inclusion of Torah and prayer, the revelation is brought about that in their source, the two aspects of \"above without end\" and \"below without limit\" are completely one, rooted in the ability of the Awtsmoos.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And behold, through the inter-inclusion of Torah and prayer</t>\n    <t s=\"2\">[that in Torah, which is an influence from above to below,</t>\n    <t s=\"3\">the aspect of Ein Sof below without limit,</t>\n    <t s=\"4\">there is also the aspect of elevation from below to above,</t>\n    <t s=\"5\">and in prayer, which is an elevation from below to above,</t>\n    <t s=\"6\">the aspect of Ein Sof above without end,</t>\n    <t s=\"7\">there is also the aspect of influence from above to below],</t>\n    <t s=\"8\">through this it is revealed that the two aspects</t>\n    <t s=\"9\">[of above without end and below without limit]</t>\n    <t s=\"10\">in their source are completely one.</t>\n    <t s=\"11\">And as explained above</t>\n    <t s=\"12\">(section 5)</t>\n    <t s=\"13\">that the reason for the inter-inclusion of the two aspects is,</t>\n    <t s=\"14\">because in the ability of the Awtsmoos,</t>\n    <t s=\"15\">the ability to illuminate and the ability not to illuminate,</t>\n    <t s=\"16\">are one matter.</t>\n    <t s=\"17\">However,</t>\n    <t s=\"18\">now,</t>\n    <t s=\"19\">the revelation of the root of the two aspects as they are in the ability of the Awtsmoos is only in that they are inter-included one within the other,</t>\n    <t s=\"20\">and this is a preparation for that in the future to come there will be the connection and unification of the two aspects.</t>\n    <t s=\"21\">For then He will illuminate in them with actual revelation their first root as they are in the ability of the Awtsmoos,</t>\n    <t s=\"22\">that the ability to illuminate and the ability not to illuminate are truly one.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains that the world stands on three things because through the division of Torah and mitzvos into three categories, which are inter-included, it is revealed that the inner essence of the world is to be a vessel for the revelation of G-dliness.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And this is \"Upon three things the world stands,\"</t>\n    <t s=\"2\">upon three things the concealment stands,</t>\n    <t s=\"3\">for through the Torah and mitzvos being divided into three types,</t>\n    <t s=\"4\">for in general they are two lines of influence and elevation,</t>\n    <t s=\"5\">and also after they are divided into two lines they are inter-included one within the other,</t>\n    <t s=\"6\">through this it is revealed that the inner matter of the world,</t>\n    <t s=\"7\">the concealment,</t>\n    <t s=\"8\">is,</t>\n    <t s=\"9\">that there will be in it a revelation of G-dliness.</t>\n    <t s=\"10\">Therefore,</t>\n    <t s=\"11\">the revelation of G-dliness drawn into the world through the service in the three things—Torah, service, and acts of kindness</t>\n    <t s=\"12\">(each of which is inclusive of all of them)</t>\n    <t s=\"13\">is not like something additional to the world, but rather this is the very essence of the world itself,</t>\n    <t s=\"14\">\"the world stands.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917950_theRebbe_524",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains that the request in the verse \"Ad-noy, open my lips, and my mouth will declare Your praise\" is for our prayer to be like the prayer of Rosh Chodesh and its sons, encompassing both the elevated nature of their prayer and the aspect of Torah within it.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "And this is that the request in the verse \"Ad-noy, open my lips, and my mouth will declare Your praise\" is that our prayer should be like the prayer of Rosh Chodesh and his sons,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "for in the elevation of the prayer of Rosh Chodesh and his sons,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "there are two matters."
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "The elevation of the prayer"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "(of theirs)"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "itself,"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "that the raising of the Mayin Nukvin of their prayer is much loftier than the raising of the Mayin Nukvin of ordinary prayer,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "and that in their prayer there was also the aspect of Torah."
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "And in the request of the aforementioned verse,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "[there are] both matters."
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "For the request \"and my mouth will declare Your praise\" is that his prayer should be like one who answers after the caller, after the prayer of the Holy One, blessed be He, and the prayer of the Holy One, blessed be He is no less"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "than the prayer of Rosh Chodesh and his sons."
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "And the request \"Ad-noy, open my lips\" in Torah is that in his prayer there should also be the elevation of Torah,"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "an influence from above to below."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section explains that through the inter-inclusion of Torah and prayer, the revelation is brought about that in their source, the two aspects of \"above without end\" and \"below without limit\" are completely one, rooted in the ability of the Awtsmoos.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "And behold, through the inter-inclusion of Torah and prayer"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "[that in Torah, which is an influence from above to below,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "the aspect of Ein Sof below without limit,"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "there is also the aspect of elevation from below to above,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "and in prayer, which is an elevation from below to above,"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "the aspect of Ein Sof above without end,"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "there is also the aspect of influence from above to below],"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "through this it is revealed that the two aspects"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "[of above without end and below without limit]"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "in their source are completely one."
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "And as explained above"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "(section 5)"
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "that the reason for the inter-inclusion of the two aspects is,"
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "because in the ability of the Awtsmoos,"
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "the ability to illuminate and the ability not to illuminate,"
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "are one matter."
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "However,"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "now,"
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "the revelation of the root of the two aspects as they are in the ability of the Awtsmoos is only in that they are inter-included one within the other,"
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "and this is a preparation for that in the future to come there will be the connection and unification of the two aspects."
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "For then He will illuminate in them with actual revelation their first root as they are in the ability of the Awtsmoos,"
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "that the ability to illuminate and the ability not to illuminate are truly one."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section explains that the world stands on three things because through the division of Torah and mitzvos into three categories, which are inter-included, it is revealed that the inner essence of the world is to be a vessel for the revelation of G-dliness.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "And this is \"Upon three things the world stands,\""
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "upon three things the concealment stands,"
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "for through the Torah and mitzvos being divided into three types,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "for in general they are two lines of influence and elevation,"
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "and also after they are divided into two lines they are inter-included one within the other,"
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "through this it is revealed that the inner matter of the world,"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "the concealment,"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "is,"
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "that there will be in it a revelation of G-dliness."
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "the revelation of G-dliness drawn into the world through the service in the three things—Torah, service, and acts of kindness"
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "(each of which is inclusive of all of them)"
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "is not like something additional to the world, but rather this is the very essence of the world itself,"
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "\"the world stands.\""
+          }
+        ]
+      }
+    ]
+  }
+}

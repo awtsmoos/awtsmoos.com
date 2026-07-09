@@ -1,0 +1,459 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 83,
+    "returned": 83,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916782_theRebbe_480\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that through teshuvah reaching the level of \"Face of Hashem,\" a new revelation of the name Havayah is drawn down, and discusses whether the \"superior treasure\" is revealed in the attribute of Netzach or given entirely.</sectionSummaryBrief>\n    <t s=\"0\">Now, it is explained in Likkutei Torah there,</t>\n    <t s=\"1\">that through teshuvah reaching the aspect of \"Your Face, Hashem\"</t>\n    <t s=\"2\">(the aspect of the Face that is above Havayah),</t>\n    <t s=\"3\">from there is drawn a revelation of the aspect of Havayah</t>\n    <t s=\"4\">[for in order to draw down the name Havayah anew,</t>\n    <t s=\"5\">after one has blemished Havayah,</t>\n    <t s=\"6\">the drawing down must be from the aspect of the Face that is above Havayah].</t>\n    <t s=\"7\">And it is explained there,</t>\n    <t s=\"8\">that what is written \"and My Face shall not be seen\" means that the Face itself does not come into revelation,</t>\n    <t s=\"9\">but the revelation is drawn from there.</t>\n    <t s=\"10\">And based on this, one could seemingly say regarding our matter,</t>\n    <t s=\"11\">that what is said in the maamar \"that the revelation and drawing down of the superior treasure is in the attribute of Netzach,\"</t>\n    <t s=\"12\">the intention is that in the attribute of Netzach a revelation from the superior treasure is drawn,</t>\n    <t s=\"13\">for this revelation is a giving of strength to overcome the battle.</t>\n    <t s=\"14\">However,</t>\n    <t s=\"15\">from the language of the maamar</t>\n    <t s=\"16\">\"and all the precious wealth that is in the treasures is given to the men of valor,\" it implies that they are given the treasures themselves</t>\n    <t s=\"17\">(and all the precious wealth within them),</t>\n    <t s=\"18\">and not merely a revelation from the treasures.</t>\n    <t s=\"19\">And so too it is understood from what is said in the maamar</t>\n    <t s=\"20\">that for the sake of victory, all the treasures are expended.</t>\n    <t s=\"21\">For since expenditure is beyond all measure and limitation,</t>\n    <t s=\"22\">it is impossible to say that there is a limitation in the drawing down,</t>\n    <t s=\"23\">and it is necessarily so that in the attribute of Netzach there is drawn and revealed</t>\n    <t s=\"24\">(also)</t>\n    <t s=\"25\">the treasure itself.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section questions whether Netzach serves merely as a vessel for the revelation of the superior treasure, or whether Netzach itself reaches the treasure, and raises the difficulty of how a finite attribute can access something beyond revelation.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And seemingly, one could say,</t>\n    <t s=\"2\">that this—that in the attribute of Netzach the superior treasure is revealed and drawn—is in the manner of the known principle</t>\n    <t s=\"3\">regarding the matter of an arousal from above, which no arousal from below reaches, and comes in the manner of a gift from above,</t>\n    <t s=\"4\">which does not rest and become revealed except after an arousal from below and an arousal from above that is aroused and drawn by the arousal from below.</t>\n    <t s=\"5\">For although this arousal from above comes as a gift from above,</t>\n    <t s=\"6\">nevertheless,</t>\n    <t s=\"7\">there must be some vessel for it,</t>\n    <t s=\"8\">for the Holy One, blessed be He, does not rest except in a complete place,</t>\n    <t s=\"9\">and therefore,</t>\n    <t s=\"10\">in order for there to be the revelation of this arousal from above</t>\n    <t s=\"11\">(which comes in the manner of a gift),</t>\n    <t s=\"12\">there must be the completeness of the actions of those below</t>\n    <t s=\"13\">[an arousal from below and an arousal from above that is aroused and drawn by it].</t>\n    <t s=\"14\">And based on this, one could say,</t>\n    <t s=\"15\">that what is said in the maamar that the revelation and drawing down of the superior treasure is in the attribute of Netzach,</t>\n    <t s=\"16\">is,</t>\n    <t s=\"17\">that Netzach is analogous to the completeness</t>\n    <t s=\"18\">(a complete place)</t>\n    <t s=\"19\">in which the drawing down and revelation of the treasure occurs.</t>\n    <t s=\"20\">But from what is said in the maamar that \"in the attribute of Netzach one can reach the superior treasure, meaning that the revelation and drawing down of the superior treasure is in the attribute of Netzach,\"</t>\n    <t s=\"21\">it is proven,</t>\n    <t s=\"22\">that this—that in the attribute of Netzach the superior treasure is revealed and drawn—is</t>\n    <t s=\"23\">(not because Netzach is like a complete place,</t>\n    <t s=\"24\">but rather)</t>\n    <t s=\"25\">because Netzach reaches the superior treasure.</t>\n    <t s=\"26\">And it must be understood,</t>\n    <t s=\"27\">but the superior treasure is above the category of revelation,</t>\n    <t s=\"28\">and how is it possible that through the attribute of Netzach one can reach the treasure in such a way that the treasure itself comes into drawing down and revelation?</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains, based on the Alter Rebbe's teaching, that the tzimtzum was only in the light (ohr) and not in the luminary (maor), and that the maor is actually revealed through the tzimtzum.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And the explanation of this can be given by prefacing what the Alter Rebbe said in Torah Ohr, the discourse \"Patah Eliyahu,\"</t>\n    <t s=\"2\">that the tzimtzum was only in the light and not in the luminary.</t>\n    <t s=\"3\">And what is said in the writings of the Arizal</t>\n    <t s=\"4\">that through the tzimtzum a void and empty space was made for the existence of the worlds,</t>\n    <t s=\"5\">the intention is that it is a void and empty of the light, that no light or revelation remained in it,</t>\n    <t s=\"6\">for in order that the creation of the worlds could take place,</t>\n    <t s=\"7\">even the most elevated worlds,</t>\n    <t s=\"8\">it arose in His will, blessed be He, that the place where the worlds would stand be empty of the light,</t>\n    <t s=\"9\">but the luminary is present in every place.</t>\n    <t s=\"10\">And he adds in Torah Ohr,</t>\n    <t s=\"11\">that in the luminary, tzimtzum does not apply, Heaven forbid.</t>\n    <t s=\"12\">That is,</t>\n    <t s=\"13\">not only was there no actual tzimtzum in it,</t>\n    <t s=\"14\">but moreover, tzimtzum cannot apply to it.</t>\n    <t s=\"15\">And on the contrary, the luminary is in revelation.</t>\n    <t s=\"16\">For not only did the tzimtzum not cause a concealment in the luminary</t>\n    <t s=\"17\">[since the tzimtzum was only in the light and not in the luminary,</t>\n    <t s=\"18\">as above],</t>\n    <t s=\"19\">but on the contrary,</t>\n    <t s=\"20\">through the tzimtzum there is a revelation of the luminary.</t>\n    <t s=\"21\">And he continues there,</t>\n    <t s=\"22\">that this is the reason that even infants know that there is a present G-d</t>\n    <t s=\"23\">[or as the language brought elsewhere,</t>\n    <t s=\"24\">that the name of Heaven is fluent in the mouth of all],</t>\n    <t s=\"25\">because the luminary is in revelation below as above</t>\n    <t s=\"26\">(and on the contrary,</t>\n    <t s=\"27\">the primary revelation is below).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916782_theRebbe_480",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that through teshuvah reaching the level of \"Face of Hashem,\" a new revelation of the name Havayah is drawn down, and discusses whether the \"superior treasure\" is revealed in the attribute of Netzach or given entirely.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "Now, it is explained in Likkutei Torah there,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that through teshuvah reaching the aspect of \"Your Face, Hashem\""
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "(the aspect of the Face that is above Havayah),"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "from there is drawn a revelation of the aspect of Havayah"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "[for in order to draw down the name Havayah anew,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "after one has blemished Havayah,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "the drawing down must be from the aspect of the Face that is above Havayah]."
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "And it is explained there,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "that what is written \"and My Face shall not be seen\" means that the Face itself does not come into revelation,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "but the revelation is drawn from there."
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "And based on this, one could seemingly say regarding our matter,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "that what is said in the maamar \"that the revelation and drawing down of the superior treasure is in the attribute of Netzach,\""
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "the intention is that in the attribute of Netzach a revelation from the superior treasure is drawn,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "for this revelation is a giving of strength to overcome the battle."
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "However,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "from the language of the maamar"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "\"and all the precious wealth that is in the treasures is given to the men of valor,\" it implies that they are given the treasures themselves"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "(and all the precious wealth within them),"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "and not merely a revelation from the treasures."
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "And so too it is understood from what is said in the maamar"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "that for the sake of victory, all the treasures are expended."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "For since expenditure is beyond all measure and limitation,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "it is impossible to say that there is a limitation in the drawing down,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "and it is necessarily so that in the attribute of Netzach there is drawn and revealed"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "(also)"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "the treasure itself."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section questions whether Netzach serves merely as a vessel for the revelation of the superior treasure, or whether Netzach itself reaches the treasure, and raises the difficulty of how a finite attribute can access something beyond revelation.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And seemingly, one could say,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that this—that in the attribute of Netzach the superior treasure is revealed and drawn—is in the manner of the known principle"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "regarding the matter of an arousal from above, which no arousal from below reaches, and comes in the manner of a gift from above,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "which does not rest and become revealed except after an arousal from below and an arousal from above that is aroused and drawn by the arousal from below."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "For although this arousal from above comes as a gift from above,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "there must be some vessel for it,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "for the Holy One, blessed be He, does not rest except in a complete place,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "in order for there to be the revelation of this arousal from above"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(which comes in the manner of a gift),"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "there must be the completeness of the actions of those below"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "[an arousal from below and an arousal from above that is aroused and drawn by it]."
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "And based on this, one could say,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "that what is said in the maamar that the revelation and drawing down of the superior treasure is in the attribute of Netzach,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "is,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "that Netzach is analogous to the completeness"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "(a complete place)"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "in which the drawing down and revelation of the treasure occurs."
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "But from what is said in the maamar that \"in the attribute of Netzach one can reach the superior treasure, meaning that the revelation and drawing down of the superior treasure is in the attribute of Netzach,\""
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "it is proven,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "that this—that in the attribute of Netzach the superior treasure is revealed and drawn—is"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "(not because Netzach is like a complete place,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "but rather)"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "because Netzach reaches the superior treasure."
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "but the superior treasure is above the category of revelation,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "and how is it possible that through the attribute of Netzach one can reach the treasure in such a way that the treasure itself comes into drawing down and revelation?"
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains, based on the Alter Rebbe's teaching, that the tzimtzum was only in the light (ohr) and not in the luminary (maor), and that the maor is actually revealed through the tzimtzum.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And the explanation of this can be given by prefacing what the Alter Rebbe said in Torah Ohr, the discourse \"Patah Eliyahu,\""
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that the tzimtzum was only in the light and not in the luminary."
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "And what is said in the writings of the Arizal"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "that through the tzimtzum a void and empty space was made for the existence of the worlds,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "the intention is that it is a void and empty of the light, that no light or revelation remained in it,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "for in order that the creation of the worlds could take place,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "even the most elevated worlds,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "it arose in His will, blessed be He, that the place where the worlds would stand be empty of the light,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "but the luminary is present in every place."
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "And he adds in Torah Ohr,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "that in the luminary, tzimtzum does not apply, Heaven forbid."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "That is,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "not only was there no actual tzimtzum in it,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "but moreover, tzimtzum cannot apply to it."
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "And on the contrary, the luminary is in revelation."
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "For not only did the tzimtzum not cause a concealment in the luminary"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "[since the tzimtzum was only in the light and not in the luminary,"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "as above],"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "but on the contrary,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "through the tzimtzum there is a revelation of the luminary."
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "And he continues there,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "that this is the reason that even infants know that there is a present G-d"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "[or as the language brought elsewhere,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "that the name of Heaven is fluent in the mouth of all],"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "because the luminary is in revelation below as above"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "(and on the contrary,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "the primary revelation is below)."
+          }
+        ]
+      }
+    ]
+  }
+}

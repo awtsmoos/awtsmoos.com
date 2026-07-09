@@ -1,0 +1,162 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919866_theRebbe_58" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919866_theRebbe_58__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919866_theRebbe_58" title="מאמר ויענך וירעיבך ויאכילך תשכ"ג" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919866_theRebbe_58__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">ויש לקשר זה עם מאמר הזהר32</src>
+    <src s="2">ע"פ33</src>
+    <src s="3">ראו כי ה' נתן לכם השבת,</src>
+    <src s="4">ר' חזקי' פתח שיר המעלות ממעמקים גו'34</src>
+    <src s="5">דמעמקים</src>
+    <src s="6">(לשון רבים)</src>
+    <src s="7">הם עומקא דכולא ועומקא דבירא,</src>
+    <src s="8">וכתב אאמו"ר בעל ההילולא על הגליון של ספר הזהר שלו35</src>
+    <src s="9">(שמשך כמה שנים הי' בשבי',</src>
+    <src s="10">ובזמן האחרון נפדו</src>
+    <src s="11">(ספר הזהר שלו עם עוד ספרים שלו)</src>
+    <src s="12">מהשבי' והגיעו לכאן),</src>
+    <src s="13">שהשייכות דפירוש זה בממעמקים לראו גו' השבת היא,</src>
+    <src s="14">כי עומקא דכולא ועומקא דבירא הם חכמה ובינה,</src>
+    <src s="15">שמהם נמשך השפע לכל ששה המדות דז"א</src>
+    <src s="16">(מבועין נפקין ונגדין לברכא כולא36).</src>
+    <src s="17">וענין זה שייך לראו כי ה' נתן לכם השבת,</src>
+    <src s="18">כי שבת הוא יומא שביעאה שהוא בינה37</src>
+    <src s="19">(עומקא דבירא),</src>
+    <src s="20">שבה מלובש חכמה</src>
+    <src s="21">(עומקא דכולא),</src>
+    <src s="22">ומיני' מתברכין שיתא יומין38,</src>
+    <src s="23">ו"ק דז"א.</src>
+    <src s="24">וממשיך בעל ההילולא,</src>
+    <src s="25">דזהו מ"ש39</src>
+    <src s="26">וקראת לשבת ענג,</src>
+    <src s="27">ענג הוא ר"ת עדן נהר גן40,</src>
+    <src s="28">עדן ונהר הם חכמה ובינה</src>
+    <src s="29">(עומקא דכולא ועומקא דבירא),</src>
+    <src s="30">ומהם נמשך השפע והברכה לגן,</src>
+    <src s="31">מלכות.</src>
+    <src s="32">וזהו שהמלכות נקראת שבת41,</src>
+    <src s="33">כי שבת הוא אותיות ש' בת42,</src>
+    <src s="34">ש' בגימטריא מעמקים הוא עדן ונהר,</src>
+    <src s="35">ובת היא מלכות</src>
+    <src s="36">(גן)</src>
+    <src s="37">שבה נמשך השפע והברכה מעדן ונהר,</src>
+    <src s="38">מעמקים.</src>
+    <src s="39">וצריך להבין,</src>
+    <src s="40">דבתחילת הענין מדבר בהמשכת השפע מחו"ב</src>
+    <src s="41">(מעמקים)</src>
+    <src s="42">לששה המדות דז"א,</src>
+    <src s="43">ולאח"ז מבאר שזהו וקראת לשבת ענג,</src>
+    <src s="44">ההמשכה מעדן ונהר לגן,</src>
+    <src s="45">מלכות.</src>
+    <src s="46">ויש לומר הביאור בזה</src>
+    <src s="47">(בעבודת האדם),</src>
+    <src s="48">שמעמקים לשון רבים הם שני ענינים הנ"ל שבמאכל רעבון,</src>
+    <src s="49">עומקא דבירא</src>
+    <src s="50">(בינה)</src>
+    <src s="51">הוא הידיעה שפועלת רעבון,</src>
+    <src s="52">ועומקא דכולא</src>
+    <src s="53">(חכמה)</src>
+    <src s="54">הוא הידיעה שהיא רעבון בעצם לגבי האדם,</src>
+    <src s="55">ושני הענינים דז"א ומלכות הם שתי דרגות בשכל האדם,</src>
+    <src s="56">כמו שהוא מופשט</src>
+    <src s="57">(קצת)</src>
+    <src s="58">ממציאותו</src>
+    <src s="59">(ז"א)</src>
+    <src s="60">וכמו שהוא בההגבלות שלו</src>
+    <src s="61">(מלכות).</src>
+    <src s="62">וההמשכה דמעמקים בשכל האדם</src>
+    <src s="63">(ע"י הביטול שלו)</src>
+    <src s="64">היא בשתי הדרגות שבו,</src>
+    <src s="65">גם בההגבלות שלו,</src>
+    <src s="66">שהענינים דפנימיות התורה שמצד עצמם הם למעלה מהשכל נמשכים בשכל,</src>
+    <src s="67">בהשגה ממש43.</src>
+  </section>
+  <section v="7">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">שעיקר הגילוי דמעמקים הוא במלכות.</src>
+    <src s="2">דו' המדות דז"א הם</src>
+    <src s="3">(רק)</src>
+    <src s="4">מתברכים מיומא שביעאה,</src>
+    <src s="5">והמלכות</src>
+    <src s="6">(נוסף על שבה נמשך השפע מחו"ב,</src>
+    <src s="7">גם)</src>
+    <src s="8">היא עצמה נקראת שבת.</src>
+    <src s="9">ויתירה מזו,</src>
+    <src s="10">שבשבת</src>
+    <src s="11">(שקאי בעיקר על בינה)</src>
+    <src s="12">יש גם אותיות בת,</src>
+    <src s="13">היינו שעיקר ענין הש'</src>
+    <src s="14">(מעמקים)</src>
+    <src s="15">הוא כשהוא נמשך בבת,</src>
+    <src s="16">מלכות.</src>
+    <src s="17">וי"ל הביאור בזה בעבודת האדם,</src>
+    <src s="18">שהוא ע"ד הידוע44</src>
+    <src s="19">שע"י הפצת המעיינות חוצה מתגלה ענינם דהמעיינות.</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">והנה משני ענינים הנ"ל שבמן דפנימיות התורה – רעבון שלמעלה מהשגה ואעפ"כ הוא מאכל רעבון – נשתלשלו שני ענינים אלה בהמן כפשוטו.</src>
+    <src s="2">והענין הוא,</src>
+    <src s="3">דהטעם על זה שהמן הי' דבר יום ביומו</src>
+    <src s="4">[שלכן כתיב בי' ויענך וירעיבך,</src>
+    <src s="5">כי אינו דומה מי שיש לו פת בסלו למי שאין לו פת בסלו],</src>
+    <src s="6">הוא,</src>
+    <src s="7">כי גדר העולם הוא</src>
+    <src s="8">(מקום ו)</src>
+    <src s="9">זמן45,</src>
+    <src s="10">ומן הוא למעלה מהעולם,</src>
+    <src s="11">למעלה מגדר זמן,</src>
+    <src s="12">ולכן,</src>
+    <src s="13">גם לאחרי שנמשך בעולם,</src>
+    <src s="14">הי' צריך להתחדש בכל יום46.</src>
+    <src s="15">וזהו אינו דומה מי שיש לו פת בסלו למי שאין לו פת בסלו,</src>
+    <src s="16">דלחם מן הארץ וכן כל ההשפעות שנמשכו בעולם,</src>
+    <src s="17">כיון שאין ניכר בהם שהם מתחדשים בכל יום47,</src>
+    <src s="18">נדמה לאדם שהם בסלו,</src>
+    <src s="19">והמן שהי' ניכר בו בגילוי שמתחדש בכל יום מלמעלה,</src>
+    <src s="20">אינו בסלו של האדם.</src>
+    <src s="21">ועד"ז48</src>
+    <src s="22">הוא בנוגע שטעמו בו כל הטעמים</src>
+    <src s="23">(טעם השני על הרעבון דמן),</src>
+    <src s="24">דבדבר מוגבל א"א שיהיו בו כל הטעמים</src>
+    <src s="25">(ובפרט שבהטעמים ישנם גם טעמים הפכיים),</src>
+    <src s="26">וזה שהמן היו בו כל הטעמים הוא לפי שגם כשנמשך למטה הי' לחם מן השמים,</src>
+    <src s="27">ענין אלוקי שלמעלה מההגבלות דעולם.</src>
+    <src s="28">וזהו "אינו רואה ואוכל",</src>
+    <src s="29">שעין האדם המוגבל לא הי' יכול לתפוס הבל"ג דהמן,</src>
+    <src s="30">ולכן לא ראה אפילו מאכל פשוט,</src>
+    <src s="31">ע"ד מקום אור גדול מנשוא – שהראי' מתבלבלת.</src>
+  </section>
+</awtsmoosMeluketSource>

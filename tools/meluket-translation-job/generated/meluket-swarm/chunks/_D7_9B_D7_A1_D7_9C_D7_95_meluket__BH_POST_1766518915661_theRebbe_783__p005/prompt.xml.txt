@@ -1,0 +1,157 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915661_theRebbe_783" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915661_theRebbe_783" title="מאמר פדה בשלום תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p005">
+  <section v="12">
+    <src s="0">ט)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">שהחילוק בין קומה ה' שאמר משה לקומה ה' שאמר דוד הוא בשני ענינים.</src>
+    <src s="3">באופן הבירור</src>
+    <src s="4">[שהבירור ע"י הארון דמשכן הי' בדרך מלחמה,</src>
+    <src s="5">שלכן נאמר ויפוצו אויביך וינוסו משנאיך,</src>
+    <src s="6">שישנם מנגדים</src>
+    <src s="7">(אויביך ומשנאיך)</src>
+    <src s="8">שצריך ללחום בהם,</src>
+    <src s="9">והבירור שבימי שלמה ובפרט ע"י הגילוי דביהמ"ק הי' בדרך מנוחה,</src>
+    <src s="10">קומה ה' למנוחתך,</src>
+    <src s="11">כנ"ל בארוכה],</src>
+    <src s="12">וגם בהבירור עצמו.</src>
+    <src s="13">דזה שבקומה ה' שאמר משה נאמר ויפוצו אויביך וינוסו משנאיך,</src>
+    <src s="14">הוא,</src>
+    <src s="15">לפי שגם לאחרי הבירור ע"י נסיעת הארון במדבר,</src>
+    <src s="16">נשאר עדיין מנגדים,</src>
+    <src s="17">אויביך ומשנאיך,</src>
+    <src s="18">אלא שהיו באופן דיפוצו וינוסו.</src>
+    <src s="19">והענין הוא,</src>
+    <src s="20">דבבירור שבדרך מלמעלה למטה,</src>
+    <src s="21">שהעליון</src>
+    <src s="22">(המברר)</src>
+    <src s="23">אינו מתלבש בהתחתון והבירור בהתחתון הוא ע"י גילוי אור דהעליון,</src>
+    <src s="24">זה שהתחתון אינו מנגד הוא לא מצד המציאות</src>
+    <src s="25">(רצון,</src>
+    <src s="26">שכל וכו')</src>
+    <src s="27">שלו,</src>
+    <src s="28">אלא אדרבה,</src>
+    <src s="29">מפני שע"י שמאיר בו גילוי אור שאינו בערך אליו הוא מתבטל ממציאותו55.</src>
+    <src s="30">והנה כשהבירור הוא באופן שהעליון</src>
+    <src s="31">(המברר)</src>
+    <src s="32">בא למקומו של התחתון</src>
+    <src s="33">(המתברר),</src>
+    <src s="34">הרי זה מוכיח שהתחתון תופס מקום לגבי',</src>
+    <src s="35">ולכן אין שייך שע"י הגילוי שלו יתבטל התחתון בתכלית.</src>
+    <src s="36">וכיון שגם בירור זה הוא בדרך מלמעלה למטה ולא בדרך התלבשות</src>
+    <src s="37">(כנ"ל סעיף ח),</src>
+    <src s="38">והביטול שע"י גילוי אור זה אינו ביטול בתכלית,</src>
+    <src s="39">לכן,</src>
+    <src s="40">גם לאחרי הבירור נשאר עדיין</src>
+    <src s="41">(בהעלם)</src>
+    <src s="42">מציאות דמנגד</src>
+    <src s="43">(אויביך ומשנאיך),</src>
+    <src s="44">אלא שמ"מ,</src>
+    <src s="45">כיון שהתחתון אינו בערך גם לגבי גילוי זה שיש לו תפיסת מקום לגבי',</src>
+    <src s="46">לכן,</src>
+    <src s="47">גם ע"י גילוי זה מתבטל התוקף דהתחתון,</src>
+    <src s="48">וההתנגדות שלו</src>
+    <src s="49">(אויביך ומשנאיך)</src>
+    <src s="50">היא באופן דיפוצו וינוסו.</src>
+    <src s="51">משא"כ בהבירור שבדרך מנוחה,</src>
+    <src s="52">דזה שהעליון</src>
+    <src s="53">(המברר)</src>
+    <src s="54">הוא במקומו ואינו יורד למקומו של התחתון הוא לפי שהתחתון אינו תופס מקום לגבי' – ע"י גילוי אור זה,</src>
+    <src s="55">הביטול דהתחתון הוא ביטול בתכלית.</src>
+  </section>
+  <section v="13">
+    <src s="0">ויש לומר בעומק יותר,</src>
+    <src s="1">דגם כשהבירור הוא באופן שהמברר הוא במקומו אלא שהוא בדרגא כזו שהמתברר יש לו תפיסת מקום לגבי',</src>
+    <src s="2">הביטול דהמנגד אינו ביטול בתכלית.</src>
+    <src s="3">ועפ"ז יש להוסיף ביאור בזה שמשמע בהמאמר דזה ששלמה הי' איש מנוחה הוא מפני שבימיו הוה קיימא סיהרא באשלמותא,</src>
+    <src s="4">עשירות שלמעלה ממילוי החסרון,</src>
+    <src s="5">כי אמיתית הענין דמנוחה</src>
+    <src s="6">[ושלום]56</src>
+    <src s="7">הוא כשהמנגד מתבטל בתכלית,</src>
+    <src s="8">ובכדי שהמנגד יתבטל בתכלית הוא ע"י המשכת ענין העשירות,</src>
+    <src s="9">אוא"ס שלמעלה משייכות לעולמות,</src>
+    <src s="10">עתיק.</src>
+    <src s="11">דבאור השייך לעולמות,</src>
+    <src s="12">כולל גם אור הסובב,</src>
+    <src s="13">כתר,</src>
+    <src s="14">כיון שאור זה נותן מקום לעולמות,</src>
+    <src s="15">עולם מלשון העלם והסתר57</src>
+    <src s="16">– הביטול דהמנגדים שבעולם ע"י גילוי אור זה אינו ביטול בתכלית.</src>
+    <src s="17">וזה ששלמה הי' איש מנוחה ושלום הי' בימיו הוא מפני שבימיו היתה המשכת בחי' עתיק,</src>
+    <src s="18">עשירות.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">וממשיך בהמאמר,</src>
+    <src s="3">דענין החסד שהוא למעלה גם מעשירות</src>
+    <src s="4">[שלכן גמילות חסדים היא גם לעשירים],</src>
+    <src s="5">הוא הגילוי דלע"ל שהוא נעלה יותר גם מהגילוי שהי' בימי שלמה.</src>
+    <src s="6">דההמשכה שבימי שלמה היתה מבחינת עתיק</src>
+    <src s="7">(כנ"ל),</src>
+    <src s="8">ולע"ל תהי' ההמשכה מבחינת פנימיות עתיק,</src>
+    <src s="9">היינו א"ס שברדל"א,</src>
+    <src s="10">שהוא עיקר הענין דעתיק.</src>
+    <src s="11">ולהעיר ממ"ש בזהר</src>
+    <src s="12">(באדרא זוטא58)</src>
+    <src s="13">האי עתיקא אשתכח בתלת רישין,</src>
+    <src s="14">ופירש הרח"ו</src>
+    <src s="15">(בביאור האדר"ז59),</src>
+    <src s="16">שעיקר עתיקא הוא הא"ס,</src>
+    <src s="17">ועל שם התעלמותו בג' רישין נקראים גם הג' רישין בשם עתיק.</src>
+    <src s="18">ועפ"ז עיקר עתיקא הוא א"ס שבכל ג' הרישין.</src>
+    <src s="19">אבל במאמר זה מבאר שעיקר הענין דעתיק הוא א"ס שברדל"א.</src>
+    <src s="20">ויש לבאר זה ע"פ מ"ש בהמאמר</src>
+    <src s="21">(בהמשך הענין)</src>
+    <src s="22">בענין מ"ש הרח"ו</src>
+    <src s="23">(בביאור האדר"ז שם)</src>
+    <src s="24">נמצא ומתעלם ומתגלה בג' רישין,</src>
+    <src s="25">שג' הלשונות נמצא ומתעלם ומתגלה הם כמו ג' הענינים דאתה הוא והוי'.</src>
+    <src s="26">נמצא הוא כמו אתה,</src>
+    <src s="27">עצמות,</src>
+    <src s="28">מתעלם ומתגלה הם כמו הוא והוי',</src>
+    <src s="29">ב' מדריגות באור.</src>
+    <src s="30">ופירוש נמצא הוא שהוא נמצא כמו שהוא בעצמותו.</src>
+    <src s="31">ועפ"ז יש לבאר מ"ש בהמאמר שעיקר הענין דעתיק הוא א"ס שברדל"א.</src>
+    <src s="32">ולהוסיף,</src>
+    <src s="33">דע"פ הביאור בהמאמר דענין נמצא</src>
+    <src s="34">(שא"ס נמצא ברדל"א)</src>
+    <src s="35">הוא שהוא נמצא ברדל"א כמו שהוא בעצמותו,</src>
+    <src s="36">יש לבאר זה שבימי שלמה היתה עשירות אמיתית,</src>
+    <src s="37">אף שלא הי' אז הגילוי דלעתיד,</src>
+    <src s="38">כי החידוש שיהי' לע"ל הוא שאז יהי' גילוי העצם שלמעלה מבחינת הגילויים,</src>
+    <src s="39">וענין הגילויים הי' בימי שלמה בשלימות.</src>
+  </section>
+</awtsmoosMeluketSource>

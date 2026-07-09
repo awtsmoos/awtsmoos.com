@@ -1,0 +1,152 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914911_theRebbe_655" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914911_theRebbe_655" title="מאמר ויהיו חיי שרה תשמ"א" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p005">
+  <section v="12">
+    <src s="0">ח)</src>
+    <src s="1">ומעשה אבות סימן לבנים,</src>
+    <src s="2">שהעבודה דשרה היא הוראה ונתינת כח לכאו"א מישראל</src>
+    <src s="3">[ועד שענין זה שבכאו"א מישראל הוא</src>
+    <src s="4">(ככל הענינים דהאבות והאמהות)</src>
+    <src s="5">בירושה73],</src>
+    <src s="6">שיוכל לעבוד את ה' בשמחה בהתגלות,</src>
+    <src s="7">והשמחה תהי' מיוסדת על ענין הביטול,</src>
+    <src s="8">ונפשי כעפר לכל תהי'74.</src>
+    <src s="9">ולכן אין חשש75</src>
+    <src s="10">שיסתעף מזה איזה ענין בלתי רצוי ח"ו,</src>
+    <src s="11">ואדרבא,</src>
+    <src s="12">מכיון ששמחה פורץ גדר,</src>
+    <src s="13">הנה ע"י השמחה יוסיף אומץ בעבודתו ביתר שאת וביתר עז,</src>
+    <src s="14">עד לעבודה שלמעלה ממדידה והגבלה,</src>
+    <src s="15">ענין תגבורת החיות בעבודה.</src>
+    <src s="16">ועי"ז נעשה גם תגבורת החיים כפשוטו,</src>
+    <src s="17">אריכות ימים ושנים טובות בפשטות.</src>
+  </section>
+  <section v="13">
+    <src s="0">ט)</src>
+    <src s="1">ויש לקשר זה עם יום ההולדת של כ"ק אדמו"ר נ"ע דשנה זו,</src>
+    <src s="2">(סיום וחותם)</src>
+    <src s="3">שנה המאה ועשרים76,</src>
+    <src s="4">דאיתא בזהר77</src>
+    <src s="5">על הפסוק78</src>
+    <src s="6">והיו ימיו מאה ועשרים שנה שהוא רמז למשה כו' שממשיך חיין לבני נשא</src>
+    <src s="7">(לכאו"א מישראל)</src>
+    <src s="8">מההוא אילנא דחיין,</src>
+    <src s="9">שבזה נכלל גם אריכות ימים בפשטות,</src>
+    <src s="10">וכדאיתא בזהר שם</src>
+    <src s="11">(לפנ"ז)</src>
+    <src s="12">בשגם78</src>
+    <src s="13">דא משה79</src>
+    <src s="14">כו' ומחילא דא קיימין בני נשא בעלמא יומין סגיאין.</src>
+    <src s="15">וענין זה ממשיך משה גם עכשיו,</src>
+    <src s="16">כמו שממשיך בזהר שם משה לא מית כו',</src>
+    <src s="17">וארז"ל80</src>
+    <src s="18">מה להלן עומד ומשמש אף כאן עומד ומשמש.</src>
+    <src s="19">וכמו שהוא במשה רבינו רעיא מהימנא,</src>
+    <src s="20">כמו"כ הוא ברועי ישראל שבכל דור ודור,</src>
+    <src s="21">עד לבעל יום ההולדת ובנו כ"ק מו"ח אדמו"ר ממלא מקומו,</src>
+    <src s="22">וכידוע המכתב של כ"ק מו"ח אדמו"ר81</src>
+    <src s="23">(בנוגע לאביו.</src>
+    <src s="24">ומזה מובן שכ"ה גם אצלו82)</src>
+    <src s="25">שרועי ישראל לא יפרדו ח"ו מעל צאן מרעיתם,</src>
+    <src s="26">שהוא ע"ד מארז"ל הנ"ל בנוגע למשה מה להלן עומד ומשמש אף כאן עומד ומשמש,</src>
+    <src s="27">שגם עכשיו הוא</src>
+    <src s="28">(בעל יום ההולדת,</src>
+    <src s="29">ובמילא מובן – בנו ממלא מקומו)</src>
+    <src s="30">ממליץ זכות על כל אחד ואחת מישראל,</src>
+    <src s="31">וממשיך להם ברכות הצלחות וישועות,</src>
+    <src s="32">ועד שממשיך מבחי' אילנא דחיין</src>
+    <src s="33">(עץ החיים)</src>
+    <src s="34">וגם אריכות ימים בפשטות לכל אחד ואחת מישראל.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">והנה כמו שענין דילה הוו חיין</src>
+    <src s="2">(דשרה)</src>
+    <src s="3">הוא דוגמת ונחי' לפניו שיהי' לעתיד</src>
+    <src s="4">(כנ"ל סוף סעיף ד וסעיף ה מהמאמר דבעל יום ההולדת),</src>
+    <src s="5">עד"ז הוא גם בענין הנתינת כח שנמשך מזה לכל אחד מישראל על העבודה בשמחה</src>
+    <src s="6">(כנ"ל סעיף ח),</src>
+    <src s="7">שע"י העבודה בשמחה נזכה בקרוב ממש לקיום היעוד52</src>
+    <src s="8">ביום השלישי יקימנו ונחי' לפניו.</src>
+    <src s="9">והענין הוא,</src>
+    <src s="10">דהנה מבואר בלקו"ת</src>
+    <src s="11">(ד"ה יחיינו מיומיים ביום השלישי יקימנו ונחי' לפניו83),</src>
+    <src s="12">דיומיים הם בחי' ממכ"ע וסוכ"ע,</src>
+    <src s="13">וביום השלישי הוא בחי' שלמעלה גם מבחי' סוכ"ע.</src>
+    <src s="14">היינו שאין בו שום מדידות והגבלות,</src>
+    <src s="15">גם לא המדידה דסוכ"ע.</src>
+    <src s="16">ומכיון ששמחה פורץ גדר,</src>
+    <src s="17">וע"י השמחה מגיעים</src>
+    <src s="18">(כנ"ל סעיף ח)</src>
+    <src s="19">לעבודה שלמעלה ממדידה והגבלה,</src>
+    <src s="20">לכן השמחה</src>
+    <src s="21">(בעבודת ה')</src>
+    <src s="22">היא הכנה קרובה וכלי לגילוי בחי' ביום השלישי</src>
+    <src s="23">(יקימנו ונחי' לפניו),</src>
+    <src s="24">בחי' שלמעלה</src>
+    <src s="25">(גם)</src>
+    <src s="26">מבחי' סוכ"ע,</src>
+    <src s="27">שגילוי זה יהי' בביהמ"ק השלישי,</src>
+    <src s="28">וכהפירוש84</src>
+    <src s="29">דביום השלישי קאי על ביהמ"ק השלישי,</src>
+    <src s="30">שיבנה מלך המשיח85,</src>
+    <src s="31">מלך מבית דוד86.</src>
+    <src s="32">וגם ענין זה שייך במיוחד לענין השמחה,</src>
+    <src s="33">כמובן מזה שהרמב"ם87</src>
+    <src s="34">מביא ראי' על ענין השמחה שישמח אדם</src>
+    <src s="35">(כל אדם)</src>
+    <src s="36">בעשיית המצוה מדוד מלך ישראל דכתיב בי'88</src>
+    <src s="37">והמלך89</src>
+    <src s="38">דוד מפזז ומכרכר לפני ה' וגו'.</src>
+    <src s="39">ויש לומר הביאור בזה,</src>
+    <src s="40">דדוד מלך ישראל הו"ע ספירת המלכות90,</src>
+    <src s="41">וזהו שהי' בתכלית הביטול,</src>
+    <src s="42">אם לא שויתי ודוממתי91,</src>
+    <src s="43">כי מלכות היא בחי' ביטול,</src>
+    <src s="44">כנ"ל</src>
+    <src s="45">(סעיף ד).</src>
+    <src s="46">וזהו שעבודתו היתה בשמחה גדולה,</src>
+    <src s="47">והמלך דוד מפזז ומכרכר לפני ה',</src>
+    <src s="48">כי מצד הביטול דמלכות גם כשהשמחה היא בהתגלות אין שייך שיסתעף מזה ענין בלתי רצוי.</src>
+    <src s="49">ומכיון שדוד מלך ישראל חי וקיים92,</src>
+    <src s="50">היינו שהוא חי וקיים</src>
+    <src s="51">(בכאו"א מישראל)</src>
+    <src s="52">בתור דוד מלך ישראל</src>
+    <src s="53">(הביטול דמלכות),</src>
+    <src s="54">לכן הוא נותן הכח לכל אחד מישראל שישמח בעשיית המצוה</src>
+    <src s="55">(אף שעבודה גדולה היא93),</src>
+    <src s="56">ושהשמחה תהי' באופן הרצוי.</src>
+  </section>
+</awtsmoosMeluketSource>

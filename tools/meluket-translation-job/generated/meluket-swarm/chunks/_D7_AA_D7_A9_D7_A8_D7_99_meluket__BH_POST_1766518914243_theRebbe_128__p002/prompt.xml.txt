@@ -1,0 +1,138 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914243_theRebbe_128" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914243_theRebbe_128" title="מאמר ולקחתם לכם תשל"ט" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים החילוק שבין סוכה לד' מינים.</src>
+    <src s="2">דעם היות ששניהם מורים על ענין האחדות</src>
+    <src s="3">(כדלקמן),</src>
+    <src s="4">אעפ"כ חילוק ביניהם.</src>
+    <src s="5">שהאחדות דסוכה היא אחדות בעצם,</src>
+    <src s="6">שאין בה</src>
+    <src s="7">(מלכתחילה)</src>
+    <src s="8">התחלקות פרטים9.</src>
+    <src s="9">שלכן כל ישראל ראויים לישב בסוכה אחת10,</src>
+    <src s="10">לפי שסוכה היא למעלה מהתחלקות,</src>
+    <src s="11">משא"כ ענין מצות נטילת ד' מינים הוא שמריבוי נעשה אחדות.</src>
+    <src s="12">דהגם שהם ד' מינים שונים ומן הקצה אל הקצה,</src>
+    <src s="13">כדאיתא במדרש11</src>
+    <src s="14">דד' מינים שבלולב הם כנגד ד' סוגים שבישראל,</src>
+    <src s="15">מהסוג שכנגד אתרוג שיש בו טעם וריח</src>
+    <src s="16">(תורה ומעשים טובים)</src>
+    <src s="17">עד להסוג שכנגד ערבה שאין בה לא טעם ולא ריח,</src>
+    <src s="18">והם נעשים כולם אגודה אחת12.</src>
+    <src s="19">וגם להפירוש13</src>
+    <src s="20">שד' המינים רומזים על הקב"ה,</src>
+    <src s="21">הנה מזה שהענינים דלמעלה</src>
+    <src s="22">(הקב"ה)</src>
+    <src s="23">מרומזים בד' מינים,</src>
+    <src s="24">מובן,</src>
+    <src s="25">שהם ד' מדריגות שונות</src>
+    <src s="26">[ועל פי הידוע שכל הפירושים שבאותו הפסוק שייכים זה לזה14,</src>
+    <src s="27">יש לומר,</src>
+    <src s="28">שהחילוק בד' המדריגות דלמעלה המרומזים בד' המינים הוא מן הקצה אל הקצה,</src>
+    <src s="29">בדוגמת החילוק שבין ד' סוגים הנ"ל דישראל],</src>
+    <src s="30">ועל ידי מצות נטילת ד' מינים</src>
+    <src s="31">[שכל ד' המינים הם מצוה אחת15]</src>
+    <src s="32">הם מתאחדים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה לאחרי מצות ישיבה בסוכה ומצות נטילת ד' מינים באה המצוה דהקרבת קרבנות החג16</src>
+    <src s="2">שעיקרם הם הע' פרים</src>
+    <src s="3">[כיון שפר</src>
+    <src s="4">(שור)</src>
+    <src s="5">הוא המלך שבבהמות17]</src>
+    <src s="6">כנגד שבעים אומות18.</src>
+    <src s="7">דע"י הקרבת הע' פרים</src>
+    <src s="8">[ועד"ז עכשיו ע"י אמירת פסוקי הקרבנות דע' פרים,</src>
+    <src s="9">ונשלמה פרים שפתינו19]</src>
+    <src s="10">נעשה בירור האומות20.</src>
+    <src s="11">ויש לומר,</src>
+    <src s="12">שהשייכות דבירור האומות ע"י הקרבת הע' פרים למצות נטילת ד' מינים היא,</src>
+    <src s="13">כי תכלית שלימות הנצחון דישראל שמתגלה ע"י נטילת ד' מינים</src>
+    <src s="14">[דעל ידי שישראל לולביהן ואתרוגיהן בידן יודעים דישראל אינון ניצוחייא,</src>
+    <src s="15">כנ"ל ממדרש]</src>
+    <src s="16">הוא,</src>
+    <src s="17">שגם האומות יסכימו לזה,</src>
+    <src s="18">וע"י הקרבת הע' פרים כנגד ע' אומות הם מתבררים ומזדככים ועד שהם מסכימים להנצחון דישראל.</src>
+    <src s="19">וזוהי גם השייכות דאמירת הלל בז' ימי הסוכות להקרבת הע' פרים</src>
+    <src s="20">[דזה שגומרין את ההלל בכל ימי החג הוא לפי שהם חלוקים בקרבנותיהם21],</src>
+    <src s="21">כי ע"י הבירור והזיכוך שנעשה בהאומות ע"י הקרבת הע' פרים,</src>
+    <src s="22">נעשה הללו את הוי' כל גוים שבחוהו כל האומים כי גבר עלינו חסדו גו'22,</src>
+    <src s="23">שהגוים והאומים משבחים את הוי' על זה שגבר עלינו חסדו.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">והנה זה שהגוים והאומים מהללים ומשבחים את ה' על זה שגבר עלינו חסדו הוא ענין נעלה ביותר23.</src>
+    <src s="2">ועד אשר</src>
+    <src s="3">(בפרט אחד)</src>
+    <src s="4">הוא נעלה יותר מהענין דגבר עלינו חסדו כמו שהוא מצד עצמו.</src>
+    <src s="5">כי עי"ז</src>
+    <src s="6">(שהגוים מהללים כו')</src>
+    <src s="7">נשלמת הכוונה דנתאוה הקב"ה להיות לו ית' דירה בתחתונים24,</src>
+    <src s="8">בתחתון שאין תחתון למטה ממנו25.</src>
+    <src s="9">וכמובן גם מהמאמר ד"ה ברוך תהי' מכל העמים של בעל ההילולא26,</src>
+    <src s="10">דאיתא בירושלמי27</src>
+    <src s="11">אם ברכך גוי ענה אחריו אמן שנאמר28</src>
+    <src s="12">ברוך תהי' מכל העמים,</src>
+    <src s="13">ומביא בהמאמר דאיתא בכתבי האריז"ל29</src>
+    <src s="14">שאמן הו"ע יחוד הוי' ואד'</src>
+    <src s="15">[דזהו שאמן בגימטריא הוי' אד'30].</src>
+    <src s="16">והענין הוא31,</src>
+    <src s="17">דהוי' הוא שם העצם32</src>
+    <src s="18">(עצמות אוא"ס שלמעלה מעולמות33),</src>
+    <src s="19">ושם אד' הוא כמרז"ל34</src>
+    <src s="20">לך נאה לקרות אדנ' שאתה אדון לכל בריותיך.</src>
+    <src s="21">דנוסף לזה ששם אד' הוא בספירת המלכות35,</src>
+    <src s="22">דמלכות היא שרש הנבראים,</src>
+    <src s="23">הנה מלשון רז"ל שאתה אדון לכל בריותיך</src>
+    <src s="24">(בריותיך דוקא)</src>
+    <src s="25">משמע שהשם אד' הוא על נבראים אלו שהם בריות בעלמא36.</src>
+    <src s="26">ועל ידי היחוד דהוי' ואד',</src>
+    <src s="27">שבאד' מאיר הוי',</src>
+    <src s="28">נעשה כן גם בהנבראים שנתהוו משם אד'</src>
+    <src s="29">[כולל גם נבראים אלה שהם בריות בעלמא],</src>
+    <src s="30">שמאיר בהם גילוי עצמות אוא"ס שלמעלה מעולמות,</src>
+    <src s="31">ועד שנעשים דירה לו ית',</src>
+    <src s="32">לו לעצמותו37.</src>
+    <src s="33">וזהו אם ברכך גוי ענה אחריו אמן,</src>
+    <src s="34">דישראל הם למעלה מעולמות,</src>
+    <src s="35">וע"י שגוי מכיר מעלתו של ישראל ועד שמברך אותו,</src>
+    <src s="36">נעשה זה הכנה והקדמה38</src>
+    <src s="37">ליחוד הוי' ואד',</src>
+    <src s="38">ולדירה לו ית' בתחתונים.</src>
+  </section>
+</awtsmoosMeluketSource>

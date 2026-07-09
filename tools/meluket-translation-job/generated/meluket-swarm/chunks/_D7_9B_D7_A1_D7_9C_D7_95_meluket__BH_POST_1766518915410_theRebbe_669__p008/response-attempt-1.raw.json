@@ -1,0 +1,28 @@
+{
+  "id": "c190bdde-f64d-42a8-b710-7456e9b1e959",
+  "object": "chat.completion",
+  "created": 1783582187,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915410_theRebbe_669\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>The ninth of Kislev, the day of the hilula, is the eve of the day of redemption, because the revelation of \"He redeemed my soul in peace\" came after the preparatory work of the hilula of the master of redemption, enabling all connected to him to receive this revelation without prior nullification.</sectionSummaryBrief>\n    <t s=\"0\">And this is that the ninth day of Kislev,</t>\n    <t s=\"1\">the day of the hilula,</t>\n    <t s=\"2\">is the eve of the day of redemption,</t>\n    <t s=\"3\">for through the fact that the revelation of \"He redeemed my soul in peace\" came after the precedence of the service of the hilula of the master of redemption,</t>\n    <t s=\"4\">the matter of self-nullification</t>\n    <t s=\"5\">(which is analogous to passing away),</t>\n    <t s=\"6\">drew down this revelation</t>\n    <t s=\"7\">(the revelation of \"He redeemed my soul in peace\" which is above measure and limitation)</t>\n    <t s=\"8\">also into the reality of all those connected to him.</t>\n    <t s=\"9\">Therefore,</t>\n    <t s=\"10\">in order to receive this revelation,</t>\n    <t s=\"11\">there is no need for a preparation of self-nullification and departure from reality,</t>\n    <t s=\"12\">and the matter depends only on the will,</t>\n    <t s=\"13\">and the ability of each one</t>\n    <t s=\"14\">(even before he departs from his state)</t>\n    <t s=\"15\">to redeem himself in the manner of \"He redeemed my soul in peace,\"</t>\n    <t s=\"16\">peace in the ultimate perfection,</t>\n    <t s=\"17\">and through this to redeem also the entire world,</t>\n    <t s=\"18\">with the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"19\">speedily in our days, literally, and immediately, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1080,
+    "completion_tokens": 606,
+    "total_tokens": 1686,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 696
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

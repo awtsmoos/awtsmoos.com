@@ -1,0 +1,233 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 39,
+    "returned": 39,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919837_theRebbe_328\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919837_theRebbe_328__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the dancing on the fifteenth of Av is a foretaste of the future dance of the righteous, where they will point and say \"this\" twice, corresponding to the revelation of Zeir Anpin and Atik, and the ultimate salvation from the innermost aspect of Atik.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this is that on the fifteenth of Av,</t>\n    <t s=\"2\">the daughters of Jerusalem</t>\n    <t s=\"3\">[and some versions read</t>\n    <t s=\"4\">– the daughters of Israel]</t>\n    <t s=\"5\">would go out and dance in the vineyards,</t>\n    <t s=\"6\">for the dance of the fifteenth of Av is analogous to and a foretaste of the dance of the future to come,</t>\n    <t s=\"7\">when in the future</t>\n    <t s=\"8\">the Holy One, blessed be He, will make a dance for the righteous, and each one will point with his finger and say,</t>\n    <t s=\"9\">\"Behold,</t>\n    <t s=\"10\">this is our God, for whom we waited, and He will save us; this is Hashem, for whom we waited, we will rejoice and be glad in His salvation.\"</t>\n    <t s=\"11\">For at the Exodus from Egypt they said \"this\" once</t>\n    <t s=\"12\">(This is my God and I will glorify Him),</t>\n    <t s=\"13\">but in the future they will say \"this\" twice</t>\n    <t s=\"14\">(\"Behold, this is our God, etc.; this is Hashem, etc.\").</t>\n    <t s=\"15\">For at the Exodus from Egypt, when they were at the level of the righteous, they said \"this\" only once – the revelation of Hashem of Zeir Anpin,</t>\n    <t s=\"16\">but in the future,</t>\n    <t s=\"17\">when they will be at the level of baalei teshuvah</t>\n    <t s=\"18\">[for teshuvah is double to wisdom],</t>\n    <t s=\"19\">they will say \"this\" twice – the revelation of Hashem of Zeir Anpin and the revelation of Hashem of Atik.</t>\n    <t s=\"20\">And the verse continues, \"we will rejoice and be glad in His salvation,\"</t>\n    <t s=\"21\">and one could say</t>\n    <t s=\"22\">that \"His salvation\"</t>\n    <t s=\"23\">(of the Holy One, blessed be He)</t>\n    <t s=\"24\">that comes after the second \"this,\"</t>\n    <t s=\"25\">is the innermost aspect of Atik.</t>\n    <t s=\"26\">And as is known,</t>\n    <t s=\"27\">in the future there will be</t>\n    <t s=\"28\">(also)</t>\n    <t s=\"29\">the revelation of the innermost aspect of Atik.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section expresses the wish that all these matters come to pass very soon, especially since the haftarah of the afternoon of Tisha B'Av states that salvation is near, the salvation in which we will rejoice and be glad.</sectionSummaryBrief>\n    <t s=\"0\">And may it be His will,</t>\n    <t s=\"1\">that all these matters come to pass very soon,</t>\n    <t s=\"2\">and especially after it was said in the haftarah of the afternoon of Tisha B'Av, \"My salvation is near to come,\"</t>\n    <t s=\"3\">that \"My salvation\"</t>\n    <t s=\"4\">(of the Holy One, blessed be He),</t>\n    <t s=\"5\">the salvation concerning which it is said \"we will rejoice and be glad in His salvation,\"</t>\n    <t s=\"6\">is near to come, very soon and speedily in our days,</t>\n    <t s=\"7\">Amen,</t>\n    <t s=\"8\">so may it be His will.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919837_theRebbe_328",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919837_theRebbe_328__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the dancing on the fifteenth of Av is a foretaste of the future dance of the righteous, where they will point and say \"this\" twice, corresponding to the revelation of Zeir Anpin and Atik, and the ultimate salvation from the innermost aspect of Atik.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And this is that on the fifteenth of Av,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "the daughters of Jerusalem"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "[and some versions read"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "– the daughters of Israel]"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "would go out and dance in the vineyards,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "for the dance of the fifteenth of Av is analogous to and a foretaste of the dance of the future to come,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "when in the future"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "the Holy One, blessed be He, will make a dance for the righteous, and each one will point with his finger and say,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "\"Behold,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "this is our God, for whom we waited, and He will save us; this is Hashem, for whom we waited, we will rejoice and be glad in His salvation.\""
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "For at the Exodus from Egypt they said \"this\" once"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "(This is my God and I will glorify Him),"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "but in the future they will say \"this\" twice"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "(\"Behold, this is our God, etc.; this is Hashem, etc.\")."
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "For at the Exodus from Egypt, when they were at the level of the righteous, they said \"this\" only once – the revelation of Hashem of Zeir Anpin,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "but in the future,"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "when they will be at the level of baalei teshuvah"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "[for teshuvah is double to wisdom],"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "they will say \"this\" twice – the revelation of Hashem of Zeir Anpin and the revelation of Hashem of Atik."
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "And the verse continues, \"we will rejoice and be glad in His salvation,\""
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "and one could say"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "that \"His salvation\""
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "(of the Holy One, blessed be He)"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "that comes after the second \"this,\""
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "is the innermost aspect of Atik."
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "And as is known,"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "in the future there will be"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "(also)"
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "the revelation of the innermost aspect of Atik."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section expresses the wish that all these matters come to pass very soon, especially since the haftarah of the afternoon of Tisha B'Av states that salvation is near, the salvation in which we will rejoice and be glad.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And may it be His will,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "that all these matters come to pass very soon,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "and especially after it was said in the haftarah of the afternoon of Tisha B'Av, \"My salvation is near to come,\""
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "that \"My salvation\""
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "(of the Holy One, blessed be He),"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "the salvation concerning which it is said \"we will rejoice and be glad in His salvation,\""
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "is near to come, very soon and speedily in our days,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "Amen,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "so may it be His will."
+          }
+        ]
+      }
+    ]
+  }
+}

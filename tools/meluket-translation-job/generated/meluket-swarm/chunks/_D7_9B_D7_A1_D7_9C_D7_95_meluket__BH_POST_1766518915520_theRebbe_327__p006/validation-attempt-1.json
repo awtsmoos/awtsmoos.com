@@ -1,0 +1,534 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 98,
+    "returned": 98,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915520_theRebbe_327\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains that the timing of the maamar, delivered on Shabbos Parshas Vayishlach before Yud Tes Kislev, alludes to the three pillars of Torah, service, and acts of kindness.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">Now, it is known that all matters in the discourses of our Nesi'im,</t>\n    <t s=\"2\">including also the time of their delivery,</t>\n    <t s=\"3\">are with utmost precision.</t>\n    <t s=\"4\">And based on this, it can be said,</t>\n    <t s=\"5\">that among the reasons that this discourse was said by my revered father-in-law, the Rebbe, on Shabbos Parshas Vayishlach,</t>\n    <t s=\"6\">the Shabbos before Yud Tes Kislev,</t>\n    <t s=\"7\">is,</t>\n    <t s=\"8\">that the above matter is alluded to in the verse,</t>\n    <t s=\"9\">\"He redeemed my soul in peace,\" etc., which relates to Yud Tes Kislev,</t>\n    <t s=\"10\">and in the verse, \"I am unworthy of all the kindnesses and all the truth,\" etc., in Parshas Vayishlach,</t>\n    <t s=\"11\">and also relates to the redemption of Yud Tes Kislev.</t>\n    <t s=\"12\">And the explanation is,</t>\n    <t s=\"13\">that the three matters in the above saying of our Sages,</t>\n    <t s=\"14\">[Wisdom,</t>\n    <t s=\"15\">Repentance, and good deeds]</t>\n    <t s=\"16\">correspond to the three pillars</t>\n    <t s=\"17\">of Torah, service, and acts of kindness.</t>\n    <t s=\"18\">Wisdom – Torah,</t>\n    <t s=\"19\">Repentance – service,</t>\n    <t s=\"20\">because prayer</t>\n    <t s=\"21\">(service)</t>\n    <t s=\"22\">is a matter of self-nullification,</t>\n    <t s=\"23\">that a person who prays is like a servant before his master,</t>\n    <t s=\"24\">and good deeds – acts of kindness,</t>\n    <t s=\"25\">for acts of kindness encompass all the mitzvos.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section explains that the verses \"He redeemed my soul in peace\" and \"I am unworthy\" allude to the three pillars of Torah, prayer, and acts of kindness, with Torah being the ultimate truth.</sectionSummaryBrief>\n    <t s=\"0\">And the statement of our Sages,</t>\n    <t s=\"1\">\"He redeemed my soul in peace,\" etc.,</t>\n    <t s=\"2\">\"Whoever engages in Torah, acts of kindness, and prays with the congregation,\" etc., it is as if he redeemed me and my children from among the nations,</t>\n    <t s=\"3\">that the redemption is through the three matters of Torah, acts of kindness, and prayer</t>\n    <t s=\"4\">(with the congregation).</t>\n    <t s=\"5\">And similarly, regarding the verse, \"I am unworthy of all the kindnesses and all the truth,\"</t>\n    <t s=\"6\">\"kindnesses\" in the plural are the two lines of acts of kindness and prayer.</t>\n    <t s=\"7\">And as is known,</t>\n    <t s=\"8\">that prayer is included in acts of kindness.</t>\n    <t s=\"9\">[And it says \"kindnesses\" in the plural,</t>\n    <t s=\"10\">because the kindness of acts of kindness</t>\n    <t s=\"11\">(mitzvos)</t>\n    <t s=\"12\">and the kindness of prayer,</t>\n    <t s=\"13\">are two kindnesses.</t>\n    <t s=\"14\">And particularly according to what is known,</t>\n    <t s=\"15\">that prayer is in the line of gevurah,</t>\n    <t s=\"16\">an elevation from below to above.</t>\n    <t s=\"17\">From this it is understood,</t>\n    <t s=\"18\">that the kindness in prayer is not like the kindness in acts of kindness].</t>\n    <t s=\"19\">And \"truth\" is Torah,</t>\n    <t s=\"20\">\"There is no truth but Torah.\"</t>\n    <t s=\"21\">And he says, \"I am unworthy of all the kindnesses and all the truth,\"</t>\n    <t s=\"22\">that the matter of self-nullification</t>\n    <t s=\"23\">(\"I am unworthy\")</t>\n    <t s=\"24\">is not only from all the kindnesses,</t>\n    <t s=\"25\">the lines of prayer and acts of kindness</t>\n    <t s=\"26\">(repentance and good deeds),</t>\n    <t s=\"27\">but also from all the truth,</t>\n    <t s=\"28\">Torah</t>\n    <t s=\"29\">(wisdom).</t>\n    <t s=\"30\">And similarly, in the statement of our Sages on the verse, \"He redeemed my soul in peace,\"</t>\n    <t s=\"31\">that the precise wording is \"whoever engages in Torah\"</t>\n    <t s=\"32\">(and not \"whoever studies Torah\").</t>\n    <t s=\"33\">For the matter of \"engaging in Torah\" is</t>\n    <t s=\"34\">(as explained by my revered father-in-law, the Rebbe),</t>\n    <t s=\"35\">that in addition to his studying for himself,</t>\n    <t s=\"36\">he strives with every type of effort to bring the many to the study of Torah.</t>\n    <t s=\"37\">For this, that he is not satisfied with his own studying and strives to bring the many to the study of Torah,</t>\n    <t s=\"38\">and particularly when he gives of his time that he could have used to study for himself,</t>\n    <t s=\"39\">is due to his self-nullification to Torah.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains that the connection of son and servant is through the essence of the soul, and therefore Torah (son) is placed before acts of kindness and prayer (servant) as the primary preparation for the coming of Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">Now, it was explained above</t>\n    <t s=\"2\">(section 7),</t>\n    <t s=\"3\">that the connection of the two matters of son and servant is through the revelation of the essence of the soul as it is rooted in the Awtsmoos,</t>\n    <t s=\"4\">for in the essence of the soul, the two matters of son and servant are completely one.</t>\n    <t s=\"5\">And based on this, we can explain the order of the above statement of our Sages</t>\n    <t s=\"6\">(\"Whoever engages in Torah, acts of kindness, and prays with the congregation\"),</t>\n    <t s=\"7\">that it places Torah before acts of kindness and prayer,</t>\n    <t s=\"8\">even though in the order of a person's service in general, the study of Torah is</t>\n    <t s=\"9\">(primarily)</t>\n    <t s=\"10\">after prayer</t>\n    <t s=\"11\">[which comes after the precedence of acts of kindness,</t>\n    <t s=\"12\">as our Sages said,</t>\n    <t s=\"13\">\"He gives a coin to a poor person and then prays\"],</t>\n    <t s=\"14\">because the true matter of \"He redeemed my soul in peace\" is through the revelation of the Yechidah.</t>\n    <t s=\"15\">And similarly, regarding the matter of \"redeemed me and my children from among the nations,\"</t>\n    <t s=\"16\">that this matter will be specifically at the coming of Moshiach is because Moshiach is the Yechidah of the entirety of Hishtalshelus.</t>\n    <t s=\"17\">And it can be said,</t>\n    <t s=\"18\">that the intention here regarding Yechidah is</t>\n    <t s=\"19\">(not only to the particular level of Yechidah,</t>\n    <t s=\"20\">but also)</t>\n    <t s=\"21\">to the essence of the soul.</t>\n    <t s=\"22\">And therefore it places Torah before acts of kindness and prayer,</t>\n    <t s=\"23\">because the revelation of the essence of the soul is through one who engages in Torah</t>\n    <t s=\"24\">[for this, that Torah</t>\n    <t s=\"25\">(son)</t>\n    <t s=\"26\">is in the manner of \"engaging\"</t>\n    <t s=\"27\">(servant)</t>\n    <t s=\"28\">is due to the essence of the soul],</t>\n    <t s=\"29\">and therefore,</t>\n    <t s=\"30\">this matter is the primary preparation for the coming of Moshiach,</t>\n    <t s=\"31\">the Yechidah of the entirety of Hishtalshelus.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915520_theRebbe_327",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains that the timing of the maamar, delivered on Shabbos Parshas Vayishlach before Yud Tes Kislev, alludes to the three pillars of Torah, service, and acts of kindness.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "Now, it is known that all matters in the discourses of our Nesi'im,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "including also the time of their delivery,"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "are with utmost precision."
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "that among the reasons that this discourse was said by my revered father-in-law, the Rebbe, on Shabbos Parshas Vayishlach,"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "the Shabbos before Yud Tes Kislev,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "is,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "that the above matter is alluded to in the verse,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "\"He redeemed my soul in peace,\" etc., which relates to Yud Tes Kislev,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "and in the verse, \"I am unworthy of all the kindnesses and all the truth,\" etc., in Parshas Vayishlach,"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "and also relates to the redemption of Yud Tes Kislev."
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "that the three matters in the above saying of our Sages,"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "[Wisdom,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "Repentance, and good deeds]"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "correspond to the three pillars"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "of Torah, service, and acts of kindness."
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "Wisdom – Torah,"
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "Repentance – service,"
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "because prayer"
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "(service)"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "is a matter of self-nullification,"
+          },
+          {
+            "v": 15,
+            "s": 23,
+            "translation": "that a person who prays is like a servant before his master,"
+          },
+          {
+            "v": 15,
+            "s": 24,
+            "translation": "and good deeds – acts of kindness,"
+          },
+          {
+            "v": 15,
+            "s": 25,
+            "translation": "for acts of kindness encompass all the mitzvos."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section explains that the verses \"He redeemed my soul in peace\" and \"I am unworthy\" allude to the three pillars of Torah, prayer, and acts of kindness, with Torah being the ultimate truth.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "And the statement of our Sages,"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "\"He redeemed my soul in peace,\" etc.,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "\"Whoever engages in Torah, acts of kindness, and prays with the congregation,\" etc., it is as if he redeemed me and my children from among the nations,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "that the redemption is through the three matters of Torah, acts of kindness, and prayer"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "(with the congregation)."
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "And similarly, regarding the verse, \"I am unworthy of all the kindnesses and all the truth,\""
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "\"kindnesses\" in the plural are the two lines of acts of kindness and prayer."
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "And as is known,"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "that prayer is included in acts of kindness."
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "[And it says \"kindnesses\" in the plural,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "because the kindness of acts of kindness"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "(mitzvos)"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "and the kindness of prayer,"
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "are two kindnesses."
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "And particularly according to what is known,"
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "that prayer is in the line of gevurah,"
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "an elevation from below to above."
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "From this it is understood,"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "that the kindness in prayer is not like the kindness in acts of kindness]."
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "And \"truth\" is Torah,"
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "\"There is no truth but Torah.\""
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "And he says, \"I am unworthy of all the kindnesses and all the truth,\""
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "that the matter of self-nullification"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "(\"I am unworthy\")"
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "is not only from all the kindnesses,"
+          },
+          {
+            "v": 16,
+            "s": 25,
+            "translation": "the lines of prayer and acts of kindness"
+          },
+          {
+            "v": 16,
+            "s": 26,
+            "translation": "(repentance and good deeds),"
+          },
+          {
+            "v": 16,
+            "s": 27,
+            "translation": "but also from all the truth,"
+          },
+          {
+            "v": 16,
+            "s": 28,
+            "translation": "Torah"
+          },
+          {
+            "v": 16,
+            "s": 29,
+            "translation": "(wisdom)."
+          },
+          {
+            "v": 16,
+            "s": 30,
+            "translation": "And similarly, in the statement of our Sages on the verse, \"He redeemed my soul in peace,\""
+          },
+          {
+            "v": 16,
+            "s": 31,
+            "translation": "that the precise wording is \"whoever engages in Torah\""
+          },
+          {
+            "v": 16,
+            "s": 32,
+            "translation": "(and not \"whoever studies Torah\")."
+          },
+          {
+            "v": 16,
+            "s": 33,
+            "translation": "For the matter of \"engaging in Torah\" is"
+          },
+          {
+            "v": 16,
+            "s": 34,
+            "translation": "(as explained by my revered father-in-law, the Rebbe),"
+          },
+          {
+            "v": 16,
+            "s": 35,
+            "translation": "that in addition to his studying for himself,"
+          },
+          {
+            "v": 16,
+            "s": 36,
+            "translation": "he strives with every type of effort to bring the many to the study of Torah."
+          },
+          {
+            "v": 16,
+            "s": 37,
+            "translation": "For this, that he is not satisfied with his own studying and strives to bring the many to the study of Torah,"
+          },
+          {
+            "v": 16,
+            "s": 38,
+            "translation": "and particularly when he gives of his time that he could have used to study for himself,"
+          },
+          {
+            "v": 16,
+            "s": 39,
+            "translation": "is due to his self-nullification to Torah."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section explains that the connection of son and servant is through the essence of the soul, and therefore Torah (son) is placed before acts of kindness and prayer (servant) as the primary preparation for the coming of Moshiach.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "Now, it was explained above"
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "(section 7),"
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "that the connection of the two matters of son and servant is through the revelation of the essence of the soul as it is rooted in the Awtsmoos,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "for in the essence of the soul, the two matters of son and servant are completely one."
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "And based on this, we can explain the order of the above statement of our Sages"
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "(\"Whoever engages in Torah, acts of kindness, and prays with the congregation\"),"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "that it places Torah before acts of kindness and prayer,"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "even though in the order of a person's service in general, the study of Torah is"
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "after prayer"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "[which comes after the precedence of acts of kindness,"
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "as our Sages said,"
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "\"He gives a coin to a poor person and then prays\"],"
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "because the true matter of \"He redeemed my soul in peace\" is through the revelation of the Yechidah."
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "And similarly, regarding the matter of \"redeemed me and my children from among the nations,\""
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "that this matter will be specifically at the coming of Moshiach is because Moshiach is the Yechidah of the entirety of Hishtalshelus."
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "that the intention here regarding Yechidah is"
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "(not only to the particular level of Yechidah,"
+          },
+          {
+            "v": 17,
+            "s": 20,
+            "translation": "but also)"
+          },
+          {
+            "v": 17,
+            "s": 21,
+            "translation": "to the essence of the soul."
+          },
+          {
+            "v": 17,
+            "s": 22,
+            "translation": "And therefore it places Torah before acts of kindness and prayer,"
+          },
+          {
+            "v": 17,
+            "s": 23,
+            "translation": "because the revelation of the essence of the soul is through one who engages in Torah"
+          },
+          {
+            "v": 17,
+            "s": 24,
+            "translation": "[for this, that Torah"
+          },
+          {
+            "v": 17,
+            "s": 25,
+            "translation": "(son)"
+          },
+          {
+            "v": 17,
+            "s": 26,
+            "translation": "is in the manner of \"engaging\""
+          },
+          {
+            "v": 17,
+            "s": 27,
+            "translation": "(servant)"
+          },
+          {
+            "v": 17,
+            "s": 28,
+            "translation": "is due to the essence of the soul],"
+          },
+          {
+            "v": 17,
+            "s": 29,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 17,
+            "s": 30,
+            "translation": "this matter is the primary preparation for the coming of Moshiach,"
+          },
+          {
+            "v": 17,
+            "s": 31,
+            "translation": "the Yechidah of the entirety of Hishtalshelus."
+          }
+        ]
+      }
+    ]
+  }
+}

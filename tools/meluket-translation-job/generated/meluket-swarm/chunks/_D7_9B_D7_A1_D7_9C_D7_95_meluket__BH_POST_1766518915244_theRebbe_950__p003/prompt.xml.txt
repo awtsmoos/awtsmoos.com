@@ -1,0 +1,143 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" title="מאמר פדה בשלום תשכ"ב" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p003">
+  <section v="6">
+    <src s="0">ולכאורה צריך לומר,</src>
+    <src s="1">שהכוונה</src>
+    <src s="2">(בהמאמר)</src>
+    <src s="3">במלמעלה למטה ובמלמטה למעלה היא</src>
+    <src s="4">(גם)</src>
+    <src s="5">לשני האופנים שבענין הבירורים</src>
+    <src s="6">(הענין דושבתי,</src>
+    <src s="7">השבת הנצוצות לשרשם),</src>
+    <src s="8">בירור בדרך מלמעלה למטה ובירור בדרך מלמטה למעלה.</src>
+    <src s="9">וצריך להבין,</src>
+    <src s="10">הרי מבואר בכ"מ22</src>
+    <src s="11">[וגם במאמר הנ"ל</src>
+    <src s="12">(ד"ה פדה בשלום)</src>
+    <src s="13">דבעל הגאולה,</src>
+    <src s="14">הובא לעיל סעיפים א-ב],</src>
+    <src s="15">דענין השלום הוא בהבירור בדרך מלמעלה למטה</src>
+    <src s="16">(בירור שע"י גילוי אור),</src>
+    <src s="17">משא"כ הבירור שבדרך מלמטה למעלה</src>
+    <src s="18">(בירור שבדרך התלבשות)</src>
+    <src s="19">הוא באופן דמלחמה,</src>
+    <src s="20">ומזה שאומר דפירוש בשלום הוא ב' שלום,</src>
+    <src s="21">שלום מלמעלה למטה ושלום מלמטה למעלה,</src>
+    <src s="22">משמע שגם הבירור שמלמטה למעלה הוא באופן דשלום.</src>
+    <src s="23">ולהוסיף,</src>
+    <src s="24">דמזה שנאמר ושבתי בשלום ב' שלום</src>
+    <src s="25">(שצריך להיות שניהם),</src>
+    <src s="26">משמע,</src>
+    <src s="27">שבכל אחד מהם יש יתרון23.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דבשלום</src>
+    <src s="3">(שנעשה ע"י הבירור)</src>
+    <src s="4">שני אופנים.</src>
+    <src s="5">שנתבטל המנגד – ואופן זה הוא</src>
+    <src s="6">(בעיקר)</src>
+    <src s="7">בהבירור בדרך מלמעלה למטה.</src>
+    <src s="8">דבהבירור בדרך מלמטה למעלה,</src>
+    <src s="9">שהמברר מתלבש בהמתברר ומתעסק עמו שירצה להתברר,</src>
+    <src s="10">אין זה שהתחתון</src>
+    <src s="11">(המתברר)</src>
+    <src s="12">נתבטל אלא שהוא מתברר מצד הרצון שלו.</src>
+    <src s="13">וכיון שגם לאחרי שנתברר הוא מציאות דתחתון</src>
+    <src s="14">(דתחתון ועליון הם הפכים24),</src>
+    <src s="15">לכן,</src>
+    <src s="16">גם לאחרי שנתברר,</src>
+    <src s="17">שייך שינגד להעליון.</src>
+    <src s="18">ובעבודת האדם הוא,</src>
+    <src s="19">שהבירור דנה"ב ע"י שנה"א מתלבשת בנה"ב,</src>
+    <src s="20">הוא,</src>
+    <src s="21">שההתבוננות דנפש האלקית היא באופן שגם נפש הבהמית תבין ותשיג את הענין האלקי</src>
+    <src s="22">(שמתבונן בו)</src>
+    <src s="23">שעי"ז תבוא לאהבה את ה'.</src>
+    <src s="24">דזה שנה"ב אוהבת את ה'</src>
+    <src s="25">(הגם שבטבעה היא נמשכת לענינים גשמיים25)</src>
+    <src s="26">הוא</src>
+    <src s="27">(לא ע"י שנתבטל המציאות שלה,</src>
+    <src s="28">אלא אדרבה)</src>
+    <src s="29">ע"י שהשכל דנה"ב בא להבנה שצריך לאהוב את ה'26.</src>
+    <src s="30">וכיון דזה שנפש הבהמית אוהבת את ה'</src>
+    <src s="31">(כולל גם ההבנה וההשגה שצריך לאהוב את ה')</src>
+    <src s="32">הוא מצד השכל דנפש האלקית</src>
+    <src s="33">(שנתלבש בהשכל דנה"ב),</src>
+    <src s="34">אבל נפש הבהמית מצד עצמה היא נמשכת לענינים גשמיים</src>
+    <src s="35">[וכמבואר בכ"מ27</src>
+    <src s="36">שהבירור דנה"ב שע"י התבוננות היא רק בדרך אתכפיא],</src>
+    <src s="37">הרי גם עכשיו</src>
+    <src s="38">(שגם נה"ב יש לה אהבת ה')</src>
+    <src s="39">נשאר בהעלם ההתנגדות שלה לנה"א</src>
+    <src s="40">(אלא שההתנגדות שלה אינה באה בפועל).</src>
+    <src s="41">ובכדי שיהי' ביטול המנגד הוא ע"י הבירור בדרך מלמעלה למטה.</src>
+    <src s="42">דע"י28</src>
+    <src s="43">שמתגלה בהתחתון גילוי אור שאינו בערך אליו,</src>
+    <src s="44">הוא מתבטל ממציאותו.</src>
+    <src s="45">ובעבודת האדם הוא,</src>
+    <src s="46">דע"י שנרגש בנה"ב האהבה דנה"א שלמעלה מטו"ד,</src>
+    <src s="47">דאהבה זו היא</src>
+    <src s="48">(בדרך כלל)</src>
+    <src s="49">אהבה רבה שלמעלה מהגבלת כלי הלב,</src>
+    <src s="50">עי"ז מתבטל המציאות דנפש הבהמית,</src>
+    <src s="51">ועי"ז היא נהפכת לטוב,</src>
+    <src s="52">אתהפכא</src>
+    <src s="53">(שלמעלה מאתכפיא)29.</src>
+  </section>
+  <section v="8">
+    <src s="0">ועוד אופן בשלום</src>
+    <src s="1">(שנעשה ע"י הבירור),</src>
+    <src s="2">דזה שהי' בתחלה מנגד נעשה אוהב</src>
+    <src s="3">(ובלשון הכתוב30</src>
+    <src s="4">גם אויביו ישלים אתו)</src>
+    <src s="5">– ואופן זה הוא</src>
+    <src s="6">(בעיקר)</src>
+    <src s="7">בהבירור בדרך מלמטה למעלה.</src>
+    <src s="8">דבהבירור בדרך מלמעלה למטה,</src>
+    <src s="9">זה שהתחתון אינו מנגד הוא לפי שנתבטל ממציאותו ע"י הגילוי אור,</src>
+    <src s="10">אבל לא שנעשה שינוי בהמציאות דהתחתון עצמו.</src>
+    <src s="11">דהגם שע"י גילוי האהבה רבה שלמעלה מטו"ד נהפכת נה"ב לטוב</src>
+    <src s="12">(אתהפכא),</src>
+    <src s="13">הרי האתהפכא שלה היא</src>
+    <src s="14">(לא מצד ענינה דנה"ב,</src>
+    <src s="15">אלא)</src>
+    <src s="16">מפני שע"י האהבה רבה דנה"א מתבטלת נה"ב ממציאותה31.</src>
+    <src s="17">ואמיתית הענין דגם אויביו ישלים אתו הוא בהבירור בדרך מלמטה למעלה32,</src>
+    <src s="18">דזה שנפש הבהמית יש לה אהבת ה' הוא מצד השכל דנה"ב.</src>
+  </section>
+</awtsmoosMeluketSource>

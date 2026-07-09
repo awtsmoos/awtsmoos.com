@@ -1,0 +1,58 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p010">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" title="מאמר עשרה שיושבין תשמ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p010">
+  <section v="27">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">ויש להוסיף,</src>
+    <src s="3">דע"י המאמר עשרה שיושבין ועוסקין בתורה שניתן מבעל הגאולה ללמדו בחג הגאולה,</src>
+    <src s="4">עשה את כל אחד לשלוחו של בעל הגאולה לעסוק בענין זה,</src>
+    <src s="5">ונתן לו נתינת כח מיוחדת להצליח בזה,</src>
+    <src s="6">הצלחה בהתייסדות שיעורים ברבים,</src>
+    <src s="7">והצלחה בכל הענינים</src>
+    <src s="8">(המבוארים בהמאמר)</src>
+    <src s="9">הנמשכים ע"י עסק התורה דרבים.</src>
+  </section>
+  <section v="28">
+    <src s="0">וכל זה באופן דברכת כהנים,</src>
+    <src s="1">שהמשכת הברכה היא באופן דמהירות,</src>
+    <src s="2">כמבואר בלקו"ת ד"ה והנה פרח מטה אהרן גו' ויגמול שקדים74,</src>
+    <src s="3">ועל ידי השקדים הטובים דמטה אהרן יהפכו השקדים המרים75</src>
+    <src s="4">דג' השבועות76</src>
+    <src s="5">לששון ולשמחה,</src>
+    <src s="6">בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="7">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

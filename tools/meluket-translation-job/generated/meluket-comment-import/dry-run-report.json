@@ -1,0 +1,1974 @@
+{
+  "B_H": true,
+  "dryRun": false,
+  "aliasId": "meluket_translation_en",
+  "commentsDbFile": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/socialPacked/social.heichel.ikar.comments.fs.awtsdb",
+  "posts": 218,
+  "translations": 88043,
+  "summaries": 3177,
+  "sections": 3177,
+  "files": [
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917294_theRebbe_722",
+      "title": "מאמר כי תשא תשכ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917294_theRebbe_722/meluket_translation_en.awtsmoosJSON",
+      "translations": 194,
+      "summaries": 8,
+      "sections": 8
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917334_theRebbe_880",
+      "title": "מאמר ואתה תצוה תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917334_theRebbe_880/meluket_translation_en.awtsmoosJSON",
+      "translations": 596,
+      "summaries": 22,
+      "sections": 22
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917370_theRebbe_643",
+      "title": "מאמר וקבל היהודים תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917370_theRebbe_643/meluket_translation_en.awtsmoosJSON",
+      "translations": 418,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917393_theRebbe_38",
+      "title": "רשימה וקבל היהודים תשי\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917393_theRebbe_38/meluket_translation_en.awtsmoosJSON",
+      "translations": 32,
+      "summaries": 2,
+      "sections": 2
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917418_theRebbe_694",
+      "title": "מאמר וקבל היהודים תשי\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917418_theRebbe_694/meluket_translation_en.awtsmoosJSON",
+      "translations": 612,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917442_theRebbe_735",
+      "title": "מאמר על כן קראו תשי\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917442_theRebbe_735/meluket_translation_en.awtsmoosJSON",
+      "translations": 371,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917471_theRebbe_230",
+      "title": "מאמר בלילה ההוא תשכ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917471_theRebbe_230/meluket_translation_en.awtsmoosJSON",
+      "translations": 392,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917498_theRebbe_163",
+      "title": "מאמר בלילה ההוא תשד\"מ",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917498_theRebbe_163/meluket_translation_en.awtsmoosJSON",
+      "translations": 430,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917575_theRebbe_481",
+      "title": "מאמר אלה פקודי תש\"ל",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917575_theRebbe_481/meluket_translation_en.awtsmoosJSON",
+      "translations": 457,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917627_theRebbe_329",
+      "title": "מאמר החודש הזה לכם תשל\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917627_theRebbe_329/meluket_translation_en.awtsmoosJSON",
+      "translations": 403,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917648_theRebbe_921",
+      "title": "מאמר החודש הזה לכם תשל\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917648_theRebbe_921/meluket_translation_en.awtsmoosJSON",
+      "translations": 372,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917669_theRebbe_390",
+      "title": "מאמר החודש הזה לכם תשמ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/אדר_meluket/atPost/BH_POST_1766518917669_theRebbe_390/meluket_translation_en.awtsmoosJSON",
+      "translations": 244,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918306_theRebbe_932",
+      "title": "מאמר השמים כסאי תשל\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918306_theRebbe_932/meluket_translation_en.awtsmoosJSON",
+      "translations": 303,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918353_theRebbe_128",
+      "title": "מאמר גן נעול תשמ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918353_theRebbe_128/meluket_translation_en.awtsmoosJSON",
+      "translations": 216,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918380_theRebbe_210",
+      "title": "מאמר דבר אל..קדושים תהיו תשכ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918380_theRebbe_210/meluket_translation_en.awtsmoosJSON",
+      "translations": 565,
+      "summaries": 22,
+      "sections": 22
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918408_theRebbe_266",
+      "title": "מאמר ונקדשתי תשכ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918408_theRebbe_266/meluket_translation_en.awtsmoosJSON",
+      "translations": 229,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918472_theRebbe_445",
+      "title": "מאמר לה\"ע פסח שני תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918472_theRebbe_445/meluket_translation_en.awtsmoosJSON",
+      "translations": 289,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918517_theRebbe_122",
+      "title": "מאמר שיר המעלות תשכ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918517_theRebbe_122/meluket_translation_en.awtsmoosJSON",
+      "translations": 286,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918549_theRebbe_741",
+      "title": "מאמר לה\"ע רשב\"י תשמ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918549_theRebbe_741/meluket_translation_en.awtsmoosJSON",
+      "translations": 376,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918574_theRebbe_925",
+      "title": "מאמר פתח רבי שמעון תשל\"ד",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918574_theRebbe_925/meluket_translation_en.awtsmoosJSON",
+      "translations": 350,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918601_theRebbe_37",
+      "title": "מאמר גל עיני ואביטה תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918601_theRebbe_37/meluket_translation_en.awtsmoosJSON",
+      "translations": 418,
+      "summaries": 16,
+      "sections": 16
+    },
+    {
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918633_theRebbe_459",
+      "title": "מאמר בחודש השלישי תשכ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/אייר_meluket/atPost/BH_POST_1766518918633_theRebbe_459/meluket_translation_en.awtsmoosJSON",
+      "translations": 528,
+      "summaries": 23,
+      "sections": 23
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920167_theRebbe_725",
+      "title": "מאמר אני לדודי תשכ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920167_theRebbe_725/meluket_translation_en.awtsmoosJSON",
+      "translations": 350,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920191_theRebbe_834",
+      "title": "מאמר אני לדודי תשל\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920191_theRebbe_834/meluket_translation_en.awtsmoosJSON",
+      "translations": 377,
+      "summaries": 16,
+      "sections": 16
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920213_theRebbe_982",
+      "title": "מאמר אני לדודי תשמ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920213_theRebbe_982/meluket_translation_en.awtsmoosJSON",
+      "translations": 238,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920245_theRebbe_641",
+      "title": "מאמר לכה דודי תשי\"ד",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920245_theRebbe_641/meluket_translation_en.awtsmoosJSON",
+      "translations": 280,
+      "summaries": 8,
+      "sections": 8
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920318_theRebbe_459",
+      "title": "מאמר שמח תשמח תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920318_theRebbe_459/meluket_translation_en.awtsmoosJSON",
+      "translations": 351,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920368_theRebbe_469",
+      "title": "מאמר השקיפה ממעון קדשך תשכ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920368_theRebbe_469/meluket_translation_en.awtsmoosJSON",
+      "translations": 614,
+      "summaries": 24,
+      "sections": 24
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920390_theRebbe_690",
+      "title": "מאמר את הוי' האמרת תש\"ל",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920390_theRebbe_690/meluket_translation_en.awtsmoosJSON",
+      "translations": 481,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920412_theRebbe_962",
+      "title": "מאמר קומי אורי תשל\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920412_theRebbe_962/meluket_translation_en.awtsmoosJSON",
+      "translations": 301,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920437_theRebbe_883",
+      "title": "מאמר אתם נצבים תשל\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920437_theRebbe_883/meluket_translation_en.awtsmoosJSON",
+      "translations": 209,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920460_theRebbe_154",
+      "title": "מאמר אתם נצבים תשל\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920460_theRebbe_154/meluket_translation_en.awtsmoosJSON",
+      "translations": 189,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920487_theRebbe_9",
+      "title": "מאמר לך אמר לבי תש\"כ",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920487_theRebbe_9/meluket_translation_en.awtsmoosJSON",
+      "translations": 590,
+      "summaries": 21,
+      "sections": 21
+    },
+    {
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920519_theRebbe_475",
+      "title": "מאמר אתם נצבים תשט\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/אלול_meluket/atPost/BH_POST_1766518920519_theRebbe_475/meluket_translation_en.awtsmoosJSON",
+      "translations": 391,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914779_theRebbe_200",
+      "title": "מאמר מים רבים תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518914779_theRebbe_200/meluket_translation_en.awtsmoosJSON",
+      "translations": 199,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914805_theRebbe_603",
+      "title": "מאמר ויאמר ה' אל אברם תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518914805_theRebbe_603/meluket_translation_en.awtsmoosJSON",
+      "translations": 297,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914830_theRebbe_782",
+      "title": "מאמר וה' אמר המכסה אני מאברהם תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518914830_theRebbe_782/meluket_translation_en.awtsmoosJSON",
+      "translations": 344,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914855_theRebbe_522",
+      "title": "מאמר ואשה אחת תשמ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518914855_theRebbe_522/meluket_translation_en.awtsmoosJSON",
+      "translations": 484,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914882_theRebbe_998",
+      "title": "מאמר ויהיו חיי שרה תש\"ל",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518914882_theRebbe_998/meluket_translation_en.awtsmoosJSON",
+      "translations": 453,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914911_theRebbe_655",
+      "title": "מאמר ויהיו חיי שרה תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518914911_theRebbe_655/meluket_translation_en.awtsmoosJSON",
+      "translations": 486,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914964_theRebbe_974",
+      "title": "מאמר ויהיו חיי שרה תשמ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518914964_theRebbe_974/meluket_translation_en.awtsmoosJSON",
+      "translations": 386,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914993_theRebbe_833",
+      "title": "מאמר ויהיו חיי שרה תנש\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518914993_theRebbe_833/meluket_translation_en.awtsmoosJSON",
+      "translations": 361,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915018_theRebbe_923",
+      "title": "מאמר ואברהם זקן תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518915018_theRebbe_923/meluket_translation_en.awtsmoosJSON",
+      "translations": 353,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915043_theRebbe_419",
+      "title": "מאמר ואברהם זקן תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518915043_theRebbe_419/meluket_translation_en.awtsmoosJSON",
+      "translations": 331,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915066_theRebbe_447",
+      "title": "מאמר ואברהם זקן תשמ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518915066_theRebbe_447/meluket_translation_en.awtsmoosJSON",
+      "translations": 271,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915096_theRebbe_739",
+      "title": "מאמר מים רבים תשי\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518915096_theRebbe_739/meluket_translation_en.awtsmoosJSON",
+      "translations": 405,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915124_theRebbe_182",
+      "title": "מאמר ויזרע יצחק בארץ תשכ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518915124_theRebbe_182/meluket_translation_en.awtsmoosJSON",
+      "translations": 348,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915147_theRebbe_734",
+      "title": "מאמר ויתן לך תשכ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518915147_theRebbe_734/meluket_translation_en.awtsmoosJSON",
+      "translations": 205,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915165_theRebbe_61",
+      "title": "מאמר ויאמר לו יהונתן תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518915165_theRebbe_61/meluket_translation_en.awtsmoosJSON",
+      "translations": 167,
+      "summaries": 8,
+      "sections": 8
+    },
+    {
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915193_theRebbe_723",
+      "title": "מאמר ויאמר לו יהונתן תשמ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/חשון_meluket/atPost/BH_POST_1766518915193_theRebbe_723/meluket_translation_en.awtsmoosJSON",
+      "translations": 432,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916134_theRebbe_917",
+      "title": "מאמר ויגש אליו יהודה תשכ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916134_theRebbe_917/meluket_translation_en.awtsmoosJSON",
+      "translations": 514,
+      "summaries": 20,
+      "sections": 20
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916159_theRebbe_933",
+      "title": "מאמר ודוד עבדי תשל\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916159_theRebbe_933/meluket_translation_en.awtsmoosJSON",
+      "translations": 569,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916188_theRebbe_169",
+      "title": "מאמר ויגש אליו יהודה תשל\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916188_theRebbe_169/meluket_translation_en.awtsmoosJSON",
+      "translations": 222,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916210_theRebbe_473",
+      "title": "מאמר יהודה אתה יודוך תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916210_theRebbe_473/meluket_translation_en.awtsmoosJSON",
+      "translations": 193,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916230_theRebbe_919",
+      "title": "מאמר הבאים ישרש יעקב תשמ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916230_theRebbe_919/meluket_translation_en.awtsmoosJSON",
+      "translations": 346,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916270_theRebbe_968",
+      "title": "מאמר היושבת בגנים תשי\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916270_theRebbe_968/meluket_translation_en.awtsmoosJSON",
+      "translations": 422,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916295_theRebbe_70",
+      "title": "מאמר וידבר אלוקים אל משה תשל\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916295_theRebbe_70/meluket_translation_en.awtsmoosJSON",
+      "translations": 198,
+      "summaries": 6,
+      "sections": 6
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916328_theRebbe_715",
+      "title": "מאמר וארא אל אברהם תשל\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916328_theRebbe_715/meluket_translation_en.awtsmoosJSON",
+      "translations": 486,
+      "summaries": 22,
+      "sections": 22
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916353_theRebbe_917",
+      "title": "מאמר ואלה שמות תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916353_theRebbe_917/meluket_translation_en.awtsmoosJSON",
+      "translations": 228,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916371_theRebbe_639",
+      "title": "מאמר וידבר אלוקים אל משה תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/טבת_meluket/atPost/BH_POST_1766518916371_theRebbe_639/meluket_translation_en.awtsmoosJSON",
+      "translations": 216,
+      "summaries": 8,
+      "sections": 8
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915244_theRebbe_950",
+      "title": "מאמר פדה בשלום תשכ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915244_theRebbe_950/meluket_translation_en.awtsmoosJSON",
+      "translations": 570,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915265_theRebbe_887",
+      "title": "מאמר אתה אחד תשכ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915265_theRebbe_887/meluket_translation_en.awtsmoosJSON",
+      "translations": 358,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915304_theRebbe_180",
+      "title": "מאמר ושבתי בשלום תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915304_theRebbe_180/meluket_translation_en.awtsmoosJSON",
+      "translations": 1252,
+      "summaries": 37,
+      "sections": 37
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915336_theRebbe_861",
+      "title": "מאמר פדה בשלום תשל\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915336_theRebbe_861/meluket_translation_en.awtsmoosJSON",
+      "translations": 336,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915360_theRebbe_171",
+      "title": "מאמר פדה בשלום תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915360_theRebbe_171/meluket_translation_en.awtsmoosJSON",
+      "translations": 398,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915384_theRebbe_69",
+      "title": "מאמר אתה אחד תשמ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915384_theRebbe_69/meluket_translation_en.awtsmoosJSON",
+      "translations": 256,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915410_theRebbe_669",
+      "title": "מאמר פדה בשלום תשמ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915410_theRebbe_669/meluket_translation_en.awtsmoosJSON",
+      "translations": 488,
+      "summaries": 22,
+      "sections": 22
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915437_theRebbe_101",
+      "title": "מאמר אשר ברא תשל\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915437_theRebbe_101/meluket_translation_en.awtsmoosJSON",
+      "translations": 316,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915462_theRebbe_206",
+      "title": "מאמר א\"ר אושעיא תשל\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915462_theRebbe_206/meluket_translation_en.awtsmoosJSON",
+      "translations": 345,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915493_theRebbe_561",
+      "title": "מאמר וכל בניך תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915493_theRebbe_561/meluket_translation_en.awtsmoosJSON",
+      "translations": 362,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915520_theRebbe_327",
+      "title": "מאמר מרגלא בפומיה דרבא תש\"מ",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915520_theRebbe_327/meluket_translation_en.awtsmoosJSON",
+      "translations": 491,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915545_theRebbe_780",
+      "title": "מאמר פדה בשלום תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915545_theRebbe_780/meluket_translation_en.awtsmoosJSON",
+      "translations": 204,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915585_theRebbe_828",
+      "title": "מאמר פתח אליהו תשט\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915585_theRebbe_828/meluket_translation_en.awtsmoosJSON",
+      "translations": 453,
+      "summaries": 24,
+      "sections": 24
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915617_theRebbe_822",
+      "title": "מאמר ברוך שעשה ניסים תשט\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915617_theRebbe_822/meluket_translation_en.awtsmoosJSON",
+      "translations": 511,
+      "summaries": 25,
+      "sections": 25
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915661_theRebbe_783",
+      "title": "מאמר פדה בשלום תשכ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915661_theRebbe_783/meluket_translation_en.awtsmoosJSON",
+      "translations": 767,
+      "summaries": 23,
+      "sections": 23
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915689_theRebbe_467",
+      "title": "הוספה משיחות ש\"פ וישב-מקץ תשכ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915689_theRebbe_467/meluket_translation_en.awtsmoosJSON",
+      "translations": 203,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915758_theRebbe_412",
+      "title": "מאמר להבין ענין נרות חנוכה תשכ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915758_theRebbe_412/meluket_translation_en.awtsmoosJSON",
+      "translations": 762,
+      "summaries": 23,
+      "sections": 23
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915808_theRebbe_726",
+      "title": "מאמר פדה בשלום תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915808_theRebbe_726/meluket_translation_en.awtsmoosJSON",
+      "translations": 477,
+      "summaries": 21,
+      "sections": 21
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915834_theRebbe_708",
+      "title": "מאמר שלום רב לאוהבי תורתך תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915834_theRebbe_708/meluket_translation_en.awtsmoosJSON",
+      "translations": 505,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915857_theRebbe_394",
+      "title": "מאמר ת\"ר מצות נר חנוכה תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915857_theRebbe_394/meluket_translation_en.awtsmoosJSON",
+      "translations": 354,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915883_theRebbe_878",
+      "title": "מאמר מצותה משתשקע החמה תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915883_theRebbe_878/meluket_translation_en.awtsmoosJSON",
+      "translations": 430,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915911_theRebbe_364",
+      "title": "מאמר ברוך שעשה נסים תשמ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915911_theRebbe_364/meluket_translation_en.awtsmoosJSON",
+      "translations": 405,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915935_theRebbe_175",
+      "title": "מאמר ואתה ברחמיך הרבים תשמ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915935_theRebbe_175/meluket_translation_en.awtsmoosJSON",
+      "translations": 321,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915961_theRebbe_461",
+      "title": "מאמר ביום השמיני תשמ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915961_theRebbe_461/meluket_translation_en.awtsmoosJSON",
+      "translations": 247,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915996_theRebbe_995",
+      "title": "מאמר אתה אחד תשל\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518915996_theRebbe_995/meluket_translation_en.awtsmoosJSON",
+      "translations": 445,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518916037_theRebbe_540",
+      "title": "מאמר וישב יעקב תשכ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518916037_theRebbe_540/meluket_translation_en.awtsmoosJSON",
+      "translations": 875,
+      "summaries": 22,
+      "sections": 22
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518916062_theRebbe_542",
+      "title": "מאמר פדה בשלום תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518916062_theRebbe_542/meluket_translation_en.awtsmoosJSON",
+      "translations": 506,
+      "summaries": 16,
+      "sections": 16
+    },
+    {
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518916086_theRebbe_759",
+      "title": "מאמר אמר ר' אלכסנדרי תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/כסלו_meluket/atPost/BH_POST_1766518916086_theRebbe_759/meluket_translation_en.awtsmoosJSON",
+      "translations": 320,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919633_theRebbe_834",
+      "title": "מאמר בלע המוות לנצח תשכ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919633_theRebbe_834/meluket_translation_en.awtsmoosJSON",
+      "translations": 219,
+      "summaries": 8,
+      "sections": 8
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919663_theRebbe_89",
+      "title": "מאמר ציון במשפט תפדה תשל\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919663_theRebbe_89/meluket_translation_en.awtsmoosJSON",
+      "translations": 476,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919688_theRebbe_695",
+      "title": "מאמר ציון במשפט תפדה תשל\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919688_theRebbe_695/meluket_translation_en.awtsmoosJSON",
+      "translations": 181,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919710_theRebbe_549",
+      "title": "מאמר ציון במשפט תפדה תשל\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919710_theRebbe_549/meluket_translation_en.awtsmoosJSON",
+      "translations": 435,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919735_theRebbe_388",
+      "title": "מאמר ציון במשפט תפדה תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919735_theRebbe_388/meluket_translation_en.awtsmoosJSON",
+      "translations": 357,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919765_theRebbe_137",
+      "title": "מאמר קץ שם לחושך תשכ\"ד",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919765_theRebbe_137/meluket_translation_en.awtsmoosJSON",
+      "translations": 522,
+      "summaries": 21,
+      "sections": 21
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919787_theRebbe_472",
+      "title": "מאמר איכה ישבה בדד תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919787_theRebbe_472/meluket_translation_en.awtsmoosJSON",
+      "translations": 358,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919814_theRebbe_260",
+      "title": "מאמר לא היו ימים טובים לישראל תשל\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919814_theRebbe_260/meluket_translation_en.awtsmoosJSON",
+      "translations": 496,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919837_theRebbe_328",
+      "title": "מאמר לא היו ימים טובים לישראל תשמ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919837_theRebbe_328/meluket_translation_en.awtsmoosJSON",
+      "translations": 315,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919866_theRebbe_58",
+      "title": "מאמר ויענך וירעיבך ויאכילך תשכ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919866_theRebbe_58/meluket_translation_en.awtsmoosJSON",
+      "translations": 317,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919889_theRebbe_263",
+      "title": "מאמר והי' עקב תשמעון תשכ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919889_theRebbe_263/meluket_translation_en.awtsmoosJSON",
+      "translations": 420,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919915_theRebbe_134",
+      "title": "מאמר ועתה ישראל תשכ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919915_theRebbe_134/meluket_translation_en.awtsmoosJSON",
+      "translations": 350,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919939_theRebbe_869",
+      "title": "מאמר ועתה ישראל תשכ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919939_theRebbe_869/meluket_translation_en.awtsmoosJSON",
+      "translations": 352,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919961_theRebbe_975",
+      "title": "מאמר ועתה ישראל תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919961_theRebbe_975/meluket_translation_en.awtsmoosJSON",
+      "translations": 432,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919986_theRebbe_397",
+      "title": "מאמר לא היו ימים טובים לישראל תשל\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518919986_theRebbe_397/meluket_translation_en.awtsmoosJSON",
+      "translations": 443,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518920021_theRebbe_64",
+      "title": "מאמר ושננתם לבניך תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518920021_theRebbe_64/meluket_translation_en.awtsmoosJSON",
+      "translations": 423,
+      "summaries": 16,
+      "sections": 16
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518920054_theRebbe_925",
+      "title": "מאמר והי' עקב תשמעון תשט\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518920054_theRebbe_925/meluket_translation_en.awtsmoosJSON",
+      "translations": 395,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518920090_theRebbe_103",
+      "title": "מאמר ושמתי כדכד שמשתיך תשט\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/מנחם אב_meluket/atPost/BH_POST_1766518920090_theRebbe_103/meluket_translation_en.awtsmoosJSON",
+      "translations": 396,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917720_theRebbe_340",
+      "title": "מאמר ויקרא אל משה תשל\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917720_theRebbe_340/meluket_translation_en.awtsmoosJSON",
+      "translations": 329,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917741_theRebbe_999",
+      "title": "מאמר אשה כי תזריע תשכ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917741_theRebbe_999/meluket_translation_en.awtsmoosJSON",
+      "translations": 275,
+      "summaries": 8,
+      "sections": 8
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917769_theRebbe_254",
+      "title": "מאמר ביום עשתי עשר תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917769_theRebbe_254/meluket_translation_en.awtsmoosJSON",
+      "translations": 660,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917795_theRebbe_561",
+      "title": "מאמר כי ישאלך בנך תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917795_theRebbe_561/meluket_translation_en.awtsmoosJSON",
+      "translations": 500,
+      "summaries": 20,
+      "sections": 20
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917817_theRebbe_541",
+      "title": "מאמר כימי צאתך תשמ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917817_theRebbe_541/meluket_translation_en.awtsmoosJSON",
+      "translations": 316,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917845_theRebbe_238",
+      "title": "מאמר מצה זו תשמ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917845_theRebbe_238/meluket_translation_en.awtsmoosJSON",
+      "translations": 136,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917870_theRebbe_730",
+      "title": "מאמר אשרי תבחר ותקרב תשט\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917870_theRebbe_730/meluket_translation_en.awtsmoosJSON",
+      "translations": 323,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917894_theRebbe_634",
+      "title": "מאמר כימי צאתך תשי\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917894_theRebbe_634/meluket_translation_en.awtsmoosJSON",
+      "translations": 511,
+      "summaries": 23,
+      "sections": 23
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917921_theRebbe_748",
+      "title": "מאמר ונחה עליו רוח ה' תשי\"ד",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917921_theRebbe_748/meluket_translation_en.awtsmoosJSON",
+      "translations": 452,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917950_theRebbe_524",
+      "title": "מאמר על שלושה דברים תשי\"ד",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917950_theRebbe_524/meluket_translation_en.awtsmoosJSON",
+      "translations": 553,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917980_theRebbe_758",
+      "title": "מאמר ונחה עליו רוח ה' תשכ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518917980_theRebbe_758/meluket_translation_en.awtsmoosJSON",
+      "translations": 426,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918005_theRebbe_76",
+      "title": "מאמר כימי צאתך תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918005_theRebbe_76/meluket_translation_en.awtsmoosJSON",
+      "translations": 382,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918033_theRebbe_696",
+      "title": "מאמר כימי צאתך תשל\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918033_theRebbe_696/meluket_translation_en.awtsmoosJSON",
+      "translations": 269,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918060_theRebbe_524",
+      "title": "מאמר ועבדי דוד תשמ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918060_theRebbe_524/meluket_translation_en.awtsmoosJSON",
+      "translations": 267,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918081_theRebbe_229",
+      "title": "מאמר והחרים ה' תשמ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918081_theRebbe_229/meluket_translation_en.awtsmoosJSON",
+      "translations": 109,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918104_theRebbe_982",
+      "title": "מאמר כל ישראל תשל\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918104_theRebbe_982/meluket_translation_en.awtsmoosJSON",
+      "translations": 174,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918130_theRebbe_126",
+      "title": "מאמר לה\"ע תחיית המתים תשמ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918130_theRebbe_126/meluket_translation_en.awtsmoosJSON",
+      "translations": 269,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918160_theRebbe_102",
+      "title": "מאמר ויאמר לו יהונתן תשכ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918160_theRebbe_102/meluket_translation_en.awtsmoosJSON",
+      "translations": 695,
+      "summaries": 24,
+      "sections": 24
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918187_theRebbe_312",
+      "title": "מאמר החודש הזה לכם תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918187_theRebbe_312/meluket_translation_en.awtsmoosJSON",
+      "translations": 415,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918225_theRebbe_77",
+      "title": "מאמר הפך ים ליבשה תשכ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/ניסן_meluket/atPost/BH_POST_1766518918225_theRebbe_77/meluket_translation_en.awtsmoosJSON",
+      "translations": 566,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918679_theRebbe_674",
+      "title": "מאמר אנכי הוי' אלוקיך תשמ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918679_theRebbe_674/meluket_translation_en.awtsmoosJSON",
+      "translations": 362,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918708_theRebbe_155",
+      "title": "מאמר בשעה שעלה משה למרום תשכ\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918708_theRebbe_155/meluket_translation_en.awtsmoosJSON",
+      "translations": 661,
+      "summaries": 22,
+      "sections": 22
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918734_theRebbe_176",
+      "title": "מאמר וידבר אלוקים את כל הדברים האלה תשכ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918734_theRebbe_176/meluket_translation_en.awtsmoosJSON",
+      "translations": 425,
+      "summaries": 16,
+      "sections": 16
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918762_theRebbe_940",
+      "title": "מאמר וידבר אלוקים את כל הדברים האלה תשכ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918762_theRebbe_940/meluket_translation_en.awtsmoosJSON",
+      "translations": 444,
+      "summaries": 20,
+      "sections": 20
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918788_theRebbe_204",
+      "title": "מאמר אתה הראת לדעת תשמ\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918788_theRebbe_204/meluket_translation_en.awtsmoosJSON",
+      "translations": 439,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918811_theRebbe_734",
+      "title": "מאמר ביום השני הקריב תשל\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918811_theRebbe_734/meluket_translation_en.awtsmoosJSON",
+      "translations": 390,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918840_theRebbe_178",
+      "title": "מאמר רני ושמחי תשכ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918840_theRebbe_178/meluket_translation_en.awtsmoosJSON",
+      "translations": 223,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918872_theRebbe_254",
+      "title": "מאמר בהעלותך את הנרות תשכ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918872_theRebbe_254/meluket_translation_en.awtsmoosJSON",
+      "translations": 410,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918894_theRebbe_986",
+      "title": "מאמר בהעלותך את הנרות תשל\"ד",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918894_theRebbe_986/meluket_translation_en.awtsmoosJSON",
+      "translations": 321,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918918_theRebbe_323",
+      "title": "מאמר ועתה יגדל נא תשי\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918918_theRebbe_323/meluket_translation_en.awtsmoosJSON",
+      "translations": 288,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918942_theRebbe_422",
+      "title": "מאמר וישלח יהושוע תשל\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918942_theRebbe_422/meluket_translation_en.awtsmoosJSON",
+      "translations": 191,
+      "summaries": 8,
+      "sections": 8
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918964_theRebbe_845",
+      "title": "מאמר והנה פרח מטה אהרן תשל\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918964_theRebbe_845/meluket_translation_en.awtsmoosJSON",
+      "translations": 343,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918994_theRebbe_134",
+      "title": "מאמר בשעה שעלה משה למרום תשכ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518918994_theRebbe_134/meluket_translation_en.awtsmoosJSON",
+      "translations": 496,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518919022_theRebbe_358",
+      "title": "מאמר ואהי אצלו אמון תשכ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/סיון_meluket/atPost/BH_POST_1766518919022_theRebbe_358/meluket_translation_en.awtsmoosJSON",
+      "translations": 746,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916418_theRebbe_902",
+      "title": "מאמר לה\"ע כתיבת ספר תורה תש\"ל",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916418_theRebbe_902/meluket_translation_en.awtsmoosJSON",
+      "translations": 452,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916442_theRebbe_16",
+      "title": "סקירה ע\"ד ס\"ת לקבלת פני משיח צדקנו",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916442_theRebbe_16/meluket_translation_en.awtsmoosJSON",
+      "translations": 112,
+      "summaries": 28,
+      "sections": 28
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916474_theRebbe_113",
+      "title": "מאמר באתי לגני תשי\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916474_theRebbe_113/meluket_translation_en.awtsmoosJSON",
+      "translations": 441,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916512_theRebbe_860",
+      "title": "מאמר היושבת בגנים תשי\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916512_theRebbe_860/meluket_translation_en.awtsmoosJSON",
+      "translations": 150,
+      "summaries": 4,
+      "sections": 4
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916557_theRebbe_582",
+      "title": "מאמר באתי לגני תשי\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916557_theRebbe_582/meluket_translation_en.awtsmoosJSON",
+      "translations": 467,
+      "summaries": 6,
+      "sections": 6
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916627_theRebbe_635",
+      "title": "רשימה באתי לגני תשי\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916627_theRebbe_635/meluket_translation_en.awtsmoosJSON",
+      "translations": 90,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916658_theRebbe_485",
+      "title": "מאמר באתי לגני תשי\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916658_theRebbe_485/meluket_translation_en.awtsmoosJSON",
+      "translations": 421,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916678_theRebbe_290",
+      "title": "הערות לד\"ה באתי לגני תשי\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916678_theRebbe_290/meluket_translation_en.awtsmoosJSON",
+      "translations": 57,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916694_theRebbe_636",
+      "title": "הוספה לד\"ה באתי לגני תשי\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916694_theRebbe_636/meluket_translation_en.awtsmoosJSON",
+      "translations": 50,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916723_theRebbe_111",
+      "title": "מאמר באתי לגני תשי\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916723_theRebbe_111/meluket_translation_en.awtsmoosJSON",
+      "translations": 512,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916754_theRebbe_640",
+      "title": "מאמר באתי לגני תשכ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916754_theRebbe_640/meluket_translation_en.awtsmoosJSON",
+      "translations": 785,
+      "summaries": 26,
+      "sections": 26
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916782_theRebbe_480",
+      "title": "מאמר באתי לגני תשכ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916782_theRebbe_480/meluket_translation_en.awtsmoosJSON",
+      "translations": 749,
+      "summaries": 21,
+      "sections": 21
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916815_theRebbe_81",
+      "title": "מאמר באתי לגני תש\"ל",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916815_theRebbe_81/meluket_translation_en.awtsmoosJSON",
+      "translations": 913,
+      "summaries": 34,
+      "sections": 34
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916846_theRebbe_939",
+      "title": "מאמר באתי לגני תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916846_theRebbe_939/meluket_translation_en.awtsmoosJSON",
+      "translations": 983,
+      "summaries": 36,
+      "sections": 36
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916877_theRebbe_274",
+      "title": "מאמר באתי לגני תשל\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916877_theRebbe_274/meluket_translation_en.awtsmoosJSON",
+      "translations": 664,
+      "summaries": 21,
+      "sections": 21
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916904_theRebbe_178",
+      "title": "מאמר באתי לגני תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916904_theRebbe_178/meluket_translation_en.awtsmoosJSON",
+      "translations": 761,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916949_theRebbe_558",
+      "title": "מאמר באתי לגני תש\"מ",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916949_theRebbe_558/meluket_translation_en.awtsmoosJSON",
+      "translations": 390,
+      "summaries": 16,
+      "sections": 16
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916972_theRebbe_524",
+      "title": "מאמר באתי לגני תשמ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916972_theRebbe_524/meluket_translation_en.awtsmoosJSON",
+      "translations": 502,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916998_theRebbe_249",
+      "title": "מאמר ארבעה ראשי שנים תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518916998_theRebbe_249/meluket_translation_en.awtsmoosJSON",
+      "translations": 432,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917024_theRebbe_166",
+      "title": "מאמר בחודש השלישי תשל\"ד",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917024_theRebbe_166/meluket_translation_en.awtsmoosJSON",
+      "translations": 272,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917050_theRebbe_195",
+      "title": "מאמר הנני ממטיר לכם תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917050_theRebbe_195/meluket_translation_en.awtsmoosJSON",
+      "translations": 412,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917075_theRebbe_40",
+      "title": "מאמר באתי לגני תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917075_theRebbe_40/meluket_translation_en.awtsmoosJSON",
+      "translations": 327,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917104_theRebbe_810",
+      "title": "מאמר באתי לגני תשל\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917104_theRebbe_810/meluket_translation_en.awtsmoosJSON",
+      "translations": 585,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917129_theRebbe_291",
+      "title": "מאמר כי תשא תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917129_theRebbe_291/meluket_translation_en.awtsmoosJSON",
+      "translations": 424,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917153_theRebbe_141",
+      "title": "מאמר ואלה המשפטים תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917153_theRebbe_141/meluket_translation_en.awtsmoosJSON",
+      "translations": 373,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917181_theRebbe_116",
+      "title": "מאמר זה יתנו תש\"מ",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917181_theRebbe_116/meluket_translation_en.awtsmoosJSON",
+      "translations": 160,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917207_theRebbe_479",
+      "title": "מאמר ואלה המשפטים תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917207_theRebbe_479/meluket_translation_en.awtsmoosJSON",
+      "translations": 584,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917230_theRebbe_81",
+      "title": "רשימת מאמר כי תשא תשי\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/שבט_meluket/atPost/BH_POST_1766518917230_theRebbe_81/meluket_translation_en.awtsmoosJSON",
+      "translations": 60,
+      "summaries": 6,
+      "sections": 6
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919103_theRebbe_196",
+      "title": "מאמר השם נפשנו בחיים תשח\"י",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919103_theRebbe_196/meluket_translation_en.awtsmoosJSON",
+      "translations": 380,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919126_theRebbe_561",
+      "title": "מאמר יהי ה' אלוקינו עמנו תשכ\"ד",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919126_theRebbe_561/meluket_translation_en.awtsmoosJSON",
+      "translations": 256,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919159_theRebbe_441",
+      "title": "מאמר ה' לי בעוזרי תשי\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919159_theRebbe_441/meluket_translation_en.awtsmoosJSON",
+      "translations": 498,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919187_theRebbe_149",
+      "title": "מאמר וידבר זאת חוקת תשכ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919187_theRebbe_149/meluket_translation_en.awtsmoosJSON",
+      "translations": 735,
+      "summaries": 26,
+      "sections": 26
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919223_theRebbe_96",
+      "title": "מאמר תפלה למשה תשכ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919223_theRebbe_96/meluket_translation_en.awtsmoosJSON",
+      "translations": 866,
+      "summaries": 25,
+      "sections": 25
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919272_theRebbe_883",
+      "title": "מאמר נתת ליראיך תשל\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919272_theRebbe_883/meluket_translation_en.awtsmoosJSON",
+      "translations": 918,
+      "summaries": 22,
+      "sections": 22
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919310_theRebbe_548",
+      "title": "מאמר זה היום עשה ה' תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919310_theRebbe_548/meluket_translation_en.awtsmoosJSON",
+      "translations": 385,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919340_theRebbe_24",
+      "title": "מאמר עשרה שיושבין תשמ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919340_theRebbe_24/meluket_translation_en.awtsmoosJSON",
+      "translations": 558,
+      "summaries": 29,
+      "sections": 29
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919374_theRebbe_640",
+      "title": "מאמר עשרה שיושבין תשמ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919374_theRebbe_640/meluket_translation_en.awtsmoosJSON",
+      "translations": 485,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919413_theRebbe_617",
+      "title": "מאמר אך בגורל תשל\"ה",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919413_theRebbe_617/meluket_translation_en.awtsmoosJSON",
+      "translations": 374,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919434_theRebbe_712",
+      "title": "מאמר וחזקת והיית לאיש תשכ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919434_theRebbe_712/meluket_translation_en.awtsmoosJSON",
+      "translations": 397,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919515_theRebbe_764",
+      "title": "מאמר גדול יהי' תשכ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919515_theRebbe_764/meluket_translation_en.awtsmoosJSON",
+      "translations": 572,
+      "summaries": 29,
+      "sections": 29
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919556_theRebbe_605",
+      "title": "מאמר אלה מסעי תשי\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919556_theRebbe_605/meluket_translation_en.awtsmoosJSON",
+      "translations": 512,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919577_theRebbe_550",
+      "title": "מאמר הללויה שירו להוי' גו' תשט\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/תמוז_meluket/atPost/BH_POST_1766518919577_theRebbe_550/meluket_translation_en.awtsmoosJSON",
+      "translations": 390,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913707_theRebbe_562",
+      "title": "מאמר יבחר לנו את נחלתינו תשכ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913707_theRebbe_562/meluket_translation_en.awtsmoosJSON",
+      "translations": 523,
+      "summaries": 24,
+      "sections": 24
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913746_theRebbe_550",
+      "title": "מאמר והיה ביום ההוא תשכ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913746_theRebbe_550/meluket_translation_en.awtsmoosJSON",
+      "translations": 363,
+      "summaries": 15,
+      "sections": 15
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913771_theRebbe_98",
+      "title": "מאמר יו\"ט של ר\"ה תשל\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913771_theRebbe_98/meluket_translation_en.awtsmoosJSON",
+      "translations": 378,
+      "summaries": 17,
+      "sections": 17
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913794_theRebbe_460",
+      "title": "מאמר וביום שמחתכם תש\"מ",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913794_theRebbe_460/meluket_translation_en.awtsmoosJSON",
+      "translations": 258,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913820_theRebbe_687",
+      "title": "מאמר זה היום תחילת מעשיך תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913820_theRebbe_687/meluket_translation_en.awtsmoosJSON",
+      "translations": 694,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913852_theRebbe_463",
+      "title": "מאמר זה היום תחילת מעשיך תשמ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913852_theRebbe_463/meluket_translation_en.awtsmoosJSON",
+      "translations": 534,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913877_theRebbe_326",
+      "title": "מאמר יו\"ט של ר\"ה תשמ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913877_theRebbe_326/meluket_translation_en.awtsmoosJSON",
+      "translations": 398,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913912_theRebbe_602",
+      "title": "מאמר אדון עולם תשמ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913912_theRebbe_602/meluket_translation_en.awtsmoosJSON",
+      "translations": 589,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913940_theRebbe_399",
+      "title": "מאמר תקעו בחודש שופר תשמ\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913940_theRebbe_399/meluket_translation_en.awtsmoosJSON",
+      "translations": 267,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913974_theRebbe_325",
+      "title": "מאמר וכל אדם תשכ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518913974_theRebbe_325/meluket_translation_en.awtsmoosJSON",
+      "translations": 414,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914005_theRebbe_415",
+      "title": "מאמר שובה ישראל תשל\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914005_theRebbe_415/meluket_translation_en.awtsmoosJSON",
+      "translations": 269,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914033_theRebbe_108",
+      "title": "מאמר שובה ישראל תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914033_theRebbe_108/meluket_translation_en.awtsmoosJSON",
+      "translations": 349,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914059_theRebbe_310",
+      "title": "מאמר שובה ישראל תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914059_theRebbe_310/meluket_translation_en.awtsmoosJSON",
+      "translations": 400,
+      "summaries": 16,
+      "sections": 16
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914091_theRebbe_428",
+      "title": "מאמר שובה ישראל תש\"מ",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914091_theRebbe_428/meluket_translation_en.awtsmoosJSON",
+      "translations": 360,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914115_theRebbe_704",
+      "title": "מאמר שובה ישראל תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914115_theRebbe_704/meluket_translation_en.awtsmoosJSON",
+      "translations": 414,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914138_theRebbe_689",
+      "title": "מאמר שיר המעלות ממעמקים תשמ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914138_theRebbe_689/meluket_translation_en.awtsmoosJSON",
+      "translations": 83,
+      "summaries": 5,
+      "sections": 5
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914162_theRebbe_955",
+      "title": "מאמר כנשר יאיר קנו תשכ\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914162_theRebbe_955/meluket_translation_en.awtsmoosJSON",
+      "translations": 193,
+      "summaries": 7,
+      "sections": 7
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914186_theRebbe_341",
+      "title": "מאמר בסוכות תשבו תשל\"ו",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914186_theRebbe_341/meluket_translation_en.awtsmoosJSON",
+      "translations": 416,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914213_theRebbe_9",
+      "title": "מאמר בסוכות תשבו תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914213_theRebbe_9/meluket_translation_en.awtsmoosJSON",
+      "translations": 677,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914243_theRebbe_128",
+      "title": "מאמר ולקחתם לכם תשל\"ט",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914243_theRebbe_128/meluket_translation_en.awtsmoosJSON",
+      "translations": 384,
+      "summaries": 16,
+      "sections": 16
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914265_theRebbe_229",
+      "title": "מאמר כנשר יעיר קנו תשמ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914265_theRebbe_229/meluket_translation_en.awtsmoosJSON",
+      "translations": 173,
+      "summaries": 8,
+      "sections": 8
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914293_theRebbe_757",
+      "title": "מאמר בסוכות תשבו תש\"מ",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914293_theRebbe_757/meluket_translation_en.awtsmoosJSON",
+      "translations": 297,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914333_theRebbe_315",
+      "title": "מאמר בסוכות תשבו תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914333_theRebbe_315/meluket_translation_en.awtsmoosJSON",
+      "translations": 383,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914360_theRebbe_10",
+      "title": "מאמר וחג האסיף תשמ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914360_theRebbe_10/meluket_translation_en.awtsmoosJSON",
+      "translations": 354,
+      "summaries": 10,
+      "sections": 10
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914390_theRebbe_977",
+      "title": "מאמר בסוכות תשבו תשכ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914390_theRebbe_977/meluket_translation_en.awtsmoosJSON",
+      "translations": 502,
+      "summaries": 19,
+      "sections": 19
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914414_theRebbe_521",
+      "title": "מאמר הללו את ה' כל גוים תשל\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914414_theRebbe_521/meluket_translation_en.awtsmoosJSON",
+      "translations": 450,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914440_theRebbe_936",
+      "title": "מאמר תורה צוה תשכ\"ג",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914440_theRebbe_936/meluket_translation_en.awtsmoosJSON",
+      "translations": 441,
+      "summaries": 20,
+      "sections": 20
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914464_theRebbe_108",
+      "title": "מאמר אתה הראת לדעת תשל\"ז",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914464_theRebbe_108/meluket_translation_en.awtsmoosJSON",
+      "translations": 415,
+      "summaries": 13,
+      "sections": 13
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914491_theRebbe_55",
+      "title": "מאמר להבין ענין שמח\"ת תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914491_theRebbe_55/meluket_translation_en.awtsmoosJSON",
+      "translations": 226,
+      "summaries": 9,
+      "sections": 9
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914519_theRebbe_363",
+      "title": "מאמר ביום השמיני עצרת תש\"מ",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914519_theRebbe_363/meluket_translation_en.awtsmoosJSON",
+      "translations": 607,
+      "summaries": 14,
+      "sections": 14
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914548_theRebbe_632",
+      "title": "מאמר ביום השמיני תשמ\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914548_theRebbe_632/meluket_translation_en.awtsmoosJSON",
+      "translations": 493,
+      "summaries": 18,
+      "sections": 18
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914575_theRebbe_239",
+      "title": "מאמר בראשית ברא תשל\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914575_theRebbe_239/meluket_translation_en.awtsmoosJSON",
+      "translations": 130,
+      "summaries": 6,
+      "sections": 6
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914597_theRebbe_351",
+      "title": "מאמר אלה תולדות נח תנש\"א",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914597_theRebbe_351/meluket_translation_en.awtsmoosJSON",
+      "translations": 296,
+      "summaries": 11,
+      "sections": 11
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914661_theRebbe_935",
+      "title": "מאמר כנשר יעיר קנו תשכ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914661_theRebbe_935/meluket_translation_en.awtsmoosJSON",
+      "translations": 536,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914707_theRebbe_174",
+      "title": "מאמר להבין ענין שמח\"ת תשמ\"ב",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914707_theRebbe_174/meluket_translation_en.awtsmoosJSON",
+      "translations": 390,
+      "summaries": 12,
+      "sections": 12
+    },
+    {
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914734_theRebbe_896",
+      "title": "מאמר בורא ניב שפתיים תשמ\"ח",
+      "path": "/social/heichelos/ikar/comments/atSeries/תשרי_meluket/atPost/BH_POST_1766518914734_theRebbe_896/meluket_translation_en.awtsmoosJSON",
+      "translations": 355,
+      "summaries": 16,
+      "sections": 16
+    }
+  ]
+}

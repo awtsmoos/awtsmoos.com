@@ -1,0 +1,68 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915265_theRebbe_887" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915265_theRebbe_887__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915265_theRebbe_887" title="מאמר אתה אחד תשכ"ט" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915265_theRebbe_887__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ ויצא,</src>
+    <src s="2">ט' כסלו,</src>
+    <src s="3">ה'תשכ"ט</src>
+  </section>
+  <section v="1">
+    <src s="0">אתה אחד1</src>
+    <src s="1">ושמך אחד ומי כעמך כישראל2</src>
+    <src s="2">גוי אחד בארץ,</src>
+    <src s="3">ומדייק כ"ק מו"ח אדמו"ר במאמרו ד"ה זה דט' כסלו3,</src>
+    <src s="4">דלשון אחד הוא גם באחד המנוי</src>
+    <src s="5">[וכמו ויהי ערב ויהי בוקר יום אחד4</src>
+    <src s="6">ואח"כ5</src>
+    <src s="7">כתיב יום שני יום שלישי וכו'],</src>
+    <src s="8">וכיון שהוא ית' הוא יחיד ומיוחד שאין בדומה אליו וכן ישראל הם גוי אחד יחיד ומיוחד שאין דוגמתם,</src>
+    <src s="9">הול"ל אתה יחיד ושמך יחיד ומי כעמך כישראל גוי יחיד.</src>
+  </section>
+  <section v="2">
+    <src s="0">וממשיך בהמאמר,</src>
+    <src s="1">דזה שישראל הם גוי יחיד הוא בדוגמת אב ואם שאין להם אלא בן אחד בלבד שנקרא בשם בן יחיד.</src>
+    <src s="2">דאהבת ההורים לבנם כשיש להם רק בן יחיד היא אהבה גדולה יותר מאהבת ההורים לבניהם כשיש להם עוד ילדים.</src>
+    <src s="3">וכן אהבת הבן יחיד להורים היא גדולה יותר מכשהם יותר מבן יחיד.</src>
+    <src s="4">וכן הוא גם בישראל,</src>
+    <src s="5">מכיון שישראל הם בן יחיד ליחידו של עולם,</src>
+    <src s="6">לכן,</src>
+    <src s="7">האהבה דהקב"ה לישראל,</src>
+    <src s="8">וכן אהבת ישראל להקב"ה,</src>
+    <src s="9">היא אהבה גדולה ביותר.</src>
+    <src s="10">ומסיים שם,</src>
+    <src s="11">שעפ"ז צריך להבין מה שנאמר ומי כעמך כישראל גוי אחד ולא גוי יחיד.</src>
+  </section>
+</awtsmoosMeluketSource>

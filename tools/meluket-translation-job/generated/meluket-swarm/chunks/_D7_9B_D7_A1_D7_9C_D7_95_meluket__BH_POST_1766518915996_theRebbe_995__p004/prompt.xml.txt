@@ -1,0 +1,167 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915996_theRebbe_995" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915996_theRebbe_995__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915996_theRebbe_995" title="מאמר אתה אחד תשל"ב" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915996_theRebbe_995__p004">
+  <section v="9">
+    <src s="0">ואח"כ מבאר בפסוק השני את החלוקה הב',</src>
+    <src s="1">שהיא בבחי' הקטנות.</src>
+    <src s="2">ומתחיל בענין טפכם,</src>
+    <src s="3">שהוא בבחי' קטנות הדעת המצומצם מאד בקטנות המדות שהם בחי' אנפי זוטרא,</src>
+    <src s="4">כמו הטף באדם שאינם בני דעה גמורה.</src>
+    <src s="5">ונשיכם הוא בחי' הקטנות דבחי' מקבל כו'.</src>
+    <src s="6">ואח"כ אומר וגרך אשר בקרב מחניך מחוטב עציך עד שואב מימיך,</src>
+    <src s="7">שג' מדריגות האלה הן בחי' מדריגות החיצוניות ביותר שהוא הנפש הבהמית והטבעית כו',</src>
+    <src s="8">בדוגמת הגר שנמשך מאוה"ע כו'</src>
+    <src s="9">(נוסף לכך שענין הגר בפשטות הוא בבחי' הקטנות,</src>
+    <src s="10">וכמארז"ל47</src>
+    <src s="11">גר שנתגייר כקטן שנולד דמי),</src>
+    <src s="12">שמצד עצמה היא רחוקה מאלקות,</src>
+    <src s="13">ומ"מ מתקרבת תחת כנפי השכינה כגר שנתגייר ממש.</src>
+    <src s="14">ועז"נ וגרך אשר בקרב מחניך,</src>
+    <src s="15">שנבדל מפנימיות האלקות שבנש"י שנק' איש ישראל דלעילא,</src>
+    <src s="16">רק נתפס ונגרר בקרב מחניך כטפל לגבי העיקר.</src>
+    <src s="17">וזהו מה שעובד עבודה גשמית כמו לחטוב עצים ולשאוב מים,</src>
+    <src s="18">שחטיבת עצים הוא רק כמו הכנה לבישול,</src>
+    <src s="19">וכן שאיבת מים היא רק כמו טפל ומסייע לאכילה,</src>
+    <src s="20">וכמובן מהמבואר במ"א48</src>
+    <src s="21">דכל ענין השתי' הוא רק כדי שהדם הנוצר ע"י האכילה יתפשט באברים</src>
+    <src s="22">(וזהו ביאור מארז"ל49</src>
+    <src s="23">אכל ולא שתה אכילתו דם),</src>
+    <src s="24">וכן הוא לענין האכילה הרוחניות שהם המצוות.</src>
+    <src s="25">ונמצא,</src>
+    <src s="26">שג' הדרגות האחרונות המנויות כאן הם כפי שהנה"א ירד ונתלבש למטה מטה בנה"ב,</src>
+    <src s="27">למצרים ירדתם וכו'50.</src>
+    <src s="28">וגם על מדריגות אלו כתיב אתם נצבים היום כולכם לפני הוי' גו'.</src>
+  </section>
+  <section v="10">
+    <src s="0">ו)</src>
+    <src s="1">וממשיך שם51,</src>
+    <src s="2">אך הנה לכאורה זהו פלא גדול,</src>
+    <src s="3">דבשלמא הנשמות יכולים לעמוד לפני הוי',</src>
+    <src s="4">אבל גרך אשר בקרב מחניך,</src>
+    <src s="5">איך גם הם יעמדו לפני הוי'.</src>
+    <src s="6">ומבאר בזה,</src>
+    <src s="7">דזהו ענין אתם נצבים דייקא,</src>
+    <src s="8">דפירוש נצבים הוא ענין הקמה והגבהה,</src>
+    <src s="9">כמו קמה אלומתי וגם נצבה52,</src>
+    <src s="10">וכמו מצבת אבן שמונחת בארץ שמקים אותה ומציבה למצבה,</src>
+    <src s="11">כמו המצבה דיעקב דכתיב6</src>
+    <src s="12">ויקח את האבן גו' וישם אותה מצבה.</src>
+    <src s="13">וכך הענין כאן,</src>
+    <src s="14">דמ"ש אתם נצבים היום קאי על ראש השנה53,</src>
+    <src s="15">שאז נצבים כולכם היום,</src>
+    <src s="16">וכמ"ש54</src>
+    <src s="17">ויהי בישורון מלך בהתאסף ראשי עם יחד שבטי ישראל,</src>
+    <src s="18">דבראש השנה הרי נשמות ישראל עולים לשרשם ששם הרי כולכם לאחדים כאחד</src>
+    <src s="19">(כמבואר בלקו"ת פ' נצבים55),</src>
+    <src s="20">וכמבואר בתניא פל"ב שבהיותם בשרשם הרי כולם מתאימות ואב אחד לכולנה ומי יודע גדולתן ומעלתן בשרשן ומקורן כו'.</src>
+    <src s="21">וממשיך שם56,</src>
+    <src s="22">ועוד יתפרש ענין נצבים לשון ממשלה ושררה,</src>
+    <src s="23">כמו וישם באדום נציבים57,</src>
+    <src s="24">וכמו נציב פלשתים58,</src>
+    <src s="25">שהוא שר המושל על המדינה,</src>
+    <src s="26">וכן המתמנה על העובדים במלאכה נקרא נציב,</src>
+    <src s="27">כמו הנער הנצב על הקוצרים59.</src>
+    <src s="28">ובזה יובן איך אפשר שגם גרך וחוטב עציך גו' יהיו נצבים לפני הוי' ממש,</src>
+    <src s="29">דכיון שנש"י מתעלים במקורם הראשון כו',</src>
+    <src s="30">הרי משם יכול להאיר גם לחלק אור הנשמה אלקית שמלובשת בלבוש גס כו',</src>
+    <src s="31">שגם הם יהיו קמים ועומדים לפני הוי' ממש.</src>
+    <src s="32">ויש לומר,</src>
+    <src s="33">שזהו הטעם שמביא בהמאמר פסוקים אלו</src>
+    <src s="34">[ולא הפסוק נציב שנאמר בשלמה60,</src>
+    <src s="35">וגם לא הפסוק נצב מלך61,</src>
+    <src s="36">כרגיל בכ"מ],</src>
+    <src s="37">בכדי לרמז שהעילוי דנצבים ישנו גם בגרך</src>
+    <src s="38">(נה"ב הנמשכת מבחי' אוה"ע),</src>
+    <src s="39">וכמו וישם באדום נציבים ונציב פלשתים,</src>
+    <src s="40">שגם ה"נצבים" הם מאדום ופלשתים,</src>
+    <src s="41">ומ"מ הם נצבים</src>
+    <src s="42">[ולא הביא הפסוק ומלך אין באדום נצב מלך,</src>
+    <src s="43">כי פירושו הוא שהנצב הוא במקום מלך,</src>
+    <src s="44">וזה שולל בהמאמר בנוגע לגרך].</src>
+    <src s="45">וגם בחוטב עציך ושואב מימיך,</src>
+    <src s="46">וכמו הנער הנצב על הקוצרים,</src>
+    <src s="47">שעם היותו גם הוא מהעובדים במלאכה,</src>
+    <src s="48">מ"מ</src>
+    <src s="49">(להיותו ממונה עליהם)</src>
+    <src s="50">הוא נצב.</src>
+  </section>
+  <section v="11">
+    <src s="0">ז)</src>
+    <src s="1">וממשיך שם62,</src>
+    <src s="2">דעדיין צריך להבין מ"ש לשון כולכם,</src>
+    <src s="3">דמשמע שכל ישראל נצבים בהתכללות כולם כאיש אחד,</src>
+    <src s="4">משא"כ בפסוק ויהי בישורון מלך בהתאסף ראשי עם גו' משמע שעיקר ההתכללות הוא בראשי עם דוקא,</src>
+    <src s="5">שהתאספות היא ע"י הראשים.</src>
+    <src s="6">וגם מהו הלשון בהתאסף,</src>
+    <src s="7">שמשמע שיתאספו ממילא,</src>
+    <src s="8">ולא שצריך לאספם ולחברם יחד.</src>
+    <src s="9">ומבאר בזה,</src>
+    <src s="10">דמ"ש אתם נצבים כולכם,</src>
+    <src s="11">הגם שקאי על ר"ה שאז מתכללים יחד כללות נש"י כו',</src>
+    <src s="12">הנה זהו ענין ההתכללות כפי שהוא מצד המקבלים,</src>
+    <src s="13">שמתעלים מלמטה למעלה,</src>
+    <src s="14">ועז"נ63</src>
+    <src s="15">שמאלו תחת לראשי</src>
+    <src s="16">(דכנס"י),</src>
+    <src s="17">להגבי' אותם ולהעלותם למעלה.</src>
+    <src s="18">אך יש בחי' אחדות הנפעלת מצד הגילוי מלמעלה,</src>
+    <src s="19">באופן דימינו תחבקני63,</src>
+    <src s="20">שזהו ביוהכ"פ,</src>
+    <src s="21">וכמ"ש64</src>
+    <src s="22">ביום השלישי יקימנו ונחי' לפניו,</src>
+    <src s="23">שהתאחדות זו היא מצד גילוי המשפיע,</src>
+    <src s="24">שזה פועל בתחילה בראשי עם,</src>
+    <src s="25">וגם בזה כתיב בהתאסף בדרך ממילא,</src>
+    <src s="26">כי נעשה בדרך ממילא מצד גילוי המשפיע.</src>
+    <src s="27">ושני ענינים אלו היו גם בשעת מתן תורה,</src>
+    <src s="28">דבתחילה כתיב65</src>
+    <src s="29">ויחן שם ישראל,</src>
+    <src s="30">כאיש אחד בלב אחד,</src>
+    <src s="31">שזהו ענין האחדות שמצד המקבל,</src>
+    <src s="32">שזה הי' בראש חודש סיון66,</src>
+    <src s="33">ואח"כ הי' ענין האחדות שנפעל ביום מתן תורה עצמו,</src>
+    <src s="34">שאז כתיב67</src>
+    <src s="35">וירד הוי' על הר סיני,</src>
+    <src s="36">שהי' גילוי העצמות68,</src>
+    <src s="37">ומזה נעשה ענין האחדות בתכלית,</src>
+    <src s="38">בהתאסף ראשי עם.</src>
+    <src s="39">ועד"ז הוא ביום הכיפורים שהוא ג"כ זמן מתן תורה,</src>
+    <src s="40">יום שבו ניתנו לוחות האחרונות69.</src>
+    <src s="41">וזהו אמיתית הענין דאתם נצבים כולכם לפני הוי',</src>
+    <src s="42">היינו לפני הוי' ממש,</src>
+    <src s="43">שעז"נ64</src>
+    <src s="44">ביום השלישי יקימנו ונחי' לפניו.</src>
+  </section>
+</awtsmoosMeluketSource>

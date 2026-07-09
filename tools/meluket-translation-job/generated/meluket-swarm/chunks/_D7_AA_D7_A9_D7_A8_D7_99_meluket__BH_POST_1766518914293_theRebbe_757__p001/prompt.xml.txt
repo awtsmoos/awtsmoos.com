@@ -1,0 +1,143 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914293_theRebbe_757" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914293_theRebbe_757__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914293_theRebbe_757" title="מאמר בסוכות תשבו תש"מ" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914293_theRebbe_757__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אור לי"ג תשרי,</src>
+    <src s="2">הילולא דכ"ק אדמו"ר מהר"ש,</src>
+    <src s="3">ה'תש"מ</src>
+  </section>
+  <section v="1">
+    <src s="0">בסוכות תשבו שבעת ימים כל האזרח בישראל ישבו בסוכות</src>
+    <src s="1">(והטעם על זה)</src>
+    <src s="2">למען ידעו דורותיכם כי בסוכות הושבתי את בנ"י בהוציאי אותם מארץ מצרים גו'1.</src>
+    <src s="3">ומלשון הכתוב</src>
+    <src s="4">(למען ידעו גו')</src>
+    <src s="5">למדים2</src>
+    <src s="6">שידיעה זו היא</src>
+    <src s="7">(לא רק ענין בכוונת המצוה,</src>
+    <src s="8">אלא)</src>
+    <src s="9">חלק בקיום המצוה</src>
+    <src s="10">(כדמוכח גם מלשון כ"ק אדמו"ר הזקן בשולחנו3).</src>
+    <src s="11">וידועים דיוקי רבותינו נשיאינו בזה,</src>
+    <src s="12">מה נוגע כ"כ ידיעה זו4</src>
+    <src s="13">עד שהיא חלק מהמצוה.</src>
+    <src s="14">וגם מהו בסוכות תשבו,</src>
+    <src s="15">הרי סוכה הוא בחי' מקיף וענין ההתיישבות</src>
+    <src s="16">(דתשבו כולל גם הפירוש דהתיישבות)</src>
+    <src s="17">שייך בבחי' פנימי דוקא5,</src>
+    <src s="18">ומזה שאומר בסוכות תשבו מוכח שגם לאחרי הישיבה נשאר הוא בחי' מקיף6,</src>
+    <src s="19">וענין ההתיישבות צ"ל בבחי' המקיף.</src>
+    <src s="20">גם צריך להבין מ"ש כל האזרח בישראל ישבו בסוכות,</src>
+    <src s="21">הרי הציווי בסוכות תשבו הוא לכל ישראל ומה מוסיף דכל האזרח בישראל ישבו בסוכות7</src>
+    <src s="22">ובהציווי בסוכות תשבו אומר שבעת ימים משא"כ בהציווי כל האזרח גו' אומר ישבו בסוכות סתם6.</src>
+    <src s="23">והנה מפסוק זה</src>
+    <src s="24">(כל האזרח בישראל ישבו בסוכות)</src>
+    <src s="25">למדים8</src>
+    <src s="26">דכל ישראל ראוים לישב בסוכה אחת.</src>
+    <src s="27">וצ"ל,</src>
+    <src s="28">הרי ענין האחדות דכל ישראל</src>
+    <src s="29">(ענין אתם נצבים היום כולכם9)</src>
+    <src s="30">הוא גם במשך כל השנה,</src>
+    <src s="31">ועד שמצות אהבת ישראל</src>
+    <src s="32">[שהטעם לזה הוא לפי שכולם מתאימות ואב אחד לכולנה</src>
+    <src s="33">(ענין האחדות)</src>
+    <src s="34">כמבואר בתניא10]</src>
+    <src s="35">היא כל התורה כולה ואידך פירושה הוא11,</src>
+    <src s="36">היינו שכל מצוה היא כמו פירוש ופרט בענין האחדות דכל ישראל12,</src>
+    <src s="37">ולמה מודגש זה במצות סוכה דוקא.</src>
+    <src s="38">וגם צריך להבין מ"ש</src>
+    <src s="39">(לפנ"ז13)</src>
+    <src s="40">ולקחתם לכם ביום הראשון פרי עץ הדר כפות תמרים וענף עץ עבות וערבי נחל,</src>
+    <src s="41">וידוע14</src>
+    <src s="42">שמצוה זו יש לה שייכות לענין הסוכה,</src>
+    <src s="43">שלכן מצוה מן המובחר שנטילת ד' מינים תהי' בסוכה15.</src>
+    <src s="44">דזהו גם השייכות דנטילת ד' מינים לבחי' הדעת</src>
+    <src s="45">(בדוגמת למען ידעו דסוכה),</src>
+    <src s="46">כדאיתא בכתבי האריז"ל16</src>
+    <src s="47">שענין כוונת הנענועים דלולב הוא להמשיך דעת לנוק' דז"א העומדת בחזה דז"א</src>
+    <src s="48">(שלכן צריך שהלולב ומיניו יגעו בחזה).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדם ענין המשכת המקיף בהתיישבות</src>
+    <src s="2">(בסוכות תשבו)</src>
+    <src s="3">בעבודת ה' כמו שהוא במשך חיי האדם בכלל,</src>
+    <src s="4">ועד"ז בכל יום ויום.</src>
+    <src s="5">דהגם שענין זה בעיקרו הוא בחג הסוכות,</src>
+    <src s="6">בסוכות תשבו,</src>
+    <src s="7">מ"מ התורה כללות ופרטות נאמרה17,</src>
+    <src s="8">ויש מעין ענין זה גם במשך כל השנה.</src>
+    <src s="9">והענין הוא,</src>
+    <src s="10">הנה ב' הענינים דמקיף ופנימי בעבודת ה' בכלל הם אמונה והשגה.</src>
+    <src s="11">ותחלה צ"ל ענין המקיף דסוכה,</src>
+    <src s="12">ואח"כ צ"ל בסוכות תשבו,</src>
+    <src s="13">כי תחלת העבודה היא בבחי' אמונה.</src>
+    <src s="14">דכל אחד ואחד מישראל,</src>
+    <src s="15">מיד שיצא לאויר העולם,</src>
+    <src s="16">יש בו בחי' אמונה,</src>
+    <src s="17">כמארז"ל18</src>
+    <src s="18">שישראל הם מאמינים בני מאמינים.</src>
+    <src s="19">דזהו תואר אמיתי ע"פ תורת אמת של כאו"א מישראל.</src>
+    <src s="20">ולאחרי שהגיע לחינוך וכו' ובא לכלל דיעה,</src>
+    <src s="21">הנה מה שתחלה הי' אצלו בבחי' אמונה ומקיף,</src>
+    <src s="22">נמשך בבחי' פנימיות והתיישבות,</src>
+    <src s="23">ועד שזה נעשה כל מציאותו.</src>
+    <src s="24">ומ"מ גם אז יש לו בחי' אמונה,</src>
+    <src s="25">כי לאחרי וע"י המשכת המקיף</src>
+    <src s="26">(מה שמקודם הי' בבחי' מקיף)</src>
+    <src s="27">בפנימיות,</src>
+    <src s="28">נמשך בחי' מקיף עליון יותר19,</src>
+    <src s="29">ומקיף זה הוא בבחי' אמונה.</src>
+    <src s="30">ועד"ז הוא במשך כל ימי חייו,</src>
+    <src s="31">דכל מה שמתעלה יותר בעבודתו ובהשגתו,</src>
+    <src s="32">הנה מה שבתחלה הי' אצלו בבחי' אמונה,</src>
+    <src s="33">נמשך בהבנה והשגה,</src>
+    <src s="34">והאמונה שלו היא בבחי' נעלית יותר</src>
+    <src s="35">[ובדוגמת כללות בנ"י,</src>
+    <src s="36">שבתחלה היו בכלל אוה"ע,</src>
+    <src s="37">שהאמונה שלהם היא רק בבחי' כח הפועל בנפעל,</src>
+    <src s="38">ואח"כ נתעלו כו' להיות אמונתם בבחי' סוכ"ע,</src>
+    <src s="39">וכמבואר בסידור שער חג המצות בתחלתו].</src>
+    <src s="40">ועד שארז"ל20</src>
+    <src s="41">יאמין לכל דבר זה משה רבינו,</src>
+    <src s="42">הגם שמשה הי' תכלית שלימות החכמה,</src>
+    <src s="43">הרי גם לאחרי שלימות ההשגה יש ענינים שהם בבחי' אמונה למעלה מהשגה.</src>
+    <src s="44">ואדרבה,</src>
+    <src s="45">כל מה שמשיג יותר הנה ההשגה גופא מחייבת יותר שיש ענינים שהם למעלה מהשכל,</src>
+    <src s="46">ועד כהמאמר21</src>
+    <src s="47">תכלית הידיעה שלא נדעך.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,147 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914091_theRebbe_428" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914091_theRebbe_428__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914091_theRebbe_428" title="מאמר שובה ישראל תש"מ" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914091_theRebbe_428__p003">
+  <section v="6">
+    <src s="0">ו)</src>
+    <src s="1">וזהו שובה ישראל עד הוי' אלקיך,</src>
+    <src s="2">עד לשון נצחיות53,</src>
+    <src s="3">שענין הנצחיות שייך בגדר הזמן דוקא</src>
+    <src s="4">(דמה שלמעלה מגדר הזמן הוא למעלה אפילו מהי' הוה ויהי' כאחד54),</src>
+    <src s="5">אלא שבגדר הזמן הוא בבחי' נצחיות.</src>
+    <src s="6">ולכן עד היא בבחי' מלכות,</src>
+    <src s="7">שהיא55</src>
+    <src s="8">בבחי' וגדר הזמן53.</src>
+    <src s="9">וישראל הוא בחי' ז"א.</src>
+    <src s="10">ופירוש שובה ישראל עד הוי' אלקיך,</src>
+    <src s="11">שצריך להשיב ישראל עד שתהי' המלכות באופן דעד ובחינות ישראל ובחי' עד</src>
+    <src s="12">(ז"א ומלכות,</src>
+    <src s="13">בחינות ההשתלשלות)</src>
+    <src s="14">להוי' אלקיך,</src>
+    <src s="15">היינו לעצמות אוא"ס שלגבי' הוי' כאלקים יחשב56,</src>
+    <src s="16">ומשם צריך להמשיך בבחי' הוי' אלקיך,</src>
+    <src s="17">הוי' לשון מהוה ובזה גופא כמו שמתלבש בשם אלקים,</src>
+    <src s="18">ונעשה אלקיך כחך וחיותך.</src>
+    <src s="19">וזהו ג"כ מה שאומרים בנעילת יום הכפורים ז' פעמים הוי' הוא האלקים,</src>
+    <src s="20">כי בעשרת ימי תשובה גופא</src>
+    <src s="21">[שאז התשובה היא יפה ביותר ומתקבלת היא מיד57]</src>
+    <src s="22">עיקר התשובה הוא ביום הכפורים,</src>
+    <src s="23">כמ"ש הרמב"ם58</src>
+    <src s="24">יום הכפורים הוא זמן התשובה לכל כו' והוא קץ מחילה וסליחה לישראל כו',</src>
+    <src s="25">וביום הכפורים גופא עיקר התשובה הוא בתפלת נעילה</src>
+    <src s="26">(גמר היום)</src>
+    <src s="27">שאז הוא נעילת שערים ונמצאים ישראל ומלכא בלחודוהי59,</src>
+    <src s="28">לכן אומרים אז ז' פעמים הוי' הוא האלקים,</src>
+    <src s="29">שיש בזה ב' ענינים הנ"ל.</src>
+    <src s="30">ענין העלי'</src>
+    <src s="31">(מלמטלמ"ע)</src>
+    <src s="32">בעצמות אוא"ס,</src>
+    <src s="33">וכידוע דענין הוי' הוא האלקים</src>
+    <src s="34">(שאומרים בנעילת יום הכפורים)</src>
+    <src s="35">הוא מה שז"א</src>
+    <src s="36">(הוי')</src>
+    <src s="37">בעלותו לעתיקא כאלקים יחשב60,</src>
+    <src s="38">וענין ההמשכה מלמעלה למטה</src>
+    <src s="39">(בהוי' לשון מהוה ועד כמו שמתלבש בשם אלקים),</src>
+    <src s="40">דזהו מה שאומרים זה ז' פעמים בכדי להמשיך בבחי' ז"ת.</src>
+    <src s="41">וי"ל דזהו ג"כ מה שאומרים אז שמע ישראל הוי' אלקינו הוי' אחד פעם אחת ובשכמל"ו ג' פעמים והוי' הוא האלקים ז' פעמים,</src>
+    <src s="42">שמע ישראל גו' פעם אחת הו"ע העלי' מלמטה למעלה61</src>
+    <src s="43">ובשכמל"ו62</src>
+    <src s="44">ג' פעמים והוי' הוא האלקים ז"פ הו"ע ההמשכה מלמעלה למטה בכל הע"ס</src>
+    <src s="45">(ג' מוחין וז' מדות).</src>
+  </section>
+  <section v="7">
+    <src s="0">ז)</src>
+    <src s="1">ויש לקשר זה עם הכתוב וביום שמחתכם גו' ותקעתם בחצוצרות גו'63,</src>
+    <src s="2">וידועה תורת הרב המגיד64</src>
+    <src s="3">שתי חצוצרות שתי חצאי צורות,</src>
+    <src s="4">ומבואר בהמאמר65</src>
+    <src s="5">דענין שתי חצאי צורות הוא בבחי' הגילויים</src>
+    <src s="6">(צורה מורה על גילוי),</src>
+    <src s="7">ששם שייך לומר שהקב"ה וכנסת ישראל הם שתי חצאי צורות שמשלימות זא"ז.</src>
+    <src s="8">משא"כ בעצמות,</src>
+    <src s="9">ישראל וקוב"ה הם חד ממש</src>
+    <src s="10">(ואין שייך לומר שהם ב' חצאים).</src>
+    <src s="11">וכמו"כ הוא גם בענין שתי חצאי צורות שבנשמה66,</src>
+    <src s="12">חלק הנשמה שלמעלה ראש שבנשמה וחלק הנשמה שבגוף</src>
+    <src s="13">(בחי' נר"נ)</src>
+    <src s="14">רגל שבנשמה,</src>
+    <src s="15">שזהו דוקא בבחי' הגילויים שבנשמה,</src>
+    <src s="16">דגם ראש שבנשמה הוא עד בחי' חי' שיש לה שייכות לבחי' רגל שבנשמה</src>
+    <src s="17">(נשמה שבגוף),</src>
+    <src s="18">שלכן נקראת בשם מזל לפי שהיא מזלת ומטפת להארת הנשמה המלובשת בגוף.</src>
+    <src s="19">משא"כ בחי' יחידה ובפרט עצם הנשמה,</src>
+    <src s="20">עם היותה כוללת את כל הכחות ולמעלה יותר נושאת את כל הכחות,</src>
+    <src s="21">היא למעלה מבחי' מקור ושייכות לבחי' הגילויים,</src>
+    <src s="22">והיא</src>
+    <src s="23">(דוקא67)</src>
+    <src s="24">נמצאת בכל הבחינות דנשמה68,</src>
+    <src s="25">עד בבחי' עקב שבה,</src>
+    <src s="26">וגם בבחי' עקב שבגוף,</src>
+    <src s="27">וגם בד' אמות</src>
+    <src s="28">(שמחוץ לגוף האדם)69,</src>
+    <src s="29">שלכן ד' אמותיו של אדם קונות לו70,</src>
+    <src s="30">כמבואר בכ"מ71,</src>
+    <src s="31">וזוהי המעלה דשופר על חצוצרות,</src>
+    <src s="32">כמרז"ל72</src>
+    <src s="33">שופר מאריך וחצוצרות מקצרות שמצות היום בשופר,</src>
+    <src s="34">כי העבודה דשופר היא בעצם הנשמה שהיא חד ממש עם העצמות,</src>
+    <src s="35">למעלה73</src>
+    <src s="36">מענין שתי חצאי צורות.</src>
+  </section>
+  <section v="8">
+    <src s="0">ח)</src>
+    <src s="1">וזהו ג"כ שופר מאריך,</src>
+    <src s="2">דענין האריכות הוא הן למעלה והן למטה,</src>
+    <src s="3">כי העבודה דשופר מגעת בהעצם</src>
+    <src s="4">(בעצם הנשמה ובעצמותו ית')</src>
+    <src s="5">שלמעלה מכל הגילויים</src>
+    <src s="6">(אריכות למעלה),</src>
+    <src s="7">שהוא נמצא כנ"ל גם בהעקב</src>
+    <src s="8">(אריכות למטה),</src>
+    <src s="9">ועי"ז נשלמה הכוונה דדירה לו ית' בתחתונים,</src>
+    <src s="10">בב' הענינים,</src>
+    <src s="11">לו לעצמותו ובתחתונים.</src>
+    <src s="12">אלא שצריך גם לבחי' הגילויים,</src>
+    <src s="13">וכמו בדירת מלך בו"ד שצ"ל</src>
+    <src s="14">(נוסף על העיקר,</src>
+    <src s="15">דירה לעצמות המלך)</src>
+    <src s="16">דירה נאה וכלים נאים,</src>
+    <src s="17">לכן צ"ל גם חצוצרות,</src>
+    <src s="18">ומצד החביבות שבזה נשמעים ב' הקולות</src>
+    <src s="19">(חצוצרות ושופר)74,</src>
+    <src s="20">אבל מצות היום בשופר,</src>
+    <src s="21">לפי שעיקר העבודה בראש השנה הוא העבודה שמצד עצם הנשמה שהיא חד עם העצמות.</src>
+  </section>
+</awtsmoosMeluketSource>

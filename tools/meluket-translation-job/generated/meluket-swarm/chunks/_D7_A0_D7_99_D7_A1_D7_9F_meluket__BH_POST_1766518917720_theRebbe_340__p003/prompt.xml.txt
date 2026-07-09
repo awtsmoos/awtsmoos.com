@@ -1,0 +1,83 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917720_theRebbe_340" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917720_theRebbe_340" title="מאמר ויקרא אל משה תשל"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p003">
+  <section v="6">
+    <src s="0">ועפ"ז יש לבאר זה שהתחלת הדיבור מאוהל מועד היתה פרשת קרבנות כי הגילוי דתורה הוא בעיקר בדיני קרבנות</src>
+    <src s="1">(כנ"ל סעיף א),</src>
+    <src s="2">כי זה שע"י הקרבנות נעשה הבירור דעולם,</src>
+    <src s="3">וכן זה שעל ידם הוא קיום העולם,</src>
+    <src s="4">הוא בכח התורה,</src>
+    <src s="5">אדם כי יקריב דא אורייתא.</src>
+    <src s="6">ויש לקשר זה עם יום השני בניסן,</src>
+    <src s="7">בו הקריב נתנאל בן צוער נשיא יששכר34,</src>
+    <src s="8">דזה שזכה להקריב שני לשבטים הוא לפי שבני יששכר היו יודעים בתורה ולפי שהם נתנו עצה לנשיאים להתנדב קרבנות הללו35.</src>
+    <src s="9">דיש לומר ששני הענינים תלויים זה בזה,</src>
+    <src s="10">דלפי שהיו יודעים בתורה,</src>
+    <src s="11">וגילוי התורה הוא בענין הקרבנות,</src>
+    <src s="12">לכן נתנו עצה להתנדב קרבנות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">הרי תורה היא למעלה מהעולם,</src>
+    <src s="3">וכמבואר בתניא36</src>
+    <src s="4">דזה שדוד נענש על שקרא דברי תורה בשם זמירות37</src>
+    <src s="5">הוא לפי שדוד הי' משבח את התורה בזה שכל העולמות תלויים בדקדוק אחד מדקדוקי התורה,</src>
+    <src s="6">ונענש על זה,</src>
+    <src s="7">כי לגבי התורה,</src>
+    <src s="8">להיותה מיוחדת באוא"ס ב"ה,</src>
+    <src s="9">כל העולמות הם לא ממש חשיבי,</src>
+    <src s="10">ואין שייך שהגילוי דתורה הוא בענין הקרבנות שהם בירור וקיום העולם.</src>
+  </section>
+  <section v="8">
+    <src s="0">ויש לומר הביאור בזה,</src>
+    <src s="1">דזה שהתורה היא למעלה מעולמות הוא התורה כמו שהיא מצד עצמה.</src>
+    <src s="2">אבל מצד שרש התורה כמו שהיא מושרשת בהעצמות,</src>
+    <src s="3">כיון שעצמותו ית' אינו מוגדר ח"ו בשום גדר,</src>
+    <src s="4">גם לא בזה שכל העולמות הם לא חשיב לגבי',</src>
+    <src s="5">הנה ע"י שנתאוה להיות לו דירה בתחתונים38,</src>
+    <src s="6">שיהי' לו נחת רוח ותענוג מעבודת התחתונים,</src>
+    <src s="7">נעשה עד"ז גם בתורה,</src>
+    <src s="8">שעניני העולם תופסים מקום כביכול לגבי התורה.</src>
+    <src s="9">ועפ"ז יש לבאר זה שדוד הי' משבח את התורה בזה שקיום כל העולמות תלוי בדקדוק אחד מדקדוקי התורה,</src>
+    <src s="10">אף שהתורה היא למעלה מעולמות,</src>
+    <src s="11">כי מצד השרש דתורה כמו שהיא מושרשת בהעצמות,</src>
+    <src s="12">שנתאוה להיות לו דירה בתחתונים ושהדירה בתחתונים תהי' ע"י התורה,</src>
+    <src s="13">זה שחיות כל העולמות תלוי בדקדוק אחד דתורה הוא שבחה של התורה כביכול.</src>
+    <src s="14">[ומה שנענש על זה הוא לפי ששבחים שייך לגילוי,</src>
+    <src s="15">ומצד הגילוי דתורה,</src>
+    <src s="16">כל העולמות הם לא חשיב].</src>
+  </section>
+</awtsmoosMeluketSource>

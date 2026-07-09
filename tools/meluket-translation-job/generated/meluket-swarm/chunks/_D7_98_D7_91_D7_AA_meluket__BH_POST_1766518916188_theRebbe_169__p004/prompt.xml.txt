@@ -1,0 +1,94 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916188_theRebbe_169" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916188_theRebbe_169" title="מאמר ויגש אליו יהודה תשל"ו" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">ויובן זה בהקדם מה שהגשת יהודה ליוסף ואמירתו איך אעלה אל אבי גו'30</src>
+    <src s="2">הביא לזה שלא יכול יוסף להתאפק גו' והתודע אל אחיו31.</src>
+    <src s="3">דלכאורה לאחרי שבאו אליו כולם עם בנימין אחיו הי' צריך להתודע אליהם תיכף,</src>
+    <src s="4">ולמה הטמין את הגביע באמתחת בנימין32</src>
+    <src s="5">בכדי שיבואו אליו עוד פעם.</src>
+    <src s="6">וגם אז לא התודע אליהם מיד,</src>
+    <src s="7">ורק לאחרי שנגש אליו יהודה וטען את טענותיו,</src>
+    <src s="8">אז דוקא התודע אל אחיו.</src>
+  </section>
+  <section v="10">
+    <src s="0">ונקודת הביאור בזה33,</src>
+    <src s="1">דבנימין הוא צדיק תחתון שמעלה המקבל מלמטה למעלה34</src>
+    <src s="2">ומקשרו בהמשפיע.</src>
+    <src s="3">ועיקר העלאת מ"ן דהמלכות הוא ע"י בנימין35.</src>
+    <src s="4">ולכן עיקר העלאת מ"ן דהשבטים הי' כשבאו ליוסף בפעם השני' בשביל בנימין36.</src>
+    <src s="5">וזה שהטמין יוסף את הגביע באמתחת בנימין,</src>
+    <src s="6">הוא,</src>
+    <src s="7">כי בכדי לעורר העלאת מ"ן דהמלכות הוא ע"י ההמשכה מז"א37</src>
+    <src s="8">(כנ"ל סעיף ב).</src>
+    <src s="9">ויש לומר,</src>
+    <src s="10">דזה שצוה יוסף להטמין את הגביע באמתחת בנימין</src>
+    <src s="11">(ובנימין והשבטים לא ידעו מזה),</src>
+    <src s="12">הוא,</src>
+    <src s="13">כי בכדי שהעלאת מ"ן דהמקבל תהי' מצד המקבל,</src>
+    <src s="14">הוא כשההמשכה מהמשפיע שמעוררת את המקבל היא בהעלם38.</src>
+    <src s="15">וזה שלאחרי זה נמצא הגביע,</src>
+    <src s="16">הוא,</src>
+    <src s="17">כי לאחרי שנתעורר כבר אצלם ההעלאת מ"ן,</src>
+    <src s="18">באה ההמשכה בגילוי.</src>
+    <src s="19">ועי"ז נתעלו עוד יותר מהעלי' שלהם כשהגביע הי' טמון.</src>
+    <src s="20">וזהו שלאחרי שנמצא הגביע אמר יהודה39</src>
+    <src s="21">האלקים מצא את עון עבדיך,</src>
+    <src s="22">כי לאחרי שנתעלה לדרגא נעלית יותר,</src>
+    <src s="23">גם ענין הכי דק הי' נחשב אצלו לעון40.</src>
+    <src s="24">ואז ויגש אליו יהודה,</src>
+    <src s="25">העלאת מ"ן שלו</src>
+    <src s="26">[ודכל השבטים]</src>
+    <src s="27">היתה בשלימות.</src>
+  </section>
+  <section v="11">
+    <src s="0">ז)</src>
+    <src s="1">והנה כשרצה יהודה לעורר את יוסף שימשיך לו המשכת מ"ד,</src>
+    <src s="2">אמר לו1</src>
+    <src s="3">ידבר נא עבדך דבר באזני אדוני גו' כי כמוך כפרעה.</src>
+    <src s="4">והביאור בזה41,</src>
+    <src s="5">דלהיות שהמשכה מז"א למלכות היא ירידה,</src>
+    <src s="6">לכן ביאר יהודה ליוסף שאדרבה,</src>
+    <src s="7">עי"ז תהי' עלי' בז"א,</src>
+    <src s="8">שיהי' כמוך כפרעה.</src>
+    <src s="9">דיוסף כמו שהוא מצד עצמו מתחיל מחכמה שהיא ראשית הגילוי,</src>
+    <src s="10">וע"י שישפיע לעבדך,</src>
+    <src s="11">מלכות,</src>
+    <src s="12">יהי' כפרעה,</src>
+    <src s="13">כתר,</src>
+    <src s="14">ובכתר גופא – פנימיות הכתר41.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,509 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 93,
+    "returned": 93,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916295_theRebbe_70\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916295_theRebbe_70__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening heading and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">24 Teves</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the verse and its difficulties, contrasting the revelation to Moshe with that to the Patriarchs.</sectionSummaryBrief>\n    <t s=\"0\">\"And Elokim spoke to Moshe and said to him, 'I am Havayah,'\"</t>\n    <t s=\"1\">and it concludes, \"Therefore say to the children of Israel, 'I am Havayah.'\"</t>\n    <t s=\"2\">And the precise points in this are known from the Baal HaHilula,</t>\n    <t s=\"3\">what is the innovation in \"I am Havayah\" with which the speech begins, and as it explains and continues in the verse</t>\n    <t s=\"4\">(the innovation in \"I am Havayah\")</t>\n    <t s=\"5\">that although I appeared</t>\n    <t s=\"6\">(also)</t>\n    <t s=\"7\">to Avraham, to Yitzchak, and to Yaakov, this was only with [the name] El Shaddai, but My name Havayah I did not make known to them.</t>\n    <t s=\"8\">Also, one must understand the general content of the matter of \"And I appeared to Avraham etc. and My name Havayah I did not make known to them,\"</t>\n    <t s=\"9\">that on one hand this indicates the superiority and innovation of Moshe over the Patriarchs,</t>\n    <t s=\"10\">that specifically in the days of Moshe was the name Havayah revealed,</t>\n    <t s=\"11\">unlike for the Patriarchs, the knowledge and comprehension of the name Havayah was not revealed,</t>\n    <t s=\"12\">and together with this it is brought in the Midrash</t>\n    <t s=\"13\">on this verse and matter</t>\n    <t s=\"14\">(brought in Rashi on the Torah)</t>\n    <t s=\"15\">that the Holy One, blessed be He, said, \"Woe for those who are lost and are not found, that I appeared to Avraham, to Yitzchak, and to Yaakov etc. and they did not question My attributes, but you said...,\"</t>\n    <t s=\"16\">which seemingly are two contradictory matters.</t>\n    <t s=\"17\">And similarly one must understand in the statement of our sages, of blessed memory,</t>\n    <t s=\"18\">(brought in the discourse \"HaChodesh HaZeh Lachem,\"</t>\n    <t s=\"19\">the year 5700)</t>\n    <t s=\"20\">regarding Moshe, \"All sevenths are beloved,\"</t>\n    <t s=\"21\">that there is in this a thing and its opposite,</t>\n    <t s=\"22\">for when it says that sevenths are beloved, this is a belovedness greater than all those that preceded him,</t>\n    <t s=\"23\">and together with this,</t>\n    <t s=\"24\">from the fact that they say that his belovedness is in being seventh,</t>\n    <t s=\"25\">it is understood from this</t>\n    <t s=\"26\">(and as explained in the aforementioned discourse)</t>\n    <t s=\"27\">that his belovedness is from the aspect that he is seventh to the first.</t>\n    <t s=\"28\">And particularly according to the words of the Midrash,</t>\n    <t s=\"29\">brought in the maamar</t>\n    <t s=\"30\">(there),</t>\n    <t s=\"31\">that at the time Moshe requested a matter that pertained to the great ones, the Holy One, blessed be He, said to him, \"In the place of the great ones do not stand,\"</t>\n    <t s=\"32\">and \"the place of the great ones\" refers to Avraham.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the concepts of the sixty queens, eighty concubines, and maidens without number as levels of Torah and divine service for making a dwelling place below.</sectionSummaryBrief>\n    <t s=\"0\">And it will be understood with an introduction,</t>\n    <t s=\"1\">for behold, the maamar of the Baal HaHilula is known,</t>\n    <t s=\"2\">in Torah Ohr, Parshat Shemot,</t>\n    <t s=\"3\">and also in one of the heichalos that were recently released from captivity</t>\n    <t s=\"4\">the discourse \"To understand the explanation of the statement of our sages on the verse\"</t>\n    <t s=\"5\">\"There are sixty queens and eighty concubines and maidens without number; one is my dove, my perfect one, one is to her mother, pure is she to the one who bore her,\"</t>\n    <t s=\"6\">\"There are sixty queens\" — these are the sixty tractates, and \"eighty concubines\" — these are the baraitot, and \"maidens without number\" — these are the halachot,</t>\n    <t s=\"7\">which are the statements of the Amoraim,</t>\n    <t s=\"8\">and it concludes that all this is not comparable to \"one is my dove.\"</t>\n    <t s=\"9\">And to understand this,</t>\n    <t s=\"10\">and also to understand the statement of our sages,</t>\n    <t s=\"11\">\"Great is study that brings to action,\"</t>\n    <t s=\"12\">for seemingly we find several halachot that have no relevance to action,</t>\n    <t s=\"13\">and particularly according to what is explained in Kuntres Acharon</t>\n    <t s=\"14\">that there are matters that were not... and will not be, and nevertheless there are halachot and discussions in these matters.</t>\n    <t s=\"15\">And it explains there with the introduction of the known concept that the purpose of creation is to make for Him, blessed be He, a dwelling place in the lower realms,</t>\n    <t s=\"16\">that the dwelling place in the lower realms is made through the sixty queens and eighty concubines and maidens without number,</t>\n    <t s=\"17\">and in general through the Torah,</t>\n    <t s=\"18\">that through engaging in the pure Torah,</t>\n    <t s=\"19\">fit and permitted,</t>\n    <t s=\"20\">through this that thing is clarified,</t>\n    <t s=\"21\">and through the subsequent service of Yisrael it is refined and elevated until it becomes a dwelling place for Him, blessed be He, in the lower realms.</t>\n    <t s=\"22\">And behold, just as in a dwelling there must be beautiful vessels,</t>\n    <t s=\"23\">\"do good,\"</t>\n    <t s=\"24\">so too one must remove the undesirable matters, which is the matter of \"turn away from evil,\"</t>\n    <t s=\"25\">and this is the Torah as it is on the line of gevurah,</t>\n    <t s=\"26\">that the ruling is the opposite of pure, fit, and permitted,</t>\n    <t s=\"27\">and this is because it is not fit to be a vessel for Elokus — a dwelling place for Him, blessed be He, in the lower realms.</t>\n    <t s=\"28\">And this is the matter of \"sixty queens,\"</t>\n    <t s=\"29\">sixty tractates,</t>\n    <t s=\"30\">that specifically in the Oral Torah is the clarification of the will to know the matters of \"turn away from evil\" and \"do good.\"</t>\n    <t s=\"31\">And the entirety of the Oral Torah is divided into six,</t>\n    <t s=\"32\">which are the six orders of the Mishnah,</t>\n    <t s=\"33\">and each one includes ten, from which is made \"sixty queens.\"</t>\n    <t s=\"34\">And it is called by the name \"queens\" because in the Mishnah, Elokus is revealed like a queen, to whom the king goes in a revealed and permanent manner.</t>\n    <t s=\"35\">And it can be said that this is the connection of the matter of the Mishnah to the Temple,</t>\n    <t s=\"36\">to the time when the Holy Temple existed,</t>\n    <t s=\"37\">for although the arrangement of the Mishnah and its completion was by Rabbeinu HaKadosh</t>\n    <t s=\"38\">(who was after the time of the Temple),</t>\n    <t s=\"39\">nevertheless our sages said,</t>\n    <t s=\"40\">\"And it was left over in the days of Rebbe,\"</t>\n    <t s=\"41\">that the days of Rebbe are the continuation of the time when the Holy Temple existed.</t>\n    <t s=\"42\">And \"eighty concubines\" — these are the baraitot,</t>\n    <t s=\"43\">that \"baraita\" is from the term \"bar\" and \"outside,\"</t>\n    <t s=\"44\">for because in that time there was the matter of exile,</t>\n    <t s=\"45\">\"we were exiled from our land,\"</t>\n    <t s=\"46\">which is the matter of \"bar\" and \"outside,\"</t>\n    <t s=\"47\">so too the revelation of will and the revelation of Elokus that was in the Torah at that time was not so clarified, therefore it is called by the name \"concubine.\"</t>\n    <t s=\"48\">And afterwards it is drawn down lower, and \"maidens without number\" — these are the halachot, which are the statements of the Amoraim,</t>\n    <t s=\"49\">and in this is included everything that a qualified student will innovate in the future,</t>\n    <t s=\"50\">and particularly the Babylonian Talmud, about which it is said, \"He has placed me in darkness,\"</t>\n    <t s=\"51\">which is specifically the Torah of the time of exile,</t>\n    <t s=\"52\">and until the final exile.</t>\n    <t s=\"53\">And it is called \"maidens\" from the term \"concealment\" and \"hiding,\"</t>\n    <t s=\"54\">that the concealment and hiding in them is greater than it is in the baraitot.</t>\n    <t s=\"55\">But nevertheless, specifically in them is the matter of \"without number,\"</t>\n    <t s=\"56\">that through them the ultimate clarification is achieved, even to the aspect of \"without number.\"</t>\n    <t s=\"57\">And this is an introduction to the time of \"And the number of the children of Yisrael will be like the sand of the sea, which cannot be measured nor counted.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916295_theRebbe_70",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916295_theRebbe_70__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening heading and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "24 Teves"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the verse and its difficulties, contrasting the revelation to Moshe with that to the Patriarchs.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And Elokim spoke to Moshe and said to him, 'I am Havayah,'\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and it concludes, \"Therefore say to the children of Israel, 'I am Havayah.'\""
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "And the precise points in this are known from the Baal HaHilula,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "what is the innovation in \"I am Havayah\" with which the speech begins, and as it explains and continues in the verse"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "(the innovation in \"I am Havayah\")"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that although I appeared"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "(also)"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "to Avraham, to Yitzchak, and to Yaakov, this was only with [the name] El Shaddai, but My name Havayah I did not make known to them."
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "Also, one must understand the general content of the matter of \"And I appeared to Avraham etc. and My name Havayah I did not make known to them,\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "that on one hand this indicates the superiority and innovation of Moshe over the Patriarchs,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "that specifically in the days of Moshe was the name Havayah revealed,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "unlike for the Patriarchs, the knowledge and comprehension of the name Havayah was not revealed,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "and together with this it is brought in the Midrash"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "on this verse and matter"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "(brought in Rashi on the Torah)"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that the Holy One, blessed be He, said, \"Woe for those who are lost and are not found, that I appeared to Avraham, to Yitzchak, and to Yaakov etc. and they did not question My attributes, but you said...,\""
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "which seemingly are two contradictory matters."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "And similarly one must understand in the statement of our sages, of blessed memory,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "(brought in the discourse \"HaChodesh HaZeh Lachem,\""
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "the year 5700)"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "regarding Moshe, \"All sevenths are beloved,\""
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "that there is in this a thing and its opposite,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "for when it says that sevenths are beloved, this is a belovedness greater than all those that preceded him,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "and together with this,"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "from the fact that they say that his belovedness is in being seventh,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "it is understood from this"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "(and as explained in the aforementioned discourse)"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "that his belovedness is from the aspect that he is seventh to the first."
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "And particularly according to the words of the Midrash,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "brought in the maamar"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "(there),"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "that at the time Moshe requested a matter that pertained to the great ones, the Holy One, blessed be He, said to him, \"In the place of the great ones do not stand,\""
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "and \"the place of the great ones\" refers to Avraham."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the concepts of the sixty queens, eighty concubines, and maidens without number as levels of Torah and divine service for making a dwelling place below.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And it will be understood with an introduction,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "for behold, the maamar of the Baal HaHilula is known,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "in Torah Ohr, Parshat Shemot,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "and also in one of the heichalos that were recently released from captivity"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "the discourse \"To understand the explanation of the statement of our sages on the verse\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "\"There are sixty queens and eighty concubines and maidens without number; one is my dove, my perfect one, one is to her mother, pure is she to the one who bore her,\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "\"There are sixty queens\" — these are the sixty tractates, and \"eighty concubines\" — these are the baraitot, and \"maidens without number\" — these are the halachot,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "which are the statements of the Amoraim,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "and it concludes that all this is not comparable to \"one is my dove.\""
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And to understand this,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "and also to understand the statement of our sages,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "\"Great is study that brings to action,\""
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "for seemingly we find several halachot that have no relevance to action,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "and particularly according to what is explained in Kuntres Acharon"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that there are matters that were not... and will not be, and nevertheless there are halachot and discussions in these matters."
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "And it explains there with the introduction of the known concept that the purpose of creation is to make for Him, blessed be He, a dwelling place in the lower realms,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "that the dwelling place in the lower realms is made through the sixty queens and eighty concubines and maidens without number,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "and in general through the Torah,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "that through engaging in the pure Torah,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "fit and permitted,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "through this that thing is clarified,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "and through the subsequent service of Yisrael it is refined and elevated until it becomes a dwelling place for Him, blessed be He, in the lower realms."
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "And behold, just as in a dwelling there must be beautiful vessels,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "\"do good,\""
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "so too one must remove the undesirable matters, which is the matter of \"turn away from evil,\""
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "and this is the Torah as it is on the line of gevurah,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "that the ruling is the opposite of pure, fit, and permitted,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "and this is because it is not fit to be a vessel for Elokus — a dwelling place for Him, blessed be He, in the lower realms."
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "And this is the matter of \"sixty queens,\""
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "sixty tractates,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "that specifically in the Oral Torah is the clarification of the will to know the matters of \"turn away from evil\" and \"do good.\""
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "And the entirety of the Oral Torah is divided into six,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "which are the six orders of the Mishnah,"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "and each one includes ten, from which is made \"sixty queens.\""
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "And it is called by the name \"queens\" because in the Mishnah, Elokus is revealed like a queen, to whom the king goes in a revealed and permanent manner."
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "And it can be said that this is the connection of the matter of the Mishnah to the Temple,"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "to the time when the Holy Temple existed,"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "for although the arrangement of the Mishnah and its completion was by Rabbeinu HaKadosh"
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "(who was after the time of the Temple),"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "nevertheless our sages said,"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "\"And it was left over in the days of Rebbe,\""
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "that the days of Rebbe are the continuation of the time when the Holy Temple existed."
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "And \"eighty concubines\" — these are the baraitot,"
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "that \"baraita\" is from the term \"bar\" and \"outside,\""
+          },
+          {
+            "v": 2,
+            "s": 44,
+            "translation": "for because in that time there was the matter of exile,"
+          },
+          {
+            "v": 2,
+            "s": 45,
+            "translation": "\"we were exiled from our land,\""
+          },
+          {
+            "v": 2,
+            "s": 46,
+            "translation": "which is the matter of \"bar\" and \"outside,\""
+          },
+          {
+            "v": 2,
+            "s": 47,
+            "translation": "so too the revelation of will and the revelation of Elokus that was in the Torah at that time was not so clarified, therefore it is called by the name \"concubine.\""
+          },
+          {
+            "v": 2,
+            "s": 48,
+            "translation": "And afterwards it is drawn down lower, and \"maidens without number\" — these are the halachot, which are the statements of the Amoraim,"
+          },
+          {
+            "v": 2,
+            "s": 49,
+            "translation": "and in this is included everything that a qualified student will innovate in the future,"
+          },
+          {
+            "v": 2,
+            "s": 50,
+            "translation": "and particularly the Babylonian Talmud, about which it is said, \"He has placed me in darkness,\""
+          },
+          {
+            "v": 2,
+            "s": 51,
+            "translation": "which is specifically the Torah of the time of exile,"
+          },
+          {
+            "v": 2,
+            "s": 52,
+            "translation": "and until the final exile."
+          },
+          {
+            "v": 2,
+            "s": 53,
+            "translation": "And it is called \"maidens\" from the term \"concealment\" and \"hiding,\""
+          },
+          {
+            "v": 2,
+            "s": 54,
+            "translation": "that the concealment and hiding in them is greater than it is in the baraitot."
+          },
+          {
+            "v": 2,
+            "s": 55,
+            "translation": "But nevertheless, specifically in them is the matter of \"without number,\""
+          },
+          {
+            "v": 2,
+            "s": 56,
+            "translation": "that through them the ultimate clarification is achieved, even to the aspect of \"without number.\""
+          },
+          {
+            "v": 2,
+            "s": 57,
+            "translation": "And this is an introduction to the time of \"And the number of the children of Yisrael will be like the sand of the sea, which cannot be measured nor counted.\""
+          }
+        ]
+      }
+    ]
+  }
+}

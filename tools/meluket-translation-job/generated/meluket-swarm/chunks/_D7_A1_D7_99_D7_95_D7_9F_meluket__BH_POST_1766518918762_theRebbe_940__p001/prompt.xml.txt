@@ -1,0 +1,110 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918762_theRebbe_940" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918762_theRebbe_940" title="מאמר וידבר אלוקים את כל הדברים האלה תשכ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ב' דחג השבועות,</src>
+    <src s="2">ה'תשכ"ט</src>
+  </section>
+  <section v="1">
+    <src s="0">וידבר אלקים את כל הדברים האלה לאמר1,</src>
+    <src s="1">וידוע הדיוק2</src>
+    <src s="2">במ"ש לאמר,</src>
+    <src s="3">דמאחר שכל ישראל</src>
+    <src s="4">(הנשמות שבכל הדורות3)</src>
+    <src s="5">היו במעמד הר סיני ושמעו את הדברות מהקב"ה בעצמו,</src>
+    <src s="6">מהו פירוש לאמר,</src>
+    <src s="7">לאמר לאחרים4.</src>
+    <src s="8">ונקודת הביאור בזה,</src>
+    <src s="9">שבזה מבאר הכתוב את החידוש דמתן תורה.</src>
+    <src s="10">דלכאורה הרי גם קודם מתן תורה למדו כל התורה</src>
+    <src s="11">[כמובן גם מזה שקיים אברהם אבינו את כל התורה כולה עד שלא ניתנה5,</src>
+    <src s="12">שבכדי לקיים את התורה צריך ללמוד אותה,</src>
+    <src s="13">ובודאי6</src>
+    <src s="14">שאברהם לימד את כל התורה כולה ליצחק בנו ויצחק לימדה ליעקב ובניו7],</src>
+    <src s="15">ומהו החידוש דמתן תורה8.</src>
+    <src s="16">ומבאר הכתוב,</src>
+    <src s="17">שהחידוש דוידבר אלקים את כל הדברים האלה במתן תורה הוא,</src>
+    <src s="18">שעי"ז ניתן הכח לכאו"א מישראל שבכל הדורות,</src>
+    <src s="19">שלימוד התורה שלו יהי' באופן דלאמר.</src>
+    <src s="20">ושני פירושים בזה.</src>
+    <src s="21">שע"י לימוד התורה שלו הוא גורם שהקב"ה יאמר דיבורים אלה9,</src>
+    <src s="22">דכל הקורא ושונה הקב"ה קורא ושונה כנגדו10,</src>
+    <src s="23">דעפ"ז פירוש לאמר</src>
+    <src s="24">(לאמר לאחרים)</src>
+    <src s="25">הוא,</src>
+    <src s="26">שהאדם הלומד תורה אומר להקב"ה11</src>
+    <src s="27">כביכול שיחזור על הדיבורים שלו.</src>
+    <src s="28">ועוד,</src>
+    <src s="29">שלימוד התורה של האדם יהי' באופן דלאמר,</src>
+    <src s="30">לחזור הדברים שהקב"ה אומר,</src>
+    <src s="31">כמ"ש12</src>
+    <src s="32">תען לשוני אמרתך,</src>
+    <src s="33">שהדיבורים דתורה שהאדם אומר הם אמרתך ולשוני תען כעונה אחר הקורא13.</src>
+    <src s="34">ועוד פירוש בוידבר גו' לאמר,</src>
+    <src s="35">שוידבר אלקים את כל הדברים האלה,</src>
+    <src s="36">עשרת הדברות שהם כללות כל התורה14,</src>
+    <src s="37">הוא לאמר,</src>
+    <src s="38">שעשרת הדברות</src>
+    <src s="39">(תורה שלמעלה מעולם)</src>
+    <src s="40">יומשכו בהעשרה מאמרות שבהם נברא15</src>
+    <src s="41">העולם16.</src>
+    <src s="42">ועד"ז הוא בלימוד התורה דהאדם,</src>
+    <src s="43">שהוא באופן דוידבר גו' לאמר,</src>
+    <src s="44">שמדיבור התורה שלו נעשה אמירה,</src>
+    <src s="45">המשכת ההשפעה למטה17.</src>
+    <src s="46">וצריך להבין הקשר והשייכות דכל ענינים הנ"ל בלאמר.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה בהמאמר של אדמו"ר מהר"ש ד"ה זה שנאמר לפני מאה שנה18</src>
+    <src s="2">(לאחרי הדיוק שלכאורה תיבת לאמר הוא מיותר),</src>
+    <src s="3">מביא מ"ש בילקוט19,</src>
+    <src s="4">כשהי' הקב"ה מדבר הי' כל אחד מישראל אומר עמי הדיבור מדבר שנאמר20</src>
+    <src s="5">אנכי הוי' אלקיך לשון יחיד.</src>
+    <src s="6">ומבאר,</src>
+    <src s="7">דזהו מה דאיתא במדרש21</src>
+    <src s="8">עה"פ אנכי הוי' אלקיך,</src>
+    <src s="9">שהקול ששמעו בעשרת הדברות הי' לפי כחו של כל אחד,</src>
+    <src s="10">הבחורים לפי כחן והזקנים לפי כחן והקטנים לפי כחן.</src>
+    <src s="11">ויש לומר,</src>
+    <src s="12">דמהטעמים על זה שמביא גם מאמר המדרש,</src>
+    <src s="13">הוא,</src>
+    <src s="14">לפי שעי"ז מובן שהענין דעמי הדיבור מדבר</src>
+    <src s="15">(לכאו"א בפ"ע)</src>
+    <src s="16">הוא לא רק בנוגע להנשמה אלא גם בנוגע להגוף,</src>
+    <src s="17">שהרי החילוק דבחורים זקנים וקטנים הוא מצד הגוף.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,121 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915124_theRebbe_182" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915124_theRebbe_182" title="מאמר ויזרע יצחק בארץ תשכ"ז" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p002">
+  <section v="3">
+    <src s="0">ויש לומר הביאור בזה,</src>
+    <src s="1">ע"פ מ"ש הצ"צ במאמרו ד"ה זה6,</src>
+    <src s="2">דאיתא במדרש7</src>
+    <src s="3">בא יצחק אף הוא האיר שנאמר8</src>
+    <src s="4">אור זרוע לצדיק וכתיב ויזרע יצחק.</src>
+    <src s="5">היינו שהזריעה שזרע יצחק הוא אור זרוע לצדיק.</src>
+    <src s="6">ובתדב"א9</src>
+    <src s="7">איתא עה"פ ויזרע יצחק אין זריעה אלא צדקה שנאמר10</src>
+    <src s="8">זרעו לכם לצדקה.</src>
+    <src s="9">ומבאר בהמאמר11,</src>
+    <src s="10">דמ"ש בתדב"א שויזרע יצחק הוא צדקה קאי גם על כל המצוות שנק' בשם צדקה,</src>
+    <src s="11">כמ"ש12</src>
+    <src s="12">וצדקה תהי' לנו13.</src>
+    <src s="13">וגם התורה נק' בשם זריעה,</src>
+    <src s="14">כמ"ש14</src>
+    <src s="15">שש שנים תזרע שדך הם שיתא סדרי משנה15.</src>
+    <src s="16">וזהו שויזרע יצחק הוא אור זרוע לצדיק,</src>
+    <src s="17">שהוא אור התורה והמצוות שזרוע</src>
+    <src s="18">(נתלבש)</src>
+    <src s="19">בדברים הגשמיים שבעוה"ז16.</src>
+    <src s="20">ועפ"ז יש לבאר מה שע"י העבודה דויזרע נעשה ויגדל האיש</src>
+    <src s="21">(בכללותו),</src>
+    <src s="22">כי ויזרע יצחק הוא עבודה כללית,</src>
+    <src s="23">העבודה דלימוד התורה וקיום המצוות.</src>
+    <src s="24">ועפ"ז יש לומר,</src>
+    <src s="25">שגם שני הענינים שבפסוק ויזרע יצחק גו'</src>
+    <src s="26">(וימצא מאה שערים,</src>
+    <src s="27">ויברכהו ה')</src>
+    <src s="28">הם ענינים כללים.</src>
+    <src s="29">דכמו שהעבודה דויזרע יצחק היא עבודה כללית</src>
+    <src s="30">(כנ"ל),</src>
+    <src s="31">גם הענינים שנמשכו מלמעלה ע"י עבודה זו הם ענינים כללים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה מבואר בכ"מ17,</src>
+    <src s="2">דזה שתורה ומצוות נקראים בשם זריעה קאי על הירידה דתומ"צ להתלבש בדברים גשמיים,</src>
+    <src s="3">שהכוונה בזה היא לצורך עלי',</src>
+    <src s="4">בדוגמת זריעה בארץ שהיא בשביל הצמיחה בריבוי יותר מכמו שהי' בתחלה.</src>
+    <src s="5">וצריך להבין,</src>
+    <src s="6">דע"פ ביאור זה,</src>
+    <src s="7">הלשון זריעה בתומ"צ שייך בנוגע להקב"ה,</src>
+    <src s="8">שהוא הוריד התומ"צ למטה18,</src>
+    <src s="9">ולא בנוגע לקיום התומ"צ דהאדם.</src>
+    <src s="10">וממ"ש ויזרע יצחק מובן שגם קיום התומ"צ דהאדם היא ירידה לצורך עלי'.</src>
+    <src s="11">ויש לומר הביאור בזה ע"פ מ"ש בהמאמר בסופו11</src>
+    <src s="12">עוד פירוש באור זרוע לצדיק,</src>
+    <src s="13">דענין הזריעה הוא לזרוע בנפש הבהמית המשכת שכל ומדות של נפש האלקית,</src>
+    <src s="14">שעי"ז נעשה צמיחה ועלי' בהשכל והמדות דנפש האלקית.</src>
+    <src s="15">דכיון שהשרש דנפש הבהמית הוא למעלה מהשרש דנפש האלקית,</src>
+    <src s="16">דנה"א שרשה בתיקון ונה"ב שרשה בתוהו,</src>
+    <src s="17">לכן,</src>
+    <src s="18">ע"י זריעת השכל ומדות דנפש האלקית בנפש הבהמית נעשה צמיחה</src>
+    <src s="19">(עלי')</src>
+    <src s="20">בנפש האלקית.</src>
+    <src s="21">ולהעיר,</src>
+    <src s="22">דבלקו"ת19</src>
+    <src s="23">מבואר שאור זרוע לצדיק קאי על ירידת נפש האלקית להתלבש בנפש הבהמית,</src>
+    <src s="24">ומלשון המאמר לזרוע בנה"ב המשכת שכל ומדות של נה"א,</src>
+    <src s="25">משמע,</src>
+    <src s="26">שהאדם צריך לזרוע השכל ומדות דנה"א בנה"ב.</src>
+  </section>
+  <section v="5">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דבעבודת הנשמה</src>
+    <src s="2">(גם לאחרי ירידתה למטה)</src>
+    <src s="3">ישנם שני אופנים.</src>
+    <src s="4">עבודת הנשמה מצד עצמה,</src>
+    <src s="5">ועבודתה לברר את נה"ב20.</src>
+    <src s="6">וזהו פירוש לזרוע השכל ומדות דנה"א בנה"ב,</src>
+    <src s="7">כי השכל והמדות דנה"א כמו שהם מצד עצמם</src>
+    <src s="8">(גם לאחרי ירידת הנשמה למטה)</src>
+    <src s="9">אי אפשר שיהי' על ידם בירור נה"ב,</src>
+    <src s="10">ובכדי שיפעלו בנה"ב הוא ע"י ירידתם והתלבשותם בהשכל והמדות דנה"ב20,</src>
+    <src s="11">זריעה.</src>
+    <src s="12">ויש לומר,</src>
+    <src s="13">שעד"ז הוא בקיום התומ"צ,</src>
+    <src s="14">שבכדי שיהי' חיות בהתומ"צ הוא כשקיום התומ"צ הוא באהבה ויראה21,</src>
+    <src s="15">ובכדי שע"י האהוי"ר דהנשמה יהי' חיות במעשה המצוות שעי"ז יהיו פרחא לעילא22</src>
+    <src s="16">הוא ע"י ירידתם והתלבשותם בהעשי'</src>
+    <src s="17">(דהמצוה)23.</src>
+    <src s="18">וזהו שקיום התומ"צ דהאדם נק' בשם זריעה,</src>
+    <src s="19">ויזרע יצחק.</src>
+  </section>
+</awtsmoosMeluketSource>

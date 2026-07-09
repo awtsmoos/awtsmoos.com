@@ -1,0 +1,144 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918918_theRebbe_323" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918918_theRebbe_323__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918918_theRebbe_323" title="מאמר ועתה יגדל נא תשי"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918918_theRebbe_323__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">והנה כל הענינים שלמעלה,</src>
+    <src s="2">המשכתם היא ע"י עבודת האדם.</src>
+    <src s="3">וזהו ועתה יגדל נא כח אד' כאשר דברת לאמר,</src>
+    <src s="4">דכאשר דברת קאי על הדיבור דהקב"ה למשה הי' לך לעזרני,</src>
+    <src s="5">שמשה יאמר תצלח מלאכתך36,</src>
+    <src s="6">שהגדלת כח אד' נעשית ע"י עבודת האדם</src>
+    <src s="7">(אמירת משה).</src>
+    <src s="8">וע"פ הידוע37</src>
+    <src s="9">שעבודת האדם</src>
+    <src s="10">(אתערותא דלתתא)</src>
+    <src s="11">שעל ידה נעשית ההמשכה</src>
+    <src s="12">(אתערותא דלעילא)</src>
+    <src s="13">צריכה להיות מעין ההמשכה,</src>
+    <src s="14">מובן,</src>
+    <src s="15">שבכדי שתהי' הגדלת כח אד'</src>
+    <src s="16">(ממלא)</src>
+    <src s="17">על ידי שיומשך בו מבחינת הסובב שלמעלה מהשתלשלות,</src>
+    <src s="18">הוא ע"י ההגדלה</src>
+    <src s="19">(הוספה)</src>
+    <src s="20">בהעבודה שע"פ טעם ודעת ע"י המשכת וגילוי העבודה שלמעלה מטעם ודעת.</src>
+    <src s="21">וע"ד המבואר בתניא38</src>
+    <src s="22">שקיום התורה ומצוותי' תלוי בזה שיזכור תמיד ענין מסירת נפשו לה' שע"י זכירת ענין המס"נ,</src>
+    <src s="23">למעלה מהשתלשלות שבאדם,</src>
+    <src s="24">נעשית הגדלה והוספה בקיום התומ"צ,</src>
+    <src s="25">השתלשלות שבאדם.</src>
+  </section>
+  <section v="10">
+    <src s="0">ובפרטיות יותר יש לומר,</src>
+    <src s="1">שבכדי שתהי' המשכת הסובב וההגדלה בכח אד',</src>
+    <src s="2">צריך לקשר העבודה שלמעלה מטעם ודעת עם בחינת קדמות השכל.</src>
+    <src s="3">וזהו שאמרו רז"ל39</src>
+    <src s="4">כל העונה אמן יהא שמי' רבא מברך בכל כחו קורעין לו גזר דינו של ע' שנה40,</src>
+    <src s="5">דבכל כחו ישנם שני פירושים.</src>
+    <src s="6">פי' רש"י41</src>
+    <src s="7">בכל כחו בכל כח כוונתו,</src>
+    <src s="8">ופירוש התוספות42</src>
+    <src s="9">בקול רם.</src>
+    <src s="10">ויש לומר הביאור בזה,</src>
+    <src s="11">דע"י אמירת אמן יהא שמי' רבא בכל כחו נעשה הגדלת כח אד'43.</src>
+    <src s="12">דשמי' רבא הוא שמו הגדול,</src>
+    <src s="13">סובב שלמעלה מהשתלשלות,</src>
+    <src s="14">שע"י המשכת הסובב נעשה הגדלת כח אד' כנ"ל.</src>
+    <src s="15">ולכן ע"י אמירת אמן יהא שמי' רבא קורעין לו גזר דינו של ע' שנה,</src>
+    <src s="16">דהגזר דין הוא מצד הפגם בשם אד',</src>
+    <src s="17">וע"י הגדלת כח אד' נתתקן הפגם,</src>
+    <src s="18">ובכדי שתהי' ההמשכה דשמי' רבא בבחינת כח אד',</src>
+    <src s="19">הוא ע"י שני הענינים</src>
+    <src s="20">(הפירושים)</src>
+    <src s="21">דבכל כחו.</src>
+    <src s="22">דכל כוונתו היא הכוונה דרעותא דלבא שלמעלה מטעם ודעת,</src>
+    <src s="23">למעלה מהשתלשלות שבאדם,</src>
+    <src s="24">וקול רם הוא הדיבור שמעורר בחינת קדמות השכל,</src>
+    <src s="25">השרש דהשתלשלות44.</src>
+    <src s="26">וע"י שכל כוונתו היא לא רק במחשבה אלא באה בקול רם,</src>
+    <src s="27">עי"ז נעשית ההמשכה דשמי' רבא בכח אד'.</src>
+  </section>
+  <section v="11">
+    <src s="0">ט)</src>
+    <src s="1">והנה ידוע45</src>
+    <src s="2">שעבודת האדם מגעת עד שרש הנבראים,</src>
+    <src s="3">בחינת השתלשלות,</src>
+    <src s="4">וזה שעל ידי העבודה נמשך גם מלמעלה מהשתלשלות,</src>
+    <src s="5">הוא ע"י נתינת כח מלמעלה שנמשך במתן תורה.</src>
+    <src s="6">וזהו כאשר דברת לאמר,</src>
+    <src s="7">דזה שע"י עבודת האדם</src>
+    <src s="8">(לאמר)</src>
+    <src s="9">נעשה הגדלת כח אד',</src>
+    <src s="10">שההגדלה היא על ידי המשכת הסובב שלמעלה מהשתלשלות,</src>
+    <src s="11">הוא כאשר דברת,</src>
+    <src s="12">דכאשר דברת קאי</src>
+    <src s="13">(גם)</src>
+    <src s="14">על לאמר</src>
+    <src s="15">(כנ"ל בתחלת המאמר),</src>
+    <src s="16">שע"י דיבור הקב"ה הי' לך לעזרני,</src>
+    <src s="17">ניתן הכח</src>
+    <src s="18">(למשה,</src>
+    <src s="19">ועל ידו לכאו"א מישראל)</src>
+    <src s="20">שע"י עבודתו יוכל לפעול הגדלת כח אד'.</src>
+    <src s="21">וע"פ המובא לעיל שכח זה</src>
+    <src s="22">(שע"י עבודה יומשך גם האור שלמעלה מהשתלשלות)</src>
+    <src s="23">נמשך במתן תורה,</src>
+    <src s="24">יש לומר,</src>
+    <src s="25">דכאשר דברת לאמר קאי</src>
+    <src s="26">(גם)</src>
+    <src s="27">על וידבר גו' לאמר46</src>
+    <src s="28">שנאמר במתן תורה47,</src>
+    <src s="29">שגם הפירוש דוידבר גו' לאמר הוא שוידבר אלקים הי' שישראל יאמרו את כל הדברים האלה</src>
+    <src s="30">(שקאי גם על כל התורה כולה48)</src>
+    <src s="31">באופן דלאמר,</src>
+    <src s="32">לומר הדברים שהקב"ה אומר49.</src>
+    <src s="33">היינו שע"י שהאדם אומר דברי תורה,</src>
+    <src s="34">הוא גורם שהקב"ה יאמר דיבורים אלו,</src>
+    <src s="35">המשכת אוא"ס</src>
+    <src s="36">(שלמעלה מהשתלשלות)</src>
+    <src s="37">בתורה</src>
+    <src s="38">(השתלשלות).</src>
+    <src s="39">ועי"ז נמשך הכח גם בכללות עבודת האדם,</src>
+    <src s="40">שע"י עבודתו</src>
+    <src s="41">(באופן שהלמעלה מהשתלשלות שבאדם מאיר בהשתלשלות שבו)</src>
+    <src s="42">ממשיך אור שלמעלה מהשתלשלות בהשתלשלות,</src>
+    <src s="43">המשכת סובב בממלא.</src>
+    <src s="44">ועי"ז נעשה המשכת הסובב גם למטה בעולם</src>
+    <src s="45">(שהמשכת הסובב בעולם היא גם בהפנימיות שבו),</src>
+    <src s="46">ועי"ז נשלמת הכוונה דדירה50</src>
+    <src s="47">לו ית' בתחתונים.</src>
+  </section>
+</awtsmoosMeluketSource>

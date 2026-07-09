@@ -1,0 +1,113 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919915_theRebbe_134" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919915_theRebbe_134__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919915_theRebbe_134" title="מאמר ועתה ישראל תשכ"ז" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919915_theRebbe_134__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ עקב,</src>
+    <src s="2">כ"ף מנחם-אב</src>
+    <src s="3">(מאמר ב),</src>
+    <src s="4">ה'תשכ"ז</src>
+  </section>
+  <section v="1">
+    <src s="0">ועתה ישראל מה הוי' אלקיך שואל מעמך כי אם ליראה גו'1,</src>
+    <src s="1">ואיתא בגמרא2</src>
+    <src s="2">אטו יראה מילתא זוטרתי היא</src>
+    <src s="3">(ומתרץ)</src>
+    <src s="4">אין לגבי משה מילתא זוטרתי היא.</src>
+    <src s="5">וידוע הדיוק בזה3,</src>
+    <src s="6">הרי שואל מעמך כתיב</src>
+    <src s="7">(מכאו"א מישראל),</src>
+    <src s="8">ומהו התירוץ לגבי משה מילתא זוטרתי היא.</src>
+    <src s="9">גם צריך להבין מה דאיתא בגמרא4</src>
+    <src s="10">חייב אדם לברך מאה ברכות בכל יום שנאמר ועתה ישראל מה ה' אלקיך שואל מעמך,</src>
+    <src s="11">אל תקרי מה אלא מאה5.</src>
+    <src s="12">וכתב המהרש"א6</src>
+    <src s="13">דהטעם על זה שדרשו אל תקרי מה כו' הוא7</src>
+    <src s="14">כי לפי פירוש הפשוט קשה אטו יראה מילתא זוטרתי היא ולכן דרשו אל תקרי מה אלא מאה,</src>
+    <src s="15">שדבר זה</src>
+    <src s="16">(לברך מאה ברכות בכל יום)</src>
+    <src s="17">בנקל לאדם לקיים,</src>
+    <src s="18">ועי"ז יבוא ליראה את ה'8.</src>
+    <src s="19">וצריך ביאור,</src>
+    <src s="20">מהי המעלה דמאה ברכות שעל ידם באים ליראה את הוי'.</src>
+    <src s="21">וגם צריך להבין,</src>
+    <src s="22">ע"פ הידוע שכל הפירושים שבאותו הפסוק שייכים זל"ז9,</src>
+    <src s="23">מהי השייכות דמה ומאה.</src>
+    <src s="24">וגם מהי השייכות דשני פירושים הנ"ל</src>
+    <src s="25">(שמתרצים הקושיא אטו יראה מילתא זוטרתי היא),</src>
+    <src s="26">דלגבי משה מילתא זוטרתי היא ואל תקרי מה אלא מאה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה החילוק בין הפירוש כפשוטו</src>
+    <src s="2">(מה)</src>
+    <src s="3">להפירוש הנדרש ע"פ הלימוד דאל תקרי</src>
+    <src s="4">(מאה),</src>
+    <src s="5">דלהפירוש כפשוטו,</src>
+    <src s="6">מה קאי על ליראה גו',</src>
+    <src s="7">דכל מה שה"א שואל מעמך הוא ליראה את הוי',</src>
+    <src s="8">ולהפירוש הנדרש,</src>
+    <src s="9">מה</src>
+    <src s="10">(מאה)</src>
+    <src s="11">הו"ע לעצמו10,</src>
+    <src s="12">דזה שה"א שואל מעמך הוא מה,</src>
+    <src s="13">מאה ברכות,</src>
+    <src s="14">אלא שעי"ז תבוא ליראה את הוי'.</src>
+    <src s="15">ועוד חילוק בין שני הפירושים,</src>
+    <src s="16">דלשון מה מורה שהענין</src>
+    <src s="17">(המדובר)</src>
+    <src s="18">הוא דבר קטן,</src>
+    <src s="19">ובלשון הגמרא מילתא זוטרתי,</src>
+    <src s="20">ומאה הוא מספר גדול ועד לשלימות המספר,</src>
+    <src s="21">דבאותיות,</src>
+    <src s="22">מספר הכי גדול הוא מאות11.</src>
+    <src s="23">ובפרט לפי המבואר בחסידות12,</src>
+    <src s="24">דזה שניתוסף במאה על מה הוא אות אל"ף אותיות פלא,</src>
+    <src s="25">אור הסובב שלמעלה מהשתלשלות.</src>
+    <src s="26">וצריך להבין,</src>
+    <src s="27">דלכאורה,</src>
+    <src s="28">שני חילוקים אלה שבין שני הפירושים,</src>
+    <src s="29">הם הפכים.</src>
+    <src s="30">דמזה שהמאה ברכות הם הקדמה ליראה,</src>
+    <src s="31">מובן,</src>
+    <src s="32">שהיראה היא למעלה מהם13,</src>
+    <src s="33">ואעפ"כ,</src>
+    <src s="34">החיוב דמאה ברכות נלמד מהדרש אל תקרי מה אלא מאה,</src>
+    <src s="35">ובנוגע להיראה כתיב מה גו' שואל מעמך,</src>
+    <src s="36">דלשון מה מורה</src>
+    <src s="37">(כנ"ל)</src>
+    <src s="38">על דבר קטן.</src>
+  </section>
+</awtsmoosMeluketSource>

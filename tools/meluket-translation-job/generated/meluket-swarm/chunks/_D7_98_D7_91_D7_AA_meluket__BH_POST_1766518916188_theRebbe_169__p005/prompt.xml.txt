@@ -1,0 +1,49 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916188_theRebbe_169" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916188_theRebbe_169" title="מאמר ויגש אליו יהודה תשל"ו" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p005">
+  <section v="12">
+    <src s="0">וזהו הקשר דהגשת יהודה ליוסף לסמיכת גאולה לתפלה,</src>
+    <src s="1">כי בהגשת יהודה ליוסף מודגשת המעלה דמלכות לגבי ז"א,</src>
+    <src s="2">שע"י שהז"א משפיע למלכות מיתוסף עילוי בז"א.</src>
+    <src s="3">וע"ד גדול תלמוד שמביא לידי מעשה,</src>
+    <src s="4">דעי"ז נעשה הגדלה בתלמוד.</src>
+    <src s="5">ועפ"ז יובן גם הקשר דויגש אליו יהודה עם ההפטורה דפרשת ויגש שתוכנה הוא שלע"ל יהי' יהודה למעלה מיוסף,</src>
+    <src s="6">כי העילוי שנעשה בז"א ע"י השפעתו למלכות הוא הקדמה לזה ש</src>
+    <src s="7">(לע"ל)</src>
+    <src s="8">תתגלה מעלת המלכות עצמה,</src>
+    <src s="9">ועבדי דוד מלך עליהם גו' ודוד עבדי נשיא להם לעולם,</src>
+    <src s="10">בביאת משיח צדקנו בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

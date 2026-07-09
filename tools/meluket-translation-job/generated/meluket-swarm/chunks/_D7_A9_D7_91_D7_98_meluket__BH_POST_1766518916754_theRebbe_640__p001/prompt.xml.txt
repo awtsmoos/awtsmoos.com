@@ -1,0 +1,130 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916754_theRebbe_640" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916754_theRebbe_640" title="מאמר באתי לגני תשכ"ח" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצש"ק פ' בשלח,</src>
+    <src s="2">י"א שבט</src>
+    <src s="3">(מאמר ב),</src>
+    <src s="4">ה'תשכ"ח</src>
+  </section>
+  <section v="1">
+    <src s="0">באתי לגני אחותי כלה1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר בעל ההילולא בהמאמר דיום ההסתלקות ויום ההילולא שלו2,</src>
+    <src s="2">דאיתא במדרש רבה</src>
+    <src s="3">(במקומו)</src>
+    <src s="4">לגני לגנוני,</src>
+    <src s="5">למקום שהי' עיקרי בתחלה,</src>
+    <src s="6">דעיקר שכינה בתחתונים היתה,</src>
+    <src s="7">אלא שע"י הענינים הבלתי רצויים</src>
+    <src s="8">(מתחיל מחטא עה"ד)</src>
+    <src s="9">נסתלקה השכינה מלמטה למעלה עד רקיע השביעי,</src>
+    <src s="10">ואח"כ עמדו צדיקים</src>
+    <src s="11">(מתחיל מאברהם אבינו,</src>
+    <src s="12">אחד הי' אברהם3)</src>
+    <src s="13">והורידו את השכינה מלמעלה למטה,</src>
+    <src s="14">עד שבא משה שהוא השביעי</src>
+    <src s="15">(דכל השביעין חביבין4)</src>
+    <src s="16">והורידה למטה בארץ.</src>
+    <src s="17">דענין זה</src>
+    <src s="18">(ירידת והמשכת השכינה למטה בארץ)</src>
+    <src s="19">נעשה בעיקר ע"י המשכן5</src>
+    <src s="20">שעשה משה כמ"ש6</src>
+    <src s="21">ועשו לי מקדש ושכנתי בתוכם.</src>
+    <src s="22">וזהו7</src>
+    <src s="23">שהמשכן הי' מעצי שטים,</src>
+    <src s="24">כי המשכת עיקר שכינה למטה היא ע"י העבודה דאתכפיא ואתהפכא,</src>
+    <src s="25">כמאמר8</src>
+    <src s="26">כד אתכפיא סט"א אסתלק יקרא דקוב"ה בכולהו עלמין,</src>
+    <src s="27">המשכת וגילוי עצמות אוא"ס שלמעלה משייכות לעולמות</src>
+    <src s="28">[שלכן נקראת המשכה זו בשם אסתלק,</src>
+    <src s="29">לפי שהוא גילוי האור שבבחינת רוממות9],</src>
+    <src s="30">עיקר שכינה,</src>
+    <src s="31">ומכיון שהמשכה זו היא ע"י העבודה דאתכפיא ואתהפכא,</src>
+    <src s="32">לכן הי' המשכן מעצי שטים,</src>
+    <src s="33">שטים מלשון שטות10,</src>
+    <src s="34">היינו שטות דלעו"ז</src>
+    <src s="35">(אין אדם עובר עבירה אא"כ נכנס בו רוח שטות11),</src>
+    <src s="36">וע"י העבודה דועשית את הקרשים למשכן עצי שטים עומדים12,</src>
+    <src s="37">שמהפכים השטות דלעו"ז לשטות דקדושה</src>
+    <src s="38">(עצי שטים עומדים),</src>
+    <src s="39">עי"ז נעשה ושכנתי בתוכם,</src>
+    <src s="40">המשכת עיקר שכינה בתחתונים.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך בהמאמר13,</src>
+    <src s="2">דזהו גם מה שאחת העבודות</src>
+    <src s="3">[ויש לומר,</src>
+    <src s="4">שפירוש "אחת העבודות" הוא העבודה המיוחדת והעיקרית14</src>
+    <src s="5">שבמקדש]</src>
+    <src s="6">היא עבודת הקרבנות15,</src>
+    <src s="7">כי עבודת הקרבנות היא שלוקחים בהמה</src>
+    <src s="8">(שחיותה הוא מקליפת נוגה16)</src>
+    <src s="9">ועושים אותה קרבן להוי',</src>
+    <src s="10">ובפרט לפי פירוש אדמו"ר הזקן17</src>
+    <src s="11">עה"פ18</src>
+    <src s="12">אדם כי יקריב מכם גו',</src>
+    <src s="13">דמ"ש אדם כי יקריב מכם</src>
+    <src s="14">(ולא אדם מכם כי יקריב)</src>
+    <src s="15">הוא לרמז שהקרבן צריך להיות</src>
+    <src s="16">(לא רק מן הבהמה כפשוטה,</src>
+    <src s="17">אלא גם)</src>
+    <src s="18">מכם,</src>
+    <src s="19">פון אייך אַליין,</src>
+    <src s="20">מן הבהמה שבלבו של אדם,</src>
+    <src s="21">דכשעושה מהבהמה שבו</src>
+    <src s="22">(נפש הבהמית)</src>
+    <src s="23">קרבן להוי',</src>
+    <src s="24">הו"ע אתכפיא ואתהפכא.</src>
+    <src s="25">וע"י שמהפך את הבהמה</src>
+    <src s="26">[הבהמה כפשוטה,</src>
+    <src s="27">והבהמה שבלבו]</src>
+    <src s="28">לקדושה,</src>
+    <src s="29">הנה זה מגיע בעצמות אוא"ס שלמעלה משייכות לעולמות</src>
+    <src s="30">(עיקר שכינה),</src>
+    <src s="31">דרזא דקורבנא עולה עד רזא דא"ס19,</src>
+    <src s="32">ואור זה נמשך למטה.</src>
+    <src s="33">דבקרבנות כתיב20</src>
+    <src s="34">ריח ניחוח,</src>
+    <src s="35">ריח הוא ההעלאה למעלה וניחוח</src>
+    <src s="36">(מלשון חות דרגא21)</src>
+    <src s="37">הוא ההמשכה למטה22,</src>
+    <src s="38">דע"י שריח הקרבנות עולה למעלה עד רזא דא"ס,</src>
+    <src s="39">הנה משם נמשך אח"כ למטה,</src>
+    <src s="40">באתי לגני לגנוני,</src>
+    <src s="41">המשכת עיקר שכינה בתחתונים.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,119 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917795_theRebbe_561" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917795_theRebbe_561__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917795_theRebbe_561" title="מאמר כי ישאלך בנך תשל"ח" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917795_theRebbe_561__p005">
+  <section v="12">
+    <src s="0">ו)</src>
+    <src s="1">והנה כמו שלמעלה החילוק שבין עדות לחוקים ומשפטים הוא,</src>
+    <src s="2">דחוקים ומשפטים הם באור השייך לעולמות</src>
+    <src s="3">[אלא שמשפטים הם באור המתלבש בעולמות</src>
+    <src s="4">(ממלא)</src>
+    <src s="5">וחוקים הם בהאור שלמעלה מהתלבשות</src>
+    <src s="6">(סובב)]</src>
+    <src s="7">ועדות הם בעצמות אוא"ס שלמעלה משייכות לעולמות,</src>
+    <src s="8">עד"ז הוא גם בעבודת האדם,</src>
+    <src s="9">דחוקים ומשפטים הם בהשכל שבאדם</src>
+    <src s="10">(או עכ"פ בדרגת הנשמה ששייכת לשכל),</src>
+    <src s="11">התבוננות.</src>
+    <src s="12">[אלא שבמשפטים ההתבוננות היא בטעמי המצוות,</src>
+    <src s="13">כולל גם ההתבוננות בזה שגם המצוות דחוקים יש להם טעם43,</src>
+    <src s="14">אלא שהטעם דמצוות אלו הוא בחכמתו ית' ולא נמשך בשכל הנבראים.</src>
+    <src s="15">וההתבוננות דחוקים היא שכל המצוות</src>
+    <src s="16">(גם המצוות דמשפטים)</src>
+    <src s="17">הם רצונו ית',</src>
+    <src s="18">רצון שלמעלה מטעם,</src>
+    <src s="19">למעלה גם מהטעמים שבחכמתו ית'].</src>
+    <src s="20">וענין עדות הוא בהאדם עצמו.</src>
+    <src s="21">כמ"ש44</src>
+    <src s="22">אתם עדי,</src>
+    <src s="23">דפירוש אתם הוא אתם בעצמכם.</src>
+    <src s="24">דכיון שכל אחד מישראל נשמתו היא חלק אלוקה ממעל ממש45,</src>
+    <src s="25">ושרש הנשמות הוא בהעצמות</src>
+    <src s="26">(ולמעלה יותר מהשרש דתומ"צ),</src>
+    <src s="27">לכן,</src>
+    <src s="28">עצם מציאותם דישראל מעידה על העצמות.</src>
+    <src s="29">אלא שהגילוי דשרש הנשמה הוא ע"י העדות דהמצוות.</src>
+  </section>
+  <section v="13">
+    <src s="0">ז)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דעיקר ענינם של המצוות הוא שהם עדות,</src>
+    <src s="3">המשכת עצמות אוא"ס.</src>
+    <src s="4">וענין החוקים והמשפטים דמצוות</src>
+    <src s="5">(המשכת אור הסובב ואור הממלא)</src>
+    <src s="6">הוא,</src>
+    <src s="7">כי הכוונה בהמשכת העצמות שע"י המצוות היא שההמשכה תהי' בגילוי,</src>
+    <src s="8">וכיון שהעצמות הוא למעלה מגילוי,</src>
+    <src s="9">לכן הגילוי דהמשכת העצמות</src>
+    <src s="10">(עדות)</src>
+    <src s="11">הוא ע"י אור הסובב ואור הממלא</src>
+    <src s="12">(חוקים ומשפטים),</src>
+    <src s="13">גילויים46.</src>
+    <src s="14">וזהו שהסדר דג' ענינים אלה הוא עדות חוקים ומשפטים,</src>
+    <src s="15">דבתחילה הו"ע העדות – המשכת העצמות,</src>
+    <src s="16">ואח"כ,</src>
+    <src s="17">בכדי שההמשכה תהי' בגילוי,</src>
+    <src s="18">הוא ע"י הגילוי דאור הסובב שנמשך ע"י ענין החוקים שבמצוות,</src>
+    <src s="19">ואח"כ,</src>
+    <src s="20">בכדי שהגילוי יהי' בפנימיות,</src>
+    <src s="21">הוא ע"י הגילוי דאור הממלא שנמשך ע"י ענין המשפטים שבמצוות46.</src>
+  </section>
+  <section v="14">
+    <src s="0">ועפ"ז יש לומר,</src>
+    <src s="1">דזה שמשמע בתחילת המאמר ששאלת הבן חכם מה העדות והחוקים והמשפטים גו' היא דכיון שכל המצוות הם ציוויי השם למה הן נחלקות בעדות חוקים ומשפטים</src>
+    <src s="2">(כנ"ל סעיף ג),</src>
+    <src s="3">הוא גם להביאור</src>
+    <src s="4">(שבהמשך המאמר)</src>
+    <src s="5">דשאלת הבן חכם היא איך נמשך גילוי אלקות ע"י המצוות שלאחרי מתן תורה שעיקרם הוא עשי' בפועל.</src>
+    <src s="6">והענין הוא,</src>
+    <src s="7">דזה שעל ידי מעשה המצוות נעשה המשכת אלקות אין זה פלא,</src>
+    <src s="8">מכיון שהמצוות הם רצון הקב"ה.</src>
+    <src s="9">ושאלת הבן חכם היא על זה שע"י מעשה המצוות נמשך גילוי אלקות.</src>
+    <src s="10">דענין הגילוי שייך לכאורה לעבודה רוחנית ולא לעשי' גשמית.</src>
+    <src s="11">ולכן אומר מה העדות והחוקים והמשפטים גו',</src>
+    <src s="12">ולא מה המצוות</src>
+    <src s="13">(וכיו"ב),</src>
+    <src s="14">כי זה שע"י המצוות נעשה המשכת אלקות הוא מצד הנקודה המשותפת שבכל המצוות בשוה,</src>
+    <src s="15">שהם ציווי ורצון הקב"ה,</src>
+    <src s="16">וזה שהמצוות נחלקות בהסוגים עדות חוקים ומשפטים הוא בנוגע לגילוי ההמשכה</src>
+    <src s="17">[שבעדות ההמשכה היא בהעלם,</src>
+    <src s="18">ובחוקים ההמשכה היא בגילוי באופן דמקיף,</src>
+    <src s="19">והגילוי דמשפטים הוא גילוי בפנימיות],</src>
+    <src s="20">ושאלת הבן חכם מה העדות והחוקים והמשפטים אשר צוה הוי' אלקינו אתכם היא,</src>
+    <src s="21">דהמצוות אשר צוה הוי' אלקינו אתכם לאחרי מתן תורה שעיקרם הוא עשי' בפועל,</src>
+    <src s="22">ענינם הוא המשכת אלקות,</src>
+    <src s="23">וא"כ מה העדות והחוקים והמשפטים,</src>
+    <src s="24">שהחילוק דעדות חוקים ומשפטים הוא בענין הגילוי.</src>
+  </section>
+</awtsmoosMeluketSource>

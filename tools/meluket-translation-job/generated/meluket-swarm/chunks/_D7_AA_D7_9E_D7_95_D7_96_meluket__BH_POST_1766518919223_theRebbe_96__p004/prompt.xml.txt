@@ -1,0 +1,169 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" title="מאמר תפלה למשה תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p004">
+  <section v="9">
+    <src s="0">וג' ענינים הנ"ל – שני הענינים שבמילוי החסרון</src>
+    <src s="1">(די מחסורו ואשר יחסר לו)</src>
+    <src s="2">ועשירות – בהגילויים שלמעלה הם בג' מדריגות הנ"ל.</src>
+    <src s="3">שני הענינים דמילוי החסרון הם שני הגילויים דממלא וסובב.</src>
+    <src s="4">דכיון שגם אור הסובב שייך לעולמות,</src>
+    <src s="5">לכן,</src>
+    <src s="6">כשאור זה אינו מתגלה בעולם,</src>
+    <src s="7">העולם הוא חסר.</src>
+    <src s="8">וכמאמר רז"ל60</src>
+    <src s="9">עה"פ61</src>
+    <src s="10">ויכל אלקים ביום השביעי מה הי' העולם חסר מנוחה בא שבת בא מנוחה,</src>
+    <src s="11">מנוחה היא בחינת סובב שלמעלה מהאור המתלבש בעולם,</src>
+    <src s="12">ואעפ"כ כשלא הי' גילוי זה בעולם,</src>
+    <src s="13">הי' העולם חסר,</src>
+    <src s="14">וכשבא שבת ונמשך ונתגלה אור זה,</src>
+    <src s="15">נתמלא החסרון.</src>
+    <src s="16">ולכן גם הגילוי דסובב הוא מילוי החסרון.</src>
+    <src s="17">אלא שמילוי החסרון שע"י הגילוי דממלא הוא ע"ד די מחסורו,</src>
+    <src s="18">ומילוי החסרון שע"י גילוי הסובב הוא ע"ד אשר יחסר לו אפילו סוס לרכוב עליו ועבד לרוץ לפניו.</src>
+    <src s="19">ועשירות הוא גילוי עצמות אוא"ס שלמעלה משייכות לעולמות.</src>
+  </section>
+  <section v="10">
+    <src s="0">ה)</src>
+    <src s="1">והנה החילוק בין די מחסורו ואשר יחסר לו</src>
+    <src s="2">(בנוגע לעני כפשוטו)</src>
+    <src s="3">הוא לא רק בזה שהשפע דאשר יחסר לו הוא שפע גדול יותר</src>
+    <src s="4">(אפילו סוס לרכוב עליו ועבד לרוץ לפניו),</src>
+    <src s="5">אלא גם שענין אשר יחסר לו הוא דוקא למי שדרכו בכך.</src>
+    <src s="6">וע"פ הידוע שכל הענינים שבתורה הם בתכלית הדיוק,</src>
+    <src s="7">צריך לומר,</src>
+    <src s="8">שהדמיון דשני הגילויים דממלא וסובב לשני הענינים דדי מחסורו ואשר יחסר לו הוא לא רק מפני שגילוי הסובב הוא גילוי נעלה יותר,</src>
+    <src s="9">אלא גם לפי שהענין דמילוי החסרון שע"י גילוי הסובב הוא דוקא למי שדרכו בכך.</src>
+    <src s="10">ויש לומר הביאור בזה ע"פ מ"ש בהמאמר62,</src>
+    <src s="11">דג' המדריגות שבאהבה – בכל לבבך,</src>
+    <src s="12">בכל נפשך ובכל מאדך – הם בג' מדריגות הנ"ל63.</src>
+    <src s="13">האהבה דבכל לבבך היא בבחינת ממכ"ע.</src>
+    <src s="14">דע"י שיתבונן שהחיות של כל דבר הוא אלקות,</src>
+    <src s="15">יבוא לאהבה את ה' בכל לבבך,</src>
+    <src s="16">בשני יצריך64.</src>
+    <src s="17">דכיון שהחיות דבחינת ממכ"ע הוא מלובש בהנבראים בפנימיותם,</src>
+    <src s="18">לכן,</src>
+    <src s="19">ע"י ההתבוננות נרגש חיות זה גם בנפש הבהמית.</src>
+    <src s="20">והאהבה דבכל נפשך היא בבחינת סובב כל עלמין.</src>
+    <src s="21">דע"י ההתבוננות שהחיות האלקי שמתלבש בעולמות הוא הארה בלבד שבאין ערוך לגבי עצמות אוא"ס</src>
+    <src s="22">(סובב),</src>
+    <src s="23">נרגש אצלו ההפלאה דאוא"ס,</src>
+    <src s="24">ועי"ז יבוא להאהבה דבכל נפשך,</src>
+    <src s="25">שאהבתו את הוי' היא באופן דמסירת נפש</src>
+    <src s="26">(אפילו נוטל את נפשך64),</src>
+    <src s="27">שרוצה לצאת ממציאותו וליכלל באוא"ס.</src>
+    <src s="28">ואהבה זו היא רק בנפש האלקית.</src>
+    <src s="29">ושני טעמים לזה.</src>
+    <src s="30">כי ההשגה</src>
+    <src s="31">[באופן דהכרה והרגשה,</src>
+    <src s="32">שאז דוקא מביאה ההשגה לאהבה]</src>
+    <src s="33">בההפלאה דאוא"ס יכולה להיות רק בנפש האלקית,</src>
+    <src s="34">ששרשה הוא בשם הוי'65,</src>
+    <src s="35">סובב66.</src>
+    <src s="36">משא"כ הנבראים,</src>
+    <src s="37">כיון ששרשם הוא משם אלקים65,</src>
+    <src s="38">ממלא66,</src>
+    <src s="39">אי אפשר להיות בהם</src>
+    <src s="40">[אפילו במלאכים ומכ"ש בנה"ב]</src>
+    <src s="41">ההשגה</src>
+    <src s="42">(באופן דהכרה והרגשה)</src>
+    <src s="43">בהוי',</src>
+    <src s="44">סובב.</src>
+    <src s="45">וגם,</src>
+    <src s="46">לפי שנפש הבהמית ענינה הוא מציאות,</src>
+    <src s="47">והאהבה דבכל נפשך היא שרוצה לצאת ממציאותו וליכלל באוא"ס,</src>
+    <src s="48">היפך ענין המציאות.</src>
+    <src s="49">דהאהבה דבכל לבבך,</src>
+    <src s="50">הבאה ע"י ההתבוננות וההכרה שהחיות של כל דבר הוא אלקות,</src>
+    <src s="51">שייכת למציאותו של האדם האוהב.</src>
+    <src s="52">[דכמו שהאדם אוהב את עצמו,</src>
+    <src s="53">היינו שהוא אוהב את החיות ורוצה בהתפשטות החיות בו,</src>
+    <src s="54">כמו"כ,</src>
+    <src s="55">כשמבין ומרגיש שהעיקר הוא החיות האלקי,</src>
+    <src s="56">הוא רוצה באלקות].</src>
+    <src s="57">ולכן,</src>
+    <src s="58">אהבה זו שייכת גם לנפש הבהמית.</src>
+    <src s="59">משא"כ האהבה דבכל נפשך,</src>
+    <src s="60">שהיא הרצון לצאת ממציאותו וליכלל באוא"ס,</src>
+    <src s="61">היא רק בנפש האלקית.</src>
+    <src s="62">דכיון ששרשה היא בשם הוי'</src>
+    <src s="63">(סובב),</src>
+    <src s="64">וגם לאחרי שירדה למטה היא חלק משם הוי' כמ"ש67</src>
+    <src s="65">כי חלק הוי' עמו,</src>
+    <src s="66">לכן יש לה הרצון לצאת ממציאותה וליכלל בשרשה,</src>
+    <src s="67">סובב.</src>
+    <src s="68">וע"פ הידוע68</src>
+    <src s="69">שירידת הנשמה למטה היא ירידה צורך עלי',</src>
+    <src s="70">היינו שע"י ירידתה למטה תתעלה למדריגה נעלית יותר מכמו שהיתה קודם ירידתה,</src>
+    <src s="71">מובן,</src>
+    <src s="72">שהכוונה בירידת הנשמה למטה היא שתתעלה למעלה משרשה,</src>
+    <src s="73">והיא האהבה דבכל מאדך,</src>
+    <src s="74">המס"נ והכליון בעצמות אוא"ס שלמעלה גם מסובב.</src>
+    <src s="75">ועפ"ז יש לומר,</src>
+    <src s="76">דזה שמילוי החסרון שע"י גילוי הסובב הוא ע"ד אשר יחסר לו.</src>
+    <src s="77">למי שהי' דרכו בכך,</src>
+    <src s="78">הוא,</src>
+    <src s="79">לפי שהנשמות היו רגילים</src>
+    <src s="80">(לפני ירידתם למטה)</src>
+    <src s="81">בגילוי הסובב.</src>
+  </section>
+  <section v="11">
+    <src s="0">ו)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דלפי ביאור הנ"ל,</src>
+    <src s="3">זה שגילוי הסובב הוא בכלל מילוי החסרון הוא דוקא בנוגע לנשמות,</src>
+    <src s="4">משא"כ בנוגע לנבראים אין שייך לומר לכאורה שגילוי הסובב הוא מילוי החסרון,</src>
+    <src s="5">כיון שאין דרכם בכך.</src>
+    <src s="6">ומזה שמביא בהמאמר מה שארז"ל מה הי' העולם חסר מנוחה כו',</src>
+    <src s="7">מובן דכשלא ישנו גילוי הסובב</src>
+    <src s="8">(מנוחה)</src>
+    <src s="9">הוא חסרון גם בהעולם.</src>
+    <src s="10">ויש לומר,</src>
+    <src s="11">דכיון שעיקר הכוונה בירידת הנשמה למטה היא</src>
+    <src s="12">(לא בשביל העלי' דהנשמה,</src>
+    <src s="13">אלא)</src>
+    <src s="14">בכדי לתקן</src>
+    <src s="15">[ולהעלות69]</src>
+    <src s="16">את העולם70,</src>
+    <src s="17">לכן,</src>
+    <src s="18">ע"י האהבה דבכל נפשך של הנשמות כמו שירדו למטה בעולם,</src>
+    <src s="19">מתעלה העולם למדריגה נעלית יותר מכמו שהוא מצד עצמו,</src>
+    <src s="20">שנעשה שייך להדרגא דסובב</src>
+    <src s="21">(ע"ד השייכות דנשמות לסובב),</src>
+    <src s="22">ועד,</src>
+    <src s="23">שכשאינו מאיר גילוי הסובב,</src>
+    <src s="24">העולם הוא חסר.</src>
+  </section>
+</awtsmoosMeluketSource>

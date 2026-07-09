@@ -1,0 +1,404 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 72,
+    "returned": 72,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919814_theRebbe_260\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that when the illumination comes from the Kesser above the chain of descent, the moon is full, meaning the light shines even in the externality of Malchus and thus in the world, unlike the limited illumination through the order of descent.</sectionSummaryBrief>\n    <t s=\"0\">And it is explained in the maamar,</t>\n    <t s=\"1\">that then,</t>\n    <t s=\"2\">when [the light] shines in the Malchus of the Kesser that is above the chain of descent,</t>\n    <t s=\"3\">the moon stands in its fullness,</t>\n    <t s=\"4\">for the light shines even in the externality of Malchus</t>\n    <t s=\"5\">(the speech of Malchus,</t>\n    <t s=\"6\">the ten utterances with which the world was created),</t>\n    <t s=\"7\">and through this,</t>\n    <t s=\"8\">also in the world.</t>\n    <t s=\"9\">For in the drawing down that follows the order of descent,</t>\n    <t s=\"10\">there is a distinction between the inwardness of Malchus</t>\n    <t s=\"11\">(the field)</t>\n    <t s=\"12\">and the externality of Malchus</t>\n    <t s=\"13\">(the land),</t>\n    <t s=\"14\">and therefore,</t>\n    <t s=\"15\">when the drawing down into Malchus is from the aspect of the intellects,</t>\n    <t s=\"16\">the revelation is only in the level of Malchus that receives from Zeir Anpin</t>\n    <t s=\"17\">(the inwardness of Malchus),</t>\n    <t s=\"18\">and in the level of Malchus that is the root of the created beings</t>\n    <t s=\"19\">(the ten utterances)</t>\n    <t s=\"20\">the light does not shine.</t>\n    <t s=\"21\">Like the example of</t>\n    <t s=\"22\">the moon at the time of its defect,</t>\n    <t s=\"23\">when the light of the sun shines only on its upper hemisphere.</t>\n    <t s=\"24\">And when the drawing down is from the Kesser that is above the chain of descent,</t>\n    <t s=\"25\">the revelation is also in the ten utterances</t>\n    <t s=\"26\">(and through them also in the world),</t>\n    <t s=\"27\">like the example of</t>\n    <t s=\"28\">the moon at the time of its fullness</t>\n    <t s=\"29\">(in the middle of the month),</t>\n    <t s=\"30\">when the light of the sun shines also on its lower hemisphere.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section raises a question: since in Gan Eden the aspect of Kol shines without lack, how can the moon's defect apply there, and the maamar explains that the moon's fullness specifically comes through the service of \"the king to the field is served.\"</sectionSummaryBrief>\n    <t s=\"0\">D)</t>\n    <t s=\"1\">And it must be understood,</t>\n    <t s=\"2\">for seemingly the matter of the diminution of the moon is that in order for the worlds to come into being, a diminution and lack was made in Malchus</t>\n    <t s=\"3\">(\"You have made the heavens etc.,\"</t>\n    <t s=\"4\">\"You have lacked the aleph\"),</t>\n    <t s=\"5\">in that the light of Atzilus that is above the root of the created beings does not shine in it,</t>\n    <t s=\"6\">and since in Gan Eden the aspect of Kol shines,</t>\n    <t s=\"7\">the Yesod and also the intellects,</t>\n    <t s=\"8\">behold there is no lack in it.</t>\n    <t s=\"9\">And as explained in the maamar,</t>\n    <t s=\"10\">that the reason Gan Eden is called by the name Kol,</t>\n    <t s=\"11\">is,</t>\n    <t s=\"12\">because it has everything without lack.</t>\n    <t s=\"13\">And according to this it is found,</t>\n    <t s=\"14\">that also in Gan Eden the moon</t>\n    <t s=\"15\">(Malchus)</t>\n    <t s=\"16\">is in perfection.</t>\n    <t s=\"17\">And in the maamar it says that the matter of \"the moon stands in its fullness\" is specifically when \"the king to the field is served,\"</t>\n    <t s=\"18\">that through the service the Kesser is drawn into it</t>\n    <t s=\"19\">(the Supernal King)</t>\n    <t s=\"20\">that is above the chain of descent.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that true perfection of the moon is only achieved through the service of Torah and mitzvos, which draws an infinite light above any possibility of limitation, unlike the limited light of Gan Eden.</sectionSummaryBrief>\n    <t s=\"0\">And one may explain this as follows,</t>\n    <t s=\"1\">that the true matter of \"the moon stands in its fullness\" is that the perfection is in a manner that no lack can possibly apply.</t>\n    <t s=\"2\">And this perfection is specifically when the drawing down is from a light that is above any relation to worlds,</t>\n    <t s=\"3\">in which no contraction can possibly apply.</t>\n    <t s=\"4\">For a light that relates to worlds,</t>\n    <t s=\"5\">even the light that is before the contraction,</t>\n    <t s=\"6\">is a light such that contraction can apply to it.</t>\n    <t s=\"7\">And therefore,</t>\n    <t s=\"8\">the drawing down of the aspect of Kol in Gan Eden,</t>\n    <t s=\"9\">even though the drawing down is in perfection</t>\n    <t s=\"10\">[and as above from the maamar that the explanation of Kol is everything without lack],</t>\n    <t s=\"11\">since the drawing down is from a limited light</t>\n    <t s=\"12\">(intellects)</t>\n    <t s=\"13\">to which contraction and cessation can apply,</t>\n    <t s=\"14\">it is not true perfection.</t>\n    <t s=\"15\">And the true matter of \"the moon stands in its fullness\" is through the service of Torah and mitzvos,</t>\n    <t s=\"16\">through which is drawn the light of the Unlimited One</t>\n    <t s=\"17\">(which is above the light that relates to worlds)</t>\n    <t s=\"18\">in which no contraction can apply,</t>\n    <t s=\"19\">\"the king to the field is served.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919814_theRebbe_260",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that when the illumination comes from the Kesser above the chain of descent, the moon is full, meaning the light shines even in the externality of Malchus and thus in the world, unlike the limited illumination through the order of descent.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And it is explained in the maamar,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that then,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "when [the light] shines in the Malchus of the Kesser that is above the chain of descent,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "the moon stands in its fullness,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "for the light shines even in the externality of Malchus"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "(the speech of Malchus,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "the ten utterances with which the world was created),"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "and through this,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "also in the world."
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "For in the drawing down that follows the order of descent,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "there is a distinction between the inwardness of Malchus"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "(the field)"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "and the externality of Malchus"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "(the land),"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "when the drawing down into Malchus is from the aspect of the intellects,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "the revelation is only in the level of Malchus that receives from Zeir Anpin"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "(the inwardness of Malchus),"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "and in the level of Malchus that is the root of the created beings"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "(the ten utterances)"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "the light does not shine."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "Like the example of"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "the moon at the time of its defect,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "when the light of the sun shines only on its upper hemisphere."
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "And when the drawing down is from the Kesser that is above the chain of descent,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "the revelation is also in the ten utterances"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "(and through them also in the world),"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "like the example of"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "the moon at the time of its fullness"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "(in the middle of the month),"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "when the light of the sun shines also on its lower hemisphere."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section raises a question: since in Gan Eden the aspect of Kol shines without lack, how can the moon's defect apply there, and the maamar explains that the moon's fullness specifically comes through the service of \"the king to the field is served.\"",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "D)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "for seemingly the matter of the diminution of the moon is that in order for the worlds to come into being, a diminution and lack was made in Malchus"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(\"You have made the heavens etc.,\""
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "\"You have lacked the aleph\"),"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "in that the light of Atzilus that is above the root of the created beings does not shine in it,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "and since in Gan Eden the aspect of Kol shines,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "the Yesod and also the intellects,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "behold there is no lack in it."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And as explained in the maamar,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "that the reason Gan Eden is called by the name Kol,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "is,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "because it has everything without lack."
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "And according to this it is found,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "that also in Gan Eden the moon"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "(Malchus)"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "is in perfection."
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "And in the maamar it says that the matter of \"the moon stands in its fullness\" is specifically when \"the king to the field is served,\""
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "that through the service the Kesser is drawn into it"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(the Supernal King)"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "that is above the chain of descent."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that true perfection of the moon is only achieved through the service of Torah and mitzvos, which draws an infinite light above any possibility of limitation, unlike the limited light of Gan Eden.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And one may explain this as follows,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "that the true matter of \"the moon stands in its fullness\" is that the perfection is in a manner that no lack can possibly apply."
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "And this perfection is specifically when the drawing down is from a light that is above any relation to worlds,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "in which no contraction can possibly apply."
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "For a light that relates to worlds,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "even the light that is before the contraction,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "is a light such that contraction can apply to it."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "And therefore,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "the drawing down of the aspect of Kol in Gan Eden,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "even though the drawing down is in perfection"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "[and as above from the maamar that the explanation of Kol is everything without lack],"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "since the drawing down is from a limited light"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "(intellects)"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "to which contraction and cessation can apply,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "it is not true perfection."
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "And the true matter of \"the moon stands in its fullness\" is through the service of Torah and mitzvos,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "through which is drawn the light of the Unlimited One"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "(which is above the light that relates to worlds)"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "in which no contraction can apply,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "\"the king to the field is served.\""
+          }
+        ]
+      }
+    ]
+  }
+}

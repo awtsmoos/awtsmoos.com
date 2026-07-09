@@ -1,0 +1,145 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916418_theRebbe_902" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916418_theRebbe_902__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916418_theRebbe_902" title="מאמר לה"ע כתיבת ספר תורה תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916418_theRebbe_902__p006">
+  <section v="15">
+    <src s="0">ט)</src>
+    <src s="1">וזהו ענין מצות כתיבת ספר תורה,</src>
+    <src s="2">שע"ז כותב כ"ק אדמו"ר הצ"צ שהוא כענין ויכתוב משה גו',</src>
+    <src s="3">כנ"ל,</src>
+    <src s="4">כי בכל אחד ואחד מישראל ישנה בחינת משה שבו84</src>
+    <src s="5">[וכמ"ש85</src>
+    <src s="6">ועתה ישראל מה ה' אלקיך שואל מעמך כי אם ליראה,</src>
+    <src s="7">והקשה על זה בגמרא86,</src>
+    <src s="8">אטו יראת שמים מילתא זוטרתא היא</src>
+    <src s="9">(ובפרט שאח"כ מפרט בכתוב כו"כ פרטים87,</src>
+    <src s="10">ועד לדרשת חז"ל88</src>
+    <src s="11">אל תקרי מה אלא מאה,</src>
+    <src s="12">שהוא תכלית השלימות89,</src>
+    <src s="13">עשר כלול מעשר90,</src>
+    <src s="14">וגם כמבואר בכ"מ91</src>
+    <src s="15">שיש מאה אותיות בפסוק זה),</src>
+    <src s="16">ומתרץ,</src>
+    <src s="17">אין לגבי משה מילתא זוטרתא היא,</src>
+    <src s="18">דמכיון שבכאו"א מישראל ישנה בחינת משה,</src>
+    <src s="19">לכן יראה היא מילתא זוטרתא אצל כאו"א92].</src>
+    <src s="20">ומכיון שבכאו"א מישראל ישנה בחינת משה שבו,</src>
+    <src s="21">לכן,</src>
+    <src s="22">ביכלתו להמשיך ע"י כתיבת ס"ת בחינת ואמת כמו שהוא באמיתית המציאות</src>
+    <src s="23">[כמ"ש ברמב"ם93</src>
+    <src s="24">שהוא לבדו האמת ואין לאחר אמת כאמיתתו],</src>
+    <src s="25">ולהמשיכה עד למטה מטה,</src>
+    <src s="26">ובאופן דחכמת אדם תאיר פניו,</src>
+    <src s="27">שכל העולם כולו יכיר בו שמצא תוספתא חדתא.</src>
+    <src s="28">ונמשך גם בכתיבה,</src>
+    <src s="29">בדיו על הקלף,</src>
+    <src s="30">שהקלף הוא קלף של בהמה</src>
+    <src s="31">(ובע"ח)</src>
+    <src s="32">והדיו נעשה מצומח ודומם,</src>
+    <src s="33">ומכל זה נעשה ספר תורה שלימה,</src>
+    <src s="34">ועד לעיני כל ישראל94.</src>
+  </section>
+  <section v="16">
+    <src s="0">ויש לומר בדרך אפשר,</src>
+    <src s="1">דזהו מה שכ"ק מו"ח אדמו"ר נשיא דורינו התחיל בכתיבת הספר תורה</src>
+    <src s="2">(ואנחנו זכינו לסיימה),</src>
+    <src s="3">כי ארז"ל95</src>
+    <src s="4">משה הוא גואל ראשון הוא גואל אחרון,</src>
+    <src s="5">שלכן שילה,</src>
+    <src s="6">שקאי על משיח96,</src>
+    <src s="7">הוא בגימטריא משה97,</src>
+    <src s="8">וכשמצרפים אחד98</src>
+    <src s="9">לשילה ה"ז בגימטריא משיח,</src>
+    <src s="10">כמבואר בשיחה הידועה מכ"ק מו"ח אדמו"ר99.</src>
+    <src s="11">דהיינו,</src>
+    <src s="12">שכאשר ממשיכים בחינת אחד,</src>
+    <src s="13">שיאיר הא',</src>
+    <src s="14">אלופו של עולם,</src>
+    <src s="15">בהח' והד',</src>
+    <src s="16">שהם ז' רקיעים וארץ וד' רוחות העולם100,</src>
+    <src s="17">ובאופן גלוי</src>
+    <src s="18">(דכמו שאני נכתב כך אני נקרא101),</src>
+    <src s="19">ה"ז גילוי המשיח.</src>
+    <src s="20">ולכן כמו שענינו של משה הו"ע כתיבת ס"ת,</src>
+    <src s="21">כנ"ל בארוכה,</src>
+    <src s="22">י"ל שעד"ז הוא גם ענינו של משיח.</src>
+    <src s="23">ויש להוסיף בזה,</src>
+    <src s="24">דהנה משיח צדקנו נקרא מלך המשיח102,</src>
+    <src s="25">כמ"ש103</src>
+    <src s="26">ועבדי דוד מלך עליהם,</src>
+    <src s="27">ובס"ת של מלך נאמר והיתה עמו וקרא בו כל ימי חייו,</src>
+    <src s="28">והרי דרשו רז"ל104</src>
+    <src s="29">עה"פ105</src>
+    <src s="30">למען תזכור את יום צאתך מארץ מצרים כל ימי חייך,</src>
+    <src s="31">ימי חייך הימים כל ימי חייך להביא הלילות106,</src>
+    <src s="32">וחכמים אומרים ימי חייך העולם הזה כל ימי חייך להביא לימות המשיח,</src>
+    <src s="33">עוה"ז ועוה"ב,</src>
+    <src s="34">שמזה מובן גם בנוגע למה שנאמר בו וקרא בו כל ימי חייו,</src>
+    <src s="35">שקאי גם על ימות המשיח.</src>
+  </section>
+  <section v="17">
+    <src s="0">י)</src>
+    <src s="1">והנה במעשה הרי כבר סיימנו את הספר תורה,</src>
+    <src s="2">שכ"ק מו"ח אדמו"ר קרא לו ס"ת של משיח,</src>
+    <src s="3">ואינו רק מחוסר זמן,</src>
+    <src s="4">ובקרוב ממש נזכה לביאת משיח צדקנו,</src>
+    <src s="5">יבוא ויגאלנו ויוליכנו קוממיות לארצנו,</src>
+    <src s="6">ואז יהי' גילוי תורתו של משיח.</src>
+    <src s="7">דאע"פ שג"ז כבר ניתן למשה מסיני בעת מתן תורה,</src>
+    <src s="8">כי מתן תורה לא יהי' עוד הפעם,</src>
+    <src s="9">כמבואר בכ"מ107,</src>
+    <src s="10">הרי במ"ת הי' זה בהעלם,</src>
+    <src s="11">ולעתיד לבוא יהי' גילוי תורתו של משיח,</src>
+    <src s="12">ישקני מנשיקות פיהו108.</src>
+    <src s="13">וההכנה לזה היא,</src>
+    <src s="14">טועמי' חיים זכו בערב שבת קודש אחר חצות דהשיתא109</src>
+    <src s="15">אלפי שני דהוה עלמא110,</src>
+    <src s="16">שאז הי' כ"ק מו"ח אדמו"ר,</src>
+    <src s="17">לאחרי גילוי האריז"ל,</src>
+    <src s="18">ואח"כ גילוי הבעש"ט והה"מ,</src>
+    <src s="19">ואח"כ גילוי כ"ק אדמו"ר הזקן וממלאי מקומו עד לכ"ק מו"ח אדמו"ר,</src>
+    <src s="20">שכל זה הוא ההכנה וההקדמה והכלי אשר,</src>
+    <src s="21">בקרוב ממש,</src>
+    <src s="22">כשכאו"א ישלים את עניניו,</src>
+    <src s="23">נזכה שתתגלה בפועל הנתינת כח של כ"ק מו"ח אדמו"ר נשיא דורינו,</src>
+    <src s="24">ויקויים תקותו ורצונו,</src>
+    <src s="25">שעם ספר תורה זה נצא לקבל פני משיח צדקנו,</src>
+    <src s="26">ובשמחה ובטוב לבב,</src>
+    <src s="27">ושמחת עולם על ראשם111,</src>
+    <src s="28">ובאופן דבנערינו ובזקנינו גו' בבנינו ובבנותינו112,</src>
+    <src s="29">בקרוב ממש,</src>
+    <src s="30">וגם בלשון תרגום,</src>
+    <src s="31">בעגלא דידן113.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,524 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 96,
+    "returned": 96,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914830_theRebbe_782\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914830_theRebbe_782__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>The superiority of refining and elevating the lower is explained through two aspects: it perfects the downward flow, and it reaches the essential hidden level.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">Now, the superiority that is in the refinement and elevation of the lower,</t>\n    <t s=\"2\">is understood from the maamar</t>\n    <t s=\"3\">(the aforementioned discourse beginning \"Zachor\")</t>\n    <t s=\"4\">that there are two aspects in this.</t>\n    <t s=\"5\">One: that this relates to the flow from Above.</t>\n    <t s=\"6\">And as it is stated in the aforementioned maamar,</t>\n    <t s=\"7\">that just as in the simple sense, if one cannot go back on a path, then it is not called a path</t>\n    <t s=\"8\">(not only regarding the place to which one came,</t>\n    <t s=\"9\">but)</t>\n    <t s=\"10\">also regarding the place from which one departed,</t>\n    <t s=\"11\">for when the ascent does not change</t>\n    <t s=\"12\">(that the lower is not a vessel for the flow),</t>\n    <t s=\"13\">the flow is not true.</t>\n    <t s=\"14\">And one can explain this,</t>\n    <t s=\"15\">that the true essence and perfection of the flow</t>\n    <t s=\"16\">(which has no limitation)</t>\n    <t s=\"17\">is,</t>\n    <t s=\"18\">that not only is it drawn into every place, even the lowest place,</t>\n    <t s=\"19\">but it is drawn and penetrates all parts of the place until it becomes absorbed with it.</t>\n    <t s=\"20\">And this</t>\n    <t s=\"21\">(the absorption)</t>\n    <t s=\"22\">is specifically when the lower is a vessel for the revelation.</t>\n    <t s=\"23\">For although from the perspective of Above, the flow can be even into a lower that is not a vessel,</t>\n    <t s=\"24\">for \"who</t>\n    <t s=\"25\">will say to Him, 'What do You do?'\",</t>\n    <t s=\"26\">nevertheless, regarding the lower,</t>\n    <t s=\"27\">since from its own perspective it is not a vessel fit for the flow,</t>\n    <t s=\"28\">it does not become absorbed with the light,</t>\n    <t s=\"29\">and consequently, there is also a lack in the flow, as above.</t>\n    <t s=\"30\">And there is another aspect in the refinement and elevation of the lower,</t>\n    <t s=\"31\">and especially when the refinement is in the manner of \"itkafya\" (subjugation),</t>\n    <t s=\"32\">that this specifically reaches the Atzmus (Essence).</t>\n    <t s=\"33\">And this is the matter of \"a great deed\",</t>\n    <t s=\"34\">for \"deed\" (maaseh) is from the term of suppression</t>\n    <t s=\"35\">(refinement of the lower)</t>\n    <t s=\"36\">reaches the essential hidden level</t>\n    <t s=\"37\">which is above all flows and revelations.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>Based on this, the inner content of the distinctions between the maamarim of Parshas Vayeira in the continuation of 5666 is explained, regarding the superiority of the deed itself reaching the essential hidden level.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And based on this, we can explain the inner content of the distinctions between the maamarim of Parshas Vayeira in the continuation of 5666.</t>\n    <t s=\"2\">For in the first maamar, it explains the aspect of the mitzvos,</t>\n    <t s=\"3\">that through the fulfillment of mitzvos, the most elevated matters are drawn down,</t>\n    <t s=\"4\">essential will and essential delight.</t>\n    <t s=\"5\">That is, the superiority of the work below is that through it, the flow from Above is effected, and also the aspect of refining the lower is that through it comes the perfection of the flow.</t>\n    <t s=\"6\">And therefore it explains</t>\n    <t s=\"7\">(according to the simple meaning of the verse's language)</t>\n    <t s=\"8\">that \"to do charity and justice\" is an explanation and detail of the \"way of Havayah\",</t>\n    <t s=\"9\">the flow from Above.</t>\n    <t s=\"10\">And the following year, in the second maamar, it explains the superiority of the deed of mitzvos</t>\n    <t s=\"11\">(the work below)</t>\n    <t s=\"12\">as it is in itself,</t>\n    <t s=\"13\">analogous to the revelation of the future, when the superiority of the deed will be revealed,</t>\n    <t s=\"14\">\"a great deed\",</t>\n    <t s=\"15\">not only that the deed arouses and draws down the light of the Unlimited that is above enclothing in Chochmah</t>\n    <t s=\"16\">(Talmud),</t>\n    <t s=\"17\">but also the superiority of the deed itself,</t>\n    <t s=\"18\">which reaches the essential hidden level</t>\n    <t s=\"19\">(which is above even the light of the Unlimited that is drawn down through it).</t>\n    <t s=\"20\">And therefore it explains that \"to do charity and justice\" is</t>\n    <t s=\"21\">(not a detail and explanation of the \"way of Havayah\",</t>\n    <t s=\"22\">but rather)</t>\n    <t s=\"23\">an additional matter</t>\n    <t s=\"24\">(that comes after and through \"and they shall guard the way of Havayah\").</t>\n    <t s=\"25\">And this is why this maamar begins with the verse \"And Havayah said, 'Shall I hide from Avraham?'\",</t>\n    <t s=\"26\">and explains that \"Shall I hide\" is the aspect of the essential hidden level of Ein Sof,</t>\n    <t s=\"27\">and the explanation of \"Shall I hide from Avraham\" is that this aspect was revealed to Avraham,</t>\n    <t s=\"28\">through his work in the aspect of returning light from below to above,</t>\n    <t s=\"29\">\"and He also commanded his sons and his household after him... to do charity and justice\",</t>\n    <t s=\"30\">therefore the aspect of the essential hidden level was revealed to him.</t>\n    <t s=\"31\">[And He says about this \"Shall I hide\" as a question,</t>\n    <t s=\"32\">because from the perspective of his work</t>\n    <t s=\"33\">(in the aspect of returning light)</t>\n    <t s=\"34\">it is not possible that this aspect would not be revealed to him.]</t>\n    <t s=\"35\">And since this maamar discusses the matter of the revelation of the essential hidden level</t>\n    <t s=\"36\">(\"Shall I hide\"),</t>\n    <t s=\"37\">therefore,</t>\n    <t s=\"38\">also in the verse \"For I have known him,\" it explains that \"I have known him\" is an expression of endearment, that He cherished him in the aspect of essential delight</t>\n    <t s=\"39\">[for the revelation of essential delight is more elevated than the revelation of will,</t>\n    <t s=\"40\">therefore the revelation of will exists even now, but the revelation of delight will be only in the future],</t>\n    <t s=\"41\">for through the drawing down and revelation of the essential hidden level,</t>\n    <t s=\"42\">even the revelations are in a more elevated manner.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>These two aspects—guarding the way of Havayah and doing charity and justice—exist in every Jew throughout all generations, with a special empowerment from Avraham's command.</sectionSummaryBrief>\n    <t s=\"0\">Now, these two aspects of \"and they shall guard the way of Havayah\"</t>\n    <t s=\"1\">(a flow from above to below)</t>\n    <t s=\"2\">[and] \"to do charity and justice\"</t>\n    <t s=\"3\">(work from below to above)</t>\n    <t s=\"4\">exist in each and every Jew,</t>\n    <t s=\"5\">throughout all the generations.</t>\n    <t s=\"6\">For in addition to the fact that all matters of Torah are eternal,</t>\n    <t s=\"7\">and especially the matters of \"the deeds of the Patriarchs are a sign and provide strength to the children\",</t>\n    <t s=\"8\">regarding this matter it explicitly says \"which He commanded his sons and his household after him\",</t>\n    <t s=\"9\">until the end of all generations.</t>\n    <t s=\"10\">And this command</t>\n    <t s=\"11\">(that Avraham commanded his sons, etc.)</t>\n    <t s=\"12\">is a special empowerment</t>\n    <t s=\"13\">(in addition to the empowerment that comes from the aspect of the deeds of the Patriarchs)</t>\n    <t s=\"14\">for every Jew regarding the two aforementioned forms of service.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914830_theRebbe_782",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914830_theRebbe_782__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "The superiority of refining and elevating the lower is explained through two aspects: it perfects the downward flow, and it reaches the essential hidden level.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, the superiority that is in the refinement and elevation of the lower,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "is understood from the maamar"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(the aforementioned discourse beginning \"Zachor\")"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that there are two aspects in this."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "One: that this relates to the flow from Above."
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "And as it is stated in the aforementioned maamar,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that just as in the simple sense, if one cannot go back on a path, then it is not called a path"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(not only regarding the place to which one came,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "but)"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "also regarding the place from which one departed,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "for when the ascent does not change"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "(that the lower is not a vessel for the flow),"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "the flow is not true."
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "And one can explain this,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "that the true essence and perfection of the flow"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "(which has no limitation)"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "is,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "that not only is it drawn into every place, even the lowest place,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "but it is drawn and penetrates all parts of the place until it becomes absorbed with it."
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "And this"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "(the absorption)"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "is specifically when the lower is a vessel for the revelation."
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "For although from the perspective of Above, the flow can be even into a lower that is not a vessel,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "for \"who"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "will say to Him, 'What do You do?'\","
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "nevertheless, regarding the lower,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "since from its own perspective it is not a vessel fit for the flow,"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "it does not become absorbed with the light,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "and consequently, there is also a lack in the flow, as above."
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "And there is another aspect in the refinement and elevation of the lower,"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "and especially when the refinement is in the manner of \"itkafya\" (subjugation),"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "that this specifically reaches the Atzmus (Essence)."
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "And this is the matter of \"a great deed\","
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "for \"deed\" (maaseh) is from the term of suppression"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "(refinement of the lower)"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "reaches the essential hidden level"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "which is above all flows and revelations."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "Based on this, the inner content of the distinctions between the maamarim of Parshas Vayeira in the continuation of 5666 is explained, regarding the superiority of the deed itself reaching the essential hidden level.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And based on this, we can explain the inner content of the distinctions between the maamarim of Parshas Vayeira in the continuation of 5666."
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "For in the first maamar, it explains the aspect of the mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "that through the fulfillment of mitzvos, the most elevated matters are drawn down,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "essential will and essential delight."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "That is, the superiority of the work below is that through it, the flow from Above is effected, and also the aspect of refining the lower is that through it comes the perfection of the flow."
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "And therefore it explains"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "(according to the simple meaning of the verse's language)"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "that \"to do charity and justice\" is an explanation and detail of the \"way of Havayah\","
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "the flow from Above."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "And the following year, in the second maamar, it explains the superiority of the deed of mitzvos"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(the work below)"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "as it is in itself,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "analogous to the revelation of the future, when the superiority of the deed will be revealed,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "\"a great deed\","
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "not only that the deed arouses and draws down the light of the Unlimited that is above enclothing in Chochmah"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "(Talmud),"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "but also the superiority of the deed itself,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "which reaches the essential hidden level"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(which is above even the light of the Unlimited that is drawn down through it)."
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "And therefore it explains that \"to do charity and justice\" is"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "(not a detail and explanation of the \"way of Havayah\","
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "but rather)"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "an additional matter"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "(that comes after and through \"and they shall guard the way of Havayah\")."
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "And this is why this maamar begins with the verse \"And Havayah said, 'Shall I hide from Avraham?'\","
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "and explains that \"Shall I hide\" is the aspect of the essential hidden level of Ein Sof,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "and the explanation of \"Shall I hide from Avraham\" is that this aspect was revealed to Avraham,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "through his work in the aspect of returning light from below to above,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "\"and He also commanded his sons and his household after him... to do charity and justice\","
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "therefore the aspect of the essential hidden level was revealed to him."
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "[And He says about this \"Shall I hide\" as a question,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "because from the perspective of his work"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "(in the aspect of returning light)"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "it is not possible that this aspect would not be revealed to him.]"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "And since this maamar discusses the matter of the revelation of the essential hidden level"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "(\"Shall I hide\"),"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "therefore,"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "also in the verse \"For I have known him,\" it explains that \"I have known him\" is an expression of endearment, that He cherished him in the aspect of essential delight"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "[for the revelation of essential delight is more elevated than the revelation of will,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "therefore the revelation of will exists even now, but the revelation of delight will be only in the future],"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "for through the drawing down and revelation of the essential hidden level,"
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "even the revelations are in a more elevated manner."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "These two aspects—guarding the way of Havayah and doing charity and justice—exist in every Jew throughout all generations, with a special empowerment from Avraham's command.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "Now, these two aspects of \"and they shall guard the way of Havayah\""
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "(a flow from above to below)"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "[and] \"to do charity and justice\""
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(work from below to above)"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "exist in each and every Jew,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "throughout all the generations."
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "For in addition to the fact that all matters of Torah are eternal,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "and especially the matters of \"the deeds of the Patriarchs are a sign and provide strength to the children\","
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "regarding this matter it explicitly says \"which He commanded his sons and his household after him\","
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "until the end of all generations."
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "And this command"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "(that Avraham commanded his sons, etc.)"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "is a special empowerment"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "(in addition to the empowerment that comes from the aspect of the deeds of the Patriarchs)"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "for every Jew regarding the two aforementioned forms of service."
+          }
+        ]
+      }
+    ]
+  }
+}

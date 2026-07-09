@@ -1,0 +1,63 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914661_theRebbe_935" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914661_theRebbe_935__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914661_theRebbe_935" title="מאמר כנשר יעיר קנו תשכ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914661_theRebbe_935__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ האזינו,</src>
+    <src s="2">י"ג תשרי*,</src>
+    <src s="3">ה'תשכ"ב</src>
+  </section>
+  <section v="1">
+    <src s="0">(הנחה בלתי מוגה)</src>
+  </section>
+  <section v="2">
+    <src s="0">כנשר יעיר קנו גו' ישאהו על אברתו ה' בדד ינחנו1,</src>
+    <src s="1">וקאי על מ"ש לעיל מיני'2</src>
+    <src s="2">יצרנהו כאישון עינו,</src>
+    <src s="3">שעי"ז שיצרנהו כאישון עינו עי"ז כנשר יעיר קנו,</src>
+    <src s="4">ולכן ישאהו על אברתו הוי' בדד ינחנו.</src>
+    <src s="5">ופירוש יצרנהו כאישון עינו,</src>
+    <src s="6">הנה ידוע3</src>
+    <src s="7">שישנם ספירות ומלאכים שנק' בשם עינים,</src>
+    <src s="8">וכמבואר בתו"א4</src>
+    <src s="9">בענין עיני הוי' משוטטים ומשוטטות שהם ב' סוגים במלאכים,</src>
+    <src s="10">אמנם ישראל שהם לפנים ממלאכי השרת הם בחי' אישון עינו.</src>
+    <src s="11">שהעין עם היותו כלי לכח הראי',</src>
+    <src s="12">מ"מ הנה עיקר הראי' הוא מהאישון שבעין,</src>
+    <src s="13">וזהו מעלת ישראל על המלאכים,</src>
+    <src s="14">שהמלאכים נק' בשם עינים בכללות,</src>
+    <src s="15">וישראל הם בחי' אישון עינו.</src>
+  </section>
+</awtsmoosMeluketSource>

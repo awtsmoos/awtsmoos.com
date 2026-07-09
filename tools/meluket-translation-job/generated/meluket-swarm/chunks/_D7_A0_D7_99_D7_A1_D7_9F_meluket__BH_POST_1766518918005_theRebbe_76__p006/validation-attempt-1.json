@@ -1,0 +1,198 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 32,
+    "returned": 32,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918005_theRebbe_76\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains the difference between the verse \"As in the days of your exodus from Egypt I will show him wonders\" and the verse about remembering the exodus, establishing that the former speaks of the future redemption and the empowering force from the exodus, while the latter teaches that the purpose of the exodus is to be drawn into future days.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that from the distinctions between the verse \"As in the days of your exodus from the land of Egypt I will show him wonders\" and the verse \"So that you remember the day of your exodus from the land of Egypt all the days of your life,\" from which we learn that we mention the exodus from Egypt even in the days of Moshiach,</t>\n    <t s=\"3\">it is,</t>\n    <t s=\"4\">that the verse \"As in the days of your exodus from the land of Egypt I will show him wonders\" speaks of the future redemption,</t>\n    <t s=\"5\">and it says \"As in the days of your exodus from the land of Egypt,\" that the empowerment for \"I will show him wonders\" of the future redemption comes from the days of your exodus from the land of Egypt,</t>\n    <t s=\"6\">and the verse \"So that you remember etc.\" is stated in the portion \"Guard the month of spring and make the Pesach offering etc.\"43,</t>\n    <t s=\"7\">for Pesach is the matter of the exodus from Egypt,</t>\n    <t s=\"8\">and it says \"So that you remember the day of your exodus from the land of Egypt all the days of your life, to bring in the days of Moshiach,\"</t>\n    <t s=\"9\">that the intention in the redemption of the exodus from Egypt is that it will be</t>\n    <t s=\"10\">(remembered and)</t>\n    <t s=\"11\">drawn also into the days that follow,</t>\n    <t s=\"12\">in the days of Moshiach.</t>\n    <t s=\"13\">And based on this, we can explain what is said in the maamar, that to understand the concept of \"days\" in the plural, we must preface the concept of remembering the exodus from Egypt in the future,</t>\n    <t s=\"14\">because this—that we mention the exodus from Egypt in the days of Moshiach—is because this is the essence of the exodus from Egypt,</t>\n    <t s=\"15\">and based on this it will be better understood that all the days from the time of the exodus from Egypt until the future redemption</t>\n    <t s=\"16\">[through which the power of the exodus from Egypt is drawn</t>\n    <t s=\"17\">(upon the future redemption)</t>\n    <t s=\"18\">from potential to actual]</t>\n    <t s=\"19\">are \"the days of your exodus from the land of Egypt,\"</t>\n    <t s=\"20\">\"days\" in the plural.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section concludes that through daily remembrance of the exodus, especially the Seder night narrative, we hasten the fulfillment of the promise of future wonders in the true and complete redemption by Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">And according to the above, that the essence of the exodus from Egypt is to bring about the future redemption,</t>\n    <t s=\"1\">it is understood,</t>\n    <t s=\"2\">that through the remembrance of the exodus from Egypt every day,</t>\n    <t s=\"3\">and especially through the telling of the exodus from Egypt on the night of Pesach</t>\n    <t s=\"4\">[at the time44</t>\n    <t s=\"5\">when matzah and maror are placed before you45.</t>\n    <t s=\"6\">And in the time when the Holy Temple stood—at the time when the Pesach offering, matzah, and maror are placed before you46],</t>\n    <t s=\"7\">we hasten even more the fulfillment of the promise \"As in the days of your exodus from the land of Egypt I will show him wonders,\"</t>\n    <t s=\"8\">in the future redemption through Moshiach Tzidkeinu,</t>\n    <t s=\"9\">may he come and redeem us with the true and complete redemption,</t>\n    <t s=\"10\">speedily in our days.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918005_theRebbe_76",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains the difference between the verse \"As in the days of your exodus from Egypt I will show him wonders\" and the verse about remembering the exodus, establishing that the former speaks of the future redemption and the empowering force from the exodus, while the latter teaches that the purpose of the exodus is to be drawn into future days.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "that from the distinctions between the verse \"As in the days of your exodus from the land of Egypt I will show him wonders\" and the verse \"So that you remember the day of your exodus from the land of Egypt all the days of your life,\" from which we learn that we mention the exodus from Egypt even in the days of Moshiach,"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "it is,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "that the verse \"As in the days of your exodus from the land of Egypt I will show him wonders\" speaks of the future redemption,"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "and it says \"As in the days of your exodus from the land of Egypt,\" that the empowerment for \"I will show him wonders\" of the future redemption comes from the days of your exodus from the land of Egypt,"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "and the verse \"So that you remember etc.\" is stated in the portion \"Guard the month of spring and make the Pesach offering etc.\"43,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "for Pesach is the matter of the exodus from Egypt,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "and it says \"So that you remember the day of your exodus from the land of Egypt all the days of your life, to bring in the days of Moshiach,\""
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "that the intention in the redemption of the exodus from Egypt is that it will be"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "(remembered and)"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "drawn also into the days that follow,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "in the days of Moshiach."
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "And based on this, we can explain what is said in the maamar, that to understand the concept of \"days\" in the plural, we must preface the concept of remembering the exodus from Egypt in the future,"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "because this—that we mention the exodus from Egypt in the days of Moshiach—is because this is the essence of the exodus from Egypt,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "and based on this it will be better understood that all the days from the time of the exodus from Egypt until the future redemption"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "[through which the power of the exodus from Egypt is drawn"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "(upon the future redemption)"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "from potential to actual]"
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "are \"the days of your exodus from the land of Egypt,\""
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "\"days\" in the plural."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section concludes that through daily remembrance of the exodus, especially the Seder night narrative, we hasten the fulfillment of the promise of future wonders in the true and complete redemption by Moshiach.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "And according to the above, that the essence of the exodus from Egypt is to bring about the future redemption,"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "that through the remembrance of the exodus from Egypt every day,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "and especially through the telling of the exodus from Egypt on the night of Pesach"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "[at the time44"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "when matzah and maror are placed before you45."
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "And in the time when the Holy Temple stood—at the time when the Pesach offering, matzah, and maror are placed before you46],"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "we hasten even more the fulfillment of the promise \"As in the days of your exodus from the land of Egypt I will show him wonders,\""
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "in the future redemption through Moshiach Tzidkeinu,"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "may he come and redeem us with the true and complete redemption,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "speedily in our days."
+          }
+        ]
+      }
+    ]
+  }
+}

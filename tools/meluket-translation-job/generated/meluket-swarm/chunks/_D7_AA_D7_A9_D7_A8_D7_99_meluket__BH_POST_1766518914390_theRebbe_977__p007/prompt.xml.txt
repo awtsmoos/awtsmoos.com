@@ -1,0 +1,117 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914390_theRebbe_977" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914390_theRebbe_977__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914390_theRebbe_977" title="מאמר בסוכות תשבו תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914390_theRebbe_977__p007">
+  <section v="18">
+    <src s="0">ח)</src>
+    <src s="1">וזהו בסוכות תשבו גו' כל האזרח בישראל ישבו בסוכות גו' כי בסוכות הושבתי גו',</src>
+    <src s="2">דכל האזרח בישראל ישבו בסוכות וכי בסוכות הושבתי גו' הם שני טעמים על בסוכות תשבו</src>
+    <src s="3">(כמבואר בהמאמר דהמשך ראש השנה תש"ג,</src>
+    <src s="4">הובא לעיל סעיף ב).</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">דבסוכות תשבו הוא גילוי התשובה דיום הכפורים,</src>
+    <src s="7">ובהתשובה דיום הכפורים,</src>
+    <src s="8">ג' ענינים.</src>
+    <src s="9">התשובה עצמה,</src>
+    <src s="10">ושני ענינים בשרש וסיבת התשובה.</src>
+    <src s="11">דהתשובה עצמה</src>
+    <src s="12">(גם התשובה דיום הכפורים)</src>
+    <src s="13">היא שהאדם משנה את עצמו,</src>
+    <src s="14">שיוצא ממציאותו הקודמת ונעשה מציאות חדשה.</src>
+    <src s="15">דשינוי זה הוא בכחות הגלויים דהנשמה.</src>
+    <src s="16">ושינוי זה שבכחות הגלויים דהאדם הוא ע"י שמעורר ומגלה עצם הנשמה שבו,</src>
+    <src s="17">היינו עצם הנשמה ששייכת לכחות הגלויים.</src>
+    <src s="18">[ועד"ז הוא בנוגע למעלה,</src>
+    <src s="19">דזה שהאדם נעשה מרוצה לפניו ית' כמו קודם החטא42</src>
+    <src s="20">הוא,</src>
+    <src s="21">כי ע"י התשובה נמשך רצון חדש מאוא"ס בעל הרצון].</src>
+    <src s="22">ועוד ענין בהתשובה דיום הכפורים,</src>
+    <src s="23">שנרגש בה בגילוי,</src>
+    <src s="24">שהשורש והסיבה האמיתית דתשובה הוא ההתקשרות דעצם הנשמה</src>
+    <src s="25">(שלמעלה משייכות לכחות הגלויים)</src>
+    <src s="26">עם העצמות</src>
+    <src s="27">(שלמעלה מבעל הרצון).</src>
+    <src s="28">ולכן,</src>
+    <src s="29">גם בהענין דבסוכות תשבו</src>
+    <src s="30">(שהוא הגילוי דהתשובה דיום הכפורים),</src>
+    <src s="31">ג' הענינים.</src>
+    <src s="32">הענין דבסוכות תשבו עצמו – השינוי במקיף הקרוב,</src>
+    <src s="33">שנעשה אור מתיישב.</src>
+    <src s="34">והטעם על זה הוא – כי בסוכות הושבתי גו' בדרך אתערותא דלעילא.</src>
+    <src s="35">ויש לומר,</src>
+    <src s="36">שהוא ע"ד המובא לעיל סעיף ו דזה שע"י אתעדל"ת מתעורר הרצון גלוי</src>
+    <src s="37">(אף שהאתעדל"ת היא באין ערוך לגבי הרצון)</src>
+    <src s="38">הוא לא מצד הרצון הגלוי עצמו</src>
+    <src s="39">(דכיון שרצון הגלוי שייך לעולמות הוא מוגדר בזה שהנבראים הם באין ערוך לגבי' ואין ביכלתם לעורר אותו),</src>
+    <src s="40">אלא לפי שכן הוחלט ברצון המוחלט.</src>
+    <src s="41">ועד"ז הוא בהענין דבסוכות תשבו,</src>
+    <src s="42">שהשינוי כביכול שנעשה במקיף הקרוב להיות אור מתיישב הוא,</src>
+    <src s="43">כי בסוכות הושבתי בדרך אתערותא דלעילא,</src>
+    <src s="44">המשכה מעצמות אוא"ס שלגבי' אין חילוק בין מקיף לפנימי וגם המקיף יכול לבוא בהתיישבות.</src>
+    <src s="45">[ע"ד שע"י התשובה נמשך רצון</src>
+    <src s="46">(חדש)</src>
+    <src s="47">מאוא"ס בעל הרצון].</src>
+    <src s="48">ועוד טעם על בסוכות תשבו – כל האזרח בישראל ישבו בסוכות,</src>
+    <src s="49">במקיף הרחוק.</src>
+    <src s="50">דענין הישיבה</src>
+    <src s="51">(התיישבות)</src>
+    <src s="52">במקיף הרחוק אינו באופן דפעולה</src>
+    <src s="53">[כי במקיף הרחוק,</src>
+    <src s="54">בחינת לא אדם,</src>
+    <src s="55">אין שייך שיהי' בו פעולה ושינוי,</src>
+    <src s="56">כנ"ל סעיף ג],</src>
+    <src s="57">אלא שכל האזרח בישראל,</src>
+    <src s="58">ישבו בסוכות</src>
+    <src s="59">(מקיף הרחוק)</src>
+    <src s="60">מצד עצמם,</src>
+    <src s="61">לפי שהם מושרשים בהעצמות.</src>
+    <src s="62">[וזהו שאמרו רז"ל43</src>
+    <src s="63">עה"פ כל האזרח בישראל ישבו בסוכות מלמד שכל ישראל ראויים לישב בסוכה אחת,</src>
+    <src s="64">כי בדרגא זו כל ישראל שוים].</src>
+    <src s="65">והוא ע"ד הענין דעיצומו של יום הכפורים,</src>
+    <src s="66">שמצד ההתקשרות העצמית דעצם הנשמה עם העצמות אין פגם מלכתחילה.</src>
+    <src s="67">וכמו שביום הכפורים,</src>
+    <src s="68">הענין דעיצומו מאיר בגילוי גם בהתשובה דיום הכפורים,</src>
+    <src s="69">שבהתשובה דיום הכפורים נרגש</src>
+    <src s="70">(כנ"ל)</src>
+    <src s="71">שהיא נמשכת מההתקשרות העצמית דעצם הנשמה עם העצמות,</src>
+    <src s="72">עד"ז הוא בסוכות,</src>
+    <src s="73">שכל האזרח בישראל ישבו בסוכות הוא טעם על בסוכות תשבו,</src>
+    <src s="74">דזה שמקיף הקרוב נמשך בפנימיות ונעשה אור מתיישב,</src>
+    <src s="75">נרגש בו,</src>
+    <src s="76">שהטעם על זה הוא כל האזרח בישראל ישבו בסוכות,</src>
+    <src s="77">במקיף הרחוק,</src>
+    <src s="78">התקשרות העצמית דעצם הנשמה עם העצמות.</src>
+  </section>
+</awtsmoosMeluketSource>

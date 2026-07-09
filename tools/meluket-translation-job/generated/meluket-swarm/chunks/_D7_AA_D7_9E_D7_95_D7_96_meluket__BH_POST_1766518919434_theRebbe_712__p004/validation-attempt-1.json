@@ -1,0 +1,389 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 69,
+    "returned": 69,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919434_theRebbe_712\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the line's descent ends in Atzilus because it requires vessels of Divinity, while its extension into Biyah is achieved through the encompassing light before the tzimtzum, specifically the light of the boundless that is unaffected by concealment.</sectionSummaryBrief>\n    <t s=\"0\">And this will be understood according to the known principle</t>\n    <t s=\"1\">that the reason why the extension of the line terminates in Atzilus is that the intent in extending the line is that the light should be in a state of enclothing,</t>\n    <t s=\"2\">and the enclothing of the light can only be in those things</t>\n    <t s=\"3\">(vessels and worlds)</t>\n    <t s=\"4\">that are Divinity.</t>\n    <t s=\"5\">And in order for the extension and revelation of the line to be in Biyah, it is through the extension of the encompassing light,</t>\n    <t s=\"6\">which in general is the light that precedes the tzimtzum,</t>\n    <t s=\"7\">and within that light that precedes the tzimtzum itself — the light of the boundless</t>\n    <t s=\"8\">(which is above the light that illuminates the worlds).</t>\n    <t s=\"9\">And one can explain this,</t>\n    <t s=\"10\">for the light of the boundless,</t>\n    <t s=\"11\">since for it the tzimtzum does not conceal,</t>\n    <t s=\"12\">shines in revelation</t>\n    <t s=\"13\">(even after the tzimtzum)</t>\n    <t s=\"14\">in every place,</t>\n    <t s=\"15\">even in Biyah,</t>\n    <t s=\"16\">except that this is only in His knowledge, blessed be He, and is not felt in the worlds</t>\n    <t s=\"17\">(as above in section 3),</t>\n    <t s=\"18\">and by the light from before the tzimtzum shining into the line,</t>\n    <t s=\"19\">the line itself becomes such</t>\n    <t s=\"20\">that it extends and is revealed even in Biyah.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section distinguishes between Yaakov's breakthrough (letters yivka) from his own side, which breaks the boundaries of concealment but retains distinctions within revelation, and the breakthrough revealed through Yosef, which also breaks the boundaries within revelation itself.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, one can explain the difference between the breakthrough of Yaakov — the letters yivka</t>\n    <t s=\"1\">(as it is from his own side)</t>\n    <t s=\"2\">and the breakthrough of Yaakov — the letters yivka as it is revealed through Yosef,</t>\n    <t s=\"3\">that the breakthrough of Yaakov</t>\n    <t s=\"4\">(from his own side)</t>\n    <t s=\"5\">is a bursting through</t>\n    <t s=\"6\">and nullification of the boundaries of revelation and tzimtzum</t>\n    <t s=\"7\">[through the revelation of simplicity</t>\n    <t s=\"8\">(the hidden Tiferet)</t>\n    <t s=\"9\">which is not defined by these boundaries],</t>\n    <t s=\"10\">and through this the revelation is drawn</t>\n    <t s=\"11\">(also)</t>\n    <t s=\"12\">into the worlds that came into being from the tzimtzum.</t>\n    <t s=\"13\">But still, the boundaries within the matter of revelation itself remain,</t>\n    <t s=\"14\">the distinction between the revelation in the aspect of the encompassing and the revelation in the aspect of enclothing,</t>\n    <t s=\"15\">that the revelation in the aspect of the encompassing is in every place, while the revelation in the aspect of enclothing has measure and limitation,</t>\n    <t s=\"16\">in that it can only be in things that are vessels for revelation.</t>\n    <t s=\"17\">And the breakthrough of Yaakov — the letters yivka as it is revealed through Yosef — is a bursting through and nullification also of the boundaries within the revelation itself,</t>\n    <t s=\"18\">so that even the revelation in the aspect of enclothing can be in every place.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that revelation in Biyah specifically comes through Yosef, who embodies the sefirah of Yesod, because the delight at the completion of the flow reaches the very essence above the source of the flow, thereby breaking all boundaries of revelation.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And based on this, one can also explain what is stated in the maamar</t>\n    <t s=\"2\">that the reason why the revelation in Biyah is specifically through Yosef is that Yosef is the aspect of Yesod</t>\n    <t s=\"3\">(the completion of the flow)</t>\n    <t s=\"4\">and the primary delight and joy is at the completion of the flow,</t>\n    <t s=\"5\">as explained there at length.</t>\n    <t s=\"6\">Therefore, specifically through Yosef is the revelation drawn into Biyah.</t>\n    <t s=\"7\">And one must understand what is the connection of the matter of revelation in Biyah to the delight and joy at the completion of the flow,</t>\n    <t s=\"8\">and why is it not sufficient</t>\n    <t s=\"9\">(for this revelation)</t>\n    <t s=\"10\">the delight and joy at the beginning and middle of the flow.</t>\n    <t s=\"11\">And one can explain this,</t>\n    <t s=\"12\">that the superiority of the delight and joy at the completion of the flow</t>\n    <t s=\"13\">[and the intention here in \"completion of the flow\" is that the flow has been received well by the recipient]</t>\n    <t s=\"14\">is that the delight reaches the very essence that is above the source of the flow,</t>\n    <t s=\"15\">as is known</t>\n    <t s=\"16\">regarding the matter of \"the end of action is in the initial thought,\"</t>\n    <t s=\"17\">that the end of action is the reception of the flow,</t>\n    <t s=\"18\">and this reaches the initial thought,</t>\n    <t s=\"19\">that is, in the beginning that is before</t>\n    <t s=\"20\">(and above)</t>\n    <t s=\"21\">the beginning of thought,</t>\n    <t s=\"22\">the source of the flow.</t>\n    <t s=\"23\">Therefore, specifically through the delight and joy at the completion of the flow, there occurs a bursting through and nullification of the boundaries of revelation</t>\n    <t s=\"24\">(flow),</t>\n    <t s=\"25\">and through this,</t>\n    <t s=\"26\">even the revelation in the aspect of enclothing</t>\n    <t s=\"27\">(the revelation of the line)</t>\n    <t s=\"28\">is revealed also in Biyah.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919434_theRebbe_712",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the line's descent ends in Atzilus because it requires vessels of Divinity, while its extension into Biyah is achieved through the encompassing light before the tzimtzum, specifically the light of the boundless that is unaffected by concealment.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And this will be understood according to the known principle"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that the reason why the extension of the line terminates in Atzilus is that the intent in extending the line is that the light should be in a state of enclothing,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "and the enclothing of the light can only be in those things"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "(vessels and worlds)"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "that are Divinity."
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "And in order for the extension and revelation of the line to be in Biyah, it is through the extension of the encompassing light,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "which in general is the light that precedes the tzimtzum,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "and within that light that precedes the tzimtzum itself — the light of the boundless"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "(which is above the light that illuminates the worlds)."
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "And one can explain this,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "for the light of the boundless,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "since for it the tzimtzum does not conceal,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "shines in revelation"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "(even after the tzimtzum)"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "in every place,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "even in Biyah,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "except that this is only in His knowledge, blessed be He, and is not felt in the worlds"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "(as above in section 3),"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "and by the light from before the tzimtzum shining into the line,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "the line itself becomes such"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "that it extends and is revealed even in Biyah."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section distinguishes between Yaakov's breakthrough (letters yivka) from his own side, which breaks the boundaries of concealment but retains distinctions within revelation, and the breakthrough revealed through Yosef, which also breaks the boundaries within revelation itself.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And based on this, one can explain the difference between the breakthrough of Yaakov — the letters yivka"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "(as it is from his own side)"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "and the breakthrough of Yaakov — the letters yivka as it is revealed through Yosef,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "that the breakthrough of Yaakov"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "(from his own side)"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "is a bursting through"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "and nullification of the boundaries of revelation and tzimtzum"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "[through the revelation of simplicity"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(the hidden Tiferet)"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "which is not defined by these boundaries],"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "and through this the revelation is drawn"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "(also)"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "into the worlds that came into being from the tzimtzum."
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "But still, the boundaries within the matter of revelation itself remain,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "the distinction between the revelation in the aspect of the encompassing and the revelation in the aspect of enclothing,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "that the revelation in the aspect of the encompassing is in every place, while the revelation in the aspect of enclothing has measure and limitation,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "in that it can only be in things that are vessels for revelation."
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "And the breakthrough of Yaakov — the letters yivka as it is revealed through Yosef — is a bursting through and nullification also of the boundaries within the revelation itself,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "so that even the revelation in the aspect of enclothing can be in every place."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that revelation in Biyah specifically comes through Yosef, who embodies the sefirah of Yesod, because the delight at the completion of the flow reaches the very essence above the source of the flow, thereby breaking all boundaries of revelation.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And based on this, one can also explain what is stated in the maamar"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that the reason why the revelation in Biyah is specifically through Yosef is that Yosef is the aspect of Yesod"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "(the completion of the flow)"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "and the primary delight and joy is at the completion of the flow,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "as explained there at length."
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "Therefore, specifically through Yosef is the revelation drawn into Biyah."
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "And one must understand what is the connection of the matter of revelation in Biyah to the delight and joy at the completion of the flow,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "and why is it not sufficient"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "(for this revelation)"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "the delight and joy at the beginning and middle of the flow."
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "And one can explain this,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "that the superiority of the delight and joy at the completion of the flow"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "[and the intention here in \"completion of the flow\" is that the flow has been received well by the recipient]"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "is that the delight reaches the very essence that is above the source of the flow,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "as is known"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "regarding the matter of \"the end of action is in the initial thought,\""
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "that the end of action is the reception of the flow,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "and this reaches the initial thought,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "that is, in the beginning that is before"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "(and above)"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "the beginning of thought,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "the source of the flow."
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "Therefore, specifically through the delight and joy at the completion of the flow, there occurs a bursting through and nullification of the boundaries of revelation"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "(flow),"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "and through this,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "even the revelation in the aspect of enclothing"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "(the revelation of the line)"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "is revealed also in Biyah."
+          }
+        ]
+      }
+    ]
+  }
+}

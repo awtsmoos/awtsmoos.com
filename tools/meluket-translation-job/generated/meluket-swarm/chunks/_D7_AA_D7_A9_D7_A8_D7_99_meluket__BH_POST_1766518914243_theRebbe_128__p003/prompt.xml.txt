@@ -1,0 +1,139 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914243_theRebbe_128" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914243_theRebbe_128" title="מאמר ולקחתם לכם תשל"ט" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">והנה כיון שתכלית בריאת האדם הוא לעשות לו ית' דירה בתחתונים39,</src>
+    <src s="2">שזה נעשה ע"י שעבודתו את ה' היא באופן כזה שגם גויים וכו' מכירים את מעלתו ועד שמברכים אותו,</src>
+    <src s="3">מובן,</src>
+    <src s="4">שלכאו"א מישראל נותנים כח מלמעלה על זה.</src>
+    <src s="5">ובפרט בדורות האחרונים שלפני הגאולה,</src>
+    <src s="6">שצריך לגמור ולהשלים עשיית הדירה,</src>
+    <src s="7">שהנתינת כח על זה היא עוד יותר.</src>
+    <src s="8">ויש לומר,</src>
+    <src s="9">דזהו גם מהטעמים על זה שסיפר כ"ק מו"ח אדמו"ר40,</src>
+    <src s="10">שאדמו"ר מהר"ש</src>
+    <src s="11">(בעל ההילולא)</src>
+    <src s="12">הי' נוסע בכל יום מימי החול לטייל,</src>
+    <src s="13">ופעם</src>
+    <src s="14">(מצד סיבה)</src>
+    <src s="15">נסע בדרך אחרת,</src>
+    <src s="16">וכל האנשים מעמי הארץ שהיו שם,</src>
+    <src s="17">כשראו אותו כרעו והשתחוו לפניו.</src>
+    <src s="18">וכששאלו אח"כ את אדמו"ר מהר"ש עד"ז,</src>
+    <src s="19">ענה: אויף וועמען דען שטייט ברוך תהי' מכל העמים.</src>
+    <src s="20">דהטעם על זה שכ"ק מו"ח אדמו"ר סיפר מאורע זה וצוה לפרסמו,</src>
+    <src s="21">יש לומר שהוא בכדי להוסיף בהנתינת כח על זה לכאו"א מישראל.</src>
+    <src s="22">דנוסף על הנתינת כח שע"י המאורע עצמו,</src>
+    <src s="23">דכיון שמאורע זה הי' אצל נשיא,</src>
+    <src s="24">דהנשיא הוא הכל41,</src>
+    <src s="25">הוא נתינת כח לכאו"א מישראל42,</src>
+    <src s="26">הנה עי"ז שנתגלה ונתפרסם ע"י נשיא,</src>
+    <src s="27">ניתוסף עי"ז עוד יותר בהנתינת כח.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דהנתינת כח מלמעלה על עבודה זו היא</src>
+    <src s="3">(בעיקר)</src>
+    <src s="4">בחג הסוכות.</src>
+    <src s="5">דע"י שבחג הסוכות יודעים כולם</src>
+    <src s="6">(גם הגוים כו')</src>
+    <src s="7">שישראל אינון ניצוחייא,</src>
+    <src s="8">ונוסף שהם יודעים מזה הם מסכימים לזה ועד שהם מהללים כו' את הוי' על זה שגבר עלינו חסדו</src>
+    <src s="9">(כנ"ל סעיף ג),</src>
+    <src s="10">הנה מזה נמשכת נתינת כח על העבודה דברוך תהי' מכל העמים במשך כל השנה.</src>
+    <src s="11">ויש להוסיף,</src>
+    <src s="12">דענין נצחון</src>
+    <src s="13">(ישראל אינון ניצוחייא)</src>
+    <src s="14">הוא שמנצחים את המנגד.</src>
+    <src s="15">דמזה מובן,</src>
+    <src s="16">דזה שגילוי הנצחון בחג הסוכות הוא באופן שגם הגוים כו' מהללים כו',</src>
+    <src s="17">הוא,</src>
+    <src s="18">שגם אלה שהיו תחלה מנגדים,</src>
+    <src s="19">גם הם נהפכים לאוהבים,</src>
+    <src s="20">ומהללים כו' את הוי' על זה שגבר עלינו חסדו.</src>
+    <src s="21">ולכן,</src>
+    <src s="22">גם הנתינת כח שנמשכת מחג הסוכות על העבודה דברוך תהי' מכל העמים במשך כל השנה היא גם בנוגע לאלה שהיו מנגדים,</src>
+    <src s="23">ברוך תהי' מכל העמים.</src>
+    <src s="24">ומזה הוראה לכאו"א מישראל,</src>
+    <src s="25">שגם כשישנם לפעמים כאלה שמונעים ומעכבים אותו מעבודתו,</src>
+    <src s="26">אין זה צריך לגרום חלישות ח"ו בעבודתו</src>
+    <src s="27">(ומכ"ש שאין מקום למחשבת יאוש ח"ו),</src>
+    <src s="28">וכשמחליט למלאות את שליחותו מבלי להתחשב עם שום מניעות ועיכובים,</src>
+    <src s="29">אזי יראה בגילוי בעיני בשר שכל המניעות אין בהם ממש43,</src>
+    <src s="30">ואדרבא,</src>
+    <src s="31">הכוונה בזה שיש לו מניעות הוא בכדי להגבי' אותו למדריגה נעלית יותר,</src>
+    <src s="32">שתהי' לו העבודה דבירורים וגם העבודה דנסיונות</src>
+    <src s="33">(שלולי המניעות לא הי' מגיע לעבודה זו,</src>
+    <src s="34">שהרי מבקשים ונצטוינו לבקש אל תביאנו לידי נסיון44),</src>
+    <src s="35">שעי"ז יגיע למדריגה נעלית יותר45,</src>
+    <src s="36">ועד שסוף סוף,</src>
+    <src s="37">גם אלו שמנעו וכו' יהפכו למסייעים ומברכים,</src>
+    <src s="38">ברוך תהי' מכל העמים,</src>
+    <src s="39">ועי"ז תושלם הכוונה דנתאווה הקב"ה להיות לו ית' דירה בתחתונים,</src>
+    <src s="40">בתחתון שאין תחתון למטה ממנו.</src>
+  </section>
+  <section v="8">
+    <src s="0">ז)</src>
+    <src s="1">והנה בכדי לפעול הבירור דאוה"ע,</src>
+    <src s="2">ובפרט דאלו שמנגדים,</src>
+    <src s="3">הוא ע"י התעוררות וגילוי בחינת יחידה שבנפש.</src>
+    <src s="4">דכיון שהניצוצות שבהם הם בתכלית ההעלם וההסתר,</src>
+    <src s="5">לכן46,</src>
+    <src s="6">בירור ניצוצות אלה הוא ע"י התעוררות נקודת הנפש שלמעלה מהתפשטות וגילוי,</src>
+    <src s="7">יחידה שבנפש.</src>
+    <src s="8">ובפשטות,</src>
+    <src s="9">דע"י שמעורר בחינת היחידה שבו הוא עומד בתוקף חזק,</src>
+    <src s="10">שבכדי שיהי' לו תוקף חזק לעבוד עבודתו</src>
+    <src s="11">(מבלי להתחשב עם המנגדים)</src>
+    <src s="12">הוא ע"י התעוררות היחידה שבו47,</src>
+    <src s="13">וע"י תוקף זה פועל סוף סוף גם על המנגדים שנהפכים למסייעים כו'</src>
+    <src s="14">(כנ"ל סעיף ו).</src>
+    <src s="15">ואף שענין זה</src>
+    <src s="16">(שהמנגדים נהפכים למסייעים כו')</src>
+    <src s="17">הוא תוצאה</src>
+    <src s="18">(לכאורה)</src>
+    <src s="19">מגילוי היחידה שבו,</src>
+    <src s="20">מ"מ,</src>
+    <src s="21">יש בזה עילוי לגבי הענין דגילוי היחידה.</src>
+    <src s="22">כי בגילוי היחידה לא נעשה דבר חדש,</src>
+    <src s="23">משא"כ זה שהמנגד נהפך למסייע</src>
+    <src s="24">(היפך הטבע שלו)</src>
+    <src s="25">הוא התחדשות48,</src>
+    <src s="26">נוסף שעי"ז דוקא נשלמת הכוונה דדירה בתחתונים,</src>
+    <src s="27">בתחתון שאין תחתון למטה ממנו.</src>
+  </section>
+</awtsmoosMeluketSource>

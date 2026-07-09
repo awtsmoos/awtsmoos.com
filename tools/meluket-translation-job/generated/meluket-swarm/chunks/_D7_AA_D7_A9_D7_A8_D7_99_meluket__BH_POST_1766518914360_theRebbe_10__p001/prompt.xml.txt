@@ -1,0 +1,97 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914360_theRebbe_10" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914360_theRebbe_10__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914360_theRebbe_10" title="מאמר וחג האסיף תשמ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914360_theRebbe_10__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אור לי"ג תשרי</src>
+    <src s="2">(הילולא דאדמו"ר מהר"ש נ"ע),</src>
+    <src s="3">ה'תשמ"ג</src>
+  </section>
+  <section v="1">
+    <src s="0">וחג האסיף גו' באספך את מעשיך מן השדה1,</src>
+    <src s="1">ומבאר בעל ההילולא2,</src>
+    <src s="2">דמה שהרגלים נקבעו בזמני התבואה,</src>
+    <src s="3">המכוון הוא</src>
+    <src s="4">(בעיקר)</src>
+    <src s="5">לתבואה ברוחניות3.</src>
+    <src s="6">וזהו מה שנקבע חג הסוכות בזמן אסיפת התבואה,</src>
+    <src s="7">ועד שנקרא בשם חג האסיף4,</src>
+    <src s="8">מפני שענינו של חג הסוכות קשור ובא לאחרי העבודה דאסיפת התבואה</src>
+    <src s="9">(ואספת5</src>
+    <src s="10">דגנך ותירושך ויצהרך6)</src>
+    <src s="11">ברוחניות.</src>
+    <src s="12">וכמו שאסיפת התבואה כפשוטה בגשמיות היא לפני כניסת החג,</src>
+    <src s="13">דביו"ט מי שרי7,</src>
+    <src s="14">כ"ה גם ברוחניות,</src>
+    <src s="15">שלאחרי העבודה דבאספכם את תבואת הארץ</src>
+    <src s="16">(הנה אז)</src>
+    <src s="17">תחוגו את חג ה' שבעת ימים8.</src>
+    <src s="18">וצריך להבין השייכות דחג הסוכות,</src>
+    <src s="19">דשמו</src>
+    <src s="20">(חג הסוכות)</src>
+    <src s="21">הוא על שם בסוכות9</src>
+    <src s="22">תשבו שבעת ימים10,</src>
+    <src s="23">לבאספכם את תבואת הארץ.</src>
+    <src s="24">וגם צריך להבין</src>
+    <src s="25">(כהדיוק בכמה דרושים11)</src>
+    <src s="26">מ"ש9</src>
+    <src s="27">בסוכות תשבו שבעת ימים כל האזרח בישראל ישבו בסוכות,</src>
+    <src s="28">דלכאורה,</src>
+    <src s="29">הרי הציווי בסוכות תשבו גו' הוא לכללות ישראל ולכל אחד מישראל,</src>
+    <src s="30">ומה מוסיף במ"ש כל האזרח בישראל ישבו בסוכות.</src>
+    <src s="31">וגם צריך להבין12</src>
+    <src s="32">מה שבהציווי בסוכות תשבו אומר תשבו שבעת ימים משא"כ בהציווי כל האזרח גו' אומר ישבו סתם</src>
+    <src s="33">(ואינו אומר שבעת ימים).</src>
+  </section>
+  <section v="2">
+    <src s="0">והנה בהמשך לתחוגו את חג ה' שבעת ימים ממשיך הכתוב13</src>
+    <src s="1">ולקחתם לכם ביום הראשון פרי עץ הדר כפות תמרים וענף עץ עבות וערבי נחל גו',</src>
+    <src s="2">שגם מצוה זו קשורה עם חג האסיף14,</src>
+    <src s="3">דזמנה של מצוה זו הוא דוקא ביום הראשון,</src>
+    <src s="4">ביום הראשון של החג שמצד באספכם גו'.</src>
+    <src s="5">ועם היות שמצות נטילת ד' מינים אינה קשורה כ"כ עם עצם החג כהמצוה דישיבה בסוכה15</src>
+    <src s="6">[וכמובן גם מזה שהחיוב דמצות ישיבה בסוכה הוא בכל שבעת ימי החג</src>
+    <src s="7">(בסוכות תשבו שבעת ימים),</src>
+    <src s="8">משקידש החג,</src>
+    <src s="9">משא"כ החיוב דמצות נטילת ד' מינים מתחיל בבוקר</src>
+    <src s="10">(בעלות השחר,</src>
+    <src s="11">ולכתחילה מנץ החמה16)</src>
+    <src s="12">וביום הראשון17],</src>
+    <src s="13">מ"מ,</src>
+    <src s="14">הרי גם מצוה זו קשורה</src>
+    <src s="15">(כנ"ל)</src>
+    <src s="16">עם יום הראשון דחג האסיף.</src>
+  </section>
+</awtsmoosMeluketSource>

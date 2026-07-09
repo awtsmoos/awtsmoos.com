@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914464_theRebbe_108" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914464_theRebbe_108" title="מאמר אתה הראת לדעת תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום שמחת תורה ה'תשל"ז</src>
+  </section>
+  <section v="1">
+    <src s="0">אתה הראת לדעת כי הוי' הוא האלקים אין עוד מלבדו1,</src>
+    <src s="1">הנה פסוק זה הוא פסוק הראשון של י"ז הפסוקים2</src>
+    <src s="2">שאומרים קודם ההקפות.</src>
+    <src s="3">ויש לומר,</src>
+    <src s="4">דפסוק זה הוא גם הראש של כל י"ז הפסוקים שכולל אותם,</src>
+    <src s="5">בדוגמת הראש שכולל את כל אברי הגוף.</src>
+    <src s="6">וצריך להבין השייכות דאתה הראת גו' להקפות.</src>
+    <src s="7">וביותר צריך ביאור ע"פ מ"ש כ"ק מו"ח אדמו"ר3</src>
+    <src s="8">דענין אמירת הפסוקים קודם הקפות הוא שמביאים טעמים4</src>
+    <src s="9">על השמחה דשמע"צ ושמח"ת</src>
+    <src s="10">[וע"ד פסוקי מלכיות זכרונות ושופרות5],</src>
+    <src s="11">דלכאורה,</src>
+    <src s="12">מהי השייכות דאתה הראת לדעת גו' להשמחה דשמע"צ ושמח"ת.</src>
+    <src s="13">ובפרט שאתה הראת לדעת הי' בשעת מ"ת,</src>
+    <src s="14">שהוא בחג השבועות.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים המבואר במק"א6</src>
+    <src s="2">בענין אמירת פסוקי מלכיות זכרונות ושופרות,</src>
+    <src s="3">דזה שצריך להביא ראי' מן התורה על ענינים אלו7,</src>
+    <src s="4">הוא,</src>
+    <src s="5">כי הם ענינים נעלים ביותר8.</src>
+    <src s="6">ומזה מובן גם בנוגע לאמירת הפסוקים קודם ההקפות,</src>
+    <src s="7">דזה שצריך להביא ראי' מן התורה על ענין ההקפות הוא מפני שהוא ענין נעלה ביותר.</src>
+    <src s="8">וכמבואר בלקו"ת9,</src>
+    <src s="9">דזה שבתורה כתוב רק ניסוך היין משא"כ ניסוך המים הוא רק הלכה למשה מסיני10,</src>
+    <src s="10">הוא,</src>
+    <src s="11">כי ניסוך המים הוא ענין נעלה ביותר שאינו יכול להתלבש באותיות דתורה שבכתב,</src>
+    <src s="12">וזה שענין ההקפות לא נתפרש אפילו בתורה שבע"פ והוא רק מנהג הוא מפני שענין ההקפות הוא נעלה יותר גם מניסוך המים.</src>
+    <src s="13">וזהו גם11</src>
+    <src s="14">שהשמחה דשמחת בית השואבה,</src>
+    <src s="15">עם היותה שמחה גדולה ביותר,</src>
+    <src s="16">ועד שמי שלא ראה שמחת בית השואבה לא ראה שמחה מימיו12,</src>
+    <src s="17">מ"מ,</src>
+    <src s="18">היא במדידה והגבלה.</src>
+    <src s="19">כמובן גם מזה שבהשמחה דשמחת בית השואבה,</src>
+    <src s="20">רק חסידים ואנשי מעשה היו מרקדין,</src>
+    <src s="21">וכל העם באים לראות ולשמוע13,</src>
+    <src s="22">דזה שיש הגבלה בנוגע לאלו השמחים בשמחה זו הוא מפני שכללות שמחה זו</src>
+    <src s="23">(גם בהחסידים ואנשי מעשה)</src>
+    <src s="24">היא במדידה והגבלה.</src>
+    <src s="25">משא"כ בשמח"ת,</src>
+    <src s="26">ובפרט בהקפות,</src>
+    <src s="27">מנהג ישראל</src>
+    <src s="28">(שתורה היא14)</src>
+    <src s="29">שכל ישראל</src>
+    <src s="30">(אנשים נשים וטף)</src>
+    <src s="31">שמחים בה15,</src>
+    <src s="32">לפי ששמחה זו היא למעלה ממדידה והגבלה.</src>
+    <src s="33">[ולהוסיף,</src>
+    <src s="34">שההקפות בפעם השני'</src>
+    <src s="35">(בליל שמח"ת)</src>
+    <src s="36">מנהגן להיות בשמחה גדולה יותר מבפעם הראשונה</src>
+    <src s="37">(בליל שמע"צ),</src>
+    <src s="38">כי כאשר השמחה היא באותה המדה שבהקפות הקודמות,</src>
+    <src s="39">בלי הוספה וריבוי,</src>
+    <src s="40">אינה שמחה בשלימות,</src>
+    <src s="41">כיון שנתיישנה.</src>
+    <src s="42">ואדמו"ר הזקן כותב בסידורו16,</src>
+    <src s="43">שגם כשערך את ההקפות בשמחה בבית הכנסת שלו,</src>
+    <src s="44">כשבא לבית הכנסת אחר שלא גמרו ההקפות ירנן וישמח גם עמהם].</src>
+    <src s="45">וי"ל שדוגמתו העבודה דתמליכוני עליכם שבר"ה17,</src>
+    <src s="46">שבה שוים כל ישראל,</src>
+    <src s="47">כמ"ש18</src>
+    <src s="48">אתם נצבים היום כולכם גו',</src>
+    <src s="49">שבהיום דר"ה כל עשרה הסוגים דישראל</src>
+    <src s="50">(מראשיכם שבטיכם עד חוטב עציך ושואב מימיך)</src>
+    <src s="51">הם לאחדים כאחד19.</src>
+  </section>
+</awtsmoosMeluketSource>

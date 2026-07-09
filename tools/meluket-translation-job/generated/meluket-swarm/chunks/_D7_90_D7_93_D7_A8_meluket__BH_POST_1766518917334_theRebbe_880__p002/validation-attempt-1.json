@@ -1,0 +1,649 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 121,
+    "returned": 121,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917334_theRebbe_880\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>Moshe is called the faithful shepherd, with two meanings: he nourishes Israel with faith, bringing it from an encompassing state to inwardness, and this extends to his manifestations in every generation.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And to explain this,</t>\n    <t s=\"2\">the maamar first states</t>\n    <t s=\"3\">that Moshe Rabbeinu is called \"Raaya Meheimna,\"</t>\n    <t s=\"4\">and there are two explanations of this.</t>\n    <t s=\"5\">That he is a faithful shepherd of Israel, and that he nourishes and sustains Israel in the matter of faith.</t>\n    <t s=\"6\">For the faith that exists in Israel from their own essence—</t>\n    <t s=\"7\">that Israel are believers, children of believers—</t>\n    <t s=\"8\">can be in the category of encompassing (makif),</t>\n    <t s=\"9\">and this that Moshe shepherds and nourishes Israel in the matter of faith means that the faith should be in inwardness (penimiyus).</t>\n    <t s=\"10\">And this is what is said in the Zohar,</t>\n    <t s=\"11\">\"That supernal faith will be nourished and sustained from him through you\"</t>\n    <t s=\"12\">(through Moshe),</t>\n    <t s=\"13\">for this that Moshe nourishes and sustains the faith is that he draws it into inwardness.</t>\n    <t s=\"14\">And the maamar continues,</t>\n    <t s=\"15\">that this that Moshe is \"Raaya Meheimna\"</t>\n    <t s=\"16\">also refers to the extension of Moshe in every generation,</t>\n    <t s=\"17\">for the heads of the thousands of Israel in every generation strengthen the faith of Israel</t>\n    <t s=\"18\">(of their generation),</t>\n    <t s=\"19\">so that their faith should be in inwardness.</t>\n    <t s=\"20\">And like Mordechai,</t>\n    <t s=\"21\">who was the extension of Moshe in his generation,</t>\n    <t s=\"22\">as our sages said,</t>\n    <t s=\"23\">\"Mordechai in his generation is like Moshe in his generation,\"</t>\n    <t s=\"24\">for even at the time of Haman's decree,</t>\n    <t s=\"25\">when Torah study and observance of mitzvos were connected with self-sacrifice (mesirus nefesh),</t>\n    <t s=\"26\">he assembled many congregations to strengthen their faith in Hashem and to stand firm in Torah study and observance of mitzvos.</t>\n    <t s=\"27\">And after explaining at length that Moshe and his extension in every generation strengthen the faith of Israel,</t>\n    <t s=\"28\">the maamar explains</t>\n    <t s=\"29\">the precise wording of the verse, \"pure olive oil, beaten for the light\"</t>\n    <t s=\"30\">(\"for the light\" [lamaor] and not \"to illuminate\" [leha'ir]),</t>\n    <t s=\"31\">that during the time of exile,</t>\n    <t s=\"32\">when each person is broken and crushed,</t>\n    <t s=\"33\">\"beaten\" (kasis),</t>\n    <t s=\"34\">through this one reaches the \"light\" (maor)</t>\n    <t s=\"35\">(the essence [Atzmus])</t>\n    <t s=\"36\">from which the light emanates.</t>\n    <t s=\"37\">And one must understand the connection between this explanation of \"beaten for the light\" and what was explained</t>\n    <t s=\"38\">(in the maamar)</t>\n    <t s=\"39\">previously, that Moshe</t>\n    <t s=\"40\">[and his extension in every generation]</t>\n    <t s=\"41\">nourishes and sustains the faith so that it should be in inwardness.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>The Jews in the time of Achashverosh fulfilled and received what they had begun at Mount Sinai, achieving a higher level through actual self-sacrifice, led by Mordechai.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, the explanation of the verse \"And you shall command\" comes</t>\n    <t s=\"2\">(in the maamar)</t>\n    <t s=\"3\">as a continuation of what was explained at the beginning of the maamar,</t>\n    <t s=\"4\">that the explanation of \"And the Jews received what they had begun to do\"</t>\n    <t s=\"5\">is that they received what they had begun at the time of the Giving of the Torah.</t>\n    <t s=\"6\">For at the Giving of the Torah there was the beginning</t>\n    <t s=\"7\">(\"they began to do\"),</t>\n    <t s=\"8\">and in the days of Achashverosh</t>\n    <t s=\"9\">(at the time of Haman's decree)</t>\n    <t s=\"10\">there was the receiving,</t>\n    <t s=\"11\">\"and the Jews received.\"</t>\n    <t s=\"12\">[And as our sages said</t>\n    <t s=\"13\">on the verse,</t>\n    <t s=\"14\">\"They fulfilled and received the Jews,\"</t>\n    <t s=\"15\">they fulfilled what they had already received,</t>\n    <t s=\"16\">for this that they prioritized \"we will do\" over \"we will hear\" at the Giving of the Torah was only the receiving,</t>\n    <t s=\"17\">and in the days of Achashverosh</t>\n    <t s=\"18\">they fulfilled what they had received.]</t>\n    <t s=\"19\">And the maamar notes,</t>\n    <t s=\"20\">that this is seemingly astonishing,</t>\n    <t s=\"21\">for at the Giving of the Torah Israel were at the peak of elevation,</t>\n    <t s=\"22\">and there was then a revelation of G-dliness at the most sublime level</t>\n    <t s=\"23\">[in addition to the fact that even before the Giving of the Torah there were most sublime revelations,</t>\n    <t s=\"24\">the revelation at the Exodus from Egypt and especially at the Splitting of the Sea,</t>\n    <t s=\"25\">the revelation at the time of the Giving of the Torah was an even more sublime revelation],</t>\n    <t s=\"26\">and in the days of Achashverosh Israel were at the peak of descent,</t>\n    <t s=\"27\">for in addition to the concealment and hiding that is in every exile</t>\n    <t s=\"28\">[for every exile is analogous to the exile of Egypt,</t>\n    <t s=\"29\">and as it is written regarding the exile of Egypt,</t>\n    <t s=\"30\">\"And they did not listen to Moshe because of shortness of spirit and hard labor,\"</t>\n    <t s=\"31\">so too is it in every exile,</t>\n    <t s=\"32\">that there are many trials in the observance of Torah and mitzvos],</t>\n    <t s=\"33\">then</t>\n    <t s=\"34\">(at the time of Haman's decree)</t>\n    <t s=\"35\">the concealment and hiding was even greater,</t>\n    <t s=\"36\">and nevertheless,</t>\n    <t s=\"37\">at the time of the Giving of the Torah,</t>\n    <t s=\"38\">when Israel were at the peak of elevation,</t>\n    <t s=\"39\">there was only the beginning</t>\n    <t s=\"40\">(\"they began to do\"),</t>\n    <t s=\"41\">and at the time of Haman's decree,</t>\n    <t s=\"42\">when they were at the peak of lowliness,</t>\n    <t s=\"43\">specifically then they received what they had begun at the Giving of the Torah.</t>\n    <t s=\"44\">And he explains this,</t>\n    <t s=\"45\">that at the time of the decree,</t>\n    <t s=\"46\">their observance of Torah and mitzvos was with self-sacrifice (mesirus nefesh).</t>\n    <t s=\"47\">[In addition to the fact that they had self-sacrifice not to deny G-d, heaven forbid,</t>\n    <t s=\"48\">[as explained in Torah Ohr,</t>\n    <t s=\"49\">that if they had converted they would not have been harmed,</t>\n    <t s=\"50\">for the decree was only against the Jews,</t>\n    <t s=\"51\">and nevertheless no foreign thought entered their minds, heaven forbid],</t>\n    <t s=\"52\">they had self-sacrifice also for the observance of Torah and mitzvos,</t>\n    <t s=\"53\">to the extent that they assembled many congregations to study Torah with self-sacrifice.]</t>\n    <t s=\"54\">And the arousal of their self-sacrifice was through Mordechai the Jew,</t>\n    <t s=\"55\">the Moshe of his generation.</t>\n    <t s=\"56\">And this is \"And the Jews received what they had begun to do,\"</t>\n    <t s=\"57\">for at the Giving of the Torah there was only the beginning, and at the time of Haman's decree there was the receiving,</t>\n    <t s=\"58\">for through their having actual self-sacrifice for Torah and mitzvos at that time, they were elevated</t>\n    <t s=\"59\">(in this matter)</t>\n    <t s=\"60\">to a more sublime level than they were at the time of the Giving of the Torah,</t>\n    <t s=\"61\">and therefore specifically then there was the receiving,</t>\n    <t s=\"62\">\"and the Jews received.\"</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>The explanation of \"beaten for the light\" could relate to reaching self-sacrifice through being crushed, but the context suggests it also connects to Moshe nourishing faith into inwardness.</sectionSummaryBrief>\n    <t s=\"0\">And seemingly, one could say,</t>\n    <t s=\"1\">that the explanation of \"beaten for the light,\"</t>\n    <t s=\"2\">that through \"beaten\"</t>\n    <t s=\"3\">(broken and crushed)</t>\n    <t s=\"4\">one reaches the \"light\" (maor),</t>\n    <t s=\"5\">is an explanation of this, that specifically at the time of the decree they came to self-sacrifice in a most sublime manner.</t>\n    <t s=\"6\">For self-sacrifice is from the essence of the soul, which is beyond revelation,</t>\n    <t s=\"7\">the \"light\" (maor)</t>\n    <t s=\"8\">(from which the light emanates),</t>\n    <t s=\"9\">and through being in a state of \"beaten\"</t>\n    <t s=\"10\">(broken and crushed),</t>\n    <t s=\"11\">the essence of the soul was revealed,</t>\n    <t s=\"12\">the \"light\" (maor).</t>\n    <t s=\"13\">But from the flow and order of topics in the maamar, that the explanation of \"beaten for the light\" comes after the topic of \"Raaya Meheimna,\"</t>\n    <t s=\"14\">it implies</t>\n    <t s=\"15\">that the matter of \"beaten for the light\" also relates to this, that Moshe nourishes and sustains the faith so that it should be in inwardness.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917334_theRebbe_880",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "Moshe is called the faithful shepherd, with two meanings: he nourishes Israel with faith, bringing it from an encompassing state to inwardness, and this extends to his manifestations in every generation.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And to explain this,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "the maamar first states"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "that Moshe Rabbeinu is called \"Raaya Meheimna,\""
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "and there are two explanations of this."
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "That he is a faithful shepherd of Israel, and that he nourishes and sustains Israel in the matter of faith."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "For the faith that exists in Israel from their own essence—"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "that Israel are believers, children of believers—"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "can be in the category of encompassing (makif),"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "and this that Moshe shepherds and nourishes Israel in the matter of faith means that the faith should be in inwardness (penimiyus)."
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "And this is what is said in the Zohar,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "\"That supernal faith will be nourished and sustained from him through you\""
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(through Moshe),"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "for this that Moshe nourishes and sustains the faith is that he draws it into inwardness."
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "And the maamar continues,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "that this that Moshe is \"Raaya Meheimna\""
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "also refers to the extension of Moshe in every generation,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "for the heads of the thousands of Israel in every generation strengthen the faith of Israel"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "(of their generation),"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "so that their faith should be in inwardness."
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "And like Mordechai,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "who was the extension of Moshe in his generation,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "as our sages said,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "\"Mordechai in his generation is like Moshe in his generation,\""
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "for even at the time of Haman's decree,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "when Torah study and observance of mitzvos were connected with self-sacrifice (mesirus nefesh),"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "he assembled many congregations to strengthen their faith in Hashem and to stand firm in Torah study and observance of mitzvos."
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "And after explaining at length that Moshe and his extension in every generation strengthen the faith of Israel,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "the maamar explains"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "the precise wording of the verse, \"pure olive oil, beaten for the light\""
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "(\"for the light\" [lamaor] and not \"to illuminate\" [leha'ir]),"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "that during the time of exile,"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "when each person is broken and crushed,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "\"beaten\" (kasis),"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "through this one reaches the \"light\" (maor)"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "(the essence [Atzmus])"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "from which the light emanates."
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "And one must understand the connection between this explanation of \"beaten for the light\" and what was explained"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "(in the maamar)"
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "previously, that Moshe"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "[and his extension in every generation]"
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "nourishes and sustains the faith so that it should be in inwardness."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "The Jews in the time of Achashverosh fulfilled and received what they had begun at Mount Sinai, achieving a higher level through actual self-sacrifice, led by Mordechai.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "Now, the explanation of the verse \"And you shall command\" comes"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(in the maamar)"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "as a continuation of what was explained at the beginning of the maamar,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that the explanation of \"And the Jews received what they had begun to do\""
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "is that they received what they had begun at the time of the Giving of the Torah."
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "For at the Giving of the Torah there was the beginning"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "(\"they began to do\"),"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and in the days of Achashverosh"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(at the time of Haman's decree)"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "there was the receiving,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "\"and the Jews received.\""
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "[And as our sages said"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "\"They fulfilled and received the Jews,\""
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "they fulfilled what they had already received,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "for this that they prioritized \"we will do\" over \"we will hear\" at the Giving of the Torah was only the receiving,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "and in the days of Achashverosh"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "they fulfilled what they had received.]"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "And the maamar notes,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "that this is seemingly astonishing,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "for at the Giving of the Torah Israel were at the peak of elevation,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "and there was then a revelation of G-dliness at the most sublime level"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "[in addition to the fact that even before the Giving of the Torah there were most sublime revelations,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "the revelation at the Exodus from Egypt and especially at the Splitting of the Sea,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "the revelation at the time of the Giving of the Torah was an even more sublime revelation],"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "and in the days of Achashverosh Israel were at the peak of descent,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "for in addition to the concealment and hiding that is in every exile"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "[for every exile is analogous to the exile of Egypt,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "and as it is written regarding the exile of Egypt,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "\"And they did not listen to Moshe because of shortness of spirit and hard labor,\""
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "so too is it in every exile,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "that there are many trials in the observance of Torah and mitzvos],"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "then"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "(at the time of Haman's decree)"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "the concealment and hiding was even greater,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "and nevertheless,"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "at the time of the Giving of the Torah,"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "when Israel were at the peak of elevation,"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "there was only the beginning"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "(\"they began to do\"),"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "and at the time of Haman's decree,"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "when they were at the peak of lowliness,"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "specifically then they received what they had begun at the Giving of the Torah."
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "And he explains this,"
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "that at the time of the decree,"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "their observance of Torah and mitzvos was with self-sacrifice (mesirus nefesh)."
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "[In addition to the fact that they had self-sacrifice not to deny G-d, heaven forbid,"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "[as explained in Torah Ohr,"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "that if they had converted they would not have been harmed,"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "for the decree was only against the Jews,"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "and nevertheless no foreign thought entered their minds, heaven forbid],"
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "they had self-sacrifice also for the observance of Torah and mitzvos,"
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "to the extent that they assembled many congregations to study Torah with self-sacrifice.]"
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "And the arousal of their self-sacrifice was through Mordechai the Jew,"
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "the Moshe of his generation."
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "And this is \"And the Jews received what they had begun to do,\""
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "for at the Giving of the Torah there was only the beginning, and at the time of Haman's decree there was the receiving,"
+          },
+          {
+            "v": 4,
+            "s": 58,
+            "translation": "for through their having actual self-sacrifice for Torah and mitzvos at that time, they were elevated"
+          },
+          {
+            "v": 4,
+            "s": 59,
+            "translation": "(in this matter)"
+          },
+          {
+            "v": 4,
+            "s": 60,
+            "translation": "to a more sublime level than they were at the time of the Giving of the Torah,"
+          },
+          {
+            "v": 4,
+            "s": 61,
+            "translation": "and therefore specifically then there was the receiving,"
+          },
+          {
+            "v": 4,
+            "s": 62,
+            "translation": "\"and the Jews received.\""
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "The explanation of \"beaten for the light\" could relate to reaching self-sacrifice through being crushed, but the context suggests it also connects to Moshe nourishing faith into inwardness.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And seemingly, one could say,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "that the explanation of \"beaten for the light,\""
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "that through \"beaten\""
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "(broken and crushed)"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "one reaches the \"light\" (maor),"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "is an explanation of this, that specifically at the time of the decree they came to self-sacrifice in a most sublime manner."
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "For self-sacrifice is from the essence of the soul, which is beyond revelation,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "the \"light\" (maor)"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "(from which the light emanates),"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "and through being in a state of \"beaten\""
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "(broken and crushed),"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "the essence of the soul was revealed,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "the \"light\" (maor)."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "But from the flow and order of topics in the maamar, that the explanation of \"beaten for the light\" comes after the topic of \"Raaya Meheimna,\""
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "it implies"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "that the matter of \"beaten for the light\" also relates to this, that Moshe nourishes and sustains the faith so that it should be in inwardness."
+          }
+        ]
+      }
+    ]
+  }
+}

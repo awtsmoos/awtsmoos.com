@@ -1,0 +1,132 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918574_theRebbe_925" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918574_theRebbe_925__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918574_theRebbe_925" title="מאמר פתח רבי שמעון תשל"ד" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918574_theRebbe_925__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים הידוע16</src>
+    <src s="2">שגם התקשרות היא למעלה מדביקות.</src>
+    <src s="3">דדביקות היא בחיצוניות,</src>
+    <src s="4">כמו כאשר ידבק האזור אל מתני איש17,</src>
+    <src s="5">שהדביקות דאזור ל</src>
+    <src s="6">(מתני)</src>
+    <src s="7">האיש היא רק לחיצוניותו,</src>
+    <src s="8">והתקשרות הוא בפנימיות,</src>
+    <src s="9">כמו ונפשו קשורה בנפשו18</src>
+    <src s="10">שזה מגיע בפנימיותו19.</src>
+    <src s="11">וזהו החילוק בין קרבנות לקטורת,</src>
+    <src s="12">דעבודת הקרבנות היא מצד זה שישראל דבוקים בהקב"ה</src>
+    <src s="13">[כדאיתא במדרש20</src>
+    <src s="14">ובזהר21],</src>
+    <src s="15">ולכן היו מקריבים הקרבנות על מזבח החיצון,</src>
+    <src s="16">דבנפש האדם הוא חיצוניות הלב22.</src>
+    <src s="17">וקטורת הוא לשון קשר23</src>
+    <src s="18">[דכל קשר שבפסוק מתורגם קטר24],</src>
+    <src s="19">ולכן הקטורת היא על מזבח הפנימי,</src>
+    <src s="20">דבנפש האדם הוא פנימיות הלב22.</src>
+    <src s="21">והחילוק שבין העבודה דחיצוניות הלב להעבודה דפנימיות הלב הוא25,</src>
+    <src s="22">שהעבודה דחיצוניות הלב היא ע"פ טעם ודעת,</src>
+    <src s="23">דבהאהבה שע"פ טעם ודעת שייך שינויים26,</src>
+    <src s="24">והעבודה דפנימיות הלב היא למעלה מטעם ודעת,</src>
+    <src s="25">שאין שייך בה שינוי.</src>
+    <src s="26">וזהו שקרבנות הוא לשון קירוב27</src>
+    <src s="27">וקטורת לשון התקשרות,</src>
+    <src s="28">דקירוב מורה שהוא מציאות,</src>
+    <src s="29">אלא שהוא קרוב לאלקות,</src>
+    <src s="30">אבל אפשר שיתרחק ח"ו,</src>
+    <src s="31">והתקשרות</src>
+    <src s="32">(קטורת)</src>
+    <src s="33">הוא קשר של קיימא,</src>
+    <src s="34">דאמיתית ענין קשר של קיימא הוא שאין שייך בזה שינוי.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה חילוק זה בין דביקות והתקשרות הוא בהעבודה דמלמטה למעלה28.</src>
+    <src s="2">דקרבנות וקטורת שניהם הם עמוד העבודה,</src>
+    <src s="3">שהיא העלאה מלמטה למעלה29.</src>
+    <src s="4">והחילוק בין דביקות והתקשרות בענין ההמשכה מלמעלה למטה</src>
+    <src s="5">(תורה וגמ"ח)</src>
+    <src s="6">הוא כדאיתא בזהר30</src>
+    <src s="7">כמה חביבין ישראל קמי קוב"ה כו' ובעא לאתדבקא בהו ולאתקשרא עמהון,</src>
+    <src s="8">ומבאר אדמו"ר האמצעי31</src>
+    <src s="9">דלאתדבקא בהו הוא ע"י המצוות,</src>
+    <src s="10">דההמשכה שע"י המצוות היא בבחינת מקיף32</src>
+    <src s="11">כמ"ש33</src>
+    <src s="12">וימינו תחבקני,</src>
+    <src s="13">שהאור שנמשך ע"י המצוות הוא מחבק את האדם המקיים את המצוות,</src>
+    <src s="14">דחיבוק הוא מבחוץ,</src>
+    <src s="15">ולכן אומר לאתדבקא בהו,</src>
+    <src s="16">דדביקות הוא חיבור חיצוני.</src>
+    <src s="17">ולאתקשרא עמהון הוא ע"י התורה,</src>
+    <src s="18">דהמשכה שע"י התורה היא בפנימיות כמ"ש34</src>
+    <src s="19">ותורתך בתוך מעי.</src>
+    <src s="20">ולכן אומר ולאתקשרא עמהון,</src>
+    <src s="21">דהתקשרות הוא חיבור פנימי.</src>
+    <src s="22">שהחיבור דהקב"ה עם ישראל שע"י התורה נק' התקשרות,</src>
+    <src s="23">כמאמר35</src>
+    <src s="24">תלת קשרין36</src>
+    <src s="25">אינון מתקשרן דא בדא,</src>
+    <src s="26">קוב"ה37</src>
+    <src s="27">אורייתא וישראל.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">והנה בהדביקות דישראל בהקב"ה</src>
+    <src s="2">[שמצד זה יש להם הכח להקריב קרבנות]</src>
+    <src s="3">שני ענינים.</src>
+    <src s="4">דבמדרש38</src>
+    <src s="5">איתא דזה שהקב"ה צוה את ישראל להקריב קרבנות הוא מפני שהן דבוקין לי הדא הוא דכתיב17</src>
+    <src s="6">כי כאשר ידבק האזור אל מתני איש גו',</src>
+    <src s="7">ובזהר39</src>
+    <src s="8">איתא זכאין אינון ישראל דקב"ה קרא לון אדם כו' אדם כי יקריב מכם40,</src>
+    <src s="9">מאי טעמא קרא לון אדם משום דכתיב41</src>
+    <src s="10">ואתם הדבקים בהוי' אלקיכם גו'.</src>
+    <src s="11">ומבואר בהמשך תרס"ו42,</src>
+    <src s="12">שבמדרש מדבר בענין הדביקות דכלים,</src>
+    <src s="13">שהכלים הם43</src>
+    <src s="14">בבחינת מציאות והיחוד</src>
+    <src s="15">(הדביקות)</src>
+    <src s="16">שלהם אינו יחוד עצמי,</src>
+    <src s="17">ולכן מביא הפסוק כאשר ידבק האזור גו' שהאזור הוא מציאות לעצמו אלא שדבוק להאדם,</src>
+    <src s="18">ובזהר מדבר בענין הדביקות דאורות,</src>
+    <src s="19">שהדביקות והיחוד דאורות הוא יחוד עצמי43,</src>
+    <src s="20">ולכן מביא הכתוב ואתם הדבקים בהוי' אלקיכם,</src>
+    <src s="21">דביקות ממש.</src>
+    <src s="22">ויש לומר,</src>
+    <src s="23">דזה שגם הדביקות דאורות נק' בשם דביקות,</src>
+    <src s="24">דדביקות הוא בחיצוניות</src>
+    <src s="25">(כנ"ל),</src>
+    <src s="26">הוא מפני שגם האור הוא התפשטות וגילוי שמחוץ להעצם.</src>
+  </section>
+</awtsmoosMeluketSource>

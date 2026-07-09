@@ -1,0 +1,77 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919663_theRebbe_89" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919663_theRebbe_89__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919663_theRebbe_89" title="מאמר ציון במשפט תפדה תשל"ה" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919663_theRebbe_89__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום השלישי שהוכפל בו כי טוב,</src>
+    <src s="2">ערב ר"ח מנחם-אב,</src>
+    <src s="3">תשל"ה*.</src>
+  </section>
+  <section v="1">
+    <src s="0">הנחה</src>
+  </section>
+  <section v="2">
+    <src s="0">ציון במשפט תפדה ושבי' בצדקה1,</src>
+    <src s="1">הנה פסוק זה הוא בתחילת ספר ישעי',</src>
+    <src s="2">שענינו</src>
+    <src s="3">(של ישעי')</src>
+    <src s="4">כשמו כן הוא</src>
+    <src s="5">(ישעי' מלשון ישועה2),</src>
+    <src s="6">וכדאיתא בגמרא3</src>
+    <src s="7">ישעי' כולי' נחמתא.</src>
+    <src s="8">ועד שאפילו אלו הענינים בנבואות ישעי' שלכאורה אינם ישועה,</src>
+    <src s="9">הנה באמת גם הם ישועה ונחמה,</src>
+    <src s="10">וכמבואר בקבלה4</src>
+    <src s="11">שהם בחי' גבורות ממותקות,</src>
+    <src s="12">ולפי שהישועה</src>
+    <src s="13">(גאולה)</src>
+    <src s="14">העתידה תהי' על ידי מיתוק הגבורות,</src>
+    <src s="15">ולכן יצחק יהי' עיקר כו'</src>
+    <src s="16">[וכדאיתא בגמרא5,</src>
+    <src s="17">שלעת"ל יאמרו ליצחק</src>
+    <src s="18">(דוקא)</src>
+    <src s="19">כי אתה אבינו,</src>
+    <src s="20">שיצחק הו"ע הגבורות],</src>
+    <src s="21">לכן בהישועות שבספר ישעי' ישנן הישועות שבבחי' חסדים הגלויים,</src>
+    <src s="22">והישועות דבחי' גבורות ממותקים,</src>
+    <src s="23">גבורות שנהפכים לחסדים6</src>
+    <src s="24">(שהם נעלים יותר7</src>
+    <src s="25">מחסדים הגלויים).</src>
+    <src s="26">ועד"ז הוא גם בהנבואה שבתחילת הספר,</src>
+    <src s="27">שיש בה שני סוגים הנ"ל,</src>
+    <src s="28">מסיים בשנים ציון במשפט תפדה ושבי' בצדקה,</src>
+    <src s="29">כדלקמן.</src>
+  </section>
+</awtsmoosMeluketSource>

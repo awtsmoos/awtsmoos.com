@@ -1,0 +1,454 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 82,
+    "returned": 82,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919633_theRebbe_834\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919633_theRebbe_834__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that evil will only be nullified in the future because of a revelation of a supremely lofty light, unlike the revelation in Solomon's time which still allowed for external forces to draw sustenance.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">Now, the reason that specifically in the future evil will be nullified</t>\n    <t s=\"2\">(spiritual death,</t>\n    <t s=\"3\">and consequently also physical death)</t>\n    <t s=\"4\">is,</t>\n    <t s=\"5\">because then there will be a revelation of a most supernal light,</t>\n    <t s=\"6\">in relation to which light,</t>\n    <t s=\"7\">all opposing forces are automatically nullified.</t>\n    <t s=\"8\">And it is explained in the maamar,</t>\n    <t s=\"9\">that even though also during the time when the Holy Temple stood,</t>\n    <t s=\"10\">and particularly in the time of the First Temple,</t>\n    <t s=\"11\">and all the more so in the days of Shlomo, when the moon was in its fullness,</t>\n    <t s=\"12\">there was a revelation of a most supernal light,</t>\n    <t s=\"13\">and due to this revelation,</t>\n    <t s=\"14\">all the nations were nullified before him,</t>\n    <t s=\"15\">not through war at all</t>\n    <t s=\"16\">[therefore he was called Shlomo, because there was peace in his days],</t>\n    <t s=\"17\">nevertheless, the revelation that was in the days of Shlomo was in a manner that there was still a place for the suckling of the external forces,</t>\n    <t s=\"18\">except that their suckling then was only from the hind-part of holiness and they had no hold in the innerness.</t>\n    <t s=\"19\">[And it can be said,</t>\n    <t s=\"20\">that this—that in the days of Shlomo there was still a place for the suckling of the external forces—</t>\n    <t s=\"21\">is also evident in the manner of the nullification of the nations who were nullified before him.</t>\n    <t s=\"22\">Like the Queen of Sheba,</t>\n    <t s=\"23\">that even when she was in her land and only heard the fame of Shlomo, a nullification occurred within her</t>\n    <t s=\"24\">(somewhat),</t>\n    <t s=\"25\">due to which</t>\n    <t s=\"26\">she came to Shlomo,</t>\n    <t s=\"27\">and particularly after she came to him and saw his wisdom etc., through which she was nullified before him in a manner that there was no longer any spirit within her,</t>\n    <t s=\"28\">nevertheless,</t>\n    <t s=\"29\">even then she was a queen,</t>\n    <t s=\"30\">and moreover,</t>\n    <t s=\"31\">Shlomo also honored her with great honor].</t>\n    <t s=\"32\">However, the revelation of the future</t>\n    <t s=\"33\">will be in a manner that there will be no suckling for the external forces at all</t>\n    <t s=\"34\">(even not from the aspect of hind-parts)</t>\n    <t s=\"35\">and evil will be completely nullified,</t>\n    <t s=\"36\">\"He will swallow up death forever.\"</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section distinguishes between the revelation in Solomon's time and the future revelation, comparing it to the difference in divine service between \"turning away from evil\" and \"despising evil.\"</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of the difference between the revelation that was in the days of Shlomo</t>\n    <t s=\"2\">(that due to this revelation there was still a place for the suckling of the external forces,</t>\n    <t s=\"3\">from the aspect of hind-parts at least)</t>\n    <t s=\"4\">and the revelation of the future</t>\n    <t s=\"5\">(that due to this revelation they will have no suckling at all),</t>\n    <t s=\"6\">is explained in the maamar,</t>\n    <t s=\"7\">that it is analogous to the difference</t>\n    <t s=\"8\">(in the service of man)</t>\n    <t s=\"9\">between the service of \"turn away from evil\" and the service of \"despise evil.\"</t>\n    <t s=\"10\">For \"turn away from evil\" is that he pushes away evil but does not hate evil essentially.</t>\n    <t s=\"11\">And consequently,</t>\n    <t s=\"12\">even though in practice he pushes away evil,</t>\n    <t s=\"13\">there still remains within him a place for evil,</t>\n    <t s=\"14\">to the extent that in concealment he has some trace of love for evil,</t>\n    <t s=\"15\">as explained in Tanya</t>\n    <t s=\"16\">regarding the level of a tzaddik who is not perfect.</t>\n    <t s=\"17\">However, when he despises evil,</t>\n    <t s=\"18\">meaning that he despises evil utterly</t>\n    <t s=\"19\">(the level of a perfect tzaddik),</t>\n    <t s=\"20\">he has no place for evil at all,</t>\n    <t s=\"21\">for on the contrary,</t>\n    <t s=\"22\">he hates evil and despises it with utter hatred and loathing.</t>\n    <t s=\"23\">And similarly is the difference between the revelation that was in the days of Shlomo and the revelation of the future,</t>\n    <t s=\"24\">for the revelation that was in the days of Shlomo,</t>\n    <t s=\"25\">even though also in relation to this revelation all opposing forces are nullified</t>\n    <t s=\"26\">(analogous to how in the service of \"turn away from evil\" he pushes away evil),</t>\n    <t s=\"27\">nevertheless,</t>\n    <t s=\"28\">there is still a place for the suckling of the external forces</t>\n    <t s=\"29\">(from the aspect of hind-parts of holiness at least).</t>\n    <t s=\"30\">However, the revelation of the future is analogous to one who despises evil with utter loathing,</t>\n    <t s=\"31\">in which there is no place at all for anything opposite to holiness.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section adds that the difference between \"turning away from evil\" and \"despising evil\" also relates to the intensity of love for God, which parallels the difference in the level of light between the revelation in Solomon's time and the future.</sectionSummaryBrief>\n    <t s=\"0\">And it can be added,</t>\n    <t s=\"1\">that according to what is explained in Tanya</t>\n    <t s=\"2\">that the magnitude of hatred for the sitra achra and loathing of evil is commensurate with the magnitude of love for Havayah,</t>\n    <t s=\"3\">the difference between \"turn away from evil\" and \"despise evil\" is</t>\n    <t s=\"4\">(not only regarding the manner of negating evil,</t>\n    <t s=\"5\">but also)</t>\n    <t s=\"6\">in the magnitude and manner of his love for Havayah.</t>\n    <t s=\"7\">And based on this, the comparison of this difference</t>\n    <t s=\"8\">(between \"turn away from evil\" and \"despise evil\")</t>\n    <t s=\"9\">to the difference between the revelation that was in the days of Shlomo and the revelation of the future is sweetened,</t>\n    <t s=\"10\">for the difference between them in the manner of negating evil</t>\n    <t s=\"11\">(that in the revelation that was in the days of Shlomo there is still a place for the suckling of the external forces, unlike the revelation of the future)</t>\n    <t s=\"12\">is due to the difference between them in the level and manner of the light and revelation.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919633_theRebbe_834",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919633_theRebbe_834__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that evil will only be nullified in the future because of a revelation of a supremely lofty light, unlike the revelation in Solomon's time which still allowed for external forces to draw sustenance.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "Now, the reason that specifically in the future evil will be nullified"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(spiritual death,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "and consequently also physical death)"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "is,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "because then there will be a revelation of a most supernal light,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "in relation to which light,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "all opposing forces are automatically nullified."
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "And it is explained in the maamar,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "that even though also during the time when the Holy Temple stood,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and particularly in the time of the First Temple,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "and all the more so in the days of Shlomo, when the moon was in its fullness,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "there was a revelation of a most supernal light,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "and due to this revelation,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "all the nations were nullified before him,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "not through war at all"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "[therefore he was called Shlomo, because there was peace in his days],"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "nevertheless, the revelation that was in the days of Shlomo was in a manner that there was still a place for the suckling of the external forces,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "except that their suckling then was only from the hind-part of holiness and they had no hold in the innerness."
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "[And it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "that this—that in the days of Shlomo there was still a place for the suckling of the external forces—"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "is also evident in the manner of the nullification of the nations who were nullified before him."
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "Like the Queen of Sheba,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "that even when she was in her land and only heard the fame of Shlomo, a nullification occurred within her"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "(somewhat),"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "due to which"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "she came to Shlomo,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "and particularly after she came to him and saw his wisdom etc., through which she was nullified before him in a manner that there was no longer any spirit within her,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "even then she was a queen,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "Shlomo also honored her with great honor]."
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "However, the revelation of the future"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "will be in a manner that there will be no suckling for the external forces at all"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "(even not from the aspect of hind-parts)"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "and evil will be completely nullified,"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "\"He will swallow up death forever.\""
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section distinguishes between the revelation in Solomon's time and the future revelation, comparing it to the difference in divine service between \"turning away from evil\" and \"despising evil.\"",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And the explanation of the difference between the revelation that was in the days of Shlomo"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(that due to this revelation there was still a place for the suckling of the external forces,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "from the aspect of hind-parts at least)"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "and the revelation of the future"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "(that due to this revelation they will have no suckling at all),"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "is explained in the maamar,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "that it is analogous to the difference"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "(in the service of man)"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "between the service of \"turn away from evil\" and the service of \"despise evil.\""
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "For \"turn away from evil\" is that he pushes away evil but does not hate evil essentially."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "And consequently,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "even though in practice he pushes away evil,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "there still remains within him a place for evil,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "to the extent that in concealment he has some trace of love for evil,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "as explained in Tanya"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "regarding the level of a tzaddik who is not perfect."
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "However, when he despises evil,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "meaning that he despises evil utterly"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "(the level of a perfect tzaddik),"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "he has no place for evil at all,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "for on the contrary,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "he hates evil and despises it with utter hatred and loathing."
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "And similarly is the difference between the revelation that was in the days of Shlomo and the revelation of the future,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "for the revelation that was in the days of Shlomo,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "even though also in relation to this revelation all opposing forces are nullified"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "(analogous to how in the service of \"turn away from evil\" he pushes away evil),"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "there is still a place for the suckling of the external forces"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "(from the aspect of hind-parts of holiness at least)."
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "However, the revelation of the future is analogous to one who despises evil with utter loathing,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "in which there is no place at all for anything opposite to holiness."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section adds that the difference between \"turning away from evil\" and \"despising evil\" also relates to the intensity of love for God, which parallels the difference in the level of light between the revelation in Solomon's time and the future.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And it can be added,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "that according to what is explained in Tanya"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "that the magnitude of hatred for the sitra achra and loathing of evil is commensurate with the magnitude of love for Havayah,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "the difference between \"turn away from evil\" and \"despise evil\" is"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "(not only regarding the manner of negating evil,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "but also)"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "in the magnitude and manner of his love for Havayah."
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "And based on this, the comparison of this difference"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "(between \"turn away from evil\" and \"despise evil\")"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "to the difference between the revelation that was in the days of Shlomo and the revelation of the future is sweetened,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "for the difference between them in the manner of negating evil"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "(that in the revelation that was in the days of Shlomo there is still a place for the suckling of the external forces, unlike the revelation of the future)"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "is due to the difference between them in the level and manner of the light and revelation."
+          }
+        ]
+      }
+    ]
+  }
+}

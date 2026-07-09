@@ -1,0 +1,141 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919159_theRebbe_441" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919159_theRebbe_441__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919159_theRebbe_441" title="מאמר ה' לי בעוזרי תשי"ז" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919159_theRebbe_441__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דזמירות הוא גם ענין שבח14.</src>
+    <src s="3">כדאיתא בתניא15,</src>
+    <src s="4">דמה שדוד קרא דברי תורה בשם זמירות הו"ע שבחא דאורייתא.</src>
+    <src s="5">שדוד הי' משבח את התורה בזה שחיות כל העולמות תלוי בדקדוק אחד מדקדוקי התורה.</src>
+    <src s="6">והשייכות דפירוש זה לפירוש הפשוט בזמירות היו לי חוקיך גו',</src>
+    <src s="7">הוא,</src>
+    <src s="8">דע"י ההתבוננות במעלת ושבח התורה שכל העולמות בטלים במציאות לגבי דקדוק אחד מדקדוקי תורה,</src>
+    <src s="9">עי"ז פעל בעצמו שכל עניני העולם לא יתפסו מקום אצלו,</src>
+    <src s="10">וגם כשהי' לא-טוב לו בגשמיות,</src>
+    <src s="11">הי' עוסק בתורה בשמחה גדולה16.</src>
+    <src s="12">ובהמאמר דבעל הגאולה17</src>
+    <src s="13">מבאר עוד פירוש בזמירות היו לי חוקיך,</src>
+    <src s="14">זמירות הוא מלשון חיתוך וכריתה,</src>
+    <src s="15">כמו לזמר עריצים18.</src>
+    <src s="16">דע"י עסק התורה של דוד המלך,</src>
+    <src s="17">נתבטלו כל שונאיו ורודפיו.</src>
+    <src s="18">וכמארז"ל19</src>
+    <src s="19">השכם והערב עליהן לבית המדרש והן כלין מאיליהן.</src>
+    <src s="20">ויש לקשר שני הפירושים,</src>
+    <src s="21">דע"י עסק התורה באופן דזמירות כהפירוש בתניא,</src>
+    <src s="22">שהי' נרגש אצלו שחיות כל העולמות תלוי ב</src>
+    <src s="23">(דקדוק אחד של)</src>
+    <src s="24">תורה,</src>
+    <src s="25">עי"ז נעשה,</src>
+    <src s="26">דמה שאינו מתאים לתורה,</src>
+    <src s="27">ומכ"ש מה שמנגד לתורה,</src>
+    <src s="28">לא יהי' לו חיות,</src>
+    <src s="29">זמירות מלשון לזמר עריצים.</src>
+    <src s="30">ועפ"ז יובן גם מ"ש זמירות היו לי חוקיך</src>
+    <src s="31">(חוקיך דוקא),</src>
+    <src s="32">כי שני ענינים הנ"ל שבזמירות דתורה</src>
+    <src s="33">(שבחא דאורייתא,</src>
+    <src s="34">ולזמר עריצים),</src>
+    <src s="35">הם,</src>
+    <src s="36">בעיקר,</src>
+    <src s="37">מצד ענין החוקים שבתורה.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דשתי חלוקות הכלליות שבמצוות20,</src>
+    <src s="3">מצוות דעדות ומשפטים שיש עליהם טעם ומצוות דחוקים שלמעלה מהטעם,</src>
+    <src s="4">הם שני ענינים כלליים בעבודת ה',</src>
+    <src s="5">העבודה דטעם ודעת</src>
+    <src s="6">(משפטים)</src>
+    <src s="7">והעבודה דקבלת עול</src>
+    <src s="8">(חוקים),</src>
+    <src s="9">שצריכים להיות בכל מצוה ומצוה.</src>
+    <src s="10">והענין הוא,</src>
+    <src s="11">דבמצוות יש שני ענינים21.</src>
+    <src s="12">א',</src>
+    <src s="13">שהמצוות הם רצונו ית',</src>
+    <src s="14">רצון שלמעלה מטעם.</src>
+    <src s="15">דענין זה הוא בכל המצוות בשוה.</src>
+    <src s="16">וב',</src>
+    <src s="17">דלאחרי שהרצון נתלבש בחכמה</src>
+    <src s="18">(דתורה),</src>
+    <src s="19">הנה עי"ז נוסף טעם לכל מצוה,</src>
+    <src s="20">וג"ז שע"י כל מצוה נמשך אור וגילוי פרטי.</src>
+    <src s="21">דזהו מה שרמ"ח פיקודין הם רמ"ח אברים דמלכא22,</src>
+    <src s="22">דכל אבר הוא כלי לכח פרטי23.</src>
+    <src s="23">וטעמים אלו הם מצד חכמה דתורה כמו שהיא למעלה.</src>
+    <src s="24">ומזה נמשכו</src>
+    <src s="25">(ע"י ריבוי השתלשלות)</src>
+    <src s="26">טעמי המצוות שבגליא דתורה</src>
+    <src s="27">(הטעמים דעדות ומשפטים כמו שהם בפשטות)24.</src>
+    <src s="28">וזהו מה שבקיום המצוות צריך להיות שתי כוונות,</src>
+    <src s="29">כוונה כללית וכוונה פרטית25,</src>
+    <src s="30">שמצד הרצון</src>
+    <src s="31">(שלמעלה מטעם)</src>
+    <src s="32">צ"ל הכוונה כללית</src>
+    <src s="33">(קב"ע)</src>
+    <src s="34">לקיים רצון ה',</src>
+    <src s="35">ומצד הענין דטעמי המצוות צ"ל הכוונה פרטית השייכת לאותה המצוה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">וזהו מה ששני הענינים דחוקים ומשפטים הם שני ענינים כלליים שבכל מצוה ומצוה.</src>
+    <src s="2">שגם המצוות דעדות ומשפטים שיש עליהם טעם צריך לקיים</src>
+    <src s="3">(בעיקר)</src>
+    <src s="4">מפני שהם רצון ה',</src>
+    <src s="5">כמו החוקים26.</src>
+    <src s="6">וכן לאידך,</src>
+    <src s="7">שגם בהמצוות דחוקים יש הטעם והכוונה פרטית שבהם,</src>
+    <src s="8">מה שע"י כל מצוה</src>
+    <src s="9">(גם המצוות דחוקים27)</src>
+    <src s="10">נמשך אור וגילוי פרטי.</src>
+    <src s="11">ויתירה מזו,</src>
+    <src s="12">דכל אחד משני ענינים אלו</src>
+    <src s="13">(חוקים ומשפטים)</src>
+    <src s="14">הו"ע כללי בעבודת האדם,</src>
+    <src s="15">לא רק בקיום המצוות אלא גם בכללות הנהגת האדם.</src>
+    <src s="16">דענין המשפטים הוא</src>
+    <src s="17">(כמבואר בהמאמר28)</src>
+    <src s="18">לשפוט כל דבר,</src>
+    <src s="19">אם זה מתאים ע"פ שכל וחכמת התורה,</src>
+    <src s="20">וגם כשהדבר מצד עצמו אין בו שום שמץ איסור,</src>
+    <src s="21">צריך לשקול היטב אם זה לא יגרום חלישות באיזה מצוה או מנהג ישראל,</src>
+    <src s="22">שאז צריך לדחות את הדבר מכל וכל.</src>
+    <src s="23">וענין חוקים הוא העבודה דקבלת עול מלכות שמים,</src>
+    <src s="24">שצריכה להיות לא רק בעת קיום מצוה אלא במשך כל היום29.</src>
+  </section>
+</awtsmoosMeluketSource>

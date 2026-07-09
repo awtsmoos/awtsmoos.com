@@ -1,0 +1,249 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 41,
+    "returned": 41,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917669_theRebbe_390\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917669_theRebbe_390__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Vayakhel-Pekudei,</t>\n    <t s=\"2\">Parshas HaChodesh,</t>\n    <t s=\"3\">the year 5747*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section discusses the Rebbe Rashab's question on the verse \"This month is for you the head of months,\" and the Talmudic derivation regarding not intercalating the year or month when Nisan arrives.</sectionSummaryBrief>\n    <t s=\"0\">\"This month is for you the head of months; it is the first for you of the months of the year.\"</t>\n    <t s=\"1\">And the Rebbe</t>\n    <t s=\"2\">(the Rebbe Rashab)</t>\n    <t s=\"3\">of blessed memory</t>\n    <t s=\"4\">(whose yahrzeit is the 2nd of Nissan)</t>\n    <t s=\"5\">in his maamar beginning with these words from the year 5668</t>\n    <t s=\"6\">precisely notes the phrase \"head of months,\"</t>\n    <t s=\"7\">for the verse says</t>\n    <t s=\"8\">(afterwards)</t>\n    <t s=\"9\">\"first... for the months of the year,\"</t>\n    <t s=\"10\">so why is it necessary to say \"head of months\"?</t>\n    <t s=\"11\">And in the maamar he brings the exposition of our sages of blessed memory on the verse,</t>\n    <t s=\"12\">\"This month is for you the head of months—this is Nisan, and there is no other Nisan,\"</t>\n    <t s=\"13\">meaning that when the day that is fitting to be Rosh Chodesh Nisan arrives, we do not intercalate the year.</t>\n    <t s=\"14\">And he continues in the maamar,</t>\n    <t s=\"15\">that from this verse we also learn that we do not intercalate the month,</t>\n    <t s=\"16\">for we intercalate the year when necessary, but we do not intercalate the month when necessary.</t>\n    <t s=\"17\">And when the day that is fitting to be Rosh Chodesh Nisan arrives,</t>\n    <t s=\"18\">we do not intercalate</t>\n    <t s=\"19\">(even)</t>\n    <t s=\"20\">the year.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains why the portion of HaChodesh was said immediately after the Exodus, as it marks the beginning of Torah revelations, preceded by the preparation of the Egyptian exile and redemption.</sectionSummaryBrief>\n    <t s=\"0\">And to understand this, the maamar first introduces,</t>\n    <t s=\"1\">that we must understand why the portion of HaChodesh was specifically said immediately after the Exodus from Egypt.</t>\n    <t s=\"2\">And he explains,</t>\n    <t s=\"3\">that the portion of HaChodesh is the essential beginning of the Torah, as Rashi says</t>\n    <t s=\"4\">that the Torah should have begun only from \"This month is for you\"</t>\n    <t s=\"5\">(and that it opened with Bereishis is because of \"the strength</t>\n    <t s=\"6\">of His works He declared to His people\").</t>\n    <t s=\"7\">That is,</t>\n    <t s=\"8\">that in the portions before the portion of HaChodesh, the discussion is about the revelations within the worlds,</t>\n    <t s=\"9\">and from the portion of HaChodesh onward, it begins with the matter of the revelations of the Torah</t>\n    <t s=\"10\">(which are above the revelations within the worlds).</t>\n    <t s=\"11\">And in order for the revelation of the Torah to be possible, the preparation of the Egyptian exile and the Exodus from Egypt was necessary.</t>\n    <t s=\"12\">And this is why immediately after the Exodus from Egypt,</t>\n    <t s=\"13\">the preparation for the Giving of the Torah,</t>\n    <t s=\"14\">the portion of HaChodesh was said,</t>\n    <t s=\"15\">the beginning of the revelations of the Torah.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917669_theRebbe_390",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917669_theRebbe_390__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Vayakhel-Pekudei,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Parshas HaChodesh,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "the year 5747*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section discusses the Rebbe Rashab's question on the verse \"This month is for you the head of months,\" and the Talmudic derivation regarding not intercalating the year or month when Nisan arrives.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"This month is for you the head of months; it is the first for you of the months of the year.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "of blessed memory"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "(whose yahrzeit is the 2nd of Nissan)"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "in his maamar beginning with these words from the year 5668"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "precisely notes the phrase \"head of months,\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "for the verse says"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(afterwards)"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "\"first... for the months of the year,\""
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "so why is it necessary to say \"head of months\"?"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "And in the maamar he brings the exposition of our sages of blessed memory on the verse,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "\"This month is for you the head of months—this is Nisan, and there is no other Nisan,\""
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "meaning that when the day that is fitting to be Rosh Chodesh Nisan arrives, we do not intercalate the year."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "And he continues in the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that from this verse we also learn that we do not intercalate the month,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "for we intercalate the year when necessary, but we do not intercalate the month when necessary."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "And when the day that is fitting to be Rosh Chodesh Nisan arrives,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "we do not intercalate"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "(even)"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "the year."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains why the portion of HaChodesh was said immediately after the Exodus, as it marks the beginning of Torah revelations, preceded by the preparation of the Egyptian exile and redemption.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And to understand this, the maamar first introduces,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that we must understand why the portion of HaChodesh was specifically said immediately after the Exodus from Egypt."
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "that the portion of HaChodesh is the essential beginning of the Torah, as Rashi says"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that the Torah should have begun only from \"This month is for you\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(and that it opened with Bereishis is because of \"the strength"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "of His works He declared to His people\")."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "That is,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that in the portions before the portion of HaChodesh, the discussion is about the revelations within the worlds,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "and from the portion of HaChodesh onward, it begins with the matter of the revelations of the Torah"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "(which are above the revelations within the worlds)."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "And in order for the revelation of the Torah to be possible, the preparation of the Egyptian exile and the Exodus from Egypt was necessary."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And this is why immediately after the Exodus from Egypt,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "the preparation for the Giving of the Torah,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "the portion of HaChodesh was said,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "the beginning of the revelations of the Torah."
+          }
+        ]
+      }
+    ]
+  }
+}

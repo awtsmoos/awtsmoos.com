@@ -1,0 +1,163 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917334_theRebbe_880" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917334_theRebbe_880" title="מאמר ואתה תצוה תשמ"א" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ולבאר זה,</src>
+    <src s="2">מקדים בהמאמר11</src>
+    <src s="3">שמשה רבינו נקרא רעיא מהימנא,</src>
+    <src s="4">דשני פירושים בזה.</src>
+    <src s="5">שהוא רועה נאמן של ישראל ושהוא זן ומפרנס את ישראל בענין האמונה.</src>
+    <src s="6">דהאמונה שישנה בישראל מצד עצמם,</src>
+    <src s="7">שישראל הם מאמינים בני מאמינים12,</src>
+    <src s="8">אפשר שתהי' בבחינת מקיף,</src>
+    <src s="9">וזה שמשה רועה ומפרנס את ישראל בענין האמונה הוא שהאמונה תהי' בפנימיות.</src>
+    <src s="10">וזהו מ"ש בזהר13</src>
+    <src s="11">ההיא אמונה דלעילא יתזן ויתפרנס מני' על ידך</src>
+    <src s="12">(ע"י משה),</src>
+    <src s="13">דזה שמשה זן ומפרנס את האמונה הוא שממשיך אותה בפנימיות.</src>
+    <src s="14">וממשיך בהמאמר,</src>
+    <src s="15">דזה שמשה הוא רעיא מהימנא,</src>
+    <src s="16">הכוונה בזה היא גם לאתפשטותא דמשה שבכל דור14,</src>
+    <src s="17">דראשי אלפי ישראל שבכל דור הם מחזקים את האמונה דישראל</src>
+    <src s="18">(שבדורם),</src>
+    <src s="19">שהאמונה שלהם תהי' בפנימיות.</src>
+    <src s="20">וכמו מרדכי15,</src>
+    <src s="21">שהי' האתפשטותא דמשה שבדורו,</src>
+    <src s="22">כמארז"ל16</src>
+    <src s="23">שמרדכי בדורו כמשה בדורו,</src>
+    <src s="24">שגם בזמן גזירת המן,</src>
+    <src s="25">שלימוד התורה וקיום המצוות אז הי' קשור עם מס"נ,</src>
+    <src s="26">הקהיל קהילות ברבים לחזק את אמונתם של ישראל בהוי' ולעמוד חזק בלימוד התורה וקיום המצוות.</src>
+    <src s="27">ולאחרי שמבאר בארוכה שמשה ואתפשטותא דילי' שבכל דרא מחזקים את האמונה דישראל,</src>
+    <src s="28">מבאר17</src>
+    <src s="29">דיוק לשון הכתוב שמן גו' כתית למאור</src>
+    <src s="30">(למאור ולא להאיר),</src>
+    <src s="31">שבזמן הגלות,</src>
+    <src s="32">שכאו"א הוא נשבר ונדכא,</src>
+    <src s="33">כתית,</src>
+    <src s="34">עי"ז מגיעים למאור</src>
+    <src s="35">(העצם)</src>
+    <src s="36">שממנו נמצא האור.</src>
+    <src s="37">וצריך להבין השייכות דהפירוש בכתית למאור להמבואר</src>
+    <src s="38">(בהמאמר)</src>
+    <src s="39">לפנ"ז שמשה</src>
+    <src s="40">[ואתפשטותא דילי' שבכל דרא]</src>
+    <src s="41">זן ומפרנס את האמונה שתהי' בפנימיות.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">והנה הביאור בפסוק ואתה תצוה בא</src>
+    <src s="2">(בהמאמר)</src>
+    <src s="3">בהמשך להמבואר בתחלת המאמר,</src>
+    <src s="4">דפירוש וקבל היהודים את אשר החלו לעשות18</src>
+    <src s="5">הוא שקבלו מה שהחלו בהזמן דמתן תורה19.</src>
+    <src s="6">דבמתן תורה היתה ההתחלה</src>
+    <src s="7">(החלו לעשות),</src>
+    <src s="8">ובימי אחשורוש</src>
+    <src s="9">(בזמן גזירת המן)</src>
+    <src s="10">היתה הקבלה,</src>
+    <src s="11">וקבל היהודים.</src>
+    <src s="12">[וע"ד מארז"ל20</src>
+    <src s="13">עה"פ21</src>
+    <src s="14">קיימו וקבלו היהודים,</src>
+    <src s="15">קיימו מה שקבלו כבר,</src>
+    <src s="16">דזה שהקדימו נעשה לנשמע במ"ת היתה רק הקבלה,</src>
+    <src s="17">ובימי אחשורוש22</src>
+    <src s="18">קיימו מה שקבלו23].</src>
+    <src s="19">ומדייק בהמאמר,</src>
+    <src s="20">שלכאורה הוא דבר פלא24,</src>
+    <src s="21">דבמתן תורה היו ישראל בתכלית העילוי,</src>
+    <src s="22">והי' אז אצלם גילוי אלקות בדרגא הכי נעלית</src>
+    <src s="23">[דנוסף לזה שגם קודם מ"ת היו גילויים נעלים ביותר,</src>
+    <src s="24">הגילוי שהי' ביציאת מצרים ובפרט בקריעת ים סוף,</src>
+    <src s="25">הנה הגילוי שהי' בשעת מ"ת הי' גילוי נעלה עוד יותר],</src>
+    <src s="26">ובימי אחשורוש היו ישראל בתכלית הירידה,</src>
+    <src s="27">דנוסף לההעלם וההסתר שבכל גלות</src>
+    <src s="28">[דכל גלות הוא בדוגמת גלות מצרים25,</src>
+    <src s="29">וכמו שבגלות מצרים כתיב26</src>
+    <src s="30">ולא שמעו אל משה מקוצר רוח ומעבודה קשה,</src>
+    <src s="31">עד"ז הוא בכל גלות,</src>
+    <src s="32">שישנם כמה נסיונות בקיום התורה והמצוות],</src>
+    <src s="33">הנה אז</src>
+    <src s="34">(בזמן גזירת המן)</src>
+    <src s="35">הי' ההעלם וההסתר עוד יותר,</src>
+    <src s="36">ואעפ"כ,</src>
+    <src s="37">בזמן מתן תורה,</src>
+    <src s="38">כשהיו ישראל בתכלית העילוי,</src>
+    <src s="39">היתה רק ההתחלה</src>
+    <src s="40">(החלו לעשות),</src>
+    <src s="41">ובזמן גזירת המן,</src>
+    <src s="42">כשהיו בתכלית השפלות,</src>
+    <src s="43">אז דוקא קבלו מה שהחלו במתן תורה.</src>
+    <src s="44">ומבאר בזה,</src>
+    <src s="45">דבזמן הגזירה,</src>
+    <src s="46">הי' קיום התומ"צ שלהם במס"נ.</src>
+    <src s="47">[דנוסף לזה שהי' להם מס"נ שלא לכפור ח"ו</src>
+    <src s="48">[כמבואר בתו"א27,</src>
+    <src s="49">שבאם היו ממירים דתם לא היו עושים להם כלום,</src>
+    <src s="50">כי הגזירה היתה רק על היהודים,</src>
+    <src s="51">ואעפ"כ לא עלתה על דעתם מחשבת חוץ ח"ו],</src>
+    <src s="52">הי' להם מס"נ גם על קיום התומ"צ28,</src>
+    <src s="53">ועד שהקהילו קהילות ברבים ללמוד תורה במס"נ29].</src>
+    <src s="54">והתעוררות המס"נ שלהם היתה ע"י מרדכי היהודי,</src>
+    <src s="55">משה שבדורו.</src>
+    <src s="56">וזהו וקבל היהודים את אשר החלו לעשות,</src>
+    <src s="57">דבמתן תורה היתה רק ההתחלה ובזמן גזירת המן היתה הקבלה,</src>
+    <src s="58">כי ע"י שהי' להם אז מס"נ בפועל על תומ"צ נתעלו</src>
+    <src s="59">(בענין זה)</src>
+    <src s="60">למדריגה נעלית יותר מכמו שהיו בזמן מתן תורה,</src>
+    <src s="61">ולכן אז דוקא היתה הקבלה,</src>
+    <src s="62">וקבל היהודים.</src>
+  </section>
+  <section v="5">
+    <src s="0">ולכאורה יש לומר,</src>
+    <src s="1">שהפירוש בכתית למאור,</src>
+    <src s="2">שע"י כתית</src>
+    <src s="3">(נשבר ונדכא)</src>
+    <src s="4">מגיעים להמאור,</src>
+    <src s="5">הוא ביאור על זה שבזמן הגזירה דוקא באו למס"נ באופן נעלה ביותר30.</src>
+    <src s="6">כי מס"נ היא מצד עצם הנשמה שלמעלה מגילוי,</src>
+    <src s="7">מאור</src>
+    <src s="8">(שממנו נמצא האור),</src>
+    <src s="9">וע"י שהיו אז במצב דכתית</src>
+    <src s="10">(נשבר ונדכא),</src>
+    <src s="11">נתגלה עצם הנשמה,</src>
+    <src s="12">מאור.</src>
+    <src s="13">אבל מהמשך וסדר הענינים בהמאמר שהפירוש בכתית למאור בא לאחרי הענין דרעיא מהימנא,</src>
+    <src s="14">משמע,</src>
+    <src s="15">דענין כתית למאור שייך גם לזה שמשה זן ומפרנס את האמונה שתהי' בפנימיות.</src>
+  </section>
+</awtsmoosMeluketSource>

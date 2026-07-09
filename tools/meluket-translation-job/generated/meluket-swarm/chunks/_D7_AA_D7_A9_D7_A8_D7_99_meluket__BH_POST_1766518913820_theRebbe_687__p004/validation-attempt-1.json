@@ -1,0 +1,519 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 95,
+    "returned": 95,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913820_theRebbe_687\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913820_theRebbe_687__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the union of \"zeh\" and \"koh\" in a person is achieved through Torah study and mitzvah observance, which correspond to the soul and the body respectively, and that this is the meaning of the verse \"For a statute for Israel, a judgment for the G-d of Yaakov.\"</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this is \"This day is the beginning of Your works... for a statute for Israel is a judgment for the G-d of Yaakov.\"</t>\n    <t s=\"2\">For the word \"for\" explains the reason for what was said previously, \"This day is the beginning of Your works.\"</t>\n    <t s=\"3\">For the connection of \"zeh\" and \"koh\" within a person</t>\n    <t s=\"4\">(through which he draws down the revelation of \"zeh\" also into the aspect of \"koh\" of the world)</t>\n    <t s=\"5\">is through his service in Torah study and the fulfillment of mitzvos.</t>\n    <t s=\"6\">For engaging in Torah pertains</t>\n    <t s=\"7\">(primarily)</t>\n    <t s=\"8\">to the soul</t>\n    <t s=\"9\">(zeh),</t>\n    <t s=\"10\">and the fulfillment of mitzvos, which are clothed in physical things, pertains</t>\n    <t s=\"11\">(primarily)</t>\n    <t s=\"12\">to the clarification and refinement of the body,</t>\n    <t s=\"13\">and through the service of engaging in Torah and fulfilling mitzvos</t>\n    <t s=\"14\">(to the point that they become one matter,</t>\n    <t s=\"15\">since each one assists the other),</t>\n    <t s=\"16\">the connection of \"zeh\" with \"koh\" is made.</t>\n    <t s=\"17\">And this is \"for a statute for Israel is a judgment for the G-d of Yaakov,\"</t>\n    <t s=\"18\">\"statute\" refers to the Torah and \"judgment\" to the mitzvos</t>\n    <t s=\"19\">(as explained in Likkutei Torah).</t>\n    <t s=\"20\">For this is \"a statute for Israel... a judgment for the G-d of Yaakov,\"</t>\n    <t s=\"21\">that regarding the Torah</t>\n    <t s=\"22\">(statute)</t>\n    <t s=\"23\">it says \"Israel,\" and regarding the mitzvos</t>\n    <t s=\"24\">(judgment)</t>\n    <t s=\"25\">it says \"Yaakov,\"</t>\n    <t s=\"26\">for the Torah is understanding and comprehension,</t>\n    <t s=\"27\">and therefore it pertains to Israel, the letters of which are \"Li Rosh\" (a head is to me),</t>\n    <t s=\"28\">and mitzvos, whose fulfillment is through the power of a person's action, pertain to Yaakov, from the term \"eikev\" (heel).</t>\n    <t s=\"29\">And also Yaakov is named for \"and his hand was grasping the heel of...\"</t>\n    <t s=\"30\">And it can be said that this is</t>\n    <t s=\"31\">that the mitzvos are clothed in physical things of this lowest world, below which there is no lower.</t>\n    <t s=\"32\">And this is \"This day is the beginning of Your works... for a statute for Israel is a judgment for the G-d of Yaakov,\"</t>\n    <t s=\"33\">that \"a statute for Israel... a judgment for the G-d of Yaakov\" is the reason for \"This day is the beginning of Your works,\"</t>\n    <t s=\"34\">meaning that the drawing down and revelation of the Essence of Ein Sof</t>\n    <t s=\"35\">(\"zeh\")</t>\n    <t s=\"36\">into the world</t>\n    <t s=\"37\">(\"Your works\")</t>\n    <t s=\"38\">through man, who was created on the day of Rosh Hashanah</t>\n    <t s=\"39\">(\"this day\")</t>\n    <t s=\"40\">is through \"a statute for Israel... a judgment for the G-d of Yaakov,\"</t>\n    <t s=\"41\">the study of Torah and the fulfillment of mitzvos.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that on Rosh Hashanah, the building of Malchus is accomplished, just as it was first revealed through Adam HaRishon, and this is why we pray for G-d's kingship from the very beginning of the holiday.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And based on the above, we can also explain what is known, that on Rosh Hashanah is the building of Malchus,</t>\n    <t s=\"2\">for just as on the first Rosh Hashanah,</t>\n    <t s=\"3\">on the day when Adam HaRishon was created,</t>\n    <t s=\"4\">there was</t>\n    <t s=\"5\">(the beginning of)</t>\n    <t s=\"6\">the revelation of the attribute of His kingship through Adam HaRishon,</t>\n    <t s=\"7\">for this is what Adam HaRishon said then</t>\n    <t s=\"8\">(the song of the sixth day)</t>\n    <t s=\"9\">\"Hashem reigns, He has clothed Himself in grandeur,\"</t>\n    <t s=\"10\">so too is it every single year,</t>\n    <t s=\"11\">that on the day of Rosh Hashanah there is a drawing down of the aspect of Malchus from its source, through Yisrael, who are called \"Adam\" after Adam HaRishon, as above.</t>\n    <t s=\"12\">And this is what we say in the prayers of Rosh Hashanah:</t>\n    <t s=\"13\">\"Reign over the entire world in Your glory... King over all the earth\"</t>\n    <t s=\"14\">[And this matter</t>\n    <t s=\"15\">is said immediately at the beginning of Rosh Hashanah,</t>\n    <t s=\"16\">in the evening prayer],</t>\n    <t s=\"17\">because the main point of Rosh Hashanah is the drawing down and building of Malchus.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section questions why the emphasis on Rosh Hashanah is specifically on Malchus, given that all the Sefiros are needed for creation and the aspect of speech (Malchus) is constant, and it introduces the need for further explanation.</sectionSummaryBrief>\n    <t s=\"0\">For behold, according to what is explained in many places,</t>\n    <t s=\"1\">it would seem that the connection of Rosh Hashanah to the matter of drawing down Malchus is because on Rosh Hashanah is the renewal of the act of creation</t>\n    <t s=\"2\">(therefore it is called \"the beginning of Your works\"),</t>\n    <t s=\"3\">the renewal of the totality of the worlds and their coming into existence as yesh (something from nothing),</t>\n    <t s=\"4\">and therefore one must then draw down the attribute of Malchus,</t>\n    <t s=\"5\">because the coming into existence of all the worlds is from the attribute of His kingship.</t>\n    <t s=\"6\">But this explanation requires further clarification,</t>\n    <t s=\"7\">for the coming into existence requires all the attributes,</t>\n    <t s=\"8\">as it is written,</t>\n    <t s=\"9\">\"For in six days Hashem made the heavens and the earth,\" and it is known</t>\n    <t s=\"10\">that \"six days\" refers to the six attributes from which the heavens and the earth were made,</t>\n    <t s=\"11\">for \"each and every day performed its task.\"</t>\n    <t s=\"12\">And even though for the coming into existence of the world all the attributes are needed,</t>\n    <t s=\"13\">nevertheless, in the prayers of Rosh Hashanah we emphasize specifically the drawing down of Malchus.</t>\n    <t s=\"14\">And furthermore,</t>\n    <t s=\"15\">the aspect of Malchus needed for the coming into existence of the worlds is</t>\n    <t s=\"16\">(primarily)</t>\n    <t s=\"17\">the aspect of speech of Malchus,</t>\n    <t s=\"18\">\"By the word of Hashem the heavens were made,\"</t>\n    <t s=\"19\">and these are the Ten Utterances by which the world was created,</t>\n    <t s=\"20\">and the emphasis on Rosh Hashanah is</t>\n    <t s=\"21\">(not on the matter of the speech of Malchus,</t>\n    <t s=\"22\">but rather)</t>\n    <t s=\"23\">on the matter of kingship,</t>\n    <t s=\"24\">\"Reign over the entire world... King over all the earth.\"</t>\n    <t s=\"25\">And also regarding the speech of Malchus,</t>\n    <t s=\"26\">the vast majority of the Utterances by which the world was created were before the sixth day of creation</t>\n    <t s=\"27\">[and moreover,</t>\n    <t s=\"28\">the coming into existence of creations from the Ten Utterances is constant</t>\n    <t s=\"29\">(even after they have come into being)</t>\n    <t s=\"30\">according to the well-known teaching of the Baal Shem Tov,</t>\n    <t s=\"31\">and as the statement</t>\n    <t s=\"32\">\"Who renews in His goodness every day, constantly, the act of creation\" — and it is known that this is specifically every single day,</t>\n    <t s=\"33\">every single moment],</t>\n    <t s=\"34\">so what does this have to do specifically with Rosh Hashanah?</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913820_theRebbe_687",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913820_theRebbe_687__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the union of \"zeh\" and \"koh\" in a person is achieved through Torah study and mitzvah observance, which correspond to the soul and the body respectively, and that this is the meaning of the verse \"For a statute for Israel, a judgment for the G-d of Yaakov.\"",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And this is \"This day is the beginning of Your works... for a statute for Israel is a judgment for the G-d of Yaakov.\""
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "For the word \"for\" explains the reason for what was said previously, \"This day is the beginning of Your works.\""
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "For the connection of \"zeh\" and \"koh\" within a person"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "(through which he draws down the revelation of \"zeh\" also into the aspect of \"koh\" of the world)"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "is through his service in Torah study and the fulfillment of mitzvos."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "For engaging in Torah pertains"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "to the soul"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "(zeh),"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "and the fulfillment of mitzvos, which are clothed in physical things, pertains"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "to the clarification and refinement of the body,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "and through the service of engaging in Torah and fulfilling mitzvos"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "(to the point that they become one matter,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "since each one assists the other),"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "the connection of \"zeh\" with \"koh\" is made."
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "And this is \"for a statute for Israel is a judgment for the G-d of Yaakov,\""
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "\"statute\" refers to the Torah and \"judgment\" to the mitzvos"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "(as explained in Likkutei Torah)."
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "For this is \"a statute for Israel... a judgment for the G-d of Yaakov,\""
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "that regarding the Torah"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "(statute)"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "it says \"Israel,\" and regarding the mitzvos"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "(judgment)"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "it says \"Yaakov,\""
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "for the Torah is understanding and comprehension,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "and therefore it pertains to Israel, the letters of which are \"Li Rosh\" (a head is to me),"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "and mitzvos, whose fulfillment is through the power of a person's action, pertain to Yaakov, from the term \"eikev\" (heel)."
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "And also Yaakov is named for \"and his hand was grasping the heel of...\""
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "And it can be said that this is"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "that the mitzvos are clothed in physical things of this lowest world, below which there is no lower."
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "And this is \"This day is the beginning of Your works... for a statute for Israel is a judgment for the G-d of Yaakov,\""
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "that \"a statute for Israel... a judgment for the G-d of Yaakov\" is the reason for \"This day is the beginning of Your works,\""
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "meaning that the drawing down and revelation of the Essence of Ein Sof"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "(\"zeh\")"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "into the world"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "(\"Your works\")"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "through man, who was created on the day of Rosh Hashanah"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "(\"this day\")"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "is through \"a statute for Israel... a judgment for the G-d of Yaakov,\""
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "the study of Torah and the fulfillment of mitzvos."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that on Rosh Hashanah, the building of Malchus is accomplished, just as it was first revealed through Adam HaRishon, and this is why we pray for G-d's kingship from the very beginning of the holiday.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And based on the above, we can also explain what is known, that on Rosh Hashanah is the building of Malchus,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "for just as on the first Rosh Hashanah,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "on the day when Adam HaRishon was created,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "there was"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "(the beginning of)"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "the revelation of the attribute of His kingship through Adam HaRishon,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "for this is what Adam HaRishon said then"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(the song of the sixth day)"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "\"Hashem reigns, He has clothed Himself in grandeur,\""
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "so too is it every single year,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "that on the day of Rosh Hashanah there is a drawing down of the aspect of Malchus from its source, through Yisrael, who are called \"Adam\" after Adam HaRishon, as above."
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "And this is what we say in the prayers of Rosh Hashanah:"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "\"Reign over the entire world in Your glory... King over all the earth\""
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "[And this matter"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "is said immediately at the beginning of Rosh Hashanah,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "in the evening prayer],"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "because the main point of Rosh Hashanah is the drawing down and building of Malchus."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section questions why the emphasis on Rosh Hashanah is specifically on Malchus, given that all the Sefiros are needed for creation and the aspect of speech (Malchus) is constant, and it introduces the need for further explanation.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "For behold, according to what is explained in many places,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "it would seem that the connection of Rosh Hashanah to the matter of drawing down Malchus is because on Rosh Hashanah is the renewal of the act of creation"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "(therefore it is called \"the beginning of Your works\"),"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "the renewal of the totality of the worlds and their coming into existence as yesh (something from nothing),"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "and therefore one must then draw down the attribute of Malchus,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "because the coming into existence of all the worlds is from the attribute of His kingship."
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "But this explanation requires further clarification,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "for the coming into existence requires all the attributes,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "\"For in six days Hashem made the heavens and the earth,\" and it is known"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "that \"six days\" refers to the six attributes from which the heavens and the earth were made,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "for \"each and every day performed its task.\""
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "And even though for the coming into existence of the world all the attributes are needed,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "nevertheless, in the prayers of Rosh Hashanah we emphasize specifically the drawing down of Malchus."
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "the aspect of Malchus needed for the coming into existence of the worlds is"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "the aspect of speech of Malchus,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "\"By the word of Hashem the heavens were made,\""
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "and these are the Ten Utterances by which the world was created,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "and the emphasis on Rosh Hashanah is"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "(not on the matter of the speech of Malchus,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "but rather)"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "on the matter of kingship,"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "\"Reign over the entire world... King over all the earth.\""
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "And also regarding the speech of Malchus,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "the vast majority of the Utterances by which the world was created were before the sixth day of creation"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "[and moreover,"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "the coming into existence of creations from the Ten Utterances is constant"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "(even after they have come into being)"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "according to the well-known teaching of the Baal Shem Tov,"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "and as the statement"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "\"Who renews in His goodness every day, constantly, the act of creation\" — and it is known that this is specifically every single day,"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "every single moment],"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "so what does this have to do specifically with Rosh Hashanah?"
+          }
+        ]
+      }
+    ]
+  }
+}

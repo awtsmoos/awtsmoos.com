@@ -1,0 +1,87 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918872_theRebbe_254" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918872_theRebbe_254" title="מאמר בהעלותך את הנרות תשכ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p002">
+  <section v="3">
+    <src s="0">ומבואר בהדרושים13,</src>
+    <src s="1">דהטעם שהעלאת הנרות</src>
+    <src s="2">[גילוי טבע הרצוא והעלי' דהנשמות]</src>
+    <src s="3">הוא ע"י אהרן דוקא,</src>
+    <src s="4">כי באהרן כתיב14</src>
+    <src s="5">כשמן הטוב על הראש יורד על הזקן זקן אהרן שיורד על פי מדותיו,</src>
+    <src s="6">וענין זקן אהרן הוא הלכות התורה15,</src>
+    <src s="7">וע"י התורה,</src>
+    <src s="8">תורה אור6,</src>
+    <src s="9">מתגלה ומאיר טבע העלי' דהנשמה</src>
+    <src s="10">(שישנו גם בירידתה למטה והתלבשותה בגוף),</src>
+    <src s="11">בהעלותך את הנרות.</src>
+    <src s="12">ועפ"ז יש לבאר השייכות דמארז"ל</src>
+    <src s="13">(המובא בהמאמר)</src>
+    <src s="14">אם שמרת את נרי אני משמר את נרך לבהעלותך את הנרות,</src>
+    <src s="15">כי ענין אני משמר את נרך</src>
+    <src s="16">(שמירת הנר שלא תיכבה)</src>
+    <src s="17">הוא שהנר דהנשמה</src>
+    <src s="18">(טבע הרצוא והעלי' שלה)</src>
+    <src s="19">יהי' בגילוי,</src>
+    <src s="20">וזה ששמירת הנר דהנשמה הוא ע"י שמירת הנר דתורה הוא ע"ד הענין דבהעלותך את הנרות שע"י אהרן,</src>
+    <src s="21">תורה.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">דצריך להבין באם שמרת את נרי אני משמר את נרך,</src>
+    <src s="3">מהי שייכותם זה לזה ועוד ועד שהם תלויים זה בזה.</src>
+    <src s="4">ומבאר זה ע"פ מה דאיתא במדרש16</src>
+    <src s="5">בזכות מי נבראו אלה תולדות השמים והארץ17</src>
+    <src s="6">ובזכות מי הם עומדים,</src>
+    <src s="7">בזכות אלה שמות בני ישראל18,</src>
+    <src s="8">ואלה בזכות מי עומדים,</src>
+    <src s="9">בזכות אלה העדות והחוקים והמשפטים19.</src>
+    <src s="10">שהכוונה דבריאת העולם היא בשביל ישראל,</src>
+    <src s="11">והשלימות דישראל היא ע"י התורה.</src>
+    <src s="12">דע"י שישראל מקיימים התרי"ג מצוות הם מתעלים למדריגה נעלית יותר מכמו שהם מצד עצמם.</src>
+    <src s="13">וזהו מה שהנשמה יורדת למטה ומתלבשת בגוף גשמי בכדי לקיים תומ"צ,</src>
+    <src s="14">כי ע"י קיום התומ"צ מתעלית הנשמה למעלה יותר מכמו שהיתה קודם ירידתה.</src>
+    <src s="15">וזהו אם שמרת את נרי אני משמר את נרך,</src>
+    <src s="16">ששמירת הנר דהנשמה היא ע"י שמירת הנר דתורה.</src>
+  </section>
+  <section v="5">
+    <src s="0">וע"פ מש"כ בהמאמר דענין אם שמרת את נרי אני משמר את נרך הוא שע"י קיום התומ"צ מתעלית הנשמה למעלה יותר מכמו שהיתה קודם ירידתה,</src>
+    <src s="1">יש לומר,</src>
+    <src s="2">דזה שמקשר ענין זה עם בהעלותך את הנרות,</src>
+    <src s="3">הוא,</src>
+    <src s="4">כי גם ענין בהעלותך את הנרות הוא20</src>
+    <src s="5">העלי' שנעשה בהנשמות למעלה יותר גם מכמו שהיו קודם ירידתם למטה.</src>
+  </section>
+</awtsmoosMeluketSource>

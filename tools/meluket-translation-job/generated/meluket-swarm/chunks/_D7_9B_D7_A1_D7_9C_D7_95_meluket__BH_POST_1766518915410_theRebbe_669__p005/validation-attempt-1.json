@@ -1,0 +1,539 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 99,
+    "returned": 99,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915410_theRebbe_669\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>The descent of the soul and the performance of Torah and mitzvos in this world is a descent for the sake of an ascent, drawing down the essential power of Torah and mitzvos.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And it is known,</t>\n    <t s=\"2\">that just as the descent of the soul below is a descent for the sake of an ascent,</t>\n    <t s=\"3\">so too is it regarding Torah and mitzvos,</t>\n    <t s=\"4\">that the intention in the descent of Torah and mitzvos is for the sake of an ascent.</t>\n    <t s=\"5\">For through their descent below and their garbing in physical things, the essential power of Torah and mitzvos is drawn into them.</t>\n    <t s=\"6\">And based on this, it can be said,</t>\n    <t s=\"7\">that the matter of the \"hillula\" (celebration/wedding) that is in the fulfillment of Torah and mitzvos specifically in this world,</t>\n    <t s=\"8\">is also within the Torah and mitzvos themselves.</t>\n    <t s=\"9\">For in addition to the matter of the hillula in the person who engages in Torah and mitzvos,</t>\n    <t s=\"10\">the drawing down of the power of Ein Sof through the connection and union of soul and body</t>\n    <t s=\"11\">(as in section 5 above),</t>\n    <t s=\"12\">also in the Torah and mitzvos themselves there is the concept of hillula.</t>\n    <t s=\"13\">For Torah and mitzvos are the wisdom and will of the Holy One, blessed be He, which are above the world,</t>\n    <t s=\"14\">and their connection with the matters of this world</t>\n    <t s=\"15\">(the physical things in which the Torah and mitzvos are garbed)</t>\n    <t s=\"16\">is a connection of two opposites,</t>\n    <t s=\"17\">and this connection is through the drawing down of the essential power of Torah and mitzvos — in the manner of the union of a groom and bride,</t>\n    <t s=\"18\">through the drawing down of the power of Ein Sof that is above both of them and unites them.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>A second explanation of \"this world from which we go\" is that at the time of passing, the soul's \"going\" is revealed, and the inner, unlimited aspect of Torah and mitzvos becomes manifest.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And the discourse continues</t>\n    <t s=\"2\">with another explanation of \"this world from which we go,\"</t>\n    <t s=\"3\">that at the time of a person's passing,</t>\n    <t s=\"4\">when the soul departs from the body and from this world,</t>\n    <t s=\"5\">\"from which we go,\"</t>\n    <t s=\"6\">then the matter of \"we go\" is effected in it,</t>\n    <t s=\"7\">that it becomes in the aspect of a \"journey\" (movement).</t>\n    <t s=\"8\">According to the explanation above</t>\n    <t s=\"9\">(section 5),</t>\n    <t s=\"10\">this that the soul becomes a \"journey,\"</t>\n    <t s=\"11\">is while it is below in this world.</t>\n    <t s=\"12\">And the explanation of \"from which we go\" is \"because of it\" and \"due to it,\"</t>\n    <t s=\"13\">that this that the soul comes to the aspect of \"we go,\"</t>\n    <t s=\"14\">that it becomes a \"journey,\"</t>\n    <t s=\"15\">is \"from it,\"</t>\n    <t s=\"16\">from the aspect of the superiority of this world, which is like a hillula.</t>\n    <t s=\"17\">And according to the second explanation,</t>\n    <t s=\"18\">the matter of \"we go\" that is effected in the soul</t>\n    <t s=\"19\">(that it becomes a \"journey\")</t>\n    <t s=\"20\">is at the time of \"from which we go,\"</t>\n    <t s=\"21\">when it goes and departs from this world.</t>\n    <t s=\"22\">And the point of the explanation in this</t>\n    <t s=\"23\">(in the discourse) is,</t>\n    <t s=\"24\">that the mitzvos as they are below,</t>\n    <t s=\"25\">are in measurement and limitation.</t>\n    <t s=\"26\">And also the Torah that is below is in measurement and limitation,</t>\n    <t s=\"27\">as it is said,</t>\n    <t s=\"28\">\"It is longer than the measure of the earth,\"</t>\n    <t s=\"29\">meaning that there is a measure to the Torah, except that the measure is longer than the earth.</t>\n    <t s=\"30\">Therefore,</t>\n    <t s=\"31\">the \"journey\"</t>\n    <t s=\"32\">(the matter of without limit)</t>\n    <t s=\"33\">that is effected in the soul through its engagement in Torah and mitzvos in this world,</t>\n    <t s=\"34\">is in a concealed manner.</t>\n    <t s=\"35\">And also the \"journey\" of the soul that is through the mitzvah of procreation,</t>\n    <t s=\"36\">even though in the matter of procreation there is a revelation of the power of Ein Sof,</t>\n    <t s=\"37\">nevertheless,</t>\n    <t s=\"38\">since the revelation of the power of Ein Sof in this is in relation to a limited matter</t>\n    <t s=\"39\">(the birth of children,</t>\n    <t s=\"40\">except that the procreation is generation after generation without measure),</t>\n    <t s=\"41\">therefore,</t>\n    <t s=\"42\">even through the fulfillment of this mitzvah,</t>\n    <t s=\"43\">the matter of the \"journey\" is in concealment.</t>\n    <t s=\"44\">And after the soul fulfills its mission in this world and the time of \"from which we go\" arrives,</t>\n    <t s=\"45\">when it goes</t>\n    <t s=\"46\">(and departs)</t>\n    <t s=\"47\">from the limitations of this world,</t>\n    <t s=\"48\">then the inwardness of the Torah and mitzvos that it engaged in in this world is revealed to it,</t>\n    <t s=\"49\">for the inwardness of Torah and mitzvos is without limit,</t>\n    <t s=\"50\">and then the matter of \"we go\"</t>\n    <t s=\"51\">(journey)</t>\n    <t s=\"52\">is effected in it also in a revealed manner.</t>\n    <t s=\"53\">And this is that the day of the passing of the tzaddikim who engaged in the inwardness of Torah is called \"the day of hillula\"</t>\n    <t s=\"54\">(like the hillula of Rabbi Shimon bar Yochai,</t>\n    <t s=\"55\">and so too is it regarding the day of passing of all tzaddikim who engaged in the inwardness of Torah),</t>\n    <t s=\"56\">for through the study and engagement in the inwardness of Torah,</t>\n    <t s=\"57\">on the day of passing the inwardness and the without-limit are revealed,</t>\n    <t s=\"58\">the matter of hillula and journey.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>The Baal HaGeulah explains that in hillula (the union of male and female) there are three general aspects: union above, union below (in two ways), and the union of soul and body at the resurrection.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And the Baal HaGeulah explains in the aforementioned discourse,</t>\n    <t s=\"2\">that in hillula</t>\n    <t s=\"3\">(the union of male and female)</t>\n    <t s=\"4\">there are three matters</t>\n    <t s=\"5\">(in general).</t>\n    <t s=\"6\">The union of male and female above.</t>\n    <t s=\"7\">For the matter of male and female is also in the souls as they are above, before their descent below.</t>\n    <t s=\"8\">For there are souls that are in the aspect of male and souls that are in the aspect of female.</t>\n    <t s=\"9\">And the union of the souls that are in the aspect of male with the souls that are in the aspect of female is called hillula.</t>\n    <t s=\"10\">And the union of male and female below.</t>\n    <t s=\"11\">And in this itself there are two matters.</t>\n    <t s=\"12\">The union of male and female in their simple sense, and the union of the soul with the body</t>\n    <t s=\"13\">[which are analogous to a man and a woman].</t>\n    <t s=\"14\">And the third matter in hillula is the union of the soul</t>\n    <t s=\"15\">(male)</t>\n    <t s=\"16\">with the body</t>\n    <t s=\"17\">(female)</t>\n    <t s=\"18\">that will be at the resurrection of the dead.</t>\n    <t s=\"19\">For this hillula is the most elevated level,</t>\n    <t s=\"20\">for then there will be the revelation of the Awtsmoos.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915410_theRebbe_669",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "The descent of the soul and the performance of Torah and mitzvos in this world is a descent for the sake of an ascent, drawing down the essential power of Torah and mitzvos.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And it is known,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "that just as the descent of the soul below is a descent for the sake of an ascent,"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "so too is it regarding Torah and mitzvos,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "that the intention in the descent of Torah and mitzvos is for the sake of an ascent."
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "For through their descent below and their garbing in physical things, the essential power of Torah and mitzvos is drawn into them."
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "that the matter of the \"hillula\" (celebration/wedding) that is in the fulfillment of Torah and mitzvos specifically in this world,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "is also within the Torah and mitzvos themselves."
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "For in addition to the matter of the hillula in the person who engages in Torah and mitzvos,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "the drawing down of the power of Ein Sof through the connection and union of soul and body"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "(as in section 5 above),"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "also in the Torah and mitzvos themselves there is the concept of hillula."
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "For Torah and mitzvos are the wisdom and will of the Holy One, blessed be He, which are above the world,"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "and their connection with the matters of this world"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "(the physical things in which the Torah and mitzvos are garbed)"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "is a connection of two opposites,"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "and this connection is through the drawing down of the essential power of Torah and mitzvos — in the manner of the union of a groom and bride,"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "through the drawing down of the power of Ein Sof that is above both of them and unites them."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "A second explanation of \"this world from which we go\" is that at the time of passing, the soul's \"going\" is revealed, and the inner, unlimited aspect of Torah and mitzvos becomes manifest.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And the discourse continues"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "with another explanation of \"this world from which we go,\""
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "that at the time of a person's passing,"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "when the soul departs from the body and from this world,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "\"from which we go,\""
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "then the matter of \"we go\" is effected in it,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "that it becomes in the aspect of a \"journey\" (movement)."
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "According to the explanation above"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "(section 5),"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "this that the soul becomes a \"journey,\""
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "is while it is below in this world."
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "And the explanation of \"from which we go\" is \"because of it\" and \"due to it,\""
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "that this that the soul comes to the aspect of \"we go,\""
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "that it becomes a \"journey,\""
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "is \"from it,\""
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "from the aspect of the superiority of this world, which is like a hillula."
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "And according to the second explanation,"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "the matter of \"we go\" that is effected in the soul"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "(that it becomes a \"journey\")"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "is at the time of \"from which we go,\""
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "when it goes and departs from this world."
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "And the point of the explanation in this"
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "(in the discourse) is,"
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "that the mitzvos as they are below,"
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "are in measurement and limitation."
+          },
+          {
+            "v": 13,
+            "s": 26,
+            "translation": "And also the Torah that is below is in measurement and limitation,"
+          },
+          {
+            "v": 13,
+            "s": 27,
+            "translation": "as it is said,"
+          },
+          {
+            "v": 13,
+            "s": 28,
+            "translation": "\"It is longer than the measure of the earth,\""
+          },
+          {
+            "v": 13,
+            "s": 29,
+            "translation": "meaning that there is a measure to the Torah, except that the measure is longer than the earth."
+          },
+          {
+            "v": 13,
+            "s": 30,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 13,
+            "s": 31,
+            "translation": "the \"journey\""
+          },
+          {
+            "v": 13,
+            "s": 32,
+            "translation": "(the matter of without limit)"
+          },
+          {
+            "v": 13,
+            "s": 33,
+            "translation": "that is effected in the soul through its engagement in Torah and mitzvos in this world,"
+          },
+          {
+            "v": 13,
+            "s": 34,
+            "translation": "is in a concealed manner."
+          },
+          {
+            "v": 13,
+            "s": 35,
+            "translation": "And also the \"journey\" of the soul that is through the mitzvah of procreation,"
+          },
+          {
+            "v": 13,
+            "s": 36,
+            "translation": "even though in the matter of procreation there is a revelation of the power of Ein Sof,"
+          },
+          {
+            "v": 13,
+            "s": 37,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 13,
+            "s": 38,
+            "translation": "since the revelation of the power of Ein Sof in this is in relation to a limited matter"
+          },
+          {
+            "v": 13,
+            "s": 39,
+            "translation": "(the birth of children,"
+          },
+          {
+            "v": 13,
+            "s": 40,
+            "translation": "except that the procreation is generation after generation without measure),"
+          },
+          {
+            "v": 13,
+            "s": 41,
+            "translation": "therefore,"
+          },
+          {
+            "v": 13,
+            "s": 42,
+            "translation": "even through the fulfillment of this mitzvah,"
+          },
+          {
+            "v": 13,
+            "s": 43,
+            "translation": "the matter of the \"journey\" is in concealment."
+          },
+          {
+            "v": 13,
+            "s": 44,
+            "translation": "And after the soul fulfills its mission in this world and the time of \"from which we go\" arrives,"
+          },
+          {
+            "v": 13,
+            "s": 45,
+            "translation": "when it goes"
+          },
+          {
+            "v": 13,
+            "s": 46,
+            "translation": "(and departs)"
+          },
+          {
+            "v": 13,
+            "s": 47,
+            "translation": "from the limitations of this world,"
+          },
+          {
+            "v": 13,
+            "s": 48,
+            "translation": "then the inwardness of the Torah and mitzvos that it engaged in in this world is revealed to it,"
+          },
+          {
+            "v": 13,
+            "s": 49,
+            "translation": "for the inwardness of Torah and mitzvos is without limit,"
+          },
+          {
+            "v": 13,
+            "s": 50,
+            "translation": "and then the matter of \"we go\""
+          },
+          {
+            "v": 13,
+            "s": 51,
+            "translation": "(journey)"
+          },
+          {
+            "v": 13,
+            "s": 52,
+            "translation": "is effected in it also in a revealed manner."
+          },
+          {
+            "v": 13,
+            "s": 53,
+            "translation": "And this is that the day of the passing of the tzaddikim who engaged in the inwardness of Torah is called \"the day of hillula\""
+          },
+          {
+            "v": 13,
+            "s": 54,
+            "translation": "(like the hillula of Rabbi Shimon bar Yochai,"
+          },
+          {
+            "v": 13,
+            "s": 55,
+            "translation": "and so too is it regarding the day of passing of all tzaddikim who engaged in the inwardness of Torah),"
+          },
+          {
+            "v": 13,
+            "s": 56,
+            "translation": "for through the study and engagement in the inwardness of Torah,"
+          },
+          {
+            "v": 13,
+            "s": 57,
+            "translation": "on the day of passing the inwardness and the without-limit are revealed,"
+          },
+          {
+            "v": 13,
+            "s": 58,
+            "translation": "the matter of hillula and journey."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "The Baal HaGeulah explains that in hillula (the union of male and female) there are three general aspects: union above, union below (in two ways), and the union of soul and body at the resurrection.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And the Baal HaGeulah explains in the aforementioned discourse,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "that in hillula"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "(the union of male and female)"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "there are three matters"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "(in general)."
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "The union of male and female above."
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "For the matter of male and female is also in the souls as they are above, before their descent below."
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "For there are souls that are in the aspect of male and souls that are in the aspect of female."
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "And the union of the souls that are in the aspect of male with the souls that are in the aspect of female is called hillula."
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "And the union of male and female below."
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "And in this itself there are two matters."
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "The union of male and female in their simple sense, and the union of the soul with the body"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "[which are analogous to a man and a woman]."
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "And the third matter in hillula is the union of the soul"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "(male)"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "with the body"
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "(female)"
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "that will be at the resurrection of the dead."
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "For this hillula is the most elevated level,"
+          },
+          {
+            "v": 14,
+            "s": 20,
+            "translation": "for then there will be the revelation of the Awtsmoos."
+          }
+        ]
+      }
+    ]
+  }
+}

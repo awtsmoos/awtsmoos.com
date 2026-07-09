@@ -1,0 +1,108 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918306_theRebbe_932" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918306_theRebbe_932" title="מאמר השמים כסאי תשל"ו" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p004">
+  <section v="9">
+    <src s="0">ועי"ז בא אח"כ לשנה הרביעית,</src>
+    <src s="1">שנמשך במלכות גם הת"ת,</src>
+    <src s="2">דבעבודת האדם הוא שבהמחשבה דיבור ומעשה שלו נמשך גם מעצמיות המדות,</src>
+    <src s="3">אהבה ויראה,</src>
+    <src s="4">וכן שמחת לבב בתפארת הוי' והדר גאונו שבא ע"י לאסתכלא ביקרא דמלכא49.</src>
+    <src s="5">ואז,</src>
+    <src s="6">עבודתו אינה לדחות את הרע</src>
+    <src s="7">[כי כשיש לו אהבת ה',</src>
+    <src s="8">הרע הוא מאוס אצלו50</src>
+    <src s="9">ואינו צריך לדחותו]</src>
+    <src s="10">אלא להמשיך תוספות אור.</src>
+    <src s="11">דזהו שבשנה הרביעית יהי' כל פריו קודש הילולים להוי',</src>
+    <src s="12">דענין ההילול הוא כמבואר בלקו"ת47</src>
+    <src s="13">בפירוש הכתוב51</src>
+    <src s="14">ואתה קדוש יושב תהלות ישראל,</src>
+    <src s="15">שהוא ית' מצד עצמו הוא קדוש ומובדל,</src>
+    <src s="16">וע"י תהלות ישראל הוא יושב ונמשך למטה.</src>
+    <src s="17">ויש לומר,</src>
+    <src s="18">שהוא ע"ד העבודה שמצד נר"נ</src>
+    <src s="19">(השמים כסאי והארץ הדום רגלי)</src>
+    <src s="20">ומצד המקיפים חי' יחידה</src>
+    <src s="21">(בית),</src>
+    <src s="22">שעי"ז נמשכים ומתגלים הפנימיים והמקיפים52</src>
+    <src s="23">שלמעלה.</src>
+    <src s="24">אלא שהמשכה זו היא רק מבחינת הגילויים,</src>
+    <src s="25">וכמבואר בלקו"ת46</src>
+    <src s="26">בפירוש הכתוב מודים אנחנו לך ומהללים לשם תפארתך,</src>
+    <src s="27">שההודאה היא לך,</src>
+    <src s="28">למהותו ועצמותו,</src>
+    <src s="29">וההילול הוא רק לשמו ית'53,</src>
+    <src s="30">לשם תפארתך.</src>
+  </section>
+  <section v="10">
+    <src s="0">ועי"ז באים אח"כ לשנה החמישית,</src>
+    <src s="1">להוסיף לכם תבואתו,</src>
+    <src s="2">תוספות אור שנמשך מקוצו של יו"ד,</src>
+    <src s="3">כתר.</src>
+    <src s="4">דיש לומר,</src>
+    <src s="5">שענינה בעבודת האדם הוא האמונה שלמעלה מהדעת,</src>
+    <src s="6">שהאמונה שלו היא מצד ההכרה שלית מחשבה תפיסא בי' כלל.</src>
+    <src s="7">דבאמונה זו ישנם ב' המעלות.</src>
+    <src s="8">שהיא בעצמותו ית',</src>
+    <src s="9">ושהעצמות הוא בגילוי.</src>
+    <src s="10">היינו שבאמונה זו54</src>
+    <src s="11">נרגש הפלאת העצמות,</src>
+    <src s="12">שכל ההילולים והתשבחות הם רק לשם תפארתך,</src>
+    <src s="13">ובעצמותו ית' אין שייך שום הילול,</src>
+    <src s="14">ורק אמונה והודאה55.</src>
+  </section>
+  <section v="11">
+    <src s="0">ז)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דזהו שהפירות דשנה הרביעית אין נאכלים אלא בירושלים56,</src>
+    <src s="3">והפירות דשנה החמישית נאכלים בכל מקום,</src>
+    <src s="4">כי הגילוי דשנה הרביעית הוא במדידה והגבלה,</src>
+    <src s="5">ולכן ההילול דפירות אלו הוא שמביאים אותם לירושלים לשבח ולהלל לשמים57,</src>
+    <src s="6">והגילוי דשנה החמישית,</src>
+    <src s="7">כיון שהוא למעלה ממדידה והגבלה,</src>
+    <src s="8">לכן ההודאה לה' על ההוספה בתבואה זו58</src>
+    <src s="9">היא בכל מקום</src>
+    <src s="10">(וגם בפירות שאין בהם קדושה,</src>
+    <src s="11">ועד שהן נאכלין אפילו בטומאה).</src>
+    <src s="12">וע"י ההודאה לה' על פירות אלו שאין בהם קדושה,</src>
+    <src s="13">ההמשכה היא מעצמות אוא"ס</src>
+    <src s="14">(שלמעלה משייכות לספירות)59,</src>
+    <src s="15">ונמשכת למטה ביותר,</src>
+    <src s="16">ועי"ז נשלמת הכוונה דנתאוה הקב"ה להיות לו ית' דירה בתחתונים60,</src>
+    <src s="17">שהתחתון שאין תחתון למטה ממנו61,</src>
+    <src s="18">נעשה דירה לו ית',</src>
+    <src s="19">לו לעצמותו62.</src>
+  </section>
+</awtsmoosMeluketSource>

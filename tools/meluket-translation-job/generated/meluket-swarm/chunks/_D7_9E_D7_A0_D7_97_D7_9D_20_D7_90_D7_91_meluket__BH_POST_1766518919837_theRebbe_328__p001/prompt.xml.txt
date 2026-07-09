@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919837_theRebbe_328" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919837_theRebbe_328__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919837_theRebbe_328" title="מאמר לא היו ימים טובים לישראל תשמ"ז" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919837_theRebbe_328__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ב' פ' עקב,</src>
+    <src s="2">חמשה עשר באב ה'תשמ"ז*</src>
+  </section>
+  <section v="1">
+    <src s="0">לא.</src>
+    <src s="1">היו ימים טובים לישראל כחמשה עשר באב וכיום הכפורים1,</src>
+    <src s="2">ומביא אדמו"ר</src>
+    <src s="3">(מהורש"ב)</src>
+    <src s="4">נ"ע במאמרו המבאר ענין חמשה עשר באב2,</src>
+    <src s="5">דאיתא בפע"ח3</src>
+    <src s="6">שהיו"ט דט"ו באב הוא שאז הוא שלימות4</src>
+    <src s="7">מילוי הלבנה</src>
+    <src s="8">[והענינים שאירעו בחמשה עשר באב</src>
+    <src s="9">(המנוים בגמרא5)</src>
+    <src s="10">הם כמו תוצאות מענינו העיקרי של יום זה – שלימות מילוי הלבנה].</src>
+    <src s="11">ומדייק בהמאמר,</src>
+    <src s="12">הרי זה שביום הט"ו קיימא סיהרא באשלמותא6</src>
+    <src s="13">הוא בכל חודש,</src>
+    <src s="14">ואעפ"כ לא נקבעו ליו"ט מלבד פסח</src>
+    <src s="15">(ט"ו בניסן)</src>
+    <src s="16">וסוכות</src>
+    <src s="17">(ט"ו בתשרי).</src>
+    <src s="18">וביותר אינו מובן,</src>
+    <src s="19">שמפשטות הלשון לא היו ימים טובים לישראל כחמשה עשר באב כו' משמע שהוא יו"ט גדול יותר מכל הימים טובים,</src>
+    <src s="20">גם מהימים טובים דפסח וסוכות,</src>
+    <src s="21">אף שגם ימים טובים אלה הם בט"ו בחודש7.</src>
+    <src s="22">ונקודת הביאור בזה</src>
+    <src s="23">(בהמאמר),</src>
+    <src s="24">שעיקר המעלה דמילוי ושלימות הלבנה ביום הט"ו הזה הוא שהמילוי והשלימות הוא לאחרי חסרון,</src>
+    <src s="25">שלאחרי חסרון היא שלימות נעלית יותר מהשלימות שמצד עצמה,</src>
+    <src s="26">כידוע8</src>
+    <src s="27">הכלל בעליות וירידות,</src>
+    <src s="28">דהעלי' שלאחרי ירידה היא עלי' למעלה יותר מהדרגא שלפני הירידה,</src>
+    <src s="29">וכל שהירידה היא ביותר,</src>
+    <src s="30">העלי' היא ביותר.</src>
+    <src s="31">ולכן עיקר המעלה דמילוי הלבנה הוא בט"ו באב,</src>
+    <src s="32">כי בחודש אב,</src>
+    <src s="33">הירידה דהלבנה</src>
+    <src s="34">(וישראל דדומין ללבנה9)</src>
+    <src s="35">היא ירידה גדולה ביותר,</src>
+    <src s="36">ולכן העלי' דט"ו באב</src>
+    <src s="37">(שלאחרי הירידה דתשעה באב)</src>
+    <src s="38">היא עלי' גדולה ביותר.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דענין הנ"ל שהיו"ט דט"ו באב הוא לפי שאז היא העלי' שלאחרי הירידה דתשעה באב מרומז גם בזה שהענין הראשון שאירע בט"ו באב הוא שכלו בו מתי מדבר10.</src>
+    <src s="3">דענין מתי מדבר קשור עם תשעה באב,</src>
+    <src s="4">שבת"ב נגזר על דור המדבר שימותו במדבר ולא יכנסו לארץ1,</src>
+    <src s="5">וגם קיום הגזירה היתה בתשעה באב,</src>
+    <src s="6">שבכל ת"ב</src>
+    <src s="7">(דל"ט שנים האחרונות שהיו במדבר)</src>
+    <src s="8">היו עושין קבריהן11.</src>
+    <src s="9">והיו"ט דט"ו באב שבו כלו מתי מדבר הוא העלי' שלאחרי הירידה דתשעה באב12.</src>
+    <src s="10">ומזה מובן גם בנוגע ל</src>
+    <src s="11">(עיקר)</src>
+    <src s="12">הירידה דתשעה באב שבו חרב הבית בראשונה ובשני'1</src>
+    <src s="13">[ובפרט שגם גזירת החורבן היתה באותו היום13</src>
+    <src s="14">(תשעה באב דשנה ראשונה שהיו במדבר)</src>
+    <src s="15">שבו נגזר על דור המדבר שלא יכנסו לארץ,</src>
+    <src s="16">ושתי הגזירות היו בשביל אותו החטא</src>
+    <src s="17">(חטא המרגלים)13],</src>
+    <src s="18">שבט"ו באב מאיר מעין הגילוי דלעתיד14,</src>
+    <src s="19">שעיקרו15</src>
+    <src s="20">הוא בנין ביהמ"ק השלישי16</src>
+    <src s="21">– העלי' שלאחרי הירידה דחורבן בית ראשון ושני.</src>
+  </section>
+</awtsmoosMeluketSource>

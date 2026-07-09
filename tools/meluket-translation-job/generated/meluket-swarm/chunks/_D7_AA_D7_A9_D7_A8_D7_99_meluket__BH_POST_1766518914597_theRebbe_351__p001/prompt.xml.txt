@@ -1,0 +1,154 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914597_theRebbe_351" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914597_theRebbe_351__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914597_theRebbe_351" title="מאמר אלה תולדות נח תנש"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914597_theRebbe_351__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ בראשית</src>
+    <src s="2">(התוועדות ב'),</src>
+    <src s="3">ה'תנש"א</src>
+  </section>
+  <section v="1">
+    <src s="0">אלה תולדות נח נח גו'1,</src>
+    <src s="1">ומבאר הצמח צדק במאמרו ד"ה זה2,</src>
+    <src s="2">דמ"ש נח נח שתי פעמים הוא,</src>
+    <src s="3">כי נח הוא בחינת שבת</src>
+    <src s="4">(כדלקמן),</src>
+    <src s="5">ובשבת יש שתי בחינות,</src>
+    <src s="6">כמאמר רז"ל3</src>
+    <src s="7">אלמלי משמרין ישראל שתי שבתות כהלכתן מיד נגאלים,</src>
+    <src s="8">וידוע4,</src>
+    <src s="9">דפירוש שתי שבתות הוא5</src>
+    <src s="10">שתי השבתות שישנם בכל שבת6,</src>
+    <src s="11">מעלי דשבתא ויומא דשבתא.</src>
+    <src s="12">ולכן נאמר נח נח ב' פעמים,</src>
+    <src s="13">כנגד7</src>
+    <src s="14">שתי השבתות שבכל שבת,</src>
+    <src s="15">מעלי דשבתא ויומא דשבתא.</src>
+    <src s="16">ומוסיף בהמאמר2,</src>
+    <src s="17">דפירוש זה שנח הוא שבת הוא ע"פ דאיתא במדרש8</src>
+    <src s="18">דנח נח שתי פעמים הוא נייחא לו ונייחא לעולם,</src>
+    <src s="19">נייחא לאבות ונייחא לבנים,</src>
+    <src s="20">נייחא לעליונים ונייחא לתחתונים,</src>
+    <src s="21">נייחא בעוה"ז ונייחא לעוה"ב.</src>
+    <src s="22">ומאמר זה</src>
+    <src s="23">(דהמדרש)</src>
+    <src s="24">שנח הוא לשון נייחא כולל גם הפירוש שנח הוא בחינת שבת,</src>
+    <src s="25">כי בשבת כתיב9</src>
+    <src s="26">וינח ביום השביעי.</src>
+    <src s="27">ונח נח שתי פעמים הם שבת תתאה ושבת עילאה,</src>
+    <src s="28">שהם6</src>
+    <src s="29">מעלי דשבתא ויומא דשבתא.</src>
+    <src s="30">ויש לומר,</src>
+    <src s="31">דמהטעמים על זה שמבאר עוד פעם</src>
+    <src s="32">(לאחרי שמביא ראי' מהמדרש שנח הוא בחינת שבת)</src>
+    <src s="33">שנח נח הם מעלי דשבתא ויומא דשבתא,</src>
+    <src s="34">הוא,</src>
+    <src s="35">בכדי לרמז,</src>
+    <src s="36">שהשייכות דהפירוש שבהמאמר עם הפירוש שבמדרש הוא בנוגע לנח</src>
+    <src s="37">[דמזה שנח הוא לשון נייחא מוכח שנח הוא בחינת שבת]</src>
+    <src s="38">ובנוגע לנח נח שתי פעמים.</src>
+    <src s="39">דהפירוש</src>
+    <src s="40">(שבהמאמר)</src>
+    <src s="41">שנח נח הם שבת תתאה</src>
+    <src s="42">[מעלי דשבתא]</src>
+    <src s="43">ושבת עילאה</src>
+    <src s="44">[יומא דשבתא]</src>
+    <src s="45">הוא ע"ד פירוש המדרש שנח נח הם נייחא לעליונים ונייחא לתחתונים10.</src>
+    <src s="46">והענין הוא,</src>
+    <src s="47">שמעלי דשבתא</src>
+    <src s="48">(עלית המלכות)</src>
+    <src s="49">בעבודת האדם הוא בירור והעלאת הגוף ונה"ב11,</src>
+    <src s="50">תחתון שבאדם12,</src>
+    <src s="51">ויומא דשבתא</src>
+    <src s="52">(המשכת ז"א)</src>
+    <src s="53">הוא המשכת הגילוי דנפש האלקית11,</src>
+    <src s="54">עליון שבאדם12.</src>
+    <src s="55">ועל ידי שישראל שומרים שתי השבתות,</src>
+    <src s="56">שעי"ז נעשה המנוחה</src>
+    <src s="57">(מהענינים המבלבלים מעבודת ה')</src>
+    <src s="58">הן בהתחתון שבאדם והן בהעליון שבאדם,</src>
+    <src s="59">עי"ז נמשך גילוי המנוחה מלמעלה בכל העולמות,</src>
+    <src s="60">בעליונים ובתחתונים,</src>
+    <src s="61">נייחא לעליונים ונייחא לתחתונים13.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וביאור הענין בפרטיות יותר,</src>
+    <src s="2">יובן בהקדים המבואר בכ"מ14</src>
+    <src s="3">[וגם במאמר הנ"ל דהצ"צ15]</src>
+    <src s="4">דשתי השבתות שישנם בכל שבת שייך לזה שכל עיסקא דשבתא כפול16.</src>
+    <src s="5">וזהו אלמלי משמרין ישראל שתי שבתות כהלכתן מיד נגאלים,</src>
+    <src s="6">כי כפל שייך לגאולה17.</src>
+    <src s="7">ויש לומר,</src>
+    <src s="8">דבדרז"ל כל עיסקא דשבתא כפול נכלל גם שכל אחד משתי השבתות הוא כפול,</src>
+    <src s="9">היינו שכל אחד מהם כלול משניהם.</src>
+    <src s="10">והענין הוא,</src>
+    <src s="11">דאהבה ויראה הם</src>
+    <src s="12">(בכללות)</src>
+    <src s="13">העבודה שמצד הנשמה</src>
+    <src s="14">(יומא דשבתא)</src>
+    <src s="15">וקיום מצוות מעשיות היא העבודה שמצד הגוף</src>
+    <src s="16">(מעלי דשבתא).</src>
+    <src s="17">וענין עיסקא דשבתא כפול הוא,</src>
+    <src s="18">שאהבת ה' שמצד הנשמה</src>
+    <src s="19">(עליון שבאדם)</src>
+    <src s="20">תומשך בנפש הבהמית ובהגוף</src>
+    <src s="21">(תחתון שבאדם),</src>
+    <src s="22">וכמ"ש18</src>
+    <src s="23">ואהבת את הוי' אלקיך בכל לבבך</src>
+    <src s="24">(בשני ביתי"ן),</src>
+    <src s="25">שהאהבה תהי' בחלל הימני מקום משכן נפש האלקית ובחלל השמאלי מקום משכן נפש הבהמית,</src>
+    <src s="26">כמארז"ל19</src>
+    <src s="27">בכל לבבך בשני יצריך20.</src>
+    <src s="28">ויתירה מזו – בכל נפשך,</src>
+    <src s="29">שהאהבה מתפשטת בכל הכחות והאברים</src>
+    <src s="30">(וי"ל שהוא כמו הרץ21</src>
+    <src s="31">לדבר מצוה)22,</src>
+    <src s="32">ויתירה מזו – בכל מאדך,</src>
+    <src s="33">שאהבתו את הוי' נמשכת וניכרת גם בחלקו בעולם</src>
+    <src s="34">(בכל מאדך בכל ממונך23),</src>
+    <src s="35">וסיום הפרשה הוא24</src>
+    <src s="36">וכתבתם על מזוזות ביתך ובשעריך,</src>
+    <src s="37">שע"י המזוזה שקובע בפתח ביתו ניכר25</src>
+    <src s="38">שה' אחד הוא המושל והוא השומר את הבית ואת כל אשר בתוכו26,</src>
+    <src s="39">ושומר את האדם גם בצאתו מביתו,</src>
+    <src s="40">ה' ישמר צאתך ובואך מעתה ועד עולם27.</src>
+    <src s="41">ועד"ז הוא לאידך,</src>
+    <src s="42">שקיום המצוות מעשיות</src>
+    <src s="43">(עבודה שמצד הגוף)</src>
+    <src s="44">צ"ל באהבה ויראה</src>
+    <src s="45">(עבודה שמצד הנשמה).</src>
+  </section>
+</awtsmoosMeluketSource>

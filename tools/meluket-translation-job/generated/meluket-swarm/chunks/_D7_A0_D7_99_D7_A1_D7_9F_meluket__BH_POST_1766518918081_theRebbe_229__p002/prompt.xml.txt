@@ -1,0 +1,98 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918081_theRebbe_229" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918081_theRebbe_229__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918081_theRebbe_229" title="מאמר והחרים ה' תשמ"ט" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918081_theRebbe_229__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ואין הדבר תלוי אלא במעשינו ועבודתינו10,</src>
+    <src s="2">דעל ידי עשיית מצוה כדבעי,</src>
+    <src s="3">נעשה גאולה,</src>
+    <src s="4">גאולה הפרטית של מקיים המצוה,</src>
+    <src s="5">שהוא נמצא במצב של חירות אמיתית,</src>
+    <src s="6">כמובן מהמבואר באגה"ק11</src>
+    <src s="7">בפירוש הכתוב12</src>
+    <src s="8">פדה בשלום נפשי.</src>
+  </section>
+  <section v="4">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">שהגאולה הפרטית</src>
+    <src s="2">(פדה בשלום נפשי)</src>
+    <src s="3">שנעשית ע"י קיום מצוה כדבעי היא לא רק בעת קיום המצוה אלא שזה נמשך גם אח"כ.</src>
+    <src s="4">וע"ד המבואר בתניא13</src>
+    <src s="5">בענין היחוד שנעשה ע"י קיום מצוה,</src>
+    <src s="6">שיחוד זה למעלה הוא נצחי לעולם ועד,</src>
+    <src s="7">שזה</src>
+    <src s="8">(היחוד למעלה)</src>
+    <src s="9">פועל גם על האדם למטה,</src>
+    <src s="10">עד"ז הוא גם בהענין דפדה בשלום נפשי שנעשה ע"י קיום מצוה,</src>
+    <src s="11">שהוא ענין נצחי למעלה וגם למטה</src>
+    <src s="12">[וע"ד מרז"ל14</src>
+    <src s="13">כל העוסק בתורה משים שלום בפמליא של מעלה ובפמליא של מטה],</src>
+    <src s="14">שהגאולה הפרטית שע"י קיום המצוה היא נמשכת ופועלת במשך כל ימי חייו,</src>
+    <src s="15">בחיי היום יומיים.</src>
+    <src s="16">ומזה באים גם לגאולה הכללית,</src>
+    <src s="17">והיתה לה' המלוכה15</src>
+    <src s="18">בכל המציאות כולה,</src>
+    <src s="19">הן למעלה והן למטה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">והנה נוסף על זה שכל הענינים דתומ"צ</src>
+    <src s="2">(מעשינו ועבודתינו)</src>
+    <src s="3">מקרבים ומביאים גאולה העתידה,</src>
+    <src s="4">יש סגולה מיוחדת בענינים אלה השייכים בגלוי יותר למשיח.</src>
+    <src s="5">ומהם,</src>
+    <src s="6">אכילת סעודת משיח באחרון של פסח ושתיית ד' כוסות בסעודה זו.</src>
+    <src s="7">דכמו שד' הכוסות שבלילות הראשונים דפסח הם כנגד ד' לשונות של גאולה16</src>
+    <src s="8">(הגאולה דיציאת מצרים),</src>
+    <src s="9">עד"ז הוא גם בד' הכוסות דסעודת משיח באחרון של פסח שהם שייכים לגאולה העתידה.</src>
+    <src s="10">ויש לומר הביאור בזה ע"פ הביאורים בהשייכות דגאולה העתידה לד' כוסות,</src>
+    <src s="11">לד' לשונות של הגאולה דלעת"ל17,</src>
+    <src s="12">והגאולה העתידה הרי תהי' מארבע כנפות הארץ18.</src>
+    <src s="13">ואולי יש להוסיף,</src>
+    <src s="14">דזה שבסעודת משיח הוא אותו מספר הכוסות שבלילות הראשונים דפסח הוא לרמז שבכח כ"א מישראל לבוא מיד מהגאולה דיציאת מצרים</src>
+    <src s="15">(ד' הכוסות דלילות הראשונים דפסח)</src>
+    <src s="16">לגאולה העתידה</src>
+    <src s="17">(ד' הכוסות דאחרון של פסח),</src>
+    <src s="18">גאולה בפשטות19</src>
+    <src s="19">למטה מעשרה טפחים.</src>
+    <src s="20">ובפרט שמעשינו ועבודתינו עכשיו הם כננס על גבי ענק,</src>
+    <src s="21">כיון שהם באים לאחרי ובהמשך למעשי ועבודת רבותינו נשיאינו,</src>
+    <src s="22">אדמו"ר הזקן אדמו"ר האמצעי אדמו"ר הצ"צ אדמו"ר המהר"ש אדמו"ר נ"ע וכ"ק מו"ח אדמו"ר,</src>
+    <src s="23">הרי בודאי ובודאי שבכח של מעשינו ועבודתינו,</src>
+    <src s="24">כולל אכילת סעודת משיח ושתיית ד' כוסות באחרון של פסח,</src>
+    <src s="25">להביא את הגאולה מיד,</src>
+    <src s="26">כהרף עין ממש20.</src>
+  </section>
+</awtsmoosMeluketSource>

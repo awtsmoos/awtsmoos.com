@@ -1,0 +1,448 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 82,
+    "returned": 82,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919633_theRebbe_834\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919633_theRebbe_834__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>All future revelations depend on our current service, and even the ultimate nullification of death is achieved through hatred of evil, which can be attained by all Jews, including intermediates, during special moments of devotion.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, it is known that all the revelations of the Future Era depend on our deeds and our service now.</t>\n    <t s=\"2\">From this it is understood,</t>\n    <t s=\"3\">that this [fact] that in the Future Era there will be a revelation that gives no place for the nurture of the external forces</t>\n    <t s=\"4\">(“He will swallow up death forever”)</t>\n    <t s=\"5\">is,</t>\n    <t s=\"6\">as explained in the maamar,</t>\n    <t s=\"7\">that through Israel hating evil with ultimate hatred,</t>\n    <t s=\"8\">thereby is caused above “and Esav I hated”</t>\n    <t s=\"9\">with ultimate hatred,</t>\n    <t s=\"10\">and from this hatred will come “and the spirit of impurity I will remove from the earth,”</t>\n    <t s=\"11\">“He will swallow up death forever.”</t>\n    <t s=\"12\">Now, since the Holy One, blessed be He, saw that the righteous are few</t>\n    <t s=\"13\">(and particularly that hatred of evil to the ultimate degree is the level of a complete tzaddik),</t>\n    <t s=\"14\">and even regarding the level of the Beinoni, the well-known saying</t>\n    <t s=\"15\">“If only [one were] a Beinoni” [applies],</t>\n    <t s=\"16\">the matter that “He will swallow up death forever” will be for all of Israel,</t>\n    <t s=\"17\">is understood from this,</t>\n    <t s=\"18\">that this service</t>\n    <t s=\"19\">(to hate evil with ultimate hatred)</t>\n    <t s=\"20\">can also be [found] in Beinonim,</t>\n    <t s=\"21\">and even in those below the level of Beinoni.</t>\n    <t s=\"22\">For in each and every Jew there are special times—during prayer,</t>\n    <t s=\"23\">or during engagement in Torah,</t>\n    <t s=\"24\">or at a time when he performs a mitzvah regarding which he is particularly scrupulous,</t>\n    <t s=\"25\">or even at a time when he engages in mundane matters for the sake of Heaven,</t>\n    <t s=\"26\">and all the more so</t>\n    <t s=\"27\">in the manner of “in all your ways know Him”—</t>\n    <t s=\"28\">that at that time he surrenders his entire existence</t>\n    <t s=\"29\">(he gives himself over entirely)</t>\n    <t s=\"30\">to G‑dliness,</t>\n    <t s=\"31\">and thereby he is not connected to the “filthy garments,”</t>\n    <t s=\"32\">like a complete tzaddik.</t>\n    <t s=\"33\">And since this unification above is eternal forever and ever,</t>\n    <t s=\"34\">therefore through this is drawn the revelation that gives no place at all for the nurture of the external forces,</t>\n    <t s=\"35\">“He will swallow up death forever.”</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>Death exists as long as good and evil are mixed, but in the Future Era, after the spirit of impurity is removed, there will be eternal life for Israel, with the body elevated above the soul.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this is “He will swallow up death forever”—</t>\n    <t s=\"2\">for as long as the clarifications have not yet been completed and good and evil are intermingled with each other</t>\n    <t s=\"3\">(including even at the time when the Holy Temple stood,</t>\n    <t s=\"4\">and even in the days of Shlomo, when the moon was in its fullness),</t>\n    <t s=\"5\">there is the matter of death,</t>\n    <t s=\"6\">in order that evil should not have endurance,</t>\n    <t s=\"7\">as above.</t>\n    <t s=\"8\">And this is also the reason that even the righteous will return to dust one hour before the Resurrection of the Dead</t>\n    <t s=\"9\">[for although worms have no dominion over them,</t>\n    <t s=\"10\">and until that time</t>\n    <t s=\"11\">(before the Resurrection)</t>\n    <t s=\"12\">their bodies had endured for hundreds and thousands of years,</t>\n    <t s=\"13\">nevertheless,</t>\n    <t s=\"14\">before the Resurrection they will return to their dust],</t>\n    <t s=\"15\">because since through the sin of the Tree of Knowledge a mixture of evil was made throughout the world,</t>\n    <t s=\"16\">therefore,</t>\n    <t s=\"17\">even the bodies of the righteous will require refinement.</t>\n    <t s=\"18\">However, in the Future Era</t>\n    <t s=\"19\">(after the Resurrection),</t>\n    <t s=\"20\">when there will be “and the spirit of impurity I will remove from the earth,”</t>\n    <t s=\"21\">there will be no death then, and even the body will live with eternal life.</t>\n    <t s=\"22\">For even according to the opinion</t>\n    <t s=\"23\">that what is written</t>\n    <t s=\"24\">“for the youth who is a hundred years old shall die” is literal,</t>\n    <t s=\"25\">it is only regarding the nations of the world,</t>\n    <t s=\"26\">but regarding Israel, “He will swallow up death forever.”</t>\n    <t s=\"27\">And moreover,</t>\n    <t s=\"28\">even the death that will occur</t>\n    <t s=\"29\">(according to this opinion)</t>\n    <t s=\"30\">among the nations of the world is not actual death,</t>\n    <t s=\"31\">but rather a fall,</t>\n    <t s=\"32\">for one who falls from his level is called “dead.”</t>\n    <t s=\"33\">And as explained in the maamar,</t>\n    <t s=\"34\">that through the sparks of holiness that were absorbed within them being clarified from them and ascending upward,</t>\n    <t s=\"35\">the evil within them</t>\n    <t s=\"36\">(i.e., their physical body, which is called “evil” relative to the sparks of holiness within it)</t>\n    <t s=\"37\">will fall downward.</t>\n    <t s=\"38\">This is regarding the nations of the world,</t>\n    <t s=\"39\">but regarding Israel, even the body will be elevated,</t>\n    <t s=\"40\">for even the body will be nourished from spirituality like the soul,</t>\n    <t s=\"41\">and moreover, then the body will be above the soul,</t>\n    <t s=\"42\">“a female will surround a man.”</t>\n    <t s=\"43\">And all this will be actual and revealed below ten handbreadths,</t>\n    <t s=\"44\">in the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"45\">very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919633_theRebbe_834",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919633_theRebbe_834__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "All future revelations depend on our current service, and even the ultimate nullification of death is achieved through hatred of evil, which can be attained by all Jews, including intermediates, during special moments of devotion.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, it is known that all the revelations of the Future Era depend on our deeds and our service now."
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "From this it is understood,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "that this [fact] that in the Future Era there will be a revelation that gives no place for the nurture of the external forces"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "(“He will swallow up death forever”)"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "is,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "as explained in the maamar,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that through Israel hating evil with ultimate hatred,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "thereby is caused above “and Esav I hated”"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "with ultimate hatred,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "and from this hatred will come “and the spirit of impurity I will remove from the earth,”"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "“He will swallow up death forever.”"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "Now, since the Holy One, blessed be He, saw that the righteous are few"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "(and particularly that hatred of evil to the ultimate degree is the level of a complete tzaddik),"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "and even regarding the level of the Beinoni, the well-known saying"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "“If only [one were] a Beinoni” [applies],"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "the matter that “He will swallow up death forever” will be for all of Israel,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "is understood from this,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "that this service"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "(to hate evil with ultimate hatred)"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "can also be [found] in Beinonim,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "and even in those below the level of Beinoni."
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "For in each and every Jew there are special times—during prayer,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "or during engagement in Torah,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "or at a time when he performs a mitzvah regarding which he is particularly scrupulous,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "or even at a time when he engages in mundane matters for the sake of Heaven,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "and all the more so"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "in the manner of “in all your ways know Him”—"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "that at that time he surrenders his entire existence"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "(he gives himself over entirely)"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "to G‑dliness,"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "and thereby he is not connected to the “filthy garments,”"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "like a complete tzaddik."
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "And since this unification above is eternal forever and ever,"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "therefore through this is drawn the revelation that gives no place at all for the nurture of the external forces,"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "“He will swallow up death forever.”"
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "Death exists as long as good and evil are mixed, but in the Future Era, after the spirit of impurity is removed, there will be eternal life for Israel, with the body elevated above the soul.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this is “He will swallow up death forever”—"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "for as long as the clarifications have not yet been completed and good and evil are intermingled with each other"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(including even at the time when the Holy Temple stood,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "and even in the days of Shlomo, when the moon was in its fullness),"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "there is the matter of death,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "in order that evil should not have endurance,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "as above."
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "And this is also the reason that even the righteous will return to dust one hour before the Resurrection of the Dead"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "[for although worms have no dominion over them,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "and until that time"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(before the Resurrection)"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "their bodies had endured for hundreds and thousands of years,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "before the Resurrection they will return to their dust],"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "because since through the sin of the Tree of Knowledge a mixture of evil was made throughout the world,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "therefore,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "even the bodies of the righteous will require refinement."
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "However, in the Future Era"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(after the Resurrection),"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "when there will be “and the spirit of impurity I will remove from the earth,”"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "there will be no death then, and even the body will live with eternal life."
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "For even according to the opinion"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "that what is written"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "“for the youth who is a hundred years old shall die” is literal,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "it is only regarding the nations of the world,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "but regarding Israel, “He will swallow up death forever.”"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "even the death that will occur"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "(according to this opinion)"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "among the nations of the world is not actual death,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "but rather a fall,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "for one who falls from his level is called “dead.”"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "And as explained in the maamar,"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "that through the sparks of holiness that were absorbed within them being clarified from them and ascending upward,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "the evil within them"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "(i.e., their physical body, which is called “evil” relative to the sparks of holiness within it)"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "will fall downward."
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "This is regarding the nations of the world,"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "but regarding Israel, even the body will be elevated,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "for even the body will be nourished from spirituality like the soul,"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "and moreover, then the body will be above the soul,"
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "“a female will surround a man.”"
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "And all this will be actual and revealed below ten handbreadths,"
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "in the true and complete redemption through our righteous Moshiach,"
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

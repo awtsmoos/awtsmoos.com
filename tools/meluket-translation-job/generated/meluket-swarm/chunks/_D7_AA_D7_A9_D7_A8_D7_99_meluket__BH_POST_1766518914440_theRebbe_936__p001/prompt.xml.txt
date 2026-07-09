@@ -1,0 +1,91 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914440_theRebbe_936" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914440_theRebbe_936__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914440_theRebbe_936" title="מאמר תורה צוה תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914440_theRebbe_936__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום שמחת תורה ה'תשכ"ג</src>
+  </section>
+  <section v="1">
+    <src s="0">תורה צוה לנו משה מורשה קהלת יעקב1,</src>
+    <src s="1">שהתורה היא ירושה2</src>
+    <src s="2">לכאו"א3</src>
+    <src s="3">שמקהלת יעקב.</src>
+    <src s="4">וידועים הדיוקים בזה4,</src>
+    <src s="5">הרי אמרו רז"ל5</src>
+    <src s="6">התקן עצמך ללמוד תורה שאינה ירושה לך,</src>
+    <src s="7">וכאן נאמר שהתורה היא ירושה.</src>
+    <src s="8">גם צריך להבין,</src>
+    <src s="9">דפירוש ירושה בפשטות הוא שיורש מאבותיו</src>
+    <src s="10">(היינו שמצד עצמו אינו שייך להדבר אלא שירש זה מאבותיו),</src>
+    <src s="11">והרי כל ישראל היו</src>
+    <src s="12">(נשמותיהם)</src>
+    <src s="13">במעמד הר סיני6</src>
+    <src s="14">וקיבלו בעצמם את התורה.</src>
+    <src s="15">גם צריך להבין,</src>
+    <src s="16">דבפסוק שלאח"ז7</src>
+    <src s="17">נאמר ויהי בישורון מלך בהתאסף ראשי עם יחד שבטי ישראל,</src>
+    <src s="18">מהי השייכות דויהי בישורון מלך גו' למורשה קהלת יעקב.</src>
+    <src s="19">גם,</src>
+    <src s="20">דבפסוק זה נקראים ישראל בשם יעקב</src>
+    <src s="21">(מורשה קהלת יעקב),</src>
+    <src s="22">ובהפסוק שלאח"ז בתחלתו נקראים בשם ישורון</src>
+    <src s="23">(ויהי בישורון מלך)</src>
+    <src s="24">ובסיום הפסוק נקראים בשם ישראל</src>
+    <src s="25">(יחד שבטי ישראל).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ונקודת הביאור בזה</src>
+    <src s="2">(כמובן מהדרושים8),</src>
+    <src s="3">דבתורה שני ענינים.</src>
+    <src s="4">התורה כמו שהיא מצד עצמה,</src>
+    <src s="5">שהיא חכמתו ורצונו של הקב"ה,</src>
+    <src s="6">וכמו שהתורה ירדה למטה,</src>
+    <src s="7">ומבררת ומזככת את העולם,</src>
+    <src s="8">מתחיל מהבירור והזיכוך שבאדם הלומד,</src>
+    <src s="9">שהשכל דנפש הבהמית מתברר ומזדכך ונכלל בקדושה9.</src>
+    <src s="10">וזהו10</src>
+    <src s="11">שאמרו רז"ל11</src>
+    <src s="12">לעולם יעסוק אדם בתורה ומצוות שלא לשמה שמתוך שלא לשמה בא לשמה,</src>
+    <src s="13">דבתחילת העבודה,</src>
+    <src s="14">עסק התורה דהאדם הוא בכדי לברר ולזכך את נפשו,</src>
+    <src s="15">כמאמר רז"ל12</src>
+    <src s="16">מעיקרא כי עביד איניש אדעתא דנפשי' קא עביד,</src>
+    <src s="17">שעסק התורה שלו הוא בכדי לזכך את נפשו,</src>
+    <src s="18">ועי"ז בא אח"כ לעסק התורה לשמה,</src>
+    <src s="19">לשם התורה עצמה</src>
+    <src s="20">(שלמעלה מענין הבירורים).</src>
+  </section>
+</awtsmoosMeluketSource>

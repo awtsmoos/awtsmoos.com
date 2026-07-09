@@ -1,0 +1,97 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918353_theRebbe_128" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918353_theRebbe_128" title="מאמר גן נעול תשמ"ז" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p003">
+  <section v="6">
+    <src s="0">ויש לומר,</src>
+    <src s="1">שזהו גם מהטעמים על זה שקודם חג השבועות זמן מתן תורתינו ישנם כו"כ מצוות מיוחדות,</src>
+    <src s="2">המצוות דחג הפסח ומצות ספירת העומר.</src>
+    <src s="3">דכמו שבכל יום,</src>
+    <src s="4">כשהאדם נעשה ברי' חדשה26,</src>
+    <src s="5">(עיקר)</src>
+    <src s="6">לימוד התורה הוא לאחרי קיום כו"כ מצוות</src>
+    <src s="7">(ק"ש,</src>
+    <src s="8">תפילין,</src>
+    <src s="9">תפלה וכו')27,</src>
+    <src s="10">עד"ז הוא בזמני השנה,</src>
+    <src s="11">שבחג הפסח בכל שנה ושנה הוא לידת ישראל28,</src>
+    <src s="12">שלאחרי קיום המצוות המיוחדות דזמנים אלו</src>
+    <src s="13">(מצוות דחג הפסח ודימי ספירת העומר)</src>
+    <src s="14">הוא זמן מתן תורתינו.</src>
+  </section>
+  <section v="7">
+    <src s="0">ד)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">דכמו שקידושי איש ואשה כפשוטם הוא ע"י שהאיש נותן לה דבר</src>
+    <src s="3">(פרוטה או שוה פרוטה)</src>
+    <src s="4">שבו היא יכולה לקנות חיי נפשה,</src>
+    <src s="5">עד"ז הוא בנוגע לזה שהקב"ה קדשנו במצותיו,</src>
+    <src s="6">שע"י קיום המצוות נמשך חיות להאדם שמקיים המצוות,</src>
+    <src s="7">כמ"ש29</src>
+    <src s="8">אשר יעשה אותם האדם וחי בהם.</src>
+    <src s="9">והגם שהמצוות הם רצון העליון,</src>
+    <src s="10">דרצון הוא בחינת סובב שמצד עצמו הוא קדוש ומובדל מהעולמות,</src>
+    <src s="11">מ"מ,</src>
+    <src s="12">נמשך מאור זה חיות להאדם שמקיים המצוות,</src>
+    <src s="13">חיות פנימי30.</src>
+    <src s="14">וכמובן גם מזה שהאור שנמשך ע"י המצוות פועל</src>
+    <src s="15">(לא רק במחשבה דיבור ומעשה שלו,</src>
+    <src s="16">אלא)</src>
+    <src s="17">גם בהמדות ועד בהרצון ותענוג שבו,</src>
+    <src s="18">וכמובא לעיל</src>
+    <src s="19">(סעיף א-ב)</src>
+    <src s="20">מהמאמר,</src>
+    <src s="21">שע"י המצוות נעשה מובדל מהתאוות ומכל מדות הרעות,</src>
+    <src s="22">ושענין אוגדין פתחיהן</src>
+    <src s="23">(שנעשה ע"י המצוות)</src>
+    <src s="24">הוא שאין לו תענוג אלא באלקות.</src>
+    <src s="25">אלא שכל זה הוא רק בחיצוניות הלב ולא נקלט עדיין בתוך תוך עומק לבבו.</src>
+    <src s="26">ולכן נק' ארוסה31.</src>
+  </section>
+  <section v="8">
+    <src s="0">ועפ"ז יש לבאר פירוש התרגום שגן נעול קאי על גן עדן שא"א ליכנס בו כ"א נפשות הצדיקים,</src>
+    <src s="1">כי הענין דאוגדין פתחיהן באופן הנ"ל שגם התענוג שלו הוא רק באלקות,</src>
+    <src s="2">הוא ע"י המשכת האור מלמעלה</src>
+    <src s="3">(ע"י קיום המצוות),</src>
+    <src s="4">ולכן המשל על זה הוא מגן עדן,</src>
+    <src s="5">תענוג אלקי</src>
+    <src s="6">(שמלמעלה)32.</src>
+    <src s="7">ויש לומר,</src>
+    <src s="8">דזה שמביא בהמאמר</src>
+    <src s="9">(בתחלתו)</src>
+    <src s="10">פירוש התרגום,</src>
+    <src s="11">הוא,</src>
+    <src s="12">כי פירוש זה הוא היסוד להביאור שבהמאמר שאוגדין פתחיהן הו"ע קדשנו במצותיך.</src>
+  </section>
+</awtsmoosMeluketSource>

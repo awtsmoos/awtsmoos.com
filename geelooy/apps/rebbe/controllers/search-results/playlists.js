@@ -8,7 +8,7 @@ import { loadTracks } from './loader.js';
 /**
  * B"H
  * Playlist bridge. Search events expand into playlist sparks, while playlist
- * export/cache/remove reuse the same download and cache chambers.
+ * ZIP/cache/remove reuse the same download and cache chambers.
  * @param {object} item Event item.
  * @param {object} app Optional app callbacks.
  * @returns {Promise<void>}
@@ -21,7 +21,7 @@ export async function addEventToPlaylist(item, app = {}) {
 /** @param {object} playlist Playlist record. @returns {Promise<void>} */
 export async function downloadPlaylist(playlist) {
   const rows = await playlistExportRows(playlist, loadTracks);
-  return downloadRowsAsZip(rows, playlistZipName(playlist), `Exporting playlist: ${playlist.title}`);
+  return downloadRowsAsZip(rows, playlistZipName(playlist), `Zipping playlist newest-first: ${playlist.title}`);
 }
 
 /** @param {object} playlist Playlist record. @returns {Promise<void>} */

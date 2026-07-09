@@ -1,0 +1,354 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 62,
+    "returned": 62,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518920021_theRebbe_64\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920021_theRebbe_64__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains the order of the two paragraphs of Shema, where the first paragraph prioritizes study leading to action, and the second paragraph, after study is already established, prioritizes action.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this is also the explanation</t>\n    <t s=\"2\">(in the words of the Admor HaZaken)</t>\n    <t s=\"3\">regarding the order of the two paragraphs of Shema and the differences between them.</t>\n    <t s=\"4\">For our Sages, of blessed memory, said78</t>\n    <t s=\"5\">(Why)</t>\n    <t s=\"6\">does the paragraph of \"Shema\" precede the paragraph of \"Vehayah Im Shamoa\"?</t>\n    <t s=\"7\">And its precedence in the order of the verses is because this is the order of divine service,</t>\n    <t s=\"8\">and since the order of divine service is that first there must be the study of Torah,</t>\n    <t s=\"9\">and afterwards study leads to action,</t>\n    <t s=\"10\">therefore in the first paragraph the order is \"Veshinantam\" and afterwards \"Ukshartem\",</t>\n    <t s=\"11\">that through study</t>\n    <t s=\"12\">(\"Veshinantam\")</t>\n    <t s=\"13\">one knows how to fulfill the commandments</t>\n    <t s=\"14\">(\"Ukshartem\")</t>\n    <t s=\"15\">and fulfills them in their completeness</t>\n    <t s=\"16\">(and this serves as preparation for the fulfillment of the commandments in the future to come, as the commandments of Your will79).</t>\n    <t s=\"17\">And this is also the precise meaning of the expression \"Veshinantam\",</t>\n    <t s=\"18\">that they should be sharp in your mouth, so that if a person asks you a matter of halachah, etc.,</t>\n    <t s=\"19\">because,</t>\n    <t s=\"20\">in order for study to lead to action,</t>\n    <t s=\"21\">this is only when the study is in a manner of raising the discussion to reach the halachah80.</t>\n    <t s=\"22\">However, after the paragraph of \"Shema\" has preceded,</t>\n    <t s=\"23\">that there already exists the study</t>\n    <t s=\"24\">(\"Veshinantam\")</t>\n    <t s=\"25\">and the action that comes through it</t>\n    <t s=\"26\">(\"Ukshartem\"),</t>\n    <t s=\"27\">then comes the second paragraph,</t>\n    <t s=\"28\">in which the order is first \"Ukshartem\" etc. and afterwards the study of Torah.</t>\n    <t s=\"29\">And since the study of raising the discussion to reach the halachah already exists beforehand</t>\n    <t s=\"30\">(this is what is stated in the first paragraph, \"Veshinantam\" etc. and \"Ukshartem\"),</t>\n    <t s=\"31\">therefore it is stated here \"Ulemadtem\" simply,</t>\n    <t s=\"32\">which includes all modes of study</t>\n    <t s=\"33\">(even the mode of \"expound and receive reward\"81).</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that in the second paragraph, the order of \"Ukshartem\" followed by \"Ulemadtem\" alludes to the great action of the future to come.</sectionSummaryBrief>\n    <t s=\"0\">And additionally regarding this matter72,</t>\n    <t s=\"1\">for it is known that in the future to come there will be a great action.</t>\n    <t s=\"2\">And therefore the order of \"Ukshartem\" and afterwards \"Ulemadtem\"</t>\n    <t s=\"3\">(great action)</t>\n    <t s=\"4\">is stated specifically in the second paragraph,</t>\n    <t s=\"5\">because,</t>\n    <t s=\"6\">among the distinctions between the first paragraph and the second paragraph,</t>\n    <t s=\"7\">the first paragraph is in the language of command</t>\n    <t s=\"8\">(in the past and present),</t>\n    <t s=\"9\">and the second paragraph is in the language of command and also in the language of narrative</t>\n    <t s=\"10\">(in the future),</t>\n    <t s=\"11\">and the narrative is that \"you will turn away and serve\" etc.82,</t>\n    <t s=\"12\">and afterwards will be the matter of repentance,</t>\n    <t s=\"13\">which is what is stated \"and you shall place these words of Mine\" etc.</t>\n    <t s=\"14\">And therefore it is stated afterwards \"Ukshartem\" etc. and \"Ulemadtem\",</t>\n    <t s=\"15\">since in the future to come there will be a great action.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section explains that the fifteenth of Av is the culmination of the ascent after the descent of Tisha B'Av, foreshadowing the great revelation of the future to come.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And this is the entirety of the matter of \"this day causes\"83</t>\n    <t s=\"2\">— the fifteenth of Av — which is the perfection of the ascent after the descent of Tisha B'Av,</t>\n    <t s=\"3\">as it was drawn in revelation during the time when the Holy Temple stood,</t>\n    <t s=\"4\">and even to the extent that even during the time of exile there are several customs on the fifteenth of Av, because during the time of the Holy Temple it was a great festival for many reasons stated about this in the Gemara</t>\n    <t s=\"5\">(as brought in the supplement to the Shulchan Aruch of our master, the Alter Rebbe84),</t>\n    <t s=\"6\">and in Pri Etz Chayimd</t>\n    <t s=\"7\">(cited in the discourses of our Nesi'im, the discourse \"Nachamu\"11)</t>\n    <t s=\"8\">it enumerates seven good qualities of that day, which correspond to the Sefirah of Yesod, which is seven.</t>\n    <t s=\"9\">And through all this, the fifteenth of Av attains its superiority and level as it will be in the future to come,</t>\n    <t s=\"10\">when the greatness of the ascent that was in the descent of exile will be revealed,</t>\n    <t s=\"11\">and then there will also be a great action.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518920021_theRebbe_64",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920021_theRebbe_64__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains the order of the two paragraphs of Shema, where the first paragraph prioritizes study leading to action, and the second paragraph, after study is already established, prioritizes action.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And this is also the explanation"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "(in the words of the Admor HaZaken)"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "regarding the order of the two paragraphs of Shema and the differences between them."
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "For our Sages, of blessed memory, said78"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "(Why)"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "does the paragraph of \"Shema\" precede the paragraph of \"Vehayah Im Shamoa\"?"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "And its precedence in the order of the verses is because this is the order of divine service,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "and since the order of divine service is that first there must be the study of Torah,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "and afterwards study leads to action,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "therefore in the first paragraph the order is \"Veshinantam\" and afterwards \"Ukshartem\","
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "that through study"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "(\"Veshinantam\")"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "one knows how to fulfill the commandments"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "(\"Ukshartem\")"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "and fulfills them in their completeness"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "(and this serves as preparation for the fulfillment of the commandments in the future to come, as the commandments of Your will79)."
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "And this is also the precise meaning of the expression \"Veshinantam\","
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "that they should be sharp in your mouth, so that if a person asks you a matter of halachah, etc.,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "because,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "in order for study to lead to action,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "this is only when the study is in a manner of raising the discussion to reach the halachah80."
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "However, after the paragraph of \"Shema\" has preceded,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "that there already exists the study"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "(\"Veshinantam\")"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "and the action that comes through it"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "(\"Ukshartem\"),"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "then comes the second paragraph,"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "in which the order is first \"Ukshartem\" etc. and afterwards the study of Torah."
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "And since the study of raising the discussion to reach the halachah already exists beforehand"
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "(this is what is stated in the first paragraph, \"Veshinantam\" etc. and \"Ukshartem\"),"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "therefore it is stated here \"Ulemadtem\" simply,"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "which includes all modes of study"
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "(even the mode of \"expound and receive reward\"81)."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that in the second paragraph, the order of \"Ukshartem\" followed by \"Ulemadtem\" alludes to the great action of the future to come.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And additionally regarding this matter72,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "for it is known that in the future to come there will be a great action."
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "And therefore the order of \"Ukshartem\" and afterwards \"Ulemadtem\""
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "(great action)"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "is stated specifically in the second paragraph,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "because,"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "among the distinctions between the first paragraph and the second paragraph,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "the first paragraph is in the language of command"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "(in the past and present),"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "and the second paragraph is in the language of command and also in the language of narrative"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "(in the future),"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "and the narrative is that \"you will turn away and serve\" etc.82,"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "and afterwards will be the matter of repentance,"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "which is what is stated \"and you shall place these words of Mine\" etc."
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "And therefore it is stated afterwards \"Ukshartem\" etc. and \"Ulemadtem\","
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "since in the future to come there will be a great action."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section explains that the fifteenth of Av is the culmination of the ascent after the descent of Tisha B'Av, foreshadowing the great revelation of the future to come.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And this is the entirety of the matter of \"this day causes\"83"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "— the fifteenth of Av — which is the perfection of the ascent after the descent of Tisha B'Av,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "as it was drawn in revelation during the time when the Holy Temple stood,"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "and even to the extent that even during the time of exile there are several customs on the fifteenth of Av, because during the time of the Holy Temple it was a great festival for many reasons stated about this in the Gemara"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "(as brought in the supplement to the Shulchan Aruch of our master, the Alter Rebbe84),"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "and in Pri Etz Chayimd"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "(cited in the discourses of our Nesi'im, the discourse \"Nachamu\"11)"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "it enumerates seven good qualities of that day, which correspond to the Sefirah of Yesod, which is seven."
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "And through all this, the fifteenth of Av attains its superiority and level as it will be in the future to come,"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "when the greatness of the ascent that was in the descent of exile will be revealed,"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "and then there will also be a great action."
+          }
+        ]
+      }
+    ]
+  }
+}

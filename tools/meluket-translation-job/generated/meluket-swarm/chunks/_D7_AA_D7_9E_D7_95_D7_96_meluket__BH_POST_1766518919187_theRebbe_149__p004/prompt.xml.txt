@@ -1,0 +1,158 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919187_theRebbe_149" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919187_theRebbe_149" title="מאמר וידבר זאת חוקת תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p004">
+  <section v="9">
+    <src s="0">וממשיך בהמאמר37,</src>
+    <src s="1">דענין העשיר הוא לא רק שאינו חסר שום דבר אלא שהוא מושפע בריבוי השפע.</src>
+    <src s="2">וכמאמר רז"ל38</src>
+    <src s="3">עה"פ39</src>
+    <src s="4">די מחסורו אשר יחסר לו,</src>
+    <src s="5">די מחסורו ואי אתה מצווה לעשרו.</src>
+    <src s="6">וכיון שבדי מחסורו אשר יחסר לו נכלל גם החסרון דסוס לרכוב עליו ועבד לרוץ לפניו,</src>
+    <src s="7">ואעפ"כ אמרו ואי אתה מצווה לעשרו,</src>
+    <src s="8">הרי מובן,</src>
+    <src s="9">שגם כשיש לו כל צרכיו</src>
+    <src s="10">(כולל גם סוס לרכוב עליו ועבד לרוץ לפניו),</src>
+    <src s="11">אינו</src>
+    <src s="12">(עדיין)</src>
+    <src s="13">עשיר,</src>
+    <src s="14">כי ענין העשיר הוא</src>
+    <src s="15">(דלא רק שיש לו כל צרכיו,</src>
+    <src s="16">אלא)</src>
+    <src s="17">שהוא מושפע בריבוי השפע.</src>
+    <src s="18">וע"פ מ"ש לעיל דזה שמשה הי' עשיר בגשמיות הוא לפי שהי' עשיר ברוחניות,</src>
+    <src s="19">מובן,</src>
+    <src s="20">דנוסף לזה שבמשה לא הי' שום חסרון ח"ו</src>
+    <src s="21">(גם לא חסרון שבדוגמת סוס לרכוב עליו וכו'),</src>
+    <src s="22">כי האירו בו בגילוי כל הגילויים השייכים לעולמות,</src>
+    <src s="23">הנכללים בשני הענינים דממלא כל עלמין וסובב כל עלמין,</src>
+    <src s="24">שהגילוי דענינים אלה הוא מילוי החסרון</src>
+    <src s="25">[דאור הממלא,</src>
+    <src s="26">כיון שהוא מקור לעולמות,</src>
+    <src s="27">לכן,</src>
+    <src s="28">כשאור זה אינו בגילוי בעולם,</src>
+    <src s="29">העולם הוא חסר ממש.</src>
+    <src s="30">ואור הסובב,</src>
+    <src s="31">שהוא למעלה ממקור לעולמות ורק שייך לעולמות,</src>
+    <src s="32">לכן,</src>
+    <src s="33">כשאינו מתגלה בעולם אור זה,</src>
+    <src s="34">החסרון דעולם הוא דוגמת החסרון דסוס לרכוב עליו ועבד לרוץ לפניו.</src>
+    <src s="35">וכמאמר רז"ל40</src>
+    <src s="36">עה"פ41</src>
+    <src s="37">ויכל אלקים ביום השביעי מה הי' העולם חסר מנוחה בא שבת בא מנוחה,</src>
+    <src s="38">מנוחה היא בחינת סובב שלמעלה מהאור המתלבש בעולם,</src>
+    <src s="39">ואעפ"כ כשלא הי' גילוי זה בעולם,</src>
+    <src s="40">הי' העולם חסר,</src>
+    <src s="41">אלא שחסרון זה הוא לא שהי' חסר איזה פרט בהעולם עצמו,</src>
+    <src s="42">כי כל הפרטים דהעולם נתהוו ע"י מלאכת הבריאה</src>
+    <src s="43">(אור המתלבש בעולם)</src>
+    <src s="44">שנשלמה לפני שבת,</src>
+    <src s="45">וזה שהעולם הי' חסר מנוחה הוא דוגמת החסרון דסוס לרכוב עליו</src>
+    <src s="46">(שאין זה דבר הכרחי לצורך קיום חיותו),</src>
+    <src s="47">וכשבא שבת ונמשך ונתגלה אור הסובב,</src>
+    <src s="48">נתמלא גם חסרון זה.</src>
+    <src s="49">וענין העשירות דמשה הוא,</src>
+    <src s="50">דנוסף על זה שהאירו בו בגילוי הגילויים דממלא וסובב],</src>
+    <src s="51">האיר אצלו בגילוי גם הגילוי דאוא"ס שלמעלה משייכות לעולמות.</src>
+    <src s="52">וכמבואר בהמאמר42,</src>
+    <src s="53">דזה שמשה נקרא עשיר הוא לפי שמשה הוא בחינת דעת עליון.</src>
+    <src s="54">ומהמעלות שבדעת עליון על דעת תחתון הוא,</src>
+    <src s="55">שדעת תחתון מקבל מחיצוניות הכתר,</src>
+    <src s="56">אריך – סובב,</src>
+    <src s="57">ודעת עליון מקבל מפנימיות הכתר,</src>
+    <src s="58">עתיק – אוא"ס שלמעלה מגדר עולמות.</src>
+    <src s="59">ועפ"ז צריך להבין עוד יותר הענין דתפלה למשה,</src>
+    <src s="60">תפלת עשיר,</src>
+    <src s="61">הרי ענין התפלה הוא שהקב"ה ימלא את מחסורו,</src>
+    <src s="62">וכיון שמשה הי' עשיר הן בגשמיות והן ברוחניות,</src>
+    <src s="63">הרי לא רק שלא הי' חסר</src>
+    <src s="64">(בפועל)</src>
+    <src s="65">שום דבר אלא שלא הי' שייך אצלו ענין החסרון43,</src>
+    <src s="66">ומהו"ע התפלה שלו.</src>
+  </section>
+  <section v="10">
+    <src s="0">ו)</src>
+    <src s="1">ונקודת הביאור בזה</src>
+    <src s="2">(בהמאמר44),</src>
+    <src s="3">דתפלת עשיר היא לא בשביל עצמו אלא בשביל כנסת ישראל.</src>
+    <src s="4">כדאיתא במדרש45</src>
+    <src s="5">עה"פ תפלה למשה,</src>
+    <src s="6">משל למה הדבר דומה לשלשה שבאו ליטול כו' מאת המלך כו' בא השלישי,</src>
+    <src s="7">אמר לו המלך מה אתה מבקש,</src>
+    <src s="8">אמר לו,</src>
+    <src s="9">איני מבקש על עצמי דבר,</src>
+    <src s="10">אלא מדינה פלונית היא חרבה והיא שלך,</src>
+    <src s="11">גזור שתיבנה כו',</src>
+    <src s="12">כך משה לא ביקש לעצמו אלא בשביל ישראל.</src>
+    <src s="13">ולכאורה,</src>
+    <src s="14">ביאור זה צריך לביאור נוסף.</src>
+    <src s="15">דלפי הנ"ל התפלה שהעשיר מתפלל</src>
+    <src s="16">(בשביל אחרים)</src>
+    <src s="17">אינה שייכת להעשירות שלו</src>
+    <src s="18">[דזה שהוא מתפלל בשביל אחרים הוא מפני שהוא רוצה בטובתם],</src>
+    <src s="19">ופירוש תפלת עשיר</src>
+    <src s="20">(בפשטות)</src>
+    <src s="21">הוא שהתפלה שלו היא מפני שהוא עשיר46.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויובן זה ע"פ המבואר בהמאמר44</src>
+    <src s="1">דכנסת ישראל היא בחינת מלכות,</src>
+    <src s="2">ובקשת משה עבור כנסת ישראל היתה</src>
+    <src s="3">(בשביל ישראל כפשוטם,</src>
+    <src s="4">וגם)</src>
+    <src s="5">בשביל ספירת המלכות.</src>
+    <src s="6">ולכן47</src>
+    <src s="7">אומר במדרש שבקשת משה עבור כנסת ישראל היא ע"ד הבקשה מדינה פלונית כו',</src>
+    <src s="8">דמדינה היא מלכות,</src>
+    <src s="9">והיא חריבה הוא החסרון שנעשה במלכות</src>
+    <src s="10">(ענין מיעוט הירח),</src>
+    <src s="11">והבקשה גזור שתיבנה היא שיומשך גילוי עצמות אוא"ס במלכות שעי"ז תיבנה בבחינת בנין עדי עד.</src>
+    <src s="12">דכשנתמלא החסרון דמלכות ע"י שנמשך בה הגילוי ששייך למלכות,</src>
+    <src s="13">שאז היא מתעלית להדרגא כמו שהיתה קודם שנסתלק ונחסר ממנה האור,</src>
+    <src s="14">אזי אפשר שהאור שנמשך בה יסתלק עוד פעם,</src>
+    <src s="15">ובכדי שהבנין שלה יהי' בבחינת בנין עדי עד</src>
+    <src s="16">(שאין שייך שתיחרב ח"ו)</src>
+    <src s="17">הוא ע"י שנמשך בה גילוי עצמות אוא"ס שלמעלה מהאור השייך לעולמות</src>
+    <src s="18">(מלכות),</src>
+    <src s="19">דבאור זה אין שייך צמצום וסילוק.</src>
+    <src s="20">וזהו שתפלת משה נקראת תפלת עשיר דפירוש תפלת עשיר הוא שהתפלה שלו היא מפני שהוא עשיר</src>
+    <src s="21">(כנ"ל),</src>
+    <src s="22">כי זה שמשה התפלל שיומשך במלכות גילוי עצמות אוא"ס</src>
+    <src s="23">(שעי"ז דוקא תיבנה בבחינת בנין עדי עד)</src>
+    <src s="24">הוא מפני שהי' עשיר,</src>
+    <src s="25">בחינת דעת עליון שמקבל מעתיק,</src>
+    <src s="26">עצמות אוא"ס שלמעלה מגדר עולמות.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,107 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" title="מאמר עשרה שיושבין תשמ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">והנה מבואר בתניא13</src>
+    <src s="2">שהמעלה דעשרה היא בכל הענינים דתורה ומצוות,</src>
+    <src s="3">כי אין דבר שבקדושה בפחות מעשרה14.</src>
+    <src s="4">אלא שאעפ"כ,</src>
+    <src s="5">עיקר המעלה דעשרה הוא בתפלה.</src>
+    <src s="6">דהמעלה שבתפלת רבים שהיא רצוי' ומקובלת לעולם15,</src>
+    <src s="7">וכיון שהמבוקש דתפלה הוא שהקב"ה ימלא את בקשתו16,</src>
+    <src s="8">הרי המעלה בתפלת רבים על תפלת יחיד הוא לא שבתפלת רבים מיתוסף עוד ענין,</src>
+    <src s="9">כי אם,</src>
+    <src s="10">שזה נוגע להתפלה עצמה.</src>
+    <src s="11">ועפ"ז יש לומר,</src>
+    <src s="12">דמ"ש בהמאמר שהמעלה בתורה דרבים היא דוגמת המעלה דתפלת רבים,</src>
+    <src s="13">הכוונה בזה היא</src>
+    <src s="14">(גם)</src>
+    <src s="15">שהמעלה בתורה דרבים היא בענין עיקרי.</src>
+  </section>
+  <section v="4">
+    <src s="0">ולכאורה הי' אפשר לבאר זה,</src>
+    <src s="1">דכיון שאין התורה נקנית אלא בחבורה17,</src>
+    <src s="2">מובן,</src>
+    <src s="3">דכשלימוד התורה הוא בחבורה גדולה יותר,</src>
+    <src s="4">התורה נקנית יותר.</src>
+    <src s="5">וכיון שהשלימות דחבורה היא בעשרה18,</src>
+    <src s="6">כי עשרה מישראל הם דוגמת וכוללים כל העשרה סוגים דישראל,</src>
+    <src s="7">כנ"ל,</src>
+    <src s="8">לכן,</src>
+    <src s="9">כשלימוד התורה הוא בעשרה,</src>
+    <src s="10">קנין התורה הוא בשלימות.</src>
+    <src s="11">אבל ביאור זה אינו מספיק.</src>
+    <src s="12">כי מעלה הנ"ל בתורה דרבים היא בהאדם העוסק בתורה,</src>
+    <src s="13">שכשלומד בעשרה,</src>
+    <src s="14">הקנין שלו</src>
+    <src s="15">(שקונה את התורה ומקבל אותה)</src>
+    <src s="16">הוא בשלימות.</src>
+    <src s="17">והדמיון דתורה ברבים לתפלת רבים הוא בההמשכה19.</src>
+    <src s="18">כמפורש בהמאמר,</src>
+    <src s="19">דכמו שהרבים בתפלתם ממשיכים י"ג מדות הרחמים כמו"כ ע"י תורה ברבים נמשך אור עליון יותר.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">ובכדי לבאר מעלת ההמשכה שע"י תורה דרבים,</src>
+    <src s="2">מקדים בהמאמר,</src>
+    <src s="3">שר' ישמעאל אומר20</src>
+    <src s="4">בשלש עשרה מדות התורה נדרשת בק"ו ובגז"ש וכו'21.</src>
+    <src s="5">ומבאר,</src>
+    <src s="6">דע"י כל מדה ומדה</src>
+    <src s="7">(מי"ג המדות שהתורה נדרשת בהן)</src>
+    <src s="8">מתגלים ענינים חדשים.</src>
+    <src s="9">והטעם על זה הוא,</src>
+    <src s="10">כי י"ג מדות שהתורה נדרשת בהן הם כנגד י"ג מדות הרחמים.</src>
+    <src s="11">וכתורת הרב המגיד22</src>
+    <src s="12">דכשאמר משה א-ל נא רפא נא לה23,</src>
+    <src s="13">דשם א-ל הוא מדה הראשונה24</src>
+    <src s="14">די"ג מדות הרחמים,</src>
+    <src s="15">אמר לו הקב"ה ק"ו,</src>
+    <src s="16">ואבי' ירוק ירק בפני' גו' ק"ו לשכינה25,</src>
+    <src s="17">מדה הראשונה די"ג המדות שהתורה נדרשת בהן.</src>
+    <src s="18">ומוסיף בהמאמר,</src>
+    <src s="19">שזהו גם הקשר דשני הפירושים בהרועה בשושנים26,</src>
+    <src s="20">א"ת שושנים אלא ששונים בהלכות27</src>
+    <src s="21">ומה שושנה אית בה תליסר עלין אוף כנס"י אית בה תליסר מכילין דרחמי28,</src>
+    <src s="22">והקשר דשני הפירושים הוא29</src>
+    <src s="23">כי ע"י לימוד התורה</src>
+    <src s="24">(ששונים בהלכות)</src>
+    <src s="25">נמשכים י"ג מדות הרחמים.</src>
+    <src s="26">וזהו שע"י תורה דרבים נמשך אור עליון יותר,</src>
+    <src s="27">כי זה שע"י לימוד התורה נמשכים י"ג מדות הרחמים הוא30</src>
+    <src s="28">בעיקר ע"י לימוד תורה ברבים דוקא.</src>
+  </section>
+</awtsmoosMeluketSource>

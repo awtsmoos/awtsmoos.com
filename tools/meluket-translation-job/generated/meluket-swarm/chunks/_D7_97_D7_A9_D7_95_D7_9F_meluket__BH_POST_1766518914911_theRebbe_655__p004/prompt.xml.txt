@@ -1,0 +1,144 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914911_theRebbe_655" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914911_theRebbe_655" title="מאמר ויהיו חיי שרה תשמ"א" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">וביאור ענין השמחה שבבחי' ביטול</src>
+    <src s="2">(ועד שגם כשהשמחה היא בהתגלות מ"מ היא בבחי' ביטול),</src>
+    <src s="3">הנה אמיתית ענין השמחה בא מצד הענוה והביטול,</src>
+    <src s="4">כמ"ש35</src>
+    <src s="5">ויספו ענוים בה' שמחה.</src>
+    <src s="6">וביאור השייכות דענוה ושמחה</src>
+    <src s="7">(אף שלכאורה הם שני ענינים הפכיים),</src>
+    <src s="8">מבאר כ"ק אדמו"ר הזקן בד"ה ויספו ענוים בה' שמחה60</src>
+    <src s="9">[ובכמה דרושי רבותינו נשיאינו שלאח"ז61,</src>
+    <src s="10">וגם במאמר הנ"ל של בעל יום ההולדת],</src>
+    <src s="11">דענין הענוה הוא לא שהעניו טועה בעצמו ואינו יודע את מעלותיו,</src>
+    <src s="12">כי אם,</src>
+    <src s="13">דהגם שהוא יודע את המעלות שלו,</src>
+    <src s="14">ועד שיודע את כל המעלות שלו</src>
+    <src s="15">[דכאו"א מישראל,</src>
+    <src s="16">אפילו אלו שהנהגתם היא שלא כדבעי כלל,</src>
+    <src s="17">לא רק שיש להם מצוות אלא שהמצוות ממלאים את מציאותם,</src>
+    <src s="18">ובלשון רז"ל62</src>
+    <src s="19">מלאים מצוות כרימון,</src>
+    <src s="20">ובפרט אשר ועמך כולם צדיקים63</src>
+    <src s="21">וכל ישראל בחזקת כשרות64],</src>
+    <src s="22">מ"מ אינו נעשה עי"ז למציאות בעיני עצמו ועאכו"כ שאינו בבחי' ישות,</src>
+    <src s="23">כי יודע את האמת שהמעלות שיש לו אינם כחו ועוצם ידו כ"א ניתנו לו</src>
+    <src s="24">(הכחות על זה)</src>
+    <src s="25">מלמעלה,</src>
+    <src s="26">ובאם היו נותנים כחות אלו לאחר הי' ג"כ במדריגה זו,</src>
+    <src s="27">ומצד הענוה והביטול שלו הוא חושב,</src>
+    <src s="28">שאילו היו כחות אלו אצל אחר הי' מגלה אותם עוד יותר.</src>
+    <src s="29">וענוה זו</src>
+    <src s="30">[מכיון שהוא יודע את המעלות,</src>
+    <src s="31">אלא שאינו נעשה עי"ז למציאות]</src>
+    <src s="32">הנה לא רק שאינה מביאה להיפך השמחה,</src>
+    <src s="33">אלא אדרבא,</src>
+    <src s="34">הענוה והביטול שלו</src>
+    <src s="35">(שחושב שאינו מגיע לו כלום)</src>
+    <src s="36">מביאה אותו לשמחה גדולה ושלימה.</src>
+    <src s="37">דשלימות השמחה היא דוקא במי שהוא בטל,</src>
+    <src s="38">כמבואר בהמאמר בארוכה.</src>
+    <src s="39">ומכיון שהשמחה באה בסיבת הענוה והביטול,</src>
+    <src s="40">לכן גם השמחה עצמה</src>
+    <src s="41">(גם כשהיא בהתגלות)</src>
+    <src s="42">היא בבחי' ביטול.</src>
+  </section>
+  <section v="10">
+    <src s="0">ז)</src>
+    <src s="1">וזהו ויהיו חיי שרה גו' שני חיי שרה,</src>
+    <src s="2">ויהיו חיי שרה הוא מה שזכתה לחיין עילאין.</src>
+    <src s="3">ומפרט בזה מאה שנה ועשרים שנה ושבע שנים שקאי על כל הספירות65.</src>
+    <src s="4">וכמבואר בהמאמר66</src>
+    <src s="5">דמאה שנה הוא בחי' אריך כמו שמאיר בו בחי' עתיק,</src>
+    <src s="6">שלכן נאמר</src>
+    <src s="7">(מאה)</src>
+    <src s="8">שנה לשון יחיד,</src>
+    <src s="9">ויש לומר שבנדו"ד למעלה מבחי' אחד67.</src>
+    <src s="10">ועשרים שנה הוא בחי' חו"ב,</src>
+    <src s="11">ושבע שנים הוא בחי' ז' מדות,</src>
+    <src s="12">שבעת ימי הבנין.</src>
+    <src s="13">ואח"כ מוסיף שני חיי שרה,</src>
+    <src s="14">דילה הוו חיין,</src>
+    <src s="15">שהחיין הן דילה</src>
+    <src s="16">(גם)</src>
+    <src s="17">במורגש,</src>
+    <src s="18">שבעבודה הו"ע הביטול בהשמחה</src>
+    <src s="19">(גם)</src>
+    <src s="20">כמו שהיא בהתגלות</src>
+    <src s="21">(כנ"ל מהמאמר דבעל יום ההולדת).</src>
+    <src s="22">וזהו גם הטעם לזה שבהסיום שני חיי שרה אינו מפרט המספרים דמאה עשרים ושבע,</src>
+    <src s="23">כי זה שגם המורגש הוא בביטול,</src>
+    <src s="24">שהוא יחוד שני ענינים הפכים</src>
+    <src s="25">(מורגש וביטול),</src>
+    <src s="26">הוא מבחי' שלמעלה מהתחלקות68.</src>
+    <src s="27">וזהו העילוי דשני חיי שרה על חיי שרה מאה שנה וגו',</src>
+    <src s="28">דענין מאה שנה ועשרים שנה ושבע שנים,</src>
+    <src s="29">עם היותו נעלה ביותר,</src>
+    <src s="30">כמובן גם מפרש"י עה"פ,</src>
+    <src s="31">מ"מ הם ג' ענינים חלוקים,</src>
+    <src s="32">משא"כ שני חיי שרה הוא שכולן שוין69,</src>
+    <src s="33">למעלה מהתחלקות.</src>
+    <src s="34">ומצד בחינה זו</src>
+    <src s="35">(שלמעלה מהתחלקות),</src>
+    <src s="36">גם המורגש הוא בביטול70,</src>
+    <src s="37">דילה הוו חיין.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דע"י ענין דילה הוו חיין בעבודה,</src>
+    <src s="2">שגם המורגש</src>
+    <src s="3">(שמחה שבהתגלות)</src>
+    <src s="4">הוא בביטול</src>
+    <src s="5">(כפירוש בעל יום ההולדת בדילה הוו חיין),</src>
+    <src s="6">עי"ז נעשה דילה הוו חיין גם בפשטות,</src>
+    <src s="7">שהחיים הן שלה והיא נעשית בעה"ב על החיים.</src>
+    <src s="8">כי שמחה פורץ כל הגדרים71,</src>
+    <src s="9">ולכן ע"י השמחה בהתגלות</src>
+    <src s="10">(ובבחי' ביטול)</src>
+    <src s="11">נעשה תגבורת החיים</src>
+    <src s="12">(למעלה מגדר והגבלה),</src>
+    <src s="13">וע"ד הידוע72</src>
+    <src s="14">בענין יצחק</src>
+    <src s="15">[שענינו הוא צחוק ושמחה,</src>
+    <src s="16">כנ"ל],</src>
+    <src s="17">שהגבורות דיצחק הו"ע תגבורת החיות</src>
+    <src s="18">(ותגבורת הברכות),</src>
+    <src s="19">ועד לחיים בתכלית השלימות,</src>
+    <src s="20">דוגמת ונחי' לפניו שיהי' לעתיד לבוא.</src>
+  </section>
+</awtsmoosMeluketSource>

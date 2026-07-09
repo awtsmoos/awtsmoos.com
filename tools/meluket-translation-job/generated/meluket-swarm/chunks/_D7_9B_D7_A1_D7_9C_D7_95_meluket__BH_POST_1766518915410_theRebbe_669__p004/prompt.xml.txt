@@ -1,0 +1,123 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915410_theRebbe_669" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915410_theRebbe_669" title="מאמר פדה בשלום תשמ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p004">
+  <section v="9">
+    <src s="0">ד)</src>
+    <src s="1">והנה ידוע27</src>
+    <src s="2">דשבת ויום טוב צריכים הכנה ביום שלפניהם – ערב שבת וערב יום טוב.</src>
+    <src s="3">ובנוגע לעניננו,</src>
+    <src s="4">חג הגאולה יו"ד כסלו – הערב דיו"ד כסלו</src>
+    <src s="5">[שבו הוא ההכנה ליו"ד כסלו]</src>
+    <src s="6">הוא יום התשיעי בכסלו,</src>
+    <src s="7">יום ההולדת ויום ההילולא דבעל הגאולה.</src>
+    <src s="8">והגם שהגאולה דיו"ד כסלו היתה בשנת תקפ"ז28,</src>
+    <src s="9">שנה לפני ההסתלקות,</src>
+    <src s="10">מ"מ,</src>
+    <src s="11">כיון שמגלגלין זכות ליום זכאי29,</src>
+    <src s="12">יש לומר,</src>
+    <src s="13">דזה שיום התשיעי בכסלו זכה להיות יום ההילולא של אדמו"ר האמצעי הוא לפי שגם לפני זה הי' שייך לזה30.</src>
+    <src s="14">ועפ"ז יש לומר,</src>
+    <src s="15">שגודל העילוי דיום הגאולה</src>
+    <src s="16">[יו"ד כסלו],</src>
+    <src s="17">שענין פדה בשלום נפשי שבו הוא ע"ד הענין דפדה בשלום נפשי שיהי' לע"ל,</src>
+    <src s="18">הוא לפי שה"ערב" שלו הוא יום ההילולא דבעל הגאולה.</src>
+  </section>
+  <section v="10">
+    <src s="0">ה)</src>
+    <src s="1">ויובן זה בהקדים מ"ש בעל הגאולה במאמרו ד"ה להבין ענין הילולא דרשב"י31,</src>
+    <src s="2">דזה שיום הסתלקות הרשב"י נקרא בשם הילולא,</src>
+    <src s="3">הוא,</src>
+    <src s="4">לפי שע"י רשב"י הי' הגילוי דפנימיות התורה.</src>
+    <src s="5">ומבאר זה בהקדים מארז"ל32</src>
+    <src s="6">האי עלמא דאזלינן מיני' כבי הילולא דמיא,</src>
+    <src s="7">שע"י ירידת הנשמות למטה בעוה"ז,</src>
+    <src s="8">האי עלמא,</src>
+    <src s="9">נעשה בהם הענין דאזלינן,</src>
+    <src s="10">מהלכים.</src>
+    <src s="11">דהנשמות כמו שהן למעלה נק' עומדים כמ"ש33</src>
+    <src s="12">חי הוי' אלקי ישראל אשר עמדתי לפניו,</src>
+    <src s="13">ובזהר איתא34</src>
+    <src s="14">כל נשמתא ונשמתא הוה קיימא בדיוקנאה קמי מלכא קדישא.</src>
+    <src s="15">דהגם שהנשמות כמו שהן למעלה הן תמיד ברצוא ושוב,</src>
+    <src s="16">דעי"ז הם עולים בעילוי אחר עילוי,</src>
+    <src s="17">מ"מ,</src>
+    <src s="18">כיון שכל העליות שלהם הם בהגבלה,</src>
+    <src s="19">דגם המדרגות הכי גבוהות</src>
+    <src s="20">(שבהם היא עליית הנשמות)</src>
+    <src s="21">הם ע"פ מאמר קו המדה35,</src>
+    <src s="22">לכן נק' בשם עומדים.</src>
+    <src s="23">וע"י ירידת הנשמות למטה הם נעשים מהלכים,</src>
+    <src s="24">שהעלי' דהנשמות בירידתם למטה היא בבחינת א"ס ובל"ג.</src>
+    <src s="25">וזהו האי עלמא דאזלינן מיני',</src>
+    <src s="26">דהנשמות כמו שהם מצד עצמם הם עומדים,</src>
+    <src s="27">וע"י ירידתם בהאי עלמא,</src>
+    <src s="28">נעשים מהלכים,</src>
+    <src s="29">אזלינן.</src>
+  </section>
+  <section v="11">
+    <src s="0">והטעם על זה שדוקא ע"י האי עלמא נעשה הענין דאזלינן,</src>
+    <src s="1">הוא,</src>
+    <src s="2">כי האי עלמא כבי הילולא דמיא.</src>
+    <src s="3">והענין הוא36,</src>
+    <src s="4">דנשמה וגוף הם דוגמת איש ואשה37.</src>
+    <src s="5">וכמו שבאיש ואשה כפשוטם,</src>
+    <src s="6">בכדי שיהי' היחוד דדכר ונוקבא</src>
+    <src s="7">(שהם שני הפכים)</src>
+    <src s="8">הוא ע"י שנמשך בהם כח הא"ס שלמעלה משניהם38,</src>
+    <src s="9">וכח זה שנמשך בהם מתגלה בענין ההולדה</src>
+    <src s="10">[דענין להוליד דור אחר דור עד אין שיעור הוא לא מצד גדר הנבראים שהם בעלי גבול,</src>
+    <src s="11">אלא מצד כח הא"ס39</src>
+    <src s="12">שלמעלה מגדר הנבראים40</src>
+    <src s="13">שנמשך ע"י נישואין],</src>
+    <src s="14">עד"ז הוא בנשמה וגוף שהם דוגמת איש ואשה,</src>
+    <src s="15">שבכדי שיוכל להיות החיבור והיחוד דנשמה וגוף שהם שני הפכים הוא ע"י המשכת כח הא"ס.</src>
+    <src s="16">והמשכת כח זה מתגלה בענין ההולדה,</src>
+    <src s="17">תולדותיהם של צדיקים מעשים טובים41,</src>
+    <src s="18">שהעלי' שע"י התומ"צ היא עלי' בבחי' א"ס ובל"ג.</src>
+    <src s="19">וזהו האי עלמא דאזלינן מיני' כבי הילולא דמיא,</src>
+    <src s="20">דהטעם על זה שדוקא מיני'</src>
+    <src s="21">(האי עלמא)</src>
+    <src s="22">נעשה אזלינן</src>
+    <src s="23">(מהלכים),</src>
+    <src s="24">הוא,</src>
+    <src s="25">כי האי עלמא כבי הילולא דמיא,</src>
+    <src s="26">שהחיבור והיחוד דנשמה הרוחנית עם הגוף הגשמי</src>
+    <src s="27">(האי עלמא)</src>
+    <src s="28">הוא בדוגמת יחוד חתן וכלה</src>
+    <src s="29">(הילולא,</src>
+    <src s="30">חתונה),</src>
+    <src s="31">שעי"ז נמשך כח הא"ס.</src>
+  </section>
+</awtsmoosMeluketSource>

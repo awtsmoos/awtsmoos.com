@@ -1,0 +1,172 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914911_theRebbe_655" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914911_theRebbe_655" title="מאמר ויהיו חיי שרה תשמ"א" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p002">
+  <section v="3">
+    <src s="0">ויהיו חיי שרה מאה שנה ועשרים שנה ושבע שנים שני חיי שרה1,</src>
+    <src s="1">ומדייק כ"ק אדמו"ר</src>
+    <src s="2">(מהורש"ב)</src>
+    <src s="3">נ"ע בעל יום ההולדת במאמרו ד"ה זה דשנת עטר"ת2,</src>
+    <src s="4">מהו אומרו שני חיי שרה,</src>
+    <src s="5">הרי כבר נאמר ויהיו חיי שרה</src>
+    <src s="6">[ומפרט שנותי' במאות עשיריות ואחדות],</src>
+    <src s="7">ולמה כפל עוד לומר שני חיי שרה.</src>
+    <src s="8">וגם צ"ל</src>
+    <src s="9">(כמו שמדייק בזהר3)</src>
+    <src s="10">מפני מה בשרה דוקא נאמר ימי שני חיי'</src>
+    <src s="11">[ועד שכל הפרשה</src>
+    <src s="12">(חיי שרה)</src>
+    <src s="13">נקראת על שם זה,</src>
+    <src s="14">שמזה משמע4</src>
+    <src s="15">שזהו תוכן כל הסדרה],</src>
+    <src s="16">שלא נאמר זה בשארי אמהות5.</src>
+    <src s="17">ומביא בזה מאמר הזהר6,</src>
+    <src s="18">אתת חוה לעלמא ואתדבקת בחויא7</src>
+    <src s="19">כו' אתא נח8</src>
+    <src s="20">לעלמא מה כתיב בי'9</src>
+    <src s="21">וישת מן היין וישכר כו' אתת שרה ונחתת וסלקת</src>
+    <src s="22">[ולא אתדבקת בי'10]</src>
+    <src s="23">כד"א11</src>
+    <src s="24">ויעל אברם ממצרים הוא ואשתו ובגין כך זכתה לחיין עילאין.</src>
+    <src s="25">ומסיים</src>
+    <src s="26">(בזהר שם)</src>
+    <src s="27">ועל דא דילה הוו חיין.</src>
+    <src s="28">ועפ"ז מבאר כ"ק אדמו"ר</src>
+    <src s="29">(מהורש"ב)</src>
+    <src s="30">נ"ע במאמרו הנ"ל12</src>
+    <src s="31">שני דיוקים הנ"ל,</src>
+    <src s="32">שדוקא בשרה נאמר ימי שני חיי'</src>
+    <src s="33">(שלא נאמר בשאר אמהות)</src>
+    <src s="34">לפי שדוקא שרה,</src>
+    <src s="35">ע"י שנחתת וסלקת,</src>
+    <src s="36">זכתה לחיין עילאין.</src>
+    <src s="37">ומה שכפל עוד פעם לאמר שני חיי שרה,</src>
+    <src s="38">אף שכבר נאמר בתחלה ויהיו חיי שרה,</src>
+    <src s="39">הוא כי "ויהיו חיי שרה" הוא מה שזכתה לחיין עילאין,</src>
+    <src s="40">ו"שני חיי שרה" הו"ע "דילה הוו חיין",</src>
+    <src s="41">דלא רק שזכתה לחיין עילאין אלא גם שהחיין נעשו שלה,</src>
+    <src s="42">"דילה הוו".</src>
+    <src s="43">וצריך להבין תוכן שני ענינים אלו.</src>
+    <src s="44">וגם צריך להבין,</src>
+    <src s="45">דמלשון הזהר אתת חוה אתא נח אתת שרה מובן,</src>
+    <src s="46">שיש שייכות בין ג' ענינים אלו.</src>
+    <src s="47">היינו דחוה ונח רצו לפעול אותו הענין שפעלה שרה,</src>
+    <src s="48">אלא שלא עלתה בידם,</src>
+    <src s="49">ולא עוד אלא שעי"ז נעשית אצלם ירידה</src>
+    <src s="50">(אתדבקת בחויא,</src>
+    <src s="51">וישכר).</src>
+    <src s="52">משא"כ שרה,</src>
+    <src s="53">אף שגם אצלה היתה</src>
+    <src s="54">(בתחלה)</src>
+    <src s="55">ירידה,</src>
+    <src s="56">ע"י ירידה זו הי' אח"כ העלי',</src>
+    <src s="57">נחתת וסלקת.</src>
+    <src s="58">וצריך להבין השייכות דג' ענינים אלו.</src>
+  </section>
+  <section v="4">
+    <src s="0">ב)</src>
+    <src s="1">והנה מעשה אבות סימן לבנים13,</src>
+    <src s="2">וידוע שהכוונה בסימן כאן היא לא רק סימן והוראה אלא גם נתינת כח14.</src>
+    <src s="3">וע"ד הידוע15</src>
+    <src s="4">בענין פתח ר' פלוני וכו',</src>
+    <src s="5">דלאחרי שפתח את הצינור והדרך,</src>
+    <src s="6">ועאכו"כ כאשר סלל את הדרך,</src>
+    <src s="7">הרי עי"ז ניתן הכח לכאו"א שיוכל לעשות עבודה זו,</src>
+    <src s="8">ואינו צריך ליגיעה גדולה כ"כ</src>
+    <src s="9">(כבפעם הראשונה)16.</src>
+    <src s="10">ועאכו"כ שכן הוא במעשה אבות,</src>
+    <src s="11">מכיון שהם האבות של כאו"א מישראל,</src>
+    <src s="12">והענינים והעבודות שלהם נמשכים בירושה לכאו"א מישראל17.</src>
+    <src s="13">וכן הוא גם בנוגע לאמהות18,</src>
+    <src s="14">ובפרט בנוגע לשרה אמנו,</src>
+    <src s="15">הראשונה שבד' אמהות,</src>
+    <src s="16">וכתיב בה19</src>
+    <src s="17">כל אשר תאמר אליך שרה שמע בקולה.</src>
+    <src s="18">ומזה מובן דענין הנ"ל,</src>
+    <src s="19">אתת שרה ונחתת וסלקת,</src>
+    <src s="20">הוא</src>
+    <src s="21">(ככל מעשה אבות ואמהות)</src>
+    <src s="22">הוראה וגם נתינת כח בעבודתו של כאו"א מישראל20.</src>
+    <src s="23">וצריך להבין ההוראה דנחתת וסלקת בהעבודה דבנים לאחרי מ"ת.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">ונקודת הענין בזה הוא כמו שמבאר בעל יום ההולדת במאמרו הנ"ל21,</src>
+    <src s="2">דעבודת ה' צריכה להיות בשמחה דוקא כמ"ש22</src>
+    <src s="3">עבדו את ה' בשמחה.</src>
+    <src s="4">ועד שהשמחה בעבודת ה' היא עיקר גדול,</src>
+    <src s="5">וכידוע פירוש האריז"ל23</src>
+    <src s="6">והובא בתניא24</src>
+    <src s="7">עה"פ25</src>
+    <src s="8">תחת אשר לא עבדת את ה' אלקיך בשמחה וגו',</src>
+    <src s="9">ואיתא בתו"א26</src>
+    <src s="10">דמה שהאריז"ל זכה לרוה"ק27</src>
+    <src s="11">הוא ע"י שמחה של מצוה</src>
+    <src s="12">[ומכיון שזהו סיפור בתורה</src>
+    <src s="13">(שבעל פה)</src>
+    <src s="14">מלשון הוראה28,</src>
+    <src s="15">הרי זה הוראה לכאו"א מישראל],</src>
+    <src s="16">דכאשר העבודה היא בשמחה,</src>
+    <src s="17">אז העבודה היא בשלימות</src>
+    <src s="18">[ועי"ז נעשה שלימות גם בהעולם.</src>
+    <src s="19">שהרי תכלית הבריאה היא בשביל ישראל שנקראים ראשית29,</src>
+    <src s="20">ופירוש בשביל ישראל הוא בשביל העבודה דישראל</src>
+    <src s="21">[שזהו עיקר מציאותם,</src>
+    <src s="22">כמארז"ל30</src>
+    <src s="23">אני לא נבראתי אלא לשמש את קוני],</src>
+    <src s="24">היינו שישראל ע"י עבודתם פועלים שהעולם יהי' בתכלית השלימות.</src>
+    <src s="25">דהגם שעולם על מילואו נברא31,</src>
+    <src s="26">ובפרט ע"פ הידוע32</src>
+    <src s="27">שמהטעמים על בריאת העולם הוא לפי שעלה ברצונו ית' להטיב לברואיו,</src>
+    <src s="28">שטבע הטוב להטיב33,</src>
+    <src s="29">שמזה מובן שבריאת העולם</src>
+    <src s="30">(מלכתחילה)</src>
+    <src s="31">הי' בשלימות,</src>
+    <src s="32">מ"מ,</src>
+    <src s="33">ענין זה גופא דלהטיב לברואיו,</src>
+    <src s="34">הוא אחד הטעמים על זה שעלה ברצונו ית' שהבריאה תהי' בשביל29</src>
+    <src s="35">ישראל ובשביל התורה,</src>
+    <src s="36">שעי"ז יושפע להנבראים שלימות הטוב,</src>
+    <src s="37">ע"י שישראל ע"י עבודתם יוסיפו שלימות בהעולם,</src>
+    <src s="38">שלימות נעלית יותר מהשלימות דעולם כמו שהוא מצד הבריאה.</src>
+    <src s="39">ומכיון ששלימות העבודה היא כאשר היא בשמחה,</src>
+    <src s="40">לכן עי"ז מתוסף גם בהשלימות דעולם,</src>
+    <src s="41">שנעשה ע"י עבודת ישראל].</src>
+    <src s="42">ולא זו בלבד ששלימות העבודה היא כאשר היא בשמחה,</src>
+    <src s="43">אלא שהשמחה בעבודת ה' היא גם הכרח בעבודת ה',</src>
+    <src s="44">שלכן כאשר חסר השמחה בעבודת ה' מגיע על זה עונש ח"ו כמ"ש25</src>
+    <src s="45">תחת אשר לא עבדת את ה' אלקיך בשמחה וגו',</src>
+    <src s="46">כי ענין העבודה הוא להמשיך גילוי אלקות למטה וזה נעשה ע"י השמחה.</src>
+  </section>
+</awtsmoosMeluketSource>

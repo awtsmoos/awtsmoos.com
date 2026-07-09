@@ -1,0 +1,274 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 46,
+    "returned": 46,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918517_theRebbe_122\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918517_theRebbe_122__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the explanation in the maamar applies even to the interpretation that \"brothers\" refers to the Jewish people, involving two levels of love and brotherhood—connection and unification—achieved through the revelation of the unity of Israel with the Holy One, blessed be He, which also explains the continuation of the verse about the good oil.</sectionSummaryBrief>\n    <t s=\"0\">And seemingly, one may add,</t>\n    <t s=\"1\">that the explanation in the maamar</t>\n    <t s=\"2\">(regarding the two matters of \"dwelling as brothers\" and also \"together\")</t>\n    <t s=\"3\">is also according to the interpretation</t>\n    <t s=\"4\">that \"brothers\" refers to the Jewish people,</t>\n    <t s=\"5\">that in their love and brotherhood there are two levels in general.</t>\n    <t s=\"6\">Connection</t>\n    <t s=\"7\">(analogous to the binding of conditions),</t>\n    <t s=\"8\">and through this they subsequently come to unification.</t>\n    <t s=\"9\">And based on this, it may be said,</t>\n    <t s=\"10\">that what the maamar brings from the Zohar's interpretation that \"dwelling as brothers also together\" refers to the unification of the Holy One, blessed be He, and the Congregation of Israel,</t>\n    <t s=\"11\">is</t>\n    <t s=\"12\">because in order for the love and brotherhood of Israel to be in a manner of \"together\"</t>\n    <t s=\"13\">(analogous to the unification of marriage),</t>\n    <t s=\"14\">it is</t>\n    <t s=\"15\">through the revelation of the unity of Israel with the Holy One, blessed be He.</t>\n    <t s=\"16\">And based on this, one may also explain what the verse</t>\n    <t s=\"17\">continues</t>\n    <t s=\"18\">(that \"dwelling as brothers also together\" is)</t>\n    <t s=\"19\">\"like the good oil upon the head, descending upon the beard, the beard of Aharon, descending upon the collar of his garments,\"</t>\n    <t s=\"20\">because in order for the unification of the Holy One, blessed be He, and Israel to effect in Israel true love and brotherhood, even to the degree of \"together,\"</t>\n    <t s=\"21\">it is through the descent and drawing down of the good oil,</t>\n    <t s=\"22\">as will be explained below</t>\n    <t s=\"23\">(section 8).</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section recounts a story from the Zohar where Rabbi Shimon bar Yochai brought rain through a discourse on the verse \"Behold, how good and how pleasant it is for brothers to dwell also together,\" without any effort, unlike the usual methods of prayer and fasting.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And this will be understood by prefacing what is stated in the Zohar:</t>\n    <t s=\"2\">Once the world needed rain,</t>\n    <t s=\"3\">they came before Rabbi Shimon bar Yochai,</t>\n    <t s=\"4\">and through his saying a discourse on the verse \"Behold, how good and how pleasant it is for brothers to dwell also together,\" rain fell.</t>\n    <t s=\"5\">And the precise point in this is known,</t>\n    <t s=\"6\">for we find that in order to effect the descent of rain, they would add six blessings in the Shemoneh Esrei</t>\n    <t s=\"7\">and decree thirteen fasts,</t>\n    <t s=\"8\">and Choni the Circle-Maker drew a circle and stood within it and prayed,</t>\n    <t s=\"9\">yet Rabbi Shimon bar Yochai effected this through the recitation of a discourse, with no exertion at all.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the need for special effort to bring rain applies to prayer, which is from below upward, whereas Rabbi Shimon bar Yochai drew down rain through Torah study, which is from above downward, requiring no labor.</sectionSummaryBrief>\n    <t s=\"0\">And the point of the explanation in this</t>\n    <t s=\"1\">(as understood from the discourses),</t>\n    <t s=\"2\">is that the need for special effort to effect the descent of rain is in prayer.</t>\n    <t s=\"3\">For since prayer is from below upward,</t>\n    <t s=\"4\">therefore, in order for the service</t>\n    <t s=\"5\">(prayer)</t>\n    <t s=\"6\">of the lower beings to arouse and draw down rain</t>\n    <t s=\"7\">(for the source of rain is above the chain of descent),</t>\n    <t s=\"8\">special effort is required.</t>\n    <t s=\"9\">But Rabbi Shimon bar Yochai drew down the descent of rain through the recitation of Torah,</t>\n    <t s=\"10\">for Torah is from above downward,</t>\n    <t s=\"11\">and therefore he did not need service or exertion.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918517_theRebbe_122",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918517_theRebbe_122__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the explanation in the maamar applies even to the interpretation that \"brothers\" refers to the Jewish people, involving two levels of love and brotherhood—connection and unification—achieved through the revelation of the unity of Israel with the Holy One, blessed be He, which also explains the continuation of the verse about the good oil.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And seemingly, one may add,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that the explanation in the maamar"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(regarding the two matters of \"dwelling as brothers\" and also \"together\")"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "is also according to the interpretation"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "that \"brothers\" refers to the Jewish people,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "that in their love and brotherhood there are two levels in general."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "Connection"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "(analogous to the binding of conditions),"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "and through this they subsequently come to unification."
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "And based on this, it may be said,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "that what the maamar brings from the Zohar's interpretation that \"dwelling as brothers also together\" refers to the unification of the Holy One, blessed be He, and the Congregation of Israel,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "is"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "because in order for the love and brotherhood of Israel to be in a manner of \"together\""
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(analogous to the unification of marriage),"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "it is"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "through the revelation of the unity of Israel with the Holy One, blessed be He."
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "And based on this, one may also explain what the verse"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "continues"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "(that \"dwelling as brothers also together\" is)"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "\"like the good oil upon the head, descending upon the beard, the beard of Aharon, descending upon the collar of his garments,\""
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "because in order for the unification of the Holy One, blessed be He, and Israel to effect in Israel true love and brotherhood, even to the degree of \"together,\""
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "it is through the descent and drawing down of the good oil,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "as will be explained below"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "(section 8)."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section recounts a story from the Zohar where Rabbi Shimon bar Yochai brought rain through a discourse on the verse \"Behold, how good and how pleasant it is for brothers to dwell also together,\" without any effort, unlike the usual methods of prayer and fasting.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what is stated in the Zohar:"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "Once the world needed rain,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "they came before Rabbi Shimon bar Yochai,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "and through his saying a discourse on the verse \"Behold, how good and how pleasant it is for brothers to dwell also together,\" rain fell."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "And the precise point in this is known,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "for we find that in order to effect the descent of rain, they would add six blessings in the Shemoneh Esrei"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "and decree thirteen fasts,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and Choni the Circle-Maker drew a circle and stood within it and prayed,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "yet Rabbi Shimon bar Yochai effected this through the recitation of a discourse, with no exertion at all."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the need for special effort to bring rain applies to prayer, which is from below upward, whereas Rabbi Shimon bar Yochai drew down rain through Torah study, which is from above downward, requiring no labor.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And the point of the explanation in this"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "(as understood from the discourses),"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "is that the need for special effort to effect the descent of rain is in prayer."
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "For since prayer is from below upward,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "therefore, in order for the service"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "(prayer)"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "of the lower beings to arouse and draw down rain"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "(for the source of rain is above the chain of descent),"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "special effort is required."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "But Rabbi Shimon bar Yochai drew down the descent of rain through the recitation of Torah,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "for Torah is from above downward,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "and therefore he did not need service or exertion."
+          }
+        ]
+      }
+    ]
+  }
+}

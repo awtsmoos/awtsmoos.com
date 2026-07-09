@@ -1,0 +1,127 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919986_theRebbe_397" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919986_theRebbe_397__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919986_theRebbe_397" title="מאמר לא היו ימים טובים לישראל תשל"ה" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919986_theRebbe_397__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ד',</src>
+    <src s="2">חמשה עשר באב ה'תשל"ה*</src>
+  </section>
+  <section v="1">
+    <src s="0">לא היו ימים טובים לישראל כחמשה עשר באב וכיום הכפורים1,</src>
+    <src s="1">וצריך להבין מהו טעם הדמיון והצד השוה שבין ט"ו באב ליוהכ"פ2.</src>
+    <src s="2">גם צריך להבין מה שמאמר זה</src>
+    <src s="3">(לא היו יו"ט כו')</src>
+    <src s="4">הוא בסיום וחותם3</src>
+    <src s="5">מס' תענית,</src>
+    <src s="6">והרי ימים טובים הו"ע השמחה,</src>
+    <src s="7">היפך ענין התענית.</src>
+    <src s="8">ובפרט שמהלשון לא היו יו"ט לישראל כחמשה עשר באב כו' מוכח שהשמחה שבט"ו באב</src>
+    <src s="9">(ויוהכ"פ)</src>
+    <src s="10">היא ביותר מהשמחה שביו"ט אף שהיא מ"ע מה"ת,</src>
+    <src s="11">ושמחת בחגיך4,</src>
+    <src s="12">ולפי"ז תוקשה יותר השייכות דענין זה ל</src>
+    <src s="13">(סיום וחותם)</src>
+    <src s="14">מס' תענית דוקא.</src>
+    <src s="15">והנה השייכות דט"ו באב לענין תענית מוכח ג"כ ממה שמקשר</src>
+    <src s="16">(במשנה)</src>
+    <src s="17">חמשה עשר באב ויום הכפורים,</src>
+    <src s="18">שיוהכ"פ הוא התענית היחידי שמן התורה,</src>
+    <src s="19">ותענית זה הוא מיוחד ושונה משאר התעניות גם בזה שד' הצומות</src>
+    <src s="20">(וכן הצומות שנמנו במגילת תענית,</src>
+    <src s="21">וכמה מהם הובאו בטור5)</src>
+    <src s="22">יהפכו לששון ולשמחה6,</src>
+    <src s="23">משא"כ התענית דיוהכ"פ שיהי' גם לעתיד.</src>
+    <src s="24">ומזה שמקשר</src>
+    <src s="25">(במשנה)</src>
+    <src s="26">ט"ו באב עם יוהכ"פ,</src>
+    <src s="27">מוכח,</src>
+    <src s="28">שהיו"ט דט"ו באב שייך הוא לא רק לענין התענית שבמס' תענית</src>
+    <src s="29">[שלכן המאמר לא היו יו"ט לישראל כט"ו באב הוא בסיום וחותם מס' תענית],</src>
+    <src s="30">אלא גם להתענית דיוהכ"פ.</src>
+  </section>
+  <section v="2">
+    <src s="0">והנה הטעם מה שט"ו באב הוא יו"ט</src>
+    <src s="1">[דלכאורה אינו מובן,</src>
+    <src s="2">וכמו שמקשה בגמרא7</src>
+    <src s="3">: בשלמא יום הכפורים משום דאית בי' סליחה ומחילה,</src>
+    <src s="4">יום שניתנו בו לוחות האחרונות,</src>
+    <src s="5">אלא ט"ו באב מאי היא],</src>
+    <src s="6">מובא בדרושים8</src>
+    <src s="7">מפע"ח9,</src>
+    <src s="8">לפי שאז הוא מילוי הלבנה.</src>
+    <src s="9">ומקשה על זה בהדרושים,</src>
+    <src s="10">והרי בכל חודש יש יום ט"ו</src>
+    <src s="11">(שאז הוא מילוי הלבנה),</src>
+    <src s="12">ומהי המעלה דט"ו באב דוקא,</src>
+    <src s="13">וממ"ש לא היו יו"ט כו' כחמשה עשר באב משמע שהוא למעלה גם מט"ו בניסן</src>
+    <src s="14">(פסח)</src>
+    <src s="15">וט"ו בתשרי</src>
+    <src s="16">(סוכות).</src>
+    <src s="17">והנה אחד הטעמים בגמרא שם10</src>
+    <src s="18">(על מה שט"ו באב הוא יו"ט)</src>
+    <src s="19">הוא,</src>
+    <src s="20">מפני שאז תשש כוחה של חמה.</src>
+    <src s="21">ואינו מובן,</src>
+    <src s="22">הרי תשישת כוחה של חמה הו"ע שבמאורות השמים ואינו נוגע לעניני ופעולות האדם</src>
+    <src s="23">(כשאר הטעמים שבגמרא שם),</src>
+    <src s="24">וא"כ מהו היו"ט כשתשש כוחה של חמה.</src>
+    <src s="25">והגם שמזה שתשש כוחה של חמה</src>
+    <src s="26">(אף שהו"ע שבמאורות השמים)</src>
+    <src s="27">ישנן תוצאות בנוגע לענינים ופעולות שבארץ,</src>
+    <src s="28">וכדאיתא בגמרא שם ולא היו כורתין עצים למערכה כו',</src>
+    <src s="29">הרי מלשון הגמרא</src>
+    <src s="30">(מחמשה עשר באב ואילך תשש כוחה של חמה)</src>
+    <src s="31">משמע שהיו"ט</src>
+    <src s="32">(והשמחה)</src>
+    <src s="33">דחמשה עשר באב הוא מצד זה גופא שתשש כוחה של חמה</src>
+    <src s="34">(ולא רק מצד התוצאות שעי"ז),</src>
+    <src s="35">וא"כ צ"ל,</src>
+    <src s="36">שגם זה דתשש כוחה של חמה שייך הוא לעבודת האדם.</src>
+    <src s="37">שזהו ההשתוות דט"ו באב ויוהכ"פ,</src>
+    <src s="38">דכמו שהכפרה דיוהכ"פ נעשית ע"י עבודת האדם</src>
+    <src s="39">[דהגם שעיצומו של יום מכפר11,</src>
+    <src s="40">מ"מ,</src>
+    <src s="41">ע"י עבודת האדם הכפרה היא ביתר שאת וביתר עוז12.</src>
+    <src s="42">ויתרה מזו,</src>
+    <src s="43">שגם הכפרה הבאה מצד עיצומו של יום היא דוקא כאשר האדם מקיים</src>
+    <src s="44">(האַלט זיך אָן)</src>
+    <src s="45">עיצומו של יום,</src>
+    <src s="46">שהרי אכרת דיומא יו"כ אינו מכפר13],</src>
+    <src s="47">עד"ז הוא גם בנוגע לתשש כוחה של חמה שבט"ו באב</src>
+    <src s="48">[שגם לאחרי שתשש כו' יש כוחה של חמה,</src>
+    <src s="49">ורק שתשש כוחה],</src>
+    <src s="50">הו"ע השייך לעבודת האדם.</src>
+  </section>
+</awtsmoosMeluketSource>

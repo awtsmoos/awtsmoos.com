@@ -1,0 +1,789 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 149,
+    "returned": 149,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916754_theRebbe_640\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the concept of \"Adam\" (man) is defined by three lines (right, left, and middle), which represent the superiority of the rectified world (Tikkun) over chaos (Tohu), and that the middle line connects and unifies the other two, originating from the Ein Sof; it then clarifies that the discussion of \"Adam\" in the maamar focuses on intellect and emotions to explain the possibility of consolation and regret, which involve a change from one attribute to another.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">Now, in Torah Ohr, section 60,</t>\n    <t s=\"2\">(in the maamar that explains the concept that \"it is not a man to feel regret\"),</t>\n    <t s=\"3\">it explains that the concept of \"Adam\" (man) is [that of] three lines.</t>\n    <t s=\"4\">For even this aspect in man</t>\n    <t s=\"5\">(that he is in the form of three lines)</t>\n    <t s=\"6\">indicates the greatness of his level.</t>\n    <t s=\"7\">And as explained elsewhere,</t>\n    <t s=\"8\">the primary difference between Tohu (chaos) and Tikkun (rectification) is,</t>\n    <t s=\"9\">that in Tohu the Sefiros were in the aspect of two lines</t>\n    <t s=\"10\">(right and left),</t>\n    <t s=\"11\">and in Tikkun they are in the aspect of three lines</t>\n    <t s=\"12\">(right, left, and middle).</t>\n    <t s=\"13\">And the superiority of Tikkun, which has three lines, is</t>\n    <t s=\"14\">(not only that an additional line was added to it,</t>\n    <t s=\"15\">the middle line,</t>\n    <t s=\"16\">but also)</t>\n    <t s=\"17\">that through the middle line, a connection and integration of the two lines, right and left, is made.</t>\n    <t s=\"18\">And that the middle line connects and unifies the two lines of Chessed and Gevurah is</t>\n    <t s=\"19\">because its source is from the Ein Sof, the completeness of all, which includes the perfection of the two lines.</t>\n    <t s=\"20\">Thus,</t>\n    <t s=\"21\">even this, that man is in the form of three lines, indicates the perfection of man.</t>\n    <t s=\"22\">And that which is explained in the maamar that \"Adam\" is intellect and emotions and not the concept of three lines,</t>\n    <t s=\"23\">it can be said,</t>\n    <t s=\"24\">that this explanation here of the concept of \"Adam\" is</t>\n    <t s=\"25\">(primarily)</t>\n    <t s=\"26\">in order to explain the reason for this, that in man, consolation and regret are applicable,</t>\n    <t s=\"27\">for the concept of consolation and regret is change and reversal,</t>\n    <t s=\"28\">meaning,</t>\n    <t s=\"29\">that not only is he sometimes in the line of Chessed, sometimes in the line of Gevurah, and sometimes in the line of Tiferes</t>\n    <t s=\"30\">[and similarly, that in the first millennium the conduct was according to the attribute of Chessed,</t>\n    <t s=\"31\">in the second millennium according to the attribute of Gevurah,</t>\n    <t s=\"32\">etc.],</t>\n    <t s=\"33\">but rather,</t>\n    <t s=\"34\">that in that same time and situation, he changes from Chessed to Din and from Din to Chessed.</t>\n    <t s=\"35\">And furthermore,</t>\n    <t s=\"36\">the change is in a manner of consolation and regret,</t>\n    <t s=\"37\">that not only from now onward is his conduct in a different attribute</t>\n    <t s=\"38\">(even though now it is the same situation and state),</t>\n    <t s=\"39\">but he regrets his previous conduct.</t>\n    <t s=\"40\">Therefore, the maamar explains that \"Adam\" is intellect and emotions,</t>\n    <t s=\"41\">and not the concept of three lines,</t>\n    <t s=\"42\">because this change of attributes, in a manner of consolation and regret, occurs because man is intellect and emotions,</t>\n    <t s=\"43\">and his emotions are according to his intellect.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that a person's emotions, even natural ones, are activated by the intellect, as derived from the verse \"A man is praised according to his intellect,\" and that this principle applies to both the animal soul and the G-dly soul, enabling change in emotions when the intellect dictates a different course.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">The concept is that it is written,</t>\n    <t s=\"2\">\"A man (Ish) is praised according to his intellect,\"</t>\n    <t s=\"3\">and it is known</t>\n    <t s=\"4\">that a person is called \"Ish\" because of his emotions</t>\n    <t s=\"5\">[for this is the difference between the title \"Adam\" and the title \"Ish\":</t>\n    <t s=\"6\">that which he is called \"Adam\" is because of his intellect, and that which he is called \"Ish\" is because of his emotions],</t>\n    <t s=\"7\">and the meaning of \"A man is praised according to his intellect\" is that even the emotions of a person</t>\n    <t s=\"8\">(Ish)</t>\n    <t s=\"9\">are according to his intellect.</t>\n    <t s=\"10\">That is to say,</t>\n    <t s=\"11\">even the natural emotions of a person,</t>\n    <t s=\"12\">despite the fact that their essential existence is from nature</t>\n    <t s=\"13\">[unlike intellectual emotions, whose entire existence is from the intellect],</t>\n    <t s=\"14\">are aroused by the intellect.</t>\n    <t s=\"15\">For this is the meaning of what is written,</t>\n    <t s=\"16\">\"Do not let your hearts be faint, do not fear, etc.,\"</t>\n    <t s=\"17\">for at first glance,</t>\n    <t s=\"18\">fear in battle is a natural thing, so how can there be a command about it, \"Do not fear\"?</t>\n    <t s=\"19\">And the explanation of this is,</t>\n    <t s=\"20\">that since the arousal of natural emotions is through the intellect,</t>\n    <t s=\"21\">therefore,</t>\n    <t s=\"22\">when one does not place his mind and thought on it,</t>\n    <t s=\"23\">his heart will not be faint, and he will not fear or be afraid at all.</t>\n    <t s=\"24\">And as the Rambam wrote,</t>\n    <t s=\"25\">\"Anyone who begins to think and contemplate about battle and frightens himself transgresses a negative commandment,</t>\n    <t s=\"26\">as it is said, 'Do not let your hearts be faint, do not fear, etc.,'\"</t>\n    <t s=\"27\">for even natural fear is aroused and acts when one thinks and contemplates it.</t>\n    <t s=\"28\">And so it is also in the G-dly soul,</t>\n    <t s=\"29\">that even its natural emotions,</t>\n    <t s=\"30\">their arousal is through the intellect.</t>\n    <t s=\"31\">For this is the meaning of what is written,</t>\n    <t s=\"32\">\"And you shall love the L-rd your G-d,\"</t>\n    <t s=\"33\">for although every Jew naturally loves G-d,</t>\n    <t s=\"34\">and according to the teaching of the Alter Rebbe,</t>\n    <t s=\"35\">every Jew does not want in any way and is completely unable to be separated, G-d forbid, from G-dliness,</t>\n    <t s=\"36\">nevertheless, there is a command about this,</t>\n    <t s=\"37\">because natural love is aroused through contemplation, and the command is that one should contemplate matters that arouse love.</t>\n    <t s=\"38\">And this concept</t>\n    <t s=\"39\">(that the arousal of love is through contemplation)</t>\n    <t s=\"40\">is not only because of the concealment and hiding of the animal soul,</t>\n    <t s=\"41\">but also from the perspective of the G-dly soul,</t>\n    <t s=\"42\">for the emotions of a person,</t>\n    <t s=\"43\">and certainly the G-dly soul within him,</t>\n    <t s=\"44\">are according to intellect.</t>\n    <t s=\"45\">On the other hand,</t>\n    <t s=\"46\">even after the G-dly soul has become enclothed in the body and animal soul,</t>\n    <t s=\"47\">through contemplation, etc., the natural love of the G-dly soul will necessarily be revealed.</t>\n    <t s=\"48\">For from this very fact that every Jew is commanded to love G-d, it is proven that this depends on his choice.</t>\n    <t s=\"49\">And one cannot say</t>\n    <t s=\"50\">that the command is only about contemplation,</t>\n    <t s=\"51\">as the Alter Rebbe wrote</t>\n    <t s=\"52\">that he received from the Baal Shem Tov that \"the commandment of 'And you shall love' is to fix one's thought and mind...</t>\n    <t s=\"53\">on matters that arouse love,</t>\n    <t s=\"54\">and what will come from this is not the essence of the commandment,\"</t>\n    <t s=\"55\">for the simple meaning of \"and you shall love\" is that he should love G-d.</t>\n    <t s=\"56\">And from this it is proven,</t>\n    <t s=\"57\">that every single Jew,</t>\n    <t s=\"58\">when he contemplates this</t>\n    <t s=\"59\">(and also pays attention),</t>\n    <t s=\"60\">will necessarily, in the end, have love of G-d.</t>\n    <t s=\"61\">And this is what is stated in the maamar,</t>\n    <t s=\"62\">that in the emotions of a person, there can be a change from Chessed to Din and from Din to Chessed,</t>\n    <t s=\"63\">for since the emotions of a person are according to the intellect,</t>\n    <t s=\"64\">therefore,</t>\n    <t s=\"65\">when his intellect dictates a different way,</t>\n    <t s=\"66\">a change occurs also in the emotions.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section elaborates on the three levels of emotions—Ibur (conception), Yenikah (nursing), and Mochin (intellect)—explaining that even after emotions are drawn into the heart, they continue to receive from the intellect, which is why a change in the intellect causes a change in the emotions.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And the explanation of the concept in more detail</t>\n    <t s=\"2\">will be understood according to what the Mitteler Rebbe wrote in Toras Chayim,</t>\n    <t s=\"3\">that in the emotions there are</t>\n    <t s=\"4\">(generally)</t>\n    <t s=\"5\">three levels,</t>\n    <t s=\"6\">Ibur (conception), Yenikah (nursing), and Mochin (intellect).</t>\n    <t s=\"7\">For this is that the emotions are called \"Tzomeach\" (vegetative)</t>\n    <t s=\"8\">[as is known regarding the concept of the Chai (animal), Tzamayach (vegetative), and Medaber (speaking) aspects in man,</t>\n    <t s=\"9\">that the \"Chai\" aspect in man is the intellect,</t>\n    <t s=\"10\">and the emotions are the \"Tzomeach\" aspect in him],</t>\n    <t s=\"11\">because the growth and development of the emotions are in a manner of change from level to level,</t>\n    <t s=\"12\">Ibur, then Yenikah, and then Mochin.</t>\n    <t s=\"13\">The aspect of Ibur is the emotions as they are still hidden within the intellect,</t>\n    <t s=\"14\">similar to a fetus in its mother's womb.</t>\n    <t s=\"15\">And the aspect of Yenikah is the emotions as they are drawn into the heart,</t>\n    <t s=\"16\">for even then they grow from the intellect,</t>\n    <t s=\"17\">and moreover, then is the main growth of them.</t>\n    <t s=\"18\">Similar to an infant,</t>\n    <t s=\"19\">that even after it is born and becomes an independent entity,</t>\n    <t s=\"20\">it nurses from its mother's milk, through which its limbs grow</t>\n    <t s=\"21\">(and indeed, the main growth of the child is during the time of nursing).</t>\n    <t s=\"22\">And the aspect of Mochin is the emotions as they are in a state of maturity</t>\n    <t s=\"23\">(similar to a child after the time of nursing),</t>\n    <t s=\"24\">and even these emotions receive from the intellect,</t>\n    <t s=\"25\">from the aspect of the maturity of the intellect,</t>\n    <t s=\"26\">as explained in Toras Chayim there.</t>\n    <t s=\"27\">And based on this, the reason will be understood for this, that when the intellect dictates a different way, a change occurs in the emotions</t>\n    <t s=\"28\">(as explained above from the maamar of the Hilula),</t>\n    <t s=\"29\">for since even after the emotions are drawn into the heart and become an independent entity, they receive from the intellect,</t>\n    <t s=\"30\">similar to an infant,</t>\n    <t s=\"31\">that even after it is born and comes into the open air,</t>\n    <t s=\"32\">it nurses from its mother's milk</t>\n    <t s=\"33\">[and moreover,</t>\n    <t s=\"34\">even the emotions of maturity receive from the intellect],</t>\n    <t s=\"35\">therefore,</t>\n    <t s=\"36\">when a change occurs in the intellect,</t>\n    <t s=\"37\">the emotions also change.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916754_theRebbe_640",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the concept of \"Adam\" (man) is defined by three lines (right, left, and middle), which represent the superiority of the rectified world (Tikkun) over chaos (Tohu), and that the middle line connects and unifies the other two, originating from the Ein Sof; it then clarifies that the discussion of \"Adam\" in the maamar focuses on intellect and emotions to explain the possibility of consolation and regret, which involve a change from one attribute to another.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "Now, in Torah Ohr, section 60,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "(in the maamar that explains the concept that \"it is not a man to feel regret\"),"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "it explains that the concept of \"Adam\" (man) is [that of] three lines."
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "For even this aspect in man"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "(that he is in the form of three lines)"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "indicates the greatness of his level."
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "And as explained elsewhere,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "the primary difference between Tohu (chaos) and Tikkun (rectification) is,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "that in Tohu the Sefiros were in the aspect of two lines"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "(right and left),"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "and in Tikkun they are in the aspect of three lines"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "(right, left, and middle)."
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "And the superiority of Tikkun, which has three lines, is"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "(not only that an additional line was added to it,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "the middle line,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "but also)"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "that through the middle line, a connection and integration of the two lines, right and left, is made."
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "And that the middle line connects and unifies the two lines of Chessed and Gevurah is"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "because its source is from the Ein Sof, the completeness of all, which includes the perfection of the two lines."
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "Thus,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "even this, that man is in the form of three lines, indicates the perfection of man."
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "And that which is explained in the maamar that \"Adam\" is intellect and emotions and not the concept of three lines,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "that this explanation here of the concept of \"Adam\" is"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "in order to explain the reason for this, that in man, consolation and regret are applicable,"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "for the concept of consolation and regret is change and reversal,"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "meaning,"
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "that not only is he sometimes in the line of Chessed, sometimes in the line of Gevurah, and sometimes in the line of Tiferes"
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "[and similarly, that in the first millennium the conduct was according to the attribute of Chessed,"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "in the second millennium according to the attribute of Gevurah,"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "etc.],"
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "but rather,"
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "that in that same time and situation, he changes from Chessed to Din and from Din to Chessed."
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 12,
+            "s": 36,
+            "translation": "the change is in a manner of consolation and regret,"
+          },
+          {
+            "v": 12,
+            "s": 37,
+            "translation": "that not only from now onward is his conduct in a different attribute"
+          },
+          {
+            "v": 12,
+            "s": 38,
+            "translation": "(even though now it is the same situation and state),"
+          },
+          {
+            "v": 12,
+            "s": 39,
+            "translation": "but he regrets his previous conduct."
+          },
+          {
+            "v": 12,
+            "s": 40,
+            "translation": "Therefore, the maamar explains that \"Adam\" is intellect and emotions,"
+          },
+          {
+            "v": 12,
+            "s": 41,
+            "translation": "and not the concept of three lines,"
+          },
+          {
+            "v": 12,
+            "s": 42,
+            "translation": "because this change of attributes, in a manner of consolation and regret, occurs because man is intellect and emotions,"
+          },
+          {
+            "v": 12,
+            "s": 43,
+            "translation": "and his emotions are according to his intellect."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that a person's emotions, even natural ones, are activated by the intellect, as derived from the verse \"A man is praised according to his intellect,\" and that this principle applies to both the animal soul and the G-dly soul, enabling change in emotions when the intellect dictates a different course.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "The concept is that it is written,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "\"A man (Ish) is praised according to his intellect,\""
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "and it is known"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "that a person is called \"Ish\" because of his emotions"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "[for this is the difference between the title \"Adam\" and the title \"Ish\":"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "that which he is called \"Adam\" is because of his intellect, and that which he is called \"Ish\" is because of his emotions],"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "and the meaning of \"A man is praised according to his intellect\" is that even the emotions of a person"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "(Ish)"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "are according to his intellect."
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "even the natural emotions of a person,"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "despite the fact that their essential existence is from nature"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "[unlike intellectual emotions, whose entire existence is from the intellect],"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "are aroused by the intellect."
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "For this is the meaning of what is written,"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "\"Do not let your hearts be faint, do not fear, etc.,\""
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "for at first glance,"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "fear in battle is a natural thing, so how can there be a command about it, \"Do not fear\"?"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "And the explanation of this is,"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "that since the arousal of natural emotions is through the intellect,"
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "therefore,"
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "when one does not place his mind and thought on it,"
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "his heart will not be faint, and he will not fear or be afraid at all."
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "And as the Rambam wrote,"
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "\"Anyone who begins to think and contemplate about battle and frightens himself transgresses a negative commandment,"
+          },
+          {
+            "v": 13,
+            "s": 26,
+            "translation": "as it is said, 'Do not let your hearts be faint, do not fear, etc.,'\""
+          },
+          {
+            "v": 13,
+            "s": 27,
+            "translation": "for even natural fear is aroused and acts when one thinks and contemplates it."
+          },
+          {
+            "v": 13,
+            "s": 28,
+            "translation": "And so it is also in the G-dly soul,"
+          },
+          {
+            "v": 13,
+            "s": 29,
+            "translation": "that even its natural emotions,"
+          },
+          {
+            "v": 13,
+            "s": 30,
+            "translation": "their arousal is through the intellect."
+          },
+          {
+            "v": 13,
+            "s": 31,
+            "translation": "For this is the meaning of what is written,"
+          },
+          {
+            "v": 13,
+            "s": 32,
+            "translation": "\"And you shall love the L-rd your G-d,\""
+          },
+          {
+            "v": 13,
+            "s": 33,
+            "translation": "for although every Jew naturally loves G-d,"
+          },
+          {
+            "v": 13,
+            "s": 34,
+            "translation": "and according to the teaching of the Alter Rebbe,"
+          },
+          {
+            "v": 13,
+            "s": 35,
+            "translation": "every Jew does not want in any way and is completely unable to be separated, G-d forbid, from G-dliness,"
+          },
+          {
+            "v": 13,
+            "s": 36,
+            "translation": "nevertheless, there is a command about this,"
+          },
+          {
+            "v": 13,
+            "s": 37,
+            "translation": "because natural love is aroused through contemplation, and the command is that one should contemplate matters that arouse love."
+          },
+          {
+            "v": 13,
+            "s": 38,
+            "translation": "And this concept"
+          },
+          {
+            "v": 13,
+            "s": 39,
+            "translation": "(that the arousal of love is through contemplation)"
+          },
+          {
+            "v": 13,
+            "s": 40,
+            "translation": "is not only because of the concealment and hiding of the animal soul,"
+          },
+          {
+            "v": 13,
+            "s": 41,
+            "translation": "but also from the perspective of the G-dly soul,"
+          },
+          {
+            "v": 13,
+            "s": 42,
+            "translation": "for the emotions of a person,"
+          },
+          {
+            "v": 13,
+            "s": 43,
+            "translation": "and certainly the G-dly soul within him,"
+          },
+          {
+            "v": 13,
+            "s": 44,
+            "translation": "are according to intellect."
+          },
+          {
+            "v": 13,
+            "s": 45,
+            "translation": "On the other hand,"
+          },
+          {
+            "v": 13,
+            "s": 46,
+            "translation": "even after the G-dly soul has become enclothed in the body and animal soul,"
+          },
+          {
+            "v": 13,
+            "s": 47,
+            "translation": "through contemplation, etc., the natural love of the G-dly soul will necessarily be revealed."
+          },
+          {
+            "v": 13,
+            "s": 48,
+            "translation": "For from this very fact that every Jew is commanded to love G-d, it is proven that this depends on his choice."
+          },
+          {
+            "v": 13,
+            "s": 49,
+            "translation": "And one cannot say"
+          },
+          {
+            "v": 13,
+            "s": 50,
+            "translation": "that the command is only about contemplation,"
+          },
+          {
+            "v": 13,
+            "s": 51,
+            "translation": "as the Alter Rebbe wrote"
+          },
+          {
+            "v": 13,
+            "s": 52,
+            "translation": "that he received from the Baal Shem Tov that \"the commandment of 'And you shall love' is to fix one's thought and mind..."
+          },
+          {
+            "v": 13,
+            "s": 53,
+            "translation": "on matters that arouse love,"
+          },
+          {
+            "v": 13,
+            "s": 54,
+            "translation": "and what will come from this is not the essence of the commandment,\""
+          },
+          {
+            "v": 13,
+            "s": 55,
+            "translation": "for the simple meaning of \"and you shall love\" is that he should love G-d."
+          },
+          {
+            "v": 13,
+            "s": 56,
+            "translation": "And from this it is proven,"
+          },
+          {
+            "v": 13,
+            "s": 57,
+            "translation": "that every single Jew,"
+          },
+          {
+            "v": 13,
+            "s": 58,
+            "translation": "when he contemplates this"
+          },
+          {
+            "v": 13,
+            "s": 59,
+            "translation": "(and also pays attention),"
+          },
+          {
+            "v": 13,
+            "s": 60,
+            "translation": "will necessarily, in the end, have love of G-d."
+          },
+          {
+            "v": 13,
+            "s": 61,
+            "translation": "And this is what is stated in the maamar,"
+          },
+          {
+            "v": 13,
+            "s": 62,
+            "translation": "that in the emotions of a person, there can be a change from Chessed to Din and from Din to Chessed,"
+          },
+          {
+            "v": 13,
+            "s": 63,
+            "translation": "for since the emotions of a person are according to the intellect,"
+          },
+          {
+            "v": 13,
+            "s": 64,
+            "translation": "therefore,"
+          },
+          {
+            "v": 13,
+            "s": 65,
+            "translation": "when his intellect dictates a different way,"
+          },
+          {
+            "v": 13,
+            "s": 66,
+            "translation": "a change occurs also in the emotions."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section elaborates on the three levels of emotions—Ibur (conception), Yenikah (nursing), and Mochin (intellect)—explaining that even after emotions are drawn into the heart, they continue to receive from the intellect, which is why a change in the intellect causes a change in the emotions.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And the explanation of the concept in more detail"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "will be understood according to what the Mitteler Rebbe wrote in Toras Chayim,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "that in the emotions there are"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "(generally)"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "three levels,"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "Ibur (conception), Yenikah (nursing), and Mochin (intellect)."
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "For this is that the emotions are called \"Tzomeach\" (vegetative)"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "[as is known regarding the concept of the Chai (animal), Tzamayach (vegetative), and Medaber (speaking) aspects in man,"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "that the \"Chai\" aspect in man is the intellect,"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "and the emotions are the \"Tzomeach\" aspect in him],"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "because the growth and development of the emotions are in a manner of change from level to level,"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "Ibur, then Yenikah, and then Mochin."
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "The aspect of Ibur is the emotions as they are still hidden within the intellect,"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "similar to a fetus in its mother's womb."
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "And the aspect of Yenikah is the emotions as they are drawn into the heart,"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "for even then they grow from the intellect,"
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "and moreover, then is the main growth of them."
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "Similar to an infant,"
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "that even after it is born and becomes an independent entity,"
+          },
+          {
+            "v": 14,
+            "s": 20,
+            "translation": "it nurses from its mother's milk, through which its limbs grow"
+          },
+          {
+            "v": 14,
+            "s": 21,
+            "translation": "(and indeed, the main growth of the child is during the time of nursing)."
+          },
+          {
+            "v": 14,
+            "s": 22,
+            "translation": "And the aspect of Mochin is the emotions as they are in a state of maturity"
+          },
+          {
+            "v": 14,
+            "s": 23,
+            "translation": "(similar to a child after the time of nursing),"
+          },
+          {
+            "v": 14,
+            "s": 24,
+            "translation": "and even these emotions receive from the intellect,"
+          },
+          {
+            "v": 14,
+            "s": 25,
+            "translation": "from the aspect of the maturity of the intellect,"
+          },
+          {
+            "v": 14,
+            "s": 26,
+            "translation": "as explained in Toras Chayim there."
+          },
+          {
+            "v": 14,
+            "s": 27,
+            "translation": "And based on this, the reason will be understood for this, that when the intellect dictates a different way, a change occurs in the emotions"
+          },
+          {
+            "v": 14,
+            "s": 28,
+            "translation": "(as explained above from the maamar of the Hilula),"
+          },
+          {
+            "v": 14,
+            "s": 29,
+            "translation": "for since even after the emotions are drawn into the heart and become an independent entity, they receive from the intellect,"
+          },
+          {
+            "v": 14,
+            "s": 30,
+            "translation": "similar to an infant,"
+          },
+          {
+            "v": 14,
+            "s": 31,
+            "translation": "that even after it is born and comes into the open air,"
+          },
+          {
+            "v": 14,
+            "s": 32,
+            "translation": "it nurses from its mother's milk"
+          },
+          {
+            "v": 14,
+            "s": 33,
+            "translation": "[and moreover,"
+          },
+          {
+            "v": 14,
+            "s": 34,
+            "translation": "even the emotions of maturity receive from the intellect],"
+          },
+          {
+            "v": 14,
+            "s": 35,
+            "translation": "therefore,"
+          },
+          {
+            "v": 14,
+            "s": 36,
+            "translation": "when a change occurs in the intellect,"
+          },
+          {
+            "v": 14,
+            "s": 37,
+            "translation": "the emotions also change."
+          }
+        ]
+      }
+    ]
+  }
+}

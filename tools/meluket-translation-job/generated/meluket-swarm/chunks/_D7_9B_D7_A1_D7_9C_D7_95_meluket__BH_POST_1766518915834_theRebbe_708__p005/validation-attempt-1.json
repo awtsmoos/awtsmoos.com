@@ -1,0 +1,349 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 61,
+    "returned": 61,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915834_theRebbe_708\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the vessel for \"great peace\" is total self-nullification, achieved through the service of prayer, which characterizes those who love G-d's Torah.</sectionSummaryBrief>\n    <t s=\"0\">And this is “great peace for those who love Your Torah”</t>\n    <t s=\"1\">(specifically for those who love Your Torah),</t>\n    <t s=\"2\">for the vessel for “great peace”</t>\n    <t s=\"3\">(the pleasure and satisfaction of the Creator)</t>\n    <t s=\"4\">is total self-nullification</t>\n    <t s=\"5\">(as above),</t>\n    <t s=\"6\">the matter of “those who love Your Torah,”</t>\n    <t s=\"7\">that their involvement in Torah</t>\n    <t s=\"8\">(and also their fulfillment of the commandments)</t>\n    <t s=\"9\">is not in order to receive reward</t>\n    <t s=\"10\">(for they do not want anything for themselves),</t>\n    <t s=\"11\">and all their service in Torah and mitzvos is only out of love for G-d,</t>\n    <t s=\"12\">like Avraham our father, who served only out of love.</t>\n    <t s=\"13\">And this is accomplished through the service of prayer</t>\n    <t s=\"14\">[as explained above</t>\n    <t s=\"15\">(section 2)</t>\n    <t s=\"16\">of the maamar</t>\n    <t s=\"17\">(beginning “Shalom Rav” 5704)</t>\n    <t s=\"18\">that the matter of “those who love Your Torah” is when the study of Torah is preceded by the service of prayer],</t>\n    <t s=\"19\">for prayer is the matter of self-nullification</t>\n    <t s=\"20\">(as above, section 4),</t>\n    <t s=\"21\">and therefore through the service of prayer one comes to this self-nullification, where he has no existence of his own and his entire existence is the Master.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains why the verse \"and abundant peace to your children\" does not mention \"those who love Your Torah,\" as peace in the world can be drawn even without prayer, but for the scholars themselves, prayer is necessary.</sectionSummaryBrief>\n    <t s=\"0\">And this is also the reason that in the verse “and abundant peace to your children” it does not say “those who love Your Torah”</t>\n    <t s=\"1\">[the service of prayer],</t>\n    <t s=\"2\">for regarding the drawing down of peace into the world</t>\n    <t s=\"3\">[the matter of “your builders,” those who engage in building the world],</t>\n    <t s=\"4\">it is known</t>\n    <t s=\"5\">that even without the service of prayer</t>\n    <t s=\"6\">(and even when there is a lack in the completeness of fear of Heaven)</t>\n    <t s=\"7\">it is possible to direct the halachah to its truth,</t>\n    <t s=\"8\">and by issuing a true ruling</t>\n    <t s=\"9\">[and all the more so when one actually acts in accordance with the ruling]</t>\n    <t s=\"10\">abundant peace is drawn into the world.</t>\n    <t s=\"11\">But in order for this to be drawn to the Torah scholars themselves,</t>\n    <t s=\"12\">this is specifically when they become vessels for it,</t>\n    <t s=\"13\">through the precedence of the service of prayer,</t>\n    <t s=\"14\">as above.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section explains that the vessel for the revelation of G-d's pleasure includes not only the service of a servant but also that of a son, and the reward of \"great peace\" is for the Jewish people as sons.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And it can be said that the vessel for the revelation of the pleasure and satisfaction of the Creator is not only the service of the level of a servant,</t>\n    <t s=\"2\">but also the service of the level of a son.</t>\n    <t s=\"3\">And especially since the essence of the Jewish people is</t>\n    <t s=\"4\">(primarily)</t>\n    <t s=\"5\">“You are children to the L-rd your G-d,”</t>\n    <t s=\"6\">as explained in Tanya.</t>\n    <t s=\"7\">And this is that the verse “great peace for those who love Your Torah” comes in continuation of “and abundant peace to your children,”</t>\n    <t s=\"8\">meaning that it is a reward for “your children”</t>\n    <t s=\"9\">(for their service that increases peace in the world,</t>\n    <t s=\"10\">as above, section 8),</t>\n    <t s=\"11\">the level of sons.</t>\n    <t s=\"12\">And although they said “do not read it as ‘your children’ but rather as ‘your builders,’”</t>\n    <t s=\"13\">it is known the principle</t>\n    <t s=\"14\">in the study of “do not read” that it does not negate the literal interpretation</t>\n    <t s=\"15\">(but rather adds another interpretation),</t>\n    <t s=\"16\">from this it is understood</t>\n    <t s=\"17\">that the reward of “great peace,”</t>\n    <t s=\"18\">which is the pleasure and satisfaction of the Creator</t>\n    <t s=\"19\">(as above),</t>\n    <t s=\"20\">is</t>\n    <t s=\"21\">(also)</t>\n    <t s=\"22\">for “your children” literally,</t>\n    <t s=\"23\">the level of sons.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915834_theRebbe_708",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the vessel for \"great peace\" is total self-nullification, achieved through the service of prayer, which characterizes those who love G-d's Torah.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And this is “great peace for those who love Your Torah”"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "(specifically for those who love Your Torah),"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "for the vessel for “great peace”"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(the pleasure and satisfaction of the Creator)"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "is total self-nullification"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "(as above),"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "the matter of “those who love Your Torah,”"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "that their involvement in Torah"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "(and also their fulfillment of the commandments)"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "is not in order to receive reward"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "(for they do not want anything for themselves),"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "and all their service in Torah and mitzvos is only out of love for G-d,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "like Avraham our father, who served only out of love."
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "And this is accomplished through the service of prayer"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "[as explained above"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "(section 2)"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "of the maamar"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "(beginning “Shalom Rav” 5704)"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "that the matter of “those who love Your Torah” is when the study of Torah is preceded by the service of prayer],"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "for prayer is the matter of self-nullification"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "(as above, section 4),"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "and therefore through the service of prayer one comes to this self-nullification, where he has no existence of his own and his entire existence is the Master."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains why the verse \"and abundant peace to your children\" does not mention \"those who love Your Torah,\" as peace in the world can be drawn even without prayer, but for the scholars themselves, prayer is necessary.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And this is also the reason that in the verse “and abundant peace to your children” it does not say “those who love Your Torah”"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "[the service of prayer],"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "for regarding the drawing down of peace into the world"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "[the matter of “your builders,” those who engage in building the world],"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "it is known"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "that even without the service of prayer"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "(and even when there is a lack in the completeness of fear of Heaven)"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "it is possible to direct the halachah to its truth,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "and by issuing a true ruling"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "[and all the more so when one actually acts in accordance with the ruling]"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "abundant peace is drawn into the world."
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "But in order for this to be drawn to the Torah scholars themselves,"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "this is specifically when they become vessels for it,"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "through the precedence of the service of prayer,"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "as above."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section explains that the vessel for the revelation of G-d's pleasure includes not only the service of a servant but also that of a son, and the reward of \"great peace\" is for the Jewish people as sons.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And it can be said that the vessel for the revelation of the pleasure and satisfaction of the Creator is not only the service of the level of a servant,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "but also the service of the level of a son."
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "And especially since the essence of the Jewish people is"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "“You are children to the L-rd your G-d,”"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "as explained in Tanya."
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "And this is that the verse “great peace for those who love Your Torah” comes in continuation of “and abundant peace to your children,”"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "meaning that it is a reward for “your children”"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "(for their service that increases peace in the world,"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "as above, section 8),"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "the level of sons."
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "And although they said “do not read it as ‘your children’ but rather as ‘your builders,’”"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "it is known the principle"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "in the study of “do not read” that it does not negate the literal interpretation"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "(but rather adds another interpretation),"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "from this it is understood"
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "that the reward of “great peace,”"
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "which is the pleasure and satisfaction of the Creator"
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "(as above),"
+          },
+          {
+            "v": 14,
+            "s": 20,
+            "translation": "is"
+          },
+          {
+            "v": 14,
+            "s": 21,
+            "translation": "(also)"
+          },
+          {
+            "v": 14,
+            "s": 22,
+            "translation": "for “your children” literally,"
+          },
+          {
+            "v": 14,
+            "s": 23,
+            "translation": "the level of sons."
+          }
+        ]
+      }
+    ]
+  }
+}

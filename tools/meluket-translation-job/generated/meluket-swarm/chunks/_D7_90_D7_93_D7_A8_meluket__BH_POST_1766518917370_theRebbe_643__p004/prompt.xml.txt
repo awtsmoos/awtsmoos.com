@@ -1,0 +1,151 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917370_theRebbe_643" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917370_theRebbe_643__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917370_theRebbe_643" title="מאמר וקבל היהודים תשל"ח" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917370_theRebbe_643__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">וע"פ הנ"ל יובן מ"ש וקבל היהודים את אשר החלו לעשות,</src>
+    <src s="2">דהגם שבשעת מ"ת היו ישראל בתכלית המעלה</src>
+    <src s="3">(ואז כבר ניתן הכל,</src>
+    <src s="4">כנ"ל),</src>
+    <src s="5">מ"מ הי' אז רק החלו לעשות,</src>
+    <src s="6">התחלה בלבד,</src>
+    <src s="7">כי זה הי' רק מלמעלה למטה.</src>
+    <src s="8">ואח"כ בהעבודה שבזמן הגלות,</src>
+    <src s="9">בזמן מרדכי ואסתר,</src>
+    <src s="10">כאשר הוא תוקף הגלות בחושך כפול ומכופל</src>
+    <src s="11">(וכמו שהי' בפשטות)</src>
+    <src s="12">הנה אז העבודה היא מצד התחתונים,</src>
+    <src s="13">וקבל היהודים,</src>
+    <src s="14">שזה לא הי' בשעת מ"ת.</src>
+    <src s="15">ועוד זאת,</src>
+    <src s="16">שבהעבודה שבזמן הגלות ישנו עילוי לגבי שעת מ"ת,</src>
+    <src s="17">שדוקא אז נעשה הקיום בהתורה שקבלו במ"ת שהיא בבחי' החלו לעשות בלבד,</src>
+    <src s="18">כי דוקא בזמן הגלות</src>
+    <src s="19">[כפשוטו,</src>
+    <src s="20">וכן בדקות הענינים,</src>
+    <src s="21">כשמתבונן</src>
+    <src s="22">(ע"ד הנ"ל)</src>
+    <src s="23">שגם לאחר כל הענינים שפעל בעבודתו,</src>
+    <src s="24">אפילו כשהם בתכלית השלימות,</src>
+    <src s="25">מ"מ עדיין הוא בבחי' גלות</src>
+    <src s="26">(ברוחניות),</src>
+    <src s="27">כי מכיון שהקב"ה עוזרו67</src>
+    <src s="28">ביכולתו הוא להגיע לדרגא נעלית יותר ועד לאין ערוך,</src>
+    <src s="29">ע"ד לשון חז"ל68</src>
+    <src s="30">(יגעת)</src>
+    <src s="31">ומצאת שהמציאה היא שלא בערך יגיעתו והשתדלותו69]</src>
+    <src s="32">דאז הנה כאו"א נשבר ונדכא,</src>
+    <src s="33">הנה אז מגיעים למאור עצמו.</src>
+  </section>
+  <section v="10">
+    <src s="0">ז)</src>
+    <src s="1">ויש לקשר מה שנת"ל בגודל העילוי שבעבודת התחתונים,</src>
+    <src s="2">שע"י דוקא נעשה הקיום דמה שהחלו לעשות,</src>
+    <src s="3">עם פרשת השבוע</src>
+    <src s="4">[ובזה גופא עם השיעור דהיום דיום השלישי</src>
+    <src s="5">[שענינו הוא שהוכפל בו כי טוב70,</src>
+    <src s="6">טוב לשמים וטוב לבריות71]</src>
+    <src s="7">– ע"פ תקנת כ"ק מו"ח אדמו"ר ללמוד בכל יום מימות השבוע פרשה אחת בפרשת השבוע]</src>
+    <src s="8">ע"פ המבואר בהמאמרים72</src>
+    <src s="9">ובפרט במאמר כ"ק אדמו"ר</src>
+    <src s="10">(מהורש"ב)</src>
+    <src s="11">נ"ע שלפני ששים שנה73</src>
+    <src s="12">בפרשתנו עה"פ74</src>
+    <src s="13">ועתה אם נא מצאתי חן בעיניך גו' למען אמצא חן בעיניך גו' כי מצאתי חן בעיניך גו' כי מצאת חן בעיני</src>
+    <src s="14">[דעי"ז יהי' ונפלינו אני ועמך מכל העם אשר על פני האדמה</src>
+    <src s="15">(דונפלינו הוא כענין נפלא שנת"ל)]</src>
+    <src s="16">דצריך להבין מהי המעלה בענין החן שמשה רבינו ביקש והפציר כ"כ ע"ז ועד שזה הי' תכלית השלימות דבקשתו,</src>
+    <src s="17">וע"י החן יהי' אח"כ ונפלינו אני ועמך,</src>
+    <src s="18">דהלא כתיב75</src>
+    <src s="19">שקר החן גו',</src>
+    <src s="20">והוא מפני שהחן הוא בחי' אתעדל"ע מצ"ע,</src>
+    <src s="21">ויש יתרון גדול במה שבא באתעדל"ת.</src>
+    <src s="22">ומבאר שם בזה דישנה בחי' אתעדל"ע הנמשך לאחר האתעדל"ת שזהו המשכה מבחי' עצמות א"ס שאין אתעדל"ת מגעת לשם כלל והוא רק בבחי' מתנה</src>
+    <src s="23">(והוא הנק' מתנת חנם שהוא לשון חן כו')</src>
+    <src s="24">רק שזה נמשך לאחרי שלימות האתעדל"ת,</src>
+    <src s="25">וכמו גבי מתנה דאמרז"ל76</src>
+    <src s="26">אי לאו דעביד לי' נייחא לנפשי' כו' הגם שהיא בבחי' מתנה.</src>
+  </section>
+  <section v="11">
+    <src s="0">והנה העבודה שבזה היא</src>
+    <src s="1">[כמובן ע"פ המבואר בהמאמר שם77],</src>
+    <src s="2">דישנו78</src>
+    <src s="3">ענין האמונה שבבחי' ממכ"ע אך בבחי' זו שייך שיהי' מעין זה גם בחסידי אוה"ע ועד שבישראל אפשר שבחי' ממכ"ע תהי' בבחי' ידיעה.</src>
+    <src s="4">ועיקר האמונה דנש"י הוא במדריגת סוכ"ע,</src>
+    <src s="5">דאמונה זו שייכת רק בישראל79,</src>
+    <src s="6">דזהו מ"ש80</src>
+    <src s="7">שמע ישראל ה' אלקינו ה' אחד שזהו"ע הקבלה והאמונה בבחי' סוכ"ע ובזה נאמר שמע ישראל דוקא שאמונה זו היא רק בנש"י</src>
+    <src s="8">[משא"כ מ"ש ברוך שם כבוד מלכותו לעולם ועד קאי על ההתבוננות דבחי' ממכ"ע]81.</src>
+    <src s="9">וזהו ג"כ מה דאיתא בזהר82</src>
+    <src s="10">דהע' דשמע והד' דאחד הן אותיות רבתי וע"י צירופם נעשה תיבת עד,</src>
+    <src s="11">ומבואר בכ"מ83</src>
+    <src s="12">דעל דבר הנגלה אין צריך ואין שייך עדות,</src>
+    <src s="13">ואפילו על מילתא דעביד לאגלויי כו' לא הצריכה התורה עדות84,</src>
+    <src s="14">כ"א דוקא על דבר הנעלם לגמרי,</src>
+    <src s="15">בחי' סוכ"ע.</src>
+    <src s="16">וזהו מ"ש שמע ישראל וגו' אחד,</src>
+    <src s="17">דקאי על כאו"א מישראל שהם דוקא העדים המעידים85</src>
+    <src s="18">דהוי' אחד</src>
+    <src s="19">[עד שבכל מעמד ומצב שיהי' בעבודתו הנה כאו"א מישראל אומר שמע ישראל,</src>
+    <src s="20">כמבואר בשיחות כ"ק מו"ח אדמו"ר86],</src>
+    <src s="21">דהח' וד' דאחד מרמזים על ז' רקיעים וארץ וד' רוחות העולם והאל"ף מרמזת לאלופו של עולם87,</src>
+    <src s="22">וישראל בעבודתם פועלים להיות אחד,</src>
+    <src s="23">היינו שממשיכים בעולם</src>
+    <src s="24">(בח' וד')</src>
+    <src s="25">את אלופו של עולם</src>
+    <src s="26">(הא'),</src>
+    <src s="27">עד שיתאחדו בדוגמא לתיבת אחד שהא' היא תיבה א' עם הח' וד'</src>
+    <src s="28">(ותוכן התיבה עצמה הו"ע האחדות),</src>
+    <src s="29">ובאופן כזה שהא' דאלופו של עולם יהי' ראש88</src>
+    <src s="30">והתחלת התיבה.</src>
+    <src s="31">והנה ע"י אתעדל"ת זו דעבודת ישראל בבחי' סוכ"ע</src>
+    <src s="32">(הוי' אחד),</src>
+    <src s="33">הנה ממשיכים בחי' אתעדל"ע שלפי ערך האתעדל"ת ואח"כ נמשך בחי' אתעדל"ע שלמעלה מבחי' אתעדל"ע שע"י אתעדל"ת.</src>
+    <src s="34">דבחי' אתעדל"ע הנמשכת על ידי האתעדל"ת היא בחי' שבערך לסדר ההשתלשלות,</src>
+    <src s="35">וי"ל דגם על זה קאי מ"ש89</src>
+    <src s="36">הנה מלאכי ילך לפניך,</src>
+    <src s="37">אך בקשת משה הי' שיהי' המשכת בחי' אתעדל"ע שלמעלה מזה שמצ"ע,</src>
+    <src s="38">ועתה אם נא מצאתי חן בעיניך,</src>
+    <src s="39">ענין החן,</src>
+    <src s="40">עד שיהי' ונפלינו אני ועמך,</src>
+    <src s="41">דקאי</src>
+    <src s="42">(בספירות)</src>
+    <src s="43">על ספירת הכתר,</src>
+    <src s="44">פנימיות הכתר ועד לעצומ"ה ית'.</src>
+    <src s="45">דהגם דבחי' אתעדל"ע זו נמשכת מצ"ע היינו שאין אתעדל"ת מגיע לשם,</src>
+    <src s="46">מ"מ הרי קוב"ה לא שריא אלא באתר שלים90,</src>
+    <src s="47">דצ"ל תחלה עבודת התחתונים באתעדל"ת והמשכת האתעדל"ע שלפי ערך האתעדל"ת ואז בהאתר שלים נמשך להיות קוב"ה שריא כמבואר בלקו"ת שה"ש91.</src>
+  </section>
+</awtsmoosMeluketSource>

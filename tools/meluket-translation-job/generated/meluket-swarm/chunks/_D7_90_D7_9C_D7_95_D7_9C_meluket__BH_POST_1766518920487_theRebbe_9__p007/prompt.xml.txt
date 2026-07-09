@@ -1,0 +1,115 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" title="מאמר לך אמר לבי תש"כ" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p007">
+  <section v="18">
+    <src s="0">ויש לומר,</src>
+    <src s="1">שעד"ז הוא בנוגע למלך בשדה</src>
+    <src s="2">(אלול),</src>
+    <src s="3">דהגם שזוהי ירידה לגבי כמו שהוא בהיכל מלכותו</src>
+    <src s="4">(ר"ה ויוהכ"פ),</src>
+    <src s="5">דבהיותו בהיכל מלכותו הוא בכתר מלכות ולבושי מלכות משא"כ בהיותו בשדה,</src>
+    <src s="6">הנה עי"ז נעשה עלי' כביכול בהמלך65,</src>
+    <src s="7">כי ע"י ירידתו לשדה נעשה ענין חדש,</src>
+    <src s="8">שגם הרחוקים ביותר באים להקביל את פניו.</src>
+    <src s="9">אלא שאעפ"כ,</src>
+    <src s="10">מכיון שבענין הגילויים,</src>
+    <src s="11">זה שנמצא בשדה הוא ירידה לגבי כמו שהוא בהיכל מלכותו,</src>
+    <src s="12">צריכה להיות העבודה בשדה באופן דללכת</src>
+    <src s="13">(אח"כ)</src>
+    <src s="14">אחרי המלך להיכל מלכותו66,</src>
+    <src s="15">וכמ"ש בהמאמר67</src>
+    <src s="16">שהעבודה דאלול היא הקדמה להעבודה דר"ה ויוהכ"פ.</src>
+    <src s="17">וזהו גם הקשר דשני הפירושים68</src>
+    <src s="18">בלך אמר לבי בקשו פני,</src>
+    <src s="19">שהעבודה דלך אמר לבי להפירוש שלך הוא בשבילך בשליחותך,</src>
+    <src s="20">להשלים רצונו ית' לעשות את המטה דירה לו ית',</src>
+    <src s="21">צריכה להיות באופן שעי"ז יגיעו להפירוש שלך הוא במקומך,</src>
+    <src s="22">גילוי נקודת היהדות שמקושרת בהעצמות.</src>
+  </section>
+  <section v="19">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וממשיך בהמאמר</src>
+    <src s="3">(בסיום וחותם המאמר),</src>
+    <src s="4">שע"י התעוררות נקודת הלב נעשה כלי טהורה לקבל השפע ברכה על כל השנה.</src>
+    <src s="5">ויש לומר,</src>
+    <src s="6">שבזה ישנם ב' המעלות,</src>
+    <src s="7">המעלה דלך בשליחותך והמעלה דלך במקומך.</src>
+    <src s="8">דכאשר המשכת השפע הוא ע"פ סדר ההשתלשלות,</src>
+    <src s="9">מעיינים בדינו אם הוא ראוי לזה,</src>
+    <src s="10">וישנם מקטריגים שמקטרגים ואומרים שאינו ראוי לזה.</src>
+    <src s="11">ויש לומר,</src>
+    <src s="12">דענין זה הוא גם כשההמשכה היא משם הוי'</src>
+    <src s="13">(כיון שגם שם הוי' הוא מקור להתהוות,</src>
+    <src s="14">כנ"ל סעיף ה),</src>
+    <src s="15">כמ"ש69</src>
+    <src s="16">ויבואו בני האלקים להתייצב על הוי'.</src>
+    <src s="17">וזה שנמשך שפע ברכה</src>
+    <src s="18">(בריבוי מופלג)</src>
+    <src s="19">הוא לפי שע"י גילוי עצמות נקודת הלב ההמשכה היא מאוא"ס שלמעלה מהוי',</src>
+    <src s="20">ואין שייך שם הקטרוג דבני האלקים</src>
+    <src s="21">(וכנ"ל סוף סעיף ו בפירוש הכתוב לא יהי' לך אלקים אחרים על פני),</src>
+    <src s="22">ויתירה מזו,</src>
+    <src s="23">שאין שם גם המדידות וההגבלות דשם אלקים</src>
+    <src s="24">(דקדושה),</src>
+    <src s="25">ולכן השפע שנמשך משם הוא בריבוי מופלג.</src>
+    <src s="26">וזה שהמשכת השפע הוא בענינים גשמיים,</src>
+    <src s="27">ומכש"כ זה שהמשכת השפע הוא לא רק מצד למעלה אלא</src>
+    <src s="28">(כנ"ל מהמאמר)</src>
+    <src s="29">שהאדם נעשה כלי מתאימה לקבל השפע,</src>
+    <src s="30">הוא לפי שע"י העבודה בהארת נקודת הלב וחיצוניות הלב לעשות את המטה דירה לו ית',</src>
+    <src s="31">נרגש מעלת הגשמיות</src>
+    <src s="32">(כנ"ל סעיף י בענין מבשרי אחזה אלוקה)</src>
+    <src s="33">ומעלתן של ישראל העושים את הדירה.</src>
+  </section>
+  <section v="20">
+    <src s="0">ומכיון שבהעבודה דאלול ישנם שני הענינים,</src>
+    <src s="1">שהעבודה</src>
+    <src s="2">(עצמה)</src>
+    <src s="3">היא בשדה ובאופן דללכת אחרי המלך להיכל מלכותו</src>
+    <src s="4">(כנ"ל סעיף יא),</src>
+    <src s="5">לכן,</src>
+    <src s="6">גם בהמשכת השפע שני הענינים,</src>
+    <src s="7">שנמשך רב טוב</src>
+    <src s="8">(במלופם70)</src>
+    <src s="9">שלמעלה ממדידה והגבלה,</src>
+    <src s="10">וזה בא בטוב הנראה והנגלה</src>
+    <src s="11">(גם)</src>
+    <src s="12">בענינים הגשמיים,</src>
+    <src s="13">לשנה טובה ומתוקה,</src>
+    <src s="14">בבני חיי ומזוני כפשוטם,</src>
+    <src s="15">ובכולם – רויחי.</src>
+  </section>
+</awtsmoosMeluketSource>

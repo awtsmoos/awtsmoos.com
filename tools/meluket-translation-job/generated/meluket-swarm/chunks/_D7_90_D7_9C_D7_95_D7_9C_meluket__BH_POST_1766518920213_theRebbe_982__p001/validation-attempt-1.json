@@ -1,0 +1,224 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 36,
+    "returned": 36,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920213_theRebbe_982\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920213_theRebbe_982__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">On the eve of the fifth day of the week, Parshat Shoftim,</t>\n    <t s=\"2\">Rosh Chodesh Elul, 5746*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the month of Elul is characterized by the arousal from below (\"Ani l'Dodi\"), which is preceded and empowered by an arousal from above through the revelation of the Thirteen Attributes of Mercy.</sectionSummaryBrief>\n    <t s=\"0\">\"I am my Beloved's and my Beloved is mine\"</t>\n    <t s=\"1\">the acronym of which is Elul,</t>\n    <t s=\"2\">and this is explained in the well-known discourse in Likkutei Torah,</t>\n    <t s=\"3\">that in Elul begins the aspect of \"I am my Beloved's,\" which is the aspect of an arousal from below,</t>\n    <t s=\"4\">until Rosh Hashanah and Yom Kippur, which are the aspect of drawing down His G-dliness below in a manner of revelation.</t>\n    <t s=\"5\">For this is \"I am my Beloved's,\"</t>\n    <t s=\"6\">the arousal from below</t>\n    <t s=\"7\">(from below)</t>\n    <t s=\"8\">which is in the month of Elul,</t>\n    <t s=\"9\">and afterwards \"and my Beloved is mine,\"</t>\n    <t s=\"10\">the drawing down from above during the Days of Awe.</t>\n    <t s=\"11\">However, even though the essence of the month of Elul is the arousal from below,</t>\n    <t s=\"12\">nevertheless, this requires an arousal and giving of power from above.</t>\n    <t s=\"13\">And this is what is explained in the continuation of the discourse,</t>\n    <t s=\"14\">that in the month of Elul is the time of the revelation of the Thirteen Attributes of Mercy,</t>\n    <t s=\"15\">which is the matter of the arousal from above that awakens the arousal from below of \"I am my Beloved's.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section uses the parable of a king going to the field to explain the revelation of the Thirteen Attributes of Mercy in Elul, where everyone can approach the king with a smiling face.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And this is explained</t>\n    <t s=\"2\">by way of a parable of a king who, before he comes to the city, the people of the city go out to greet him and receive him in the field, and then anyone who wishes is permitted</t>\n    <t s=\"3\">[and adds to this my father-in-law, the Rebbe, the Nasi of our generation:</t>\n    <t s=\"4\">and is able]</t>\n    <t s=\"5\">to greet him,</t>\n    <t s=\"6\">and he receives them all with a pleasant countenance and shows a smiling face to everyone,</t>\n    <t s=\"7\">and when he goes to the city, they walk after him,</t>\n    <t s=\"8\">and afterwards, when he comes to his royal palace, none may enter except by permission, and even then only the choicest of the people and select individuals.</t>\n    <t s=\"9\">And he continues,</t>\n    <t s=\"10\">that so it is, allegorically, in the month of Elul: they go out to greet the light of His countenance, blessed be He, in the field.</t>\n    <t s=\"11\">And he explains,</t>\n    <t s=\"12\">that the matter of the illumination of the Thirteen Attributes of Mercy is the concept of \"May Hashem cause His countenance to shine upon you,\"</t>\n    <t s=\"13\">and it can be said,</t>\n    <t s=\"14\">that this is the concept of the king receiving everyone with a pleasant countenance and showing a smiling face, etc.,</t>\n    <t s=\"15\">to the extent that one can even speak of the matter of making a request to the king himself, etc.</t>\n    <t s=\"16\">And as the details of this matter are explained regarding the service of man in Likkutei Torah there.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920213_theRebbe_982",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920213_theRebbe_982__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the opening header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "On the eve of the fifth day of the week, Parshat Shoftim,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Rosh Chodesh Elul, 5746*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that the month of Elul is characterized by the arousal from below (\"Ani l'Dodi\"), which is preceded and empowered by an arousal from above through the revelation of the Thirteen Attributes of Mercy.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"I am my Beloved's and my Beloved is mine\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "the acronym of which is Elul,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "and this is explained in the well-known discourse in Likkutei Torah,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "that in Elul begins the aspect of \"I am my Beloved's,\" which is the aspect of an arousal from below,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "until Rosh Hashanah and Yom Kippur, which are the aspect of drawing down His G-dliness below in a manner of revelation."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "For this is \"I am my Beloved's,\""
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "the arousal from below"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "(from below)"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "which is in the month of Elul,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "and afterwards \"and my Beloved is mine,\""
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "the drawing down from above during the Days of Awe."
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "However, even though the essence of the month of Elul is the arousal from below,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "nevertheless, this requires an arousal and giving of power from above."
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "And this is what is explained in the continuation of the discourse,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "that in the month of Elul is the time of the revelation of the Thirteen Attributes of Mercy,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "which is the matter of the arousal from above that awakens the arousal from below of \"I am my Beloved's.\""
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section uses the parable of a king going to the field to explain the revelation of the Thirteen Attributes of Mercy in Elul, where everyone can approach the king with a smiling face.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And this is explained"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "by way of a parable of a king who, before he comes to the city, the people of the city go out to greet him and receive him in the field, and then anyone who wishes is permitted"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "[and adds to this my father-in-law, the Rebbe, the Nasi of our generation:"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "and is able]"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "to greet him,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and he receives them all with a pleasant countenance and shows a smiling face to everyone,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and when he goes to the city, they walk after him,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "and afterwards, when he comes to his royal palace, none may enter except by permission, and even then only the choicest of the people and select individuals."
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And he continues,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "that so it is, allegorically, in the month of Elul: they go out to greet the light of His countenance, blessed be He, in the field."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "that the matter of the illumination of the Thirteen Attributes of Mercy is the concept of \"May Hashem cause His countenance to shine upon you,\""
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "and it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that this is the concept of the king receiving everyone with a pleasant countenance and showing a smiling face, etc.,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "to the extent that one can even speak of the matter of making a request to the king himself, etc."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And as the details of this matter are explained regarding the service of man in Likkutei Torah there."
+          }
+        ]
+      }
+    ]
+  }
+}

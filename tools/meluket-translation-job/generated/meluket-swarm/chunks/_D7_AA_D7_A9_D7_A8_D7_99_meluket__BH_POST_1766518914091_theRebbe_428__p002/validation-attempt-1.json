@@ -1,0 +1,784 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 148,
+    "returned": 148,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914091_theRebbe_428\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914091_theRebbe_428__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains two interpretations of \"Hashem is Elokim\": first, that the concealment of Elokim is actually from Hashem, and second, that even the name Hashem is a mere garment relative to the Essence.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">behold, \"Hashem is Elokim\" has two interpretations and concepts.</t>\n    <t s=\"3\">The first is that even the tzimtzum of Elokim is Hashem.</t>\n    <t s=\"4\">For, behold, Hashem is a term meaning \"He who brings into being,\"</t>\n    <t s=\"5\">for all coming into being is from the name Hashem,</t>\n    <t s=\"6\">except that in order for the coming into being to be actualized in the aspect of a separate entity and thing,</t>\n    <t s=\"7\">behold, this is through the name Elokim, which conceals and hides the name Hashem,</t>\n    <t s=\"8\">as it is written,</t>\n    <t s=\"9\">\"For a sun and a shield is Hashem Elokim.\"</t>\n    <t s=\"10\">And this is \"Hashem is Elokim,\"</t>\n    <t s=\"11\">that although the coming into being in actuality and revelation is from the name Elokim, as it is written,</t>\n    <t s=\"12\">\"In the beginning Elokim created the heavens and the earth,\"</t>\n    <t s=\"13\">and thirty-two times Elokim is said in the account of creation,</t>\n    <t s=\"14\">as a result of which the world became a separate entity and thing,</t>\n    <t s=\"15\">behold, regarding this comes the commandment \"And you shall know... that Hashem is Elokim,\"</t>\n    <t s=\"16\">that even the name Elokim, which constricts and conceals, is Hashem,</t>\n    <t s=\"17\">for Hashem and Elokim are entirely one,</t>\n    <t s=\"18\">and therefore in truth</t>\n    <t s=\"19\">(as it is relative to the Holy One, blessed be He)</t>\n    <t s=\"20\">it does not conceal at all,</t>\n    <t s=\"21\">and through the service of Torah and mitzvos, they draw down the revelation of the name Hashem into the world.</t>\n    <t s=\"22\">For this is what is written, \"which Elokim created to do,\"</t>\n    <t s=\"23\">\"to do\" meaning to rectify,</t>\n    <t s=\"24\">that one must rectify the concealment of the name Elokim and draw down the revelation of the name Hashem into the world,</t>\n    <t s=\"25\">as it is written</t>\n    <t s=\"26\">(afterwards)</t>\n    <t s=\"27\">\"on the day that Hashem Elokim made earth and heavens,\"</t>\n    <t s=\"28\">where the name Hashem is also mentioned here.</t>\n    <t s=\"29\">For through the service of man,</t>\n    <t s=\"30\">\"to work it and to guard it\"</t>\n    <t s=\"31\">(Torah and mitzvos),</t>\n    <t s=\"32\">the revelation of the name Hashem is drawn into the world,</t>\n    <t s=\"33\">and it becomes \"These are the generations of the heavens and the earth...,\"</t>\n    <t s=\"34\">\"generations\" spelled fully,</t>\n    <t s=\"35\">and even to \"These are the generations of Peretz,\"</t>\n    <t s=\"36\">\"generations\" spelled fully,</t>\n    <t s=\"37\">which is a higher level even than \"These are the generations of the heavens and the earth,\"</t>\n    <t s=\"38\">for through the service of Torah and mitzvos, they break through all the concealments and veils of the name Elokim,</t>\n    <t s=\"39\">and make a dwelling place for Him, blessed be He, in the lower realms.</t>\n    <t s=\"40\">And the second concept in \"Hashem is Elokim\" is,</t>\n    <t s=\"41\">that even the name Hashem</t>\n    <t s=\"42\">(as it is above its investment in the name Elokim)</t>\n    <t s=\"43\">is only an aspect of Elokim and tzimtzum relative to His Essence and Being, blessed be He, as it were,</t>\n    <t s=\"44\">and as it is written,</t>\n    <t s=\"45\">\"I am Hashem, that is My name,\" that the aspect of Hashem is only a name,</t>\n    <t s=\"46\">a radiance and illumination alone,</t>\n    <t s=\"47\">which is a great and immense tzimtzum relative to the light of the Ein Sof Himself, blessed be He, as it were.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the two interpretations correspond to the service of the righteous and of baalei teshuvah, where teshuvah draws from above the name Hashem.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And behold, these two concepts are drawn through the two services of the righteous and of baalei teshuvah.</t>\n    <t s=\"2\">For when a person is in a state of \"Elokim made man upright,\"</t>\n    <t s=\"3\">behold, through his service in Torah and mitzvos he draws the revelation of the name Hashem into the name Elokim</t>\n    <t s=\"4\">(the first concept in \"Hashem is Elokim\"),</t>\n    <t s=\"5\">as above</t>\n    <t s=\"6\">(section 3).</t>\n    <t s=\"7\">But when he sinned and blemished and perverted the path, it is impossible for him to draw from the aspect of Hashem</t>\n    <t s=\"8\">(since he blemished the name Hashem),</t>\n    <t s=\"9\">and he must draw from an aspect that is above the name Hashem.</t>\n    <t s=\"10\">And this drawing is through the service of teshuvah.</t>\n    <t s=\"11\">For all the matters above are drawn specifically through service.</t>\n    <t s=\"12\">And even the drawing of the Ein Sof that is above the chain of descent, which no arousal from below reaches there,</t>\n    <t s=\"13\">does not dwell and become revealed</t>\n    <t s=\"14\">(in an aspect of inwardness)</t>\n    <t s=\"15\">except when there is perfection in the actions of the lower beings,</t>\n    <t s=\"16\">for the Holy One, blessed be He, does not dwell except in a complete place.</t>\n    <t s=\"17\">And this drawing</t>\n    <t s=\"18\">(of the Ein Sof that is above the chain of descent)</t>\n    <t s=\"19\">is through the service that is above the chain of descent</t>\n    <t s=\"20\">(in man),</t>\n    <t s=\"21\">the service of teshuvah.</t>\n    <t s=\"22\">For when one does teshuvah, and particularly such that intentional sins become for him like merits,</t>\n    <t s=\"23\">which is teshuvah from love, from the depth of the heart, with great love, as explained in Tanya,</t>\n    <t s=\"24\">behold, through this he arouses from an aspect that is above the name Hashem,</t>\n    <t s=\"25\">relative to which even Hashem is considered like Elokim,</t>\n    <t s=\"26\">the second concept in \"Hashem is Elokim.\"</t>\n    <t s=\"27\">[And this is the advantage of teshuvah in its simple sense over the teshuvah of Shabbos, the letters of \"Shabbos\" being \"tashev\" (you shall return),</t>\n    <t s=\"28\">for the teshuvah</t>\n    <t s=\"29\">(and the ascent)</t>\n    <t s=\"30\">of Shabbos, the letters of which are \"tashev,\" is only the matter of \"And Elokim completed,\"</t>\n    <t s=\"31\">that the measure of tzimtzum and concealment of the name Elokim ceases and the revelation of the name Hashem is drawn,</t>\n    <t s=\"32\">but in order to arouse from an aspect that is above the name Hashem,</t>\n    <t s=\"33\">behold, this is done through teshuvah in its simple sense,</t>\n    <t s=\"34\">and particularly through such teshuvah that intentional sins become for him like merits,</t>\n    <t s=\"35\">for through the refinement and transformation of intentional sins, an advantage of light is made.</t>\n    <t s=\"36\">And all the more so from what is brought in the Zohar,</t>\n    <t s=\"37\">that the matter of the Giving of the Torah was done specifically through the admission of Yisro, \"Now I know that Hashem is greater than all the gods,\"</t>\n    <t s=\"38\">even though in the Giving of the Torah it is said \"Anochi\"</t>\n    <t s=\"39\">(only)</t>\n    <t s=\"40\">once,</t>\n    <t s=\"41\">all the more so the matter of \"Anochi Anochi\" twice,</t>\n    <t s=\"42\">that its drawing is specifically through the refinement and transformation of darkness.</t>\n    <t s=\"43\">And in the manner explained in Tanya,</t>\n    <t s=\"44\">that the ultimate perfection that will be in the days of Moshiach,</t>\n    <t s=\"45\">a dwelling place for Him, blessed be He, in the lower realms,</t>\n    <t s=\"46\">depends</t>\n    <t s=\"47\">(primarily)</t>\n    <t s=\"48\">on our deeds and service during the time of exile specifically].</t>\n    <t s=\"49\">And after the arousal from above Hashem</t>\n    <t s=\"50\">(through teshuvah)</t>\n    <t s=\"51\">one must draw down</t>\n    <t s=\"52\">from above to below into the aspect of Hashem, a term meaning \"He who brings into being,\"</t>\n    <t s=\"53\">and even to the aspect of Hashem as it is invested in the name Elokim,</t>\n    <t s=\"54\">the first concept in \"Hashem is Elokim.\"</t>\n    <t s=\"55\">And this is why in teshuvah it is said twice \"Hashem is Elokim,\"</t>\n    <t s=\"56\">that at first it is the matter of ascent from below to above until, relative to it, Hashem is considered like Elokim</t>\n    <t s=\"57\">(the second interpretation of \"Hashem is Elokim\"),</t>\n    <t s=\"58\">and afterwards the drawing down from above to below in Hashem, a term meaning \"He who brings into being,\"</t>\n    <t s=\"59\">and as it is invested in the name Elokim</t>\n    <t s=\"60\">(the first interpretation of \"Hashem is Elokim\"),</t>\n    <t s=\"61\">from which comes the coming into being in actuality,</t>\n    <t s=\"62\">\"In the beginning Elokim created the heavens and the earth,\"</t>\n    <t s=\"63\">and not only the drawing into the Sefiros</t>\n    <t s=\"64\">(according to the explanation of the Zohar</t>\n    <t s=\"65\">that \"In the beginning...\" refers to the Sefiros),</t>\n    <t s=\"66\">but also into the heavens and the earth and all their hosts, in their simple sense.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the two concepts correspond to the two aspects of the shofar: the inner voice arousing the Essence, and the physical shofar drawing down into the lowest levels.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this is also the two concepts</t>\n    <t s=\"2\">in the blowing of the shofar</t>\n    <t s=\"3\">(which alludes to the matter of teshuvah),</t>\n    <t s=\"4\">that the sound of the shofar is an inner voice</t>\n    <t s=\"5\">(the aspect of the inwardness of the heart)</t>\n    <t s=\"6\">and together with this one must blow specifically with a physical shofar,</t>\n    <t s=\"7\">for on Rosh Hashanah all things return to their primordial state,</t>\n    <t s=\"8\">and through the shofar they arouse a new drawing from the Awtsmoos.</t>\n    <t s=\"9\">For shofar is the aspect of Binah, which is above the chain of descent,</t>\n    <t s=\"10\">the aspect of will that is above even the aspect of Binah,</t>\n    <t s=\"11\">and higher still, a new drawing from the inwardness and Essence of the Holy One, blessed be He,</t>\n    <t s=\"12\">and from there it is drawn into the aspect of the inwardness of the will,</t>\n    <t s=\"13\">into the inwardness of Binah, etc., until the inwardness of the worlds,</t>\n    <t s=\"14\">and from this is afterwards drawn also into the externality of the worlds,</t>\n    <t s=\"15\">as explained in the Siddur,</t>\n    <t s=\"16\">in the discourse \"To understand the matter of the blowing of the shofar according to the intention of the Baal Shem Tov, of blessed memory.\"</t>\n    <t s=\"17\">And therefore the shofar has the two aforementioned concepts,</t>\n    <t s=\"18\">through the inner voice of the shofar,</t>\n    <t s=\"19\">the aspect of the inwardness of the heart,</t>\n    <t s=\"20\">they arouse the Essence,</t>\n    <t s=\"21\">and through the blowing with a physical shofar,</t>\n    <t s=\"22\">and specifically with a shofar of an animal,</t>\n    <t s=\"23\">and moreover that the horn of the shofar must be detached</t>\n    <t s=\"24\">(and not attached to the animal),</t>\n    <t s=\"25\">the aspect of the inanimate,</t>\n    <t s=\"26\">through this they draw down below into Asiyah, even to the aspect of the inanimate.</t>\n    <t s=\"27\">And as we say in the Rosh Hashanah prayer, \"And every formed being shall know that You are its Former,\"</t>\n    <t s=\"28\">that even in Asiyah</t>\n    <t s=\"29\">(as brought in the writings of the Ariza\"l,</t>\n    <t s=\"30\">that \"every formed being\" refers to the world of Asiyah),</t>\n    <t s=\"31\">and even the inanimate in Asiyah,</t>\n    <t s=\"32\">shall know that You are its Former.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914091_theRebbe_428",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914091_theRebbe_428__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains two interpretations of \"Hashem is Elokim\": first, that the concealment of Elokim is actually from Hashem, and second, that even the name Hashem is a mere garment relative to the Essence.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "behold, \"Hashem is Elokim\" has two interpretations and concepts."
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "The first is that even the tzimtzum of Elokim is Hashem."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "For, behold, Hashem is a term meaning \"He who brings into being,\""
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "for all coming into being is from the name Hashem,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "except that in order for the coming into being to be actualized in the aspect of a separate entity and thing,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "behold, this is through the name Elokim, which conceals and hides the name Hashem,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "\"For a sun and a shield is Hashem Elokim.\""
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "And this is \"Hashem is Elokim,\""
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "that although the coming into being in actuality and revelation is from the name Elokim, as it is written,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "\"In the beginning Elokim created the heavens and the earth,\""
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "and thirty-two times Elokim is said in the account of creation,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "as a result of which the world became a separate entity and thing,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "behold, regarding this comes the commandment \"And you shall know... that Hashem is Elokim,\""
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "that even the name Elokim, which constricts and conceals, is Hashem,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "for Hashem and Elokim are entirely one,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "and therefore in truth"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "(as it is relative to the Holy One, blessed be He)"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "it does not conceal at all,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "and through the service of Torah and mitzvos, they draw down the revelation of the name Hashem into the world."
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "For this is what is written, \"which Elokim created to do,\""
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "\"to do\" meaning to rectify,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "that one must rectify the concealment of the name Elokim and draw down the revelation of the name Hashem into the world,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "as it is written"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(afterwards)"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "\"on the day that Hashem Elokim made earth and heavens,\""
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "where the name Hashem is also mentioned here."
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "For through the service of man,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "\"to work it and to guard it\""
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "(Torah and mitzvos),"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "the revelation of the name Hashem is drawn into the world,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "and it becomes \"These are the generations of the heavens and the earth...,\""
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "\"generations\" spelled fully,"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "and even to \"These are the generations of Peretz,\""
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "\"generations\" spelled fully,"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "which is a higher level even than \"These are the generations of the heavens and the earth,\""
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "for through the service of Torah and mitzvos, they break through all the concealments and veils of the name Elokim,"
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "and make a dwelling place for Him, blessed be He, in the lower realms."
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "And the second concept in \"Hashem is Elokim\" is,"
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "that even the name Hashem"
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "(as it is above its investment in the name Elokim)"
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "is only an aspect of Elokim and tzimtzum relative to His Essence and Being, blessed be He, as it were,"
+          },
+          {
+            "v": 3,
+            "s": 44,
+            "translation": "and as it is written,"
+          },
+          {
+            "v": 3,
+            "s": 45,
+            "translation": "\"I am Hashem, that is My name,\" that the aspect of Hashem is only a name,"
+          },
+          {
+            "v": 3,
+            "s": 46,
+            "translation": "a radiance and illumination alone,"
+          },
+          {
+            "v": 3,
+            "s": 47,
+            "translation": "which is a great and immense tzimtzum relative to the light of the Ein Sof Himself, blessed be He, as it were."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the two interpretations correspond to the service of the righteous and of baalei teshuvah, where teshuvah draws from above the name Hashem.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And behold, these two concepts are drawn through the two services of the righteous and of baalei teshuvah."
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "For when a person is in a state of \"Elokim made man upright,\""
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "behold, through his service in Torah and mitzvos he draws the revelation of the name Hashem into the name Elokim"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "(the first concept in \"Hashem is Elokim\"),"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "as above"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(section 3)."
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "But when he sinned and blemished and perverted the path, it is impossible for him to draw from the aspect of Hashem"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "(since he blemished the name Hashem),"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "and he must draw from an aspect that is above the name Hashem."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "And this drawing is through the service of teshuvah."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "For all the matters above are drawn specifically through service."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And even the drawing of the Ein Sof that is above the chain of descent, which no arousal from below reaches there,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "does not dwell and become revealed"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "(in an aspect of inwardness)"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "except when there is perfection in the actions of the lower beings,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "for the Holy One, blessed be He, does not dwell except in a complete place."
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "And this drawing"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "(of the Ein Sof that is above the chain of descent)"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "is through the service that is above the chain of descent"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "(in man),"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "the service of teshuvah."
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "For when one does teshuvah, and particularly such that intentional sins become for him like merits,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "which is teshuvah from love, from the depth of the heart, with great love, as explained in Tanya,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "behold, through this he arouses from an aspect that is above the name Hashem,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "relative to which even Hashem is considered like Elokim,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "the second concept in \"Hashem is Elokim.\""
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "[And this is the advantage of teshuvah in its simple sense over the teshuvah of Shabbos, the letters of \"Shabbos\" being \"tashev\" (you shall return),"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "for the teshuvah"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "(and the ascent)"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "of Shabbos, the letters of which are \"tashev,\" is only the matter of \"And Elokim completed,\""
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "that the measure of tzimtzum and concealment of the name Elokim ceases and the revelation of the name Hashem is drawn,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "but in order to arouse from an aspect that is above the name Hashem,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "behold, this is done through teshuvah in its simple sense,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "and particularly through such teshuvah that intentional sins become for him like merits,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "for through the refinement and transformation of intentional sins, an advantage of light is made."
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "And all the more so from what is brought in the Zohar,"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "that the matter of the Giving of the Torah was done specifically through the admission of Yisro, \"Now I know that Hashem is greater than all the gods,\""
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "even though in the Giving of the Torah it is said \"Anochi\""
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "(only)"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "once,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "all the more so the matter of \"Anochi Anochi\" twice,"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "that its drawing is specifically through the refinement and transformation of darkness."
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "And in the manner explained in Tanya,"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "that the ultimate perfection that will be in the days of Moshiach,"
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "a dwelling place for Him, blessed be He, in the lower realms,"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "depends"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "on our deeds and service during the time of exile specifically]."
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "And after the arousal from above Hashem"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "(through teshuvah)"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "one must draw down"
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "from above to below into the aspect of Hashem, a term meaning \"He who brings into being,\""
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "and even to the aspect of Hashem as it is invested in the name Elokim,"
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "the first concept in \"Hashem is Elokim.\""
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "And this is why in teshuvah it is said twice \"Hashem is Elokim,\""
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "that at first it is the matter of ascent from below to above until, relative to it, Hashem is considered like Elokim"
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "(the second interpretation of \"Hashem is Elokim\"),"
+          },
+          {
+            "v": 4,
+            "s": 58,
+            "translation": "and afterwards the drawing down from above to below in Hashem, a term meaning \"He who brings into being,\""
+          },
+          {
+            "v": 4,
+            "s": 59,
+            "translation": "and as it is invested in the name Elokim"
+          },
+          {
+            "v": 4,
+            "s": 60,
+            "translation": "(the first interpretation of \"Hashem is Elokim\"),"
+          },
+          {
+            "v": 4,
+            "s": 61,
+            "translation": "from which comes the coming into being in actuality,"
+          },
+          {
+            "v": 4,
+            "s": 62,
+            "translation": "\"In the beginning Elokim created the heavens and the earth,\""
+          },
+          {
+            "v": 4,
+            "s": 63,
+            "translation": "and not only the drawing into the Sefiros"
+          },
+          {
+            "v": 4,
+            "s": 64,
+            "translation": "(according to the explanation of the Zohar"
+          },
+          {
+            "v": 4,
+            "s": 65,
+            "translation": "that \"In the beginning...\" refers to the Sefiros),"
+          },
+          {
+            "v": 4,
+            "s": 66,
+            "translation": "but also into the heavens and the earth and all their hosts, in their simple sense."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the two concepts correspond to the two aspects of the shofar: the inner voice arousing the Essence, and the physical shofar drawing down into the lowest levels.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And this is also the two concepts"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "in the blowing of the shofar"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "(which alludes to the matter of teshuvah),"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "that the sound of the shofar is an inner voice"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "(the aspect of the inwardness of the heart)"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and together with this one must blow specifically with a physical shofar,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "for on Rosh Hashanah all things return to their primordial state,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "and through the shofar they arouse a new drawing from the Awtsmoos."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "For shofar is the aspect of Binah, which is above the chain of descent,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "the aspect of will that is above even the aspect of Binah,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "and higher still, a new drawing from the inwardness and Essence of the Holy One, blessed be He,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "and from there it is drawn into the aspect of the inwardness of the will,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "into the inwardness of Binah, etc., until the inwardness of the worlds,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "and from this is afterwards drawn also into the externality of the worlds,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "as explained in the Siddur,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "in the discourse \"To understand the matter of the blowing of the shofar according to the intention of the Baal Shem Tov, of blessed memory.\""
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "And therefore the shofar has the two aforementioned concepts,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "through the inner voice of the shofar,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "the aspect of the inwardness of the heart,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "they arouse the Essence,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "and through the blowing with a physical shofar,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "and specifically with a shofar of an animal,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "and moreover that the horn of the shofar must be detached"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "(and not attached to the animal),"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "the aspect of the inanimate,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "through this they draw down below into Asiyah, even to the aspect of the inanimate."
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "And as we say in the Rosh Hashanah prayer, \"And every formed being shall know that You are its Former,\""
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "that even in Asiyah"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "(as brought in the writings of the Ariza\"l,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "that \"every formed being\" refers to the world of Asiyah),"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "and even the inanimate in Asiyah,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "shall know that You are its Former."
+          }
+        ]
+      }
+    ]
+  }
+}

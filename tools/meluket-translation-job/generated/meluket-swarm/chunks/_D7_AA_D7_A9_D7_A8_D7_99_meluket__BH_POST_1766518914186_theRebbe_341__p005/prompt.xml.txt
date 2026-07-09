@@ -1,0 +1,80 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914186_theRebbe_341" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914186_theRebbe_341__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914186_theRebbe_341" title="מאמר בסוכות תשבו תשל"ו" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914186_theRebbe_341__p005">
+  <section v="12">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">וזהו61 מה שיו"ט ראשון של חג שחל להיות בשבת אין לולב דוחה שבת,</src>
+    <src s="3">כי נטילת לולב הוא בכדי להמשיך בחי' המקיף</src>
+    <src s="4">(דסוכה)</src>
+    <src s="5">בפנימיות לכן בשבת שאז מאיר המקיף בבחי' פנימיות</src>
+    <src s="6">(מצד ענין השבת),</src>
+    <src s="7">אין צריך</src>
+    <src s="8">(כ"כ)</src>
+    <src s="9">לנטילת לולב,</src>
+    <src s="10">ולכן מספיקה הגזירה דרבה לדחות נטילת לולב.</src>
+    <src s="11">ומה שבזמן ביהמ"ק היו נוטלין גם בשבת,</src>
+    <src s="12">הוא לפי שיש כמה מדריגות במקיפים,</src>
+    <src s="13">וע"י נטילת לולב בזמן הבית המשיכו בחי' מקיף עליון יותר מבחי' המקיף שנמשך בשבת מצד עצמו</src>
+    <src s="14">(מה ששבת מיקדשא וקיימא68)</src>
+    <src s="15">וגם בחוץ לארץ</src>
+    <src s="16">(בזמן הבית).</src>
+    <src s="17">משא"כ בזמן הגלות,</src>
+    <src s="18">גם ע"י נטילת לולב א"א להמשיך בחי' מקיף העליון,</src>
+    <src s="19">ומה שממשיכים עכשיו הוא רק בחי' המקיף שנמשך ע"י השבת.</src>
+  </section>
+  <section v="13">
+    <src s="0">והנה כאמור לעיל,</src>
+    <src s="1">בסוכות תשבו,</src>
+    <src s="2">המשכת המקיף דסוכה,</src>
+    <src s="3">היא הכנה קרובה לכל האזרח בישראל שיזרח לע"ל,</src>
+    <src s="4">גילוי בחי' אמיתית המקיף,</src>
+    <src s="5">בחי' פנימיות עתיק.</src>
+    <src s="6">שזהו החידוש בהגילוי דלע"ל,</src>
+    <src s="7">שעכשיו כל הגילויים הם רק מבחי' חיצוניות עתיק ולע"ל יהי' גילוי בחי' פנימיות עתיק69.</src>
+    <src s="8">וזהו מ"ש70</src>
+    <src s="9">ישקני מנשיקות פיהו שילמדו תורתו של משיח מפיו של משיח,</src>
+    <src s="10">שענינו הוא בחי' פנימיות עתיק</src>
+    <src s="11">[דזהו מה שמשיח הוא למעלה גם מאדה"ר,</src>
+    <src s="12">וכמ"ש71</src>
+    <src s="13">ירום ונשא וגבה מאד,</src>
+    <src s="14">מאד אותיות אדם אבל בצירוף המורה על בל"ג,</src>
+    <src s="15">שלמעלה גם מאדה"ר72].</src>
+    <src s="16">וזהו בסוכות תשבו גו' כל האזרח גו',</src>
+    <src s="17">שהמשכת המקיף דסוכה היא הכנה קרובה להגילויים דגאולה העתידה ע"י משיח צדקנו יבוא ויגאלנו ויוליכנו קוממיות לארצנו,</src>
+    <src s="18">ושם נעשה לפניך את קרבנות חובותינו כמצות רצונך,</src>
+    <src s="19">בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,109 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" title="מאמר באתי לגני תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p005">
+  <section v="12">
+    <src s="0">ה)</src>
+    <src s="1">והנה ידוע שכל ירידה היא לצורך עלי'.</src>
+    <src s="2">דירידת הנשמה למטה היא בכדי שעל ידי זה תתעלה הנשמה למדריגה נעלית יותר מכמו שהיתה קודם ירידתה למטה33,</src>
+    <src s="3">ועד"ז הוא בהירידה</src>
+    <src s="4">(וההשתלשלות)</src>
+    <src s="5">דהעולמות,</src>
+    <src s="6">דזה שירדו ממדריגה למדריגה</src>
+    <src s="7">(מעולם לעולם)</src>
+    <src s="8">עד שנתהווה מהם עוה"ז התחתון,</src>
+    <src s="9">הוא בשביל העלי' שנעשית עי"ז34</src>
+    <src s="10">[שעוה"ז התחתון דוקא הוא דירה לו ית',</src>
+    <src s="11">דירה להעצמות].</src>
+    <src s="12">ומזה מובן,</src>
+    <src s="13">שעד"ז הוא בנוגע להירידה שבעוה"ז עצמו,</src>
+    <src s="14">שהירידה שנעשתה בו ע"י חטא עה"ד והענינים הבלתי רצויים שלאח"ז היא צורך עלי',</src>
+    <src s="15">בכדי שהמשכת עיקר שכינה למטה עכשיו</src>
+    <src s="16">(לאחרי שנסתלקה)</src>
+    <src s="17">תהי' נעלית יותר מהמשכת עיקר שכינה בתחתונים שהיתה בתחלת הבריאה.</src>
+  </section>
+  <section v="13">
+    <src s="0">ולכאורה הי' אפשר לומר,</src>
+    <src s="1">דזה שירידה היא לצורך עלי' הוא כשהירידה היא ברצונו ית'</src>
+    <src s="2">[שאז מוכרח לומר,</src>
+    <src s="3">שהרצון בהירידה הוא בשביל העלי' שע"י הירידה].</src>
+    <src s="4">משא"כ ירידה שע"י חטא,</src>
+    <src s="5">שהוא היפך רצון העליון</src>
+    <src s="6">[דע"י כח הבחירה שניתן להאדם ביכלתו לבחור היפך הרצון והכוונה שבשבילם נברא],</src>
+    <src s="7">אין הכרח לכאורה שגם ירידה זו היא לצורך עלי'.</src>
+    <src s="8">והגם שאין שייך שבחירת האדם תעכב שלא תושלם ח"ו הכוונה דדירה בתחתונים35,</src>
+    <src s="9">ובחירת האדם קובעת רק את מהירות השלמת הכוונה36,</src>
+    <src s="10">דמזה מוכח,</src>
+    <src s="11">שהסילוק דעיקר שכינה שע"י חטא עה"ד והחטאים שלאחריו הי'</src>
+    <src s="12">(מלכתחילה)</src>
+    <src s="13">רק לפי שעה,</src>
+    <src s="14">הרי ענין זה הוא רק הוכחה דזה שע"י החטאים נסתלקה עיקר שכינה הי' זה</src>
+    <src s="15">(מלכתחילה)</src>
+    <src s="16">רק לפי שעה,</src>
+    <src s="17">ובהכרח שאח"כ תהי' המשכת עיקר שכינה למטה.</src>
+    <src s="18">אבל,</src>
+    <src s="19">מהי ההוכחה שההמשכה למטה לאחרי הסילוק היא נעלית יותר מההמשכה שהיתה בתחלת הבריאה.</src>
+  </section>
+  <section v="14">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דאיתא במדרש37</src>
+    <src s="2">עה"פ38</src>
+    <src s="3">נורא עלילה על בני אדם,</src>
+    <src s="4">עלילה נתלה בו</src>
+    <src s="5">(באדם הראשון)</src>
+    <src s="6">שהוא הביא את המיתה לעולם</src>
+    <src s="7">(כי ביום אכלך ממנו מות תמות39),</src>
+    <src s="8">שהרי התורה קדמה אלפים שנה לעולם וכתיב בה40</src>
+    <src s="9">זאת התורה אדם כי ימות באוהל.</src>
+    <src s="10">ומבאר אדמו"ר האמצעי41,</src>
+    <src s="11">דזה שעלילה נתלה בו</src>
+    <src s="12">(באדה"ר)</src>
+    <src s="13">הוא לא רק בנוגע להמיתה שבאה ע"י חטא עה"ד אלא גם בנוגע להחטא עצמו.</src>
+    <src s="14">כי זה שלפעמים גובר הרע דיצה"ר על האדם,</src>
+    <src s="15">הוא לפי שמלמעלה הסיתו עליו היצה"ר להביאו לחטא זה.</src>
+    <src s="16">[אלא שהעזר מלמעלה להרע שבאדם להתגבר על הטוב שבו,</src>
+    <src s="17">וכן העזר מלמעלה להטוב שבאדם להתגבר על הרע שבו,</src>
+    <src s="18">הוא מובדל מהאדם ואינו נרגש בו,</src>
+    <src s="19">ולכן אינו מכריח את האדם,</src>
+    <src s="20">וזה שהאדם בוחר בטוב או ברע הוא בחירה חפשית].</src>
+    <src s="21">וכיון שהירידה דעולם</src>
+    <src s="22">(סילוק עיקר שכינה)</src>
+    <src s="23">שבאה ע"י חטא עה"ד</src>
+    <src s="24">(אף שהחטא הוא היפך הרצון)</src>
+    <src s="25">היתה בכוונה,</src>
+    <src s="26">בהכרח לומר,</src>
+    <src s="27">שהכוונה דהירידה היא צורך עלי',</src>
+    <src s="28">בכדי שהמשכת עיקר שכינה לאחרי שנסתלקה תהי' נעלית יותר מכמו שהיתה בתחלת הבריאה.</src>
+  </section>
+</awtsmoosMeluketSource>

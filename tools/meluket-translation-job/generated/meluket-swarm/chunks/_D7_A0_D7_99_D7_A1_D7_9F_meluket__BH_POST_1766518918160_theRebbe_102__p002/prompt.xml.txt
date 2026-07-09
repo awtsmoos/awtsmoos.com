@@ -1,0 +1,177 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918160_theRebbe_102" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918160_theRebbe_102__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918160_theRebbe_102" title="מאמר ויאמר לו יהונתן תשכ"ח" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918160_theRebbe_102__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך בהמאמר14,</src>
+    <src s="2">דיהונתן הוא יה"ו נתן,</src>
+    <src s="3">ואיתא במאורי אור15</src>
+    <src s="4">שנתן בגימטריא ת"ק הוא ה' אחרונה דשם הוי',</src>
+    <src s="5">כי ה' בהכאה בגימטריא ת"ק.</src>
+    <src s="6">ומדייק בהמאמר,</src>
+    <src s="7">דלהפירוש שברוב המקומות שיהונתן הוא יה"ו</src>
+    <src s="8">[ונתן</src>
+    <src s="9">(שביהונתן)</src>
+    <src s="10">הוא שהיה"ו הם בבחינת נתינה והמשכה16]</src>
+    <src s="11">מובן מ"ש ויאמר לו.</src>
+    <src s="12">יהונתן,</src>
+    <src s="13">ההמשכה מיהונתן לדוד,</src>
+    <src s="14">שהיה"ו דיהונתן נמשכו למלכות,</src>
+    <src s="15">דוד.</src>
+    <src s="16">אבל לפירוש המאו"א דנתן שביהונתן הוא ה' אחרונה,</src>
+    <src s="17">היא המלכות,</src>
+    <src s="18">מהו"ע ויאמר לו.</src>
+    <src s="19">יהונתן</src>
+    <src s="20">(המשכת יהונתן לדוד),</src>
+    <src s="21">הרי נתן דיהונתן ודוד הם לכאורה היינו הך.</src>
+    <src s="22">ומבאר,</src>
+    <src s="23">דבמלכות שתי מדריגות.</src>
+    <src s="24">כמו שהיא סוף האצילות</src>
+    <src s="25">(זנב לאריות17),</src>
+    <src s="26">וכמו שהיא מקור לבי"ע</src>
+    <src s="27">(ראש לשועלים17).</src>
+    <src s="28">וזהו החילוק בין נתן</src>
+    <src s="29">(דיהונתן)</src>
+    <src s="30">לדוד,</src>
+    <src s="31">דנתן שהוא ה' אחרונה דשם הוי'</src>
+    <src s="32">(כנ"ל)</src>
+    <src s="33">הוא המלכות כמו שהיא סוף האצילות,</src>
+    <src s="34">ודוד הוא המלכות כמו שהיא מקור לבי"ע.</src>
+    <src s="35">וענין ויאמר לו יהונתן הוא המשכת המלכות כמו שהיא באצילות</src>
+    <src s="36">(נתן,</src>
+    <src s="37">ה' אחרונה.</src>
+    <src s="38">ועי"ז – גם המשכת יה"ו)</src>
+    <src s="39">בהמלכות שהיא מקור לבי"ע</src>
+    <src s="40">(דוד).</src>
+    <src s="41">ומוסיף בהמאמר,</src>
+    <src s="42">דשתי הבחינות שבמלכות נק' בשם ים וארץ.</src>
+    <src s="43">ים18</src>
+    <src s="44">הוא המלכות כמו שהיא באצילות,</src>
+    <src s="45">שבה נמשכים הספירות דז"א שלמעלה מהמלכות – כל הנחלים הולכים אל הים19.</src>
+    <src s="46">וע"י שהמלכות מקבלת וכונסת בתוכה את הספירות שלמעלה ממנה – היא מעלמת עליהם,</src>
+    <src s="47">כדוגמת הים שהוא מכסה על מה שבתוכו.</src>
+    <src s="48">ועי"ז20</src>
+    <src s="49">נמשכת המלכות להיות מקור להוות הנבראים – בחינת ארץ,</src>
+    <src s="50">תדשא הארץ גו' תצא הארץ גו'21.</src>
+    <src s="51">ומבאר,</src>
+    <src s="52">דענין ויאמר לו יהונתן הוא כענין הפך ים ליבשה22</src>
+    <src s="53">שהי' בקריעת ים סוף.</src>
+    <src s="54">היינו,</src>
+    <src s="55">דנוסף להמשכת המלכות כמו שהיא באצילות</src>
+    <src s="56">(נתן,</src>
+    <src s="57">ה' אחרונה)</src>
+    <src s="58">שנמשכה בבחינת המלכות כמו שהיא מקור לבי"ע</src>
+    <src s="59">(דוד),</src>
+    <src s="60">הי' גם הענין דהפיכת ים ליבשה,</src>
+    <src s="61">שנבקע ההעלם</src>
+    <src s="62">(ים)</src>
+    <src s="63">ונתגלו האורות דהספירות דאצילות</src>
+    <src s="64">(שבמלכות)</src>
+    <src s="65">כמו שהם בעצמותם.</src>
+  </section>
+  <section v="4">
+    <src s="0">וממשיך בהמאמר14,</src>
+    <src s="1">דלאחרי שדוד קיבל מאמר ודברי יהונתן</src>
+    <src s="2">(היינו שנמשכו בו עצמיות האורות דאצילות),</src>
+    <src s="3">אז23</src>
+    <src s="4">אמר לו24</src>
+    <src s="5">ושלשת תרד מאד,</src>
+    <src s="6">ושלשת הוא25</src>
+    <src s="7">שתיעשה בחינת סגול</src>
+    <src s="8">(שיש בו ג' נקודות)</src>
+    <src s="9">שרומז על עבודת הבירורים26</src>
+    <src s="10">(היינו ירידת המלכות למטה לברר בירורים),</src>
+    <src s="11">ועי"ז יהי' ושלשת,</src>
+    <src s="12">בחינת סגולתא</src>
+    <src s="13">(שגם בסגולתא יש ג' נקודות),</src>
+    <src s="14">בחינת סגולה.</src>
+    <src s="15">כמ"ש27</src>
+    <src s="16">והייתם לי סגולה מכל העמים,</src>
+    <src s="17">דע"י הבירור שמבררים מכל העמים,</src>
+    <src s="18">עי"ז והייתם לי סגולה.</src>
+    <src s="19">ולכאורה,</src>
+    <src s="20">זה שאמר יהונתן לדוד ושלשת תרד מאד</src>
+    <src s="21">[שע"י הירידה לבחינת סגול לברר בירורים28</src>
+    <src s="22">יתעלה לבחינת סגולתא וסגולה],</src>
+    <src s="23">הוא בכללות ענין אחד עם זה שאמר לו תחלה ונפקדת כי יפקד מושבך,</src>
+    <src s="24">דע"י שיפקד מושבך</src>
+    <src s="25">(ירידה והסתר)</src>
+    <src s="26">יהי' ונפקדת.</src>
+    <src s="27">[אלא שבתחילה אמר לו הענין בכללות,</src>
+    <src s="28">ואח"כ הוסיף בזה פרטים,</src>
+    <src s="29">הן בנוגע להירידה – ושלשת תרד מאד גו' וישבת אצל האבן האזל,</src>
+    <src s="30">הירידה בעולם העשי'29,</src>
+    <src s="31">והן בנוגע להעלי' שע"י הירידה – ושלשת,</src>
+    <src s="32">שיתעלה לבחינת סגולתא וסגולה].</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">וצריך להבין מה שהתחלת ההפטורה דמחר חודש הוא ויאמר לו יהונתן,</src>
+    <src s="2">דלכאורה,</src>
+    <src s="3">הרי תוכן ההפטורה דמחר חודש הוא,</src>
+    <src s="4">שבכדי שיהי' מולד הלבנה</src>
+    <src s="5">(מלכות)</src>
+    <src s="6">צריך להיות תחלה</src>
+    <src s="7">(בערב ר"ח)</src>
+    <src s="8">הירידה וההסתר</src>
+    <src s="9">(יפקד מושבך,</src>
+    <src s="10">תרד מאד גו' אצל האבן האזל),</src>
+    <src s="11">וענין ויאמר לו יהונתן שבתחילת ההפטורה הוא</src>
+    <src s="12">(אדרבה)</src>
+    <src s="13">תכלית השלימות דהמלכות</src>
+    <src s="14">(מקור דבי"ע),</src>
+    <src s="15">שמאיר בה בגילוי בחינת המלכות דאצילות וגם המדות דז"א</src>
+    <src s="16">(כנ"ל סעיף ב).</src>
+    <src s="17">ונקודת הביאור בזה,</src>
+    <src s="18">שבכדי שיהי' הענין דיפקד מושבך</src>
+    <src s="19">[ובאופן שעי"ז יהי' ונפקדת]</src>
+    <src s="20">הוא על ידי המשכה מלמעלה.</src>
+    <src s="21">וזהו שהתחלת ההפטורה</src>
+    <src s="22">[עוד לפני שאומרים התיבות מחר חודש]</src>
+    <src s="23">היא ויאמר לו יהונתן,</src>
+    <src s="24">שבתחילה נמשך במלכות</src>
+    <src s="25">(מקור דבי"ע)</src>
+    <src s="26">האורות דאצילות,</src>
+    <src s="27">ועי"ז30</src>
+    <src s="28">אפשר להיות אח"כ ענין מחר חודש31</src>
+    <src s="29">– הירידה וההסתר דהלבנה,</src>
+    <src s="30">יפקד מושבך</src>
+    <src s="31">(ענין ערב ראש חודש,</src>
+    <src s="32">מחר חודש),</src>
+    <src s="33">ולאחרי זה</src>
+    <src s="34">(בראש חודש)</src>
+    <src s="35">– ונפקדת.</src>
+  </section>
+</awtsmoosMeluketSource>

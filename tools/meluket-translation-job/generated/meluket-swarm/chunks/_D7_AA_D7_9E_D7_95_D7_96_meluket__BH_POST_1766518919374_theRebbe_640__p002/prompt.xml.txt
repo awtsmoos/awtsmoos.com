@@ -1,0 +1,122 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919374_theRebbe_640" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919374_theRebbe_640__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919374_theRebbe_640" title="מאמר עשרה שיושבין תשמ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919374_theRebbe_640__p002">
+  <section v="3">
+    <src s="0">ולהוסיף,</src>
+    <src s="1">דהפירוש שבכל המקום אשר אזכיר את שמי גו' קאי על בית המקדש שבו ניתן רשות להזכיר את שם המפורש,</src>
+    <src s="2">הוא פשוטו של מקרא11</src>
+    <src s="3">(תורה שבכתב),</src>
+    <src s="4">והפירוש שאזכיר את שמי קאי על לימוד התורה הוא ע"פ דרשת חז"ל</src>
+    <src s="5">(תורה שבעל פה).</src>
+    <src s="6">וע"פ הידוע12</src>
+    <src s="7">שכל הענינים דתושבע"פ נמשכים מתושב"כ,</src>
+    <src s="8">יש לומר,</src>
+    <src s="9">דזה שהלימוד שאפילו אחד שיושב ועוסק בתורה שכינה שרוי' הוא מהפסוק בכל המקום אשר אזכיר את שמי גו' שבפשטות קאי על ביהמ"ק ששייך לעמוד העבודה,</src>
+    <src s="10">הוא,</src>
+    <src s="11">כי עיקר הענין דהשראת השכינה באופן דאבוא אליך,</src>
+    <src s="12">המשכת אוא"ס שלמעלה מהשתלשלות</src>
+    <src s="13">(אבוא,</src>
+    <src s="14">אני בעצמי),</src>
+    <src s="15">הוא ע"י קו העבודה,</src>
+    <src s="16">העלאה מלמטה למעלה.</src>
+    <src s="17">וכמבואר בתניא13</src>
+    <src s="18">דהטעם שע"י תפלה נמשך אוא"ס שלמעלה מהשתלשלות</src>
+    <src s="19">[שע"י המשכה זו נעשה שינוי בהנבראים,</src>
+    <src s="20">לרפאות החולים ולברך השנים]</src>
+    <src s="21">הוא מפני גודל העילוי דהעלאת מ"ן.</src>
+    <src s="22">וע"י התפלה באה אח"כ המשכה זו גם בתורה.</src>
+  </section>
+  <section v="4">
+    <src s="0">וע"פ מ"ש בהמאמר דבעל הגאולה</src>
+    <src s="1">(הובא לעיל סעיף א)</src>
+    <src s="2">דזה שע"י תפלה וע"י תורה ממשיכים יגמה"ר שלמעלה מהשתלשלות הוא בעיקר בתפלת רבים14</src>
+    <src s="3">ובתורה דרבים,</src>
+    <src s="4">ועד שההמשכה שע"י תפלת רבים ותורה דרבים היא שלא לפי ערך האתערותא דלתתא</src>
+    <src s="5">(דהרבים),</src>
+    <src s="6">מובן,</src>
+    <src s="7">דענין הנ"ל שההמשכה שלמעלה מהשתלשלות שבתורה היא ע"י התפלה,</src>
+    <src s="8">מודגש עוד יותר בההמשכה שע"י רבים.</src>
+    <src s="9">וכמו שנתבאר לעיל</src>
+    <src s="10">(בהמאמר די"ג תמוז15),</src>
+    <src s="11">דהטעם שענין ההמשכה שלא לפי ערך ההעלאה שע"י תורה דרבים נלמד</src>
+    <src s="12">(בהמאמר דבעל הגאולה)</src>
+    <src s="13">מההמשכה שע"י תפלה דרבים16,</src>
+    <src s="14">הוא,</src>
+    <src s="15">כי עיקר ומקור ענין זה הוא בתפלה,</src>
+    <src s="16">ועי"ז נמשך אח"כ גם בתורה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">והגם שהמעלה דהעלאת מ"ן ישנה לכאורה גם בתורה,</src>
+    <src s="2">וכמבואר בהמאמר דבעל הגאולה17</src>
+    <src s="3">שגם בתורה צ"ל עבודה ויגיעה,</src>
+    <src s="4">מ"מ,</src>
+    <src s="5">עיקר הענין דהמשכה שלמעלה מהשתלשלות הוא ע"י העלאת מ"ן דתפלה דוקא18.</src>
+    <src s="6">ונקודת הביאור בזה,</src>
+    <src s="7">שהמעלה דעבודת האדם</src>
+    <src s="8">(העלאת מ"ן)</src>
+    <src s="9">שעל ידה נמשך אוא"ס שלמעלה מהשתלשלות,</src>
+    <src s="10">היא</src>
+    <src s="11">(בעיקר)</src>
+    <src s="12">כשהעבודה היא בביטול19,</src>
+    <src s="13">וענין הביטול הוא בעבודת התפלה.</src>
+    <src s="14">שהיגיעה בלימוד התורה,</src>
+    <src s="15">כיון שענין הלימוד הוא שיבין וישיג מה שלומד,</src>
+    <src s="16">לכן היגיעה בתורה,</src>
+    <src s="17">גם היגיעה דשונה פרקו מאה פעמים ואחד20,</src>
+    <src s="18">אף שיגיעה זו היא לא</src>
+    <src s="19">(רק)</src>
+    <src s="20">בשביל הבנת התורה אלא בכדי לשנות טבעו ורגילותו,</src>
+    <src s="21">אינה אמיתית ענין הביטול,</src>
+    <src s="22">כיון שגם הלימוד דפעם המאה ואחד הוא בהבנה והשגה.</src>
+    <src s="23">ועיקר הביטול הוא בעבודת התפלה,</src>
+    <src s="24">שהאדם המתפלל הוא כעבד21</src>
+    <src s="25">בפני רבו22.</src>
+    <src s="26">ויש לומר,</src>
+    <src s="27">שגם העבודה דתפלה שבשביל עסק התורה</src>
+    <src s="28">(דכל האומר אין לי אלא תורה אפילו תורה אין לו23),</src>
+    <src s="29">כיון שהתפלה היא בשביל התורה שענינה הוא הבנה והשגה,</src>
+    <src s="30">אינה אמיתית ענין הביטול24.</src>
+    <src s="31">ולכן עיקר הענין דהמשכה שלמעלה מהשתלשלות</src>
+    <src s="32">(ומכ"ש המשכה שלא לפי ערך ההעלאה)</src>
+    <src s="33">הוא ע"י העלאת מ"ן דתפלה,</src>
+    <src s="34">ועי"ז נמשך אח"כ גם בתורה.</src>
+    <src s="35">דע"י העבודה שבתורה</src>
+    <src s="36">[העבודה דתפלה שבשביל התורה,</src>
+    <src s="37">ולמטה מזה – העבודה דשונה פרקו מאה פעמים ואחד בכדי לשנות טבעו ורגילותו,</src>
+    <src s="38">ולמטה מזה – היגיעה בהבנת התורה],</src>
+    <src s="39">התורה שלומד היא כלי לההמשכה שלמעלה מהשתלשלות שע"י תפלה.</src>
+  </section>
+</awtsmoosMeluketSource>

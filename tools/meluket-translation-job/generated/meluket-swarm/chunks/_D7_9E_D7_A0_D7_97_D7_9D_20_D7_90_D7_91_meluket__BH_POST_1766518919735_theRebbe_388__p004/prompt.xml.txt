@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919735_theRebbe_388" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919735_theRebbe_388__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919735_theRebbe_388" title="מאמר ציון במשפט תפדה תשמ"א" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919735_theRebbe_388__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">וזהו ציון במשפט תפדה ושבי' בצדקה,</src>
+    <src s="2">דזה שישראל נק' בשם ציון הוא ע"י שעוסקים בתורה עבודה וגמ"ח,</src>
+    <src s="3">שהם כללות כל התומ"צ,</src>
+    <src s="4">שעי"ז הם נעשים בבחי' ציון מלשון סימן,</src>
+    <src s="5">דגם כשנמצאים בגלות אינם נאבדים ח"ו בין האומות</src>
+    <src s="6">(ובדוגמת דבר שיש לו סימן כפשוטו,</src>
+    <src s="7">שע"י הסימן מחזירים אותו לבעליו).</src>
+    <src s="8">ויתירה מזו,</src>
+    <src s="9">שע"י עבודתם בתומ"צ בזמן הגלות נעשה בהם יתרון ועלי',</src>
+    <src s="10">למעלה יותר מכמו שהיו בזמן הבית.</src>
+    <src s="11">והיתרון הוא בשני ענינים.</src>
+    <src s="12">א',</src>
+    <src s="13">שע"י העבודה בזמן הגלות מתגלה</src>
+    <src s="14">(כנ"ל סעיף ה)</src>
+    <src s="15">התוקף והבל"ג דהאור,</src>
+    <src s="16">שגם חושך הכי גדול</src>
+    <src s="17">(חושך הגלות,</src>
+    <src s="18">כולל גם החושך כפול ומכופל שבדרא דעקבתא דמשיחא)</src>
+    <src s="19">אינו מעלים לגבי'.</src>
+    <src s="20">דבכללות הוא האור שלמעלה מהכלים</src>
+    <src s="21">(האור שבהבדלה48),</src>
+    <src s="22">שהוא בלי גבול.</src>
+    <src s="23">אבל אעפ"כ הוא מוגדר בגדר אור.</src>
+    <src s="24">וב',</src>
+    <src s="25">שע"י הפיכת החושך לאור מתגלה העצמות שלמעלה מהגדרים דאור וחושך</src>
+    <src s="26">(כנ"ל).</src>
+  </section>
+  <section v="10">
+    <src s="0">והנה בפסוק זה,</src>
+    <src s="1">הסיום והחותם49</src>
+    <src s="2">של ההפטורה חזון ישעיהו</src>
+    <src s="3">[דענינו של ישעי' הוא</src>
+    <src s="4">(כשמו)</src>
+    <src s="5">ישועה50,</src>
+    <src s="6">ועד לישועה אמיתית שהיא הגאולה שלימה שאין אחרי' גלות51.</src>
+    <src s="7">דזהו גם מה שממשיך בכתוב52</src>
+    <src s="8">אשר חזה גו' בימי גו' יחזקיהו,</src>
+    <src s="9">שביקש הקב"ה לעשות חזקיהו משיח53],</src>
+    <src s="10">מדבר בהעילוי שיהי' בגאולה העתידה.</src>
+    <src s="11">ובזה גופא – בעילוי הב',</src>
+    <src s="12">שהוא עיקר התכלית דהגלות.</src>
+    <src s="13">וזהו אומרו תפדה ושבי',</src>
+    <src s="14">שעילוי זה הוא הן בהגוף שיפדה מהגלות</src>
+    <src s="15">(תפדה)</src>
+    <src s="16">והן בהנשמה שתשוב ממקום הגולה</src>
+    <src s="17">(ושבי').</src>
+    <src s="18">וזהו גם תפדה במשפט ושבי' בצדקה,</src>
+    <src s="19">דהעילוי שיהי' בהגוף</src>
+    <src s="20">(תפדה)</src>
+    <src s="21">הוא במשפט,</src>
+    <src s="22">דכיון שהגוף הי' בגלות ממש והי' בו הענין דהפיכת החושך לאור,</src>
+    <src s="23">לכן,</src>
+    <src s="24">היתרון והעילוי שנעשה עי"ז,</src>
+    <src s="25">מגיע לו ע"פ שורת הדין,</src>
+    <src s="26">במשפט.</src>
+    <src s="27">משא"כ זה שהנשמה שהיתה רק במקום הגולה</src>
+    <src s="28">(ושבי')</src>
+    <src s="29">תתעלה לבחינה זו,</src>
+    <src s="30">הוא</src>
+    <src s="31">(לא ע"פ שורת הדין,</src>
+    <src s="32">אלא)</src>
+    <src s="33">בצדקה.</src>
+    <src s="34">ולכאורה יש להוסיף,</src>
+    <src s="35">שבפרט אחד יש יתרון בהעלי' דהנשמה על העלי' דהגוף.</src>
+    <src s="36">שהעלי' דהגוף,</src>
+    <src s="37">שהיא במשפט</src>
+    <src s="38">(היינו שהעלי' היא ע"פ חשבון דטעם ודעת),</src>
+    <src s="39">יש בזה איזו מדידה והגבלה,</src>
+    <src s="40">משא"כ העלי' דהנשמה,</src>
+    <src s="41">שהיא בצדקה,</src>
+    <src s="42">היא למעלה מכל מדידה והגבלה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ואין מקרא יוצא מידי פשוטו54,</src>
+    <src s="1">ועד שדוקא על ידי לימוד הפשט מתגלה העצם דתורה,</src>
+    <src s="2">כי פשט הוא בעולם העשי'55,</src>
+    <src s="3">שבו דוקא נשלמת הכוונה דדירה בתחתונים.</src>
+    <src s="4">ולכאורה י"ל דזהו גם הטעם</src>
+    <src s="5">(בפנימיות הענינים)</src>
+    <src s="6">דזה שהלימוד עם תשב"ר,</src>
+    <src s="7">הבל שאין בו חטא56,</src>
+    <src s="8">הוא דוקא ע"פ הפשט.</src>
+    <src s="9">וי"ל שכן הוא גם בנוגע לעניננו – הפסוק ציון במשפט תפדה ושבי' בצדקה,</src>
+    <src s="10">שעיקר הענין בזה הוא פירוש הפסוק כפשוטו,</src>
+    <src s="11">הפדי' והיציאה מהגלות בפשטות בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="12">בקרוב ממש בעגלא דידן.</src>
+  </section>
+</awtsmoosMeluketSource>

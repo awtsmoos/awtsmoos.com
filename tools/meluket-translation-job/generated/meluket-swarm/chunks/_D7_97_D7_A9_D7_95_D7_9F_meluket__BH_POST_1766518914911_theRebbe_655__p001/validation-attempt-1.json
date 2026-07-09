@@ -1,0 +1,79 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 7,
+    "returned": 7,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914911_theRebbe_655\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening heading and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">On the eve of the fifth day of the week, Parshat Chayei Sarah,</t>\n    <t s=\"2\">the 20th of MarCheshvan</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that it is the birthday of the Rebbe Rashab.</sectionSummaryBrief>\n    <t s=\"0\">— the birthday of the Rebbe,</t>\n    <t s=\"1\">(the Rebbe Rashab)</t>\n    <t s=\"2\">of blessed memory —</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section gives the year of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">the year 5741*</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914911_theRebbe_655",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening heading and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "On the eve of the fifth day of the week, Parshat Chayei Sarah,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "the 20th of MarCheshvan"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section notes that it is the birthday of the Rebbe Rashab.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "— the birthday of the Rebbe,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "of blessed memory —"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section gives the year of the maamar.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "the year 5741*"
+          }
+        ]
+      }
+    ]
+  }
+}

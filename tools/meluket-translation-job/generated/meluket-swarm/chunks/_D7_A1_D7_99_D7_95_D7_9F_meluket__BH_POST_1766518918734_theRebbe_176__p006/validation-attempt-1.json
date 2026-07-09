@@ -1,0 +1,172 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 28,
+    "returned": 28,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918734_theRebbe_176\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>Through toil in the details of the Oral Torah, one reaches a level beyond the general principle, drawing from the essence of the Torah rooted in the self-concealment of Ein Sof, leading to the discovery of new insights and ultimately to the revelation of Moshiach's Torah.</sectionSummaryBrief>\n    <t s=\"0\">Moreover,</t>\n    <t s=\"1\">through study and toil in the particulars of the Oral Torah,</t>\n    <t s=\"2\">one reaches a level even beyond the general principle.</t>\n    <t s=\"3\">For this is what they said: \"Whatever a veteran student will innovate in the future\"</t>\n    <t s=\"4\">(specifically \"to innovate\"</t>\n    <t s=\"5\">),</t>\n    <t s=\"6\">for through toil in Torah, one draws from the aspect of Torah as it is rooted in the self-concealment of the Essence of Ein Sof,</t>\n    <t s=\"7\">which is above the aspect of Torah as it comes in a manner of extension and revelation.</t>\n    <t s=\"8\">And this is \"I toiled and I found,\"</t>\n    <t s=\"9\">for the concept of \"finding\"</t>\n    <t s=\"10\">(\"I found\")</t>\n    <t s=\"11\">is that one finds a new thing that initially could not be imagined,</t>\n    <t s=\"12\">like a found object that comes</t>\n    <t s=\"13\">by way of absentmindedness.</t>\n    <t s=\"14\">And this is \"I toiled and I found,\"</t>\n    <t s=\"15\">that through toil in Torah one finds and reveals new matters,</t>\n    <t s=\"16\">and even to the extent that through toil in Torah</t>\n    <t s=\"17\">[and particularly in the inner dimension of Torah, which is like the Torah of Moshiach]</t>\n    <t s=\"18\">now,</t>\n    <t s=\"19\">we will merit the revelation of the Torah of Moshiach,</t>\n    <t s=\"20\">which comes</t>\n    <t s=\"21\">by way of absentmindedness,</t>\n    <t s=\"22\">\"I have found Dovid My servant\"</t>\n    <t s=\"23\">(specifically \"I have found\"),</t>\n    <t s=\"24\">for then there will be the revelation of the Essence of the Ein Sof without any garment,</t>\n    <t s=\"25\">(and even the revelation at the time of the Giving of the Torah was only like the revelation of the future),</t>\n    <t s=\"26\">with the coming of Moshiach our righteous one,</t>\n    <t s=\"27\">speedily, truly.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918734_theRebbe_176",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "Through toil in the details of the Oral Torah, one reaches a level beyond the general principle, drawing from the essence of the Torah rooted in the self-concealment of Ein Sof, leading to the discovery of new insights and ultimately to the revelation of Moshiach's Torah.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "Moreover,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "through study and toil in the particulars of the Oral Torah,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "one reaches a level even beyond the general principle."
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "For this is what they said: \"Whatever a veteran student will innovate in the future\""
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "(specifically \"to innovate\""
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "),"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "for through toil in Torah, one draws from the aspect of Torah as it is rooted in the self-concealment of the Essence of Ein Sof,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "which is above the aspect of Torah as it comes in a manner of extension and revelation."
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "And this is \"I toiled and I found,\""
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "for the concept of \"finding\""
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "(\"I found\")"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "is that one finds a new thing that initially could not be imagined,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "like a found object that comes"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "by way of absentmindedness."
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "And this is \"I toiled and I found,\""
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "that through toil in Torah one finds and reveals new matters,"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "and even to the extent that through toil in Torah"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "[and particularly in the inner dimension of Torah, which is like the Torah of Moshiach]"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "now,"
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "we will merit the revelation of the Torah of Moshiach,"
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "which comes"
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "by way of absentmindedness,"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "\"I have found Dovid My servant\""
+          },
+          {
+            "v": 15,
+            "s": 23,
+            "translation": "(specifically \"I have found\"),"
+          },
+          {
+            "v": 15,
+            "s": 24,
+            "translation": "for then there will be the revelation of the Essence of the Ein Sof without any garment,"
+          },
+          {
+            "v": 15,
+            "s": 25,
+            "translation": "(and even the revelation at the time of the Giving of the Torah was only like the revelation of the future),"
+          },
+          {
+            "v": 15,
+            "s": 26,
+            "translation": "with the coming of Moshiach our righteous one,"
+          },
+          {
+            "v": 15,
+            "s": 27,
+            "translation": "speedily, truly."
+          }
+        ]
+      }
+    ]
+  }
+}

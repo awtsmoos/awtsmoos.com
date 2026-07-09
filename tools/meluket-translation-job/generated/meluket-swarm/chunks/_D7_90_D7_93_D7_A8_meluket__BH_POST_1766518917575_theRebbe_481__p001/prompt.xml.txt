@@ -1,0 +1,136 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917575_theRebbe_481" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917575_theRebbe_481__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917575_theRebbe_481" title="מאמר אלה פקודי תש"ל" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917575_theRebbe_481__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ פקודי,</src>
+    <src s="2">וא"ו אדר שני,</src>
+    <src s="3">ה'תש"ל</src>
+  </section>
+  <section v="1">
+    <src s="0">אלה פקודי המשכן משכן העדות אשר פוקד על פי משה גו'1,</src>
+    <src s="1">וידוע הדיוק מ"ש המשכן משכן ב' פעמים2.</src>
+    <src s="2">גם צריך להבין,</src>
+    <src s="3">שבמשכן הא' נאמר משכן סתם ובמשכן הב' נאמר משכן העדות3.</src>
+    <src s="4">גם צריך להבין מ"ש אשר פוקד על פי משה,</src>
+    <src s="5">דשני פירושים בזה.</src>
+    <src s="6">שקאי אדסמיך לי',</src>
+    <src s="7">על משכן העדות4.</src>
+    <src s="8">ולכן נאמר פוקד לשון יחיד,</src>
+    <src s="9">כי רק משכן אחד פוקד על פי משה,</src>
+    <src s="10">בחינת משכן העדות.</src>
+    <src s="11">ועוד פירוש,</src>
+    <src s="12">שאשר פוקד על פי משה קאי על כללות המשכן,</src>
+    <src s="13">גם על בחינת משכן סתם.</src>
+    <src s="14">ואדרבה,</src>
+    <src s="15">הפירוש הפשוט</src>
+    <src s="16">(דאין מקרא יוצא מפשוטו5)</src>
+    <src s="17">באשר פוקד על פי משה הוא שקאי על אלה פקודי המשכן</src>
+    <src s="18">(שבתחלה אומר פקודי סתם ואח"כ מפרש שזה הי' על פי משה).</src>
+    <src s="19">וצריך להבין הקשר דשני הפירושים.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ונקודת הביאור בזה הוא,</src>
+    <src s="2">כדאיתא בלקו"ת6,</src>
+    <src s="3">דענין המשכן הוא השראת השכינה כמ"ש7</src>
+    <src s="4">ועשו לי מקדש ושכנתי בתוכם,</src>
+    <src s="5">ושני הענינים שבמשכן</src>
+    <src s="6">[משכן סתם ומשכן העדות]</src>
+    <src s="7">הם ב' דרגות בשכינה,</src>
+    <src s="8">שכינתא תתאה ושכינתא עילאה8.</src>
+    <src s="9">וע"פ הידוע שכל אחד מישראל הוא משכן ומקדש לו ית'</src>
+    <src s="10">[כמארז"ל9</src>
+    <src s="11">עה"פ7</src>
+    <src s="12">ועשו לי מקדש ושכנתי בתוכם,</src>
+    <src s="13">בתוכו לא נאמר אלא בתוכם,</src>
+    <src s="14">בתוך כל אחד ואחד מישראל],</src>
+    <src s="15">מובן,</src>
+    <src s="16">דשני הענינים שבמשכן</src>
+    <src s="17">[משכן סתם ומשכן העדות]</src>
+    <src s="18">הם גם בהמשכן דישראל.</src>
+    <src s="19">וע"פ מאמר רז"ל10</src>
+    <src s="20">עה"פ משכן העדות,</src>
+    <src s="21">עדות היא לכל באי עולם שהקב"ה נתרצה לישראל,</src>
+    <src s="22">יש לומר,</src>
+    <src s="23">דזה שישראל הם משכן</src>
+    <src s="24">(סתם)</src>
+    <src s="25">הוא ע"י העבודה דתומ"צ,</src>
+    <src s="26">וזה שהם משכן העדות הוא ע"י עבודת התשובה.</src>
+    <src s="27">ויש לקשר זה עם המובא לעיל מלקו"ת דמשכן סתם ומשכן העדות הם שכינתא תתאה ושכינתא עילאה,</src>
+    <src s="28">כי שכינתא תתאה היא מלכות ושכינתא עילאה היא בינה11,</src>
+    <src s="29">ועד"ז הוא החילוק בין העבודה דתומ"צ להעבודה דתשובה,</src>
+    <src s="30">שקיום המצוות,</src>
+    <src s="31">מצוות המלך,</src>
+    <src s="32">הוא במלכות12,</src>
+    <src s="33">ותשובה היא בבינה13.</src>
+    <src s="34">גם יש לומר,</src>
+    <src s="35">דכיון שהמשכן</src>
+    <src s="36">(כללות המשכן)</src>
+    <src s="37">הי' כפרה על חטא העגל14,</src>
+    <src s="38">לכן,</src>
+    <src s="39">גם במשכן סתם נכללת גם עבודת התשובה,</src>
+    <src s="40">והחילוק בין משכן סתם למשכן העדות הוא,</src>
+    <src s="41">שמשכן סתם הוא תשובה תתאה ומשכן העדות הוא תשובה עילאה.</src>
+    <src s="42">וזה מתאים עוד יותר עם המובא לעיל מלקו"ת שמשכן סתם ומשכן העדות הם שכינתא תתאה</src>
+    <src s="43">(מלכות)</src>
+    <src s="44">ושכינתא עילאה</src>
+    <src s="45">(בינה),</src>
+    <src s="46">כי תשובה תתאה היא תשוב ה' תתאה</src>
+    <src s="47">(מלכות)</src>
+    <src s="48">ותשובה עילאה היא תשוב ה' עילאה</src>
+    <src s="49">(בינה)15.</src>
+    <src s="50">וע"פ הדיעה16</src>
+    <src s="51">שהציווי ועשו לי מקדש וגם נדבת המשכן היו קודם חטא העגל,</src>
+    <src s="52">שאז היו כל ישראל במדריגת צדיקים,</src>
+    <src s="53">יש לומר,</src>
+    <src s="54">דשתי הבחינות שבמשכן</src>
+    <src s="55">(משכן סתם ומשכן העדות)</src>
+    <src s="56">הם שתי בחינות בעבודת הצדיקים.</src>
+    <src s="57">וכמבואר בלקו"ת17,</src>
+    <src s="58">דזה שישראל הם משכן סתם הוא ע"י קיום מ"ע וזה שהם משכן העדות הוא ע"י קיום מל"ת.</src>
+    <src s="59">ואולי יש לומר,</src>
+    <src s="60">ששני הענינים דמשכן בעבודת הצדיקים הם גם בהעבודה דכחות הפנימיים.</src>
+    <src s="61">משכן סתם הוא עבודת הלב,</src>
+    <src s="62">ומשכן העדות הוא עבודת המוח.</src>
+    <src s="63">ויש לקשר זה עם המבואר בלקו"ת ששני הענינים דמשכן הם מ"ע ומל"ת,</src>
+    <src s="64">כי מ"ע הם בו"ה – מדות</src>
+    <src s="65">(וא"ו ז"א,</src>
+    <src s="66">וה"א אחרונה – מלכות18),</src>
+    <src s="67">ומל"ת הם בי"ה – מוחין</src>
+    <src s="68">(יו"ד – חכמה,</src>
+    <src s="69">ה"א – בינה18).</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,93 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" title="מאמר באתי לגני תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p005">
+  <section v="12">
+    <src s="0">ח)</src>
+    <src s="1">ומבאר בהמאמר,</src>
+    <src s="2">דזה שהנשמה אינה צריכה תיקון,</src>
+    <src s="3">הוא,</src>
+    <src s="4">כי כל נשמתא ונשמתא הוה קיימא בדיוקנאה קמי מלכא קדישא63,</src>
+    <src s="5">ומוסיף,</src>
+    <src s="6">שהנשמה קודם שירדה למטה היתה בתכלית הדביקות במקור חוצבה באלקים חיים,</src>
+    <src s="7">בדביקות אמיתי ודביקות תמידי בלי שום פירוד כלל.</src>
+    <src s="8">דשני ענינים אלה</src>
+    <src s="9">(הוה קיימא בדיוקנאה קמי מלכא קדישא ושהיתה בתכלית הדביקות)</src>
+    <src s="10">הם שתי דרגות בהביטול דהנשמה.</src>
+    <src s="11">קיימא כו' קמי מלכא קדישא הוא כעומד לפני המלך.</src>
+    <src s="12">דהגם שכשעומד לפני המלך הוא בטל בתכלית,</src>
+    <src s="13">דמאן דמחוי במחוג קמי מלכא נעשה אצלו היפך חיותו64,</src>
+    <src s="14">מ"מ,</src>
+    <src s="15">מצד עצמו הוא מציאות והביטול שלו הוא רק מפני שעומד לפני המלך.</src>
+    <src s="16">וזה שהנשמה היא בתכלית הדביקות כו' הוא65</src>
+    <src s="17">שאינה מציאות לעצמה.</src>
+  </section>
+  <section v="13">
+    <src s="0">ומוסיף בהמאמר לאחרי שאומר שהנשמה קודם ירידתה היתה בתכלית הדביקות וכו',</src>
+    <src s="1">שהיתה ברצון אחד להוי' לבדו ואין זר אתו.</src>
+    <src s="2">וצריך להבין,</src>
+    <src s="3">דלאחרי שאומר שהיא בתכלית הדביקות,</src>
+    <src s="4">מה מוסיף ומחדש שאין לה רצון זר.</src>
+  </section>
+  <section v="14">
+    <src s="0">ויש לבאר זה ע"פ מה דאיתא בגמרא66</src>
+    <src s="1">ביקש יעקב לגלות לבניו קץ הימין ונסתלקה ממנו שכינה,</src>
+    <src s="2">אמר,</src>
+    <src s="3">שמא חס ושלום יש במטתי פסול כו',</src>
+    <src s="4">אמרו לו בניו כו' כשם שאין בלבך אלא אחד כך אין בלבנו אלא אחד.</src>
+    <src s="5">וצריך להבין,</src>
+    <src s="6">הרי הביטול דהשבטים</src>
+    <src s="7">(אין בלבנו אלא אחד)</src>
+    <src s="8">הוא למטה במדריגה מהביטול דיעקב</src>
+    <src s="9">[וכמובן מזה עצמו שיעקב</src>
+    <src s="10">(מדת האמת67)</src>
+    <src s="11">בספק הי' שמא יש במטתו פסול],</src>
+    <src s="12">והלשון כשם כו' כך מורה ששני הענינים הם בשוה.</src>
+    <src s="13">גם צריך להבין,</src>
+    <src s="14">מה שאמרו שאין בלבך אלא אחד,</src>
+    <src s="15">הרי הביטול של האבות הן הן המרכבה68</src>
+    <src s="16">[ועאכו"כ של יעקב,</src>
+    <src s="17">בחיר שבאבות69]</src>
+    <src s="18">הי' בכל אברי הגוף70,</src>
+    <src s="19">ולמה אמרו שאין בלבך אלא אחד.</src>
+    <src s="20">וביותר אינו מובן,</src>
+    <src s="21">דפירוש ב.</src>
+    <src s="22">לבך</src>
+    <src s="23">(בבי"ת)</src>
+    <src s="24">הוא מה שבתוך לבך71</src>
+    <src s="25">[ע"ד הפירוש דבקול72],</src>
+    <src s="26">דמזה משמע שאפילו בהלב דיעקב,</src>
+    <src s="27">הענין דאלא אחד הוא רק בפנימיות הלב.</src>
+  </section>
+</awtsmoosMeluketSource>

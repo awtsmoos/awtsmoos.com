@@ -1,0 +1,339 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 59,
+    "returned": 59,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918734_theRebbe_176\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that just as in the influence of intellect from teacher to student, the precedence of the general to the particular applies both to the actual influence and to the drawing down of intellect, so too Above, the general precedes the particular in both the drawing down of light for creation and in the actual creation itself.</sectionSummaryBrief>\n    <t s=\"0\">And just as in the influence of intellect from teacher to student,</t>\n    <t s=\"1\">the precedence of the general to the particulars is both in the actual influence,</t>\n    <t s=\"2\">that the influence is in an abbreviated manner,</t>\n    <t s=\"3\">brief statements that include all the particulars that the student will understand afterward,</t>\n    <t s=\"4\">and also in the drawing down of the intellect</t>\n    <t s=\"5\">(which pertains to the student)</t>\n    <t s=\"6\">within the teacher himself,</t>\n    <t s=\"7\">that the beginning of its drawing down is in the aspect of a point,</t>\n    <t s=\"8\">which includes all the particulars that are drawn down afterward</t>\n    <t s=\"9\">(within the teacher,</t>\n    <t s=\"10\">before the actual influence),</t>\n    <t s=\"11\">so too is it Above,</t>\n    <t s=\"12\">that the precedence of the general to the particulars is both in the drawing down of the light necessary for the creation of the worlds,</t>\n    <t s=\"13\">that initially the drawing down was in the aspect of a general and only afterward were the particulars drawn down</t>\n    <t s=\"14\">[And this matter of the precedence of the general to the particulars was in every level and level,</t>\n    <t s=\"15\">as mentioned above</t>\n    <t s=\"16\">(section 2)</t>\n    <t s=\"17\">at length],</t>\n    <t s=\"18\">and also in the actual creation,</t>\n    <t s=\"19\">that initially the world was created with one utterance,</t>\n    <t s=\"20\">the utterance of Bereishis,</t>\n    <t s=\"21\">and only afterward was the creation through all the particular utterances.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section raises a difficulty: in the analogy of teacher and student, the teacher's intellect exists independently of the influence, but in the analogue, all revelations, even the highest, are solely for the purpose of subsequent creation, so why was the general not created directly as the particulars?</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">But it must be understood,</t>\n    <t s=\"2\">that ostensibly,</t>\n    <t s=\"3\">the analogy of teacher and student is not comparable to the analogue.</t>\n    <t s=\"4\">For in the analogy,</t>\n    <t s=\"5\">the fact that there exists the intellect of the teacher that is above the category of influence to the student,</t>\n    <t s=\"6\">is a matter that stems from the teacher himself and not for the sake of the influence to the student.</t>\n    <t s=\"7\">Not so in the analogue,</t>\n    <t s=\"8\">for all the revelations,</t>\n    <t s=\"9\">even the most elevated revelations,</t>\n    <t s=\"10\">including even the light that is in the aspect of the revelation of the Essence that is above even the first general that pertains to the worlds</t>\n    <t s=\"11\">(the ascent of the Will),</t>\n    <t s=\"12\">is in order that</t>\n    <t s=\"13\">afterward from it may be drawn down</t>\n    <t s=\"14\">(through many contractions)</t>\n    <t s=\"15\">the ten utterances through which the world was created.</t>\n    <t s=\"16\">And based on this it must be understood,</t>\n    <t s=\"17\">why were the ten utterances not drawn down from the outset?</t>\n    <t s=\"18\">For the above explanation of the need for the precedence of the general to the particulars is after it was established that initially there will be the light that is above relation to the worlds and specifically from it will be the drawing down of the light commensurate with the worlds</t>\n    <t s=\"19\">[Since the light commensurate with the worlds is drawn from the light that is above relation to the worlds,</t>\n    <t s=\"20\">therefore there had to be initially the drawing down in the aspect of a general,</t>\n    <t s=\"21\">through which a limitation is made in the light,</t>\n    <t s=\"22\">as above],</t>\n    <t s=\"23\">but it is not understood,</t>\n    <t s=\"24\">that since the intention in the invention of the light that is above relation to the worlds is in order that afterward from it be drawn the light commensurate with the worlds down to the ten utterances through which the world was created,</t>\n    <t s=\"25\">then ostensibly there should have been from the outset the drawing down</t>\n    <t s=\"26\">(the invention)</t>\n    <t s=\"27\">of the ten utterances.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that in order for the purpose of creation—that creatures through their service become nullified to G-dliness—to be fulfilled, creation was arranged so that even before the service there would be a preparation in the creatures for this nullification, achieved by the precedence of the light above relation to the worlds.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">But the matter is,</t>\n    <t s=\"2\">that in order for the purpose of creation to be completed,</t>\n    <t s=\"3\">that the creatures through their service will be nullified to G-dliness,</t>\n    <t s=\"4\">the creation was</t>\n    <t s=\"5\">in such a manner that even before the service there would be in the creatures a kind of preparation and readiness for the nullification that they will effect through their service.</t>\n    <t s=\"6\">Therefore the creation was in a manner that initially the light that is above relation to the worlds exists,</t>\n    <t s=\"7\">and specifically from it is drawn the light commensurate with the worlds,</t>\n    <t s=\"8\">through which the preparation is made in the world to be a dwelling place for Him, blessed be He.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918734_theRebbe_176",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that just as in the influence of intellect from teacher to student, the precedence of the general to the particular applies both to the actual influence and to the drawing down of intellect, so too Above, the general precedes the particular in both the drawing down of light for creation and in the actual creation itself.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And just as in the influence of intellect from teacher to student,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "the precedence of the general to the particulars is both in the actual influence,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that the influence is in an abbreviated manner,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "brief statements that include all the particulars that the student will understand afterward,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "and also in the drawing down of the intellect"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "(which pertains to the student)"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "within the teacher himself,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that the beginning of its drawing down is in the aspect of a point,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "which includes all the particulars that are drawn down afterward"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "(within the teacher,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "before the actual influence),"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "so too is it Above,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that the precedence of the general to the particulars is both in the drawing down of the light necessary for the creation of the worlds,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "that initially the drawing down was in the aspect of a general and only afterward were the particulars drawn down"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "[And this matter of the precedence of the general to the particulars was in every level and level,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "as mentioned above"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "(section 2)"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "at length],"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "and also in the actual creation,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "that initially the world was created with one utterance,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "the utterance of Bereishis,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "and only afterward was the creation through all the particular utterances."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section raises a difficulty: in the analogy of teacher and student, the teacher's intellect exists independently of the influence, but in the analogue, all revelations, even the highest, are solely for the purpose of subsequent creation, so why was the general not created directly as the particulars?",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "But it must be understood,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that ostensibly,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "the analogy of teacher and student is not comparable to the analogue."
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "For in the analogy,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "the fact that there exists the intellect of the teacher that is above the category of influence to the student,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "is a matter that stems from the teacher himself and not for the sake of the influence to the student."
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "Not so in the analogue,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "for all the revelations,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "even the most elevated revelations,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "including even the light that is in the aspect of the revelation of the Essence that is above even the first general that pertains to the worlds"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(the ascent of the Will),"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "is in order that"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "afterward from it may be drawn down"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "(through many contractions)"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "the ten utterances through which the world was created."
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "And based on this it must be understood,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "why were the ten utterances not drawn down from the outset?"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "For the above explanation of the need for the precedence of the general to the particulars is after it was established that initially there will be the light that is above relation to the worlds and specifically from it will be the drawing down of the light commensurate with the worlds"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "[Since the light commensurate with the worlds is drawn from the light that is above relation to the worlds,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "therefore there had to be initially the drawing down in the aspect of a general,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "through which a limitation is made in the light,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "as above],"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "but it is not understood,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "that since the intention in the invention of the light that is above relation to the worlds is in order that afterward from it be drawn the light commensurate with the worlds down to the ten utterances through which the world was created,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "then ostensibly there should have been from the outset the drawing down"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "(the invention)"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "of the ten utterances."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that in order for the purpose of creation—that creatures through their service become nullified to G-dliness—to be fulfilled, creation was arranged so that even before the service there would be a preparation in the creatures for this nullification, achieved by the precedence of the light above relation to the worlds.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "But the matter is,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that in order for the purpose of creation to be completed,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "that the creatures through their service will be nullified to G-dliness,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "the creation was"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "in such a manner that even before the service there would be in the creatures a kind of preparation and readiness for the nullification that they will effect through their service."
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "Therefore the creation was in a manner that initially the light that is above relation to the worlds exists,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "and specifically from it is drawn the light commensurate with the worlds,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "through which the preparation is made in the world to be a dwelling place for Him, blessed be He."
+          }
+        ]
+      }
+    ]
+  }
+}

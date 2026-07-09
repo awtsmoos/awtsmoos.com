@@ -1,0 +1,399 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 71,
+    "returned": 71,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914882_theRebbe_998\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the two aspects of Memale and Sovev originate in the Ein Sof before the tzimtzum, with bounded light as the source of Memale and unbounded light as the source of Sovev, and describes how the tzimtzum operates differently on each.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And it is known</t>\n    <t s=\"2\">that the two concepts of Memale and Sovev have their root in the Ein Sof before the tzimtzum,</t>\n    <t s=\"3\">[for] the bounded light</t>\n    <t s=\"4\">(before the tzimtzum)</t>\n    <t s=\"5\">is the root of the light of Memale,</t>\n    <t s=\"6\">and the unbounded light is the root of the light of Sovev.</t>\n    <t s=\"7\">And the difference between the action of the tzimtzum on the bounded light</t>\n    <t s=\"8\">(the root of Memale)</t>\n    <t s=\"9\">and the action of the tzimtzum on the unbounded light</t>\n    <t s=\"10\">(the root of Sovev)</t>\n    <t s=\"11\">is,</t>\n    <t s=\"12\">that the action of the tzimtzum on the bounded light is within the light itself,</t>\n    <t s=\"13\">so that through the tzimtzum it comes into measure and limit according to the value of the worlds,</t>\n    <t s=\"14\">filling all worlds.</t>\n    <t s=\"15\">And the action of the tzimtzum on the unbounded light is</t>\n    <t s=\"16\">(not within the light itself,</t>\n    <t s=\"17\">but rather)</t>\n    <t s=\"18\">that it should not shine into the place of the void.</t>\n    <t s=\"19\">And from this comes about the concept of Sovev,</t>\n    <t s=\"20\">that the light does not shine</t>\n    <t s=\"21\">(into the worlds,</t>\n    <t s=\"22\">the place of the void)</t>\n    <t s=\"23\">in revelation and inwardness, but rather in the aspect of encompassing and concealment.</t>\n    <t s=\"24\">And based on this, it can be said,</t>\n    <t s=\"25\">that the two aspects within the level of Kol</t>\n    <t s=\"26\">[that through the Yesod is the drawing down of the middos and mochin,</t>\n    <t s=\"27\">and that through the Yesod is the drawing down of the Kesser]</t>\n    <t s=\"28\">in their root in the Ein Sof before the tzimtzum are the bounded light and the unbounded light,</t>\n    <t s=\"29\">and through the fulfillment of the mitzvos there is drawn down</t>\n    <t s=\"30\">a new light that did not shine even before the tzimtzum.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that the future new heavens and new earth will come not from the revelation of the pre-tzimtzum unbounded light, but from the truly new light drawn down through fulfilling Torah and mitzvos now.</sectionSummaryBrief>\n    <t s=\"0\">And this is that in the future there will be new heavens and a new earth,</t>\n    <t s=\"1\">for then all the matters that are drawn down through our deeds and our service now will be revealed,</t>\n    <t s=\"2\">including the new light that is drawn down through the fulfillment of Torah and mitzvos now,</t>\n    <t s=\"3\">and through this there will be renewal also in the world,</t>\n    <t s=\"4\">new heavens and a new earth.</t>\n    <t s=\"5\">For this, that in the future there will be drawn into the world the revelation of the unbounded light that shone before the tzimtzum,</t>\n    <t s=\"6\">is not a true innovation.</t>\n    <t s=\"7\">For since this light was already revealed in the place of the void, except that through the tzimtzum the light departed,</t>\n    <t s=\"8\">therefore,</t>\n    <t s=\"9\">when the light returns and is drawn down,</t>\n    <t s=\"10\">it is not a true innovation.</t>\n    <t s=\"11\">And this, that in the future there will be new heavens and a new earth, is,</t>\n    <t s=\"12\">for then there will be the revelation of the new light</t>\n    <t s=\"13\">(that is drawn down through the fulfillment of Torah and mitzvos now)</t>\n    <t s=\"14\">that was not even before the tzimtzum.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the ultimate purpose of creation for Israel is to draw down even the most transcendent light, beyond the scope of revelation, into the world through mitzvos, thereby completing the goal of a dwelling place in the lower realms.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And now it is known,</t>\n    <t s=\"2\">that this, that creation is for the sake of Israel,</t>\n    <t s=\"3\">the intention in this is not only for the creation of the world, but also for all revelations,</t>\n    <t s=\"4\">even for the most elevated revelations.</t>\n    <t s=\"5\">And from this it is understood also regarding the aforementioned light that did not shine even before the tzimtzum,</t>\n    <t s=\"6\">that this, that there came to be</t>\n    <t s=\"7\">(so to speak)</t>\n    <t s=\"8\">this light</t>\n    <t s=\"9\">(which is beyond the category of drawing down and revelation)</t>\n    <t s=\"10\">is in order that through the service of Israel it will afterwards be in drawing down and revelation,</t>\n    <t s=\"11\">and that its drawing down and revelation will be in the world</t>\n    <t s=\"12\">[and as above, that through the new light,</t>\n    <t s=\"13\">the heavens and the earth will be new],</t>\n    <t s=\"14\">and through this the intention of a dwelling place in the lower realms will be completed.</t>\n    <t s=\"15\">And based on this, one can connect the interpretation of the Zohar of \"a king to a field is worked\"</t>\n    <t s=\"16\">(that \"worked\" refers to the field)</t>\n    <t s=\"17\">with the interpretation</t>\n    <t s=\"18\">(the simple one)</t>\n    <t s=\"19\">that \"worked\" refers to the king,</t>\n    <t s=\"20\">that even the essence of the light that is beyond the category of drawing down and revelation</t>\n    <t s=\"21\">(the supernal King)</t>\n    <t s=\"22\">is, so to speak, worked for the service of the field</t>\n    <t s=\"23\">(\"a field is worked\"),</t>\n    <t s=\"24\">the fulfillment of the mitzvos.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914882_theRebbe_998",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the two aspects of Memale and Sovev originate in the Ein Sof before the tzimtzum, with bounded light as the source of Memale and unbounded light as the source of Sovev, and describes how the tzimtzum operates differently on each.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And it is known"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that the two concepts of Memale and Sovev have their root in the Ein Sof before the tzimtzum,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "[for] the bounded light"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "(before the tzimtzum)"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "is the root of the light of Memale,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "and the unbounded light is the root of the light of Sovev."
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "And the difference between the action of the tzimtzum on the bounded light"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "(the root of Memale)"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "and the action of the tzimtzum on the unbounded light"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "(the root of Sovev)"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "is,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "that the action of the tzimtzum on the bounded light is within the light itself,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "so that through the tzimtzum it comes into measure and limit according to the value of the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "filling all worlds."
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "And the action of the tzimtzum on the unbounded light is"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "(not within the light itself,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "but rather)"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "that it should not shine into the place of the void."
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "And from this comes about the concept of Sovev,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "that the light does not shine"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "(into the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "the place of the void)"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "in revelation and inwardness, but rather in the aspect of encompassing and concealment."
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "that the two aspects within the level of Kol"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "[that through the Yesod is the drawing down of the middos and mochin,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "and that through the Yesod is the drawing down of the Kesser]"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "in their root in the Ein Sof before the tzimtzum are the bounded light and the unbounded light,"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "and through the fulfillment of the mitzvos there is drawn down"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "a new light that did not shine even before the tzimtzum."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that the future new heavens and new earth will come not from the revelation of the pre-tzimtzum unbounded light, but from the truly new light drawn down through fulfilling Torah and mitzvos now.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And this is that in the future there will be new heavens and a new earth,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "for then all the matters that are drawn down through our deeds and our service now will be revealed,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "including the new light that is drawn down through the fulfillment of Torah and mitzvos now,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "and through this there will be renewal also in the world,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "new heavens and a new earth."
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "For this, that in the future there will be drawn into the world the revelation of the unbounded light that shone before the tzimtzum,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "is not a true innovation."
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "For since this light was already revealed in the place of the void, except that through the tzimtzum the light departed,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "therefore,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "when the light returns and is drawn down,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "it is not a true innovation."
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "And this, that in the future there will be new heavens and a new earth, is,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "for then there will be the revelation of the new light"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "(that is drawn down through the fulfillment of Torah and mitzvos now)"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "that was not even before the tzimtzum."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the ultimate purpose of creation for Israel is to draw down even the most transcendent light, beyond the scope of revelation, into the world through mitzvos, thereby completing the goal of a dwelling place in the lower realms.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And now it is known,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that this, that creation is for the sake of Israel,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "the intention in this is not only for the creation of the world, but also for all revelations,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "even for the most elevated revelations."
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "And from this it is understood also regarding the aforementioned light that did not shine even before the tzimtzum,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "that this, that there came to be"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "(so to speak)"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "this light"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "(which is beyond the category of drawing down and revelation)"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "is in order that through the service of Israel it will afterwards be in drawing down and revelation,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "and that its drawing down and revelation will be in the world"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "[and as above, that through the new light,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "the heavens and the earth will be new],"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "and through this the intention of a dwelling place in the lower realms will be completed."
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "And based on this, one can connect the interpretation of the Zohar of \"a king to a field is worked\""
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "(that \"worked\" refers to the field)"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "with the interpretation"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "(the simple one)"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "that \"worked\" refers to the king,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "that even the essence of the light that is beyond the category of drawing down and revelation"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "(the supernal King)"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "is, so to speak, worked for the service of the field"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "(\"a field is worked\"),"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "the fulfillment of the mitzvos."
+          }
+        ]
+      }
+    ]
+  }
+}

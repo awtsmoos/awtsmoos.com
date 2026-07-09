@@ -1,0 +1,28 @@
+{
+  "id": "b509868a-13fd-4c0f-88a3-12325ce69503",
+  "object": "chat.completion",
+  "created": 1783583929,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919939_theRebbe_869\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919939_theRebbe_869__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>Through Israel fulfilling God's request to reveal the level of Mah of the soul in two ways, God fulfills Israel's request for dwelling in His house and grants each a good and sweet year.</sectionSummaryBrief>\n    <t s=\"0\">And through the fact that Israel fulfill the request of the Holy One, blessed be He, to reveal the Mah of the soul in the two aforementioned manners — the revelation of the Mah itself as it is above form,</t>\n    <t s=\"1\">and its revelation as it is drawn into actuality in the particular levels of the soul</t>\n    <t s=\"2\">(Nefesh, Ruach, Neshamah, Chayah, Yechidah)</t>\n    <t s=\"3\">— through this the Holy One, blessed be He, will fulfill the request of Israel,</t>\n    <t s=\"4\">both the general and essential request, \"One thing I have asked\"45</t>\n    <t s=\"5\">as it is in itself — \"that I may dwell in the house of the Lord all the days of my life,\"</t>\n    <t s=\"6\">and also as it is drawn into many particulars</t>\n    <t s=\"7\">(\"to behold the pleasantness of the Lord and to visit His Temple,\" etc.),</t>\n    <t s=\"8\">and the Holy One, blessed be He, gives each and every one of Israel a good writing and sealing46</t>\n    <t s=\"9\">for a good and sweet year in materiality and spirituality, below ten handbreadths.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 949,
+    "completion_tokens": 482,
+    "total_tokens": 1431,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 565
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

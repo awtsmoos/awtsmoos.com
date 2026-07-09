@@ -1,0 +1,414 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 74,
+    "returned": 74,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917181_theRebbe_116\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917181_theRebbe_116__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">Shabbos Parshas Mishpatim,</t>\n    <t s=\"2\">Parshas Shekalim,</t>\n    <t s=\"3\">Rosh Chodesh Adar, 5740*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section discusses the verses about the half-shekel, its connection to the sin of the Golden Calf, and its parallel in prayer.</sectionSummaryBrief>\n    <t s=\"0\">\"This they shall give, everyone who passes among those counted, a half-shekel of the holy shekel—twenty gerahs the shekel—a half-shekel as an offering to Hashem...\"1</t>\n    <t s=\"1\">And it concludes2</t>\n    <t s=\"2\">\"to make atonement for your souls.\"</t>\n    <t s=\"3\">And the maamar of Shabbos Parshas Mishpatim and Parshas Shekalim 5680</t>\n    <t s=\"4\">(printed in Pardes)3</t>\n    <t s=\"5\">questions the double expression of \"half-shekel\" in the verse,</t>\n    <t s=\"6\">which says \"a half-shekel of the holy shekel,\"</t>\n    <t s=\"7\">and then repeats \"a half-shekel as an offering to Hashem.\"</t>\n    <t s=\"8\">Also, what is the meaning of \"twenty gerahs the shekel,\"</t>\n    <t s=\"9\">since one only needs to give a half-shekel?</t>\n    <t s=\"10\">It also questions the meaning of \"to make atonement for your souls,\"</t>\n    <t s=\"11\">and as it continues and explains there that the concept of the half-shekel is to atone for the sin of the Golden Calf4,</t>\n    <t s=\"12\">and it questions what is the virtue of the half-shekel that it is so capable of atoning for that sin.</t>\n    <t s=\"13\">And one may add to this</t>\n    <t s=\"14\">(as a comment in brief),</t>\n    <t s=\"15\">that the sin of the Golden Calf is a general sin, and it is the source and root of all sins, iniquities, and transgressions.</t>\n    <t s=\"16\">And as it is brought in the Gemara5</t>\n    <t s=\"17\">that at the time of the Giving of the Torah, their contamination ceased</t>\n    <t s=\"18\">(that the serpent had injected into Chavah),</t>\n    <t s=\"19\">and after the sin of the Golden Calf it returned6.</t>\n    <t s=\"20\">And although it did not return completely as it was before that7,</t>\n    <t s=\"21\">for even after the sin of the Golden Calf the concept of choice remained for the Jewish people,</t>\n    <t s=\"22\">\"and in us You chose\"8,</t>\n    <t s=\"23\">in the physical body which in its materiality resembles the bodies of the nations of the world9</t>\n    <t s=\"24\">(and see in the Gemara there10</t>\n    <t s=\"25\">\"Why are the nations of the world contaminated...\"),</t>\n    <t s=\"26\">nevertheless, the sin of the Golden Calf is the general sin,</t>\n    <t s=\"27\">and about it is written11</t>\n    <t s=\"28\">\"And on the day I make My account\"</t>\n    <t s=\"29\">(for every sin)</t>\n    <t s=\"30\">\"I shall bring it to account...\"</t>\n    <t s=\"31\">Therefore, an explanation is most needed as to what is the virtue of the half-shekel that atones for this sin.</t>\n    <t s=\"32\">And now, from this offering</t>\n    <t s=\"33\">(of the half-shekel)</t>\n    <t s=\"34\">they purchased the communal offerings for the entire year,</t>\n    <t s=\"35\">and the concept of offerings nowadays is the concept of prayer,</t>\n    <t s=\"36\">as our sages, of blessed memory, said12</t>\n    <t s=\"37\">\"Prayers were instituted in place of the offerings,\"</t>\n    <t s=\"38\">and from this it is understood</t>\n    <t s=\"39\">that the concept of the half-shekel also exists in the service of prayer.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the concept of prayer as being from a \"heavy head,\" referring to the deficiency in the Shechinah and in the souls of Israel.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And to understand all this, the maamar continues to explain13</t>\n    <t s=\"2\">the concept of prayer,</t>\n    <t s=\"3\">and brings on this the statement of our sages, of blessed memory14</t>\n    <t s=\"4\">\"One should not stand to pray except from a heavy head.\"</t>\n    <t s=\"5\">And one may add to this,</t>\n    <t s=\"6\">based on what Tosafos says in Maseches Menachos15</t>\n    <t s=\"7\">that the language \"one should not... except...\" comes to exclude, meaning it is invalid after the fact.</t>\n    <t s=\"8\">And so is the simple explanation of the matter,</t>\n    <t s=\"9\">that \"one should not stand to pray,\"</t>\n    <t s=\"10\">meaning that the concept of prayer does not apply,</t>\n    <t s=\"11\">except from a heavy head.</t>\n    <t s=\"12\">And it brings on this the explanation of the Maggid of Mezeritch, his soul in Eden16</t>\n    <t s=\"13\">that the prayer should be about the heaviness in the head,</t>\n    <t s=\"14\">that when one prays about a deficiency, he should not pray about his own deficiency, but about the deficiency above,</t>\n    <t s=\"15\">for there is no deficiency below that does not have a deficiency above.</t>\n    <t s=\"16\">And he explains,</t>\n    <t s=\"17\">that the concept of the deficiency above is as our sages, of blessed memory, said17</t>\n    <t s=\"18\">\"At a time when a person is distressed, what does the Shechinah say? As it were, 'My head is heavy upon Me, My arm is heavy upon Me,'\"</t>\n    <t s=\"19\">for the Shechinah is the aspect of Malchus, which has ascents and descents, etc.</t>\n    <t s=\"20\">And this is the concept of the \"heavy head\" of the Shechinah,</t>\n    <t s=\"21\">and this is \"one should not stand to pray except from a heavy head,\"</t>\n    <t s=\"22\">meaning, about the heaviness and deficiency in the head.</t>\n    <t s=\"23\">And afterwards it brings the explanation of our master, the Alter Rebbe</t>\n    <t s=\"24\">(and so it is also in the discourse \"Ein Omdin Lehispael\" of my revered father-in-law, the Rebbe18)</t>\n    <t s=\"25\">that \"head\" refers to the souls of Israel.</t>\n    <t s=\"26\">\"Israel is the head for Me,\"</t>\n    <t s=\"27\">and in this there is the concept of \"heavy head\" caused by sins,</t>\n    <t s=\"28\">as it is written19</t>\n    <t s=\"29\">\"For my iniquities have passed over my head; like a heavy burden, they are too heavy for me.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917181_theRebbe_116",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917181_theRebbe_116__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Mishpatim,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Parshas Shekalim,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "Rosh Chodesh Adar, 5740*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section discusses the verses about the half-shekel, its connection to the sin of the Golden Calf, and its parallel in prayer.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"This they shall give, everyone who passes among those counted, a half-shekel of the holy shekel—twenty gerahs the shekel—a half-shekel as an offering to Hashem...\"1"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it concludes2"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "\"to make atonement for your souls.\""
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "And the maamar of Shabbos Parshas Mishpatim and Parshas Shekalim 5680"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "(printed in Pardes)3"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "questions the double expression of \"half-shekel\" in the verse,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "which says \"a half-shekel of the holy shekel,\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "and then repeats \"a half-shekel as an offering to Hashem.\""
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "Also, what is the meaning of \"twenty gerahs the shekel,\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "since one only needs to give a half-shekel?"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "It also questions the meaning of \"to make atonement for your souls,\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "and as it continues and explains there that the concept of the half-shekel is to atone for the sin of the Golden Calf4,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "and it questions what is the virtue of the half-shekel that it is so capable of atoning for that sin."
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "And one may add to this"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "(as a comment in brief),"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that the sin of the Golden Calf is a general sin, and it is the source and root of all sins, iniquities, and transgressions."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And as it is brought in the Gemara5"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "that at the time of the Giving of the Torah, their contamination ceased"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "(that the serpent had injected into Chavah),"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "and after the sin of the Golden Calf it returned6."
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "And although it did not return completely as it was before that7,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "for even after the sin of the Golden Calf the concept of choice remained for the Jewish people,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "\"and in us You chose\"8,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "in the physical body which in its materiality resembles the bodies of the nations of the world9"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "(and see in the Gemara there10"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "\"Why are the nations of the world contaminated...\"),"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "nevertheless, the sin of the Golden Calf is the general sin,"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "and about it is written11"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "\"And on the day I make My account\""
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "(for every sin)"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "\"I shall bring it to account...\""
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "Therefore, an explanation is most needed as to what is the virtue of the half-shekel that atones for this sin."
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "And now, from this offering"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "(of the half-shekel)"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "they purchased the communal offerings for the entire year,"
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "and the concept of offerings nowadays is the concept of prayer,"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "as our sages, of blessed memory, said12"
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "\"Prayers were instituted in place of the offerings,\""
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "and from this it is understood"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "that the concept of the half-shekel also exists in the service of prayer."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the concept of prayer as being from a \"heavy head,\" referring to the deficiency in the Shechinah and in the souls of Israel.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And to understand all this, the maamar continues to explain13"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "the concept of prayer,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "and brings on this the statement of our sages, of blessed memory14"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "\"One should not stand to pray except from a heavy head.\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "And one may add to this,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "based on what Tosafos says in Maseches Menachos15"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "that the language \"one should not... except...\" comes to exclude, meaning it is invalid after the fact."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And so is the simple explanation of the matter,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "that \"one should not stand to pray,\""
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "meaning that the concept of prayer does not apply,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "except from a heavy head."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And it brings on this the explanation of the Maggid of Mezeritch, his soul in Eden16"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that the prayer should be about the heaviness in the head,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that when one prays about a deficiency, he should not pray about his own deficiency, but about the deficiency above,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "for there is no deficiency below that does not have a deficiency above."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "that the concept of the deficiency above is as our sages, of blessed memory, said17"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "\"At a time when a person is distressed, what does the Shechinah say? As it were, 'My head is heavy upon Me, My arm is heavy upon Me,'\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "for the Shechinah is the aspect of Malchus, which has ascents and descents, etc."
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "And this is the concept of the \"heavy head\" of the Shechinah,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "and this is \"one should not stand to pray except from a heavy head,\""
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "meaning, about the heaviness and deficiency in the head."
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "And afterwards it brings the explanation of our master, the Alter Rebbe"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "(and so it is also in the discourse \"Ein Omdin Lehispael\" of my revered father-in-law, the Rebbe18)"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "that \"head\" refers to the souls of Israel."
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "\"Israel is the head for Me,\""
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "and in this there is the concept of \"heavy head\" caused by sins,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "as it is written19"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "\"For my iniquities have passed over my head; like a heavy burden, they are too heavy for me.\""
+          }
+        ]
+      }
+    ]
+  }
+}

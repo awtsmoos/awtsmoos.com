@@ -1,0 +1,104 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" title="מאמר קץ שם לחושך תשכ"ד" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p006">
+  <section v="15">
+    <src s="0">ח)</src>
+    <src s="1">והנה ע"פ הידוע גודל הדיוק במאמרי רבותינו נשיאינו</src>
+    <src s="2">(גם בנוגע לזמן אמירתם),</src>
+    <src s="3">מסתבר לומר,</src>
+    <src s="4">שהשייכות דמאמר הנ"ל לתשעה באב נדחה הוא הן מצד כללות התוכן דהמאמר – ענין האור,</src>
+    <src s="5">וגם מצד הפרטים דאור המבוארים בהמאמר.</src>
+  </section>
+  <section v="16">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דבכדי שהחושך יתבטל לגמרי</src>
+    <src s="2">(ולא רק שיהי' נדחה מפני האור)</src>
+    <src s="3">הוא</src>
+    <src s="4">(דוקא)</src>
+    <src s="5">ע"י גילוי אור בלתי מוגבל</src>
+    <src s="6">(כנ"ל סעיף ב).</src>
+    <src s="7">ובפרטיות יותר – ע"י גילוי אור הכלול במאור.</src>
+    <src s="8">דהאור שמתפשט מחוץ להמאור,</src>
+    <src s="9">ענינו הוא להאיר את החושך.</src>
+    <src s="10">וכמו אור השמש שמתפשט בחלל העולם</src>
+    <src s="11">(מחוץ להשמש),</src>
+    <src s="12">שהמקום דחלל העולם הוא מקום חשוך,</src>
+    <src s="13">וענינו של האור המתפשט בחלל העולם הוא להאיר מקום החושך.</src>
+    <src s="14">והאור הכלול במאור הוא במקום</src>
+    <src s="15">(דרגא)</src>
+    <src s="16">שאין שייך בו ענין החושך.</src>
+    <src s="17">ועד"ז הוא למעלה,</src>
+    <src s="18">דמהחילוקים בין אוא"ס שקודם הצמצום</src>
+    <src s="19">(אור הכלול בעצמותו)</src>
+    <src s="20">והאור שלאחרי הצמצום</src>
+    <src s="21">(שהוא דוגמת אור המתפשט מחוץ להמאור),</src>
+    <src s="22">הוא,</src>
+    <src s="23">שהאור שנמשך לאחרי הצמצום ענינו הוא להאיר את העולמות.</src>
+    <src s="24">ולכן,</src>
+    <src s="25">הגילוי אלקות שישנו בעולם ע"י גילוי האור שלאחרי הצמצום הוא בדרך התחדשות.</src>
+    <src s="26">מציאות בפשיטות ואלקות בהתחדשות40.</src>
+    <src s="27">[ע"ד אור השמש שמתפשט בחלל העולם,</src>
+    <src s="28">שהמקום דחלל העולם מצד עצמו הוא מקום חשוך,</src>
+    <src s="29">והאור שמאיר בו הוא בדרך הוספה וחידוש].</src>
+    <src s="30">וכשמאיר בעולם גילוי אוא"ס שקודם הצמצום,</src>
+    <src s="31">אלקות הוא בפשיטות40,</src>
+    <src s="32">ועד שלא ישנו נתינת מקום כלל לענין שאינו אלקות.</src>
+    <src s="33">[בדוגמת שהי' קודם הצמצום,</src>
+    <src s="34">כשהי' אוא"ס ממלא את מקום החלל,</src>
+    <src s="35">שלא הי' אז מקום לעמידת העולמות41].</src>
+  </section>
+  <section v="17">
+    <src s="0">וזהו שביטול החושך לגמרי הוא ע"י גילוי אור הכלול במאור</src>
+    <src s="1">(אוא"ס שלפני הצמצום),</src>
+    <src s="2">דהאור שלאחרי הצמצום,</src>
+    <src s="3">כיון שענינו הוא להאיר את העולמות,</src>
+    <src s="4">דמזה מובן שהעולמות תופסים מקום לגבי',</src>
+    <src s="5">לכן,</src>
+    <src s="6">גילוי אור זה הוא באופן שההעלם והסתר דעולם ביכלתו להעלים עליו.</src>
+    <src s="7">והיינו,</src>
+    <src s="8">דנוסף לההעלם דעולם שישנו גם כשמאיר הגילוי,</src>
+    <src s="9">שהגילוי אלקות בעולם שע"י גילוי אור זה הוא בדרך התחדשות</src>
+    <src s="10">(כנ"ל),</src>
+    <src s="11">הנה אפשר שההעלם דעולם יעלים גם על גילוי זה</src>
+    <src s="12">(שלא יהי' בעולם גילוי אלקות כלל,</src>
+    <src s="13">גם לא גילוי שבדרך התחדשות).</src>
+    <src s="14">ובכדי שיהי' ביטול החושך הוא ע"י גילוי עצם האור שלמעלה מהאור שלהאיר את העולמות,</src>
+    <src s="15">דאור זה אין העולם מעלים לגבי'.</src>
+    <src s="16">וזהו מ"ש במדרש42</src>
+    <src s="17">שהגאולה העתידה היא דוגמת אור היום שאין שייך בו כיבוי,</src>
+    <src s="18">דיש לומר שהכוונה בזה היא להאור שלמעלה משייכות לעולמות,</src>
+    <src s="19">שאין שייך העלם לגבי'.</src>
+  </section>
+</awtsmoosMeluketSource>

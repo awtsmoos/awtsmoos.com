@@ -1,0 +1,147 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914360_theRebbe_10" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914360_theRebbe_10__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914360_theRebbe_10" title="מאמר וחג האסיף תשמ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914360_theRebbe_10__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">וביאור הענין</src>
+    <src s="2">(השייכות דנטילת ד' מינים עם חג הסוכות)</src>
+    <src s="3">בעומק יותר,</src>
+    <src s="4">דענין האחדות שבשניהם הוא לא רק באופן דהתאחדות של דברים נפרדים,</src>
+    <src s="5">אלא אחדות אמיתית שלמעלה מהתחלקות.</src>
+    <src s="6">דבמצות נטילת ד' מינים הנה נוסף על האחדות שבכל אחד מד' המינים</src>
+    <src s="7">(כמו שהוא בפני עצמו),</src>
+    <src s="8">שהיא התאחדות של דברים נפרדים,</src>
+    <src s="9">הרי כל ד' המינים נעשים מצוה אחת38,</src>
+    <src s="10">ענין אחד39.</src>
+    <src s="11">דהגם שהם ד' מינים שונים,</src>
+    <src s="12">ומן הקצה אל הקצה,</src>
+    <src s="13">כדאיתא במדרש40</src>
+    <src s="14">דד' מינים שבלולב הם כנגד ד' סוגים שבישראל,</src>
+    <src s="15">מהסוג שכנגד אתרוג שיש בו טעם וריח</src>
+    <src s="16">(תורה ומעשים טובים)</src>
+    <src s="17">עד להסוג שכנגד ערבה שאין בה לא טעם ולא ריח,</src>
+    <src s="18">מ"מ הם נעשים כולם</src>
+    <src s="19">(כל הד' סוגים)</src>
+    <src s="20">אגודה אחת לעשות רצונך,</src>
+    <src s="21">דאחדות זו</src>
+    <src s="22">(מה שכולם נעשים אגודה אחת לעשות רצונך)</src>
+    <src s="23">היא אחדות אמיתית שלמעלה מהתחלקות41.</src>
+    <src s="24">ועד"ז הוא בענין האחדות דסוכה,</src>
+    <src s="25">דלאחרי שאומר בסוכות תשבו שבעת ימים,</src>
+    <src s="26">ענין האחדות דנפרדים</src>
+    <src s="27">(מה ששבעת ימים מתאחדים בסוכה אחת),</src>
+    <src s="28">מוסיף כל האזרח בישראל ישבו בסוכות</src>
+    <src s="29">(ישבו סתם,</src>
+    <src s="30">ואינו אומר שבעת ימים),</src>
+    <src s="31">אחדות אמיתית שלמעלה מהתחלקות42.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ועפ"ז תובן השייכות דחג הסוכות</src>
+    <src s="2">(תחוגו את חג ה' שבעת ימים,</src>
+    <src s="3">דמצות ישיבה בסוכה ודמצות נטילת ד' מינים)</src>
+    <src s="4">לבאספכם את תבואת הארץ,</src>
+    <src s="5">כי באספכם הוא ענין האחדות,</src>
+    <src s="6">שבתחילה הם דברים נפרדים,</src>
+    <src s="7">וענין באספך הוא לאסוף אותם</src>
+    <src s="8">(ולאחדם)</src>
+    <src s="9">יחד.</src>
+    <src s="10">ושני ענינים בזה</src>
+    <src s="11">(בדוגמת ב' המדריגות דאחדות שבסוכה וד' מינים).</src>
+    <src s="12">דתחילה היא האסיפה</src>
+    <src s="13">(וההתאחדות)</src>
+    <src s="14">של ריבוי הפרטים דכל מין ומין</src>
+    <src s="15">(דגן,</src>
+    <src s="16">תירוש ויצהר)</src>
+    <src s="17">בפני עצמו,</src>
+    <src s="18">ולאח"ז היא האסיפה</src>
+    <src s="19">(ההתאחדות)</src>
+    <src s="20">דכל ג' המינים יחד,</src>
+    <src s="21">שאוסף כולם אל הבית43</src>
+    <src s="22">(למקום אחד).</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">והנה כל ענינים אלו באים לאחרי העבודה דהתחלת חודש תשרי,</src>
+    <src s="2">אותיות רשית44.</src>
+    <src s="3">דעשרה ימים שבין ראש השנה ליום הכפורים45,</src>
+    <src s="4">עשרה ימים,</src>
+    <src s="5">הם בחינת התחלקות,</src>
+    <src s="6">וביום הכפורים הם מתכללים ומתאחדים ביום אחד</src>
+    <src s="7">(דיום הכפורים)46,</src>
+    <src s="8">אחת בשנה47,</src>
+    <src s="9">ולאחרי יום הכפורים,</src>
+    <src s="10">בד' ימים שבין יום הכפורים לסוכות,</src>
+    <src s="11">היא ההכנה לקיום מצות בסוכות תשבו ונטילת ד' מינים48,</src>
+    <src s="12">כולל גם העבודה דבאספך את מעשיך מן השדה,</src>
+    <src s="13">דעבודה זו היא</src>
+    <src s="14">(כנ"ל בתחילת המאמר)</src>
+    <src s="15">לפני והכנה לחג הסוכות.</src>
+    <src s="16">אלא שביום הכפורים,</src>
+    <src s="17">שאין בו אכילה ושתי' וכו',</src>
+    <src s="18">הוא באופן דהפשטה מעניני העולם49.</src>
+    <src s="19">ובפרט בתפלת נעילה דיום הכפורים,</src>
+    <src s="20">שאז ישראל ומלכא בלחודוהי50.</src>
+    <src s="21">דזהו פירוש נעילה51,</src>
+    <src s="22">שנועלים כל השערים ונמצאים</src>
+    <src s="23">(בפנים)</src>
+    <src s="24">רק ישראל ומלכא.</src>
+    <src s="25">ובכדי להשלים הכוונה דדירה בתחתונים52,</src>
+    <src s="26">צריכה להיות ההמשכה</src>
+    <src s="27">(להמשיך ענין האחדות)</src>
+    <src s="28">למטה,</src>
+    <src s="29">בעוה"ז הגשמי,</src>
+    <src s="30">עד בענינים הגשמיים דעוה"ז,</src>
+    <src s="31">מתחיל מבאספך את מעשיך מן השדה,</src>
+    <src s="32">דהגם שהיא עבודה רוחנית</src>
+    <src s="33">(כנ"ל בתחילת המאמר),</src>
+    <src s="34">מ"מ הרי היא קשורה גם עם אסיפת התבואה</src>
+    <src s="35">(דגנך תירושך ויצהרך)</src>
+    <src s="36">כפשוטה בגשמיות53,</src>
+    <src s="37">ועד"ז הוא גם במצות בסוכות תשבו,</src>
+    <src s="38">דסכך הסוכה צ"ל מגרנך ומיקבך ובזה גופא דוקא מפסולת גורן ויקב54,</src>
+    <src s="39">ועד"ז הוא גם במצות נטילת ד' מינים,</src>
+    <src s="40">דא"א לקיים המצוה ע"י כוונה55,</src>
+    <src s="41">ע"י העבודה דמדות</src>
+    <src s="42">(הגם שד' המינים הם מסוג הצומח וצומח הו"ע המדות56),</src>
+    <src s="43">וגם לא ע"י העבודה דמלכות</src>
+    <src s="44">(אף שענין הנענועים הוא להמשיך בנוקבא דז"א</src>
+    <src s="45">(מלכות)</src>
+    <src s="46">העומדת בחזה דז"א57),</src>
+    <src s="47">וצריך לד' מינים גשמיים דוקא,</src>
+    <src s="48">ושיגעו בחזה58</src>
+    <src s="49">הגשמי דוקא.</src>
+  </section>
+</awtsmoosMeluketSource>

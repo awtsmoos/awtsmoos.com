@@ -1,0 +1,102 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 14,
+    "returned": 14,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917648_theRebbe_921\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>Even though we are still in Adar, where the Purim redemption was incomplete, since we have reached the 25th of Adar—the beginning of the revelation of Nissan—it is fitting that the true redemption come in Adar, so that by Nissan we will already be in the state of the true redemption, and we will eat from the offerings and the Paschal lambs.</sectionSummaryBrief>\n    <t s=\"0\">And may it be His will,</t>\n    <t s=\"1\">that even though we are still in the month of Adar,</t>\n    <t s=\"2\">[in which] the redemption of Purim is in a manner that \"we are still servants of Achashverosh,\"</t>\n    <t s=\"3\">(similar to Rosh HaShanah, when \"servitude ceased for our forefathers,\"</t>\n    <t s=\"4\">yet even after that they were still in the Egyptian exile),</t>\n    <t s=\"5\">nevertheless,</t>\n    <t s=\"6\">since we are already on the 25th of Adar,</t>\n    <t s=\"7\">the beginning of the revelation of Nissan,</t>\n    <t s=\"8\">it is therefore fitting and proper that the redemption should be in the month of Adar,</t>\n    <t s=\"9\">and when the month of Nissan arrives, we will already be in the standing and state of the true redemption,</t>\n    <t s=\"10\">[as per the well-known saying of my father-in-law, the Rebbe,</t>\n    <t s=\"11\">regarding the statement \"Next year in Jerusalem,\"</t>\n    <t s=\"12\">that it is likewise regarding the Sages' statement, \"In Nissan they are destined to be redeemed\"],</t>\n    <t s=\"13\">and we will eat there from the offerings and from the Paschal lambs.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917648_theRebbe_921",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "Even though we are still in Adar, where the Purim redemption was incomplete, since we have reached the 25th of Adar—the beginning of the revelation of Nissan—it is fitting that the true redemption come in Adar, so that by Nissan we will already be in the state of the true redemption, and we will eat from the offerings and the Paschal lambs.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And may it be His will,"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "that even though we are still in the month of Adar,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "[in which] the redemption of Purim is in a manner that \"we are still servants of Achashverosh,\""
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(similar to Rosh HaShanah, when \"servitude ceased for our forefathers,\""
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "yet even after that they were still in the Egyptian exile),"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "since we are already on the 25th of Adar,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "the beginning of the revelation of Nissan,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "it is therefore fitting and proper that the redemption should be in the month of Adar,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "and when the month of Nissan arrives, we will already be in the standing and state of the true redemption,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "[as per the well-known saying of my father-in-law, the Rebbe,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "regarding the statement \"Next year in Jerusalem,\""
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "that it is likewise regarding the Sages' statement, \"In Nissan they are destined to be redeemed\"],"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "and we will eat there from the offerings and from the Paschal lambs."
+          }
+        ]
+      }
+    ]
+  }
+}

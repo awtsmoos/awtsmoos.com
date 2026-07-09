@@ -1,0 +1,168 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917498_theRebbe_163" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917498_theRebbe_163__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917498_theRebbe_163" title="מאמר בלילה ההוא תשד"מ" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917498_theRebbe_163__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">דביאור ענין השינה למעלה יובן מענין השינה באדם למטה,</src>
+    <src s="3">מבשרי אחזה אלקה18.</src>
+    <src s="4">והנה החילוק בין ער לישן באדם התחתון אינו בנוגע לעצם מציאותו,</src>
+    <src s="5">שהרי גם בעת השינה מציאותו היא בשלימות.</src>
+    <src s="6">שבעת השינה ישנם כל אבריו וגידיו</src>
+    <src s="7">(וגם החיות שבהם),</src>
+    <src s="8">וישנם אז כל כחות הנפש,</src>
+    <src s="9">ופועלים פעולתם.</src>
+    <src s="10">וכמו שרואים במוחש בענין החלומות,</src>
+    <src s="11">שיש בהם הפעולה דכל הכחות,</src>
+    <src s="12">שכל ומדות וכו' וגם רצון ותענוג19.</src>
+    <src s="13">ועד דכאשר הוא זוכה,</src>
+    <src s="14">השכל שמשכיל בחלום הוא שכל אמיתי20,</src>
+    <src s="15">וכן הוא גם בנוגע לתענוג21</src>
+    <src s="16">ורצון.</src>
+    <src s="17">אבל גם מי שאינו בדרגא זו,</src>
+    <src s="18">הרי רואים במוחש שגם בהחלומות שלו ישנם מדות שכל רצון ותענוג בנוגע לענינים שישנם במציאות</src>
+    <src s="19">(משא"כ ענינים דנמנעות,</src>
+    <src s="20">כמו פילא דעייל בקופא דמחטא,</src>
+    <src s="21">א"א להיות גם בחלום22).</src>
+    <src s="22">והחילוק שבין ער לישן הוא,</src>
+    <src s="23">דבעת שהוא ער,</src>
+    <src s="24">כל עניניו הם באופן מסודר,</src>
+    <src s="25">ומכש"כ שאין שייך שיהיו שני ענינים הפכיים בבת אחת ובחיבור אחד ואפילו לא בהמשך אחד.</src>
+    <src s="26">וכאשר כל הענינים והכחות הם באופן מסודר,</src>
+    <src s="27">ניכר אז החילוק שביניהם ומעלת הכחות זה על זה.</src>
+    <src s="28">משא"כ בעת השינה,</src>
+    <src s="29">בחלום,</src>
+    <src s="30">יכול להיות חיבור שני כחות הפכיים</src>
+    <src s="31">(כח היותר עליון עם כח היותר תחתון),</src>
+    <src s="32">ועד לחיבור כמה וכמה כחות יחד באופן בלתי מסודר,</src>
+    <src s="33">ומכש"כ שאין ניכר המעלה והיתרון שבכחות הנעלים על הכחות שלמטה מהם.</src>
+    <src s="34">והדוגמא מזה יובן למעלה,</src>
+    <src s="35">דענין השינה הוא שאין ניכר כביכול המעלה והיתרון של ענינים הנעלים.</src>
+    <src s="36">וזהו מהקשר דענין הגלות עם ענין השינה</src>
+    <src s="37">(וכנ"ל שבזמן הגלות הו"ע השינה למעלה),</src>
+    <src s="38">כי סיבת הגלות היא ע"י זה שאין ניכרת אז המעלה דישראל.</src>
+    <src s="39">דישראל הם בנים למקום כמ"ש23</src>
+    <src s="40">בנים אתם לה' אלקיכם24,</src>
+    <src s="41">ועכ"פ עבדיו של הקב"ה25,</src>
+    <src s="42">כמאמר26</src>
+    <src s="43">אם כבנים אם כעבדים,</src>
+    <src s="44">שגם עבד מלך הוא מלך27</src>
+    <src s="45">(לא רק כמלך28</src>
+    <src s="46">(בכ"ף הדמיון)</src>
+    <src s="47">אלא מלך),</src>
+    <src s="48">ובנים צריכים להיות סמוכים על שולחן אביהם וכן עבדים על שולחן אדונם,</src>
+    <src s="49">והסיבה לזה שגלו מעל שולחן אביהם29</src>
+    <src s="50">ואדונם,</src>
+    <src s="51">הו"ע השינה,</src>
+    <src s="52">שאין ניכר,</src>
+    <src s="53">כביכול,</src>
+    <src s="54">למעלה העילוי דישראל,</src>
+    <src s="55">ומזה נעשה ענין הגלות.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">וממשיך בהמאמר30,</src>
+    <src s="2">דזה שבעת השינה אין ניכר מעלת הכחות זה על זה הוא בדוגמת הכחות כמו שהם כלולים בעצם הנפש,</src>
+    <src s="3">ששם כל הכחות הם בהשוואה.</src>
+    <src s="4">והיינו דענין התעלמות הכחות שבעת השינה הוא מה שהכחות מתעלים ומסתלקים לשרשם,</src>
+    <src s="5">עצם הנפש.</src>
+    <src s="6">ומזה מובן גם בהנמשל31,</src>
+    <src s="7">דענין ההתעלמות שבזמן הגלות</src>
+    <src s="8">(שינה)</src>
+    <src s="9">הוא מה שהגילויים מתעלים למקורם,</src>
+    <src s="10">ועד להעצמות.</src>
+    <src s="11">וכידוע מאמר הזהר32</src>
+    <src s="12">עה"פ33</src>
+    <src s="13">כי איננו,</src>
+    <src s="14">דקוב"ה סליק לעילא,</src>
+    <src s="15">שעלה למקומו,</src>
+    <src s="16">חדר לפנים מחדר34.</src>
+    <src s="17">והיינו,</src>
+    <src s="18">דענין ההתעלמות שבזמן הגלות הוא רק לגבי למטה,</src>
+    <src s="19">שבזמן הגלות מסתלק האור למעלה ואינו מאיר למטה</src>
+    <src s="20">(שלכן נעשה גלות),</src>
+    <src s="21">אבל לגבי האור עצמו,</src>
+    <src s="22">הרי אדרבא,</src>
+    <src s="23">דוקא בזמן הגלות הוא סליק לעילא.</src>
+    <src s="24">ובדוגמת הסילוק דשינה באדם התחתון,</src>
+    <src s="25">שהסילוק הוא רק לגבי הגוף</src>
+    <src s="26">(שאור הנפש מסתלק מהגוף),</src>
+    <src s="27">אבל לגבי הנפש,</src>
+    <src s="28">הרי אדרבא,</src>
+    <src s="29">דוקא בעת השינה הנפש עולה למעלה ושואבת לה חיים35.</src>
+  </section>
+  <section v="5">
+    <src s="0">וביאור הענין,</src>
+    <src s="1">הנה כללות סדר ההשתלשלות הוא בדוגמת הדרגות דכחות הנפש.</src>
+    <src s="2">דכמו שבכחות הנפש,</src>
+    <src s="3">התחלת מציאות הכחות היא כמו שהם כלולים בנפש ששם הם כולם בהשוואה,</src>
+    <src s="4">ואח"כ הם נמשכים בגילוי להתלבש באברי הגוף ואז דוקא נעשה בהם ענין ההתחלקות,</src>
+    <src s="5">ובכחות הגלויים גופא יש כמה אופנים,</src>
+    <src s="6">כמו שהם בגילוי באופן מסודר</src>
+    <src s="7">(בעת שהאדם ער)</src>
+    <src s="8">וכמו שהם בהעלם,</src>
+    <src s="9">במצב של שינה,</src>
+    <src s="10">ועד שלפעמים הם במצב של התעלפות ר"ל,</src>
+    <src s="11">עד"ז גם למעלה ישנם כל דרגות אלו,</src>
+    <src s="12">כמרז"ל36</src>
+    <src s="13">מה הנשמה ממלאה את הגוף כך הקב"ה ממלא את העולם,</src>
+    <src s="14">דהתחלת הספירות הוא כמו שהם כלולים באוא"ס ב"ה,</src>
+    <src s="15">ושם הם למעלה מהתחלקות,</src>
+    <src s="16">ולאחרי שנמשכים באצילות,</src>
+    <src s="17">עם היות שאצילות הוא עולם האחדות,</src>
+    <src s="18">נעשה בהם ענין ההגבלה וההתחלקות,</src>
+    <src s="19">עשר ולא תשע עשר ולא אחד עשר37,</src>
+    <src s="20">ואז דוקא ניכרת מעלת הספירות זו על זו,</src>
+    <src s="21">ומכש"כ כשהם נמשכים בעולמות בי"ע שלמטה מעולם האחדות,</src>
+    <src s="22">שאז הם בהתחלקות יותר.</src>
+    <src s="23">ומזה משתלשל ההתחלקות בעוה"ז,</src>
+    <src s="24">דבית המקדש הוא מקום הכי מובחר שבעולם וממנו אורה יוצאת לכל העולם38,</src>
+    <src s="25">דהעולם מצד עצמו הוא עולם מלשון העלם והסתר39</src>
+    <src s="26">ונמשך בו אור מביהמ"ק שהוא נשמת העולם</src>
+    <src s="27">(בדוגמת ענין ההשתלשלות בספירות,</src>
+    <src s="28">דספירה התחתונה מקבלת מהספירה שלמעלה ממנה),</src>
+    <src s="29">ואז ניכר גם המעלה דישראל,</src>
+    <src s="30">המעלה דבנים אתם להוי' אלקיכם והמעלה דעבדי הם,</src>
+    <src s="31">עבדים נאמנים להשם אדונם.</src>
+    <src s="32">דכ"ז הוא דוגמת כחות הגלויים דנפש האדם בעת שהוא ער,</src>
+    <src s="33">משא"כ בזמן הגלות,</src>
+    <src s="34">הענינים שלמעלה</src>
+    <src s="35">(שנמשכו בבחינת ההשתלשלות,</src>
+    <src s="36">באצילות ובבי"ע)</src>
+    <src s="37">הם בדוגמת כחות הגלויים דנפש האדם בעת השינה,</src>
+    <src s="38">שאז אפשר להיות חיבור הפכים,</src>
+    <src s="39">ומזה נעשה ענין הגלות.</src>
+  </section>
+</awtsmoosMeluketSource>

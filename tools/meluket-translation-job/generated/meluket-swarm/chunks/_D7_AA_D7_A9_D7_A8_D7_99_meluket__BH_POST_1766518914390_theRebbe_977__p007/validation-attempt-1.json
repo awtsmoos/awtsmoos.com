@@ -1,0 +1,427 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 79,
+    "returned": 79,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914390_theRebbe_977\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914390_theRebbe_977__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>This section explains that the mitzvah of dwelling in the sukkah reveals the three aspects of the repentance of Yom Kippur: the change in revealed soul powers, the drawing down of a new will from Ein Sof, and the essential bond of the soul's essence with the Awtsmoos.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And this is: \"In sukkot you shall dwell... every native-born Jew shall dwell in sukkot... for I caused the children of Israel to dwell in sukkot...\"</t>\n    <t s=\"2\">For \"every native-born Jew shall dwell in sukkot\" and \"for I caused [them] to dwell in sukkot\" are two reasons for \"in sukkot you shall dwell\"</t>\n    <t s=\"3\">(as explained in the maamar of the continuum of Rosh Hashanah 5703,</t>\n    <t s=\"4\">cited above in section 2).</t>\n    <t s=\"5\">And the concept is,</t>\n    <t s=\"6\">that \"in sukkot you shall dwell\" is the revelation of the teshuvah of Yom Kippur,</t>\n    <t s=\"7\">and in the teshuvah of Yom Kippur,</t>\n    <t s=\"8\">there are three matters.</t>\n    <t s=\"9\">The teshuvah itself,</t>\n    <t s=\"10\">and two matters in the root and cause of teshuvah.</t>\n    <t s=\"11\">For the teshuvah itself</t>\n    <t s=\"12\">(even the teshuvah of Yom Kippur)</t>\n    <t s=\"13\">is that a person changes himself,</t>\n    <t s=\"14\">that he leaves his previous existence and becomes a new existence.</t>\n    <t s=\"15\">For this change is in the revealed powers of the soul.</t>\n    <t s=\"16\">And this change in the revealed powers of the person is by his arousing and revealing the essence of the soul within him,</t>\n    <t s=\"17\">namely the essence of the soul that is related to the revealed powers.</t>\n    <t s=\"18\">[And similarly, regarding Above,</t>\n    <t s=\"19\">that the person becomes pleasing before Him as before the sin,</t>\n    <t s=\"20\">is</t>\n    <t s=\"21\">because through teshuvah a new will is drawn from Ein Sof, the Master of Will.]</t>\n    <t s=\"22\">And there is another matter in the teshuvah of Yom Kippur,</t>\n    <t s=\"23\">that is felt in it in revelation,</t>\n    <t s=\"24\">that the root and true cause of teshuvah is the bond of the essence of the soul</t>\n    <t s=\"25\">(which is above relation to the revealed powers)</t>\n    <t s=\"26\">with the Awtsmoos</t>\n    <t s=\"27\">(which is above the Master of Will).</t>\n    <t s=\"28\">Therefore,</t>\n    <t s=\"29\">also in the matter of \"in sukkot you shall dwell\"</t>\n    <t s=\"30\">(which is the revelation of the teshuvah of Yom Kippur),</t>\n    <t s=\"31\">there are three matters.</t>\n    <t s=\"32\">The matter of \"in sukkot you shall dwell\" itself – the change in the proximate encompassing [light],</t>\n    <t s=\"33\">that it becomes a settled light.</t>\n    <t s=\"34\">And the reason for this is – \"for I caused [them] to dwell in sukkot\" in the manner of an arousal from Above.</t>\n    <t s=\"35\">And it can be said,</t>\n    <t s=\"36\">that it is similar to what was brought above in section 6, that this, that through an arousal from below the revealed will is aroused</t>\n    <t s=\"37\">(even though the arousal from below is incomparable relative to the will)</t>\n    <t s=\"38\">is not from the perspective of the revealed will itself</t>\n    <t s=\"39\">(for since the revealed will relates to worlds, it is defined by the fact that creations are incomparable relative to it and they cannot arouse it),</t>\n    <t s=\"40\">but rather because it is so determined in the absolute will.</t>\n    <t s=\"41\">And similarly, in the matter of \"in sukkot you shall dwell\",</t>\n    <t s=\"42\">the change, so to speak, that occurs in the proximate encompassing [light] to become a settled light is,</t>\n    <t s=\"43\">because \"for I caused [them] to dwell in sukkot\" in the manner of an arousal from Above,</t>\n    <t s=\"44\">a drawing from the Essence of Ein Sof, regarding which there is no distinction between encompassing and internal, and even the encompassing can come into settlement.</t>\n    <t s=\"45\">[Similar to how through teshuvah a will</t>\n    <t s=\"46\">(new)</t>\n    <t s=\"47\">is drawn from Ein Sof, the Master of Will.]</t>\n    <t s=\"48\">And there is another reason for \"in sukkot you shall dwell\" – \"every native-born Jew shall dwell in sukkot\",</t>\n    <t s=\"49\">in the distant encompassing [light].</t>\n    <t s=\"50\">For the matter of dwelling</t>\n    <t s=\"51\">(settlement)</t>\n    <t s=\"52\">in the distant encompassing is not in the manner of an action</t>\n    <t s=\"53\">[for in the distant encompassing,</t>\n    <t s=\"54\">the level of \"not a man\",</t>\n    <t s=\"55\">action and change cannot apply,</t>\n    <t s=\"56\">as above in section 3],</t>\n    <t s=\"57\">but rather that \"every native-born Jew\"</t>\n    <t s=\"58\">\"shall dwell in sukkot\"</t>\n    <t s=\"59\">(the distant encompassing)</t>\n    <t s=\"60\">from their own side,</t>\n    <t s=\"61\">because they are rooted in the Awtsmoos.</t>\n    <t s=\"62\">[And this is what our sages, of blessed memory, said</t>\n    <t s=\"63\">on the verse \"every native-born Jew shall dwell in sukkot\": it teaches that all of Israel are fit to dwell in one sukkah,</t>\n    <t s=\"64\">for at this level all of Israel are equal.]</t>\n    <t s=\"65\">And it is similar to the matter of the essence of Yom Kippur,</t>\n    <t s=\"66\">that from the perspective of the essential bond of the essence of the soul with the Awtsmoos, there is no defect from the outset.</t>\n    <t s=\"67\">And just as on Yom Kippur,</t>\n    <t s=\"68\">the matter of its essence shines in revelation also in the teshuvah of Yom Kippur,</t>\n    <t s=\"69\">that in the teshuvah of Yom Kippur it is felt</t>\n    <t s=\"70\">(as above)</t>\n    <t s=\"71\">that it is drawn from the essential bond of the essence of the soul with the Awtsmoos,</t>\n    <t s=\"72\">so too is it in Sukkot,</t>\n    <t s=\"73\">that \"every native-born Jew shall dwell in sukkot\" is a reason for \"in sukkot you shall dwell\",</t>\n    <t s=\"74\">that this, that the proximate encompassing is drawn into inwardness and becomes a settled light,</t>\n    <t s=\"75\">is felt in it,</t>\n    <t s=\"76\">that the reason for this is \"every native-born Jew shall dwell in sukkot\",</t>\n    <t s=\"77\">in the distant encompassing,</t>\n    <t s=\"78\">the essential bond of the essence of the soul with the Awtsmoos.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914390_theRebbe_977",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914390_theRebbe_977__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "This section explains that the mitzvah of dwelling in the sukkah reveals the three aspects of the repentance of Yom Kippur: the change in revealed soul powers, the drawing down of a new will from Ein Sof, and the essential bond of the soul's essence with the Awtsmoos.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "And this is: \"In sukkot you shall dwell... every native-born Jew shall dwell in sukkot... for I caused the children of Israel to dwell in sukkot...\""
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "For \"every native-born Jew shall dwell in sukkot\" and \"for I caused [them] to dwell in sukkot\" are two reasons for \"in sukkot you shall dwell\""
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "(as explained in the maamar of the continuum of Rosh Hashanah 5703,"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "cited above in section 2)."
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "And the concept is,"
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "that \"in sukkot you shall dwell\" is the revelation of the teshuvah of Yom Kippur,"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "and in the teshuvah of Yom Kippur,"
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "there are three matters."
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "The teshuvah itself,"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "and two matters in the root and cause of teshuvah."
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "For the teshuvah itself"
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "(even the teshuvah of Yom Kippur)"
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "is that a person changes himself,"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "that he leaves his previous existence and becomes a new existence."
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "For this change is in the revealed powers of the soul."
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "And this change in the revealed powers of the person is by his arousing and revealing the essence of the soul within him,"
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "namely the essence of the soul that is related to the revealed powers."
+          },
+          {
+            "v": 18,
+            "s": 18,
+            "translation": "[And similarly, regarding Above,"
+          },
+          {
+            "v": 18,
+            "s": 19,
+            "translation": "that the person becomes pleasing before Him as before the sin,"
+          },
+          {
+            "v": 18,
+            "s": 20,
+            "translation": "is"
+          },
+          {
+            "v": 18,
+            "s": 21,
+            "translation": "because through teshuvah a new will is drawn from Ein Sof, the Master of Will.]"
+          },
+          {
+            "v": 18,
+            "s": 22,
+            "translation": "And there is another matter in the teshuvah of Yom Kippur,"
+          },
+          {
+            "v": 18,
+            "s": 23,
+            "translation": "that is felt in it in revelation,"
+          },
+          {
+            "v": 18,
+            "s": 24,
+            "translation": "that the root and true cause of teshuvah is the bond of the essence of the soul"
+          },
+          {
+            "v": 18,
+            "s": 25,
+            "translation": "(which is above relation to the revealed powers)"
+          },
+          {
+            "v": 18,
+            "s": 26,
+            "translation": "with the Awtsmoos"
+          },
+          {
+            "v": 18,
+            "s": 27,
+            "translation": "(which is above the Master of Will)."
+          },
+          {
+            "v": 18,
+            "s": 28,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 18,
+            "s": 29,
+            "translation": "also in the matter of \"in sukkot you shall dwell\""
+          },
+          {
+            "v": 18,
+            "s": 30,
+            "translation": "(which is the revelation of the teshuvah of Yom Kippur),"
+          },
+          {
+            "v": 18,
+            "s": 31,
+            "translation": "there are three matters."
+          },
+          {
+            "v": 18,
+            "s": 32,
+            "translation": "The matter of \"in sukkot you shall dwell\" itself – the change in the proximate encompassing [light],"
+          },
+          {
+            "v": 18,
+            "s": 33,
+            "translation": "that it becomes a settled light."
+          },
+          {
+            "v": 18,
+            "s": 34,
+            "translation": "And the reason for this is – \"for I caused [them] to dwell in sukkot\" in the manner of an arousal from Above."
+          },
+          {
+            "v": 18,
+            "s": 35,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 18,
+            "s": 36,
+            "translation": "that it is similar to what was brought above in section 6, that this, that through an arousal from below the revealed will is aroused"
+          },
+          {
+            "v": 18,
+            "s": 37,
+            "translation": "(even though the arousal from below is incomparable relative to the will)"
+          },
+          {
+            "v": 18,
+            "s": 38,
+            "translation": "is not from the perspective of the revealed will itself"
+          },
+          {
+            "v": 18,
+            "s": 39,
+            "translation": "(for since the revealed will relates to worlds, it is defined by the fact that creations are incomparable relative to it and they cannot arouse it),"
+          },
+          {
+            "v": 18,
+            "s": 40,
+            "translation": "but rather because it is so determined in the absolute will."
+          },
+          {
+            "v": 18,
+            "s": 41,
+            "translation": "And similarly, in the matter of \"in sukkot you shall dwell\","
+          },
+          {
+            "v": 18,
+            "s": 42,
+            "translation": "the change, so to speak, that occurs in the proximate encompassing [light] to become a settled light is,"
+          },
+          {
+            "v": 18,
+            "s": 43,
+            "translation": "because \"for I caused [them] to dwell in sukkot\" in the manner of an arousal from Above,"
+          },
+          {
+            "v": 18,
+            "s": 44,
+            "translation": "a drawing from the Essence of Ein Sof, regarding which there is no distinction between encompassing and internal, and even the encompassing can come into settlement."
+          },
+          {
+            "v": 18,
+            "s": 45,
+            "translation": "[Similar to how through teshuvah a will"
+          },
+          {
+            "v": 18,
+            "s": 46,
+            "translation": "(new)"
+          },
+          {
+            "v": 18,
+            "s": 47,
+            "translation": "is drawn from Ein Sof, the Master of Will.]"
+          },
+          {
+            "v": 18,
+            "s": 48,
+            "translation": "And there is another reason for \"in sukkot you shall dwell\" – \"every native-born Jew shall dwell in sukkot\","
+          },
+          {
+            "v": 18,
+            "s": 49,
+            "translation": "in the distant encompassing [light]."
+          },
+          {
+            "v": 18,
+            "s": 50,
+            "translation": "For the matter of dwelling"
+          },
+          {
+            "v": 18,
+            "s": 51,
+            "translation": "(settlement)"
+          },
+          {
+            "v": 18,
+            "s": 52,
+            "translation": "in the distant encompassing is not in the manner of an action"
+          },
+          {
+            "v": 18,
+            "s": 53,
+            "translation": "[for in the distant encompassing,"
+          },
+          {
+            "v": 18,
+            "s": 54,
+            "translation": "the level of \"not a man\","
+          },
+          {
+            "v": 18,
+            "s": 55,
+            "translation": "action and change cannot apply,"
+          },
+          {
+            "v": 18,
+            "s": 56,
+            "translation": "as above in section 3],"
+          },
+          {
+            "v": 18,
+            "s": 57,
+            "translation": "but rather that \"every native-born Jew\""
+          },
+          {
+            "v": 18,
+            "s": 58,
+            "translation": "\"shall dwell in sukkot\""
+          },
+          {
+            "v": 18,
+            "s": 59,
+            "translation": "(the distant encompassing)"
+          },
+          {
+            "v": 18,
+            "s": 60,
+            "translation": "from their own side,"
+          },
+          {
+            "v": 18,
+            "s": 61,
+            "translation": "because they are rooted in the Awtsmoos."
+          },
+          {
+            "v": 18,
+            "s": 62,
+            "translation": "[And this is what our sages, of blessed memory, said"
+          },
+          {
+            "v": 18,
+            "s": 63,
+            "translation": "on the verse \"every native-born Jew shall dwell in sukkot\": it teaches that all of Israel are fit to dwell in one sukkah,"
+          },
+          {
+            "v": 18,
+            "s": 64,
+            "translation": "for at this level all of Israel are equal.]"
+          },
+          {
+            "v": 18,
+            "s": 65,
+            "translation": "And it is similar to the matter of the essence of Yom Kippur,"
+          },
+          {
+            "v": 18,
+            "s": 66,
+            "translation": "that from the perspective of the essential bond of the essence of the soul with the Awtsmoos, there is no defect from the outset."
+          },
+          {
+            "v": 18,
+            "s": 67,
+            "translation": "And just as on Yom Kippur,"
+          },
+          {
+            "v": 18,
+            "s": 68,
+            "translation": "the matter of its essence shines in revelation also in the teshuvah of Yom Kippur,"
+          },
+          {
+            "v": 18,
+            "s": 69,
+            "translation": "that in the teshuvah of Yom Kippur it is felt"
+          },
+          {
+            "v": 18,
+            "s": 70,
+            "translation": "(as above)"
+          },
+          {
+            "v": 18,
+            "s": 71,
+            "translation": "that it is drawn from the essential bond of the essence of the soul with the Awtsmoos,"
+          },
+          {
+            "v": 18,
+            "s": 72,
+            "translation": "so too is it in Sukkot,"
+          },
+          {
+            "v": 18,
+            "s": 73,
+            "translation": "that \"every native-born Jew shall dwell in sukkot\" is a reason for \"in sukkot you shall dwell\","
+          },
+          {
+            "v": 18,
+            "s": 74,
+            "translation": "that this, that the proximate encompassing is drawn into inwardness and becomes a settled light,"
+          },
+          {
+            "v": 18,
+            "s": 75,
+            "translation": "is felt in it,"
+          },
+          {
+            "v": 18,
+            "s": 76,
+            "translation": "that the reason for this is \"every native-born Jew shall dwell in sukkot\","
+          },
+          {
+            "v": 18,
+            "s": 77,
+            "translation": "in the distant encompassing,"
+          },
+          {
+            "v": 18,
+            "s": 78,
+            "translation": "the essential bond of the essence of the soul with the Awtsmoos."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,659 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 123,
+    "returned": 123,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914414_theRebbe_521\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914414_theRebbe_521__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section introduces the question of how the Talmudic and Midrashic explanation of the seventy bulls of Sukkos corresponding to the seventy nations aligns with the Zoharic explanation of the seven days of Sukkos being for the supernal guests (Ushpizin) of the Patriarchs and Dovid.</sectionSummaryBrief>\n    <t s=\"0\">Now, the special connection of “Praise Hashem, all nations; extol Him, all peoples” to the festival of Sukkos is as stated in the Gemara</t>\n    <t s=\"1\">and in the Midrash,</t>\n    <t s=\"2\">that the seventy bulls offered during Sukkos correspond to the seventy nations,</t>\n    <t s=\"3\">which are the totality of all the nations,</t>\n    <t s=\"4\">and from this aspect, on Sukkos, “Praise Hashem, all nations; extol Him, all peoples.”</t>\n    <t s=\"5\">And it needs to be understood,</t>\n    <t s=\"6\">for it is stated in the Zohar</t>\n    <t s=\"7\">that during the seven days of the festival, one invites the aspect of the Ushpizin, and they are our forefathers Avraham, Yitzchak, and Yaakov, etc., until Dovid Melech HaMoshiach, who is the seventh,</t>\n    <t s=\"8\">and how does this correspond with what is explained in the Gemara and Midrash that the seventy bulls are corresponding to the seventy nations?</t>\n    <t s=\"9\">And although the Ramaz wrote there</t>\n    <t s=\"10\">“and the intellect well understood etc.” that the Ushpizin in the Zohar is a different explanation,</t>\n    <t s=\"11\">still, it is insufficient, as is written in the maamar there,</t>\n    <t s=\"12\">and behold, these and those are words of the living God,</t>\n    <t s=\"13\">and how can these two explanations come together?</t>\n    <t s=\"14\">And especially according to what is known</t>\n    <t s=\"15\">(and also for practical halachah)</t>\n    <t s=\"16\">that all the matters in a single word are related to each other,</t>\n    <t s=\"17\">behold, it is understood from this, all the more so in our case</t>\n    <t s=\"18\">(where the two explanations are not only in one word, but in the entire matter as a whole),</t>\n    <t s=\"19\">that the explanation of the Gemara and Midrash, and also the explanation of the Midrash that during the seven days it is the king’s feast for the citizens, and those who dine all seven days of Sukkos are the seventy princes, and the explanation of the Zohar that on Sukkos one invites to the feast the aspect of the supernal Ushpizin etc.,</t>\n    <t s=\"20\">since both matters are in the Torah of truth,</t>\n    <t s=\"21\">there is a true connection between them.</t>\n    <t s=\"22\">And especially according to what the Gemara and Midrash conclude there, that on Shemini Atzeres, a single bull etc. corresponds to the singular nation, a parable of a king etc. who said, “Make me a great feast,” and invited all the citizens, and on the last day said to his beloved, “Make me a small feast,”</t>\n    <t s=\"23\">“Come and let us roll, I and you, in what you will find.”</t>\n    <t s=\"24\">That the great feast in the allegory is the matter of the seventy bulls, and the small feast is the matter of the one bull offered on Shemini Atzeres.</t>\n    <t s=\"25\">And behold, the vast distance in value between the seventy bulls</t>\n    <t s=\"26\">(which are for all the citizens)</t>\n    <t s=\"27\">and the one bull</t>\n    <t s=\"28\">(of his beloved) is understood,</t>\n    <t s=\"29\">yet according to the explanation of the Zohar that also the seven days of the festival are for inviting the supernal Ushpizin</t>\n    <t s=\"30\">(and from this very fact that it uses the language “invites the Ushpizin etc.” similar to the language of the Midrash’s parable of the king who invited etc., it implies that they are related to each other),</t>\n    <t s=\"31\">who are our forefathers Avraham, Yitzchak, and Yaakov etc., until Dovid HaMelech,</t>\n    <t s=\"32\">it needs to be understood:</t>\n    <t s=\"33\">What is the novelty of the small feast of Shemini Atzeres over the feast of the seven days of the festival?</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the phrase “for His kindness has overwhelmed us” refers to a level of kindness above the chain of descent, and that this and “the truth of Hashem” are revealed even to the nations during Sukkos.</sectionSummaryBrief>\n    <t s=\"0\">Now, regarding what is said, “for His kindness has overwhelmed us,”</t>\n    <t s=\"1\">“His kindness” specifically, and not simply “kindness,”</t>\n    <t s=\"2\">it can be said that it is in the manner of the statement of our Rabbis, of blessed memory,</t>\n    <t s=\"3\">regarding the twenty-six times “for His kindness endures forever,” that it refers to the twenty-six generations before the giving of the Torah, which were sustained by the kindness of the Holy One, blessed be He,</t>\n    <t s=\"4\">and it is explained in this regard in several places</t>\n    <t s=\"5\">that it refers to the aspect of kindness that is above the chain of descent,</t>\n    <t s=\"6\">the kindness of Arich Anpin.</t>\n    <t s=\"7\">From this, it is also understood regarding “for His kindness has overwhelmed us,”</t>\n    <t s=\"8\">that “His kindness” is the aspect of kindness that is above the chain of descent,</t>\n    <t s=\"9\">and “His kindness has overwhelmed us” is the overpowering in the aspect of “His kindness,”</t>\n    <t s=\"10\">meaning that it is even more elevated than the aspect of the kindness of Arich.</t>\n    <t s=\"11\">Which is an exceedingly lofty level.</t>\n    <t s=\"12\">And so too regarding what is said afterwards, “and the truth of Hashem endures forever” — that the matter of “Hashem is truth” is as the Rambam wrote at the beginning of his book,</t>\n    <t s=\"13\">“He alone is truth, and there is no other truth like His truth,”</t>\n    <t s=\"14\">and regarding this matter, the Rambam writes there, “This is what the prophet says,”</t>\n    <t s=\"15\">for created beings and in their intellect</t>\n    <t s=\"16\">do not have knowledge of the matter of His truth, may He be blessed,</t>\n    <t s=\"17\">therefore he emphasizes, “This is what the prophet says”</t>\n    <t s=\"18\">[and so too in what is written there afterwards, “And this is what the Torah says, ‘There is none besides Him,’ there is no true existence besides Him like Him,”</t>\n    <t s=\"19\">for he is precise in his language, “and this is what the Torah says”</t>\n    <t s=\"20\">(and not “it is said”),</t>\n    <t s=\"21\">for the knowledge of the wonder of His existence, that there is no true existence besides Him like Him, is not within the power of the created being,</t>\n    <t s=\"22\">and only the Torah says etc.].</t>\n    <t s=\"23\">From this, the magnitude of the wonder of the aspect of “the truth of Hashem” is understood,</t>\n    <t s=\"24\">and nevertheless it is said, “and the truth of Hashem endures forever,”</t>\n    <t s=\"25\">that the aspect of “the truth of Hashem” is drawn down into the world.</t>\n    <t s=\"26\">And furthermore,</t>\n    <t s=\"27\">according to the explanation that “for His kindness has overwhelmed us” and “the truth of Hashem” etc. is the reason for “Praise Hashem, all nations; extol Him, all peoples”</t>\n    <t s=\"28\">(as Rashi explains),</t>\n    <t s=\"29\">it is found that the aspect of “His kindness has overwhelmed us,”</t>\n    <t s=\"30\">which is more elevated even than the aspect of “His kindness” that is above the chain of descent</t>\n    <t s=\"31\">(as above),</t>\n    <t s=\"32\">and likewise the aspect of “the truth of Hashem,”</t>\n    <t s=\"33\">also affects the knowledge of all the nations and peoples.</t>\n    <t s=\"34\">For although in general,</t>\n    <t s=\"35\">the knowledge of the nations of the world is only in the name Elokim, as it is written,</t>\n    <t s=\"36\">“Elokim will answer the peace of Pharaoh,”</t>\n    <t s=\"37\">and their nourishment from the name Elokim itself is only from the final 48 permutations of the name Elokim,</t>\n    <t s=\"38\">and the name Hashem pertains only to Israel, His close nation,</t>\n    <t s=\"39\">nevertheless,</t>\n    <t s=\"40\">on Sukkos,</t>\n    <t s=\"41\">the aspect of Hashem is felt,</t>\n    <t s=\"42\">and also the aspect of “the truth of Hashem,”</t>\n    <t s=\"43\">even for all the nations and peoples, to the extent that they must say “Praise… extol Him.”</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section discusses the two interpretations of the verse “And His feet shall stand on that day upon the Mount of Olives” from the haftarah of Sukkos, one referring to judgment and the other to a very high level, and explains their connection.</sectionSummaryBrief>\n    <t s=\"0\">And to understand all this,</t>\n    <t s=\"1\">one must preface what is said in the haftarah of the first and beginning of Sukkos,</t>\n    <t s=\"2\">in which the matters of the festival of Sukkos are explained more explicitly than in the Torah reading of Sukkos.</t>\n    <t s=\"3\">For just as in general,</t>\n    <t s=\"4\">the matters of the Written Torah are explained in the Oral Torah,</t>\n    <t s=\"5\">so too is it regarding the twenty-four books of the Written Torah itself,</t>\n    <t s=\"6\">that the matters stated in the Torah concisely and in allusion etc.,</t>\n    <t s=\"7\">are in the Prophets and Writings with greater revelation,</t>\n    <t s=\"8\">as is also seen simply.</t>\n    <t s=\"9\">Now, in the haftarah of Sukkos it is stated,</t>\n    <t s=\"10\">“And His feet shall stand on that day upon the Mount of Olives,”</t>\n    <t s=\"11\">and there are two explanations of this.</t>\n    <t s=\"12\">One explanation</t>\n    <t s=\"13\">is that “His feet shall stand” refers to the judgment that will be in the future,</t>\n    <t s=\"14\">that the judgment of the generation of the flood in this world was while sitting,</t>\n    <t s=\"15\">as it is written,</t>\n    <t s=\"16\">“Hashem sat at the flood,”</t>\n    <t s=\"17\">and the judgment of the future will be while standing, as it is written, “And His feet shall stand etc.”</t>\n    <t s=\"18\">And this is also the continuation of the verses in the haftarah,</t>\n    <t s=\"19\">that at first</t>\n    <t s=\"20\">it is stated, “And I will gather all the nations etc., and Hashem will go out and fight against those nations as on the day of His fighting etc., and His feet shall stand etc., until ‘Hashem will be King over all the earth; on that day Hashem will be One and His Name One,’”</t>\n    <t s=\"21\">that “His feet shall stand” is the matter of the judgment with which He will judge the nations etc.</t>\n    <t s=\"22\">And as the Midrash, brought in the Bachya,</t>\n    <t s=\"23\">“Until the measure of the sole of a foot, until the day comes etc., ‘And His feet shall stand etc.’”</t>\n    <t s=\"24\">And the second explanation is that “And His feet shall stand on that day upon the Mount of Olives” refers to a most lofty level that will be in the future.</t>\n    <t s=\"25\">For it is written,</t>\n    <t s=\"26\">“a land of olive oil,”</t>\n    <t s=\"27\">and it is known that oil indicates the aspect of wisdom,</t>\n    <t s=\"28\">and olives, from which oil is made, indicate the aspect of the source of wisdom,</t>\n    <t s=\"29\">and the Mount of Olives</t>\n    <t s=\"30\">(which is the place where olives grow)</t>\n    <t s=\"31\">is the source of the olives,</t>\n    <t s=\"32\">and is above even the aspect of olives,</t>\n    <t s=\"33\">and “upon the Mount of Olives” is above even the aspect of the Mount of Olives.</t>\n    <t s=\"34\">And this is what it says, “And His feet shall stand etc. upon the Mount of Olives etc., and the Mount of Olives will split,”</t>\n    <t s=\"35\">meaning that in the future, the aspect of “upon the Mount of Olives” will also be revealed.</t>\n    <t s=\"36\">And this is also the continuation of what is stated afterwards, “On that day Hashem will be One and His Name One,”</t>\n    <t s=\"37\">that in order for “Hashem will be One and His Name One,”</t>\n    <t s=\"38\">like “as it is written, so it is called,”</t>\n    <t s=\"39\">it is specifically through a most lofty level,</t>\n    <t s=\"40\">up to the aspect of “upon the Mount of Olives.”</t>\n    <t s=\"41\">And now, according to what was stated above, that all explanations of a single verse are related to each other,</t>\n    <t s=\"42\">it must be said</t>\n    <t s=\"43\">that the aspect of “upon the Mount of Olives,” which is a most lofty level,</t>\n    <t s=\"44\">is related to the matter of the judgment that will be in the future, and it needs to be understood what the connection is between these two matters.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914414_theRebbe_521",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914414_theRebbe_521__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section introduces the question of how the Talmudic and Midrashic explanation of the seventy bulls of Sukkos corresponding to the seventy nations aligns with the Zoharic explanation of the seven days of Sukkos being for the supernal guests (Ushpizin) of the Patriarchs and Dovid.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "Now, the special connection of “Praise Hashem, all nations; extol Him, all peoples” to the festival of Sukkos is as stated in the Gemara"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "and in the Midrash,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that the seventy bulls offered during Sukkos correspond to the seventy nations,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "which are the totality of all the nations,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "and from this aspect, on Sukkos, “Praise Hashem, all nations; extol Him, all peoples.”"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "for it is stated in the Zohar"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "that during the seven days of the festival, one invites the aspect of the Ushpizin, and they are our forefathers Avraham, Yitzchak, and Yaakov, etc., until Dovid Melech HaMoshiach, who is the seventh,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "and how does this correspond with what is explained in the Gemara and Midrash that the seventy bulls are corresponding to the seventy nations?"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "And although the Ramaz wrote there"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "“and the intellect well understood etc.” that the Ushpizin in the Zohar is a different explanation,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "still, it is insufficient, as is written in the maamar there,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "and behold, these and those are words of the living God,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "and how can these two explanations come together?"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "And especially according to what is known"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "(and also for practical halachah)"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "that all the matters in a single word are related to each other,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "behold, it is understood from this, all the more so in our case"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "(where the two explanations are not only in one word, but in the entire matter as a whole),"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "that the explanation of the Gemara and Midrash, and also the explanation of the Midrash that during the seven days it is the king’s feast for the citizens, and those who dine all seven days of Sukkos are the seventy princes, and the explanation of the Zohar that on Sukkos one invites to the feast the aspect of the supernal Ushpizin etc.,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "since both matters are in the Torah of truth,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "there is a true connection between them."
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "And especially according to what the Gemara and Midrash conclude there, that on Shemini Atzeres, a single bull etc. corresponds to the singular nation, a parable of a king etc. who said, “Make me a great feast,” and invited all the citizens, and on the last day said to his beloved, “Make me a small feast,”"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "“Come and let us roll, I and you, in what you will find.”"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "That the great feast in the allegory is the matter of the seventy bulls, and the small feast is the matter of the one bull offered on Shemini Atzeres."
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "And behold, the vast distance in value between the seventy bulls"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(which are for all the citizens)"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "and the one bull"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "(of his beloved) is understood,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "yet according to the explanation of the Zohar that also the seven days of the festival are for inviting the supernal Ushpizin"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "(and from this very fact that it uses the language “invites the Ushpizin etc.” similar to the language of the Midrash’s parable of the king who invited etc., it implies that they are related to each other),"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "who are our forefathers Avraham, Yitzchak, and Yaakov etc., until Dovid HaMelech,"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "it needs to be understood:"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "What is the novelty of the small feast of Shemini Atzeres over the feast of the seven days of the festival?"
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the phrase “for His kindness has overwhelmed us” refers to a level of kindness above the chain of descent, and that this and “the truth of Hashem” are revealed even to the nations during Sukkos.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "Now, regarding what is said, “for His kindness has overwhelmed us,”"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "“His kindness” specifically, and not simply “kindness,”"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "it can be said that it is in the manner of the statement of our Rabbis, of blessed memory,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "regarding the twenty-six times “for His kindness endures forever,” that it refers to the twenty-six generations before the giving of the Torah, which were sustained by the kindness of the Holy One, blessed be He,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "and it is explained in this regard in several places"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "that it refers to the aspect of kindness that is above the chain of descent,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "the kindness of Arich Anpin."
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "From this, it is also understood regarding “for His kindness has overwhelmed us,”"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "that “His kindness” is the aspect of kindness that is above the chain of descent,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "and “His kindness has overwhelmed us” is the overpowering in the aspect of “His kindness,”"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "meaning that it is even more elevated than the aspect of the kindness of Arich."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "Which is an exceedingly lofty level."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And so too regarding what is said afterwards, “and the truth of Hashem endures forever” — that the matter of “Hashem is truth” is as the Rambam wrote at the beginning of his book,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "“He alone is truth, and there is no other truth like His truth,”"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "and regarding this matter, the Rambam writes there, “This is what the prophet says,”"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "for created beings and in their intellect"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "do not have knowledge of the matter of His truth, may He be blessed,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "therefore he emphasizes, “This is what the prophet says”"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "[and so too in what is written there afterwards, “And this is what the Torah says, ‘There is none besides Him,’ there is no true existence besides Him like Him,”"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "for he is precise in his language, “and this is what the Torah says”"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "(and not “it is said”),"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "for the knowledge of the wonder of His existence, that there is no true existence besides Him like Him, is not within the power of the created being,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "and only the Torah says etc.]."
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "From this, the magnitude of the wonder of the aspect of “the truth of Hashem” is understood,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "and nevertheless it is said, “and the truth of Hashem endures forever,”"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "that the aspect of “the truth of Hashem” is drawn down into the world."
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "according to the explanation that “for His kindness has overwhelmed us” and “the truth of Hashem” etc. is the reason for “Praise Hashem, all nations; extol Him, all peoples”"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "(as Rashi explains),"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "it is found that the aspect of “His kindness has overwhelmed us,”"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "which is more elevated even than the aspect of “His kindness” that is above the chain of descent"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "(as above),"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "and likewise the aspect of “the truth of Hashem,”"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "also affects the knowledge of all the nations and peoples."
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "For although in general,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "the knowledge of the nations of the world is only in the name Elokim, as it is written,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "“Elokim will answer the peace of Pharaoh,”"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "and their nourishment from the name Elokim itself is only from the final 48 permutations of the name Elokim,"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "and the name Hashem pertains only to Israel, His close nation,"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "on Sukkos,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "the aspect of Hashem is felt,"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "and also the aspect of “the truth of Hashem,”"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "even for all the nations and peoples, to the extent that they must say “Praise… extol Him.”"
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section discusses the two interpretations of the verse “And His feet shall stand on that day upon the Mount of Olives” from the haftarah of Sukkos, one referring to judgment and the other to a very high level, and explains their connection.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And to understand all this,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "one must preface what is said in the haftarah of the first and beginning of Sukkos,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "in which the matters of the festival of Sukkos are explained more explicitly than in the Torah reading of Sukkos."
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "For just as in general,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "the matters of the Written Torah are explained in the Oral Torah,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "so too is it regarding the twenty-four books of the Written Torah itself,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "that the matters stated in the Torah concisely and in allusion etc.,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "are in the Prophets and Writings with greater revelation,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "as is also seen simply."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "Now, in the haftarah of Sukkos it is stated,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "“And His feet shall stand on that day upon the Mount of Olives,”"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "and there are two explanations of this."
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "One explanation"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "is that “His feet shall stand” refers to the judgment that will be in the future,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "that the judgment of the generation of the flood in this world was while sitting,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "“Hashem sat at the flood,”"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "and the judgment of the future will be while standing, as it is written, “And His feet shall stand etc.”"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "And this is also the continuation of the verses in the haftarah,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "that at first"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "it is stated, “And I will gather all the nations etc., and Hashem will go out and fight against those nations as on the day of His fighting etc., and His feet shall stand etc., until ‘Hashem will be King over all the earth; on that day Hashem will be One and His Name One,’”"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "that “His feet shall stand” is the matter of the judgment with which He will judge the nations etc."
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "And as the Midrash, brought in the Bachya,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "“Until the measure of the sole of a foot, until the day comes etc., ‘And His feet shall stand etc.’”"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "And the second explanation is that “And His feet shall stand on that day upon the Mount of Olives” refers to a most lofty level that will be in the future."
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "For it is written,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "“a land of olive oil,”"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "and it is known that oil indicates the aspect of wisdom,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "and olives, from which oil is made, indicate the aspect of the source of wisdom,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "and the Mount of Olives"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "(which is the place where olives grow)"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "is the source of the olives,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "and is above even the aspect of olives,"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "and “upon the Mount of Olives” is above even the aspect of the Mount of Olives."
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "And this is what it says, “And His feet shall stand etc. upon the Mount of Olives etc., and the Mount of Olives will split,”"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "meaning that in the future, the aspect of “upon the Mount of Olives” will also be revealed."
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "And this is also the continuation of what is stated afterwards, “On that day Hashem will be One and His Name One,”"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "that in order for “Hashem will be One and His Name One,”"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "like “as it is written, so it is called,”"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "it is specifically through a most lofty level,"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "up to the aspect of “upon the Mount of Olives.”"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "And now, according to what was stated above, that all explanations of a single verse are related to each other,"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "it must be said"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "that the aspect of “upon the Mount of Olives,” which is a most lofty level,"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "is related to the matter of the judgment that will be in the future, and it needs to be understood what the connection is between these two matters."
+          }
+        ]
+      }
+    ]
+  }
+}

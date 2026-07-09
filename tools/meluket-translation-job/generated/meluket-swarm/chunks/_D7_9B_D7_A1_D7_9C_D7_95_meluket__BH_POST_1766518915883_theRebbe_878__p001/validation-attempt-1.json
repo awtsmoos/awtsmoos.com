@@ -1,0 +1,459 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 83,
+    "returned": 83,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915883_theRebbe_878\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915883_theRebbe_878__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header and date of the maamar for Chanukah 5738.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">This is Chanukah,</t>\n    <t s=\"2\">5738*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the mitzvah of the Chanukah light is specifically from sunset, contrasting it with the Temple and Shabbat lights, and connects this to the darkness of exile and the illumination of the Chanukah light.</sectionSummaryBrief>\n    <t s=\"0\">Its mitzvah</t>\n    <t s=\"1\">(of the Chanukah light)</t>\n    <t s=\"2\">is from the time the sun sets until the foot ceases from the market, etc., until the foot of the Tarmodai ceases,</t>\n    <t s=\"3\">and it is explained in the discourses of our Nesi'im,</t>\n    <t s=\"4\">the distinction between the Chanukah lights and the lights of the Temple and the Shabbat lights,</t>\n    <t s=\"5\">that the time for lighting the Temple lights and Shabbat lights is while it is still day,</t>\n    <t s=\"6\">[for the Temple lights were lit from plag haminchah,</t>\n    <t s=\"7\">which is much</t>\n    <t s=\"8\">(an hour and a quarter)</t>\n    <t s=\"9\">before sunset.</t>\n    <t s=\"10\">And also Shabbat lights must be lit before sunset,</t>\n    <t s=\"11\">due to the observance of Shabbat],</t>\n    <t s=\"12\">but unlike this, the mitzvah of the Chanukah light is from sunset.</t>\n    <t s=\"13\">For although the institution of the Chanukah light is because of the miracle that occurred with the lights of the Temple,</t>\n    <t s=\"14\">and if so, it would have been fitting for its lighting time to be like the Temple lights,</t>\n    <t s=\"15\">and especially since all that the Sages instituted, they instituted in a manner similar to a Torah law,</t>\n    <t s=\"16\">nevertheless, its mitzvah is specifically from sunset.</t>\n    <t s=\"17\">And the explanation of this is known,</t>\n    <t s=\"18\">that the matter of \"from sunset\" refers to the time of exile,</t>\n    <t s=\"19\">which is called by the name \"darkness.\"</t>\n    <t s=\"20\">And the cause of the darkness of exile is the spiritual darkness—the matter of sins, which are the opposite of \"a lamp is a mitzvah</t>\n    <t s=\"21\">and the Torah is light,\"</t>\n    <t s=\"22\">as we say,</t>\n    <t s=\"23\">\"And because of our sins we were exiled.\"</t>\n    <t s=\"24\">And this is that the mitzvah of the Chanukah light is from sunset,</t>\n    <t s=\"25\">for the matter of the Chanukah light is to illuminate the darkness of exile,</t>\n    <t s=\"26\">[for the time of the Chanukah miracle</t>\n    <t s=\"27\">(even though the Holy Temple was then standing)</t>\n    <t s=\"28\">is also called by the name \"exile,\"</t>\n    <t s=\"29\">the exile of Greece,</t>\n    <t s=\"30\">and especially in those days</t>\n    <t s=\"31\">(before the miracle)</t>\n    <t s=\"32\">when there was a strengthening of darkness,</t>\n    <t s=\"33\">as is understood from the text of \"Al Hanissim,\"</t>\n    <t s=\"34\">the greatness of the troubles, etc., that were then].</t>\n    <t s=\"35\">And this is also that its time of the Chanukah light is until the foot ceases from the market, until the foot of the Tarmodai ceases,</t>\n    <t s=\"36\">Tarmodai are those who rebel against the Kingdom of Heaven</t>\n    <t s=\"37\">(Tarmod is the letters of Moredet [rebellious]),</t>\n    <t s=\"38\">and they linger in the market,</t>\n    <t s=\"39\">the aspect of the public domain, the mountains of separation.</t>\n    <t s=\"40\">And until the foot of the Tarmodai ceases, in both interpretations.</t>\n    <t s=\"41\">That the light of the Chanukah light consumes and nullifies the foot of the Tarmodai,</t>\n    <t s=\"42\">and that the light of the Chanukah light brings about the matter of yearning also in the foot of the Tarmodai,</t>\n    <t s=\"43\">that even the rebels will be nullified and transformed and will come to a yearning of the soul,</t>\n    <t s=\"44\">and even that their thirst and yearning is with greater intensity,</t>\n    <t s=\"45\">[as is known,</t>\n    <t s=\"46\">that the thirst of baalei teshuvah is with greater intensity than the thirst of the righteous],</t>\n    <t s=\"47\">for the advantage of light is specifically from darkness.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that every entity, even negative ones, has a root in holiness, and through the process of descent and refinement, they are elevated to an even higher source.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And behold, it is known that every existence in the world,</t>\n    <t s=\"2\">even the side of evil,</t>\n    <t s=\"3\">has a beginning and a root in holiness,</t>\n    <t s=\"4\">(and beyond this, our Sages said,</t>\n    <t s=\"5\">\"There is none else besides Him,\"</t>\n    <t s=\"6\">even regarding sorcery that denies the heavenly retinue).</t>\n    <t s=\"7\">But there are things that cannot be drawn from their source through the chain of descent,</t>\n    <t s=\"8\">(even a chain of descent of many levels),</t>\n    <t s=\"9\">but rather require also an interruption, or a contraction, or a screen, or a breaking, etc.</t>\n    <t s=\"10\">And from this it is understood regarding the above matters</t>\n    <t s=\"11\">[from sunset,</t>\n    <t s=\"12\">market, and Tarmodai],</t>\n    <t s=\"13\">that their beginning and source is in holiness,</t>\n    <t s=\"14\">but they come about through contraction, interruption, etc., and breaking, etc.</t>\n    <t s=\"15\">[And analogous to the matter of Pharaoh</t>\n    <t s=\"16\">(in our parshah),</t>\n    <t s=\"17\">that in his root he is a most lofty matter in holiness,</t>\n    <t s=\"18\">as is known,</t>\n    <t s=\"19\">that Pharaoh is that from which all illuminations are broken forth and revealed,</t>\n    <t s=\"20\">and through a multitude of descents and breaking, etc., from this came Pharaoh, king of Egypt,</t>\n    <t s=\"21\">the great serpent that lies within his rivers and says, \"My river is mine, and I have made myself.\"]</t>\n    <t s=\"22\">And from this very fact that they fell so low, it is proven that their root is a very lofty level,</t>\n    <t s=\"23\">for whatever is higher, descends lower.</t>\n    <t s=\"24\">Therefore, through refining the matters that fell the lowest,</t>\n    <t s=\"25\">[like the refinement of Pharaoh, which is specifically through Moshe Rabbeinu,</t>\n    <t s=\"26\">and through his being given a special power for this,</t>\n    <t s=\"27\">\"Come to Pharaoh,\"]</t>\n    <t s=\"28\">they are elevated to their source, which is very high.</t>\n    <t s=\"29\">And furthermore,</t>\n    <t s=\"30\">since every descent is for the sake of an ascent,</t>\n    <t s=\"31\">behold, their ascent after the refinement is higher than they were in their source before the descent and fall.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915883_theRebbe_878",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915883_theRebbe_878__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header and date of the maamar for Chanukah 5738.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "This is Chanukah,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "5738*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that the mitzvah of the Chanukah light is specifically from sunset, contrasting it with the Temple and Shabbat lights, and connects this to the darkness of exile and the illumination of the Chanukah light.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "Its mitzvah"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "(of the Chanukah light)"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "is from the time the sun sets until the foot ceases from the market, etc., until the foot of the Tarmodai ceases,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "and it is explained in the discourses of our Nesi'im,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "the distinction between the Chanukah lights and the lights of the Temple and the Shabbat lights,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that the time for lighting the Temple lights and Shabbat lights is while it is still day,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "[for the Temple lights were lit from plag haminchah,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "which is much"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(an hour and a quarter)"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "before sunset."
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "And also Shabbat lights must be lit before sunset,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "due to the observance of Shabbat],"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "but unlike this, the mitzvah of the Chanukah light is from sunset."
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "For although the institution of the Chanukah light is because of the miracle that occurred with the lights of the Temple,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "and if so, it would have been fitting for its lighting time to be like the Temple lights,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "and especially since all that the Sages instituted, they instituted in a manner similar to a Torah law,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "nevertheless, its mitzvah is specifically from sunset."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "And the explanation of this is known,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "that the matter of \"from sunset\" refers to the time of exile,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "which is called by the name \"darkness.\""
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "And the cause of the darkness of exile is the spiritual darkness—the matter of sins, which are the opposite of \"a lamp is a mitzvah"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "and the Torah is light,\""
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "as we say,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "\"And because of our sins we were exiled.\""
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "And this is that the mitzvah of the Chanukah light is from sunset,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "for the matter of the Chanukah light is to illuminate the darkness of exile,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "[for the time of the Chanukah miracle"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "(even though the Holy Temple was then standing)"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "is also called by the name \"exile,\""
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "the exile of Greece,"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "and especially in those days"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "(before the miracle)"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "when there was a strengthening of darkness,"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "as is understood from the text of \"Al Hanissim,\""
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "the greatness of the troubles, etc., that were then]."
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "And this is also that its time of the Chanukah light is until the foot ceases from the market, until the foot of the Tarmodai ceases,"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "Tarmodai are those who rebel against the Kingdom of Heaven"
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "(Tarmod is the letters of Moredet [rebellious]),"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "and they linger in the market,"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "the aspect of the public domain, the mountains of separation."
+          },
+          {
+            "v": 1,
+            "s": 40,
+            "translation": "And until the foot of the Tarmodai ceases, in both interpretations."
+          },
+          {
+            "v": 1,
+            "s": 41,
+            "translation": "That the light of the Chanukah light consumes and nullifies the foot of the Tarmodai,"
+          },
+          {
+            "v": 1,
+            "s": 42,
+            "translation": "and that the light of the Chanukah light brings about the matter of yearning also in the foot of the Tarmodai,"
+          },
+          {
+            "v": 1,
+            "s": 43,
+            "translation": "that even the rebels will be nullified and transformed and will come to a yearning of the soul,"
+          },
+          {
+            "v": 1,
+            "s": 44,
+            "translation": "and even that their thirst and yearning is with greater intensity,"
+          },
+          {
+            "v": 1,
+            "s": 45,
+            "translation": "[as is known,"
+          },
+          {
+            "v": 1,
+            "s": 46,
+            "translation": "that the thirst of baalei teshuvah is with greater intensity than the thirst of the righteous],"
+          },
+          {
+            "v": 1,
+            "s": 47,
+            "translation": "for the advantage of light is specifically from darkness."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that every entity, even negative ones, has a root in holiness, and through the process of descent and refinement, they are elevated to an even higher source.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And behold, it is known that every existence in the world,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "even the side of evil,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "has a beginning and a root in holiness,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "(and beyond this, our Sages said,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "\"There is none else besides Him,\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "even regarding sorcery that denies the heavenly retinue)."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "But there are things that cannot be drawn from their source through the chain of descent,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "(even a chain of descent of many levels),"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "but rather require also an interruption, or a contraction, or a screen, or a breaking, etc."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And from this it is understood regarding the above matters"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "[from sunset,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "market, and Tarmodai],"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that their beginning and source is in holiness,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "but they come about through contraction, interruption, etc., and breaking, etc."
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "[And analogous to the matter of Pharaoh"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "(in our parshah),"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "that in his root he is a most lofty matter in holiness,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "as is known,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that Pharaoh is that from which all illuminations are broken forth and revealed,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "and through a multitude of descents and breaking, etc., from this came Pharaoh, king of Egypt,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "the great serpent that lies within his rivers and says, \"My river is mine, and I have made myself.\"]"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "And from this very fact that they fell so low, it is proven that their root is a very lofty level,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "for whatever is higher, descends lower."
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "Therefore, through refining the matters that fell the lowest,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "[like the refinement of Pharaoh, which is specifically through Moshe Rabbeinu,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "and through his being given a special power for this,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "\"Come to Pharaoh,\"]"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "they are elevated to their source, which is very high."
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "since every descent is for the sake of an ascent,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "behold, their ascent after the refinement is higher than they were in their source before the descent and fall."
+          }
+        ]
+      }
+    ]
+  }
+}

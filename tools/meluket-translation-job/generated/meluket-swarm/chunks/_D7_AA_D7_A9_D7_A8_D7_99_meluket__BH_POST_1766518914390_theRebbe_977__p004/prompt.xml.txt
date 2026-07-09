@@ -1,0 +1,95 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914390_theRebbe_977" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914390_theRebbe_977__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914390_theRebbe_977" title="מאמר בסוכות תשבו תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914390_theRebbe_977__p004">
+  <section v="9">
+    <src s="0">ובעומק יותר יש לומר21,</src>
+    <src s="1">שענין החידוש שבתשובה כפשוטה הוא גם לגבי הרצון והכוונה דלמעלה.</src>
+    <src s="2">שהרצון והכוונה דלמעלה בבריאת העולם והאדם היא שהאדם יהי' צדיק,</src>
+    <src s="3">כמרז"ל22</src>
+    <src s="4">במי נמלך בנשמותיהן של צדיקים.</src>
+    <src s="5">וע"י שחטא ופגם והעביר את הדרך</src>
+    <src s="6">(היפך הכוונה דבריאת העולם והאדם)</src>
+    <src s="7">ואח"כ מתקן זה ע"י התשובה,</src>
+    <src s="8">עי"ז נמשך אור חדש שלא הי' בכוונת הבריאה.</src>
+    <src s="9">והכח להמשיך אור חדש שלא הי' בהכוונה דבמי נמלך,</src>
+    <src s="10">הוא לפי ששורש הנשמות הוא בעצמות אוא"ס,</src>
+    <src s="11">שהוא למעלה גם משרשם בהענין דבמי נמלך.</src>
+    <src s="12">ויש לומר,</src>
+    <src s="13">דזה שע"י התשובה משתנה האדם ממציאותו ונעשה מציאות חדשה לגמרי,</src>
+    <src s="14">חידוש אמיתי שאינו המשך ממצבו הקודם,</src>
+    <src s="15">הוא,</src>
+    <src s="16">לפי שע"י התשובה הוא המשכת עצם הנשמה כמו שהיא מושרשת בעצמות אוא"ס23,</src>
+    <src s="17">ולגבי עצם הנשמה,</src>
+    <src s="18">אין נפק"מ מצבו של האדם שהי' לפני התשובה.</src>
+  </section>
+  <section v="10">
+    <src s="0">ועפ"ז יש להוסיף ביאור בזה שע"י העבודה דבסוכות תשבו</src>
+    <src s="1">(גילוי התשובה דיום הכפורים)</src>
+    <src s="2">נעשה שינוי באורות המקיפים שנעשים אורות מתיישבים,</src>
+    <src s="3">כי הענין דהמשכת עצם הנשמה שע"י התשובה מתגלה בזה שהאדם משתנה ממציאותו24,</src>
+    <src s="4">ולכן,</src>
+    <src s="5">הגילוי דהמשכת העצמות שע"י בסוכות תשבו</src>
+    <src s="6">(גילוי התשובה דיום הכפורים)</src>
+    <src s="7">הוא בענין השינוי,</src>
+    <src s="8">שאורות המקיפים משתנים להיות אורות מתיישבים.</src>
+  </section>
+  <section v="11">
+    <src s="0">ה)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">שהגילוי דעצם הנשמה שמושרשת בעצמות אוא"ס</src>
+    <src s="3">(שלמעלה משורש הנשמות בהענין דבמי נמלך)</src>
+    <src s="4">שע"י תשובה,</src>
+    <src s="5">הוא בשני ענינים.</src>
+    <src s="6">בהתשובה עצמה ובהסיבה שמביאה לתשובה.</src>
+    <src s="7">והענין הוא,</src>
+    <src s="8">דזה שהאדם עושה תשובה לאחרי שחטא הוא מצד שרש הנשמה בעצמות אוא"ס שלמעלה מהענין דבמי נמלך.</src>
+    <src s="9">שמצד שורש הנשמות בהענין דבמי נמלך בנשמותיהן של צדיקים,</src>
+    <src s="10">ע"י שחטא ופגם</src>
+    <src s="11">(היפך הכוונה דבמי נמלך),</src>
+    <src s="12">הוא נפרד משרשו,</src>
+    <src s="13">וזה שלאחרי שחטא הוא עושה תשובה ומשנה את מציאותו,</src>
+    <src s="14">הוא מצד גילוי שורש הנשמה בעצמות אוא"ס,</src>
+    <src s="15">שלמעלה מהענין דבמי נמלך.</src>
+    <src s="16">ועוד ענין בזה,</src>
+    <src s="17">דהסיבה שמביאה אותו לחזור בתשובה היא לפי שנקודת היהדות שבו היא תמיד בשלימות</src>
+    <src s="18">(וכאשר מתעוררת נקודת היהדות שבו,</src>
+    <src s="19">אינו רוצה בשום אופן להיות נפרד ועושה תשובה),</src>
+    <src s="20">וזה שנקודת היהדות שבו היא תמיד בשלימות,</src>
+    <src s="21">דגם בשעת החטא הנשמה היא באמנה אתו ית'25,</src>
+    <src s="22">הוא לפי שההתקשרות דהנשמה באלקות היא התקשרות עצמית,</src>
+    <src s="23">שלמעלה מההתקשרות שע"י תורה ומצוות</src>
+    <src s="24">(הענין דבמי נמלך).</src>
+  </section>
+</awtsmoosMeluketSource>

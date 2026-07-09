@@ -1,0 +1,219 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 35,
+    "returned": 35,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914138_theRebbe_689\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914138_theRebbe_689__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar, \"Shir HaMaalos MiMaamakim\" for Shabbos Shuva 5748.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Haazinu,</t>\n    <t s=\"2\">Shabbos Shuva 5748*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that this is the second farbrengen, a continuation of the farbrengen of the second day of Rosh Hashanah.</sectionSummaryBrief>\n    <t s=\"0\">– Farbrengen 2 – continuation of the farbrengen of the second day of Rosh Hashanah –</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the psalm \"Shir HaMaalos MiMaamakim\" is recited during the Ten Days of Repentance, and discusses the two interpretations of \"MiMaamakim\" from the Zohar.</sectionSummaryBrief>\n    <t s=\"0\">\"A Song of Ascents: From the depths I called You, Hashem\"1,</t>\n    <t s=\"1\">Behold, this psalm was instituted to be recited every day of the Ten Days of Repentance,</t>\n    <t s=\"2\">beginning from Rosh Hashanah2</t>\n    <t s=\"3\">(which is the first day of the Ten Days of Repentance),</t>\n    <t s=\"4\">and many discourses of Rosh Hashanah begin with this verse.</t>\n    <t s=\"5\">And it is brought regarding this in the discourses3,</t>\n    <t s=\"6\">that in the explanation of \"MiMaamakim\" there are two opinions in the Zohar4</t>\n    <t s=\"7\">Rabbi Yitzchak and Rabbi Abba,</t>\n    <t s=\"8\">that Rabbi Yitzchak explains \"MiMaamakim\" as referring to the depths of man,</t>\n    <t s=\"9\">that the aforementioned prayer is from the depths of man's soul5,</t>\n    <t s=\"10\">from the depths of the soul of King Dovid5</t>\n    <t s=\"11\">and likewise of every single Jew who recites this psalm,</t>\n    <t s=\"12\">and Rabbi Abba explains \"MiMaamakim\" as referring to the depths above, a hidden place above, etc.</t>\n    <t s=\"13\">And it continues in the maamarim6,</t>\n    <t s=\"14\">and behold, the explanation of \"MiMaamakim\" is two depths,</t>\n    <t s=\"15\">for this is according to the two aforementioned opinions,</t>\n    <t s=\"16\">and based on this it is explained that according to Rabbi Yitzchak, the depth within depth is the depth of the heart5</t>\n    <t s=\"17\">and according to Rabbi Abba, this is the depth of depths in the levels above.</t>\n    <t s=\"18\">And it continues that the primary explanation is that it refers to the levels above,</t>\n    <t s=\"19\">that is, that through \"I called You\" one reaches the aspect of depth within depth,</t>\n    <t s=\"20\">until one ascends to such a depth that is above the division of levels,</t>\n    <t s=\"21\">and from there \"I called You\" – is drawn – \"Hashem\".</t>\n    <t s=\"22\">And the connection between the two explanations</t>\n    <t s=\"23\">(for one said one thing and the other said another, and they do not disagree)</t>\n    <t s=\"24\">is,</t>\n    <t s=\"25\">that the ability to draw down from this aspect of depth which is above any category of division is through the aspect of the depth of the heart,</t>\n    <t s=\"26\">which comes through the service of teshuvah,</t>\n    <t s=\"27\">as explained in the maamarim,</t>\n    <t s=\"28\">and as is simply understood that this is the content of this psalm</t>\n    <t s=\"29\">(\"A Song of Ascents: From the Depths\"),</t>\n    <t s=\"30\">the prayer of teshuvah.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914138_theRebbe_689",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914138_theRebbe_689__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar, \"Shir HaMaalos MiMaamakim\" for Shabbos Shuva 5748.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Haazinu,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Shabbos Shuva 5748*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section notes that this is the second farbrengen, a continuation of the farbrengen of the second day of Rosh Hashanah.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "– Farbrengen 2 – continuation of the farbrengen of the second day of Rosh Hashanah –"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the psalm \"Shir HaMaalos MiMaamakim\" is recited during the Ten Days of Repentance, and discusses the two interpretations of \"MiMaamakim\" from the Zohar.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"A Song of Ascents: From the depths I called You, Hashem\"1,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "Behold, this psalm was instituted to be recited every day of the Ten Days of Repentance,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "beginning from Rosh Hashanah2"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(which is the first day of the Ten Days of Repentance),"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "and many discourses of Rosh Hashanah begin with this verse."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "And it is brought regarding this in the discourses3,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "that in the explanation of \"MiMaamakim\" there are two opinions in the Zohar4"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "Rabbi Yitzchak and Rabbi Abba,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that Rabbi Yitzchak explains \"MiMaamakim\" as referring to the depths of man,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "that the aforementioned prayer is from the depths of man's soul5,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "from the depths of the soul of King Dovid5"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "and likewise of every single Jew who recites this psalm,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and Rabbi Abba explains \"MiMaamakim\" as referring to the depths above, a hidden place above, etc."
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "And it continues in the maamarim6,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and behold, the explanation of \"MiMaamakim\" is two depths,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "for this is according to the two aforementioned opinions,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "and based on this it is explained that according to Rabbi Yitzchak, the depth within depth is the depth of the heart5"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "and according to Rabbi Abba, this is the depth of depths in the levels above."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And it continues that the primary explanation is that it refers to the levels above,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that is, that through \"I called You\" one reaches the aspect of depth within depth,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "until one ascends to such a depth that is above the division of levels,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "and from there \"I called You\" – is drawn – \"Hashem\"."
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "And the connection between the two explanations"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(for one said one thing and the other said another, and they do not disagree)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "is,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "that the ability to draw down from this aspect of depth which is above any category of division is through the aspect of the depth of the heart,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "which comes through the service of teshuvah,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "as explained in the maamarim,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "and as is simply understood that this is the content of this psalm"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "(\"A Song of Ascents: From the Depths\"),"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "the prayer of teshuvah."
+          }
+        ]
+      }
+    ]
+  }
+}

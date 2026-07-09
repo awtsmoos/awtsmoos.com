@@ -1,0 +1,90 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917870_theRebbe_730" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917870_theRebbe_730__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917870_theRebbe_730" title="מאמר אשרי תבחר ותקרב תשט"ז" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917870_theRebbe_730__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אור ליום ועש"ק פ' חיי שרה,</src>
+    <src s="2">כ"ו מרחשון ה'תשט"ז*</src>
+  </section>
+  <section v="1">
+    <src s="0">אשרי תבחר ותקרב ישכון חצריך נשבעה בטוב ביתך קדוש היכלך1,</src>
+    <src s="1">הנה פסוק זה אומרים לפני ברית מילה,</src>
+    <src s="2">כדאיתא בסידור סדר המילה.</src>
+    <src s="3">והמקור לזה הוא מ"ש בזהר2</src>
+    <src s="4">חסידי קדמאי כו' כד מקריבין בנייהו לקרבנא דא פתחי ואמרי אשרי תבחר ותקרב ישכון חצריך וכו'.</src>
+    <src s="5">[והגם שבזהר שם חסידי קדמאי כו',</src>
+    <src s="6">כתב זה אדמו"ר הזקן בסידורו3,</src>
+    <src s="7">שהוא דבר השוה לכל נפש].</src>
+    <src s="8">וביאור השייכות דפסוק זה לברית מילה הוא,</src>
+    <src s="9">דבפסוק זה נמנים ד' ענינים,</src>
+    <src s="10">חצריך לשון רבים שתי בחינות חצר4,</src>
+    <src s="11">ביתך והיכלך.</src>
+    <src s="12">וסדר הענינים בהפסוק הוא מלמטה למעלה.</src>
+    <src s="13">כדאיתא בזהר שם,</src>
+    <src s="14">בקדמיתא חצריך לבתר ביתך ולבתר היכלך,</src>
+    <src s="15">דא פנימאה מן דא ודא לעילא מן דא.</src>
+    <src s="16">ויש לומר,</src>
+    <src s="17">שד' ענינים אלה הם כנגד ד' עולמות אבי"ע</src>
+    <src s="18">(כדלקמן סעיף ו).</src>
+    <src s="19">ולכן אומרים פסוק זה קודם הברית,</src>
+    <src s="20">כי ע"י המילה הוא המשכה שלמעלה מהשתלשלות,</src>
+    <src s="21">ובכדי שתהי' המשכה זו צ"ל תחלה השלימות דהשתלשלות</src>
+    <src s="22">(ד' עולמות)</src>
+    <src s="23">כדלקמן</src>
+    <src s="24">(סעיף ז).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דהחילוק בין חצר ובית</src>
+    <src s="3">(כפשוטם)</src>
+    <src s="4">הוא,</src>
+    <src s="5">דבית הוא דירת אדם ובחצר נמצאים הבהמות והעופות,</src>
+    <src s="6">כדאיתא במשנה5</src>
+    <src s="7">הי' מעמיד בהמה בחצר כו' ומגדל תרנגולים6.</src>
+    <src s="8">ובחצר עצמו שני סוגים,</src>
+    <src s="9">חצר מקורה וחצר שאינו מקורה.</src>
+    <src s="10">דהחילוק בין חצר מקורה וחצר שאינו מקורה הוא גם בהלכה,</src>
+    <src s="11">דחצר שאינו מקורה</src>
+    <src s="12">(כשהוא יותר מסאתיים מדאורייתא הוא רשות היחיד אבל מדברי סופרים הוא ככרמלית לפי שדומה לרשות הרבים7,</src>
+    <src s="13">וחצר מקורה הוא רשות היחיד גם מד"ס8.</src>
+    <src s="14">והחילוק ביניהם בפשטות,</src>
+    <src s="15">דשמירת הבהמות היא גם בחצר שאינו מקורה</src>
+    <src s="16">[וצריך רק שהחצר יהי' מוקף מחיצות],</src>
+    <src s="17">ושמירת העופות</src>
+    <src s="18">(שיכולים לפרוח ע"ג המחיצות)</src>
+    <src s="19">הוא בחצר מקורה דוקא.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,479 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 87,
+    "returned": 87,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917024_theRebbe_166\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917024_theRebbe_166__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>There are two interpretations of \"above and below\" (higher and lower): one in terms of place, rooted in the line (kav), and another where the entire concept of division is called \"below,\" while \"above\" transcends division.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">Now, regarding \"above and below\"</t>\n    <t s=\"2\">(higher and lower [beings]),</t>\n    <t s=\"3\">there are two explanations</t>\n    <t s=\"4\">(concepts).</t>\n    <t s=\"5\">[One is] \"above and below\" in place</t>\n    <t s=\"6\">(physical place or spiritual place),</t>\n    <t s=\"7\">and this matter of \"above and below\" has its root in the line (kav).</t>\n    <t s=\"8\">For if the flow were from Ein Sof</t>\n    <t s=\"9\">(without [the intermediary of] the line),</t>\n    <t s=\"10\">all worlds would be equal.</t>\n    <t s=\"11\">And there is another explanation of \"above and below\":</t>\n    <t s=\"12\">that the entire concept of division</t>\n    <t s=\"13\">(\"above and below\" of place)</t>\n    <t s=\"14\">is called \"below,\"</t>\n    <t s=\"15\">for \"above\" is above division.</t>\n    <t s=\"16\">And as is known</t>\n    <t s=\"17\">in the explanation of the maamar,</t>\n    <t s=\"18\">\"Ein Sof is above, above without end, and below, below without limit,\"</t>\n    <t s=\"19\">that \"below, below\" is the light that is in the aspect of limitation,</t>\n    <t s=\"20\">the root of the line (kav)</t>\n    <t s=\"21\">(which contains in concealment the division of \"above and below,\"</t>\n    <t s=\"22\">which are the root of \"above and below\" in the worlds),</t>\n    <t s=\"23\">and \"above, above\" is the light without limit,</t>\n    <t s=\"24\">the root of the Surrounding (Sovev) that is above division.</t>\n    <t s=\"25\">And it can be said</t>\n    <t s=\"26\">that this [aspect] which, at the Giving of the Torah, effected the union of \"above and below,\"</t>\n    <t s=\"27\">is in both of these matters.</t>\n    <t s=\"28\">The union of \"above and below\" in the worlds</t>\n    <t s=\"29\">(place),</t>\n    <t s=\"30\">which in general is the union of Atzilus and BY\"A,</t>\n    <t s=\"31\">and also the union of the light without limit that is above the worlds with the light that is relative to the worlds,</t>\n    <t s=\"32\">and as is known</t>\n    <t s=\"33\">that the matter of the mitzvos</t>\n    <t s=\"34\">(after the Giving of the Torah)</t>\n    <t s=\"35\">is that through them is effected the union of the Holy One, blessed be He, and His Shechinah,</t>\n    <t s=\"36\">the union of the Surrounding (Sovev) and the Filling (Memaleh).</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This union at the Giving of the Torah includes the \"above\" that transcends the definition of \"above and below\" in the worlds, both regarding the empowerment for post-Sinai service and the actual descent of the higher realms at the moment of the Giving of the Torah.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, this matter—that in the union of \"above and below\" at the Giving of the Torah is also included the \"above\" that is beyond the definition of \"above and below\" in the worlds—</t>\n    <t s=\"2\">applies both regarding the empowerment that was at the Giving of the Torah for the service of Torah and mitzvos after the Giving of the Torah</t>\n    <t s=\"3\">(that the lower ones will ascend to the higher ones),</t>\n    <t s=\"4\">that through the service of the lower ones will be drawn down</t>\n    <t s=\"5\">(the light of Atzilus and)</t>\n    <t s=\"6\">the light of the Surrounding (Sovev), and even the light without limit that preceded the tzimtzum</t>\n    <t s=\"7\">(the root of the Surrounding light),</t>\n    <t s=\"8\">and [also applies] in the union of \"above and below\"</t>\n    <t s=\"9\">(that the higher ones descended to the lower ones)</t>\n    <t s=\"10\">that occurred at the time of the Giving of the Torah itself.</t>\n    <t s=\"11\">And the explanation is,</t>\n    <t s=\"12\">that it is known</t>\n    <t s=\"13\">that the Torah is above time and place,</t>\n    <t s=\"14\">therefore, anyone who engages in the study of the burnt-offering [Torah portion] is considered as if he offered a burnt-offering,</t>\n    <t s=\"15\">even though he is not in the time and place of the offering.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>Although the descent of the higher realms and the ascent of the lower realms are two distinct matters occurring at different times, the descent at Sinai was also the beginning and empowerment for the ascent, and therefore the voice of the Ten Commandments was heard from all directions, transcending place and time.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">Now, even though the descent of the higher ones below and the ascent of the lower ones above are two [distinct] matters,</t>\n    <t s=\"2\">to the point that they were at two [different] times—</t>\n    <t s=\"3\">the descent of the higher ones below was at the time of the Giving of the Torah, and the ascent of the lower ones above was after the Giving of the Torah—</t>\n    <t s=\"4\">nevertheless,</t>\n    <t s=\"5\">since the descent of the higher ones below was</t>\n    <t s=\"6\">(also)</t>\n    <t s=\"7\">the beginning</t>\n    <t s=\"8\">(and the empowerment)</t>\n    <t s=\"9\">for the ascent of the lower ones,</t>\n    <t s=\"10\">and as our sages, of blessed memory, said, \"And I began, all this,\"</t>\n    <t s=\"11\">therefore,</t>\n    <t s=\"12\">the descent was in a manner that, at the time of the act, it effected [change] in the lower ones.</t>\n    <t s=\"13\">Based on this, we can explain what is stated</t>\n    <t s=\"14\">that the voice of the Ten Commandments was heard from all four directions of the world, and from above and from below,</t>\n    <t s=\"15\">for the revelation of Ein Sof, which is above the definition of place</t>\n    <t s=\"16\">(above even the definition of place as it exists in the line [kav])</t>\n    <t s=\"17\">that was in the voice of the Ten Commandments, effected in the place</t>\n    <t s=\"18\">(in which the voice was heard)</t>\n    <t s=\"19\">that it should be above place.</t>\n    <t s=\"20\">Therefore,</t>\n    <t s=\"21\">even though the place in which the voice was [heard] was a specific place,</t>\n    <t s=\"22\">all six directions were included in it.</t>\n    <t s=\"23\">And it can be said,</t>\n    <t s=\"24\">that the same applies regarding time,</t>\n    <t s=\"25\">that the time in which the Torah was given was above time,</t>\n    <t s=\"26\">and the entire continuum of time was included in it.</t>\n    <t s=\"27\">And it can be said that this is one of the reasons why the Giving of the Torah occurred only once and will not occur again,</t>\n    <t s=\"28\">for in the time of the Giving of the Torah, the entire continuum of time was included.</t>\n    <t s=\"29\">And the same applies regarding Rosh Chodesh Sivan, when the preparation for the Giving of the Torah was completed,</t>\n    <t s=\"30\">that on this day, the entire continuum of time afterwards was included.</t>\n    <t s=\"31\">And this is the connection between the two explanations of \"on this day\"—</t>\n    <t s=\"32\">that it refers to Rosh Chodesh Sivan and that it refers to every day—</t>\n    <t s=\"33\">for on Rosh Chodesh Sivan of the year of the Giving of the Torah, all the days afterwards were included.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917024_theRebbe_166",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917024_theRebbe_166__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "There are two interpretations of \"above and below\" (higher and lower): one in terms of place, rooted in the line (kav), and another where the entire concept of division is called \"below,\" while \"above\" transcends division.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "Now, regarding \"above and below\""
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(higher and lower [beings]),"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "there are two explanations"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "(concepts)."
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "[One is] \"above and below\" in place"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(physical place or spiritual place),"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "and this matter of \"above and below\" has its root in the line (kav)."
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "For if the flow were from Ein Sof"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "(without [the intermediary of] the line),"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "all worlds would be equal."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "And there is another explanation of \"above and below\":"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "that the entire concept of division"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(\"above and below\" of place)"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "is called \"below,\""
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "for \"above\" is above division."
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "And as is known"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "in the explanation of the maamar,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "\"Ein Sof is above, above without end, and below, below without limit,\""
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "that \"below, below\" is the light that is in the aspect of limitation,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "the root of the line (kav)"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "(which contains in concealment the division of \"above and below,\""
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "which are the root of \"above and below\" in the worlds),"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "and \"above, above\" is the light without limit,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "the root of the Surrounding (Sovev) that is above division."
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "that this [aspect] which, at the Giving of the Torah, effected the union of \"above and below,\""
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "is in both of these matters."
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "The union of \"above and below\" in the worlds"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "(place),"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "which in general is the union of Atzilus and BY\"A,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "and also the union of the light without limit that is above the worlds with the light that is relative to the worlds,"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "and as is known"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "that the matter of the mitzvos"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "(after the Giving of the Torah)"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "is that through them is effected the union of the Holy One, blessed be He, and His Shechinah,"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "the union of the Surrounding (Sovev) and the Filling (Memaleh)."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This union at the Giving of the Torah includes the \"above\" that transcends the definition of \"above and below\" in the worlds, both regarding the empowerment for post-Sinai service and the actual descent of the higher realms at the moment of the Giving of the Torah.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "Now, this matter—that in the union of \"above and below\" at the Giving of the Torah is also included the \"above\" that is beyond the definition of \"above and below\" in the worlds—"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "applies both regarding the empowerment that was at the Giving of the Torah for the service of Torah and mitzvos after the Giving of the Torah"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(that the lower ones will ascend to the higher ones),"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that through the service of the lower ones will be drawn down"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "(the light of Atzilus and)"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "the light of the Surrounding (Sovev), and even the light without limit that preceded the tzimtzum"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "(the root of the Surrounding light),"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and [also applies] in the union of \"above and below\""
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(that the higher ones descended to the lower ones)"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "that occurred at the time of the Giving of the Torah itself."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "that it is known"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "that the Torah is above time and place,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "therefore, anyone who engages in the study of the burnt-offering [Torah portion] is considered as if he offered a burnt-offering,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "even though he is not in the time and place of the offering."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "Although the descent of the higher realms and the ascent of the lower realms are two distinct matters occurring at different times, the descent at Sinai was also the beginning and empowerment for the ascent, and therefore the voice of the Ten Commandments was heard from all directions, transcending place and time.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "Now, even though the descent of the higher ones below and the ascent of the lower ones above are two [distinct] matters,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "to the point that they were at two [different] times—"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "the descent of the higher ones below was at the time of the Giving of the Torah, and the ascent of the lower ones above was after the Giving of the Torah—"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "since the descent of the higher ones below was"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "(also)"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "the beginning"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "(and the empowerment)"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "for the ascent of the lower ones,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "and as our sages, of blessed memory, said, \"And I began, all this,\""
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "therefore,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "the descent was in a manner that, at the time of the act, it effected [change] in the lower ones."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "Based on this, we can explain what is stated"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "that the voice of the Ten Commandments was heard from all four directions of the world, and from above and from below,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "for the revelation of Ein Sof, which is above the definition of place"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "(above even the definition of place as it exists in the line [kav])"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "that was in the voice of the Ten Commandments, effected in the place"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "(in which the voice was heard)"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "that it should be above place."
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "even though the place in which the voice was [heard] was a specific place,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "all six directions were included in it."
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "that the same applies regarding time,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "that the time in which the Torah was given was above time,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "and the entire continuum of time was included in it."
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "And it can be said that this is one of the reasons why the Giving of the Torah occurred only once and will not occur again,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "for in the time of the Giving of the Torah, the entire continuum of time was included."
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "And the same applies regarding Rosh Chodesh Sivan, when the preparation for the Giving of the Torah was completed,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "that on this day, the entire continuum of time afterwards was included."
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "And this is the connection between the two explanations of \"on this day\"—"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "that it refers to Rosh Chodesh Sivan and that it refers to every day—"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "for on Rosh Chodesh Sivan of the year of the Giving of the Torah, all the days afterwards were included."
+          }
+        ]
+      }
+    ]
+  }
+}

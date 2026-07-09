@@ -1,0 +1,173 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" title="מאמר תפלה למשה תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p005">
+  <section v="12">
+    <src s="0">ז)</src>
+    <src s="1">ויש להוסיף ביאור בזה,</src>
+    <src s="2">ע"פ מ"ש בהמאמר71</src>
+    <src s="3">דשני הענינים דסובב וממלא הם שני השמות דהוי' ואלקים.</src>
+    <src s="4">וכמבואר בכ"מ72</src>
+    <src s="5">דשם אלקים הוא לא רק המגן ונרתק שמעלים ומסתיר על האור דשם הוי'73,</src>
+    <src s="6">אלא שגם האור דשם הוי' כמו שנמשך ומתצמצם ע"י שם אלקים להיות מקור לנבראים,</src>
+    <src s="7">שבכללות הוא אור הממלא,</src>
+    <src s="8">נקרא אלקים.</src>
+    <src s="9">וע"פ מ"ש בתניא74</src>
+    <src s="10">שהתהוות העולם היא משם הוי'</src>
+    <src s="11">(הוי' לשון מהווה75),</src>
+    <src s="12">אלא שבאם ההתהוות היתה משם הוי' עצמו הי' העולם בטל במציאות,</src>
+    <src s="13">ולכן ההתהוות בפועל היתה ע"י שם אלקים,</src>
+    <src s="14">יש לומר,</src>
+    <src s="15">שעד"ז הוא גם בהענין דסובב וממלא,</src>
+    <src s="16">שעיקר חיות העולם הוא מאור הסובב</src>
+    <src s="17">(הוי'),</src>
+    <src s="18">אלא שבכדי שהעולם יהי' מוגבל,</src>
+    <src s="19">המשכת החיות בעולם היא ע"י ממלא</src>
+    <src s="20">(אלקים).</src>
+    <src s="21">ושני ענינים בזה.</src>
+    <src s="22">שעצם חיות העולם הוא מסובב,</src>
+    <src s="23">אלא שבאם הי' נמשך בו החיות מהסובב עצמו לא הי' העולם מוגבל</src>
+    <src s="24">(כ"כ)</src>
+    <src s="25">וכל הנבראים היו בשוה</src>
+    <src s="26">[וע"ד המבואר בתניא76,</src>
+    <src s="27">דבאם התהוות העולם היתה משם הוי' עצמו לא הי' בו ההתחלקות דזמן ומקום],</src>
+    <src s="28">וע"י שהחיות</src>
+    <src s="29">(שמהסובב)</src>
+    <src s="30">נמשך ע"י הממלא</src>
+    <src s="31">(שמתלבש בכל נברא לפי ערכו),</src>
+    <src s="32">נעשה בהם התחלקות.</src>
+    <src s="33">ועוד ענין בזה,</src>
+    <src s="34">שגם החיות דעולם</src>
+    <src s="35">(שבהגבלה ובהתחלקות)</src>
+    <src s="36">שנמשך מאור הממלא הוא</src>
+    <src s="37">(לא מצד עצמו,</src>
+    <src s="38">אלא)</src>
+    <src s="39">מצד הסובב.</src>
+  </section>
+  <section v="13">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דמבואר בהמאמר</src>
+    <src s="2">(הובא לעיל סעיף ד),</src>
+    <src s="3">דממלא הוא דוגמת חיות הנפש המתפשט בהגוף וסובב הוא דוגמת חיות הנפש עצמה,</src>
+    <src s="4">חי בעצם.</src>
+    <src s="5">וע"פ המבואר במק"א77</src>
+    <src s="6">דזה שהחיות המתפשט מהנפש מחי' את הגוף הוא לפי שהוא דבוק בהנפש עצמה שהוא חי בעצם</src>
+    <src s="7">[כי הדרגא דהתפשטות החיות</src>
+    <src s="8">(מצד עצמו)</src>
+    <src s="9">אין בכחה להחיות דבר,</src>
+    <src s="10">וזה שהחיות המתפשט מהנפש מחי' את הגוף הוא לפי שהוא דבוק בהנפש שהיא חי בעצם],</src>
+    <src s="11">יש לומר,</src>
+    <src s="12">דכמו"כ הוא בהענין דממלא וסובב,</src>
+    <src s="13">דהכח שבאור הממלא</src>
+    <src s="14">(התפשטות החיות)</src>
+    <src s="15">להחיות את הנבראים הוא</src>
+    <src s="16">(לא מצד עצמו,</src>
+    <src s="17">אלא)</src>
+    <src s="18">מפני שהוא דבוק בהסובב,</src>
+    <src s="19">חי בעצם.</src>
+    <src s="20">[ועפ"ז יש לבאר מ"ש בהמאמר</src>
+    <src s="21">(הובא לעיל סעיף ד)</src>
+    <src s="22">דבחינת הסובב נק' חיי החיים או חַי עולמים</src>
+    <src s="23">(חַי בפתח),</src>
+    <src s="24">דיש לומר,</src>
+    <src s="25">דשני השמות חיי החיים וחי עולמים מורים על שני ענינים.</src>
+    <src s="26">דזה שנק' חיי החיים הוא לפי שממנו נמשך החיות דממלא,</src>
+    <src s="27">וזה שנק' חי עולמים הוא לפי שממנו נמשך הכח בהחיות דממלא להחיות את העולמות].</src>
+    <src s="28">ויש להוסיף,</src>
+    <src s="29">דזה שבהחיות המתפשט להחיות את הגוף מתגלה הענין דחי בעצם</src>
+    <src s="30">(בזה שביכלתו להחיות את הגוף),</src>
+    <src s="31">אף שעצם הוא למעלה מהתפשטות78,</src>
+    <src s="32">הוא,</src>
+    <src s="33">לפי שהענין דחי בעצם הוא</src>
+    <src s="34">(גם)</src>
+    <src s="35">העצם של החיות המתפשט79.</src>
+    <src s="36">[ועפ"ז י"ל הכוונה בזה שהסובב נק' חיי החיים,</src>
+    <src s="37">דהחיות</src>
+    <src s="38">(המהות80</src>
+    <src s="39">והעצם)</src>
+    <src s="40">של החיים</src>
+    <src s="41">(ממלא)</src>
+    <src s="42">הוא הסובב].</src>
+    <src s="43">ויש לומר,</src>
+    <src s="44">דע"י שני הענינים שבהחיות המלובש בהעולם – שבגילוי הוא חיות מוגבל,</src>
+    <src s="45">ושבפנימיות הוא בלתי מוגבל</src>
+    <src s="46">(שלכן ביכלתו להוות את הנבראים,</src>
+    <src s="47">כנ"ל)</src>
+    <src s="48">– ישנם דוגמת שני ענינים אלה בהעולם.</src>
+    <src s="49">דבחיצוניות,</src>
+    <src s="50">החיות שהעולם צריך אליו הוא רק חיות מצומצם ומועט</src>
+    <src s="51">[וגילוי הסובב הוא בכלל עשירות].</src>
+    <src s="52">ובפנימיות העולם,</src>
+    <src s="53">נרגש הפנימיות של החיות שבו,</src>
+    <src s="54">דזה שיש בו הכח להחיות הוא לפי שהוא דבוק בהדרגא דחי בעצם.</src>
+    <src s="55">וע"י הדרגא דבכל נפשך דהנשמות מתגלה הפנימיות דהעולם.</src>
+    <src s="56">ועי"ז,</src>
+    <src s="57">גם העולם חסר הגילוי דסובב,</src>
+    <src s="58">וע"י גילוי הסובב נתמלא החסרון דהעולם.</src>
+  </section>
+  <section v="14">
+    <src s="0">ח)</src>
+    <src s="1">ועד"ז הוא בענין העשירות,</src>
+    <src s="2">גילוי עצמות אוא"ס שלמעלה מסובב,</src>
+    <src s="3">שע"י גילוי ענין זה בנש"י,</src>
+    <src s="4">יהי' לע"ל מעין גילוי זה גם בעולם81.</src>
+    <src s="5">ועפ"ז יש לבאר מ"ש בהמאמר82</src>
+    <src s="6">בביאור מאמר המדרש שתפלת משה היתה לא בשביל עצמו אלא בשביל ישראל,</src>
+    <src s="7">שכנסת ישראל היא בחינת מלכות,</src>
+    <src s="8">ובקשת משה</src>
+    <src s="9">(תפלת עשיר)</src>
+    <src s="10">בשביל כנס"י היתה שיומשך במלכות גילוי עצמות אוא"ס</src>
+    <src s="11">(עשירות)</src>
+    <src s="12">[ועפ"ז מבאר שם מ"ש במדרש דבקשת משה עבור ישראל היא ע"ד הבקשה מדינה פלונית כו' גזור שתיבנה,</src>
+    <src s="13">דמדינה הוא מלכות והבקשה גזור שתיבנה היא שיומשך גילוי עצמות אוא"ס במלכות שעי"ז תיבנה בבחינת בנין עדי עד].</src>
+    <src s="14">וצריך ביאור,</src>
+    <src s="15">דבקשת משה בשביל ישראל היתה בשביל ישראל כפשוטם כמבואר במדרש,</src>
+    <src s="16">ובהמאמר מבאר שבקשת משה בשביל כנס"י היא בשביל המלכות.</src>
+    <src s="17">ויש לומר,</src>
+    <src s="18">דע"י המשכת גילוי עצמות אוא"ס בישראל,</src>
+    <src s="19">עי"ז יהי' גילוי זה במלכות,</src>
+    <src s="20">השורש דעולם,</src>
+    <src s="21">ועי"ז – בהעולם.</src>
+    <src s="22">ולהוסיף,</src>
+    <src s="23">דכמו שנת"ל</src>
+    <src s="24">(סעיף ז)</src>
+    <src s="25">בענין גילוי הסובב שנמשך בעולם ע"י ישראל,</src>
+    <src s="26">שזהו ע"י שמגלים הפנימיות דהחיות של העולם,</src>
+    <src s="27">עד"ז הוא בנוגע להגילוי דאוא"ס שלמעלה מסובב שנמשך ע"י ישראל בעולם,</src>
+    <src s="28">שזהו ע"י שמגלים פנימיות ושורש המלכות.</src>
+    <src s="29">וכמבואר בהמאמר83</src>
+    <src s="30">בפירוש מדינה פלונית היא שלך,</src>
+    <src s="31">דשורש המלכות הוא בהעצמות.</src>
+  </section>
+</awtsmoosMeluketSource>

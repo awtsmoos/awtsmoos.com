@@ -1,0 +1,183 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917950_theRebbe_524" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917950_theRebbe_524" title="מאמר על שלושה דברים תשי"ד" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p005">
+  <section v="12">
+    <src s="0">וביאור הענין בפרטיות יותר,</src>
+    <src s="1">יובן ע"פ מה דאיתא בגמרא48</src>
+    <src s="2">שכששמע רבי מאלי' הנביא שר' חייא ובניו הם דוגמת האבות,</src>
+    <src s="3">העמיד אותם רבי לפני התיבה,</src>
+    <src s="4">אמר משיב הרוח ונשיב זיקא,</src>
+    <src s="5">מוריד הגשם ואתא מיטרא,</src>
+    <src s="6">כי מטי למימר מחי' המתים רגש עלמא.</src>
+    <src s="7">וכתב האלשי"ך49</src>
+    <src s="8">שהבקשה אד' שפתי תפתח ופי יגיד תהלתך שבהתחלת תפלת שמו"ע היא,</src>
+    <src s="9">שתפלתינו תהי' כמו תפלת ר"ח ובניו.</src>
+    <src s="10">ואינו מובן,</src>
+    <src s="11">איך שייך לומר שתפלתינו תהי' כתפלת ר"ח ובניו</src>
+    <src s="12">[ובפרט ע"פ מה דאיתא בגמרא שם שר"ח ובניו היו כמו האבות].</src>
+    <src s="13">גם צריך להבין,</src>
+    <src s="14">דר"ח ובניו היו מתפללים בכל יום,</src>
+    <src s="15">ואעפ"כ ההמשכה שע"י תפלת ר"ח ובניו</src>
+    <src s="16">(נשיב זיקא,</src>
+    <src s="17">אתא מיטרא,</src>
+    <src s="18">רגש עלמא)</src>
+    <src s="19">היתה דוקא כשהעמיד אותם רבי לפני התיבה.</src>
+    <src s="20">דע"י שהתפללו לפני התיבה והיו שלוחי ציבור,</src>
+    <src s="21">הי' בתפלתם כח הציבור,</src>
+    <src s="22">דבתפלת רבים</src>
+    <src s="23">(תפלת ציבור)</src>
+    <src s="24">כתיב50</src>
+    <src s="25">הן א-ל כביר ולא ימאס.</src>
+    <src s="26">והגם שתפלת ציבור ישנה בכל יום,</src>
+    <src s="27">וזה שע"י תפלה זו דוקא נשיב זיקא וכו' הוא מפני מעלת ר"ח ובניו שהיו דוגמת האבות,</src>
+    <src s="28">מ"מ,</src>
+    <src s="29">גם בתפלת ר"ח ובניו בכדי שיהי' נשיב זיקא וכו' הוא דוקא כשהיו שלוחי ציבור.</src>
+  </section>
+  <section v="13">
+    <src s="0">ולכאורה הי' אפשר לבאר זה ע"פ הידוע51,</src>
+    <src s="1">דמזה שבכל בקשה שבשמו"ע חותמין ברוך אתה ה',</src>
+    <src s="2">מוכח,</src>
+    <src s="3">שגם בתפלת יחיד אין שום ספק כלל שהקב"ה ממלא את בקשתו.</src>
+    <src s="4">אלא שבתפלת יחיד אפשר להיות שההשפעה תומשך לו למעלה,</src>
+    <src s="5">או שתומשך</src>
+    <src s="6">(גם למטה,</src>
+    <src s="7">אבל רק)</src>
+    <src s="8">ברוחניות52,</src>
+    <src s="9">והמעלה דתפלת ציבור</src>
+    <src s="10">(שהיא רצוי' ומקובלת לעולם53)</src>
+    <src s="11">היא,</src>
+    <src s="12">שההשפעה נמשכת גם למטה בגשמיות.</src>
+    <src s="13">והנה בתפלת ציבור,</src>
+    <src s="14">יש כמה חילוקי דרגות,</src>
+    <src s="15">וכל שהבקשה היא גדולה יותר,</src>
+    <src s="16">ובפרט כשהציבור המתפללים אינם כלים ראויים לזה,</src>
+    <src s="17">צריך לתפלה גדולה יותר,</src>
+    <src s="18">וגם שהשליח ציבור יהי' זקן</src>
+    <src s="19">(או המופלג שבציבור)</src>
+    <src s="20">בכדי שתהי' תפלתו נשמעת54.</src>
+    <src s="21">ועפ"ז הי' אפשר לבאר לכאורה בנוגע לר"ח ובניו,</src>
+    <src s="22">דזה שע"י תפלתם כשהיו שלוחי ציבור נשיב זיקא ואתא מיטרא</src>
+    <src s="23">(בגשמיות)</src>
+    <src s="24">הוא</src>
+    <src s="25">(בעיקר)</src>
+    <src s="26">מצד המעלה דתפלת רבים,</src>
+    <src s="27">אלא שגם בתפלת ציבור</src>
+    <src s="28">(ובפרט בבקשה גדולה שאין הציבור ראוי לזה),</src>
+    <src s="29">צריך שהשליח ציבור יהי' מי שתפלתו נשמעת.</src>
+    <src s="30">אבל ביאור זה אינו מספיק,</src>
+    <src s="31">דמזה שאמרו שר"ח ובניו היו דוגמת האבות,</src>
+    <src s="32">משמע,</src>
+    <src s="33">דזה שע"י תפלתם נשיב זיקא ואתא מיטרא הוא מפני גודל העילוי שלהם</src>
+    <src s="34">(שתפלתם נשמעת כתפלת האבות),</src>
+    <src s="35">ואעפ"כ,</src>
+    <src s="36">זה שנשיב זיקא וכו' הי' דוקא כשהיו שלוחי ציבור.</src>
+    <src s="37">והענין הוא,</src>
+    <src s="38">דזה שההמשכה שע"י תפלה היא בגשמיות</src>
+    <src s="39">[ועד שע"י ההמשכה נעשה שינוי בהנבראים,</src>
+    <src s="40">לרפאות החולים ולברך השנים,</src>
+    <src s="41">ודלא כההמשכה שע"י תורה ומצוות שהיא</src>
+    <src s="42">(בעיקר)</src>
+    <src s="43">למעלה55]</src>
+    <src s="44">הוא כשההמשכה בגשמיות היא משאלות צרכיו דהמתפלל</src>
+    <src s="45">[אלא שגם אז ישנם כו"כ חילוקי דרגות.</src>
+    <src s="46">דנוסף להחילוק שבין תפלת יחיד ותפלת רבים,</src>
+    <src s="47">יש חילוק גם בדרגת האדם המתפלל</src>
+    <src s="48">(היחיד,</src>
+    <src s="49">או השליח ציבור),</src>
+    <src s="50">דיש מי שתפלתו נשמעת יותר].</src>
+    <src s="51">וכיון שההמשכות דמשיב הרוח וכו' לא היו משאלות צרכיהם דר"ח ובניו,</src>
+    <src s="52">לכן,</src>
+    <src s="53">ע"י תפלתם</src>
+    <src s="54">(שהתפללו בפני עצמם)</src>
+    <src s="55">המשיכו ענינים אלה ברוחניות</src>
+    <src s="56">(בדוגמת ההמשכה שע"י תומ"צ),</src>
+    <src s="57">וכשהעמיד אותם רבי לפני התיבה ונעשו שלוחי ציבור דכלל ישראל,</src>
+    <src s="58">עי"ז נכללו ענינים אלה במשאלות צרכיהם</src>
+    <src s="59">[נוסף שע"י שהתפללו בתור שלוחי ציבור דכלל ישראל ניתוסף בתפלתם גם המעלה דכח הרבים],</src>
+    <src s="60">ולכן,</src>
+    <src s="61">ע"י תפלתם אז נמשכו הענינים גם בגשמיות.</src>
+  </section>
+  <section v="14">
+    <src s="0">ועוד ענין בזה,</src>
+    <src s="1">דזה שע"י תפלתם של ר"ח ובניו</src>
+    <src s="2">[גם כשהיו שלוחי ציבור והענינים דמשיב הרוח וכו' נעשו משאלות צרכיהם]</src>
+    <src s="3">נשיב זיקא וכו' הוא לפי שרבי שהי' שר התורה56</src>
+    <src s="4">העמיד אותם לפני התיבה,</src>
+    <src s="5">ועי"ז הי' בתפלתם גם ענין התורה.</src>
+    <src s="6">והענין הוא,</src>
+    <src s="7">דבההמשכה שע"י תפלה שהיא עבודת התחתון,</src>
+    <src s="8">נוגע מצב התחתון,</src>
+    <src s="9">ובכדי שיומשך השפע להתחתון הוא דוקא כשהוא</src>
+    <src s="10">(קצת)</src>
+    <src s="11">כלי לההמשכה57.</src>
+    <src s="12">וההמשכה שע"י תורה,</src>
+    <src s="13">כיון שהיא מלמעלה,</src>
+    <src s="14">היא נמשכת למטה מטה,</src>
+    <src s="15">גם כשהמטה אינו כלי</src>
+    <src s="16">(כלל)</src>
+    <src s="17">לההמשכה58.</src>
+    <src s="18">ולכן,</src>
+    <src s="19">זה שע"י תפלת ר"ח ובניו היתה ההמשכה בעולם</src>
+    <src s="20">(אף שהעולם אז לא הי' כלי לזה)</src>
+    <src s="21">הוא עי"ז שבתפלתם הי'</src>
+    <src s="22">(גם)</src>
+    <src s="23">ענין התורה</src>
+    <src s="24">(ע"י שרבי העמיד אותם לפני התיבה).</src>
+    <src s="25">וזה שההמשכה היתה דוקא ע"י תפלתם של ר"ח ובניו</src>
+    <src s="26">(ולא ע"י רבי),</src>
+    <src s="27">הוא,</src>
+    <src s="28">כי בכדי שיהי' שינוי בהגשמי הוא על ידי המשכת אוא"ס שלמעלה מהשתלשלות,</src>
+    <src s="29">דהמשכת אור זה הוא דוקא ע"י העלאת מ"ן דתפלה55.</src>
+    <src s="30">ובענין זה,</src>
+    <src s="31">היו ר"ח ובניו גדולים מרבי.</src>
+    <src s="32">כי המעלה דתפלה,</src>
+    <src s="33">שהיא העלאת מ"ן להמשיך אוא"ס שלמעלה מהשתלשלות,</src>
+    <src s="34">הוא הביטול שבתפלה,</src>
+    <src s="35">שהאדם המתפלל הוא כעבד בפני רבו59,</src>
+    <src s="36">ור"ח ובניו היו דוגמת האבות,</src>
+    <src s="37">שהיו מרכבה לאלקות60,</src>
+    <src s="38">דמרכבה הוא ביטול בתכלית.</src>
+    <src s="39">ולכן,</src>
+    <src s="40">תפלתם של ר"ח ובניו היתה העלאת מ"ן להמשיך אור נעלה ביותר,</src>
+    <src s="41">שע"י המשכה זו נעשה שינוי בהנבראים,</src>
+    <src s="42">עד להשינוי דתחיית המתים.</src>
+    <src s="43">אלא שבכדי שתהי' ההמשכה בעולם</src>
+    <src s="44">(אף שהעולם אינו כלי לזה)</src>
+    <src s="45">הוא ע"י שבתפלתם הי'</src>
+    <src s="46">(גם)</src>
+    <src s="47">ענין התורה,</src>
+    <src s="48">המשכה מלמעלה.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,494 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 90,
+    "returned": 90,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917817_theRebbe_541\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917817_theRebbe_541__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>Although the level of transformation (It'hapcha) is generally higher than suppression (It'kafya), suppression has a unique advantage in that it specifically draws down the hidden treasure of the Awtsmoos, as illustrated by the parable of a king who spends all his treasures to win a war.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">Now, although the aspect of It'hapcha (transformation) is,</t>\n    <t s=\"2\">in general,</t>\n    <t s=\"3\">far more elevated than the aspect of It'kafya (suppression),</t>\n    <t s=\"4\">nevertheless, there is also an advantage in the aspect of It'kafya over the aspect of It'hapcha.</t>\n    <t s=\"5\">This is understood from what is said in Tanya,</t>\n    <t s=\"6\">that the concept of a \"servant of G-d\" is specifically when he suppresses and changes his nature,</t>\n    <t s=\"7\">and this advantage is not present in a complete tzaddik.</t>\n    <t s=\"8\">And specifically through the service of It'kafya, \"the glory of the Holy One, blessed be He, is elevated in all worlds,\"</t>\n    <t s=\"9\">the drawing down and revelation of the light that is in the aspect of loftiness,</t>\n    <t s=\"10\">as is explained at length in the discourse of the day of the Hilula,</t>\n    <t s=\"11\">with a parable of a mortal king who, for the sake of victory in war, spends all his treasures,</t>\n    <t s=\"12\">for in normal years, not only does he not use them for anything, but they are hidden and sealed from the eye of any beholder,</t>\n    <t s=\"13\">and specifically at the time of war, not only does he open all the treasures,</t>\n    <t s=\"14\">but moreover, he spends them without any measure or limit, and gives them to the soldiers in order to win the war.</t>\n    <t s=\"15\">And the analogy for this Above,</t>\n    <t s=\"16\">is that there is an aspect of a treasure that is hidden and sealed from the eye of any beholder,</t>\n    <t s=\"17\">\"No eye has seen, O G-d, besides You,\"</t>\n    <t s=\"18\">and in order to win the war against the evil inclination,</t>\n    <t s=\"19\">the service of It'kafya,</t>\n    <t s=\"20\">they also give this treasure,</t>\n    <t s=\"21\">and in a manner of squandering,</t>\n    <t s=\"22\">and the giving of the treasure is specifically to the simple soldiers,</t>\n    <t s=\"23\">for since their service is with self-sacrifice beyond the measure and limit of intellect, therefore the giving of the treasure to them is also in a manner of squandering beyond all measure and limit.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>In the future, the Exodus from Egypt will still be mentioned because the advantage of It'kafya—drawing down the hidden treasure—will be needed, and it will be revealed in its ultimate perfection.</sectionSummaryBrief>\n    <t s=\"0\">Based on this, one can understand why they will mention the Exodus from Egypt even in the future,</t>\n    <t s=\"1\">even though the revelations of the future are more elevated</t>\n    <t s=\"2\">(wondrous)</t>\n    <t s=\"3\">than the revelations that were in the Exodus from Egypt,</t>\n    <t s=\"4\">for since the drawing down of the aspect of the treasure is specifically for the sake of victory in war,</t>\n    <t s=\"5\">and in the future there will be no war with the evil inclination, for \"the spirit of impurity I will remove from the earth,\"</t>\n    <t s=\"6\">therefore,</t>\n    <t s=\"7\">they will mention the Exodus from Egypt even then,</t>\n    <t s=\"8\">in order that there will also be the advantage of It'kafya,</t>\n    <t s=\"9\">the drawing down of the aspect of the treasure.</t>\n    <t s=\"10\">And this drawing down will also be in ultimate revelation then</t>\n    <t s=\"11\">(like all matters of the future),</t>\n    <t s=\"12\">and \"your Teacher will no longer be hidden.\"</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>The future redemption will combine both advantages—the suppression (It'kafya) of the Exodus and the transformation (It'hapcha) of wondrous revelations—achieved through our service in exile with self-sacrifice, leading to a revelation without garments and from below.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this is \"As in the days of your exodus from the land of Egypt, I will show him wonders,\"</t>\n    <t s=\"2\">that in the future redemption there will be both advantages,</t>\n    <t s=\"3\">the advantage of It'kafya,</t>\n    <t s=\"4\">\"As in the days of your exodus from the land of Egypt,\"</t>\n    <t s=\"5\">and the advantage of It'hapcha,</t>\n    <t s=\"6\">\"I will show him wonders.\"</t>\n    <t s=\"7\">For through our deeds and service during the time of exile,</t>\n    <t s=\"8\">the general service of the time of exile being in a manner of self-sacrifice beyond measure and limit,</t>\n    <t s=\"9\">for in the time of exile, and especially in the footsteps of Moshiach, there are obstacles and hindrances and many trials,</t>\n    <t s=\"10\">even to the trial of not being ashamed before people who mock him,</t>\n    <t s=\"11\">and nevertheless, they pay no attention to all the hindrances,</t>\n    <t s=\"12\">and they study Torah and fulfill mitzvos without any calculations,</t>\n    <t s=\"13\">to the extent that even \"the empty ones among you are full of mitzvos like a pomegranate,\"</t>\n    <t s=\"14\">meaning not only do they fulfill mitzvos, but they are full of mitzvos,</t>\n    <t s=\"15\">behold, through this they leave exile with great wealth of mitzvos and great wealth of Torah</t>\n    <t s=\"16\">[for Torah study is also a mitzvah,</t>\n    <t s=\"17\">and moreover,</t>\n    <t s=\"18\">it is equivalent to all the mitzvos],</t>\n    <t s=\"19\">and since this</t>\n    <t s=\"20\">(the great wealth of Torah and mitzvos)</t>\n    <t s=\"21\">adds to merit, it also adds haste to \"I will hasten it,\"</t>\n    <t s=\"22\">and in a manner of \"behold, with the clouds of heaven,\"</t>\n    <t s=\"23\">that very soon there will be the true and complete redemption,</t>\n    <t s=\"24\">and in a manner of \"As in the days of your exodus from the land of Egypt, I will show him wonders,\" meaning there will be both advantages.</t>\n    <t s=\"25\">For since the redemption comes through our deeds and service during the time of exile,</t>\n    <t s=\"26\">and especially in the footsteps of Moshiach,</t>\n    <t s=\"27\">therefore it will be \"As in the days of your exodus from the land of Egypt,\"</t>\n    <t s=\"28\">the advantage of It'kafya,</t>\n    <t s=\"29\">and together with this there will also be \"I will show him wonders,\"</t>\n    <t s=\"30\">wonders even relative to the wonders</t>\n    <t s=\"31\">(signs and wonders)</t>\n    <t s=\"32\">that were in the Exodus from Egypt,</t>\n    <t s=\"33\">including also the wonders that were at the time of the Splitting of the Sea of Reeds,</t>\n    <t s=\"34\">for although at the Splitting of the Sea there were most elevated revelations,</t>\n    <t s=\"35\">as \"each one pointed with his finger and said, 'This is my G-d, and I will glorify Him,'\"</t>\n    <t s=\"36\">to the extent that \"a maidservant saw at the sea what the prophets did not see,\"</t>\n    <t s=\"37\">nevertheless, all this was at the sea,</t>\n    <t s=\"38\">clothed in the aspect of Malchus</t>\n    <t s=\"39\">[similar to the revelation of the Exodus from Egypt</t>\n    <t s=\"40\">(before the Splitting of the Sea)</t>\n    <t s=\"41\">which was \"on the opening\"],</t>\n    <t s=\"42\">and also the revelation of the Splitting of the Sea was only temporary,</t>\n    <t s=\"43\">for the revelation then was from Above, and the lower realm had no vessel for it,</t>\n    <t s=\"44\">in general, it is a matter of It'kafya and not It'hapcha</t>\n    <t s=\"45\">[similar to the Exodus from Egypt, which was in a manner of \"for the people fled\"].</t>\n    <t s=\"46\">Because this did not come from the service of the lower realm.</t>\n    <t s=\"47\">However, in the future there will be \"I will show him wonders,\"</t>\n    <t s=\"48\">wonders even relative to the wonders that were in the Exodus from Egypt and the Splitting of the Sea,</t>\n    <t s=\"49\">that the revelation will be without any garment and also from the side of the lower realm,</t>\n    <t s=\"50\">and together with this there will also be the advantage of \"As in the days of your exodus from the land of Egypt,\"</t>\n    <t s=\"51\">speedily in our days, literally,</t>\n    <t s=\"52\">with the coming of Moshiach our righteous one.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917817_theRebbe_541",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917817_theRebbe_541__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "Although the level of transformation (It'hapcha) is generally higher than suppression (It'kafya), suppression has a unique advantage in that it specifically draws down the hidden treasure of the Awtsmoos, as illustrated by the parable of a king who spends all his treasures to win a war.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, although the aspect of It'hapcha (transformation) is,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "in general,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "far more elevated than the aspect of It'kafya (suppression),"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "nevertheless, there is also an advantage in the aspect of It'kafya over the aspect of It'hapcha."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "This is understood from what is said in Tanya,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "that the concept of a \"servant of G-d\" is specifically when he suppresses and changes his nature,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "and this advantage is not present in a complete tzaddik."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "And specifically through the service of It'kafya, \"the glory of the Holy One, blessed be He, is elevated in all worlds,\""
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "the drawing down and revelation of the light that is in the aspect of loftiness,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "as is explained at length in the discourse of the day of the Hilula,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "with a parable of a mortal king who, for the sake of victory in war, spends all his treasures,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "for in normal years, not only does he not use them for anything, but they are hidden and sealed from the eye of any beholder,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "and specifically at the time of war, not only does he open all the treasures,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "but moreover, he spends them without any measure or limit, and gives them to the soldiers in order to win the war."
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "And the analogy for this Above,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "is that there is an aspect of a treasure that is hidden and sealed from the eye of any beholder,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "\"No eye has seen, O G-d, besides You,\""
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "and in order to win the war against the evil inclination,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "the service of It'kafya,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "they also give this treasure,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "and in a manner of squandering,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "and the giving of the treasure is specifically to the simple soldiers,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "for since their service is with self-sacrifice beyond the measure and limit of intellect, therefore the giving of the treasure to them is also in a manner of squandering beyond all measure and limit."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "In the future, the Exodus from Egypt will still be mentioned because the advantage of It'kafya—drawing down the hidden treasure—will be needed, and it will be revealed in its ultimate perfection.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "Based on this, one can understand why they will mention the Exodus from Egypt even in the future,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "even though the revelations of the future are more elevated"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "(wondrous)"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "than the revelations that were in the Exodus from Egypt,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "for since the drawing down of the aspect of the treasure is specifically for the sake of victory in war,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "and in the future there will be no war with the evil inclination, for \"the spirit of impurity I will remove from the earth,\""
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "therefore,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "they will mention the Exodus from Egypt even then,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "in order that there will also be the advantage of It'kafya,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "the drawing down of the aspect of the treasure."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "And this drawing down will also be in ultimate revelation then"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(like all matters of the future),"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "and \"your Teacher will no longer be hidden.\""
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "The future redemption will combine both advantages—the suppression (It'kafya) of the Exodus and the transformation (It'hapcha) of wondrous revelations—achieved through our service in exile with self-sacrifice, leading to a revelation without garments and from below.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And this is \"As in the days of your exodus from the land of Egypt, I will show him wonders,\""
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that in the future redemption there will be both advantages,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "the advantage of It'kafya,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "\"As in the days of your exodus from the land of Egypt,\""
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "and the advantage of It'hapcha,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "\"I will show him wonders.\""
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "For through our deeds and service during the time of exile,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "the general service of the time of exile being in a manner of self-sacrifice beyond measure and limit,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "for in the time of exile, and especially in the footsteps of Moshiach, there are obstacles and hindrances and many trials,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "even to the trial of not being ashamed before people who mock him,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "and nevertheless, they pay no attention to all the hindrances,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "and they study Torah and fulfill mitzvos without any calculations,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "to the extent that even \"the empty ones among you are full of mitzvos like a pomegranate,\""
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "meaning not only do they fulfill mitzvos, but they are full of mitzvos,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "behold, through this they leave exile with great wealth of mitzvos and great wealth of Torah"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "[for Torah study is also a mitzvah,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "it is equivalent to all the mitzvos],"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "and since this"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "(the great wealth of Torah and mitzvos)"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "adds to merit, it also adds haste to \"I will hasten it,\""
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "and in a manner of \"behold, with the clouds of heaven,\""
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "that very soon there will be the true and complete redemption,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "and in a manner of \"As in the days of your exodus from the land of Egypt, I will show him wonders,\" meaning there will be both advantages."
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "For since the redemption comes through our deeds and service during the time of exile,"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "and especially in the footsteps of Moshiach,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "therefore it will be \"As in the days of your exodus from the land of Egypt,\""
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "the advantage of It'kafya,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "and together with this there will also be \"I will show him wonders,\""
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "wonders even relative to the wonders"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "(signs and wonders)"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "that were in the Exodus from Egypt,"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "including also the wonders that were at the time of the Splitting of the Sea of Reeds,"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "for although at the Splitting of the Sea there were most elevated revelations,"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "as \"each one pointed with his finger and said, 'This is my G-d, and I will glorify Him,'\""
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "to the extent that \"a maidservant saw at the sea what the prophets did not see,\""
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "nevertheless, all this was at the sea,"
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "clothed in the aspect of Malchus"
+          },
+          {
+            "v": 8,
+            "s": 39,
+            "translation": "[similar to the revelation of the Exodus from Egypt"
+          },
+          {
+            "v": 8,
+            "s": 40,
+            "translation": "(before the Splitting of the Sea)"
+          },
+          {
+            "v": 8,
+            "s": 41,
+            "translation": "which was \"on the opening\"],"
+          },
+          {
+            "v": 8,
+            "s": 42,
+            "translation": "and also the revelation of the Splitting of the Sea was only temporary,"
+          },
+          {
+            "v": 8,
+            "s": 43,
+            "translation": "for the revelation then was from Above, and the lower realm had no vessel for it,"
+          },
+          {
+            "v": 8,
+            "s": 44,
+            "translation": "in general, it is a matter of It'kafya and not It'hapcha"
+          },
+          {
+            "v": 8,
+            "s": 45,
+            "translation": "[similar to the Exodus from Egypt, which was in a manner of \"for the people fled\"]."
+          },
+          {
+            "v": 8,
+            "s": 46,
+            "translation": "Because this did not come from the service of the lower realm."
+          },
+          {
+            "v": 8,
+            "s": 47,
+            "translation": "However, in the future there will be \"I will show him wonders,\""
+          },
+          {
+            "v": 8,
+            "s": 48,
+            "translation": "wonders even relative to the wonders that were in the Exodus from Egypt and the Splitting of the Sea,"
+          },
+          {
+            "v": 8,
+            "s": 49,
+            "translation": "that the revelation will be without any garment and also from the side of the lower realm,"
+          },
+          {
+            "v": 8,
+            "s": 50,
+            "translation": "and together with this there will also be the advantage of \"As in the days of your exodus from the land of Egypt,\""
+          },
+          {
+            "v": 8,
+            "s": 51,
+            "translation": "speedily in our days, literally,"
+          },
+          {
+            "v": 8,
+            "s": 52,
+            "translation": "with the coming of Moshiach our righteous one."
+          }
+        ]
+      }
+    ]
+  }
+}

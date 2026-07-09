@@ -1,0 +1,122 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" title="מאמר לך אמר לבי תש"כ" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p006">
+  <section v="15">
+    <src s="0">ט)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דזהו שמבאר בהמאמר מ"ש מבשרי אחזה אלוקה,</src>
+    <src s="3">מבשרי דוקא,</src>
+    <src s="4">שהכוונה בזה היא לראי' מוחשית</src>
+    <src s="5">(באלקות)</src>
+    <src s="6">שמתייחסת להגוף,</src>
+    <src s="7">כי תכלית הכוונה דירידת הנשמה למטה הוא</src>
+    <src s="8">(לא שעניני הנשמה יהיו בגילוי בהיותה מלובשת בגוף,</src>
+    <src s="9">כי אם)</src>
+    <src s="10">שהגוף יראה אלקות.</src>
+    <src s="11">[ולהעיר שיש עוד פירוש במבשרי אחזה אלוקה,</src>
+    <src s="12">שבהבשר עצמו רואים את האלקות שבו.</src>
+    <src s="13">וכתורת אדמו"ר הזקן57</src>
+    <src s="14">עה"פ מבשרי אחזה אלוקה שצריך שייערין דעם בשר אַז מי זאָל דערזעהען געטליכקייט.</src>
+    <src s="15">דמזה שאומר שצריך שייערין דעם בשר</src>
+    <src s="16">(הסרת הדברים המכסים)</src>
+    <src s="17">מובן שעי"ז רואים האלקות שבהבשר עצמו.</src>
+    <src s="18">וכמובן גם ממאמר אדמו"ר</src>
+    <src s="19">(מהורש"ב)</src>
+    <src s="20">נ"ע58</src>
+    <src s="21">עה"פ מבשרי אחזה אלוקה,</src>
+    <src s="22">קוק ניט וואָס ער איז אַ גולם,</src>
+    <src s="23">דעם גולם האָט מהוה גיווען עצמות א"ס ב"ה,</src>
+    <src s="24">דהוא לבדו בכחו ויכלתו לברוא יש מאין ואפס המוחלט59.</src>
+    <src s="25">ויש לומר,</src>
+    <src s="26">דזה שבהמאמר מבאר דפירוש מבשרי אחזה אלוקה הוא ראי' מוחשית,</src>
+    <src s="27">אף שראיית האלקות שבהבשר עצמו הוא לכאורה ענין נעלה יותר</src>
+    <src s="28">(ובפרט לפירוש אדמו"ר נ"ע שקאי על כח העצמות שבהגוף),</src>
+    <src s="29">הוא,</src>
+    <src s="30">כי ראיית האלקות שבהבשר</src>
+    <src s="31">(כח העצמות שבו)</src>
+    <src s="32">היא ראי' שכלית שמתייחסת להנפש,</src>
+    <src s="33">ותכלית הכוונה דירידת הנשמה למטה הוא שהגוף יראה אלקות].</src>
+  </section>
+  <section v="16">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">והנה ידוע60,</src>
+    <src s="3">דכמו שירידת הנשמה למטה היא לצורך עלי',</src>
+    <src s="4">כמו"כ הוא גם בנוגע לירידת האור האלקי להוות ולהחיות את הנבראים,</src>
+    <src s="5">שהיא ירידה צורך עלי'.</src>
+    <src s="6">ועפ"ז יש לומר,</src>
+    <src s="7">שע"י ששם הוי' יורד ומתלבש בשם אלקים</src>
+    <src s="8">(בכדי להוות ולהחיות את הנבראים),</src>
+    <src s="9">נעשה עלי' בהאור,</src>
+    <src s="10">למעלה יותר גם מכמו שהוא בשרשו באוא"ס שלמעלה מהוי'61.</src>
+    <src s="11">והעלי' היא,</src>
+    <src s="12">שנעשה62</src>
+    <src s="13">בו ענין חדש63</src>
+    <src s="14">– גילוי אלקות בעוה"ז הגשמי.</src>
+    <src s="15">וכמובא לעיל</src>
+    <src s="16">(סעיף ב)</src>
+    <src s="17">מהמאמר,</src>
+    <src s="18">דישנם עניני אלקות,</src>
+    <src s="19">כמו השגחה פרטית,</src>
+    <src s="20">שהם בגילוי ממש,</src>
+    <src s="21">עד שאפשר לראותם במוחש.</src>
+    <src s="22">ויש לומר,</src>
+    <src s="23">דזהו מ"ש בהמאמר דזה שראי' מוחשית מתייחסת להגוף הוא הן בנוגע להאדם הרואה והן בנוגע להדבר הנראה,</src>
+    <src s="24">שהיתרון בהפנימיות השייכת לחיצוניות וירידתה בחיצוניות הוא הן בנוגע להאדם,</src>
+    <src s="25">שהגוף רואה אלקות</src>
+    <src s="26">(כנ"ל סעיף ט),</src>
+    <src s="27">והן בנוגע להאור שלמעלה,</src>
+    <src s="28">שהגילוי שלו הוא בעוה"ז הגשמי.</src>
+  </section>
+  <section v="17">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">והנה עד"ז הוא בעבודת האדם,</src>
+    <src s="3">שעל ידי ירידת המוחין</src>
+    <src s="4">[העליון שבאדם64,</src>
+    <src s="5">דטבע המוחין הוא עלי' למעלה]</src>
+    <src s="6">בהמדות</src>
+    <src s="7">[התחתון שבאדם64,</src>
+    <src s="8">דטבע המדות הוא ירידה למטה],</src>
+    <src s="9">נעשה עלי' בהמוחין.</src>
+    <src s="10">ועיקר העלי' הוא לא זה שאור השכל מאיר גם בלב,</src>
+    <src s="11">אלא שעי"ז נעשה ענין חדש – התעוררות המדות.</src>
+    <src s="12">ויש לומר,</src>
+    <src s="13">שזהו הטעם על זה שבכדי שתהי' התעוררות המדות שבלב צריכה להיות הכנה גם מצד הלב,</src>
+    <src s="14">כי עיקר החידוש שבהתעוררות המדות הוא כשההתעוררות היא</src>
+    <src s="15">(גם)</src>
+    <src s="16">מצד ענין המדות.</src>
+  </section>
+</awtsmoosMeluketSource>

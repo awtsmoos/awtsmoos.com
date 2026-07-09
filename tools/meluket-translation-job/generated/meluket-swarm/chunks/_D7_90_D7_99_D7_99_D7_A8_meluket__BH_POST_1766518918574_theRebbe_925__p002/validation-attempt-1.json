@@ -1,0 +1,494 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 90,
+    "returned": 90,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918574_theRebbe_925\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918574_theRebbe_925__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains the difference between attachment (deveikus) and connection (kesher), using the analogy of a belt versus a soul, and applies it to the distinction between sacrifices and incense.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And this will be understood by prefacing the known [concept]</t>\n    <t s=\"2\">that connection is also higher than attachment.</t>\n    <t s=\"3\">For attachment is in externality,</t>\n    <t s=\"4\">like when a belt clings to a man's loins,</t>\n    <t s=\"5\">that the attachment of the belt to</t>\n    <t s=\"6\">(the loins of)</t>\n    <t s=\"7\">the man is only to his externality,</t>\n    <t s=\"8\">whereas connection is in internality,</t>\n    <t s=\"9\">like \"and his soul is bound to his soul\"</t>\n    <t s=\"10\">which reaches into his innerness.</t>\n    <t s=\"11\">And this is the difference between sacrifices and incense,</t>\n    <t s=\"12\">that the service of sacrifices is from the aspect that Israel are attached to the Holy One, blessed be He,</t>\n    <t s=\"13\">[as it is brought in the Midrash</t>\n    <t s=\"14\">and in the Zohar],</t>\n    <t s=\"15\">and therefore they would offer the sacrifices upon the external altar,</t>\n    <t s=\"16\">which in the soul of man corresponds to the externality of the heart.</t>\n    <t s=\"17\">And incense is a term for connection</t>\n    <t s=\"18\">[for every \"knot\" in Scripture is translated as \"ketar\"],</t>\n    <t s=\"19\">and therefore the incense is upon the inner altar,</t>\n    <t s=\"20\">which in the soul of man corresponds to the innerness of the heart.</t>\n    <t s=\"21\">And the difference between the service of the externality of the heart and the service of the innerness of the heart is,</t>\n    <t s=\"22\">that the service of the externality of the heart is through reason and intellect,</t>\n    <t s=\"23\">for in love that is through reason and intellect, change applies,</t>\n    <t s=\"24\">whereas the service of the innerness of the heart is above reason and intellect,</t>\n    <t s=\"25\">in which no change applies.</t>\n    <t s=\"26\">And this is that \"sacrifices\" is a term for drawing near,</t>\n    <t s=\"27\">and \"incense\" a term for connection,</t>\n    <t s=\"28\">for \"drawing near\" indicates that it is a [separate] entity,</t>\n    <t s=\"29\">except that it is close to Divinity,</t>\n    <t s=\"30\">but it is possible that it may distance itself, Heaven forbid,</t>\n    <t s=\"31\">whereas connection</t>\n    <t s=\"32\">(incense)</t>\n    <t s=\"33\">is a permanent bond,</t>\n    <t s=\"34\">for the true meaning of a permanent bond is that no change applies to it.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section distinguishes between attachment and connection in the service from below to above (sacrifices and incense) and in the drawing down from above to below (Torah and charity).</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And behold, this distinction between attachment and connection is in the service from below to above.</t>\n    <t s=\"2\">For sacrifices and incense are both the pillar of service,</t>\n    <t s=\"3\">which is an elevation from below to above.</t>\n    <t s=\"4\">And the distinction between attachment and connection regarding the drawing down from above to below</t>\n    <t s=\"5\">(Torah and acts of kindness)</t>\n    <t s=\"6\">is as it is brought in the Zohar:</t>\n    <t s=\"7\">\"How beloved are Israel before the Holy One, blessed be He... and He desires to attach Himself to them and to connect with them.\"</t>\n    <t s=\"8\">And the Mitteler Rebbe explains</t>\n    <t s=\"9\">that \"to attach Himself to them\" is through the mitzvos,</t>\n    <t s=\"10\">for the drawing down through the mitzvos is in the aspect of encompassing [light],</t>\n    <t s=\"11\">as it is written,</t>\n    <t s=\"12\">\"and His right hand embraces me,\"</t>\n    <t s=\"13\">that the light drawn down through the mitzvos embraces the person who performs the mitzvos,</t>\n    <t s=\"14\">for an embrace is from the outside,</t>\n    <t s=\"15\">and therefore it says \"to attach Himself to them,\"</t>\n    <t s=\"16\">for attachment is an external connection.</t>\n    <t s=\"17\">And \"to connect with them\" is through the Torah,</t>\n    <t s=\"18\">for the drawing down through the Torah is in internality, as it is written,</t>\n    <t s=\"19\">\"and Your Torah is within my innards.\"</t>\n    <t s=\"20\">And therefore it says \"and to connect with them,\"</t>\n    <t s=\"21\">for connection is an internal connection.</t>\n    <t s=\"22\">For the connection of the Holy One, blessed be He, with Israel through the Torah is called \"connection,\"</t>\n    <t s=\"23\">as per the statement,</t>\n    <t s=\"24\">\"Three knots</t>\n    <t s=\"25\">are connected one with another:</t>\n    <t s=\"26\">the Holy One, blessed be He,</t>\n    <t s=\"27\">the Torah, and Israel.\"</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains two aspects of Israel's attachment to God—one regarding vessels (external unity) and one regarding lights (essential unity)—and why even the attachment of lights is called \"attachment.\"</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And behold, regarding the attachment of Israel to the Holy One, blessed be He,</t>\n    <t s=\"2\">[from which aspect they have the power to offer sacrifices]</t>\n    <t s=\"3\">there are two matters.</t>\n    <t s=\"4\">For in the Midrash</t>\n    <t s=\"5\">it is brought that this that the Holy One, blessed be He, commanded Israel to offer sacrifices is because they are attached to Me, as it is written,</t>\n    <t s=\"6\">\"for as a belt clings to a man's loins,\" etc.</t>\n    <t s=\"7\">And in the Zohar</t>\n    <t s=\"8\">it is brought: \"Fortunate are Israel, for the Holy One, blessed be He, called them 'Adam'... 'Adam, when one of you brings an offering,'</t>\n    <t s=\"9\">why did He call them 'Adam'? Because it is written,</t>\n    <t s=\"10\">'And you who cling to the Lord your God.'\"</t>\n    <t s=\"11\">And it is explained in the continuation of 5666,</t>\n    <t s=\"12\">that the Midrash speaks about the matter of the attachment of vessels,</t>\n    <t s=\"13\">that the vessels are</t>\n    <t s=\"14\">in the aspect of [separate] existence, and their unity</t>\n    <t s=\"15\">(the attachment)</t>\n    <t s=\"16\">is not an essential unity,</t>\n    <t s=\"17\">and therefore it brings the verse \"as a belt clings,\" etc., that the belt is an entity unto itself except that it is attached to the man,</t>\n    <t s=\"18\">whereas the Zohar speaks about the matter of the attachment of lights,</t>\n    <t s=\"19\">that the attachment and unity of lights is an essential unity,</t>\n    <t s=\"20\">and therefore it brings the verse \"and you who cling to the Lord your God,\"</t>\n    <t s=\"21\">a literal attachment.</t>\n    <t s=\"22\">And it may be said,</t>\n    <t s=\"23\">that this that even the attachment of lights is called by the name \"attachment,\"</t>\n    <t s=\"24\">for attachment is in externality</t>\n    <t s=\"25\">(as above),</t>\n    <t s=\"26\">is because even the light is an extension and revelation that is outside the essence.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918574_theRebbe_925",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918574_theRebbe_925__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains the difference between attachment (deveikus) and connection (kesher), using the analogy of a belt versus a soul, and applies it to the distinction between sacrifices and incense.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And this will be understood by prefacing the known [concept]"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that connection is also higher than attachment."
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "For attachment is in externality,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "like when a belt clings to a man's loins,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "that the attachment of the belt to"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(the loins of)"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "the man is only to his externality,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "whereas connection is in internality,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "like \"and his soul is bound to his soul\""
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "which reaches into his innerness."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "And this is the difference between sacrifices and incense,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "that the service of sacrifices is from the aspect that Israel are attached to the Holy One, blessed be He,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "[as it is brought in the Midrash"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "and in the Zohar],"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "and therefore they would offer the sacrifices upon the external altar,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "which in the soul of man corresponds to the externality of the heart."
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "And incense is a term for connection"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "[for every \"knot\" in Scripture is translated as \"ketar\"],"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "and therefore the incense is upon the inner altar,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "which in the soul of man corresponds to the innerness of the heart."
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "And the difference between the service of the externality of the heart and the service of the innerness of the heart is,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "that the service of the externality of the heart is through reason and intellect,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "for in love that is through reason and intellect, change applies,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "whereas the service of the innerness of the heart is above reason and intellect,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "in which no change applies."
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "And this is that \"sacrifices\" is a term for drawing near,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "and \"incense\" a term for connection,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "for \"drawing near\" indicates that it is a [separate] entity,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "except that it is close to Divinity,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "but it is possible that it may distance itself, Heaven forbid,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "whereas connection"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "(incense)"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "is a permanent bond,"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "for the true meaning of a permanent bond is that no change applies to it."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section distinguishes between attachment and connection in the service from below to above (sacrifices and incense) and in the drawing down from above to below (Torah and charity).",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And behold, this distinction between attachment and connection is in the service from below to above."
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "For sacrifices and incense are both the pillar of service,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "which is an elevation from below to above."
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "And the distinction between attachment and connection regarding the drawing down from above to below"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "(Torah and acts of kindness)"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "is as it is brought in the Zohar:"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "\"How beloved are Israel before the Holy One, blessed be He... and He desires to attach Himself to them and to connect with them.\""
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And the Mitteler Rebbe explains"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "that \"to attach Himself to them\" is through the mitzvos,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "for the drawing down through the mitzvos is in the aspect of encompassing [light],"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "\"and His right hand embraces me,\""
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "that the light drawn down through the mitzvos embraces the person who performs the mitzvos,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "for an embrace is from the outside,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "and therefore it says \"to attach Himself to them,\""
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "for attachment is an external connection."
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "And \"to connect with them\" is through the Torah,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "for the drawing down through the Torah is in internality, as it is written,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "\"and Your Torah is within my innards.\""
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "And therefore it says \"and to connect with them,\""
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "for connection is an internal connection."
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "For the connection of the Holy One, blessed be He, with Israel through the Torah is called \"connection,\""
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "as per the statement,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "\"Three knots"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "are connected one with another:"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "the Holy One, blessed be He,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "the Torah, and Israel.\""
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains two aspects of Israel's attachment to God—one regarding vessels (external unity) and one regarding lights (essential unity)—and why even the attachment of lights is called \"attachment.\"",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And behold, regarding the attachment of Israel to the Holy One, blessed be He,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "[from which aspect they have the power to offer sacrifices]"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "there are two matters."
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "For in the Midrash"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "it is brought that this that the Holy One, blessed be He, commanded Israel to offer sacrifices is because they are attached to Me, as it is written,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "\"for as a belt clings to a man's loins,\" etc."
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "And in the Zohar"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "it is brought: \"Fortunate are Israel, for the Holy One, blessed be He, called them 'Adam'... 'Adam, when one of you brings an offering,'"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "why did He call them 'Adam'? Because it is written,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "'And you who cling to the Lord your God.'\""
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "And it is explained in the continuation of 5666,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "that the Midrash speaks about the matter of the attachment of vessels,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "that the vessels are"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "in the aspect of [separate] existence, and their unity"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "(the attachment)"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "is not an essential unity,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "and therefore it brings the verse \"as a belt clings,\" etc., that the belt is an entity unto itself except that it is attached to the man,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "whereas the Zohar speaks about the matter of the attachment of lights,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "that the attachment and unity of lights is an essential unity,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "and therefore it brings the verse \"and you who cling to the Lord your God,\""
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "a literal attachment."
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "that this that even the attachment of lights is called by the name \"attachment,\""
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "for attachment is in externality"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "(as above),"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "is because even the light is an extension and revelation that is outside the essence."
+          }
+        ]
+      }
+    ]
+  }
+}

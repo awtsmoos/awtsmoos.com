@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917418_theRebbe_694" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917418_theRebbe_694__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917418_theRebbe_694" title="מאמר וקבל היהודים תשי"א" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917418_theRebbe_694__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">פורים ה'תשי"א*</src>
+  </section>
+  <section v="1">
+    <src s="0">וקבל היהודים את אשר החלו לעשות1,</src>
+    <src s="1">ומבאר כ"ק מו"ח אדמו"ר במאמרו ד"ה זה2</src>
+    <src s="2">(שיצא לאור עכשיו3)</src>
+    <src s="3">שקבלו מה שהחלו בהזמן דמתן תורה.</src>
+    <src s="4">דזה שאמרו נעשה ונשמע היתה רק התחלה</src>
+    <src s="5">(החלו לעשות),</src>
+    <src s="6">ובימי אחשורוש</src>
+    <src s="7">(בזמן גזירת המן)</src>
+    <src s="8">היתה הקבלה,</src>
+    <src s="9">וקבל היהודים4.</src>
+    <src s="10">ומדייק בזה,</src>
+    <src s="11">שלכאורה הוא דבר פלא5,</src>
+    <src s="12">שהרי במתן תורה היו ישראל בתכלית העילוי,</src>
+    <src s="13">הן בגשמיות שהיו אז במעמד ומצב משובח ביותר בענין החירות6,</src>
+    <src s="14">והן ברוחניות שהי' אז אצלם גילוי אלקות בדרגא הכי נעלית7,</src>
+    <src s="15">ובימי אחשורוש היו ישראל בתכלית הירידה,</src>
+    <src s="16">דנוסף לההעלם והסתר שבכל גלות אשר החושך יכסה ארץ8</src>
+    <src s="17">בריבוי צמצומים והעלמות והסתרים,</src>
+    <src s="18">הנה אז</src>
+    <src s="19">(בזמן גזירת המן)</src>
+    <src s="20">הי' ההעלם וההסתר עוד יותר9,</src>
+    <src s="21">וגם בגשמיות היו אז בשפל המצב בתכלית,</src>
+    <src s="22">שהיתה הגזירה להשמיד להרוג ולאבד ח"ו את כל היהודים מנער ועד זקן טף ונשים ביום אחד10,</src>
+    <src s="23">ואעפ"כ,</src>
+    <src s="24">בזמן מתן תורה,</src>
+    <src s="25">כשהיו ישראל בתכלית העילוי,</src>
+    <src s="26">היתה רק ההתחלה</src>
+    <src s="27">(החלו לעשות),</src>
+    <src s="28">ובזמן גזירת המן,</src>
+    <src s="29">כשהיו בתכלית השפלות,</src>
+    <src s="30">אז דוקא קבלו מה שהחלו במתן תורה.</src>
+    <src s="31">ומבאר בזה11,</src>
+    <src s="32">שבזמן הגזירה,</src>
+    <src s="33">הי' קיום התומ"צ שלהם במס"נ.</src>
+    <src s="34">[ולהעיר,</src>
+    <src s="35">דבתו"א12</src>
+    <src s="36">מבואר,</src>
+    <src s="37">דהמס"נ שלהם שהיתה אז היא שבאם היו ממירים דתם ח"ו לא היו עושים להם כלום,</src>
+    <src s="38">כי הגזירה היתה רק על היהודים,</src>
+    <src s="39">ואעפ"כ לא עלתה על דעתם מחשבת חוץ ח"ו.</src>
+    <src s="40">ומבאר,</src>
+    <src s="41">שהמס"נ שלהם היתה</src>
+    <src s="42">(לא רק שלא לכפור ח"ו,</src>
+    <src s="43">אלא שמסרו נפשם גם)</src>
+    <src s="44">על קיום התומ"צ13,</src>
+    <src s="45">ועד שהקהילו קהלות ברבים ללמוד תורה במס"נ].</src>
+    <src s="46">והתעוררות המס"נ שלהם היתה ע"י מרדכי היהודי,</src>
+    <src s="47">משה שבדורו14,</src>
+    <src s="48">שהקהיל קהלות ברבים לחזק את אמונתם.</src>
+    <src s="49">ועיקר15</src>
+    <src s="50">עבודתו של מרדכי היתה בלימוד התורה עם תינוקות של בית רבן,</src>
+    <src s="51">שהם היסוד של כל ישראל</src>
+    <src s="52">[כמבואר בארוכה בהמאמר16</src>
+    <src s="53">בגודל מעלת הבל תינוקות של בית רבן],</src>
+    <src s="54">כדאיתא במדרש17</src>
+    <src s="55">שקיבץ מרדכי היהודי כ"ב אלף תלמידים18</src>
+    <src s="56">ולימדם תורה במס"נ,</src>
+    <src s="57">עד שכשבא המן הרשע ומרדכי אמר להם ברחו לכם שלא תכוו בגחלתי אמרו אתך אנחנו בין לחיים ובין למות,</src>
+    <src s="58">שקבלו עליהם כל עונש שיהי' אך ורק שלא להפרד מהתורה.</src>
+    <src s="59">וזהו וקבל היהודים את אשר החלו לעשות,</src>
+    <src s="60">שבמתן תורה היתה רק ההתחלה ובזמן גזירת המן היתה הקבלה,</src>
+    <src s="61">כי ע"י שהי' להם אז מס"נ בפועל על תומ"צ נתעלו</src>
+    <src s="62">(בענין אחד)</src>
+    <src s="63">למדריגה נעלית יותר מכמו שהיו בזמן מתן תורה,</src>
+    <src s="64">ולכן19</src>
+    <src s="65">אז דוקא היתה הקבלה,</src>
+    <src s="66">וקבל היהודים.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">הרי נקודת הביאור בהמאמר היא דזה שדוקא בזמן הגזירה היתה הקבלה הוא מצד המס"נ שלהם,</src>
+    <src s="3">ומה נוגע כאן שהתעוררות המס"נ שלהם היתה ע"י מרדכי ושעיקר עבודתו של מרדכי היתה לימוד התורה עם תינוקות של בית רבן.</src>
+    <src s="4">וגם צריך ביאור במ"ש בהדיוק</src>
+    <src s="5">(בהתחלת המאמר)</src>
+    <src s="6">דזה שבזמן מתן תורה היו ישראל בתכלית העילוי ובזמן הגזירה היו בתכלית השפלות,</src>
+    <src s="7">הוא הן ברוחניות והן בגשמיות.</src>
+    <src s="8">דלכאורה,</src>
+    <src s="9">להדיוק שבהמאמר,</src>
+    <src s="10">דהאיך יתכן שבזמן שהיו בתכלית העילוי היתה רק ההתחלה ובעת שהיו בתכלית השפלות אז דוקא היתה הקבלה,</src>
+    <src s="11">נוגע העילוי והשפלות במצב הרוחני שלהם,</src>
+    <src s="12">ולמה מביא בהמאמר שהעילוי שבזמן מתן תורה והשפלות שבזמן הגזירה היו גם בגשמיות.</src>
+  </section>
+</awtsmoosMeluketSource>

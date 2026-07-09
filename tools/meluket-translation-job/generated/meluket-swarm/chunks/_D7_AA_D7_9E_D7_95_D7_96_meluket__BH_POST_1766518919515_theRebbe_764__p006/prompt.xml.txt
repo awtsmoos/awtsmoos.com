@@ -1,0 +1,97 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919515_theRebbe_764" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919515_theRebbe_764" title="מאמר גדול יהי' תשכ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p006">
+  <section v="15">
+    <src s="0">ויש לומר הביאור בזה בהקדים דמזה שאומרים שהוי' הוא הי' הוה ויהי'</src>
+    <src s="1">(כאחד),</src>
+    <src s="2">דהי' הוה ויהי' הו"ע הזמן,</src>
+    <src s="3">מובן,</src>
+    <src s="4">שגם העולם כמו שמתהווה משם הוי' יש בו ענין הזמן,</src>
+    <src s="5">אלא שהזמן שבעולם זה הוא באופן שהעבר ההוה והעתיד הם כאחד.</src>
+    <src s="6">ועד"ז הוא במקום שגם העולם כמו שמתהווה משם הוי' יש בו ענין המקום אלא שהששה קצוות דמקום הם כאחד.</src>
+    <src s="7">ועפ"ז יש לומר,</src>
+    <src s="8">דהטעם על זה שהזמן ומקום דהעולם כמו שמתהווה משם הוי' אינם בהגבלה והתחלקות</src>
+    <src s="9">(אף שגם העולם כמו שמתהווה משם הוי' הוא באין ערוך להמקור המהווה אותו),</src>
+    <src s="10">הוא מפני הביטול שבו.</src>
+    <src s="11">דכיון שענינם של העבר ההוה והעתיד</src>
+    <src s="12">(וכן ענינם של הששה קצוות)</src>
+    <src s="13">הוא לא המציאות שלהם אלא זה שהוי' מהוה אותם,</src>
+    <src s="14">לכן אינם סותרים זל"ז והם כאחד.</src>
+  </section>
+  <section v="16">
+    <src s="0">ועפ"ז צריך לומר,</src>
+    <src s="1">דהמבואר בכ"מ שהמקום דקודש הקדשים הוא משם אלקים</src>
+    <src s="2">(אף שגם מקום זה הי' למעלה מגדר מקום),</src>
+    <src s="3">הוא,</src>
+    <src s="4">כי המקום דקודש הקדשים</src>
+    <src s="5">(עשרים אמה על עשרים אמה)</src>
+    <src s="6">הי' באופן דהתחלקות,</src>
+    <src s="7">שכל אמה היא במקום אחר,</src>
+    <src s="8">וההתחלקות דמקום הוא משם אלקים.</src>
+    <src s="9">וזהו שמקום הארון אינו מן המדה הו"ע יחוד הוי' ואלקים58,</src>
+    <src s="10">שההגבלה וההתחלקות דמקום הארון היא מצד אלקים,</src>
+    <src s="11">וזה שהי' אינו מן המדה הוא מצד הגילוי דשם הוי' שהאיר בגילוי בהמקום שנתהווה משם אלקים,</src>
+    <src s="12">יחוד הוי' ואלקים.</src>
+  </section>
+  <section v="17">
+    <src s="0">ז)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דזה שמצד שם אלקים הוא ההתחלקות דמקום וזמן הוא לפי שהזמן והמקום כמו שמתהווים משם אלקים הם מציאות,</src>
+    <src s="3">דכאשר נרגש בהששה קצוות דמקום ובהעבר הוה ועתיד דזמן שענינם הוא שאלקות מהווה אותם הם כולם כאחד</src>
+    <src s="4">(כנ"ל סעיף ו),</src>
+    <src s="5">ואיך שייך שבמקום הארון</src>
+    <src s="6">(מקום שבהתחלקות,</src>
+    <src s="7">שמורה שהוא מציאות)</src>
+    <src s="8">יהי' גילוי שם הוי'</src>
+    <src s="9">(אינו מן המדה)59.</src>
+    <src s="10">ונקודת הביאור בזה60,</src>
+    <src s="11">שהצמצום וההסתר דשם אלקים הוא רק לגבי הנבראים,</src>
+    <src s="12">אבל לגבי שם הוי' אינו מסתיר כלל.</src>
+    <src s="13">ולכן,</src>
+    <src s="14">גם לאחרי ההתלבשות דשם הוי' בשם אלקים שעי"ז נעשה העולם מציאות,</src>
+    <src s="15">מ"מ,</src>
+    <src s="16">אין המציאות מסתיר לגבי',</src>
+    <src s="17">וגם בהמציאות</src>
+    <src s="18">(שנעשה ע"י ההעלם דשם אלקים)</src>
+    <src s="19">שעי"ז נעשה ההתחלקות דמקום וזמן מאיר הגילוי דשם הוי',</src>
+    <src s="20">שענינו דהעולם הוא זה שהוי' מהווה אותו.</src>
+    <src s="21">וכידוע המשל מרב ותלמיד,</src>
+    <src s="22">דכאשר התלמיד הוא באין ערוך להרב,</src>
+    <src s="23">צריך הרב להעלים את עצם שכלו ושישאר רק החיצוניות,</src>
+    <src s="24">וגם החיצוניות צריך להגביל ולהעלים בלבושים והסברים ובמשלים.</src>
+    <src s="25">שהצמצום וההעלם הוא רק לגבי התלמיד ולא לגבי הרב.</src>
+    <src s="26">דהרב רואה את עצם שכלו גם בהחיצוניות וגם בהלבושים ובהמשלים.</src>
+  </section>
+</awtsmoosMeluketSource>

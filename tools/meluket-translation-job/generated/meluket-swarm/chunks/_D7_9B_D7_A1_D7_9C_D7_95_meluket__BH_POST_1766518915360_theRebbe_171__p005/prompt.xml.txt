@@ -1,0 +1,82 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915360_theRebbe_171" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915360_theRebbe_171__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915360_theRebbe_171" title="מאמר פדה בשלום תשמ"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915360_theRebbe_171__p005">
+  <section v="12">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">וע"פ כל הנ"ל יובן זה שדוקא ע"י העבודה עתה בהזמן דעקבתא דמשיחא כאשר החושך יכסה ארץ69</src>
+    <src s="3">באים להגילויים של הגאולה העתידה.</src>
+    <src s="4">כי דוקא בזמן זה,</src>
+    <src s="5">כשצריך להתעסק עם ניצוצי קדושה שנפלו למקום בלתי טהור,</src>
+    <src s="6">וצריך להפך מרירו למיתקא וחשוכא לנהורא,</src>
+    <src s="7">ועד שמזמן לזמן יוצאים מן הד' אמות של תורה,</src>
+    <src s="8">או מן הד' אמות של תפלה,</src>
+    <src s="9">לצאת מבית הכנסת ומבית המדרש,</src>
+    <src s="10">ובלשון השו"ע הנהג בהם מנהג דרך ארץ70,</src>
+    <src s="11">מ"מ ע"י העבודה עכשיו דוקא מביאים את הגאולה העתידה,</src>
+    <src s="12">דאז יקויים מ"ש71</src>
+    <src s="13">ואתם תלוקטו לאחד אחד,</src>
+    <src s="14">כאו"א מישראל וכל ישראל,</src>
+    <src s="15">וכספם וזהבם אתם72,</src>
+    <src s="16">עם כל ניצוצות הקדושה השייכים להם וגם הנמצאים בכספם וזהבם כפשוטם.</src>
+    <src s="17">לפי שבעבודה זו בזמן הגלות ישנו ענין המס"נ בתכלית.</src>
+    <src s="18">וכידוע תורת רבינו הזקן</src>
+    <src s="19">(ובארוכה במאמרי נשיא דורנו כ"ק מו"ח אדמו"ר73)</src>
+    <src s="20">עה"פ74</src>
+    <src s="21">והאיש משה עניו מאד מכל האדם אשר על פני האדמה,</src>
+    <src s="22">שהענוה דמשה</src>
+    <src s="23">(משה אמת ותורתו אמת75)</src>
+    <src s="24">היתה במיוחד בקשר לדרא דעקבתא דמשיחא,</src>
+    <src s="25">בראותו את המס"נ שלהם בקיום התומ"צ בענין אל יתבייש מפני המלעיגים76</src>
+    <src s="26">וכו' וכיו"ב.</src>
+  </section>
+  <section v="13">
+    <src s="0">וזה מביא לקיום היעוד ויספו ענוים בה' שמחה77,</src>
+    <src s="1">שמחת עולם על ראשם78,</src>
+    <src s="2">שמחת הגאולה האמיתית והשלימה,</src>
+    <src s="3">הבאה במיוחד ע"י הפצת המעינות חוצה79,</src>
+    <src s="4">ובאופן של נגאלין מיד80</src>
+    <src s="5">ובאופן דפדה בשלום,</src>
+    <src s="6">בלי שום טירחא,</src>
+    <src s="7">עד שיקויים היעוד81</src>
+    <src s="8">והיו מלכים אומניך ושרותיהם מניקותיך,</src>
+    <src s="9">והביאו82</src>
+    <src s="10">את כל אחיכם גו' מנחה לה' גו' בכלי טהור גו',</src>
+    <src s="11">בקרוב ממש,</src>
+    <src s="12">בימי הגלות האחרונים83,</src>
+    <src s="13">ואח"כ ומיד ובשלימות בפועל בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="14">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

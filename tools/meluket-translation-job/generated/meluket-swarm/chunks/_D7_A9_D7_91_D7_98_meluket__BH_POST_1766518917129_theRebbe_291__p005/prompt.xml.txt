@@ -1,0 +1,120 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917129_theRebbe_291" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917129_theRebbe_291__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917129_theRebbe_291" title="מאמר כי תשא תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917129_theRebbe_291__p005">
+  <section v="12">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שמובא לעיל</src>
+    <src s="2">(סעיף ה)</src>
+    <src s="3">שעיקר הכפרה הוא גמילות חסדים לפי שפנימיות הרצון דלמעלה הוא בהמשכה למטה,</src>
+    <src s="4">חסד חפצתי,</src>
+    <src s="5">הוא בעיקר בנוגע לזה שיהי' מרוצה לפניו ית',</src>
+    <src s="6">וגם בנוגע לתיקון הפגמים.</src>
+    <src s="7">אבל בנוגע ביטול הפגמים</src>
+    <src s="8">[דענין זה הוא מפני שעצמות אוא"ס בעל הרצון הוא מובדל מהרצון],</src>
+    <src s="9">יש יתרון בהמשכה ששייכת להעלאה.</src>
+    <src s="10">דע"י ההעלאה</src>
+    <src s="11">(יציאה ממציאותו,</src>
+    <src s="12">ביטול)</src>
+    <src s="13">מגיעים לענין זה שבבעל הרצון שהוא מובדל מהרצון.</src>
+    <src s="14">וע"י ההמשכה שלאחרי ההעלאה נמשך ענין זה</src>
+    <src s="15">(שאוא"ס הוא מובדל מהרצון)</src>
+    <src s="16">למטה,</src>
+    <src s="17">ועי"ז מתבטלים הפגמים.</src>
+  </section>
+  <section v="13">
+    <src s="0">ח)</src>
+    <src s="1">וזהו כי תשא את ראש בני ישראל גו' ואיתא בגמרא אמר משה לפני הקב"ה רבש"ע במה תרום קרן ישראל אמר לו בכי תשא,</src>
+    <src s="2">דיש לומר ששני הענינים בכי תשא – נשיאת והגבהת הראש דבנ"י והרמת קרן ישראל,</src>
+    <src s="3">הם ע"ד שני הענינים דגמ"ח,</src>
+    <src s="4">גמ"ח כפשוטה וגמ"ח דתפלה.</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">דהחלישות53</src>
+    <src s="7">(ירידה והשפלה)</src>
+    <src s="8">שנעשה ע"י החטא בהראש דהנשמה,</src>
+    <src s="9">שאין ביכלתו להאיר בכחות הפנימיים,</src>
+    <src s="10">הוא ע"ד סילוק האור שנעשה מצד הפגם,</src>
+    <src s="11">שהאור מסתלק לשרשו ואינו מאיר בהכלים54.</src>
+    <src s="12">וענין נשיאת והגבהת הראש</src>
+    <src s="13">[שכח הגילוי דבחינת ראש בהנשמה הוא בתוקף כמו שהי' תחלה,</src>
+    <src s="14">להאיר בכחות הפנימיים]</src>
+    <src s="15">שע"י נתינת כופר לצדקה הוא ע"ד הכפרה</src>
+    <src s="16">(מילוי הפגמים והחזרת הרצון)</src>
+    <src s="17">שע"י גמילות חסד כפשוטה.</src>
+    <src s="18">והתמי' של משה היתה במה תרום קרן ישראל,</src>
+    <src s="19">דכיון שהירידה שבדרגת הקרן היא</src>
+    <src s="20">(לא שהחטא פעל בה ירידה,</src>
+    <src s="21">אלא)</src>
+    <src s="22">שלא נשלמה הכוונה שבשבילה ירדה למטה,</src>
+    <src s="23">תמה משה איך אפשר לתקן זה.</src>
+    <src s="24">ויש לומר,</src>
+    <src s="25">דזה שאמר משה לפני הקב"ה במה תרום קרן ישראל,</src>
+    <src s="26">הוא כי בכדי לתקן זה שלא נשלמה הכוונה הוא ע"י ההמשכה מעצמות אוא"ס בעל הרצון שמובדל מהרצון,</src>
+    <src s="27">ולכן אמר זה משה לפני הקדוש ב"ה שהוא קדוש ומובדל,</src>
+    <src s="28">ויתירה מזה,</src>
+    <src s="29">לפני הקב"ה,</src>
+    <src s="30">בכדי להמשיך משם.</src>
+    <src s="31">אמר לו בכי תשא,</src>
+    <src s="32">בזה שמשה ישא את ראשם בהגבהה,</src>
+    <src s="33">שגם המשכת בחינת לפני הקב"ה צריכה להיות ע"י בחינת חכמה</src>
+    <src s="34">(ענינו של משה),</src>
+    <src s="35">וע"ד הידוע שגם גילוי הסובב הוא ע"י הממלא.</src>
+    <src s="36">ואף שהפעולה דמשה</src>
+    <src s="37">(מצד עצמו)</src>
+    <src s="38">היא כי תשא את ראש,</src>
+    <src s="39">נמשך בזה גם הכח דבחינת לפני הקב"ה,</src>
+    <src s="40">שעי"ז נעשה הרמת קרן ישראל.</src>
+  </section>
+  <section v="14">
+    <src s="0">ובכדי שענין זה יומשך לישראל הוא ע"י שנשיאת והגבהת הראש שלהם הוא ע"י שמשה לוקח מהם כופר,</src>
+    <src s="1">כלשון רש"י קח מהם כופר לצדקה,</src>
+    <src s="2">ענין ההעלאה שבצדקה.</src>
+    <src s="3">וע"ד המבואר לעיל</src>
+    <src s="4">(סעיף ז),</src>
+    <src s="5">שע"י גמ"ח כפשוטה הוא המשכת הרצון מבעל הרצון,</src>
+    <src s="6">ובכדי להגיע לענין זה שבבעל הרצון שהוא מובדל מהרצון הוא ע"י גמ"ח דתפלה,</src>
+    <src s="7">המשכה ששייכת להעלאה,</src>
+    <src s="8">עד"ז הוא בענין כופר נפשו,</src>
+    <src s="9">שע"י נתינת הכופר לצדקה</src>
+    <src s="10">(המשכה)</src>
+    <src s="11">הוא המשכת הרצון,</src>
+    <src s="12">ועי"ז נעשה נשיאת והרמת הראש.</src>
+    <src s="13">וע"י שמשה לוקח מהם כופר לצדקה</src>
+    <src s="14">(ענין ההעלאה שבצדקה)</src>
+    <src s="15">הוא המשכת עצמות אוא"ס שמובדל מהרצון,</src>
+    <src s="16">ועי"ז תרום קרן ישראל,</src>
+    <src s="17">ובאופן דקרנו55</src>
+    <src s="18">תרום בכבוד.</src>
+  </section>
+</awtsmoosMeluketSource>

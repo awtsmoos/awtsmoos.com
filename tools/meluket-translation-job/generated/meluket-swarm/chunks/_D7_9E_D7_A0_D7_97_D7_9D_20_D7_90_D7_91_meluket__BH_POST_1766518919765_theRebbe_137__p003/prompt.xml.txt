@@ -1,0 +1,139 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" title="מאמר קץ שם לחושך תשכ"ד" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p003">
+  <section v="6">
+    <src s="0">אלא שמ"מ,</src>
+    <src s="1">גם הביטול דאור ע"י שנרגש בו מקורו אינו ביטול לגמרי.</src>
+    <src s="2">דכיון שהאור והמקור שלו הם שני ענינים,</src>
+    <src s="3">והאור הוא מחוץ למקורו,</src>
+    <src s="4">הרי זה שהאור מרגיש את מקורו הוא שנרגש בו דבר שחוץ ממנו,</src>
+    <src s="5">שאין זה נוגע לעצם מציאותו.</src>
+    <src s="6">ולכן,</src>
+    <src s="7">הביטול שע"י הרגש זה הוא רק בההתפשטות שלו ולא בעצם מציאותו.</src>
+    <src s="8">ועיקר הביטול דאור</src>
+    <src s="9">(ביטול לגמרי)</src>
+    <src s="10">הוא הביטול שמצד הרצוא שלו ליכלל במקורו.</src>
+    <src s="11">דכיון שרצון נוגע לעצם מציאותו</src>
+    <src s="12">[כפירוש הבעש"ט22</src>
+    <src s="13">עה"פ23</src>
+    <src s="14">שרפים עומדים ממעל לו,</src>
+    <src s="15">שע"י הרצון שלהם ליכלל באוא"ס הם</src>
+    <src s="16">(כמו)</src>
+    <src s="17">נמצאים</src>
+    <src s="18">(עומדים)</src>
+    <src s="19">שם.</src>
+    <src s="20">וע"ד רצון האדם,</src>
+    <src s="21">דבמקום שרצונו של אדם,</src>
+    <src s="22">שם הוא נמצא,</src>
+    <src s="23">ויתירה מזו,</src>
+    <src s="24">ששם הוא נמצא כולו24],</src>
+    <src s="25">לכן,</src>
+    <src s="26">ע"י שרוצה ליכלל במקורו הוא</src>
+    <src s="27">(כמו)</src>
+    <src s="28">כלול במקורו.</src>
+    <src s="29">ולכן,</src>
+    <src s="30">הביטול שלו מצד הרצון ליכלל במקורו הוא ביטול לגמרי</src>
+    <src s="31">(ע"ד הביטול דאור הכלול במאור).</src>
+  </section>
+  <section v="7">
+    <src s="0">ד)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">שג' המדריגות בהביטול דאור הם בג' מדריגות שבאור.</src>
+    <src s="3">הביטול דאור מצד עצמו הוא בהאור המתלבש בכלים.</src>
+    <src s="4">הביטול דאור מפני שנרגש בו מקורו הוא בהאור שלמעלה מהתלבשות בכלים,</src>
+    <src s="5">אבל בגדר התלבשות.</src>
+    <src s="6">והביטול דאור שמצד טבע הרצוא והעלי' שלו ליכלל במקורו הוא בהאור שלמעלה מגדר התלבשות.</src>
+    <src s="7">וג' מדריגות שבאור כמו שהם בענין הספירות הם בינה חכמה וכתר.</src>
+    <src s="8">אור המתלבש בכלים הוא בבינה,</src>
+    <src s="9">כי בבינה הוא חיבור האור עם הכלי.</src>
+    <src s="10">דזהו שבבינה הוא הוי' בניקוד אלקים25,</src>
+    <src s="11">כי בבינה הוא חיבור האור</src>
+    <src s="12">(הוי')</src>
+    <src s="13">עם הכלים</src>
+    <src s="14">(אלקים)26.</src>
+    <src s="15">האור שלמעלה מהתלבשות בכלים אבל בגדר התלבשות הוא בחכמה.</src>
+    <src s="16">והאור שלמעלה מגדר התלבשות הוא בכתר.</src>
+    <src s="17">וזהו שהביטול דדעת עליון,</src>
+    <src s="18">שכולא קמי' כלא חשיב,</src>
+    <src s="19">הוא דוקא בחכמה שלמעלה מהבינה27,</src>
+    <src s="20">כי הביטול דכלא חשיב הוא מצד זה שנרגש בו מקורו,</src>
+    <src s="21">ולכן ביטול זה הוא דוקא בחכמה – אור שלמעלה מהתלבשות</src>
+    <src s="22">(אבל בגדר התלבשות).</src>
+    <src s="23">והביטול שבכתר</src>
+    <src s="24">(אור שלמעלה מגדר התלבשות)</src>
+    <src s="25">הוא ביטול נעלה יותר גם מהביטול דחכמה,</src>
+    <src s="26">שהביטול דחכמה הוא הביטול דהוא לבדו הוא ואין זולתו28,</src>
+    <src s="27">הביטול דאין,</src>
+    <src s="28">ובכתר הוא הביטול דאפס.</src>
+  </section>
+  <section v="8">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שהביטול דאור שמצד עצמו הוא באור המתלבש בכלים והביטול דאור שמצד הרגש מקורו ומצד הרצוא ליכלל במקורו הוא בהאור שלמעלה מהתלבשות,</src>
+    <src s="2">הוא,</src>
+    <src s="3">כי ענין האור הוא גילוי,</src>
+    <src s="4">וכיון שעיקר הגילוי שבאור הוא ע"י התלבשותו בכלים,</src>
+    <src s="5">לכן,</src>
+    <src s="6">האור</src>
+    <src s="7">(כמו שהוא מצד עצמו)</src>
+    <src s="8">יורד ונמשך להתלבש בכלים.</src>
+    <src s="9">דהגם שהכלים הם היפך האור,</src>
+    <src s="10">שהאור הוא אין והכלים הם יש</src>
+    <src s="11">(כמובא לעיל סעיף ג מהמאמר),</src>
+    <src s="12">מ"מ,</src>
+    <src s="13">כיון שהביטול</src>
+    <src s="14">(אין)</src>
+    <src s="15">דאור שמצד עצמו הוא זה שענינו הוא גילוי המאור,</src>
+    <src s="16">לכן,</src>
+    <src s="17">מצד זה גופא הוא יורד ונמשך להתלבש בכלים,</src>
+    <src s="18">בכדי שהגילוי שלו יהי' בשלימות29.</src>
+    <src s="19">אבל כשנרגש בהאור המקור שלו שמובדל מגילוי,</src>
+    <src s="20">עי"ז הוא מתבטל מענין הגילוי</src>
+    <src s="21">(כנ"ל סעיף ג)</src>
+    <src s="22">ואינו נמשך ומתלבש בכלים.</src>
+    <src s="23">אלא שמ"מ,</src>
+    <src s="24">כיון שהביטול שלו ע"י שנרגש בו מקורו הוא רק בהתפשטותו ולא בעצם מציאותו</src>
+    <src s="25">(כנ"ל שם),</src>
+    <src s="26">לכן,</src>
+    <src s="27">הביטול שלו הוא באופן שנשאר עדיין בהגדר שלו,</src>
+    <src s="28">גדר הגילוי,</src>
+    <src s="29">ולכן הוא בגדר התלבשות בכלים.</src>
+    <src s="30">וע"י הביטול דאור שמצד הרצוא ליכלל במקורו,</src>
+    <src s="31">כיון שביטול זה הוא בעצם מציאותו,</src>
+    <src s="32">לכן,</src>
+    <src s="33">ע"י ביטול זה אינו</src>
+    <src s="34">(גם)</src>
+    <src s="35">בגדר התלבשות בכלים.</src>
+  </section>
+</awtsmoosMeluketSource>

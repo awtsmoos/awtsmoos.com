@@ -1,0 +1,78 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918353_theRebbe_128" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918353_theRebbe_128" title="מאמר גן נעול תשמ"ז" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ תזריע-מצורע,</src>
+    <src s="2">ג' אייר ה'תשמ"ז*</src>
+  </section>
+  <section v="1">
+    <src s="0">גן נעול אחותי כלה גל נעול מעין חתום1,</src>
+    <src s="1">ומביא אדמו"ר מהר"ש בעל יום ההולדת דב' אייר בהמאמר דפ' תזו"מ בהמשך מצה זו תר"ם2</src>
+    <src s="2">פירוש התרגום,</src>
+    <src s="3">דכמו שגן עדן הוא נעול וא"א ליכנס בו כי אם נפשות הצדיקים,</src>
+    <src s="4">כן ישראל אוגדין פתחיהם לבעלם זה הקב"ה.</src>
+    <src s="5">ומבאר בהמאמר3,</src>
+    <src s="6">דגן הוא תענוג,</src>
+    <src s="7">וענין גן נעול הוא שאין התענוג רק באלקות,</src>
+    <src s="8">ועמך לא חפצתי4.</src>
+    <src s="9">ולהעיר שבהמאמר שלפני זה5</src>
+    <src s="10">מבאר דגן נעול הוא סור מרע6.</src>
+    <src s="11">דענין סור מרע הוא בעיקר בפועל ממש.</src>
+    <src s="12">והחידוש שבמאמר זה</src>
+    <src s="13">(ע"פ פירוש התרגום)</src>
+    <src s="14">הוא7,</src>
+    <src s="15">דגן נעול הוא שגם התענוג שלו הוא רק באלקות8.</src>
+  </section>
+  <section v="2">
+    <src s="0">והנה במצו"ד עה"פ מפרש,</src>
+    <src s="1">שישראל הם כגן הנעול שאין מי שיוכל לבוא בו כי אם בעל הגן.</src>
+    <src s="2">וצריך להבין,</src>
+    <src s="3">הרי זה שגן הוא תענוג הוא גם בגן כפשוטו,</src>
+    <src s="4">וא"כ,</src>
+    <src s="5">גם מהמשל דגן נעול כפשוטו מובן דענין אוגדין פתחיהן הוא שהתענוג שלו הוא רק באלקות,</src>
+    <src s="6">ומה מיתוסף בהבנת הענין דישראל אוגדים פתחיהם ע"י הפירוש שגן נעול קאי על גן עדן.</src>
+    <src s="7">ובפרט דגן נעול בפשטות</src>
+    <src s="8">(כפירוש המצו"ד)</src>
+    <src s="9">מתאים לכאורה יותר להנמשל.</src>
+    <src s="10">דכיון שגן נעול בהנמשל הוא התענוג של האדם</src>
+    <src s="11">(ישראל)</src>
+    <src s="12">שהוא נעול וסגור מלהתענג בתענוגי העולם9,</src>
+    <src s="13">הרי המשל המתאים לזה לכאורה הוא מגן סתם,</src>
+    <src s="14">ולמה מפרש התרגום שגן נעול קאי על גן עדן שהוא</src>
+    <src s="15">(מלכתחילה)</src>
+    <src s="16">התענוג באלקות.</src>
+  </section>
+</awtsmoosMeluketSource>

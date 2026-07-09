@@ -1,74 +1,11 @@
 // B"H
-/**
- * Real gameplay terrain material: zero network, zero shader, zero async.
- * This is copied from the passing terrain ladder's visible green plane idea.
- */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=real-gameplay-solid-grass-20260708-bh2";
-
-export const TERRAIN_TEXTURE_URLS = Object.freeze([
-  "https://awtsmoos-docs-base.web.app/full-resolution/grass%201.png"
-]);
-
-const GREEN = 0x2d9d32;
-const DARK = 0x15551f;
-const LIGHT = 0x7ed957;
-
-function post(stage, data = {}) {
-  const payload = { stage, at:Date.now(), cacheKind:"real-gameplay-solid-grass", ...data };
-  globalThis.__AWTSMOOS_TERRAIN_TEXTURE_PROOF__ = payload;
-  globalThis.postMessage?.({ type:"worker_progress", ...payload });
-}
-
-function tune(texture, repeat) {
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(repeat, repeat);
-  texture.flipY = true;
-  texture.magFilter = THREE.NearestFilter;
-  texture.minFilter = THREE.NearestFilter;
-  if (THREE.SRGBColorSpace) texture.colorSpace = THREE.SRGBColorSpace;
-  texture.needsUpdate = true;
-  return texture;
-}
-
-function grassDataTexture(repeat) {
-  const size = 32;
-  const data = new Uint8Array(size * size * 4);
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      const i = (y * size + x) * 4;
-      const blade = ((x * 13 + y * 29 + ((x ^ y) * 7)) % 17) / 16;
-      const color = blade > .78 ? LIGHT : blade < .23 ? DARK : GREEN;
-      data[i] = (color >> 16) & 255;
-      data[i + 1] = (color >> 8) & 255;
-      data[i + 2] = color & 255;
-      data[i + 3] = 255;
-    }
-  }
-  return tune(new THREE.DataTexture(data, size, size, THREE.RGBAFormat), repeat);
-}
-
-export default class TerrainMaterialScribe {
-  static async scribe(data = {}) {
-    const repeat = Math.max(10, Number(data.textureRepeat || data.repeat || 30));
-    const mat = new THREE.MeshBasicMaterial({
-      color:0xffffff,
-      map:grassDataTexture(repeat),
-      side:THREE.DoubleSide,
-      transparent:false,
-      opacity:1,
-      depthWrite:true,
-      depthTest:true
-    });
-    mat.visible = true;
-    mat.userData = {
-      terrainExampleCopied:true,
-      realGameplaySolidGrass:true,
-      noNetwork:true,
-      noShader:true,
-      repeat
-    };
-    post("texture:terrain:solid-grass-ready", { repeat, material:mat.type });
-    return mat;
-  }
-}
+/** Real terrain material: square world-space grass tiles, mirrored repeat, never stretched. */
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=square-grass-repeat-20260709-bh3";
+import GrassGenerator from "../../../utils/TextureForge/Generators/Grass.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+export const TERRAIN_TEXTURE_URLS=Object.freeze([]);
+function post(stage,data={}){const payload={stage,at:Date.now(),cacheKind:"square-grass-repeat",...data};globalThis.__AWTSMOOS_TERRAIN_TEXTURE_PROOF__=payload;globalThis.postMessage?.({type:"worker_progress",...payload});}
+function repeats(data={}){const width=Math.max(1,Number(data.width||1500));const depth=Math.max(1,Number(data.depth||1500));const tile=Math.max(2,Number(data.textureTileSize||data.tileSize||10));return{x:Math.max(1,width/tile),y:Math.max(1,depth/tile),tile,width,depth};}
+function tune(texture,r){texture.wrapS=THREE.MirroredRepeatWrapping;texture.wrapT=THREE.MirroredRepeatWrapping;texture.repeat.set(r.x,r.y);texture.offset.set(0,0);texture.rotation=0;texture.center.set(0,0);texture.anisotropy=4;if(THREE.SRGBColorSpace)texture.colorSpace=THREE.SRGBColorSpace;texture.needsUpdate=true;return texture;}
+function tinyFallback(r){const size=128,data=new Uint8Array(size*size*4);for(let y=0;y<size;y++)for(let x=0;x<size;x++){const i=(y*size+x)*4;const blade=((x*17+y*31+(x^y)*5)%29)/28;const streak=Math.pow(Math.abs(Math.sin((x+y*.37)*.75)),5);data[i]=24+blade*42+streak*20;data[i+1]=88+blade*105+streak*35;data[i+2]=28+blade*42;data[i+3]=255;}const tex=new THREE.DataTexture(data,size,size,THREE.RGBAFormat);tex.magFilter=THREE.LinearFilter;tex.minFilter=THREE.LinearMipMapLinearFilter;return tune(tex,r);}
+function grassTexture(r){try{const canvas=GrassGenerator.generate(256,256);const texture=new THREE.CanvasTexture(canvas);texture.magFilter=THREE.LinearFilter;texture.minFilter=THREE.LinearMipMapLinearFilter;post("texture:terrain:square-grass-generator-ready",r);return tune(texture,r);}catch(error){post("texture:terrain:square-grass-fallback",{...r,message:String(error?.message||error)});return tinyFallback(r);}}
+export default class TerrainMaterialScribe{static async scribe(data={}){const r=repeats(data);const mat=new THREE.MeshBasicMaterial({color:0xffffff,map:grassTexture(r),side:THREE.DoubleSide,transparent:false,opacity:1,depthWrite:true,depthTest:true});mat.visible=true;mat.userData={squareWorldTiles:true,mirroredRepeat:true,neverStretch:true,generatedGrassTexture:true,noNetwork:true,noShader:true,repeatX:r.x,repeatY:r.y,tileSize:r.tile};post("texture:terrain:square-grass-material-ready",{repeatX:r.x,repeatY:r.y,tileSize:r.tile,material:mat.type});return mat;}}

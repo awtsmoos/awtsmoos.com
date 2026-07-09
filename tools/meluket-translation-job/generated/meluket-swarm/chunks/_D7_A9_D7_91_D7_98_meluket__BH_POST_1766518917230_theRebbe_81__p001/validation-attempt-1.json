@@ -1,0 +1,174 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 26,
+    "returned": 26,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917230_theRebbe_81\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917230_theRebbe_81__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the heading and date for the maamar, including the Shabbos of Vayakhel, Parshas Shekalim, and the month of Adar Sheini in the year 5711.</sectionSummaryBrief>\n    <t s=\"0\">[With the help of Heaven.</t>\n    <t s=\"1\">Shabbos of Parshas Vayakhel,</t>\n    <t s=\"2\">Parshas Shekalim,</t>\n    <t s=\"3\">Rosh Chodesh Adar-Sheini,</t>\n    <t s=\"4\">the year 5711*]</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the phrase \"Ki Sisa es rosh Bnei Yisrael\" and connects it to Moshe Rabbeinu as the faithful shepherd of the Jewish people.</sectionSummaryBrief>\n    <t s=\"0\">\"When you lift up the head of the children of Israel,\"</t>\n    <t s=\"1\">specifically Moshe Rabbeinu, the faithful shepherd, the faithful shepherd of the faith of the nations of the world</t>\n    <t s=\"2\">(Siddur)</t>\n    <t s=\"3\">the children of Israel,</t>\n    <t s=\"4\">encompassing, and it needs to be said \"shepherd,\"</t>\n    <t s=\"5\">in inwardness.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section questions the wording of the verse and explains the three distinct matters in the parshah: the census, the silver for the sockets, and the annual half-shekel for communal offerings.</sectionSummaryBrief>\n    <t s=\"0\">\"When you lift up the head of the children of Israel according to their numbers, and they shall give...\"</t>\n    <t s=\"1\">And it needs to be understood that it should have said \"when you count the children of Israel,\" and what is \"lift up\" and specifically \"the head\"?</t>\n    <t s=\"2\">And to understand this: the content of the parshah is two matters: that Moshe should take from each one the half-shekel for the work of the Mishkan.</t>\n    <t s=\"3\">A commandment for generations to give each year the half-shekel to the chamber of the Temple, and from there they would offer the communal offerings, etc.,</t>\n    <t s=\"4\">and as is explained in the Mishnah of Shekalim.</t>\n    <t s=\"5\">Now, the first matter is not an eternal obligation, for Moshe was commanded to count the children of Israel and it is not a commandment for generations,</t>\n    <t s=\"6\">and on the contrary,</t>\n    <t s=\"7\">as per the statement of Yoav who evaded the counting of the children of Israel.</t>\n    <t s=\"8\">The second matter, that the half-shekels were taken for the sockets, was only once,</t>\n    <t s=\"9\">as is understood.</t>\n    <t s=\"10\">The third obligation, our Sages of blessed memory derived—and it is also proven from Divrei HaYamim II, chapter 24,</t>\n    <t s=\"11\">verse 9—an eternal obligation each and every year to give the half-shekel and to offer from it offerings, etc.,</t>\n    <t s=\"12\">and the counting of the children of Israel in this matter is not at all relevant to know their sum,</t>\n    <t s=\"13\">and it implies in many places that they also did not count them.</t>\n    <t s=\"14\">And if so, it is difficult, for from the simple language it implies that for all the matters of the parshah, the introduction of \"when you lift up the head of the children of Israel\" applies.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917230_theRebbe_81",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917230_theRebbe_81__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the heading and date for the maamar, including the Shabbos of Vayakhel, Parshas Shekalim, and the month of Adar Sheini in the year 5711.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "[With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos of Parshas Vayakhel,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Parshas Shekalim,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "Rosh Chodesh Adar-Sheini,"
+          },
+          {
+            "v": 0,
+            "s": 4,
+            "translation": "the year 5711*]"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the phrase \"Ki Sisa es rosh Bnei Yisrael\" and connects it to Moshe Rabbeinu as the faithful shepherd of the Jewish people.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"When you lift up the head of the children of Israel,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "specifically Moshe Rabbeinu, the faithful shepherd, the faithful shepherd of the faith of the nations of the world"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(Siddur)"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "the children of Israel,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "encompassing, and it needs to be said \"shepherd,\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "in inwardness."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section questions the wording of the verse and explains the three distinct matters in the parshah: the census, the silver for the sockets, and the annual half-shekel for communal offerings.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"When you lift up the head of the children of Israel according to their numbers, and they shall give...\""
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And it needs to be understood that it should have said \"when you count the children of Israel,\" and what is \"lift up\" and specifically \"the head\"?"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "And to understand this: the content of the parshah is two matters: that Moshe should take from each one the half-shekel for the work of the Mishkan."
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "A commandment for generations to give each year the half-shekel to the chamber of the Temple, and from there they would offer the communal offerings, etc.,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "and as is explained in the Mishnah of Shekalim."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "Now, the first matter is not an eternal obligation, for Moshe was commanded to count the children of Israel and it is not a commandment for generations,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "as per the statement of Yoav who evaded the counting of the children of Israel."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "The second matter, that the half-shekels were taken for the sockets, was only once,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "as is understood."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "The third obligation, our Sages of blessed memory derived—and it is also proven from Divrei HaYamim II, chapter 24,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "verse 9—an eternal obligation each and every year to give the half-shekel and to offer from it offerings, etc.,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and the counting of the children of Israel in this matter is not at all relevant to know their sum,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "and it implies in many places that they also did not count them."
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And if so, it is difficult, for from the simple language it implies that for all the matters of the parshah, the introduction of \"when you lift up the head of the children of Israel\" applies."
+          }
+        ]
+      }
+    ]
+  }
+}

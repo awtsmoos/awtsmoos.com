@@ -1,0 +1,104 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916754_theRebbe_640" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916754_theRebbe_640" title="מאמר באתי לגני תשכ"ח" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p002">
+  <section v="3">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שמבאר בהמאמר</src>
+    <src s="2">(ובארוכה)</src>
+    <src s="3">בענין הקרבנות,</src>
+    <src s="4">אף שע"י עשיית המשכן נעשה כבר</src>
+    <src s="5">(לכאורה)</src>
+    <src s="6">ושכנתי בתוכם,</src>
+    <src s="7">הוא,</src>
+    <src s="8">לפי שהמשכת עיקר שכינה למטה היא בעיקר ע"י העבודה בהמשכן לאחרי הקמתו23.</src>
+    <src s="9">דהגם שההמשכה שהיתה בעת שהוקם המשכן ע"י משה היא המשכה נעלית ביותר,</src>
+    <src s="10">מ"מ,</src>
+    <src s="11">ההמשכה שע"י עבודת הקרבנות</src>
+    <src s="12">(דישראל24)</src>
+    <src s="13">היא נעלית עוד יותר.</src>
+    <src s="14">ויש לומר,</src>
+    <src s="15">דזהו גם מה שמביא בתחלת המאמר הפסוק25</src>
+    <src s="16">צדיקים יירשו ארץ וישכנו לעד עלי',</src>
+    <src s="17">ומבאר שצדיקים הם משכינים</src>
+    <src s="18">(ממשיכים26)</src>
+    <src s="19">בחי' שוכן עד27</src>
+    <src s="20">מרום וקדוש28</src>
+    <src s="21">שיהי' בגילוי למטה,</src>
+    <src s="22">שמרמז בזה,</src>
+    <src s="23">דהמשכת השכינה למטה היא לא רק ע"י שבעה הצדיקים שמאברהם עד משה,</src>
+    <src s="24">אלא גם ע"י צדיקים סתם,</src>
+    <src s="25">שבזה נכללים כאו"א מישראל,</src>
+    <src s="26">ועמך כולם צדיקים29.</src>
+    <src s="27">דלאחרי ההמשכה שע"י שבעה הצדיקים,</src>
+    <src s="28">ובפרט ע"י משה שעל ידו נמשכה השכינה למטה בארץ,</src>
+    <src s="29">הנה עי"ז ניתן הכח לכאו"א מישראל להמשיך עוד יותר,</src>
+    <src s="30">ועי"ז דוקא נשלמת הכוונה דדירה לו ית' בתחתונים30,</src>
+    <src s="31">שעוה"ז התחתון שאין תחתון למטה ממנו31</src>
+    <src s="32">נעשה דירה לו ית',</src>
+    <src s="33">לו לעצמותו32.</src>
+  </section>
+  <section v="4">
+    <src s="0">וזהו שממשיך בהמאמר33</src>
+    <src s="1">דישראל נק' בשם צבאות הוי'34,</src>
+    <src s="2">ומבאר דצבא הוא</src>
+    <src s="3">(גם)</src>
+    <src s="4">מלשון צביון35,</src>
+    <src s="5">דענין הצביון</src>
+    <src s="6">(יופי)</src>
+    <src s="7">דישראל הוא שיש בהם סוגים שונים,</src>
+    <src s="8">מארי תורה וכו'36</src>
+    <src s="9">עד לאנשים פשוטים</src>
+    <src s="10">[כולל גם אלו שעליהם אמרו37</src>
+    <src s="11">שהם מלאים מצוות כרימון],</src>
+    <src s="12">דכל אחד מישראל הוא חייל בצבאות ה'</src>
+    <src s="13">(צבא מלשון חיל),</src>
+    <src s="14">שיוצא למלחמה,</src>
+    <src s="15">לכבוש את העולם ולעשותו לדירה לו ית'.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">והנה כמו שמלחמה כפשוטה קשורה עם מס"נ,</src>
+    <src s="2">עד"ז הוא גם במלחמה זו,</src>
+    <src s="3">שבכדי ללחום נגד השטות דלעו"ז צריכה להיות העבודה שלמעלה ממדידה והגבלה,</src>
+    <src s="4">שטות דקדושה שלמעלה מטעם ודעת,</src>
+    <src s="5">דבכללות הו"ע המס"נ שלמעלה מהשכל.</src>
+    <src s="6">[ויש לקשר זה גם עם עבודת הקרבנות כפשוטה,</src>
+    <src s="7">ע"פ מ"ש הרמב"ן38</src>
+    <src s="8">שבעת הקרבת הקרבן צריך בעל הקרבן לחשוב שחטא לאלקיו בגופו ובנפשו וראוי לו שישפך דמו וישרף גופו לולא חסד הבורא שלקח ממנו תמורה כו' דמו</src>
+    <src s="9">(דהקרבן)</src>
+    <src s="10">תחת דמו נפש תחת נפש כו',</src>
+    <src s="11">שהו"ע של מס"נ].</src>
+  </section>
+</awtsmoosMeluketSource>

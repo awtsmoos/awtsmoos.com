@@ -1,0 +1,90 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916188_theRebbe_169" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916188_theRebbe_169" title="מאמר ויגש אליו יהודה תשל"ו" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p002">
+  <section v="3">
+    <src s="0">והנה ידוע,</src>
+    <src s="1">שבכדי לעורר העלאת מ"ן דב"ן,</src>
+    <src s="2">זה גופא הוא ע"י המשכה משם מ"ה.</src>
+    <src s="3">וזהו מ"ש בזהר דהגשת יהודה ליוסף הו"ע סמיכת גאולה לתפלה,</src>
+    <src s="4">דהגשת יהודה ליוסף הוא העלאת מ"ן דהשבטים</src>
+    <src s="5">[יהודה הוא עיקר השבטים10]</src>
+    <src s="6">ליוסף,</src>
+    <src s="7">לעורר המשכת מ"ד משם מ"ה שיהי' הבירור שני מלמעלמ"ט.</src>
+    <src s="8">[וזהו שארז"ל11</src>
+    <src s="9">עה"פ ויגש אליו יהודה אין ויגש אלא לשלום,</src>
+    <src s="10">כי מעלת הבירור שבדרך מלמעלמ"ט</src>
+    <src s="11">(הבירור דיוסף)</src>
+    <src s="12">היא שהוא בדרך שלום12.</src>
+    <src s="13">וכידוע13</src>
+    <src s="14">החילוק בין הבירור דתפלה להבירור דתורה,</src>
+    <src s="15">שהבירור דתפלה שהוא מלמטלמ"ע הוא בדרך מלחמה,</src>
+    <src s="16">והבירור דתורה שהוא מלמעלמ"ט הוא בדרך מנוחה ושלום.</src>
+    <src s="17">ובתורה גופא,</src>
+    <src s="18">החילוק בין הבירור שע"י גליא דתורה להבירור שע"י פנימיות התורה14].</src>
+    <src s="19">והנתינת כח על העלאת המ"ן דמלכות לז"א,</src>
+    <src s="20">הגשת יהודה ליוסף,</src>
+    <src s="21">הוא ע"י ההמשכה מז"א למלכות,</src>
+    <src s="22">סמיכת גאולה לתפלה15.</src>
+  </section>
+  <section v="4">
+    <src s="0">והלשון סמיכת גאולה לתפלה שמורה</src>
+    <src s="1">(כנ"ל)</src>
+    <src s="2">שתפלה היא העיקר,</src>
+    <src s="3">הוא16</src>
+    <src s="4">כי עיקר הכוונה דדירה בתחתונים הוא בהבירור שבדרך מלמטה למעלה,</src>
+    <src s="5">בירור דב"ן.</src>
+    <src s="6">דהבירור בדרך מלמעלמ"ט,</src>
+    <src s="7">בירור דמ"ה,</src>
+    <src s="8">כיון שהבירור הוא מצד הגילוי אור</src>
+    <src s="9">(ולא מצד התחתון גופא),</src>
+    <src s="10">אין זה שייך כ"כ להתחתון עצמו,</src>
+    <src s="11">והכוונה דדירה בתחתונים נשלמת דוקא ע"י הבירור בדרך מלמטלמ"ע,</src>
+    <src s="12">שהתחתון נעשה כלי לאלקות17.</src>
+    <src s="13">ולכן לע"ל יהי' יהודה למעלה מיוסף,</src>
+    <src s="14">כמ"ש בההפטורה דפרשת ויגש18</src>
+    <src s="15">ועבדי דוד מלך עליהם גו' ודוד עבדי נשיא להם לעולם19.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">הרי זה שהבירור דב"ן הוא למעלה ממ"ה יהי' לע"ל,</src>
+    <src s="3">ועכשיו מ"ה הוא למעלה מב"ן,</src>
+    <src s="4">וענין סמיכת גאולה לתפלה הוא שעכשיו תפלה היא למעלה מגאולה.</src>
+    <src s="5">וגם צריך להבין,</src>
+    <src s="6">דממ"ש בזהר שהגשת יהודה ליוסף הו"ע סמיכת גאולה לתפלה,</src>
+    <src s="7">משמע,</src>
+    <src s="8">שגם בהגשת יהודה ליוסף ניכר המעלה דמלכות לגבי ז"א.</src>
+  </section>
+</awtsmoosMeluketSource>

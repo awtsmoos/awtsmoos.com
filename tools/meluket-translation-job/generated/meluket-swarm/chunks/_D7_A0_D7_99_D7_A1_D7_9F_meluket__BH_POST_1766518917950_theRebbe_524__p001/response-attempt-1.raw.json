@@ -1,0 +1,28 @@
+{
+  "id": "cdce15f8-acdf-4eb6-97be-50a50344bc36",
+  "object": "chat.completion",
+  "created": 1783584139,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917950_theRebbe_524\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Kedoshim,</t>\n    <t s=\"2\">Erev Rosh Chodesh Iyar, 5714*.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the Mishnah and the Alter Rebbe's interpretation that \"the world stands\" refers to concealment, explaining that creation required the concealment of the Ein Sof light.</sectionSummaryBrief>\n    <t s=\"0\">\"Upon three things the world stands: upon Torah, upon service, and upon acts of kindness,\"</t>\n    <t s=\"1\">and my father-in-law, the Rebbe, brings in his maamar beginning with the words \"This\"</t>\n    <t s=\"2\">the explanation of our master, the Alter Rebbe,</t>\n    <t s=\"3\">\"Upon three things the world stands\" – \"upon</t>\n    <t s=\"4\">three things the concealment stands.\"</t>\n    <t s=\"5\">And the maamar explains the connection between the Alter Rebbe's explanation</t>\n    <t s=\"6\">(\"the concealment stands\")</t>\n    <t s=\"7\">with the simple explanation</t>\n    <t s=\"8\">(\"the world stands\"),</t>\n    <t s=\"9\">for the essence of \"world\" is concealment.</t>\n    <t s=\"10\">And the maamar adds,</t>\n    <t s=\"11\">that the concealment in the world is because the creation of the world is through the concealment of the light.</t>\n    <t s=\"12\">And as it is brought in Etz Chaim,</t>\n    <t s=\"13\">that when the light of Ein Sof filled all of reality,</t>\n    <t s=\"14\">there was no place for the existence of the world,</t>\n    <t s=\"15\">and in order for there to be a place for worlds, it was necessary for there to be a removal of the light.</t>\n    <t s=\"16\">And it can be said,</t>\n    <t s=\"17\">that in this addition, the matter of the concealment of the world is more strongly emphasized.</t>\n    <t s=\"18\">That its concealment is not like something additional to it,</t>\n    <t s=\"19\">but rather the creation of the world is through the concealment of the light.</t>\n    <t s=\"20\">And furthermore,</t>\n    <t s=\"21\">that from the perspective of revelation, there was not even a place for worlds</t>\n    <t s=\"22\">(and not only that they would not have come into being in actuality).</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the purpose of concealment is for the sake of revelation, and that through Torah, service, and kindness, the concealment is removed and the inner light is revealed.</sectionSummaryBrief>\n    <t s=\"0\">And the maamar continues,</t>\n    <t s=\"1\">that the intention of the concealment is for the sake of revelation.</t>\n    <t s=\"2\">And through the removal of the concealment,</t>\n    <t s=\"3\">the inner light that is hidden within the concealment is revealed.</t>\n    <t s=\"4\">And this is \"upon three things the world stands,\"</t>\n    <t s=\"5\">that through the work of Torah, service, and acts of kindness,</t>\n    <t s=\"6\">they remove the concealment and the inner light is revealed.</t>\n    <t s=\"7\">And it can be said,</t>\n    <t s=\"8\">that what the maamar says, that the intention of the concealment is for the sake of revelation,</t>\n    <t s=\"9\">is in order to explain the Mishnah \"upon three things the world stands.\"</t>\n    <t s=\"10\">For although through Torah, service, and acts of kindness, a revelation of G-dliness is drawn down,</t>\n    <t s=\"11\">nevertheless, it says \"upon three things the world stands\"</t>\n    <t s=\"12\">(\"the concealment stands\"),</t>\n    <t s=\"13\">because the intention of the concealment is for the sake of revelation,</t>\n    <t s=\"14\">for the intention of every thing is its inner essence.</t>\n    <t s=\"15\">And therefore it says \"upon three things the world\"</t>\n    <t s=\"16\">(the concealment)</t>\n    <t s=\"17\">stands,</t>\n    <t s=\"18\">for the inner essence of the world</t>\n    <t s=\"19\">(concealment)</t>\n    <t s=\"20\">is that into which the revelation of G-dliness is drawn.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1699,
+    "completion_tokens": 1264,
+    "total_tokens": 2963,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 1315
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

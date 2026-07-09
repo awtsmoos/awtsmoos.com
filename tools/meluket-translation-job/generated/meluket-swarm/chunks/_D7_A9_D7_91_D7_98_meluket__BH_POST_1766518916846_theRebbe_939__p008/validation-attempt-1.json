@@ -1,0 +1,734 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 138,
+    "returned": 138,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916846_theRebbe_939\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>This section explains that the intent of the tzimtzum includes two aspects: for the sake of revelation, and to reveal the concealment from the power of Atzmus, and further details the two aspects within the revelation purpose.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">Now, it was explained above</t>\n    <t s=\"2\">(section 6)</t>\n    <t s=\"3\">that in the intent of the tzimtzum there are two matters.</t>\n    <t s=\"4\">For the sake of revelation,</t>\n    <t s=\"5\">and that through the tzimtzum the matter of concealment is revealed</t>\n    <t s=\"6\">(which is above revelation)</t>\n    <t s=\"7\">that comes from the ability of Atzmus.</t>\n    <t s=\"8\">And to add,</t>\n    <t s=\"9\">it is explained in many places</t>\n    <t s=\"10\">that also in the intent of the tzimtzum for the sake of revelation,</t>\n    <t s=\"11\">there are two matters.</t>\n    <t s=\"12\">That the intent of the tzimtzum is so that the revelation of Ein Sof that shone before the tzimtzum</t>\n    <t s=\"13\">(the light that filled the place of the void)</t>\n    <t s=\"14\">would also be in the worlds.</t>\n    <t s=\"15\">For before the tzimtzum,</t>\n    <t s=\"16\">it was impossible for the existence of the worlds to be,</t>\n    <t s=\"17\">and consequently there was no revelation in the worlds,</t>\n    <t s=\"18\">and through the tzimtzum it was innovated that the revelation of Ein Sof would also be in the worlds.</t>\n    <t s=\"19\">And that through the tzimtzum there will be the revelation of the inwardness and essence of Ein Sof that is above the light that filled the place of the void.</t>\n    <t s=\"20\">And it is explained there,</t>\n    <t s=\"21\">that the light that filled the place of the void is the concealment of the light of the line</t>\n    <t s=\"22\">(meaning that the drawing down of the line from this light is in a manner of revealing the concealment),</t>\n    <t s=\"23\">(the source)</t>\n    <t s=\"24\">of the light that fills,</t>\n    <t s=\"25\">and the light that is above the light that filled the place of the void is</t>\n    <t s=\"26\">(the source)</t>\n    <t s=\"27\">of the encompassing light.</t>\n    <t s=\"28\">And one must understand,</t>\n    <t s=\"29\">how is it possible that in the world there should be such a lofty revelation that did not shine even before the tzimtzum,</t>\n    <t s=\"30\">and nevertheless the world will not be nullified from its existence.</t>\n  </section>\n  <section v=\"22\">\n    <sectionSummaryBrief>This section discusses the teaching of the Maggid about the two trumpets representing the two halves of the form of \"Adam,\" and how the union of Hashem and man requires tzimtzumim from above and self-nullification from below.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">Now, the teaching of the Maggid is known</t>\n    <t s=\"2\">on the verse</t>\n    <t s=\"3\">\"Make for yourself two silver trumpets,\"</t>\n    <t s=\"4\">that Hashem and man together are called \"Adam\"</t>\n    <t s=\"5\">[and] they are two trumpets,</t>\n    <t s=\"6\">two half-forms.</t>\n    <t s=\"7\">For \"Adam\" is the letters Aleph, Dam,</t>\n    <t s=\"8\">Aleph is Hashem, the Aluf of the world,</t>\n    <t s=\"9\">and Dam is man</t>\n    <t s=\"10\">[for man, from his own perspective,</t>\n    <t s=\"11\">before he attaches to Hashem,</t>\n    <t s=\"12\">is in the aspect of blood],</t>\n    <t s=\"13\">for this is what our sages said,</t>\n    <t s=\"14\">\"What is the meaning of that which is written,</t>\n    <t s=\"15\">'You shall not eat upon the blood'?</t>\n    <t s=\"16\">Do not eat before you pray for your blood,\"</t>\n    <t s=\"17\">because man from his own perspective</t>\n    <t s=\"18\">(before he attaches to Hashem through prayer)</t>\n    <t s=\"19\">is in the aspect of blood.</t>\n    <t s=\"20\">And each one of them</t>\n    <t s=\"21\">[the Aleph is Hashem and the Dam is man]</t>\n    <t s=\"22\">is only a half-form,</t>\n    <t s=\"23\">and when they attach together, a complete form is made,</t>\n    <t s=\"24\">Adam.</t>\n    <t s=\"25\">And it is explained there,</t>\n    <t s=\"26\">that the connection of Hashem with man is through Hashem making several tzimtzumim through several worlds in order that there be unity with man.</t>\n    <t s=\"27\">And likewise on man's side,</t>\n    <t s=\"28\">that in order to connect with Hashem he must separate himself from all physicality until he ascends through all the worlds and there is unity with Hashem until he is nullified in existence,</t>\n    <t s=\"29\">and then he is called Adam.</t>\n    <t s=\"30\">And the Tzemach Tzedek explains,</t>\n    <t s=\"31\">that this [that Hashem made several tzimtzumim etc. and man must separate himself etc.] is as explained in Likkutei Torah, the discourse \"Tiku\" the second,</t>\n    <t s=\"32\">that in order for there to be the connection of the upper and lower, the upper must descend from its level and the lower must ascend above its level.</t>\n    <t s=\"33\">And he explains,</t>\n    <t s=\"34\">that this [that Hashem made several tzimtzumim etc.] is because regarding Ein Sof it is said,</t>\n    <t s=\"35\">\"For He is not a man,\"</t>\n    <t s=\"36\">and in order to clothe Himself in the ten Sefiros,</t>\n    <t s=\"37\">the form of man,</t>\n    <t s=\"38\">it is through several tzimtzumim.</t>\n    <t s=\"39\">And he adds,</t>\n    <t s=\"40\">that the ten Sefiros are in the form of man because the ten Sefiros are three lines,</t>\n    <t s=\"41\">and also because the ten Sefiros are generally thought, speech, and action,</t>\n    <t s=\"42\">Aleph, Dalet, Mem.</t>\n    <t s=\"43\">And he connects this with the matter of the three aspects of Adam.</t>\n    <t s=\"44\">And seemingly the intent is,</t>\n    <t s=\"45\">that this [that the three letters Aleph, Dalet, Mem hint at thought, speech, and action]</t>\n    <t s=\"46\">the intent in this is not only for the three aspects of thought, speech, and action in the Sefiros of Atzilus,</t>\n    <t s=\"47\">but also for the three aspects of Adam,</t>\n    <t s=\"48\">the general BiYA</t>\n    <t s=\"49\">(AK,</t>\n    <t s=\"50\">Atik and Arich,</t>\n    <t s=\"51\">and Atzilus),</t>\n    <t s=\"52\">which are analogous to thought, speech, and action.</t>\n    <t s=\"53\">And accordingly,</t>\n    <t s=\"54\">this [that Hashem made several tzimtzumim to clothe Himself in the form of man]</t>\n    <t s=\"55\">the intent in this is for the tzimtzumim through which is the drawing down to the general BiYA,</t>\n    <t s=\"56\">which are three general, immense tzimtzumim.</t>\n    <t s=\"57\">For all these tzimtzumim are so that the drawing down will be in the form of the supernal man.</t>\n    <t s=\"58\">And afterwards,</t>\n    <t s=\"59\">in order for there to be the drawing down from Atzilus to BiYA,</t>\n    <t s=\"60\">it is through the Parsa.</t>\n    <t s=\"61\">And as it is written in the teaching of the Maggid mentioned above in the explanation of the verse,</t>\n    <t s=\"62\">\"And upon the likeness of the throne,\"</t>\n    <t s=\"63\">that He is covered there,</t>\n    <t s=\"64\">and the Tzemach Tzedek explains,</t>\n    <t s=\"65\">that \"throne\"</t>\n    <t s=\"66\">(from the term \"covering\")</t>\n    <t s=\"67\">is the Parsa, which is like a parable that covers and conceals</t>\n    <t s=\"68\">the intellect within it.</t>\n    <t s=\"69\">And one must understand,</t>\n    <t s=\"70\">since the connection of Ein Sof with man is through many, many tzimtzumim and also through a Parsa,</t>\n    <t s=\"71\">how is it possible that man, through his service, should draw down a revelation that is above the tzimtzum.</t>\n  </section>\n  <section v=\"23\">\n    <sectionSummaryBrief>This section explains that the essence of divine service is \"subjugation\" (Itkafya), going against one's nature, as in the example of studying a chapter one hundred and one times, which is the advantage of service through effort.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And this is the explanation:</t>\n    <t s=\"2\">The matter is,</t>\n    <t s=\"3\">for it is written,</t>\n    <t s=\"4\">\"And you shall serve Hashem your G-d,\"</t>\n    <t s=\"5\">and the Rebbe Maharash explains precisely,</t>\n    <t s=\"6\">that the matter of \"service\" is repair and attendance, that which a servant works and repairs for his master,</t>\n    <t s=\"7\">and since He is the perfection of all,</t>\n    <t s=\"8\">how can the matter of service apply to the Above?</t>\n    <t s=\"9\">And he explains,</t>\n    <t s=\"10\">that in truth, it cannot be said that service is a need of the Most High, like the attendance of a servant to his master,</t>\n    <t s=\"11\">but rather it arose in His will that He should desire to have a dwelling place in the lower worlds,</t>\n    <t s=\"12\">and that this should be through the service of man.</t>\n    <t s=\"13\">And it is explained there,</t>\n    <t s=\"14\">that the essential matter of service is when one does the opposite of his [natural] will,</t>\n    <t s=\"15\">subjugation.</t>\n    <t s=\"16\">And as it is brought in the Gemara</t>\n    <t s=\"17\">on the verse,</t>\n    <t s=\"18\">\"And you shall return and see... between one who serves G-d and one who has not served Him,\"</t>\n    <t s=\"19\">that when one reviews his chapter one hundred times, he is called \"one who has not served Him,\" because his Torah study is according to habit</t>\n    <t s=\"20\">(for in their days the custom was to review each chapter one hundred times),</t>\n    <t s=\"21\">and when one reviews his chapter one hundred and one times,</t>\n    <t s=\"22\">a change from habit,</t>\n    <t s=\"23\">subjugation,</t>\n    <t s=\"24\">he is called \"one who serves G-d.\"</t>\n    <t s=\"25\">And this is also that \"service\" is from the term \"processed hides,\"</t>\n    <t s=\"26\">for the processing of hides is by treading upon them.</t>\n    <t s=\"27\">And this is the advantage of subjugation over transformation,</t>\n    <t s=\"28\">for the matter of service is that one wearies himself against his nature.</t>\n    <t s=\"29\">And it is explained there,</t>\n    <t s=\"30\">that this is also the advantage in repentance,</t>\n    <t s=\"31\">as it is brought in Tanna D'vei Eliyahu</t>\n    <t s=\"32\">regarding a penitent,</t>\n    <t s=\"33\">[if] he was accustomed to read one page, he should read two pages,</t>\n    <t s=\"34\">[if] to review one chapter, he should review two chapters.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916846_theRebbe_939",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p008"
+    },
+    "sections": [
+      {
+        "v": 21,
+        "sectionSummaryBrief": "This section explains that the intent of the tzimtzum includes two aspects: for the sake of revelation, and to reveal the concealment from the power of Atzmus, and further details the two aspects within the revelation purpose.",
+        "translations": [
+          {
+            "v": 21,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 21,
+            "s": 1,
+            "translation": "Now, it was explained above"
+          },
+          {
+            "v": 21,
+            "s": 2,
+            "translation": "(section 6)"
+          },
+          {
+            "v": 21,
+            "s": 3,
+            "translation": "that in the intent of the tzimtzum there are two matters."
+          },
+          {
+            "v": 21,
+            "s": 4,
+            "translation": "For the sake of revelation,"
+          },
+          {
+            "v": 21,
+            "s": 5,
+            "translation": "and that through the tzimtzum the matter of concealment is revealed"
+          },
+          {
+            "v": 21,
+            "s": 6,
+            "translation": "(which is above revelation)"
+          },
+          {
+            "v": 21,
+            "s": 7,
+            "translation": "that comes from the ability of Atzmus."
+          },
+          {
+            "v": 21,
+            "s": 8,
+            "translation": "And to add,"
+          },
+          {
+            "v": 21,
+            "s": 9,
+            "translation": "it is explained in many places"
+          },
+          {
+            "v": 21,
+            "s": 10,
+            "translation": "that also in the intent of the tzimtzum for the sake of revelation,"
+          },
+          {
+            "v": 21,
+            "s": 11,
+            "translation": "there are two matters."
+          },
+          {
+            "v": 21,
+            "s": 12,
+            "translation": "That the intent of the tzimtzum is so that the revelation of Ein Sof that shone before the tzimtzum"
+          },
+          {
+            "v": 21,
+            "s": 13,
+            "translation": "(the light that filled the place of the void)"
+          },
+          {
+            "v": 21,
+            "s": 14,
+            "translation": "would also be in the worlds."
+          },
+          {
+            "v": 21,
+            "s": 15,
+            "translation": "For before the tzimtzum,"
+          },
+          {
+            "v": 21,
+            "s": 16,
+            "translation": "it was impossible for the existence of the worlds to be,"
+          },
+          {
+            "v": 21,
+            "s": 17,
+            "translation": "and consequently there was no revelation in the worlds,"
+          },
+          {
+            "v": 21,
+            "s": 18,
+            "translation": "and through the tzimtzum it was innovated that the revelation of Ein Sof would also be in the worlds."
+          },
+          {
+            "v": 21,
+            "s": 19,
+            "translation": "And that through the tzimtzum there will be the revelation of the inwardness and essence of Ein Sof that is above the light that filled the place of the void."
+          },
+          {
+            "v": 21,
+            "s": 20,
+            "translation": "And it is explained there,"
+          },
+          {
+            "v": 21,
+            "s": 21,
+            "translation": "that the light that filled the place of the void is the concealment of the light of the line"
+          },
+          {
+            "v": 21,
+            "s": 22,
+            "translation": "(meaning that the drawing down of the line from this light is in a manner of revealing the concealment),"
+          },
+          {
+            "v": 21,
+            "s": 23,
+            "translation": "(the source)"
+          },
+          {
+            "v": 21,
+            "s": 24,
+            "translation": "of the light that fills,"
+          },
+          {
+            "v": 21,
+            "s": 25,
+            "translation": "and the light that is above the light that filled the place of the void is"
+          },
+          {
+            "v": 21,
+            "s": 26,
+            "translation": "(the source)"
+          },
+          {
+            "v": 21,
+            "s": 27,
+            "translation": "of the encompassing light."
+          },
+          {
+            "v": 21,
+            "s": 28,
+            "translation": "And one must understand,"
+          },
+          {
+            "v": 21,
+            "s": 29,
+            "translation": "how is it possible that in the world there should be such a lofty revelation that did not shine even before the tzimtzum,"
+          },
+          {
+            "v": 21,
+            "s": 30,
+            "translation": "and nevertheless the world will not be nullified from its existence."
+          }
+        ]
+      },
+      {
+        "v": 22,
+        "sectionSummaryBrief": "This section discusses the teaching of the Maggid about the two trumpets representing the two halves of the form of \"Adam,\" and how the union of Hashem and man requires tzimtzumim from above and self-nullification from below.",
+        "translations": [
+          {
+            "v": 22,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 22,
+            "s": 1,
+            "translation": "Now, the teaching of the Maggid is known"
+          },
+          {
+            "v": 22,
+            "s": 2,
+            "translation": "on the verse"
+          },
+          {
+            "v": 22,
+            "s": 3,
+            "translation": "\"Make for yourself two silver trumpets,\""
+          },
+          {
+            "v": 22,
+            "s": 4,
+            "translation": "that Hashem and man together are called \"Adam\""
+          },
+          {
+            "v": 22,
+            "s": 5,
+            "translation": "[and] they are two trumpets,"
+          },
+          {
+            "v": 22,
+            "s": 6,
+            "translation": "two half-forms."
+          },
+          {
+            "v": 22,
+            "s": 7,
+            "translation": "For \"Adam\" is the letters Aleph, Dam,"
+          },
+          {
+            "v": 22,
+            "s": 8,
+            "translation": "Aleph is Hashem, the Aluf of the world,"
+          },
+          {
+            "v": 22,
+            "s": 9,
+            "translation": "and Dam is man"
+          },
+          {
+            "v": 22,
+            "s": 10,
+            "translation": "[for man, from his own perspective,"
+          },
+          {
+            "v": 22,
+            "s": 11,
+            "translation": "before he attaches to Hashem,"
+          },
+          {
+            "v": 22,
+            "s": 12,
+            "translation": "is in the aspect of blood],"
+          },
+          {
+            "v": 22,
+            "s": 13,
+            "translation": "for this is what our sages said,"
+          },
+          {
+            "v": 22,
+            "s": 14,
+            "translation": "\"What is the meaning of that which is written,"
+          },
+          {
+            "v": 22,
+            "s": 15,
+            "translation": "'You shall not eat upon the blood'?"
+          },
+          {
+            "v": 22,
+            "s": 16,
+            "translation": "Do not eat before you pray for your blood,\""
+          },
+          {
+            "v": 22,
+            "s": 17,
+            "translation": "because man from his own perspective"
+          },
+          {
+            "v": 22,
+            "s": 18,
+            "translation": "(before he attaches to Hashem through prayer)"
+          },
+          {
+            "v": 22,
+            "s": 19,
+            "translation": "is in the aspect of blood."
+          },
+          {
+            "v": 22,
+            "s": 20,
+            "translation": "And each one of them"
+          },
+          {
+            "v": 22,
+            "s": 21,
+            "translation": "[the Aleph is Hashem and the Dam is man]"
+          },
+          {
+            "v": 22,
+            "s": 22,
+            "translation": "is only a half-form,"
+          },
+          {
+            "v": 22,
+            "s": 23,
+            "translation": "and when they attach together, a complete form is made,"
+          },
+          {
+            "v": 22,
+            "s": 24,
+            "translation": "Adam."
+          },
+          {
+            "v": 22,
+            "s": 25,
+            "translation": "And it is explained there,"
+          },
+          {
+            "v": 22,
+            "s": 26,
+            "translation": "that the connection of Hashem with man is through Hashem making several tzimtzumim through several worlds in order that there be unity with man."
+          },
+          {
+            "v": 22,
+            "s": 27,
+            "translation": "And likewise on man's side,"
+          },
+          {
+            "v": 22,
+            "s": 28,
+            "translation": "that in order to connect with Hashem he must separate himself from all physicality until he ascends through all the worlds and there is unity with Hashem until he is nullified in existence,"
+          },
+          {
+            "v": 22,
+            "s": 29,
+            "translation": "and then he is called Adam."
+          },
+          {
+            "v": 22,
+            "s": 30,
+            "translation": "And the Tzemach Tzedek explains,"
+          },
+          {
+            "v": 22,
+            "s": 31,
+            "translation": "that this [that Hashem made several tzimtzumim etc. and man must separate himself etc.] is as explained in Likkutei Torah, the discourse \"Tiku\" the second,"
+          },
+          {
+            "v": 22,
+            "s": 32,
+            "translation": "that in order for there to be the connection of the upper and lower, the upper must descend from its level and the lower must ascend above its level."
+          },
+          {
+            "v": 22,
+            "s": 33,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 22,
+            "s": 34,
+            "translation": "that this [that Hashem made several tzimtzumim etc.] is because regarding Ein Sof it is said,"
+          },
+          {
+            "v": 22,
+            "s": 35,
+            "translation": "\"For He is not a man,\""
+          },
+          {
+            "v": 22,
+            "s": 36,
+            "translation": "and in order to clothe Himself in the ten Sefiros,"
+          },
+          {
+            "v": 22,
+            "s": 37,
+            "translation": "the form of man,"
+          },
+          {
+            "v": 22,
+            "s": 38,
+            "translation": "it is through several tzimtzumim."
+          },
+          {
+            "v": 22,
+            "s": 39,
+            "translation": "And he adds,"
+          },
+          {
+            "v": 22,
+            "s": 40,
+            "translation": "that the ten Sefiros are in the form of man because the ten Sefiros are three lines,"
+          },
+          {
+            "v": 22,
+            "s": 41,
+            "translation": "and also because the ten Sefiros are generally thought, speech, and action,"
+          },
+          {
+            "v": 22,
+            "s": 42,
+            "translation": "Aleph, Dalet, Mem."
+          },
+          {
+            "v": 22,
+            "s": 43,
+            "translation": "And he connects this with the matter of the three aspects of Adam."
+          },
+          {
+            "v": 22,
+            "s": 44,
+            "translation": "And seemingly the intent is,"
+          },
+          {
+            "v": 22,
+            "s": 45,
+            "translation": "that this [that the three letters Aleph, Dalet, Mem hint at thought, speech, and action]"
+          },
+          {
+            "v": 22,
+            "s": 46,
+            "translation": "the intent in this is not only for the three aspects of thought, speech, and action in the Sefiros of Atzilus,"
+          },
+          {
+            "v": 22,
+            "s": 47,
+            "translation": "but also for the three aspects of Adam,"
+          },
+          {
+            "v": 22,
+            "s": 48,
+            "translation": "the general BiYA"
+          },
+          {
+            "v": 22,
+            "s": 49,
+            "translation": "(AK,"
+          },
+          {
+            "v": 22,
+            "s": 50,
+            "translation": "Atik and Arich,"
+          },
+          {
+            "v": 22,
+            "s": 51,
+            "translation": "and Atzilus),"
+          },
+          {
+            "v": 22,
+            "s": 52,
+            "translation": "which are analogous to thought, speech, and action."
+          },
+          {
+            "v": 22,
+            "s": 53,
+            "translation": "And accordingly,"
+          },
+          {
+            "v": 22,
+            "s": 54,
+            "translation": "this [that Hashem made several tzimtzumim to clothe Himself in the form of man]"
+          },
+          {
+            "v": 22,
+            "s": 55,
+            "translation": "the intent in this is for the tzimtzumim through which is the drawing down to the general BiYA,"
+          },
+          {
+            "v": 22,
+            "s": 56,
+            "translation": "which are three general, immense tzimtzumim."
+          },
+          {
+            "v": 22,
+            "s": 57,
+            "translation": "For all these tzimtzumim are so that the drawing down will be in the form of the supernal man."
+          },
+          {
+            "v": 22,
+            "s": 58,
+            "translation": "And afterwards,"
+          },
+          {
+            "v": 22,
+            "s": 59,
+            "translation": "in order for there to be the drawing down from Atzilus to BiYA,"
+          },
+          {
+            "v": 22,
+            "s": 60,
+            "translation": "it is through the Parsa."
+          },
+          {
+            "v": 22,
+            "s": 61,
+            "translation": "And as it is written in the teaching of the Maggid mentioned above in the explanation of the verse,"
+          },
+          {
+            "v": 22,
+            "s": 62,
+            "translation": "\"And upon the likeness of the throne,\""
+          },
+          {
+            "v": 22,
+            "s": 63,
+            "translation": "that He is covered there,"
+          },
+          {
+            "v": 22,
+            "s": 64,
+            "translation": "and the Tzemach Tzedek explains,"
+          },
+          {
+            "v": 22,
+            "s": 65,
+            "translation": "that \"throne\""
+          },
+          {
+            "v": 22,
+            "s": 66,
+            "translation": "(from the term \"covering\")"
+          },
+          {
+            "v": 22,
+            "s": 67,
+            "translation": "is the Parsa, which is like a parable that covers and conceals"
+          },
+          {
+            "v": 22,
+            "s": 68,
+            "translation": "the intellect within it."
+          },
+          {
+            "v": 22,
+            "s": 69,
+            "translation": "And one must understand,"
+          },
+          {
+            "v": 22,
+            "s": 70,
+            "translation": "since the connection of Ein Sof with man is through many, many tzimtzumim and also through a Parsa,"
+          },
+          {
+            "v": 22,
+            "s": 71,
+            "translation": "how is it possible that man, through his service, should draw down a revelation that is above the tzimtzum."
+          }
+        ]
+      },
+      {
+        "v": 23,
+        "sectionSummaryBrief": "This section explains that the essence of divine service is \"subjugation\" (Itkafya), going against one's nature, as in the example of studying a chapter one hundred and one times, which is the advantage of service through effort.",
+        "translations": [
+          {
+            "v": 23,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 23,
+            "s": 1,
+            "translation": "And this is the explanation:"
+          },
+          {
+            "v": 23,
+            "s": 2,
+            "translation": "The matter is,"
+          },
+          {
+            "v": 23,
+            "s": 3,
+            "translation": "for it is written,"
+          },
+          {
+            "v": 23,
+            "s": 4,
+            "translation": "\"And you shall serve Hashem your G-d,\""
+          },
+          {
+            "v": 23,
+            "s": 5,
+            "translation": "and the Rebbe Maharash explains precisely,"
+          },
+          {
+            "v": 23,
+            "s": 6,
+            "translation": "that the matter of \"service\" is repair and attendance, that which a servant works and repairs for his master,"
+          },
+          {
+            "v": 23,
+            "s": 7,
+            "translation": "and since He is the perfection of all,"
+          },
+          {
+            "v": 23,
+            "s": 8,
+            "translation": "how can the matter of service apply to the Above?"
+          },
+          {
+            "v": 23,
+            "s": 9,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 23,
+            "s": 10,
+            "translation": "that in truth, it cannot be said that service is a need of the Most High, like the attendance of a servant to his master,"
+          },
+          {
+            "v": 23,
+            "s": 11,
+            "translation": "but rather it arose in His will that He should desire to have a dwelling place in the lower worlds,"
+          },
+          {
+            "v": 23,
+            "s": 12,
+            "translation": "and that this should be through the service of man."
+          },
+          {
+            "v": 23,
+            "s": 13,
+            "translation": "And it is explained there,"
+          },
+          {
+            "v": 23,
+            "s": 14,
+            "translation": "that the essential matter of service is when one does the opposite of his [natural] will,"
+          },
+          {
+            "v": 23,
+            "s": 15,
+            "translation": "subjugation."
+          },
+          {
+            "v": 23,
+            "s": 16,
+            "translation": "And as it is brought in the Gemara"
+          },
+          {
+            "v": 23,
+            "s": 17,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 23,
+            "s": 18,
+            "translation": "\"And you shall return and see... between one who serves G-d and one who has not served Him,\""
+          },
+          {
+            "v": 23,
+            "s": 19,
+            "translation": "that when one reviews his chapter one hundred times, he is called \"one who has not served Him,\" because his Torah study is according to habit"
+          },
+          {
+            "v": 23,
+            "s": 20,
+            "translation": "(for in their days the custom was to review each chapter one hundred times),"
+          },
+          {
+            "v": 23,
+            "s": 21,
+            "translation": "and when one reviews his chapter one hundred and one times,"
+          },
+          {
+            "v": 23,
+            "s": 22,
+            "translation": "a change from habit,"
+          },
+          {
+            "v": 23,
+            "s": 23,
+            "translation": "subjugation,"
+          },
+          {
+            "v": 23,
+            "s": 24,
+            "translation": "he is called \"one who serves G-d.\""
+          },
+          {
+            "v": 23,
+            "s": 25,
+            "translation": "And this is also that \"service\" is from the term \"processed hides,\""
+          },
+          {
+            "v": 23,
+            "s": 26,
+            "translation": "for the processing of hides is by treading upon them."
+          },
+          {
+            "v": 23,
+            "s": 27,
+            "translation": "And this is the advantage of subjugation over transformation,"
+          },
+          {
+            "v": 23,
+            "s": 28,
+            "translation": "for the matter of service is that one wearies himself against his nature."
+          },
+          {
+            "v": 23,
+            "s": 29,
+            "translation": "And it is explained there,"
+          },
+          {
+            "v": 23,
+            "s": 30,
+            "translation": "that this is also the advantage in repentance,"
+          },
+          {
+            "v": 23,
+            "s": 31,
+            "translation": "as it is brought in Tanna D'vei Eliyahu"
+          },
+          {
+            "v": 23,
+            "s": 32,
+            "translation": "regarding a penitent,"
+          },
+          {
+            "v": 23,
+            "s": 33,
+            "translation": "[if] he was accustomed to read one page, he should read two pages,"
+          },
+          {
+            "v": 23,
+            "s": 34,
+            "translation": "[if] to review one chapter, he should review two chapters."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,97 +1,12 @@
 // B"H
-/**
- * @file camera/methods/update/index.js
- * @description
- * Chapter 58: the eye stops stealing the feet near dialogue.
- * Git confirmed the old camera math, but the old auto-W drag covenant must bow
- * when NPC/UI capture is active. The Awtsmoos makes the camera quiet during a
- * panel, records compact frame spikes, and keeps the smooth follow river.
- */
+/** Camera update without player visibility flicker. */
 import { THREE } from '../../../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import { diagThrottle, markFrameSpike } from '../../../../utils/AwtsmoosDiagnostics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-
-const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
-function lerpFallback(a, b, t) { return a + (b - a) * t; }
-function normDeg(angle) { return ((angle + 540) % 360) - 180; }
-function uiSuppressed(cam) { const olam = cam?.target?.olam || cam?.olam; return Boolean(olam?.showingImportantMessage || n(olam?.__awtsmoosSuppressCameraUntil, 0) > Date.now() || n(olam?.__awtsmoosUiPointerCaptureUntil, 0) > Date.now()); }
-function clearAutoForward(cam) { if (!cam?.sentToOlam) return; cam.sentToOlam = false; cam.target?.olam?.ayshPeula?.("setInputOut", { code: "KeyW" }); }
-function zeroMouse(cam) { cam.mouseX = 0; cam.mouseY = 0; cam.deltaY = 0; }
-function cameraTarget(cam) { const pos = cam.target.mesh.position.clone(); pos.y += cam.targetHeight; return pos; }
-
-export default function update() {
-    const start = performance.now();
-    if (!this.target || !this.target.mesh) return;
-    if (isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y) || isNaN(this.target.mesh.position.z)) return;
-    this.newMovement = false;
-    const suppressed = uiSuppressed(this);
-    if (suppressed) { clearAutoForward(this); zeroMouse(this); diagThrottle("camera-ui-suppressed", { target: this.target?.name }, 1800); }
-    if (!suppressed && this.rightMouseIsDown && this.mouseIsDown) { this.target.olam?.ayshPeula?.("setInput", { code: "KeyW" }); this.sentToOlam = true; }
-    else clearAutoForward(this);
-
-    if (!this.isFPS) {
-        if (this.lastDistance) {
-            this.desiredDistance = this.lastDistance; this.lastDistance = null;
-            const f = this.target.modelMesh || this.target.mesh; if (f) f.visible = true;
-            this.target.rotation.y = this.userInputTheta * THREE.MathUtils.DEG2RAD;
-            this.previousTargetRotation = this.target.rotation.y * 180 / Math.PI; this.target.rotateOffset = 0;
-        } else {
-            const dY = typeof this.deltaY === 'number' && !isNaN(this.deltaY) ? this.deltaY : 0;
-            this.desiredDistance -= dY * 0.02 * this.zoomRate * Math.abs(this.desiredDistance) * this.speedDistance;
-            this.desiredDistance = Math.max(Math.min(this.desiredDistance, this.maxDistance), this.minDistance);
-        }
-    } else {
-        if (this.lastDistance === null) {
-            this.lastDistance = this.desiredDistance; const f = this.target.modelMesh || this.target.mesh; if (f) f.visible = false;
-            this.target.rotation.y = this.userInputTheta * THREE.MathUtils.DEG2RAD;
-            this.previousTargetRotation = this.target.rotation.y * 180 / Math.PI; this.target.rotateOffset = 0;
-        }
-        this.desiredDistance = 0;
-    }
-
-    this.targetRotation = this.target.mesh.rotation.y * 180 / Math.PI;
-    if (this.previousTargetRotation === undefined) this.previousTargetRotation = this.targetRotation;
-    const rotationDelta = normDeg(this.targetRotation - this.previousTargetRotation);
-    if (!this.isFPS) {
-        if (!suppressed && (this.mouseIsDown || this.rightMouseIsDown)) this.userInputTheta -= this.mouseX * this.xSpeed * this.sensitivity;
-        else this.userInputTheta += rotationDelta;
-        if (!suppressed) this.userInputPhi -= this.mouseY * this.ySpeed * this.sensitivity;
-        this.previousTargetRotation = this.targetRotation;
-    }
-    this.deltaY = 0; this.userInputPhi = this.clampAngle(this.userInputPhi, this.yMinLimit, this.yMaxLimit);
-    this.euler = new THREE.Euler(this.userInputPhi * THREE.MathUtils.DEG2RAD, this.userInputTheta * THREE.MathUtils.DEG2RAD, 0, 'YXZ');
-    let rotation = new THREE.Quaternion().setFromEuler(this.euler);
-    let isCorrected = false; this.correctedDistance = this.desiredDistance;
-    const vTargetOffset = new THREE.Vector3(0, -this.targetHeight, 0);
-    let position = this.target.mesh.position.clone().sub(vTargetOffset).sub(new THREE.Vector3(0, 0, this.desiredDistance).applyQuaternion(rotation));
-    if (!this.isFPS && this.target?.originalOptions?.ignoreCameraCollision !== true) {
-        const trueTargetPosition = this.target.mesh.position.clone().sub(vTargetOffset);
-        this.raycaster.set(trueTargetPosition, position.clone().sub(trueTargetPosition).normalize());
-        const collisionResult = this.olam.worldOctree ? this.olam.worldOctree.rayIntersect(this.raycaster.ray) : null;
-        if (collisionResult) { const distanceToObject = collisionResult.distance - this.offsetFromWall; if (distanceToObject < this.correctedDistance) { this.correctedDistance = distanceToObject; isCorrected = true; } }
-    }
-    const lerp = typeof this.lerp === 'function' ? this.lerp.bind(this) : lerpFallback;
-    const smoothFactor = 0.032 * this.zoomDampening;
-    const smoothedDistance = (!isCorrected || this.correctedDistance > this.currentDistance) ? lerp(this.currentDistance, this.correctedDistance, smoothFactor) : this.correctedDistance;
-    let minimumAllowedDistance = this.minDistance;
-    if (!this.isFPS && this.target.collider) {
-        const collider = this.target.collider, pivotPoint = this.target.mesh.position.clone().sub(vTargetOffset), sphereCenter = new THREE.Vector3().addVectors(collider.start, collider.end).multiplyScalar(0.5);
-        const safetyRadius = collider.radius + this.playerCollisionBuffer, pivotToCameraDir = new THREE.Vector3(0, 0, 1).applyQuaternion(rotation), v = sphereCenter.clone().sub(pivotPoint);
-        const b = -2 * pivotToCameraDir.dot(v), c = v.lengthSq() - safetyRadius * safetyRadius, discriminant = b * b - 4 * c;
-        if (discriminant >= 0) { const sq = Math.sqrt(discriminant), d1 = (-b - sq) / 2, d2 = (-b + sq) / 2; if (d1 > 0 && d1 < d2) minimumAllowedDistance = Math.max(this.minDistance, d1); else if (d2 > 0) minimumAllowedDistance = Math.max(this.minDistance, d2); }
-    }
-    let finalDistance = Math.max(minimumAllowedDistance, smoothedDistance); finalDistance = Math.min(this.maxDistance, finalDistance);
-    if (finalDistance === minimumAllowedDistance && smoothedDistance < minimumAllowedDistance) this.desiredDistance = minimumAllowedDistance;
-    this.currentDistance = finalDistance;
-    position = this.target.mesh.position.clone().sub(vTargetOffset).sub(new THREE.Vector3(0, 0, this.currentDistance).applyQuaternion(rotation));
-    let did = false;
-    if (this.isFPS) {
-        if (!suppressed && (this.mouseIsDown || this.rightMouseIsDown)) this.target.rotation.y = this.euler.y;
-        else { did = true; this.euler.y = this.target.rotation.y; rotation = new THREE.Quaternion().setFromEuler(this.euler); position = this.target.mesh.position.clone().sub(vTargetOffset).sub(new THREE.Vector3(0, 0, this.currentDistance).applyQuaternion(rotation)); this.userInputTheta = this.euler.y * 180 / Math.PI; }
-    } else if (!suppressed && this.rightMouseIsDown) this.target.rotation.y = this.euler.y;
-    this.camera.rotation.copy(this.euler);
-    if (position && !isNaN(position.x) && !isNaN(position.y) && !isNaN(position.z)) { this.camera.position.copy(position); this.cameraFollower.position.copy(position); }
-    const pos = cameraTarget(this);
-    if (!isNaN(pos.x)) { this.camera.lookAt(pos); this.cameraFollower.lookAt(pos); }
-    if (did) {}
-    markFrameSpike((performance.now() - start) / 1000, { system: "camera", suppressed, target: this.target?.name });
-}
+const n=(v,f=0)=>Number.isFinite(Number(v))?Number(v):f;
+function lerpFallback(a,b,t){return a+(b-a)*t;}
+function normDeg(angle){return((angle+540)%360)-180;}
+function uiSuppressed(cam){const olam=cam?.target?.olam||cam?.olam;return Boolean(olam?.showingImportantMessage||n(olam?.__awtsmoosSuppressCameraUntil,0)>Date.now()||n(olam?.__awtsmoosUiPointerCaptureUntil,0)>Date.now());}
+function clearAutoForward(cam){if(!cam?.sentToOlam)return;cam.sentToOlam=false;cam.target?.olam?.ayshPeula?.("setInputOut",{code:"KeyW"});}
+function zeroMouse(cam){cam.mouseX=0;cam.mouseY=0;cam.deltaY=0;}
+function cameraTarget(cam){const pos=cam.target.mesh.position.clone();pos.y+=cam.targetHeight;return pos;}
+export default function update(){const start=performance.now();if(!this.target||!this.target.mesh)return;if(isNaN(this.target.mesh.position.x)||isNaN(this.target.mesh.position.y)||isNaN(this.target.mesh.position.z))return;this.newMovement=false;const suppressed=uiSuppressed(this);if(suppressed){clearAutoForward(this);zeroMouse(this);diagThrottle("camera-ui-suppressed",{target:this.target?.name},1800);}if(!suppressed&&this.rightMouseIsDown&&this.mouseIsDown){this.target.olam?.ayshPeula?.("setInput",{code:"KeyW"});this.sentToOlam=true;}else clearAutoForward(this);const f=this.target.modelMesh||this.target.mesh;if(f)f.visible=true;if(!this.isFPS){if(this.lastDistance){this.desiredDistance=this.lastDistance;this.lastDistance=null;this.target.rotation.y=this.userInputTheta*THREE.MathUtils.DEG2RAD;this.previousTargetRotation=this.target.rotation.y*180/Math.PI;this.target.rotateOffset=0;}else{const dY=typeof this.deltaY==='number'&&!isNaN(this.deltaY)?this.deltaY:0;this.desiredDistance-=dY*.02*this.zoomRate*Math.abs(this.desiredDistance)*this.speedDistance;this.desiredDistance=Math.max(Math.min(this.desiredDistance,this.maxDistance),this.minDistance);}}else{if(this.lastDistance===null){this.lastDistance=this.desiredDistance;this.target.rotation.y=this.userInputTheta*THREE.MathUtils.DEG2RAD;this.previousTargetRotation=this.target.rotation.y*180/Math.PI;this.target.rotateOffset=0;}this.desiredDistance=0;}this.targetRotation=this.target.mesh.rotation.y*180/Math.PI;if(this.previousTargetRotation===undefined)this.previousTargetRotation=this.targetRotation;const rotationDelta=normDeg(this.targetRotation-this.previousTargetRotation);if(!this.isFPS){if(!suppressed&&(this.mouseIsDown||this.rightMouseIsDown))this.userInputTheta-=this.mouseX*this.xSpeed*this.sensitivity;else this.userInputTheta+=rotationDelta;if(!suppressed)this.userInputPhi-=this.mouseY*this.ySpeed*this.sensitivity;this.previousTargetRotation=this.targetRotation;}this.deltaY=0;this.userInputPhi=this.clampAngle(this.userInputPhi,this.yMinLimit,this.yMaxLimit);this.euler=new THREE.Euler(this.userInputPhi*THREE.MathUtils.DEG2RAD,this.userInputTheta*THREE.MathUtils.DEG2RAD,0,'YXZ');let rotation=new THREE.Quaternion().setFromEuler(this.euler);let isCorrected=false;this.correctedDistance=this.desiredDistance;const vTargetOffset=new THREE.Vector3(0,-this.targetHeight,0);let position=this.target.mesh.position.clone().sub(vTargetOffset).sub(new THREE.Vector3(0,0,this.desiredDistance).applyQuaternion(rotation));if(!this.isFPS&&this.target?.originalOptions?.ignoreCameraCollision!==true){const trueTargetPosition=this.target.mesh.position.clone().sub(vTargetOffset);this.raycaster.set(trueTargetPosition,position.clone().sub(trueTargetPosition).normalize());const collisionResult=this.olam.worldOctree?this.olam.worldOctree.rayIntersect(this.raycaster.ray):null;if(collisionResult){const distanceToObject=collisionResult.distance-this.offsetFromWall;if(distanceToObject<this.correctedDistance){this.correctedDistance=distanceToObject;isCorrected=true;}}}const lerp=typeof this.lerp==='function'?this.lerp.bind(this):lerpFallback;const smoothFactor=.032*this.zoomDampening;const smoothedDistance=(!isCorrected||this.correctedDistance>this.currentDistance)?lerp(this.currentDistance,this.correctedDistance,smoothFactor):this.correctedDistance;let minimumAllowedDistance=this.minDistance;if(!this.isFPS&&this.target.collider){const collider=this.target.collider,pivotPoint=this.target.mesh.position.clone().sub(vTargetOffset),sphereCenter=new THREE.Vector3().addVectors(collider.start,collider.end).multiplyScalar(.5);const safetyRadius=collider.radius+this.playerCollisionBuffer,pivotToCameraDir=new THREE.Vector3(0,0,1).applyQuaternion(rotation),v=sphereCenter.clone().sub(pivotPoint);const b=-2*pivotToCameraDir.dot(v),c=v.lengthSq()-safetyRadius*safetyRadius,discriminant=b*b-4*c;if(discriminant>=0){const sq=Math.sqrt(discriminant),d1=(-b-sq)/2,d2=(-b+sq)/2;if(d1>0&&d1<d2)minimumAllowedDistance=Math.max(this.minDistance,d1);else if(d2>0)minimumAllowedDistance=Math.max(this.minDistance,d2);}}let finalDistance=Math.max(minimumAllowedDistance,smoothedDistance);finalDistance=Math.min(this.maxDistance,finalDistance);if(finalDistance===minimumAllowedDistance&&smoothedDistance<minimumAllowedDistance)this.desiredDistance=minimumAllowedDistance;this.currentDistance=finalDistance;position=this.target.mesh.position.clone().sub(vTargetOffset).sub(new THREE.Vector3(0,0,this.currentDistance).applyQuaternion(rotation));let did=false;if(this.isFPS){if(!suppressed&&(this.mouseIsDown||this.rightMouseIsDown))this.target.rotation.y=this.euler.y;else{did=true;this.euler.y=this.target.rotation.y;rotation=new THREE.Quaternion().setFromEuler(this.euler);position=this.target.mesh.position.clone().sub(vTargetOffset).sub(new THREE.Vector3(0,0,this.currentDistance).applyQuaternion(rotation));this.userInputTheta=this.euler.y*180/Math.PI;}}else if(!suppressed&&this.rightMouseIsDown)this.target.rotation.y=this.euler.y;this.camera.rotation.copy(this.euler);if(position&&!isNaN(position.x)&&!isNaN(position.y)&&!isNaN(position.z)){this.camera.position.copy(position);this.cameraFollower.position.copy(position);}const pos=cameraTarget(this);if(!isNaN(pos.x)){this.camera.lookAt(pos);this.cameraFollower.lookAt(pos);}if(did){}markFrameSpike((performance.now()-start)/1000,{system:"camera",suppressed,target:this.target?.name,noPlayerHide:true});}

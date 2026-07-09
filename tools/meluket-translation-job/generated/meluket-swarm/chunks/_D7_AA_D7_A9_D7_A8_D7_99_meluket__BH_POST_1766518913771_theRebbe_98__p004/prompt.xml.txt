@@ -1,0 +1,118 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" title="מאמר יו"ט של ר"ה תשל"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p004">
+  <section v="9">
+    <src s="0">ויש לקשר זה עם מ"ש הצ"צ41</src>
+    <src s="1">דשבועה היא בבינה ביסוד ובמלכות,</src>
+    <src s="2">דזה ששבועה היא בבינה שייך להשבועה עצמה,</src>
+    <src s="3">המשכת עתיק</src>
+    <src s="4">[ועד"ז המשכת שרש הנשמה],</src>
+    <src s="5">דבבינה הוא גילוי עתיק42.</src>
+    <src s="6">כמ"ש43</src>
+    <src s="7">ונהר יוצא מעדן,</src>
+    <src s="8">דנהר הוא בינה ועדן הוא עתיק,</src>
+    <src s="9">ופירוש נהר יוצא מעדן הוא שבבינה הוא גילוי עתיק.</src>
+    <src s="10">וזה ששבועה היא במלכות שייך להשובע דשבועה,</src>
+    <src s="11">דזה שהשבועה משפעת ונותנת כח בהנשמה שבהגוף הוא ע"י שההמשכה היא במלכות,</src>
+    <src s="12">וזה ששבועה היא ביסוד,</src>
+    <src s="13">הוא,</src>
+    <src s="14">שהמשכת הבינה</src>
+    <src s="15">(ועתיק שבה)</src>
+    <src s="16">במלכות היא ע"י היסוד.</src>
+    <src s="17">וזהו גם הקשר עם הפירוש השלישי במשביעין אותו שהוא מלשון שבע,</src>
+    <src s="18">דלפי ביאור אחד קאי זה על היסוד,</src>
+    <src s="19">שהוא שביעי מהבינה44.</src>
+  </section>
+  <section v="10">
+    <src s="0">ז)</src>
+    <src s="1">ועפ"ז יובן הקשר של השבועה שמשביעין אותו תהי צדיק עם חודש השביעי,</src>
+    <src s="2">ירחא דשבועתא,</src>
+    <src s="3">כי זה שבריאת האדם היתה ביום הששי למעשה בראשית,</src>
+    <src s="4">יום הראשון דחודש השביעי,</src>
+    <src s="5">הוא מפני שני טעמים45.</src>
+    <src s="6">להיותו אחור למעשה בראשית46,</src>
+    <src s="7">דשרש הדצ"ח הוא מתוהו ושרש האדם הוא מתיקון שלמטה מתוהו.</src>
+    <src s="8">ולהיותו קודם למעשה בראשית46</src>
+    <src s="9">(קדום במעלה),</src>
+    <src s="10">כדאיתא בגמרא47,</src>
+    <src s="11">דזה שהאדם נברא בסוף הוא כדי שיכנס לסעודה מיד,</src>
+    <src s="12">שזה מורה על מעלת האדם,</src>
+    <src s="13">שכל הבריאה היא בשביל האדם.</src>
+    <src s="14">דגם התהוות התוהו שקדם לתיקון הוא בכדי שיהי' בירור התוהו ע"י עבודת האדם,</src>
+    <src s="15">כנ"ל.</src>
+    <src s="16">וזהו מה שאומרים על היום דראש השנה זה היום תחלת מעשיך48,</src>
+    <src s="17">אף שבריאת העולם היתה בכ"ה באלול49,</src>
+    <src s="18">כי50</src>
+    <src s="19">הכוונה בבריאת העולם היא שהאדם ע"י עבודתו יעשה את העולם דירה לו ית',</src>
+    <src s="20">וענין זה הותחל ביום ברוא האדם.</src>
+    <src s="21">דנוסף לזה שאז דוקא נעשית האפשרות להשלים כוונה זו,</src>
+    <src s="22">נעשה אז כן גם בפועל,</src>
+    <src s="23">כמארז"ל51</src>
+    <src s="24">שאדם הראשון</src>
+    <src s="25">(ביום שנברא)</src>
+    <src s="26">הכריז לכל הברואים בואו52</src>
+    <src s="27">נשתחוה ונכרעה נברכה לפני ה' עושנו,</src>
+    <src s="28">וכולם ענו ואמרו ה'53</src>
+    <src s="29">מלך גאות לבש.</src>
+    <src s="30">וזהו שחודש השביעי</src>
+    <src s="31">(שבו נברא האדם)</src>
+    <src s="32">הוא ירחא דשבועתא,</src>
+    <src s="33">כי הכח שיש באדם לפעול בהעולם,</src>
+    <src s="34">אף שבגילוי האדם הוא אחור למעשה בראשית,</src>
+    <src s="35">הוא ע"י גילוי שרשו האמיתי של האדם,</src>
+    <src s="36">שהוא קדם למעשה בראשית,</src>
+    <src s="37">וגילוי זה הוא ע"י השבועה</src>
+    <src s="38">(כנ"ל בארוכה),</src>
+    <src s="39">ירחא דשבועתא.</src>
+  </section>
+  <section v="11">
+    <src s="0">ועד"ז הוא בראש השנה שבכל שנה ושנה,</src>
+    <src s="1">שאז מכתירין ישראל</src>
+    <src s="2">[שקרויין אדם,</src>
+    <src s="3">לפי שבכ"א מישראל יש ניצוץ מנשמת אדם הראשון,</src>
+    <src s="4">כנ"ל סעיף ג]</src>
+    <src s="5">את הקב"ה למלך עליהם ועל כל העולם,</src>
+    <src s="6">שעי"ז עושים את העולם דירה לו ית',</src>
+    <src s="7">ובכל שנה ושנה ההכתרה ועשיית הדירה שעי"ז הם באופן נעלה יותר,</src>
+    <src s="8">שהכח שבכאו"א מישראל על זה הוא ע"י שבכל ראש השנה,</src>
+    <src s="9">התחלת ירחא דשבועתא,</src>
+    <src s="10">נמשכת מחדש השבועה שמשביעין את כאו"א מישראל תהי צדיק.</src>
+    <src s="11">ויש לומר,</src>
+    <src s="12">דע"י שאמר אדמו"ר הזקן את הדרוש משביעין אותו תהי צדיק בראש השנה,</src>
+    <src s="13">אמירת תורה</src>
+    <src s="14">(תורה אור),</src>
+    <src s="15">המשכת השבועה בראש השנה היא בגילוי עוד יותר.</src>
+  </section>
+</awtsmoosMeluketSource>

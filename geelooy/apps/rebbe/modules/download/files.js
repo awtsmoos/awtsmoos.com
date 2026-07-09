@@ -42,7 +42,8 @@ export function saveBlob(blob, filename) {
 
 export function entryName(row = {}) {
   const ext = extensionOf(row.track);
-  const base = safeName(`${String(row.trackIndex || 1).padStart(3, '0')} ${titleOf(row.item)} - ${trackTitle(row.track)}`);
+  const index = row.zipIndex || row.trackIndex || 1;
+  const base = safeName(`${String(index).padStart(3, '0')} ${titleOf(row.item)} - ${trackTitle(row.track)}`);
   return base.toLowerCase().endsWith(ext.toLowerCase()) ? base : `${base}${ext}`;
 }
 

@@ -1,0 +1,374 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 66,
+    "returned": 66,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916815_theRebbe_81\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>The maamar continues that G-d's desire for a dwelling in the lower worlds is achieved specifically through the service of subjugation and transformation.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the maamar continues,</t>\n    <t s=\"2\">that this desire of the Holy One, blessed be He, to have a dwelling place in the lower worlds is that there should be a revelation of G-dliness below through the service of man,</t>\n    <t s=\"3\">through subjugation and transformation.</t>\n    <t s=\"4\">For there are two aspects in this.</t>\n    <t s=\"5\">That the revelation of G-dliness below</t>\n    <t s=\"6\">(a dwelling in the lower worlds)</t>\n    <t s=\"7\">will be not through an influx from above but through the service of man,</t>\n    <t s=\"8\">and that the service through which the revelation of G-dliness in the world is effected will be the service of subjugation and transformation.</t>\n    <t s=\"9\">And it can be said,</t>\n    <t s=\"10\">that this which he adds, that the perfection of the dwelling in the lower worlds is when the making of the dwelling is through the service of subjugation and transformation,</t>\n    <t s=\"11\">is,</t>\n    <t s=\"12\">because through this the superiority of the drawing down of the essential Shechinah in the lower worlds now is even more emphasized relative to the drawing down that was at the beginning of creation.</t>\n    <t s=\"13\">For that the drawing down now</t>\n    <t s=\"14\">(after the descent into the world has occurred)</t>\n    <t s=\"15\">is loftier than it was at the beginning of creation,</t>\n    <t s=\"16\">is not only because every ascent after a descent is an ascent to a level higher than the level before the descent,</t>\n    <t s=\"17\">but also because the drawing down now is through the service of subjugation and transformation.</t>\n    <t s=\"18\">Not so before the sin of the Tree of Knowledge,</t>\n    <t s=\"19\">for even though the drawing down of the essential Shechinah in the lower worlds then was also through the service of the first man,</t>\n    <t s=\"20\">\"to work it\"</t>\n    <t s=\"21\">and \"to guard it,\"</t>\n    <t s=\"22\">the service then was to draw down G-dliness from above, and not the service of subjugation and transformation.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>The construction of the Tabernacle after the sin of the Golden Calf enabled a service of subjugation and transformation, resulting in a revelation of G-dliness higher than before the sin.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that this is why the making of the Tabernacle was after the sin of the Golden Calf,</t>\n    <t s=\"3\">for the intent in the descent of the world</t>\n    <t s=\"4\">(which came about through the sin of the Golden Calf)</t>\n    <t s=\"5\">before the making of the Tabernacle,</t>\n    <t s=\"6\">was,</t>\n    <t s=\"7\">in order that the service of \"And they shall make Me a Sanctuary\" should be</t>\n    <t s=\"8\">(not only the fulfillment of G-d's command,</t>\n    <t s=\"9\">but also)</t>\n    <t s=\"10\">the service of subjugation and transformation.</t>\n    <t s=\"11\">And as explained in the maamar,</t>\n    <t s=\"12\">that the service of \"And they shall make Me a Sanctuary\" is to transform the folly of idolatry into the folly of holiness and to transform the falsehood of the world</t>\n    <t s=\"13\">into the boards of the Tabernacle.</t>\n    <t s=\"14\">And through this is effected \"And I will dwell in their midst,\"</t>\n    <t s=\"15\">the drawing down of the essential Shechinah in the lower worlds,</t>\n    <t s=\"16\">to a level higher than it was before the sin.</t>\n    <t s=\"17\">And this matter</t>\n    <t s=\"18\">(that the drawing down of the essential Shechinah in the lower worlds in the Tabernacle was to a level higher than it was before the sin)</t>\n    <t s=\"19\">is also understood from the fact that the conduct of the world</t>\n    <t s=\"20\">(even before the sin)</t>\n    <t s=\"21\">was according to nature,</t>\n    <t s=\"22\">for the root of nature is from the light that is commensurate with the worlds,</t>\n    <t s=\"23\">whereas in the Tabernacle there was miraculous conduct above nature</t>\n    <t s=\"24\">[as per the statement of our Sages, of blessed memory,</t>\n    <t s=\"25\">\"Ten miracles were performed for our ancestors in the Holy Temple,\"</t>\n    <t s=\"26\">and the same was the case in the Tabernacle],</t>\n    <t s=\"27\">for the root of miracles is from the light that is above the worlds.</t>\n    <t s=\"28\">And moreover,</t>\n    <t s=\"29\">that in the Holy of Holies, the place of the Ark is not of the measure,</t>\n    <t s=\"30\">place and above place as one,</t>\n    <t s=\"31\">for in order for there to be the union of two opposites, place and above place,</t>\n    <t s=\"32\">it is specifically through the revelation of the Ein Sof that is above even the light that is above the worlds,</t>\n    <t s=\"33\">the impossible</t>\n    <t s=\"34\">of impossibilities.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>Similarly, the descent of the world through exile is a descent for the sake of ascent, making the revelation of the future era superior to that of the Holy Temple.</sectionSummaryBrief>\n    <t s=\"0\">And now, similarly, regarding the descent of the world through the exile,</t>\n    <t s=\"1\">it is a descent for the sake of ascent.</t>\n    <t s=\"2\">For since the primary service of subjugation and transformation is during the time of exile,</t>\n    <t s=\"3\">therefore,</t>\n    <t s=\"4\">the drawing down that comes through the service during the time of exile is loftier than the drawing down that came through the service during the time of the Holy Temple.</t>\n    <t s=\"5\">And this is one of the reasons that the revelation of the future era will be loftier than the revelation that was in the Holy Temple,</t>\n    <t s=\"6\">for the revelation of the future era is</t>\n    <t s=\"7\">that then there will be the revelation of the drawing down that came through the service during the time of exile.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916815_theRebbe_81",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "The maamar continues that G-d's desire for a dwelling in the lower worlds is achieved specifically through the service of subjugation and transformation.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the maamar continues,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that this desire of the Holy One, blessed be He, to have a dwelling place in the lower worlds is that there should be a revelation of G-dliness below through the service of man,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "through subjugation and transformation."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "For there are two aspects in this."
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "That the revelation of G-dliness below"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(a dwelling in the lower worlds)"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "will be not through an influx from above but through the service of man,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "and that the service through which the revelation of G-dliness in the world is effected will be the service of subjugation and transformation."
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "that this which he adds, that the perfection of the dwelling in the lower worlds is when the making of the dwelling is through the service of subjugation and transformation,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "is,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "because through this the superiority of the drawing down of the essential Shechinah in the lower worlds now is even more emphasized relative to the drawing down that was at the beginning of creation."
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "For that the drawing down now"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "(after the descent into the world has occurred)"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "is loftier than it was at the beginning of creation,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "is not only because every ascent after a descent is an ascent to a level higher than the level before the descent,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "but also because the drawing down now is through the service of subjugation and transformation."
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "Not so before the sin of the Tree of Knowledge,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "for even though the drawing down of the essential Shechinah in the lower worlds then was also through the service of the first man,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "\"to work it\""
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "and \"to guard it,\""
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "the service then was to draw down G-dliness from above, and not the service of subjugation and transformation."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "The construction of the Tabernacle after the sin of the Golden Calf enabled a service of subjugation and transformation, resulting in a revelation of G-dliness higher than before the sin.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that this is why the making of the Tabernacle was after the sin of the Golden Calf,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "for the intent in the descent of the world"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "(which came about through the sin of the Golden Calf)"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "before the making of the Tabernacle,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "was,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "in order that the service of \"And they shall make Me a Sanctuary\" should be"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "(not only the fulfillment of G-d's command,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "but also)"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "the service of subjugation and transformation."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "And as explained in the maamar,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "that the service of \"And they shall make Me a Sanctuary\" is to transform the folly of idolatry into the folly of holiness and to transform the falsehood of the world"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "into the boards of the Tabernacle."
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "And through this is effected \"And I will dwell in their midst,\""
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "the drawing down of the essential Shechinah in the lower worlds,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "to a level higher than it was before the sin."
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "And this matter"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "(that the drawing down of the essential Shechinah in the lower worlds in the Tabernacle was to a level higher than it was before the sin)"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "is also understood from the fact that the conduct of the world"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "(even before the sin)"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "was according to nature,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "for the root of nature is from the light that is commensurate with the worlds,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "whereas in the Tabernacle there was miraculous conduct above nature"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "[as per the statement of our Sages, of blessed memory,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "\"Ten miracles were performed for our ancestors in the Holy Temple,\""
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "and the same was the case in the Tabernacle],"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "for the root of miracles is from the light that is above the worlds."
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "that in the Holy of Holies, the place of the Ark is not of the measure,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "place and above place as one,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "for in order for there to be the union of two opposites, place and above place,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "it is specifically through the revelation of the Ein Sof that is above even the light that is above the worlds,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "the impossible"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "of impossibilities."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "Similarly, the descent of the world through exile is a descent for the sake of ascent, making the revelation of the future era superior to that of the Holy Temple.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And now, similarly, regarding the descent of the world through the exile,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "it is a descent for the sake of ascent."
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "For since the primary service of subjugation and transformation is during the time of exile,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "therefore,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "the drawing down that comes through the service during the time of exile is loftier than the drawing down that came through the service during the time of the Holy Temple."
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "And this is one of the reasons that the revelation of the future era will be loftier than the revelation that was in the Holy Temple,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "for the revelation of the future era is"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "that then there will be the revelation of the drawing down that came through the service during the time of exile."
+          }
+        ]
+      }
+    ]
+  }
+}

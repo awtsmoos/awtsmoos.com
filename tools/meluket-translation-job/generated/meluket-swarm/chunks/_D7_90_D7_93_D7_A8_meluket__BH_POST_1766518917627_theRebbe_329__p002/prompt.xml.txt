@@ -1,0 +1,147 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917627_theRebbe_329" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917627_theRebbe_329__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917627_theRebbe_329" title="מאמר החודש הזה לכם תשל"ה" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917627_theRebbe_329__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים דבהחילוק בין תשרי וניסן כמה ענינים.</src>
+    <src s="2">ומהם,</src>
+    <src s="3">דההמשכה בתשרי היא ע"י אתערותא דלתתא,</src>
+    <src s="4">וההמשכה בניסן היא מלמעלה,</src>
+    <src s="5">אתערותא דלעילא מצד עצמה14.</src>
+    <src s="6">דזהו שברכת הגשם היא בשמע"צ</src>
+    <src s="7">(תשרי)</src>
+    <src s="8">וברכת טל היא בפסח</src>
+    <src s="9">(ניסן),</src>
+    <src s="10">כי גשם הוא15</src>
+    <src s="11">המשכה ע"י אתעדל"ת וטל הוא15</src>
+    <src s="12">שיורד מלמעלה מעצמו16.</src>
+    <src s="13">ועוד חילוק בין ניסן ותשרי,</src>
+    <src s="14">דהחיות שנמשך בראש השנה</src>
+    <src s="15">(תשרי)</src>
+    <src s="16">על כל השנה הוא בגבול ומדה</src>
+    <src s="17">(שבכללות הוא החיות שמלובש בהנבראים בפנימיותם),</src>
+    <src s="18">שהוא השרש דהנהגת הטבע,</src>
+    <src s="19">וזה שניסן הוא ראש חדשים</src>
+    <src s="20">[דזה שנקרא בשם ראש חדשים הוא לפי שממנו נמשך חיות לכל החדשים,</src>
+    <src s="21">בדוגמת ראש כפשוטו שממנו נמשך חיות לכל אברי הגוף]</src>
+    <src s="22">הוא בנוגע להמשכת אור הבל"ג שלמעלה מעולמות,</src>
+    <src s="23">השרש דהנהגה נסית שלמעלה מהטבע17.</src>
+    <src s="24">וזהו שבריאת העולם היתה בתשרי ויציאת מצרים היתה בניסן,</src>
+    <src s="25">כי בריאת העולם הוא זה שנברא העולם מדוד ומוגבל ע"פ חוקי הטבע,</src>
+    <src s="26">ויציאת מצרים היא היציאה מהמיצרים וההגבלות דעולם ע"י גילוי אור הבל"ג שלמעלה מעולמות.</src>
+    <src s="27">ויש לומר דשני ענינים אלה תלויים זב"ז.</src>
+    <src s="28">דההמשכה הבאה ע"י אתערותא דלתתא</src>
+    <src s="29">(עבודת הנבראים)</src>
+    <src s="30">היא מדודה ומוגבלת לפי אופן המטה,</src>
+    <src s="31">וההמשכה הבאה ע"י אתערותא דלעילא מצד עצמה היא כפי אופן המעלה.</src>
+    <src s="32">ועפ"ז צריך להבין,</src>
+    <src s="33">מה שהמחשבה לברוא את העולם היתה בניסן,</src>
+    <src s="34">מהי השייכות דבריאת העולם</src>
+    <src s="35">(מדידה והגבלה)</src>
+    <src s="36">לניסן</src>
+    <src s="37">(גילוי אור הבל"ג).</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה הפלוגתא דר"א ור"י היא גם בנוגע להזמן דגאולה העתידה.</src>
+    <src s="2">דר"א ס"ל דבניסן נגאלו ובתשרי עתידין ליגאל ור"י ס"ל דבניסן נגאלו ובניסן עתידין ליגאל18.</src>
+    <src s="3">ומבאר הצ"צ19</src>
+    <src s="4">דאזלי לשיטתייהו באופן הגאולה20.</src>
+    <src s="5">דר"א ס"ל אם ישראל עושין תשובה נגאלין ואם לאו אין נגאלין,</src>
+    <src s="6">ולכן ס"ל דבתשרי עתידין ליגאל,</src>
+    <src s="7">כי אז התשובה מתקבלת ביתר שאת21.</src>
+    <src s="8">דזה שהגאולה דיציאת מצרים היתה בניסן וגאולה העתידה תהי' בתשרי הוא,</src>
+    <src s="9">לפי שהם חלוקים באופנם.</src>
+    <src s="10">דהגאולה דיצי"מ היתה ע"י הגילוי מלמעלה,</src>
+    <src s="11">ולכן היתה בניסן.</src>
+    <src s="12">וגאולה העתידה תהי' ע"י התשובה,</src>
+    <src s="13">עבודתם של ישראל,</src>
+    <src s="14">ולכן תהי' בתשרי.</src>
+    <src s="15">[וזהו גם הטעם על זה שהגאולה דיציאת מצרים</src>
+    <src s="16">(וכן הגאולות שלאחרי')</src>
+    <src s="17">היתה גאולה שיש אחרי' גלות,</src>
+    <src s="18">בחינת נקבה22,</src>
+    <src s="19">וגאולה העתידה תהי' גאולה נצחית שאין אחרי' גלות,</src>
+    <src s="20">בחינת זכר22,</src>
+    <src s="21">כי איש מזריע תחילה יולדת נקבה,</src>
+    <src s="22">אשה מזרעת תחלה יולדת זכר23].</src>
+    <src s="23">ור"י ס"ל לא בכסף תגאלו24</src>
+    <src s="24">לא בתשובה ומעשים טובים</src>
+    <src s="25">[דאפילו אין עושין תשובה נגאלין25],</src>
+    <src s="26">לכן ס"ל דבניסן עתידין ליגאל.</src>
+    <src s="27">וזה שהגאולה העתידה תהי' גאולה נצחית,</src>
+    <src s="28">בחינת זכר,</src>
+    <src s="29">אף שגם גאולה העתידה תהי' ע"י גילוי מלמעלה,</src>
+    <src s="30">הוא,</src>
+    <src s="31">כי הגילוי דלע"ל הוא ממקום נעלה מאד,</src>
+    <src s="32">שגם כשאיש מזריע תחלה יולדת זכר.</src>
+    <src s="33">כמ"ש26</src>
+    <src s="34">ולציון יאמר איש ואיש יולד בה והוא יכוננה עליון,</src>
+    <src s="35">דכאשר הגילוי הוא ממקום נעלה מאד,</src>
+    <src s="36">והוא יכוננה עליון,</src>
+    <src s="37">אזי,</src>
+    <src s="38">איש ואיש יולד,</src>
+    <src s="39">דגם כשאיש מזריע תחלה נולד איש</src>
+    <src s="40">(זכר).</src>
+  </section>
+  <section v="5">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">דבנוגע לאופן הגאולה קיימא לן כר' אליעזר,</src>
+    <src s="2">כמ"ש הרמב"ם27</src>
+    <src s="3">שאין ישראל נגאלין אלא בתשובה,</src>
+    <src s="4">ובנוגע לזמן הגאולה מובא בכמה דרושים28</src>
+    <src s="5">שבמדרש29</src>
+    <src s="6">הכריע וסתם כדעת ר"י דבניסן עתידין ליגאל30.</src>
+    <src s="7">ויש לומר הביאור בזה,</src>
+    <src s="8">ע"פ מ"ש בתניא31</src>
+    <src s="9">שכל הגילויים דלע"ל תלויים במעשינו ועבודתינו במשך זמן הגלות.</src>
+    <src s="10">דענין זה הוא</src>
+    <src s="11">(בפשטות)</src>
+    <src s="12">לכל הדיעות.</src>
+    <src s="13">אלא שלדעת ר' יהושע,</src>
+    <src s="14">זה שע"י מעשינו ועבודתינו בזמן הגלות יומשכו הגילויים דלע"ל,</src>
+    <src s="15">הוא</src>
+    <src s="16">(לא מצד עצמם,</src>
+    <src s="17">אלא)</src>
+    <src s="18">לפי שבמעשינו ועבודתינו בזמן הגלות יש הכח דהגילוי מלמעלה</src>
+    <src s="19">(כדלקמן סעיף ה).</src>
+    <src s="20">ועפ"ז יש לבאר התיווך דשני פסקי דינים הנ"ל,</src>
+    <src s="21">שאין ישראל נגאלין אלא בתשובה ושבניסן עתידין ליגאל,</src>
+    <src s="22">כי זה שישראל עושין תשובה בסוף גלותן ומיד הן נגאלין32</src>
+    <src s="23">הוא,</src>
+    <src s="24">לפי שבעשיית התשובה דישראל בסוף גלותן יש הכח דהגילוי מלמעלה,</src>
+    <src s="25">ענין ניסן.</src>
+  </section>
+</awtsmoosMeluketSource>

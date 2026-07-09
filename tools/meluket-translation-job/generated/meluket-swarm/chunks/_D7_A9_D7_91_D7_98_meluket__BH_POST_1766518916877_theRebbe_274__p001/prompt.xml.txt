@@ -1,0 +1,108 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916877_theRebbe_274" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916877_theRebbe_274" title="מאמר באתי לגני תשל"ב" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יו"ד שבט,</src>
+    <src s="2">ה'תשל"ב</src>
+  </section>
+  <section v="1">
+    <src s="0">באתי לגני אחותי כלה1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר בעל ההילולא בהמאמר דיום ההסתלקות ויום ההילולא שלו2,</src>
+    <src s="2">דאיתא במדרש רבה</src>
+    <src s="3">(במקומו)</src>
+    <src s="4">לגני לגנוני,</src>
+    <src s="5">למקום שהי' עיקרי בתחלה,</src>
+    <src s="6">דעיקר שכינה בתחתונים היתה,</src>
+    <src s="7">אלא שע"י הענינים הבלתי רצויים</src>
+    <src s="8">(מתחיל מחטא עץ הדעת)</src>
+    <src s="9">נסתלקה השכינה מלמטה למעלה עד לרקיע השביעי,</src>
+    <src s="10">ואח"כ עמדו צדיקים</src>
+    <src s="11">(מתחיל מאברהם אבינו,</src>
+    <src s="12">אחד הי' אברהם3)</src>
+    <src s="13">והורידו את השכינה מלמעלה למטה,</src>
+    <src s="14">עד שבא משה שהוא השביעי,</src>
+    <src s="15">וכל השביעין חביבין4,</src>
+    <src s="16">והורידה למטה בארץ.</src>
+    <src s="17">וענין זה</src>
+    <src s="18">(המשכת וירידת השכינה למטה בארץ,</src>
+    <src s="19">שהיתה ע"י משה)</src>
+    <src s="20">הי' בעיקר5</src>
+    <src s="21">בבית המקדש6,</src>
+    <src s="22">כמ"ש7</src>
+    <src s="23">ועשו לי מקדש ושכנתי בתוכם.</src>
+    <src s="24">ולהעיר,</src>
+    <src s="25">שבמדרש שם מדבר בנוגע להזמן שבו היתה המשכת השכינה למטה,</src>
+    <src s="26">שעיקר השראת השכינה בארץ היתה ביום שהוקם המשכן,</src>
+    <src s="27">ובהמאמר מדבר בנוגע להמקום שבו נמשכה השכינה,</src>
+    <src s="28">דעיקר ההמשכה הוא במשכן ומקדש,</src>
+    <src s="29">ועי"ז נמשך גילוי אלקות גם בכללות העולם.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך בהמאמר דיוק לשון הכתוב ושכנתי בתוכם,</src>
+    <src s="2">בתוכו לא נאמר אלא בתוכם,</src>
+    <src s="3">בתוך כל אחד ואחד מישראל8.</src>
+    <src s="4">וזהו צדיקים יירשו ארץ וישכנו לעד עלי'9,</src>
+    <src s="5">שצדיקים הם משכינים</src>
+    <src s="6">(ממשיכים10)</src>
+    <src s="7">את השכינה שנק' עד,</src>
+    <src s="8">שוכן עד מרום וקדוש11,</src>
+    <src s="9">שתהי' בגילוי למטה.</src>
+    <src s="10">ויש לומר,</src>
+    <src s="11">דזה שמביא בהמאמר פירוש הפסוק צדיקים יירשו ארץ גו' לאחרי שמבאר שעיקר ההמשכה היתה במשכן12</src>
+    <src s="12">ולאחרי שמבאר דבתוכם לשון רבים הוא בתוך כל אחד ואחד מישראל,</src>
+    <src s="13">הוא לרמז,</src>
+    <src s="14">דזה שצדיקים ממשיכים את השכינה למטה</src>
+    <src s="15">(וישכנו לעד עלי'),</src>
+    <src s="16">הכוונה בזה היא לא רק לשבעה הצדיקים שמאברהם עד משה,</src>
+    <src s="17">אלא לכאו"א מישראל,</src>
+    <src s="18">ועמך כולם צדיקים13.</src>
+    <src s="19">היינו,</src>
+    <src s="20">דבזה שנאמר ושכנתי בתוכם</src>
+    <src s="21">(לשון רבים)</src>
+    <src s="22">שקאי</src>
+    <src s="23">(גם)</src>
+    <src s="24">על כאו"א מישראל,</src>
+    <src s="25">שני ענינים.</src>
+    <src s="26">שבכחו של כאו"א מישראל להיות משכן ומקדש לו ית',</src>
+    <src s="27">שיהי' שוכן בו עיקר שכינה</src>
+    <src s="28">[באותו האופן ממש כמו שהי' בבית המקדש]</src>
+    <src s="29">– ושכנתי בתוכם.</src>
+    <src s="30">וגם,</src>
+    <src s="31">שעי"ז יומשך גילוי אלקות בעולם – וישכנו לעד עלי'</src>
+    <src s="32">(בארץ).</src>
+  </section>
+</awtsmoosMeluketSource>

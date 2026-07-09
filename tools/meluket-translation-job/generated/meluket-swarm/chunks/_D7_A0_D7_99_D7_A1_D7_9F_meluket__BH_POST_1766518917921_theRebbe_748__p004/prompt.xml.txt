@@ -1,0 +1,155 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917921_theRebbe_748" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917921_theRebbe_748__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917921_theRebbe_748" title="מאמר ונחה עליו רוח ה' תשי"ד" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917921_theRebbe_748__p004">
+  <section v="9">
+    <src s="0">ט)</src>
+    <src s="1">והנה ידוע44</src>
+    <src s="2">דהאור</src>
+    <src s="3">(קודם שנתגלה)</src>
+    <src s="4">הי' כלול בעצמות המאור ממש.</src>
+    <src s="5">אלא שבהיותו כלול בהמאור,</src>
+    <src s="6">אינו בבחי' אור כלל ורק מה שביכלתו להאיר.</src>
+    <src s="7">ועפ"ז צריך לומר,</src>
+    <src s="8">דשתי המדריגות הנ"ל בהאור שבבחי' גילוי</src>
+    <src s="9">(שלפני הצמצום),</src>
+    <src s="10">יש להם שרש גם באור הכלול.</src>
+    <src s="11">ונקודת הביאור בזה,</src>
+    <src s="12">דזה שהעצמות ביכלתו להאיר,</src>
+    <src s="13">אין זה ענין פרטי ח"ו</src>
+    <src s="14">(מקור לאור),</src>
+    <src s="15">כי אם,</src>
+    <src s="16">זה שהוא ית' כל יכול,</src>
+    <src s="17">דמזה מובן,</src>
+    <src s="18">דבהיכולת להאיר</src>
+    <src s="19">(כמו שהוא בהעצמות)</src>
+    <src s="20">יש גם היכולת שלא להאיר.</src>
+    <src s="21">ושניהם</src>
+    <src s="22">(זה שביכלתו להאיר וזה שביכלתו שלא להאיר)</src>
+    <src s="23">הם ענין אחד45.</src>
+    <src s="24">ומכיון שהאור הכלול בעצמותו הוא זה שהעצמות ביכלתו להאיר</src>
+    <src s="25">(כנ"ל),</src>
+    <src s="26">דביכולת זו יש גם היכולת שלא להאיר,</src>
+    <src s="27">לכן,</src>
+    <src s="28">גם כמו שהאור נמשך בגילוי,</src>
+    <src s="29">יש בו שני הענינים דהעלם וגילוי,</src>
+    <src s="30">למעלה משייכות לעולמות ושייכות לעולמות,</src>
+    <src s="31">שהם השרש דסובב וממלא שלאחרי הצמצום,</src>
+    <src s="32">שמהם נעשה המעלה ומטה שבעולמות.</src>
+  </section>
+  <section v="10">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">וזהו ונחה עליו רוח הוי' גו',</src>
+    <src s="3">דהנה ידוע שהחידוש דמשיח הוא שעל ידו יתאחדו ב' הענינים דמעלה ומטה.</src>
+    <src s="4">והתחלת החיבור דמעלה ומטה הי' בעת קריעת ים סוף,</src>
+    <src s="5">אלא שאז הי' זה רק לפי שעה,</src>
+    <src s="6">וזה הי' הכנה למתן תורה,</src>
+    <src s="7">עליונים ירדו למטה ותחתונים יעלו למעלה46.</src>
+    <src s="8">ואמיתית החיבור דמעלה ומטה יהי' בימות המשיח.</src>
+    <src s="9">וכדאיתא במדרש תהלים עה"פ47</src>
+    <src s="10">מי יתן מציון גו',</src>
+    <src s="11">את מוצא שני פעמים כתוב בספר תהלים מי יתן מציון,</src>
+    <src s="12">אחד בספר ראשון47</src>
+    <src s="13">ואחד בספר שני48,</src>
+    <src s="14">הרב אמר אחד והתלמיד אמר אחד,</src>
+    <src s="15">הרב אמר מי יתן והי' לבבם זה להם49</src>
+    <src s="16">והתלמיד אמר ומי יתן כל עם ה' נביאים50,</src>
+    <src s="17">לא דברי הרב ולא דברי התלמיד מתקיימין בעולם הזה,</src>
+    <src s="18">אבל לעולם הבא שניהם מתקיימין,</src>
+    <src s="19">דברי הרב מנין שנאמר51</src>
+    <src s="20">ונתתי לכם לב חדש,</src>
+    <src s="21">דברי התלמיד מנין שנאמר52</src>
+    <src s="22">והי' אחרי כן אשפוך את רוחי על כל בשר.</src>
+    <src s="23">דזה שלב האדם הגשמי יהי' ליראה אותי גו' כל הימים49</src>
+    <src s="24">הוא שהמטה יתחבר עם המעלה,</src>
+    <src s="25">וזה שאשפוך את רוחי על כל בשר הוא שהמעלה יתחבר עם המטה.</src>
+    <src s="26">וזה שלע"ל יהי' החיבור דמעלה ומטה</src>
+    <src s="27">[בשני האופנים,</src>
+    <src s="28">שהמטה יתעלה למעלה ושהמעלה יומשך למטה]</src>
+    <src s="29">הוא כי אז יהיו שניהם</src>
+    <src s="30">(המעלה והמטה)</src>
+    <src s="31">כמו שהם מצד יכולת העצמות,</src>
+    <src s="32">שביכלתו להאיר וביכלתו שלא להאיר.</src>
+    <src s="33">ומכיון שהיכולת להאיר והיכולת שלא להאיר הם ענין אחד</src>
+    <src s="34">(כנ"ל סעיף ט),</src>
+    <src s="35">לכן,</src>
+    <src s="36">גם המעלה ומטה</src>
+    <src s="37">(כשיתגלה בהם שרשם הראשון,</src>
+    <src s="38">כמו שהם בהיכולת),</src>
+    <src s="39">יתחברו ויתאחדו כאחד.</src>
+  </section>
+  <section v="11">
+    <src s="0">וזהו ונחה עליו רוח הוי',</src>
+    <src s="1">רוח הוא אור א"ס כמו שהוא כלול בעצמות המאור,</src>
+    <src s="2">שהוא יכולת העצמות.</src>
+    <src s="3">וע"י הגילוי דרוח הוי' שיהי' במשיח,</src>
+    <src s="4">תהי' התאחדות גם בהענינים הפרטיים.</src>
+    <src s="5">וזהו שממשיך בכתוב רוח חכמה ובינה רוח עצה וגבורה רוח דעת ויראת הוי',</src>
+    <src s="6">דחכמה ובינה הם שני ענינים הפכיים,</src>
+    <src s="7">ואעפ"כ יתאחדו כאחד</src>
+    <src s="8">[שלכן נכללים ברוח אחד,</src>
+    <src s="9">רוח חכמה ובינה],</src>
+    <src s="10">כי בהחכמה ובינה דמשיח יהי' ניכר בגילוי שהם נמשכים משרשם רוח הוי'</src>
+    <src s="11">(רוח חכמה ובינה),</src>
+    <src s="12">ולכן יתאחדו כאחד53.</src>
+    <src s="13">[ועד"ז הוא בנוגע לעצה וגבורה,</src>
+    <src s="14">דעת ויראה,</src>
+    <src s="15">שעם היותם הפכיים,</src>
+    <src s="16">יתאחדו כאחד54].</src>
+    <src s="17">וזהו גם הקשר דרוח חכמה ובינה עם ושפט בצדק דלים,</src>
+    <src s="18">אף שהמשפט דמשיח יהי' ע"פ הריח,</src>
+    <src s="19">דריח הוא מקיף55,</src>
+    <src s="20">כי במשיח,</src>
+    <src s="21">המקיף</src>
+    <src s="22">(ריח)</src>
+    <src s="23">והפנימי</src>
+    <src s="24">(חכמה ובינה)</src>
+    <src s="25">יתאחדו כאחד.</src>
+    <src s="26">וזהו גם מה שממשיך56</src>
+    <src s="27">וגר זאב עם כבש וגו',</src>
+    <src s="28">שהחיבור דמעלה ומטה יהי' לא רק במשיח עצמו,</src>
+    <src s="29">אלא שע"י משיח יהי'</src>
+    <src s="30">(דוגמת)</src>
+    <src s="31">ענין זה גם בכל העולם,</src>
+    <src s="32">עד וגר זאב עם כבש וגו',</src>
+    <src s="33">ועד בסוג הדומם,</src>
+    <src s="34">וכמו שממשיך בכתוב57</src>
+    <src s="35">כי מלאה הארץ דיעה את הוי',</src>
+    <src s="36">שגם הארץ הגשמיית</src>
+    <src s="37">(דומם)</src>
+    <src s="38">תהי' מלאה דיעה את הוי',</src>
+    <src s="39">בביאת משיח צדקנו בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

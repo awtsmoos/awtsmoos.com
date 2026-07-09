@@ -1,0 +1,123 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914964_theRebbe_974" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914964_theRebbe_974__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914964_theRebbe_974" title="מאמר ויהיו חיי שרה תשמ"ה" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914964_theRebbe_974__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">ויש לבאר זה ע"פ מ"ש בהמאמר39,</src>
+    <src s="2">דבמלכות ישנם שני ענינים הפכיים.</src>
+    <src s="3">דענין המלוכה הוא הגבהה והתנשאות</src>
+    <src s="4">(בחינת יש),</src>
+    <src s="5">ואעפ"כ המלכות היא בתכלית הביטול.</src>
+    <src s="6">ומבאר,</src>
+    <src s="7">שהביטול דהמלכות הוא מצד שרשה ברדל"א,</src>
+    <src s="8">שלכן הביטול שלה הוא ביטול בעצם,</src>
+    <src s="9">ובביטול בעצם,</src>
+    <src s="10">גם היש הוא בביטול.</src>
+    <src s="11">והענין בעבודה הוא</src>
+    <src s="12">(כמבואר בהמאמר40)</src>
+    <src s="13">דעבודת ה' צריכה להיות בשמחה דוקא כמ"ש41</src>
+    <src s="14">עבדו את ה' בשמחה.</src>
+    <src s="15">ועד שהשמחה בעבודת ה' היא עיקר גדול,</src>
+    <src s="16">וכידוע פירוש האריז"ל42</src>
+    <src s="17">והובא בתניא43</src>
+    <src s="18">עה"פ44</src>
+    <src s="19">תחת אשר לא עבדת את ה' אלקיך בשמחה וגו',</src>
+    <src s="20">ואיתא בתו"א45</src>
+    <src s="21">דזה שהאריז"ל זכה לרוה"ק הוא ע"י שמחה של מצוה</src>
+    <src s="22">[וכיון שזהו סיפור בתורה</src>
+    <src s="23">(שבעל פה)</src>
+    <src s="24">מלשון הוראה,</src>
+    <src s="25">הרי זה הוראה לכאו"א מישראל].</src>
+    <src s="26">אלא שאעפ"כ יש זמנים46</src>
+    <src s="27">שהשמחה צריכה להיות בהעלם,</src>
+    <src s="28">כמ"ש47</src>
+    <src s="29">עבדו את ה' ביראה וגילו ברעדה,</src>
+    <src s="30">דבגילוי הוא היראה והרעדה,</src>
+    <src s="31">והשמחה</src>
+    <src s="32">(גילה)</src>
+    <src s="33">היא בהעלם48.</src>
+    <src s="34">כי כאשר השמחה היא בהתגלות ובמורגש,</src>
+    <src s="35">אפשר שמזה יבוא להרגשת הישות,</src>
+    <src s="36">ועי"ז אפשר שדברים בלתי רצויים יבואו עי"ז,</src>
+    <src s="37">ולכן צ"ל עבדו את ה' ביראה וגילו ברעדה.</src>
+    <src s="38">ובכדי שהשמחה תהי' בהתגלות ואעפ"כ לא יבוא מזה להרגשת הישות,</src>
+    <src s="39">הוא ע"י שהוא בטל בעצם,</src>
+    <src s="40">שאז,</src>
+    <src s="41">גם המורגש שלו הוא בביטול.</src>
+    <src s="42">וע"ד המבואר לעיל בענין הביטול דמלכות,</src>
+    <src s="43">שגם היש</src>
+    <src s="44">(הגבהה והתנשאות)</src>
+    <src s="45">הוא בביטול.</src>
+  </section>
+  <section v="10">
+    <src s="0">וזהו49 ההוספה והחידוש דדילה הוו חיין על זה שזכתה לחיין עילאין,</src>
+    <src s="1">כי זה ששרה נחתת וסלקת</src>
+    <src s="2">(שעי"ז זכתה לחיין עילאין)</src>
+    <src s="3">הוא ע"י היראה וביטול</src>
+    <src s="4">(ולא ע"י השמחה)50,</src>
+    <src s="5">ולכן המשכת החיין עילאין</src>
+    <src s="6">[שע"י נחתת וסלקת]</src>
+    <src s="7">בהמלכות הוא בהמלכות כמו שהיא בבחינת עלי' וביטול לז"א</src>
+    <src s="8">[ובעבודת האדם הוא שהגילוי שמאיר לו ע"י עבודתו הוא כמו שהוא במצב דיראה וביטול,</src>
+    <src s="9">ולא בהמציאות שלו].</src>
+    <src s="10">וענין דילה הוו חיין הוא שההמשכה והגילוי הוא גם בהמציאות דמלכות,</src>
+    <src s="11">כי כיון שהביטול דמלכות הוא ביטול בעצם,</src>
+    <src s="12">לכן גם המורגש דמלכות הוא בביטול,</src>
+    <src s="13">כנ"ל.</src>
+  </section>
+  <section v="11">
+    <src s="0">ועפ"ז יש לבאר מעלת האחדות שלמעלה מהתחלקות דשני חיי שרה שלא נאמר בהם מספר על האחדות דמאה שנה לשון יחיד,</src>
+    <src s="1">דענין האחדות</src>
+    <src s="2">(שנה לשון יחיד)</src>
+    <src s="3">בהספירות שבכתר</src>
+    <src s="4">(מאה),</src>
+    <src s="5">הוא,</src>
+    <src s="6">ע"י שבהיותם כלולים בשרשם אינם במציאות.</src>
+    <src s="7">והחידוש שבשני חיי שרה הוא,</src>
+    <src s="8">דהגם שבמלכות הוא התחלקות פרטים</src>
+    <src s="9">[וכידוע51</src>
+    <src s="10">שעיקר ההתחלקות הוא במלכות],</src>
+    <src s="11">שלכן,</src>
+    <src s="12">גם החיין עילאין הנמשכים במלכות באופן שהם דילה הם בהתחלקות,</src>
+    <src s="13">שני חיי שרה</src>
+    <src s="14">(שני לשון רבים),</src>
+    <src s="15">מ"מ הם בהתכללות ובהתאחדות כמו דבר אחד ממש</src>
+    <src s="16">(שלכן לא נאמר בהם מספר).</src>
+    <src s="17">ועי"ז מתגלה אמיתית ענין האחדות52,</src>
+    <src s="18">שגם הריבוי</src>
+    <src s="19">(פרטים מחולקים)</src>
+    <src s="20">אינו סותר לאחדות.</src>
+  </section>
+</awtsmoosMeluketSource>

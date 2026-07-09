@@ -1,0 +1,110 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913707_theRebbe_562" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913707_theRebbe_562" title="מאמר יבחר לנו את נחלתינו תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p005">
+  <section v="12">
+    <src s="0">ועפ"ז,</src>
+    <src s="1">בכדי לפעול שיהי' בנין המלכות צריכים להמשיך ממקום שאין שם</src>
+    <src s="2">(לא רק מציאות העולמות,</src>
+    <src s="3">אלא שאין שם)</src>
+    <src s="4">גם המציאות דנשמות.</src>
+    <src s="5">וצריך להבין,</src>
+    <src s="6">איך שייך שהנשמות ע"י עבודתם יגיעו למקום שלמעלה ממציאותם.</src>
+  </section>
+  <section v="13">
+    <src s="0">ונקודת הביאור בזה,</src>
+    <src s="1">דזה שבעת סילוק המלכות</src>
+    <src s="2">(בהדרגות שלמעלה ממלכות)</src>
+    <src s="3">אין תפיסת מקום לכאורה לנשמות ועבודתם</src>
+    <src s="4">(כי נשמות ומלכות הם ענין אחד),</src>
+    <src s="5">הוא בנוגע להמציאות דנשמות,</src>
+    <src s="6">וענין תמליכוני</src>
+    <src s="7">(שישראל מבקשים ומתחננים להקב"ה שיהי' מלך)</src>
+    <src s="8">הוא הביטול פנימי שמצד עצם הנשמה46,</src>
+    <src s="9">שמושרשת בהעצמות.</src>
+    <src s="10">וכשמתגלית עצם הנשמה היא ממשכת את העצמות.</src>
+    <src s="11">ועי"ז נעשה גם בנין המלכות.</src>
+  </section>
+  <section v="14">
+    <src s="0">ז)</src>
+    <src s="1">וביאור הענין דבנין המלכות שנעשה ע"י המשכת העצמות שע"י גילוי עצם הנשמה,</src>
+    <src s="2">יש לומר,</src>
+    <src s="3">ע"פ המבואר בכ"מ47</src>
+    <src s="4">בענין ישראל עלו במחשבה48,</src>
+    <src s="5">דמחשבה זו היא מחשבה עצמית.</src>
+    <src s="6">דמחשבה בכלל היא מחוץ להחושב</src>
+    <src s="7">[וכמו אדם החושב איזה דבר,</src>
+    <src s="8">דהמחשבה בהדבר היא למטה מהאדם עצמו,</src>
+    <src s="9">ובמילא היא כמו חוץ ממנו],</src>
+    <src s="10">והמחשבה דישראל היא חד עם החושב עצמו.</src>
+    <src s="11">וזהו במי נמלך בנשמותיהן של צדיקים49</src>
+    <src s="12">(ועמך כולם צדיקים50),</src>
+    <src s="13">שההמלכה דבמי נמלך היא לא רק על בריאת העולמות</src>
+    <src s="14">(אם לברוא עולמות או לא לברוא),</src>
+    <src s="15">אלא גם על המחשבה להתהוות העולמות</src>
+    <src s="16">(אם תהי' המחשבה להתהוות העולמות או לאו),</src>
+    <src s="17">דמזה מובן,</src>
+    <src s="18">שנשמות ישראל</src>
+    <src s="19">(שבהם נמלך אם תהי' המחשבה דבריאת העולמות)</src>
+    <src s="20">הם למעלה ממחשבה זו.</src>
+    <src s="21">כי המחשבה דבריאת העולמות,</src>
+    <src s="22">גם כמו שהיא בדרגא הכי נעלית,</src>
+    <src s="23">היא דוגמת אדם החושב איזה דבר</src>
+    <src s="24">(מחשבה לברוא עולמות),</src>
+    <src s="25">שהמחשבה היא חוץ ממנו,</src>
+    <src s="26">וישראל עלו במחשבה עצמית.</src>
+    <src s="27">ומבואר שם,</src>
+    <src s="28">דהטעם על זה שההמלכה על המחשבה דבריאת העולמות היתה עם ישראל שעלו במחשבה עצמית</src>
+    <src s="29">(אף שמחשבה עצמית היא למעלה מהמחשבה דבריאת העולמות),</src>
+    <src s="30">הוא,</src>
+    <src s="31">כי במחשבה עצמית שני אופנים.</src>
+    <src s="32">שחושב אודות עצמו,</src>
+    <src s="33">ושחושב בדבר הנבדל ממנו ואעפ"כ אין המחשבה חוץ ממנו כי הוא עצמו הוא החושב.</src>
+    <src s="34">וזה שישראל עלו במחשבה הוא אופן הב' שבמחשבה עצמית,</src>
+    <src s="35">שהעצמות חושב כביכול בדבר הזולת</src>
+    <src s="36">[וזהו בנים אתם להוי' אלקיכם51,</src>
+    <src s="37">דכיון ששורש הנשמות הוא במחשבה העצמית,</src>
+    <src s="38">שהעצמות חושב כביכול בדבר הזולת,</src>
+    <src s="39">לכן,</src>
+    <src s="40">גם לאחרי שבאו בהמשכה הם כמו בנים,</src>
+    <src s="41">שבבן</src>
+    <src s="42">(דוגמת)</src>
+    <src s="43">שני ענינים הנ"ל.</src>
+    <src s="44">שהבן הוא נבדל מהאב ואעפ"כ יש בו מעצמיות האב].</src>
+    <src s="45">ולכן ההמלכה על המחשבה דעולמות היתה עם ישראל.</src>
+    <src s="46">כי הכוונה דבריאת העולם</src>
+    <src s="47">[שהתחתונים יהיו דירה לו ית']</src>
+    <src s="48">נשלמת ע"י הנשמות.</src>
+  </section>
+</awtsmoosMeluketSource>

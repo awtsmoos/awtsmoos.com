@@ -1,0 +1,119 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914734_theRebbe_896" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914734_theRebbe_896" title="מאמר בורא ניב שפתיים תשמ"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">דמ"ש אמר הוי' ורפאתיו לאחרי שאומר שלום לרחוק,</src>
+    <src s="3">הוא,</src>
+    <src s="4">דכיון שבתחלה הי' מרוחק מאלקות,</src>
+    <src s="5">לכן,</src>
+    <src s="6">גם לאחרי שנעשה קרוב לאלקות</src>
+    <src s="7">(ע"י התשובה,</src>
+    <src s="8">עבודת האדם),</src>
+    <src s="9">וגם לאחרי שנעשה שלום לרחוק</src>
+    <src s="10">(ע"י המשכה מלמעלה),</src>
+    <src s="11">צריך עדיין לרפואה.</src>
+    <src s="12">והרפואה היא ע"י לימוד התורה.</src>
+    <src s="13">וזהו אמר הוי' ורפאתיו,</src>
+    <src s="14">דהרפואה היא אמר הוי',</src>
+    <src s="15">שחוקק בכח זכרונו אותיות שבתורה.</src>
+  </section>
+  <section v="10">
+    <src s="0">ולהעיר,</src>
+    <src s="1">דמ"ש בהמאמר שרפאתיו הוא ע"י לימוד התורה,</src>
+    <src s="2">הוא גם בנוגע לרפואה בגשמיות,</src>
+    <src s="3">כמ"ש30</src>
+    <src s="4">ולכל בשרו מרפא.</src>
+    <src s="5">ועפ"ז יש לומר,</src>
+    <src s="6">דמ"ש לעיל</src>
+    <src s="7">(סעיף ה)</src>
+    <src s="8">שהרפואה דאמר הוי' ורפאתיו היא באופן שלא נשאר שום רושם ועד שנעקר מתחילתו,</src>
+    <src s="9">הוא גם כשהרפואה מהקב"ה נמשכת ע"י רופא בו"ד וע"י סממני רפואה.</src>
+    <src s="10">דכיון שהתורה היא בעה"ב על כל המציאות,</src>
+    <src s="11">כולל גם מציאות הרפואה</src>
+    <src s="12">(חכמת הרפואה וכו' ועד לעצם מציאות הרפואה),</src>
+    <src s="13">הרי מובן,</src>
+    <src s="14">שבכח התורה,</src>
+    <src s="15">שגם הרפואה שע"י בו"ד וע"י סממנים וכיו"ב תהי' באופן שלא ישאר שום רושם ועד שיהי' נעקר מתחילתו.</src>
+    <src s="16">ולהעיר,</src>
+    <src s="17">שגם ברפואה שע"פ טבע ישנה רפואה שעוקרת את החולי31.</src>
+    <src s="18">אלא שרפואה זו אינה מצוי' והרפואות המצויות הם באופן שנשאר רושם.</src>
+    <src s="19">ועפ"ז מובן עוד יותר זה שבכח התורה לפעול שגם הרפואה שע"י רפואות המצויות תהי' באופן שלא יהי' נשאר שום רושם,</src>
+    <src s="20">מכיון שענין זה ישנו כבר בעולם.</src>
+  </section>
+  <section v="11">
+    <src s="0">ז)</src>
+    <src s="1">וממשיך בהמאמר בפירוש הכתוב בורא ניב שפתים שלום גו' לרחוק,</src>
+    <src s="2">שהעצה והתיקון להרחוק,</src>
+    <src s="3">בעל תשובה,</src>
+    <src s="4">הוא ניב שפתים,</src>
+    <src s="5">וידוי דברים.</src>
+    <src s="6">ונקרא ניב שפתים,</src>
+    <src s="7">דיבור הבא ממילא,</src>
+    <src s="8">כי הוידוי דהבע"ת בא בדרך ממילא,</src>
+    <src s="9">מצער עומק לבבו.</src>
+    <src s="10">והנה פירוש זה שניב שפתים הוא וידוי,</src>
+    <src s="11">הוא ע"פ פירוש הגמרא דשלום לרחוק קאי על בעל תשובה.</src>
+    <src s="12">ולפירוש הרד"ק דשלום לרחוק קאי על הרחוקים מירושלים,</src>
+    <src s="13">מבאר בהמאמר,</src>
+    <src s="14">דירושלים הו"ע יראת שמים32,</src>
+    <src s="15">ורחוק מירושלים הוא זה שבטבע אינו ירא שמים,</src>
+    <src s="16">והעצה לזה הוא ניב שפתים,</src>
+    <src s="17">דיבור בדברי תורה.</src>
+    <src s="18">ויש לומר,</src>
+    <src s="19">דזה שהדיבור בתורה נקרא בכתוב זה בשם ניב שפתים,</src>
+    <src s="20">דיבור הבא ממילא,</src>
+    <src s="21">הוא,</src>
+    <src s="22">לרמז שהאדם צריך להיות שקוע כ"כ בתורה,</src>
+    <src s="23">עד שהדיבור בתורה יהי' באופן דממילא33</src>
+    <src s="24">(ע"ד מארז"ל34</src>
+    <src s="25">מנפשי' כרע).</src>
+    <src s="26">ויש לקשר זה עם המובא לעיל מהמאמר דענין אמר הוי' ורפאתיו הוא שדברי תורה יהיו חקוקים בכח זכרונו,</src>
+    <src s="27">דענין החקיקה הוא שהדבר הנחקק הוא חד עם הדבר שחוקקים בו35,</src>
+    <src s="28">וע"י שנעשה חד עם התורה,</src>
+    <src s="29">שמציאותו היא תורה,</src>
+    <src s="30">כל הדיבורים שלו,</src>
+    <src s="31">גם כשאינו מכוון לדבר דברי תורה,</src>
+    <src s="32">הם דברי תורה.</src>
+    <src s="33">וזהו בורא ניב שפתים,</src>
+    <src s="34">דזה שניב שפתים של האדם</src>
+    <src s="35">(הדיבור שבא מעצמו,</src>
+    <src s="36">בלי כוונה)</src>
+    <src s="37">הוא דברי תורה,</src>
+    <src s="38">הוא ע"י שנעשה מציאות חדשה,</src>
+    <src s="39">מציאות דתורה.</src>
+  </section>
+</awtsmoosMeluketSource>

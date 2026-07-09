@@ -1,0 +1,679 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 127,
+    "returned": 127,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914162_theRebbe_955\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914162_theRebbe_955__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section questions why the verse specifically mentions \"like an eagle\" (ke-nesher) and explains that it refers to the attribute of Yaakov, the central line, which is the perfection of the patriarchs.</sectionSummaryBrief>\n    <t s=\"0\">And we need to understand what is said, \"like an eagle\" specifically,</t>\n    <t s=\"1\">and behold, all four living creatures of the Chariot,</t>\n    <t s=\"2\">the face of a lion, the face of an ox, the face of an eagle, etc., in the thirteen tikkunei dikkna,</t>\n    <t s=\"3\">and why does it say \"like an eagle\" specifically?</t>\n    <t s=\"4\">And even though the aspect of \"eagle\" here refers to the aspect of Atik as mentioned above,</t>\n    <t s=\"5\">that the aspect of Atik is removed and separate from the entire order of Hishtalshelus, and all the more so it is removed and separate from the world of Beriah where</t>\n    <t s=\"6\">(in the world of Beriah)</t>\n    <t s=\"7\">are the four living creatures of the Chariot,</t>\n    <t s=\"8\">nevertheless,</t>\n    <t s=\"9\">from what is said \"like an eagle stirs up its nest,\"</t>\n    <t s=\"10\">that it compares the aspect of Atik and the aspect of abundant mercy above to an eagle,</t>\n    <t s=\"11\">behold it is understood that it compares it to the aspect of \"eagle\" within Hishtalshelus,</t>\n    <t s=\"12\">the aspect of \"eagle\" in the Chariot,</t>\n    <t s=\"13\">and even to the physical eagle below.</t>\n    <t s=\"14\">And as is known, the physical eagle below is compassionate,</t>\n    <t s=\"15\">the opposite of the raven,</t>\n    <t s=\"16\">and to this eagle below, which is compassionate, it compares the aspect of abundant mercy above.</t>\n    <t s=\"17\">And the explanation of the matter is,</t>\n    <t s=\"18\">that behold, among the four living creatures of the Chariot, the face of a lion is to the right, the face of an ox is to the left, and the face of an eagle is in the middle.</t>\n    <t s=\"19\">From this it is understood that the face of an eagle, regarding the matter of the patriarchs who are the Chariot,</t>\n    <t s=\"20\">is the attribute of Yaakov,</t>\n    <t s=\"21\">the central line.</t>\n    <t s=\"22\">And as is known, Avraham is in the right line,</t>\n    <t s=\"23\">Yitzchak in the left line, and Yaakov in the central line.</t>\n    <t s=\"24\">And this is also the continuation of the verses,</t>\n    <t s=\"25\">\"For the portion of Hashem is His people, Yaakov the lot of His inheritance... like an eagle stirs up its nest,\"</t>\n    <t s=\"26\">for the matter of \"like an eagle stirs up its nest\" comes in continuation of \"Yaakov.\"</t>\n    <t s=\"27\">Therefore it says \"like an eagle\" specifically,</t>\n    <t s=\"28\">which is the attribute of Yaakov,</t>\n    <t s=\"29\">for Yaakov is the perfection of the patriarchs.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains the superiority of the central line, which like the middle bar of the Mishkan extends equally from the highest extreme to the lowest without change, and this is reflected in the perfection of Yaakov.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation of the matter of the superiority of the central line,</t>\n    <t s=\"1\">behold it is known</t>\n    <t s=\"2\">that the central line is the middle bar that extends from one end to the other.</t>\n    <t s=\"3\">And there are two matters in this.</t>\n    <t s=\"4\">The first matter is that it extends from the highest extreme to the lowest extreme.</t>\n    <t s=\"5\">And like the middle bar in the Mishkan, which extended from one end of the Mishkan to its other end,</t>\n    <t s=\"6\">therefore its length was seventy-two cubits,</t>\n    <t s=\"7\">for likewise is it in the central line, which extends from the highest extreme to the lowest extreme.</t>\n    <t s=\"8\">And these two matters</t>\n    <t s=\"9\">(that it extends from the highest extreme and is drawn down to the lowest extreme)</t>\n    <t s=\"10\">are dependent on each other,</t>\n    <t s=\"11\">for because it takes from the highest above,</t>\n    <t s=\"12\">therefore it is drawn down to the lowest below,</t>\n    <t s=\"13\">and as is known, the depth of height and the depth of depth are related to each other.</t>\n    <t s=\"14\">For likewise it is also in avodah,</t>\n    <t s=\"15\">as is known regarding the matter of \"From the depths I called You, Hashem,\"</t>\n    <t s=\"16\">that the avodah from the aspect of depth beyond depth</t>\n    <t s=\"17\">[this is the matter of \"depths\" (ma'amakim) in the plural, as brought in the Zohar]</t>\n    <t s=\"18\">below,</t>\n    <t s=\"19\">behold this avodah reaches the aspect of depth above,</t>\n    <t s=\"20\">until the completeness of pardon, forgiveness, and atonement of Yom Kippur, which is \"before Hashem,\"</t>\n    <t s=\"21\">and until the aspect of \"and the spirit shall return to God who gave it,\"</t>\n    <t s=\"22\">as explained in Likkutei Torah on this verse.</t>\n    <t s=\"23\">And the second matter in the central line is that from its beginning to its end it is equal, without changes.</t>\n    <t s=\"24\">And the reason for the absence of changes in it is because it extends from the highest extreme,</t>\n    <t s=\"25\">for this reason it is drawn down to the lowest below as mentioned,</t>\n    <t s=\"26\">and in every place it is equal.</t>\n    <t s=\"27\">For the right line and the left line,</t>\n    <t s=\"28\">because they are only illuminations, etc.,</t>\n    <t s=\"29\">behold the order of the illumination of light is that the more it is drawn down, the more it diminishes</t>\n    <t s=\"30\">(and changes),</t>\n    <t s=\"31\">but not so the central line, which takes from the highest above as mentioned,</t>\n    <t s=\"32\">and as is known, that although all the lines reach the Keter, it is only in the aspect of the externality of Keter, but not so the central line, which reaches the aspect of the internality of Keter,</t>\n    <t s=\"33\">therefore its end is like its beginning,</t>\n    <t s=\"34\">without any change.</t>\n    <t s=\"35\">And behold, likewise it is also in the form of the human body, which is made in the likeness of the supernal form, as it is said,</t>\n    <t s=\"36\">\"Let us make man in our image, after our likeness,\"</t>\n    <t s=\"37\">and it is written \"let us make man,\" \"let us make\" in the plural, as explained in the previous maamarim,</t>\n    <t s=\"38\">in it too there are three lines,</t>\n    <t s=\"39\">the right hand and right foot, which are analogous to the supernal right line,</t>\n    <t s=\"40\">the left hand and left foot, which are analogous to the supernal left line,</t>\n    <t s=\"41\">the head, torso, and foundation, which are analogous to the supernal central line.</t>\n    <t s=\"42\">Behold, in the right line and the left line there are changes,</t>\n    <t s=\"43\">for hands are not like legs, and especially not like nails, which are merely secondary to the person,</t>\n    <t s=\"44\">but not so in the central line, for it is known regarding the matter of \"there is no hardness except through daat,\"</t>\n    <t s=\"45\">that as soon as it is aroused in his mind in his brain, at that very moment the foundation is aroused, etc., as explained in the additions to Torah Or.</t>\n    <t s=\"46\">For likewise it is also in the three supernal lines,</t>\n    <t s=\"47\">that the two lines, right and left,</t>\n    <t s=\"48\">one long and one short,</t>\n    <t s=\"49\">they diminish and change, etc.,</t>\n    <t s=\"50\">but not so the central line,</t>\n    <t s=\"51\">one that is intermediate,</t>\n    <t s=\"52\">which from its beginning to its end is equal.</t>\n    <t s=\"53\">And this is the superiority of Yaakov, the central line, the perfection of the patriarchs,</t>\n    <t s=\"54\">that his bed was complete.</t>\n    <t s=\"55\">For from Avraham came forth Yishmael, and from Yitzchak came forth Esav,</t>\n    <t s=\"56\">and even though it was only in the manner of \"came forth,\"</t>\n    <t s=\"57\">nevertheless, it came forth from him.</t>\n    <t s=\"58\">And this is because Avraham and Yitzchak are in the right and left lines,</t>\n    <t s=\"59\">and these two lines, the more they are drawn down, the more they diminish, etc., as mentioned,</t>\n    <t s=\"60\">behold, from the side of the diminution after diminution that occurred at the end of the drawing down,</t>\n    <t s=\"61\">it was possible that something came forth from him, etc.</t>\n    <t s=\"62\">But not so Yaakov, because he is in the central line, in which there are no changes, his bed was complete,</t>\n    <t s=\"63\">for even as it is drawn down below, in the aspect of his bed, it is in ultimate perfection.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains Shlomo's wonder at the eagle's path in the sky, teaching that the central line's power of teshuvah elevates even what has fallen and become impure back to holiness.</sectionSummaryBrief>\n    <t s=\"0\">And with this will be understood what is said in the writings of the AriZal</t>\n    <t s=\"1\">on the verse,</t>\n    <t s=\"2\">\"Three things are too wonderful for me, and four I do not know: the way of the eagle in the sky,\"</t>\n    <t s=\"3\">that Shlomo wondered how the eagle, which is an unclean bird, is found in the sky in the aspect of the supernal Chariot.</t>\n    <t s=\"4\">And it is known</t>\n    <t s=\"5\">the difficulty in this: why did Shlomo wonder specifically about the eagle? For behold, the lion is also an unclean animal, and nevertheless \"the face of a lion\" is one of the four living creatures in the Chariot.</t>\n    <t s=\"6\">But the explanation of the matter is,</t>\n    <t s=\"7\">that \"eagle\" (nesher) is from the term \"to fall\" (nashar v’nafal).</t>\n    <t s=\"8\">And this is the novelty of the eagle over the lion: that even what has fallen and dropped, behold this too is in the sky.</t>\n    <t s=\"9\">And therefore he wondered specifically about the eagle, and not about the lion,</t>\n    <t s=\"10\">for that the lion is in the sky is only the root of the lion, and not as it fell below into the aspect of an unclean animal.</t>\n    <t s=\"11\">And even though this very fact that it fell so low indicates the superiority of its root,</t>\n    <t s=\"12\">as is known from what is written in Or HaChaim,</t>\n    <t s=\"13\">that because of the intensity of the light of holiness in the aspect of the face of a lion in the Chariot, therefore it fell below specifically into the aspect of impurity,</t>\n    <t s=\"14\">nevertheless, after the fall, etc., it is not in the sky,</t>\n    <t s=\"15\">for through the screens, partitions, and interruptions that separate, it fell and became separate from its root.</t>\n    <t s=\"16\">But not so \"the way of the eagle in the sky,\" for even what has fallen and dropped is also in the sky.</t>\n    <t s=\"17\">For this is the superiority of the central line over the right line and the left line,</t>\n    <t s=\"18\">\"the right draws near and the left repels,\"</t>\n    <t s=\"19\">for that which the right draws near is that it refines, purifies, and elevates permitted things,</t>\n    <t s=\"20\">but not so forbidden things that are bound in the hands of the external forces, for in them the left repels.</t>\n    <t s=\"21\">But not so from the side of the central line,</t>\n    <t s=\"22\">the aspect of mercy of the eagle,</t>\n    <t s=\"23\">behold, even what has fallen and dropped,</t>\n    <t s=\"24\">this too is in the sky, for this is the superiority of teshuvah,</t>\n    <t s=\"25\">that teshuvah transforms even intentional sins into holiness.</t>\n    <t s=\"26\">For at the beginning of the avodah of teshuvah,</t>\n    <t s=\"27\">intentional sins become only unintentional sins,</t>\n    <t s=\"28\">but the ultimate of teshuvah is that intentional sins are transformed into merits.</t>\n    <t s=\"29\">And this is the superiority of teshuvah,</t>\n    <t s=\"30\">the aspect of \"seek peace,\"</t>\n    <t s=\"31\">over the avodah of \"turn away\"</t>\n    <t s=\"32\">from evil and do good.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914162_theRebbe_955",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914162_theRebbe_955__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section questions why the verse specifically mentions \"like an eagle\" (ke-nesher) and explains that it refers to the attribute of Yaakov, the central line, which is the perfection of the patriarchs.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And we need to understand what is said, \"like an eagle\" specifically,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "and behold, all four living creatures of the Chariot,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "the face of a lion, the face of an ox, the face of an eagle, etc., in the thirteen tikkunei dikkna,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "and why does it say \"like an eagle\" specifically?"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "And even though the aspect of \"eagle\" here refers to the aspect of Atik as mentioned above,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "that the aspect of Atik is removed and separate from the entire order of Hishtalshelus, and all the more so it is removed and separate from the world of Beriah where"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(in the world of Beriah)"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "are the four living creatures of the Chariot,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "from what is said \"like an eagle stirs up its nest,\""
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "that it compares the aspect of Atik and the aspect of abundant mercy above to an eagle,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "behold it is understood that it compares it to the aspect of \"eagle\" within Hishtalshelus,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "the aspect of \"eagle\" in the Chariot,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "and even to the physical eagle below."
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "And as is known, the physical eagle below is compassionate,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "the opposite of the raven,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "and to this eagle below, which is compassionate, it compares the aspect of abundant mercy above."
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "And the explanation of the matter is,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "that behold, among the four living creatures of the Chariot, the face of a lion is to the right, the face of an ox is to the left, and the face of an eagle is in the middle."
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "From this it is understood that the face of an eagle, regarding the matter of the patriarchs who are the Chariot,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "is the attribute of Yaakov,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "the central line."
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "And as is known, Avraham is in the right line,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "Yitzchak in the left line, and Yaakov in the central line."
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "And this is also the continuation of the verses,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "\"For the portion of Hashem is His people, Yaakov the lot of His inheritance... like an eagle stirs up its nest,\""
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "for the matter of \"like an eagle stirs up its nest\" comes in continuation of \"Yaakov.\""
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "Therefore it says \"like an eagle\" specifically,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "which is the attribute of Yaakov,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "for Yaakov is the perfection of the patriarchs."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains the superiority of the central line, which like the middle bar of the Mishkan extends equally from the highest extreme to the lowest without change, and this is reflected in the perfection of Yaakov.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And the explanation of the matter of the superiority of the central line,"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "behold it is known"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that the central line is the middle bar that extends from one end to the other."
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "And there are two matters in this."
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "The first matter is that it extends from the highest extreme to the lowest extreme."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "And like the middle bar in the Mishkan, which extended from one end of the Mishkan to its other end,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "therefore its length was seventy-two cubits,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "for likewise is it in the central line, which extends from the highest extreme to the lowest extreme."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And these two matters"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(that it extends from the highest extreme and is drawn down to the lowest extreme)"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "are dependent on each other,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "for because it takes from the highest above,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "therefore it is drawn down to the lowest below,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and as is known, the depth of height and the depth of depth are related to each other."
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "For likewise it is also in avodah,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "as is known regarding the matter of \"From the depths I called You, Hashem,\""
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "that the avodah from the aspect of depth beyond depth"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "[this is the matter of \"depths\" (ma'amakim) in the plural, as brought in the Zohar]"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "below,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "behold this avodah reaches the aspect of depth above,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "until the completeness of pardon, forgiveness, and atonement of Yom Kippur, which is \"before Hashem,\""
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "and until the aspect of \"and the spirit shall return to God who gave it,\""
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "as explained in Likkutei Torah on this verse."
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "And the second matter in the central line is that from its beginning to its end it is equal, without changes."
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "And the reason for the absence of changes in it is because it extends from the highest extreme,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "for this reason it is drawn down to the lowest below as mentioned,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "and in every place it is equal."
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "For the right line and the left line,"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "because they are only illuminations, etc.,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "behold the order of the illumination of light is that the more it is drawn down, the more it diminishes"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "(and changes),"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "but not so the central line, which takes from the highest above as mentioned,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "and as is known, that although all the lines reach the Keter, it is only in the aspect of the externality of Keter, but not so the central line, which reaches the aspect of the internality of Keter,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "therefore its end is like its beginning,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "without any change."
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "And behold, likewise it is also in the form of the human body, which is made in the likeness of the supernal form, as it is said,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "\"Let us make man in our image, after our likeness,\""
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "and it is written \"let us make man,\" \"let us make\" in the plural, as explained in the previous maamarim,"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "in it too there are three lines,"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "the right hand and right foot, which are analogous to the supernal right line,"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "the left hand and left foot, which are analogous to the supernal left line,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "the head, torso, and foundation, which are analogous to the supernal central line."
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "Behold, in the right line and the left line there are changes,"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "for hands are not like legs, and especially not like nails, which are merely secondary to the person,"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "but not so in the central line, for it is known regarding the matter of \"there is no hardness except through daat,\""
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "that as soon as it is aroused in his mind in his brain, at that very moment the foundation is aroused, etc., as explained in the additions to Torah Or."
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "For likewise it is also in the three supernal lines,"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "that the two lines, right and left,"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "one long and one short,"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "they diminish and change, etc.,"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "but not so the central line,"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "one that is intermediate,"
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "which from its beginning to its end is equal."
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "And this is the superiority of Yaakov, the central line, the perfection of the patriarchs,"
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "that his bed was complete."
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "For from Avraham came forth Yishmael, and from Yitzchak came forth Esav,"
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "and even though it was only in the manner of \"came forth,\""
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "nevertheless, it came forth from him."
+          },
+          {
+            "v": 4,
+            "s": 58,
+            "translation": "And this is because Avraham and Yitzchak are in the right and left lines,"
+          },
+          {
+            "v": 4,
+            "s": 59,
+            "translation": "and these two lines, the more they are drawn down, the more they diminish, etc., as mentioned,"
+          },
+          {
+            "v": 4,
+            "s": 60,
+            "translation": "behold, from the side of the diminution after diminution that occurred at the end of the drawing down,"
+          },
+          {
+            "v": 4,
+            "s": 61,
+            "translation": "it was possible that something came forth from him, etc."
+          },
+          {
+            "v": 4,
+            "s": 62,
+            "translation": "But not so Yaakov, because he is in the central line, in which there are no changes, his bed was complete,"
+          },
+          {
+            "v": 4,
+            "s": 63,
+            "translation": "for even as it is drawn down below, in the aspect of his bed, it is in ultimate perfection."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains Shlomo's wonder at the eagle's path in the sky, teaching that the central line's power of teshuvah elevates even what has fallen and become impure back to holiness.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And with this will be understood what is said in the writings of the AriZal"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "\"Three things are too wonderful for me, and four I do not know: the way of the eagle in the sky,\""
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that Shlomo wondered how the eagle, which is an unclean bird, is found in the sky in the aspect of the supernal Chariot."
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "And it is known"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "the difficulty in this: why did Shlomo wonder specifically about the eagle? For behold, the lion is also an unclean animal, and nevertheless \"the face of a lion\" is one of the four living creatures in the Chariot."
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "But the explanation of the matter is,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "that \"eagle\" (nesher) is from the term \"to fall\" (nashar v’nafal)."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "And this is the novelty of the eagle over the lion: that even what has fallen and dropped, behold this too is in the sky."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And therefore he wondered specifically about the eagle, and not about the lion,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "for that the lion is in the sky is only the root of the lion, and not as it fell below into the aspect of an unclean animal."
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "And even though this very fact that it fell so low indicates the superiority of its root,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "as is known from what is written in Or HaChaim,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "that because of the intensity of the light of holiness in the aspect of the face of a lion in the Chariot, therefore it fell below specifically into the aspect of impurity,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "nevertheless, after the fall, etc., it is not in the sky,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "for through the screens, partitions, and interruptions that separate, it fell and became separate from its root."
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "But not so \"the way of the eagle in the sky,\" for even what has fallen and dropped is also in the sky."
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "For this is the superiority of the central line over the right line and the left line,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "\"the right draws near and the left repels,\""
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "for that which the right draws near is that it refines, purifies, and elevates permitted things,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "but not so forbidden things that are bound in the hands of the external forces, for in them the left repels."
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "But not so from the side of the central line,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "the aspect of mercy of the eagle,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "behold, even what has fallen and dropped,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "this too is in the sky, for this is the superiority of teshuvah,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "that teshuvah transforms even intentional sins into holiness."
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "For at the beginning of the avodah of teshuvah,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "intentional sins become only unintentional sins,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "but the ultimate of teshuvah is that intentional sins are transformed into merits."
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "And this is the superiority of teshuvah,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "the aspect of \"seek peace,\""
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "over the avodah of \"turn away\""
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "from evil and do good."
+          }
+        ]
+      }
+    ]
+  }
+}

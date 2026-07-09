@@ -1,0 +1,28 @@
+{
+  "id": "d2f91b7c-7826-4ff4-b07c-8ae26b372035",
+  "object": "chat.completion",
+  "created": 1783582323,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917207_theRebbe_479\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917207_theRebbe_479__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>Through Torah study in the manner of \"that you shall place before them,\" including the acquisition of a servant, one merits the revelation of Moshiach's new Torah in the true and complete redemption.</sectionSummaryBrief>\n    <t s=\"0\">And through the study of Torah in the manner of \"that you shall place before them,\"</t>\n    <t s=\"1\">\"when you acquire a Hebrew servant,\"</t>\n    <t s=\"2\">that the study is with understanding and reasoning, and together with this, with the self-nullification of a servant</t>\n    <t s=\"3\">[so that the study of the revealed Torah will be in this manner, it is through the study of the inner dimension of Torah,</t>\n    <t s=\"4\">\"tashim\" (you shall place) — a term for \"simah\" (a treasure),</t>\n    <t s=\"5\">a storehouse],</t>\n    <t s=\"6\">through this they will merit the revelation of the Torah of Moshiach,</t>\n    <t s=\"7\">\"a new Torah shall go forth from Me,\"</t>\n    <t s=\"8\">in the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"9\">speedily in our days, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 842,
+    "completion_tokens": 411,
+    "total_tokens": 1253,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 586
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

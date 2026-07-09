@@ -1,0 +1,95 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914005_theRebbe_415" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914005_theRebbe_415__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914005_theRebbe_415" title="מאמר שובה ישראל תשל"ו" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914005_theRebbe_415__p003">
+  <section v="6">
+    <src s="0">וממשיך בכתוב קחו עמכם דברים גו',</src>
+    <src s="1">כי בכדי לתקן כדבעי את המכשול</src>
+    <src s="2">(מה שנתקל ברגלו)</src>
+    <src s="3">אינו מספיק ענין התשובה דביטול המציאות שנעשה עי"ז – שזה פועל ע"י וידוי דברים,</src>
+    <src s="4">ענין האותיות כמבואר בסהמ"צ להצ"צ34,</src>
+    <src s="5">כי תכלית התשובה הוא העבודה דתומ"צ</src>
+    <src s="6">(וכנ"ל בענין תשובה ומעשים טובים),</src>
+    <src s="7">ולזה מוסיף קחו עמכם דברים דתומ"צ כמבואר בלקו"ת עה"פ35.</src>
+    <src s="8">ודברים אלו הם במדידה דוקא.</src>
+    <src s="9">דלא מיבעי בתושבע"פ דמכיון שלימוד תושבע"פ צ"ל בהבנה והשגה דוקא36</src>
+    <src s="10">הרי מוכרח שיהי' במדידה,</src>
+    <src s="11">אלא גם תושב"כ הגם שבתושב"כ אינו נוגע כ"כ ענין ההשגה36,</src>
+    <src s="12">מ"מ גם בתושב"כ צריך להיות מדידה,</src>
+    <src s="13">ואדרבה,</src>
+    <src s="14">המדידה דתושב"כ היא יותר מהמדידה דתושבע"פ,</src>
+    <src s="15">שהרי בתושב"כ האותיות והתגין והטעמים צ"ל בתכלית הדיוק.</src>
+  </section>
+  <section v="7">
+    <src s="0">וממשיך בכתוב אמרו אליו כל תשא עון.</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">כי תכלית ענין התשובה הוא לא רק שימחלו העונות אלא שהזדונות גופא יהפכו לזכיות,</src>
+    <src s="3">וזהו מה שגם לאחרי שובה ישראל צ"ל אמרו אליו כל תשא עון,</src>
+    <src s="4">תשא עון הו"ע נושא עון37,</src>
+    <src s="5">דלא רק שהוא יכבוש עונותינו ותשליך במצולות ים כל חטאתם38,</src>
+    <src s="6">אלא שהוא גם נושא עון,</src>
+    <src s="7">שנושא ומגבי' את העון,</src>
+    <src s="8">שהעונות נעשים לזכיות כמבואר בארוכה באוה"ת39.</src>
+    <src s="9">וענין זה</src>
+    <src s="10">(תשא עון)</src>
+    <src s="11">נעשה ע"י אמרו אליו כל,</src>
+    <src s="12">כל הוא מה שהוא ית' הוא כל וכולל את הכל,</src>
+    <src s="13">ולכן תשא עון,</src>
+    <src s="14">שנושא גם את העון ומהפכו לזכיות.</src>
+  </section>
+  <section v="8">
+    <src s="0">וממשיך בכתוב ונשלמה פרים שפתינו,</src>
+    <src s="1">היינו שע"י שלימות התשובה דשובה ישראל וגו' פועלים שלימות בענין הקרבנות שלאחרי כשלת בעונך,</src>
+    <src s="2">דפירוש ונשלמה פרים שפתינו הוא לא רק ששפתינו הוא תשלומין לפרים כ"א ששפתינו פועל שלימות בה"פרים",</src>
+    <src s="3">דשפתינו הו"ע התפלה,</src>
+    <src s="4">ענין הקרבנות ברוחניות,</src>
+    <src s="5">שהוא למעלה מענין הקרבנת בגשמיות40,</src>
+    <src s="6">וע"ד שגם בזמן הבית שהי' אז הקרבת הקרבנות כפשוטה הנה גם אז הוצרך להיות הענין דישראל במעמדם לויים בדוכנם וכהנים בעבודתם ובפרט עבודת הכהנים ה"ה "בחשאי וברעותא דלבא"41.</src>
+    <src s="7">וזהו מ"ש ונשלמה פרים שפתינו לאחרי שובה ישראל וגו',</src>
+    <src s="8">כי ענין זה</src>
+    <src s="9">(ונשלמה פרים שפתינו)</src>
+    <src s="10">הוא העילוי שנעשה ע"י התשובה,</src>
+    <src s="11">מה שמגיע בעילוי אחר עילוי,</src>
+    <src s="12">למעלה גם מענין הקרבנות,</src>
+    <src s="13">עד שמגיע לבחינת פני הוי'.</src>
+    <src s="14">וכמ"ש42</src>
+    <src s="15">בקשו פני את פניך הוי' אבקש,</src>
+    <src s="16">שע"י בקשו פני הו"ע התשובה,</src>
+    <src s="17">עי"ז את פניך הוי' אבקש.</src>
+    <src s="18">דבאופן דהמשכה מלמעלה למטה כתיב43</src>
+    <src s="19">וראית את אחורי ופני לא יראו,</src>
+    <src s="20">משא"כ באופן דהעלאה,</src>
+    <src s="21">מגיעים לבחינת פניך הוי'44.</src>
+  </section>
+</awtsmoosMeluketSource>

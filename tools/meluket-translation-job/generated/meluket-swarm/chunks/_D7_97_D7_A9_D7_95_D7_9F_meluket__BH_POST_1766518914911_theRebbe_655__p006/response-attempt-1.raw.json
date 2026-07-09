@@ -1,0 +1,28 @@
+{
+  "id": "4f0e295d-e466-4768-a9e1-46d4cfcdd462",
+  "object": "chat.completion",
+  "created": 1783582156,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914911_theRebbe_655\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>Through joy in performing mitzvos, including all actions for the sake of Heaven, the boundaries of exile are breached, bringing Moshiach and the faithful shepherd of every generation.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">A)</t>\n    <t s=\"2\">And through the joy in performing the mitzvah,</t>\n    <t s=\"3\">including also the fulfillment of the command,</t>\n    <t s=\"4\">and all</t>\n    <t s=\"5\">your deeds should be for the sake of Heaven, and in all</t>\n    <t s=\"6\">your ways know Him,</t>\n    <t s=\"7\">they will breach the barriers of the exile,</t>\n    <t s=\"8\">and with me, from there, the King Moshiach,</t>\n    <t s=\"9\">Dovid King of Israel,</t>\n    <t s=\"10\">together with Moshe Rabbeinu, the Faithful Shepherd,</t>\n    <t s=\"11\">for the first redeemer is the final redeemer,</t>\n    <t s=\"12\">including also the Faithful Shepherd in every generation, until the Faithful Shepherd of our generation, namely the Rebbe, my father-in-law, the Nasi of our generation.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>Very soon the promise will be fulfilled that the dwellers of dust will awaken and sing, and together with them we will go to greet Moshiach with eternal joy.</sectionSummaryBrief>\n    <t s=\"0\">That very soon the promise will be fulfilled: \"Awake and sing, you who dwell in dust,\"</t>\n    <t s=\"1\">and together with them we will go to greet our righteous Moshiach,</t>\n    <t s=\"2\">and \"everlasting joy upon their heads,\"</t>\n    <t s=\"3\">speedily in our days, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1011,
+    "completion_tokens": 570,
+    "total_tokens": 1581,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 755
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

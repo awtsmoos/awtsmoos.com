@@ -1,0 +1,88 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920167_theRebbe_725" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920167_theRebbe_725__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920167_theRebbe_725" title="מאמר אני לדודי תשכ"ו" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920167_theRebbe_725__p004">
+  <section v="9">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דענין זה שהגילוי דאלול הוא לא רק נתינת כח אלא גם מעורר23,</src>
+    <src s="2">מובן גם מכללות הענין דמלך בשדה24,</src>
+    <src s="3">דכשהמלך בשדה הרי נוסף שאז יש לכל אחד הרשות והיכולת להקביל את פני המלך,</src>
+    <src s="4">הנה הידיעה של העם שהמלך הוא בשדה,</src>
+    <src s="5">באותו המקום שהם נמצאים,</src>
+    <src s="6">מעורר אצלם את הרצון להקביל את פני המלך25.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויש לומר הביאור בזה,</src>
+    <src s="1">שהרצון של העם להקביל את פני המלך הוא מצד עצם מציאותם.</src>
+    <src s="2">דכיון שהמלך הוא הלב של כל העם26,</src>
+    <src s="3">לכן התקשרותם להמלך הוא בעצם מציאותם27,</src>
+    <src s="4">אלא שמ"מ,</src>
+    <src s="5">כאשר המלך והעם הם בריחוק מקום,</src>
+    <src s="6">אפשר שההתקשרות שלהם להמלך,</src>
+    <src s="7">ו</src>
+    <src s="8">(במילא גם)</src>
+    <src s="9">הרצון שלהם להקביל את פניו יהי' בהעלם,</src>
+    <src s="10">וע"י שהמלך הוא בשדה,</src>
+    <src s="11">באותו המקום שהם נמצאים,</src>
+    <src s="12">הרצון הוא בגילוי.</src>
+  </section>
+  <section v="11">
+    <src s="0">ועד"ז הוא בהנמשל,</src>
+    <src s="1">שההתעוררות לתשובה הבאה ע"י גילוי יגמה"ר שבאלול הוא שע"י הגילוי דיגמה"ר מתגלה הרצון הפנימי דישראל</src>
+    <src s="2">[וכמובן גם מהמבואר בהמשך המאמר28</src>
+    <src s="3">(לאחרי המשל דמלך בשדה),</src>
+    <src s="4">דשם א-ל הוא ראשית כל הי"ג מדות ומקורן וכללותן.</src>
+    <src s="5">וענין שם א-ל הוא אור א"ס ב"ה ממש,</src>
+    <src s="6">כמ"ש29</src>
+    <src s="7">א-ל הוי' ויאר לנו,</src>
+    <src s="8">דאור הוא כמו העצם</src>
+    <src s="9">[וכמבואר בכ"מ30</src>
+    <src s="10">החילוק בין אור לשפע,</src>
+    <src s="11">דשפע הוא שהמשפיע מצמצם עצמו לפי"ע המקבל,</src>
+    <src s="12">ואור הוא מעין המאור].</src>
+    <src s="13">ובכל אחד מישראל מאיר גילוי זה,</src>
+    <src s="14">ויתירה מזו שהגילוי דשם א-ל שבכ"א מישראל הוא השר והמושל שבקרבו,</src>
+    <src s="15">דישראל הוא אותיות יו"ד31</src>
+    <src s="16">שר א-ל.</src>
+    <src s="17">וזהו שהביטול לאלקות שבכל אחד מישראל הוא ביטול שלמעלה מטעם ודעת,</src>
+    <src s="18">כי בישראל הוא גילוי אור א"ס ב"ה עצמו ממש שלמעלה מהשתלשלות.</src>
+    <src s="19">וע"י הגילוי די"ג מדות הרחמים</src>
+    <src s="20">(שבאלול)</src>
+    <src s="21">שראשיתן ומקורן וכללותן הוא א-ל,</src>
+    <src s="22">מתעורר ומתגלה בחינת א-ל שבכל אחד מישראל].</src>
+    <src s="23">וזהו שהעבודה דאלול היא אני לדודי,</src>
+    <src s="24">אף שההתעוררות היא ע"י הגילוי מלמעלה,</src>
+    <src s="25">כי הגילוי שמלמעלה הוא רק סיבה שעל ידו מתגלה הרצון הפנימי דהאדם.</src>
+  </section>
+</awtsmoosMeluketSource>

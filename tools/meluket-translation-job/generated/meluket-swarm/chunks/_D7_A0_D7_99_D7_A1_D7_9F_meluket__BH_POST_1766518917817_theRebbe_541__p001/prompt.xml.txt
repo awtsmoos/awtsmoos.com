@@ -1,0 +1,130 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917817_theRebbe_541" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917817_theRebbe_541__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917817_theRebbe_541" title="מאמר כימי צאתך תשמ"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917817_theRebbe_541__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">י"א ניסן ה'תשמ"ב*</src>
+  </section>
+  <section v="1">
+    <src s="0">כימי צאתך מארץ מצרים אראנו נפלאות1,</src>
+    <src s="1">וידוע דיוק הזהר2</src>
+    <src s="2">בזה</src>
+    <src s="3">[הובא בדרושי רבותינו נשיאינו3]</src>
+    <src s="4">במ"ש כימי לשון רבים,</src>
+    <src s="5">והרי יציאת מצרים היתה ביום אחד,</src>
+    <src s="6">וכן בזכירת יצי"מ כתיב4</src>
+    <src s="7">זכור את היום הזה אשר יצאתם ממצרים,</src>
+    <src s="8">למען תזכור את יום צאתך מארץ מצרים,</src>
+    <src s="9">ולמה נאמר כימי לשון רבים.</src>
+    <src s="10">וגם צריך להבין בתוכן הכתוב כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="11">דפירוש הפשוט בזה הוא שהגאולה העתידה לבוא במהרה בימינו ממש ע"י משיח צדקנו תהי' באופן של אראנו נפלאות כמו שהיתה הגאולה דיצי"מ,</src>
+    <src s="12">ואינו מובן,</src>
+    <src s="13">הרי מבואר בכו"כ פסוקים ומאמרי רז"ל5</src>
+    <src s="14">שדוקא הגאולה העתידה תהי' גאולה שלימה שאין אחרי' גלות משא"כ הגאולה דיצי"מ,</src>
+    <src s="15">הרי שהגאולה העתידה תהי' נעלית הרבה יותר מהגאולה דיצי"מ,</src>
+    <src s="16">שלכן לפי דיעה אחת אין מזכירין יצי"מ לימות המשיח6,</src>
+    <src s="17">וגם להדיעה שמזכירין יצי"מ לימות המשיח6</src>
+    <src s="18">צריך על זה לימוד מיוחד,</src>
+    <src s="19">ומהו אומרו כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="20">שהעילוי דגאולה העתידה היא מה שגם אז יהי' אראנו נפלאות כמו שהי' ביצי"מ.</src>
+    <src s="21">ויתירה מזו,</src>
+    <src s="22">דמלשון הכתוב כימי צאתך מארץ מצרים אראנו נפלאות משמע שהנפלאות שהיו בימי צאתך מארץ מצרים הם ההתחלה והשרש גם על הנפלאות שיהיו בגאולה העתידה,</src>
+    <src s="23">דמזה מובן שיש מעלה בהגאולה דיצי"מ על גאולה העתידה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ונקודת הביאור בזה,</src>
+    <src s="2">שבפסוק זה</src>
+    <src s="3">(כימי צאתך מארץ מצרים אראנו נפלאות)</src>
+    <src s="4">יש שני פירושים.</src>
+    <src s="5">פירוש א',</src>
+    <src s="6">שגאולה העתידה תהי' כהגאולה דיצי"מ,</src>
+    <src s="7">שגם אז יהי' אראנו נפלאות כמו שהי' בהגאולה דיצי"מ.</src>
+    <src s="8">ופירוש ב',</src>
+    <src s="9">שהנפלאות שיהיו בגאולה העתידה יהיו נפלאות גם בערך הנפלאות שהיו בימי צאתך מארץ מצרים7.</src>
+    <src s="10">והיינו,</src>
+    <src s="11">דהגם שבכללות הנפלאות דגאולה העתידה הן דומות להנפלאות דגאולת מצרים</src>
+    <src s="12">(כפירוש הפשוט),</src>
+    <src s="13">אעפ"כ,</src>
+    <src s="14">יהי' יתרון בהנפלאות דלעתיד,</src>
+    <src s="15">ועד שיהיו נפלאות גם בערך הנפלאות דיצי"מ.</src>
+    <src s="16">וביאור מעלת הנפלאות דלע"ל על הנפלאות דיצי"מ בלשון הקבלה,</src>
+    <src s="17">הנה ידוע8</src>
+    <src s="18">שביצי"מ הוצרך להוציא את ישראל ממ"ט שערים דלעו"ז.</src>
+    <src s="19">דזהו מה שמיד לאחרי היציאה ממצרים מתחילים ימי ספירת העומר,</src>
+    <src s="20">שבכל יום מימי הספירה יוצאים משער אחד דלעו"ז.</src>
+    <src s="21">וזה</src>
+    <src s="22">(היציאה מהשערים דלעו"ז)</src>
+    <src s="23">הי' ע"י המשכת חמישים שערי בינה.</src>
+    <src s="24">ולכן הוזכר בתורה ענין יצי"מ נ' פעמים כנגד נ' שערי בינה9.</src>
+    <src s="25">והנה ידוע שבנ' שערי בינה יש כמה דרגות10.</src>
+    <src s="26">נ' שערי בינה כמו שנמשכים במלכות,</src>
+    <src s="27">והוא מה שמסטרא דיובלא</src>
+    <src s="28">(בינה)</src>
+    <src s="29">נמשכים במלכות11.</src>
+    <src s="30">ולמעלה יותר,</src>
+    <src s="31">הנ' שערי בינה כמו שהם במקומם,</src>
+    <src s="32">בבינה.</src>
+    <src s="33">ולמעלה יותר,</src>
+    <src s="34">כמו שהם כלולים בשער הנ',</src>
+    <src s="35">בבחינת הכתר</src>
+    <src s="36">(ובכתר גופא – בבחינת עתיק).</src>
+    <src s="37">וזהו מה שהגילויים דלע"ל יהיו נפלאות גם בערך הנפלאות דיצי"מ,</src>
+    <src s="38">כי נ' שערי בינה שנמשכו ביצי"מ הם השערים דבחינת בינה</src>
+    <src s="39">(וזה גופא,</src>
+    <src s="40">כמו שנמשכים ע"י בחינת המלכות),</src>
+    <src s="41">משא"כ לע"ל תהי' המשכת הנ' שערי בינה כמו שהם בכתר12.</src>
+    <src s="42">ולא עוד אלא שבכתר גופא תהי' אז ההמשכה מבחינת עתיק,</src>
+    <src s="43">ובעתיק גופא מבחינת פנימיות עתיק12.</src>
+    <src s="44">וכמ"ש במשיח13</src>
+    <src s="45">הנה ישכיל עבדי ירום ונשא וגבה מאד,</src>
+    <src s="46">דמאד</src>
+    <src s="47">(זה דכתיב גבי משיח)</src>
+    <src s="48">הוא בחינת פנימיות עתיק14,</src>
+    <src s="49">ובלשון הפע"ח15,</src>
+    <src s="50">שכל ההמשכות עכשיו הם רק מבחינת חיצוניות עתיק ולע"ל תהי' המשכת וגילוי בחינת פנימיות עתיק.</src>
+    <src s="51">אלא שאעפ"כ מדמה הכתוב הנפלאות שיהיו בגאולה העתידה להנפלאות שהיו ביצי"מ,</src>
+    <src s="52">וכפירוש הפשוט בכתוב שבגאולה העתידה יהי' אראנו נפלאות כמו שהי' בימי צאתך מארץ מצרים,</src>
+    <src s="53">כי גם ביצי"מ היו גילויים הכי נעלים,</src>
+    <src s="54">וכמבואר בהמשך תער"ב16</src>
+    <src s="55">בפירוש נגלה עליהם מלך מלכי המלכים הקב"ה בכבודו ובעצמו17,</src>
+    <src s="56">שבכבודו ובעצמו הם דרגות הכי נעלות.</src>
+    <src s="57">אלא שביצי"מ הי' הגילוי דבחינה זו ע"י ההתלבשות בבחינת מלכות,</src>
+    <src s="58">ופסח ה' על הפתח18,</src>
+    <src s="59">דפתח הוא בחינת המלכות19,</src>
+    <src s="60">ולע"ל יהי' זה בגילוי בלי שום לבוש כמ"ש20</src>
+    <src s="61">ולא יכנף עוד מוריך.</src>
+  </section>
+</awtsmoosMeluketSource>

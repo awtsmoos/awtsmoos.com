@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918060_theRebbe_524" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918060_theRebbe_524__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918060_theRebbe_524" title="מאמר ועבדי דוד תשמ"ו" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918060_theRebbe_524__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אחרון של פסח ה'תשמ"ו*</src>
+  </section>
+  <section v="1">
+    <src s="0">ועבדי דוד מלך עליהם ורועה אחד יהי' לכולם וגו'1,</src>
+    <src s="1">וידוע מאמר כ"ק מו"ח אדמו"ר נשיא דורנו על הפסוק2,</src>
+    <src s="2">שמבאר שם,</src>
+    <src s="3">דפסוק זה קאי על מלך המשיח הנק' בשם דוד,</src>
+    <src s="4">דוד מלכא משיחא.</src>
+    <src s="5">ותוכן הענין הוא,</src>
+    <src s="6">דלע"ל יהי' משיח</src>
+    <src s="7">(דוד)</src>
+    <src s="8">רועה אחד לכולם,</src>
+    <src s="9">שלא יחצו עוד לשתי ממלכות3.</src>
+    <src s="10">דבישראל היו ב' ממלכות,</src>
+    <src s="11">מלכות בית דוד ומלכות בית יוסף</src>
+    <src s="12">(אפרים),</src>
+    <src s="13">שמלכי בית דוד היו משבט יהודה ומלכי בית יוסף היו משבט יוסף,</src>
+    <src s="14">אבל לע"ל לא יהיו עוד שתי ממלכות,</src>
+    <src s="15">אלא רועה אחד יהי' לכולם ורועה זה יהי' דוד,</src>
+    <src s="16">משבט יהודה.</src>
+    <src s="17">וצריך להבין,</src>
+    <src s="18">דהנה מזה שלע"ל צ"ל הבטחה מיוחדת שרועה אחד יהי' לכולם ולא יחצו עוד לשתי ממלכות,</src>
+    <src s="19">מובן שגם אז יש מקום שיהיו ב' ממלכות,</src>
+    <src s="20">מהי הסברא שלע"ל יהיו ב' ממלכות.</src>
+    <src s="21">גם צריך להבין,</src>
+    <src s="22">מהו ודאות העילוי בזה שדוד</src>
+    <src s="23">(משבט יהודה)</src>
+    <src s="24">יהי' מלך עליהם ורועה אחד לכולם,</src>
+    <src s="25">ולכאורה מצינו מעלה ביוסף לגבי יהודה.</src>
+    <src s="26">דהנה ביוסף ויהודה עצמם הרי יוסף הי' מלך על כל אחיו,</src>
+    <src s="27">כולל יהודה4,</src>
+    <src s="28">כמפורש בחלומות יוסף.</src>
+    <src s="29">וגם הרי יש מעלה במלכות יוסף שהיתה על עשרה שבטים משא"כ מלכות יהודה היתה על ב' שבטים בלבד.</src>
+    <src s="30">גם צריך להבין תוכן ענינים אלה בעבודת האדם בזמן הזה.</src>
+    <src s="31">ובפרט ע"פ הידוע5</src>
+    <src s="32">שכל הגילויים דלע"ל תלויים במעשינו ועבודתינו כל זמן משך הגלות,</src>
+    <src s="33">ואמרז"ל6</src>
+    <src s="34">היום לעשותם ולמחר לקבל שכרם.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והענין הוא7,</src>
+    <src s="2">דהנה החילוק בין יוסף ויהודה יובן מהשמות</src>
+    <src s="3">(יוסף ויהודה)</src>
+    <src s="4">עצמם,</src>
+    <src s="5">דיהודה הוא מלשון הודאה ויוסף הוא מלשון הוספה כמפורש בקרא.</src>
+    <src s="6">ובכחות הנפש הוא החילוק בין כח העשי' שבאדם לכח השכל שבו.</src>
+    <src s="7">דהנה הכח הקשור עם הודאה</src>
+    <src s="8">[בבני אדם בכלל</src>
+    <src s="9">(מין המדבר),</src>
+    <src s="10">ועאכו"כ בבני ישראל</src>
+    <src s="11">(חלק אלוקה ממעל ממש8)]</src>
+    <src s="12">הוא כח המעשה,</src>
+    <src s="13">דכדי שתהי' פעולה בכח העשי',</src>
+    <src s="14">צ"ל הודאה וכפי'.</src>
+    <src s="15">שהרי ענין ההודאה בפשטות הוא שמודה לדבר מסויים אף שאינו מובן בשכלו או יתר על כן שהוא היפך שכלו9.</src>
+    <src s="16">דענין זה הוא בכח העשי' בפועל,</src>
+    <src s="17">כי כאשר האדם עושה מעשה הרי הוא מוריד רצונו ושכלו כו' עד שבא למעשה זה,</src>
+    <src s="18">וירידה זו</src>
+    <src s="19">(בכל אדם,</src>
+    <src s="20">ובפרט בישראל כנ"ל)</src>
+    <src s="21">היא ירידה לבירא עמיקתא,</src>
+    <src s="22">ולכן צ"ל אצלו הודאה וכפי' וכו'10</src>
+    <src s="23">(וע"ד ירידת הנשמה למטה מאיגרא11</src>
+    <src s="24">רמה לבירא עמיקתא,</src>
+    <src s="25">שירידה זו היא בדרך כפי' וכמאמר12</src>
+    <src s="26">על כרחך אתה חי).</src>
+    <src s="27">אמנם ענין ההוספה הוא היפך זה.</src>
+    <src s="28">כי הוספה מורה שהענין לא רק מתקבל</src>
+    <src s="29">(לייגט זיך אָפּ)</src>
+    <src s="30">בשכלו,</src>
+    <src s="31">אלא עוד זאת שמוסיף עי"ז בחכמה ושכל,</src>
+    <src s="32">ובפרט כשישנה הוספה אחר הוספה.</src>
+    <src s="33">דזהו ענין חכמה ושכל אמיתיים.</src>
+    <src s="34">ובכחות האדם הוא כח הבינה שבו,</src>
+    <src s="35">הנק' רחובות הנהר13,</src>
+    <src s="36">שהוא באופן דמוסיף והולך ומוסיף,</src>
+    <src s="37">מוליד עוד עניני שכל והסברה,</src>
+    <src s="38">דזהו אמיתית כוונת הפלפול והשקו"ט וכו'.</src>
+    <src s="39">ומובן,</src>
+    <src s="40">שזה הוא ההיפך מענין דכפי' והודאה</src>
+    <src s="41">(על כרחך),</src>
+    <src s="42">כי במין המדבר בכלל ובפרט בישראל,</src>
+    <src s="43">השכל הוא דבר המתקבל</src>
+    <src s="44">(לייגט זיך אָפּ),</src>
+    <src s="45">עד שמוסיף בזה וכו'.</src>
+  </section>
+</awtsmoosMeluketSource>

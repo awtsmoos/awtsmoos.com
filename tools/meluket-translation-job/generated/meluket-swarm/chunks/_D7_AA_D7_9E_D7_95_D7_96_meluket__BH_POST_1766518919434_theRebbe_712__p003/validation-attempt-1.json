@@ -1,0 +1,314 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 54,
+    "returned": 54,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919434_theRebbe_712\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the additional vav in \"v'Atah\" indicates the revelation of the Essence of Ein Sof in the central line, which unites the opposites of Chesed and Gevurah, and relates this to Yaakov and the concept of bursting forth.</sectionSummaryBrief>\n    <t s=\"0\">And this is the meaning of what is said, \"And You give life to them all,\"</t>\n    <t s=\"1\">\"And You\" with the addition of a vav,</t>\n    <t s=\"2\">which indicates the revelation of the Essence of Ein Sof that is in the central line</t>\n    <t s=\"3\">(Tiferet)</t>\n    <t s=\"4\">that connects the two opposites of Chesed and Gevurah.</t>\n    <t s=\"5\">And as is known</t>\n    <t s=\"6\">regarding the matter of \"the great, the mighty, and the awesome\"</t>\n    <t s=\"7\">which are in the three lines of ChaGaT,</t>\n    <t s=\"8\">that what is said \"and the awesome\" with the addition of a vav is because in Tiferet there is the revelation of the Essence of Ein Sof, which is above the division of the lines</t>\n    <t s=\"9\">(Elyon, the Supreme God),</t>\n    <t s=\"10\">and through this it connects the two opposites of Chesed and Gevurah.</t>\n    <t s=\"11\">And this is also from the explanations regarding this, that Yaakov</t>\n    <t s=\"12\">(Tiferet)</t>\n    <t s=\"13\">is the letters of \"yivaka\" (will burst forth),</t>\n    <t s=\"14\">\"Then your light will burst forth like the dawn,\"</t>\n    <t s=\"15\">for this that the light</t>\n    <t s=\"16\">(the light of the line)</t>\n    <t s=\"17\">bursts through the darkness of the tzimtzum</t>\n    <t s=\"18\">(and is drawn also into the worlds that came into being from the tzimtzum)</t>\n    <t s=\"19\">is because the source of its drawing is from Tiferet</t>\n    <t s=\"20\">(the hidden one),</t>\n    <t s=\"21\">the attribute of Yaakov.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section discusses how the drawing of the line ends in Atzilus, and that for revelation in Beriah, Yetzirah, and Asiyah it comes through Yosef, who continues Yaakov's revelations, analogous to the difference between the Patriarchs and the Giving of the Torah.</sectionSummaryBrief>\n    <t s=\"0\">d)</t>\n    <t s=\"1\">And it is known that the drawing of the line concludes in Atzilus,</t>\n    <t s=\"2\">and as explained in the maamar,</t>\n    <t s=\"3\">that this that Yaakov</t>\n    <t s=\"4\">(the letters of yivaka,</t>\n    <t s=\"5\">the bursting of the line)</t>\n    <t s=\"6\">is \"the middle bar that extends from one end to the other,\"</t>\n    <t s=\"7\">from the end of the heavens above to the end of the heavens below.</t>\n    <t s=\"8\">For the end of the heavens below is the end of Atzilus.</t>\n    <t s=\"9\">And in order for there to be revelation also in BY\"A,</t>\n    <t s=\"10\">it is through Yosef,</t>\n    <t s=\"11\">as it is stated,</t>\n    <t s=\"12\">\"And Yosef was the ruler over the land,\"</t>\n    <t s=\"13\">that through Yosef the revelation is drawn into the land,</t>\n    <t s=\"14\">BY\"A.</t>\n    <t s=\"15\">And this is \"These are the generations of Yaakov, Yosef,\"</t>\n    <t s=\"16\">that Yosef draws the revelations of Yaakov so that they shine in BY\"A.</t>\n    <t s=\"17\">And analogous to the difference between the Patriarchs and the Giving of the Torah</t>\n    <t s=\"18\">(for Yosef is related to the Giving of the Torah,</t>\n    <t s=\"19\">because the Giving of the Torah was through Moshe, and \"Moshe took the bones of Yosef with him\"),</t>\n    <t s=\"20\">the drawing through the fulfillment of the mitzvos of the Patriarchs was in Atzilus,</t>\n    <t s=\"21\">and at the Giving of the Torah a new thing was introduced, that the revelation would be drawn also in BY\"A.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that Yosef draws the revelations of Yaakov into BY\"A because he is the offspring of Yaakov, revealing the inner aspect of Yaakov's \"bursting\" which, being without measure, allows for drawing into BY\"A.</sectionSummaryBrief>\n    <t s=\"0\">And from this that the maamar says that Yosef draws the revelations of Yaakov so that they shine in BY\"A,</t>\n    <t s=\"1\">it implies</t>\n    <t s=\"2\">that this that Yosef draws the revelation into BY\"A is because Yosef is the offspring of Yaakov,</t>\n    <t s=\"3\">meaning that through him the inner aspect of Yaakov, the letters yivaka, is revealed.</t>\n    <t s=\"4\">For from the aspect of the bursting</t>\n    <t s=\"5\">(for the true essence of the bursting is that it has no measurements or limitations)</t>\n    <t s=\"6\">it is possible for the drawing to be also in BY\"A,</t>\n    <t s=\"7\">except that this aspect of Yaakov</t>\n    <t s=\"8\">(yivaka)</t>\n    <t s=\"9\">is revealed through Yosef.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919434_theRebbe_712",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the additional vav in \"v'Atah\" indicates the revelation of the Essence of Ein Sof in the central line, which unites the opposites of Chesed and Gevurah, and relates this to Yaakov and the concept of bursting forth.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And this is the meaning of what is said, \"And You give life to them all,\""
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "\"And You\" with the addition of a vav,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "which indicates the revelation of the Essence of Ein Sof that is in the central line"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(Tiferet)"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that connects the two opposites of Chesed and Gevurah."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "And as is known"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "regarding the matter of \"the great, the mighty, and the awesome\""
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "which are in the three lines of ChaGaT,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "that what is said \"and the awesome\" with the addition of a vav is because in Tiferet there is the revelation of the Essence of Ein Sof, which is above the division of the lines"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "(Elyon, the Supreme God),"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "and through this it connects the two opposites of Chesed and Gevurah."
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "And this is also from the explanations regarding this, that Yaakov"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "(Tiferet)"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "is the letters of \"yivaka\" (will burst forth),"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "\"Then your light will burst forth like the dawn,\""
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "for this that the light"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "(the light of the line)"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "bursts through the darkness of the tzimtzum"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "(and is drawn also into the worlds that came into being from the tzimtzum)"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "is because the source of its drawing is from Tiferet"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "(the hidden one),"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "the attribute of Yaakov."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section discusses how the drawing of the line ends in Atzilus, and that for revelation in Beriah, Yetzirah, and Asiyah it comes through Yosef, who continues Yaakov's revelations, analogous to the difference between the Patriarchs and the Giving of the Torah.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "d)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And it is known that the drawing of the line concludes in Atzilus,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "and as explained in the maamar,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "that this that Yaakov"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "(the letters of yivaka,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "the bursting of the line)"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "is \"the middle bar that extends from one end to the other,\""
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "from the end of the heavens above to the end of the heavens below."
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "For the end of the heavens below is the end of Atzilus."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And in order for there to be revelation also in BY\"A,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "it is through Yosef,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "\"And Yosef was the ruler over the land,\""
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "that through Yosef the revelation is drawn into the land,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "BY\"A."
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "And this is \"These are the generations of Yaakov, Yosef,\""
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that Yosef draws the revelations of Yaakov so that they shine in BY\"A."
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "And analogous to the difference between the Patriarchs and the Giving of the Torah"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "(for Yosef is related to the Giving of the Torah,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "because the Giving of the Torah was through Moshe, and \"Moshe took the bones of Yosef with him\"),"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "the drawing through the fulfillment of the mitzvos of the Patriarchs was in Atzilus,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "and at the Giving of the Torah a new thing was introduced, that the revelation would be drawn also in BY\"A."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that Yosef draws the revelations of Yaakov into BY\"A because he is the offspring of Yaakov, revealing the inner aspect of Yaakov's \"bursting\" which, being without measure, allows for drawing into BY\"A.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And from this that the maamar says that Yosef draws the revelations of Yaakov so that they shine in BY\"A,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "it implies"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that this that Yosef draws the revelation into BY\"A is because Yosef is the offspring of Yaakov,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "meaning that through him the inner aspect of Yaakov, the letters yivaka, is revealed."
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "For from the aspect of the bursting"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "(for the true essence of the bursting is that it has no measurements or limitations)"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "it is possible for the drawing to be also in BY\"A,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "except that this aspect of Yaakov"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(yivaka)"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "is revealed through Yosef."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,130 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920460_theRebbe_154" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920460_theRebbe_154__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920460_theRebbe_154" title="מאמר אתם נצבים תשל"ט" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920460_theRebbe_154__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">וזהו מה שממשיך בכתוב17</src>
+    <src s="2">לעברך בברית</src>
+    <src s="3">[שלעברך בברית הוא ביאור על מ"ש לפנ"ז אתם נצבים היום כולכם גו',</src>
+    <src s="4">וכדאיתא בלקו"ת18</src>
+    <src s="5">שבזה מבאר איך הוא דרך היחוד ומהו ענין התשובה ולמה דוקא בראש השנה],</src>
+    <src s="6">וכמבואר בלקו"ת18</src>
+    <src s="7">שהוא כמו שני אוהבים שכורתים ברית ביניהם שהם מתקשרים זה עם זה כאילו נעשו לבשר אחד.</src>
+    <src s="8">דזהו מה שאופן הכריתת ברית הוא כמ"ש19</src>
+    <src s="9">אשר כרתו את העגל ויעברו בין בתריו,</src>
+    <src s="10">היינו דמה ששניהם עוברים בתוך גוף אחד מורה20</src>
+    <src s="11">על שנעשו לבשר אחד.</src>
+    <src s="12">ומדייק בלקו"ת שנעשו לבשר אחד,</src>
+    <src s="13">וכן שניהם עוברים בתוך גוף אחד,</src>
+    <src s="14">כי היחוד דהקב"ה עם בני ישראל הוא גם מצד הגוף הגשמי,</src>
+    <src s="15">ואדרבה,</src>
+    <src s="16">מצד הכוונה דדירה בתחתונים הדירה לעצמותו ומהותו היא דוקא בתחתונים.</src>
+    <src s="17">וכמ"ש21</src>
+    <src s="18">באתי לגני וארז"ל22</src>
+    <src s="19">לגנוני כו' דעיקר שכינה בתחתונים היתה,</src>
+    <src s="20">דדוקא בתחתונים היא בחינת גני וגנוני,</src>
+    <src s="21">שענין הגן מורה על התענוג והשעשוע שלו כביכול,</src>
+    <src s="22">ותענוג ושעשועים זה הוא בתחתונים דוקא.</src>
+    <src s="23">והענין הוא,</src>
+    <src s="24">דהנה מבואר באגה"ק ד"ה איהו וחיוהי חד איהו וגרמוהי חד23</src>
+    <src s="25">שהתהוות היש הנברא הוא בכח העצמות שמציאותו הוא מעצמותו ואינו עלול מאיזה עילה שקדמה לו ח"ו,</src>
+    <src s="26">שלכן גילוי העצמות הוא</src>
+    <src s="27">(לא בחיוהי וגם לא בגרמוהי כי אם)</src>
+    <src s="28">דוקא בהיש הנברא.</src>
+    <src s="29">וכמבואר בביאוה"ז24</src>
+    <src s="30">שאמיתית מציאותו של היש הנברא</src>
+    <src s="31">(מה שנראה ליש)</src>
+    <src s="32">הוא יש האמיתי.</src>
+    <src s="33">ולכן הכריתת ברית וההתקשרות דהקב"ה עם ישראל הוא בעיקר בהגוף דישראל,</src>
+    <src s="34">וכמבואר בשיחה הידועה25</src>
+    <src s="35">השייכות דעצמות לגוף הגשמי דוקא.</src>
+  </section>
+  <section v="4">
+    <src s="0">וזהו אמרו לפני מלכיות שתמליכוני עליכם26,</src>
+    <src s="1">שעצמותו ית' בעט זיך כביכול ביי אַלע אידן און ביי יעדער אידן,</src>
+    <src s="2">שתמליכוני עליכם.</src>
+    <src s="3">דהגם אשר נמלך בנשמותיהן של צדיקים27,</src>
+    <src s="4">שעלה לפניו ית' התענוג שיתענג כביכול בעבודת הנשמות28,</src>
+    <src s="5">ותענוג זה הי' עוד לפני הבריאה כתורת הרב המגיד בלקוטי אמרים ובאור תורה בתחלתם ובראשיתם29,</src>
+    <src s="6">אעפ"כ הוא מבקש שתמליכוני עליכם,</src>
+    <src s="7">כי נמלך הוא בנשמותיהן של צדיקים,</src>
+    <src s="8">ותכלית הכוונה היא העבודה דנשמות בגופים,</src>
+    <src s="9">שעי"ז נעשה תמליכוני עליכם,</src>
+    <src s="10">לעורר30</src>
+    <src s="11">התגלות פנימיות מלכותו ית' מעצמותו ומהותו.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">וזהו לעברך בברית גו',</src>
+    <src s="2">שבכל שנה קודם ר"ה צ"ל כריתת ברית מחדש על קבלת התורה שהוא בדוגמת הברית שהי' לפני הכניסה לארץ ישראל בפעם הראשונה,</src>
+    <src s="3">מלבד הברית אשר כרת אתם בחורב31,</src>
+    <src s="4">כי בעת הברית אשר כרת אתם בחורב היו ישראל צדיקים,</src>
+    <src s="5">ולאחרי הירידה</src>
+    <src s="6">(שע"י החטא),</src>
+    <src s="7">הוצרך להיות לעברך בברית הוי' אלקיך,</src>
+    <src s="8">בחינת תשובה32.</src>
+    <src s="9">וברית זה</src>
+    <src s="10">(דלעברך בברית)</src>
+    <src s="11">שבא לאחרי הירידה כנ"ל,</src>
+    <src s="12">ירידה צורך עלי',</src>
+    <src s="13">הוא נעלה יותר מהברית אשר כרת אתם בחורב,</src>
+    <src s="14">כי "לעברך בברית" הוא33</src>
+    <src s="15">מה שכורתי הברית עוברים בין הבתרים "בתוך גוף אחד" שהו"ע ההתקשרות דהקב"ה עם ישראל שנעשו חד ממש,</src>
+    <src s="16">ועד שגם הגוף דישראל הוא מתייחד עם עצמותו ית'</src>
+    <src s="17">(כנ"ל),</src>
+    <src s="18">שמצד התקשרות זו נעשה בקשו פני את פניך הוי' אבקש34</src>
+    <src s="19">[ובאופן שפני</src>
+    <src s="20">(דישראל)</src>
+    <src s="21">ופניך הוי' נעשו אחד],</src>
+    <src s="22">עבודת התשובה35</src>
+    <src s="23">(שלמע' מעבודת הצדיקים).</src>
+    <src s="24">דענין התשובה הוא למעלה ממדידה והגבלה,</src>
+    <src s="25">למעלה מההגבלה דזמן שלכן תשובה היא בשעתא חדא וברגעא חדא36,</src>
+    <src s="26">ולמעלה מההגבלה דמקום כולל גם ההגבלה דמקום רוחני שענין המקום ברוחניות הוא מעלה ומדריגה37,</src>
+    <src s="27">שלכן אפילו כשהוא בדרגא הכי תחתונה</src>
+    <src s="28">(מצד החטאים כו'),</src>
+    <src s="29">מועלת תשובה.</src>
+    <src s="30">וזהו מה שממשיך בכתוב38</src>
+    <src s="31">ושב ה' אלקיך את שבותך,</src>
+    <src s="32">והשיב לא נאמר אלא ושב39,</src>
+    <src s="33">כי מצד הכריתת ברית דהקב"ה עם ישראל שנעשו חד ממש,</src>
+    <src s="34">וגם מצד הגוף דישראל שהוא גוי קדוש ובתכלית הקדושה40,</src>
+    <src s="35">הרי בכל מקום שישראל נמצא,</src>
+    <src s="36">גם אם יהי' נדחך בקצה השמים41,</src>
+    <src s="37">נמצא שם עצמותו ומהותו ית',</src>
+    <src s="38">מכיון שהם חד ממש,</src>
+    <src s="39">ולכן לא נאמר והשיב אלא ושב.</src>
+  </section>
+</awtsmoosMeluketSource>

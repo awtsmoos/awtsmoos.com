@@ -1,0 +1,684 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 128,
+    "returned": 128,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518919022_theRebbe_358\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518919022_theRebbe_358__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section distinguishes between the two types of makifim (encompassing lights) from the perspective of the recipient and the influencer, relating them to the Sefiros of Keser, Chochmah, and the levels of Atik and Arich, as well as the light before the tzimtzum.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, the aforementioned distinction between the two encompassing lights</t>\n    <t s=\"2\">(the near encompassing light and the distant encompassing light)</t>\n    <t s=\"3\">is with regard to the internal powers</t>\n    <t s=\"4\">(of the recipient).</t>\n    <t s=\"5\">And the distinction between the two encompassing lights from the perspective of the influencer is,</t>\n    <t s=\"6\">that the near encompassing light is the encompassing light of straight light,</t>\n    <t s=\"7\">and the distant encompassing light is the encompassing light of returning light.</t>\n    <t s=\"8\">And the explanation of this is,</t>\n    <t s=\"9\">that the straight encompassing light, its matter is revelation,</t>\n    <t s=\"10\">which is drawn in a straight manner to be revealed.</t>\n    <t s=\"11\">That is to say,</t>\n    <t s=\"12\">that even though it is of the category of encompassing,</t>\n    <t s=\"13\">nevertheless, its matter is revelation.</t>\n    <t s=\"14\">And just as the matter of the internal power is that it be revealed internally,</t>\n    <t s=\"15\">so too, the matter of the encompassing light is that it be revealed in the category of encompassing,</t>\n    <t s=\"16\">but its matter is revelation.</t>\n    <t s=\"17\">Not so the encompassing light of returning light,</t>\n    <t s=\"18\">its matter is not at all a matter of revelation,</t>\n    <t s=\"19\">but rather, on the contrary,</t>\n    <t s=\"20\">it returns and ascends into its own essence, etc.</t>\n    <t s=\"21\">And the matter of these two levels above, regarding the Sefiros,</t>\n    <t s=\"22\">Chochmah is the beginning of the internal powers,</t>\n    <t s=\"23\">and Keser is the category of encompassing,</t>\n    <t s=\"24\">except that within Keser itself there are Atik and Arich,</t>\n    <t s=\"25\">which are the two aforementioned categories of encompassing.</t>\n    <t s=\"26\">Arich is the category of the near encompassing light,</t>\n    <t s=\"27\">the encompassing light of straight light,</t>\n    <t s=\"28\">and this is what is called by the name Arich,</t>\n    <t s=\"29\">meaning that it relates to the category of Zeir Anpin,</t>\n    <t s=\"30\">except that Zeir Anpin is in the category of smallness,</t>\n    <t s=\"31\">and Arich is in length,</t>\n    <t s=\"32\">not so the category of Atik, which is removed and separate.</t>\n    <t s=\"33\">And likewise, these two levels exist also in the light that is before the tzimtzum,</t>\n    <t s=\"34\">and it is the category of the essence of the light and the spreading of the light.</t>\n    <t s=\"35\">For the spreading of the light,</t>\n    <t s=\"36\">even though it is before the tzimtzum,</t>\n    <t s=\"37\">nevertheless,</t>\n    <t s=\"38\">this very thing that it is called by the name \"spreading of the light,\"</t>\n    <t s=\"39\">indicates that its matter is a matter of revelation,</t>\n    <t s=\"40\">and through the tzimtzum, revelations will come from it in the order of hishtalshelus.</t>\n    <t s=\"41\">Not so the light that He separated for itself,</t>\n    <t s=\"42\">and all the more so the essence of the light,</t>\n    <t s=\"43\">this is above the category of revelation entirely,</t>\n    <t s=\"44\">and it is the matter of the encompassing light of returning light,</t>\n    <t s=\"45\">which returns and becomes concealed in its own essence.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the revelation of the straight encompassing light, though still revelation, differs from internal light by being abundant and unclothed, illustrating this through the distinction between Abba and Imma nursing from the mazal versus clothing the arms of Arich.</sectionSummaryBrief>\n    <t s=\"0\">Now, the encompassing light of straight light,</t>\n    <t s=\"1\">even though it is in the category of revelation,</t>\n    <t s=\"2\">nevertheless, the manner of its revelation is not comparable to the manner of revelation of internal light.</t>\n    <t s=\"3\">For,</t>\n    <t s=\"4\">the revelation of internal light is in diminution and in enclothing and in concealment,</t>\n    <t s=\"5\">that is to say,</t>\n    <t s=\"6\">that which is drawn and revealed from internal light to the power lower than it,</t>\n    <t s=\"7\">is only the last level of the supernal power, as mentioned above,</t>\n    <t s=\"8\">which is a matter of diminution,</t>\n    <t s=\"9\">and also the manner of its revelation is that it becomes enclothed in the power lower than it and becomes concealed within it.</t>\n    <t s=\"10\">Not so the revelation of encompassing light, which is drawn in an abundance of light,</t>\n    <t s=\"11\">and does not come in enclothing and concealment.</t>\n    <t s=\"12\">And this will be understood</t>\n    <t s=\"13\">from what we find that sometimes it is stated</t>\n    <t s=\"14\">that Abba and Imma nurse from the mazal,</t>\n    <t s=\"15\">that Abba nurses from the mazal of Notzer,</t>\n    <t s=\"16\">and Imma nurses from the mazal of Nakeh,</t>\n    <t s=\"17\">and sometimes it is stated</t>\n    <t s=\"18\">that Abba and Imma clothe the arms of Arich.</t>\n    <t s=\"19\">And at first glance,</t>\n    <t s=\"20\">the nursing of Abba and Imma from the mazal is a lower level than that they clothe the arms of Arich,</t>\n    <t s=\"21\">for nursing from the mazal, which are the category of hairs, is only a drawing of an illumination,</t>\n    <t s=\"22\">and through the intervening skull,</t>\n    <t s=\"23\">not so that Abba and Imma clothe the arms of Arich,</t>\n    <t s=\"24\">for the matter of enclothing is that they clothe the essential substance itself, etc.</t>\n    <t s=\"25\">Nevertheless,</t>\n    <t s=\"26\">on the other hand,</t>\n    <t s=\"27\">the matter of enclothing is in a manner that the light becomes enclothed and concealed,</t>\n    <t s=\"28\">not so the matter of nursing from the mazal,</t>\n    <t s=\"29\">even though this is only a nursing of illumination,</t>\n    <t s=\"30\">nevertheless, it is an abundance of light,</t>\n    <t s=\"31\">and it does not become enclothed and concealed at all.</t>\n    <t s=\"32\">Therefore, in order for there to be a union of Abba and Imma,</t>\n    <t s=\"33\">it is specifically through their nursing from the mazal.</t>\n    <t s=\"34\">For the drawing that is drawn to Abba and Imma from the arms of Arich</t>\n    <t s=\"35\">(by Abba and Imma clothing them),</t>\n    <t s=\"36\">is in a manner that through this the division of Chochmah and Binah is effected,</t>\n    <t s=\"37\">that from the aspect of Chessed of Arich, Chochmah is drawn,</t>\n    <t s=\"38\">and from the aspect of Gevurah of Arich, Binah is drawn,</t>\n    <t s=\"39\">and they are in division from each other,</t>\n    <t s=\"40\">not so the drawing that is drawn to Abba and Imma by their nursing from the mazal,</t>\n    <t s=\"41\">is in a manner that they are in unity and in inclusion.</t>\n    <t s=\"42\">That is to say, not only is no division effected in them by the drawing from the mazal,</t>\n    <t s=\"43\">but rather, from the aspect of their nursing from the mazal of Arich, unity and inclusion are effected even in the division that was in them previously.</t>\n    <t s=\"44\">And to the extent that from the aspect of their nursing from the mazal of Arich,</t>\n    <t s=\"45\">the matter of procreation is effected, to procreate in his likeness.</t>\n    <t s=\"46\">And the reason for this is,</t>\n    <t s=\"47\">because the arms of Arich,</t>\n    <t s=\"48\">even though they are in Arich, which is above hishtalshelus,</t>\n    <t s=\"49\">nevertheless, within Arich itself it is the category of the order of hishtalshelus,</t>\n    <t s=\"50\">i.e., internal light,</t>\n    <t s=\"51\">and therefore the manner of their revelation is in enclothing and concealment.</t>\n    <t s=\"52\">Not so when the drawing is from Arich itself</t>\n    <t s=\"53\">(for within Arich itself it is encompassing light that is above hishtalshelus),</t>\n    <t s=\"54\">behold, even though the drawing is in a manner of nursing,</t>\n    <t s=\"55\">only an illumination</t>\n    <t s=\"56\">(mazal and hairs),</t>\n    <t s=\"57\">nevertheless,</t>\n    <t s=\"58\">it is not in a manner of enclothing and concealment.</t>\n    <t s=\"59\">But nevertheless, even Arich itself,</t>\n    <t s=\"60\">it is the near encompassing light,</t>\n    <t s=\"61\">the straight encompassing light,</t>\n    <t s=\"62\">and therefore its revelation is in a manner of nursing of only an illumination,</t>\n    <t s=\"63\">not so Atik, which is the distant encompassing light,</t>\n    <t s=\"64\">the encompassing light of returning light, which is not in the category of revelation at all,</t>\n    <t s=\"65\">and when it is drawn, then it is drawn in its entire essence.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains the difference between \"leaping\" (dileig) and \"skipping\" (kafatz) as metaphors for the drawing from the near and distant encompassing lights, applied to the revelations of the Exodus from Egypt and the Giving of the Torah.</sectionSummaryBrief>\n    <t s=\"0\">And this is the distinction between \"leaping\" and \"skipping,\"</t>\n    <t s=\"1\">that the drawing of \"leaping\" is only one foot</t>\n    <t s=\"2\">(and it is not drawn as it is in its essence)</t>\n    <t s=\"3\">— an example of this is</t>\n    <t s=\"4\">Abba and Imma nursing from the mazal,</t>\n    <t s=\"5\">and the drawing of \"skipping\" with both his feet,</t>\n    <t s=\"6\">by which his entire body is transferred, is the drawing from the distant encompassing light,</t>\n    <t s=\"7\">that when it is drawn, then it is drawn in its entire essence.</t>\n    <t s=\"8\">And this is that \"leaping over the mountains\" refers to the Exodus from Egypt</t>\n    <t s=\"9\">(as our sages, of blessed memory, said</t>\n    <t s=\"10\">on the verse \"leaping over the mountains\" — He leaped over the end [of time]),</t>\n    <t s=\"11\">and \"skipping over the hills\" refers to the Giving of the Torah,</t>\n    <t s=\"12\">for the revelation of the Exodus from Egypt is the revelation of the category of the straight encompassing light,</t>\n    <t s=\"13\">and the revelation of the Giving of the Torah is the revelation of the returning encompassing light,</t>\n    <t s=\"14\">and up to the revelation of \"I am that I am,\"</t>\n    <t s=\"15\">Essence.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518919022_theRebbe_358",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518919022_theRebbe_358__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section distinguishes between the two types of makifim (encompassing lights) from the perspective of the recipient and the influencer, relating them to the Sefiros of Keser, Chochmah, and the levels of Atik and Arich, as well as the light before the tzimtzum.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, the aforementioned distinction between the two encompassing lights"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "(the near encompassing light and the distant encompassing light)"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "is with regard to the internal powers"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "(of the recipient)."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "And the distinction between the two encompassing lights from the perspective of the influencer is,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "that the near encompassing light is the encompassing light of straight light,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "and the distant encompassing light is the encompassing light of returning light."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "And the explanation of this is,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "that the straight encompassing light, its matter is revelation,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "which is drawn in a straight manner to be revealed."
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that even though it is of the category of encompassing,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "nevertheless, its matter is revelation."
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "And just as the matter of the internal power is that it be revealed internally,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "so too, the matter of the encompassing light is that it be revealed in the category of encompassing,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "but its matter is revelation."
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "Not so the encompassing light of returning light,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "its matter is not at all a matter of revelation,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "but rather, on the contrary,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "it returns and ascends into its own essence, etc."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "And the matter of these two levels above, regarding the Sefiros,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "Chochmah is the beginning of the internal powers,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "and Keser is the category of encompassing,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "except that within Keser itself there are Atik and Arich,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "which are the two aforementioned categories of encompassing."
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "Arich is the category of the near encompassing light,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "the encompassing light of straight light,"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "and this is what is called by the name Arich,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "meaning that it relates to the category of Zeir Anpin,"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "except that Zeir Anpin is in the category of smallness,"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "and Arich is in length,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "not so the category of Atik, which is removed and separate."
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "And likewise, these two levels exist also in the light that is before the tzimtzum,"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "and it is the category of the essence of the light and the spreading of the light."
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "For the spreading of the light,"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "even though it is before the tzimtzum,"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "this very thing that it is called by the name \"spreading of the light,\""
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "indicates that its matter is a matter of revelation,"
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "and through the tzimtzum, revelations will come from it in the order of hishtalshelus."
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "Not so the light that He separated for itself,"
+          },
+          {
+            "v": 6,
+            "s": 42,
+            "translation": "and all the more so the essence of the light,"
+          },
+          {
+            "v": 6,
+            "s": 43,
+            "translation": "this is above the category of revelation entirely,"
+          },
+          {
+            "v": 6,
+            "s": 44,
+            "translation": "and it is the matter of the encompassing light of returning light,"
+          },
+          {
+            "v": 6,
+            "s": 45,
+            "translation": "which returns and becomes concealed in its own essence."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the revelation of the straight encompassing light, though still revelation, differs from internal light by being abundant and unclothed, illustrating this through the distinction between Abba and Imma nursing from the mazal versus clothing the arms of Arich.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "Now, the encompassing light of straight light,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "even though it is in the category of revelation,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "nevertheless, the manner of its revelation is not comparable to the manner of revelation of internal light."
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "For,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "the revelation of internal light is in diminution and in enclothing and in concealment,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "that is to say,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "that which is drawn and revealed from internal light to the power lower than it,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "is only the last level of the supernal power, as mentioned above,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "which is a matter of diminution,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "and also the manner of its revelation is that it becomes enclothed in the power lower than it and becomes concealed within it."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "Not so the revelation of encompassing light, which is drawn in an abundance of light,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "and does not come in enclothing and concealment."
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "And this will be understood"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "from what we find that sometimes it is stated"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "that Abba and Imma nurse from the mazal,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "that Abba nurses from the mazal of Notzer,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "and Imma nurses from the mazal of Nakeh,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "and sometimes it is stated"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "that Abba and Imma clothe the arms of Arich."
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "And at first glance,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "the nursing of Abba and Imma from the mazal is a lower level than that they clothe the arms of Arich,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "for nursing from the mazal, which are the category of hairs, is only a drawing of an illumination,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "and through the intervening skull,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "not so that Abba and Imma clothe the arms of Arich,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "for the matter of enclothing is that they clothe the essential substance itself, etc."
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "on the other hand,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "the matter of enclothing is in a manner that the light becomes enclothed and concealed,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "not so the matter of nursing from the mazal,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "even though this is only a nursing of illumination,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "nevertheless, it is an abundance of light,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "and it does not become enclothed and concealed at all."
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "Therefore, in order for there to be a union of Abba and Imma,"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "it is specifically through their nursing from the mazal."
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "For the drawing that is drawn to Abba and Imma from the arms of Arich"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "(by Abba and Imma clothing them),"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "is in a manner that through this the division of Chochmah and Binah is effected,"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "that from the aspect of Chessed of Arich, Chochmah is drawn,"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "and from the aspect of Gevurah of Arich, Binah is drawn,"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "and they are in division from each other,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "not so the drawing that is drawn to Abba and Imma by their nursing from the mazal,"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "is in a manner that they are in unity and in inclusion."
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "That is to say, not only is no division effected in them by the drawing from the mazal,"
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "but rather, from the aspect of their nursing from the mazal of Arich, unity and inclusion are effected even in the division that was in them previously."
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "And to the extent that from the aspect of their nursing from the mazal of Arich,"
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "the matter of procreation is effected, to procreate in his likeness."
+          },
+          {
+            "v": 7,
+            "s": 46,
+            "translation": "And the reason for this is,"
+          },
+          {
+            "v": 7,
+            "s": 47,
+            "translation": "because the arms of Arich,"
+          },
+          {
+            "v": 7,
+            "s": 48,
+            "translation": "even though they are in Arich, which is above hishtalshelus,"
+          },
+          {
+            "v": 7,
+            "s": 49,
+            "translation": "nevertheless, within Arich itself it is the category of the order of hishtalshelus,"
+          },
+          {
+            "v": 7,
+            "s": 50,
+            "translation": "i.e., internal light,"
+          },
+          {
+            "v": 7,
+            "s": 51,
+            "translation": "and therefore the manner of their revelation is in enclothing and concealment."
+          },
+          {
+            "v": 7,
+            "s": 52,
+            "translation": "Not so when the drawing is from Arich itself"
+          },
+          {
+            "v": 7,
+            "s": 53,
+            "translation": "(for within Arich itself it is encompassing light that is above hishtalshelus),"
+          },
+          {
+            "v": 7,
+            "s": 54,
+            "translation": "behold, even though the drawing is in a manner of nursing,"
+          },
+          {
+            "v": 7,
+            "s": 55,
+            "translation": "only an illumination"
+          },
+          {
+            "v": 7,
+            "s": 56,
+            "translation": "(mazal and hairs),"
+          },
+          {
+            "v": 7,
+            "s": 57,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 7,
+            "s": 58,
+            "translation": "it is not in a manner of enclothing and concealment."
+          },
+          {
+            "v": 7,
+            "s": 59,
+            "translation": "But nevertheless, even Arich itself,"
+          },
+          {
+            "v": 7,
+            "s": 60,
+            "translation": "it is the near encompassing light,"
+          },
+          {
+            "v": 7,
+            "s": 61,
+            "translation": "the straight encompassing light,"
+          },
+          {
+            "v": 7,
+            "s": 62,
+            "translation": "and therefore its revelation is in a manner of nursing of only an illumination,"
+          },
+          {
+            "v": 7,
+            "s": 63,
+            "translation": "not so Atik, which is the distant encompassing light,"
+          },
+          {
+            "v": 7,
+            "s": 64,
+            "translation": "the encompassing light of returning light, which is not in the category of revelation at all,"
+          },
+          {
+            "v": 7,
+            "s": 65,
+            "translation": "and when it is drawn, then it is drawn in its entire essence."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains the difference between \"leaping\" (dileig) and \"skipping\" (kafatz) as metaphors for the drawing from the near and distant encompassing lights, applied to the revelations of the Exodus from Egypt and the Giving of the Torah.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And this is the distinction between \"leaping\" and \"skipping,\""
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "that the drawing of \"leaping\" is only one foot"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "(and it is not drawn as it is in its essence)"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "— an example of this is"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "Abba and Imma nursing from the mazal,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "and the drawing of \"skipping\" with both his feet,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "by which his entire body is transferred, is the drawing from the distant encompassing light,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "that when it is drawn, then it is drawn in its entire essence."
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "And this is that \"leaping over the mountains\" refers to the Exodus from Egypt"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "(as our sages, of blessed memory, said"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "on the verse \"leaping over the mountains\" — He leaped over the end [of time]),"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "and \"skipping over the hills\" refers to the Giving of the Torah,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "for the revelation of the Exodus from Egypt is the revelation of the category of the straight encompassing light,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "and the revelation of the Giving of the Torah is the revelation of the returning encompassing light,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "and up to the revelation of \"I am that I am,\""
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "Essence."
+          }
+        ]
+      }
+    ]
+  }
+}

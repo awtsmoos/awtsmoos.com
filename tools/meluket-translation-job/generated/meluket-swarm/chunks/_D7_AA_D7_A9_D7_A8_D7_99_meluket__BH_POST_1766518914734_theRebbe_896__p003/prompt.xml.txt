@@ -1,0 +1,120 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914734_theRebbe_896" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914734_theRebbe_896" title="מאמר בורא ניב שפתיים תשמ"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה ענין זה דוהרוח תשוב אל האלקים אשר נתנה</src>
+    <src s="2">[שגם כשהנשמה היא למטה תהי' מיוחדת בו ית' כמו שהיתה כלולה בעצמות אוא"ס]</src>
+    <src s="3">הוא בעיקר ע"י עבודת התשובה.</src>
+    <src s="4">ויש לומר,</src>
+    <src s="5">שזה מרומז גם בלשון הכתוב והרוח תשוב גו',</src>
+    <src s="6">תשוב מלשון תשובה,</src>
+    <src s="7">כי עיקר השבת הנשמה לשרשה</src>
+    <src s="8">(אל האלקים אשר נתנה)</src>
+    <src s="9">הוא ע"י עבודת התשובה.</src>
+    <src s="10">והענין הוא</src>
+    <src s="11">(כמבואר בהמאמר),</src>
+    <src s="12">דעבודת הצדיקים</src>
+    <src s="13">(תורה עבודה וגמ"ח)</src>
+    <src s="14">היא במדידה והגבלה,</src>
+    <src s="15">ועבודת התשובה היא למעלה ממדידה והגבלה.</src>
+    <src s="16">דזהו שתשובה היא בשעתא חדא וברגעא חדא21.</src>
+    <src s="17">ולכן השבת הנשמה לשרשה שע"י התשובה היא השבה נעלית יותר מההשבה שע"י תורה עבודה וגמ"ח</src>
+    <src s="18">(עבודת הצדיקים).</src>
+    <src s="19">וזהו שלום שלום לרחוק ולקרוב,</src>
+    <src s="20">לרחוק ברישא והדר לקרוב,</src>
+    <src s="21">שהשלום שנעשה ע"י עבודת התשובה</src>
+    <src s="22">(רחוק שנתקרב)</src>
+    <src s="23">הוא נעלה יותר מהשלום שע"י עבודת הצדיקים</src>
+    <src s="24">(קרוב).</src>
+  </section>
+  <section v="7">
+    <src s="0">וזהו גם מה שממשיך בכתוב אמר הוי' ורפאתיו,</src>
+    <src s="1">כי המעלה דעבודת התשובה</src>
+    <src s="2">(שלום לרחוק)</src>
+    <src s="3">הוא שתשובה היא כמו רפואה22</src>
+    <src s="4">(ורפאתיו).</src>
+    <src s="5">והענין הוא</src>
+    <src s="6">(כמבואר בהמאמר23),</src>
+    <src s="7">דבאכילה ושתי' צריך לכמות גדולה של מזון בכדי לפעול חיזוק התקשרות הנפש באברי הגוף,</src>
+    <src s="8">משא"כ ברפואה,</src>
+    <src s="9">גם טיפה אחת מסממני רפואה יש בה כח לחזק התקשרות הנפש בהגוף.</src>
+    <src s="10">והטעם לזה הוא,</src>
+    <src s="11">כי הכח שבסממני רפואה אינו מוגבל כ"כ כהכח שבמזון,</src>
+    <src s="12">ולכן אינו תלוי כ"כ בהכמות.</src>
+    <src s="13">ועד"ז הוא בתשובה שנמשלה לרפואה22,</src>
+    <src s="14">דהטעם על זה שתשובה היא בשעתא חדא וברגעא חדא,</src>
+    <src s="15">ועד שע"י הרהור תשובה אחד הוא מתהפך מרשע גמור לצדיק גמור24,</src>
+    <src s="16">הוא,</src>
+    <src s="17">כי תשובה היא למעלה מהגבלה.</src>
+    <src s="18">ועפ"ז יש לבאר מ"ש אמר הוי' ורפאתיו,</src>
+    <src s="19">דזה שברפואה ותשובה נאמר אמר הוי'</src>
+    <src s="20">(אף שפעולת כל הדברים היא לא בכח עצמם אלא בכח הקב"ה),</src>
+    <src s="21">הוא,</src>
+    <src s="22">כי ברפואה ובתשובה ישנו ענין שלמעלה מהגבלה</src>
+    <src s="23">[שלכן,</src>
+    <src s="24">תשובה היא בשעתא חדא וברגעא חדא,</src>
+    <src s="25">ועד"ז רפואה כפשוטה שיכולה להיות גם ע"י טיפה אחת],</src>
+    <src s="26">וענין זה הוא ע"י נתינת כח מיוחד מלמעלה,</src>
+    <src s="27">אמר הוי'.</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">ויש להוסיף</src>
+    <src s="2">[ובפרט שענין זה</src>
+    <src s="3">(דלקמן)</src>
+    <src s="4">הוא דבר שהדור צריך לו וכמה צריכים לו],</src>
+    <src s="5">דפירוש ורפאתיו הוא שאני</src>
+    <src s="6">(הוי')</src>
+    <src s="7">ארפא25.</src>
+    <src s="8">היינו,</src>
+    <src s="9">דנוסף לזה שרפואה בכלל</src>
+    <src s="10">(גם כשהרפואה היא ע"י שליח,</src>
+    <src s="11">בו"ד)</src>
+    <src s="12">היא ע"י אמר הוי',</src>
+    <src s="13">הנה רפואה זו נמשכת מהקב"ה עצמו,</src>
+    <src s="14">אני הוי' רופאיך26.</src>
+    <src s="15">ולכן היא באופן דכל המחלה גו' לא אשים עליך</src>
+    <src s="16">(מלכתחילה)27.</src>
+    <src s="17">ולהוסיף,</src>
+    <src s="18">דגם כשהרפואה דאני הוי' רופאיך באה לאחרי שמצד סיבות שונות הי' דבר בלתי רצוי,</src>
+    <src s="19">הרפואה היא באופן שלא נשאר שום רושם,</src>
+    <src s="20">ועד שנעקר למפרע.</src>
+    <src s="21">דרפואה שע"י בו"ד,</src>
+    <src s="22">נוסף לזה שאינה מרפאת אלא מכאן ולהבא28,</src>
+    <src s="23">גם לאח"ז נשאר רושם29.</src>
+    <src s="24">וע"י הרפואה דאני הוי' רופאיך נעקר מתחלתו.</src>
+  </section>
+</awtsmoosMeluketSource>

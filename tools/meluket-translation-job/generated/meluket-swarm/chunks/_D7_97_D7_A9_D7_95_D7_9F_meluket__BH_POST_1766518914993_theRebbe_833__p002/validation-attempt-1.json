@@ -1,0 +1,709 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 133,
+    "returned": 133,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914993_theRebbe_833\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section raises questions about Rashi's interpretation of Sarah's life years, questioning whether the phrase \"the years of Sarah's life\" refers to a transcendent level above the 127 years or to the years themselves, and why Rashi's comparison of ages implies a superiority of seven over twenty and twenty over one hundred.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And it needs to be understood,</t>\n    <t s=\"2\">for according to this explanation,</t>\n    <t s=\"3\">that \"the years of Sarah's life\" is a matter in itself that is above the three divisions of one hundred years, twenty years, and seven years,</t>\n    <t s=\"4\">whereas the simple meaning of the verse is that the years of Sarah's life are the 127 years themselves,</t>\n    <t s=\"5\">and not a matter in itself that is above them.</t>\n    <t s=\"6\">And as emphasized in Rashi's commentary:</t>\n    <t s=\"7\">\"The years of Sarah's life—all of them were equally good,\"</t>\n    <t s=\"8\">for the matter of \"equally good\"</t>\n    <t s=\"9\">(which is above division)</t>\n    <t s=\"10\">is in all of them,</t>\n    <t s=\"11\">that is,</t>\n    <t s=\"12\">in the three divisions of one hundred years, twenty years, and seven years</t>\n    <t s=\"13\">(and not in a level above them).</t>\n    <t s=\"14\">Also, it needs to be understood what is said in Rashi's commentary: \"At one hundred years old, she was like a twenty-year-old, and at twenty, like a seven-year-old,\"</t>\n    <t s=\"15\">for from this it implies that there is an advantage in seven over twenty</t>\n    <t s=\"16\">(\"at twenty, like a seven-year-old\")</t>\n    <t s=\"17\">and in twenty over one hundred</t>\n    <t s=\"18\">(\"at one hundred, like a twenty-year-old\"),</t>\n    <t s=\"19\">even though Kesser</t>\n    <t s=\"20\">(one hundred)</t>\n    <t s=\"21\">is above the intellect</t>\n    <t s=\"22\">(twenty),</t>\n    <t s=\"23\">and intellect is above the emotions</t>\n    <t s=\"24\">(seven).</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains the concept of \"one hundred years\" as the general principle encompassing all, drawing from the Zohar's teaching of one hundred blessings daily, and describes how this general principle (Kesser or the essence of intellect) descends and becomes invested within the particulars of twenty years (intellect) and seven years (emotions).</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And it will be understood with the preface of what is explained in several discourses:</t>\n    <t s=\"2\">The continuation of the Zohar's statement: \"One hundred years is the general principle of all,\"</t>\n    <t s=\"3\">that one hundred years is the secret of one hundred blessings each day,</t>\n    <t s=\"4\">that a person is obligated to bless one hundred blessings every day,</t>\n    <t s=\"5\">as our Sages learned</t>\n    <t s=\"6\">from the verse,</t>\n    <t s=\"7\">\"And now, Israel, what does Hashem your G-d ask of you?\"</t>\n    <t s=\"8\">Do not read \"what\" (mah) but \"one hundred\" (me'ah).</t>\n    <t s=\"9\">And the point of the explanation is,</t>\n    <t s=\"10\">that \"one hundred years\" is also the general principle of twenty years and seven years,</t>\n    <t s=\"11\">the general principle of all.</t>\n    <t s=\"12\">For in addition to this, that all one hundred levels</t>\n    <t s=\"13\">(ten Sefiros, each of which includes ten)</t>\n    <t s=\"14\">that are in Kesser are one general principle above division</t>\n    <t s=\"15\">[above also the general principle of twenty years,</t>\n    <t s=\"16\">which has two levels</t>\n    <t s=\"17\">(Chochmah and Binah)</t>\n    <t s=\"18\">except that they are \"two companions that never separate\"],</t>\n    <t s=\"19\">it is also the general principle of all three divisions,</t>\n    <t s=\"20\">even of twenty years and seven years.</t>\n    <t s=\"21\">And as explained in the discourses,</t>\n    <t s=\"22\">that \"one hundred years\"</t>\n    <t s=\"23\">(the general principle of all)</t>\n    <t s=\"24\">is drawn down and becomes invested within the particulars of twenty years</t>\n    <t s=\"25\">(intellect)</t>\n    <t s=\"26\">and seven years</t>\n    <t s=\"27\">(emotions).</t>\n    <t s=\"28\">And it can be said,</t>\n    <t s=\"29\">that this—that one hundred is</t>\n    <t s=\"30\">(also)</t>\n    <t s=\"31\">the general principle of twenty and seven—</t>\n    <t s=\"32\">is,</t>\n    <t s=\"33\">not only according to the explanation that one hundred is Kesser,</t>\n    <t s=\"34\">for since Kesser is a makkif (encompassing light), it is the general principle of all ten Sefiros,</t>\n    <t s=\"35\">but also according to the explanation that one hundred is the essence of the intellect,</t>\n    <t s=\"36\">for even though the intellects are internal powers,</t>\n    <t s=\"37\">it can be said,</t>\n    <t s=\"38\">that the essence of the intellect is also the general principle of the levels below it,</t>\n    <t s=\"39\">therefore,</t>\n    <t s=\"40\">the essence of the intellect is drawn down and becomes invested</t>\n    <t s=\"41\">(afterward)</t>\n    <t s=\"42\">in the intellects that are related to the emotions,</t>\n    <t s=\"43\">which are divided</t>\n    <t s=\"44\">(generally)</t>\n    <t s=\"45\">into two lines</t>\n    <t s=\"46\">(twenty years),</t>\n    <t s=\"47\">affirmative and negative</t>\n    <t s=\"48\">(positive and negative commandments),</t>\n    <t s=\"49\">and even until it is drawn into the emotions themselves</t>\n    <t s=\"50\">(seven years)</t>\n    <t s=\"51\">in which is the primary service.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the concept of \"one hundred years\" as the general principle of all, corresponding to one hundred daily blessings, represents the entirety of the divine service to draw G-dliness downward through the blessings, which effect a revelation of G-d's presence in the world via the intellect and emotions.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the explanation of the matter of \"one hundred years is the general principle of all,\" which is the secret of one hundred blessings each day,</t>\n    <t s=\"2\">will be understood according to what is explained in several discourses,</t>\n    <t s=\"3\">that the matter of blessings is the entirety of divine service.</t>\n    <t s=\"4\">For behold,</t>\n    <t s=\"5\">\"blessing\" (berachah) is a term meaning drawing down (hamshachah),</t>\n    <t s=\"6\">and the meaning of \"Blessed are You, Hashem\" is to draw down the Name Havayah,</t>\n    <t s=\"7\">so that He will be blessed and drawn down in revelation below.</t>\n    <t s=\"8\">And the order of the drawing down is,</t>\n    <t s=\"9\">that first the Name Havayah is drawn into the soul of man,</t>\n    <t s=\"10\">\"Hashem our G-d,\"</t>\n    <t s=\"11\">to be a revelation of Ein Sof in the soul of every Jew, so that the faith of Hashem in their hearts will be strengthened in revelation until He becomes \"our G-d,\"</t>\n    <t s=\"12\">our power and our vitality,</t>\n    <t s=\"13\">and after it is drawn down and revealed in Israel,</t>\n    <t s=\"14\">it is drawn down through them in revelation also below, to be \"King of the world.\"</t>\n    <t s=\"15\">And it should be added,</t>\n    <t s=\"16\">that the drawing down and revelation below are also emphasized in the content of the blessings,</t>\n    <t s=\"17\">for,</t>\n    <t s=\"18\">in addition to the fact that</t>\n    <t s=\"19\">(most)</t>\n    <t s=\"20\">blessings are connected with worldly matters</t>\n    <t s=\"21\">(for even the blessings over commandments are connected with the worldly matters through which the commandments are fulfilled,</t>\n    <t s=\"22\">tzitzis from physical wool and tefillin from physical parchment, etc.),</t>\n    <t s=\"23\">behold, the blessings themselves are about worldly matters,</t>\n    <t s=\"24\">such as the blessings of dawn,</t>\n    <t s=\"25\">which the Sages instituted according to the order of the world and its conduct, for the things from which creatures benefit each day, that they should bless the Holy One, blessed be He, for this the first time they benefit from that benefit each day,</t>\n    <t s=\"26\">and similarly the blessings for requesting one's physical needs, \"Healer of the sick\" and \"Bless the years\" and the like,</t>\n    <t s=\"27\">and all the more so the blessings of enjoyment, which are recited before eating and drinking,</t>\n    <t s=\"28\">for through the blessing the item becomes permitted for eating and drinking,</t>\n    <t s=\"29\">as our Sages said,</t>\n    <t s=\"30\">\"Whoever benefits from this world without a blessing, it is as if he benefited from the holy things of Heaven,\"</t>\n    <t s=\"31\">as it is stated,</t>\n    <t s=\"32\">\"To Hashem is the earth and its fullness,\"</t>\n    <t s=\"33\">after a blessing, it is for man,</t>\n    <t s=\"34\">that is,</t>\n    <t s=\"35\">the effect of the blessing is</t>\n    <t s=\"36\">(not to nullify, G-d forbid, the superiority of the holy things of Heaven that are in this thing,</t>\n    <t s=\"37\">but rather)</t>\n    <t s=\"38\">that the holy things of Heaven become his,</t>\n    <t s=\"39\">that his eating and drinking are in the category of holy things of Heaven,</t>\n    <t s=\"40\">since through the blessing the refinement and purification of the physical things is accomplished, so that the revelation of</t>\n    <t s=\"41\">(\"Hashem our G-d\")</t>\n    <t s=\"42\">\"King of the world\" is drawn into them.</t>\n    <t s=\"43\">And this is the explanation of the Zohar's statement: \"One hundred years is the general principle of all, in the secret of one hundred blessings each day,\"</t>\n    <t s=\"44\">for the matter of one hundred blessings is the entirety of all the service to draw down G-dliness below,</t>\n    <t s=\"45\">and this is the matter of \"one hundred years is the general principle of all,\"</t>\n    <t s=\"46\">the entirety of the service to draw down G-dliness below,</t>\n    <t s=\"47\">through the drawing down and investment within the intellects that are related to the emotions</t>\n    <t s=\"48\">(twenty years)</t>\n    <t s=\"49\">and even to the level of the emotions</t>\n    <t s=\"50\">(seven years),</t>\n    <t s=\"51\">the seven days of building,</t>\n    <t s=\"52\">through which the world was created,</t>\n    <t s=\"53\">and in them</t>\n    <t s=\"54\">(in the level of the emotions)</t>\n    <t s=\"55\">is the primary service in this time.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914993_theRebbe_833",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section raises questions about Rashi's interpretation of Sarah's life years, questioning whether the phrase \"the years of Sarah's life\" refers to a transcendent level above the 127 years or to the years themselves, and why Rashi's comparison of ages implies a superiority of seven over twenty and twenty over one hundred.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "for according to this explanation,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "that \"the years of Sarah's life\" is a matter in itself that is above the three divisions of one hundred years, twenty years, and seven years,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "whereas the simple meaning of the verse is that the years of Sarah's life are the 127 years themselves,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "and not a matter in itself that is above them."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "And as emphasized in Rashi's commentary:"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "\"The years of Sarah's life—all of them were equally good,\""
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "for the matter of \"equally good\""
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "(which is above division)"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "is in all of them,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "that is,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "in the three divisions of one hundred years, twenty years, and seven years"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(and not in a level above them)."
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "Also, it needs to be understood what is said in Rashi's commentary: \"At one hundred years old, she was like a twenty-year-old, and at twenty, like a seven-year-old,\""
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "for from this it implies that there is an advantage in seven over twenty"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "(\"at twenty, like a seven-year-old\")"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "and in twenty over one hundred"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "(\"at one hundred, like a twenty-year-old\"),"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "even though Kesser"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "(one hundred)"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "is above the intellect"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "(twenty),"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "and intellect is above the emotions"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "(seven)."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains the concept of \"one hundred years\" as the general principle encompassing all, drawing from the Zohar's teaching of one hundred blessings daily, and describes how this general principle (Kesser or the essence of intellect) descends and becomes invested within the particulars of twenty years (intellect) and seven years (emotions).",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And it will be understood with the preface of what is explained in several discourses:"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "The continuation of the Zohar's statement: \"One hundred years is the general principle of all,\""
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "that one hundred years is the secret of one hundred blessings each day,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that a person is obligated to bless one hundred blessings every day,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "as our Sages learned"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "from the verse,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "\"And now, Israel, what does Hashem your G-d ask of you?\""
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "Do not read \"what\" (mah) but \"one hundred\" (me'ah)."
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "And the point of the explanation is,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "that \"one hundred years\" is also the general principle of twenty years and seven years,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "the general principle of all."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "For in addition to this, that all one hundred levels"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "(ten Sefiros, each of which includes ten)"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "that are in Kesser are one general principle above division"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "[above also the general principle of twenty years,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "which has two levels"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "(Chochmah and Binah)"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "except that they are \"two companions that never separate\"],"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "it is also the general principle of all three divisions,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "even of twenty years and seven years."
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "And as explained in the discourses,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "that \"one hundred years\""
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "(the general principle of all)"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "is drawn down and becomes invested within the particulars of twenty years"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "(intellect)"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "and seven years"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "(emotions)."
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "that this—that one hundred is"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "(also)"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "the general principle of twenty and seven—"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "is,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "not only according to the explanation that one hundred is Kesser,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "for since Kesser is a makkif (encompassing light), it is the general principle of all ten Sefiros,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "but also according to the explanation that one hundred is the essence of the intellect,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "for even though the intellects are internal powers,"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "that the essence of the intellect is also the general principle of the levels below it,"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "therefore,"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "the essence of the intellect is drawn down and becomes invested"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "(afterward)"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "in the intellects that are related to the emotions,"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "which are divided"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "(generally)"
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "into two lines"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "(twenty years),"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "affirmative and negative"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "(positive and negative commandments),"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "and even until it is drawn into the emotions themselves"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "(seven years)"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "in which is the primary service."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the concept of \"one hundred years\" as the general principle of all, corresponding to one hundred daily blessings, represents the entirety of the divine service to draw G-dliness downward through the blessings, which effect a revelation of G-d's presence in the world via the intellect and emotions.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And the explanation of the matter of \"one hundred years is the general principle of all,\" which is the secret of one hundred blessings each day,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "will be understood according to what is explained in several discourses,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that the matter of blessings is the entirety of divine service."
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "For behold,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "\"blessing\" (berachah) is a term meaning drawing down (hamshachah),"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and the meaning of \"Blessed are You, Hashem\" is to draw down the Name Havayah,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "so that He will be blessed and drawn down in revelation below."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "And the order of the drawing down is,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "that first the Name Havayah is drawn into the soul of man,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "\"Hashem our G-d,\""
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "to be a revelation of Ein Sof in the soul of every Jew, so that the faith of Hashem in their hearts will be strengthened in revelation until He becomes \"our G-d,\""
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "our power and our vitality,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "and after it is drawn down and revealed in Israel,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "it is drawn down through them in revelation also below, to be \"King of the world.\""
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "And it should be added,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "that the drawing down and revelation below are also emphasized in the content of the blessings,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "for,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "in addition to the fact that"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "(most)"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "blessings are connected with worldly matters"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "(for even the blessings over commandments are connected with the worldly matters through which the commandments are fulfilled,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "tzitzis from physical wool and tefillin from physical parchment, etc.),"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "behold, the blessings themselves are about worldly matters,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "such as the blessings of dawn,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "which the Sages instituted according to the order of the world and its conduct, for the things from which creatures benefit each day, that they should bless the Holy One, blessed be He, for this the first time they benefit from that benefit each day,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "and similarly the blessings for requesting one's physical needs, \"Healer of the sick\" and \"Bless the years\" and the like,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "and all the more so the blessings of enjoyment, which are recited before eating and drinking,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "for through the blessing the item becomes permitted for eating and drinking,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "as our Sages said,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "\"Whoever benefits from this world without a blessing, it is as if he benefited from the holy things of Heaven,\""
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "\"To Hashem is the earth and its fullness,\""
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "after a blessing, it is for man,"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "that is,"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "the effect of the blessing is"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "(not to nullify, G-d forbid, the superiority of the holy things of Heaven that are in this thing,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "but rather)"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "that the holy things of Heaven become his,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "that his eating and drinking are in the category of holy things of Heaven,"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "since through the blessing the refinement and purification of the physical things is accomplished, so that the revelation of"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "(\"Hashem our G-d\")"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "\"King of the world\" is drawn into them."
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "And this is the explanation of the Zohar's statement: \"One hundred years is the general principle of all, in the secret of one hundred blessings each day,\""
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "for the matter of one hundred blessings is the entirety of all the service to draw down G-dliness below,"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "and this is the matter of \"one hundred years is the general principle of all,\""
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "the entirety of the service to draw down G-dliness below,"
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "through the drawing down and investment within the intellects that are related to the emotions"
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "(twenty years)"
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "and even to the level of the emotions"
+          },
+          {
+            "v": 5,
+            "s": 50,
+            "translation": "(seven years),"
+          },
+          {
+            "v": 5,
+            "s": 51,
+            "translation": "the seven days of building,"
+          },
+          {
+            "v": 5,
+            "s": 52,
+            "translation": "through which the world was created,"
+          },
+          {
+            "v": 5,
+            "s": 53,
+            "translation": "and in them"
+          },
+          {
+            "v": 5,
+            "s": 54,
+            "translation": "(in the level of the emotions)"
+          },
+          {
+            "v": 5,
+            "s": 55,
+            "translation": "is the primary service in this time."
+          }
+        ]
+      }
+    ]
+  }
+}

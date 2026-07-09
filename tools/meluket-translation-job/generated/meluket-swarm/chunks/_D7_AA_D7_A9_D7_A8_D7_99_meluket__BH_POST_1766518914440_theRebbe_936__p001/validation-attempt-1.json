@@ -1,0 +1,289 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 49,
+    "returned": 49,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914440_theRebbe_936\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914440_theRebbe_936__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening heading and date for the maamar of Simchas Torah 5723.</sectionSummaryBrief>\n    <t s=\"0\">B’Siyata D’Shmaya.</t>\n    <t s=\"1\">The day of Simchas Torah 5723.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section raises questions on the verse \"Torah tzivah lanu Moshe morashah kehilas Yaakov,\" regarding the contradiction between Torah as an inheritance and the need to acquire it oneself, and the different names for Israel in the verses.</sectionSummaryBrief>\n    <t s=\"0\">\"Torah tzivah lanu Moshe morashah kehilas Yaakov,\"</t>\n    <t s=\"1\">that the Torah is an inheritance</t>\n    <t s=\"2\">for each and every one</t>\n    <t s=\"3\">of the congregation of Yaakov.</t>\n    <t s=\"4\">And the precise points in this are known,</t>\n    <t s=\"5\">for our sages, of blessed memory, said,</t>\n    <t s=\"6\">\"Prepare yourself to study Torah, for it is not an inheritance for you,\"</t>\n    <t s=\"7\">yet here it is said that the Torah is an inheritance.</t>\n    <t s=\"8\">Also, it needs to be understood,</t>\n    <t s=\"9\">that the simple meaning of \"inheritance\" is that one inherits from one's ancestors</t>\n    <t s=\"10\">(meaning that in and of himself he has no connection to the thing, but rather he inherited it from his ancestors),</t>\n    <t s=\"11\">yet all of Israel were</t>\n    <t s=\"12\">(their souls)</t>\n    <t s=\"13\">at Mount Sinai</t>\n    <t s=\"14\">and they themselves received the Torah.</t>\n    <t s=\"15\">Also, it needs to be understood,</t>\n    <t s=\"16\">that in the following verse</t>\n    <t s=\"17\">it is said, \"And He was a king in Yeshurun, when the heads of the people gathered, the tribes of Israel together,\"</t>\n    <t s=\"18\">what is the connection of \"And He was a king in Yeshurun, etc.\" to \"morashah kehilas Yaakov.\"</t>\n    <t s=\"19\">Also,</t>\n    <t s=\"20\">in this verse Israel is called by the name Yaakov</t>\n    <t s=\"21\">(\"morashah kehilas Yaakov\"),</t>\n    <t s=\"22\">and in the following verse, at its beginning, they are called by the name Yeshurun</t>\n    <t s=\"23\">(\"And He was a king in Yeshurun\"),</t>\n    <t s=\"24\">and at the end of the verse they are called by the name Israel</t>\n    <t s=\"25\">(\"the tribes of Israel together\").</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that there are two aspects in the Torah: the Torah as it is in itself, and the Torah as it descends below to refine the world and the person, corresponding to the progression from \"lo lishmah\" to \"lishmah.\"</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And the point of the explanation in this</t>\n    <t s=\"2\">(as understood from the discourses),</t>\n    <t s=\"3\">is that there are two aspects in the Torah.</t>\n    <t s=\"4\">The Torah as it is in itself,</t>\n    <t s=\"5\">which is the wisdom and will of the Holy One, blessed be He,</t>\n    <t s=\"6\">and as the Torah descended below,</t>\n    <t s=\"7\">and clarifies and refines the world,</t>\n    <t s=\"8\">beginning with the clarification and refinement within the person who studies,</t>\n    <t s=\"9\">that the intellect of the animal soul is clarified, refined, and included in holiness.</t>\n    <t s=\"10\">And this is</t>\n    <t s=\"11\">what our sages, of blessed memory, said,</t>\n    <t s=\"12\">\"A person should always occupy himself with Torah and mitzvos even not for their own sake, for from not for their own sake he comes to for their own sake,\"</t>\n    <t s=\"13\">for at the beginning of the service,</t>\n    <t s=\"14\">a person's occupation with Torah is in order to clarify and refine his soul,</t>\n    <t s=\"15\">as our sages, of blessed memory, said,</t>\n    <t s=\"16\">\"Initially, when a person acts, he acts for his own sake,\"</t>\n    <t s=\"17\">that his occupation with Torah is in order to refine his soul,</t>\n    <t s=\"18\">and through this he later comes to occupation with Torah for its own sake,</t>\n    <t s=\"19\">for the sake of the Torah itself</t>\n    <t s=\"20\">(which is above the matter of clarifications).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914440_theRebbe_936",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914440_theRebbe_936__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening heading and date for the maamar of Simchas Torah 5723.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B’Siyata D’Shmaya."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "The day of Simchas Torah 5723."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section raises questions on the verse \"Torah tzivah lanu Moshe morashah kehilas Yaakov,\" regarding the contradiction between Torah as an inheritance and the need to acquire it oneself, and the different names for Israel in the verses.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"Torah tzivah lanu Moshe morashah kehilas Yaakov,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "that the Torah is an inheritance"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "for each and every one"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "of the congregation of Yaakov."
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "And the precise points in this are known,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "for our sages, of blessed memory, said,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "\"Prepare yourself to study Torah, for it is not an inheritance for you,\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "yet here it is said that the Torah is an inheritance."
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "Also, it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "that the simple meaning of \"inheritance\" is that one inherits from one's ancestors"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "(meaning that in and of himself he has no connection to the thing, but rather he inherited it from his ancestors),"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "yet all of Israel were"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "(their souls)"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "at Mount Sinai"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "and they themselves received the Torah."
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "Also, it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "that in the following verse"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "it is said, \"And He was a king in Yeshurun, when the heads of the people gathered, the tribes of Israel together,\""
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "what is the connection of \"And He was a king in Yeshurun, etc.\" to \"morashah kehilas Yaakov.\""
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "Also,"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "in this verse Israel is called by the name Yaakov"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "(\"morashah kehilas Yaakov\"),"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "and in the following verse, at its beginning, they are called by the name Yeshurun"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "(\"And He was a king in Yeshurun\"),"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "and at the end of the verse they are called by the name Israel"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "(\"the tribes of Israel together\")."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that there are two aspects in the Torah: the Torah as it is in itself, and the Torah as it descends below to refine the world and the person, corresponding to the progression from \"lo lishmah\" to \"lishmah.\"",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the point of the explanation in this"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "(as understood from the discourses),"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "is that there are two aspects in the Torah."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "The Torah as it is in itself,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "which is the wisdom and will of the Holy One, blessed be He,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and as the Torah descended below,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and clarifies and refines the world,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "beginning with the clarification and refinement within the person who studies,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "that the intellect of the animal soul is clarified, refined, and included in holiness."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And this is"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "what our sages, of blessed memory, said,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "\"A person should always occupy himself with Torah and mitzvos even not for their own sake, for from not for their own sake he comes to for their own sake,\""
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "for at the beginning of the service,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "a person's occupation with Torah is in order to clarify and refine his soul,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "as our sages, of blessed memory, said,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "\"Initially, when a person acts, he acts for his own sake,\""
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "that his occupation with Torah is in order to refine his soul,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "and through this he later comes to occupation with Torah for its own sake,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "for the sake of the Torah itself"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "(which is above the matter of clarifications)."
+          }
+        ]
+      }
+    ]
+  }
+}

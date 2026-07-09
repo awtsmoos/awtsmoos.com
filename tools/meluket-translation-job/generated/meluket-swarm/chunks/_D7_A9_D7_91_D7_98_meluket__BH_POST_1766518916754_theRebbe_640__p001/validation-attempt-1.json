@@ -1,0 +1,484 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 88,
+    "returned": 88,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916754_theRebbe_640\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar delivered on Motzaei Shabbos Parshas Beshalach, 11 Shevat 5728.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">Motzaei Shabbos Parshas Beshalach,</t>\n    <t s=\"2\">11 Shevat</t>\n    <t s=\"3\">(Maamar 2),</t>\n    <t s=\"4\">5728</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the Midrashic interpretation of \"I have come to My garden,\" describing the descent of the Shechinah through the work of the Tzaddikim and the Mishkan, specifically through the transformation of folly into holiness.</sectionSummaryBrief>\n    <t s=\"0\">\"I have come to My garden, My sister, [My] bride.\"</t>\n    <t s=\"1\">And the Rebbe, my father-in-law, the Rebbe of the hillula, brings in the maamar of the day of his histalkus and his hillula,</t>\n    <t s=\"2\">that it is stated in Midrash Rabbah</t>\n    <t s=\"3\">(in its place)</t>\n    <t s=\"4\">\"to My garden\" means \"to My bridal chamber,\"</t>\n    <t s=\"5\">to the place which was My primary [dwelling] initially,</t>\n    <t s=\"6\">that the primary [dwelling of the] Shechinah was in the lower realms,</t>\n    <t s=\"7\">but through undesirable matters</t>\n    <t s=\"8\">(beginning with the sin of the Tree of Knowledge)</t>\n    <t s=\"9\">the Shechinah departed from below to above, up to the seventh firmament,</t>\n    <t s=\"10\">and afterwards, Tzaddikim arose</t>\n    <t s=\"11\">(beginning with Avraham Avinu,</t>\n    <t s=\"12\">\"One was Avraham\")</t>\n    <t s=\"13\">and they brought down the Shechinah from above to below,</t>\n    <t s=\"14\">until Moshe, who is the seventh, came</t>\n    <t s=\"15\">(for all sevenths are beloved)</t>\n    <t s=\"16\">and brought it down below to earth.</t>\n    <t s=\"17\">For this matter</t>\n    <t s=\"18\">(the descent and drawing down of the Shechinah below to earth)</t>\n    <t s=\"19\">was accomplished primarily through the Mishkan</t>\n    <t s=\"20\">that Moshe made, as it is stated,</t>\n    <t s=\"21\">\"And they shall make for Me a Sanctuary, and I will dwell in their midst.\"</t>\n    <t s=\"22\">And this is [the meaning of]</t>\n    <t s=\"23\">that the Mishkan was made of shittim wood,</t>\n    <t s=\"24\">for the drawing down of the primary Shechinah below is through the service of subjugation and transformation,</t>\n    <t s=\"25\">as the statement [states],</t>\n    <t s=\"26\">\"When the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated throughout all worlds,\"</t>\n    <t s=\"27\">the drawing down and revelation of the Atzmus of Ein Sof, which is above any relation to worlds</t>\n    <t s=\"28\">[therefore this drawing down is called \"elevation\" (istalkus),</t>\n    <t s=\"29\">because it is a revelation of the light that is in the aspect of loftiness],</t>\n    <t s=\"30\">the primary Shechinah.</t>\n    <t s=\"31\">And since this drawing down is through the service of subjugation and transformation,</t>\n    <t s=\"32\">therefore the Mishkan was made of shittim wood,</t>\n    <t s=\"33\">shittim being an expression of foolishness (shtus),</t>\n    <t s=\"34\">meaning the foolishness of idolatry and transgression</t>\n    <t s=\"35\">(a person does not commit a transgression unless a spirit of foolishness enters into him),</t>\n    <t s=\"36\">and through the service of \"And you shall make the planks for the Mishkan of shittim wood, standing,\"</t>\n    <t s=\"37\">that they transform the foolishness of idolatry and transgression into the foolishness of holiness</t>\n    <t s=\"38\">(\"shittim wood, standing\"),</t>\n    <t s=\"39\">through this is fulfilled \"and I will dwell in their midst,\"</t>\n    <t s=\"40\">the drawing down of the primary Shechinah in the lower realms.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section discusses the service of offerings in the Temple as an act of subjugation and transformation, elevating the animalistic soul to reach the essence of Ein Sof and drawing it down below.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And he continues in the maamar,</t>\n    <t s=\"2\">that this is also [the meaning of] that one of the services</t>\n    <t s=\"3\">[and one could say,</t>\n    <t s=\"4\">that the explanation of \"one of the services\" is the unique and primary service</t>\n    <t s=\"5\">that was in the Holy Temple]</t>\n    <t s=\"6\">is the service of the offerings,</t>\n    <t s=\"7\">for the service of the offerings is that one takes an animal</t>\n    <t s=\"8\">(whose vitality is from the kelipah of nogah)</t>\n    <t s=\"9\">and makes it an offering to Havayah,</t>\n    <t s=\"10\">and particularly according to the explanation of the Alter Rebbe</t>\n    <t s=\"11\">on the verse</t>\n    <t s=\"12\">\"When a man from among you brings an offering...\"</t>\n    <t s=\"13\">that what is written \"When a man from among you brings an offering\"</t>\n    <t s=\"14\">(and not \"When a man from you brings an offering\")</t>\n    <t s=\"15\">is to hint that the offering must be</t>\n    <t s=\"16\">(not only from the animal literally,</t>\n    <t s=\"17\">but also)</t>\n    <t s=\"18\">\"from among you,\"</t>\n    <t s=\"19\">from yourselves,</t>\n    <t s=\"20\">from the animal that is in a person's heart,</t>\n    <t s=\"21\">for when one makes from the animal within him</t>\n    <t s=\"22\">(the animal soul)</t>\n    <t s=\"23\">an offering to Havayah,</t>\n    <t s=\"24\">this is the matter of subjugation and transformation.</t>\n    <t s=\"25\">And by transforming the animal</t>\n    <t s=\"26\">[the animal literally,</t>\n    <t s=\"27\">and the animal within his heart]</t>\n    <t s=\"28\">into holiness,</t>\n    <t s=\"29\">behold, this reaches the Atzmus of Ein Sof, which is above any relation to worlds</t>\n    <t s=\"30\">(the primary Shechinah),</t>\n    <t s=\"31\">for the secret of the offering ascends to the secret of Ein Sof,</t>\n    <t s=\"32\">and this light is drawn down below.</t>\n    <t s=\"33\">For regarding offerings it is written,</t>\n    <t s=\"34\">\"a pleasing aroma,\"</t>\n    <t s=\"35\">\"aroma\" (rei'ach) is the ascent upward, and \"pleasing\" (nicho'ach)</t>\n    <t s=\"36\">(from the term \"descending a level\")</t>\n    <t s=\"37\">is the drawing down below,</t>\n    <t s=\"38\">for by the aroma of the offerings ascending upward to the secret of Ein Sof,</t>\n    <t s=\"39\">behold, from there it is afterwards drawn down below,</t>\n    <t s=\"40\">\"I have come to My garden, to My bridal chamber,\"</t>\n    <t s=\"41\">the drawing down of the primary Shechinah in the lower realms.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916754_theRebbe_640",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar delivered on Motzaei Shabbos Parshas Beshalach, 11 Shevat 5728.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Motzaei Shabbos Parshas Beshalach,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "11 Shevat"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "(Maamar 2),"
+          },
+          {
+            "v": 0,
+            "s": 4,
+            "translation": "5728"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the Midrashic interpretation of \"I have come to My garden,\" describing the descent of the Shechinah through the work of the Tzaddikim and the Mishkan, specifically through the transformation of folly into holiness.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"I have come to My garden, My sister, [My] bride.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe, my father-in-law, the Rebbe of the hillula, brings in the maamar of the day of his histalkus and his hillula,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that it is stated in Midrash Rabbah"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "(in its place)"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "\"to My garden\" means \"to My bridal chamber,\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "to the place which was My primary [dwelling] initially,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that the primary [dwelling of the] Shechinah was in the lower realms,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "but through undesirable matters"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(beginning with the sin of the Tree of Knowledge)"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "the Shechinah departed from below to above, up to the seventh firmament,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "and afterwards, Tzaddikim arose"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "(beginning with Avraham Avinu,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "\"One was Avraham\")"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and they brought down the Shechinah from above to below,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "until Moshe, who is the seventh, came"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "(for all sevenths are beloved)"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "and brought it down below to earth."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "For this matter"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "(the descent and drawing down of the Shechinah below to earth)"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "was accomplished primarily through the Mishkan"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "that Moshe made, as it is stated,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "\"And they shall make for Me a Sanctuary, and I will dwell in their midst.\""
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "And this is [the meaning of]"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "that the Mishkan was made of shittim wood,"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "for the drawing down of the primary Shechinah below is through the service of subjugation and transformation,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "as the statement [states],"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "\"When the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated throughout all worlds,\""
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "the drawing down and revelation of the Atzmus of Ein Sof, which is above any relation to worlds"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "[therefore this drawing down is called \"elevation\" (istalkus),"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "because it is a revelation of the light that is in the aspect of loftiness],"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "the primary Shechinah."
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "And since this drawing down is through the service of subjugation and transformation,"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "therefore the Mishkan was made of shittim wood,"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "shittim being an expression of foolishness (shtus),"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "meaning the foolishness of idolatry and transgression"
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "(a person does not commit a transgression unless a spirit of foolishness enters into him),"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "and through the service of \"And you shall make the planks for the Mishkan of shittim wood, standing,\""
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "that they transform the foolishness of idolatry and transgression into the foolishness of holiness"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "(\"shittim wood, standing\"),"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "through this is fulfilled \"and I will dwell in their midst,\""
+          },
+          {
+            "v": 1,
+            "s": 40,
+            "translation": "the drawing down of the primary Shechinah in the lower realms."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section discusses the service of offerings in the Temple as an act of subjugation and transformation, elevating the animalistic soul to reach the essence of Ein Sof and drawing it down below.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And he continues in the maamar,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that this is also [the meaning of] that one of the services"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "[and one could say,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that the explanation of \"one of the services\" is the unique and primary service"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "that was in the Holy Temple]"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "is the service of the offerings,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "for the service of the offerings is that one takes an animal"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "(whose vitality is from the kelipah of nogah)"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "and makes it an offering to Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "and particularly according to the explanation of the Alter Rebbe"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "on the verse"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "\"When a man from among you brings an offering...\""
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that what is written \"When a man from among you brings an offering\""
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "(and not \"When a man from you brings an offering\")"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "is to hint that the offering must be"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "(not only from the animal literally,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "but also)"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "\"from among you,\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "from yourselves,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "from the animal that is in a person's heart,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "for when one makes from the animal within him"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "(the animal soul)"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "an offering to Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "this is the matter of subjugation and transformation."
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "And by transforming the animal"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "[the animal literally,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "and the animal within his heart]"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "into holiness,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "behold, this reaches the Atzmus of Ein Sof, which is above any relation to worlds"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "(the primary Shechinah),"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "for the secret of the offering ascends to the secret of Ein Sof,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "and this light is drawn down below."
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "For regarding offerings it is written,"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "\"a pleasing aroma,\""
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "\"aroma\" (rei'ach) is the ascent upward, and \"pleasing\" (nicho'ach)"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "(from the term \"descending a level\")"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "is the drawing down below,"
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "for by the aroma of the offerings ascending upward to the secret of Ein Sof,"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "behold, from there it is afterwards drawn down below,"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "\"I have come to My garden, to My bridal chamber,\""
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "the drawing down of the primary Shechinah in the lower realms."
+          }
+        ]
+      }
+    ]
+  }
+}

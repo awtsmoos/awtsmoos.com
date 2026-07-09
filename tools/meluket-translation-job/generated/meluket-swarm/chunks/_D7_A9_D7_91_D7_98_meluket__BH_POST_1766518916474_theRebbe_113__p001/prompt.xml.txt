@@ -1,0 +1,116 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916474_theRebbe_113" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916474_theRebbe_113__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916474_theRebbe_113" title="מאמר באתי לגני תשי"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916474_theRebbe_113__p001">
+  <section v="0">
+    <src s="0">בס"ד,</src>
+    <src s="1">יו"ד שבט,</src>
+    <src s="2">תשי"א*</src>
+  </section>
+  <section v="1">
+    <src s="0">כותב כ"ק מו"ח אדמו"ר1,</src>
+    <src s="1">במאמרו ליום הסתלקותו,</src>
+    <src s="2">יו"ד שבט השי"ת:</src>
+  </section>
+  <section v="2">
+    <src s="0">באתי לגני אחותי כלה2,</src>
+    <src s="1">ואיתא במד"ר</src>
+    <src s="2">(במקומו3)</src>
+    <src s="3">לגן אין כתיב כאן אלא לגני,</src>
+    <src s="4">לגנוני,</src>
+    <src s="5">למקום שהי' עיקרי בתחילה,</src>
+    <src s="6">דעיקר שכינה בתחתונים היתה.</src>
+    <src s="7">עכ"ל.</src>
+    <src s="8">ולהבין דיוק הלשון עיקר שכינה,</src>
+    <src s="9">הנה בפי' שכינה מבאר כ"ק אדמו"ר הזקןא</src>
+    <src s="10">שנק' שכינה ע"ש ששוכנת ומתלבשת,</src>
+    <src s="11">מלשון ושכנתי בתוכם4,</src>
+    <src s="12">שהוא ראשית התגלות אוא"ס.</src>
+    <src s="13">והנה ממה שכותב5</src>
+    <src s="14">שראשית התגלות אוא"ס נק' בשם שכינה,</src>
+    <src s="15">מובן מזה שענין שכינה הוא למעלה מעלה מאצי' ג"כ,</src>
+    <src s="16">גם בבחי' האור שלפני הצמצום,</src>
+    <src s="17">שהרי ראשית ההתגלות הוא באור א"ס שלפני הצמצום,</src>
+    <src s="18">וכמוש"כ כ"ק אדמו"ר האמצעיב</src>
+    <src s="19">כי הארת הקו וחוט לגבי עצמיות אוא"ס נק' בשם שכינה.</src>
+    <src s="20">כי ענין שכינה הוא בכל מקום לפי ענינו.</src>
+    <src s="21">לגבי אצי' הנה המל' נק' בשם שכינה.</src>
+    <src s="22">וגם בזה מה שמל' דאצי' נק' שכינה מבאר כ"ק אדמו"ר הצמח צדקג</src>
+    <src s="23">שזהו דוקא כמו שנעשית בחי' עתיק לעולם הבריאה,</src>
+    <src s="24">אבל בהיותה באצי' היא מיוחדת עמהם</src>
+    <src s="25">(עם הספירות דאצי')</src>
+    <src s="26">ולא שייך לשון שכינה.</src>
+    <src s="27">ומ"מ אי"ז סותר למ"ש לעיל שהקו נק' בשם שכינה,</src>
+    <src s="28">כי שכינה שנאמר בדרז"ל היינו מל' דאצי',</src>
+    <src s="29">ואף גם זאת רק כשנעשית בחי' עתיק לבריאה דוקא,</src>
+    <src s="30">אבל בשרשה,</src>
+    <src s="31">היינו כמו שהוא לגבי אוא"ס,</src>
+    <src s="32">הנה גם הקו נק' בשם שכינה.</src>
+    <src s="33">ואחד הטעמים מה שהקו נק' בשם שכינה לגבי אוא"ס,</src>
+    <src s="34">כתב כ"ק אדמו"ר מהר"ש ד</src>
+    <src s="35">לפי שהקו כוונת המשכתו בשביל שיתלבש בעולמות ונש"י,</src>
+    <src s="36">ולכן הנה גם בראשיתו נק' בשם שכינה.</src>
+    <src s="37">ולמעלה יותר שכינה בשרשו הראשון למעלה מהצמצום,</src>
+    <src s="38">מבאר כ"ק אדמו"ר נ"ע ה</src>
+    <src s="39">שגילוי האור כמו שהוא לפה"צ,</src>
+    <src s="40">נק' בשם שכינה.</src>
+    <src s="41">שבכללות האור שלפני הצמצום יש בו ג' מדריגות,</src>
+    <src s="42">עצם האור והתפשטות האור,</src>
+    <src s="43">ובהתפשטות האור ב' מדרגות גילוי האור כמו שהוא לעצמו שזהו מקור אור הסובב,</src>
+    <src s="44">וגילוי האור לעצמו השייך להעולמות שזהו מקור אור הממלא,</src>
+    <src s="45">וגילוי האור הזה נק' בשם שכינה.</src>
+    <src s="46">ואף שהוא לפני הצמצום וא"א שיהי' מקור לעולמות,</src>
+    <src s="47">שלכן הוצרך להיות הצמצום,</src>
+    <src s="48">וצמצום הראשון שהוא בבחי' סילוק דוקא,</src>
+    <src s="49">מ"מ נק' בשם שכינה.</src>
+    <src s="50">וזהו דיוק הלשון עיקר שכינה בתחתונים היתה,</src>
+    <src s="51">היינו שגילוי השכינה בתחתונים,</src>
+    <src s="52">הוא לא השכינה כמו שהוא לגבי אצי',</src>
+    <src s="53">היינו מל',</src>
+    <src s="54">גם לא כמו שהוא לגבי אוא"ס,</src>
+    <src s="55">היינו הקו,</src>
+    <src s="56">כ"א עיקר ופנימיות השכינה היתה בתחתונים דוקא,</src>
+    <src s="57">כי האורו</src>
+    <src s="58">שנתלבש בעולמות ה"ה בא בסדר והדרגה.</src>
+    <src s="59">ולמעלה מאיר בגילוי יותר,</src>
+    <src s="60">וכל מה שנמשך ומשתלשל מתמעט האור.</src>
+    <src s="61">וכן הוא בכלל באור דסדר השתלשלות.</src>
+    <src s="62">ואף שקודם החטא הי' גם למטה האור בגילוי,</src>
+    <src s="63">מ"מ הי' גם אז גילוי האור יותר למעלה.</src>
+    <src s="64">וכמארז"ל*ו</src>
+    <src s="65">נטה ימינו וברא שמים נטה שמאלו וברא ארץ.</src>
+    <src s="66">אלא הכוונה על האור שלמעלה מעולמות,</src>
+    <src s="67">עיקר שכינה.</src>
+  </section>
+</awtsmoosMeluketSource>

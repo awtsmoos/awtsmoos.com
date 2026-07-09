@@ -1,0 +1,334 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 58,
+    "returned": 58,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914734_theRebbe_896\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains why the Radak's interpretation is more relevant to the level of \"Niv Sefasayim\" than the Gemara's interpretation.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we can explain what is brought in the maamar—that the explanation of the Radak precedes the explanation of the Gemara,</t>\n    <t s=\"1\">because in the level of \"Niv Sefasayim\"</t>\n    <t s=\"2\">(the first emphasis in the maamar)</t>\n    <t s=\"3\">the explanation of the Radak is more relevant.</t>\n    <t s=\"4\">For according to the Gemara's explanation, that \"the distant one\" refers to a baal teshuvah,</t>\n    <t s=\"5\">\"Niv Sefasayim\" is verbal confession.</t>\n    <t s=\"6\">And that \"Niv Sefasayim\" is the speech of Torah is according to the Radak's explanation, that \"the distant one\" is one distant from Yerushalayim.</t>\n    <t s=\"7\">And the essential quality of \"Niv Sefasayim\"</t>\n    <t s=\"8\">(speech that comes spontaneously)</t>\n    <t s=\"9\">is when the speech of Torah is in a spontaneous manner,</t>\n    <t s=\"10\">which indicates that the person has become a new reality,</t>\n    <t s=\"11\">a reality of Torah.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>Through the Rebbe's recitation and publication of this maamar, every Jew receives the power for their Torah study and involvement with the Nasi to be in the manner of \"Niv Sefasayim,\" ascending to a new world after fifty years.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And to add,</t>\n    <t s=\"2\">that through the fact that my master, father-in-law, the Rebbe, the Nasi of our generation, said the maamar beginning \"Borei Niv Sefasayim,\"</t>\n    <t s=\"3\">and especially after he subsequently published the maamar,</t>\n    <t s=\"4\">power was given to every single Jew,</t>\n    <t s=\"5\">and especially to those who follow in his footsteps,</t>\n    <t s=\"6\">that their involvement in Torah,</t>\n    <t s=\"7\">and likewise their involvement in all matters of my master, father-in-law, the Rebbe, the Nasi of our generation,</t>\n    <t s=\"8\">will be in the manner of \"Niv Sefasayim.\"</t>\n    <t s=\"9\">That is, that he be completely immersed in the matters of the Nasi of our generation,</t>\n    <t s=\"10\">to the extent that all his actions</t>\n    <t s=\"11\">(even those that come spontaneously, without intention)</t>\n    <t s=\"12\">will be in the matters of the Nasi of our generation.</t>\n    <t s=\"13\">And in the manner of \"ascending in holiness,\"</t>\n    <t s=\"14\">that each day the involvement in the matters of the Nasi be with new vitality and in a renewed manner,</t>\n    <t s=\"15\">and even to a complete renewal, analogous to the renewal of yesh mei'ayin,</t>\n    <t s=\"16\">\"Borei Niv Sefasayim.\"</t>\n    <t s=\"17\">And especially regarding the study of Torah,</t>\n    <t s=\"18\">for \"Niv Sefasayim\" refers to the speech of Torah</t>\n    <t s=\"19\">(as above),</t>\n    <t s=\"20\">that the increase in Torah study will be beyond measure.</t>\n    <t s=\"21\">And especially after fifty years have passed since the recitation of the aforementioned maamar,</t>\n    <t s=\"22\">\"there is no world but fifty years,\"</t>\n    <t s=\"23\">and after this a new world begins.</t>\n    <t s=\"24\">And to note,</t>\n    <t s=\"25\">that the superiority of fifty years is regarding matters of wisdom and intellect, as our sages said,</t>\n    <t s=\"26\">\"a son of fifty for counsel,\"</t>\n    <t s=\"27\">and from this it is understood,</t>\n    <t s=\"28\">that this—that after fifty years from the recitation of the aforementioned maamar a new world begins—is primarily regarding the study of Torah with understanding and comprehension.</t>\n    <t s=\"29\">That the increase and ascent in the understanding and comprehension of Torah will be in a manner beyond measure.</t>\n    <t s=\"30\">And analogous to the ascent of Rabbi Zeira from the Babylonian Talmud to the Jerusalem Talmud.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>Despite the need for effort, those who imagine they do not want to toil must know that their true will is to fulfill God's will, and clarifying this will reveal their desire and bring joy to their service.</sectionSummaryBrief>\n    <t s=\"0\">And to add,</t>\n    <t s=\"1\">that although in order for all matters to be in the manner of a new world it is through effort and toil,</t>\n    <t s=\"2\">and there are those who think and imagine that they do not want to toil to become a new reality and that their conduct from now on will be as it was before,</t>\n    <t s=\"3\">they must know,</t>\n    <t s=\"4\">that their \"einredenish\"</t>\n    <t s=\"5\">(that they will remain in the previous state)</t>\n    <t s=\"6\">will not avail them anything,</t>\n    <t s=\"7\">for \"the word of our God shall stand forever.\"</t>\n    <t s=\"8\">And also what they think regarding their will</t>\n    <t s=\"9\">(that they do not want to toil to become a new reality)</t>\n    <t s=\"10\">is only imagination,</t>\n    <t s=\"11\">for the true will of every single Jew is to fulfill the will of God,</t>\n    <t s=\"12\">as per the well-known ruling of the Rambam.</t>\n    <t s=\"13\">And when they explain to themselves what their true will is,</t>\n    <t s=\"14\">the will will come into revelation and their service in the aforementioned will be with will and delight.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914734_theRebbe_896",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains why the Radak's interpretation is more relevant to the level of \"Niv Sefasayim\" than the Gemara's interpretation.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And based on this, we can explain what is brought in the maamar—that the explanation of the Radak precedes the explanation of the Gemara,"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "because in the level of \"Niv Sefasayim\""
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "(the first emphasis in the maamar)"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "the explanation of the Radak is more relevant."
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "For according to the Gemara's explanation, that \"the distant one\" refers to a baal teshuvah,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "\"Niv Sefasayim\" is verbal confession."
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "And that \"Niv Sefasayim\" is the speech of Torah is according to the Radak's explanation, that \"the distant one\" is one distant from Yerushalayim."
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "And the essential quality of \"Niv Sefasayim\""
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "(speech that comes spontaneously)"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "is when the speech of Torah is in a spontaneous manner,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "which indicates that the person has become a new reality,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "a reality of Torah."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "Through the Rebbe's recitation and publication of this maamar, every Jew receives the power for their Torah study and involvement with the Nasi to be in the manner of \"Niv Sefasayim,\" ascending to a new world after fifty years.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And to add,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "that through the fact that my master, father-in-law, the Rebbe, the Nasi of our generation, said the maamar beginning \"Borei Niv Sefasayim,\""
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "and especially after he subsequently published the maamar,"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "power was given to every single Jew,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "and especially to those who follow in his footsteps,"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "that their involvement in Torah,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "and likewise their involvement in all matters of my master, father-in-law, the Rebbe, the Nasi of our generation,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "will be in the manner of \"Niv Sefasayim.\""
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "That is, that he be completely immersed in the matters of the Nasi of our generation,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "to the extent that all his actions"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "(even those that come spontaneously, without intention)"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "will be in the matters of the Nasi of our generation."
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "And in the manner of \"ascending in holiness,\""
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "that each day the involvement in the matters of the Nasi be with new vitality and in a renewed manner,"
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "and even to a complete renewal, analogous to the renewal of yesh mei'ayin,"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "\"Borei Niv Sefasayim.\""
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "And especially regarding the study of Torah,"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "for \"Niv Sefasayim\" refers to the speech of Torah"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "(as above),"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "that the increase in Torah study will be beyond measure."
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "And especially after fifty years have passed since the recitation of the aforementioned maamar,"
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "\"there is no world but fifty years,\""
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "and after this a new world begins."
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "And to note,"
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "that the superiority of fifty years is regarding matters of wisdom and intellect, as our sages said,"
+          },
+          {
+            "v": 13,
+            "s": 26,
+            "translation": "\"a son of fifty for counsel,\""
+          },
+          {
+            "v": 13,
+            "s": 27,
+            "translation": "and from this it is understood,"
+          },
+          {
+            "v": 13,
+            "s": 28,
+            "translation": "that this—that after fifty years from the recitation of the aforementioned maamar a new world begins—is primarily regarding the study of Torah with understanding and comprehension."
+          },
+          {
+            "v": 13,
+            "s": 29,
+            "translation": "That the increase and ascent in the understanding and comprehension of Torah will be in a manner beyond measure."
+          },
+          {
+            "v": 13,
+            "s": 30,
+            "translation": "And analogous to the ascent of Rabbi Zeira from the Babylonian Talmud to the Jerusalem Talmud."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "Despite the need for effort, those who imagine they do not want to toil must know that their true will is to fulfill God's will, and clarifying this will reveal their desire and bring joy to their service.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "And to add,"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "that although in order for all matters to be in the manner of a new world it is through effort and toil,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "and there are those who think and imagine that they do not want to toil to become a new reality and that their conduct from now on will be as it was before,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "they must know,"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "that their \"einredenish\""
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "(that they will remain in the previous state)"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "will not avail them anything,"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "for \"the word of our God shall stand forever.\""
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "And also what they think regarding their will"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "(that they do not want to toil to become a new reality)"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "is only imagination,"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "for the true will of every single Jew is to fulfill the will of God,"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "as per the well-known ruling of the Rambam."
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "And when they explain to themselves what their true will is,"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "the will will come into revelation and their service in the aforementioned will be with will and delight."
+          }
+        ]
+      }
+    ]
+  }
+}

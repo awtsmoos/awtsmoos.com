@@ -1,0 +1,116 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916328_theRebbe_715" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916328_theRebbe_715" title="מאמר וארא אל אברהם תשל"ה" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p002">
+  <section v="3">
+    <src s="0">ועוד ראי' על זה11,</src>
+    <src s="1">דאיתא בגמרא12</src>
+    <src s="2">בן ג' שנים הכיר אברהם את בוראו,</src>
+    <src s="3">וברמב"ם13</src>
+    <src s="4">איתא בן ארבעים שנה הכיר את בוראו,</src>
+    <src s="5">ועוד דיעה</src>
+    <src s="6">(במדרש14)</src>
+    <src s="7">שבן מ"ח שנה הכיר את בוראו,</src>
+    <src s="8">ומבואר במק"א15</src>
+    <src s="9">שאין זה פלוגתא במציאות,</src>
+    <src s="10">כי כמה וכמה דרגות בזה.</src>
+    <src s="11">ועפ"ז,</src>
+    <src s="12">באם נאמר שבאמירת הקב"ה לאברהם אני א-ל שדי נתגלה לו רק האלקות שבהבריאה</src>
+    <src s="13">(שאמרתי לעולמי די),</src>
+    <src s="14">צריך לומר,</src>
+    <src s="15">דזה שאמר הקב"ה לאברהם</src>
+    <src s="16">(בהיותו בן צ"ט שנה)</src>
+    <src s="17">אני א-ל שדי,</src>
+    <src s="18">אף שכו"כ שנים לפנ"ז הכיר את בוראו,</src>
+    <src s="19">הוא,</src>
+    <src s="20">שמקודם הכיר את בוראו ע"פ הכרח השכל וכו',</src>
+    <src s="21">ואין זה דומה להידיעה וההכרה ע"י שמגלים מלמעלה16.</src>
+    <src s="22">אבל מזה שאמר לו הקב"ה אני א-ל שדי</src>
+    <src s="23">(בלשון חידוש)</src>
+    <src s="24">משמע שבאמירה זו גילה לו הקב"ה ענין חדש שלא ידע מקודם.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">כמבואר בהדרושים17,</src>
+    <src s="3">דבשם שדי שני פירושים.</src>
+    <src s="4">שאמרתי לעולמי די,</src>
+    <src s="5">ושדי באלקותי לכל ברי'18.</src>
+    <src s="6">והחילוק בין שני הפירושים</src>
+    <src s="7">(הענינים)</src>
+    <src s="8">הוא,</src>
+    <src s="9">הן בפירוש תיבת "די" והן בהענין שתיבת "די" מדברת עליו.</src>
+    <src s="10">להפירוש ששם שדי הוא שאמרתי לעולמי די,</src>
+    <src s="11">תיבת די מדברת להעולם</src>
+    <src s="12">(שאמרתי לעולמי די),</src>
+    <src s="13">ופירוש די הוא הגבלה,</src>
+    <src s="14">שהעולם יהי' בהגבלה ולא יהי' נמתח והולך.</src>
+    <src s="15">ולהפירוש ששם שדי הוא שדי באלקותי לכל ברי',</src>
+    <src s="16">תיבת די מדברת לאלקות</src>
+    <src s="17">(שדי באלקותי לכל ברי'),</src>
+    <src s="18">ופירוש די הוא ריבוי גדול ביותר שהוא די ומספיק לכל ברי'.</src>
+    <src s="19">וע"ד די מחסורו אשר יחסר לו19,</src>
+    <src s="20">ריבוי גדול שממלא כל מחסורו,</src>
+    <src s="21">אפילו סוס לרכוב עליו ועבד לרוץ לפניו20.</src>
+    <src s="22">[והגם שגם די מחסורו הוא בהגבלה,</src>
+    <src s="23">די מחסורו ואי אתה מצווה עליו לעשרו20,</src>
+    <src s="24">ההדגשה בדי מחסורו היא לא על ההגבלה אלא על הריבוי שממלא כל מחסורו].</src>
+    <src s="25">וזהו החידוש בוארא אל האבות21</src>
+    <src s="26">בא-ל שדי,</src>
+    <src s="27">מתחיל מאברהם שנאמר לו אני א-ל שדי,</src>
+    <src s="28">לגבי שם שדי שהי' בהבריאה,</src>
+    <src s="29">דשם שדי שהי' בבריאת העולם הוא על שם שאמרתי לעולמי די,</src>
+    <src s="30">ושם שדי שנתגלה לאברהם</src>
+    <src s="31">[וכן ליצחק וליעקב]</src>
+    <src s="32">הוא על שם שדי באלקותי לכל ברי'.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">והנה גם הגילוי דא-ל שדי שנתגלה להאבות,</src>
+    <src s="2">על שם שדי באלקותי לכל ברי',</src>
+    <src s="3">הוא למטה מהגילוי דשם הוי',</src>
+    <src s="4">וארא אל האבות בא-ל שדי ושמי הוי' לא נודעתי להם.</src>
+    <src s="5">ומבואר בהדרושים17,</src>
+    <src s="6">שבהגילוי דשם שדי על שם שדי באלקותי לכל ברי' נכלל גם ענין הנסים.</src>
+    <src s="7">דכיון שענין די באלקותי לכל ברי' הוא ע"ד די מחסורו שפירושו הוא כל מה שיחסר לו,</src>
+    <src s="8">הרי מובן,</src>
+    <src s="9">שגם כשהבריות</src>
+    <src s="10">(כל ברי')</src>
+    <src s="11">יצטרכו לנס,</src>
+    <src s="12">די בהאלקות דשם שדי למלאות להם גם חסרון זה.</src>
+    <src s="13">אלא שהנסים הנמשכים משם שדי הם נסים המלובשים בטבע,</src>
+    <src s="14">והנסים שלמעלה מהטבע,</src>
+    <src s="15">המשכתם הוא משם הוי'.</src>
+  </section>
+</awtsmoosMeluketSource>

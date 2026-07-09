@@ -1,0 +1,224 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 36,
+    "returned": 36,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917720_theRebbe_340\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the two aspects of the \"water\" of Torah—its descent below and the revelation of its root in Atzmus through that descent—are primarily found in the halachic rulings of Torah.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">Now, these two matters in the aspect of the water of Torah—</t>\n    <t s=\"2\">that the Torah descends below, and that specifically through the descent below the root of the Torah is revealed as it is rooted in the Awtsmoos—</t>\n    <t s=\"3\">are primarily in the halachos of the Torah.</t>\n    <t s=\"4\">For the matter of halachos is a ruling regarding action—a descent to the very lowest level—</t>\n    <t s=\"5\">and the root of the halachos is higher than the root of the other parts of Torah,</t>\n    <t s=\"6\">as explained in the continuation of 5666,54</t>\n    <t s=\"7\">that \"these and those are the words of the living G-d\"55</t>\n    <t s=\"8\">is specifically in the aspect of Elokim,</t>\n    <t s=\"9\">while halachos are from the Name Havayah, as our sages said,56</t>\n    <t s=\"10\">\"and Havayah is with him\"57</t>\n    <t s=\"11\">meaning the halacha is like him,</t>\n    <t s=\"12\">for the intent of the Name Havayah here is until the aspect of His Name that is included in His Essence,</t>\n    <t s=\"13\">the capability of the Essence.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section adds that the aspect of the \"water\" of Torah being primarily in halachos also relates to the teaching that Torah endures only with one of lowly spirit, and that through self-nullification one reaches the essential concealment.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that this—that the aspect of the water of Torah is primarily in the halachos of Torah—also relates to what our sages said,58</t>\n    <t s=\"2\">that words of Torah are compared to water, for just as water leaves a high place and goes to a low place, so too words of Torah endure only with one whose mind is lowly.</t>\n    <t s=\"3\">And as explained in the continuation of 5666,59</t>\n    <t s=\"4\">that in order to determine the halacha in its truth, it is through self-nullification and lowliness.</t>\n    <t s=\"5\">For this is why the halacha was established like Beis Hillel, because they were pleasant and humble,55</t>\n    <t s=\"6\">for through their self-nullification they reached the essential concealment.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section explains that the tribe of Yissachar's advice to donate offerings stemmed from their Torah knowledge attained through self-nullification, which led them to the essence of Torah rooted in Atzmus, so they felt the purpose of Torah is to make a dwelling place for Him below.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, there is room to further explain what was explained above</t>\n    <t s=\"1\">(section 4)</t>\n    <t s=\"2\">that the fact that the sons of Yissachar gave advice to donate offerings was because they were knowledgeable in Torah, and the revelation of Torah is in the matter of offerings,</t>\n    <t s=\"3\">for this—that the tribe of Yissachar offered on the second day and preceded the tribe of Yehudah before him—is due to his self-nullification</t>\n    <t s=\"4\">[in the manner that Beis Hillel prefaced the words of Beis Shammai to their own words55],</t>\n    <t s=\"5\">and therefore they merited to determine the halacha in its truth,</t>\n    <t s=\"6\">as explained in the discourses of the Admo\"r Maharash.60</t>\n    <t s=\"7\">And based on this, one may say,</t>\n    <t s=\"8\">that this—that their knowledge in Torah brought them to the matter of offerings,</t>\n    <t s=\"9\">the clarification and sustenance of the world—</t>\n    <t s=\"10\">is,</t>\n    <t s=\"11\">because through their engagement in Torah being with self-nullification,61</t>\n    <t s=\"12\">they reached the essence of Torah as it is rooted in the Awtsmoos,</t>\n    <t s=\"13\">and therefore it was felt by them that the purpose of knowledge of Torah is to complete the intent of the Awtsmoos,</t>\n    <t s=\"14\">to make for Him, blessed be He, a dwelling place in the lower realms.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917720_theRebbe_340",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the two aspects of the \"water\" of Torah—its descent below and the revelation of its root in Atzmus through that descent—are primarily found in the halachic rulings of Torah.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "Now, these two matters in the aspect of the water of Torah—"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "that the Torah descends below, and that specifically through the descent below the root of the Torah is revealed as it is rooted in the Awtsmoos—"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "are primarily in the halachos of the Torah."
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "For the matter of halachos is a ruling regarding action—a descent to the very lowest level—"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "and the root of the halachos is higher than the root of the other parts of Torah,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "as explained in the continuation of 5666,54"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "that \"these and those are the words of the living G-d\"55"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "is specifically in the aspect of Elokim,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "while halachos are from the Name Havayah, as our sages said,56"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "\"and Havayah is with him\"57"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "meaning the halacha is like him,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "for the intent of the Name Havayah here is until the aspect of His Name that is included in His Essence,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "the capability of the Essence."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section adds that the aspect of the \"water\" of Torah being primarily in halachos also relates to the teaching that Torah endures only with one of lowly spirit, and that through self-nullification one reaches the essential concealment.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "that this—that the aspect of the water of Torah is primarily in the halachos of Torah—also relates to what our sages said,58"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "that words of Torah are compared to water, for just as water leaves a high place and goes to a low place, so too words of Torah endure only with one whose mind is lowly."
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "And as explained in the continuation of 5666,59"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "that in order to determine the halacha in its truth, it is through self-nullification and lowliness."
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "For this is why the halacha was established like Beis Hillel, because they were pleasant and humble,55"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "for through their self-nullification they reached the essential concealment."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section explains that the tribe of Yissachar's advice to donate offerings stemmed from their Torah knowledge attained through self-nullification, which led them to the essence of Torah rooted in Atzmus, so they felt the purpose of Torah is to make a dwelling place for Him below.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "And based on this, there is room to further explain what was explained above"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "(section 4)"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "that the fact that the sons of Yissachar gave advice to donate offerings was because they were knowledgeable in Torah, and the revelation of Torah is in the matter of offerings,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "for this—that the tribe of Yissachar offered on the second day and preceded the tribe of Yehudah before him—is due to his self-nullification"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "[in the manner that Beis Hillel prefaced the words of Beis Shammai to their own words55],"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "and therefore they merited to determine the halacha in its truth,"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "as explained in the discourses of the Admo\"r Maharash.60"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "And based on this, one may say,"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "that this—that their knowledge in Torah brought them to the matter of offerings,"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "the clarification and sustenance of the world—"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "is,"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "because through their engagement in Torah being with self-nullification,61"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "they reached the essence of Torah as it is rooted in the Awtsmoos,"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "and therefore it was felt by them that the purpose of knowledge of Torah is to complete the intent of the Awtsmoos,"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "to make for Him, blessed be He, a dwelling place in the lower realms."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,94 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p008">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" title="מאמר עשרה שיושבין תשמ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p008">
+  <section v="21">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">והנה ידועה תורת הבעש"ט63</src>
+    <src s="3">דכל מה שאדם רואה או שומע הוא הוראה בעבודת השם.</src>
+    <src s="4">ומוסיף הרב המגיד64</src>
+    <src s="5">שכל מה שרואה ושומע וכל מקרה שיקרה לאדם הוא בשביל עבודת ה'.</src>
+    <src s="6">והביאור בזה,</src>
+    <src s="7">כי גם כל מקרה הוא בהשגחה פרטית,</src>
+    <src s="8">וזה שנקרא בשם מקרה הוא שלמטה בעוה"ז הוא באופן של מקרה.</src>
+    <src s="9">וע"ד מ"ש65</src>
+    <src s="10">כי יקרא קן צפור לפניך וארז"ל66</src>
+    <src s="11">פרט למזומן,</src>
+    <src s="12">דהגם שכל הענינים הם בהשגח"פ,</src>
+    <src s="13">ויתירה מזו שהם מזומנים ממחשבה הקדומה דא"ק,</src>
+    <src s="14">מ"מ,</src>
+    <src s="15">אומר הכתוב כי יקרא קן צפור פרט למזומן,</src>
+    <src s="16">כי ישנם ענינים שהכוונה שבהם נשלמת ע"י שגם למטה הם באופן דמזומן,</src>
+    <src s="17">וישנם ענינים שהכוונה שבהם נשלמת ע"י שלמטה הם באופן דמקרה,</src>
+    <src s="18">כי יקרא.</src>
+    <src s="19">ומזה מובן במכש"כ בנוגע להענינים שבתורה,</src>
+    <src s="20">שכל הפרטים שבה,</src>
+    <src s="21">גם כשנראים בחיצוניות שהם רק בדרך אגב</src>
+    <src s="22">(ע"ד מקרה),</src>
+    <src s="23">הם הוראה67.</src>
+  </section>
+  <section v="22">
+    <src s="0">ועפ"ז יש לומר,</src>
+    <src s="1">דזה שהמדה די"ג המדות שבתורה שנמשכה מיגמה"ר שבתפלה היא מדת קל וחומר הוא להורות,</src>
+    <src s="2">דהגם שעיקר ההמשכה דיגמה"ר הוא בתפלה ועי"ז באה ההמשכה גם בתורה,</src>
+    <src s="3">מ"מ,</src>
+    <src s="4">יש מעלה בההמשכה שבתורה לגבי ההמשכה שבתפלה,</src>
+    <src s="5">ע"ד מדת קל וחומר,</src>
+    <src s="6">דהגם שהחמור למידין מהקל,</src>
+    <src s="7">מ"מ,</src>
+    <src s="8">הוא חמור לגבי הקל.</src>
+    <src s="9">וכמו שמבאר בהמאמר68</src>
+    <src s="10">דזה שלמידין ההמשכה שלא לפי ערך ההעלאה שע"י תורה דרבים מההמשכה שע"י תפלת רבים הוא לימוד באופן דמכש"כ,</src>
+    <src s="11">ק"ו.</src>
+  </section>
+  <section v="23">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דהחילוק בין תורה ותפלה הוא ע"ד החילוק בין ברכה ותפלה55.</src>
+    <src s="2">דבתפלה,</src>
+    <src s="3">המתפלל הוא למטה ומבקש שישפיעו לו מלמעלה,</src>
+    <src s="4">ובברכה,</src>
+    <src s="5">המברך</src>
+    <src s="6">[זה שיש לו כח לברך,</src>
+    <src s="7">כמו הכהנים שניתן להם כח לברך]</src>
+    <src s="8">הוא למעלה מהמקור שממנו נמשכת הברכה ומצַוה שתהי' ההמשכה למטה.</src>
+    <src s="9">וכהלשון בברכת כהנים יברכך ה' וגו'69,</src>
+    <src s="10">שהוא לשון ציווי.</src>
+    <src s="11">ועד"ז הוא בהמשכת ההשפעות שע"י תורה.</src>
+    <src s="12">דכיון שכתר תורה הוא הפקר לכל70,</src>
+    <src s="13">הרי ביכלתו של כל אחד מישראל לזכות בה ע"י עסק התורה באופן שהיא נעשית תורתו71</src>
+    <src s="14">(דהלומד),</src>
+    <src s="15">ונעשה בעל הבית כביכול על התורה ומכש"כ על המשכת ההשפעות שע"י התורה.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,273 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 47,
+    "returned": 47,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914265_theRebbe_229\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914265_theRebbe_229__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that through the service of teshuvah from the level of \"nesher\" below, one ascends to the level of \"kenesher ya'ir kino\" above, ultimately reaching a level beyond measure where Israel and the Awtsmoos of the Holy One are completely one.</sectionSummaryBrief>\n    <t s=\"0\">And this is \"As an eagle stirs up its nest, hovers over its young, etc.\"</t>\n    <t s=\"1\">For hovering over its young indicates the mercy of the eagle in its simple sense,</t>\n    <t s=\"2\">that through the service of teshuvah from the aspect of \"nesher\" below, one ascends to the aspect of \"kenesher ya'ir kino\" above and beyond.</t>\n    <t s=\"3\">And along the lines of what is stated elsewhere,</t>\n    <t s=\"4\">that there is a will and there is a will,</t>\n    <t s=\"5\">for the lower will is a vessel and draws down the upper will.</t>\n    <t s=\"6\">And similarly, lower awe is a vessel for higher awe, and lower wisdom is a vessel for higher wisdom.</t>\n    <t s=\"7\">Thus, in this manner, through the aspect of \"nesher\" one ascends to the attribute of mercy above, until the mercy that is above and beyond any attribute.</t>\n    <t s=\"8\">And this is \"He found him in a desert land, etc.\"</t>\n    <t s=\"9\">For \"finding\" applies to something that was lost,</t>\n    <t s=\"10\">meaning that even those who were lost in a desert land, from there He will gather you, etc.,</t>\n    <t s=\"11\">to the point that it is an aspect of \"finding,\"</t>\n    <t s=\"12\">a matter that is not commensurate with the effort,</t>\n    <t s=\"13\">because the Holy One, blessed be He, did not, so to speak, reckon within Himself</t>\n    <t s=\"14\">(did not consider)</t>\n    <t s=\"15\">that He would find the G-dly portion in its perfection in the desert,</t>\n    <t s=\"16\">since \"everything is in the hands of Heaven except for the fear of Heaven.\"</t>\n    <t s=\"17\">And because of this, the Holy One, blessed be He, is in a state of arousal from the service of Israel.</t>\n    <t s=\"18\">To the point that this brings about great delight,</t>\n    <t s=\"19\">and according to the simple explanation of the matter,</t>\n    <t s=\"20\">the delight of one who earned [his reward] commensurate with his labor is not comparable</t>\n    <t s=\"21\">(as it is stated,</t>\n    <t s=\"22\">\"One who works his land will be sated with bread\")</t>\n    <t s=\"23\">to one who finds a found object, which is not commensurate with the effort.</t>\n    <t s=\"24\">And this is what draws down</t>\n    <t s=\"25\">\"He carries him on His pinions,\"</t>\n    <t s=\"26\">because through the service of teshuvah one ascends above and beyond,</t>\n    <t s=\"27\">until above the aspect of \"His pinions,\"</t>\n    <t s=\"28\">meaning above the 248 limbs of the King,</t>\n    <t s=\"29\">for Israel preceded the Torah and the commandments, as brought in Tanna D'vei Eliyahu,</t>\n    <t s=\"30\">\"And I say Israel preceded,\" as it is stated,</t>\n    <t s=\"31\">(in the Torah)</t>\n    <t s=\"32\">\"Speak to the children of Israel, say to the children of Israel, etc.\"</t>\n    <t s=\"33\">And until one ascends to the place concerning which it is said, \"Hashem alone will lead him, etc.,\"</t>\n    <t s=\"34\">Israel and the King alone,</t>\n    <t s=\"35\">that Israel and the Awtsmoos of the Holy One, blessed be He, are entirely one.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section concludes that when these concepts are studied through the chain of Torah, the contemplation leads to action, the refinement of sparks, and ultimately the fulfillment of the destiny of the true and complete redemption through Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">Now, since these matters are learned in the Written Torah, and then in the Oral Torah, and up to the Torah of Chabad, whose purpose is explanation, to the point that they are sustained from it,</t>\n    <t s=\"1\">this contemplation brings about action,</t>\n    <t s=\"2\">searching and refining the sparks in every place,</t>\n    <t s=\"3\">and especially when one encounters these sparks through Divine Providence,</t>\n    <t s=\"4\">and through this one comes to the fulfillment of the prophecy, \"Hashem alone will lead him, etc.,\"</t>\n    <t s=\"5\">as it is stated,</t>\n    <t s=\"6\">\"And Israel dwells securely, alone, the eye of Yaakov,\"</t>\n    <t s=\"7\">speedily, literally,</t>\n    <t s=\"8\">in the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"9\">may he come and redeem us and lead us upright to our land,</t>\n    <t s=\"10\">speedily in our days, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914265_theRebbe_229",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914265_theRebbe_229__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that through the service of teshuvah from the level of \"nesher\" below, one ascends to the level of \"kenesher ya'ir kino\" above, ultimately reaching a level beyond measure where Israel and the Awtsmoos of the Holy One are completely one.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And this is \"As an eagle stirs up its nest, hovers over its young, etc.\""
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "For hovering over its young indicates the mercy of the eagle in its simple sense,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that through the service of teshuvah from the aspect of \"nesher\" below, one ascends to the aspect of \"kenesher ya'ir kino\" above and beyond."
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "And along the lines of what is stated elsewhere,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that there is a will and there is a will,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "for the lower will is a vessel and draws down the upper will."
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "And similarly, lower awe is a vessel for higher awe, and lower wisdom is a vessel for higher wisdom."
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "Thus, in this manner, through the aspect of \"nesher\" one ascends to the attribute of mercy above, until the mercy that is above and beyond any attribute."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "And this is \"He found him in a desert land, etc.\""
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "For \"finding\" applies to something that was lost,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "meaning that even those who were lost in a desert land, from there He will gather you, etc.,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "to the point that it is an aspect of \"finding,\""
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "a matter that is not commensurate with the effort,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "because the Holy One, blessed be He, did not, so to speak, reckon within Himself"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "(did not consider)"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "that He would find the G-dly portion in its perfection in the desert,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "since \"everything is in the hands of Heaven except for the fear of Heaven.\""
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "And because of this, the Holy One, blessed be He, is in a state of arousal from the service of Israel."
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "To the point that this brings about great delight,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "and according to the simple explanation of the matter,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "the delight of one who earned [his reward] commensurate with his labor is not comparable"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "(as it is stated,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "\"One who works his land will be sated with bread\")"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "to one who finds a found object, which is not commensurate with the effort."
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "And this is what draws down"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "\"He carries him on His pinions,\""
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "because through the service of teshuvah one ascends above and beyond,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "until above the aspect of \"His pinions,\""
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "meaning above the 248 limbs of the King,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "for Israel preceded the Torah and the commandments, as brought in Tanna D'vei Eliyahu,"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "\"And I say Israel preceded,\" as it is stated,"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "(in the Torah)"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "\"Speak to the children of Israel, say to the children of Israel, etc.\""
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "And until one ascends to the place concerning which it is said, \"Hashem alone will lead him, etc.,\""
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "Israel and the King alone,"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "that Israel and the Awtsmoos of the Holy One, blessed be He, are entirely one."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section concludes that when these concepts are studied through the chain of Torah, the contemplation leads to action, the refinement of sparks, and ultimately the fulfillment of the destiny of the true and complete redemption through Moshiach.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "Now, since these matters are learned in the Written Torah, and then in the Oral Torah, and up to the Torah of Chabad, whose purpose is explanation, to the point that they are sustained from it,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "this contemplation brings about action,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "searching and refining the sparks in every place,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "and especially when one encounters these sparks through Divine Providence,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "and through this one comes to the fulfillment of the prophecy, \"Hashem alone will lead him, etc.,\""
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "\"And Israel dwells securely, alone, the eye of Yaakov,\""
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "speedily, literally,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "in the true and complete redemption through our righteous Moshiach,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "may he come and redeem us and lead us upright to our land,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "speedily in our days, literally."
+          }
+        ]
+      }
+    ]
+  }
+}

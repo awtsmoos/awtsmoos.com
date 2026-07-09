@@ -1,0 +1,119 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915935_theRebbe_175" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915935_theRebbe_175__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915935_theRebbe_175" title="מאמר ואתה ברחמיך הרבים תשמ"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915935_theRebbe_175__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">שבנס השמן גופא היו שני נסים.</src>
+    <src s="3">הנס12</src>
+    <src s="4">שמצאו פך אחד שמן טהור חתום בחותמו של כהן גדול13,</src>
+    <src s="5">שנס זה</src>
+    <src s="6">(דמציאת פך השמן)</src>
+    <src s="7">הי' בכ"ה בכסלו,</src>
+    <src s="8">והנס שלא הי' בו אלא להדליק יום אחד והדליקו ממנו שמונה ימים4,</src>
+    <src s="9">דנס זה הותחל בכ"ו בכסלו14.</src>
+    <src s="10">ומדייק בהמאמר,</src>
+    <src s="11">מפני מה לא הוקבע איזה תוספות דבר ביום כ"ו בכסלו שבו הותחל נס הספקת השמן לשמונה ימים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ונקודת הביאור בזה בהמאמר,</src>
+    <src s="2">שהנס דנצחון המלחמה הוא יחודא תתאה,</src>
+    <src s="3">והנס דמציאת פך שמן טהור הוא יחודא עילאה.</src>
+    <src s="4">וזהו שהנס דנצחון המלחמה הי' בכ"ד כסלו והנס דמציאת פך השמן הי' בכ"ה כסלו,</src>
+    <src s="5">כי מספר כ"ד רומז על יחו"ת כנגד כ"ד האותיות15</src>
+    <src s="6">שבברוך שם כבוד מלכותו לעולם ועד16,</src>
+    <src s="7">ומספר כ"ה רומז על יחו"ע כנגד כ"ה האותיות15</src>
+    <src s="8">שבפסוק17</src>
+    <src s="9">שמע ישראל גו' הוי' אחד.</src>
+    <src s="10">והנס דהספקת השמן לשמונה ימים שהתחיל בכ"ו בכסלו,</src>
+    <src s="11">כ"ו בגימטריא הוי',</src>
+    <src s="12">הוא למעלה גם מיחו"ע.</src>
+    <src s="13">דהגם שגם יחו"ע הוא בשם הוי'</src>
+    <src s="14">(הוי' אחד),</src>
+    <src s="15">כמבואר בכ"מ18</src>
+    <src s="16">שהביטול שמצד שם אלקים הוא ביטול היש</src>
+    <src s="17">(יחו"ת),</src>
+    <src s="18">והביטול דיחו"ע</src>
+    <src s="19">(ביטול במציאות)</src>
+    <src s="20">הוא דוקא מצד שם הוי',</src>
+    <src s="21">מ"מ,</src>
+    <src s="22">זה דכתיב בי' הוי' אחד</src>
+    <src s="23">(ולא יחיד)</src>
+    <src s="24">שישנם ז' רקיעים וארץ וד' רוחות העולם אלא שהם בטלים ומיוחדים עם אוא"ס אלופו של עולם19,</src>
+    <src s="25">הוא לפי שהוי' זה הוא הוי' דהשתלשלות,</src>
+    <src s="26">הוי' דלתתא.</src>
+    <src s="27">דזהו מ"ש17</src>
+    <src s="28">הוי' אלקינו הוי' אחד,</src>
+    <src s="29">דהוי' הראשון הוא הוי' דלעילא20</src>
+    <src s="30">שלמעלה מהשתלשלות,</src>
+    <src s="31">ובהוי' זה לא שייך לומר שהוא אחד בז' רקיעים וארץ ובד' רוחות העולם,</src>
+    <src s="32">שהרי הוא יחיד ואפס זולתו,</src>
+    <src s="33">והוי' הב' הוא הוי' דלתתא20,</src>
+    <src s="34">הוי' דהשתלשלות,</src>
+    <src s="35">ולכן שייך בו לשון אחד21.</src>
+    <src s="36">וזוהי מעלת הנס דהספקת השמן לשמונה ימים שהתחיל בכ"ו בכסלו</src>
+    <src s="37">(כ"ו בגימטריא הוי')</src>
+    <src s="38">על הנס דמציאת פך שמן טהור,</src>
+    <src s="39">שהנס דמציאת פך השמן שהי' בכ"ה</src>
+    <src s="40">(בכסלו)</src>
+    <src s="41">כנגד כ"ה האותיות שבשמע ישראל</src>
+    <src s="42">(יחודא עילאה),</src>
+    <src s="43">המשכתו הוא מהוי' דלתתא,</src>
+    <src s="44">הוי' אחד,</src>
+    <src s="45">והנס דהספקת פך השמן לשמונה ימים,</src>
+    <src s="46">דמספר שמונה מורה על בחינה שלמעלה מהשתלשלות22,</src>
+    <src s="47">המשכתו היא מהוי' דלעילא שלמעלה מהשתלשלות.</src>
+  </section>
+  <section v="5">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזהו גם שבשמע ישראל יש כ"ה אתוון15</src>
+    <src s="2">בחינת כה,</src>
+    <src s="3">אף שיחו"ע</src>
+    <src s="4">(בכלל)</src>
+    <src s="5">היא בחינת זה23,</src>
+    <src s="6">כי הוי' דלתתא לגבי הוי' דלעילא נחשב כמו אלקים</src>
+    <src s="7">(צמצום)24,</src>
+    <src s="8">והביטול דיחו"ע שמצד הוי' דלתתא</src>
+    <src s="9">(לגבי הוי' דלעילא)</src>
+    <src s="10">הוא כמו יחו"ת25,</src>
+    <src s="11">כה.</src>
+    <src s="12">ועד"ז הוא גם הנס דמציאת פך השמן שהי' בכ"ה בכסלו,</src>
+    <src s="13">שהוא בחי' כה26</src>
+    <src s="14">לגבי הוי' דלעילא,</src>
+    <src s="15">ואמיתית ענין בחי' זה הוא בהנס דהספקת השמן לשמונה ימים שהתחיל בכ"ו בכסלו,</src>
+    <src s="16">שהמשכתו הוא מהוי' דלעילא שלמעלה מהשתלשלות.</src>
+  </section>
+</awtsmoosMeluketSource>

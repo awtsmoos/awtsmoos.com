@@ -1,0 +1,309 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 53,
+    "returned": 53,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917498_theRebbe_163\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917498_theRebbe_163__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header and date for the maamar for Purim 5744.</sectionSummaryBrief>\n    <t s=\"0\">B'Siyata D'Shmaya.</t>\n    <t s=\"1\">Purim 5744*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the essence of the miracle was the king's sleep being disturbed, as interpreted by the Rebbe and the Maharil.</sectionSummaryBrief>\n    <t s=\"0\">\"On that night, the king's sleep was disturbed,\"</t>\n    <t s=\"1\">and the Rebbe, my father-in-law, the Rebbe, brings in his maamar beginning with the word \"Zeh,\"</t>\n    <t s=\"2\">that it is stated in the Minhagei Maharil</t>\n    <t s=\"3\">that from \"on that night\" one must raise his voice in its reading, because this is the essence of the miracle</t>\n    <t s=\"4\">[for \"on that night\" is the beginning of the intensity of the miracle].</t>\n    <t s=\"5\">And he makes a precise point about this,</t>\n    <t s=\"6\">that at first glance the essence of the miracle was Esther's request and her supplications, \"for we have been sold, I and my people,\"</t>\n    <t s=\"7\">[and also the preparations she made beforehand,</t>\n    <t s=\"8\">\"Go, gather all the Jews... and fast for me\"],</t>\n    <t s=\"9\">yet here it says that the essence and intensity of the miracle is that the king's sleep was disturbed.</t>\n    <t s=\"10\">And he brings on this,</t>\n    <t s=\"11\">that it is stated in the Yalkut,</t>\n    <t s=\"12\">\"On that night, the king's sleep was disturbed\" — this is the King of the World,</t>\n    <t s=\"13\">and is there sleep before Him?</t>\n    <t s=\"14\">Rather, when Israel sins, He makes Himself as if asleep,</t>\n    <t s=\"15\">and when they do His will, [He does] not,</t>\n    <t s=\"16\">\"He neither slumbers nor sleeps.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the disturbance of the King's sleep is the essence of the miracle, because exile is a time of sleep, and the miracle was that this sleep was shaken off.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation is,</t>\n    <t s=\"1\">that behold, man is a \"likeness of the Supernal,\"</t>\n    <t s=\"2\">and therefore all the matters above are in the same manner as they are in man</t>\n    <t s=\"3\">(\"You are called 'man'\"),</t>\n    <t s=\"4\">\"above, corresponding to the pattern below,\"</t>\n    <t s=\"5\">and in the language of the verse,</t>\n    <t s=\"6\">\"As water reflects a face back to a face, so the heart of man to man,\"</t>\n    <t s=\"7\">and therefore,</t>\n    <t s=\"8\">when Israel are in a state of sleep,</t>\n    <t s=\"9\">meaning that the matters of Torah and Mitzvos</t>\n    <t s=\"10\">(through which they are a \"likeness of the Supernal\")</t>\n    <t s=\"11\">are in a state of sleep for them,</t>\n    <t s=\"12\">through this, sleep is caused, as it were, also in the King of the World.</t>\n    <t s=\"13\">And as it is written,</t>\n    <t s=\"14\">\"I am asleep,\" and it is stated in the Zohar</t>\n    <t s=\"15\">\"in exile,\"</t>\n    <t s=\"16\">that from the side of the sleep of Israel during the time of exile,</t>\n    <t s=\"17\">through this, sleep is caused, as it were, also above.</t>\n    <t s=\"18\">And this is that \"on that night the king's sleep was disturbed\" is the intensity of the miracle,</t>\n    <t s=\"19\">because according to the order of the chain of descent,</t>\n    <t s=\"20\">the time of exile is a time of sleep</t>\n    <t s=\"21\">(above),</t>\n    <t s=\"22\">and that \"on that night\"</t>\n    <t s=\"23\">(exile)</t>\n    <t s=\"24\">\"the king's sleep was disturbed\" — the King of the World — this is the intensity of the miracle.</t>\n    <t s=\"25\">And this is also the precise meaning of the expression \"the king's sleep was disturbed\"</t>\n    <t s=\"26\">(specifically \"was disturbed\"),</t>\n    <t s=\"27\">for the expression \"the king's sleep was disturbed\"</t>\n    <t s=\"28\">(that sleep was disturbed from the king)</t>\n    <t s=\"29\">indicates that it was fitting for sleep to be upon the king</t>\n    <t s=\"30\">[similar to what is said about a person who was disturbed from his place],</t>\n    <t s=\"31\">because the time of exile is a time of sleep</t>\n    <t s=\"32\">(as above),</t>\n    <t s=\"33\">except that there was a miracle that the sleep was disturbed from Him.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917498_theRebbe_163",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917498_theRebbe_163__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header and date for the maamar for Purim 5744.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B'Siyata D'Shmaya."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Purim 5744*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that the essence of the miracle was the king's sleep being disturbed, as interpreted by the Rebbe and the Maharil.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"On that night, the king's sleep was disturbed,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and the Rebbe, my father-in-law, the Rebbe, brings in his maamar beginning with the word \"Zeh,\""
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that it is stated in the Minhagei Maharil"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "that from \"on that night\" one must raise his voice in its reading, because this is the essence of the miracle"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "[for \"on that night\" is the beginning of the intensity of the miracle]."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And he makes a precise point about this,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that at first glance the essence of the miracle was Esther's request and her supplications, \"for we have been sold, I and my people,\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "[and also the preparations she made beforehand,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "\"Go, gather all the Jews... and fast for me\"],"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "yet here it says that the essence and intensity of the miracle is that the king's sleep was disturbed."
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "And he brings on this,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "that it is stated in the Yalkut,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "\"On that night, the king's sleep was disturbed\" — this is the King of the World,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and is there sleep before Him?"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "Rather, when Israel sins, He makes Himself as if asleep,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "and when they do His will, [He does] not,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "\"He neither slumbers nor sleeps.\""
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the disturbance of the King's sleep is the essence of the miracle, because exile is a time of sleep, and the miracle was that this sleep was shaken off.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that behold, man is a \"likeness of the Supernal,\""
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "and therefore all the matters above are in the same manner as they are in man"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(\"You are called 'man'\"),"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "\"above, corresponding to the pattern below,\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and in the language of the verse,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "\"As water reflects a face back to a face, so the heart of man to man,\""
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "when Israel are in a state of sleep,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "meaning that the matters of Torah and Mitzvos"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "(through which they are a \"likeness of the Supernal\")"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "are in a state of sleep for them,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "through this, sleep is caused, as it were, also in the King of the World."
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "And as it is written,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "\"I am asleep,\" and it is stated in the Zohar"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "\"in exile,\""
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "that from the side of the sleep of Israel during the time of exile,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "through this, sleep is caused, as it were, also above."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And this is that \"on that night the king's sleep was disturbed\" is the intensity of the miracle,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "because according to the order of the chain of descent,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "the time of exile is a time of sleep"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "(above),"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "and that \"on that night\""
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(exile)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "\"the king's sleep was disturbed\" — the King of the World — this is the intensity of the miracle."
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "And this is also the precise meaning of the expression \"the king's sleep was disturbed\""
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "(specifically \"was disturbed\"),"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "for the expression \"the king's sleep was disturbed\""
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "(that sleep was disturbed from the king)"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "indicates that it was fitting for sleep to be upon the king"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "[similar to what is said about a person who was disturbed from his place],"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "because the time of exile is a time of sleep"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "(as above),"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "except that there was a miracle that the sleep was disturbed from Him."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,117 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914293_theRebbe_757" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914293_theRebbe_757__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914293_theRebbe_757" title="מאמר בסוכות תשבו תש"מ" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914293_theRebbe_757__p003">
+  <section v="6">
+    <src s="0">ו)</src>
+    <src s="1">וזהו גם השייכות של ענין האחדות דכל ישראל לענין הסוכה</src>
+    <src s="2">(כל ישראל ראוים לישב בסוכה אחת),</src>
+    <src s="3">כי המקיף דסוכה הוא סובב ומקיף את כל ישראל כאחד,</src>
+    <src s="4">בדוגמת ענני הכבוד</src>
+    <src s="5">(בסוכות הושבתי גו'48)</src>
+    <src s="6">שהקיפו את כל ישראל כולם כאיש אחד.</src>
+    <src s="7">וזהו גם בסוכות תשבו,</src>
+    <src s="8">תשבו כעין תדורו49,</src>
+    <src s="9">דכמו שהסוכה מקיף את כל ישראל כאחד,</src>
+    <src s="10">מראשיכם שבטיכם עד חוטב עציך ושואב מימיך,</src>
+    <src s="11">עד"ז הוא בכאו"א מישראל בפרט,</src>
+    <src s="12">שכל עניניו צריכים להיות בהמקיף דסוכה.</src>
+    <src s="13">ומדייק בסוכות תשבו שכולל</src>
+    <src s="14">(לא רק הפירוש תשבו כעין תדורו אלא)</src>
+    <src s="15">גם הפירוש דהתיישבות,</src>
+    <src s="16">שצריך להמשיך בחי' המקיף דסוכה בבחי' ההתיישבות.</src>
+    <src s="17">ומוסיף למען ידעו גו',</src>
+    <src s="18">שצריך להמשיך זה גם בהשגה,</src>
+    <src s="19">ובהשגה גופא במוח הדעת שבו הוא עיקר ההתיישבות והפנימיות.</src>
+    <src s="20">ומדייק למען ידעו דורותיכם גו',</src>
+    <src s="21">שגם הדורות הבאים</src>
+    <src s="22">(לאחרי הדור שיצאו ממצרים)</src>
+    <src s="23">יקיימו מצות סוכה לא רק במעשה בפועל,</src>
+    <src s="24">אלא שקיום מצוה זו זאָל זיי דורכנעמען בפנימיות,</src>
+    <src s="25">עד שגם יורגש במוח הדעת.</src>
+    <src s="26">ומוסיף שבעת ימים,</src>
+    <src s="27">שהמשכה זו צריכה להיות בכל ז' ימי ההיקף,</src>
+    <src s="28">היינו בכל הבחי' דהשתלשלות עד לבחי' המלכות,</src>
+    <src s="29">וכנ"ל שע"י נטילת הד' מינים נמשך הדעת</src>
+    <src s="30">(גם)</src>
+    <src s="31">בנוק',</src>
+    <src s="32">ועד"ז הוא באדם שבחי' המקיף דסוכה דאַרף דורכנעמען את כל הכוחות שלו עד לכח המעשה שלו</src>
+    <src s="33">(שהרי קיום מצות סוכה צריכה להיות ועיקרה בעשי' בפועל),</src>
+    <src s="34">ומזה באים אח"כ לביום השמיני עצרת בחי' שמיני שלמעלה מההיקף דהשתלשלות,</src>
+    <src s="35">וגם בחינה זו נמשכת ע"י הדעת,</src>
+    <src s="36">כי הדעת מחליף מקום הכתר,</src>
+    <src s="37">בחי' אנת50</src>
+    <src s="38">הוא חד ולא בחושבן,</src>
+    <src s="39">כמבואר בהמשך וככה51.</src>
+  </section>
+  <section v="7">
+    <src s="0">ז)</src>
+    <src s="1">וממשיך בכתוב כל האזרח בישראל ישבו בסוכות,</src>
+    <src s="2">שבזה הוא מבאר הטעם והכח על העבודה בסוכות תשבו כו'52.</src>
+    <src s="3">והענין הוא,</src>
+    <src s="4">אזרח לשון עתיד קאי על בחי' עצם הנשמה שתזרח ותאיר לע"ל53.</src>
+    <src s="5">בחי' איתן שבנשמה כמ"ש54</src>
+    <src s="6">משכיל לאיתן האזרחי,</src>
+    <src s="7">איתן מלשון תוקף ומלשון יושן,</src>
+    <src s="8">והוא התוקף דנשמה הבא מבחי' שם ע"ב שאינו מחודש</src>
+    <src s="9">(יושן),</src>
+    <src s="10">דלהיות ששם ע"ב הוא למעלה מתוהו שבו הי' השבירה,</src>
+    <src s="11">לכן נמשך מזה התוקף בכאו"א מישראל בעבודה הנ"ל55.</src>
+    <src s="12">והגם שגילוי בחי' זו יהי' בעיקר לע"ל,</src>
+    <src s="13">מ"מ</src>
+    <src s="14">(ומכיון שבחי' זו היא למעלה מהזמן,</src>
+    <src s="15">לכן)</src>
+    <src s="16">היא פועלת פעולתה גם עכשיו,</src>
+    <src s="17">ובפרט בסוכות.</src>
+    <src s="18">וזהו בסוכות תשבו גו' כל האזרח בישראל ישבו בסוכות,</src>
+    <src s="19">שע"י בחי' האזרח בישראל שתהי' לעתיד,</src>
+    <src s="20">יש כח גם עכשיו שיהי' בסוכות תשבו56,</src>
+    <src s="21">וגם ולקחתם לכם גו' פרי עץ הדר כפות תמרים וענף עץ עבות וערבי נחל,</src>
+    <src s="22">כולל גם הפירוש57</src>
+    <src s="23">פרי עץ הדר זה הקב"ה כו' כפות תמרים זה הקב"ה כו' וענף עץ עבות זה הקב"ה כו' וערבי נחל זה הקב"ה,</src>
+    <src s="24">כל הדרגות כביכול באלקות,</src>
+    <src s="25">ובאופן דולקחתם לכם שלוקחים את הקב"ה בבחי' פנימיות,</src>
+    <src s="26">מכיון שישראל</src>
+    <src s="27">(ע"י אורייתא)</src>
+    <src s="28">וקוב"ה כולא חד58.</src>
+  </section>
+  <section v="8">
+    <src s="0">כן תהי' לנו בההכנה למצות סוכה ובקיום מצות סוכה ומצות ד' מינים בשנה זו,</src>
+    <src s="1">ובקרוב ממש בשנה זו נזכה להגילוי בפועל דכל האזרח בישראל ישבו בסוכות,</src>
+    <src s="2">בביאת משיח צדקנו,</src>
+    <src s="3">יבוא ויגאלנו ויוליכנו קוממיות59</src>
+    <src s="4">לארצנו,</src>
+    <src s="5">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,137 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915493_theRebbe_561" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915493_theRebbe_561__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915493_theRebbe_561" title="מאמר וכל בניך תשמ"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915493_theRebbe_561__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והנה הטעם על זה שבכדי לברר את עשו צריך להיות תחלה עבודתו בבית לבן,</src>
+    <src s="2">מבואר בכמה דרושים14</src>
+    <src s="3">ובארוכה בד"ה וישלח שבהמשך תער"ב15,</src>
+    <src s="4">דשני ענינים בזה.</src>
+    <src s="5">הא',</src>
+    <src s="6">שבכדי לברר את עשו הוצרך לאור נעלה ביותר,</src>
+    <src s="7">ולכן צריך להיות תחלה עבודתו בבית לבן,</src>
+    <src s="8">בחינת לובן העליון שלמעלה מהשתלשלות16.</src>
+    <src s="9">ולאחרי שע"י עבודתו בבית לבן במשך עשרים שנה המשיך כל האורות דבחי' לובן העליון,</src>
+    <src s="10">ועד לענין דוישכם לבן בבוקר וינשק לבניו ולבנותיו גו'17,</src>
+    <src s="11">ההמשכה דלובן העליון בבחי' נשיקין ואתדבקות רוחא ברוחא לכל עניני יעקב</src>
+    <src s="12">(להמשפיעים ולהמקבלים,</src>
+    <src s="13">בניו ובנותיו)18,</src>
+    <src s="14">הי' ביכלתו לברר את עשו19.</src>
+    <src s="15">והב',</src>
+    <src s="16">שהצורך בהקדמת העבודה בבית לבן כדי לברר את עשו הוא</src>
+    <src s="17">(לא רק מצד השרש דלבן,</src>
+    <src s="18">לובן העליון,</src>
+    <src s="19">אלא גם)</src>
+    <src s="20">מצד לבן שלמטה,</src>
+    <src s="21">לבן דקליפה.</src>
+    <src s="22">דעשו הוא למטה מלבן,</src>
+    <src s="23">דלבן הוא כח"ב דק"נ ועשו הוא ז"מ דק"נ20,</src>
+    <src s="24">ולכן צריך תחלה לברר את לבן,</src>
+    <src s="25">ואח"כ הלך לברר את עשו21.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דהבירורים דיעקב היו בכלל בדרך מלמעלה למטה,</src>
+    <src s="3">ע"י גילוי אור עליון.</src>
+    <src s="4">כי יעקב הוא תורה</src>
+    <src s="5">[כידוע22</src>
+    <src s="6">שג' האבות הם ג' הקוין תורה עבודה וגמ"ח,</src>
+    <src s="7">אברהם – גמ"ח,</src>
+    <src s="8">יצחק – עבודה,</src>
+    <src s="9">ויעקב – תורה],</src>
+    <src s="10">והבירור שע"י התורה הוא בדרך מלמעלה למטה,</src>
+    <src s="11">כמשנת"ל בד"ה פדה בשלום23</src>
+    <src s="12">בענין החילוק שבין הבירור דתפלה להבירור דתורה,</src>
+    <src s="13">שהבירור דתפלה הוא בדרך מלמטה למעלה</src>
+    <src s="14">(שמתעסק עם המתברר),</src>
+    <src s="15">והבירור דתורה הוא בדרך מלמעלה למטה.</src>
+    <src s="16">דהחילוק שבין שני ענינים אלו אינו רק באופן הבירור,</src>
+    <src s="17">אלא גם בסדר הבירור24.</src>
+    <src s="18">דבהבירור שבאופן דמלמטה למעלה</src>
+    <src s="19">(שמתעסק עם המתברר)</src>
+    <src s="20">גם סדר הבירור הוא מלמטה למעלה,</src>
+    <src s="21">שבתחלה מברר התחתון ואח"כ העליון,</src>
+    <src s="22">והבירור באופן דמלמעלה למטה</src>
+    <src s="23">(ע"י גילוי אור מלמעלה)</src>
+    <src s="24">הוא בסדר דמלמעלה למטה.</src>
+    <src s="25">ולכן,</src>
+    <src s="26">בהבירורים עכשיו,</src>
+    <src s="27">שהם</src>
+    <src s="28">(בעיקר)</src>
+    <src s="29">באופן דמלמטה למעלה,</src>
+    <src s="30">הסדר הוא שהבירור דז' תחתונות הוא לפני הבירור דג' ראשונות,</src>
+    <src s="31">וזהו מה שבתחלה הי' הכיבוש דארץ ז' עממין ואח"כ</src>
+    <src s="32">(לע"ל)</src>
+    <src s="33">יהי' הכיבוש דקיני קניזי וקדמוני,</src>
+    <src s="34">וידוע הביאור דבעל הגאולה דיו"ד כסלו25</src>
+    <src s="35">[שהעלי' דיו"ד כסלו היא ביום השבת שלאחריו26]</src>
+    <src s="36">דבכיבוש יהושע נתבררו רק ז' המדות</src>
+    <src s="37">(והמוחין השייכים למדות),</src>
+    <src s="38">וג"ר יתבררו לעת"ל,</src>
+    <src s="39">משא"כ בהבירורים דיעקב,</src>
+    <src s="40">שהיו בדרך מלמעלה למטה,</src>
+    <src s="41">הי' הסדר שבתחילה בירר כח"ב</src>
+    <src s="42">(לבן)</src>
+    <src s="43">ואח"כ ז"מ</src>
+    <src s="44">(עשו)27.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">והנה ידוע,</src>
+    <src s="2">דהגם שבכלל הבירור בדרך מלמעלה למטה הוא נעלה יותר מהבירור בדרך מלמטה למעלה,</src>
+    <src s="3">יש יתרון בהבירור בדרך מלמטה למעלה על הבירור בדרך מלמעלה למטה28,</src>
+    <src s="4">דהבירור בדרך מלמעלה למטה,</src>
+    <src s="5">כיון שהבירור הוא מצד הגילוי אור</src>
+    <src s="6">(ולא מצד התחתון גופא),</src>
+    <src s="7">אין זה שייך כ"כ להתחתון עצמו,</src>
+    <src s="8">משא"כ בהבירור בדרך מלמטה למעלה,</src>
+    <src s="9">התחתון עצמו נעשה כלי לאלקות29.</src>
+    <src s="10">וזהו מה שגם לאחרי שיעקב פעל הבירור דעשו,</src>
+    <src s="11">ועד אשר וירץ עשו לקראתו ויחבקהו גו' וישקהו30,</src>
+    <src s="12">אמר לו31</src>
+    <src s="13">ואני אתנהלה לאטי גו' עד אשר אבוא אל אדוני שעירה,</src>
+    <src s="14">ואימתי ילך בימי המשיח,</src>
+    <src s="15">שנאמר32</src>
+    <src s="16">ועלו מושיעים בהר ציון לשפוט את הר עשו33,</src>
+    <src s="17">כי הבירור דעשו שנעשה ע"י יעקב הי' ע"י גילוי אור מלמעלה</src>
+    <src s="18">(כנ"ל),</src>
+    <src s="19">ולכן לא הי' הבירור בשלימות34,</src>
+    <src s="20">ושלימות הבירור שלו בימי המשיח הוא ע"י מעשינו ועבודתינו במשך זמן הגלות35,</src>
+    <src s="21">בירור בדרך מלמטה למעלה.</src>
+    <src s="22">ויש לומר,</src>
+    <src s="23">דזה שהי' תחלה הבירור שלו ע"י יעקב בדרך מלמעלה למטה הוא נתינת כח שיוכל להיות אח"כ הבירור בדרך מלמטה למעלה.</src>
+  </section>
+</awtsmoosMeluketSource>

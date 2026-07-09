@@ -1,0 +1,354 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 62,
+    "returned": 62,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917207_theRebbe_479\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917207_theRebbe_479__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the power to unite opposites in the laws of Mishpatim was given at Sinai, just as the Torah itself was given there, uniting existence and nullification.</sectionSummaryBrief>\n    <t s=\"0\">And this can be connected with what our sages, of blessed memory, said on the verse \"And these are the judgments,\"</t>\n    <t s=\"1\">\"And these\" adds to the first ones,</t>\n    <t s=\"2\">Just as the first ones were from Sinai, so too these were from Sinai,</t>\n    <t s=\"3\">That the power for the connection of the two opposites in the judgments</t>\n    <t s=\"4\">[which are understood by the intellect,</t>\n    <t s=\"5\">and their study</t>\n    <t s=\"6\">(of them49)</t>\n    <t s=\"7\">must be in the manner of \"which you shall place before them,\"</t>\n    <t s=\"8\">a reason that settles their study,</t>\n    <t s=\"9\">through which the Torah becomes the Torah of the person who studies it.</t>\n    <t s=\"10\">And together with this, their study must be in the manner of \"when you acquire,\"</t>\n    <t s=\"11\">so that he feels that it is the Torah of Havayah</t>\n    <t s=\"12\">(Your Torah that is in Atzilus,</t>\n    <t s=\"13\">an acquisition),</t>\n    <t s=\"14\">and beyond this,</t>\n    <t s=\"15\">that their study must be in the manner of a servant,</t>\n    <t s=\"16\">the yoke of Torah],</t>\n    <t s=\"17\">was given at Sinai50,</t>\n    <t s=\"18\">that in it as well there is a connection of two opposites,</t>\n    <t s=\"19\">existence and nullification.</t>\n    <t s=\"20\">And as explained in Likkutei Torah51,</t>\n    <t s=\"21\">that the Torah was given on Mount Sinai, which is lowly compared to all mountains52,</t>\n    <t s=\"22\">is because in Mount Sinai there exist the two opposites.</t>\n    <t s=\"23\">Mountain – elevation,</t>\n    <t s=\"24\">and lowly – nullification.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that through the union of opposites in Torah study, this is drawn into the performance of mitzvos, where the novelty in study is nullification and the novelty in mitzvos is existence.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And behold, our sages, of blessed memory, said53</t>\n    <t s=\"2\">\"Great is study, for it leads to action.\"</t>\n    <t s=\"3\">And it can be said,</t>\n    <t s=\"4\">that through the connection of the two opposites</t>\n    <t s=\"5\">(existence and nullification)</t>\n    <t s=\"6\">that is in the study of Torah,</t>\n    <t s=\"7\">it is drawn in this manner also into the performance of the mitzvos.</t>\n    <t s=\"8\">However, in the study of Torah, the novelty is the nullification.</t>\n    <t s=\"9\">For although the study of Torah is with understanding and comprehension</t>\n    <t s=\"10\">(existence)</t>\n    <t s=\"11\">nevertheless, the study must be with nullification.</t>\n    <t s=\"12\">And in the performance of mitzvos, the novelty is the existence.</t>\n    <t s=\"13\">For although the performance of mitzvos must be because of the command of the Holy One, blessed be He,</t>\n    <t s=\"14\">[as is also understood from the fact that mitzvah is a term of command],</t>\n    <t s=\"15\">in the manner of the service of a servant54,</t>\n    <t s=\"16\">nevertheless, his nullification must be in a manner that the nullification does not negate his existence, but rather, this itself is his existence.</t>\n    <t s=\"17\">That is to say,</t>\n    <t s=\"18\">that this—that he is a servant of the Holy One, blessed be He—is</t>\n    <t s=\"19\">[not only from necessity,</t>\n    <t s=\"20\">but rather]</t>\n    <t s=\"21\">that he wants to be a servant of the Holy One, blessed be He, and he has vitality and delight in this.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the portion of Mishpatim begins with Torah study to draw delight and vitality from it into the service of accepting the yoke, which is the foundation of all mitzvos.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that the reason that the beginning of the commandments of the portion of Mishpatim is the verse \"And these are the judgments which you shall place before them,\" which speaks of Torah study according to the exposition of our sages,</t>\n    <t s=\"2\">brought above in section 3</t>\n    <t s=\"3\">[unlike most of the commandments in the Torah, which begin with \"Speak to the children of Israel,\"</t>\n    <t s=\"4\">\"Command the children of Israel,\"</t>\n    <t s=\"5\">and the matter of study is not mentioned in them],</t>\n    <t s=\"6\">is that this—that the beginning of the commandments of the portion of Mishpatim is with the laws of a servant—hints that the performance of all the mitzvos must be in the manner of the service of a servant</t>\n    <t s=\"7\">(as above, section 2),</t>\n    <t s=\"8\">and since even the nullification of accepting the yoke</t>\n    <t s=\"9\">(the service of a servant)</t>\n    <t s=\"10\">must be with vitality and delight</t>\n    <t s=\"11\">(as above),</t>\n    <t s=\"12\">therefore,</t>\n    <t s=\"13\">the beginning of the portion is with the matter of Torah study,</t>\n    <t s=\"14\">for from the delight and vitality in Torah study, a semblance of the delight and vitality of Torah is drawn also into the service of accepting the yoke55.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917207_theRebbe_479",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917207_theRebbe_479__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the power to unite opposites in the laws of Mishpatim was given at Sinai, just as the Torah itself was given there, uniting existence and nullification.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And this can be connected with what our sages, of blessed memory, said on the verse \"And these are the judgments,\""
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "\"And these\" adds to the first ones,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "Just as the first ones were from Sinai, so too these were from Sinai,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "That the power for the connection of the two opposites in the judgments"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "[which are understood by the intellect,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and their study"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "(of them49)"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "must be in the manner of \"which you shall place before them,\""
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "a reason that settles their study,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "through which the Torah becomes the Torah of the person who studies it."
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "And together with this, their study must be in the manner of \"when you acquire,\""
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "so that he feels that it is the Torah of Havayah"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "(Your Torah that is in Atzilus,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "an acquisition),"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "and beyond this,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "that their study must be in the manner of a servant,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "the yoke of Torah],"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "was given at Sinai50,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "that in it as well there is a connection of two opposites,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "existence and nullification."
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "And as explained in Likkutei Torah51,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "that the Torah was given on Mount Sinai, which is lowly compared to all mountains52,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "is because in Mount Sinai there exist the two opposites."
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "Mountain – elevation,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "and lowly – nullification."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that through the union of opposites in Torah study, this is drawn into the performance of mitzvos, where the novelty in study is nullification and the novelty in mitzvos is existence.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And behold, our sages, of blessed memory, said53"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "\"Great is study, for it leads to action.\""
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "that through the connection of the two opposites"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "(existence and nullification)"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "that is in the study of Torah,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "it is drawn in this manner also into the performance of the mitzvos."
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "However, in the study of Torah, the novelty is the nullification."
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "For although the study of Torah is with understanding and comprehension"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "(existence)"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "nevertheless, the study must be with nullification."
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "And in the performance of mitzvos, the novelty is the existence."
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "For although the performance of mitzvos must be because of the command of the Holy One, blessed be He,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "[as is also understood from the fact that mitzvah is a term of command],"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "in the manner of the service of a servant54,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "nevertheless, his nullification must be in a manner that the nullification does not negate his existence, but rather, this itself is his existence."
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "that this—that he is a servant of the Holy One, blessed be He—is"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "[not only from necessity,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "but rather]"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "that he wants to be a servant of the Holy One, blessed be He, and he has vitality and delight in this."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the portion of Mishpatim begins with Torah study to draw delight and vitality from it into the service of accepting the yoke, which is the foundation of all mitzvos.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that the reason that the beginning of the commandments of the portion of Mishpatim is the verse \"And these are the judgments which you shall place before them,\" which speaks of Torah study according to the exposition of our sages,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "brought above in section 3"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "[unlike most of the commandments in the Torah, which begin with \"Speak to the children of Israel,\""
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "\"Command the children of Israel,\""
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "and the matter of study is not mentioned in them],"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "is that this—that the beginning of the commandments of the portion of Mishpatim is with the laws of a servant—hints that the performance of all the mitzvos must be in the manner of the service of a servant"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "(as above, section 2),"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "and since even the nullification of accepting the yoke"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "(the service of a servant)"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "must be with vitality and delight"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "(as above),"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "therefore,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "the beginning of the portion is with the matter of Torah study,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "for from the delight and vitality in Torah study, a semblance of the delight and vitality of Torah is drawn also into the service of accepting the yoke55."
+          }
+        ]
+      }
+    ]
+  }
+}

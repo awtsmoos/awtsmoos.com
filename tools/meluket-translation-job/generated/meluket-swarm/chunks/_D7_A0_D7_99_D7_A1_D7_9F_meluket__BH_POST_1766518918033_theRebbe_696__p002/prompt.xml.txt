@@ -1,0 +1,139 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918033_theRebbe_696" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918033_theRebbe_696__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918033_theRebbe_696" title="מאמר כימי צאתך תשל"ט" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918033_theRebbe_696__p002">
+  <section v="3">
+    <src s="0">ונמצא,</src>
+    <src s="1">דזה שבפסוק למען תזכור את יום צאתך מארץ מצרים כל ימי חייך,</src>
+    <src s="2">שממנו נלמד החיוב דזכירת יציאת מצרים בכל יום</src>
+    <src s="3">(ביום ובלילה)12,</src>
+    <src s="4">כתיב יום צאתך מארץ מצרים</src>
+    <src s="5">(יום לשון יחיד),</src>
+    <src s="6">הוא,</src>
+    <src s="7">כי הענין דיציאת מצרים בכל יום הוא</src>
+    <src s="8">(בעיקר)</src>
+    <src s="9">היציאה מהמיצרים דלעו"ז13,</src>
+    <src s="10">ובכללות הוא היציאה מהמיצרים וההגבלות שמונעים ומעכבים ללימוד התורה וקיום המצוות,</src>
+    <src s="11">וזה שייך ליום צאתך מארץ מצרים</src>
+    <src s="12">(יום לשון יחיד),</src>
+    <src s="13">דביציאת מצרים,</src>
+    <src s="14">ע"י שישראל נעשו עבדי ה'</src>
+    <src s="15">(ולא עבדי פרעה)14,</src>
+    <src s="16">ניתן הכח15</src>
+    <src s="17">לכאו"א מישראל שבנוגע לתומ"צ יהי' משוחרר מכל עניני העולם,</src>
+    <src s="18">כולל גם עניני הגלות16,</src>
+    <src s="19">מכיון ששטרי קודם17.</src>
+    <src s="20">ובפסוק כימי צאתך מארץ מצרים אראנו נפלאות כתיב כימי לשון רבים,</src>
+    <src s="21">כי בכדי להגיע להגילוי דגאולה העתידה,</src>
+    <src s="22">אראנו נפלאות,</src>
+    <src s="23">מכיון שהגילויים דגאולה העתידה יהיו נפלאות גם לגבי הגילוי דיציאת מצרים18,</src>
+    <src s="24">צריכה להיות גם היציאה מהמיצרים וההגבלות דקדושה,</src>
+    <src s="25">ובזה גופא – בכל יום ויום,</src>
+    <src s="26">יציאה ממיצרים נעלים יותר,</src>
+    <src s="27">ולכן אומר כימי לשון רבים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה מהנ"ל</src>
+    <src s="2">(שהעבודה דיצי"מ שבכל יום היא באופן נעלה יותר)</src>
+    <src s="3">מובן,</src>
+    <src s="4">שבזמן הגלות,</src>
+    <src s="5">היציאה מהמיצרים וההגבלות היא ממיצרים נעלים יותר מאשר היציאה מהמיצרים שהיתה בזמן הבית.</src>
+    <src s="6">ובזמן הגלות גופא,</src>
+    <src s="7">בהדורות שבעקבתא דמשיחא,</src>
+    <src s="8">ובפרט בדור האחרון,</src>
+    <src s="9">נעשה היציאה ממיצרים נעלים עוד יותר.</src>
+    <src s="10">דנוסף לזה,</src>
+    <src s="11">שבכל יום ויום מבררים עוד נצוצות ועוד נצוצות,</src>
+    <src s="12">ועי"ז מתקרבים יותר לביאת המשיח19,</src>
+    <src s="13">הנה גם הענין דיציאת מצרים,</src>
+    <src s="14">היציאה מהמיצרים וההגבלות,</src>
+    <src s="15">בכל יום הוא באופן נעלה יותר.</src>
+    <src s="16">וע"י העבודה דיציאת מצרים שבימים האחרונים שלפני ביאת המשיח,</src>
+    <src s="17">שהיציאה ממצרים בימים אלו היא גם מהמיצרים הכי נעלים,</src>
+    <src s="18">יזכו בקרוב ממש לגאולה העתידה שאז תהי' היציאה מכל המיצרים וההגבלות.</src>
+  </section>
+  <section v="5">
+    <src s="0">וביאור הענין</src>
+    <src s="1">(שהגילוי דגאולה העתידה תהי'</src>
+    <src s="2">(בעיקר)</src>
+    <src s="3">ע"י העבודה שבסיום זמן הגלות)</src>
+    <src s="4">יובן בהקדים הביאור בזה שבגאולה העתידה תהי' היציאה מכל המיצרים וההגבלות,</src>
+    <src s="5">גם מהמיצרים וההגבלות הכי נעלים.</src>
+    <src s="6">והענין הוא,</src>
+    <src s="7">כמבואר בהמאמר20,</src>
+    <src s="8">דכל העולמות</src>
+    <src s="9">(גם עולמות הכי נעלים)</src>
+    <src s="10">נק' בשם מצרים,</src>
+    <src s="11">להיותם בחינת מיצר והעלם.</src>
+    <src s="12">והיינו דזה שהעולמות נק' בשם מצרים הוא מצד שני טעמים.</src>
+    <src s="13">מצד זה שהם בהגבלה,</src>
+    <src s="14">מצרים מלשון מיצר וגבול,</src>
+    <src s="15">וגם מצד זה שהתהוותם היא ע"י העלם האור,</src>
+    <src s="16">וכידוע21</src>
+    <src s="17">שההעלם דצמצום הראשון</src>
+    <src s="18">(שעל ידו נעשה מקום לעמידת העולמות)</src>
+    <src s="19">הוא צמצום בדרך סילוק,</src>
+    <src s="20">שנתעלם האור לגמרי,</src>
+    <src s="21">בדוגמת22</src>
+    <src s="22">מצרים דלעו"ז</src>
+    <src s="23">(מצרים כפשוטו)</src>
+    <src s="24">שהוא העלם והסתר.</src>
+    <src s="25">ויש לומר,</src>
+    <src s="26">דזהו מה שממשיך בהמאמר23,</src>
+    <src s="27">דבעולם יש ג' ענינים.</src>
+    <src s="28">עולם כפשוטו שמורה על מקום וזמן24,</src>
+    <src s="29">ועולם מלשון העלם25</src>
+    <src s="30">(דענינו הסתר26),</src>
+    <src s="31">ועולם לשון עלם27</src>
+    <src s="32">שפירושו הוא נערות וכח.</src>
+    <src s="33">ומבאר הקשר דג' הפירושים,</src>
+    <src s="34">שההעלם והסתר דעולם</src>
+    <src s="35">(זמן ומקום)</src>
+    <src s="36">הוא בתוקף גדול.</src>
+    <src s="37">דיש לומר,</src>
+    <src s="38">דזה שמביא כאן לא רק הפירוש דעולם כפשוטו</src>
+    <src s="39">(מקום וזמן)</src>
+    <src s="40">אלא גם הפירושים שעולם הוא מלשון העלם ומלשון עלם,</src>
+    <src s="41">הוא,</src>
+    <src s="42">כי עולם כפשוטו,</src>
+    <src s="43">מקום וזמן</src>
+    <src s="44">(ענין ההגבלה),</src>
+    <src s="45">הוא ביאור רק על זה שעולמות הם מצרים מלשון מיצר וגבול,</src>
+    <src s="46">ובכדי לבאר גם המיצר וההעלם שבעולמות</src>
+    <src s="47">(ועד שהוא בדוגמת ההעלם והסתר דמצרים כפשוטו28),</src>
+    <src s="48">הוא מביא גם הפירושים דעולם הוא מלשון העלם ומלשון עלם,</src>
+    <src s="49">שההעלם והסתר דעולם הוא בתוקף גדול.</src>
+  </section>
+</awtsmoosMeluketSource>

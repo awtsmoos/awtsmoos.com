@@ -1,0 +1,92 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914115_theRebbe_704" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914115_theRebbe_704__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914115_theRebbe_704" title="מאמר שובה ישראל תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914115_theRebbe_704__p005">
+  <section v="12">
+    <src s="0">ומזה מובן,</src>
+    <src s="1">שבכדי שהעבודה דסור מרע</src>
+    <src s="2">(בחי' נפש)</src>
+    <src s="3">ודועשה טוב</src>
+    <src s="4">(בחי' רוח)</src>
+    <src s="5">תהי' כדבעי,</src>
+    <src s="6">הוא ע"י עסק התורה</src>
+    <src s="7">(בחי' נשמה),</src>
+    <src s="8">ובפרט ע"י העסק בפנימיות התורה,</src>
+    <src s="9">ברזין דאורייתא וברזין דרזין,</src>
+    <src s="10">דבחי' פנימיות התורה הנק' סתים דאורייתא הוא המקשר ומחבר בחי' סתים דישראל לבחי' סתים דקוב"ה84.</src>
+    <src s="11">והגם דהמשכת העצמות שבתורה הוא בכל חלקי התורה,</src>
+    <src s="12">גם בנגלה דתורה,</src>
+    <src s="13">וגם בקריאת אותיות התורה</src>
+    <src s="14">(אפילו כשלא ידע מאי קאמר)</src>
+    <src s="15">כמבואר בהמשך תער"ב85,</src>
+    <src s="16">הרי מבואר שם שגילוי העצמות הוא דוקא בפנימיות התורה</src>
+    <src s="17">[כי פנימיות אבא פנימיות עתיק86,</src>
+    <src s="18">ולכן הגילוי דפנימיות עתיק הוא דוקא בפנימיות אבא].</src>
+    <src s="19">ובפרט בפנימיות התורה כמו שנתגלתה בתורת החסידות ע"י הבעש"ט,</src>
+    <src s="20">ועאכו"כ כמו שנתגלתה ע"י אדמו"ר הזקן בתורת חסידות חב"ד,</src>
+    <src s="21">באופן דיתפרנסון87.</src>
+    <src s="22">וע"י העסק בתורה,</src>
+    <src s="23">ובפרט בפנימיות התורה,</src>
+    <src s="24">נעשה עילוי גם בהעבודה דסור מרע ודועשה טוב.</src>
+  </section>
+  <section v="13">
+    <src s="0">י)</src>
+    <src s="1">והנה כמו שהתשובה דשובה גו' כי כשלת בעוניך אינה על עוונות כפשוטם ח"ו,</src>
+    <src s="2">שהרי כל ישראל בחזקת כשרות הם88,</src>
+    <src s="3">ובפרט לאחרי התשובה דחודש אלול ודימי הסליחות,</src>
+    <src s="4">ובפרט לאחרי ראש השנה שכל ישראל זוכין בדין,</src>
+    <src s="5">ועד שגם בערב ראש השנה יודעים כבר בבירור שיזכו בדין89,</src>
+    <src s="6">כי ועמך כולם צדיקים90,</src>
+    <src s="7">ובפרט לאחרי תק"ש שאז נעשה ענין העשירות</src>
+    <src s="8">[וכידוע דזה שארז"ל91</src>
+    <src s="9">מתעשרת בסופה הוא מיד לאחרי תק"ש],</src>
+    <src s="10">והתשובה דשבת תשובה</src>
+    <src s="11">(לאחרי ראש השנה)</src>
+    <src s="12">היא רק על הישות דיש מי שאוהב</src>
+    <src s="13">(ובזה גופא – בתכלית הדקות),</src>
+    <src s="14">כנ"ל</src>
+    <src s="15">(סעיף ז),</src>
+    <src s="16">עד"ז הוא גם בהתשובה דועשה טוב ודבקש שלום,</src>
+    <src s="17">דהגם שעשו גם ענינים אלו גם מקודם,</src>
+    <src s="18">התשובה דשבת תשובה היא שקיום המצוות תהי' בהידור עוד יותר,</src>
+    <src s="19">ועד"ז בעסק התורה ובפרט בפנימיות התורה כמו שנתגלתה בתורת החסידות ובפרט בתורת חסידות חב"ד,</src>
+    <src s="20">כולל גם הענין דיפוצו מעינותיך חוצה92,</src>
+    <src s="21">ועד שיהי' מלאה הארץ דעה את הוי' כמים לים מכסים93,</src>
+    <src s="22">שתהי' שנת תורה שנת תשובה ושנת תפלה,</src>
+    <src s="23">וכן גם כל הברכות שבכל האותיות,</src>
+    <src s="24">שנת אורה שנת ברכה שנת גאולה וכו',</src>
+    <src s="25">ובפרט – הברכה העיקרית,</src>
+    <src s="26">גאולה שלימה ע"י משיח צדקנו בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

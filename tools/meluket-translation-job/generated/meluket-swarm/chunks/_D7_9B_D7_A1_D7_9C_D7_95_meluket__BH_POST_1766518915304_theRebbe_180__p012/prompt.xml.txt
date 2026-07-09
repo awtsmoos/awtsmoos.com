@@ -1,0 +1,142 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p012">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" title="מאמר ושבתי בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p012">
+  <section v="33">
+    <src s="0">כ)</src>
+    <src s="1">ה)</src>
+    <src s="2">ועפ"ז יובן גם התיווך דב' הפירושים בפדה בשלום נפשי מקרב לי גו'156.</src>
+    <src s="3">פירוש הפשוט הוא שפדה והוציא אותו מקרב</src>
+    <src s="4">(מלחמה).</src>
+    <src s="5">היינו שיש מציאות דלעו"ז שצריך ללחום כנגדו.</src>
+    <src s="6">דזוהי השייכות דענין פדה בשלום נפשי לדוד</src>
+    <src s="7">(שבפשטות קאי זה על פדיית דוד189)</src>
+    <src s="8">שהי' לו מנגדים,</src>
+    <src s="9">אלא שנצח אותם.</src>
+    <src s="10">וכמו שידוע190</src>
+    <src s="11">החילוק בין הבירורים דדוד להבירורים דשלמה,</src>
+    <src s="12">שהבירורים דדוד היו בדרך מלחמה והבירורים דשלמה היו בדרך מנוחה וכמ"ש191</src>
+    <src s="13">דם לרוב שפכת ומלחמות גדולות עשית לא תבנה בית לשמי גו' הנה בן נולד לך הוא יהי' איש מנוחה גו' הוא יבנה בית לשמי גו'.</src>
+    <src s="14">והיינו דהגם שגם הנצחון דדוד</src>
+    <src s="15">(מה שנצח את כל המנגדים)</src>
+    <src s="16">הי' נצחון בתכלית</src>
+    <src s="17">[שלכן הי' קס"ד שיבנה את ביהמ"ק],</src>
+    <src s="18">מ"מ,</src>
+    <src s="19">מכיון שהבירורים שלו היו בדרך מלחמה,</src>
+    <src s="20">הי' בנין ביהמ"ק ע"י שלמה דוקא.</src>
+    <src s="21">שמזה מובן,</src>
+    <src s="22">שענין פדה בשלום שנאמר גבי דוד הוא שיש מציאות דלעו"ז המנגד ורק שמנצחים אותם.</src>
+    <src s="23">וכ"ה גם בענין פדה בשלום נפשי שהי' בהגאולה די"ט כסלו192</src>
+    <src s="24">והגאולה דיו"ד כסלו193,</src>
+    <src s="25">שהי' מציאות דלעו"ז המנגד,</src>
+    <src s="26">אלא שנצחו אותם.</src>
+    <src s="27">ועד שגם לאחרי הגאולה הוצרכו לרשיון מהמלכות דמדינה ההיא</src>
+    <src s="28">[אבל כל המלכיות נקראו על שם מצרים על שם שהם מצירות לישראל194]</src>
+    <src s="29">על הפצת תורת החסידות.</src>
+    <src s="30">ופירוש הב' הוא כמבואר בד"ה פדה בשלום נפשי דבעל הגאולה195</src>
+    <src s="31">וכמה דרושים ד"ה זה</src>
+    <src s="32">(די"ט כסלו)196,</src>
+    <src s="33">שהפדי' היא בדרך שלום,</src>
+    <src s="34">ועד שאין צריך למלחמה כלל,</src>
+    <src s="35">כמו שהי' בימי שלמה שכל הגוים נתבטלו לפניו שלא ע"י מלחמה כלל.</src>
+    <src s="36">והתיווך דב' פירושים אלו שהם לכאורה מן הקצה אל הקצה,</src>
+    <src s="37">וביותר ע"פ המבואר בכ"מ197</src>
+    <src s="38">שענין פדה בשלום נפשי הוא הפדי' בתכלית השלום כמו שיהי' לע"ל דאז אהפוך אל עמים שפה ברורה גו' לעבדו שכם אחד198,</src>
+    <src s="39">שלמעלה גם מענין השלום שהי' בימי שלמה</src>
+    <src s="40">[אלא שהשלום שבימי שלמה הי' הכנה להשלום דלעתיד,</src>
+    <src s="41">שלכן משיח יהי'</src>
+    <src s="42">(מבית דוד ו)</src>
+    <src s="43">מזרע שלמה בלבד199],</src>
+    <src s="44">שפירוש זה,</src>
+    <src s="45">העילוי</src>
+    <src s="46">[והשלימות]</src>
+    <src s="47">דלעתיד,</src>
+    <src s="48">הוא למעלה מענין הקצוות.</src>
+    <src s="49">אך הענין הוא,</src>
+    <src s="50">דלהיות דכל הגילויים דלעתיד תלויים במעשינו ועבודתינו במשך זמן הגלות200,</src>
+    <src s="51">לכן,</src>
+    <src s="52">גם בהענין דפדה בשלום נפשי בזמן הגלות יש מעין ענין הפדי' בשלום שיהי' לע"ל.</src>
+  </section>
+  <section v="34">
+    <src s="0">כ)</src>
+    <src s="1">ו)</src>
+    <src s="2">וביאור שייכות ענין זה</src>
+    <src s="3">(שגם עכשיו יש מעין הפדי' בשלום דלע"ל)</src>
+    <src s="4">להגאולה די"ט כסלו ודיו"ד כסלו</src>
+    <src s="5">[שלכן בהדרושים שנאמרו בזמנים אלו מבואר הפירוש</src>
+    <src s="6">(הב' דלעיל)</src>
+    <src s="7">שפדה בשלום נפשי הו"ע הפדי' בדרך שלום,</src>
+    <src s="8">ועד כמו שיהי' לע"ל],</src>
+    <src s="9">הנה נת"ל</src>
+    <src s="10">(סעיף חי)</src>
+    <src s="11">שהטעם לזה שמקדים בזהר ושבתי בשלום</src>
+    <src s="12">(ענין התשובה)</src>
+    <src s="13">לונתן לי לחם גו' הוא,</src>
+    <src s="14">לפי שבזהר שם מדבר בענין סוף זמן הגלות,</src>
+    <src s="15">שאז עיקר העבודה</src>
+    <src s="16">(גם העבודה דתומ"צ)</src>
+    <src s="17">היא עבודת התשובה.</src>
+    <src s="18">שעי"ז נעשה הפדי' בדרך שלום</src>
+    <src s="19">(מעין השלום דלע"ל),</src>
+    <src s="20">מכיון שענין התשובה היא הפיכת הלעו"ז לקדושה.</src>
+    <src s="21">וזוהי גם השייכות דפדה בשלום נפשי לגאולת אדמו"ר הזקן</src>
+    <src s="22">(י"ט כסלו)</src>
+    <src s="23">ואדמו"ר האמצעי</src>
+    <src s="24">(יו"ד כסלו),</src>
+    <src s="25">כי מהענינים שנתחדשו ע"י אדמו"ר הזקן</src>
+    <src s="26">(גם לגבי הרב המגיד)</src>
+    <src s="27">הוא שעשה</src>
+    <src s="28">[הרבה]</src>
+    <src s="29">בעלי תשובה201.</src>
+    <src s="30">וענין זה הי' גם עבודתם של רבותינו נשיאינו ממלאי מקומו,</src>
+    <src s="31">ובפרט של בנו אדמו"ר האמצעי,</src>
+    <src s="32">שעל ידו נתגלה201</src>
+    <src s="33">ענין זה.</src>
+  </section>
+  <section v="35">
+    <src s="0">ז)</src>
+    <src s="1">ך)</src>
+    <src s="2">והי' הוי' לי לאלקים,</src>
+    <src s="3">שע"י העבודה דושבתי בשלום,</src>
+    <src s="4">שהו"ע בירור חלקו בעולם</src>
+    <src s="5">(כנ"ל סעיף ח),</src>
+    <src s="6">יהי' הגילוי דלע"ל,</src>
+    <src s="7">שאז יוציא הקב"ה חמה מנרתיקה202,</src>
+    <src s="8">ויהי' מלאה הארץ דעה את הוי' כמים לים מכסים185,</src>
+    <src s="9">ועד שיהי' גילוי העצמות,</src>
+    <src s="10">ולא יכנף עוד מוריך והיו עיניך רואות את מוריך203.</src>
+    <src s="11">וזהו והי' הוי' לי לאלקים,</src>
+    <src s="12">שלגבי גילוי זה הוי' דעכשיו כאלקים יחשב204.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,126 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916159_theRebbe_933" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916159_theRebbe_933" title="מאמר ודוד עבדי תשל"ב" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ ויגש,</src>
+    <src s="2">ז' טבת,</src>
+    <src s="3">ה'תשל"ב</src>
+  </section>
+  <section v="1">
+    <src s="0">ודוד עבדי נשיא להם לעולם1,</src>
+    <src s="1">הנה פסוק זה הוא בההפטורה דפרשת ויגש.</src>
+    <src s="2">וצריך להבין,</src>
+    <src s="3">דלכאורה השייכות דההפטורה להפרשה2</src>
+    <src s="4">היא בזה שהתוכן דשניהם הוא חיבור יהודה ויוסף.</src>
+    <src s="5">דהתחלת הפרשה היא ויגש אליו יהודה ובההפטורה נאמר3</src>
+    <src s="6">קח לך עץ אחד וכתוב עליו ליהודה גו' ולקח עץ אחד וכתוב עליו ליוסף גו' וקרב אותם אחד אל אחד לך לעץ אחד גו' ועשיתי אותם לגוי אחד גו' ומלך אחד יהי' לכולם גו'.</src>
+    <src s="7">אבל בפרטיות,</src>
+    <src s="8">בהגשת יהודה ליוסף</src>
+    <src s="9">(בפרשה)</src>
+    <src s="10">מודגש שיוסף הי' נעלה יותר מיהודה</src>
+    <src s="11">[הן בההגשה עצמה,</src>
+    <src s="12">שהרי זה שיהודה נגש ליוסף הוא מפני שהי' זקוק אליו</src>
+    <src s="13">(שישחרר את בנימין),</src>
+    <src s="14">והן בדברי יהודה ליוסף שאמר4</src>
+    <src s="15">בי אדוני ידבר נא עבדך גו'],</src>
+    <src s="16">ועד שיוסף הי' מלך על כל אחיו,</src>
+    <src s="17">כולל יהודה,</src>
+    <src s="18">ובההפטורה נאמר5</src>
+    <src s="19">ועבדי דוד מלך עליהם גו' ודוד עבדי נשיא להם לעולם.</src>
+    <src s="20">ומזה שפסוקים אלה הם בההפטורה דפרשת ויגש,</src>
+    <src s="21">משמע,</src>
+    <src s="22">שענין זה</src>
+    <src s="23">(המעלה דיהודה לגבי יוסף)</src>
+    <src s="24">ישנו</src>
+    <src s="25">(ברמז)</src>
+    <src s="26">גם בויגש אליו יהודה,</src>
+    <src s="27">אלא שבויגש אליו יהודה,</src>
+    <src s="28">המעלה דיהודה לגבי יוסף היא ברמז ובהעלם</src>
+    <src s="29">(וזה שמודגש בגילוי בויגש אליו יהודה היא המעלה דיוסף לגבי יהודה),</src>
+    <src s="30">ובההפטורה הוא בגילוי.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה ענין זה</src>
+    <src s="2">[שבויגש אליו יהודה יש</src>
+    <src s="3">(בהעלם)</src>
+    <src s="4">גם המעלה דיהודה לגבי יוסף]</src>
+    <src s="5">מובן גם מהמבואר בתו"א ד"ה ויגש אליו יהודה6,</src>
+    <src s="6">דזה שביהמ"ק הי' מדומם</src>
+    <src s="7">[ודלא כהמשכן,</src>
+    <src s="8">שרק קרקע המשכן הי' מעפר7,</src>
+    <src s="9">דומם,</src>
+    <src s="10">אבל כותלי המשכן היו מצומח,</src>
+    <src s="11">והמכסה שעל המשכן</src>
+    <src s="12">(היריעות)</src>
+    <src s="13">הי' מחי],</src>
+    <src s="14">הוא,</src>
+    <src s="15">כי זה שדומם הוא למטה מצומח הוא ע"פ סדר ההשתלשלות,</src>
+    <src s="16">אבל בשרשם,</src>
+    <src s="17">שורש הדומם הוא למעלה משורש הצומח וחי</src>
+    <src s="18">[וע"ד שמים וארץ,</src>
+    <src s="19">דבההתהות בפועל,</src>
+    <src s="20">שמים קדמו לארץ,</src>
+    <src s="21">ובשרשם במחשבה,</src>
+    <src s="22">ארץ קדמה.</src>
+    <src s="23">דזה גופא שהארץ נבראת לבסוף מורה שבמחשבה היא קדמה לשמים,</src>
+    <src s="24">דסוף מעשה במחשבה תחילה8].</src>
+    <src s="25">וכמו"כ הוא בז"א ומלכות</src>
+    <src s="26">[שהם בדוגמת צומח ודומם],</src>
+    <src s="27">שבסדר ההשתלשלות,</src>
+    <src s="28">ז"א הוא למעלה ממלכות,</src>
+    <src s="29">אבל בשרשם,</src>
+    <src s="30">שורש המלכות הוא למעלה משורש הז"א.</src>
+    <src s="31">ולכן לע"ל תהי' המלכות למעלה מז"א,</src>
+    <src s="32">אשת חיל עטרת בעלה9,</src>
+    <src s="33">כי אז יהי' בגילוי שורש המלכות</src>
+    <src s="34">(שלמעלה משורש הז"א).</src>
+    <src s="35">וזהו שבמשכן היו הכתלים והגג מצומח וחי ובביהמ"ק הי' כל זה מדומם,</src>
+    <src s="36">כי המשכן שהי' רק דירת עראי של הקב"ה10,</src>
+    <src s="37">הי' כפי סדר ההשתלשלות,</src>
+    <src s="38">ולכן קרקע המשכן הי' מדומם,</src>
+    <src s="39">כותלי המשכן מצומח,</src>
+    <src s="40">וגג המשכן מחי,</src>
+    <src s="41">כי בסדר ההשתלשלות,</src>
+    <src s="42">צומח הוא למעלה מדומם וחי הוא למעלה גם מצומח.</src>
+    <src s="43">אבל בית המקדש שהי' דירת קבע של הקב"ה10,</src>
+    <src s="44">הי' מעין עולם הבא,</src>
+    <src s="45">שאז תהי' המלכות</src>
+    <src s="46">(דומם)</src>
+    <src s="47">למעלה מכל הספירות.</src>
+    <src s="48">ולכן הי' אפילו הגג מדומם.</src>
+  </section>
+</awtsmoosMeluketSource>

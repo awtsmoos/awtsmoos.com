@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916230_theRebbe_919" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916230_theRebbe_919__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916230_theRebbe_919" title="מאמר הבאים ישרש יעקב תשמ"ח" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916230_theRebbe_919__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ שמות,</src>
+    <src s="2">י"ט טבת,</src>
+    <src s="3">ה'תשמ"ח*</src>
+  </section>
+  <section v="1">
+    <src s="0">הבאים ישרש יעקב גו'1,</src>
+    <src s="1">ומביא הצמח צדק במאמרו ד"ה זה2</src>
+    <src s="2">פירוש התיב"ע עה"פ שזה קאי על הגאולה.</src>
+    <src s="3">שהתרגום דהבאים הוא יתכנשון מביני גלוותהון ויתובון לארעהון</src>
+    <src s="4">[דהבאים קאי על הביאה לארץ שתהי' בגאולה העתידה,</src>
+    <src s="5">והביאך3</src>
+    <src s="6">ה' אלקיך אל הארץ4],</src>
+    <src s="7">ואז יהי' ישרש יעקב,</src>
+    <src s="8">תמן יתילידון דבית יעקב.</src>
+    <src s="9">ומבאר בהמאמר,</src>
+    <src s="10">דהשרשה</src>
+    <src s="11">(ישרש)</src>
+    <src s="12">הוא העלם</src>
+    <src s="13">(כמו השרשת אילן,</src>
+    <src s="14">ששרשי האילן שבארץ הם בהעלם)</src>
+    <src s="15">ולידה הוא גילוי</src>
+    <src s="16">(דקודם הלידה בהיותו בבטן אמו,</src>
+    <src s="17">הוא בהעלם,</src>
+    <src s="18">וכשנולד בא לגילוי),</src>
+    <src s="19">וזה שהתרגום דישרש הוא יתילידון,</src>
+    <src s="20">הוא,</src>
+    <src s="21">ששרש הנשמה</src>
+    <src s="22">(ישרש יעקב)</src>
+    <src s="23">יהי' בגילוי</src>
+    <src s="24">(יתילידון).</src>
+  </section>
+  <section v="2">
+    <src s="0">וממשיך בהמאמר5</src>
+    <src s="1">עוד פירוש בישרש יעקב,</src>
+    <src s="2">שזה קאי על קיום המצוות.</src>
+    <src s="3">דכמו שהשרשה כפשוטה היא בארץ דוקא,</src>
+    <src s="4">עד"ז הוא בנשמה</src>
+    <src s="5">(יעקב),</src>
+    <src s="6">שההשרשה היא בקיום מצוות מעשיות.</src>
+    <src s="7">והקשר דשני הפירושים בישרש יעקב6</src>
+    <src s="8">(גילוי שרש הנשמה וקיום המצוות)</src>
+    <src s="9">הוא,</src>
+    <src s="10">כי הגילוי דשרש הנשמה שיהי' לע"ל הוא ע"י קיום המצוות עכשיו.</src>
+    <src s="11">והענין הוא7,</src>
+    <src s="12">דבשרש הנשמה כמה דרגות.</src>
+    <src s="13">ועיקר שרש הנשמה הוא כמו שהיא מושרשת בהאור שלמעלה מהשתלשלות,</src>
+    <src s="14">ואור זה נמשך ע"י קיום המצוות.</src>
+    <src s="15">דההמשכה שע"י לימוד התורה היא מבחינת חכמה,</src>
+    <src s="16">ראשית ההשתלשלות,</src>
+    <src s="17">והמשכת האור שלמעלה מהשתלשלות,</src>
+    <src s="18">הוא ע"י מעשה המצוות8.</src>
+    <src s="19">וזהו שארז"ל9</src>
+    <src s="20">כל שמעשיו מרובין מחכמתו כו' דומה לאילן שענפיו מועטין ושרשיו מרובין,</src>
+    <src s="21">כי המשכת שרש הנשמה היא ע"י מעשה המצוות.</src>
+    <src s="22">וזהו הקשר דשני הפירושים בישרש יעקב,</src>
+    <src s="23">שע"י קיום המצוות עכשיו</src>
+    <src s="24">(פירוש השני בישרש יעקב)</src>
+    <src s="25">נמשך שרש הנשמה,</src>
+    <src s="26">והגילוי דהמשכה זו יהי' לע"ל,</src>
+    <src s="27">יתילידון דבית יעקב,</src>
+    <src s="28">ששרש הנשמה יאיר בגילוי</src>
+    <src s="29">(פירוש הראשון בישרש יעקב).</src>
+  </section>
+</awtsmoosMeluketSource>

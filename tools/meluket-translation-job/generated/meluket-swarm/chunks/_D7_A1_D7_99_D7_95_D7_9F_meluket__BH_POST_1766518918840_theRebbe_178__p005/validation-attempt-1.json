@@ -1,0 +1,203 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 33,
+    "returned": 33,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918840_theRebbe_178\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>The verse \"Rani veSimchi\" teaches that fulfilling Torah and mitzvos must be done not only with self-nullification but also with joy, and this joy is attained through connection with the tzaddikim.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And the verse is precise: \"Rani veSimchi, Bat Tzion,\"</t>\n    <t s=\"2\">that the fulfillment of Torah and mitzvos</t>\n    <t s=\"3\">(Tzion34)</t>\n    <t s=\"4\">must be not only with nullification,</t>\n    <t s=\"5\">\"Bat\" (daughter),</t>\n    <t s=\"6\">but also with joy,</t>\n    <t s=\"7\">\"Rani veSimchi.\"</t>\n    <t s=\"8\">And it must be understood:</t>\n    <t s=\"9\">When a person is in a state where he has no delight or vitality in Torah and mitzvos,</t>\n    <t s=\"10\">and his fulfillment of Torah and mitzvos is only in the manner of accepting the yoke</t>\n    <t s=\"11\">[and moreover,</t>\n    <t s=\"12\">even his acceptance of the yoke is not in a manner that he desires to accept upon himself the yoke of His kingdom, but only that he cannot cast off from himself the yoke of the kingdom of heaven because the choice of the Holy One, blessed be He, in Israel to be His servants compels him],</t>\n    <t s=\"13\">how can he himself cause that his fulfillment of Torah and mitzvos be with joy?</t>\n    <t s=\"14\">And the explanation is,</t>\n    <t s=\"15\">that there is another interpretation of \"Bat Tzion,\"</t>\n    <t s=\"16\">that \"Tzion\" refers to the tzaddikim,</t>\n    <t s=\"17\">and \"Bat Tzion\" is the connection with the tzaddikim35.</t>\n    <t s=\"18\">And through the connection to the tzaddikim,</t>\n    <t s=\"19\">and especially to the Nesi'im of Israel, whose function is to draw down a revelation of G-dliness to all of Israel, and particularly to those who are connected and belong to them,</t>\n    <t s=\"20\">through this, empowerment is drawn to him that his fulfillment of Torah and mitzvos will be with joy,</t>\n    <t s=\"21\">\"Rani veSimchi.\"</t>\n    <t s=\"22\">And included in this is also that he will not have confusions from material matters36,</t>\n    <t s=\"23\">\"Rani veSimchi\" also regarding children, life, and ample sustenance.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>Through connection with the tzaddikim and Nesi'im of each generation, especially the Rebbe, all concealments including the concealment of exile are nullified, leading to the true and complete redemption.</sectionSummaryBrief>\n    <t s=\"0\">And through the connection to the tzaddikim and to the Nesi'im in every generation,</t>\n    <t s=\"1\">and what is particularly relevant to us is the connection to the Rebbe, my father-in-law, the Nasi of our generation,</t>\n    <t s=\"2\">all concealments and veils will be nullified,</t>\n    <t s=\"3\">including also the nullification</t>\n    <t s=\"4\">(of the concealment of)</t>\n    <t s=\"5\">the exile37,</t>\n    <t s=\"6\">and the Rebbe, my father-in-law, will lead us upright to our land,</t>\n    <t s=\"7\">in the true and complete redemption,</t>\n    <t s=\"8\">speedily, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918840_theRebbe_178",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "The verse \"Rani veSimchi\" teaches that fulfilling Torah and mitzvos must be done not only with self-nullification but also with joy, and this joy is attained through connection with the tzaddikim.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And the verse is precise: \"Rani veSimchi, Bat Tzion,\""
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "that the fulfillment of Torah and mitzvos"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(Tzion34)"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "must be not only with nullification,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "\"Bat\" (daughter),"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "but also with joy,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "\"Rani veSimchi.\""
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "And it must be understood:"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "When a person is in a state where he has no delight or vitality in Torah and mitzvos,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "and his fulfillment of Torah and mitzvos is only in the manner of accepting the yoke"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "[and moreover,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "even his acceptance of the yoke is not in a manner that he desires to accept upon himself the yoke of His kingdom, but only that he cannot cast off from himself the yoke of the kingdom of heaven because the choice of the Holy One, blessed be He, in Israel to be His servants compels him],"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "how can he himself cause that his fulfillment of Torah and mitzvos be with joy?"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "that there is another interpretation of \"Bat Tzion,\""
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "that \"Tzion\" refers to the tzaddikim,"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "and \"Bat Tzion\" is the connection with the tzaddikim35."
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "And through the connection to the tzaddikim,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "and especially to the Nesi'im of Israel, whose function is to draw down a revelation of G-dliness to all of Israel, and particularly to those who are connected and belong to them,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "through this, empowerment is drawn to him that his fulfillment of Torah and mitzvos will be with joy,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "\"Rani veSimchi.\""
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "And included in this is also that he will not have confusions from material matters36,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "\"Rani veSimchi\" also regarding children, life, and ample sustenance."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "Through connection with the tzaddikim and Nesi'im of each generation, especially the Rebbe, all concealments including the concealment of exile are nullified, leading to the true and complete redemption.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And through the connection to the tzaddikim and to the Nesi'im in every generation,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "and what is particularly relevant to us is the connection to the Rebbe, my father-in-law, the Nasi of our generation,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "all concealments and veils will be nullified,"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "including also the nullification"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "(of the concealment of)"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "the exile37,"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "and the Rebbe, my father-in-law, will lead us upright to our land,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "in the true and complete redemption,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "speedily, literally."
+          }
+        ]
+      }
+    ]
+  }
+}

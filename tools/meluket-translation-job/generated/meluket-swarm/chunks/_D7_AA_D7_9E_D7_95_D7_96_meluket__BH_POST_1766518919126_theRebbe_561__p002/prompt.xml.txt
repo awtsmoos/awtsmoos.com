@@ -1,0 +1,79 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919126_theRebbe_561" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919126_theRebbe_561" title="מאמר יהי ה' אלוקינו עמנו תשכ"ד" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p002">
+  <section v="3">
+    <src s="0">ולכאורה יש לומר,</src>
+    <src s="1">דכיון שבקשת בעל הגאולה יהי הוי' אלקינו עמנו היתה</src>
+    <src s="2">(לא רק עבור עצמו אלא גם)</src>
+    <src s="3">עבור כל ישראל,</src>
+    <src s="4">כולל גם אלו אשר בשם ישראל</src>
+    <src s="5">(רק)</src>
+    <src s="6">יכונה6,</src>
+    <src s="7">לכן אמר שאינם דומים לאבותינו שהיו בעלי מס"נ בפועל.</src>
+    <src s="8">אבל ביאור זה אינו מספיק,</src>
+    <src s="9">כי בהלשון "מיר זיינען דאָך ניט גלייך צו אבותינו" כלל גם את עצמו.</src>
+    <src s="10">ואין לומר דזה שכלל גם את עצמו בכלל אלה שאינם בעלי מס"נ בפועל הוא בדרך ענוה,</src>
+    <src s="11">כי ענין ענוה שייך דוקא בדבר שבערך.</src>
+  </section>
+  <section v="4">
+    <src s="0">ב)</src>
+    <src s="1">והנה נוסף להדיוקים שבהשיחה צריך ביאור בהלשון יהי הוי' אלקינו עמנו</src>
+    <src s="2">(שבהכתוב עצמו),</src>
+    <src s="3">דלכאורה,</src>
+    <src s="4">לאחרי שאומרים הוי' אלקינו,</src>
+    <src s="5">שהוא אלוקה שלנו,</src>
+    <src s="6">ובפרט להמבואר בחסידות7</src>
+    <src s="7">שאלקינו פירוש כחינו וחיותינו,</src>
+    <src s="8">מה צורך לבקשה שיהי' עמנו.</src>
+    <src s="9">גם צריך להבין אומרו עמנו גו' עם אבותינו,</src>
+    <src s="10">דלשון עם נופל על דבר שהוא טפל להדבר שהוא עמו</src>
+    <src s="11">[כמו יחלוקו יורשי הבעל עם יורשי האב8,</src>
+    <src s="12">שיורשי הבעל הם טפלים ליורשי האב9],</src>
+    <src s="13">ואעפ"כ אומר יהי הוי' אלקינו עמנו גו' עם אבותינו,</src>
+    <src s="14">שהוי' אלקינו הוא טפל אלינו ולאבותינו.</src>
+  </section>
+  <section v="5">
+    <src s="0">ויש לבאר זה ע"פ הידוע10</src>
+    <src s="1">דהטעם על שביראת שמים נאמר לשון אוצר11,</src>
+    <src s="2">הוא,</src>
+    <src s="3">כי כמו שאוצר המלך,</src>
+    <src s="4">אין ביד המלך לעשות אוצר אם לא יקבץ מאחרים,</src>
+    <src s="5">כן היראה</src>
+    <src s="6">(אוצרו של מלך מלכי המלכים הקב"ה)</src>
+    <src s="7">אינה בידי שמים,</src>
+    <src s="8">כמארז"ל12</src>
+    <src s="9">הכל בידי שמים חוץ מיראת שמים.</src>
+  </section>
+</awtsmoosMeluketSource>

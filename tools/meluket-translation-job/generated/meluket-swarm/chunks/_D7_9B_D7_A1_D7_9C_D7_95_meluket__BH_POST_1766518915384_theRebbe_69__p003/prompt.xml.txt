@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915384_theRebbe_69" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915384_theRebbe_69__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915384_theRebbe_69" title="מאמר אתה אחד תשמ"ב" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915384_theRebbe_69__p003">
+  <section v="6">
+    <src s="0">וזהו מאתך היא מנוחתם,</src>
+    <src s="1">שהמנוחה דשבת היא מאתך ממש,</src>
+    <src s="2">כי הגילוי דבחינת שלימותא דכולא שלמעלה מקוין בכל ד' מדריגות הנ"ל</src>
+    <src s="3">(גם מהקוין כמו שהם לפני הצמצום,</src>
+    <src s="4">מאתך ממש),</src>
+    <src s="5">היא בבחינת יחידה דוקא.</src>
+    <src s="6">דהנה ד' הבחינות נרנ"ח הם בד' העולמות אבי"ע,</src>
+    <src s="7">ולמעלה יותר – בד' המדריגות דכללות ההשתלשלות</src>
+    <src s="8">(מתחיל מלפני הצמצום)</src>
+    <src s="9">– משא"כ בחינת יחידה היא למעלה מהשתלשלות</src>
+    <src s="10">(שבאדם),</src>
+    <src s="11">ועד שהיא למעלה גם מבחינת המקיף דבית</src>
+    <src s="12">[דבכ"מ17</src>
+    <src s="13">מבואר שבחינת חי' היא דוגמת מקיף דלבוש ובחינת יחידה דוגמת מקיף דבית.</src>
+    <src s="14">אבל בד"ה אתה אחד הנ"ל</src>
+    <src s="15">(וכ"ה בכ"מ),</src>
+    <src s="16">שבחינת יחידה היא למעלה גם מהמקיף דבית.</src>
+    <src s="17">שלכן,</src>
+    <src s="18">גם בבית</src>
+    <src s="19">(שהוא מקיף יותר מהמקיף דלבושים)</src>
+    <src s="20">לא ישכון בו בחינת יחידה,</src>
+    <src s="21">כ"א בד' אמות הרחוקים בתכלית,</src>
+    <src s="22">יותר מהריחוק דבית,</src>
+    <src s="23">שם דוקא תשכון הארת בחינת יחידה18].</src>
+    <src s="24">ולכן,</src>
+    <src s="25">בבחינת היחידה דוקא הוא גילוי בחינת הא"ס</src>
+    <src s="26">(שלמעלה גם מחג"ת שלפני הצמצום).</src>
+    <src s="27">וזהו כי מאתך היא מנוחתם,</src>
+    <src s="28">דמכיון שמנוחתם</src>
+    <src s="29">(דשבת)</src>
+    <src s="30">היא מצד בחינת יחידה,</src>
+    <src s="31">לכן היא מאתך,</src>
+    <src s="32">מאתך ממש.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ומבאר בהמאמר שם19,</src>
+    <src s="2">דמה שתיקנו אנשי כנסת הגדולה לומר אתה אחד כו',</src>
+    <src s="3">הוא,</src>
+    <src s="4">דכנסת הגדולה היא כנסת ישראל,</src>
+    <src s="5">וכללות כל ההשתלשלות</src>
+    <src s="6">(בד' מדריגות הנ"ל שנכללו בנוסח זה)</src>
+    <src s="7">נמסר לכנסת הגדולה</src>
+    <src s="8">(כנסת ישראל),</src>
+    <src s="9">ומכנסת הגדולה</src>
+    <src s="10">(כנס"י)</src>
+    <src s="11">נמסר זה לכללות נש"י,</src>
+    <src s="12">נשמות שבגופים,</src>
+    <src s="13">שגם הם יכולים לומר ולהמשיך כל בחינות אלו,</src>
+    <src s="14">מתחיל מבחינת אתה אחד שקאי</src>
+    <src s="15">(כנ"ל)</src>
+    <src s="16">על בחינת החסד שלפני הצמצום,</src>
+    <src s="17">בחינת טבע הטוב להטיב שמצד חפץ חסד20.</src>
+    <src s="18">וזהו ועשיתם אתם21,</src>
+    <src s="19">א"ת אותם אלא אתם כאילו עשאוני22</src>
+    <src s="20">בכפי'</src>
+    <src s="21">(כי פי' עשאוני בלה"ק הוא ענין כפי' כמו גט מעושה23),</src>
+    <src s="22">היינו שאתם כופים אותי כביכול להקרא בשם חג"ת אף בבחינת א"ס שלפני הצמצום24.</src>
+    <src s="23">והכח על זה בנש"י הוא לפי דשרש הנשמות הוא בא"ס עצמו</src>
+    <src s="24">(שלמעלה גם מחג"ת שבא"ס)24,</src>
+    <src s="25">וגם לאחרי שנתלבשו בגופים מאירה בהם בחינת זו בבחינת היחידה שבהם</src>
+    <src s="26">(כנ"ל),</src>
+    <src s="27">ולכן יש בכחם לעשות</src>
+    <src s="28">(ובאופן דכפי')</src>
+    <src s="29">כל ד' מדריגות הנ"ל.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">וע"פ כל הנ"ל יובן מה שאמירת הדרוש ד"ה אתה אחד היתה בש"ק</src>
+    <src s="2">(פ' ויצא)</src>
+    <src s="3">קודם תפלת המנחה</src>
+    <src s="4">[אף שבדרך כלל,</src>
+    <src s="5">אמירת דא"ח בהזמן דרעוא דרעוין היא,</src>
+    <src s="6">כנראה ברבותינו נשיאינו,</src>
+    <src s="7">לאחרי תפלת המנחה25],</src>
+    <src s="8">כי אמירת אתה אחד כו' הוא לפעול המשכת ד' מדריגות הנ"ל.</src>
+    <src s="9">ומכיון שכל הענינים נמשכים ע"י תורה26,</src>
+    <src s="10">לכן,</src>
+    <src s="11">לפני אמירת אתה אחד בתפלת מנחה הייתה המשכת ענין זה בתורה.</src>
+    <src s="12">ומכיון שהמשכת ד' המדריגות שבנוסח אתה אחד הוא מצד שרש הנשמות בא"ס שמתגלה בבחינת יחידה כנ"ל,</src>
+    <src s="13">לכן,</src>
+    <src s="14">בתורה גופא,</src>
+    <src s="15">הייתה המשכת ענין זה כמו שהוא בפנימיות התורה,</src>
+    <src s="16">וכמו שפנימיות התורה היא באופן דיתפרנסון27</src>
+    <src s="17">[חסידות חב"ד28],</src>
+    <src s="18">בחינת יחידה דתורה29.</src>
+  </section>
+</awtsmoosMeluketSource>

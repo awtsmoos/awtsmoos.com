@@ -1,0 +1,1244 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 240,
+    "returned": 240,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518919022_theRebbe_358\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518919022_theRebbe_358__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the three concepts of Yetzias Mitzrayim, Sefiras HaOmer, and Matan Torah are called Shabbos, and details the two levels of rest in Shabbos—rest after labor and essential rest—through the analogy of human labor and the ascent of all soul powers.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the explanation of the matter:</t>\n    <t s=\"2\">Behold, it was explained above that the three concepts of Yetzias Mitzrayim, Sefiras HaOmer, and Matan Torah</t>\n    <t s=\"3\">are called by the name Shabbos.</t>\n    <t s=\"4\">And regarding the matter of Shabbos, there are two aspects:</t>\n    <t s=\"5\">cessation and rest that come after work and exertion,</t>\n    <t s=\"6\">and essential rest.</t>\n    <t s=\"7\">The matter of rest that comes after work and exertion is as it is written: \"Six days shall you work... and the seventh day...\"40,</t>\n    <t s=\"8\">\"Six years shall you sow... and in the seventh year...\"41.</t>\n    <t s=\"9\">For, superficially, it is not understood what is the matter of the commandment regarding work during the six days and the six years.</t>\n    <t s=\"10\">And the inner explanation of this is known,</t>\n    <t s=\"11\">that it refers to the work of birurim (refinements).</t>\n    <t s=\"12\">For the matter of birurim is a most elevated matter,</t>\n    <t s=\"13\">for which the entire descent of the soul from a high roof to a deep pit42 was worthwhile,</t>\n    <t s=\"14\">and for which the entire giving of the Torah was worthwhile.</t>\n    <t s=\"15\">However,</t>\n    <t s=\"16\">at the time of birur, there must be a descent below into the thirty-nine melachos (labors) of weekday work,</t>\n    <t s=\"17\">and afterward there must be an ascent above,</t>\n    <t s=\"18\">which is the matter of the cessation and rest of Shabbos that follows the work,</t>\n    <t s=\"19\">from which aspect there is a revelation of delight.</t>\n    <t s=\"20\">And this is analogous to a person below,</t>\n    <t s=\"21\">that at the time of doing work, his power of action descends and becomes invested in the work,</t>\n    <t s=\"22\">and afterward, when he rests from doing the work,</t>\n    <t s=\"23\">then his power of action ascends and is included in his soul,</t>\n    <t s=\"24\">and from this he is filled with delight.</t>\n    <t s=\"25\">And similarly, it will be understood Above,</t>\n    <t s=\"26\">that although not with toil nor with exertion did the Holy One, blessed be He, create His world43,</t>\n    <t s=\"27\">nevertheless, it is written44,</t>\n    <t s=\"28\">\"By the word of Havayah the heavens were made,\"</t>\n    <t s=\"29\">and the speech of the Holy One, blessed be He, is considered an action45,</t>\n    <t s=\"30\">therefore there must be the matter of cessation and rest,</t>\n    <t s=\"31\">which is the matter of ascent above,</t>\n    <t s=\"32\">and from this comes the drawing down of delight.</t>\n    <t s=\"33\">And in truth, the matter of cessation and ascent must be not only in the power of action alone,</t>\n    <t s=\"34\">but also in the more elevated powers.</t>\n    <t s=\"35\">And this is analogous to a person when he does some work,</t>\n    <t s=\"36\">behold, at the time of the action there is a descent not only in his power of action alone,</t>\n    <t s=\"37\">but also in the other powers,</t>\n    <t s=\"38\">for the doing of the work is because he is in a movement of drawing close to the entirety of the matter,</t>\n    <t s=\"39\">which is the matter of the midos (emotive attributes),</t>\n    <t s=\"40\">and also the power of intellect must be invested at the time of action in order that the action be in a suitable manner.</t>\n    <t s=\"41\">And although the intellect involved in this is only intellect related to the action,</t>\n    <t s=\"42\">nevertheless,</t>\n    <t s=\"43\">at the time of action, behold, all his intellect is preoccupied with this.</t>\n    <t s=\"44\">And also, he necessarily has a will in the work,</t>\n    <t s=\"45\">and also delight,</t>\n    <t s=\"46\">from which aspect he does the work.</t>\n    <t s=\"47\">Thus it is found,</t>\n    <t s=\"48\">that at the time of doing the work, behold, all the powers of his soul are in descent,</t>\n    <t s=\"49\">and afterward, at the time of cessation and rest,</t>\n    <t s=\"50\">all his powers ascend.</t>\n    <t s=\"51\">And from this analogy it will be understood Above,</t>\n    <t s=\"52\">that the matter of the cessation of Shabbos is not only in the power of the active force within the passive effect, which is from the Name Elokim,</t>\n    <t s=\"53\">but also in the Name Havayah,</t>\n    <t s=\"54\">as it is written40,</t>\n    <t s=\"55\">\"Shabbos to Havayah.\"</t>\n    <t s=\"56\">That is,</t>\n    <t s=\"57\">that although actual bringing into existence is from the Name Elokim,</t>\n    <t s=\"58\">nevertheless,</t>\n    <t s=\"59\">the true bringing into existence is from the Name Havayah,</t>\n    <t s=\"60\">as it is written: \"By the word of Havayah the heavens were made\"44,</t>\n    <t s=\"61\">\"For He commanded and they were created\"46,</t>\n    <t s=\"62\">and Havayah is a term meaning \"He brings into existence\"47.</t>\n    <t s=\"63\">Therefore, there must be the matter of cessation also in the Name Havayah,</t>\n    <t s=\"64\">in all four letters of the Name Havayah,</t>\n    <t s=\"65\">for the bringing into existence is from all four letters,</t>\n    <t s=\"66\">that is,</t>\n    <t s=\"67\">not only from the aspect of the final Hei, the Sefirah of Malchus,</t>\n    <t s=\"68\">as it is written48,</t>\n    <t s=\"69\">\"BeHibaram\" (when they were created),</t>\n    <t s=\"70\">\"with the Hei\"</t>\n    <t s=\"71\">(the final Hei of the Name Havayah)</t>\n    <t s=\"72\">\"He created them\"49,</t>\n    <t s=\"73\">but also from the aspect of the Vav, which is the matter of the midos,</t>\n    <t s=\"74\">and as it is written50,</t>\n    <t s=\"75\">\"Six days did Havayah make...,\"</t>\n    <t s=\"76\">it does not say \"in six,\"</t>\n    <t s=\"77\">but rather \"six\" etc.51.</t>\n    <t s=\"78\">And likewise, there is the matter of bringing into existence from the aspect of the mochin (intellect), Chochmah</t>\n    <t s=\"79\">(Yud)</t>\n    <t s=\"80\">and Binah</t>\n    <t s=\"81\">(Hei),</t>\n    <t s=\"82\">as it is stated in the Zohar52</t>\n    <t s=\"83\">on the verse \"And Elokim said,\" \"the father said to the mother,\"</t>\n    <t s=\"84\">and our sages, of blessed memory, said53,</t>\n    <t s=\"85\">\"All of them\"54</t>\n    <t s=\"86\">\"with wisdom You made, with understanding,\"</t>\n    <t s=\"87\">and even to the point that the primary bringing into existence is from the Yud,</t>\n    <t s=\"88\">which indicates the perpetuity of the action,</t>\n    <t s=\"89\">as it is written55,</t>\n    <t s=\"90\">\"Thus did Iyov all the days,\"</t>\n    <t s=\"91\">and it is the matter of \"He Who renews, every day, constantly, the work of creation\"56.</t>\n    <t s=\"92\">Therefore, the cessation is in all four letters of the Name Havayah.</t>\n    <t s=\"93\">And the matter of the cessation in all four letters of the Name Havayah is not only in their investment in Biyah (Beri'ah, Yetzirah, Asiyah),</t>\n    <t s=\"94\">but also in the aspect of Atzilus,</t>\n    <t s=\"95\">for it is written: \"All of them with wisdom You made,\"</t>\n    <t s=\"96\">meaning that even Atzilus is like Asiyah (action).</t>\n    <t s=\"97\">And according to what is stated in Etz Chaim57,</t>\n    <t s=\"98\">that the Chochmah of Adam Kadmon is invested in the Chochmah of Atzilus, etc.,</t>\n    <t s=\"99\">the cessation is also in the aspect of the Chochmah of Adam Kadmon.</t>\n    <t s=\"100\">And in truth,</t>\n    <t s=\"101\">behold, in the more elevated aspects,</t>\n    <t s=\"102\">the delight from the cessation is very great.</t>\n    <t s=\"103\">That is,</t>\n    <t s=\"104\">that although in the elevated aspects the descent below is not as great as the descent in the power of action,</t>\n    <t s=\"105\">nevertheless,</t>\n    <t s=\"106\">in a more elevated power, even a small descent is a very great descent,</t>\n    <t s=\"107\">much greater than the descent of the active force into the passive effect,</t>\n    <t s=\"108\">and therefore the delight from the cessation is a very great delight.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section describes the two types of rest—rest after exertion and essential rest—their roots in the encompassing lights of Yosher and Chozer, and how they manifest in Shabbos, particularly in the prayers, meals, and the third meal.</sectionSummaryBrief>\n    <t s=\"0\">However, all this is the matter of the cessation and rest that comes after exertion.</t>\n    <t s=\"1\">And the aspect of essential rest is like the statement58</t>\n    <t s=\"2\">regarding Shlomo: \"He will be a man of rest,\"</t>\n    <t s=\"3\">meaning not that he will have wars and afterward have rest from the wars,</t>\n    <t s=\"4\">but rather that he will have a state of essential rest.</t>\n    <t s=\"5\">And the delight that exists in the matter of essential rest is a more elevated delight than the delight in rest after exertion,</t>\n    <t s=\"6\">and it is the aspect of non-sensed delight.</t>\n    <t s=\"7\">And behold,</t>\n    <t s=\"8\">our sages, of blessed memory, said59</t>\n    <t s=\"9\">that in every Shabbos there are two Shabbosos,</t>\n    <t s=\"10\">erev Shabbos (Shabbos eve) and yoma d'Shabbosa (the day of Shabbos),</t>\n    <t s=\"11\">erev Shabbos is the matter of ascent from below to above,</t>\n    <t s=\"12\">and yoma d'Shabbosa is the matter of drawing down from above to below.</t>\n    <t s=\"13\">And in particular, in each of them there are both matters,</t>\n    <t s=\"14\">and in each of them—rest after exertion and essential rest,</t>\n    <t s=\"15\">for it is known60</t>\n    <t s=\"16\">the difference between the prayers of Shabbos and the meals of Shabbos,</t>\n    <t s=\"17\">that the prayers are the matter of ascent from below to above and also—simple delight,</t>\n    <t s=\"18\">and the meals are the matter of drawing down from above to below and also sensed delight,</t>\n    <t s=\"19\">and behold, both in erev Shabbos and in yoma d'Shabbosa,</t>\n    <t s=\"20\">there exist both matters, meal and prayer.</t>\n    <t s=\"21\">And the primary matter of the revelation of essential rest will be in the future, in the day that is entirely Shabbos and rest61.</t>\n    <t s=\"22\">And a glimmer of this shines especially now in the third meal of Shabbos,</t>\n    <t s=\"23\">the ratzon (will) of all ratzonin (wills)62,</t>\n    <t s=\"24\">the aspect of non-sensed delight,</t>\n    <t s=\"25\">and therefore it is written63,</t>\n    <t s=\"26\">\"Today not.\"</t>\n    <t s=\"27\">And this is what we say in Minchah of Shabbos: \"For from You is their rest,\"</t>\n    <t s=\"28\">\"a complete rest that You desire,\"</t>\n    <t s=\"29\">and the explanation of \"from You is a complete rest\" is the matter of essential rest.</t>\n    <t s=\"30\">And behold,</t>\n    <t s=\"31\">the root of these two aspects in rest</t>\n    <t s=\"32\">is in the aspect of the encompassing light of Yosher (straight) and the encompassing light of Chozer (returning).</t>\n    <t s=\"33\">For the encompassing light of Yosher, which is a light in the category of revelation,</t>\n    <t s=\"34\">the matter of tzimtzum (contraction) and concealment applies to it,</t>\n    <t s=\"35\">which is analogous to toil and exertion,</t>\n    <t s=\"36\">and therefore, from this light comes the rest after exertion.</t>\n    <t s=\"37\">And the encompassing light of Chozer, which is above the category of revelation,</t>\n    <t s=\"38\">the matter of tzimtzum and concealment does not apply to it at all,</t>\n    <t s=\"39\">and therefore,</t>\n    <t s=\"40\">from this light comes the drawing down of essential rest,</t>\n    <t s=\"41\">non-sensed delight.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains the difference between Yetzias Mitzrayim and Matan Torah, where Yetzias Mitzrayim is the aspect of \"dilug\" (skipping) for repelling evil, rooted in the encompassing light of Yosher, while Matan Torah is the aspect of \"kifutz\" (leaping) from the encompassing light of Chozer, the essential light beyond revelation.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And based on this, the difference between Yetzias Mitzrayim and Matan Torah will be understood,</t>\n    <t s=\"2\">that Yetzias Mitzrayim is the aspect of \"dilug\" (skipping),</t>\n    <t s=\"3\">and Matan Torah is the aspect of \"kifutz\" (leaping).</t>\n    <t s=\"4\">For behold,</t>\n    <t s=\"5\">in Yetzias Mitzrayim,</t>\n    <t s=\"6\">although there were then revelations that are above the order of hishtalshelus (chain of descent),</t>\n    <t s=\"7\">and as it is written64,</t>\n    <t s=\"8\">\"And I will pass through the land of Egypt, I and not an angel, and not a seraph, and not a messenger, and not another\"65,</t>\n    <t s=\"9\">nevertheless,</t>\n    <t s=\"10\">all these revelations were</t>\n    <t s=\"11\">(primarily)</t>\n    <t s=\"12\">in order to repulse and nullify the evil,</t>\n    <t s=\"13\">and as it is stated66,</t>\n    <t s=\"14\">\"And they knew\"</t>\n    <t s=\"15\">(a term of breaking)</t>\n    <t s=\"16\">\"Egypt,\"</t>\n    <t s=\"17\">and the complete repulsion and nullification of evil was at the time of Makas Bechoros (the Plague of the Firstborn),</t>\n    <t s=\"18\">when it was necessary that \"And I will pass... I and not...\" etc.</t>\n    <t s=\"19\">And the revelation that was for Bnei Yisrael was because there needed to be protection for Yisrael from the plagues of Egypt,</t>\n    <t s=\"20\">\"And I will place a redemption...\"67,</t>\n    <t s=\"21\">and especially in Makas Bechoros,</t>\n    <t s=\"22\">that although it would be a plague for Egypt, it would be a healing for Yisrael68.</t>\n    <t s=\"23\">And the matter in this,</t>\n    <t s=\"24\">for superficially it is not understood why such an elevated revelation was necessary,</t>\n    <t s=\"25\">for behold, even within the order of hishtalshelus, they said: \"The Holy One, blessed be He, extended His little finger among them and burned them\"69,</t>\n    <t s=\"26\">for when there was a revelation of light more than their allotted measure,</t>\n    <t s=\"27\">although it was the revelation of \"His little finger\"</t>\n    <t s=\"28\">(Malchus),</t>\n    <t s=\"29\">nevertheless, they were nullified,</t>\n    <t s=\"30\">so why was the revelation of \"And I will pass\" necessary,</t>\n    <t s=\"31\">which in the matter of the Sefiros is the drawing down of Kesser,</t>\n    <t s=\"32\">up to the aspect of the most supernal Kesser,</t>\n    <t s=\"33\">and why was the revelation of the order of hishtalshelus not sufficient?</t>\n    <t s=\"34\">But the matter is,</t>\n    <t s=\"35\">that the entire order of hishtalshelus is in measure and limitation,</t>\n    <t s=\"36\">and the root of measure is from the aspect of the line of measure that measures the measure of the Sefiros and the measure of the worlds.</t>\n    <t s=\"37\">And the reason is,</t>\n    <t s=\"38\">because in the line itself there is higher and lower,</t>\n    <t s=\"39\">for since its beginning is attached and its end is not attached70,</t>\n    <t s=\"40\">therefore there is in it higher and lower,</t>\n    <t s=\"41\">and from this aspect, higher and lower are also made in the Sefiros and worlds70,</t>\n    <t s=\"42\">so that the worlds that are closer to its beginning are in the aspect of higher.</t>\n    <t s=\"43\">And the entirety of the bringing into existence</t>\n    <t s=\"44\">(also the bringing into existence of the worlds and Sefiros that are in the aspect of higher)</t>\n    <t s=\"45\">from the line is because its beginning is attached and its end is not attached,</t>\n    <t s=\"46\">that is,</t>\n    <t s=\"47\">that the attachment in its beginning does not shine in its end,</t>\n    <t s=\"48\">through which there is place for hishtalshelus,</t>\n    <t s=\"49\">in contrast, if the attachment in its beginning were to shine also in its end,</t>\n    <t s=\"50\">it would be impossible for there to be bringing into existence from it.</t>\n    <t s=\"51\">And this will be understood from what was explained above</t>\n    <t s=\"52\">(section 3)</t>\n    <t s=\"53\">regarding the matter of Chochmah and Binah,</t>\n    <t s=\"54\">that from the aspect of Chochmah itself, which is the vision of the essence, it is impossible for there to be the bringing into existence of Binah,</t>\n    <t s=\"55\">and only when the aspect of vision is in concealment and only the aspect of a premise remains,</t>\n    <t s=\"56\">then an intellectual premise is made,</t>\n    <t s=\"57\">and from it an intellectual understanding is made,</t>\n    <t s=\"58\">the aspect of Binah,</t>\n    <t s=\"59\">but when the aspect of the vision of the essence, which is the beginning of Chochmah, shines,</t>\n    <t s=\"60\">it would be impossible for there to be the bringing into existence of Binah.</t>\n    <t s=\"61\">And similarly regarding the line,</t>\n    <t s=\"62\">it must be in a manner that in its end it is not attached,</t>\n    <t s=\"63\">that is,</t>\n    <t s=\"64\">that the attachment in its beginning should not be felt in its end.</t>\n    <t s=\"65\">And from this it is understood that from the aspect of the line it is impossible to change the existence of the worlds,</t>\n    <t s=\"66\">for since the line itself is in measure and limitation,</t>\n    <t s=\"67\">its beginning is attached and its end is not attached,</t>\n    <t s=\"68\">behold, from this aspect the higher and lower of the worlds are necessarily so.</t>\n    <t s=\"69\">And furthermore,</t>\n    <t s=\"70\">even the aspect of the light that precedes the tzimtzum, in which is the attachment of the line,</t>\n    <t s=\"71\">behold, even from this light there already exists the measure that only the beginning of the line will be attached to it,</t>\n    <t s=\"72\">and therefore, even from this light there is a root and source for the worlds.</t>\n    <t s=\"73\">Therefore, at Makas Bechoros, when there was then a need for the complete repulsion and nullification of the kelipos,</t>\n    <t s=\"74\">there needed to be the revelation of the Ein Sof light that is above the root and source of the line.</t>\n    <t s=\"75\">However,</t>\n    <t s=\"76\">after all this,</t>\n    <t s=\"77\">behold, the revelation that was in Yetzias Mitzrayim was in order to repulse the kelipos,</t>\n    <t s=\"78\">and behold, this is the matter of rest after work and exertion,</t>\n    <t s=\"79\">for in its root it is in the aspect of the encompassing light of Yosher, as above.</t>\n    <t s=\"80\">In contrast, the revelation of Matan Torah is from the aspect of the encompassing light of Chozer,</t>\n    <t s=\"81\">the essential light that is above the category of revelation.</t>\n    <t s=\"82\">And although the matter of the Torah is to distinguish between the impure and the pure71,</t>\n    <t s=\"83\">the intention in this is not the repulsion of evil,</t>\n    <t s=\"84\">but rather the refinement of the sparks and their elevation to holiness.</t>\n    <t s=\"85\">And furthermore,</t>\n    <t s=\"86\">this is not the inner intention of Torah,</t>\n    <t s=\"87\">but rather it is an addition of light in the innerness of Yisrael</t>\n    <t s=\"88\">(and through them in the order of hishtalshelus).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518919022_theRebbe_358",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518919022_theRebbe_358__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the three concepts of Yetzias Mitzrayim, Sefiras HaOmer, and Matan Torah are called Shabbos, and details the two levels of rest in Shabbos—rest after labor and essential rest—through the analogy of human labor and the ascent of all soul powers.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And the explanation of the matter:"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "Behold, it was explained above that the three concepts of Yetzias Mitzrayim, Sefiras HaOmer, and Matan Torah"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "are called by the name Shabbos."
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "And regarding the matter of Shabbos, there are two aspects:"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "cessation and rest that come after work and exertion,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "and essential rest."
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "The matter of rest that comes after work and exertion is as it is written: \"Six days shall you work... and the seventh day...\"40,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "\"Six years shall you sow... and in the seventh year...\"41."
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "For, superficially, it is not understood what is the matter of the commandment regarding work during the six days and the six years."
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "And the inner explanation of this is known,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "that it refers to the work of birurim (refinements)."
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "For the matter of birurim is a most elevated matter,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "for which the entire descent of the soul from a high roof to a deep pit42 was worthwhile,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "and for which the entire giving of the Torah was worthwhile."
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "However,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "at the time of birur, there must be a descent below into the thirty-nine melachos (labors) of weekday work,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "and afterward there must be an ascent above,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "which is the matter of the cessation and rest of Shabbos that follows the work,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "from which aspect there is a revelation of delight."
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "And this is analogous to a person below,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "that at the time of doing work, his power of action descends and becomes invested in the work,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "and afterward, when he rests from doing the work,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "then his power of action ascends and is included in his soul,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "and from this he is filled with delight."
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "And similarly, it will be understood Above,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "that although not with toil nor with exertion did the Holy One, blessed be He, create His world43,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "nevertheless, it is written44,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "\"By the word of Havayah the heavens were made,\""
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "and the speech of the Holy One, blessed be He, is considered an action45,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "therefore there must be the matter of cessation and rest,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "which is the matter of ascent above,"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "and from this comes the drawing down of delight."
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "And in truth, the matter of cessation and ascent must be not only in the power of action alone,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "but also in the more elevated powers."
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "And this is analogous to a person when he does some work,"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "behold, at the time of the action there is a descent not only in his power of action alone,"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "but also in the other powers,"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "for the doing of the work is because he is in a movement of drawing close to the entirety of the matter,"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "which is the matter of the midos (emotive attributes),"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "and also the power of intellect must be invested at the time of action in order that the action be in a suitable manner."
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "And although the intellect involved in this is only intellect related to the action,"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "at the time of action, behold, all his intellect is preoccupied with this."
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "And also, he necessarily has a will in the work,"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "and also delight,"
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "from which aspect he does the work."
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "Thus it is found,"
+          },
+          {
+            "v": 9,
+            "s": 48,
+            "translation": "that at the time of doing the work, behold, all the powers of his soul are in descent,"
+          },
+          {
+            "v": 9,
+            "s": 49,
+            "translation": "and afterward, at the time of cessation and rest,"
+          },
+          {
+            "v": 9,
+            "s": 50,
+            "translation": "all his powers ascend."
+          },
+          {
+            "v": 9,
+            "s": 51,
+            "translation": "And from this analogy it will be understood Above,"
+          },
+          {
+            "v": 9,
+            "s": 52,
+            "translation": "that the matter of the cessation of Shabbos is not only in the power of the active force within the passive effect, which is from the Name Elokim,"
+          },
+          {
+            "v": 9,
+            "s": 53,
+            "translation": "but also in the Name Havayah,"
+          },
+          {
+            "v": 9,
+            "s": 54,
+            "translation": "as it is written40,"
+          },
+          {
+            "v": 9,
+            "s": 55,
+            "translation": "\"Shabbos to Havayah.\""
+          },
+          {
+            "v": 9,
+            "s": 56,
+            "translation": "That is,"
+          },
+          {
+            "v": 9,
+            "s": 57,
+            "translation": "that although actual bringing into existence is from the Name Elokim,"
+          },
+          {
+            "v": 9,
+            "s": 58,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 59,
+            "translation": "the true bringing into existence is from the Name Havayah,"
+          },
+          {
+            "v": 9,
+            "s": 60,
+            "translation": "as it is written: \"By the word of Havayah the heavens were made\"44,"
+          },
+          {
+            "v": 9,
+            "s": 61,
+            "translation": "\"For He commanded and they were created\"46,"
+          },
+          {
+            "v": 9,
+            "s": 62,
+            "translation": "and Havayah is a term meaning \"He brings into existence\"47."
+          },
+          {
+            "v": 9,
+            "s": 63,
+            "translation": "Therefore, there must be the matter of cessation also in the Name Havayah,"
+          },
+          {
+            "v": 9,
+            "s": 64,
+            "translation": "in all four letters of the Name Havayah,"
+          },
+          {
+            "v": 9,
+            "s": 65,
+            "translation": "for the bringing into existence is from all four letters,"
+          },
+          {
+            "v": 9,
+            "s": 66,
+            "translation": "that is,"
+          },
+          {
+            "v": 9,
+            "s": 67,
+            "translation": "not only from the aspect of the final Hei, the Sefirah of Malchus,"
+          },
+          {
+            "v": 9,
+            "s": 68,
+            "translation": "as it is written48,"
+          },
+          {
+            "v": 9,
+            "s": 69,
+            "translation": "\"BeHibaram\" (when they were created),"
+          },
+          {
+            "v": 9,
+            "s": 70,
+            "translation": "\"with the Hei\""
+          },
+          {
+            "v": 9,
+            "s": 71,
+            "translation": "(the final Hei of the Name Havayah)"
+          },
+          {
+            "v": 9,
+            "s": 72,
+            "translation": "\"He created them\"49,"
+          },
+          {
+            "v": 9,
+            "s": 73,
+            "translation": "but also from the aspect of the Vav, which is the matter of the midos,"
+          },
+          {
+            "v": 9,
+            "s": 74,
+            "translation": "and as it is written50,"
+          },
+          {
+            "v": 9,
+            "s": 75,
+            "translation": "\"Six days did Havayah make...,\""
+          },
+          {
+            "v": 9,
+            "s": 76,
+            "translation": "it does not say \"in six,\""
+          },
+          {
+            "v": 9,
+            "s": 77,
+            "translation": "but rather \"six\" etc.51."
+          },
+          {
+            "v": 9,
+            "s": 78,
+            "translation": "And likewise, there is the matter of bringing into existence from the aspect of the mochin (intellect), Chochmah"
+          },
+          {
+            "v": 9,
+            "s": 79,
+            "translation": "(Yud)"
+          },
+          {
+            "v": 9,
+            "s": 80,
+            "translation": "and Binah"
+          },
+          {
+            "v": 9,
+            "s": 81,
+            "translation": "(Hei),"
+          },
+          {
+            "v": 9,
+            "s": 82,
+            "translation": "as it is stated in the Zohar52"
+          },
+          {
+            "v": 9,
+            "s": 83,
+            "translation": "on the verse \"And Elokim said,\" \"the father said to the mother,\""
+          },
+          {
+            "v": 9,
+            "s": 84,
+            "translation": "and our sages, of blessed memory, said53,"
+          },
+          {
+            "v": 9,
+            "s": 85,
+            "translation": "\"All of them\"54"
+          },
+          {
+            "v": 9,
+            "s": 86,
+            "translation": "\"with wisdom You made, with understanding,\""
+          },
+          {
+            "v": 9,
+            "s": 87,
+            "translation": "and even to the point that the primary bringing into existence is from the Yud,"
+          },
+          {
+            "v": 9,
+            "s": 88,
+            "translation": "which indicates the perpetuity of the action,"
+          },
+          {
+            "v": 9,
+            "s": 89,
+            "translation": "as it is written55,"
+          },
+          {
+            "v": 9,
+            "s": 90,
+            "translation": "\"Thus did Iyov all the days,\""
+          },
+          {
+            "v": 9,
+            "s": 91,
+            "translation": "and it is the matter of \"He Who renews, every day, constantly, the work of creation\"56."
+          },
+          {
+            "v": 9,
+            "s": 92,
+            "translation": "Therefore, the cessation is in all four letters of the Name Havayah."
+          },
+          {
+            "v": 9,
+            "s": 93,
+            "translation": "And the matter of the cessation in all four letters of the Name Havayah is not only in their investment in Biyah (Beri'ah, Yetzirah, Asiyah),"
+          },
+          {
+            "v": 9,
+            "s": 94,
+            "translation": "but also in the aspect of Atzilus,"
+          },
+          {
+            "v": 9,
+            "s": 95,
+            "translation": "for it is written: \"All of them with wisdom You made,\""
+          },
+          {
+            "v": 9,
+            "s": 96,
+            "translation": "meaning that even Atzilus is like Asiyah (action)."
+          },
+          {
+            "v": 9,
+            "s": 97,
+            "translation": "And according to what is stated in Etz Chaim57,"
+          },
+          {
+            "v": 9,
+            "s": 98,
+            "translation": "that the Chochmah of Adam Kadmon is invested in the Chochmah of Atzilus, etc.,"
+          },
+          {
+            "v": 9,
+            "s": 99,
+            "translation": "the cessation is also in the aspect of the Chochmah of Adam Kadmon."
+          },
+          {
+            "v": 9,
+            "s": 100,
+            "translation": "And in truth,"
+          },
+          {
+            "v": 9,
+            "s": 101,
+            "translation": "behold, in the more elevated aspects,"
+          },
+          {
+            "v": 9,
+            "s": 102,
+            "translation": "the delight from the cessation is very great."
+          },
+          {
+            "v": 9,
+            "s": 103,
+            "translation": "That is,"
+          },
+          {
+            "v": 9,
+            "s": 104,
+            "translation": "that although in the elevated aspects the descent below is not as great as the descent in the power of action,"
+          },
+          {
+            "v": 9,
+            "s": 105,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 106,
+            "translation": "in a more elevated power, even a small descent is a very great descent,"
+          },
+          {
+            "v": 9,
+            "s": 107,
+            "translation": "much greater than the descent of the active force into the passive effect,"
+          },
+          {
+            "v": 9,
+            "s": 108,
+            "translation": "and therefore the delight from the cessation is a very great delight."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section describes the two types of rest—rest after exertion and essential rest—their roots in the encompassing lights of Yosher and Chozer, and how they manifest in Shabbos, particularly in the prayers, meals, and the third meal.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "However, all this is the matter of the cessation and rest that comes after exertion."
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And the aspect of essential rest is like the statement58"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "regarding Shlomo: \"He will be a man of rest,\""
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "meaning not that he will have wars and afterward have rest from the wars,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "but rather that he will have a state of essential rest."
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "And the delight that exists in the matter of essential rest is a more elevated delight than the delight in rest after exertion,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "and it is the aspect of non-sensed delight."
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "And behold,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "our sages, of blessed memory, said59"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "that in every Shabbos there are two Shabbosos,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "erev Shabbos (Shabbos eve) and yoma d'Shabbosa (the day of Shabbos),"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "erev Shabbos is the matter of ascent from below to above,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "and yoma d'Shabbosa is the matter of drawing down from above to below."
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "And in particular, in each of them there are both matters,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "and in each of them—rest after exertion and essential rest,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "for it is known60"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "the difference between the prayers of Shabbos and the meals of Shabbos,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "that the prayers are the matter of ascent from below to above and also—simple delight,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "and the meals are the matter of drawing down from above to below and also sensed delight,"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "and behold, both in erev Shabbos and in yoma d'Shabbosa,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "there exist both matters, meal and prayer."
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "And the primary matter of the revelation of essential rest will be in the future, in the day that is entirely Shabbos and rest61."
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "And a glimmer of this shines especially now in the third meal of Shabbos,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "the ratzon (will) of all ratzonin (wills)62,"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "the aspect of non-sensed delight,"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "and therefore it is written63,"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "\"Today not.\""
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "And this is what we say in Minchah of Shabbos: \"For from You is their rest,\""
+          },
+          {
+            "v": 10,
+            "s": 28,
+            "translation": "\"a complete rest that You desire,\""
+          },
+          {
+            "v": 10,
+            "s": 29,
+            "translation": "and the explanation of \"from You is a complete rest\" is the matter of essential rest."
+          },
+          {
+            "v": 10,
+            "s": 30,
+            "translation": "And behold,"
+          },
+          {
+            "v": 10,
+            "s": 31,
+            "translation": "the root of these two aspects in rest"
+          },
+          {
+            "v": 10,
+            "s": 32,
+            "translation": "is in the aspect of the encompassing light of Yosher (straight) and the encompassing light of Chozer (returning)."
+          },
+          {
+            "v": 10,
+            "s": 33,
+            "translation": "For the encompassing light of Yosher, which is a light in the category of revelation,"
+          },
+          {
+            "v": 10,
+            "s": 34,
+            "translation": "the matter of tzimtzum (contraction) and concealment applies to it,"
+          },
+          {
+            "v": 10,
+            "s": 35,
+            "translation": "which is analogous to toil and exertion,"
+          },
+          {
+            "v": 10,
+            "s": 36,
+            "translation": "and therefore, from this light comes the rest after exertion."
+          },
+          {
+            "v": 10,
+            "s": 37,
+            "translation": "And the encompassing light of Chozer, which is above the category of revelation,"
+          },
+          {
+            "v": 10,
+            "s": 38,
+            "translation": "the matter of tzimtzum and concealment does not apply to it at all,"
+          },
+          {
+            "v": 10,
+            "s": 39,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 10,
+            "s": 40,
+            "translation": "from this light comes the drawing down of essential rest,"
+          },
+          {
+            "v": 10,
+            "s": 41,
+            "translation": "non-sensed delight."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains the difference between Yetzias Mitzrayim and Matan Torah, where Yetzias Mitzrayim is the aspect of \"dilug\" (skipping) for repelling evil, rooted in the encompassing light of Yosher, while Matan Torah is the aspect of \"kifutz\" (leaping) from the encompassing light of Chozer, the essential light beyond revelation.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And based on this, the difference between Yetzias Mitzrayim and Matan Torah will be understood,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that Yetzias Mitzrayim is the aspect of \"dilug\" (skipping),"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "and Matan Torah is the aspect of \"kifutz\" (leaping)."
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "For behold,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "in Yetzias Mitzrayim,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "although there were then revelations that are above the order of hishtalshelus (chain of descent),"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "and as it is written64,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "\"And I will pass through the land of Egypt, I and not an angel, and not a seraph, and not a messenger, and not another\"65,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "all these revelations were"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "in order to repulse and nullify the evil,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "and as it is stated66,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "\"And they knew\""
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "(a term of breaking)"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "\"Egypt,\""
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "and the complete repulsion and nullification of evil was at the time of Makas Bechoros (the Plague of the Firstborn),"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "when it was necessary that \"And I will pass... I and not...\" etc."
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "And the revelation that was for Bnei Yisrael was because there needed to be protection for Yisrael from the plagues of Egypt,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "\"And I will place a redemption...\"67,"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "and especially in Makas Bechoros,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "that although it would be a plague for Egypt, it would be a healing for Yisrael68."
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "And the matter in this,"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "for superficially it is not understood why such an elevated revelation was necessary,"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "for behold, even within the order of hishtalshelus, they said: \"The Holy One, blessed be He, extended His little finger among them and burned them\"69,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "for when there was a revelation of light more than their allotted measure,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "although it was the revelation of \"His little finger\""
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "(Malchus),"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "nevertheless, they were nullified,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "so why was the revelation of \"And I will pass\" necessary,"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "which in the matter of the Sefiros is the drawing down of Kesser,"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "up to the aspect of the most supernal Kesser,"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "and why was the revelation of the order of hishtalshelus not sufficient?"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "But the matter is,"
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "that the entire order of hishtalshelus is in measure and limitation,"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "and the root of measure is from the aspect of the line of measure that measures the measure of the Sefiros and the measure of the worlds."
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "And the reason is,"
+          },
+          {
+            "v": 11,
+            "s": 38,
+            "translation": "because in the line itself there is higher and lower,"
+          },
+          {
+            "v": 11,
+            "s": 39,
+            "translation": "for since its beginning is attached and its end is not attached70,"
+          },
+          {
+            "v": 11,
+            "s": 40,
+            "translation": "therefore there is in it higher and lower,"
+          },
+          {
+            "v": 11,
+            "s": 41,
+            "translation": "and from this aspect, higher and lower are also made in the Sefiros and worlds70,"
+          },
+          {
+            "v": 11,
+            "s": 42,
+            "translation": "so that the worlds that are closer to its beginning are in the aspect of higher."
+          },
+          {
+            "v": 11,
+            "s": 43,
+            "translation": "And the entirety of the bringing into existence"
+          },
+          {
+            "v": 11,
+            "s": 44,
+            "translation": "(also the bringing into existence of the worlds and Sefiros that are in the aspect of higher)"
+          },
+          {
+            "v": 11,
+            "s": 45,
+            "translation": "from the line is because its beginning is attached and its end is not attached,"
+          },
+          {
+            "v": 11,
+            "s": 46,
+            "translation": "that is,"
+          },
+          {
+            "v": 11,
+            "s": 47,
+            "translation": "that the attachment in its beginning does not shine in its end,"
+          },
+          {
+            "v": 11,
+            "s": 48,
+            "translation": "through which there is place for hishtalshelus,"
+          },
+          {
+            "v": 11,
+            "s": 49,
+            "translation": "in contrast, if the attachment in its beginning were to shine also in its end,"
+          },
+          {
+            "v": 11,
+            "s": 50,
+            "translation": "it would be impossible for there to be bringing into existence from it."
+          },
+          {
+            "v": 11,
+            "s": 51,
+            "translation": "And this will be understood from what was explained above"
+          },
+          {
+            "v": 11,
+            "s": 52,
+            "translation": "(section 3)"
+          },
+          {
+            "v": 11,
+            "s": 53,
+            "translation": "regarding the matter of Chochmah and Binah,"
+          },
+          {
+            "v": 11,
+            "s": 54,
+            "translation": "that from the aspect of Chochmah itself, which is the vision of the essence, it is impossible for there to be the bringing into existence of Binah,"
+          },
+          {
+            "v": 11,
+            "s": 55,
+            "translation": "and only when the aspect of vision is in concealment and only the aspect of a premise remains,"
+          },
+          {
+            "v": 11,
+            "s": 56,
+            "translation": "then an intellectual premise is made,"
+          },
+          {
+            "v": 11,
+            "s": 57,
+            "translation": "and from it an intellectual understanding is made,"
+          },
+          {
+            "v": 11,
+            "s": 58,
+            "translation": "the aspect of Binah,"
+          },
+          {
+            "v": 11,
+            "s": 59,
+            "translation": "but when the aspect of the vision of the essence, which is the beginning of Chochmah, shines,"
+          },
+          {
+            "v": 11,
+            "s": 60,
+            "translation": "it would be impossible for there to be the bringing into existence of Binah."
+          },
+          {
+            "v": 11,
+            "s": 61,
+            "translation": "And similarly regarding the line,"
+          },
+          {
+            "v": 11,
+            "s": 62,
+            "translation": "it must be in a manner that in its end it is not attached,"
+          },
+          {
+            "v": 11,
+            "s": 63,
+            "translation": "that is,"
+          },
+          {
+            "v": 11,
+            "s": 64,
+            "translation": "that the attachment in its beginning should not be felt in its end."
+          },
+          {
+            "v": 11,
+            "s": 65,
+            "translation": "And from this it is understood that from the aspect of the line it is impossible to change the existence of the worlds,"
+          },
+          {
+            "v": 11,
+            "s": 66,
+            "translation": "for since the line itself is in measure and limitation,"
+          },
+          {
+            "v": 11,
+            "s": 67,
+            "translation": "its beginning is attached and its end is not attached,"
+          },
+          {
+            "v": 11,
+            "s": 68,
+            "translation": "behold, from this aspect the higher and lower of the worlds are necessarily so."
+          },
+          {
+            "v": 11,
+            "s": 69,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 11,
+            "s": 70,
+            "translation": "even the aspect of the light that precedes the tzimtzum, in which is the attachment of the line,"
+          },
+          {
+            "v": 11,
+            "s": 71,
+            "translation": "behold, even from this light there already exists the measure that only the beginning of the line will be attached to it,"
+          },
+          {
+            "v": 11,
+            "s": 72,
+            "translation": "and therefore, even from this light there is a root and source for the worlds."
+          },
+          {
+            "v": 11,
+            "s": 73,
+            "translation": "Therefore, at Makas Bechoros, when there was then a need for the complete repulsion and nullification of the kelipos,"
+          },
+          {
+            "v": 11,
+            "s": 74,
+            "translation": "there needed to be the revelation of the Ein Sof light that is above the root and source of the line."
+          },
+          {
+            "v": 11,
+            "s": 75,
+            "translation": "However,"
+          },
+          {
+            "v": 11,
+            "s": 76,
+            "translation": "after all this,"
+          },
+          {
+            "v": 11,
+            "s": 77,
+            "translation": "behold, the revelation that was in Yetzias Mitzrayim was in order to repulse the kelipos,"
+          },
+          {
+            "v": 11,
+            "s": 78,
+            "translation": "and behold, this is the matter of rest after work and exertion,"
+          },
+          {
+            "v": 11,
+            "s": 79,
+            "translation": "for in its root it is in the aspect of the encompassing light of Yosher, as above."
+          },
+          {
+            "v": 11,
+            "s": 80,
+            "translation": "In contrast, the revelation of Matan Torah is from the aspect of the encompassing light of Chozer,"
+          },
+          {
+            "v": 11,
+            "s": 81,
+            "translation": "the essential light that is above the category of revelation."
+          },
+          {
+            "v": 11,
+            "s": 82,
+            "translation": "And although the matter of the Torah is to distinguish between the impure and the pure71,"
+          },
+          {
+            "v": 11,
+            "s": 83,
+            "translation": "the intention in this is not the repulsion of evil,"
+          },
+          {
+            "v": 11,
+            "s": 84,
+            "translation": "but rather the refinement of the sparks and their elevation to holiness."
+          },
+          {
+            "v": 11,
+            "s": 85,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 11,
+            "s": 86,
+            "translation": "this is not the inner intention of Torah,"
+          },
+          {
+            "v": 11,
+            "s": 87,
+            "translation": "but rather it is an addition of light in the innerness of Yisrael"
+          },
+          {
+            "v": 11,
+            "s": 88,
+            "translation": "(and through them in the order of hishtalshelus)."
+          }
+        ]
+      }
+    ]
+  }
+}

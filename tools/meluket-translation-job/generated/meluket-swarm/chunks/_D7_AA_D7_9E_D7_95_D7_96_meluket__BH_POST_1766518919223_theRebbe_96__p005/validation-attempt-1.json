@@ -1,0 +1,701 @@
+{
+  "validation": {
+    "ok": false,
+    "rootOk": true,
+    "expected": 131,
+    "returned": 131,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [
+      "14"
+    ],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919223_theRebbe_96\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the two aspects of Sovev and Memale correspond to the names Havayah and Elokim, where the life-force from Sovev (Havayah) is channeled through Memale (Elokim) to create limited and differentiated worlds.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And we must add an explanation in this,</t>\n    <t s=\"2\">according to what is said in the maamar71</t>\n    <t s=\"3\">that the two matters of Sovev and Memale are the two names Havayah and Elokim.</t>\n    <t s=\"4\">And as is explained in many places72</t>\n    <t s=\"5\">that the name Elokim is not only the shield and covering that conceals and hides the light of the name Havayah73,</t>\n    <t s=\"6\">but also the light of the name Havayah as it is drawn down and contracted by means of the name Elokim to become a source for creations,</t>\n    <t s=\"7\">which in general is the light of Memale,</t>\n    <t s=\"8\">is called Elokim.</t>\n    <t s=\"9\">And according to what is said in Tanya74</t>\n    <t s=\"10\">that the creation of the world is from the name Havayah</t>\n    <t s=\"11\">(Havayah is a term meaning \"He brings into being\"75),</t>\n    <t s=\"12\">except that if the creation were from the name Havayah itself, the world would be nullified in existence,</t>\n    <t s=\"13\">and therefore the actual creation was through the name Elokim,</t>\n    <t s=\"14\">it can be said,</t>\n    <t s=\"15\">that likewise is it also regarding the matter of Sovev and Memale,</t>\n    <t s=\"16\">that the essential life-force of the world is from the light of Sovev</t>\n    <t s=\"17\">(Havayah),</t>\n    <t s=\"18\">except that in order for the world to be limited,</t>\n    <t s=\"19\">the drawing down of life-force into the world is through Memale</t>\n    <t s=\"20\">(Elokim).</t>\n    <t s=\"21\">And there are two matters in this.</t>\n    <t s=\"22\">That the essence of the life-force of the world is from Sovev,</t>\n    <t s=\"23\">except that if the life-force from Sovev itself were drawn into it, the world would not be limited</t>\n    <t s=\"24\">(at all)</t>\n    <t s=\"25\">and all creations would be equal</t>\n    <t s=\"26\">[and in the manner explained in Tanya76,</t>\n    <t s=\"27\">that if the creation of the world were from the name Havayah itself, there would be no division of time and place in it],</t>\n    <t s=\"28\">and by means of the life-force</t>\n    <t s=\"29\">(from Sovev)</t>\n    <t s=\"30\">being drawn through Memale</t>\n    <t s=\"31\">(which is enclothed in each creation according to its worth),</t>\n    <t s=\"32\">division occurs in them.</t>\n    <t s=\"33\">And there is another matter in this,</t>\n    <t s=\"34\">that even the life-force of the world</t>\n    <t s=\"35\">(which is in limitation and division)</t>\n    <t s=\"36\">that is drawn from the light of Memale, it is</t>\n    <t s=\"37\">(not from itself,</t>\n    <t s=\"38\">but)</t>\n    <t s=\"39\">from Sovev.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that the power of the Memale light to vitalize creations comes from its connection to Sovev, the intrinsically alive source, and that through revealing the inner unlimited aspect of the limited life-force, the world's deficiency is filled.</sectionSummaryBrief>\n    <t s=\"0\">And the matter is,</t>\n    <t s=\"1\">that it is explained in the maamar</t>\n    <t s=\"2\">(brought above in section 4),</t>\n    <t s=\"3\">that Memale is analogous to the life-force of the soul that spreads into the body, and Sovev is analogous to the life-force of the soul itself,</t>\n    <t s=\"4\">intrinsically alive.</t>\n    <t s=\"5\">And according to what is explained elsewhere77</t>\n    <t s=\"6\">that this that the life-force that spreads from the soul vitalizes the body is because it is attached to the soul itself, which is intrinsically alive</t>\n    <t s=\"7\">[for the level of the spreading of the life-force</t>\n    <t s=\"8\">(by itself)</t>\n    <t s=\"9\">does not have the power to vitalize anything,</t>\n    <t s=\"10\">and this that the life-force that spreads from the soul vitalizes the body is because it is attached to the soul, which is intrinsically alive],</t>\n    <t s=\"11\">it can be said,</t>\n    <t s=\"12\">that likewise is it regarding the matter of Memale and Sovev,</t>\n    <t s=\"13\">that the power in the light of Memale</t>\n    <t s=\"14\">(the spreading of life-force)</t>\n    <t s=\"15\">to vitalize the creations is</t>\n    <t s=\"16\">(not from itself,</t>\n    <t s=\"17\">but)</t>\n    <t s=\"18\">because it is attached to Sovev,</t>\n    <t s=\"19\">intrinsically alive.</t>\n    <t s=\"20\">[And based on this, we can explain what is said in the maamar</t>\n    <t s=\"21\">(brought above in section 4)</t>\n    <t s=\"22\">that the aspect of Sovev is called \"Chayei HaChayim\" or \"Chai Olamim\"</t>\n    <t s=\"23\">(Chai with a patach),</t>\n    <t s=\"24\">that it can be said,</t>\n    <t s=\"25\">that the two names \"Chayei HaChayim\" and \"Chai Olamim\" indicate two matters.</t>\n    <t s=\"26\">That this that it is called \"Chayei HaChayim\" is because from it is drawn the life-force of Memale,</t>\n    <t s=\"27\">and this that it is called \"Chai Olamim\" is because from it is drawn the power in the life-force of Memale to vitalize the worlds].</t>\n    <t s=\"28\">And we must add,</t>\n    <t s=\"29\">that this that in the life-force that spreads to vitalize the body, the matter of being intrinsically alive is revealed</t>\n    <t s=\"30\">(in that it has the ability to vitalize the body),</t>\n    <t s=\"31\">even though the essence is above spreading78,</t>\n    <t s=\"32\">it is,</t>\n    <t s=\"33\">because the matter of being intrinsically alive is</t>\n    <t s=\"34\">(also)</t>\n    <t s=\"35\">the essence of the spreading life-force79.</t>\n    <t s=\"36\">[And based on this, we can explain the intent in this that Sovev is called \"Chayei HaChayim\",</t>\n    <t s=\"37\">that the life-force</t>\n    <t s=\"38\">(the essence80</t>\n    <t s=\"39\">and substance)</t>\n    <t s=\"40\">of the life</t>\n    <t s=\"41\">(Memale)</t>\n    <t s=\"42\">is Sovev].</t>\n    <t s=\"43\">And it can be said,</t>\n    <t s=\"44\">that through the two matters in the life-force enclothed in the world – that in revelation it is limited life-force,</t>\n    <t s=\"45\">and that in its inwardness it is unlimited</t>\n    <t s=\"46\">(therefore it has the ability to bring creations into being,</t>\n    <t s=\"47\">as above)</t>\n    <t s=\"48\">– there exist analogues of these two matters in the world.</t>\n    <t s=\"49\">That in externality,</t>\n    <t s=\"50\">the life-force that the world needs is only a contracted and minimal life-force</t>\n    <t s=\"51\">[and the revelation of Sovev is in the category of \"wealth\"].</t>\n    <t s=\"52\">And in the inwardness of the world,</t>\n    <t s=\"53\">the inwardness of the life-force within it is felt,</t>\n    <t s=\"54\">that this that it has the power to vitalize is because it is attached to the level of being intrinsically alive.</t>\n    <t s=\"55\">And through the level of \"bechol nafshecha\" of the souls, the inwardness of the world is revealed.</t>\n    <t s=\"56\">And through this,</t>\n    <t s=\"57\">also the world lacks the revelation of Sovev,</t>\n    <t s=\"58\">and through the revelation of Sovev, the deficiency of the world is filled.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section explains that Moshe's prayer for Israel was to draw the revelation of the Essence of Ein Sof (wealth) into Malchus, the root of the world, and that through Israel revealing the inwardness of Malchus, this revelation extends into the world.</sectionSummary>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And likewise is it regarding the matter of wealth,</t>\n    <t s=\"2\">the revelation of the Essence of Ein Sof that is above Sovev,</t>\n    <t s=\"3\">that through the revelation of this matter in the souls of Israel,</t>\n    <t s=\"4\">in the future there will be a semblance of this revelation also in the world81.</t>\n    <t s=\"5\">And based on this, we can explain what is said in the maamar82</t>\n    <t s=\"6\">in explanation of the statement of the Midrash that Moshe's prayer was not for himself but for Israel,</t>\n    <t s=\"7\">that the Congregation of Israel is the aspect of Malchus,</t>\n    <t s=\"8\">and Moshe's request</t>\n    <t s=\"9\">(the prayer of a wealthy man)</t>\n    <t s=\"10\">for the Congregation of Israel was that the revelation of the Essence of Ein Sof be drawn into Malchus</t>\n    <t s=\"11\">(wealth)</t>\n    <t s=\"12\">[And based on this, it explains there what is said in the Midrash that Moshe's request for Israel is like the request \"a certain province, etc., decree that it be built,\"</t>\n    <t s=\"13\">that \"province\" is Malchus and the request \"decree that it be built\" is that the revelation of the Essence of Ein Sof be drawn into Malchus, through which it will be built with an eternal building].</t>\n    <t s=\"14\">And explanation is needed,</t>\n    <t s=\"15\">that Moshe's request for Israel was for Israel simply, as explained in the Midrash,</t>\n    <t s=\"16\">and in the maamar it explains that Moshe's request for the Congregation of Israel is for Malchus.</t>\n    <t s=\"17\">And it can be said,</t>\n    <t s=\"18\">that through the drawing down of the revelation of the Essence of Ein Sof into Israel,</t>\n    <t s=\"19\">through this there will be this revelation in Malchus,</t>\n    <t s=\"20\">the root of the world,</t>\n    <t s=\"21\">and through this – in the world.</t>\n    <t s=\"22\">And to add,</t>\n    <t s=\"23\">that as explained above</t>\n    <t s=\"24\">(section 7)</t>\n    <t s=\"25\">regarding the matter of the revelation of Sovev that is drawn into the world through Israel,</t>\n    <t s=\"26\">that this is by their revealing the inwardness of the life-force of the world,</t>\n    <t s=\"27\">likewise is it regarding the revelation of Ein Sof that is above Sovev that is drawn through Israel into the world,</t>\n    <t s=\"28\">that this is by their revealing the inwardness and root of Malchus.</t>\n    <t s=\"29\">And as explained in the maamar83</t>\n    <t s=\"30\">in the interpretation of \"a certain province is yours,\"</t>\n    <t s=\"31\">that the root of Malchus is in the Essence.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919223_theRebbe_96",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the two aspects of Sovev and Memale correspond to the names Havayah and Elokim, where the life-force from Sovev (Havayah) is channeled through Memale (Elokim) to create limited and differentiated worlds.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And we must add an explanation in this,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "according to what is said in the maamar71"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "that the two matters of Sovev and Memale are the two names Havayah and Elokim."
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "And as is explained in many places72"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "that the name Elokim is not only the shield and covering that conceals and hides the light of the name Havayah73,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "but also the light of the name Havayah as it is drawn down and contracted by means of the name Elokim to become a source for creations,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "which in general is the light of Memale,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "is called Elokim."
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "And according to what is said in Tanya74"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "that the creation of the world is from the name Havayah"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "(Havayah is a term meaning \"He brings into being\"75),"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "except that if the creation were from the name Havayah itself, the world would be nullified in existence,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "and therefore the actual creation was through the name Elokim,"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "that likewise is it also regarding the matter of Sovev and Memale,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "that the essential life-force of the world is from the light of Sovev"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "(Havayah),"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "except that in order for the world to be limited,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "the drawing down of life-force into the world is through Memale"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "(Elokim)."
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "And there are two matters in this."
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "That the essence of the life-force of the world is from Sovev,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "except that if the life-force from Sovev itself were drawn into it, the world would not be limited"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "(at all)"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "and all creations would be equal"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "[and in the manner explained in Tanya76,"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "that if the creation of the world were from the name Havayah itself, there would be no division of time and place in it],"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "and by means of the life-force"
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "(from Sovev)"
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "being drawn through Memale"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "(which is enclothed in each creation according to its worth),"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "division occurs in them."
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "And there is another matter in this,"
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "that even the life-force of the world"
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "(which is in limitation and division)"
+          },
+          {
+            "v": 12,
+            "s": 36,
+            "translation": "that is drawn from the light of Memale, it is"
+          },
+          {
+            "v": 12,
+            "s": 37,
+            "translation": "(not from itself,"
+          },
+          {
+            "v": 12,
+            "s": 38,
+            "translation": "but)"
+          },
+          {
+            "v": 12,
+            "s": 39,
+            "translation": "from Sovev."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that the power of the Memale light to vitalize creations comes from its connection to Sovev, the intrinsically alive source, and that through revealing the inner unlimited aspect of the limited life-force, the world's deficiency is filled.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And the matter is,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "that it is explained in the maamar"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "(brought above in section 4),"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "that Memale is analogous to the life-force of the soul that spreads into the body, and Sovev is analogous to the life-force of the soul itself,"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "intrinsically alive."
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "And according to what is explained elsewhere77"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "that this that the life-force that spreads from the soul vitalizes the body is because it is attached to the soul itself, which is intrinsically alive"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "[for the level of the spreading of the life-force"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "(by itself)"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "does not have the power to vitalize anything,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "and this that the life-force that spreads from the soul vitalizes the body is because it is attached to the soul, which is intrinsically alive],"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "that likewise is it regarding the matter of Memale and Sovev,"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "that the power in the light of Memale"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "(the spreading of life-force)"
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "to vitalize the creations is"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "(not from itself,"
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "but)"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "because it is attached to Sovev,"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "intrinsically alive."
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "[And based on this, we can explain what is said in the maamar"
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "(brought above in section 4)"
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "that the aspect of Sovev is called \"Chayei HaChayim\" or \"Chai Olamim\""
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "(Chai with a patach),"
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "that it can be said,"
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "that the two names \"Chayei HaChayim\" and \"Chai Olamim\" indicate two matters."
+          },
+          {
+            "v": 13,
+            "s": 26,
+            "translation": "That this that it is called \"Chayei HaChayim\" is because from it is drawn the life-force of Memale,"
+          },
+          {
+            "v": 13,
+            "s": 27,
+            "translation": "and this that it is called \"Chai Olamim\" is because from it is drawn the power in the life-force of Memale to vitalize the worlds]."
+          },
+          {
+            "v": 13,
+            "s": 28,
+            "translation": "And we must add,"
+          },
+          {
+            "v": 13,
+            "s": 29,
+            "translation": "that this that in the life-force that spreads to vitalize the body, the matter of being intrinsically alive is revealed"
+          },
+          {
+            "v": 13,
+            "s": 30,
+            "translation": "(in that it has the ability to vitalize the body),"
+          },
+          {
+            "v": 13,
+            "s": 31,
+            "translation": "even though the essence is above spreading78,"
+          },
+          {
+            "v": 13,
+            "s": 32,
+            "translation": "it is,"
+          },
+          {
+            "v": 13,
+            "s": 33,
+            "translation": "because the matter of being intrinsically alive is"
+          },
+          {
+            "v": 13,
+            "s": 34,
+            "translation": "(also)"
+          },
+          {
+            "v": 13,
+            "s": 35,
+            "translation": "the essence of the spreading life-force79."
+          },
+          {
+            "v": 13,
+            "s": 36,
+            "translation": "[And based on this, we can explain the intent in this that Sovev is called \"Chayei HaChayim\","
+          },
+          {
+            "v": 13,
+            "s": 37,
+            "translation": "that the life-force"
+          },
+          {
+            "v": 13,
+            "s": 38,
+            "translation": "(the essence80"
+          },
+          {
+            "v": 13,
+            "s": 39,
+            "translation": "and substance)"
+          },
+          {
+            "v": 13,
+            "s": 40,
+            "translation": "of the life"
+          },
+          {
+            "v": 13,
+            "s": 41,
+            "translation": "(Memale)"
+          },
+          {
+            "v": 13,
+            "s": 42,
+            "translation": "is Sovev]."
+          },
+          {
+            "v": 13,
+            "s": 43,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 13,
+            "s": 44,
+            "translation": "that through the two matters in the life-force enclothed in the world – that in revelation it is limited life-force,"
+          },
+          {
+            "v": 13,
+            "s": 45,
+            "translation": "and that in its inwardness it is unlimited"
+          },
+          {
+            "v": 13,
+            "s": 46,
+            "translation": "(therefore it has the ability to bring creations into being,"
+          },
+          {
+            "v": 13,
+            "s": 47,
+            "translation": "as above)"
+          },
+          {
+            "v": 13,
+            "s": 48,
+            "translation": "– there exist analogues of these two matters in the world."
+          },
+          {
+            "v": 13,
+            "s": 49,
+            "translation": "That in externality,"
+          },
+          {
+            "v": 13,
+            "s": 50,
+            "translation": "the life-force that the world needs is only a contracted and minimal life-force"
+          },
+          {
+            "v": 13,
+            "s": 51,
+            "translation": "[and the revelation of Sovev is in the category of \"wealth\"]."
+          },
+          {
+            "v": 13,
+            "s": 52,
+            "translation": "And in the inwardness of the world,"
+          },
+          {
+            "v": 13,
+            "s": 53,
+            "translation": "the inwardness of the life-force within it is felt,"
+          },
+          {
+            "v": 13,
+            "s": 54,
+            "translation": "that this that it has the power to vitalize is because it is attached to the level of being intrinsically alive."
+          },
+          {
+            "v": 13,
+            "s": 55,
+            "translation": "And through the level of \"bechol nafshecha\" of the souls, the inwardness of the world is revealed."
+          },
+          {
+            "v": 13,
+            "s": 56,
+            "translation": "And through this,"
+          },
+          {
+            "v": 13,
+            "s": 57,
+            "translation": "also the world lacks the revelation of Sovev,"
+          },
+          {
+            "v": 13,
+            "s": 58,
+            "translation": "and through the revelation of Sovev, the deficiency of the world is filled."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And likewise is it regarding the matter of wealth,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "the revelation of the Essence of Ein Sof that is above Sovev,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "that through the revelation of this matter in the souls of Israel,"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "in the future there will be a semblance of this revelation also in the world81."
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "And based on this, we can explain what is said in the maamar82"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "in explanation of the statement of the Midrash that Moshe's prayer was not for himself but for Israel,"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "that the Congregation of Israel is the aspect of Malchus,"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "and Moshe's request"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "(the prayer of a wealthy man)"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "for the Congregation of Israel was that the revelation of the Essence of Ein Sof be drawn into Malchus"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "(wealth)"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "[And based on this, it explains there what is said in the Midrash that Moshe's request for Israel is like the request \"a certain province, etc., decree that it be built,\""
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "that \"province\" is Malchus and the request \"decree that it be built\" is that the revelation of the Essence of Ein Sof be drawn into Malchus, through which it will be built with an eternal building]."
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "And explanation is needed,"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "that Moshe's request for Israel was for Israel simply, as explained in the Midrash,"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "and in the maamar it explains that Moshe's request for the Congregation of Israel is for Malchus."
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "that through the drawing down of the revelation of the Essence of Ein Sof into Israel,"
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "through this there will be this revelation in Malchus,"
+          },
+          {
+            "v": 14,
+            "s": 20,
+            "translation": "the root of the world,"
+          },
+          {
+            "v": 14,
+            "s": 21,
+            "translation": "and through this – in the world."
+          },
+          {
+            "v": 14,
+            "s": 22,
+            "translation": "And to add,"
+          },
+          {
+            "v": 14,
+            "s": 23,
+            "translation": "that as explained above"
+          },
+          {
+            "v": 14,
+            "s": 24,
+            "translation": "(section 7)"
+          },
+          {
+            "v": 14,
+            "s": 25,
+            "translation": "regarding the matter of the revelation of Sovev that is drawn into the world through Israel,"
+          },
+          {
+            "v": 14,
+            "s": 26,
+            "translation": "that this is by their revealing the inwardness of the life-force of the world,"
+          },
+          {
+            "v": 14,
+            "s": 27,
+            "translation": "likewise is it regarding the revelation of Ein Sof that is above Sovev that is drawn through Israel into the world,"
+          },
+          {
+            "v": 14,
+            "s": 28,
+            "translation": "that this is by their revealing the inwardness and root of Malchus."
+          },
+          {
+            "v": 14,
+            "s": 29,
+            "translation": "And as explained in the maamar83"
+          },
+          {
+            "v": 14,
+            "s": 30,
+            "translation": "in the interpretation of \"a certain province is yours,\""
+          },
+          {
+            "v": 14,
+            "s": 31,
+            "translation": "that the root of Malchus is in the Essence."
+          }
+        ]
+      }
+    ]
+  }
+}

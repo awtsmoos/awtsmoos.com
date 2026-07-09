@@ -1,0 +1,175 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915336_theRebbe_861" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915336_theRebbe_861__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915336_theRebbe_861" title="מאמר פדה בשלום תשל"ט" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915336_theRebbe_861__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">והנה בהמאמר הנ"ל דבעל הגאולה בתחלת הענין33</src>
+    <src s="2">מבואר דענין המלחמה</src>
+    <src s="3">(של נה"א עם נה"ב)</src>
+    <src s="4">היא בנר"נ המלובשים בגוף ונה"ב,</src>
+    <src s="5">משא"כ בהמקיפים דחי' יחידה לא שייך מלחמה.</src>
+    <src s="6">אלא שלאח"ז בהמשך המאמר34</src>
+    <src s="7">מבאר בפרטיות יותר שגם בבחינת חי' יש ענין המלחמה,</src>
+    <src s="8">וענין השלום הוא ביחידה דוקא.</src>
+    <src s="9">ויש לומר,</src>
+    <src s="10">שהוא ע"ד שאמר הקב"ה לדוד המלך</src>
+    <src s="11">(כשרצה לבנות בית המקדש)</src>
+    <src s="12">דם לרוב שפכת גו'</src>
+    <src s="13">(ולכן)</src>
+    <src s="14">לא תבנה בית לשמי גו' הנה בן נולד לך הוא יהי' איש מנוחה גו' הוא יבנה בית לשמי גו'35.</src>
+    <src s="15">אלא שאעפ"כ תבנית המקדש נעשה ע"י דוד</src>
+    <src s="16">(מיד ה' עלי השכיל36),</src>
+    <src s="17">ויתן דויד לשלמה בנו את תבנית האולם וגו'37.</src>
+    <src s="18">וצריך להבין,</src>
+    <src s="19">דכיון שביהמ"ק קשור עם מנוחה38</src>
+    <src s="20">ושלום דוקא,</src>
+    <src s="21">שלכן נאמר לדוד לא תבנה בית לשמי כי איש מלחמות אתה39,</src>
+    <src s="22">למה נעשו ההכנות לביהמ"ק ע"י דוד שהי' איש מלחמות.</src>
+    <src s="23">ויש לומר הביאור בזה,</src>
+    <src s="24">כי אז</src>
+    <src s="25">(כשרצה דוד לבנות ביהמ"ק,</src>
+    <src s="26">ומכ"ש כשהכין את התבנית וכו')</src>
+    <src s="27">הי' דוד במצב של מנוחה,</src>
+    <src s="28">וה' הניח לו מסביב מכל אויביו40.</src>
+    <src s="29">אלא שכיון שהמנוחה דדוד באה ע"י המלחמות שעשה,</src>
+    <src s="30">לכן בנין ביהמ"ק הוצרך להיות ע"י שלמה,</src>
+    <src s="31">איש מנוחה,</src>
+    <src s="32">מנוחה בעצם.</src>
+    <src s="33">ויש לומר,</src>
+    <src s="34">דזה שמבואר בהמאמר</src>
+    <src s="35">(בתחלת הענין)</src>
+    <src s="36">שגם בבחינת חי' לא שייך מלחמה הוא ע"ד המנוחה דדוד לאחרי שנצח כל המלחמות.</src>
+    <src s="37">דבבחינת נר"נ שמתלבשים בהגוף ונה"ב,</src>
+    <src s="38">כיון שפעולת נה"א בנה"ב היא בדרך התלבשות והתעסקות,</src>
+    <src s="39">דנפש הבהמית ההשגה שלה היא בהטוב דדברים גשמיים,</src>
+    <src s="40">ונפש האלקית מתעסקת עמה לבאר לה הטוב דאלקות,</src>
+    <src s="41">הרי זה ענין של מלחמה ממש.</src>
+    <src s="42">משא"כ בחינת חי',</src>
+    <src s="43">כיון שפעולתה בנה"ב הוא</src>
+    <src s="44">(לא בדרך התלבשות אלא)</src>
+    <src s="45">שמצד גילוי תוקף הרצון לאלקות דנה"א מתבטלים במילא הרצונות דנה"ב,</src>
+    <src s="46">אין זה ענין של מלחמה.</src>
+    <src s="47">ובכללות,</src>
+    <src s="48">הו"ע של מנוחה.</src>
+    <src s="49">אלא שמנוחה זו היא</src>
+    <src s="50">(לא מנוחה בעצם,</src>
+    <src s="51">ורק)</src>
+    <src s="52">מצד תגבורת הרצון דנה"א,</src>
+    <src s="53">בדוגמת המנוחה דדוד לאחרי שה' הניח לו מכל אויביו,</src>
+    <src s="54">שהמנוחה שלו היתה מצד זה שנצח כל המלחמות.</src>
+    <src s="55">משא"כ ביטול הרצונות דנה"ב ע"י גילוי היחידה הוא</src>
+    <src s="56">(לא שע"י גילוי היחידה נעשה ביטול הרצונות,</src>
+    <src s="57">כי אם)</src>
+    <src s="58">שמצד היחידה</src>
+    <src s="59">(שאין כנגדה לעו"ז)</src>
+    <src s="60">אין מקום מלכתחילה לרצונות זרים,</src>
+    <src s="61">בדוגמת המנוחה דשלמה,</src>
+    <src s="62">שהיתה</src>
+    <src s="63">(לא ע"י נצחון,</src>
+    <src s="64">אלא)</src>
+    <src s="65">מנוחה בעצם.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">והנה עד"ז הוא בהעבודה שבדרך מלחמה שיש בה כו"כ דרגות.</src>
+    <src s="2">דהמלחמה שבתפלה,</src>
+    <src s="3">שעת צלותא שעת קרבא,</src>
+    <src s="4">כיון שבעת התפלה הוא מופשט מעניני העולם וההתעסקות שלו היא להתבונן בעניני אלקות ולעורר אהבת ה' ויראת ה',</src>
+    <src s="5">אלא שההתבוננות</src>
+    <src s="6">(והאהוי"ר)</src>
+    <src s="7">צריכות להיות באופן שיהי' מושג גם בהשכל דנה"ב,</src>
+    <src s="8">אין זה מלחמה ממש</src>
+    <src s="9">(ונק' זה בשם חרב41</src>
+    <src s="10">של שלום42).</src>
+    <src s="11">והעבודה בדרך מלחמה היא בעיקר בשעת האכילה ושתי',</src>
+    <src s="12">נהמא אפום חרבא ליכול43,</src>
+    <src s="13">ועד"ז בשאר צרכי הגוף.</src>
+    <src s="14">ובזה גופא,</src>
+    <src s="15">עיקר המלחמה היא בשעת העסק במשא ומתן,</src>
+    <src s="16">מסחר.</src>
+    <src s="17">כי המלחמה דאכילה</src>
+    <src s="18">(ועד"ז בשאר צרכי הגוף)</src>
+    <src s="19">היא שאכילתו תהי' לשם שמים ולא למלאות תאות נפשו,</src>
+    <src s="20">היינו שלוחם נגד התאוה והתענוג שבהמאכל</src>
+    <src s="21">(ואינו מלובש בו),</src>
+    <src s="22">משא"כ ההתעסקות במשא ומתן מוכרחת להיות</src>
+    <src s="23">(ע"פ תורה)</src>
+    <src s="24">בדרך התלבשות,</src>
+    <src s="25">נשאת ונתת באמונה44.</src>
+    <src s="26">[ויש לומר,</src>
+    <src s="27">דזהו גם הטעם על זה שכללות הבירורים נק' בשם כנען,</src>
+    <src s="28">דפירוש כנען הוא סוחר45,</src>
+    <src s="29">כי עיקר הבירורים שבדרך התלבשות הוא במשא ומתן].</src>
+    <src s="30">ונמצא,</src>
+    <src s="31">שהמלחמה דאכילה היא דוגמת המלחמה בחרב</src>
+    <src s="32">(נהמא אפום חרבא ליכול),</src>
+    <src s="33">דעם היות שהמלחמה דחרב היא דוקא כשהוא בקירוב להשונא</src>
+    <src s="34">(דזהו החילוק בין חרב לקשת46),</src>
+    <src s="35">הרי קירוב זה הוא רק במקום.</src>
+    <src s="36">משא"כ המלחמה שבמשא ומתן היא דוגמת המלחמה שנקראת בשם קרב מלשון קירוב,</src>
+    <src s="37">שהקירוב דקרב הוא</src>
+    <src s="38">(לא רק במקום,</src>
+    <src s="39">אלא)</src>
+    <src s="40">ששני הלוחמים מחבקים זה את זה,</src>
+    <src s="41">כנ"ל</src>
+    <src s="42">(סעיף ב)</src>
+    <src s="43">בארוכה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ז)</src>
+    <src s="1">וזהו פדה בשלום נפשי מקרב לי,</src>
+    <src s="2">שגם עבודת הבירורים שבדרך קרב</src>
+    <src s="3">(ולא רק בדרך מלחמה אלא בדרך קרב)</src>
+    <src s="4">תהי' באופן דפדה בשלום,</src>
+    <src s="5">שלום בתכלית השלימות כהשלום שהי' בימי שלמה,</src>
+    <src s="6">ולמעלה יותר – כהשלום שיהי' לע"ל.</src>
+    <src s="7">והטעם לזה הוא כההמשך בכתוב כי ברבים היו עמדי.</src>
+    <src s="8">שע"י העבודה דברבים היו עמדי,</src>
+    <src s="9">שהיא התעוררות וגילוי היחידה כמבואר בארוכה בדרוש הנ"ל דבעל הגאולה47,</src>
+    <src s="10">דכאו"א מישראל בכחו לעורר ולגלות היחידה שבו,</src>
+    <src s="11">הנה עי"ז נעשה פדה בשלום נפשי,</src>
+    <src s="12">נפשו של האדם העובד,</src>
+    <src s="13">דהגם שעוסק בעניני העולם בכדי לבררם באופן של קרב,</src>
+    <src s="14">מ"מ לא יהי' נתפס בזה והפדי' שלו תהי' בשלום,</src>
+    <src s="15">ועד לשלום בתכלית השלימות.</src>
+    <src s="16">ויתירה מזו שגם פדיית הניצוצות שבעניני העולם תהי' בשלום,</src>
+    <src s="17">ברבים היו עמדי,</src>
+    <src s="18">שגם הניצוצות שהיו תחלה בבחי' רבים</src>
+    <src s="19">(כי היו בגלות ברשות הרבים טורי דפרודא)48</src>
+    <src s="20">נכללים בנשמתו של האדם המבררם,</src>
+    <src s="21">היו עמדי,</src>
+    <src s="22">ועד שהם נכללים בהיחידה שבו.</src>
+  </section>
+</awtsmoosMeluketSource>

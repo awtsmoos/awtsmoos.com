@@ -1,0 +1,91 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" title="מאמר פדה בשלום תשכ"ב" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ ויצא,</src>
+    <src s="2">יו"ד כסלו מאמר ג,</src>
+    <src s="3">ה'תשכ"ב*</src>
+  </section>
+  <section v="1">
+    <src s="0">פדה בשלום נפשי מקרב לי כי ברבים היו עמדי1,</src>
+    <src s="1">ומבאר בעל הגאולה במאמרו ד"ה זה</src>
+    <src s="2">(שנדפס בספרו שערי תשובה2),</src>
+    <src s="3">דהטעם על זה שמלחמה נקראת בשם קרב מלשון קירוב</src>
+    <src s="4">(אף שמלחמה היא היפך ענין הקירוב),</src>
+    <src s="5">הוא,</src>
+    <src s="6">כי ענין המלחמה הוא שכל אחד משני הלוחמים רוצה לנצח את השני ולהכניע אותו שיוכלל בו,</src>
+    <src s="7">ובכדי לפעול בזה שלוחם כנגדו שיוכלל בו,</src>
+    <src s="8">הוא דוקא ע"י הקירוב שמתקרב אליו,</src>
+    <src s="9">קרב מלשון קירוב.</src>
+    <src s="10">ועד"ז הוא בהמלחמה דנפש האלקית ונפש הבהמית,</src>
+    <src s="11">דעיקר המלחמה היא בשעת התפלה</src>
+    <src s="12">(שעת צלותא שעת קרבא3),</src>
+    <src s="13">שבכדי שהעבודה</src>
+    <src s="14">(תפלה)</src>
+    <src s="15">דנפש האלקית תפעול בנפש הבהמית שתוכלל בנפש האלקית</src>
+    <src s="16">[היינו שגם נה"ב תהי' לה אהבת ה',</src>
+    <src s="17">בכל לבבך בשני יצריך4],</src>
+    <src s="18">הוא ע"י שנפש האלקית מתלבשת בנפש הבהמית,</src>
+    <src s="19">שההתבוננות של נפש האלקית היא בענינים כאלו ובאופן שגם נפש הבהמית יכולה להשיג5.</src>
+    <src s="20">משא"כ כשהתפלה היא מצד הנשמה עצמה,</src>
+    <src s="21">אינה פועלת בנפש הבהמית,</src>
+    <src s="22">כמבואר בהמאמר.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה6 בירור נה"ב ע"י שנה"א מתלבשת בנה"ב,</src>
+    <src s="2">הו"ע של מלחמה,</src>
+    <src s="3">כנ"ל.</src>
+    <src s="4">דענין המלחמה הוא,</src>
+    <src s="5">שיש מנגד וצריך ללחום עמו7.</src>
+    <src s="6">וענין פדה בשלום נפשי הוא שהפדי' דנפש האלקית מהגלות דנה"ב אינה באופן דמלחמה,</src>
+    <src s="7">כי אם,</src>
+    <src s="8">שע"י גילוי אור עליון מתבטלים הרצונות דנה"ב,</src>
+    <src s="9">שלכן אין צריך למלחמה כלל.</src>
+    <src s="10">וכמבואר בכ"מ8,</src>
+    <src s="11">וגם במאמר הנ"ל9,</src>
+    <src s="12">בענין הבירור שע"י עסק התורה,</src>
+    <src s="13">שהוא לא בדרך מלחמה</src>
+    <src s="14">(היינו שיש מנגד אלא שמנצחים אותו ע"י מלחמה,</src>
+    <src s="15">כי אם)</src>
+    <src s="16">שע"י גילוי אור התורה הוא ביטול הרע בעצם10</src>
+    <src s="17">.</src>
+    <src s="18">ועד"ז הוא בתפלה,</src>
+    <src s="19">שע"י האהבה שלמעלה מטעם ודעת שמצד בחי' חי' יחידה מתבטלים הרצונות דנפש הבהמית,</src>
+    <src s="20">והפדי' דנפש האלקית מהגלות דנה"ב היא באופן דשלום,</src>
+    <src s="21">פדה בשלום נפשי.</src>
+  </section>
+</awtsmoosMeluketSource>

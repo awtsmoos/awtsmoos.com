@@ -1,0 +1,87 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 11,
+    "returned": 11,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919915_theRebbe_134\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919915_theRebbe_134__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that through the soul illuminating the body, specifically where the choice of Atzmus resides, an elevation is added to the soul, and concludes with a prayer for the fulfillment of the prophecy of the resurrection and the coming of Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">And likewise is it also regarding Yisrael themselves,</t>\n    <t s=\"1\">that through the soul illuminating the body,</t>\n    <t s=\"2\">in which</t>\n    <t s=\"3\">(specifically)</t>\n    <t s=\"4\">is the choice of Atzmus,</t>\n    <t s=\"5\">an elevation is added to the soul,</t>\n    <t s=\"6\">and analogous to the future era when the soul will be nourished from the body.</t>\n    <t s=\"7\">And may it be His will that very soon the prophecy be fulfilled,</t>\n    <t s=\"8\">\"And they shall awaken and sing, you who dwell in the dust,\" and the master of the hillula among them,</t>\n    <t s=\"9\">and we will all go speedily, upright, to our land, with the coming of Moshiach Tzidkeinu,</t>\n    <t s=\"10\">speedily, in our very own time.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919915_theRebbe_134",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919915_theRebbe_134__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that through the soul illuminating the body, specifically where the choice of Atzmus resides, an elevation is added to the soul, and concludes with a prayer for the fulfillment of the prophecy of the resurrection and the coming of Moshiach.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And likewise is it also regarding Yisrael themselves,"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "that through the soul illuminating the body,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "in which"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "is the choice of Atzmus,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "an elevation is added to the soul,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "and analogous to the future era when the soul will be nourished from the body."
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "And may it be His will that very soon the prophecy be fulfilled,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "\"And they shall awaken and sing, you who dwell in the dust,\" and the master of the hillula among them,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "and we will all go speedily, upright, to our land, with the coming of Moshiach Tzidkeinu,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "speedily, in our very own time."
+          }
+        ]
+      }
+    ]
+  }
+}

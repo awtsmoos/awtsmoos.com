@@ -1,0 +1,309 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 53,
+    "returned": 53,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917334_theRebbe_880\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header of the maamar for Shabbos Parshas Tetzaveh, 10 Adar Rishon 5741.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Tetzaveh,</t>\n    <t s=\"2\">10 Adar Rishon 5741*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section raises several textual difficulties in the verse about taking pure olive oil for the lamp, including the unique phrasing \"And you shall command\" and the need to bring the oil to Moshe.</sectionSummaryBrief>\n    <t s=\"0\">\"And you shall command the children of Israel, and they shall take to you pure olive oil, crushed, for the luminary, to raise up a continual lamp.\"</t>\n    <t s=\"1\">And the precise points in this are known,</t>\n    <t s=\"2\">that in all the commandments in the Torah it is stated \"Command the children of Israel\" and the like,</t>\n    <t s=\"3\">but here it says \"And you shall command the children of Israel.\"</t>\n    <t s=\"4\">And to add,</t>\n    <t s=\"5\">that the precision of what is said \"And you shall command\" is not only in the wording but also in the content,</t>\n    <t s=\"6\">for the expression \"And you shall command\" implies that Moshe is the one who commands,</t>\n    <t s=\"7\">and it needs to be understood,</t>\n    <t s=\"8\">behold Moshe is the agent to convey to Israel the command of the Holy One, blessed be He,</t>\n    <t s=\"9\">so why is it said \"And you shall command\"?</t>\n    <t s=\"10\">Also, it needs to be understood what is said \"and they shall take to you,\"</t>\n    <t s=\"11\">that they should bring the oil to Moshe</t>\n    <t s=\"12\">(\"to you\"),</t>\n    <t s=\"13\">for at first glance,</t>\n    <t s=\"14\">since the raising of the lamps was done by Aharon,</t>\n    <t s=\"15\">why was it necessary to bring the oil to Moshe?</t>\n    <t s=\"16\">Also, it needs to be understood what is said \"oil... crushed for the luminary,\"</t>\n    <t s=\"17\">for at first glance it should have said \"oil... to illuminate.\"</t>\n    <t s=\"18\">Also, it needs to be understood,</t>\n    <t s=\"19\">that in the following verse</t>\n    <t s=\"20\">it says \"from evening until morning,\" and here it says \"to raise up a continual lamp.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that \"command\" implies connection, and Moshe connects Israel to Ein Sof, which in turn adds light and elevation to Moshe himself through Israel.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And explains the Rebbe, my father-in-law, the Admor</t>\n    <t s=\"2\">(in his well-known discourse beginning with the words \"And the Jews accepted\"</t>\n    <t s=\"3\">said on Purim Katan 5687),</t>\n    <t s=\"4\">that the command</t>\n    <t s=\"5\">(\"you shall command\")</t>\n    <t s=\"6\">is connection and bonding.</t>\n    <t s=\"7\">And this is \"And you shall command the children of Israel,\"</t>\n    <t s=\"8\">that Moshe connects and bonds the children of Israel with Ein Sof.</t>\n    <t s=\"9\">And through Moshe influencing Israel</t>\n    <t s=\"10\">(that he connects them with Ein Sof),</t>\n    <t s=\"11\">through this there is an advantage and addition in Moshe.</t>\n    <t s=\"12\">[For Moshe and Israel are analogous to a head and a foot,</t>\n    <t s=\"13\">as it is stated,</t>\n    <t s=\"14\">\"six hundred thousand footmen of the people that I am in its midst,\"</t>\n    <t s=\"15\">for all of Israel are the feet of Moshe,</t>\n    <t s=\"16\">and Moshe is their head.</t>\n    <t s=\"17\">And just as in a person the feet bring the head to a place that the head by itself cannot reach there,</t>\n    <t s=\"18\">so too is it with Moshe and Israel,</t>\n    <t s=\"19\">that through Israel</t>\n    <t s=\"20\">(the feet of Moshe)</t>\n    <t s=\"21\">an additional elevation is added in Moshe.</t>\n    <t s=\"22\">For this is what is said \"six hundred thousand footmen of the people that I am in its midst,\"</t>\n    <t s=\"23\">that through the footmen of the people the revelation of \"I am\" in Moshe's midst is drawn forth.</t>\n    <t s=\"24\">And this is \"And you shall command the children of Israel and they shall take to you olive oil etc.,\"</t>\n    <t s=\"25\">that through Moshe commanding and connecting the children of Israel with Ein Sof,</t>\n    <t s=\"26\">through this the children of Israel will bring olive oil to Moshe</t>\n    <t s=\"27\">(\"and they shall take to you\"),</t>\n    <t s=\"28\">that they will add an addition of light in Moshe.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917334_theRebbe_880",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header of the maamar for Shabbos Parshas Tetzaveh, 10 Adar Rishon 5741.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Tetzaveh,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "10 Adar Rishon 5741*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section raises several textual difficulties in the verse about taking pure olive oil for the lamp, including the unique phrasing \"And you shall command\" and the need to bring the oil to Moshe.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And you shall command the children of Israel, and they shall take to you pure olive oil, crushed, for the luminary, to raise up a continual lamp.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the precise points in this are known,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that in all the commandments in the Torah it is stated \"Command the children of Israel\" and the like,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "but here it says \"And you shall command the children of Israel.\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "And to add,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that the precision of what is said \"And you shall command\" is not only in the wording but also in the content,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "for the expression \"And you shall command\" implies that Moshe is the one who commands,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "and it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "behold Moshe is the agent to convey to Israel the command of the Holy One, blessed be He,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "so why is it said \"And you shall command\"?"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "Also, it needs to be understood what is said \"and they shall take to you,\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "that they should bring the oil to Moshe"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "(\"to you\"),"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "for at first glance,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "since the raising of the lamps was done by Aharon,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "why was it necessary to bring the oil to Moshe?"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "Also, it needs to be understood what is said \"oil... crushed for the luminary,\""
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "for at first glance it should have said \"oil... to illuminate.\""
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "Also, it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "that in the following verse"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "it says \"from evening until morning,\" and here it says \"to raise up a continual lamp.\""
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that \"command\" implies connection, and Moshe connects Israel to Ein Sof, which in turn adds light and elevation to Moshe himself through Israel.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And explains the Rebbe, my father-in-law, the Admor"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "(in his well-known discourse beginning with the words \"And the Jews accepted\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "said on Purim Katan 5687),"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that the command"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(\"you shall command\")"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "is connection and bonding."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "And this is \"And you shall command the children of Israel,\""
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that Moshe connects and bonds the children of Israel with Ein Sof."
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And through Moshe influencing Israel"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "(that he connects them with Ein Sof),"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "through this there is an advantage and addition in Moshe."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "[For Moshe and Israel are analogous to a head and a foot,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "\"six hundred thousand footmen of the people that I am in its midst,\""
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "for all of Israel are the feet of Moshe,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "and Moshe is their head."
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "And just as in a person the feet bring the head to a place that the head by itself cannot reach there,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "so too is it with Moshe and Israel,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that through Israel"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "(the feet of Moshe)"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "an additional elevation is added in Moshe."
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "For this is what is said \"six hundred thousand footmen of the people that I am in its midst,\""
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "that through the footmen of the people the revelation of \"I am\" in Moshe's midst is drawn forth."
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "And this is \"And you shall command the children of Israel and they shall take to you olive oil etc.,\""
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "that through Moshe commanding and connecting the children of Israel with Ein Sof,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "through this the children of Israel will bring olive oil to Moshe"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "(\"and they shall take to you\"),"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "that they will add an addition of light in Moshe."
+          }
+        ]
+      }
+    ]
+  }
+}

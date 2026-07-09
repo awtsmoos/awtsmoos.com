@@ -1,0 +1,87 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" title="מאמר עשרה שיושבין תשמ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p007">
+  <section v="18">
+    <src s="0">ויש להוסיף בביאור השייכות דהשונה פרקו מאה פעמים ואחד</src>
+    <src s="1">(היגיעה דשינוי הטבע והרגילות בלימוד התורה)</src>
+    <src s="2">לי"ג מדות הרחמים,</src>
+    <src s="3">דע"י הלימוד בפעם המאה ואחד,</src>
+    <src s="4">גם הלימוד דמאה הפעמים שלפנ"ז הוא באופן של עבודה.</src>
+    <src s="5">בדוגמת המבואר לעיל</src>
+    <src s="6">(סעיף ה)</src>
+    <src s="7">בהמספר י"ג,</src>
+    <src s="8">שע"י הוספת האחד,</src>
+    <src s="9">נעשה עילוי</src>
+    <src s="10">(שינוי או הוספה עכ"פ)</src>
+    <src s="11">בהי"ב.</src>
+  </section>
+  <section v="19">
+    <src s="0">ט)</src>
+    <src s="1">ועפ"ז יש לבאר שבתורת הרב המגיד המובאת בהמאמר כנ"ל שע"י שמשה הזכיר שם א-ל</src>
+    <src s="2">(מדה הראשונה די"ג מדה"ר)</src>
+    <src s="3">אמר לו הקב"ה קל וחומר</src>
+    <src s="4">(מדה הראשונה די"ג מדות שהתורה נדרשת),</src>
+    <src s="5">מדייק שמשה בתפלתו אמר א-ל נא רפא נא לה.</src>
+    <src s="6">דיש לומר,</src>
+    <src s="7">שהדיוק בתפלתו הוא לרמז שעיקר המשכת י"ג מדות הרחמים שלמעלה מהשתלשלות הוא בתפלה,</src>
+    <src s="8">ועי"ז באה אח"כ ההמשכה גם בתורה.</src>
+    <src s="9">וזהו גם הטעם דענין ההמשכה שלא לפי"ע ההעלאה שע"י תורה</src>
+    <src s="10">(דרבים)</src>
+    <src s="11">למדין מההמשכה שע"י תפלה</src>
+    <src s="12">(דרבים),</src>
+    <src s="13">כי עיקר</src>
+    <src s="14">(ומקור)</src>
+    <src s="15">ענין זה הוא בתפלה,</src>
+    <src s="16">ועי"ז נמשך אח"כ גם בתורה.</src>
+  </section>
+  <section v="20">
+    <src s="0">ולהוסיף58,</src>
+    <src s="1">דענין זה</src>
+    <src s="2">(שע"י התפלה נמשך אח"כ גם בתורה)</src>
+    <src s="3">מרומז גם בשני הקאַפּיטלאַך תהלים השייכים ליום ההולדת59</src>
+    <src s="4">דבעל הגאולה בשנה זו.</src>
+    <src s="5">דבמזמור קב</src>
+    <src s="6">[ששייך להסיום דשנת הק"ב]</src>
+    <src s="7">מתחיל בתפלה לעני גו' ובהמשך המזמור אומר תכתב זאת לדור אחרון גו'60</src>
+    <src s="8">דקאי על התורה שהיא נצחית.</src>
+    <src s="9">ועד"ז במזמור קג</src>
+    <src s="10">[ששייך לשנת הק"ג,</src>
+    <src s="11">מתחיל מיום ההולדת]</src>
+    <src s="12">שמתחיל ברכי נפשי את ה' שהוא תפלת שבח והודי',</src>
+    <src s="13">ובהמשך המזמור אומר ברכו ה' מלאכיו גבורי כח עושי דברו לשמוע בקול דברו61,</src>
+    <src s="14">ברישא עושי והדר לשמוע62,</src>
+    <src s="15">הקדמת נעשה לנשמע שהיתה הכנה לקבלת התורה.</src>
+  </section>
+</awtsmoosMeluketSource>

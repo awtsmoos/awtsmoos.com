@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" title="מאמר יו"ט של ר"ה תשל"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p003">
+  <section v="6">
+    <src s="0">וזהו32 משביעין אותו תהי צדיק,</src>
+    <src s="1">דזה שצריך להשביע את הנשמה תהי צדיק,</src>
+    <src s="2">הגם שזה</src>
+    <src s="3">(להיות צדיק)</src>
+    <src s="4">הוא רצון הנשמה,</src>
+    <src s="5">כי ע"י התלבשותה בגוף ונפש הבהמית,</src>
+    <src s="6">אפשר שהגוף ונה"ב יעלימו ויסתירו על הנשמה.</src>
+    <src s="7">ובפרט ששרש נה"א הוא בתיקון ושרש נה"ב הוא בתוהו שקדם לתיקון.</src>
+    <src s="8">ולכן משביעין את הנשמה תהי צדיק,</src>
+    <src s="9">דענין השבועה הוא המשכת שרש הנשמה כמו שהיא מושרשת בעצמות אוא"ס</src>
+    <src s="10">(למעלה מהענין דתוהו ותיקון),</src>
+    <src s="11">ועי"ז תוכל להתגבר על נה"ב.</src>
+    <src s="12">וזהו שמשביעין אותו הוא גם מלשון שובע,</src>
+    <src s="13">דשובע הוא נתינת כח.</src>
+    <src s="14">וע"י השבועה,</src>
+    <src s="15">המשכת שרש הנשמה כמו שהיא מושרשת בעצמות אוא"ס</src>
+    <src s="16">[שהוא בדוגמת שרש הבן כמו שהוא במוח האב עצמו טרם שנמשך33],</src>
+    <src s="17">נותנים כח להנשמה כמו שהיא בגילוי למעלה</src>
+    <src s="18">[שהוא בדוגמת הבן כמו שנמשך ממוח האב33],</src>
+    <src s="19">וגם להנשמה כמו שהיא מלובשת בגוף ונה"ב,</src>
+    <src s="20">לעבוד עבודתה בסור מרע</src>
+    <src s="21">(אל תהי רשע)</src>
+    <src s="22">ובועשה טוב</src>
+    <src s="23">(תהי צדיק).</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">והנה מדייק הצ"צ34</src>
+    <src s="2">במ"ש משביעין אותו תהי צדיק,</src>
+    <src s="3">איך מהני השבועה לנשמה על הגוף ונה"ב,</src>
+    <src s="4">שזהו דבר שאינו ברשותה,</src>
+    <src s="5">והלא אין אדם מקנה דבר שאינו ברשותו.</src>
+    <src s="6">ומבאר,</src>
+    <src s="7">דזה שמשביעין אותו תהי צדיק למדו רז"ל ממ"ש35</src>
+    <src s="8">כי לי תכרע כל ברך תשבע כל לשון,</src>
+    <src s="9">כי לי תכרע כל ברך זה יום המיתה,</src>
+    <src s="10">תשבע כל לשון זה יום הלידה.</src>
+    <src s="11">והתחלת כתוב זה הוא בי נשבעתי,</src>
+    <src s="12">דבי קאי על עתיק36</src>
+    <src s="13">(כנ"ל).</src>
+    <src s="14">וזה שתשבע כל לשון בא בהמשך לבי נשבעתי,</src>
+    <src s="15">הוא,</src>
+    <src s="16">כי בהשבועה שמשביעין אותו תהי צדיק נמשך כח מבחינת בי נשבעתי.</src>
+    <src s="17">ובכח זה,</src>
+    <src s="18">ביכולת הנשמה לשלוט על נה"ב37.</src>
+    <src s="19">ויש לומר,</src>
+    <src s="20">דהביאור איך מהני השבועה לנשמה על הגוף ונה"ב שזה דבר שאינו ברשותה,</src>
+    <src s="21">הוא,</src>
+    <src s="22">כי מצד הדרגא דבי נשבעתי,</src>
+    <src s="23">גם הגוף ונה"ב הם ברשות הנשמה.</src>
+    <src s="24">דבבחינת הגילויים,</src>
+    <src s="25">הנשמה והגוף ונה"ב הם שני ענינים.</src>
+    <src s="26">דשרש הנשמה הוא בתיקון ושרש הגוף ונה"ב הוא בתוהו.</src>
+    <src s="27">אבל באוא"ס שלמעלה מתוהו ותיקון,</src>
+    <src s="28">מכיון שהכוונה מלכתחילה בבנין וסתירת התוהו היתה שיהי' בירור התוהו</src>
+    <src s="29">(שרש הגוף ונה"ב)</src>
+    <src s="30">ע"י התיקון</src>
+    <src s="31">(שרש נה"א)38,</src>
+    <src s="32">לכן ע"י גילוי אוא"ס,</src>
+    <src s="33">גם הגוף ונה"ב נעשים ברשותה של הנשמה,</src>
+    <src s="34">כי כוונת התהוותם מלכתחילה היא שיתבררו ע"י הנשמה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">שהחילוק בין שני הענינים דמשביעין אותו,</src>
+    <src s="3">משביעין מלשון שבועה ומשביעין מלשון שובע,</src>
+    <src s="4">הוא,</src>
+    <src s="5">שמשביעין מלשון שבועה הוא המשכת שרש הנשמה,</src>
+    <src s="6">ומשביעין מלשון שובע הוא שהמשכה זו תהי' בגילוי בהנשמה כמו שבאה בהמשכה</src>
+    <src s="7">(כולל הנשמה כמו שהיא מלובשת בגוף ונה"ב),</src>
+    <src s="8">בדוגמת שביעה כפשוטה,</src>
+    <src s="9">שהמאכל משביע את האדם.</src>
+    <src s="10">וזהו דמשביעין אותו מלשון שובע הוא נתינת כח</src>
+    <src s="11">(כמבואר בכ"מ39),</src>
+    <src s="12">דע"י שההמשכה דהשבועה היא בגילוי בהנשמה שבהגוף,</src>
+    <src s="13">יש לה הכח להתגבר על נפש הבהמית</src>
+    <src s="14">(כנ"ל סעיף ד),</src>
+    <src s="15">וגם לפעול בו הבירור והזיכוך</src>
+    <src s="16">(כנ"ל סעיף ה),</src>
+    <src s="17">שבשביל זה ירדה למטה.</src>
+    <src s="18">וכמבואר בתניא40,</src>
+    <src s="19">דתכלית הכוונה בירידת הנשמה למטה הוא</src>
+    <src s="20">(לא בשביל הנשמה,</src>
+    <src s="21">אלא)</src>
+    <src s="22">בכדי לברר ולזכך את הגוף ונה"ב וחלקו בעולם.</src>
+  </section>
+</awtsmoosMeluketSource>

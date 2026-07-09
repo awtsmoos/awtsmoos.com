@@ -1,0 +1,91 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918549_theRebbe_741" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918549_theRebbe_741__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918549_theRebbe_741" title="מאמר לה"ע רשב"י תשמ"ה" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918549_theRebbe_741__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ל"ג בעומר ה'תשמ"ה*</src>
+  </section>
+  <section v="1">
+    <src s="0">להבין ענין רשב"י,</src>
+    <src s="1">הנה ידוע המאמר דל"ג בעומר של אדמו"ר מהר"ש1</src>
+    <src s="2">(בעל ההוראה דלכתחילה אַריבער2),</src>
+    <src s="3">דזה שמצינו בזהר3</src>
+    <src s="4">ששיבחו את רשב"י בשבחים נוראים4,</src>
+    <src s="5">כמו ר' יהודה הוה קרי לי' שבת5,</src>
+    <src s="6">ומאן פני6</src>
+    <src s="7">האדון ה' דא רשב"י7,</src>
+    <src s="8">יובן זה מענין השבחים שמשבחים את הבורא ית',</src>
+    <src s="9">דלכאורה תמוה,</src>
+    <src s="10">וכי הוא ית' צריך לשבחים שלנו8,</src>
+    <src s="11">וידוע הביאור בזה9,</src>
+    <src s="12">דלהיות שכל העולמות הם באין ערוך אליו ית',</src>
+    <src s="13">וההשפעה לעולמות היא ירידה לגבי' ית',</src>
+    <src s="14">לכן בכדי לעורר אצלו ית' הרצון להשפיע בעולמות הוא ע"י השבחים.</src>
+    <src s="15">וזהו מה שארז"ל10</src>
+    <src s="16">לעולם יסדר אדם שבחו של מקום ואח"כ יתפלל,</src>
+    <src s="17">דהגם שתפלה היא מצות עשה מן התורה לבקש צרכיו מהקב"ה11,</src>
+    <src s="18">וציווי התורה הוא נתינת כח,</src>
+    <src s="19">מ"מ,</src>
+    <src s="20">צריך להיות תחילה סידור שבחו של מקום,</src>
+    <src s="21">שעי"ז מעוררים אצלו ית' הרצון להשפיע צרכי המשבח.</src>
+    <src s="22">ועד"ז הוא גם בנוגע לרשב"י,</src>
+    <src s="23">שמצד עוצם מעלתו של רשב"י לגבי שאר התנאים,</src>
+    <src s="24">שהי' מובדל מהם באופן דאין ערוך,</src>
+    <src s="25">לכן,</src>
+    <src s="26">בכדי לעורר השפע שלו,</src>
+    <src s="27">הוצרכו לשבחו.</src>
+    <src s="28">ויש לומר,</src>
+    <src s="29">דמ"ש בהמאמר דענין שבחי רשב"י יובן מענין שבחו של מקום,</src>
+    <src s="30">הוא בנוסף על הבאת ראי' שבכדי לעורר השפעה שבאין ערוך צריך לשבחים,</src>
+    <src s="31">אלא גם,</src>
+    <src s="32">שהאין ערוך דשאר התנאים לגבי רשב"י הוא בדוגמת האין ערוך דנברא לבורא.</src>
+    <src s="33">וזהו גם מ"ש בהמאמר שהיו משבחים אותו בשבחים נוראים,</src>
+    <src s="34">דלשון נורא מורה על ענין שמובדל בערך לגמרי,</src>
+    <src s="35">עד שמטיל אימה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דהנה כתיב12</src>
+    <src s="3">והאיתנים מוסדי ארץ,</src>
+    <src s="4">איתנים אותיות תנאים13,</src>
+    <src s="5">והם המייסדים14</src>
+    <src s="6">את התושבע"פ שנקראת בשם ארץ15,</src>
+    <src s="7">היינו שממשיכים בחינת איתן בתושבע"פ.</src>
+    <src s="8">וי"ל שהמשכת איתן להתנאים הוא ע"י רשב"י,</src>
+    <src s="9">שהוא הי' הממוצע בין בחינת איתן להתנאים,</src>
+    <src s="10">כמבואר בארוכה בהמאמר16.</src>
+  </section>
+</awtsmoosMeluketSource>

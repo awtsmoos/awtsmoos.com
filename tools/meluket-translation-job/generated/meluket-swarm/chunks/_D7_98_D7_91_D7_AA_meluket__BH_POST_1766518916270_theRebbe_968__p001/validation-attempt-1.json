@@ -1,0 +1,474 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 86,
+    "returned": 86,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916270_theRebbe_968\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916270_theRebbe_968__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the date and heading for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbat Parshat Shemot,</t>\n    <t s=\"2\">23 Tevet*,</t>\n    <t s=\"3\">Rosh Chodesh Shvat,</t>\n    <t s=\"4\">the year 5713**</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the verse \"She who dwells in the gardens...\", interpreting it as referring to the revelation of the Garden of Eden and the future revelation, which is a leap from the immanent light to the encompassing light.</sectionSummaryBrief>\n    <t s=\"0\">\"She who dwells in the gardens, etc., my Beloved has fled, etc., upon the mountains of spices\"1,</t>\n    <t s=\"1\">and the Admor</t>\n    <t s=\"2\">(the Horav Shalom Ber)</t>\n    <t s=\"3\">of blessed memory explains in his maamar beginning with these words2</t>\n    <t s=\"4\">which he said on 24 Tevet3</t>\n    <t s=\"5\">(the day of the yahrzeit of the Alter Rebbe),</t>\n    <t s=\"6\">that \"she who dwells in the gardens\" speaks of the revelation of the Garden of Eden4,</t>\n    <t s=\"7\">\"gardens\"</t>\n    <t s=\"8\">(in the plural)</t>\n    <t s=\"9\">are5</t>\n    <t s=\"10\">the lower Garden of Eden and the upper Garden of Eden, which are in Beriah, Yetzirah, and Asiyah</t>\n    <t s=\"11\">(the lower Garden of Eden is in Asiyah, and the upper Garden of Eden is in Beriah6),</t>\n    <t s=\"12\">and \"she who dwells in the gardens\" means7</t>\n    <t s=\"13\">Malchut of Atzilut, which contracts itself to dwell in the gardens,</t>\n    <t s=\"14\">and \"my Beloved has fled, etc., upon the mountains of spices\" speaks of the revelation of the future,</t>\n    <t s=\"15\">which is vastly superior, even beyond comparison, to the revelation of the Garden of Eden,</t>\n    <t s=\"16\">for the revelation of the Garden of Eden is the immanent light, and the revelation of the future is the encompassing light.</t>\n    <t s=\"17\">For this is the meaning of \"fled, etc., upon the mountains of spices\"</t>\n    <t s=\"18\">(specifically \"fled\"),</t>\n    <t s=\"19\">that the ascent from the revelation of the Garden of Eden to the revelation of the future is by way of flight and leap, not in order and gradation.</t>\n    <t s=\"20\">Nevertheless,</t>\n    <t s=\"21\">in order to receive the revelation of the encompassing light of the future,</t>\n    <t s=\"22\">it is specifically through the prior revelation of the immanent light of the Garden of Eden.</t>\n    <t s=\"23\">And this is \"she who dwells in the gardens\"</t>\n    <t s=\"24\">(and afterwards)</t>\n    <t s=\"25\">\"my Beloved has fled, etc., upon the mountains of spices\",</t>\n    <t s=\"26\">that first there must be the revelation of \"she who dwells in the gardens,\" and through this specifically one arrives</t>\n    <t s=\"27\">(by way of flight and leap)</t>\n    <t s=\"28\">at the revelation of \"the mountains of spices.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the difference between immanent and encompassing light, arguing that the immanent light inherently has a relationship to division, as proven by the fact that the encompassing light is not affected by vessels.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the explanation of the matter:</t>\n    <t s=\"2\">The difference between immanent light and encompassing light is,</t>\n    <t s=\"3\">that encompassing light is simple light,</t>\n    <t s=\"4\">while immanent light comes in division,</t>\n    <t s=\"5\">the light of wisdom, the light of kindness, etc.</t>\n    <t s=\"6\">And it is explained in the aforementioned maamar,</t>\n    <t s=\"7\">that from the fact that immanent light comes in division,</t>\n    <t s=\"8\">even though the actual division is caused by its being clothed in the vessels,</t>\n    <t s=\"9\">it is necessary to say,</t>\n    <t s=\"10\">that also in the light itself</t>\n    <t s=\"11\">(before its clothing in vessels)</t>\n    <t s=\"12\">there is a relationship to division.</t>\n    <t s=\"13\">For in the Pardes8</t>\n    <t s=\"14\">it is explained,</t>\n    <t s=\"15\">that the division that occurs in the light through its clothing in vessels,</t>\n    <t s=\"16\">is only with regard to its activity</t>\n    <t s=\"17\">(in what manner it acts upon the creations,</t>\n    <t s=\"18\">for when it is clothed in the vessel of kindness, it performs the activity of kindness,</t>\n    <t s=\"19\">and so on with all the Sefiros),</t>\n    <t s=\"20\">but the light itself remains in its simplicity.</t>\n    <t s=\"21\">And based on this, one could say,</t>\n    <t s=\"22\">that the light, in and of itself</t>\n    <t s=\"23\">(before its clothing in vessels)</t>\n    <t s=\"24\">is completely simple</t>\n    <t s=\"25\">(that it has no relationship to division at all),</t>\n    <t s=\"26\">like the analogy of sunlight</t>\n    <t s=\"27\">(brought in the Pardes8),</t>\n    <t s=\"28\">that although in itself it is simple light</t>\n    <t s=\"29\">(for light is of the same kind as the luminary and is attached to the luminary),</t>\n    <t s=\"30\">nevertheless, when it shines through a white, red, or green glass,</t>\n    <t s=\"31\">it appears</t>\n    <t s=\"32\">(and acts)</t>\n    <t s=\"33\">according to the color of the vessel.</t>\n    <t s=\"34\">However, at first glance, this explanation is insufficient9.</t>\n    <t s=\"35\">For it is known10,</t>\n    <t s=\"36\">that encompassing light,</t>\n    <t s=\"37\">even when it shines within the vessels,</t>\n    <t s=\"38\">the vessel does not effect a change in it,</t>\n    <t s=\"39\">not even that it should appear according to the manner of the vessel</t>\n    <t s=\"40\">[and as is also brought in the aforementioned maamar,</t>\n    <t s=\"41\">that the light of Atik11,</t>\n    <t s=\"42\">even as it is drawn into Zeir Anpin,</t>\n    <t s=\"43\">is in the category of simplicity].</t>\n    <t s=\"44\">And from this it is proven10,</t>\n    <t s=\"45\">that this, that in immanent light there occurs</t>\n    <t s=\"46\">(through the vessels)</t>\n    <t s=\"47\">a form and division</t>\n    <t s=\"48\">(with regard to its activity, at least)</t>\n    <t s=\"49\">is because this light</t>\n    <t s=\"50\">(even before its clothing in vessels)</t>\n    <t s=\"51\">is of the category of division.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916270_theRebbe_968",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916270_theRebbe_968__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the date and heading for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbat Parshat Shemot,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "23 Tevet*,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "Rosh Chodesh Shvat,"
+          },
+          {
+            "v": 0,
+            "s": 4,
+            "translation": "the year 5713**"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the verse \"She who dwells in the gardens...\", interpreting it as referring to the revelation of the Garden of Eden and the future revelation, which is a leap from the immanent light to the encompassing light.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"She who dwells in the gardens, etc., my Beloved has fled, etc., upon the mountains of spices\"1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and the Admor"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(the Horav Shalom Ber)"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "of blessed memory explains in his maamar beginning with these words2"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "which he said on 24 Tevet3"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "(the day of the yahrzeit of the Alter Rebbe),"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that \"she who dwells in the gardens\" speaks of the revelation of the Garden of Eden4,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "\"gardens\""
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(in the plural)"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "are5"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "the lower Garden of Eden and the upper Garden of Eden, which are in Beriah, Yetzirah, and Asiyah"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "(the lower Garden of Eden is in Asiyah, and the upper Garden of Eden is in Beriah6),"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "and \"she who dwells in the gardens\" means7"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "Malchut of Atzilut, which contracts itself to dwell in the gardens,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "and \"my Beloved has fled, etc., upon the mountains of spices\" speaks of the revelation of the future,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "which is vastly superior, even beyond comparison, to the revelation of the Garden of Eden,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "for the revelation of the Garden of Eden is the immanent light, and the revelation of the future is the encompassing light."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "For this is the meaning of \"fled, etc., upon the mountains of spices\""
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "(specifically \"fled\"),"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "that the ascent from the revelation of the Garden of Eden to the revelation of the future is by way of flight and leap, not in order and gradation."
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "in order to receive the revelation of the encompassing light of the future,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "it is specifically through the prior revelation of the immanent light of the Garden of Eden."
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "And this is \"she who dwells in the gardens\""
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "(and afterwards)"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "\"my Beloved has fled, etc., upon the mountains of spices\","
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "that first there must be the revelation of \"she who dwells in the gardens,\" and through this specifically one arrives"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "(by way of flight and leap)"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "at the revelation of \"the mountains of spices.\""
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the difference between immanent and encompassing light, arguing that the immanent light inherently has a relationship to division, as proven by the fact that the encompassing light is not affected by vessels.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the explanation of the matter:"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "The difference between immanent light and encompassing light is,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "that encompassing light is simple light,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "while immanent light comes in division,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "the light of wisdom, the light of kindness, etc."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And it is explained in the aforementioned maamar,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "that from the fact that immanent light comes in division,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "even though the actual division is caused by its being clothed in the vessels,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "it is necessary to say,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "that also in the light itself"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(before its clothing in vessels)"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "there is a relationship to division."
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "For in the Pardes8"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "it is explained,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "that the division that occurs in the light through its clothing in vessels,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "is only with regard to its activity"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "(in what manner it acts upon the creations,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "for when it is clothed in the vessel of kindness, it performs the activity of kindness,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "and so on with all the Sefiros),"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "but the light itself remains in its simplicity."
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "And based on this, one could say,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "that the light, in and of itself"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(before its clothing in vessels)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "is completely simple"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "(that it has no relationship to division at all),"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "like the analogy of sunlight"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "(brought in the Pardes8),"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "that although in itself it is simple light"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "(for light is of the same kind as the luminary and is attached to the luminary),"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "nevertheless, when it shines through a white, red, or green glass,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "it appears"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "(and acts)"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "according to the color of the vessel."
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "However, at first glance, this explanation is insufficient9."
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "For it is known10,"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "that encompassing light,"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "even when it shines within the vessels,"
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "the vessel does not effect a change in it,"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "not even that it should appear according to the manner of the vessel"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "[and as is also brought in the aforementioned maamar,"
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "that the light of Atik11,"
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "even as it is drawn into Zeir Anpin,"
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "is in the category of simplicity]."
+          },
+          {
+            "v": 2,
+            "s": 44,
+            "translation": "And from this it is proven10,"
+          },
+          {
+            "v": 2,
+            "s": 45,
+            "translation": "that this, that in immanent light there occurs"
+          },
+          {
+            "v": 2,
+            "s": 46,
+            "translation": "(through the vessels)"
+          },
+          {
+            "v": 2,
+            "s": 47,
+            "translation": "a form and division"
+          },
+          {
+            "v": 2,
+            "s": 48,
+            "translation": "(with regard to its activity, at least)"
+          },
+          {
+            "v": 2,
+            "s": 49,
+            "translation": "is because this light"
+          },
+          {
+            "v": 2,
+            "s": 50,
+            "translation": "(even before its clothing in vessels)"
+          },
+          {
+            "v": 2,
+            "s": 51,
+            "translation": "is of the category of division."
+          }
+        ]
+      }
+    ]
+  }
+}

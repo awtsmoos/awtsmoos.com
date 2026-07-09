@@ -1,0 +1,243 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 41,
+    "returned": 41,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915147_theRebbe_734\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915147_theRebbe_734__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>Through refining the eleven impure crowns, a greater novelty occurs: the aspect of Atik is drawn into the Sefiros internally, revealing the Awtsmoos even more.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And one may add,</t>\n    <t s=\"2\">that since in the side of impurity it is in the number eleven,</t>\n    <t s=\"3\">meaning that even the encompassing is included in the number,</t>\n    <t s=\"4\">because it is the vitality that animates them as mentioned above,</t>\n    <t s=\"5\">therefore,</t>\n    <t s=\"6\">through the refinement of the eleven crowns of impurity,</t>\n    <t s=\"7\">it is done likewise in holiness,</t>\n    <t s=\"8\">that even the aspect of Atik</t>\n    <t s=\"9\">(which is not in the count of the Sefiros)</t>\n    <t s=\"10\">is drawn into the ten Sefiros in their inwardness.</t>\n    <t s=\"11\">And this matter is a greater novelty than the drawing down of Atik to refine clarifications</t>\n    <t s=\"12\">(for the drawing down below is only a giving of power).</t>\n    <t s=\"13\">And from this it is understood,</t>\n    <t s=\"14\">that in this matter</t>\n    <t s=\"15\">(the drawing of Atik into the ten Sefiros in their inwardness,</t>\n    <t s=\"16\">which is accomplished through the work of clarifications)</t>\n    <t s=\"17\">there is also revealed the Awtsmoos</t>\n    <t s=\"18\">(which is not defined by any definition)</t>\n    <t s=\"19\">even more.</t>\n    <t s=\"20\">And this is \"Vayiten Lecha,\"</t>\n    <t s=\"21\">\"He will give and again give,\"</t>\n    <t s=\"22\">for the first giving is the drawing down of the essential concealment</t>\n    <t s=\"23\">(\"Vayiten Lecha Elokim\")</t>\n    <t s=\"24\">in order to refine clarifications,</t>\n    <t s=\"25\">and that He will again give,</t>\n    <t s=\"26\">is the drawing down and revelation of the Essence that is accomplished through the work of clarifications.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>Through the two modes of drawing down the essential concealment, there is drawn down dew of heaven and fat of the earth, culminating in the Third Temple making the entire world a dwelling for Him.</sectionSummaryBrief>\n    <t s=\"0\">And through \"Vayiten Lecha Elokim,\"</t>\n    <t s=\"1\">the drawing down of the essential concealment in the two aforementioned modes</t>\n    <t s=\"2\">(\"He will give and again give\"),</t>\n    <t s=\"3\">there is also drawn down \"from the dew of the heavens and from the fat of the earth,\" etc.,</t>\n    <t s=\"4\">the Scriptural verse and its interpretation, etc.,</t>\n    <t s=\"5\">and also from the dew of the heavens literally,</t>\n    <t s=\"6\">for dew is not withheld</t>\n    <t s=\"7\">(and especially that initially there is no thought to withhold it, G-d forbid),</t>\n    <t s=\"8\">and likewise from the fat of the earth and abundance of grain and wine literally,</t>\n    <t s=\"9\">and in the ultimate expansion,</t>\n    <t s=\"10\">until the building of the Third Holy Temple,</t>\n    <t s=\"11\">Yaakov who called it \"House,\"</t>\n    <t s=\"12\">and from there light goes out to the entire world,</t>\n    <t s=\"13\">that they make the entire world a dwelling place for Him, blessed be He.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915147_theRebbe_734",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915147_theRebbe_734__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "Through refining the eleven impure crowns, a greater novelty occurs: the aspect of Atik is drawn into the Sefiros internally, revealing the Awtsmoos even more.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that since in the side of impurity it is in the number eleven,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "meaning that even the encompassing is included in the number,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "because it is the vitality that animates them as mentioned above,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "therefore,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "through the refinement of the eleven crowns of impurity,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "it is done likewise in holiness,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "that even the aspect of Atik"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "(which is not in the count of the Sefiros)"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "is drawn into the ten Sefiros in their inwardness."
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "And this matter is a greater novelty than the drawing down of Atik to refine clarifications"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "(for the drawing down below is only a giving of power)."
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "that in this matter"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "(the drawing of Atik into the ten Sefiros in their inwardness,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "which is accomplished through the work of clarifications)"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "there is also revealed the Awtsmoos"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "(which is not defined by any definition)"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "even more."
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "And this is \"Vayiten Lecha,\""
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "\"He will give and again give,\""
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "for the first giving is the drawing down of the essential concealment"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "(\"Vayiten Lecha Elokim\")"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "in order to refine clarifications,"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "and that He will again give,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "is the drawing down and revelation of the Essence that is accomplished through the work of clarifications."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "Through the two modes of drawing down the essential concealment, there is drawn down dew of heaven and fat of the earth, culminating in the Third Temple making the entire world a dwelling for Him.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And through \"Vayiten Lecha Elokim,\""
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "the drawing down of the essential concealment in the two aforementioned modes"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "(\"He will give and again give\"),"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "there is also drawn down \"from the dew of the heavens and from the fat of the earth,\" etc.,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "the Scriptural verse and its interpretation, etc.,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "and also from the dew of the heavens literally,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "for dew is not withheld"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "(and especially that initially there is no thought to withhold it, G-d forbid),"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "and likewise from the fat of the earth and abundance of grain and wine literally,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "and in the ultimate expansion,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "until the building of the Third Holy Temple,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "Yaakov who called it \"House,\""
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "and from there light goes out to the entire world,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "that they make the entire world a dwelling place for Him, blessed be He."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,644 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 120,
+    "returned": 120,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518916037_theRebbe_540\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains the concept of redemption through peace versus war, focusing on Dovid's mode of refinement through close combat and the transformation of the animal soul.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">A)</t>\n    <t s=\"2\">And this is the meaning of the verse, \"He redeemed my soul in peace from close combat with me, for many were with me.\"</t>\n    <t s=\"3\">For behold,</t>\n    <t s=\"4\">there is a mode of redemption in peace that is not at all in the manner of war,</t>\n    <t s=\"5\">but rather in a manner of rest,</t>\n    <t s=\"6\">as we find with Shlomo, who was a man of rest,</t>\n    <t s=\"7\">and the sparks came to him in a spontaneous manner,</t>\n    <t s=\"8\">and like the Queen of Sheba who brought the sparks to him, etc.</t>\n    <t s=\"9\">Nevertheless,</t>\n    <t s=\"10\">when the Queen of Sheba returned to her place, she remained as before and was not refined.</t>\n    <t s=\"11\">This is not the case with Dovid,</t>\n    <t s=\"12\">for with him the refinement was in a manner of close combat,</t>\n    <t s=\"13\">in a manner of war.</t>\n    <t s=\"14\">And in more detail,</t>\n    <t s=\"15\">within war itself there are two levels.</t>\n    <t s=\"16\">There is a war that is from a distance,</t>\n    <t s=\"17\">where one does not see the enemy and does not know what is happening with him,</t>\n    <t s=\"18\">and then one cannot refine him.</t>\n    <t s=\"19\">But there is a war that is in a manner of close combat, which indicates closeness,</t>\n    <t s=\"20\">and this is what is written of Dovid, \"from close combat with me.\"</t>\n    <t s=\"21\">And about this he said, \"for many were with me,\"</t>\n    <t s=\"22\">as it is stated in the Yerushalmi that even the men of Avshalom prayed for Dovid's victory,</t>\n    <t s=\"23\">and as it is written,</t>\n    <t s=\"24\">\"Even his enemies will make peace with him,\"</t>\n    <t s=\"25\">for in the word \"yashlim\" there are two interpretations,</t>\n    <t s=\"26\">from the language of peace,</t>\n    <t s=\"27\">and also from the language of completion.</t>\n    <t s=\"28\">And this matter is accomplished through the service in the aspect of close combat,</t>\n    <t s=\"29\">war in a manner of closeness,</t>\n    <t s=\"30\">through which one causes that \"many were with me,\"</t>\n    <t s=\"31\">for \"many\" is the matter of a public domain,</t>\n    <t s=\"32\">and as it is written,</t>\n    <t s=\"33\">\"Let us make man\" in the plural,</t>\n    <t s=\"34\">and as our sages of blessed memory said,</t>\n    <t s=\"35\">\"It is written, and whoever wishes to err, etc.,\"</t>\n    <t s=\"36\">and from \"many\" it becomes \"with me,\"</t>\n    <t s=\"37\">a private domain of the Singular One of the world.</t>\n    <t s=\"38\">And this is \"He redeemed my soul in peace from close combat with me, etc.,\"</t>\n    <t s=\"39\">which is the prayer of Dovid,</t>\n    <t s=\"40\">the aspect of Malchus,</t>\n    <t s=\"41\">the totality of the Congregation of Israel,</t>\n    <t s=\"42\">meaning,</t>\n    <t s=\"43\">that they give strength to each and every Jew that he can have redemption through close combat,</t>\n    <t s=\"44\">for through refinement in the aspect of close combat, the transformation of the lower is effected,</t>\n    <t s=\"45\">meaning,</t>\n    <t s=\"46\">that it is not in a manner that it is nullified from its existence,</t>\n    <t s=\"47\">but rather the very existence of the lower is transformed into Elokus,</t>\n    <t s=\"48\">and as it is written,</t>\n    <t s=\"49\">\"With all your heart, with both your inclinations,\"</t>\n    <t s=\"50\">which is not in a manner of killing them through fasting,</t>\n    <t s=\"51\">but rather that even the animal soul will have love for Elokus.</t>\n    <t s=\"52\">And the totality of the matter in this,</t>\n    <t s=\"53\">that refinement in the manner of close combat is not like the light of the sun that shines in a house by opening the windows,</t>\n    <t s=\"54\">for the light of the sun does not mix and unite with the matters of the house,</t>\n    <t s=\"55\">and therefore after the light of the sun departs, the house remains dark,</t>\n    <t s=\"56\">and one does not know what is happening there,</t>\n    <t s=\"57\">but rather refinement in the manner of close combat is like the soul clothing itself in the body, where it unites with the body,</t>\n    <t s=\"58\">for before its clothing in the body, the soul was above and perceived there the essence of Elokus,</t>\n    <t s=\"59\">and in its clothing in the body, its perception of Elokus is only in the aspect of the existence of Elokus,</t>\n    <t s=\"60\">and its perception of essence is in physical matters,</t>\n    <t s=\"61\">and this is because the soul unites with the body and the animal soul,</t>\n    <t s=\"62\">meaning,</t>\n    <t s=\"63\">that the G-dly soul feels the animal soul.</t>\n    <t s=\"64\">And likewise, conversely,</t>\n    <t s=\"65\">regarding the animal soul, it is stated,</t>\n    <t s=\"66\">\"The spirit of the beast that descends downward,\"</t>\n    <t s=\"67\">feels the G-dly soul,</t>\n    <t s=\"68\">and through this the G-dly soul acts upon the animal soul so that it will have perception of Elokus in a manner that the natural intellect perceives Elokus,</t>\n    <t s=\"69\">meaning,</t>\n    <t s=\"70\">not only in a manner that it receives something above it,</t>\n    <t s=\"71\">but in a manner that the natural intellect of the animal soul becomes like the intellect of the Torah.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section distinguishes between Torah and prayer as two modes of refinement, where Torah achieves complete transformation through closeness, while prayer is a war-like refinement, and explains the role of Malchus in the process.</sectionSummaryBrief>\n    <t s=\"0\">And behold, these two modes of refinement exist in all three lines of Torah, service, and acts of kindness,</t>\n    <t s=\"1\">but in general, this is the difference between Torah and prayer,</t>\n    <t s=\"2\">that Torah is in the aspect of close combat,</t>\n    <t s=\"3\">through which the animal soul is transformed into Elokus,</t>\n    <t s=\"4\">unlike prayer,</t>\n    <t s=\"5\">about which it is said,</t>\n    <t s=\"6\">\"With my sword and with my bow,\"</t>\n    <t s=\"7\">which is translated as \"with my prayer and with my supplication,\"</t>\n    <t s=\"8\">which is a matter of simple war.</t>\n    <t s=\"9\">And since through Torah the completion of refinement is effected,</t>\n    <t s=\"10\">therefore regarding Torah it is not stated \"and he died\" in glory,</t>\n    <t s=\"11\">unlike in Chronicles, which is in the aspect of Malchus,</t>\n    <t s=\"12\">whose feet descend etc.,</t>\n    <t s=\"13\">to a place opposite to life,</t>\n    <t s=\"14\">therefore it is stated \"and he died,\"</t>\n    <t s=\"15\">because there the matter of refinement is not accomplished, etc.</t>\n    <t s=\"16\">And even though it is known that the refinements are in the aspect of Malchus,</t>\n    <t s=\"17\">about which it is stated,</t>\n    <t s=\"18\">\"And she arose etc. and gave prey to her house,\"</t>\n    <t s=\"19\">which is the matter of the descent of Malchus into Beriah, Yetzirah, and Asiyah to refine sparks,</t>\n    <t s=\"20\">this can be explained in two ways,</t>\n    <t s=\"21\">the first,</t>\n    <t s=\"22\">that through Malchus only a first refinement is accomplished and not a second refinement,</t>\n    <t s=\"23\">and the second,</t>\n    <t s=\"24\">that even the refinements that Malchus refines are also through the drawing down into it from the aspect of Yesod, etc.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains the verse \"And Yaakov settled in the land of his father's sojournings, in the land of Canaan,\" connecting Canaan to commerce and the soul's descent to refine the sparks of Tohu.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">B)</t>\n    <t s=\"2\">And this is the meaning of the verse, \"And Yaakov settled in the land of his father's sojournings, in the land of Canaan,\"</t>\n    <t s=\"3\">for Canaan is an expression of a merchant,</t>\n    <t s=\"4\">who disperses his money in order to profit,</t>\n    <t s=\"5\">and this is the matter of the soul's ascent through its descent below and its clothing in the body and animal soul.</t>\n    <t s=\"6\">And behold, it is known</t>\n    <t s=\"7\">that the descent of the soul below is not for its own sake,</t>\n    <t s=\"8\">for the soul itself does not need rectification,</t>\n    <t s=\"9\">and its descent below is in order to refine the sparks of Tohu that fell below into physical things.</t>\n    <t s=\"10\">And through its refining of the sparks,</t>\n    <t s=\"11\">it ascends higher than it was before its descent.</t>\n    <t s=\"12\">And this is why the matter of the settlements of Esav and his generations is an introduction to \"And Yaakov settled etc. in the land of Canaan,\"</t>\n    <t s=\"13\">for the settlements of Esav are the matter of the seven kings of Tohu,</t>\n    <t s=\"14\">and the entire matter of commerce</t>\n    <t s=\"15\">(Canaan)</t>\n    <t s=\"16\">of the soul's descent below is due to the sparks of Tohu that fell into the broken vessels,</t>\n    <t s=\"17\">which is the cause of the soul's descent</t>\n    <t s=\"18\">(the dispersion of money),</t>\n    <t s=\"19\">and as mentioned above, the soul did not descend for its own sake but only to refine the sparks,</t>\n    <t s=\"20\">and this is also the cause of the ascent that is effected through the descent</t>\n    <t s=\"21\">(the profit through the dispersion),</t>\n    <t s=\"22\">and as mentioned above, the soul's ascent is through the refinement of the sparks of Tohu.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518916037_theRebbe_540",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains the concept of redemption through peace versus war, focusing on Dovid's mode of refinement through close combat and the transformation of the animal soul.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "A)"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "And this is the meaning of the verse, \"He redeemed my soul in peace from close combat with me, for many were with me.\""
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "For behold,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "there is a mode of redemption in peace that is not at all in the manner of war,"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "but rather in a manner of rest,"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "as we find with Shlomo, who was a man of rest,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "and the sparks came to him in a spontaneous manner,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "and like the Queen of Sheba who brought the sparks to him, etc."
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "when the Queen of Sheba returned to her place, she remained as before and was not refined."
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "This is not the case with Dovid,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "for with him the refinement was in a manner of close combat,"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "in a manner of war."
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "And in more detail,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "within war itself there are two levels."
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "There is a war that is from a distance,"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "where one does not see the enemy and does not know what is happening with him,"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "and then one cannot refine him."
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "But there is a war that is in a manner of close combat, which indicates closeness,"
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "and this is what is written of Dovid, \"from close combat with me.\""
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "And about this he said, \"for many were with me,\""
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "as it is stated in the Yerushalmi that even the men of Avshalom prayed for Dovid's victory,"
+          },
+          {
+            "v": 15,
+            "s": 23,
+            "translation": "and as it is written,"
+          },
+          {
+            "v": 15,
+            "s": 24,
+            "translation": "\"Even his enemies will make peace with him,\""
+          },
+          {
+            "v": 15,
+            "s": 25,
+            "translation": "for in the word \"yashlim\" there are two interpretations,"
+          },
+          {
+            "v": 15,
+            "s": 26,
+            "translation": "from the language of peace,"
+          },
+          {
+            "v": 15,
+            "s": 27,
+            "translation": "and also from the language of completion."
+          },
+          {
+            "v": 15,
+            "s": 28,
+            "translation": "And this matter is accomplished through the service in the aspect of close combat,"
+          },
+          {
+            "v": 15,
+            "s": 29,
+            "translation": "war in a manner of closeness,"
+          },
+          {
+            "v": 15,
+            "s": 30,
+            "translation": "through which one causes that \"many were with me,\""
+          },
+          {
+            "v": 15,
+            "s": 31,
+            "translation": "for \"many\" is the matter of a public domain,"
+          },
+          {
+            "v": 15,
+            "s": 32,
+            "translation": "and as it is written,"
+          },
+          {
+            "v": 15,
+            "s": 33,
+            "translation": "\"Let us make man\" in the plural,"
+          },
+          {
+            "v": 15,
+            "s": 34,
+            "translation": "and as our sages of blessed memory said,"
+          },
+          {
+            "v": 15,
+            "s": 35,
+            "translation": "\"It is written, and whoever wishes to err, etc.,\""
+          },
+          {
+            "v": 15,
+            "s": 36,
+            "translation": "and from \"many\" it becomes \"with me,\""
+          },
+          {
+            "v": 15,
+            "s": 37,
+            "translation": "a private domain of the Singular One of the world."
+          },
+          {
+            "v": 15,
+            "s": 38,
+            "translation": "And this is \"He redeemed my soul in peace from close combat with me, etc.,\""
+          },
+          {
+            "v": 15,
+            "s": 39,
+            "translation": "which is the prayer of Dovid,"
+          },
+          {
+            "v": 15,
+            "s": 40,
+            "translation": "the aspect of Malchus,"
+          },
+          {
+            "v": 15,
+            "s": 41,
+            "translation": "the totality of the Congregation of Israel,"
+          },
+          {
+            "v": 15,
+            "s": 42,
+            "translation": "meaning,"
+          },
+          {
+            "v": 15,
+            "s": 43,
+            "translation": "that they give strength to each and every Jew that he can have redemption through close combat,"
+          },
+          {
+            "v": 15,
+            "s": 44,
+            "translation": "for through refinement in the aspect of close combat, the transformation of the lower is effected,"
+          },
+          {
+            "v": 15,
+            "s": 45,
+            "translation": "meaning,"
+          },
+          {
+            "v": 15,
+            "s": 46,
+            "translation": "that it is not in a manner that it is nullified from its existence,"
+          },
+          {
+            "v": 15,
+            "s": 47,
+            "translation": "but rather the very existence of the lower is transformed into Elokus,"
+          },
+          {
+            "v": 15,
+            "s": 48,
+            "translation": "and as it is written,"
+          },
+          {
+            "v": 15,
+            "s": 49,
+            "translation": "\"With all your heart, with both your inclinations,\""
+          },
+          {
+            "v": 15,
+            "s": 50,
+            "translation": "which is not in a manner of killing them through fasting,"
+          },
+          {
+            "v": 15,
+            "s": 51,
+            "translation": "but rather that even the animal soul will have love for Elokus."
+          },
+          {
+            "v": 15,
+            "s": 52,
+            "translation": "And the totality of the matter in this,"
+          },
+          {
+            "v": 15,
+            "s": 53,
+            "translation": "that refinement in the manner of close combat is not like the light of the sun that shines in a house by opening the windows,"
+          },
+          {
+            "v": 15,
+            "s": 54,
+            "translation": "for the light of the sun does not mix and unite with the matters of the house,"
+          },
+          {
+            "v": 15,
+            "s": 55,
+            "translation": "and therefore after the light of the sun departs, the house remains dark,"
+          },
+          {
+            "v": 15,
+            "s": 56,
+            "translation": "and one does not know what is happening there,"
+          },
+          {
+            "v": 15,
+            "s": 57,
+            "translation": "but rather refinement in the manner of close combat is like the soul clothing itself in the body, where it unites with the body,"
+          },
+          {
+            "v": 15,
+            "s": 58,
+            "translation": "for before its clothing in the body, the soul was above and perceived there the essence of Elokus,"
+          },
+          {
+            "v": 15,
+            "s": 59,
+            "translation": "and in its clothing in the body, its perception of Elokus is only in the aspect of the existence of Elokus,"
+          },
+          {
+            "v": 15,
+            "s": 60,
+            "translation": "and its perception of essence is in physical matters,"
+          },
+          {
+            "v": 15,
+            "s": 61,
+            "translation": "and this is because the soul unites with the body and the animal soul,"
+          },
+          {
+            "v": 15,
+            "s": 62,
+            "translation": "meaning,"
+          },
+          {
+            "v": 15,
+            "s": 63,
+            "translation": "that the G-dly soul feels the animal soul."
+          },
+          {
+            "v": 15,
+            "s": 64,
+            "translation": "And likewise, conversely,"
+          },
+          {
+            "v": 15,
+            "s": 65,
+            "translation": "regarding the animal soul, it is stated,"
+          },
+          {
+            "v": 15,
+            "s": 66,
+            "translation": "\"The spirit of the beast that descends downward,\""
+          },
+          {
+            "v": 15,
+            "s": 67,
+            "translation": "feels the G-dly soul,"
+          },
+          {
+            "v": 15,
+            "s": 68,
+            "translation": "and through this the G-dly soul acts upon the animal soul so that it will have perception of Elokus in a manner that the natural intellect perceives Elokus,"
+          },
+          {
+            "v": 15,
+            "s": 69,
+            "translation": "meaning,"
+          },
+          {
+            "v": 15,
+            "s": 70,
+            "translation": "not only in a manner that it receives something above it,"
+          },
+          {
+            "v": 15,
+            "s": 71,
+            "translation": "but in a manner that the natural intellect of the animal soul becomes like the intellect of the Torah."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section distinguishes between Torah and prayer as two modes of refinement, where Torah achieves complete transformation through closeness, while prayer is a war-like refinement, and explains the role of Malchus in the process.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "And behold, these two modes of refinement exist in all three lines of Torah, service, and acts of kindness,"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "but in general, this is the difference between Torah and prayer,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "that Torah is in the aspect of close combat,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "through which the animal soul is transformed into Elokus,"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "unlike prayer,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "about which it is said,"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "\"With my sword and with my bow,\""
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "which is translated as \"with my prayer and with my supplication,\""
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "which is a matter of simple war."
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "And since through Torah the completion of refinement is effected,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "therefore regarding Torah it is not stated \"and he died\" in glory,"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "unlike in Chronicles, which is in the aspect of Malchus,"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "whose feet descend etc.,"
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "to a place opposite to life,"
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "therefore it is stated \"and he died,\""
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "because there the matter of refinement is not accomplished, etc."
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "And even though it is known that the refinements are in the aspect of Malchus,"
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "about which it is stated,"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "\"And she arose etc. and gave prey to her house,\""
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "which is the matter of the descent of Malchus into Beriah, Yetzirah, and Asiyah to refine sparks,"
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "this can be explained in two ways,"
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "the first,"
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "that through Malchus only a first refinement is accomplished and not a second refinement,"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "and the second,"
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "that even the refinements that Malchus refines are also through the drawing down into it from the aspect of Yesod, etc."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section explains the verse \"And Yaakov settled in the land of his father's sojournings, in the land of Canaan,\" connecting Canaan to commerce and the soul's descent to refine the sparks of Tohu.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "B)"
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "And this is the meaning of the verse, \"And Yaakov settled in the land of his father's sojournings, in the land of Canaan,\""
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "for Canaan is an expression of a merchant,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "who disperses his money in order to profit,"
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "and this is the matter of the soul's ascent through its descent below and its clothing in the body and animal soul."
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "And behold, it is known"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "that the descent of the soul below is not for its own sake,"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "for the soul itself does not need rectification,"
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "and its descent below is in order to refine the sparks of Tohu that fell below into physical things."
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "And through its refining of the sparks,"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "it ascends higher than it was before its descent."
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "And this is why the matter of the settlements of Esav and his generations is an introduction to \"And Yaakov settled etc. in the land of Canaan,\""
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "for the settlements of Esav are the matter of the seven kings of Tohu,"
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "and the entire matter of commerce"
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "(Canaan)"
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "of the soul's descent below is due to the sparks of Tohu that fell into the broken vessels,"
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "which is the cause of the soul's descent"
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "(the dispersion of money),"
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "and as mentioned above, the soul did not descend for its own sake but only to refine the sparks,"
+          },
+          {
+            "v": 17,
+            "s": 20,
+            "translation": "and this is also the cause of the ascent that is effected through the descent"
+          },
+          {
+            "v": 17,
+            "s": 21,
+            "translation": "(the profit through the dispersion),"
+          },
+          {
+            "v": 17,
+            "s": 22,
+            "translation": "and as mentioned above, the soul's ascent is through the refinement of the sparks of Tohu."
+          }
+        ]
+      }
+    ]
+  }
+}

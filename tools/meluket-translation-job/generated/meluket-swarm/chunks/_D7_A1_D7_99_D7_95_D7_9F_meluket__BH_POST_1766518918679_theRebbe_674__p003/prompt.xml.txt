@@ -1,0 +1,132 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918679_theRebbe_674" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918679_theRebbe_674__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918679_theRebbe_674" title="מאמר אנכי הוי' אלוקיך תשמ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918679_theRebbe_674__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והימים האלה נזכרים ונעשים32,</src>
+    <src s="2">שבכל שנה ושנה חוזרים ונמשכים אותם הענינים כמו שהיו בפעם הראשונה,</src>
+    <src s="3">ויתירה מזו,</src>
+    <src s="4">שבכל שנה הם בדרגא נעלית יותר,</src>
+    <src s="5">דמעלין בקודש33.</src>
+    <src s="6">וכיון שכל הענינים תלויים במעשינו ועבודתינו34,</src>
+    <src s="7">לכן,</src>
+    <src s="8">בכל שנה צריך להוסיף ולהעלות בקודש גם בההכנות למתן תורה,</src>
+    <src s="9">הוספה בהענין דויחן לשון יחיד כאיש אחד בלב אחד שהי' בר"ח סיון35,</src>
+    <src s="10">וכן בההכנות שהיו לאחרי ר"ח סיון</src>
+    <src s="11">(שמיד אחר ר"ח התחיל משה להתעסק עמהם בענין קבלת התורה36),</src>
+    <src s="12">ועאכו"כ בההכנה דהקדמת נעשה לנשמע,</src>
+    <src s="13">שהיא ההכנה העיקרית למתן תורה כמובן גם מזה שהכנה זו דהקדמת נעשה לנשמע היא בחמישי בסיון שהוא הערב של ששי בסיון שבו ניתנה התורה.</src>
+    <src s="14">והוא,</src>
+    <src s="15">שבמשך היום יתבוננו בהענין דהקדמת נעשה לנשמע,</src>
+    <src s="16">התבוננות המתאימה שמביאה לידי פועל,</src>
+    <src s="17">שבכל ענין דעבודת ה',</src>
+    <src s="18">צריך לכל לראש לקיימו בפועל</src>
+    <src s="19">(נעשה),</src>
+    <src s="20">ולאחרי זה להבין את הענין בחב"ד שלו</src>
+    <src s="21">(נשמע).</src>
+    <src s="22">ואף שיום זה</src>
+    <src s="23">(חמישי בסיון)</src>
+    <src s="24">הוא ערב יו"ט שישנם בו כמה טרדות דהכנות צרכי החג,</src>
+    <src s="25">הרי ידועה תורת כ"ק מו"ח אדמו"ר37</src>
+    <src s="26">שבחג השבועות ועד"ז בערב</src>
+    <src s="27">(ומעין)</src>
+    <src s="28">חגה"ש אין שליטה</src>
+    <src s="29">(כ"כ)</src>
+    <src s="30">להצד שכנגד,</src>
+    <src s="31">ולכן הוא זמן המוכשר לעשות הכל לטובת לימוד התורה והעבודה כו'.</src>
+  </section>
+  <section v="7">
+    <src s="0">ומובן בפשטות,</src>
+    <src s="1">דנוסף להכנות הנ"ל ששייכים להימים שלפני חגה"ש,</src>
+    <src s="2">מתחיל מר"ח סיון,</src>
+    <src s="3">צריך להיות ובמכ"ש השתדלות מיוחדת בנוגע להענינים השייכים לחגה"ש עצמו,</src>
+    <src s="4">מתחיל מההשתדלות שכאו"א מישראל,</src>
+    <src s="5">אנשים נשים וטף,</src>
+    <src s="6">יהיו בבית הכנסת בעת קריאת עשרת הדברות,</src>
+    <src s="7">וכמדובר כמה פעמים38,</src>
+    <src s="8">דזה שבכל שנה בחגה"ש ניתנה התורה מחדש ע"ד כמו שהי' בפעם הראשונה מתגלה בעיקר בהקריאה דעשרת הדברות,</src>
+    <src s="9">כמאמר רז"ל39</src>
+    <src s="10">אמר הקב"ה לישראל בני היו קורין את הפרשה הזאת בכל שנה ואני מעלה עליכם כאילו אתם עומדין לפני הר סיני ומקבלין את התורה,</src>
+    <src s="11">שלכן צריך לשמוע פרשה זו באימה וביראה וכו' כאילו עומדים לפני הר סיני,</src>
+    <src s="12">וזהו גם מהטעמים על גודל ההשתדלות שכל בני ישראל,</src>
+    <src s="13">גם הקטני קטנים</src>
+    <src s="14">(ות)</src>
+    <src s="15">יהיו בבית הכנסת בעת קריאת עשרת הדברות,</src>
+    <src s="16">כמדובר כמה פעמים בארוכה</src>
+    <src s="17">[ולהוסיף,</src>
+    <src s="18">שההשתדלות שהטף יהיו בביהכ"נ בעת קריאת עשה"ד שייך גם לההכנה דבנינו עורבים אותנו40,</src>
+    <src s="19">שי"ל שכולל גם הפירוש דעורבים מלשון תערובת שכל ישראל מעורבים זה בזה,</src>
+    <src s="20">ועורבים מלשון עריבות ומתיקות שכל ישראל ערבים ומתוקים זה לזה41].</src>
+    <src s="21">ועד"ז החלטות טובות להוסיף בלימוד התורה,</src>
+    <src s="22">נגלה דתורה ופנימיות התורה,</src>
+    <src s="23">ועד שיפוצו מעינותיך חוצה,</src>
+    <src s="24">כולל גם ההשתדלות לארגן כינוסי תורה באסרו חג השבועות זמן מתן תורתנו או בימים הסמוכים לזה42.</src>
+    <src s="25">וכאמור לעיל,</src>
+    <src s="26">שבכל שנה צריך להוסיף בכל ענינים אלו ביתר שאת וביתר עוז,</src>
+    <src s="27">הן בנוגע לההכנות השייכים להימים שלפני זמן מתן תורתנו,</src>
+    <src s="28">והן בנוגע להחלטות טובות</src>
+    <src s="29">(וההשתדלות)</src>
+    <src s="30">בנוגע להענינים השייכים לזמן מתן תורתנו והימים שלאחריו.</src>
+  </section>
+  <section v="8">
+    <src s="0">וכאמור לעיל,</src>
+    <src s="1">שבכל שנה צריך להוסיף בההכנות למ"ת ובפרט בההכנה דהקדמת נעשה לנשמע</src>
+    <src s="2">(בערב חג השבועות),</src>
+    <src s="3">ועי"ז גם הענין דמתן תורה וקבלת התורה בחג השבועות הוא בדרגא נעלית יותר,</src>
+    <src s="4">ועד באין ערוך.</src>
+    <src s="5">ועד שבכל שנה,</src>
+    <src s="6">כל ענינים אלו</src>
+    <src s="7">(מ"ת וקבלת התורה,</src>
+    <src s="8">וכן ההכנות לזה)</src>
+    <src s="9">הם חדשים ממש.</src>
+    <src s="10">ובפרט בשנה זו</src>
+    <src s="11">(תשמ"ט),</src>
+    <src s="12">ערב שנת תש"נ שי"ל – רמז ר"ת תהא שנת נסים</src>
+    <src s="13">(וגם בשנה זו,</src>
+    <src s="14">ערב תש"נ,</src>
+    <src s="15">טועמים כבר מהנסים בתש"נ43),</src>
+    <src s="16">צריכה להיות ההכנה ביתר שאת וביתר עוז.</src>
+    <src s="17">וע"י ההוספה מדי שנה בשנה בההכנות למתן תורה,</src>
+    <src s="18">מיתוסף גם בהענין דמתן תורה,</src>
+    <src s="19">ועד להוספה שבאין ערוך ובאופן של חידוש.</src>
+    <src s="20">דהגם שהענין דמתן תורה,</src>
+    <src s="21">ובאופן של חידוש,</src>
+    <src s="22">הוא במשך כל ימי השנה</src>
+    <src s="23">(כנ"ל ס"ב),</src>
+    <src s="24">הרי עיקר הענין דמתן תורה</src>
+    <src s="25">(באופן חדש לגמרי)</src>
+    <src s="26">הוא בחגה"ש זמן מתן תורתנו.</src>
+  </section>
+</awtsmoosMeluketSource>

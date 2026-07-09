@@ -1,0 +1,128 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 18,
+    "returned": 18,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916678_theRebbe_290\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916678_theRebbe_290__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section asks for the source of the statement that almost all souls in our generations are called by the name \"seed of an animal.\"</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">In the maamar there, section 7 at its beginning,</t>\n    <t s=\"2\">that almost all the souls in our generations are called by the name \"seed of an animal.\"</t>\n    <t s=\"3\">So what is the source for this?</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section cites the source in Torah Ohr of the Alter Rebbe and its basis in the Zohar, with additional references.</sectionSummaryBrief>\n    <t s=\"0\">So it is in Torah Ohr of the Alter Rebbe</t>\n    <t s=\"1\">(author of the Tanya and Shulchan Aruch)</t>\n    <t s=\"2\">at the beginning of Parshat Mishpatim.</t>\n    <t s=\"3\">And it is based on what is written in the Zohar, Part II, at the beginning of Parshat Mishpatim</t>\n    <t s=\"4\">(page 94,</t>\n    <t s=\"5\">side b).</t>\n    <t s=\"6\">See the Ramaz there.</t>\n    <t s=\"7\">And also see Likkutei Torah of our Rebbe (the Alter Rebbe) on Parshat Tzav</t>\n    <t s=\"8\">(page 8,</t>\n    <t s=\"9\">b and onward).</t>\n    <t s=\"10\">Shaarei Teshuvah</t>\n    <t s=\"11\">(by his son, the Mitteler Rebbe)</t>\n    <t s=\"12\">Part I, discourse beginning \"Shishim Hemah.\"</t>\n    <t s=\"13\">And in many places.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916678_theRebbe_290",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916678_theRebbe_290__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section asks for the source of the statement that almost all souls in our generations are called by the name \"seed of an animal.\"",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "In the maamar there, section 7 at its beginning,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that almost all the souls in our generations are called by the name \"seed of an animal.\""
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "So what is the source for this?"
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section cites the source in Torah Ohr of the Alter Rebbe and its basis in the Zohar, with additional references.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "So it is in Torah Ohr of the Alter Rebbe"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "(author of the Tanya and Shulchan Aruch)"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "at the beginning of Parshat Mishpatim."
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "And it is based on what is written in the Zohar, Part II, at the beginning of Parshat Mishpatim"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "(page 94,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "side b)."
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "See the Ramaz there."
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "And also see Likkutei Torah of our Rebbe (the Alter Rebbe) on Parshat Tzav"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(page 8,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "b and onward)."
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "Shaarei Teshuvah"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "(by his son, the Mitteler Rebbe)"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "Part I, discourse beginning \"Shishim Hemah.\""
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "And in many places."
+          }
+        ]
+      }
+    ]
+  }
+}

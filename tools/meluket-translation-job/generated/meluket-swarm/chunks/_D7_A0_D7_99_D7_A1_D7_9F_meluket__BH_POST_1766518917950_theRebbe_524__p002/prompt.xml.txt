@@ -1,0 +1,141 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917950_theRebbe_524" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917950_theRebbe_524" title="מאמר על שלושה דברים תשי"ד" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p002">
+  <section v="3">
+    <src s="0">ועפ"ז יש לבאר מ"ש על שלשה דברים העולם עומד,</src>
+    <src s="1">דמזה משמע,</src>
+    <src s="2">שבכדי שתהי' עמידת העולם</src>
+    <src s="3">(גילוי אלקות בעולם),</src>
+    <src s="4">נוגע לא רק כללות הענין דתומ"צ,</src>
+    <src s="5">אלא הענין דשלשה דברים,</src>
+    <src s="6">כי ענין עמידת העולם הוא,</src>
+    <src s="7">שהגילוי אלקות שנמשך בעולם ע"י תומ"צ יהי' בו לא כמו דבר נוסף,</src>
+    <src s="8">אלא שיתגלה בו שהכוונה וענינו הפנימי דהעולם</src>
+    <src s="9">(העלם)</src>
+    <src s="10">עצמו הוא שיהי' בו גילוי אלקות,</src>
+    <src s="11">וענין זה שבתומ"צ הוא ע"י התחלקותם בג' דברים</src>
+    <src s="12">(ג' סוגים)7,</src>
+    <src s="13">תורה עבודה וגמ"ח.</src>
+  </section>
+  <section v="4">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים מה שנתבאר לעיל</src>
+    <src s="2">(בהמאמר הקודם8)</src>
+    <src s="3">בביאור מאמר רז"ל9</src>
+    <src s="4">אור א"ס למעלה מעלה עד אין קץ ולמטה מטה עד אין תכלית,</src>
+    <src s="5">דמעלה ומטה הם</src>
+    <src s="6">(בדרך כלל)</src>
+    <src s="7">אצילות ובי"ע,</src>
+    <src s="8">ופירוש אוא"ס למעלה כו' ולמטה כו' הוא,</src>
+    <src s="9">שהעילוי והשלימות דאוא"ס הוא בשני ענינים.</src>
+    <src s="10">בענין ההמשכה והירידה למטה להוות ולהחיות את הנבראים דבי"ע,</src>
+    <src s="11">ובזה גופא – למטה מטה עד אין תכלית,</src>
+    <src s="12">שהוא נמשך להחיות הנבראים שבעולם הזה הגשמי שאין תחתון למטה ממנו10,</src>
+    <src s="13">ועד שהוא נמשך להחיות גם את הקליפות,</src>
+    <src s="14">ובענין הרוממות,</src>
+    <src s="15">שגם עולמות העליונים,</src>
+    <src s="16">אצילות ולמעלה מאצילות,</src>
+    <src s="17">למעלה מעלה,</src>
+    <src s="18">התהוותם הוא מהארה בלבד,</src>
+    <src s="19">שבאין ערוך לגבי' ית'.</src>
+    <src s="20">דשני ענינים אלה הם</src>
+    <src s="21">(בדרך כלל)</src>
+    <src s="22">באור הממלא ואור הסובב.</src>
+    <src s="23">דבאור הממלא הוא ענין הירידה וההמשכה למטה להחיות את הנבראים לפי ערכם,</src>
+    <src s="24">ובאור הסובב הוא ענין ההפלאה והרוממות,</src>
+    <src s="25">שכל העולמות</src>
+    <src s="26">(וגם האור שמתלבש בהם)</src>
+    <src s="27">הם באין ערוך וכלא חשיב לגבי' ית'.</src>
+    <src s="28">ומשני ענינים אלה שבאור א"ס נעשה שני הענינים דמעלה ומטה בעולמות.</src>
+    <src s="29">דענין מעלה ומטה הוא בכל העולמות.</src>
+    <src s="30">דהמציאות שבעולמות</src>
+    <src s="31">(גם המציאות שבאצילות ולמעלה מאצילות)</src>
+    <src s="32">הוא המטה שבהם,</src>
+    <src s="33">וענין הרצוא,</src>
+    <src s="34">יציאה ממציאות</src>
+    <src s="35">(שישנו בכל העולמות,</src>
+    <src s="36">גם בבי"ע)</src>
+    <src s="37">הוא המעלה שבהם11.</src>
+    <src s="38">ושני ענינים אלה שבעולמות הם משני ענינים הנ"ל שבאור א"ס.</src>
+    <src s="39">דמאור הממלא שהוא בתנועה דירידה והמשכה למטה,</src>
+    <src s="40">נעשה המטה</src>
+    <src s="41">(המציאות)</src>
+    <src s="42">שבעולמות,</src>
+    <src s="43">והמעלה שבעולמות</src>
+    <src s="44">(הרצוא שבהם שרוצים לצאת ממציאותם)</src>
+    <src s="45">הוא מגילוי הרוממות דאוא"ס</src>
+    <src s="46">(סובב).</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">והנה ידוע12,</src>
+    <src s="2">דזה שהבריאה היא בשביל האדם13,</src>
+    <src s="3">הכוונה בזה היא לא רק לבריאת העולמות</src>
+    <src s="4">(כולל גם עולם האצילות ועולמות הא"ס שלמעלה מאצילות),</src>
+    <src s="5">אלא לכל הגילויים,</src>
+    <src s="6">גם גילויים הכי נעלים.</src>
+    <src s="7">ועפ"ז יש לומר,</src>
+    <src s="8">שהכוונה בשני ענינים הנ"ל שבאוא"ס,</src>
+    <src s="9">ענין הירידה וההמשכה למטה דאור הממלא וענין ההעלאה והרוממות דאור הסובב,</src>
+    <src s="10">כולל גם השרש דשני ענינים אלה כמו שהם באוא"ס שלפני הצמצום</src>
+    <src s="11">[האור דעלות הרצון שהוא השרש דאור הממלא והאור שקודם עלות הרצון שהוא השרש דאור הסובב14],</src>
+    <src s="12">היא,</src>
+    <src s="13">בכדי שיהיו</src>
+    <src s="14">(דוגמת)</src>
+    <src s="15">שני ענינים אלה בעבודת האדם.</src>
+    <src s="16">דבכללות הם שני הקוין דתורה ותפלה15.</src>
+    <src s="17">דתפלה היא העלאה מלמטה למעלה,</src>
+    <src s="18">דע"י ההתבוננות דתפלה הוא יוצא ממציאותו ועד שבא להתפשטות הגשמיות16.</src>
+    <src s="19">ותורה היא המשכה מלמעלה למטה.</src>
+    <src s="20">דענין עסק התורה הוא</src>
+    <src s="21">(לא שהאדם מבטל את שכלו,</src>
+    <src s="22">אלא אדרבא),</src>
+    <src s="23">שהתורה נמשכת ומתלבשת בשכלו של האדם,</src>
+    <src s="24">המשכה מלמעלה למטה.</src>
+    <src s="25">ויתירה מזו,</src>
+    <src s="26">דההמשכה דתורה</src>
+    <src s="27">(שהיא נמשכת בשכלו של האדם)</src>
+    <src s="28">הוא גם כשהאדם נמצא במצב דהיפך הטהרה17,</src>
+    <src s="29">ע"ד הענין דאוא"ס למטה מטה עד אין תכלית,</src>
+    <src s="30">שהוא נמשך להחיות לא רק הנבראים שבעוה"ז הגשמי אלא גם את הקליפות.</src>
+    <src s="31">וכמו שבהענין דלמטה מטה עד אין תכלית,</src>
+    <src s="32">גם כשהוא נמשך למטה להחיות את הנבראים ואפילו את הקליפות,</src>
+    <src s="33">אין האור משתנה עי"ז18,</src>
+    <src s="34">עד"ז הוא בההמשכה דתורה,</src>
+    <src s="35">שגם כמו שנמשכת בשכלו של האדם,</src>
+    <src s="36">ואפילו כשהאדם הוא במצב דהיפך הטהרה,</src>
+    <src s="37">היא דבר ה'19.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,155 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919310_theRebbe_548" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919310_theRebbe_548" title="מאמר זה היום עשה ה' תשל"ח" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">וזהו אומרו אין אנו יודעים במה לשמוח אם ביום או בהקב"ה,</src>
+    <src s="2">דבכל נס יש שני הענינים דיום ודהקב"ה.</src>
+    <src s="3">דהרמת הטבע שע"י הנס הוא יום.</src>
+    <src s="4">וכנ"ל</src>
+    <src s="5">(סעיף ב' וג')</src>
+    <src s="6">דע"י הנס נעשה הרמה ועלי' בהזמן</src>
+    <src s="7">(היום)</src>
+    <src s="8">שבו נעשה הנס.</src>
+    <src s="9">והנס עצמו,</src>
+    <src s="10">שענינו הוא למעלה מהטבע,</src>
+    <src s="11">שרש המשכתו הוא מאוא"ס שלמעלה מעולמות</src>
+    <src s="12">(אור הסובב)</src>
+    <src s="13">כמו שמאיר ומתגלה בעולם32</src>
+    <src s="14">באופן דסובב ומקיף,</src>
+    <src s="15">הקדוש ברוך הוא.</src>
+    <src s="16">וכמבואר בכ"מ33</src>
+    <src s="17">דזה שקוראים אותו ית' בשם הקדוש ברוך הוא,</src>
+    <src s="18">קאי על עצמות אוא"ס שקדוש ומובדל מעולמות כמו שהוא נמשך</src>
+    <src s="19">(ברוך מלשון המשכה)</src>
+    <src s="20">בעולמות באופן דסובב ומקיף.</src>
+    <src s="21">ואין אנו יודעים במה לשמוח אם ביום או בהקב"ה,</src>
+    <src s="22">כי בכל אחד מהם יש מעלה שאינה בהשני.</src>
+    <src s="23">דבדרגת האור,</src>
+    <src s="24">הנס עצמו</src>
+    <src s="25">(הענין דשידוד הטבע)</src>
+    <src s="26">הוא נעלה הרבה יותר מהרמת הטבע שע"י הנס.</src>
+    <src s="27">דהנס עצמו</src>
+    <src s="28">(שידוד הטבע)</src>
+    <src s="29">הוא הגילוי דאור הסובב שלמעלה מעולמות,</src>
+    <src s="30">משא"כ הרמת הטבע שע"י הנס הוא הגילוי דאור הסובב כמו שמתלבש בעולמות.</src>
+    <src s="31">אבל בהגילוי,</src>
+    <src s="32">הענין דהרמת הטבע הוא נעלה יותר.</src>
+    <src s="33">דבהנס עצמו,</src>
+    <src s="34">הגילוי דאור הסובב,</src>
+    <src s="35">אין לאדם השגה בזה.</src>
+    <src s="36">שלכן נק' הנסים בשם נפלאות,</src>
+    <src s="37">דפלא הוא שאינו מושג בשכל.</src>
+    <src s="38">ולא עוד,</src>
+    <src s="39">אלא שכשאדם רואה דבר פלא הוא משתומם על זה,</src>
+    <src s="40">דהשתוממות הו"ע הביטול34.</src>
+    <src s="41">וכמבואר בכ"מ35</src>
+    <src s="42">בענין ארבעה שצריכים להודות36,</src>
+    <src s="43">דהודאה</src>
+    <src s="44">(על הנס)</src>
+    <src s="45">הו"ע הביטול.</src>
+    <src s="46">דכמו שבעולם,</src>
+    <src s="47">ענין הנס הוא שהטבע מתבטל</src>
+    <src s="48">[דכיון שהנס בא מהגילוי דעצמות אוא"ס שלמעלה מהעולמות,</src>
+    <src s="49">שהעולם אינו יכול לקבלו,</src>
+    <src s="50">נעשה עי"ז ביטול הטבע דעולם],</src>
+    <src s="51">עד"ז הוא בנוגע להאדם,</src>
+    <src s="52">דע"י הנס הוא בא להודאה וביטול.</src>
+    <src s="53">משא"כ הענין דהרמת הטבע,</src>
+    <src s="54">שהגילוי דשם הוי' שלמעלה מהטבע נתלבש בהטבע גופא,</src>
+    <src s="55">על זה כתיב37</src>
+    <src s="56">דעו כי הוי' הוא אלקים,</src>
+    <src s="57">ידיעה והשגה.</src>
+    <src s="58">וכיון ששמחה היא בבינה דוקא,</src>
+    <src s="59">משא"כ בחכמה שלמעלה מהשגה אין שייך שמחה38</src>
+    <src s="60">[אף שגם החכמה היא שכל,</src>
+    <src s="61">אלא שהיא נקודה כללית ואינה בהתיישבות.</src>
+    <src s="62">דמזה מובן במכ"ש בנוגע לפלא שלמעלה מהשכל],</src>
+    <src s="63">לכן יש קס"ד לשמוח ביום.</src>
+    <src s="64">ויש להוסיף,</src>
+    <src s="65">דיום הוא אור וגילוי</src>
+    <src s="66">(כמבואר בארוכה בהמאמר דבעל הגאולה בתחלתו).</src>
+    <src s="67">וזהו לשמוח ביום,</src>
+    <src s="68">דהטעם על הקס"ד לשמוח בהיום שנעשה בו הנס</src>
+    <src s="69">(הענין דהרמת הטבע)</src>
+    <src s="70">הוא,</src>
+    <src s="71">כי ענין זה הוא יום,</src>
+    <src s="72">אור וגילוי</src>
+    <src s="73">(שבא בידיעה והשגה).</src>
+  </section>
+  <section v="10">
+    <src s="0">ח)</src>
+    <src s="1">ובא שלמה ופירש נגילה ונשמחה בך בהקב"ה בך ביראתך כו',</src>
+    <src s="2">דפירוש בך בהקב"ה</src>
+    <src s="3">(שפירש שלמה)</src>
+    <src s="4">הוא בהקב"ה עצמו שלמעלה גם מסובב.</src>
+    <src s="5">וכמבואר בכ"מ39</src>
+    <src s="6">דפירוש בך הוא בך בעצמותך.</src>
+    <src s="7">דהחידוש של שלמה</src>
+    <src s="8">(החכם מכל אדם40)</src>
+    <src s="9">הוא דשרש הנסים הוא מהעצמות.</src>
+    <src s="10">דזה שהגילוי דשם הוי' שלמעלה מהטבע נתלבש בשם אלקים בגימטריא הטבע</src>
+    <src s="11">(דענין זה הוא בכל הנסים,</src>
+    <src s="12">גם בהנסים שלמעלה מהטבע,</src>
+    <src s="13">כנ"ל סעיף ו),</src>
+    <src s="14">וגם לאחרי התלבשותו בטבע ניכר בגילוי</src>
+    <src s="15">(גם בהנסים המלובשים בטבע,</src>
+    <src s="16">כהנסים דחנוכה ופורים)</src>
+    <src s="17">שהוא נס</src>
+    <src s="18">(הגילוי דשם הוי')</src>
+    <src s="19">שלמעלה מהטבע,</src>
+    <src s="20">הוא בכח העצמות שמחבר ומאחד שני הפכים.</src>
+  </section>
+  <section v="11">
+    <src s="0">וזהו הקשר דשני הפירושים בנגילה ונשמחה בך,</src>
+    <src s="1">בך בהקב"ה</src>
+    <src s="2">(כפירוש המדרש)</src>
+    <src s="3">ובך בעצמותך,</src>
+    <src s="4">כי החיבור והיחוד דקדוש וברוך</src>
+    <src s="5">(סובב וממלא)</src>
+    <src s="6">הוא בכח העצמות.</src>
+    <src s="7">וכיון שהפסוק נגילה ונשמחה בך מובא במדרש בהמשך לשתי הסברות</src>
+    <src s="8">(בענין השמחה בהנסים),</src>
+    <src s="9">אם לשמוח בהקב"ה</src>
+    <src s="10">(בהנס עצמו שנמשך מאור הסובב)</src>
+    <src s="11">או לשמוח בהיום</src>
+    <src s="12">(מהתלבשות הסובב בממלא,</src>
+    <src s="13">שעי"ז מתלבש הנס בטבע),</src>
+    <src s="14">והחידוש דשלמה הוא שהשמחה צריכה להיות בך בעצמותך שמחבר שני הענינים,</src>
+    <src s="15">לכן אומר בך בהקדוש ברוך הוא</src>
+    <src s="16">(ולא בך בעצמותך),</src>
+    <src s="17">כי כח העצמות שמתגלה בנסים הוא בזה שמאחד ב' הבחינות דקדוש וברוך.</src>
+  </section>
+</awtsmoosMeluketSource>

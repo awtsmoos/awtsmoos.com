@@ -1,0 +1,394 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 70,
+    "returned": 70,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920487_theRebbe_9\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Night of the third [day] of Selichos,</t>\n    <t s=\"2\">the year 5720*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the two interpretations of \"seek My face\" in prayer, corresponding to supplication and searching, which are the heart's work within and with the heart.</sectionSummaryBrief>\n    <t s=\"0\">\"To You my heart said: 'Seek My face' etc.\"1,</t>\n    <t s=\"1\">And the Rebbe, my father-in-law, the Rebbe, brings in his maamar beginning with the words \"Zeh\"2</t>\n    <t s=\"2\">Rashi's commentary on the verse,</t>\n    <t s=\"3\">that there are two interpretations in \"Lecha\" [to you/for you].</t>\n    <t s=\"4\">For you, in your mission, and in your place.</t>\n    <t s=\"5\">And he continues in the maamar,</t>\n    <t s=\"6\">that also in \"seek My face\" there are two interpretations.</t>\n    <t s=\"7\">That \"seek\" is a request and supplication,</t>\n    <t s=\"8\">and that \"seek\" is a request and search.</t>\n    <t s=\"9\">And he explains,</t>\n    <t s=\"10\">that these two matters</t>\n    <t s=\"11\">(request and supplication,</t>\n    <t s=\"12\">request and search)</t>\n    <t s=\"13\">are in prayer.</t>\n    <t s=\"14\">For prayer is a request and supplication,</t>\n    <t s=\"15\">and the request is that he succeed in his service to search and find the ways of correction in all his matters.</t>\n    <t s=\"16\">And this is what is written: \"To You my heart said: 'Seek My face'\"</t>\n    <t s=\"17\">(specifically \"my heart\"),</t>\n    <t s=\"18\">because the two matters of \"seek My face\" are in prayer</t>\n    <t s=\"19\">(as above),</t>\n    <t s=\"20\">and prayer is the service of the heart3.</t>\n    <t s=\"21\">And he adds in the maamar,</t>\n    <t s=\"22\">that in the service of the heart there are two matters.</t>\n    <t s=\"23\">Within the heart and with the heart.</t>\n    <t s=\"24\">And it can be said,</t>\n    <t s=\"25\">that these two matters correspond to the two interpretations</t>\n    <t s=\"26\">(above)</t>\n    <t s=\"27\">in \"seek My face.\"</t>\n    <t s=\"28\">For the request and supplication in prayer come through the service within the heart,</t>\n    <t s=\"29\">so that his request and supplication will be true,</t>\n    <t s=\"30\">it is by arousing his heart,</t>\n    <t s=\"31\">service in the heart itself.</t>\n    <t s=\"32\">And the search in prayer</t>\n    <t s=\"33\">(how to correct all his matters)</t>\n    <t s=\"34\">is service with the heart.</t>\n    <t s=\"35\">That is,</t>\n    <t s=\"36\">the service is</t>\n    <t s=\"37\">(not in the heart,</t>\n    <t s=\"38\">but)</t>\n    <t s=\"39\">in all his matters,</t>\n    <t s=\"40\">except that this service is through the heart4.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the verse \"From my flesh I shall perceive G-d,\" distinguishing between intellectual and tangible perception, and how human soul-powers derive from the supernal Sefiros.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And to explain this,</t>\n    <t s=\"2\">the maamar prefaces with what is written5</t>\n    <t s=\"3\">\"And from my flesh I shall perceive G-d,\"</t>\n    <t s=\"4\">that one must understand: the main thing is the soul, so why does it say \"And from my flesh I shall perceive\"?</t>\n    <t s=\"5\">And he explains,</t>\n    <t s=\"6\">that in perception there are two modes,</t>\n    <t s=\"7\">intellectual perception and tangible perception.</t>\n    <t s=\"8\">For intellectual perception relates more to the soul,</t>\n    <t s=\"9\">and tangible perception relates more to the body.</t>\n    <t s=\"10\">And this distinction is also regarding the thing perceived.</t>\n    <t s=\"11\">For in every thing there is a body and a soul.</t>\n    <t s=\"12\">For even in physical things there is the soul within them6,</t>\n    <t s=\"13\">and even in spiritual things there is the body within them.</t>\n    <t s=\"14\">And therefore it says \"And from my flesh I shall perceive G-d,\"</t>\n    <t s=\"15\">because the intent of \"I shall perceive G-d\" is for tangible perception in G-dliness,</t>\n    <t s=\"16\">for there are matters of G-dliness,</t>\n    <t s=\"17\">such as Divine Providence,</t>\n    <t s=\"18\">that one can perceive tangibly.</t>\n    <t s=\"19\">And he continues in the maamar7</t>\n    <t s=\"20\">in the explanation of the verse \"And from my flesh I shall perceive G-d,\"</t>\n    <t s=\"21\">that the powers of the human soul descend from the supernal Sefiros8</t>\n    <t s=\"22\">as it is written9</t>\n    <t s=\"23\">\"Let us make man in our image, after our likeness,\"</t>\n    <t s=\"24\">and therefore,</t>\n    <t s=\"25\">from the powers of the human soul one can understand the supernal Sefiros.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920487_theRebbe_9",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the opening header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Night of the third [day] of Selichos,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "the year 5720*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the two interpretations of \"seek My face\" in prayer, corresponding to supplication and searching, which are the heart's work within and with the heart.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"To You my heart said: 'Seek My face' etc.\"1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe, my father-in-law, the Rebbe, brings in his maamar beginning with the words \"Zeh\"2"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "Rashi's commentary on the verse,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "that there are two interpretations in \"Lecha\" [to you/for you]."
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "For you, in your mission, and in your place."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And he continues in the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that also in \"seek My face\" there are two interpretations."
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "That \"seek\" is a request and supplication,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "and that \"seek\" is a request and search."
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "that these two matters"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "(request and supplication,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "request and search)"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "are in prayer."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "For prayer is a request and supplication,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "and the request is that he succeed in his service to search and find the ways of correction in all his matters."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And this is what is written: \"To You my heart said: 'Seek My face'\""
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "(specifically \"my heart\"),"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "because the two matters of \"seek My face\" are in prayer"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "(as above),"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "and prayer is the service of the heart3."
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "And he adds in the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "that in the service of the heart there are two matters."
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "Within the heart and with the heart."
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "that these two matters correspond to the two interpretations"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "(above)"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "in \"seek My face.\""
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "For the request and supplication in prayer come through the service within the heart,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "so that his request and supplication will be true,"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "it is by arousing his heart,"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "service in the heart itself."
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "And the search in prayer"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "(how to correct all his matters)"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "is service with the heart."
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "That is,"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "the service is"
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "(not in the heart,"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "but)"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "in all his matters,"
+          },
+          {
+            "v": 1,
+            "s": 40,
+            "translation": "except that this service is through the heart4."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the verse \"From my flesh I shall perceive G-d,\" distinguishing between intellectual and tangible perception, and how human soul-powers derive from the supernal Sefiros.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And to explain this,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "the maamar prefaces with what is written5"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "\"And from my flesh I shall perceive G-d,\""
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that one must understand: the main thing is the soul, so why does it say \"And from my flesh I shall perceive\"?"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "that in perception there are two modes,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "intellectual perception and tangible perception."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "For intellectual perception relates more to the soul,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "and tangible perception relates more to the body."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And this distinction is also regarding the thing perceived."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "For in every thing there is a body and a soul."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "For even in physical things there is the soul within them6,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "and even in spiritual things there is the body within them."
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And therefore it says \"And from my flesh I shall perceive G-d,\""
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "because the intent of \"I shall perceive G-d\" is for tangible perception in G-dliness,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "for there are matters of G-dliness,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "such as Divine Providence,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "that one can perceive tangibly."
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "And he continues in the maamar7"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "in the explanation of the verse \"And from my flesh I shall perceive G-d,\""
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "that the powers of the human soul descend from the supernal Sefiros8"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "as it is written9"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "\"Let us make man in our image, after our likeness,\""
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "from the powers of the human soul one can understand the supernal Sefiros."
+          }
+        ]
+      }
+    ]
+  }
+}

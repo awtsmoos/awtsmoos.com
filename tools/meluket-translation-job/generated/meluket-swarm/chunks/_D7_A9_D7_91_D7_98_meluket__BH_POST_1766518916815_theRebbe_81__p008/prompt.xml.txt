@@ -1,0 +1,154 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p008">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" title="מאמר באתי לגני תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p008">
+  <section v="21">
+    <src s="0">והנה ידוע99,</src>
+    <src s="1">שבכדי שיהי' החיבור דסובב וממלא הוא ע"י המשכת עצמות אוא"ס שלמעלה מסובב וממלא.</src>
+    <src s="2">ועד"ז הוא בהנשמה,</src>
+    <src s="3">שהחיבור דהנשמה שלמעלה והנשמה שבגוף הוא ע"י המשכת עצם הנשמה,</src>
+    <src s="4">שבכללות הוא יחידה.</src>
+    <src s="5">והמשכה זו היא ע"י העבודה דבכל מאדך,</src>
+    <src s="6">בכל מדה ומדה שהוא מודד לך הוי מודה לו100.</src>
+    <src s="7">כי זה שהוא מודה להקב"ה בכל מדה ומדה בשוה הוא מצד הגילוי דיחידה101</src>
+    <src s="8">[דנשמה שבגוף הוא נר"נ,</src>
+    <src s="9">נשמה שלמעלה – חי',</src>
+    <src s="10">ועצם הנשמה – יחידה].</src>
+    <src s="11">ועפ"ז יובן שעבודת התפלה היא הנתינת כח לענין העבודה</src>
+    <src s="12">(עבודה ויגיעה עצומה במלחמה כבדה)</src>
+    <src s="13">בכל ג' הקוין,</src>
+    <src s="14">כי הכח להתגבר על כל המניעות הוא מצד עצם הנשמה</src>
+    <src s="15">(כנ"ל סעיף ט),</src>
+    <src s="16">וע"י התפלה,</src>
+    <src s="17">החיבור דנשמה שבגוף</src>
+    <src s="18">(נר"נ)</src>
+    <src s="19">ונשמה שלמעלה</src>
+    <src s="20">(חי'),</src>
+    <src s="21">נמשך גם הגילוי דיחידה.</src>
+  </section>
+  <section v="22">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">והנה נתבאר לעיל</src>
+    <src s="3">(סוף סעיף ג),</src>
+    <src s="4">שעיקר הענין דאתכפיא</src>
+    <src s="5">(ואתהפכא)</src>
+    <src s="6">וההמשכה שעי"ז הוא בזמן הגלות.</src>
+    <src s="7">ולהעיר,</src>
+    <src s="8">שגם ענין זה מודגש בתפלה,</src>
+    <src s="9">כמו שמבאר הצ"צ במאמר הנ"ל102</src>
+    <src s="10">שהתפלה בזמן הגלות היא נעלית יותר מהתפלה שבזמן הבית.</src>
+    <src s="11">וכמ"ש אדמו"ר הזקן103</src>
+    <src s="12">שבזמן הגלות,</src>
+    <src s="13">המלכות עצמה היא בחינת תפלה.</src>
+    <src s="14">דבזמן הבית המלכות שואלת צרכי' מז"א בעלה</src>
+    <src s="15">(היינו שהמשכת האור שלמעלה מהשתלשלות במלכות הוא ע"י ז"א),</src>
+    <src s="16">ובזמן הגלות אין צריך להמשיך דרך המדות עליונות.</src>
+    <src s="17">ומבאר הצ"צ בהמאמר ענין זה בעבודת האדם,</src>
+    <src s="18">שבזמן הבית,</src>
+    <src s="19">העלאת הנשמה שבגוף לשרשה שלמעלה היתה ע"י אהבה ויראה,</src>
+    <src s="20">ובזמן הגלות,</src>
+    <src s="21">כאשר יונתי בחגוי הסלע בסתר המדרגה104,</src>
+    <src s="22">שהאהבה והיראה דהנשמה הם בהסתר,</src>
+    <src s="23">העצה היא הראני את מראיך104,</src>
+    <src s="24">מראה הוא אור חוזר,</src>
+    <src s="25">העבודה דבכל מאדך שלמעלה מהגבלה שמתעוררת ע"י ההסתר,</src>
+    <src s="26">ועי"ז העלאת הנשמה לשרשה היא בדרך דילוג,</src>
+    <src s="27">דהעלאה זו היא למעלה יותר מההעלאה שע"י אהוי"ר,</src>
+    <src s="28">שהיא בסדר והדרגה.</src>
+    <src s="29">ויש לומר,</src>
+    <src s="30">דזה שאומר במאמר הנ"ל שע"י ההסתר שבזמן הגלות באים לבכל מאדך שהוא גילוי היחידה</src>
+    <src s="31">(כנ"ל סוף סעיף יא),</src>
+    <src s="32">אף שהחיבור דנר"נ עם חי'</src>
+    <src s="33">(גם בזמן הבית)</src>
+    <src s="34">הוא ע"י המשכת היחידה</src>
+    <src s="35">(כנ"ל שם),</src>
+    <src s="36">הוא,</src>
+    <src s="37">שבזמן הבית העבודה עצמה היא</src>
+    <src s="38">(בעיקר)</src>
+    <src s="39">העבודה שמצד נר"נ והעבודה שמצד חי',</src>
+    <src s="40">אלא שהחיבור דב' עבודות אלו הוא ע"י המשכת היחידה,</src>
+    <src s="41">ובזמן הגלות,</src>
+    <src s="42">שהעבודה עצמה היא באופן דמס"נ,</src>
+    <src s="43">היחידה עצמה היא בגילוי.</src>
+  </section>
+  <section v="23">
+    <src s="0">י)</src>
+    <src s="1">ג)</src>
+    <src s="2">ויש לומר,</src>
+    <src s="3">דע"י שהיחידה באה בגילוי ע"י העבודה שבזמן הגלות,</src>
+    <src s="4">נעשה בה עילוי.</src>
+    <src s="5">כי תכלית הכוונה דכל הענינים שבעולם וגם דהנשמה הוא בשביל עבודת האדם.</src>
+    <src s="6">ולכן,</src>
+    <src s="7">זה שנעשה גילוי היחידה ע"י העבודה,</src>
+    <src s="8">הוא עילוי לגבי היחידה כמו שהיא מצד עצמה.</src>
+    <src s="9">ויש לקשר זה עם זה שאומרים קודם התפלה אשרנו מה טוב חלקנו ומה נעים גורלנו ומה יפה ירושתנו,</src>
+    <src s="10">ומבאר כ"ק מו"ח אדמו"ר בעל ההילולא במאמרו ד"ה זה105</src>
+    <src s="11">ג' הענינים דחלק גורל וירושה,</src>
+    <src s="12">בהקדים,</src>
+    <src s="13">שבנפש האדם,</src>
+    <src s="14">ב' מדריגות בכללות.</src>
+    <src s="15">זה שהוא חי בעצם,</src>
+    <src s="16">וזה שהוא חי להחיות106,</src>
+    <src s="17">היינו החיות שמתפשט מהנפש להחיות את הגוף.</src>
+    <src s="18">ובחיות זה עצמו שתי מדריגות.</src>
+    <src s="19">חיות כללי שמחי' את כל אברי הגוף בשוה,</src>
+    <src s="20">וחיות פרטי שמתלבש בכל אבר לפי ענינו.</src>
+    <src s="21">ועד"ז הוא בהנשמה</src>
+    <src s="22">(נפש האלקית)</src>
+    <src s="23">שיש בה</src>
+    <src s="24">(דוגמת)</src>
+    <src s="25">ג' מדריגות אלו.</src>
+    <src s="26">עצם הנשמה,</src>
+    <src s="27">וזה שהיא מאירה בהגוף ונפש הטבעית באופן כללי לפי שהגוף ונה"ט אינם כלים לאור זה,</src>
+    <src s="28">וזה שהיא מתלבשת בהגוף ונפשו הטבעית.</src>
+    <src s="29">ומבאר שם,</src>
+    <src s="30">שג' ענינים אלו הם חלק גורל וירושה.</src>
+    <src s="31">ויש לומר,</src>
+    <src s="32">שג' ענינים אלו הם</src>
+    <src s="33">(בדרך כלל)</src>
+    <src s="34">נר"נ,</src>
+    <src s="35">חי' ויחידה.</src>
+    <src s="36">וכמו שמבאר שם107</src>
+    <src s="37">שירושתנו הוא נקודת היהדות שבכל אחד מישראל,</src>
+    <src s="38">וידוע שנקודת היהדות היא היחידה שבנפש.</src>
+    <src s="39">ומבאר שם,</src>
+    <src s="40">דזה שחושב כאן ג' ענינים אלו בסדר דמלמטה למעלה,</src>
+    <src s="41">הוא,</src>
+    <src s="42">כי תכלית הכוונה הוא,</src>
+    <src s="43">שגם הגילוי דנקודת היהדות,</src>
+    <src s="44">הגם שהוא ירושה שהוא דבר הבא ממילא,</src>
+    <src s="45">יהי' ע"י עבודת האדם בכח עצמו.</src>
+  </section>
+</awtsmoosMeluketSource>

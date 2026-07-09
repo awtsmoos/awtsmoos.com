@@ -1,0 +1,258 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 44,
+    "returned": 44,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920412_theRebbe_962\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920412_theRebbe_962__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the verse \"For with You is the source of life\" is an utterance of the Congregation of Israel to the Holy One during exile, and that even in exile the call \"Arise, shine, for your light has come\" applies.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And behold, it is explained in the maamar of my revered father-in-law, the Rebbe, beginning with the words \"For with You is the source of life\" mentioned there,</t>\n    <t s=\"2\">that the verse \"For with You is the source of life, etc.\" is an utterance of the Congregation of Israel to the Holy One, blessed be He, during the time of exile39.</t>\n    <t s=\"3\">For during the time of exile,</t>\n    <t s=\"4\">the thirst for Elokus is greater than during the time of the Beis HaMikdash,</t>\n    <t s=\"5\">and according to the teaching of the Baal Shem Tov</t>\n    <t s=\"6\">(the master of the birthday of 18 Elul)</t>\n    <t s=\"7\">on the verse40</t>\n    <t s=\"8\">\"My soul thirsts for You, my flesh longs for You, in a dry and weary land without water,\"</t>\n    <t s=\"9\">\"Thus in holiness I have beheld You,\"</t>\n    <t s=\"10\">that \"My soul thirsts for You, etc.\" is during the time of exile</t>\n    <t s=\"11\">(in a dry and weary land without water),</t>\n    <t s=\"12\">and regarding this it is said \"Thus in holiness I have beheld You\" — would that I beheld You in holiness.</t>\n    <t s=\"13\">And during the time of exile, the Congregation of Israel says to the Holy One, blessed be He,</t>\n    <t s=\"14\">\"Master of the Universe, for with You is the source of life, in Your light we see light,\"</t>\n    <t s=\"15\">With You, Master of the Universe, is the source of life,</t>\n    <t s=\"16\">With Your light we see light.</t>\n    <t s=\"17\">And according to what was explained above in section 1</t>\n    <t s=\"18\">(based on the discourse of the Yalkut)</t>\n    <t s=\"19\">that \"Arise, shine, for your light has come\" is in the manner of \"in Your light we see light,\"</t>\n    <t s=\"20\">it can be said,</t>\n    <t s=\"21\">that also the utterance of the Holy One, blessed be He, to the Congregation of Israel, \"Arise, shine, for your light has come\"</t>\n    <t s=\"22\">[although from the simple language of \"for your light has come\"</t>\n    <t s=\"23\">(that it has already come)</t>\n    <t s=\"24\">it implies that it speaks of the time of the Geulah],</t>\n    <t s=\"25\">it is</t>\n    <t s=\"26\">(also)</t>\n    <t s=\"27\">during the time of exile.</t>\n    <t s=\"28\">That is,</t>\n    <t s=\"29\">that even during the time of exile,</t>\n    <t s=\"30\">and especially in the final days of the exile,</t>\n    <t s=\"31\">it is possible and necessary that the matter of \"Arise, shine, for your light has come\" should be,</t>\n    <t s=\"32\">both regarding the light of the soul</t>\n    <t s=\"33\">(your light)</t>\n    <t s=\"34\">and regarding that the soul illuminates the body</t>\n    <t s=\"35\">(Arise, shine).</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section states that through our actions and service in exile, especially in the matter of \"Arise, shine, for your light has come,\" we hasten the future Geulah when it will be fulfilled literally and with alacrity.</sectionSummaryBrief>\n    <t s=\"0\">And through our actions and service during the time of exile41,</t>\n    <t s=\"1\">and especially in the matter of \"Arise, shine, for your light has come,\"</t>\n    <t s=\"2\">we bring closer and hasten even more the future Geulah,</t>\n    <t s=\"3\">when then \"Arise, shine, for your light has come\" will be in its simple sense</t>\n    <t s=\"4\">(that it has already come),</t>\n    <t s=\"5\">and in a manner of alacrity,</t>\n    <t s=\"6\">as the conclusion and seal of the Haftorah42</t>\n    <t s=\"7\">— \"I will hasten it\"43.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920412_theRebbe_962",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920412_theRebbe_962__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the verse \"For with You is the source of life\" is an utterance of the Congregation of Israel to the Holy One during exile, and that even in exile the call \"Arise, shine, for your light has come\" applies.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And behold, it is explained in the maamar of my revered father-in-law, the Rebbe, beginning with the words \"For with You is the source of life\" mentioned there,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that the verse \"For with You is the source of life, etc.\" is an utterance of the Congregation of Israel to the Holy One, blessed be He, during the time of exile39."
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "For during the time of exile,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "the thirst for Elokus is greater than during the time of the Beis HaMikdash,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and according to the teaching of the Baal Shem Tov"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "(the master of the birthday of 18 Elul)"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "on the verse40"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "\"My soul thirsts for You, my flesh longs for You, in a dry and weary land without water,\""
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "\"Thus in holiness I have beheld You,\""
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "that \"My soul thirsts for You, etc.\" is during the time of exile"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "(in a dry and weary land without water),"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "and regarding this it is said \"Thus in holiness I have beheld You\" — would that I beheld You in holiness."
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "And during the time of exile, the Congregation of Israel says to the Holy One, blessed be He,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "\"Master of the Universe, for with You is the source of life, in Your light we see light,\""
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "With You, Master of the Universe, is the source of life,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "With Your light we see light."
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "And according to what was explained above in section 1"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "(based on the discourse of the Yalkut)"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "that \"Arise, shine, for your light has come\" is in the manner of \"in Your light we see light,\""
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "that also the utterance of the Holy One, blessed be He, to the Congregation of Israel, \"Arise, shine, for your light has come\""
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "[although from the simple language of \"for your light has come\""
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "(that it has already come)"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "it implies that it speaks of the time of the Geulah],"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "it is"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "(also)"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "during the time of exile."
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "That is,"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "that even during the time of exile,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "and especially in the final days of the exile,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "it is possible and necessary that the matter of \"Arise, shine, for your light has come\" should be,"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "both regarding the light of the soul"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "(your light)"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "and regarding that the soul illuminates the body"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "(Arise, shine)."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section states that through our actions and service in exile, especially in the matter of \"Arise, shine, for your light has come,\" we hasten the future Geulah when it will be fulfilled literally and with alacrity.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And through our actions and service during the time of exile41,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "and especially in the matter of \"Arise, shine, for your light has come,\""
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "we bring closer and hasten even more the future Geulah,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "when then \"Arise, shine, for your light has come\" will be in its simple sense"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "(that it has already come),"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "and in a manner of alacrity,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "as the conclusion and seal of the Haftorah42"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "— \"I will hasten it\"43."
+          }
+        ]
+      }
+    ]
+  }
+}

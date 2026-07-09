@@ -1,0 +1,414 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 74,
+    "returned": 74,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919814_theRebbe_260\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains the different levels of the moon's fullness: the natural fullness of the 15th of each month is a drawing down through the order of Hishtalshelus, while the fullness of the 15th of Nissan and Tishrei is a drawing down above Hishtalshelus, and the fullness of the 15th of Av is from the elevation of Malchus itself.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And based on this, we can explain the distinctions among the levels of the filling and completion of the moon</t>\n    <t s=\"2\">(above, section 1),</t>\n    <t s=\"3\">for the filling and completion of the moon on the 15th of each month,</t>\n    <t s=\"4\">since it is from the nature that the Holy One, blessed be He, implanted in creation and is not connected to the service of Israel,</t>\n    <t s=\"5\">it is</t>\n    <t s=\"6\">(in general)</t>\n    <t s=\"7\">a drawing down according to the order of Hishtalshelus.</t>\n    <t s=\"8\">And that on the 15th of the month the light also shines in the lower half of the moon is due to the virtue of the 15th day,</t>\n    <t s=\"9\">on which,</t>\n    <t s=\"10\">even the lower half is like the upper half.</t>\n    <t s=\"11\">And the completion of the moon on the 15th of Nissan and the 15th of Tishrei,</t>\n    <t s=\"12\">since this is connected</t>\n    <t s=\"13\">(also)</t>\n    <t s=\"14\">with the service of man,</t>\n    <t s=\"15\">it is</t>\n    <t s=\"16\">(in general)</t>\n    <t s=\"17\">a drawing down that is above Hishtalshelus.</t>\n    <t s=\"18\">Therefore the 15th of Nissan and the 15th of Tishrei are festivals,</t>\n    <t s=\"19\">for the concept of a festival is the drawing down of a light that is above Hishtalshelus.</t>\n    <t s=\"20\">And the completion of the moon on the 15th of Av, which is connected with the service of Teshuvah</t>\n    <t s=\"21\">(the ascent after the descent of Tisha B'Av),</t>\n    <t s=\"22\">is,</t>\n    <t s=\"23\">that this illumination of the lower half of the moon is</t>\n    <t s=\"24\">(not only from the fact that the light is Ein Sof and therefore shines even below,</t>\n    <t s=\"25\">but also)</t>\n    <t s=\"26\">from the aspect of the elevation within Malchus itself.</t>\n    <t s=\"27\">And as explained in the maamar,</t>\n    <t s=\"28\">that on the 15th of Av, the aspect of Atik shines in Malchus,</t>\n    <t s=\"29\">which can be said to be the revelation of the virtue and source of Malchus itself.</t>\n    <t s=\"30\">And this is also the connection of the fifteenth of Av to Yom Kippur,</t>\n    <t s=\"31\">for also on Yom Kippur there is the ascent of Malchus into the innerness of Atik,</t>\n    <t s=\"32\">as explained in the maamar.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section explains that the festival of the 15th of Av is superior even to Yom Kippur, because the descent of Tisha B'Av has no place even from the aspect of Teshuvah, and its purpose is a new creation from the Essence.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that this festival of the fifteenth of Av is more elevated even than Yom Kippur,</t>\n    <t s=\"3\">even though on Yom Kippur as well there is the service of Teshuvah,</t>\n    <t s=\"4\">it is,</t>\n    <t s=\"5\">because from the very fact that the Torah established a day of forgiveness and atonement every single year,</t>\n    <t s=\"6\">it is understood,</t>\n    <t s=\"7\">that the descent to undesirable things after which comes the ascent of Yom Kippur is in a manner that has a place from the side of creation,</t>\n    <t s=\"8\">for that which was established in the Torah</t>\n    <t s=\"9\">(He looked into the Torah and created the world64)</t>\n    <t s=\"10\">a day of forgiveness and atonement for undesirable matters is,</t>\n    <t s=\"11\">because from the greatness of the elevation in Teshuvah,</t>\n    <t s=\"12\">that in the place where Baalei Teshuvah stand, even completely righteous individuals cannot stand65,</t>\n    <t s=\"13\">there is a place for this</t>\n    <t s=\"14\">(also)</t>\n    <t s=\"15\">from the intention of creation as it is drawn down in revelation,</t>\n    <t s=\"16\">in the level of \"in whom He consulted,\"</t>\n    <t s=\"17\">even though the primary intention in this level is the service of the righteous,</t>\n    <t s=\"18\">\"in whom He consulted\" — in the souls of the righteous.</t>\n    <t s=\"19\">But not so the descent of Tisha B'Av,</t>\n    <t s=\"20\">the destruction of the Holy Temple and the exile,</t>\n    <t s=\"21\">it is such a descent that there is no granting of a place for it</t>\n    <t s=\"22\">[as is also understood from the Book of Eichah,</t>\n    <t s=\"23\">that this saying of \"Eichah\" in a questioning tone is because even from the aspect of the elevation in Teshuvah,</t>\n    <t s=\"24\">there is no place for such a descent].</t>\n    <t s=\"25\">And that in actuality this descent occurred in order that there be a more elevated ascent,</t>\n    <t s=\"26\">\"A lion ascended... in order that a lion should come,\"</t>\n    <t s=\"27\">is only from the true intention</t>\n    <t s=\"28\">(as it is in the Awtsmoos),</t>\n    <t s=\"29\">that through the service of Israel there will be a renewal in creation,</t>\n    <t s=\"30\">\"new heavens and a new earth.\"</t>\n    <t s=\"31\">Therefore,</t>\n    <t s=\"32\">the festival of the fifteenth of Av is more elevated even than Yom Kippur.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section concludes that the ending of tractate Taanit with \"there were no better days for Israel than the fifteenth of Av\" is the explanation of all the fasts, as they lead to the joy of the 15th of Av, which is the building of the Holy Temple.</sectionSummaryBrief>\n    <t s=\"0\">And this is also that the conclusion and seal of tractate Taanit is \"there were no better days for Israel than the fifteenth of Av etc.,\"</t>\n    <t s=\"1\">for this is the explanation of all the fasts.</t>\n    <t s=\"2\">For that there are undesirable things for which one must fast,</t>\n    <t s=\"3\">and even to the things that occurred on the seventeenth of Tammuz and on Tisha B'Av66,</t>\n    <t s=\"4\">is for the sake of the ascent after the descent — the festival of the fifteenth of Av,</t>\n    <t s=\"5\">which is \"a day of gladness of heart\"67</t>\n    <t s=\"6\">(of the Holy One, blessed be He)</t>\n    <t s=\"7\">— this is the building of the Holy Temple, which will be built speedily in our days68.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919814_theRebbe_260",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains the different levels of the moon's fullness: the natural fullness of the 15th of each month is a drawing down through the order of Hishtalshelus, while the fullness of the 15th of Nissan and Tishrei is a drawing down above Hishtalshelus, and the fullness of the 15th of Av is from the elevation of Malchus itself.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "And based on this, we can explain the distinctions among the levels of the filling and completion of the moon"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "(above, section 1),"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "for the filling and completion of the moon on the 15th of each month,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "since it is from the nature that the Holy One, blessed be He, implanted in creation and is not connected to the service of Israel,"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "it is"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "(in general)"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "a drawing down according to the order of Hishtalshelus."
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "And that on the 15th of the month the light also shines in the lower half of the moon is due to the virtue of the 15th day,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "on which,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "even the lower half is like the upper half."
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "And the completion of the moon on the 15th of Nissan and the 15th of Tishrei,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "since this is connected"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "(also)"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "with the service of man,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "it is"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "(in general)"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "a drawing down that is above Hishtalshelus."
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "Therefore the 15th of Nissan and the 15th of Tishrei are festivals,"
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "for the concept of a festival is the drawing down of a light that is above Hishtalshelus."
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "And the completion of the moon on the 15th of Av, which is connected with the service of Teshuvah"
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "(the ascent after the descent of Tisha B'Av),"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "is,"
+          },
+          {
+            "v": 15,
+            "s": 23,
+            "translation": "that this illumination of the lower half of the moon is"
+          },
+          {
+            "v": 15,
+            "s": 24,
+            "translation": "(not only from the fact that the light is Ein Sof and therefore shines even below,"
+          },
+          {
+            "v": 15,
+            "s": 25,
+            "translation": "but also)"
+          },
+          {
+            "v": 15,
+            "s": 26,
+            "translation": "from the aspect of the elevation within Malchus itself."
+          },
+          {
+            "v": 15,
+            "s": 27,
+            "translation": "And as explained in the maamar,"
+          },
+          {
+            "v": 15,
+            "s": 28,
+            "translation": "that on the 15th of Av, the aspect of Atik shines in Malchus,"
+          },
+          {
+            "v": 15,
+            "s": 29,
+            "translation": "which can be said to be the revelation of the virtue and source of Malchus itself."
+          },
+          {
+            "v": 15,
+            "s": 30,
+            "translation": "And this is also the connection of the fifteenth of Av to Yom Kippur,"
+          },
+          {
+            "v": 15,
+            "s": 31,
+            "translation": "for also on Yom Kippur there is the ascent of Malchus into the innerness of Atik,"
+          },
+          {
+            "v": 15,
+            "s": 32,
+            "translation": "as explained in the maamar."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section explains that the festival of the 15th of Av is superior even to Yom Kippur, because the descent of Tisha B'Av has no place even from the aspect of Teshuvah, and its purpose is a new creation from the Essence.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "that this festival of the fifteenth of Av is more elevated even than Yom Kippur,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "even though on Yom Kippur as well there is the service of Teshuvah,"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "it is,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "because from the very fact that the Torah established a day of forgiveness and atonement every single year,"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "that the descent to undesirable things after which comes the ascent of Yom Kippur is in a manner that has a place from the side of creation,"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "for that which was established in the Torah"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "(He looked into the Torah and created the world64)"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "a day of forgiveness and atonement for undesirable matters is,"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "because from the greatness of the elevation in Teshuvah,"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "that in the place where Baalei Teshuvah stand, even completely righteous individuals cannot stand65,"
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "there is a place for this"
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "(also)"
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "from the intention of creation as it is drawn down in revelation,"
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "in the level of \"in whom He consulted,\""
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "even though the primary intention in this level is the service of the righteous,"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "\"in whom He consulted\" — in the souls of the righteous."
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "But not so the descent of Tisha B'Av,"
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "the destruction of the Holy Temple and the exile,"
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "it is such a descent that there is no granting of a place for it"
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "[as is also understood from the Book of Eichah,"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "that this saying of \"Eichah\" in a questioning tone is because even from the aspect of the elevation in Teshuvah,"
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "there is no place for such a descent]."
+          },
+          {
+            "v": 16,
+            "s": 25,
+            "translation": "And that in actuality this descent occurred in order that there be a more elevated ascent,"
+          },
+          {
+            "v": 16,
+            "s": 26,
+            "translation": "\"A lion ascended... in order that a lion should come,\""
+          },
+          {
+            "v": 16,
+            "s": 27,
+            "translation": "is only from the true intention"
+          },
+          {
+            "v": 16,
+            "s": 28,
+            "translation": "(as it is in the Awtsmoos),"
+          },
+          {
+            "v": 16,
+            "s": 29,
+            "translation": "that through the service of Israel there will be a renewal in creation,"
+          },
+          {
+            "v": 16,
+            "s": 30,
+            "translation": "\"new heavens and a new earth.\""
+          },
+          {
+            "v": 16,
+            "s": 31,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 16,
+            "s": 32,
+            "translation": "the festival of the fifteenth of Av is more elevated even than Yom Kippur."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section concludes that the ending of tractate Taanit with \"there were no better days for Israel than the fifteenth of Av\" is the explanation of all the fasts, as they lead to the joy of the 15th of Av, which is the building of the Holy Temple.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "And this is also that the conclusion and seal of tractate Taanit is \"there were no better days for Israel than the fifteenth of Av etc.,\""
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "for this is the explanation of all the fasts."
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "For that there are undesirable things for which one must fast,"
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "and even to the things that occurred on the seventeenth of Tammuz and on Tisha B'Av66,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "is for the sake of the ascent after the descent — the festival of the fifteenth of Av,"
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "which is \"a day of gladness of heart\"67"
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "(of the Holy One, blessed be He)"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "— this is the building of the Holy Temple, which will be built speedily in our days68."
+          }
+        ]
+      }
+    ]
+  }
+}

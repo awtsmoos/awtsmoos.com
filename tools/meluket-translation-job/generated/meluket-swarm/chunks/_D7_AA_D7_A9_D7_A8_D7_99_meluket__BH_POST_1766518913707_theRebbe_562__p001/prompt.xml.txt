@@ -1,0 +1,90 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913707_theRebbe_562" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913707_theRebbe_562" title="מאמר יבחר לנו את נחלתינו תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ב' דראש-השנה ה'תשכ"ג</src>
+  </section>
+  <section v="1">
+    <src s="0">יבחר לנו את נחלתינו את גאון יעקב אשר אהב סלה1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר במאמרו ד"ה זה</src>
+    <src s="2">(שבהמשך ר"ה תש"ג)2</src>
+    <src s="3">פירוש התרגום,</src>
+    <src s="4">ירעי לנא למירת ית אחסנתנא ית בית מקדשא דיעקב דרחים לעלמין,</src>
+    <src s="5">ומדייק בזה,</src>
+    <src s="6">הרי בית המקדש הוא של הקב"ה כמ"ש3</src>
+    <src s="7">ועשו לי מקדש</src>
+    <src s="8">[דישראל הם רק עושים את המקדש,</src>
+    <src s="9">אבל המקדש עצמו הוא של הקב"ה]</src>
+    <src s="10">ולמה נקרא בית מקדשא דיעקב.</src>
+    <src s="11">גם,</src>
+    <src s="12">מהי השייכות דגאון יעקב שקאי על בית המקדש לנחלתינו.</src>
+    <src s="13">ומבאר בהמאמר4,</src>
+    <src s="14">דנחלתינו הוא נקודת היהדות השורה בנקודת הלב שהוא הבית מקדשא דיעקב,</src>
+    <src s="15">כמ"ש3</src>
+    <src s="16">ועשו לי מקדש ושכנתי בתוכם,</src>
+    <src s="17">בתוכו לא נאמר אלא בתוכם,</src>
+    <src s="18">בתוך כאו"א מישראל5.</src>
+    <src s="19">והנה הפירוש הפשוט דיבחר לנו גו' את גאון יעקב הוא,</src>
+    <src s="20">שלעתיד לבוא יחזיר לנו את בית מקדשינו6.</src>
+    <src s="21">וצריך להבין הקשר דהפירוש</src>
+    <src s="22">(שבהמאמר)</src>
+    <src s="23">שגאון יעקב קאי על בית המקדש שבכאו"א מישראל עם הפירוש</src>
+    <src s="24">(הפשוט)</src>
+    <src s="25">שגאון יעקב קאי על בית המקדש השלישי שיבנה במהרה בימינו.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה פסוק זה הוא בהמזמור שאומרים ז' פעמים קודם תקיעת שופר,</src>
+    <src s="2">והשייכות דמזמור זה לתקיעת שופר</src>
+    <src s="3">(בפשטות)</src>
+    <src s="4">הוא,</src>
+    <src s="5">כי במזמור זה7</src>
+    <src s="6">נאמר עלה אלקים בתרועה הוי' בקול שופר,</src>
+    <src s="7">ואמרו רז"ל8,</src>
+    <src s="8">שבתחלה הקב"ה יושב</src>
+    <src s="9">(ועולה)</src>
+    <src s="10">על כסא דין,</src>
+    <src s="11">עלה אלקים בתרועה,</src>
+    <src s="12">וע"י שישראל נוטלין את שופריהן ותוקעין לפני הקב"ה הוא עומד מכסא דין ויושב בכסא רחמים,</src>
+    <src s="13">הוי' בקול שופר,</src>
+    <src s="14">ומתמלא9</src>
+    <src s="15">עליהם רחמים ומרחם עליהם והופך עליהם מדת הדין לרחמים.</src>
+    <src s="16">ולכן אומרים מזמור זה קודם תקיעת שופר בכדי להביא ראי' מן התורה10</src>
+    <src s="17">על ההמשכה</src>
+    <src s="18">(דעומד מכסא דין ויושב בכסא רחמים11)</src>
+    <src s="19">שע"י תקיעת שופר.</src>
+  </section>
+</awtsmoosMeluketSource>

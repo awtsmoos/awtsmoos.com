@@ -1,0 +1,554 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 102,
+    "returned": 102,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914911_theRebbe_655\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>True joy comes from humility and self-nullification, where one recognizes their virtues as gifts from above, leading to complete joy.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And the explanation of the matter of joy that is in the aspect of self-nullification</t>\n    <t s=\"2\">(to the extent that even when the joy is in a state of revelation, it is nevertheless in the aspect of self-nullification),</t>\n    <t s=\"3\">behold, the true essence of joy comes from the side of humility and self-nullification,</t>\n    <t s=\"4\">as it is written,</t>\n    <t s=\"5\">\"The humble will increase their joy in the L-rd.\"</t>\n    <t s=\"6\">And the explanation of the connection between humility and joy</t>\n    <t s=\"7\">(even though superficially they are two opposite matters),</t>\n    <t s=\"8\">is explained by the Alter Rebbe in the discourse \"The humble will increase their joy in the L-rd\"</t>\n    <t s=\"9\">[and in several discourses of our Rebbes and leaders after that,</t>\n    <t s=\"10\">and also in the aforementioned discourse of the Baal HaYom HaHuledes (the one whose birthday it is)],</t>\n    <t s=\"11\">that the matter of humility is not that the humble person is mistaken about himself and does not know his virtues,</t>\n    <t s=\"12\">but rather,</t>\n    <t s=\"13\">that even though he knows his virtues,</t>\n    <t s=\"14\">to the extent that he knows all his virtues</t>\n    <t s=\"15\">[for every Jew,</t>\n    <t s=\"16\">even those whose conduct is entirely improper,</t>\n    <t s=\"17\">not only do they have mitzvos, but the mitzvos fill their entire being,</t>\n    <t s=\"18\">and in the language of our Sages,</t>\n    <t s=\"19\">\"they are full of mitzvos like a pomegranate,\"</t>\n    <t s=\"20\">and especially since \"Your people are all righteous\"</t>\n    <t s=\"21\">and \"all Jews are presumed to be kosher\"],</t>\n    <t s=\"22\">nevertheless, he does not thereby become a [significant] entity in his own eyes, and certainly not in a state of yeshus (selfhood),</t>\n    <t s=\"23\">because he knows the truth that the virtues he has are not his own power and the strength of his hand, but rather were given to him</t>\n    <t s=\"24\">(the powers for this)</t>\n    <t s=\"25\">from Above,</t>\n    <t s=\"26\">and if these powers had been given to another, he too would be on this level,</t>\n    <t s=\"27\">and from the perspective of his humility and self-nullification, he thinks,</t>\n    <t s=\"28\">that if these powers were with another, he would reveal them even more.</t>\n    <t s=\"29\">And this humility</t>\n    <t s=\"30\">[since he knows his virtues,</t>\n    <t s=\"31\">but he does not thereby become a [significant] entity]</t>\n    <t s=\"32\">behold, not only does it not lead to the opposite of joy,</t>\n    <t s=\"33\">but on the contrary,</t>\n    <t s=\"34\">his humility and self-nullification</t>\n    <t s=\"35\">(that he thinks he does not deserve anything)</t>\n    <t s=\"36\">bring him to great and complete joy.</t>\n    <t s=\"37\">For the completeness of joy is specifically in one who is nullified,</t>\n    <t s=\"38\">as is explained at length in the discourse.</t>\n    <t s=\"39\">And since joy comes about because of humility and self-nullification,</t>\n    <t s=\"40\">therefore even the joy itself</t>\n    <t s=\"41\">(even when it is in revelation)</t>\n    <t s=\"42\">is in the aspect of self-nullification.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>The life of Sarah encompasses the sefiros, and the phrase \"the lives of Sarah\" indicates a level above division where even the revealed is in nullification.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this is [the meaning of] \"And the life of Sarah was... the years of the life of Sarah,\"</t>\n    <t s=\"2\">\"And the life of Sarah was\" refers to that which she merited to attain supernal life.</t>\n    <t s=\"3\">And it specifies in this: one hundred years, twenty years, and seven years, which correspond to all the sefiros.</t>\n    <t s=\"4\">And as explained in the discourse,</t>\n    <t s=\"5\">that \"one hundred years\" is the aspect of Arich [Anpin], as the aspect of Atik shines within it,</t>\n    <t s=\"6\">therefore it is said</t>\n    <t s=\"7\">(\"one hundred\")</t>\n    <t s=\"8\">years in the singular,</t>\n    <t s=\"9\">and it can be said that in our case it is above the aspect of \"one.\"</t>\n    <t s=\"10\">And \"twenty years\" is the aspect of Chochmah and Binah,</t>\n    <t s=\"11\">and \"seven years\" is the aspect of the seven emotional attributes,</t>\n    <t s=\"12\">the seven days of construction.</t>\n    <t s=\"13\">And afterwards it adds \"the years of the life of Sarah,\"</t>\n    <t s=\"14\">\"hers were the lives,\"</t>\n    <t s=\"15\">that the lives were hers</t>\n    <t s=\"16\">(also)</t>\n    <t s=\"17\">in a felt [conscious] way,</t>\n    <t s=\"18\">that in [divine] service this is the matter of self-nullification within joy</t>\n    <t s=\"19\">(also)</t>\n    <t s=\"20\">as it is in revelation</t>\n    <t s=\"21\">(as above from the discourse of the Baal HaYom HaHuledes).</t>\n    <t s=\"22\">And this is also the reason that at the conclusion \"the years of the life of Sarah\" it does not specify the numbers one hundred, twenty, and seven,</t>\n    <t s=\"23\">because this [matter] that even the felt [revelation] is in self-nullification,</t>\n    <t s=\"24\">which is the unification of two opposite matters</t>\n    <t s=\"25\">(felt [revelation] and self-nullification),</t>\n    <t s=\"26\">is from an aspect that is above division.</t>\n    <t s=\"27\">And this is the superiority of \"the years of the life of Sarah\" over \"the life of Sarah was one hundred years, etc.,\"</t>\n    <t s=\"28\">for the matter of one hundred years, twenty years, and seven years,</t>\n    <t s=\"29\">although it is most elevated,</t>\n    <t s=\"30\">as is also understood from Rashi's commentary on the verse,</t>\n    <t s=\"31\">nevertheless, they are three distinct matters,</t>\n    <t s=\"32\">but not so \"the years of the life of Sarah,\" for they are all equal,</t>\n    <t s=\"33\">above division.</t>\n    <t s=\"34\">And from this aspect</t>\n    <t s=\"35\">(which is above division),</t>\n    <t s=\"36\">even the felt [revelation] is in self-nullification,</t>\n    <t s=\"37\">\"hers were the lives.\"</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>Through the service of making even revealed joy a state of nullification, one attains mastery over life itself, as joy breaks all boundaries.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that through the matter of \"hers were the lives\" in [divine] service,</t>\n    <t s=\"2\">that even the felt [revelation]</t>\n    <t s=\"3\">(joy that is in revelation)</t>\n    <t s=\"4\">is in self-nullification</t>\n    <t s=\"5\">(as per the interpretation of the Baal HaYom HaHuledes on \"hers were the lives\"),</t>\n    <t s=\"6\">through this, \"hers were the lives\" is also actualized in its simple sense,</t>\n    <t s=\"7\">that the lives are hers and she becomes the master of the lives.</t>\n    <t s=\"8\">For joy breaks all boundaries,</t>\n    <t s=\"9\">and therefore, through joy in revelation</t>\n    <t s=\"10\">(and in the aspect of self-nullification)</t>\n    <t s=\"11\">there is a strengthening of life-force</t>\n    <t s=\"12\">(above measure and limitation),</t>\n    <t s=\"13\">and in the manner of the known concept</t>\n    <t s=\"14\">regarding Yitzchak</t>\n    <t s=\"15\">[whose concept is laughter and joy,</t>\n    <t s=\"16\">as above],</t>\n    <t s=\"17\">that the gevuros (severities) of Yitzchak are the matter of a strengthening of vitality</t>\n    <t s=\"18\">(and a strengthening of blessings),</t>\n    <t s=\"19\">to the extent of life in ultimate perfection,</t>\n    <t s=\"20\">analogous to \"and we shall live before Him\" which will be in the future to come.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914911_theRebbe_655",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914911_theRebbe_655__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "True joy comes from humility and self-nullification, where one recognizes their virtues as gifts from above, leading to complete joy.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And the explanation of the matter of joy that is in the aspect of self-nullification"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(to the extent that even when the joy is in a state of revelation, it is nevertheless in the aspect of self-nullification),"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "behold, the true essence of joy comes from the side of humility and self-nullification,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "\"The humble will increase their joy in the L-rd.\""
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "And the explanation of the connection between humility and joy"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(even though superficially they are two opposite matters),"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "is explained by the Alter Rebbe in the discourse \"The humble will increase their joy in the L-rd\""
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "[and in several discourses of our Rebbes and leaders after that,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "and also in the aforementioned discourse of the Baal HaYom HaHuledes (the one whose birthday it is)],"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "that the matter of humility is not that the humble person is mistaken about himself and does not know his virtues,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "but rather,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "that even though he knows his virtues,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "to the extent that he knows all his virtues"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "[for every Jew,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "even those whose conduct is entirely improper,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "not only do they have mitzvos, but the mitzvos fill their entire being,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "and in the language of our Sages,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "\"they are full of mitzvos like a pomegranate,\""
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "and especially since \"Your people are all righteous\""
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "and \"all Jews are presumed to be kosher\"],"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "nevertheless, he does not thereby become a [significant] entity in his own eyes, and certainly not in a state of yeshus (selfhood),"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "because he knows the truth that the virtues he has are not his own power and the strength of his hand, but rather were given to him"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "(the powers for this)"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "from Above,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "and if these powers had been given to another, he too would be on this level,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "and from the perspective of his humility and self-nullification, he thinks,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "that if these powers were with another, he would reveal them even more."
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "And this humility"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "[since he knows his virtues,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "but he does not thereby become a [significant] entity]"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "behold, not only does it not lead to the opposite of joy,"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "but on the contrary,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "his humility and self-nullification"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "(that he thinks he does not deserve anything)"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "bring him to great and complete joy."
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "For the completeness of joy is specifically in one who is nullified,"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "as is explained at length in the discourse."
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "And since joy comes about because of humility and self-nullification,"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "therefore even the joy itself"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "(even when it is in revelation)"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "is in the aspect of self-nullification."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "The life of Sarah encompasses the sefiros, and the phrase \"the lives of Sarah\" indicates a level above division where even the revealed is in nullification.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And this is [the meaning of] \"And the life of Sarah was... the years of the life of Sarah,\""
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "\"And the life of Sarah was\" refers to that which she merited to attain supernal life."
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "And it specifies in this: one hundred years, twenty years, and seven years, which correspond to all the sefiros."
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "And as explained in the discourse,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "that \"one hundred years\" is the aspect of Arich [Anpin], as the aspect of Atik shines within it,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "therefore it is said"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "(\"one hundred\")"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "years in the singular,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "and it can be said that in our case it is above the aspect of \"one.\""
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "And \"twenty years\" is the aspect of Chochmah and Binah,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "and \"seven years\" is the aspect of the seven emotional attributes,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "the seven days of construction."
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "And afterwards it adds \"the years of the life of Sarah,\""
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "\"hers were the lives,\""
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "that the lives were hers"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "(also)"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "in a felt [conscious] way,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "that in [divine] service this is the matter of self-nullification within joy"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "(also)"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "as it is in revelation"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "(as above from the discourse of the Baal HaYom HaHuledes)."
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "And this is also the reason that at the conclusion \"the years of the life of Sarah\" it does not specify the numbers one hundred, twenty, and seven,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "because this [matter] that even the felt [revelation] is in self-nullification,"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "which is the unification of two opposite matters"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "(felt [revelation] and self-nullification),"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "is from an aspect that is above division."
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "And this is the superiority of \"the years of the life of Sarah\" over \"the life of Sarah was one hundred years, etc.,\""
+          },
+          {
+            "v": 10,
+            "s": 28,
+            "translation": "for the matter of one hundred years, twenty years, and seven years,"
+          },
+          {
+            "v": 10,
+            "s": 29,
+            "translation": "although it is most elevated,"
+          },
+          {
+            "v": 10,
+            "s": 30,
+            "translation": "as is also understood from Rashi's commentary on the verse,"
+          },
+          {
+            "v": 10,
+            "s": 31,
+            "translation": "nevertheless, they are three distinct matters,"
+          },
+          {
+            "v": 10,
+            "s": 32,
+            "translation": "but not so \"the years of the life of Sarah,\" for they are all equal,"
+          },
+          {
+            "v": 10,
+            "s": 33,
+            "translation": "above division."
+          },
+          {
+            "v": 10,
+            "s": 34,
+            "translation": "And from this aspect"
+          },
+          {
+            "v": 10,
+            "s": 35,
+            "translation": "(which is above division),"
+          },
+          {
+            "v": 10,
+            "s": 36,
+            "translation": "even the felt [revelation] is in self-nullification,"
+          },
+          {
+            "v": 10,
+            "s": 37,
+            "translation": "\"hers were the lives.\""
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "Through the service of making even revealed joy a state of nullification, one attains mastery over life itself, as joy breaks all boundaries.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that through the matter of \"hers were the lives\" in [divine] service,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that even the felt [revelation]"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "(joy that is in revelation)"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "is in self-nullification"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "(as per the interpretation of the Baal HaYom HaHuledes on \"hers were the lives\"),"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "through this, \"hers were the lives\" is also actualized in its simple sense,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "that the lives are hers and she becomes the master of the lives."
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "For joy breaks all boundaries,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "and therefore, through joy in revelation"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "(and in the aspect of self-nullification)"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "there is a strengthening of life-force"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "(above measure and limitation),"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "and in the manner of the known concept"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "regarding Yitzchak"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "[whose concept is laughter and joy,"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "as above],"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "that the gevuros (severities) of Yitzchak are the matter of a strengthening of vitality"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "(and a strengthening of blessings),"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "to the extent of life in ultimate perfection,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "analogous to \"and we shall live before Him\" which will be in the future to come."
+          }
+        ]
+      }
+    ]
+  }
+}

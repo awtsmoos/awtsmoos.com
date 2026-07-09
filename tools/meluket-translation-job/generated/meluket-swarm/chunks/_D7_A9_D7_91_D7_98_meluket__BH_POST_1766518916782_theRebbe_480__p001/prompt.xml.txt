@@ -1,0 +1,115 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916782_theRebbe_480" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916782_theRebbe_480" title="מאמר באתי לגני תשכ"ט" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יו"ד שבט,</src>
+    <src s="2">ה'תשכ"ט</src>
+  </section>
+  <section v="1">
+    <src s="0">באתי לגני אחותי כלה1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר בעל ההילולא בהמאמר דיום ההסתלקות יום ההילולא שלו2,</src>
+    <src s="2">דאיתא במדרש רבה</src>
+    <src s="3">(במקומו)</src>
+    <src s="4">לגני לגנוני,</src>
+    <src s="5">למקום שהי' עיקרי בתחלה,</src>
+    <src s="6">דעיקר שכינה בתחתונים היתה,</src>
+    <src s="7">אלא שע"י ענינים בלתי רצויים נסתלקה השכינה מלמטה למעלה עד לרקיע השביעי,</src>
+    <src s="8">ואח"כ עמדו שבעה צדיקים והורידו את השכינה מלמעלה למטה,</src>
+    <src s="9">עד שבא משה שהוא השביעי,</src>
+    <src s="10">וכל השביעין חביבין3,</src>
+    <src s="11">והורידה למטה בארץ.</src>
+    <src s="12">דענין זה</src>
+    <src s="13">(המשכת וירידת השכינה למטה בארץ)</src>
+    <src s="14">נעשה בעיקר4</src>
+    <src s="15">ע"י המשכן שעשה משה כמ"ש5</src>
+    <src s="16">ועשו לי מקדש ושכנתי בתוכם.</src>
+    <src s="17">וזהו צדיקים יירשו ארץ וישכנו לעד עלי'6,</src>
+    <src s="18">דזה שצדיקים</src>
+    <src s="19">(ועמך7</src>
+    <src s="20">כולם צדיקים8)</src>
+    <src s="21">יירשו ארץ שהוא ג"ע הוא מפני שהם משכינים</src>
+    <src s="22">(ממשיכים9)</src>
+    <src s="23">בחי' שוכן עד מרום וקדוש10</src>
+    <src s="24">שיהי' בגילוי למטה.</src>
+    <src s="25">ויש לומר,</src>
+    <src s="26">דע"פ מ"ש בהמאמר שפירוש וישכנו לעד עלי' הוא שהצדיקים ממשיכים בחי' עד שתהי' בגילוי למטה,</src>
+    <src s="27">בהכרח לומר שארץ שבפסוק זה הוא ארץ כפשוטו</src>
+    <src s="28">[שהרי עלי' קאי על ארץ דכאן],</src>
+    <src s="29">ומ"ש בהמאמר שצדיקים יירשו ארץ הוא ג"ע,</src>
+    <src s="30">הכוונה בזה היא לא לעולם הנשמות כמו שהם בלא גופים,</src>
+    <src s="31">אלא להג"ע כמו שהוא בארץ הגשמי,</src>
+    <src s="32">שהי' בו אדה"ר</src>
+    <src s="33">(בגופו הגשמי)</src>
+    <src s="34">קודם החטא,</src>
+    <src s="35">שאז היתה עיקר שכינה בתחתונים.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">שהעבודה שעל ידה נעשתה המשכת עיקר שכינה למטה</src>
+    <src s="3">(לאחרי שנסתלקה על ידי ז' הענינים הבלתי רצויים)</src>
+    <src s="4">היא העבודה דאתכפיא ואתהפכא.</src>
+    <src s="5">כמאמר11</src>
+    <src s="6">כד אתכפיא סט"א אסתלק יקרא דקוב"ה בכולהו עלמין,</src>
+    <src s="7">המשכת וגילוי עצמות אוא"ס שלמעלה משייכות לעולמות</src>
+    <src s="8">[שלכן נקראת המשכה זו בשם אסתלק,</src>
+    <src s="9">לפי שהוא גילוי האור שבבחינת רוממות12],</src>
+    <src s="10">שהוא בכולהו עלמין בשוה.</src>
+    <src s="11">דבעולמות יש ריבוי מדריגות עד אין קץ13.</src>
+    <src s="12">דזה שמבואר בכ"מ שישנם ב' עולמות,</src>
+    <src s="13">כמ"ש14</src>
+    <src s="14">מן העולם ועד העולם,</src>
+    <src s="15">שהם עלמא דאתכסיא ועלמא דאתגליא15,</src>
+    <src s="16">הוא בכללות16,</src>
+    <src s="17">אבל בפרטיות הם מתחלקים לד' עולמות אבי"ע</src>
+    <src s="18">[וי"ל דזהו מה שמביא בהמאמר בתחלת הענין מאמר המדרש17</src>
+    <src s="19">נטה ימינו וברא שמים נטה שמאלו וברא ארץ,</src>
+    <src s="20">ולאח"ז מבאר "ההפרש בד' עולמות",</src>
+    <src s="21">דכללות כל העולמות נחלקות לשני דרגות כלליות,</src>
+    <src s="22">עולמות עליונים</src>
+    <src s="23">(שמים)</src>
+    <src s="24">ועולמות תחתונים</src>
+    <src s="25">(ארץ),</src>
+    <src s="26">ע"ד עלמא דאתכסיא ועלמא דאתגליא,</src>
+    <src s="27">אבל בפרטיות הן ד' עולמות אבי"ע],</src>
+    <src s="28">ובפרטיות יותר לריבוי עולמות עד אין קץ.</src>
+    <src s="29">וזהו החידוש והעילוי דאור זה שהוא "בכולהו עלמין",</src>
+    <src s="30">דהגם שיש ריבוי התחלקות בעולמות מראש כל דרגין עד סוף כל דרגין,</src>
+    <src s="31">מ"מ הוא בכולהו עלמין בשוה,</src>
+    <src s="32">לפי שהוא למעלה משייכות לעולמות.</src>
+    <src s="33">והמשכת אור זה שבכולהו עלמין בשוה היא על ידי העבודה דאתכפיא ואתהפכא.</src>
+  </section>
+</awtsmoosMeluketSource>

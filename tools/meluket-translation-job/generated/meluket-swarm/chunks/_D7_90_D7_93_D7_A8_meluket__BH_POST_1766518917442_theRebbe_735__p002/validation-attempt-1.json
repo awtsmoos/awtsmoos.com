@@ -1,0 +1,429 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 77,
+    "returned": 77,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917442_theRebbe_735\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains the connection between Yom Kippur and Purim through the concept of \"lot\" (goral), which transcends intellect and the chain of spiritual descent (Hishtalshelus).</sectionSummaryBrief>\n    <t s=\"0\">And the explanation of the connection of the two matters in the comparison of Yom Kippur and Purim</t>\n    <t s=\"1\">[that in both of them there is the matter of the lot,</t>\n    <t s=\"2\">and that both of them are above the Name Havayah17],</t>\n    <t s=\"3\">will be understood by prefacing that the matter of the lot is above intellect18.</t>\n    <t s=\"4\">For a lot is</t>\n    <t s=\"5\">(generally19)</t>\n    <t s=\"6\">between two equal things</t>\n    <t s=\"7\">[like the two goats of Yom Kippur that were equal in appearance, height, and value20],</t>\n    <t s=\"8\">for when one of them is better,</t>\n    <t s=\"9\">there is no place for a lot,</t>\n    <t s=\"10\">and specifically when the two things are equal,</t>\n    <t s=\"11\">since from the perspective of intellect it is impossible to decide which one to choose,</t>\n    <t s=\"12\">they then rely on the lot, which is above intellect.</t>\n    <t s=\"13\">And likewise above,</t>\n    <t s=\"14\">that a lot is above the chain of descent (Hishtalshelus)</t>\n    <t s=\"15\">[for Chochmah is the beginning of Hishtalshelus,</t>\n    <t s=\"16\">and a lot, which is above Chochmah, is above Hishtalshelus].</t>\n    <t s=\"17\">And accordingly,</t>\n    <t s=\"18\">the comparison of Purim and Yom Kippur,</t>\n    <t s=\"19\">that in both of them there is the matter of the lot,</t>\n    <t s=\"20\">is – the revelation of Ein Sof that is above Hishtalshelus.</t>\n    <t s=\"21\">And this is the connection of the two matters in the comparison of Yom Kippur and Purim,</t>\n    <t s=\"22\">that in both of them there is the matter of the lot and that both of them are above Havayah,</t>\n    <t s=\"23\">for Havayah is Hishtalshelus</t>\n    <t s=\"24\">(Yud-Chochmah, Hei-Binah, etc.),</t>\n    <t s=\"25\">and that Yom Kippur and Purim are above Havayah is that the revelation of Yom Kippur and of Purim is above Hishtalshelus21,</t>\n    <t s=\"26\">the matter of the lot.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the lot transcends even the will that is above intellect, relating to the \"Master of Will\" who is above will, and connects this to the point above the yud of the Name Havayah.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And it is known22</t>\n    <t s=\"2\">regarding the superiority of the lot,</t>\n    <t s=\"3\">that it is above</t>\n    <t s=\"4\">(not only intellect,</t>\n    <t s=\"5\">but)</t>\n    <t s=\"6\">also above the will that is above intellect.</t>\n    <t s=\"7\">For when a person casts a lot, he decides that as the lot falls, so will be his will.</t>\n    <t s=\"8\">From this it is proven that the lot comes from a level that is also above the will,</t>\n    <t s=\"9\">therefore the will is according to the lot.</t>\n    <t s=\"10\">And likewise above,</t>\n    <t s=\"11\">the matter of the lot is in the Master of Will who is above will.</t>\n    <t s=\"12\">And accordingly, it can be said,</t>\n    <t s=\"13\">that the connection of the two matters in the comparison of Yom Kippur and Purim</t>\n    <t s=\"14\">(that in both of them there is the matter of the lot and that both of them are above Havayah)</t>\n    <t s=\"15\">is,</t>\n    <t s=\"16\">for the beginning of the Name Havayah is the point (kotz) above the yud,</t>\n    <t s=\"17\">which alludes to the will that is above Chochmah23,</t>\n    <t s=\"18\">and that Yom Kippur and Purim are above Havayah</t>\n    <t s=\"19\">(above even the point above the yud)</t>\n    <t s=\"20\">is that in Yom Kippur and in Purim there is the drawing down and revelation of the aspect of the Master of Will</t>\n    <t s=\"21\">(who is above will)24,</t>\n    <t s=\"22\">the matter of the lot.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains the connection between the two interpretations of Yom Kippur—as a day of atonement and as being like Purim—showing that atonement comes from the Master of Will above will, and that Purim's atonement is superior because it is without limitations.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And accordingly, we can explain the connection of the two interpretations of Yom Kippur – that on this day all undesirable matters are atoned for</t>\n    <t s=\"2\">(kippurim in its simple sense),</t>\n    <t s=\"3\">and that this day is like Purim</t>\n    <t s=\"4\">(the similarity of Yom Kippur to Purim is that on Yom Kippur they cast a lot,</t>\n    <t s=\"5\">like Purim, named after the pur, which is the lot)</t>\n    <t s=\"6\">– for the perfection of atonement for matters that were done contrary to the will of Torah and mitzvos is when the drawing down of atonement is from Ein Sof, the Master of Will</t>\n    <t s=\"7\">(who is above the will of Torah and mitzvos)25.</t>\n    <t s=\"8\">And this is the connection of the two interpretations of Yom Kippur,</t>\n    <t s=\"9\">that Yom Kippur is like Purim, named after the pur which is the lot,</t>\n    <t s=\"10\">meaning that also on Yom Kippur there is the drawing down from the Master of Will</t>\n    <t s=\"11\">(similar to the drawing down of Purim),</t>\n    <t s=\"12\">is the reason and explanation for it being Yom Kippur in its simple sense,</t>\n    <t s=\"13\">on which undesirable matters are atoned for.</t>\n    <t s=\"14\">And this is why the atonement of Purim is more elevated than the atonement of Yom Kippur26,</t>\n    <t s=\"15\">for Yom Kippur does not atone except with repentance27</t>\n    <t s=\"16\">and the atonement that was for all the Jews in the days of Purim is a day of joy28,</t>\n    <t s=\"17\">for the essential matter of the lot</t>\n    <t s=\"18\">(the drawing down of the aspect of the Master of Will)</t>\n    <t s=\"19\">is in the days of Purim,</t>\n    <t s=\"20\">for the days themselves are called Purim, after the pur,</t>\n    <t s=\"21\">and therefore,</t>\n    <t s=\"22\">the atonement that was in the days of Purim has no limitations29,</t>\n    <t s=\"23\">and Yom Kippur is like</t>\n    <t s=\"24\">Purim30</t>\n    <t s=\"25\">only with the comparative kaf,</t>\n    <t s=\"26\">and Yom Kippur does not atone except with repentance.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917442_theRebbe_735",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains the connection between Yom Kippur and Purim through the concept of \"lot\" (goral), which transcends intellect and the chain of spiritual descent (Hishtalshelus).",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And the explanation of the connection of the two matters in the comparison of Yom Kippur and Purim"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "[that in both of them there is the matter of the lot,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "and that both of them are above the Name Havayah17],"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "will be understood by prefacing that the matter of the lot is above intellect18."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "For a lot is"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "(generally19)"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "between two equal things"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "[like the two goats of Yom Kippur that were equal in appearance, height, and value20],"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "for when one of them is better,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "there is no place for a lot,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and specifically when the two things are equal,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "since from the perspective of intellect it is impossible to decide which one to choose,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "they then rely on the lot, which is above intellect."
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "And likewise above,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "that a lot is above the chain of descent (Hishtalshelus)"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "[for Chochmah is the beginning of Hishtalshelus,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "and a lot, which is above Chochmah, is above Hishtalshelus]."
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "And accordingly,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "the comparison of Purim and Yom Kippur,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "that in both of them there is the matter of the lot,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "is – the revelation of Ein Sof that is above Hishtalshelus."
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "And this is the connection of the two matters in the comparison of Yom Kippur and Purim,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "that in both of them there is the matter of the lot and that both of them are above Havayah,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "for Havayah is Hishtalshelus"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "(Yud-Chochmah, Hei-Binah, etc.),"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "and that Yom Kippur and Purim are above Havayah is that the revelation of Yom Kippur and of Purim is above Hishtalshelus21,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "the matter of the lot."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the lot transcends even the will that is above intellect, relating to the \"Master of Will\" who is above will, and connects this to the point above the yud of the Name Havayah.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And it is known22"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "regarding the superiority of the lot,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "that it is above"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "(not only intellect,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "but)"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "also above the will that is above intellect."
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "For when a person casts a lot, he decides that as the lot falls, so will be his will."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "From this it is proven that the lot comes from a level that is also above the will,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "therefore the will is according to the lot."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "And likewise above,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "the matter of the lot is in the Master of Will who is above will."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And accordingly, it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "that the connection of the two matters in the comparison of Yom Kippur and Purim"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "(that in both of them there is the matter of the lot and that both of them are above Havayah)"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "is,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "for the beginning of the Name Havayah is the point (kotz) above the yud,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "which alludes to the will that is above Chochmah23,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "and that Yom Kippur and Purim are above Havayah"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "(above even the point above the yud)"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "is that in Yom Kippur and in Purim there is the drawing down and revelation of the aspect of the Master of Will"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "(who is above will)24,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "the matter of the lot."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains the connection between the two interpretations of Yom Kippur—as a day of atonement and as being like Purim—showing that atonement comes from the Master of Will above will, and that Purim's atonement is superior because it is without limitations.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And accordingly, we can explain the connection of the two interpretations of Yom Kippur – that on this day all undesirable matters are atoned for"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(kippurim in its simple sense),"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "and that this day is like Purim"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "(the similarity of Yom Kippur to Purim is that on Yom Kippur they cast a lot,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "like Purim, named after the pur, which is the lot)"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "– for the perfection of atonement for matters that were done contrary to the will of Torah and mitzvos is when the drawing down of atonement is from Ein Sof, the Master of Will"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "(who is above the will of Torah and mitzvos)25."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "And this is the connection of the two interpretations of Yom Kippur,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "that Yom Kippur is like Purim, named after the pur which is the lot,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "meaning that also on Yom Kippur there is the drawing down from the Master of Will"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "(similar to the drawing down of Purim),"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "is the reason and explanation for it being Yom Kippur in its simple sense,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "on which undesirable matters are atoned for."
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "And this is why the atonement of Purim is more elevated than the atonement of Yom Kippur26,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "for Yom Kippur does not atone except with repentance27"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "and the atonement that was for all the Jews in the days of Purim is a day of joy28,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "for the essential matter of the lot"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "(the drawing down of the aspect of the Master of Will)"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "is in the days of Purim,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "for the days themselves are called Purim, after the pur,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "the atonement that was in the days of Purim has no limitations29,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "and Yom Kippur is like"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "Purim30"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "only with the comparative kaf,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "and Yom Kippur does not atone except with repentance."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,152 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916353_theRebbe_917" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916353_theRebbe_917" title="מאמר ואלה שמות תשל"ז" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">והענין הוא10,</src>
+    <src s="2">דהנה כתיב11,</src>
+    <src s="3">ירוד ירדנו,</src>
+    <src s="4">שישנם ב' ירידות,</src>
+    <src s="5">וכן בענין הגאולה נאמר ואנכי אעלך גם עלה,</src>
+    <src s="6">ב' עליות,</src>
+    <src s="7">ובכללות ב'</src>
+    <src s="8">(ירידות ו)</src>
+    <src s="9">עליות אלו קאי על גאולת מצרים והגאולה העתידה.</src>
+    <src s="10">ולכאורה מהי השייכות בין הגאולה ממצרים להגאולה העתידה</src>
+    <src s="11">(שמקשרים אותם זל"ז).</src>
+  </section>
+  <section v="4">
+    <src s="0">והענין הוא12,</src>
+    <src s="1">דהנה כתיב13</src>
+    <src s="2">כימי צאתך מארץ מצרים אראנו נפלאות.</src>
+    <src s="3">דהפירוש הפשוט בהכתוב הוא,</src>
+    <src s="4">דכמו שבימי צאתך מארץ מצרים היו נפלאות הנה בדוגמא לזה אראנו נפלאות בגאולה העתידה,</src>
+    <src s="5">ובזהר14</src>
+    <src s="6">פירש שהנפלאות דגאולה העתידה יהיו נפלאות אפילו לגבי הנפלאות שהיו בימי צאתך מארץ מצרים.</src>
+    <src s="7">אמנם מזה שמדמין ב' הנפלאות</src>
+    <src s="8">(דמצרים והגאולה העתידה)</src>
+    <src s="9">זל"ז מובן שיש ביניהם שייכות בתוכנם הפנימי</src>
+    <src s="10">(ולא רק שדומין מצד זה שבשניהם ישנם נפלאות),</src>
+    <src s="11">ומפני שהם דומים בתוכנם הפנימי נמשך אח"כ שהם דומים גם במה שבשני הגאולות ישנם נפלאות</src>
+    <src s="12">[וזהו קשר המשך המאמר</src>
+    <src s="13">(בתורה אור שם,</src>
+    <src s="14">וכן בתורת חיים שם)</src>
+    <src s="15">שלאחר שביאר דב' העליות</src>
+    <src s="16">(דאעלך גם עלה)</src>
+    <src s="17">קאי על גאולת מצרים והגאולה העתידה ממשיך דהנה כתיב כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="18">כי בזה בא לבאר את השייכות שבין ב' הגאולות</src>
+    <src s="19">(שמקשרים אותם בהכתוב דאעלך גם עלה)].</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">וביאור השייכות בתוכן ב' הגאולות</src>
+    <src s="2">(דמצרים ודלע"ל)</src>
+    <src s="3">הוא15,</src>
+    <src s="4">דכמו שבגלות מצרים לא היתה הכוונה בהגלות עצמו ח"ו,</src>
+    <src s="5">ונקודתו הפנימית היתה ענין הגאולה שלאח"ז,</src>
+    <src s="6">שתכליתה הוא קבלת התורה כמ"ש16</src>
+    <src s="7">בהוציאך את העם ממצרים תעבדון את האלקים על ההר הזה,</src>
+    <src s="8">הנה כך כל הגלות הזה הוא כדי לזכות לגילוי פנימיות התורה שיהי' לע"ל,</src>
+    <src s="9">שע"ז נאמר17</src>
+    <src s="10">ישקני מנשיקות פיהו גו'.</src>
+    <src s="11">דכמו שענין השעבוד דמצרים הי' בכדי לצרף את ישראל ולזככם ולטהרם בכדי שיוכלו לקבל את התורה,</src>
+    <src s="12">בדוגמא לכור הברזל18</src>
+    <src s="13">שמצרף את הכסף מהפסולת והסיגים ונשאר הכסף נקי מכל סיג כו',</src>
+    <src s="14">הנה עד"ז ע"י גלות זה האחרון זוכים לגילוי פנימיות התורה</src>
+    <src s="15">[ונמשך באופן דמיני' יתפרנסון19,</src>
+    <src s="16">והיינו באופן של פרנסה ומזון20,</src>
+    <src s="17">דענין זה הוא אמיתית הפרנסה של</src>
+    <src s="18">(כל)</src>
+    <src s="19">א' מישראל,</src>
+    <src s="20">ועד שנמשך גם בהרגל שלו,</src>
+    <src s="21">ופועל בו התפשטות והתרחבות,</src>
+    <src s="22">וכמו שנת"ל21].</src>
+    <src s="23">וזהו ביאור גודל אריכות גלות זה האחרון שהוא באין ערוך מגלות מצרים,</src>
+    <src s="24">דטעם הדבר הוא,</src>
+    <src s="25">כיון שתכלית כוונת גלות האחרון הוא בכדי לזכות עי"ז לגילוי פנימיות התורה,</src>
+    <src s="26">משא"כ גלות מצרים דכוונתו היתה בשביל גילוי נגלה דתורה,</src>
+    <src s="27">כנ"ל,</src>
+    <src s="28">לכן כמו שפנימיות התורה,</src>
+    <src s="29">ישקני מנשיקות פיהו,</src>
+    <src s="30">הוא באין ערוך מנגלה דתורה,</src>
+    <src s="31">כמו"כ הגלות</src>
+    <src s="32">(שע"י באים לגילוי זה)</src>
+    <src s="33">הוא ג"כ</src>
+    <src s="34">(בדוגמא להתורה שמתגלית ע"י)</src>
+    <src s="35">באין ערוך מגלות מצרים שע"י באו לגילוי נגלה דתורה.</src>
+    <src s="36">דנגלה דתורה הוא בחינת תורה שבאה בהגבלה,</src>
+    <src s="37">משא"כ פנימיות התורה,</src>
+    <src s="38">שהיא באין ערוך למעלה ממדידה והגבלה.</src>
+    <src s="39">ואע"פ שגם אריכות גלות זה האחרון באה בהגבלה בכמות</src>
+    <src s="40">(השנים),</src>
+    <src s="41">הנה אין הכוונה בגודל האריכות שבגלות זה על האריכות בזמן</src>
+    <src s="42">(בלבד),</src>
+    <src s="43">כ"א</src>
+    <src s="44">(גם)</src>
+    <src s="45">על האריכות שבו בגודל היסורים והצרות ובפרט בחבלי משיח</src>
+    <src s="46">(חבלי לידה)22,</src>
+    <src s="47">שצרות ויסורים אלו הם באין ערוך מהיסורים שבגלות מצרים.</src>
+    <src s="48">ואין הכוונה שצ"ל ח"ו צרות ויסורים וכו',</src>
+    <src s="49">כ"א ענינים שאינם מתאימים לרגילותו של ישראל</src>
+    <src s="50">(וואָס איז ניט לויט די געוואוינהייט פון אַ אידן)</src>
+    <src s="51">בלבד,</src>
+    <src s="52">שג"ז נחשב ליסורים.</src>
+    <src s="53">וכדאיתא בגמרא23</src>
+    <src s="54">עה"כ24</src>
+    <src s="55">ויעבידו מצרים את בני ישראל בפרך שנתנו עבודת נשים לאנשים וכו',</src>
+    <src s="56">אע"פ שעבודת נשים קלה מעבודת אנשים,</src>
+    <src s="57">דאשה תש כוחה25,</src>
+    <src s="58">מ"מ לגבי האנשים לעבודת פרך יחשב כיון שאינה לפי רגילותם.</src>
+    <src s="59">ועאכו"כ בנוגע לענין של העדר הרגילות לגבי א' מישראל,</src>
+    <src s="60">שליסורים גדולים יחשב.</src>
+    <src s="61">ובמכש"כ וק"ו מנבוכדנצר26</src>
+    <src s="62">שבזכות שפסע ג' פסיעות לכבוד ממה"מ הקב"ה זכה למלכות לו ולבנו ולבן בנו,</src>
+    <src s="63">ג' דורות27,</src>
+    <src s="64">ומלכות בתכלית ההתרחבות וכו',</src>
+    <src s="65">דנבוכדנצר מולך בכפה הי'28,</src>
+    <src s="66">הנה עאכו"כ כשמדובר אודות א' מישראל,</src>
+    <src s="67">בני בכורי ישראל29,</src>
+    <src s="68">בנים אתם לה' אלקיכם30,</src>
+    <src s="69">הנה הטובה המגיע להם היא שלא לפי ערך כלל ממה שזכה נבוכדנצר,</src>
+    <src s="70">וכ"א מישראל אפילו הפשוט שבפשוטים ביכולתו לתבוע מהקב"ה כל ענינים טובים ברוחניות</src>
+    <src s="71">[שזהו העיקר של יהודי]</src>
+    <src s="72">ומזה נמשך גם בגשמיות,</src>
+    <src s="73">בכל עניני ברכה וכו' שכללותם היא בני חיי ומזוני רויחי,</src>
+    <src s="74">ובאופן דמולך בכפה.</src>
+    <src s="75">ומזה מובן שכל ענין של העדר הרגילות של יהודי ליסורים גדולים יחשב,</src>
+    <src s="76">ובאין ערוך לגבי מצרים שהי' לפני מ"ת ודרגת מצווה ועושה31,</src>
+    <src s="77">ועי"ז מעבירים הכתמים הכי קטנים שנשארו לאחר כל היסורים וצרות וואָס מ'איז דורכגעגאַנגען.</src>
+  </section>
+</awtsmoosMeluketSource>

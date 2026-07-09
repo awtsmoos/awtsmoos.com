@@ -1,0 +1,108 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913974_theRebbe_325" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913974_theRebbe_325__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913974_theRebbe_325" title="מאמר וכל אדם תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913974_theRebbe_325__p004">
+  <section v="9">
+    <src s="0">ה)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דזה שגם מענה הקב"ה שלמעלה מהתורה נתגלה ע"י התורה הוא,</src>
+    <src s="3">כי זה שהתורה היא בקו האמצעי הוא לפי ששרשה הוא בעצמות אוא"ס שלמעלה מקוין,</src>
+    <src s="4">אלא שאח"כ נמשכה בקו האמצעי.</src>
+    <src s="5">ולכן,</src>
+    <src s="6">נוסף על שיש בה האור שלמעלה מהשתלשלות כמו שנמשך בקו האמצעי</src>
+    <src s="7">(שלכן גם מצד מענה התורה מועלת תשובה שזדונות יהיו כשגגות),</src>
+    <src s="8">מתגלה על ידה גם עצמות אוא"ס שלמעלה מקוין,</src>
+    <src s="9">מענה הקב"ה יעשה תשובה ויתכפר לו.</src>
+    <src s="10">היינו,</src>
+    <src s="11">דזה שאמרה תורה יביא אשם ויתכפר לו</src>
+    <src s="12">(שע"י תשובה נעשים זדונות רק כשגגות)</src>
+    <src s="13">הוא בדרגת התורה כמו שנמשכה בקו האמצעי,</src>
+    <src s="14">וזה שגם מענה הקב"ה יעשה תשובה ויתכפר לו הוא חלק בתורה</src>
+    <src s="15">(שבעל פה)</src>
+    <src s="16">הוא מצד שרש התורה בעצמות אוא"ס שלמעלה מקוין45.</src>
+  </section>
+  <section v="10">
+    <src s="0">ועפ"ז יש לבאר מה שאמרו רז"ל46</src>
+    <src s="1">יבוא טוב זה משה כו' ויקבל טוב זה תורה כו' מטוב זה הקב"ה דכתיב47</src>
+    <src s="2">טוב הוי' לכל,</src>
+    <src s="3">לטובים אלו ישראל דכתיב48</src>
+    <src s="4">הטיבה ה' לטובים.</src>
+    <src s="5">וצריך להבין,</src>
+    <src s="6">דאיתא בגמ' סנהדרין49</src>
+    <src s="7">כתיב47</src>
+    <src s="8">טוב ה' לכל וכתיב50</src>
+    <src s="9">טוב ה' לקוויו משל לאדם שיש לו פרדס כשהוא משקה משקה את כולו כשהוא עודר אינו עודר אלא טובים שבהם.</src>
+    <src s="10">וכיון שנתינת התורה היא</src>
+    <src s="11">(רק)</src>
+    <src s="12">לטובים אלו ישראל,</src>
+    <src s="13">הי' צריך לכאורה להביא הפסוק טוב הוי' לקוויו.</src>
+    <src s="14">[וע"פ הידוע51</src>
+    <src s="15">דטוב הוי' לכל הוא השפעה חיצונית וטוב הוי' לקוויו הוא השפעה פנימית,</src>
+    <src s="16">צריך ביאור עוד יותר מה שמביא בענין נתינת התורה שהוא השפעה פנימית את הפסוק טוב הוי' לכל ולא טוב הוי' לקוויו].</src>
+    <src s="17">ויש לומר הביאור בזה52,</src>
+    <src s="18">דזה שבתשובה כתיב טוב וישר הוי',</src>
+    <src s="19">הכוונה היא לבחי' טוב הוי' לכל53,</src>
+    <src s="20">שהרי תשובה מכפרת גם על הזדונות.</src>
+    <src s="21">ולכן אומר ויקבל טוב זו תורה כו' מטוב זה הקב"ה דכתיב טוב הוי' לכל,</src>
+    <src s="22">כי הטוב דתורה מצד שרשה הוא בחי' טוב וישר הוי'54,</src>
+    <src s="23">טוב הוי' לכל.</src>
+  </section>
+  <section v="11">
+    <src s="0">ו)</src>
+    <src s="1">והנה הגם דזה שתשובה מכפרת הוא לפי שהמענה שע"י התשובה הוא מלמעלה מהשתלשלות,</src>
+    <src s="2">הכפרה שע"י תשובה היא</src>
+    <src s="3">(לא באופן של ויתור,</src>
+    <src s="4">שמוותרים על החטאים,</src>
+    <src s="5">אלא)</src>
+    <src s="6">פעולה פנימית בהאדם השב,</src>
+    <src s="7">שמתתקנים הפגמים שלו.</src>
+    <src s="8">וזהו טוב וישר הוי' על כן יורה חטאים בדרך,</src>
+    <src s="9">דטוב הוא שמשפיע לכל.</src>
+    <src s="10">וכמבואר במק"א55</src>
+    <src s="11">החילוק בין טוב לחסד,</src>
+    <src s="12">דחסד שייך להמקבל ולכן השפעת החסד היא דוקא למי שראוי</src>
+    <src s="13">[אלא שמצד מדת החסד אינו מדקדק,</src>
+    <src s="14">וכשיש להמקבל איזו מעלה הוא כבר ראוי שישפיעו לו],</src>
+    <src s="15">וטוב הוא מצד המשפיע ולכן ההשפעה היא לכולם</src>
+    <src s="16">(גם לשאינם ראויים).</src>
+    <src s="17">וישר הוא שלמטה הוא כמו למעלה56.</src>
+    <src s="18">וזהו שההמשכה שע"י התשובה היא מבחינת טוב וישר,</src>
+    <src s="19">דזה שתשובה מכפרת על הזדונות הוא לא מפני שהאדם ראוי לזה אלא מפני הטוב דהקב"ה,</src>
+    <src s="20">המשכת אוא"ס שלמעלה מהשתלשלות.</src>
+    <src s="21">וזה שע"י המשכה זו מתתקנים הפגמים שלו,</src>
+    <src s="22">והתיקון הוא בפנימיות,</src>
+    <src s="23">הוא לפי שהמשכת הטוב היא באופן דחסד,</src>
+    <src s="24">שהאדם השב הוא כמו כלי לההמשכה.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,28 @@
+{
+  "id": "574df64c-b4c6-43bc-9f7f-b230d797a1b7",
+  "object": "chat.completion",
+  "created": 1783583808,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918353_theRebbe_128\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>Opening header with the date and Torah portion for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Tazria-Metzora,</t>\n    <t s=\"2\">3 Iyar 5747*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>Explains the verse \"A garden locked, my sister, my bride\" and the Targum's interpretation that Israel locks their gates to the Holy One, blessed be He, meaning their delight is only in G-dliness.</sectionSummaryBrief>\n    <t s=\"0\">\"A garden locked, my sister, my bride, a spring sealed, a fountain sealed.\"</t>\n    <t s=\"1\">And the Rebbe Maharash, whose birthday is the 2nd of Iyar, brings in the maamar of Parshas Tazria-Metzora in the continuation \"Matzah Zo\" of 5640,</t>\n    <t s=\"2\">the explanation of the Targum,</t>\n    <t s=\"3\">that just as the Garden of Eden is locked and no one can enter it except the souls of the righteous,</t>\n    <t s=\"4\">so too Israel lock their gates to their Master, the Holy One, blessed be He.</t>\n    <t s=\"5\">And he explains in the maamar,</t>\n    <t s=\"6\">that \"gan\" (garden) is delight,</t>\n    <t s=\"7\">and the concept of \"a garden locked\" is that the delight is only in G-dliness,</t>\n    <t s=\"8\">\"and with You I do not desire.\"</t>\n    <t s=\"9\">And it is noteworthy that in the preceding maamar</t>\n    <t s=\"10\">he explains that \"a garden locked\" is \"turn away from evil.\"</t>\n    <t s=\"11\">For the concept of \"turn away from evil\" is primarily in actual deed.</t>\n    <t s=\"12\">And the innovation in this maamar</t>\n    <t s=\"13\">(according to the explanation of the Targum)</t>\n    <t s=\"14\">is,</t>\n    <t s=\"15\">that \"a garden locked\" means that even his delight is only in G-dliness.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>Questions why the Targum specifies the Garden of Eden, since the simple metaphor of a locked garden already implies that one's delight is only in G-dliness.</sectionSummaryBrief>\n    <t s=\"0\">Now, in the Metzudas Dovid on the verse he explains,</t>\n    <t s=\"1\">that Israel are like a locked garden that no one can enter except the owner of the garden.</t>\n    <t s=\"2\">And it needs to be understood,</t>\n    <t s=\"3\">after all, that \"gan\" is delight is also in a simple garden,</t>\n    <t s=\"4\">and if so,</t>\n    <t s=\"5\">even from the parable of a simple locked garden it is understood that the concept of \"they lock their gates\" is that his delight is only in G-dliness,</t>\n    <t s=\"6\">and what is added in understanding the concept of \"Israel lock their gates\" through the explanation that \"a garden locked\" refers to the Garden of Eden?</t>\n    <t s=\"7\">And especially since \"a garden locked\" simply</t>\n    <t s=\"8\">(according to the explanation of the Metzudas Dovid)</t>\n    <t s=\"9\">seems to correspond more to the moral.</t>\n    <t s=\"10\">For since \"a garden locked\" in the moral is the delight of the person</t>\n    <t s=\"11\">(Israel)</t>\n    <t s=\"12\">that is locked and closed from delighting in the delights of the world,</t>\n    <t s=\"13\">the parable that corresponds to this, seemingly, is from a simple garden,</t>\n    <t s=\"14\">and why does the Targum explain that \"a garden locked\" refers to the Garden of Eden, which is</t>\n    <t s=\"15\">(from the outset)</t>\n    <t s=\"16\">the delight in G-dliness.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1530,
+    "completion_tokens": 1115,
+    "total_tokens": 2645,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 1146
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

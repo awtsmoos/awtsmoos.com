@@ -1,0 +1,133 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918633_theRebbe_459" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918633_theRebbe_459" title="מאמר בחודש השלישי תשכ"ט" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">וזהו ביום הזה באו מדבר סיני,</src>
+    <src s="2">ומבאר בתו"א,</src>
+    <src s="3">דמדבר הוא מלשון דיבור,</src>
+    <src s="4">ונקרא מדבר בתוספת מ'</src>
+    <src s="5">(דמ' הוא מאותיות האמנתי"ו שמורים על הקטנת הענין26)</src>
+    <src s="6">להורות שהדיבור הוא בביטול.</src>
+    <src s="7">[וענין זה שייך גם למדבר כפשוטו,</src>
+    <src s="8">ארץ לא זרועה27,</src>
+    <src s="9">דכשהדיבור הוא ע"פ שכלו ורצונו,</src>
+    <src s="10">השכל והרצון הם הזריעה שעי"ז הוא צמיחת הדיבור.</src>
+    <src s="11">וענין מדבר ארץ לא זרועה הוא שהדיבור דתורה שמדַבר הוא דבר ה' ואינו זרוע משכלו ורצונו28].</src>
+    <src s="12">וסיני הוא שירדה שנאה לאומות העולם29,</src>
+    <src s="13">והוא שהתורה נקראת תושי'30</src>
+    <src s="14">לפי שמתשת כח הסט"א.</src>
+    <src s="15">ויש לומר,</src>
+    <src s="16">דזה שביום הזה באו מדבר הוא לפי שביום הזה</src>
+    <src s="17">(ר"ח)</src>
+    <src s="18">הלבנה</src>
+    <src s="19">[וכן ישראל שמונין ללבנה]</src>
+    <src s="20">היא נקודה בלבד,</src>
+    <src s="21">וזה שביום הזה באו סיני שירדה שנאה ליצה"ר31</src>
+    <src s="22">הוא לפי שביום הזה</src>
+    <src s="23">(ר"ח סיון)</src>
+    <src s="24">נשלם הבירור של עיקרי המדות דנפש הבהמית.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דלפי הנ"ל,</src>
+    <src s="3">זה שבר"ח סיון נשלמו עיקרי המדות הוא ביאור בשלימות האדם,</src>
+    <src s="4">ובהדרוש שבתו"א מקשר זה עם זה שבר"ח הוא מולד הלבנה,</src>
+    <src s="5">ענין הביטול.</src>
+    <src s="6">וי"ל הביאור בזה,</src>
+    <src s="7">דענין מולד הלבנה הוא</src>
+    <src s="8">(לא הביטול שלה,</src>
+    <src s="9">אלא אדרבה32)</src>
+    <src s="10">שנולד מציאותה,</src>
+    <src s="11">ע"י שנמשך בה אור השמש.</src>
+    <src s="12">וזה שבעת המולד היא רק נקודה בלבד,</src>
+    <src s="13">שזה מורה על הביטול שלה</src>
+    <src s="14">(כנ"ל),</src>
+    <src s="15">הוא,</src>
+    <src s="16">שהמציאות דהלבנה,</src>
+    <src s="17">האור שלה,</src>
+    <src s="18">היא בבחינת ביטול,</src>
+    <src s="19">שנרגש בה שהאור שבה הוא לא משל עצמה ורק שמקבלת מהשמש.</src>
+    <src s="20">ועד"ז הוא בישראל שמונין ללבנה,</src>
+    <src s="21">דענין הביטול דר"ח בעבודת האדם הוא שהמציאות שלו היא בביטול.</src>
+    <src s="22">[ויש לומר דזהו שמבואר בתו"א דזה שר"ח נקרא יום הזה</src>
+    <src s="23">(סתם)</src>
+    <src s="24">הוא כי יום הזה הוא אהבה שבבחינת ביטול</src>
+    <src s="25">[דיום הוא אור כמ"ש33</src>
+    <src s="26">ויקרא אלקים לאור יום ואהבה היא אור,</src>
+    <src s="27">וזה הוא יחו"ע</src>
+    <src s="28">(שלכן משה רבינו נתנבא בזה34),</src>
+    <src s="29">ויום הזה הוא אהבה שבבחינת ביטול דיחו"ע],</src>
+    <src s="30">כי מהטעמים על זה שאהבה נק' בשם אור,</src>
+    <src s="31">הוא,</src>
+    <src s="32">לפי שאהבה היא התפשטות35</src>
+    <src s="33">[ולכן היראה שהיא כיווץ</src>
+    <src s="34">(היפך ההתפשטות)</src>
+    <src s="35">נקראת בשם חושך36],</src>
+    <src s="36">והביטול דר"ח הוא לא באופן שמתבטל ממציאותו</src>
+    <src s="37">(דוגמת הביטול דיראה),</src>
+    <src s="38">כי אם,</src>
+    <src s="39">שההתפשטות</src>
+    <src s="40">(המציאות)</src>
+    <src s="41">שלו היא בביטול].</src>
+    <src s="42">ועפ"ז יש לבאר הקשר דשני הענינים שבר"ח סיון</src>
+    <src s="43">(ביטול הלבנה והשלמת עיקרי המדות),</src>
+    <src s="44">כי ענין מולד הלבנה הוא שהמציאות הוא בביטול.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">ועפ"ז יש לבאר מה שהקשו התוספות דהוה לי' למילף מדבר ממדבר,</src>
+    <src s="2">כי זה שבר"ח סיון באו לבחינת מדבר הוא ביטול נעלה יותר מזה שר"ח נק' יום הזה.</src>
+    <src s="3">דענין יום הזה הוא שהוא במציאות</src>
+    <src s="4">(ועד למציאות דהתפשטות,</src>
+    <src s="5">יום)</src>
+    <src s="6">אלא שהמציאות שלו היא בביטול</src>
+    <src s="7">(הזה),</src>
+    <src s="8">משא"כ זה שבר"ח סיון באו לבחינת מדבר</src>
+    <src s="9">[שהדיבור שלו אינו דיבור עצמו כלל,</src>
+    <src s="10">ופה האדם הוא רק כלי לדבר הוי' המדַבר על ידו,</src>
+    <src s="11">וע"ד דבר ה' בפי הנביא37]</src>
+    <src s="12">הוא ביטול המציאות.</src>
+    <src s="13">וכיון שעיקר המעלה דר"ח סיון הוא שבו באו להביטול דמדבר,</src>
+    <src s="14">לכן מקום לומר שהרמז בכתוב</src>
+    <src s="15">(שזה הי' בר"ח סיון)</src>
+    <src s="16">הוא בתיבת מדבר38.</src>
+    <src s="17">וזה שהלימוד בגמרא הוא מביום הזה,</src>
+    <src s="18">הוא,</src>
+    <src s="19">כי הענין דיום הזה שבר"ח סיון הוא נעלה יותר גם מהביטול דמדבר,</src>
+    <src s="20">כדלקמן.</src>
+  </section>
+</awtsmoosMeluketSource>

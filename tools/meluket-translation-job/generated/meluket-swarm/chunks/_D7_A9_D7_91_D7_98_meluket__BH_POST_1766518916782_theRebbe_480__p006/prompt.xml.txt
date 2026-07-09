@@ -1,0 +1,151 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916782_theRebbe_480" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916782_theRebbe_480" title="מאמר באתי לגני תשכ"ט" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p006">
+  <section v="15">
+    <src s="0">י)</src>
+    <src s="1">ג)</src>
+    <src s="2">וממשיך בהמאמר,</src>
+    <src s="3">דאיתא במדרש85,</src>
+    <src s="4">דנעימות בימינך נצח זה הלולב שניקח בימין,</src>
+    <src s="5">שעי"ז הנצחון הוא בגילוי.</src>
+    <src s="6">וכדאיתא במדרש86</src>
+    <src s="7">משל לשנים שנכנסו אצל הדיין ולית אנן ידעין מאן הוא נוצח אלא מאן דנסיב באיין</src>
+    <src s="8">(לולב והדס87)</src>
+    <src s="9">בידי' אנן ידעין דהוא נצוחייא,</src>
+    <src s="10">כך ישראל כו' אנו יודעין דישראל אינון נצוחייא.</src>
+    <src s="11">ויש לומר,</src>
+    <src s="12">דזה שמביא</src>
+    <src s="13">(מהמדרש)</src>
+    <src s="14">ולית אנן ידעין מאן הוא נוצח88,</src>
+    <src s="15">הוא,</src>
+    <src s="16">כי מכיון שכל ענין הנצחון הוא לנצח את המנגד,</src>
+    <src s="17">הרי כל מה שהמנגד הוא בתוקף יותר,</src>
+    <src s="18">הנצחון הוא ביותר.</src>
+    <src s="19">ולכן מביא בהמאמר "לית אנן ידעין כו'",</src>
+    <src s="20">היינו שהמנגד הוא בתוקף כ"כ עד שיכול להיות ספק שהוא יהי' המנצח ח"ו,</src>
+    <src s="21">וכשמנצחים המנגד כשהוא בתוקף,</src>
+    <src s="22">אז הוא אמיתית ועיקר ענין הנצחון.</src>
+    <src s="23">ועפ"ז יובן גם מ"ש בסיום וחותם הפרק דענין הנצחון הוא להיות אתכפיא סט"א,</src>
+    <src s="24">אתכפיא דוקא,</src>
+    <src s="25">אף שבתחלת ההמשך אומר</src>
+    <src s="26">(כו"כ פעמים)</src>
+    <src s="27">"אתכפיא ואתהפכא"89,</src>
+    <src s="28">כי ענין ועשו לי מקדש שבזה מדבר בתחלת ההמשך,</src>
+    <src s="29">נעשה בעיקר ע"י העבודה דאתהפכא,</src>
+    <src s="30">דע"י שהאדם מהפך את נפש הבהמית שלו לקדושה,</src>
+    <src s="31">נעשה כן גם בעולם90,</src>
+    <src s="32">שהעולם נהפך להיות מקדש ודירה לו ית'.</src>
+    <src s="33">משא"כ ענין הנצח</src>
+    <src s="34">(דכל מה שהמנגד הוא בתוקף יותר הנצחון הוא ביותר,</src>
+    <src s="35">כנ"ל)</src>
+    <src s="36">הוא בעיקר ע"י העבודה דאתכפיא סט"א בעודה בתקפה ובגבורתה91.</src>
+    <src s="37">וזהו גם מה שמסיים בהפרק "ובשביל זה הוא התגלות אוצר העליון",</src>
+    <src s="38">שעיקר התגלות האוצר ובאופן דבזבוז הוא בשביל העבודה דאתכפיא דוקא92.</src>
+  </section>
+  <section v="16">
+    <src s="0">ויש לקשר זה עם המבואר בהמאמר93</src>
+    <src s="1">דהגם שמסירת האוצר הוא ע"י שרים ופקידים דוקא,</src>
+    <src s="2">הכוונה פנימית הם האנשי חיל,</src>
+    <src s="3">כי ההפרש בין אתכפיא לאתהפכא הוא,</src>
+    <src s="4">כמו שמבאר אדמו"ר מהר"ש94,</src>
+    <src s="5">דאתהפכא הוא שמואס ברע,</src>
+    <src s="6">וכן עבודתו בהקו דועשה טוב היא כמ"ש95</src>
+    <src s="7">חפץ מאד,</src>
+    <src s="8">שהוא חפץ במצוות בחשק ורצון,</src>
+    <src s="9">דענין זה הוא רק בצדיקים</src>
+    <src s="10">(שרים ופקידים),</src>
+    <src s="11">משא"כ אתכפיא הוא,</src>
+    <src s="12">דהגם שאינו מואס ברע,</src>
+    <src s="13">וגם בנוגע לועשה טוב אין לו חשק ורצון במצוות,</src>
+    <src s="14">מ"מ הוא כופה את עצמו להיות סור מרע ועשה טוב,</src>
+    <src s="15">בדרך נצחון.</src>
+    <src s="16">וענין זה שייך לכל אחד מישראל</src>
+    <src s="17">(אנשי חיל),</src>
+    <src s="18">כדאיתא בתניא96</src>
+    <src s="19">דאתכפיא סט"א בעודה בתקפה ובגבורתה היא מדת הבינונים,</src>
+    <src s="20">דמדת הבינוני היא מדת כל אדם97.</src>
+    <src s="21">ויש לומר,</src>
+    <src s="22">דזהו גם הקשר דנצח ישראל עם לולב ומיניו,</src>
+    <src s="23">דהמינים שבלולב מורים על הסוגים דישראל98,</src>
+    <src s="24">וגם סוג הכי תחתון שבישראל שנמשל לערבה שאין בה לא טעם ולא ריח יש בהם כח הנצחון,</src>
+    <src s="25">ואדרבא,</src>
+    <src s="26">דוקא בערבה כח הנצחון הוא ביותר</src>
+    <src s="27">[וכידוע99</src>
+    <src s="28">שנצח והוד הם בדי ערבות שאין בהם לא טעם ולא ריח],</src>
+    <src s="29">וע"י שהערבות מעוררים את כח הנצחון</src>
+    <src s="30">(לנצח את היצר בעודו בתקפו ובגבורתו),</src>
+    <src s="31">הם מתקשרים עם ההדסים והלולב100,</src>
+    <src s="32">ועל ידם נמשך בהם גם מעין101</src>
+    <src s="33">הענין דאתהפכא102,</src>
+    <src s="34">ועי"ז יודעים דישראל אינון נצוחייא103,</src>
+    <src s="35">שהנצחון הוא בגילוי לעין כל.</src>
+  </section>
+  <section v="17">
+    <src s="0">י)</src>
+    <src s="1">ד)</src>
+    <src s="2">וביאור העילוי דההמשכה</src>
+    <src s="3">(בזבוז האוצרות)</src>
+    <src s="4">שעל ידי העבודה דאתכפיא דוקא בפרטיות יותר,</src>
+    <src s="5">יובן ע"פ מ"ש אדמו"ר</src>
+    <src s="6">(מהורש"ב)</src>
+    <src s="7">נ"ע104</src>
+    <src s="8">בביאור המאמר כד אתכפיא סט"א אסתלק יקרא דקוב"ה בכולהו עלמין,</src>
+    <src s="9">דהטעם על זה שע"י אתכפיא סט"א נמשך אור נעלה כזה שנק' בשם "אסתלק" להיותו אור מקיף "שמסולק מבחי' הפנימיות"105</src>
+    <src s="10">הוא,</src>
+    <src s="11">כי יתרון האור הוא מן החושך דוקא,</src>
+    <src s="12">שע"י בירור החושך נמשך תוספות אור,</src>
+    <src s="13">שלמעלה מהאור שנמשך בסוד שרש שנמדד ונקצב לפי ערך העולמות.</src>
+    <src s="14">ומבאר שם,</src>
+    <src s="15">דזהו הטעם על זה שהאדם מקבל חיות מהמאכלים דדצ"ח,</src>
+    <src s="16">דע"י שפועל בעצמו שלא להימשך אחר התענוג הגשמי שבהמאכל אלא שכוונתו תהי' לשם שמים שבכח האכילה ילמד ויתפלל</src>
+    <src s="17">[שבכדי שיפעול בעצמו שכוונתו בהאכילה תהי' באמת לשם שמים צ"ל תחלה העבודה דתפלה בהתבוננות כזו שמובנת גם לנה"ב,</src>
+    <src s="18">שגם נה"ב תבין ותשיג שצריך לרצות באלקות ולא בחומריות העולם],</src>
+    <src s="19">שעי"ז מברר את המאכל שמפריד ממנו את הרע ומעלה את הטוב,</src>
+    <src s="20">הנה ע"י בירור זה,</src>
+    <src s="21">נמשך לו תוספות אור,</src>
+    <src s="22">בחינת המקיף.</src>
+    <src s="23">וזהו כד אתכפיא סט"א אסתלק יקרא דקוב"ה בכולהו עלמין,</src>
+    <src s="24">כי המשכת המקיף היא ע"י בירור החושך דוקא.</src>
+    <src s="25">ולהעיר,</src>
+    <src s="26">דמזה שמבאר שם שפירוש כד אתכפיא סט"א הוא בירור החושך</src>
+    <src s="27">[ובפרט מהדוגמא דבירור המאכל ע"י שאוכל לשם שמים,</src>
+    <src s="28">שזה בא לאחרי הבירור דנה"ב ע"י עבודת התפלה],</src>
+    <src s="29">מובן,</src>
+    <src s="30">שגם במאמר זה106</src>
+    <src s="31">מפרש שהכוונה בכד אתכפיא סט"א היא</src>
+    <src s="32">(בעיקר)</src>
+    <src s="33">לאתכפיא שמביא לידי אתהפכא.</src>
+  </section>
+</awtsmoosMeluketSource>

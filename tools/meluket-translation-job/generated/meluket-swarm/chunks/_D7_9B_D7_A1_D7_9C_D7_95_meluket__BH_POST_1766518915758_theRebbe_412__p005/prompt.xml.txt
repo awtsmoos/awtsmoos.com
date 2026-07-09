@@ -1,0 +1,171 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915758_theRebbe_412" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915758_theRebbe_412" title="מאמר להבין ענין נרות חנוכה תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p005">
+  <section v="12">
+    <src s="0">והנה ידוע54,</src>
+    <src s="1">דהגם שעתיק הוא מלשון נעתק ונבדל55,</src>
+    <src s="2">מ"מ,</src>
+    <src s="3">מזה שנקרא בשם עתיק יומין56</src>
+    <src s="4">(שהוא נעתק מיומין),</src>
+    <src s="5">מובן,</src>
+    <src s="6">שגם לגבי הדרגא דעתיק,</src>
+    <src s="7">ישנם יומין,</src>
+    <src s="8">אלא שהוא נעתק מהם.</src>
+    <src s="9">[ויתירה מזה54,</src>
+    <src s="10">שגם הדרגא שנק' עתיק</src>
+    <src s="11">(סתם),</src>
+    <src s="12">שלמעלה מעתיק יומין,</src>
+    <src s="13">מ"מ,</src>
+    <src s="14">כיון שנק' בשם עתיק,</src>
+    <src s="15">דפירוש עתיק הוא שנעתק,</src>
+    <src s="16">בהכרח לומר,</src>
+    <src s="17">שישנו ענין שממנו הוא נעתק].</src>
+    <src s="18">ולכן,</src>
+    <src s="19">ביטול הגזירה שמצד הדרגא דהשתלשלות ע"י המשכת עתיק היא בדרך פעולה.</src>
+    <src s="20">שמצד ההשתלשלות</src>
+    <src s="21">(יומין)</src>
+    <src s="22">נגזר שלא תהי' ההשפעה,</src>
+    <src s="23">וע"י המשכת עתיק,</src>
+    <src s="24">היא מתבטלת.</src>
+    <src s="25">[אלא שביטול הגזירה שבהשתלשלות ע"י המשכת עתיק הוא באופן שההשתלשלות עצמו נעשה באופן כזה].</src>
+    <src s="26">אבל השינוי בהשתלשלות ע"י המשכת פנימיות עתיק אינו בדרך פעולה אלא ממילא.</src>
+    <src s="27">והענין הוא,</src>
+    <src s="28">דפנימיות עתיק הוא א"ס שברדל"א</src>
+    <src s="29">(כמבואר בהמאמר57).</src>
+    <src s="30">וכיון דפירוש א"ס הוא שאין בו שום הגבלה,</src>
+    <src s="31">הרי מובן,</src>
+    <src s="32">שלגבי א"ס אין שייך לומר שהוא נעתק ונבדל מענין ההשתלשלות,</src>
+    <src s="33">כי לגבי' אין שייך ענין ההשתלשלות.</src>
+    <src s="34">[והגם שהוא נמצא ברדל"א,</src>
+    <src s="35">הרי מבואר בהמאמר שהוא נמצא ברדל"א כמו שהוא בעצמותו].</src>
+    <src s="36">ומזה מובן,</src>
+    <src s="37">דביטול הגזירה שמצד ההשתלשלות ע"י המשכת הגילוי דפנימיות עתיק הוא</src>
+    <src s="38">(לא שע"י הגילוי דפנימיות עתיק נעשה ביטול הגזירה,</src>
+    <src s="39">כי אם),</src>
+    <src s="40">שמצד הגילוי דפנימיות עתיק,</src>
+    <src s="41">א"ס</src>
+    <src s="42">(שברדל"א),</src>
+    <src s="43">אין מקום מלכתחילה לגזירה.</src>
+    <src s="44">ועפ"ז יש לבאר מ"ש בהמאמר דענין חסידיך יברכוכה הוא כדאיתא בירושלמי אפילו הוא</src>
+    <src s="45">(הקב"ה)</src>
+    <src s="46">אמר הכין ואת אמר הכין דידך קיימא דידי לא קיימא,</src>
+    <src s="47">דפירוש דידי לא קיימא הוא</src>
+    <src s="48">(לא שע"י שאת אמר הכין מתבטלת הגזירה,</src>
+    <src s="49">כי אם),</src>
+    <src s="50">שע"י הגילוי דפנימיות עתיק שנמשך ע"י את אמר הכין,</src>
+    <src s="51">אין מקום מלכתחילה לגזירה,</src>
+    <src s="52">לא קיימא.</src>
+    <src s="53">וזהו יודוך גו' וחסידיך יברכוכה,</src>
+    <src s="54">שההמשכה מהמקום שבו הוא ההודאה באופן דברכה</src>
+    <src s="55">(בדרך ממילא)</src>
+    <src s="56">הוא ע"י חסידיך דוקא,</src>
+    <src s="57">כי ההמשכה שע"י חסידיך היא מפנימיות עתיק,</src>
+    <src s="58">וההמשכה משם היא</src>
+    <src s="59">(לא בדרך פעולה,</src>
+    <src s="60">אלא)</src>
+    <src s="61">בדרך ממילא.</src>
+  </section>
+  <section v="13">
+    <src s="0">ט)</src>
+    <src s="1">והנה החילוק שבין ג' המשכות הנ"ל</src>
+    <src s="2">(אריך,</src>
+    <src s="3">עתיק ופנימיות עתיק)</src>
+    <src s="4">הוא גם בענין הבירורים.</src>
+    <src s="5">דהבירור שע"י הגילוי דאריך הוא בדרך מלמעלה למטה.</src>
+    <src s="6">היינו58</src>
+    <src s="7">שהבירור דהתחתון הוא לא מצד המציאות שלו אלא אדרבא,</src>
+    <src s="8">מפני שע"י שמאיר בו גילוי אור שאינו בערך אליו</src>
+    <src s="9">[בחינת סובב],</src>
+    <src s="10">הוא מתבטל ממציאותו.</src>
+    <src s="11">ולכן,</src>
+    <src s="12">גם לאחרי הבירור,</src>
+    <src s="13">זה שהתחתון אינו מנגד הוא לפי שנתבטל ממציאותו ע"י הגילוי אור,</src>
+    <src s="14">אבל לא שנעשה שינוי בהמציאות דהתחתון עצמו.</src>
+    <src s="15">והבירור שע"י הגילוי דעתיק הוא גם מצד ענינו דהתחתון עצמו59.</src>
+    <src s="16">דכיון שתענוג</src>
+    <src s="17">(עתיק)</src>
+    <src s="18">הוא הפנימיות והחיות דכל ההשתלשלות,</src>
+    <src s="19">לכן,</src>
+    <src s="20">הבירור דהתחתון שע"י גילוי זה הוא באופן שנעשה שינוי בהתחתון עצמו.</src>
+    <src s="21">וכמבואר בהמאמר60</src>
+    <src s="22">בענין הבירור ע"י הגילוי שהאיר ע"י שלמה</src>
+    <src s="23">[דהגילוי שהאיר ע"י שלמה הוא הגילוי דעתיק],</src>
+    <src s="24">שהגילוי אור משך אליו את הנצוצות,</src>
+    <src s="25">בדוגמת אבוקה שמושכת אלי' את הנצוצות.</src>
+    <src s="26">וכיון שהבירור הי' באופן שהנצוצות</src>
+    <src s="27">(שבהתחתון)</src>
+    <src s="28">נמשכו מעצמם להגילוי,</src>
+    <src s="29">הרי מובן,</src>
+    <src s="30">שהבירור אז הי' גם מצד ענינו דהתחתון61.</src>
+    <src s="31">אלא שמ"מ,</src>
+    <src s="32">כיון שגם לגבי עתיק יש המציאות דהשתלשלות,</src>
+    <src s="33">ומצד סדר ההשתלשלות,</src>
+    <src s="34">גדר התחתון הוא שהוא תחתון</src>
+    <src s="35">(היפך דעליון62),</src>
+    <src s="36">לכן הגילוי אור דהעליון שנמשך בו</src>
+    <src s="37">[ובמילא,</src>
+    <src s="38">גם הבירור שנעשה ע"י הגילוי]</src>
+    <src s="39">הוא כמו דבר נוסף עליו.</src>
+    <src s="40">והבירור שע"י הגילוי דפנימיות עתיק,</src>
+    <src s="41">כיון שפנימיות עתיק</src>
+    <src s="42">(א"ס שברדל"א)</src>
+    <src s="43">הוא</src>
+    <src s="44">(בכללות)</src>
+    <src s="45">עצמות אוא"ס,</src>
+    <src s="46">דלגבי עצמות אוא"ס אין שייך מציאות שחוץ ממנו,</src>
+    <src s="47">ואדרבא,</src>
+    <src s="48">אמיתת המצאו ית' היא המציאות של כל הנמצאים63,</src>
+    <src s="49">לכן,</src>
+    <src s="50">ע"י גילוי פנימיות עתיק,</src>
+    <src s="51">נרגש בכל דבר שהמציאות שלו גופא היא אלקות.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">וזהו שבימי שלמה נתבררו רק נצוצות אלו שהי' בהם איזה ענין של אור ולע"ל יתבררו כל הנצוצות,</src>
+    <src s="3">כי בירור הנצוצות שע"י גילוי חיצוניות עתיק</src>
+    <src s="4">[שהגילוי שהי' בימי שלמה הי' הגילוי דחיצוניות עתיק]</src>
+    <src s="5">הוא לא מצד הנצוצות עצמם אלא מצד זה שהגילוי מושך את הנצוצות אליו,</src>
+    <src s="6">ולכן נתבררו אז רק נצוצות אלו ששייכים להרגיש גילוי אור.</src>
+    <src s="7">והבירור שע"י גילוי פנימיות עתיק הוא שע"י הגילוי דפנימיות עתיק מתגלה בכל דבר שהמציאות שלו גופא היא אלקות,</src>
+    <src s="8">ולכן לע"ל שאז יהי' הגילוי דפנימיות עתיק,</src>
+    <src s="9">גם הנצוצות שנחשכו יתעלו ויוכללו בקדושה,</src>
+    <src s="10">ויתירה מזה,</src>
+    <src s="11">שגם הדברים הגשמיים עצמם</src>
+    <src s="12">(לא רק הנצוצות שבהם)</src>
+    <src s="13">יהיו בתכלית ההתאחדות באלקות,</src>
+    <src s="14">כמשנ"ת בד"ה פדה בשלום שנאמר בי"ט כסלו.</src>
+  </section>
+</awtsmoosMeluketSource>

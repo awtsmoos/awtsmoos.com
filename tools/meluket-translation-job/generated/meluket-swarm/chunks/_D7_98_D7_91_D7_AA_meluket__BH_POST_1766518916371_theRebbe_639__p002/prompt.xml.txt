@@ -1,0 +1,147 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916371_theRebbe_639" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916371_theRebbe_639__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916371_theRebbe_639" title="מאמר וידבר אלוקים אל משה תשל"א" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916371_theRebbe_639__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">ויש לקשר זה עם מאמר מבעל ההילולא</src>
+    <src s="2">(שלא נדפס עדיין)</src>
+    <src s="3">ד"ה אשרי יושבי ביתך7</src>
+    <src s="4">[וכנראה שהמאמר ד"ה זה שבסידור מאדמו"ר האמצעי,</src>
+    <src s="5">מיוסד הוא על מאמר הנ"ל,</src>
+    <src s="6">ובארוכה יותר נתבאר בפירוש המלות מאדמו"ר האמצעי8,</src>
+    <src s="7">ובפירוש המלות מהצ"צ9</src>
+    <src s="8">– בתוס' הערות ומ"מ],</src>
+    <src s="9">שמבאר10</src>
+    <src s="10">שם כל תפלת אשרי עד הפסוק קרוב הוי' לכל קוראיו</src>
+    <src s="11">(והמשך הפסוקים כבר נתבאר במקומות אחרים בדרושי אדמו"ר הזקן).</src>
+    <src s="12">ותוכן ביאורו הוא,</src>
+    <src s="13">דאשרי הוא בחי' כתר עליון,</src>
+    <src s="14">שנקרא אשרי שהו"ע התענוג</src>
+    <src s="15">(מלשון באשרי כי אשרוני בנות11).</src>
+    <src s="16">וכן כתר עליון נקרא עתיק שהוא בחי' עונג העליון,</src>
+    <src s="17">וממנו מתלבש באו"א הנקראים יושבי ביתך,</src>
+    <src s="18">שהם ב' הבתים דחכמה ובינה.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">וממשיך לבאר המזמור12</src>
+    <src s="2">תהלה לדוד ארוממך אלקי המלך גו'</src>
+    <src s="3">(שמזמור זה הוא עיקר תפלת אשרי והוא סיבת אמירתה,</src>
+    <src s="4">כמארז"ל13</src>
+    <src s="5">האומר תהלה לדוד ג"פ בכל יום מובטח לו כו').</src>
+    <src s="6">ומבאר בזה,</src>
+    <src s="7">דארוממך הוא ג"כ בחי' כתר,</src>
+    <src s="8">שנקרא רם מפני שהוא מרומם מכל הי"ס,</src>
+    <src s="9">כי כל הי"ס הם בבחי' גילוי,</src>
+    <src s="10">אבל הכתר הוא סתימא דכל סתימין,</src>
+    <src s="11">ולכן אמר על הכתר ארוממך,</src>
+    <src s="12">שהוא מרומם.</src>
+    <src s="13">וזהו גם פירוש ארוממך בכ"ף,</src>
+    <src s="14">כי הכ"ף רומז ג"כ על בחי' כתר,</src>
+    <src s="15">הא' מפני שכ' הוא התחלת תיבת כתר,</src>
+    <src s="16">והב' כי כ' הוא ב"פ יו"ד,</src>
+    <src s="17">שהוא עשר ספירות באור ישר שמלמעלה למטה,</src>
+    <src s="18">וע"ס באור חוזר שמלמטה למעלה14,</src>
+    <src s="19">והם נכללים בכתר</src>
+    <src s="20">[משא"כ כפי שהם בפני עצמם לא שייך שיהיו במספר עשרים,</src>
+    <src s="21">כי הם שני סוגים שונים15,</src>
+    <src s="22">ודוקא בכתר נכללים הם להיות מציאות אחת של עשרים].</src>
+    <src s="23">אמנם,</src>
+    <src s="24">ממש"נ ארוממך בלשון נוכח,</src>
+    <src s="25">משמע לכאורה שהוא לשון גילוי,</src>
+    <src s="26">והרי הכתר הוא נעלם מהשגת הנבראים.</src>
+    <src s="27">אך על זה אמר אח"כ אלקי המלך,</src>
+    <src s="28">כלומר,</src>
+    <src s="29">עיקר סיבת ההשגה בו הוא מפני שמתלבש במלך,</src>
+    <src s="30">דהיינו מלכות דאצילות,</src>
+    <src s="31">שבה מתלבש הכתר,</src>
+    <src s="32">כי נעוץ סופן בתחלתן כו'16.</src>
+    <src s="33">והטעם הוא,</src>
+    <src s="34">כי בהיות מלכות דאצילות יורדת למטה מטה במקום הקליפות לברר בירורים,</src>
+    <src s="35">הנה לסיבה זו יכולים הקליפות לינק ממנה,</src>
+    <src s="36">וע"כ צריכה שמירה ממקום גבוה,</src>
+    <src s="37">דהיינו מבחי' אור הכתר,</src>
+    <src s="38">ובזה גופא,</src>
+    <src s="39">לא רק חיצוניות הכתר,</src>
+    <src s="40">אלא גם פנימיות הכתר,</src>
+    <src s="41">וכנ"ל דאשרי קאי על עתיק שהוא תענוג העליון דהיינו פנימיות הכתר</src>
+    <src s="42">(ולא רק רצון שהוא חיצוניות הכתר),</src>
+    <src s="43">ובחי' זו שהיא למעלה ביותר,</src>
+    <src s="44">נמשכת ונעוצה דוקא במלכות שהיא סוף הספירות.</src>
+    <src s="45">וי"ל שזהו ג"כ מ"ש ארוממך בכ' ארוכה,</src>
+    <src s="46">כידוע שהמשכת הכ"ף למטה מן השורה מורה שהיא יורדת למטה מטה ביותר.</src>
+    <src s="47">וזהו מה שממשיך ואברכה שמך לעולם ועד,</src>
+    <src s="48">שלאחר שנתגלה הארת הכתר במלכות,</src>
+    <src s="49">אזי יומשך ממנה השפע לעולמות בי"ע,</src>
+    <src s="50">וזהו ואברכה מלשון המבריך את הגפן17,</src>
+    <src s="51">דהיינו ההמשכה שנמשכת מבחי' המלכות שנקראת שמך,</src>
+    <src s="52">שהיא בחי' שם והארה בלבד</src>
+    <src s="53">(ולא עצם),</src>
+    <src s="54">וההמשכה היא לעולם ועד,</src>
+    <src s="55">היינו שההמשכה לבי"ע היא לאין קץ,</src>
+    <src s="56">שיוכל להחיות נבראים עד אין קץ,</src>
+    <src s="57">אף שזהו מבחי' שמך בלבד.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">ועד"ז מבואר ג"כ בהמשך המאמר קרוב לסיומו18,</src>
+    <src s="2">במש"נ בהמשך המזמור,</src>
+    <src s="3">פותח את ידיך ומשביע לכל חי רצון צדיק הוי' גו' קרוב הוי' גו'.</src>
+    <src s="4">ומבאר בזה ע"פ משארז"ל19</src>
+    <src s="5">אל תקרי ידיך אלא יודי"ך,</src>
+    <src s="6">ומפרש דפותח את ידיך היינו פתיחו דיודי"ן דתיקוני דיקנא,</src>
+    <src s="7">שהת"ד הם יודי"ן וווי"ן שנמשכים ונפתחים בחכמה,</src>
+    <src s="8">והיינו ענין המשכת הכתר.</src>
+    <src s="9">והמשכה זו היא באופן דמשביע לכל חי רצון,</src>
+    <src s="10">פירוש,</src>
+    <src s="11">כי יסוד נקרא חי,</src>
+    <src s="12">מפני שעל ידו הם כל ההשפעות,</src>
+    <src s="13">ולכן נמשך הכתר בבחי' היסוד כדי שעל ידו יושפע לכל סדר ההשתלשלות.</src>
+    <src s="14">וממשיך לבאר20</src>
+    <src s="15">מ"ש צדיק הוי' בכל דרכיו,</src>
+    <src s="16">דצדיק הוא ג"כ יסוד,</src>
+    <src s="17">וההפרש בין כשנקרא חי לכשנקרא צדיק הוא,</src>
+    <src s="18">דכשמשפיע חיות לפנימיות העולמות נקרא חי,</src>
+    <src s="19">וכשמשפיע חיות לחיצוניות העולמות נקרא צדיק,</src>
+    <src s="20">וזהו צדיק הוי' בכל דרכיו,</src>
+    <src s="21">שהמשכה זו נמשכת אח"כ בבחי' חיצוניות העולמות,</src>
+    <src s="22">עד בכל דרכיו,</src>
+    <src s="23">בכל דרכי סדר ההשתלשלות.</src>
+    <src s="24">וממשיך לבאר21</src>
+    <src s="25">מ"ש קרוב הוי' לכל קוראיו,</src>
+    <src s="26">שזהו משום שאוא"ס מלובש בעשי' כמו באצילות,</src>
+    <src s="27">ולכן קרוב הוי' לכל קוראיו בשוה.</src>
+  </section>
+</awtsmoosMeluketSource>

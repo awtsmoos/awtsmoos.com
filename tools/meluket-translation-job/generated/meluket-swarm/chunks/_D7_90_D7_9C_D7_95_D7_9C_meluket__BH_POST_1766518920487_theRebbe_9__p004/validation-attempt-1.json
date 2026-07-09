@@ -1,0 +1,434 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 78,
+    "returned": 78,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920487_theRebbe_9\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the illumination of the point of the heart is not as internal as the essence of the point of the heart, which is separate from the externality of the heart.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, it can be said that this is the case regarding the two levels of the innerness of the heart,</t>\n    <t s=\"1\">that the illumination of the point of the heart is not in a level of innerness as much as the innerness of the essence of the point of the heart, which is as it is in its essence,</t>\n    <t s=\"2\">before it illuminates in the externality of the heart.</t>\n    <t s=\"3\">For from the fact that from it, it is drawn to illuminate in the externality of the heart,</t>\n    <t s=\"4\">it is proven</t>\n    <t s=\"5\">that it is not the true essence of innerness.</t>\n    <t s=\"6\">And the true essence of innerness is in the essence of the point of the heart, which is separate from the externality of the heart.</t>\n    <t s=\"7\">And analogous to what was explained above regarding the matter of \"Your face, Hashem,\"</t>\n    <t s=\"8\">which is above even Hashem that is above the investment in Elokim.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section elaborates on the connection between the two levels of the innerness of the heart and the two levels of the innerness above, explaining that the illumination of the point of the heart transforms evil in the garments, while the essence of the point of the heart transforms the midos.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And one should add explanation regarding the connection of the two levels in the innerness of the heart</t>\n    <t s=\"2\">(the illumination of the point of the heart and the essence of the point of the heart)</t>\n    <t s=\"3\">to the two levels in the innerness above</t>\n    <t s=\"4\">(Hashem and the Ein Sof that is above Hashem),</t>\n    <t s=\"5\">based on what is explained in Likkutei Torah there in the explanation of the verse,</t>\n    <t s=\"6\">\"When you go out to war against your enemies,\"</t>\n    <t s=\"7\">that \"when you go out to war\" refers to the war of the Nefesh HaElokis with the Nefesh HaBahamis,</t>\n    <t s=\"8\">that this war is in the powers of the soul that are invested in the body</t>\n    <t s=\"9\">(intellect and midos),</t>\n    <t s=\"10\">but the innerness of the heart</t>\n    <t s=\"11\">(the illumination of the point of the heart)</t>\n    <t s=\"12\">is \"against your enemies,\"</t>\n    <t s=\"13\">above your enemies,</t>\n    <t s=\"14\">where the enemy has no dominion or hold.</t>\n    <t s=\"15\">And through the revelation of the illumination of the point of the heart,</t>\n    <t s=\"16\">\"against your enemies,\"</t>\n    <t s=\"17\">through this, \"and you will take its captivity captive,\"</t>\n    <t s=\"18\">that evil is turned to good.</t>\n    <t s=\"19\">However, the transformation of evil to good that comes through the revelation of the illumination of the point of the heart is only in the garments—thought, speech, and action—</t>\n    <t s=\"20\">and in order to transform the midos from evil to good, it is through the revelation of the essence of the point of the heart.</t>\n    <t s=\"21\">And this is \"and you will see among the captives a woman of beautiful form,\"</t>\n    <t s=\"22\">\"a woman of beautiful form\" is the soul invested in the body,</t>\n    <t s=\"23\">and in order to take her out</t>\n    <t s=\"24\">[her essence and being,</t>\n    <t s=\"25\">i.e., her intellect and midos]</t>\n    <t s=\"26\">from the captivity,</t>\n    <t s=\"27\">it is through the revelation of the essence of the point of the heart.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that regarding the illumination of the point of the heart there is an opposing force, so the extraction is an action, whereas regarding the essence of the point of the heart there is no place for an opposing force, so the soul is revealed of itself.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this—that regarding the transformation of the garments</t>\n    <t s=\"2\">(which is through the revelation of the illumination of the point of the heart)</t>\n    <t s=\"3\">it is written \"and you will take its captivity captive,\"</t>\n    <t s=\"4\">and regarding the transformation of the midos</t>\n    <t s=\"5\">(which is through the revelation of the essence of the point of the heart)</t>\n    <t s=\"6\">it is written \"and you will see among the captives,\" etc.,</t>\n    <t s=\"7\">is,</t>\n    <t s=\"8\">because regarding the illumination of the point of the heart, there is an opposing force.</t>\n    <t s=\"9\">And this is that regarding this level it is written \"against your enemies,\"</t>\n    <t s=\"10\">for regarding the illumination of the point of the heart, there is the existence of the enemy,</t>\n    <t s=\"11\">except that it is in a manner of \"against your enemies,\"</t>\n    <t s=\"12\">above your enemies,</t>\n    <t s=\"13\">where the enemy has no dominion or hold.</t>\n    <t s=\"14\">Therefore,</t>\n    <t s=\"15\">the extraction of the matters of holiness</t>\n    <t s=\"16\">(thought, speech, and action of the soul)</t>\n    <t s=\"17\">from the captivity,</t>\n    <t s=\"18\">which is through the revelation of the illumination of the point of the heart,</t>\n    <t s=\"19\">is in a manner of action,</t>\n    <t s=\"20\">\"and you will take its captivity captive\"</t>\n    <t s=\"21\">[except that the action is not in a manner of war,</t>\n    <t s=\"22\">for regarding this level the enemy has no dominion].</t>\n    <t s=\"23\">But the essence of the point of the heart is</t>\n    <t s=\"24\">[analogous to]</t>\n    <t s=\"25\">the level of Yechidah,</t>\n    <t s=\"26\">which has no counterpart opposite it,</t>\n    <t s=\"27\">\"the reflection of a reflection has no hold on them.\"</t>\n    <t s=\"28\">And therefore, the nullification of the opposing force that comes through the revelation of the essence of the point of the heart is</t>\n    <t s=\"29\">(not that through the revelation of the essence of the point of the heart a nullification of the opposing force is effected,</t>\n    <t s=\"30\">but rather)</t>\n    <t s=\"31\">that through this revelation,</t>\n    <t s=\"32\">there is no place from the outset for the existence of the opposing force.</t>\n    <t s=\"33\">And this is \"and you will see among the captives a woman of beautiful form,\"</t>\n    <t s=\"34\">for when there is the revelation of the essence of the point of the heart,</t>\n    <t s=\"35\">then the level of the soul</t>\n    <t s=\"36\">(\"a woman of beautiful form\")</t>\n    <t s=\"37\">that was initially in captivity,</t>\n    <t s=\"38\">is revealed of itself,</t>\n    <t s=\"39\">\"and you will see\"</t>\n    <t s=\"40\">(and there is no need to take her out of the captivity).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920487_theRebbe_9",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the illumination of the point of the heart is not as internal as the essence of the point of the heart, which is separate from the externality of the heart.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And based on this, it can be said that this is the case regarding the two levels of the innerness of the heart,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that the illumination of the point of the heart is not in a level of innerness as much as the innerness of the essence of the point of the heart, which is as it is in its essence,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "before it illuminates in the externality of the heart."
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "For from the fact that from it, it is drawn to illuminate in the externality of the heart,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "it is proven"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "that it is not the true essence of innerness."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "And the true essence of innerness is in the essence of the point of the heart, which is separate from the externality of the heart."
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "And analogous to what was explained above regarding the matter of \"Your face, Hashem,\""
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "which is above even Hashem that is above the investment in Elokim."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section elaborates on the connection between the two levels of the innerness of the heart and the two levels of the innerness above, explaining that the illumination of the point of the heart transforms evil in the garments, while the essence of the point of the heart transforms the midos.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And one should add explanation regarding the connection of the two levels in the innerness of the heart"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "(the illumination of the point of the heart and the essence of the point of the heart)"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "to the two levels in the innerness above"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "(Hashem and the Ein Sof that is above Hashem),"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "based on what is explained in Likkutei Torah there in the explanation of the verse,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "\"When you go out to war against your enemies,\""
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "that \"when you go out to war\" refers to the war of the Nefesh HaElokis with the Nefesh HaBahamis,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "that this war is in the powers of the soul that are invested in the body"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "(intellect and midos),"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "but the innerness of the heart"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "(the illumination of the point of the heart)"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "is \"against your enemies,\""
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "above your enemies,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "where the enemy has no dominion or hold."
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "And through the revelation of the illumination of the point of the heart,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "\"against your enemies,\""
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "through this, \"and you will take its captivity captive,\""
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "that evil is turned to good."
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "However, the transformation of evil to good that comes through the revelation of the illumination of the point of the heart is only in the garments—thought, speech, and action—"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "and in order to transform the midos from evil to good, it is through the revelation of the essence of the point of the heart."
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "And this is \"and you will see among the captives a woman of beautiful form,\""
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "\"a woman of beautiful form\" is the soul invested in the body,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "and in order to take her out"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "[her essence and being,"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "i.e., her intellect and midos]"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "from the captivity,"
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "it is through the revelation of the essence of the point of the heart."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that regarding the illumination of the point of the heart there is an opposing force, so the extraction is an action, whereas regarding the essence of the point of the heart there is no place for an opposing force, so the soul is revealed of itself.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that this—that regarding the transformation of the garments"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "(which is through the revelation of the illumination of the point of the heart)"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "it is written \"and you will take its captivity captive,\""
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "and regarding the transformation of the midos"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "(which is through the revelation of the essence of the point of the heart)"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "it is written \"and you will see among the captives,\" etc.,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "is,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "because regarding the illumination of the point of the heart, there is an opposing force."
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "And this is that regarding this level it is written \"against your enemies,\""
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "for regarding the illumination of the point of the heart, there is the existence of the enemy,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "except that it is in a manner of \"against your enemies,\""
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "above your enemies,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "where the enemy has no dominion or hold."
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "the extraction of the matters of holiness"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "(thought, speech, and action of the soul)"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "from the captivity,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "which is through the revelation of the illumination of the point of the heart,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "is in a manner of action,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "\"and you will take its captivity captive\""
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "[except that the action is not in a manner of war,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "for regarding this level the enemy has no dominion]."
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "But the essence of the point of the heart is"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "[analogous to]"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "the level of Yechidah,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "which has no counterpart opposite it,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "\"the reflection of a reflection has no hold on them.\""
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "And therefore, the nullification of the opposing force that comes through the revelation of the essence of the point of the heart is"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "(not that through the revelation of the essence of the point of the heart a nullification of the opposing force is effected,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "but rather)"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "that through this revelation,"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "there is no place from the outset for the existence of the opposing force."
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "And this is \"and you will see among the captives a woman of beautiful form,\""
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "for when there is the revelation of the essence of the point of the heart,"
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "then the level of the soul"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "(\"a woman of beautiful form\")"
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "that was initially in captivity,"
+          },
+          {
+            "v": 11,
+            "s": 38,
+            "translation": "is revealed of itself,"
+          },
+          {
+            "v": 11,
+            "s": 39,
+            "translation": "\"and you will see\""
+          },
+          {
+            "v": 11,
+            "s": 40,
+            "translation": "(and there is no need to take her out of the captivity)."
+          }
+        ]
+      }
+    ]
+  }
+}

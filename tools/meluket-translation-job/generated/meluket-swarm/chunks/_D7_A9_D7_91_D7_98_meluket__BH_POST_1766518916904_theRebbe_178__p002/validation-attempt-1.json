@@ -1,0 +1,784 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 148,
+    "returned": 148,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916904_theRebbe_178\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916904_theRebbe_178__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains the connection between the yud of \"with a yud the World to Come was created\" and the yud of \"for all in heaven and earth,\" based on the Alter Rebbe's explanation of the yud within the hei of Malchus.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of the matter of the connection between the two matters of “with a yud the World to Come was created” and “for all in heaven and earth” that connects them in the maamar,</t>\n    <t s=\"2\">even though superficially they are two separate matters,</t>\n    <t s=\"3\">will be understood based on what the Alter Rebbe explains in Torah Ohr36</t>\n    <t s=\"4\">[regarding] the explanation of the verse37</t>\n    <t s=\"5\">“He Who dwells on high,” etc.,</t>\n    <t s=\"6\">that the yud after the hei</t>\n    <t s=\"7\">(of “HaMav’gihi”)</t>\n    <t s=\"8\">is superfluous, but rather it means that this ascent of Malchus of Atzilus, which is called hei, that it will ascend etc., is through the yud, and it is the yud that is within the hei,</t>\n    <t s=\"9\">for Malchus of Atzilus is the aspect of dalet, which has nothing of its own, and through the drawing down of the mitzvah, a yud is made within it, and through this it becomes the aspect of hei, and through the yud within it, it ascends upward, etc.</t>\n    <t s=\"10\">However, before</t>\n    <t s=\"11\">(through the drawing down of the yud into the dalet)</t>\n    <t s=\"12\">it becomes a hei,</t>\n    <t s=\"13\">there is a yud that is a part of the dalet,</t>\n    <t s=\"14\">and this is the matter explained here.</t>\n    <t s=\"15\">[And based on this explanation, it is understood that the matter of the yud of Yesod,</t>\n    <t s=\"16\">“for all in heaven and earth,”</t>\n    <t s=\"17\">is not the matter explained in most places, which refers to the union of the sun and the moon,</t>\n    <t s=\"18\">Yesod and Malchus,</t>\n    <t s=\"19\">for this union</t>\n    <t s=\"20\">(the union of the sun and the moon)</t>\n    <t s=\"21\">is when the Sefirah of Malchus is in the aspect of hei,</t>\n    <t s=\"22\">and it will be explained below in section 8,</t>\n    <t s=\"23\">and what is explained here is like the small yud</t>\n    <t s=\"24\">(of Yesod)</t>\n    <t s=\"25\">is a part of the letter dalet39].</t>\n    <t s=\"26\">And the explanation of the matter</t>\n    <t s=\"27\">(of the yud drawn into the dalet)</t>\n    <t s=\"28\">is as explained in Torah Ohr36</t>\n    <t s=\"29\">[And with this, the Alter Rebbe and the Tzemach Tzedek explain the connection between “with a yud the World to Come was created” and the yud of Yesod]</t>\n    <t s=\"30\">based on the statement of the Zohar40</t>\n    <t s=\"31\">on the verse41</t>\n    <t s=\"32\">“May the Name of Hashem be blessed,”</t>\n    <t s=\"33\">that for the revelation</t>\n    <t s=\"34\">(“blessed”)</t>\n    <t s=\"35\">in the aspect of Malchus, which is called “Name,” it is through “Y’hi.”</t>\n    <t s=\"36\">For “Y” and “H” refer to Chochmah and Binah,</t>\n    <t s=\"37\">and they are drawn into the yud</t>\n    <t s=\"38\">(of Yesod of Z’eir Anpin),</t>\n    <t s=\"39\">meaning that “Y’hi” is Chochmah and Binah in Yesod.</t>\n    <t s=\"40\">And the main drawing down</t>\n    <t s=\"41\">(in Yesod of Z’eir Anpin)</t>\n    <t s=\"42\">is specifically from Yesod of Abba,</t>\n    <t s=\"43\">Yesod of Abba</t>\n    <t s=\"44\">[for in Abba is what is said, “with a yud the World to Come was created”]</t>\n    <t s=\"45\">is actually drawn down and enclothed in Yesod of Z’eir Anpin</t>\n    <t s=\"46\">(and through this drawing down,</t>\n    <t s=\"47\">“blessed,”</t>\n    <t s=\"48\">is in the Sefirah of Malchus).</t>\n    <t s=\"49\">And this is the explanation of the continuation in the maamar31</t>\n    <t s=\"50\">that immediately after saying “with a yud the World to Come was created,” it continues with “about this it says ‘for all in heaven and earth,’”</t>\n    <t s=\"51\">for the aspect of the yud with which the World to Come was created</t>\n    <t s=\"52\">(the aspect of Yesod of Abba)</t>\n    <t s=\"53\">is itself drawn down and enclothed in the Sefirah of Yesod,</t>\n    <t s=\"54\">until it is literally “for all in heaven and earth” of the Sefirah of Yesod.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the purpose of the bittul (self-nullification) of Malchus is not for its own sake but as a preparation for the subsequent revelation, analogous to the divine tzimtzum which is for the sake of drawing down light.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, the reason for the necessity that the drawing down of the yud</t>\n    <t s=\"2\">(of the Sefirah of Yesod, etc.)</t>\n    <t s=\"3\">be into the dalet</t>\n    <t s=\"4\">(of the Sefirah of Malchus),</t>\n    <t s=\"5\">even though it was explained above that there must be utter bittul</t>\n    <t s=\"6\">(diminution of itself,</t>\n    <t s=\"7\">and it has nothing of its own),</t>\n    <t s=\"8\">is that the matter of bittul</t>\n    <t s=\"9\">(for itself,</t>\n    <t s=\"10\">is not the purpose, but rather)</t>\n    <t s=\"11\">it is a preparation for the revelation</t>\n    <t s=\"12\">that comes after it.</t>\n    <t s=\"13\">And this will be understood</t>\n    <t s=\"14\">(that the purpose of bittul is for the sake of revelation)</t>\n    <t s=\"15\">by prefacing what the Alter Rebbe explains in Tanya, chapter 49, that the bittul required of every Jew is like “as water reflects a face back to a face.”51</t>\n    <t s=\"16\">Just as the Holy One, blessed be He, so to speak, set aside and removed to one side, as it were, His great infinite light, etc., and set aside all the holy supernal hosts and caused His Shechinah to dwell upon us, etc., and chose us from all nations and tongues, etc., and brought us close, etc., when a person sets [his mind] etc., then automatically, “as water reflects a face back to a face,” his soul will be inflamed to set aside and abandon all that is his, etc.</t>\n    <t s=\"17\">And since the bittul is “as water reflects a face back to a face,”</t>\n    <t s=\"18\">it is understood that just as with a person, after the above contemplation has effected the bittul of setting aside and abandoning all that is his,</t>\n    <t s=\"19\">the purpose of the bittul is to make for Him a dwelling place in the lower worlds,</t>\n    <t s=\"20\">through the Torah and its mitzvos,53</t>\n    <t s=\"21\">so too is it above</t>\n    <t s=\"22\">(for this arouses the parallel service of man),</t>\n    <t s=\"23\">that what at the beginning of the order of Hishtalshelus He set aside and removed His great light to one side is for the sake of the revelation that follows.</t>\n    <t s=\"24\">And in the language of Etz Chaim</t>\n    <t s=\"25\">(at its beginning52)</t>\n    <t s=\"26\">that before the emanations were emanated, etc., there was a simple, supernal light filling all of existence, and there was no place for the standing of the worlds, etc., and afterwards He contracted Himself, etc., and drew forth a straight and thin line, etc.,</t>\n    <t s=\"27\">this tzimtzum as well, its purpose</t>\n    <t s=\"28\">[is not for the sake of the tzimtzum itself, but for]</t>\n    <t s=\"29\">the drawing down of the kav that comes about through the tzimtzum.</t>\n    <t s=\"30\">And in the language of the teachings of the Baal Shem Tov54</t>\n    <t s=\"31\">this is the matter of “And Elokim said, ‘Let there be light,’ and there was light”55</t>\n    <t s=\"32\">(as explained there)</t>\n    <t s=\"33\">meaning, “And Hashem said” from the power of the attribute of Elokim, which is the attribute of Gevurah that constricts the light, from this “there will be light” that endures, that the world can bear it.</t>\n    <t s=\"34\">That is, the intention of the tzimtzum is not for the sake of the tzimtzum itself, but rather that through this there will be light that is received and endures.</t>\n    <t s=\"35\">And as the Maggid of Mezritch, of blessed memory, explains at length56</t>\n    <t s=\"36\">that this is what is meant by “and there was light”</t>\n    <t s=\"37\">[for regarding other creations it is said “and it was so,”</t>\n    <t s=\"38\">unlike here, where it is said “and there was light”]</t>\n    <t s=\"39\">And also our sages said57</t>\n    <t s=\"40\">that wherever “vayehi” is stated, it is only an expression of sorrow,</t>\n    <t s=\"41\">this is because the light that is drawn down afterwards in actuality</t>\n    <t s=\"42\">(through the tzimtzum of “And Elokim said”)</t>\n    <t s=\"43\">is not similar</t>\n    <t s=\"44\">(it does not compare)</t>\n    <t s=\"45\">to the light as it is in the tzimtzum,</t>\n    <t s=\"46\">that is, in the intention of the tzimtzum</t>\n    <t s=\"47\">(as the light stands in the tzimtzum).</t>\n    <t s=\"48\">That is, the light in the utterance of “And Elokim said” is not the light that is drawn down afterwards in actuality,</t>\n    <t s=\"49\">in the thin and short line</t>\n    <t s=\"50\">(in the language of the aforementioned Etz Chaim)</t>\n    <t s=\"51\">[Therefore it is not said “and it was so,”</t>\n    <t s=\"52\">since it is not that same light as in “And Elokim said, ‘Let there be light’”]</t>\n    <t s=\"53\">but rather it is a different light</t>\n    <t s=\"54\">(a different light).</t>\n    <t s=\"55\">And therefore it is said about this “vayehi,”</t>\n    <t s=\"56\">which is an expression of sorrow and constriction,</t>\n    <t s=\"57\">but through this, light that endures is made.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the unique purpose of the first tzimtzum, which was a complete removal of light, was specifically to enable the creation of vessels, and through this, the vessels can ultimately receive even the infinite light.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">Now, what was explained above, that the intention of the tzimtzum is for the sake of revelation, applies specifically to the first tzimtzum.</t>\n    <t s=\"2\">As is explained at length in the maamarim of the Baal HaHilula of the year 570258,</t>\n    <t s=\"3\">for it is known that the first tzimtzum that occurred in the Ein Sof, blessed be He, is different from the tzimtzumim of the order of Hishtalshelus, for the tzimtzumim of the order of Hishtalshelus are only a diminution of light, meaning that in the Hishtalshelus from level to level, the light is diminished through tzimtzum</t>\n    <t s=\"4\">[a screen, a partition, and the like],</t>\n    <t s=\"5\">unlike the first tzimtzum, which is a complete removal of the first light,</t>\n    <t s=\"6\">and specifically in this tzimtzum, which is in the manner of removal, there is a wondrous matter that is not present in the tzimtzumim of the order of Hishtalshelus.</t>\n    <t s=\"7\">And the matter is,</t>\n    <t s=\"8\">as explained there and in the Hemshech of Ta”aR”aV of the Rebbe, of blessed memory,59</t>\n    <t s=\"9\">that the advantage of the tzimtzum</t>\n    <t s=\"10\">(specifically in the manner of removal)</t>\n    <t s=\"11\">is not only for the sake of the emanation of the lights,</t>\n    <t s=\"12\">but primarily in order that the creation of the vessels can take place.</t>\n    <t s=\"13\">And as Etz Chaim60 answers</t>\n    <t s=\"14\">the question of why the tzimtzum was specifically in the manner of removal, and there was not the matter of a thin line through mere diminution,</t>\n    <t s=\"15\">this is because if the line of Ein Sof had initially remained</t>\n    <t s=\"16\">[as it is through a tzimtzum in the manner of mere diminution of light and not removal]</t>\n    <t s=\"17\">it would be impossible for the existence of vessels to come into being.</t>\n    <t s=\"18\">And through the tzimtzum being in the manner of removal of the light,</t>\n    <t s=\"19\">first and foremost, the matter of limitation was revealed,</t>\n    <t s=\"20\">the reshimu</t>\n    <t s=\"21\">[which is the root of the vessels]</t>\n    <t s=\"22\">is revealed,</t>\n    <t s=\"23\">and also the light of the kav drawn down after the tzimtzum comes about through the interruption of the tzimtzum,</t>\n    <t s=\"24\">and it is not like the light of Ein Sof</t>\n    <t s=\"25\">(even the bounded light)</t>\n    <t s=\"26\">that was before the tzimtzum</t>\n    <t s=\"27\">[and as above in the teaching of the Maggid of Mezritch regarding the reason that it is not said “and it was so” but rather “and there was light”],</t>\n    <t s=\"28\">and through this, the creation of vessels takes place, and they receive within themselves the light of the kav.</t>\n    <t s=\"29\">And through this, another wondrous matter is subsequently brought about</t>\n    <t s=\"30\">that the vessels become rectified in such a manner that not only do they receive in a good reception the aspect of the bounded light from above and are not nullified from their existence</t>\n    <t s=\"31\">(which is also a matter of novelty,</t>\n    <t s=\"32\">as above)</t>\n    <t s=\"33\">but furthermore, they also receive the aspect of the infinite light,</t>\n    <t s=\"34\">and remain in their existence.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916904_theRebbe_178",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916904_theRebbe_178__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains the connection between the yud of \"with a yud the World to Come was created\" and the yud of \"for all in heaven and earth,\" based on the Alter Rebbe's explanation of the yud within the hei of Malchus.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the explanation of the matter of the connection between the two matters of “with a yud the World to Come was created” and “for all in heaven and earth” that connects them in the maamar,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "even though superficially they are two separate matters,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "will be understood based on what the Alter Rebbe explains in Torah Ohr36"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "[regarding] the explanation of the verse37"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "“He Who dwells on high,” etc.,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "that the yud after the hei"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "(of “HaMav’gihi”)"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "is superfluous, but rather it means that this ascent of Malchus of Atzilus, which is called hei, that it will ascend etc., is through the yud, and it is the yud that is within the hei,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "for Malchus of Atzilus is the aspect of dalet, which has nothing of its own, and through the drawing down of the mitzvah, a yud is made within it, and through this it becomes the aspect of hei, and through the yud within it, it ascends upward, etc."
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "However, before"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "(through the drawing down of the yud into the dalet)"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "it becomes a hei,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "there is a yud that is a part of the dalet,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "and this is the matter explained here."
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "[And based on this explanation, it is understood that the matter of the yud of Yesod,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "“for all in heaven and earth,”"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "is not the matter explained in most places, which refers to the union of the sun and the moon,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "Yesod and Malchus,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "for this union"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "(the union of the sun and the moon)"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "is when the Sefirah of Malchus is in the aspect of hei,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "and it will be explained below in section 8,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "and what is explained here is like the small yud"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "(of Yesod)"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "is a part of the letter dalet39]."
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "And the explanation of the matter"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "(of the yud drawn into the dalet)"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "is as explained in Torah Ohr36"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "[And with this, the Alter Rebbe and the Tzemach Tzedek explain the connection between “with a yud the World to Come was created” and the yud of Yesod]"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "based on the statement of the Zohar40"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "on the verse41"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "“May the Name of Hashem be blessed,”"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "that for the revelation"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "(“blessed”)"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "in the aspect of Malchus, which is called “Name,” it is through “Y’hi.”"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "For “Y” and “H” refer to Chochmah and Binah,"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "and they are drawn into the yud"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "(of Yesod of Z’eir Anpin),"
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "meaning that “Y’hi” is Chochmah and Binah in Yesod."
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "And the main drawing down"
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "(in Yesod of Z’eir Anpin)"
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "is specifically from Yesod of Abba,"
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "Yesod of Abba"
+          },
+          {
+            "v": 3,
+            "s": 44,
+            "translation": "[for in Abba is what is said, “with a yud the World to Come was created”]"
+          },
+          {
+            "v": 3,
+            "s": 45,
+            "translation": "is actually drawn down and enclothed in Yesod of Z’eir Anpin"
+          },
+          {
+            "v": 3,
+            "s": 46,
+            "translation": "(and through this drawing down,"
+          },
+          {
+            "v": 3,
+            "s": 47,
+            "translation": "“blessed,”"
+          },
+          {
+            "v": 3,
+            "s": 48,
+            "translation": "is in the Sefirah of Malchus)."
+          },
+          {
+            "v": 3,
+            "s": 49,
+            "translation": "And this is the explanation of the continuation in the maamar31"
+          },
+          {
+            "v": 3,
+            "s": 50,
+            "translation": "that immediately after saying “with a yud the World to Come was created,” it continues with “about this it says ‘for all in heaven and earth,’”"
+          },
+          {
+            "v": 3,
+            "s": 51,
+            "translation": "for the aspect of the yud with which the World to Come was created"
+          },
+          {
+            "v": 3,
+            "s": 52,
+            "translation": "(the aspect of Yesod of Abba)"
+          },
+          {
+            "v": 3,
+            "s": 53,
+            "translation": "is itself drawn down and enclothed in the Sefirah of Yesod,"
+          },
+          {
+            "v": 3,
+            "s": 54,
+            "translation": "until it is literally “for all in heaven and earth” of the Sefirah of Yesod."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the purpose of the bittul (self-nullification) of Malchus is not for its own sake but as a preparation for the subsequent revelation, analogous to the divine tzimtzum which is for the sake of drawing down light.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "Now, the reason for the necessity that the drawing down of the yud"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(of the Sefirah of Yesod, etc.)"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "be into the dalet"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "(of the Sefirah of Malchus),"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "even though it was explained above that there must be utter bittul"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(diminution of itself,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "and it has nothing of its own),"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "is that the matter of bittul"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(for itself,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "is not the purpose, but rather)"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "it is a preparation for the revelation"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "that comes after it."
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "And this will be understood"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "(that the purpose of bittul is for the sake of revelation)"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "by prefacing what the Alter Rebbe explains in Tanya, chapter 49, that the bittul required of every Jew is like “as water reflects a face back to a face.”51"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "Just as the Holy One, blessed be He, so to speak, set aside and removed to one side, as it were, His great infinite light, etc., and set aside all the holy supernal hosts and caused His Shechinah to dwell upon us, etc., and chose us from all nations and tongues, etc., and brought us close, etc., when a person sets [his mind] etc., then automatically, “as water reflects a face back to a face,” his soul will be inflamed to set aside and abandon all that is his, etc."
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "And since the bittul is “as water reflects a face back to a face,”"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "it is understood that just as with a person, after the above contemplation has effected the bittul of setting aside and abandoning all that is his,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "the purpose of the bittul is to make for Him a dwelling place in the lower worlds,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "through the Torah and its mitzvos,53"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "so too is it above"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "(for this arouses the parallel service of man),"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "that what at the beginning of the order of Hishtalshelus He set aside and removed His great light to one side is for the sake of the revelation that follows."
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "And in the language of Etz Chaim"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "(at its beginning52)"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "that before the emanations were emanated, etc., there was a simple, supernal light filling all of existence, and there was no place for the standing of the worlds, etc., and afterwards He contracted Himself, etc., and drew forth a straight and thin line, etc.,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "this tzimtzum as well, its purpose"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "[is not for the sake of the tzimtzum itself, but for]"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "the drawing down of the kav that comes about through the tzimtzum."
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "And in the language of the teachings of the Baal Shem Tov54"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "this is the matter of “And Elokim said, ‘Let there be light,’ and there was light”55"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "(as explained there)"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "meaning, “And Hashem said” from the power of the attribute of Elokim, which is the attribute of Gevurah that constricts the light, from this “there will be light” that endures, that the world can bear it."
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "That is, the intention of the tzimtzum is not for the sake of the tzimtzum itself, but rather that through this there will be light that is received and endures."
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "And as the Maggid of Mezritch, of blessed memory, explains at length56"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "that this is what is meant by “and there was light”"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "[for regarding other creations it is said “and it was so,”"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "unlike here, where it is said “and there was light”]"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "And also our sages said57"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "that wherever “vayehi” is stated, it is only an expression of sorrow,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "this is because the light that is drawn down afterwards in actuality"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "(through the tzimtzum of “And Elokim said”)"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "is not similar"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "(it does not compare)"
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "to the light as it is in the tzimtzum,"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "that is, in the intention of the tzimtzum"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "(as the light stands in the tzimtzum)."
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "That is, the light in the utterance of “And Elokim said” is not the light that is drawn down afterwards in actuality,"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "in the thin and short line"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "(in the language of the aforementioned Etz Chaim)"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "[Therefore it is not said “and it was so,”"
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "since it is not that same light as in “And Elokim said, ‘Let there be light’”]"
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "but rather it is a different light"
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "(a different light)."
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "And therefore it is said about this “vayehi,”"
+          },
+          {
+            "v": 4,
+            "s": 56,
+            "translation": "which is an expression of sorrow and constriction,"
+          },
+          {
+            "v": 4,
+            "s": 57,
+            "translation": "but through this, light that endures is made."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the unique purpose of the first tzimtzum, which was a complete removal of light, was specifically to enable the creation of vessels, and through this, the vessels can ultimately receive even the infinite light.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "Now, what was explained above, that the intention of the tzimtzum is for the sake of revelation, applies specifically to the first tzimtzum."
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "As is explained at length in the maamarim of the Baal HaHilula of the year 570258,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "for it is known that the first tzimtzum that occurred in the Ein Sof, blessed be He, is different from the tzimtzumim of the order of Hishtalshelus, for the tzimtzumim of the order of Hishtalshelus are only a diminution of light, meaning that in the Hishtalshelus from level to level, the light is diminished through tzimtzum"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "[a screen, a partition, and the like],"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "unlike the first tzimtzum, which is a complete removal of the first light,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and specifically in this tzimtzum, which is in the manner of removal, there is a wondrous matter that is not present in the tzimtzumim of the order of Hishtalshelus."
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "And the matter is,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "as explained there and in the Hemshech of Ta”aR”aV of the Rebbe, of blessed memory,59"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "that the advantage of the tzimtzum"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "(specifically in the manner of removal)"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "is not only for the sake of the emanation of the lights,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "but primarily in order that the creation of the vessels can take place."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "And as Etz Chaim60 answers"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "the question of why the tzimtzum was specifically in the manner of removal, and there was not the matter of a thin line through mere diminution,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "this is because if the line of Ein Sof had initially remained"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "[as it is through a tzimtzum in the manner of mere diminution of light and not removal]"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "it would be impossible for the existence of vessels to come into being."
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "And through the tzimtzum being in the manner of removal of the light,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "first and foremost, the matter of limitation was revealed,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "the reshimu"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "[which is the root of the vessels]"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "is revealed,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "and also the light of the kav drawn down after the tzimtzum comes about through the interruption of the tzimtzum,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "and it is not like the light of Ein Sof"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "(even the bounded light)"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "that was before the tzimtzum"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "[and as above in the teaching of the Maggid of Mezritch regarding the reason that it is not said “and it was so” but rather “and there was light”],"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "and through this, the creation of vessels takes place, and they receive within themselves the light of the kav."
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "And through this, another wondrous matter is subsequently brought about"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "that the vessels become rectified in such a manner that not only do they receive in a good reception the aspect of the bounded light from above and are not nullified from their existence"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "(which is also a matter of novelty,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "as above)"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "but furthermore, they also receive the aspect of the infinite light,"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "and remain in their existence."
+          }
+        ]
+      }
+    ]
+  }
+}

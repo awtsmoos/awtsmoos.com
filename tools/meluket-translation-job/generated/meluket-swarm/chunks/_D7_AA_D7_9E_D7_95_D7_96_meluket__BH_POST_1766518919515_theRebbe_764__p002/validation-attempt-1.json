@@ -1,0 +1,459 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 83,
+    "returned": 83,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919515_theRebbe_764\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the third redemption is superior to the Third Beis HaMikdash, and that the revelation of the Third Beis HaMikdash's level will primarily occur at the time of Techiyas HaMeisim.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that the reason that Likkutei Torah speaks about the virtue of the third redemption is,</t>\n    <t s=\"2\">because the third redemption is more elevated than the level of the Third Beis HaMikdash.</t>\n    <t s=\"3\">As is understood from the fact that the redemption</t>\n    <t s=\"4\">(the ingathering of the exiles)</t>\n    <t s=\"5\">will be after the building of the Beis HaMikdash11.</t>\n    <t s=\"6\">However, even this level comes about through the Third Beis HaMikdash</t>\n    <t s=\"7\">(therefore it is learned</t>\n    <t s=\"8\">(in Likkutei Torah)</t>\n    <t s=\"9\">from the level of the Third Beis HaMikdash)</t>\n    <t s=\"10\">because in the building of the Third Beis HaMikdash, all the matters and levels that will be afterward will be included.</t>\n    <t s=\"11\">And according to what is said in the Zohar12</t>\n    <t s=\"12\">regarding the order of the matters that will be in the future, that Techiyas HaMeisim is the last of them all,</t>\n    <t s=\"13\">it can be said,</t>\n    <t s=\"14\">that the revelation of the level of the Third Beis HaMikdash</t>\n    <t s=\"15\">[though truly there is no interruption or change applicable to it]</t>\n    <t s=\"16\">will be primarily at Techiyas HaMeisim,</t>\n    <t s=\"17\">for then there will be eternal life.</t>\n    <t s=\"18\">And one may connect this with what is said13</t>\n    <t s=\"19\">He will revive us after two days; on the third day He will raise us up and we will live before Him,</t>\n    <t s=\"20\">for regarding \"the third day\" there are two interpretations.</t>\n    <t s=\"21\">That it refers to the Third Beis HaMikdash14</t>\n    <t s=\"22\">and that it refers to Techiyas HaMeisim15.</t>\n    <t s=\"23\">And the connection between the two interpretations16</t>\n    <t s=\"24\">is,</t>\n    <t s=\"25\">that at Techiyas HaMeisim the level of the Third Beis HaMikdash will be revealed.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the destruction of the First Beis HaMikdash was to enable a greater future building, analogous to the superiority of Baalei Teshuvah over Tzaddikim, and that the destruction of the Second Beis HaMikdash was for the sake of achieving the ultimate perfection of Teshuvah.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And this will be understood by prefacing what our sages, of blessed memory, said17:</t>\n    <t s=\"2\">A lion ascended in the constellation of the lion and destroyed Ariel, etc., so that a lion would come in the constellation of the lion and build Ariel.</t>\n    <t s=\"3\">And from this it is understood,</t>\n    <t s=\"4\">that what is said, \"Great will be the glory of this latter house more than the first,\" applies even if the First Beis HaMikdash had not been destroyed and had possessed eternal endurance.</t>\n    <t s=\"5\">And therefore a lion ascended, etc., and destroyed Ariel, so that a lion would come and build Ariel,</t>\n    <t s=\"6\">so that it would be greater than the first</t>\n    <t s=\"7\">(even if it had possessed eternal endurance)18.</t>\n    <t s=\"8\">And this is analogous to the level of Baalei Teshuvah over Tzaddikim,</t>\n    <t s=\"9\">for the service of Tzaddikim</t>\n    <t s=\"10\">(even Tzaddikim who have no evil inclination19,</t>\n    <t s=\"11\">therefore sin cannot apply to them,</t>\n    <t s=\"12\">and their service is in a manner of eternal endurance)</t>\n    <t s=\"13\">reaches within the chain of descent,</t>\n    <t s=\"14\">whereas the service of Baalei Teshuvah is above the chain of descent20.</t>\n    <t s=\"15\">And this is: \"A lion ascended and destroyed Ariel, so that a lion would come and build Ariel,\"</t>\n    <t s=\"16\">and it is known21</t>\n    <t s=\"17\">that \"a lion will come\"</t>\n    <t s=\"18\">[this is the Holy One, blessed be He,</t>\n    <t s=\"19\">of Whom it is written22</t>\n    <t s=\"20\">A lion has roared, who will not fear23]</t>\n    <t s=\"21\">is the revelation of the Kesser that is above the chain of descent.</t>\n    <t s=\"22\">And one may add,</t>\n    <t s=\"23\">that even according to our sages, of blessed memory24,</t>\n    <t s=\"24\">that when they ascended from Babylon, this building was fit to be</t>\n    <t s=\"25\">(the Third Beis HaMikdash),</t>\n    <t s=\"26\">nevertheless,</t>\n    <t s=\"27\">the third House that will be in the future</t>\n    <t s=\"28\">(after the Second House)</t>\n    <t s=\"29\">will be greater.</t>\n    <t s=\"30\">For although even when they ascended from Babylon</t>\n    <t s=\"31\">(after the destruction of the First House and the rectification for this)</t>\n    <t s=\"32\">they were in the category of Baalei Teshuvah25,</t>\n    <t s=\"33\">nevertheless, there are many levels in Teshuvah.</t>\n    <t s=\"34\">And therefore there was also the destruction of the Second House, so that through the service during the exile after the destruction of the Second House, they would reach the perfection of Teshuvah,</t>\n    <t s=\"35\">and through this, the glory of this latter house will be great to the ultimate perfection.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains the statement of the sages about hearing words of Torah before prophecy, etc., concluding that the descent of not hearing leads to a more elevated Techiyas HaMeisim, analogous to the Third Beis HaMikdash being greater after the destruction of the Second.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we can explain what our sages, of blessed memory, said26</t>\n    <t s=\"1\">on the verse27</t>\n    <t s=\"2\">\"Hear the word of Hashem, O house of Yaakov,\"</t>\n    <t s=\"3\">Hear words of Torah before you hear words of prophecy,</t>\n    <t s=\"4\">Hear words of prophecy before you hear words of rebuke, etc.</t>\n    <t s=\"5\">(and it concludes)</t>\n    <t s=\"6\">Hear your bodies before your bones hear,</t>\n    <t s=\"7\">the dry bones28</t>\n    <t s=\"8\">hear the word of Hashem.</t>\n    <t s=\"9\">And at first glance, this statement \"Hear words of Torah before you hear words of prophecy,\"</t>\n    <t s=\"10\">it can be said,</t>\n    <t s=\"11\">that words of prophecy are to command regarding the words of Torah29,</t>\n    <t s=\"12\">and therefore if they had heard words of Torah, they would not have needed words of prophecy.</t>\n    <t s=\"13\">And similarly regarding the words of prophecy themselves,</t>\n    <t s=\"14\">that if they had heard the words of prophecy of the early prophets who command regarding the words of Torah not in a manner of rebuke, they would not have needed words of rebuke</t>\n    <t s=\"15\">(and similarly regarding the matters that follow).</t>\n    <t s=\"16\">But what it concludes, \"before your bones hear,\" etc., is not understood,</t>\n    <t s=\"17\">how can it be said that if they had heard words of Torah or words of rebuke, etc., they would not merit, Heaven forbid, Techiyas HaMeisim.</t>\n    <t s=\"18\">And the explanation of this can be said,</t>\n    <t s=\"19\">that through the descent of not having heard words of Torah, etc., Techiyas HaMeisim will be in a more elevated manner,</t>\n    <t s=\"20\">analogous to the Third Beis HaMikdash, which, by being after the descent of the destruction of the Second House, will be greater.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919515_theRebbe_764",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the third redemption is superior to the Third Beis HaMikdash, and that the revelation of the Third Beis HaMikdash's level will primarily occur at the time of Techiyas HaMeisim.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that the reason that Likkutei Torah speaks about the virtue of the third redemption is,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "because the third redemption is more elevated than the level of the Third Beis HaMikdash."
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "As is understood from the fact that the redemption"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "(the ingathering of the exiles)"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "will be after the building of the Beis HaMikdash11."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "However, even this level comes about through the Third Beis HaMikdash"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "(therefore it is learned"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "(in Likkutei Torah)"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "from the level of the Third Beis HaMikdash)"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "because in the building of the Third Beis HaMikdash, all the matters and levels that will be afterward will be included."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "And according to what is said in the Zohar12"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "regarding the order of the matters that will be in the future, that Techiyas HaMeisim is the last of them all,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "that the revelation of the level of the Third Beis HaMikdash"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "[though truly there is no interruption or change applicable to it]"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "will be primarily at Techiyas HaMeisim,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "for then there will be eternal life."
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "And one may connect this with what is said13"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "He will revive us after two days; on the third day He will raise us up and we will live before Him,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "for regarding \"the third day\" there are two interpretations."
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "That it refers to the Third Beis HaMikdash14"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "and that it refers to Techiyas HaMeisim15."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "And the connection between the two interpretations16"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "is,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "that at Techiyas HaMeisim the level of the Third Beis HaMikdash will be revealed."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the destruction of the First Beis HaMikdash was to enable a greater future building, analogous to the superiority of Baalei Teshuvah over Tzaddikim, and that the destruction of the Second Beis HaMikdash was for the sake of achieving the ultimate perfection of Teshuvah.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what our sages, of blessed memory, said17:"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "A lion ascended in the constellation of the lion and destroyed Ariel, etc., so that a lion would come in the constellation of the lion and build Ariel."
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that what is said, \"Great will be the glory of this latter house more than the first,\" applies even if the First Beis HaMikdash had not been destroyed and had possessed eternal endurance."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "And therefore a lion ascended, etc., and destroyed Ariel, so that a lion would come and build Ariel,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "so that it would be greater than the first"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "(even if it had possessed eternal endurance)18."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And this is analogous to the level of Baalei Teshuvah over Tzaddikim,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "for the service of Tzaddikim"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "(even Tzaddikim who have no evil inclination19,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "therefore sin cannot apply to them,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "and their service is in a manner of eternal endurance)"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "reaches within the chain of descent,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "whereas the service of Baalei Teshuvah is above the chain of descent20."
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "And this is: \"A lion ascended and destroyed Ariel, so that a lion would come and build Ariel,\""
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "and it is known21"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "that \"a lion will come\""
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "[this is the Holy One, blessed be He,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "of Whom it is written22"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "A lion has roared, who will not fear23]"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "is the revelation of the Kesser that is above the chain of descent."
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "that even according to our sages, of blessed memory24,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "that when they ascended from Babylon, this building was fit to be"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "(the Third Beis HaMikdash),"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "the third House that will be in the future"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "(after the Second House)"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "will be greater."
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "For although even when they ascended from Babylon"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "(after the destruction of the First House and the rectification for this)"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "they were in the category of Baalei Teshuvah25,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "nevertheless, there are many levels in Teshuvah."
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "And therefore there was also the destruction of the Second House, so that through the service during the exile after the destruction of the Second House, they would reach the perfection of Teshuvah,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "and through this, the glory of this latter house will be great to the ultimate perfection."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains the statement of the sages about hearing words of Torah before prophecy, etc., concluding that the descent of not hearing leads to a more elevated Techiyas HaMeisim, analogous to the Third Beis HaMikdash being greater after the destruction of the Second.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And based on this, we can explain what our sages, of blessed memory, said26"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "on the verse27"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "\"Hear the word of Hashem, O house of Yaakov,\""
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "Hear words of Torah before you hear words of prophecy,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "Hear words of prophecy before you hear words of rebuke, etc."
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "(and it concludes)"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "Hear your bodies before your bones hear,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "the dry bones28"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "hear the word of Hashem."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And at first glance, this statement \"Hear words of Torah before you hear words of prophecy,\""
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "that words of prophecy are to command regarding the words of Torah29,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "and therefore if they had heard words of Torah, they would not have needed words of prophecy."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "And similarly regarding the words of prophecy themselves,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "that if they had heard the words of prophecy of the early prophets who command regarding the words of Torah not in a manner of rebuke, they would not have needed words of rebuke"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "(and similarly regarding the matters that follow)."
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "But what it concludes, \"before your bones hear,\" etc., is not understood,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "how can it be said that if they had heard words of Torah or words of rebuke, etc., they would not merit, Heaven forbid, Techiyas HaMeisim."
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "And the explanation of this can be said,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "that through the descent of not having heard words of Torah, etc., Techiyas HaMeisim will be in a more elevated manner,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "analogous to the Third Beis HaMikdash, which, by being after the descent of the destruction of the Second House, will be greater."
+          }
+        ]
+      }
+    ]
+  }
+}

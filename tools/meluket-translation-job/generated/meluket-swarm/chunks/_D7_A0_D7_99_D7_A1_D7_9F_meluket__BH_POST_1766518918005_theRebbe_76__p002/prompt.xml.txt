@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918005_theRebbe_76" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918005_theRebbe_76" title="מאמר כימי צאתך תשל"ח" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">והנה הדיוק</src>
+    <src s="2">(בהמאמר)</src>
+    <src s="3">בזה שיזכירו יציאת מצרים לע"ל הוא לכאורה גם בהכתוב כימי צאתך גו',</src>
+    <src s="4">דכיון שהגילויים שיהיו בגאולה העתידה יהיו נעלים הרבה יותר מהגילויים שהיו ביציאת מצרים,</src>
+    <src s="5">מהו אומרו כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="6">שהעילוי דגאולה העתידה הוא שגם אז יהי' אראנו נפלאות כמו שהי' ביציאת מצרים.</src>
+    <src s="7">ולהוסיף,</src>
+    <src s="8">שהדיוק בהכתוב כימי צאתך גו' הוא לכאורה דיוק גדול יותר מזה שמזכירין יציאת מצרים לע"ל9.</src>
+    <src s="9">כי זכירת יציאת מצרים לע"ל תהי' רק בדרך טפל10</src>
+    <src s="10">[והדיוק בהמאמר הוא שמצד גודל העילוי דגאולה העתידה לגבי הגאולה דיציאת מצרים לא הי' צריך</src>
+    <src s="11">(לכאורה)</src>
+    <src s="12">אז להזכיר יציאת מצרים אפילו בדרך טפל],</src>
+    <src s="13">משא"כ בהכתוב כימי צאתך מארץ מצרים גו'</src>
+    <src s="14">(כימי בכ"ף הדמיון)</src>
+    <src s="15">משמע שעיקר הענין דנפלאות הי' ביציאת מצרים והכתוב מחדש שגם בגאולה העתידה יהיו נפלאות כמו שהיו ביציאת מצרים.</src>
+    <src s="16">והגם שמבואר בכ"מ11</src>
+    <src s="17">דהפירוש כימי צאתך מארץ מצרים אראנו נפלאות הוא שהנפלאות שיהיו בגאולה העתידה יהיו נפלאות גם בערך הנפלאות שהיו בימי צאתך מארץ מצרים</src>
+    <src s="18">[כמרז"ל12</src>
+    <src s="19">עה"פ אראנו נפלאות,</src>
+    <src s="20">אראנו מה שלא הראיתי לאבות שהרי נסים ונפלאות שאני עתיד לעשות עם הבנים יותר מהפלא ונפלאות מה שעשיתי עם אבות וכן הוא אומר13</src>
+    <src s="21">לעושה נפלאות גדולות לבדו כי לעולם חסדו],</src>
+    <src s="22">מ"מ,</src>
+    <src s="23">מזה שהכתוב אומר שהנפלאות שיהיו בגאולה העתידה יהיו כימי צאתך מארץ מצרים,</src>
+    <src s="24">משמע דבהנפלאות שיהיו בגאולה העתידה יהיו ב' מעלות.</src>
+    <src s="25">שהנפלאות יהיו נפלאות גדולות ביותר,</src>
+    <src s="26">נפלאות גם בערך הנפלאות שהיו ביציאת מצרים.</src>
+    <src s="27">ועוד מעלה,</src>
+    <src s="28">שהנפלאות אז יהיו כימי צאתך מארץ מצרים.</src>
+    <src s="29">ועיקר החידוש והמעלה הוא</src>
+    <src s="30">(לא שהנפלאות אז יהיו נפלאות גדולות ביותר,</src>
+    <src s="31">אלא)</src>
+    <src s="32">זה שהנפלאות אז יהיו כימי צאתך מארץ מצרים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והענין הוא14,</src>
+    <src s="2">דבנסים יש</src>
+    <src s="3">(בכללות)</src>
+    <src s="4">שני סוגים.</src>
+    <src s="5">נסים שלמעלה מהטבע</src>
+    <src s="6">[כהנסים שהיו ביציאת מצרים,</src>
+    <src s="7">הפיכת מים לדם וכו' ועד להנס דקריעת ים סוף שנהפך ים ליבשה],</src>
+    <src s="8">ונסים המלובשים בדרכי הטבע.</src>
+    <src s="9">ובהם עצמם שלשה אופנים</src>
+    <src s="10">(בכללות).</src>
+    <src s="11">שלבושי הטבע הם באופן שניכר שהם רק לבוש להנס שמתלבש בהם.</src>
+    <src s="12">כנסים דחנוכה ופורים,</src>
+    <src s="13">ועד"ז כל הנסים שמברכים עליהם ברכת הנסים</src>
+    <src s="14">(נפל עליו כותל וניצל,</src>
+    <src s="15">וכיו"ב15),</src>
+    <src s="16">דעם היותם מלובשים בדרכי הטבע מ"מ ניכר בגילוי הנס שבהם.</src>
+    <src s="17">למטה מזה – שלבושי הטבע מעלימים על הנס שמלובש בהם,</src>
+    <src s="18">אבל מ"מ ניכר שאירע דבר בלתי רגיל,</src>
+    <src s="19">כמו ארבעה שצריכים להודות16,</src>
+    <src s="20">דעל נסים אלו אין מברכים ברכת הנסים אבל מביאים עליהם קרבן תודה ומברכים עליהם ברכת הגומל17.</src>
+    <src s="21">למטה מזה – שלבושי הטבע מעלימים ומסתירים לגמרי על הנס,</src>
+    <src s="22">עד שאין ניכר כלל שאירע דבר בלתי רגיל.</src>
+    <src s="23">כמ"ש לעושה נפלאות גדולות לבדו ואמרו רז"ל18</src>
+    <src s="24">אפילו בעל הנס אינו מכיר בנסו.</src>
+  </section>
+  <section v="5">
+    <src s="0">וצריך להבין מה שמביא במאמר רז"ל הנ"ל עה"פ אראנו נפלאות הפסוק לעושה נפלאות גדולות לבדו,</src>
+    <src s="1">הרי במארז"ל זה עצמו אומר שהנפלאות שיהיו בגאולה העתידה יהיו נפלאות גדולות יותר מהנפלאות שהיו ביציאת מצרים,</src>
+    <src s="2">ואעפ"כ מביא על זה הפסוק לעושה נפלאות גדולות לבדו שהם הנסים שמוסתרים לגמרי שאפילו בעל הנס אינו מכיר בהם.</src>
+    <src s="3">ומבאר הצ"צ19,</src>
+    <src s="4">דשורש הנסים המלובשים בטבע הוא ממקום נעלה יותר משורש הנסים שלמעלה מהטבע.</src>
+    <src s="5">וכל שהנסים מתלבשים יותר בטבע מורה ששרשם הוא ממקום נעלה יותר.</src>
+    <src s="6">וזהו לעושה נפלאות גדולות לבדו,</src>
+    <src s="7">ששורש הנסים המלובשים לגמרי בטבע באופן שאין בעל הנס מכיר בנסו,</src>
+    <src s="8">הם מבחינת לבדו.</src>
+    <src s="9">וזהו מה שמביא במארז"ל הנ"ל בענין הנפלאות שיהיו בגאולה העתידה הפסוק לעושה נפלאות גדולות לבדו,</src>
+    <src s="10">שהנפלאות שיהיו בגאולה העתידה יומשכו מבחינת לבדו.</src>
+  </section>
+</awtsmoosMeluketSource>

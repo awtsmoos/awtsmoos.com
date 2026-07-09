@@ -1,0 +1,424 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 76,
+    "returned": 76,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916328_theRebbe_715\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains two opinions regarding the nature of the Shechinah's indwelling in the Holy Temple, whether it was merely a conduit or an actual enclothing.</sectionSummaryBrief>\n    <t s=\"0\">And this is explained by first prefacing that regarding the indwelling of the Shechinah in the Holy Temple,</t>\n    <t s=\"1\">which was in a physical place,</t>\n    <t s=\"2\">there are two opinions.</t>\n    <t s=\"3\">The opinion of the Rambam</t>\n    <t s=\"4\">[and so is the opinion of the Rasa\"g,</t>\n    <t s=\"5\">the Radak</t>\n    <t s=\"6\">and others,</t>\n    <t s=\"7\">as brought in the maamar],</t>\n    <t s=\"8\">that since the Holy One, blessed be He, is not within the category of place, therefore it is not applicable to say that the indwelling of the Shechinah was in the place of the Temple itself</t>\n    <t s=\"9\">(in a manner of enclothing),</t>\n    <t s=\"10\">but rather,</t>\n    <t s=\"11\">that the place of the Temple is prepared that through it there should be a revelation of G-dliness to Israel who came there.</t>\n    <t s=\"12\">And this is analogous to the writing of intellect by means of the fingers of the hand,</t>\n    <t s=\"13\">where the hand is only a medium through which the intellect is drawn</t>\n    <t s=\"14\">(in a manner of transmission),</t>\n    <t s=\"15\">even though the hand itself does not comprehend the intellect.</t>\n    <t s=\"16\">And the opinion of the Ramban</t>\n    <t s=\"17\">is that the indwelling of the Shechinah in the Holy Temple was in a manner of enclothing,</t>\n    <t s=\"18\">that the revelation was in the Temple itself.</t>\n    <t s=\"19\">And this is analogous to the dwelling of intellect in the brain,</t>\n    <t s=\"20\">where the intellect is enclothed in the brain and the brain comprehends the intellect.</t>\n    <t s=\"21\">And the ruling in Chassidus</t>\n    <t s=\"22\">is like the opinion of the Ramban.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section elaborates on the relative advantages of transmission versus enclothing, clarifying that the indwelling in the Temple was specifically enclothing to reveal the unlimited nature of the revelation.</sectionSummaryBrief>\n    <t s=\"0\">[And it is noteworthy,</t>\n    <t s=\"1\">that in general,</t>\n    <t s=\"2\">the advantage of enclothing is in relation to the lower being,</t>\n    <t s=\"3\">but in relation to the drawing down itself,</t>\n    <t s=\"4\">the drawing down that is in a manner of transmission is loftier than the drawing down that is in a manner of enclothing.</t>\n    <t s=\"5\">For when the drawing down is enclothed in the lower being, it is contracted and changed according to the vessel of the lower being,</t>\n    <t s=\"6\">but not so when it is in a manner of transmission, it is not so contracted.</t>\n    <t s=\"7\">And this is also understood from the above analogies,</t>\n    <t s=\"8\">that the advantage of the enclothing of intellect in the brain is in relation to the brain,</t>\n    <t s=\"9\">that the brain comprehends the intellect,</t>\n    <t s=\"10\">but in relation to the intellect,</t>\n    <t s=\"11\">by the fact that the intellect is enclothed in the physical brain,</t>\n    <t s=\"12\">contraction and materialization occur in it,</t>\n    <t s=\"13\">whereas in the writing of intellect by the fingers of the hand, the intellect is not changed by the fingers.</t>\n    <t s=\"14\">[And as is explained in the discourses that speak about the matter of transmission and enclothing,</t>\n    <t s=\"15\">that when the drawing down is in a manner of enclothing, it is attributed to the garment,</t>\n    <t s=\"16\">but not so when the drawing down is only in a manner of transmission.</t>\n    <t s=\"17\">And as is explained there</t>\n    <t s=\"18\">the difference between Eretz Yisrael and outside the land,</t>\n    <t s=\"19\">that in the diaspora,</t>\n    <t s=\"20\">the drawing down of influence from Malchus of Atzilus as it is enclothed in Malchus of Beriah and Yetzirah is by means of it being enclothed in Malchus of Asiyah,</t>\n    <t s=\"21\">and therefore the influence belongs to Malchus of Asiyah,</t>\n    <t s=\"22\">whereas in Eretz Yisrael the drawing down of influence</t>\n    <t s=\"23\">(from Malchus of Atzilus which is enclothed in Malchus of Beriah and Yetzirah)</t>\n    <t s=\"24\">through Malchus of Asiyah is only in a manner of transmission,</t>\n    <t s=\"25\">and therefore the influence belongs to Malchus of Yetzirah].</t>\n    <t s=\"26\">But that the indwelling of the Shechinah in the Holy Temple was in a manner of enclothing — the intention in this is</t>\n    <t s=\"27\">(only)</t>\n    <t s=\"28\">for the advantage of enclothing,</t>\n    <t s=\"29\">that the revelation that shone in the Holy Temple</t>\n    <t s=\"30\">(even after its enclothing in the Holy Temple which was in a physical place)</t>\n    <t s=\"31\">was above the category of place,</t>\n    <t s=\"32\">and the matter of the enclothing is that its revelation in the physical Holy Temple was in inwardness.</t>\n    <t s=\"33\">And to add,</t>\n    <t s=\"34\">that this — that the indwelling of the Shechinah in the Holy Temple was in a manner of enclothing —</t>\n    <t s=\"35\">also indicates the greatness of the revelation that shone in it.</t>\n    <t s=\"36\">For that the revelation was drawn</t>\n    <t s=\"37\">(even)</t>\n    <t s=\"38\">into a physical place and in a manner of enclothing is</t>\n    <t s=\"39\">because the revelation that shone in the Holy Temple was an unlimited revelation].</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains that the attribute of truth is specifically associated with the name Havayah because it is without limit, unlike the name Shaddai which operates within boundaries.</sectionSummaryBrief>\n    <t s=\"0\">And after he explains at length the matter of the indwelling of the Shechinah in the Holy Temple,</t>\n    <t s=\"1\">he continues in the maamar,</t>\n    <t s=\"2\">that the explanation of the attribute of truth is like the matter of \"tikun\" and \"truth free of hairs\"</t>\n    <t s=\"3\">— without limit,</t>\n    <t s=\"4\">and this is that specifically the Name Havayah is the true attribute,</t>\n    <t s=\"5\">for the Name Shaddai, which in the creation of the world is because I said to My world \"enough,\" shines within limitation,</t>\n    <t s=\"6\">and also the Name Shaddai that was revealed to the Patriarchs, meaning \"there is enough G-dliness in My Elokus for every creature,\" shines within limitation,</t>\n    <t s=\"7\">for the miracles that are drawn from this Name are enclothed in nature,</t>\n    <t s=\"8\">and therefore specifically the Name Havayah is the true attribute,</t>\n    <t s=\"9\">because it is without limit.</t>\n    <t s=\"10\">And he continues in the maamar,</t>\n    <t s=\"11\">that also all the Names are truth,</t>\n    <t s=\"12\">except that Havayah is the truth of truth.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916328_theRebbe_715",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains two opinions regarding the nature of the Shechinah's indwelling in the Holy Temple, whether it was merely a conduit or an actual enclothing.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "And this is explained by first prefacing that regarding the indwelling of the Shechinah in the Holy Temple,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "which was in a physical place,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "there are two opinions."
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "The opinion of the Rambam"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "[and so is the opinion of the Rasa\"g,"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "the Radak"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "and others,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "as brought in the maamar],"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "that since the Holy One, blessed be He, is not within the category of place, therefore it is not applicable to say that the indwelling of the Shechinah was in the place of the Temple itself"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "(in a manner of enclothing),"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "but rather,"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "that the place of the Temple is prepared that through it there should be a revelation of G-dliness to Israel who came there."
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "And this is analogous to the writing of intellect by means of the fingers of the hand,"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "where the hand is only a medium through which the intellect is drawn"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "(in a manner of transmission),"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "even though the hand itself does not comprehend the intellect."
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "And the opinion of the Ramban"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "is that the indwelling of the Shechinah in the Holy Temple was in a manner of enclothing,"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "that the revelation was in the Temple itself."
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "And this is analogous to the dwelling of intellect in the brain,"
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "where the intellect is enclothed in the brain and the brain comprehends the intellect."
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "And the ruling in Chassidus"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "is like the opinion of the Ramban."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section elaborates on the relative advantages of transmission versus enclothing, clarifying that the indwelling in the Temple was specifically enclothing to reveal the unlimited nature of the revelation.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "[And it is noteworthy,"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "that in general,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "the advantage of enclothing is in relation to the lower being,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "but in relation to the drawing down itself,"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "the drawing down that is in a manner of transmission is loftier than the drawing down that is in a manner of enclothing."
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "For when the drawing down is enclothed in the lower being, it is contracted and changed according to the vessel of the lower being,"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "but not so when it is in a manner of transmission, it is not so contracted."
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "And this is also understood from the above analogies,"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "that the advantage of the enclothing of intellect in the brain is in relation to the brain,"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "that the brain comprehends the intellect,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "but in relation to the intellect,"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "by the fact that the intellect is enclothed in the physical brain,"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "contraction and materialization occur in it,"
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "whereas in the writing of intellect by the fingers of the hand, the intellect is not changed by the fingers."
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "[And as is explained in the discourses that speak about the matter of transmission and enclothing,"
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "that when the drawing down is in a manner of enclothing, it is attributed to the garment,"
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "but not so when the drawing down is only in a manner of transmission."
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "And as is explained there"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "the difference between Eretz Yisrael and outside the land,"
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "that in the diaspora,"
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "the drawing down of influence from Malchus of Atzilus as it is enclothed in Malchus of Beriah and Yetzirah is by means of it being enclothed in Malchus of Asiyah,"
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "and therefore the influence belongs to Malchus of Asiyah,"
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "whereas in Eretz Yisrael the drawing down of influence"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "(from Malchus of Atzilus which is enclothed in Malchus of Beriah and Yetzirah)"
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "through Malchus of Asiyah is only in a manner of transmission,"
+          },
+          {
+            "v": 16,
+            "s": 25,
+            "translation": "and therefore the influence belongs to Malchus of Yetzirah]."
+          },
+          {
+            "v": 16,
+            "s": 26,
+            "translation": "But that the indwelling of the Shechinah in the Holy Temple was in a manner of enclothing — the intention in this is"
+          },
+          {
+            "v": 16,
+            "s": 27,
+            "translation": "(only)"
+          },
+          {
+            "v": 16,
+            "s": 28,
+            "translation": "for the advantage of enclothing,"
+          },
+          {
+            "v": 16,
+            "s": 29,
+            "translation": "that the revelation that shone in the Holy Temple"
+          },
+          {
+            "v": 16,
+            "s": 30,
+            "translation": "(even after its enclothing in the Holy Temple which was in a physical place)"
+          },
+          {
+            "v": 16,
+            "s": 31,
+            "translation": "was above the category of place,"
+          },
+          {
+            "v": 16,
+            "s": 32,
+            "translation": "and the matter of the enclothing is that its revelation in the physical Holy Temple was in inwardness."
+          },
+          {
+            "v": 16,
+            "s": 33,
+            "translation": "And to add,"
+          },
+          {
+            "v": 16,
+            "s": 34,
+            "translation": "that this — that the indwelling of the Shechinah in the Holy Temple was in a manner of enclothing —"
+          },
+          {
+            "v": 16,
+            "s": 35,
+            "translation": "also indicates the greatness of the revelation that shone in it."
+          },
+          {
+            "v": 16,
+            "s": 36,
+            "translation": "For that the revelation was drawn"
+          },
+          {
+            "v": 16,
+            "s": 37,
+            "translation": "(even)"
+          },
+          {
+            "v": 16,
+            "s": 38,
+            "translation": "into a physical place and in a manner of enclothing is"
+          },
+          {
+            "v": 16,
+            "s": 39,
+            "translation": "because the revelation that shone in the Holy Temple was an unlimited revelation]."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section explains that the attribute of truth is specifically associated with the name Havayah because it is without limit, unlike the name Shaddai which operates within boundaries.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "And after he explains at length the matter of the indwelling of the Shechinah in the Holy Temple,"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "he continues in the maamar,"
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "that the explanation of the attribute of truth is like the matter of \"tikun\" and \"truth free of hairs\""
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "— without limit,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "and this is that specifically the Name Havayah is the true attribute,"
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "for the Name Shaddai, which in the creation of the world is because I said to My world \"enough,\" shines within limitation,"
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "and also the Name Shaddai that was revealed to the Patriarchs, meaning \"there is enough G-dliness in My Elokus for every creature,\" shines within limitation,"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "for the miracles that are drawn from this Name are enclothed in nature,"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "and therefore specifically the Name Havayah is the true attribute,"
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "because it is without limit."
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "And he continues in the maamar,"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "that also all the Names are truth,"
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "except that Havayah is the truth of truth."
+          }
+        ]
+      }
+    ]
+  }
+}

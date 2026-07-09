@@ -1,0 +1,128 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" title="מאמר ויגש אליו יהודה תשכ"ה" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ ויגש,</src>
+    <src s="2">ז' טבת,</src>
+    <src s="3">ה'תשכ"ה</src>
+  </section>
+  <section v="1">
+    <src s="0">ויגש אליו יהודה גו'1,</src>
+    <src s="1">ובההפטורה דפרשת ויגש נאמר2</src>
+    <src s="2">קח לך עץ אחד וכתוב עליו ליהודה גו' ולקח עץ אחד וכתוב עליו ליוסף גו' וקרב אותם אחד אל אחד לך לעץ אחד והיו לאחדים בידך.</src>
+    <src s="3">ולכאורה השייכות דההפטורה להפרשה היא בזה שהתוכן דשניהם הוא חיבור יהודה ויוסף.</src>
+    <src s="4">אבל בפרטיות,</src>
+    <src s="5">בהגשת יהודה ליוסף</src>
+    <src s="6">(בפרשה)</src>
+    <src s="7">מודגש שיוסף הי' נעלה יותר מיהודה,</src>
+    <src s="8">ועד שיוסף הי' מלך על כל אחיו,</src>
+    <src s="9">כולל יהודה,</src>
+    <src s="10">ובההפטורה נאמר3</src>
+    <src s="11">ועבדי דוד מלך עליהם.</src>
+    <src s="12">[וכמבואר בתו"א4,</src>
+    <src s="13">דיוסף הוא</src>
+    <src s="14">[יסוד]</src>
+    <src s="15">ז"א ויהודה הוא מלכות,</src>
+    <src s="16">ולכן עכשיו יוסף הוא למעלה מיהודה,</src>
+    <src s="17">כי בסדר השתלשלות,</src>
+    <src s="18">ז"א הוא למעלה מהמלכות</src>
+    <src s="19">[ויתירה מזו,</src>
+    <src s="20">ז"א הוא משפיע למלכות.</src>
+    <src s="21">וזהו ויגש אליו יהודה ויאמר בי אדוני,</src>
+    <src s="22">דפירוש בי אדוני הוא שביהודה</src>
+    <src s="23">(בי)</src>
+    <src s="24">יומשך השפע מיוסף הצדיק</src>
+    <src s="25">(אדוני)].</src>
+    <src s="26">ולעתיד לבוא,</src>
+    <src s="27">שאז יתגלה שורש המלכות,</src>
+    <src s="28">שהוא למעלה משורש ז"א,</src>
+    <src s="29">לכן אז יהי' עבדי דוד מלך עליהם].</src>
+    <src s="30">אבל מזה שגם הפסוק ועבדי דוד מלך עליהם הוא בההפטורה דפרשת ויגש,</src>
+    <src s="31">משמע,</src>
+    <src s="32">שבויגש אליו יהודה ישנה גם המעלה דיהודה לגבי יוסף.</src>
+    <src s="33">אלא שזה שמודגש בגילוי בויגש אליו יהודה הוא המעלה דיוסף לגבי יהודה,</src>
+    <src s="34">ובההפטורה המעלה דיהודה לגבי יוסף.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לקשר זה עם המבואר בדרושי הצ"צ5,</src>
+    <src s="2">דזה שסופי תיבות ויגש אליו.</src>
+    <src s="3">יהודה.</src>
+    <src s="4">הוא שוה6,</src>
+    <src s="5">כי ענין ויגש אליו יהודה הוא שהמלכות</src>
+    <src s="6">(יהודה)</src>
+    <src s="7">וז"א</src>
+    <src s="8">(יוסף)</src>
+    <src s="9">שניהם שוים.</src>
+    <src s="10">ומבאר,</src>
+    <src s="11">דענין שוה הוא ע"ד מ"ש בלקו"ת7</src>
+    <src s="12">בפירוש הכתוב8</src>
+    <src s="13">לעשות הישר בעיני ה',</src>
+    <src s="14">דענין ישר הוא החיבור והיחוד דדעת עליון ודעת תחתון,</src>
+    <src s="15">יחודא עילאה ויחודא תתאה</src>
+    <src s="16">(ששניהם הם בשוה),</src>
+    <src s="17">למהוי אחד באחד9.</src>
+    <src s="18">דיוסף ויהודה כמו שהם מצד עצמם,</src>
+    <src s="19">הם</src>
+    <src s="20">(כמו)</src>
+    <src s="21">שני הפכים.</src>
+    <src s="22">דביוסף</src>
+    <src s="23">(ז"א),</src>
+    <src s="24">שהוא מלמעלה למטה,</src>
+    <src s="25">הוא10</src>
+    <src s="26">דעת עליון שלמעלה יש ולמטה אין,</src>
+    <src s="27">וביהודה</src>
+    <src s="28">(מלכות),</src>
+    <src s="29">שהוא מלמטה למעלה,</src>
+    <src s="30">הוא10</src>
+    <src s="31">דעת תחתון שלמטה יש ולמעלה אין,</src>
+    <src s="32">וענין ויגש אליו יהודה הוא החיבור דדעת עליון ודעת תחתון.</src>
+    <src s="33">[וזהו שארז"ל11</src>
+    <src s="34">עה"פ ויגש אליו יהודה אין ויגש אלא לשון שלום,</src>
+    <src s="35">דענין השלום הוא החיבור דדעת עליון ודעת תחתון12].</src>
+    <src s="36">וע"ד מ"ש13</src>
+    <src s="37">ונקבצו בני יהודה ובני ישראל יחדיו ושמו להם ראש אחד,</src>
+    <src s="38">דעכשיו14,</src>
+    <src s="39">העבודה דבני יהודה היא מלמטה למעלה,</src>
+    <src s="40">דעת תחתון,</src>
+    <src s="41">והעבודה דבני ישראל</src>
+    <src s="42">[עשרת השבטים ששייכים ליוסף]</src>
+    <src s="43">היא מלמעלה למטה,</src>
+    <src s="44">דעת עליון,</src>
+    <src s="45">ולע"ל יתחברו יחד,</src>
+    <src s="46">למהוי אחד באחד.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,139 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917129_theRebbe_291" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917129_theRebbe_291__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917129_theRebbe_291" title="מאמר כי תשא תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917129_theRebbe_291__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">ועפ"ז יש לומר דבאמירת הקב"ה למשה כי תשא את ראש בני ישראל,</src>
+    <src s="2">שני ענינים.</src>
+    <src s="3">שישא ויגבי' את ראש בני ישראל,</src>
+    <src s="4">כמפורש בקרא.</src>
+    <src s="5">ועוד ענין</src>
+    <src s="6">(שאינו מפורש בתושב"כ אלא נתגלה בתושבע"פ),</src>
+    <src s="7">שע"י כי תשא את ראש בני ישראל תהי' גם הרמת קרן ישראל</src>
+    <src s="8">[וכלשון הגמרא אמר לו ב.</src>
+    <src s="9">כי תשא,</src>
+    <src s="10">שע"י כי תשא יהי' עוד ענין].</src>
+    <src s="11">ועפ"ז יש לבאר מ"ש רש"י אם באת לשאת ראשם בהגבהה קח מהם כופר לצדקה,</src>
+    <src s="12">ולא יתנו כופר לצדקה,</src>
+    <src s="13">כלשון הכתוב ונתנו איש כופר נפשו,</src>
+    <src s="14">כי נשיאת והגבהת ראש בני ישראל הוא ע"י נתינת כופר – ונתנו איש כופר נפשו.</src>
+    <src s="15">ובכדי שהנשיאת ראש תביא להרמת קרן ישראל הוא כשהנשיאת והגבהת הראש היא ע"י שמשה יקח מהם כופר – אם באת לשאת ראשם בהגבהה קח מהם כופר לצדקה.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ויובן זה בהקדים מ"ש</src>
+    <src s="2">(בפרשתנו16)</src>
+    <src s="3">אם כסף תלוה את עמי,</src>
+    <src s="4">ואיתא במדרש17</src>
+    <src s="5">אמר הקב"ה אם כסף תלוה את עמי</src>
+    <src s="6">(עמי בחירי"ק תחת העי"ן),</src>
+    <src s="7">ומבואר בהדרושים18,</src>
+    <src s="8">דזה שמעלת הגמ"ח היא גדולה כ"כ עד שעי"ז אתה עמי,</src>
+    <src s="9">עמי במחיצתי19,</src>
+    <src s="10">הוא כמ"ש20</src>
+    <src s="11">כי חסד חפצתי ולא זבח,</src>
+    <src s="12">דהגם שגם הקרבנות</src>
+    <src s="13">(זבח)</src>
+    <src s="14">הם רצונו ית'</src>
+    <src s="15">[כמובן גם מזה שישנם כו"כ ציוויים להקריב קרבנות],</src>
+    <src s="16">מ"מ,</src>
+    <src s="17">כיון שענין הקרבנות הוא העלאה מלמטה למעלה,</src>
+    <src s="18">ותכלית הכוונה הוא שיהי' המשכת גילוי אלקות למטה,</src>
+    <src s="19">דנתאוה הקב"ה להיות לו ית' דירה בתחתונים21,</src>
+    <src s="20">לכן,</src>
+    <src s="21">הרצון בקרבנות הוא</src>
+    <src s="22">(לא בהקרבנות מצד עצמם,</src>
+    <src s="23">אלא)</src>
+    <src s="24">בשביל ההמשכה שתהי' אח"כ ע"י הנסכים</src>
+    <src s="25">[כדאיתא בגמרא22</src>
+    <src s="26">כל הקורא ק"ש בלא תפילין כאילו הקריב עולה בלא מנחה וזבח בלא נסכים23,</src>
+    <src s="27">דמזה משמע שכשהקריב זבח בלא נסכים אין קרבנו כלום24,</src>
+    <src s="28">ומבואר בלקו"ת25</src>
+    <src s="29">שזהו לפי שההעלאה דקרבנות היא בשביל ההמשכה שאח"כ ע"י הנסכים],</src>
+    <src s="30">ולכן,</src>
+    <src s="31">הרצון בקרבנות הוא</src>
+    <src s="32">(כמו26)</src>
+    <src s="33">חיצוניות הרצון</src>
+    <src s="34">[ע"ד27</src>
+    <src s="35">אדם שרוצה לנסוע לאיזה מקום לקנות סחורה,</src>
+    <src s="36">שהרצון שלו בהנסיעה הוא רק בשביל הריוח שיהי' לו עי"ז],</src>
+    <src s="37">ופנימיות הרצון הוא בהמשכה למטה.</src>
+    <src s="38">וזהו כי חסד חפצתי ולא זבח,</src>
+    <src s="39">שהחפץ,</src>
+    <src s="40">פנימיות הרצון,</src>
+    <src s="41">הוא שיהי' חסד,</src>
+    <src s="42">המשכה למטה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ולהוסיף,</src>
+    <src s="1">דמפשטות לשון הכתוב כי חסד חפצתי ולא זבח משמע שמדבר גם בזבח עם נסכים,</src>
+    <src s="2">ואעפ"כ אומר חסד חפצתי ולא זבח,</src>
+    <src s="3">כי כיון שהנסכים הם טפלים להזבח,</src>
+    <src s="4">גם ההמשכה שע"י הנסכים אינה כההמשכה שע"י חסד.</src>
+    <src s="5">וכמוכח גם ממארז"ל28</src>
+    <src s="6">(המובא בהדרושים29)</src>
+    <src s="7">עה"פ30</src>
+    <src s="8">אם יתכפר עון בית עלי בזבח ובמנחה,</src>
+    <src s="9">בזבח ובמנחה אינו מתכפר אבל מתכפר בתורה ובגמילות חסדים,</src>
+    <src s="10">שגם הכפרה דמנחה</src>
+    <src s="11">(ועד"ז נסכים)</src>
+    <src s="12">אינה כהכפרה שע"י תורה וגמ"ח,</src>
+    <src s="13">לפי שכללות ענין הקרבנות הוא העלאה,</src>
+    <src s="14">אלא שבקרבנות עצמם – מנחה ונסכים הם המשכה למטה,</src>
+    <src s="15">אבל ההמשכה שעל ידם אינה כההמשכה שע"י תורה וגמ"ח.</src>
+    <src s="16">ויתירה מזה,</src>
+    <src s="17">שגם ההמשכה דתורה,</src>
+    <src s="18">שנקראת תורת חסד31</src>
+    <src s="19">לפי שענינה הוא המשכה למטה,</src>
+    <src s="20">אינה כההמשכה שע"י חסד.</src>
+    <src s="21">וכסיום מארז"ל הנ"ל28</src>
+    <src s="22">רבה דעסיק בתורה חי מ' שנין אביי דעסיק בתורה ובגמילות חסדים חי ס' שנין.</src>
+    <src s="23">ולהעיר,</src>
+    <src s="24">דענין זה שההמשכה שע"י גמ"ח היא המשכה למטה יותר</src>
+    <src s="25">(מההמשכה שע"י מנחה ונסכים וגם)</src>
+    <src s="26">מההמשכה שע"י תורה,</src>
+    <src s="27">הוא בכללות בכל המצוות32,</src>
+    <src s="28">דגמ"ח היא כללות כל המצוות33.</src>
+    <src s="29">אבל אעפ"כ,</src>
+    <src s="30">עיקר המעלה דהמשכה למטה ביותר היא בגמ"ח כפשוטה.</src>
+    <src s="31">וכמובן גם מהמשך הענינים בהדרושים הנ"ל,</src>
+    <src s="32">דענין חסד חפצתי ולא זבח הוא ביאור על המעלה דאם כסף תלוה,</src>
+    <src s="33">גמ"ח כפשוטה.</src>
+    <src s="34">וכן מובן מהמבואר בדרושים הנ"ל34</src>
+    <src s="35">הטעם על זה שגמ"ח היא מהדברים שאדם אוכל פירותיהם בעולם הזה35,</src>
+    <src s="36">כי ההמשכה שע"י גמ"ח היא נמשכת עד למטה מטה,</src>
+    <src s="37">גם בעולם הזה.</src>
+  </section>
+</awtsmoosMeluketSource>

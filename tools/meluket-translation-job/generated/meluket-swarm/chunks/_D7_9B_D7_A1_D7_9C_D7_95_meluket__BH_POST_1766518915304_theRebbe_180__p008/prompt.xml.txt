@@ -1,0 +1,163 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p008">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" title="מאמר ושבתי בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p008">
+  <section v="21">
+    <src s="0">י)</src>
+    <src s="1">ד)</src>
+    <src s="2">וביאור הענין</src>
+    <src s="3">(דעיקר העבודה שבשבילה ירדה הנשמה למטה היא ויקח מאבני המקום גו')</src>
+    <src s="4">בעומק יותר,</src>
+    <src s="5">יובן בהקדים שהיתרון בהעבודה דכל מעשיך לשם שמים ובכל דרכיך דעהו על העבודה דלימוד התורה וקיום המצוות הוא לא רק בנוגע להפעולה בעולם,</src>
+    <src s="6">שע"י העבודה בכל מעשיך לשם שמים מתברר גם התחתון דעולם</src>
+    <src s="7">(כנ"ל סעיף ט),</src>
+    <src s="8">אלא גם בנוגע להאדם.</src>
+    <src s="9">והענין הוא124,</src>
+    <src s="10">דהנה ידוע שירידת הנשמה למטה היא ירידה צורך עלי',</src>
+    <src s="11">דע"י ירידתה למטה היא מתעלית יותר גם מכפי שהיתה קודם הירידה.</src>
+    <src s="12">וענין העלי' הוא,</src>
+    <src s="13">שבאה לענין התשובה.</src>
+    <src s="14">שקודם ירידתה למטה היתה בבחי' צדיק</src>
+    <src s="15">(גמור),</src>
+    <src s="16">וע"י עבודתה בירידתה למטה נעשית בבחי' בעל תשובה125.</src>
+    <src s="17">והגם שיש יתרון בעבודת הצדיקים על עבודת הבעלי תשובה</src>
+    <src s="18">[שלכן התמידים היו מכבשים ולא מעזים,</src>
+    <src s="19">אימרא יאי126],</src>
+    <src s="20">וכמרז"ל127</src>
+    <src s="21">במי נמלך בנשמותיהן של צדיקים,</src>
+    <src s="22">הנה היתרון דעבודת הצדיקים הוא מצד הרצון שבו שייך ענין ההמלכה</src>
+    <src s="23">(במי נמלך),</src>
+    <src s="24">משא"כ מצד עצמותו ית'</src>
+    <src s="25">(בחי' בעל הרצון),</src>
+    <src s="26">עיקר הכוונה הוא בענין התשובה דוקא.</src>
+    <src s="27">וזהו מה שארז"ל128</src>
+    <src s="28">מקום שבעלי תשובה עומדין אין צדיקים גמורין יכולין לעמוד בו</src>
+    <src s="29">[לא רק שאינם עומדין שם129,</src>
+    <src s="30">אלא יתירה מזו שאין יכולין לעמוד שם,</src>
+    <src s="31">כהגירסא המובאת בהדרושים עה"פ ושבתי בשלום130],</src>
+    <src s="32">והיינו שמעלת הבע"ת היא למעלה גם מיכולת הצד"ג,</src>
+    <src s="33">שענין היכולת הוא131</src>
+    <src s="34">למעלה מבחי' כח גם מכחות המקיפים,</src>
+    <src s="35">לפי שענין התשובה מגיע בעצמותו ית',</src>
+    <src s="36">שכל הגילויים</src>
+    <src s="37">(שרש עבודת הצדיקים)</src>
+    <src s="38">הם באין ערוך אליו כלל.</src>
+  </section>
+  <section v="22">
+    <src s="0">ט)</src>
+    <src s="1">ו)</src>
+    <src s="2">וע"פ הנ"ל יובן מ"ש ושבתי בשלום אל בית אבי,</src>
+    <src s="3">דצריך להבין,</src>
+    <src s="4">הרי ענין ושבתי הוא</src>
+    <src s="5">(לכאורה)</src>
+    <src s="6">שיחזור להמקום שהי' בתחילה,</src>
+    <src s="7">וא"כ,</src>
+    <src s="8">מכיון שביציאת יעקב נאמר ויצא יעקב מבאר שבע,</src>
+    <src s="9">הול"ל ושבתי בשלום אל באר שבע ולמה אומר אל בית אבי.</src>
+    <src s="10">וי"ל הענין בזה,</src>
+    <src s="11">כי מכיון שע"י עבודת התשובה מתעלית הנשמה לבחינה נעלית יותר מכמו שהיתה לפני ירידתה</src>
+    <src s="12">(כנ"ל),</src>
+    <src s="13">לכן ענין ושבתי הוא</src>
+    <src s="14">(לא לבאר שבע,</src>
+    <src s="15">הדרגא של הנשמה כמו שהיתה קודם ירידתה132,</src>
+    <src s="16">כי אם)</src>
+    <src s="17">אל בית אבי,</src>
+    <src s="18">שלמעלה מבחי' באר שבע133.</src>
+    <src s="19">ויש להוסיף,</src>
+    <src s="20">דענין זה שייך גם לבית אבי כפשוטו שקאי על יצחק.</src>
+    <src s="21">דיצחק הוא מלשון שמחה ותענוג134,</src>
+    <src s="22">וידוע135</src>
+    <src s="23">שתענוג זה</src>
+    <src s="24">(התענוג שבצחוק)</src>
+    <src s="25">הוא מדבר חידוש136</src>
+    <src s="26">דוקא.</src>
+    <src s="27">ומכיון שענין התשובה הוא דבר חידוש137</src>
+    <src s="28">[וע"ד מ"ש הרמב"ם138</src>
+    <src s="29">בענין התשובה כפשוטה</src>
+    <src s="30">(על עבירות),</src>
+    <src s="31">שמעלת התשובה היא מצד זה שאמש הי' זה מובדל כו' והיום הוא מודבק בשכינה],</src>
+    <src s="32">לכן,</src>
+    <src s="33">ע"י עבודת התשובה נעשה תענוג וצחוק למעלה.</src>
+    <src s="34">שתענוג זה הוא נעלה יותר מהתענוג דעבודת הצדיקים,</src>
+    <src s="35">דזהו מה שבע"ת הוא אהוב וחביב יותר מצדיק139,</src>
+    <src s="36">לפי שעיקר התענוג שלמעלה הוא בעבודת התשובה.</src>
+    <src s="37">וזהו ג"כ מה שבע"ת צועק ונענה מיד140,</src>
+    <src s="38">ועד141</src>
+    <src s="39">אשר והי'142</src>
+    <src s="40">טרם יקראו ואני אענה140</src>
+    <src s="41">(הגם שע"פ סדר מענה בא לאחרי קריאה),</src>
+    <src s="42">כי התענוג שלמעלה הבא מהחידוש דעבודת התשובה פועל חידוש</src>
+    <src s="43">(היפך הסדר)</src>
+    <src s="44">גם למעלה – טרם יקראו ואני אענה143.</src>
+  </section>
+  <section v="23">
+    <src s="0">ט)</src>
+    <src s="1">ז)</src>
+    <src s="2">והנה עיקר החידוש הגורם התענוג והצחוק שלמעלה הוא החידוש שנעשה בגוף ונפש הבהמית144</src>
+    <src s="3">גופא.</src>
+    <src s="4">והיינו,</src>
+    <src s="5">שהתשובה דנפש האלקית</src>
+    <src s="6">[מה שגם בירידתה למטה</src>
+    <src s="7">(גם בזמן הגלות)</src>
+    <src s="8">היא עוסקת בתומ"צ,</src>
+    <src s="9">ואפילו זה שגם עשייתה עניני הרשות היא לש"ש ועד באופן דדעהו145]</src>
+    <src s="10">אינו חידוש כ"כ146,</src>
+    <src s="11">מכיון שהיא אלקות בעצם מהותה.</src>
+    <src s="12">ובמילא אין בזה תענוג כ"כ.</src>
+    <src s="13">ועיקר התענוג שלמעלה הוא בהחידוש שנעשה בהגוף ונפש הבהמית גופא147,</src>
+    <src s="14">הן באופן דאתהפכא</src>
+    <src s="15">(ע"י עבודת הצדיקים)</src>
+    <src s="16">והן באופן דאתכפיא</src>
+    <src s="17">(ע"י עבודת הבינונים),</src>
+    <src s="18">שהם שני מיני נחת רוח,</src>
+    <src s="19">מטעמים לשון רבים148.</src>
+    <src s="20">ותענוג זה הוא נעלה יותר מהתענוג שבעבודת הנשמה</src>
+    <src s="21">(גם מעבודת התשובה של הנשמה),</src>
+    <src s="22">וכמאמר הזהר149</src>
+    <src s="23">כד אתכפיא</src>
+    <src s="24">(ואתהפכא150)</src>
+    <src s="25">סט"א אסתלק יקרא דקוב"ה בכולהו עלמין,</src>
+    <src s="26">שהאור הנמשך ע"י אתכפיא ואתהפכא הוא אור שלמעלה מכלים,</src>
+    <src s="27">שלכן נקרא בשם אסתלק151.</src>
+    <src s="28">וזהו מה שמבואר בתו"א152</src>
+    <src s="29">ובתו"ח153</src>
+    <src s="30">בפירוש ושבתי בשלום אל בית אבי שהוא</src>
+    <src s="31">(לא ענין התשובה דנה"א,</src>
+    <src s="32">כ"א)</src>
+    <src s="33">התשובה דאתכפיא ואתהפכא סט"א מחשוכא לנהורא,</src>
+    <src s="34">כי הצחוק והתענוג שלמעלה</src>
+    <src s="35">(אל בית אבי יצחק מלשון צחוק ותענוג)</src>
+    <src s="36">נעשה בעיקר ע"י אתכפיא ואתהפכא.</src>
+  </section>
+</awtsmoosMeluketSource>

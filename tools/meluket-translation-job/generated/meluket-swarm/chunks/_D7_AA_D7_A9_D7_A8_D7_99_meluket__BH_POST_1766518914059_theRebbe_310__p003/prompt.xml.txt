@@ -1,0 +1,142 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" title="מאמר שובה ישראל תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p003">
+  <section v="6">
+    <src s="0">ועפ"ז יש לבאר הקשר דשני הפירושים בשובה ישראל עד</src>
+    <src s="1">(שזה קאי על עד ועד בכלל,</src>
+    <src s="2">או שזה קאי על עד ולא עד בכלל)</src>
+    <src s="3">עם שני הפירושים בשובה ישראל עד הוי' אלקיך,</src>
+    <src s="4">עד שהוי' יהי' אלקיך כחך וחיותך ועד שהוי' יהי' רק בחי' אלקים וצמצום לגבי אוא"ס שלמעלה מהוי',</src>
+    <src s="5">דהפירוש שובה ישראל עד שהוא עד ועד בכלל,</src>
+    <src s="6">האור ששייך בו ידיעת השלילה,</src>
+    <src s="7">דבכללות הוא אור הסובב,</src>
+    <src s="8">הוא בהתאם להפירוש עד שהוי' יהי' אלקיך כחך וחיותך,</src>
+    <src s="9">שהאור שמתגלה ע"י התשובה הוא אור הסובב</src>
+    <src s="10">(הוי').</src>
+    <src s="11">והפירוש בשובה ישראל עד שהוא עד ולא עד בכלל,</src>
+    <src s="12">האור שאין שייך בו גם ידיעת השלילה,</src>
+    <src s="13">הוא בהתאם להפירוש עד שהוי' יהי' רק בחי' אלקים וצמצום לגבי אוא"ס שלמעלה מהוי',</src>
+    <src s="14">שהאור שמתגלה ע"י התשובה הוא האור שלמעלה גם מאור הסובב.</src>
+  </section>
+  <section v="7">
+    <src s="0">ד)</src>
+    <src s="1">ובעומק יותר יש לומר,</src>
+    <src s="2">דזה שהכתוב מוסיף הוי' אלקיך לאחרי שאומר כבר שובה ישראל עד,</src>
+    <src s="3">כי ענין הוי' אלקיך,</src>
+    <src s="4">שהוי' הוא רק בחי' אלקים וצמצום לגבי אוא"ס שלמעלה מהוי',</src>
+    <src s="5">הוא למעלה יותר גם מעד ולא עד בכלל.</src>
+    <src s="6">ויובן זה ע"פ מה שנתבאר לעיל15</src>
+    <src s="7">דבהוי' שבפסוק שובה ישראל עד הוי' אלקיך נכלל גם הוי' בניקוד אלקים,</src>
+    <src s="8">שהיא דרגא נעלית ביותר,</src>
+    <src s="9">כמבואר בלקו"ת16</src>
+    <src s="10">(עה"פ17</src>
+    <src s="11">כן אד' הוי' יצמיח צדקה גו')</src>
+    <src s="12">גודל העילוי של ב' השמות אד' והוי'</src>
+    <src s="13">(בניקוד אלקים).</src>
+    <src s="14">ואעפ"כ כתיב עד הוי' אלקיך,</src>
+    <src s="15">שגם הוי' זה הוא רק בחי' אלקים וצמצום לגבי אוא"ס שלמעלה מהוי',</src>
+    <src s="16">כי גם הוי'</src>
+    <src s="17">(בניקוד אלקים)</src>
+    <src s="18">הוא שם בלבד.</src>
+    <src s="19">וכמבואר בלקו"ת18</src>
+    <src s="20">בענין ב' הדרגות דשופר שיהי' לע"ל,</src>
+    <src s="21">ואד' הוי' בשופר יתקע גו' ויתקע בשופר גדול19,</src>
+    <src s="22">שהשופר דאד' הוי' בשופר יתקע,</src>
+    <src s="23">כיון שגם אד' הוי'</src>
+    <src s="24">(בניקוד אלקים)</src>
+    <src s="25">הם רק שמות,</src>
+    <src s="26">הוא שופר סתם,</src>
+    <src s="27">משא"כ גבי שופר גדול כתיב יתקע בשופר גדול,</src>
+    <src s="28">יתקע סתם ולא נאמר מי הוא התוקע,</src>
+    <src s="29">כי תקיעה זו היא המשכה וגילוי מבחי' סתימא דכל סתימין.</src>
+    <src s="30">ומבואר בלקו"ת שם,</src>
+    <src s="31">שעד"ז הוא החילוק בין ראש השנה ליום הכפורים,</src>
+    <src s="32">שהשופר דראש השנה הוא ע"ד ואד' הוי' בשופר יתקע,</src>
+    <src s="33">וביום הכפורים כתיב20</src>
+    <src s="34">לפני הוי' תטהרו,</src>
+    <src s="35">למעלה מהוי'21,</src>
+    <src s="36">ויתירה מזו22,</src>
+    <src s="37">כי ביום הזה יכפר עליכם20,</src>
+    <src s="38">יכפר סתם ולא נאמר מי הוא המכפר21,</src>
+    <src s="39">ע"ד יתקע בשופר גדול,</src>
+    <src s="40">יתקע סתם.</src>
+    <src s="41">וזהו שאומרים בההפטורה דשבת תשובה,</src>
+    <src s="42">שובה ישראל עד הוי' אלקיך,</src>
+    <src s="43">שהוי' זה קאי גם על הוי' בניקוד אלקים,</src>
+    <src s="44">כי בשבת תשובה ישנו כבר מעין העילוי דיום הכפורים23,</src>
+    <src s="45">ולגבי עילוי זה גם הוי' בניקוד אלקים הוא רק בחי' אלקים וצמצום.</src>
+  </section>
+  <section v="8">
+    <src s="0">ועפ"ז יש לבאר זה שלאחרי שאומר שובה ישראל עד,</src>
+    <src s="1">שבזה נכלל גם עד ולא עד בכלל,</src>
+    <src s="2">מוסיף הוי' אלקיך,</src>
+    <src s="3">כי גם ענין עד ולא עד בכלל,</src>
+    <src s="4">אף שאין שייך בו גם ידיעת השלילה</src>
+    <src s="5">(כנ"ל סעיף ג),</src>
+    <src s="6">מ"מ מזה שצריך לשלול ולומר עד ולא עד בכלל,</src>
+    <src s="7">מובן24,</src>
+    <src s="8">שיש לו איזו שייכות.</src>
+    <src s="9">וע"ד הענין דבעל הרצון שממנו נמשך הסליחה</src>
+    <src s="10">(כמבואר לעיל25),</src>
+    <src s="11">דבכללות הוא ענין השמות אד' הוי' בניקוד אלקים שעל ידם מתמלאים כל הפגמים26,</src>
+    <src s="12">דהגם שזה שנמשכת ממנו הסליחה על זה שעשו היפך הרצון הוא מפני שאינו מוכרח בהרצון27,</src>
+    <src s="13">מ"מ יש להרצון שייכות אליו</src>
+    <src s="14">(כדמוכח מזה שנקרא בשם בעל הרצון),</src>
+    <src s="15">ולכן צריכה להיות הסליחה על זה שעשו היפך הרצון28.</src>
+    <src s="16">משא"כ לגבי עצמות אוא"ס שלמעלה גם מבעל הרצון,</src>
+    <src s="17">אין שייך פגם מלכתחילה.</src>
+    <src s="18">וכמבואר במ"א29</src>
+    <src s="19">בענין עיצומו של יום מכפר30,</src>
+    <src s="20">שהכפרה הבאה מצד עיצומו של יום היא</src>
+    <src s="21">(לא באופן של פעולה,</src>
+    <src s="22">אלא)</src>
+    <src s="23">שביום זה מתגלה ההתקשרות של עצם הנשמה עם העצמות</src>
+    <src s="24">(שלמעלה גם מבעל הרצון),</src>
+    <src s="25">שלגבי דרגא זו אין שייך פגם מלכתחילה.</src>
+    <src s="26">וזהו שלאחרי שאומר שובה ישראל עד מוסיף הוי' אלקיך,</src>
+    <src s="27">דמכיון ששבת תשובה הוא הקדמה ליום הכפורים,</src>
+    <src s="28">לכן התשובה דשבת תשובה צריכה להיות לא רק עד,</src>
+    <src s="29">עד ולא עד בכלל,</src>
+    <src s="30">שעי"ז יתבטלו כל הפגמים,</src>
+    <src s="31">אלא שצריך גם לעורר ולגלות את נקודת היהדות,</src>
+    <src s="32">ההתקשרות דעצם הנשמה עם העצמות</src>
+    <src s="33">(שלמעלה גם מבעל הרצון),</src>
+    <src s="34">שלגבי' גם הוי' בניקוד אלקים הוא רק בחי' אלקים וצמצום,</src>
+    <src s="35">ועי"ז מתגלה שהענינים הבלתי רצויים הם רק בחיצוניות,</src>
+    <src s="36">אבל בפנימיות31</src>
+    <src s="37">(מצד ההתקשרות דישראל וקוב"ה),</src>
+    <src s="38">מלכתחילה לא היו דברים בלתי רצויים.</src>
+  </section>
+</awtsmoosMeluketSource>

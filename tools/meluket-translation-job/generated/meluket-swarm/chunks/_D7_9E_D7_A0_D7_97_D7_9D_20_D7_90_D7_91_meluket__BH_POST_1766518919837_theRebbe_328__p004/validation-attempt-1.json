@@ -1,0 +1,434 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 78,
+    "returned": 78,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919837_theRebbe_328\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919837_theRebbe_328__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>On a deeper level, the beginning of the future redemption on Tishah B'Av existed in concealment even before the destruction.</sectionSummaryBrief>\n    <t s=\"0\">And on a deeper level, it can be said,</t>\n    <t s=\"1\">that this—that on Tishah B'Av was the beginning of the matter of the future redemption—is not only in the moment after the destruction, when the redeemer of Israel was born,</t>\n    <t s=\"2\">but also before this.</t>\n    <t s=\"3\">For the fact that a lion came and destroyed Ariel is so that a lion will come and build Ariel,</t>\n    <t s=\"4\">and from this it is understood,</t>\n    <t s=\"5\">that the intention of \"He will build Ariel\" existed before He destroyed Ariel,</t>\n    <t s=\"6\">except that then,</t>\n    <t s=\"7\">this intention and thought was in concealment</t>\n    <t s=\"8\">(at the level of thought)</t>\n    <t s=\"9\">and was not drawn into revelation,</t>\n    <t s=\"10\">in order that the destruction of the Holy Temple could take place,</t>\n    <t s=\"11\">so that specifically through this there would be the building of the Third Holy Temple, which is greater than the First and Second Temples,</t>\n    <t s=\"12\">and in the moment after the destruction,</t>\n    <t s=\"13\">the revelation of the future redemption began,</t>\n    <t s=\"14\">the redeemer of Israel was born.</t>\n    <t s=\"15\">However, the birth on Tishah B'Av is only the beginning of the revelation</t>\n    <t s=\"16\">[as is also understood from the matters of Tishah B'Av that exist also after the Minchah of Tishah B'Av and also after Kiddush Levanah on the night after Tishah B'Av],</t>\n    <t s=\"17\">and the main revelation is on the Fifteenth of Av.</t>\n    <t s=\"18\">And based on this, the connection of the virtue of the Fifteenth of Av with the fact that on the fifteenth is the fullness of the moon will be understood,</t>\n    <t s=\"19\">which is completeness in the matter of revelation,</t>\n    <t s=\"20\">for the matter of the Fifteenth of Av is that on it is the revelation of the redemption that was</t>\n    <t s=\"21\">(in concealment,</t>\n    <t s=\"22\">in thought and intention)</t>\n    <t s=\"23\">on Tishah B'Av.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>The reason the command to make a Sanctuary was stated regarding the Mishkan is that the Mishkan contained in concealment both the permanent Temple and the future Temple.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that the reason for this—that the command</t>\n    <t s=\"3\">\"And they shall make for Me a Sanctuary,\"</t>\n    <t s=\"4\">which is a command for all generations to make a house for G-d</t>\n    <t s=\"5\">[a command regarding all Holy Temples,</t>\n    <t s=\"6\">including also the future Holy Temple],</t>\n    <t s=\"7\">was stated</t>\n    <t s=\"8\">(in revelation)</t>\n    <t s=\"9\">regarding the making of the Mishkan,</t>\n    <t s=\"10\">is,</t>\n    <t s=\"11\">because in the Mishkan was included in concealment also the Holy Temple, which is a permanent dwelling,</t>\n    <t s=\"12\">and also the future Holy Temple, which is \"a tent that will not be moved,\" etc.,</t>\n    <t s=\"13\">the main matter of permanence</t>\n    <t s=\"14\">(as above, section 3).</t>\n    <t s=\"15\">And analogous to the well-known</t>\n    <t s=\"16\">matter regarding the redemptions,</t>\n    <t s=\"17\">that in the redemption of the Exodus from Egypt, the channel was opened, and all redemptions were included in it,</t>\n    <t s=\"18\">including also the future redemption.</t>\n    <t s=\"19\">However, the revelation of the Third Holy Temple and of the third redemption is through the service during the time of exile,</t>\n    <t s=\"20\">which is analogous to the service of teshuvah.</t>\n    <t s=\"21\">And since at the Exodus from Egypt, the Jewish people were at the level of tzaddikim,</t>\n    <t s=\"22\">therefore,</t>\n    <t s=\"23\">the matter of the future redemption that was included in the redemption of the Exodus from Egypt,</t>\n    <t s=\"24\">was then in concealment.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>The fifteen cubits of hangings on the shoulder of the Mishkan's courtyard relate to the Third Temple, and their inner revelation on the Fifteenth of Av transforms the weeping of Tishah B'Av into tears of joy.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, it can be explained that in the courtyard of the Mishkan there were fifteen cubits of hangings for the shoulder,</t>\n    <t s=\"1\">even though this matter relates to the Third Holy Temple,</t>\n    <t s=\"2\">for in the Mishkan was included both the Holy Temple and the Third Holy Temple.</t>\n    <t s=\"3\">And nevertheless, there were no better days for Israel than the Fifteenth of Av,</t>\n    <t s=\"4\">for before the sin of the spies,</t>\n    <t s=\"5\">when according to the order of the chain of descent there was no place for the destruction of the Holy Temple and consequently also not for the building of the Third Holy Temple,</t>\n    <t s=\"6\">this was in the utmost concealment.</t>\n    <t s=\"7\">And after the sin of the spies,</t>\n    <t s=\"8\">when it was decreed upon the generation of the desert that they would not enter the Land, and also the beginning of the matter of the destruction of the Holy Temple</t>\n    <t s=\"9\">[for then was the beginning of the drawing down of the Third Holy Temple at the level of thought],</t>\n    <t s=\"10\">behold, on the Fifteenth of Av of every year</t>\n    <t s=\"11\">(starting from the Fifteenth of Av on which those of the desert ceased to die,</t>\n    <t s=\"12\">and certainly after the destruction of the Holy Temple)</t>\n    <t s=\"13\">it is the revelation of the innerness of the fifteen cubits of hangings for the shoulder in the courtyard of the Mishkan,</t>\n    <t s=\"14\">whose matter is the drawing down of Atik into Yud-Heh, and through this also into Malchus,</t>\n    <t s=\"15\">the matter of \"a tent that will not be moved,\"</t>\n    <t s=\"16\">the Third Holy Temple that has no</t>\n    <t s=\"17\">(applicable)</t>\n    <t s=\"18\">interruption in it.</t>\n    <t s=\"19\">And then is revealed also the inner intention of the weeping of the first Tishah B'Av,</t>\n    <t s=\"20\">\"And the people wept on that night,\"</t>\n    <t s=\"21\">through which weeping was established for generations,</t>\n    <t s=\"22\">which is so that the weeping will be for the superiority of the future,</t>\n    <t s=\"23\">\"With weeping they will come,\"</t>\n    <t s=\"24\">a weeping of joy</t>\n    <t s=\"25\">stemming from the revelation of the high levels,</t>\n    <t s=\"26\">and analogous to what our Rabbis, of blessed memory, said</t>\n    <t s=\"27\">regarding Rabbi Akiva, that when he grasped the secrets of the Torah in Song of Songs, his eyes flowed with tears,</t>\n    <t s=\"28\">tears of joy stemming from the abundance of light.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919837_theRebbe_328",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919837_theRebbe_328__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "On a deeper level, the beginning of the future redemption on Tishah B'Av existed in concealment even before the destruction.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And on a deeper level, it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that this—that on Tishah B'Av was the beginning of the matter of the future redemption—is not only in the moment after the destruction, when the redeemer of Israel was born,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "but also before this."
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "For the fact that a lion came and destroyed Ariel is so that a lion will come and build Ariel,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "and from this it is understood,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "that the intention of \"He will build Ariel\" existed before He destroyed Ariel,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "except that then,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "this intention and thought was in concealment"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "(at the level of thought)"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "and was not drawn into revelation,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "in order that the destruction of the Holy Temple could take place,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "so that specifically through this there would be the building of the Third Holy Temple, which is greater than the First and Second Temples,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "and in the moment after the destruction,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "the revelation of the future redemption began,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "the redeemer of Israel was born."
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "However, the birth on Tishah B'Av is only the beginning of the revelation"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "[as is also understood from the matters of Tishah B'Av that exist also after the Minchah of Tishah B'Av and also after Kiddush Levanah on the night after Tishah B'Av],"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "and the main revelation is on the Fifteenth of Av."
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "And based on this, the connection of the virtue of the Fifteenth of Av with the fact that on the fifteenth is the fullness of the moon will be understood,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "which is completeness in the matter of revelation,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "for the matter of the Fifteenth of Av is that on it is the revelation of the redemption that was"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "(in concealment,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "in thought and intention)"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "on Tishah B'Av."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "The reason the command to make a Sanctuary was stated regarding the Mishkan is that the Mishkan contained in concealment both the permanent Temple and the future Temple.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "that the reason for this—that the command"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "\"And they shall make for Me a Sanctuary,\""
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "which is a command for all generations to make a house for G-d"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "[a command regarding all Holy Temples,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "including also the future Holy Temple],"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "was stated"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(in revelation)"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "regarding the making of the Mishkan,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "is,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "because in the Mishkan was included in concealment also the Holy Temple, which is a permanent dwelling,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "and also the future Holy Temple, which is \"a tent that will not be moved,\" etc.,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "the main matter of permanence"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "(as above, section 3)."
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "And analogous to the well-known"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "matter regarding the redemptions,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "that in the redemption of the Exodus from Egypt, the channel was opened, and all redemptions were included in it,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "including also the future redemption."
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "However, the revelation of the Third Holy Temple and of the third redemption is through the service during the time of exile,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "which is analogous to the service of teshuvah."
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "And since at the Exodus from Egypt, the Jewish people were at the level of tzaddikim,"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "therefore,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "the matter of the future redemption that was included in the redemption of the Exodus from Egypt,"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "was then in concealment."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "The fifteen cubits of hangings on the shoulder of the Mishkan's courtyard relate to the Third Temple, and their inner revelation on the Fifteenth of Av transforms the weeping of Tishah B'Av into tears of joy.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And based on this, it can be explained that in the courtyard of the Mishkan there were fifteen cubits of hangings for the shoulder,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "even though this matter relates to the Third Holy Temple,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "for in the Mishkan was included both the Holy Temple and the Third Holy Temple."
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "And nevertheless, there were no better days for Israel than the Fifteenth of Av,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "for before the sin of the spies,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "when according to the order of the chain of descent there was no place for the destruction of the Holy Temple and consequently also not for the building of the Third Holy Temple,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "this was in the utmost concealment."
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "And after the sin of the spies,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "when it was decreed upon the generation of the desert that they would not enter the Land, and also the beginning of the matter of the destruction of the Holy Temple"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "[for then was the beginning of the drawing down of the Third Holy Temple at the level of thought],"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "behold, on the Fifteenth of Av of every year"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "(starting from the Fifteenth of Av on which those of the desert ceased to die,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "and certainly after the destruction of the Holy Temple)"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "it is the revelation of the innerness of the fifteen cubits of hangings for the shoulder in the courtyard of the Mishkan,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "whose matter is the drawing down of Atik into Yud-Heh, and through this also into Malchus,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "the matter of \"a tent that will not be moved,\""
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "the Third Holy Temple that has no"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "(applicable)"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "interruption in it."
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "And then is revealed also the inner intention of the weeping of the first Tishah B'Av,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "\"And the people wept on that night,\""
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "through which weeping was established for generations,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "which is so that the weeping will be for the superiority of the future,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "\"With weeping they will come,\""
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "a weeping of joy"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "stemming from the revelation of the high levels,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "and analogous to what our Rabbis, of blessed memory, said"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "regarding Rabbi Akiva, that when he grasped the secrets of the Torah in Song of Songs, his eyes flowed with tears,"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "tears of joy stemming from the abundance of light."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" title="מאמר יו"ט של ר"ה תשל"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p006">
+  <section v="15">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">שזה שע"י מצות תקיעת שופר נעשית רק ההמשכה,</src>
+    <src s="2">והגילוי הוא ע"י התורה</src>
+    <src s="3">(אמירת פסוקי שופרות),</src>
+    <src s="4">הוא,</src>
+    <src s="5">מפני ששרש התורה הוא למעלה משרש המצוות.</src>
+    <src s="6">ויש לקשר זה עם המבואר בהמשך הנ"ל59,</src>
+    <src s="7">דיש עוד מעלה באמירת פסוקי שופרות,</src>
+    <src s="8">דההמשכה שע"י תקיעת שופר היא רק האור והגילוי שנמשך מהעצמות,</src>
+    <src s="9">וע"י אמירת הפסוקים נמשך העלם העצמי עצמו,</src>
+    <src s="10">בדוגמת העלי' שיהי' לעתיד.</src>
+    <src s="11">ועפ"ז מובן עוד יותר שגם בראש השנה שחל להיות בשבת ישנה מעלת העבודה,</src>
+    <src s="12">כי ע"י העבודה דאמירת פסוקי שופרות גם ההמשכה עצמה היא המשכה נעלית יותר.</src>
+  </section>
+  <section v="16">
+    <src s="0">וכיון ששבת הו"ע המנוחה והתענוג,</src>
+    <src s="1">גם העבודה בראש השנה שחל להיות בשבת,</src>
+    <src s="2">ועד"ז העבודה דערב ראש השנה,</src>
+    <src s="3">היא מתוך מנוחה ותענוג,</src>
+    <src s="4">וזה פועל גם על כל השנה,</src>
+    <src s="5">שתהי' שנה של מנוחה ותענוג,</src>
+    <src s="6">ועד לאמיתית ענין המנוחה – יום שכולו שבת ומנוחה לחיי העולמים60,</src>
+    <src s="7">ובקרוב ממש בעגלא דידן.</src>
+  </section>
+</awtsmoosMeluketSource>

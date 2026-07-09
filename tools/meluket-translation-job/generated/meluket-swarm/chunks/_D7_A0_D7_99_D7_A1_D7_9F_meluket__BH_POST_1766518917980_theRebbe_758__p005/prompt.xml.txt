@@ -1,0 +1,115 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917980_theRebbe_758" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917980_theRebbe_758__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917980_theRebbe_758" title="מאמר ונחה עליו רוח ה' תשכ"ה" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917980_theRebbe_758__p005">
+  <section v="12">
+    <src s="0">ועפ"ז יובן מה שמוסיף בהמאמר שהירידה היא לצורך עלי',</src>
+    <src s="1">שבזה מבאר</src>
+    <src s="2">(כנ"ל סעיף ד)</src>
+    <src s="3">דזה שע"י העבודה דזמן הגלות יהי' הגילוי דלע"ל הוא לא רק הגילוי דהענינים שלמעלה מהשגה וראי'</src>
+    <src s="4">(שמשיח יגלה אותם מצד זה שהוא מלך),</src>
+    <src s="5">אלא59</src>
+    <src s="6">גם הענינים דהשגה וראי'60,</src>
+    <src s="7">שמשיח יגלה אותם בתור רב61,</src>
+    <src s="8">שגם הגילוי דענינים אלו הוא ע"י העבודה דזמן הגלות,</src>
+    <src s="9">כי זה שלע"ל יהי' וראו כל בשר גו' מצד הטבע והתכונות דבשר גופא,</src>
+    <src s="10">הוא דוקא ע"י שמגלים הכוונה הפנימית דהירידה,</src>
+    <src s="11">שהירידה היא צורך עלי'.</src>
+  </section>
+  <section v="13">
+    <src s="0">ט)</src>
+    <src s="1">והנה ענין זה</src>
+    <src s="2">(שהצמצום הוא בשביל הגילוי)</src>
+    <src s="3">מתגלה</src>
+    <src s="4">(בעיקר)</src>
+    <src s="5">ע"י העבודה דזמן הגלות.</src>
+    <src s="6">דהנה הירידה דגלות,</src>
+    <src s="7">היא לצורך עלי'</src>
+    <src s="8">(בדוגמת מה שהצמצום הוא בשביל הגילוי).</src>
+    <src s="9">אלא שבענין זה</src>
+    <src s="10">(הירידה דגלות)</src>
+    <src s="11">מיתוסף,</src>
+    <src s="12">שגם בזמן הגלות גופא רואים בפועל איך שההעלם דהגלות מעורר את כח המס"נ.</src>
+    <src s="13">והענין הוא כמבואר בהמאמר62,</src>
+    <src s="14">דבזמן הגלות,</src>
+    <src s="15">ובפרט בדרא דעקבתא דמשיחא,</src>
+    <src s="16">כח המס"נ הוא בגילוי יותר מבזמן הבית.</src>
+    <src s="17">ומביא משל על זה מכח הרצון שבנפש האדם,</src>
+    <src s="18">שעם היותו כח מקיף,</src>
+    <src s="19">שלכן הוא נמצא בכל האברים,</src>
+    <src s="20">מ"מ,</src>
+    <src s="21">עיקר גילוי הרצון הוא בהעקביים63,</src>
+    <src s="22">שלכן נקל יותר לאדם להכניס עקבו במים רותחים מכמו לתת מים רותחים על ראשו.</src>
+    <src s="23">דכמו"כ הוא גם בהציור קומה דכנס"י,</src>
+    <src s="24">שכח המס"נ</src>
+    <src s="25">(כח בלתי מוגבל,</src>
+    <src s="26">שלמעלה מהתלבשות בכלים)</src>
+    <src s="27">הוא בגילוי יותר באנשים פשוטים</src>
+    <src s="28">(בחינת עקביים)</src>
+    <src s="29">מבבעלי מוחין.</src>
+    <src s="30">ועד"ז הוא בהציור קומה דכללות כל הדורות,</src>
+    <src s="31">שעיקר גילוי כח המס"נ הוא בדרא דעקבתא דמשיחא.</src>
+    <src s="32">דהסיבה לזה מה שהעלם הגלות מעורר ומגלה כח המס"נ</src>
+    <src s="33">(אף שהעלם וגילוי הם שני הפכים)</src>
+    <src s="34">הוא מפני ששרש ההעלם דגלות הוא ההעלם דצמצום הראשון,</src>
+    <src s="35">שכוונתו הוא בשביל הגילוי.</src>
+    <src s="36">וע"י העבודה דמס"נ בזמן הגלות,</src>
+    <src s="37">עי"ז מתגלה בפועל ענין הפנימי דההעלם</src>
+    <src s="38">(דהעלם הגלות,</src>
+    <src s="39">ועד לשרשו ההעלם דצמצום הראשון),</src>
+    <src s="40">שענינו הוא בשביל הגילוי.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">וע"פ כל הנ"ל יובן ג"כ מה שבהעבודה דזמן הגלות,</src>
+    <src s="3">ובפרט בדרא דעקבתא דמשיחא,</src>
+    <src s="4">ישנם ב' ענינים,</src>
+    <src s="5">לימוד פנימיות התורה בהבנה והשגה דוקא,</src>
+    <src s="6">וביחד עם זה העבודה דמס"נ.</src>
+    <src s="7">כי בפנימיות התורה שתתגלה לעתיד ישנם שתי מדריגות,</src>
+    <src s="8">מה שאפשר לבוא בהשגה,</src>
+    <src s="9">ועצם פנימיות התורה שלמעלה מהשגה</src>
+    <src s="10">(ולמעלה גם מראי').</src>
+    <src s="11">ומכיון שכל הגילויים דלעתיד תלויים במעשינו ועבודתינו עכשיו64,</src>
+    <src s="12">לכן דורשים מכאו"א ב' העבודות,</src>
+    <src s="13">ההתעסקות בלימוד החסידות</src>
+    <src s="14">(מעין תורתו של משיח)</src>
+    <src s="15">בהבנה והשגה65,</src>
+    <src s="16">וביחד עם זה העבודה דמס"נ,</src>
+    <src s="17">מסירת הרצון,</src>
+    <src s="18">שע"י ב' עבודות אלו יהי' גילוי המשיח בב' האופנים דרב ומלך,</src>
+    <src s="19">בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

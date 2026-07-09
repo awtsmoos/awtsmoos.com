@@ -1,0 +1,759 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 143,
+    "returned": 143,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916270_theRebbe_968\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916270_theRebbe_968__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>The light of the line is drawn through the tzimtzum, which is a leap-like descent, and its connection to its source is therefore also interrupted, unlike the encompassing light.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">The explanation is,</t>\n    <t s=\"2\">that the light of the line</t>\n    <t s=\"3\">(the light that fills is included in the light of the line)</t>\n    <t s=\"4\">its drawing down is through the tzimtzum,</t>\n    <t s=\"5\">which is a drawing down in a manner of skipping.</t>\n    <t s=\"6\">For the concept of the tzimtzum</t>\n    <t s=\"7\">(the first tzimtzum)</t>\n    <t s=\"8\">is that the light that was initially was completely concealed, leaving a void and empty space12,</t>\n    <t s=\"9\">and since the drawing down that follows is after the complete concealment</t>\n    <t s=\"10\">(interruption)</t>\n    <t s=\"11\">of the light,</t>\n    <t s=\"12\">therefore the subsequent drawing down is in a manner of skipping.</t>\n    <t s=\"13\">[And even though at the time of the tzimtzum a reshimu remains, as explained in many places13,</t>\n    <t s=\"14\">and as also brought in the aforementioned maamar, \"the void is not literal\"14,</t>\n    <t s=\"15\">rather a reshimu remains,</t>\n    <t s=\"16\">nevertheless, the concept of the reshimu is a hidden power,</t>\n    <t s=\"17\">and as is known15</t>\n    <t s=\"18\">that the concept of the reshimu is the power of limitation within the Ein Sof,</t>\n    <t s=\"19\">the source of the vessels,</t>\n    <t s=\"20\">but regarding light and revelation,</t>\n    <t s=\"21\">the tzimtzum is a complete removal and concealment,</t>\n    <t s=\"22\">and the drawing down of light after the tzimtzum is a drawing down in a manner of skipping].</t>\n    <t s=\"23\">Therefore,</t>\n    <t s=\"24\">also the attachment of the light of the line is an attachment through an interruption</t>\n    <t s=\"25\">(and is not in the category of true attachment),</t>\n    <t s=\"26\">and consequently it is not in the category of such great light and revelation16.</t>\n    <t s=\"27\">And as a parable17</t>\n    <t s=\"28\">the vitality of hairs is not comparable to the vitality of limbs,</t>\n    <t s=\"29\">for it is extremely contracted vitality,</t>\n    <t s=\"30\">to the point that when one cuts hairs one does not feel pain,</t>\n    <t s=\"31\">because the manner of their drawing from the brain is through the interruption of the skull.</t>\n    <t s=\"32\">And so it is in the analogue above,</t>\n    <t s=\"33\">the encompassing light,</t>\n    <t s=\"34\">since its drawing from its source and its attachment to its source is without interruption</t>\n    <t s=\"35\">[for even though the encompassing light is also a light drawn after the tzimtzum,</t>\n    <t s=\"36\">it is known18</t>\n    <t s=\"37\">that the effect of the tzimtzum on the encompassing light is</t>\n    <t s=\"38\">(primarily)</t>\n    <t s=\"39\">not regarding the light itself,</t>\n    <t s=\"40\">but rather,</t>\n    <t s=\"41\">that it should not shine in revelation</t>\n    <t s=\"42\">(inwardly)</t>\n    <t s=\"43\">but only in the category of makif and sovev.</t>\n    <t s=\"44\">For regarding the filling light, the tzimtzum is regarding the light itself,</t>\n    <t s=\"45\">that through the tzimtzum such a light is drawn down</t>\n    <t s=\"46\">(and comes into being)</t>\n    <t s=\"47\">that did not exist before19.</t>\n    <t s=\"48\">But the effect of the tzimtzum on the encompassing light is</t>\n    <t s=\"49\">(as above)</t>\n    <t s=\"50\">that it should be in the category of makif and sovev,</t>\n    <t s=\"51\">but the light itself is not a light that came into being afterwards, rather it is the revelation of the Ein Sof that preceded the tzimtzum,</t>\n    <t s=\"52\">a revelation without interruption],</t>\n    <t s=\"53\">therefore it is actual light and revelation</t>\n    <t s=\"54\">(analogous to the vitality of limbs),</t>\n    <t s=\"55\">and is not in the category of depiction and division.</t>\n    <t s=\"56\">But the filling light</t>\n    <t s=\"57\">(the light of the line),</t>\n    <t s=\"58\">whose manner of drawing from the Ein Sof and attachment to the Ein Sof is through the interruption of the tzimtzum20,</t>\n    <t s=\"59\">is not in the category of such great revelation</t>\n    <t s=\"60\">(only analogous to the vitality of hairs),</t>\n    <t s=\"61\">and therefore21</t>\n    <t s=\"62\">it is in the category of division</t>\n    <t s=\"63\">(that is,</t>\n    <t s=\"64\">that through its clothing in vessels, the light will appear according to the manner of the vessel22).</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>The ascent from the revelation of Gan Eden to the future revelation is by way of flight, because the difference between the filling light and the encompassing light is an incomparable difference in their manner of drawing from their source.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And this is that the ascent from the revelation of Gan Eden to the revelation of the Future is by way of flight</t>\n    <t s=\"2\">(as explained above</t>\n    <t s=\"3\">(at the beginning of the maamar)</t>\n    <t s=\"4\">the precise wording \"fled\" etc. \"upon the mountains of spices,\"</t>\n    <t s=\"5\">specifically \"fled\"),</t>\n    <t s=\"6\">for since the difference between the filling light</t>\n    <t s=\"7\">(the revelation of Gan Eden)</t>\n    <t s=\"8\">and the encompassing light</t>\n    <t s=\"9\">(the revelation of the Future)</t>\n    <t s=\"10\">is</t>\n    <t s=\"11\">(not only that the filling light comes in division through the vessels,</t>\n    <t s=\"12\">but also)</t>\n    <t s=\"13\">in the manner of their drawing from their source,</t>\n    <t s=\"14\">that the filling light is drawn through the interruption of the tzimtzum, unlike the encompassing light,</t>\n    <t s=\"15\">it is therefore understood,</t>\n    <t s=\"16\">that the difference between them is an incomparable difference,</t>\n    <t s=\"17\">and therefore the ascent from the revelation of Gan Eden</t>\n    <t s=\"18\">(the filling light)</t>\n    <t s=\"19\">to the revelation of the Future</t>\n    <t s=\"20\">(the encompassing light)</t>\n    <t s=\"21\">is by way of flight.</t>\n    <t s=\"22\">For just as the drawing of the light of the line from the Ein Sof that preceded the tzimtzum is by way of skipping,</t>\n    <t s=\"23\">so too the ascent from the filling light</t>\n    <t s=\"24\">(the light of the line)</t>\n    <t s=\"25\">to the encompassing light</t>\n    <t s=\"26\">(which is the revelation of the Ein Sof that preceded the tzimtzum)</t>\n    <t s=\"27\">is by way of flight,</t>\n    <t s=\"28\">not in order and gradation.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>Nevertheless, the revelation of Gan Eden is a preparation through which one specifically reaches the future revelation, as the tzimtzum enables the vessels to receive and even reveal the Ein Sof light.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">However,</t>\n    <t s=\"2\">even though the revelation of Gan Eden is incomparable to the revelation of the Future,</t>\n    <t s=\"3\">nevertheless,</t>\n    <t s=\"4\">the revelation of Gan Eden is a preparation through which</t>\n    <t s=\"5\">(specifically)</t>\n    <t s=\"6\">one reaches the revelation of the Future</t>\n    <t s=\"7\">(as above at the beginning of the maamar).</t>\n    <t s=\"8\">And the explanation is,</t>\n    <t s=\"9\">that before the Thirteen Attributes of Mercy it is written23</t>\n    <t s=\"10\">\"Hashem, Hashem,\" and a pause-trope is between them24.</t>\n    <t s=\"11\">And it is known25</t>\n    <t s=\"12\">that the first Hashem is the supernal Hashem,</t>\n    <t s=\"13\">the Name Hashem that is in the Ein Sof before the tzimtzum,</t>\n    <t s=\"14\">and the second Hashem is the lower Hashem,</t>\n    <t s=\"15\">the Name Hashem that is in the light of the line,</t>\n    <t s=\"16\">and the pause-trope between them is the interruption of the tzimtzum between the Ein Sof and the light of the line.</t>\n    <t s=\"17\">And this is also what is said in the first verse of the Shema26</t>\n    <t s=\"18\">\"Hashem Elokeinu, Hashem,\"</t>\n    <t s=\"19\">for \"Elokeinu\" is the tzimtzum between the supernal Hashem</t>\n    <t s=\"20\">(the Ein Sof before the tzimtzum)</t>\n    <t s=\"21\">and the lower Hashem</t>\n    <t s=\"22\">(the light of the line)27.</t>\n    <t s=\"23\">And it is explained in the maamar,</t>\n    <t s=\"24\">that what is said \"Elokeinu\"</t>\n    <t s=\"25\">(between the two Names Hashem),</t>\n    <t s=\"26\">that \"Elokeinu\"</t>\n    <t s=\"27\">(unlike \"Elokim\")</t>\n    <t s=\"28\">even though it indicates the attribute of judgment28</t>\n    <t s=\"29\">has within it a tendency toward kindness and mercy29,</t>\n    <t s=\"30\">for specifically through \"Elokeinu\" is the connection that the revelation and influence from the supernal Hashem will be drawn to the lower Hashem.</t>\n    <t s=\"31\">And one can explain this,</t>\n    <t s=\"32\">that it is in the manner of what is known30</t>\n    <t s=\"33\">regarding the vessels,</t>\n    <t s=\"34\">that even though if the light of the line had remained initially it would have been impossible for the vessels to come into being,</t>\n    <t s=\"35\">nevertheless, after the vessels came into being they are able to receive the revelation of the light of the line,</t>\n    <t s=\"36\">for since their coming into being was through the tzimtzum specifically in a manner of removal31,</t>\n    <t s=\"37\">therefore they came into being in such a way that not only are they not nullified by the revelation of the light of the line, but furthermore, the revelation of the light is specifically through the vessels</t>\n    <t s=\"38\">[for in the tzimtzum that is specifically in a manner of removal, the Essence32 is revealed</t>\n    <t s=\"39\">which is above the category of revelation</t>\n    <t s=\"40\">(lights)</t>\n    <t s=\"41\">and concealment</t>\n    <t s=\"42\">(vessels),</t>\n    <t s=\"43\">and therefore through the tzimtzum in a manner of removal, the connection of vessels and lights is made],</t>\n    <t s=\"44\">so too it is regarding the light of the line33,</t>\n    <t s=\"45\">that through its drawing from the Ein Sof being through the tzimtzum in a manner of removal,</t>\n    <t s=\"46\">through this it is brought about that not only will it not be nullified by the revelation of the Ein Sof without end,</t>\n    <t s=\"47\">but furthermore,</t>\n    <t s=\"48\">that specifically through it will be the revelation of the Ein Sof.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916270_theRebbe_968",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916270_theRebbe_968__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "The light of the line is drawn through the tzimtzum, which is a leap-like descent, and its connection to its source is therefore also interrupted, unlike the encompassing light.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "The explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that the light of the line"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "(the light that fills is included in the light of the line)"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "its drawing down is through the tzimtzum,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "which is a drawing down in a manner of skipping."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "For the concept of the tzimtzum"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "(the first tzimtzum)"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "is that the light that was initially was completely concealed, leaving a void and empty space12,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "and since the drawing down that follows is after the complete concealment"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "(interruption)"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "of the light,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "therefore the subsequent drawing down is in a manner of skipping."
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "[And even though at the time of the tzimtzum a reshimu remains, as explained in many places13,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "and as also brought in the aforementioned maamar, \"the void is not literal\"14,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "rather a reshimu remains,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "nevertheless, the concept of the reshimu is a hidden power,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "and as is known15"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "that the concept of the reshimu is the power of limitation within the Ein Sof,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "the source of the vessels,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "but regarding light and revelation,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "the tzimtzum is a complete removal and concealment,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "and the drawing down of light after the tzimtzum is a drawing down in a manner of skipping]."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "also the attachment of the light of the line is an attachment through an interruption"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "(and is not in the category of true attachment),"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "and consequently it is not in the category of such great light and revelation16."
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "And as a parable17"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "the vitality of hairs is not comparable to the vitality of limbs,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "for it is extremely contracted vitality,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "to the point that when one cuts hairs one does not feel pain,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "because the manner of their drawing from the brain is through the interruption of the skull."
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "And so it is in the analogue above,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "the encompassing light,"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "since its drawing from its source and its attachment to its source is without interruption"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "[for even though the encompassing light is also a light drawn after the tzimtzum,"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "it is known18"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "that the effect of the tzimtzum on the encompassing light is"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "not regarding the light itself,"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "but rather,"
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "that it should not shine in revelation"
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "(inwardly)"
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "but only in the category of makif and sovev."
+          },
+          {
+            "v": 3,
+            "s": 44,
+            "translation": "For regarding the filling light, the tzimtzum is regarding the light itself,"
+          },
+          {
+            "v": 3,
+            "s": 45,
+            "translation": "that through the tzimtzum such a light is drawn down"
+          },
+          {
+            "v": 3,
+            "s": 46,
+            "translation": "(and comes into being)"
+          },
+          {
+            "v": 3,
+            "s": 47,
+            "translation": "that did not exist before19."
+          },
+          {
+            "v": 3,
+            "s": 48,
+            "translation": "But the effect of the tzimtzum on the encompassing light is"
+          },
+          {
+            "v": 3,
+            "s": 49,
+            "translation": "(as above)"
+          },
+          {
+            "v": 3,
+            "s": 50,
+            "translation": "that it should be in the category of makif and sovev,"
+          },
+          {
+            "v": 3,
+            "s": 51,
+            "translation": "but the light itself is not a light that came into being afterwards, rather it is the revelation of the Ein Sof that preceded the tzimtzum,"
+          },
+          {
+            "v": 3,
+            "s": 52,
+            "translation": "a revelation without interruption],"
+          },
+          {
+            "v": 3,
+            "s": 53,
+            "translation": "therefore it is actual light and revelation"
+          },
+          {
+            "v": 3,
+            "s": 54,
+            "translation": "(analogous to the vitality of limbs),"
+          },
+          {
+            "v": 3,
+            "s": 55,
+            "translation": "and is not in the category of depiction and division."
+          },
+          {
+            "v": 3,
+            "s": 56,
+            "translation": "But the filling light"
+          },
+          {
+            "v": 3,
+            "s": 57,
+            "translation": "(the light of the line),"
+          },
+          {
+            "v": 3,
+            "s": 58,
+            "translation": "whose manner of drawing from the Ein Sof and attachment to the Ein Sof is through the interruption of the tzimtzum20,"
+          },
+          {
+            "v": 3,
+            "s": 59,
+            "translation": "is not in the category of such great revelation"
+          },
+          {
+            "v": 3,
+            "s": 60,
+            "translation": "(only analogous to the vitality of hairs),"
+          },
+          {
+            "v": 3,
+            "s": 61,
+            "translation": "and therefore21"
+          },
+          {
+            "v": 3,
+            "s": 62,
+            "translation": "it is in the category of division"
+          },
+          {
+            "v": 3,
+            "s": 63,
+            "translation": "(that is,"
+          },
+          {
+            "v": 3,
+            "s": 64,
+            "translation": "that through its clothing in vessels, the light will appear according to the manner of the vessel22)."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "The ascent from the revelation of Gan Eden to the future revelation is by way of flight, because the difference between the filling light and the encompassing light is an incomparable difference in their manner of drawing from their source.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And this is that the ascent from the revelation of Gan Eden to the revelation of the Future is by way of flight"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(as explained above"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(at the beginning of the maamar)"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "the precise wording \"fled\" etc. \"upon the mountains of spices,\""
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "specifically \"fled\"),"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "for since the difference between the filling light"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "(the revelation of Gan Eden)"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and the encompassing light"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(the revelation of the Future)"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "is"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "(not only that the filling light comes in division through the vessels,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "but also)"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "in the manner of their drawing from their source,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "that the filling light is drawn through the interruption of the tzimtzum, unlike the encompassing light,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "it is therefore understood,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "that the difference between them is an incomparable difference,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "and therefore the ascent from the revelation of Gan Eden"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "(the filling light)"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "to the revelation of the Future"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "(the encompassing light)"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "is by way of flight."
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "For just as the drawing of the light of the line from the Ein Sof that preceded the tzimtzum is by way of skipping,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "so too the ascent from the filling light"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "(the light of the line)"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "to the encompassing light"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "(which is the revelation of the Ein Sof that preceded the tzimtzum)"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "is by way of flight,"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "not in order and gradation."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "Nevertheless, the revelation of Gan Eden is a preparation through which one specifically reaches the future revelation, as the tzimtzum enables the vessels to receive and even reveal the Ein Sof light.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "However,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "even though the revelation of Gan Eden is incomparable to the revelation of the Future,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "the revelation of Gan Eden is a preparation through which"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "one reaches the revelation of the Future"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "(as above at the beginning of the maamar)."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "that before the Thirteen Attributes of Mercy it is written23"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "\"Hashem, Hashem,\" and a pause-trope is between them24."
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "And it is known25"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "that the first Hashem is the supernal Hashem,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "the Name Hashem that is in the Ein Sof before the tzimtzum,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "and the second Hashem is the lower Hashem,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "the Name Hashem that is in the light of the line,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "and the pause-trope between them is the interruption of the tzimtzum between the Ein Sof and the light of the line."
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "And this is also what is said in the first verse of the Shema26"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "\"Hashem Elokeinu, Hashem,\""
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "for \"Elokeinu\" is the tzimtzum between the supernal Hashem"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "(the Ein Sof before the tzimtzum)"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "and the lower Hashem"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "(the light of the line)27."
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "And it is explained in the maamar,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "that what is said \"Elokeinu\""
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "(between the two Names Hashem),"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "that \"Elokeinu\""
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "(unlike \"Elokim\")"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "even though it indicates the attribute of judgment28"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "has within it a tendency toward kindness and mercy29,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "for specifically through \"Elokeinu\" is the connection that the revelation and influence from the supernal Hashem will be drawn to the lower Hashem."
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "And one can explain this,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "that it is in the manner of what is known30"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "regarding the vessels,"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "that even though if the light of the line had remained initially it would have been impossible for the vessels to come into being,"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "nevertheless, after the vessels came into being they are able to receive the revelation of the light of the line,"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "for since their coming into being was through the tzimtzum specifically in a manner of removal31,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "therefore they came into being in such a way that not only are they not nullified by the revelation of the light of the line, but furthermore, the revelation of the light is specifically through the vessels"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "[for in the tzimtzum that is specifically in a manner of removal, the Essence32 is revealed"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "which is above the category of revelation"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "(lights)"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "and concealment"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "(vessels),"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "and therefore through the tzimtzum in a manner of removal, the connection of vessels and lights is made],"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "so too it is regarding the light of the line33,"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "that through its drawing from the Ein Sof being through the tzimtzum in a manner of removal,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "through this it is brought about that not only will it not be nullified by the revelation of the Ein Sof without end,"
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "but furthermore,"
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "that specifically through it will be the revelation of the Ein Sof."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,424 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 76,
+    "returned": 76,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918942_theRebbe_422\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918942_theRebbe_422__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>The Torah is eternal, so the story of sending the spies teaches each Jew about the service of Beinonim versus Tzaddikim, and the oath to be a Tzaddik.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And behold, the Torah is eternal.</t>\n    <t s=\"2\">And from this it is understood,</t>\n    <t s=\"3\">that what is recounted in the Torah</t>\n    <t s=\"4\">(also)</t>\n    <t s=\"5\">the sending of the spies</t>\n    <t s=\"6\">(by Moshe)</t>\n    <t s=\"7\">to scout the entire land,</t>\n    <t s=\"8\">is an eternal lesson for every single Jew.</t>\n    <t s=\"9\">And this will be understood by prefacing what is explained in Tanya</t>\n    <t s=\"10\">regarding the matter of Tzaddikim and Beinonim,</t>\n    <t s=\"11\">that the service of the Beinonim is</t>\n    <t s=\"12\">(primarily)</t>\n    <t s=\"13\">in the garments of the soul,</t>\n    <t s=\"14\">thought, speech and action,</t>\n    <t s=\"15\">and therefore the level of the Beinoni is the level of every person,</t>\n    <t s=\"16\">for even when the heart craves and desires some desire, he is able to restrain himself</t>\n    <t s=\"17\">and rule over the spirit of his desire in his heart so as not to fulfill it in action, speech and thought</t>\n    <t s=\"18\">(not to think about it with his will),</t>\n    <t s=\"19\">to the point that he is able to divert his mind from it entirely.</t>\n    <t s=\"20\">But not so the service of the Tzaddikim, which is primarily in the emotions of the heart</t>\n    <t s=\"21\">(love and fear),</t>\n    <t s=\"22\">and not every person merits this.</t>\n    <t s=\"23\">For in a matter delivered to the heart, a person does not have so much power of choice.</t>\n    <t s=\"24\">Nevertheless,</t>\n    <t s=\"25\">they administer an oath</t>\n    <t s=\"26\">(to every single Jew)</t>\n    <t s=\"27\">\"Be a Tzaddik\",</t>\n    <t s=\"28\">that each one must also strive in the service of the Tzaddikim,</t>\n    <t s=\"29\">as explained at length in Tanya.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>The command to kill the seven nations and conquer their land is eternal, teaching that every Jew must strive to transform his animal soul's attributes, even though it is primarily the work of Tzaddikim.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that this is that the command to kill the seven nations and conquer their land is eternal in every generation,</t>\n    <t s=\"3\">even though conquering the land of the seven nations is the transformation of the seven attributes of the animal soul to holiness,</t>\n    <t s=\"4\">for this matter pertains to Tzaddikim,</t>\n    <t s=\"5\">and not every person merits this,</t>\n    <t s=\"6\">for every single Jew must do all that is in his power to fulfill the oath administered to him, \"Be a Tzaddik\".</t>\n    <t s=\"7\">And this is also that the story of the sending of the spies</t>\n    <t s=\"8\">(by Moshe)</t>\n    <t s=\"9\">to scout the entire land is written in the Torah</t>\n    <t s=\"10\">(from the term \"teaching\"),</t>\n    <t s=\"11\">that each Jew must scout and examine his attributes,</t>\n    <t s=\"12\">that they all be for G-d.</t>\n    <t s=\"13\">Nevertheless,</t>\n    <t s=\"14\">regarding the spies of Moshe it is written, \"Send for yourself, according to your understanding,\"</t>\n    <t s=\"15\">I do not command you,</t>\n    <t s=\"16\">for the primary command is concerning thought, speech and action</t>\n    <t s=\"17\">(the conquest of Jericho),</t>\n    <t s=\"18\">in which</t>\n    <t s=\"19\">(specifically)</t>\n    <t s=\"20\">authority is given to every person,</t>\n    <t s=\"21\">but not so regarding the emotions of the heart.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>The reason thought, speech and action are under a person's control while heart-emotions are not is because the former are garments of the soul, changeable like physical garments, whereas intellect and emotions are the essence of the soul.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And behold, the reason for this</t>\n    <t s=\"2\">(that thought, speech and action are in a person's domain,</t>\n    <t s=\"3\">but not so the emotions of the heart)</t>\n    <t s=\"4\">is,</t>\n    <t s=\"5\">because thought, speech and action are garments of the soul.</t>\n    <t s=\"6\">And therefore,</t>\n    <t s=\"7\">just like the garments of the body,</t>\n    <t s=\"8\">although a person needs garments</t>\n    <t s=\"9\">[for the sake of modesty, because they are ashamed,</t>\n    <t s=\"10\">and also to protect him from cold and heat],</t>\n    <t s=\"11\">nevertheless, he is able to remove them,</t>\n    <t s=\"12\">and all the more so he is not compelled to these specific garments</t>\n    <t s=\"13\">(that he is wearing now)</t>\n    <t s=\"14\">and he is able to exchange them for other garments,</t>\n    <t s=\"15\">so too it is with the garments of the soul,</t>\n    <t s=\"16\">that the garments of speech and action can be removed,</t>\n    <t s=\"17\">and also thought, which is constant,</t>\n    <t s=\"18\">can be exchanged for another thought.</t>\n    <t s=\"19\">But not so intellect and emotions, which are the essence of the soul,</t>\n    <t s=\"20\">and therefore,</t>\n    <t s=\"21\">in order to change them,</t>\n    <t s=\"22\">effort is required,</t>\n    <t s=\"23\">to the point of receiving special power from above.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918942_theRebbe_422",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918942_theRebbe_422__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "The Torah is eternal, so the story of sending the spies teaches each Jew about the service of Beinonim versus Tzaddikim, and the oath to be a Tzaddik.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And behold, the Torah is eternal."
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "that what is recounted in the Torah"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "(also)"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "the sending of the spies"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(by Moshe)"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "to scout the entire land,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "is an eternal lesson for every single Jew."
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "And this will be understood by prefacing what is explained in Tanya"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "regarding the matter of Tzaddikim and Beinonim,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "that the service of the Beinonim is"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "in the garments of the soul,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "thought, speech and action,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "and therefore the level of the Beinoni is the level of every person,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "for even when the heart craves and desires some desire, he is able to restrain himself"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "and rule over the spirit of his desire in his heart so as not to fulfill it in action, speech and thought"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "(not to think about it with his will),"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "to the point that he is able to divert his mind from it entirely."
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "But not so the service of the Tzaddikim, which is primarily in the emotions of the heart"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "(love and fear),"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "and not every person merits this."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "For in a matter delivered to the heart, a person does not have so much power of choice."
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "they administer an oath"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(to every single Jew)"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "\"Be a Tzaddik\","
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "that each one must also strive in the service of the Tzaddikim,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "as explained at length in Tanya."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "The command to kill the seven nations and conquer their land is eternal, teaching that every Jew must strive to transform his animal soul's attributes, even though it is primarily the work of Tzaddikim.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that this is that the command to kill the seven nations and conquer their land is eternal in every generation,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "even though conquering the land of the seven nations is the transformation of the seven attributes of the animal soul to holiness,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "for this matter pertains to Tzaddikim,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "and not every person merits this,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "for every single Jew must do all that is in his power to fulfill the oath administered to him, \"Be a Tzaddik\"."
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "And this is also that the story of the sending of the spies"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "(by Moshe)"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "to scout the entire land is written in the Torah"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "(from the term \"teaching\"),"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "that each Jew must scout and examine his attributes,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "that they all be for G-d."
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "regarding the spies of Moshe it is written, \"Send for yourself, according to your understanding,\""
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "I do not command you,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "for the primary command is concerning thought, speech and action"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "(the conquest of Jericho),"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "in which"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "authority is given to every person,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "but not so regarding the emotions of the heart."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "The reason thought, speech and action are under a person's control while heart-emotions are not is because the former are garments of the soul, changeable like physical garments, whereas intellect and emotions are the essence of the soul.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And behold, the reason for this"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(that thought, speech and action are in a person's domain,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "but not so the emotions of the heart)"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "is,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "because thought, speech and action are garments of the soul."
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "And therefore,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "just like the garments of the body,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "although a person needs garments"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "[for the sake of modesty, because they are ashamed,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "and also to protect him from cold and heat],"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "nevertheless, he is able to remove them,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "and all the more so he is not compelled to these specific garments"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "(that he is wearing now)"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "and he is able to exchange them for other garments,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "so too it is with the garments of the soul,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "that the garments of speech and action can be removed,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "and also thought, which is constant,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "can be exchanged for another thought."
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "But not so intellect and emotions, which are the essence of the soul,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "in order to change them,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "effort is required,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "to the point of receiving special power from above."
+          }
+        ]
+      }
+    ]
+  }
+}

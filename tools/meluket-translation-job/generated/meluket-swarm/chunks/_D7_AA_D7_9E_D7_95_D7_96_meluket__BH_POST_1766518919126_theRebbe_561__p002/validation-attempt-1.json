@@ -1,0 +1,229 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 37,
+    "returned": 37,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919126_theRebbe_561\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the request of the master of the redemption was for all of Israel, but the explanation that they are not like the forefathers in actual self-sacrifice is insufficient because the wording includes himself, and humility only applies to relative matters.</sectionSummaryBrief>\n    <t s=\"0\">And seemingly it can be said,</t>\n    <t s=\"1\">that since the request of the master of the redemption, \"May Hashem our G-d be with us,\" was</t>\n    <t s=\"2\">(not only for himself but also)</t>\n    <t s=\"3\">for all of Israel,</t>\n    <t s=\"4\">including even those who are called by the name Israel</t>\n    <t s=\"5\">(only)</t>\n    <t s=\"6\">nominally,</t>\n    <t s=\"7\">therefore he said that they are not like our forefathers who were possessors of actual self-sacrifice.</t>\n    <t s=\"8\">But this explanation is insufficient,</t>\n    <t s=\"9\">because in the wording \"We are indeed not equal to our forefathers\" he also included himself.</t>\n    <t s=\"10\">And it cannot be said that his including himself among those who are not possessors of actual self-sacrifice is in a manner of humility,</t>\n    <t s=\"11\">because the matter of humility applies specifically to something that is relative.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section questions the phrase \"May Hashem our G-d be with us,\" since He is already our G-d and our life-force, and also questions why the wording \"with\" implies that Hashem our G-d is secondary to us and our forefathers.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And behold, in addition to the precise points in the sicha, there is a need for explanation in the wording \"May Hashem our G-d be with us\"</t>\n    <t s=\"2\">(which is in the verse itself),</t>\n    <t s=\"3\">for seemingly,</t>\n    <t s=\"4\">after saying \"Hashem our G-d,\"</t>\n    <t s=\"5\">which is our G-d,</t>\n    <t s=\"6\">and especially according to what is explained in Chassidus</t>\n    <t s=\"7\">that \"our G-d\" means our strength and our vitality,</t>\n    <t s=\"8\">what need is there for the request that He be with us?</t>\n    <t s=\"9\">Also, one must understand the statement \"with us... with our forefathers,\"</t>\n    <t s=\"10\">for the word \"with\" applies to something that is secondary to the thing it is with</t>\n    <t s=\"11\">[like \"the heirs of the husband shall divide with the heirs of the father,\"</t>\n    <t s=\"12\">where the heirs of the husband are secondary to the heirs of the father],</t>\n    <t s=\"13\">and nevertheless it says \"May Hashem our G-d be with us... with our forefathers,\"</t>\n    <t s=\"14\">implying that Hashem our G-d is secondary to us and to our forefathers.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that fear of Heaven is called a \"treasury\" because, like a king's treasury that requires gathering from others, fear of Heaven is not in the hands of Heaven, as the Sages said that everything is in the hands of Heaven except fear of Heaven.</sectionSummaryBrief>\n    <t s=\"0\">And this can be explained based on what is known</t>\n    <t s=\"1\">that the reason fear of Heaven is referred to with the term \"treasury,\"</t>\n    <t s=\"2\">is,</t>\n    <t s=\"3\">that just as the king's treasury—</t>\n    <t s=\"4\">the king cannot make a treasury unless he gathers from others—</t>\n    <t s=\"5\">so too fear</t>\n    <t s=\"6\">(the treasury of the King of kings, the Holy One, blessed be He)</t>\n    <t s=\"7\">is not in the hands of Heaven,</t>\n    <t s=\"8\">as our Sages, of blessed memory, said:</t>\n    <t s=\"9\">\"Everything is in the hands of Heaven except fear of Heaven.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919126_theRebbe_561",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the request of the master of the redemption was for all of Israel, but the explanation that they are not like the forefathers in actual self-sacrifice is insufficient because the wording includes himself, and humility only applies to relative matters.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And seemingly it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that since the request of the master of the redemption, \"May Hashem our G-d be with us,\" was"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(not only for himself but also)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "for all of Israel,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "including even those who are called by the name Israel"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "(only)"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "nominally,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "therefore he said that they are not like our forefathers who were possessors of actual self-sacrifice."
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "But this explanation is insufficient,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "because in the wording \"We are indeed not equal to our forefathers\" he also included himself."
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "And it cannot be said that his including himself among those who are not possessors of actual self-sacrifice is in a manner of humility,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "because the matter of humility applies specifically to something that is relative."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section questions the phrase \"May Hashem our G-d be with us,\" since He is already our G-d and our life-force, and also questions why the wording \"with\" implies that Hashem our G-d is secondary to us and our forefathers.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And behold, in addition to the precise points in the sicha, there is a need for explanation in the wording \"May Hashem our G-d be with us\""
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(which is in the verse itself),"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "after saying \"Hashem our G-d,\""
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "which is our G-d,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "and especially according to what is explained in Chassidus"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "that \"our G-d\" means our strength and our vitality,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "what need is there for the request that He be with us?"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "Also, one must understand the statement \"with us... with our forefathers,\""
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "for the word \"with\" applies to something that is secondary to the thing it is with"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "[like \"the heirs of the husband shall divide with the heirs of the father,\""
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "where the heirs of the husband are secondary to the heirs of the father],"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and nevertheless it says \"May Hashem our G-d be with us... with our forefathers,\""
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "implying that Hashem our G-d is secondary to us and to our forefathers."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that fear of Heaven is called a \"treasury\" because, like a king's treasury that requires gathering from others, fear of Heaven is not in the hands of Heaven, as the Sages said that everything is in the hands of Heaven except fear of Heaven.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And this can be explained based on what is known"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "that the reason fear of Heaven is referred to with the term \"treasury,\""
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "is,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that just as the king's treasury—"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "the king cannot make a treasury unless he gathers from others—"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "so too fear"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "(the treasury of the King of kings, the Holy One, blessed be He)"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "is not in the hands of Heaven,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "as our Sages, of blessed memory, said:"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "\"Everything is in the hands of Heaven except fear of Heaven.\""
+          }
+        ]
+      }
+    ]
+  }
+}

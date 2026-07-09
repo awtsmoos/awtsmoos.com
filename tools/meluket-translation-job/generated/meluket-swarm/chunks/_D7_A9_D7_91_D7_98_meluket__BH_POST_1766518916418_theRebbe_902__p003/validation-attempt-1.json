@@ -1,0 +1,229 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 37,
+    "returned": 37,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916418_theRebbe_902\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916418_theRebbe_902__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the seventh rectification is called \"And Truth\" because its root is in the unchanging nature of G-d.</sectionSummaryBrief>\n    <t s=\"0\">And one could say,</t>\n    <t s=\"1\">that this that the seventh rectification is called \"And Truth\"</t>\n    <t s=\"2\">(for the matter of truth is that which does not change)</t>\n    <t s=\"3\">is also because of its root,</t>\n    <t s=\"4\">for the level from which the drawing down of the seventh rectification comes is \"I am G-d, I have not changed.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the highest level is drawn down to the lowest place, and that the true unchanging nature of G-d's Essence is drawn down primarily to the lower realm.</sectionSummaryBrief>\n    <t s=\"0\">d)</t>\n    <t s=\"1\">And now, according to what is known,</t>\n    <t s=\"2\">that whatever is highest of the highest is drawn down to the lowest of the lowest,</t>\n    <t s=\"3\">it is understood</t>\n    <t s=\"4\">that the seventh rectification,</t>\n    <t s=\"5\">the rectification of \"And Truth,\"</t>\n    <t s=\"6\">is drawn down primarily to the lower realm.</t>\n    <t s=\"7\">And the explanation is,</t>\n    <t s=\"8\">that the true essence of the matter of \"I am G-d, I have not changed\" is in His Essence and Being, whose existence</t>\n    <t s=\"9\">is from His own Essence and is not caused by any cause that preceded Him, G-d forbid.</t>\n    <t s=\"10\">For in the revelations,</t>\n    <t s=\"11\">which are preceded by a cause and a reason,</t>\n    <t s=\"12\">one cannot say the true essence of the matter of \"I have not changed,\"</t>\n    <t s=\"13\">for this very thing—that they are preceded by a cause and a reason—</t>\n    <t s=\"14\">is itself a change,</t>\n    <t s=\"15\">for there is a change between before it was drawn from the cause and reason,</t>\n    <t s=\"16\">and at the time it is drawn from the cause and reason,</t>\n    <t s=\"17\">and after it is drawn from the cause and reason.</t>\n    <t s=\"18\">But regarding His Essence and Being, which is not caused by any cause that preceded Him, G-d forbid,</t>\n    <t s=\"19\">there is no change in Him, G-d forbid,</t>\n    <t s=\"20\">[and this is] the true essence of the matter of \"I am G-d, I have not changed.\"</t>\n    <t s=\"21\">And this matter is drawn down primarily to the lower realm,</t>\n    <t s=\"22\">and as explained by the Mitteler Rebbe,</t>\n    <t s=\"23\">that this that the lower entity feels that its existence is from His Essence,</t>\n    <t s=\"24\">and in its feeling no cause or reason preceded it,</t>\n    <t s=\"25\">is because its root is from His Essence and Being, whose existence is from His own Essence and is not caused by any cause that preceded Him, G-d forbid,</t>\n    <t s=\"26\">for the true existence of the existence of the created being is true being.</t>\n    <t s=\"27\">And as is explained at length in the maamar \"Mi Chamochah\" of the Rebbe Maharash.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section notes that the maamar \"Mi Chamochah\" was one of the Rebbe Maharash's fixed discourses, repeated every few years.</sectionSummaryBrief>\n    <t s=\"0\">[For,</t>\n    <t s=\"1\">as revealed by my father-in-law, the Rebbe,</t>\n    <t s=\"2\">— each of the Rebbes had fixed discourses which they would repeat publicly once every two or three years,</t>\n    <t s=\"3\">and one of these discourses of the Rebbe Maharash was the maamar \"Mi Chamochah\"],</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916418_theRebbe_902",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916418_theRebbe_902__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the seventh rectification is called \"And Truth\" because its root is in the unchanging nature of G-d.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And one could say,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that this that the seventh rectification is called \"And Truth\""
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "(for the matter of truth is that which does not change)"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "is also because of its root,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "for the level from which the drawing down of the seventh rectification comes is \"I am G-d, I have not changed.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the highest level is drawn down to the lowest place, and that the true unchanging nature of G-d's Essence is drawn down primarily to the lower realm.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "d)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And now, according to what is known,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that whatever is highest of the highest is drawn down to the lowest of the lowest,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "it is understood"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "that the seventh rectification,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "the rectification of \"And Truth,\""
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "is drawn down primarily to the lower realm."
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "that the true essence of the matter of \"I am G-d, I have not changed\" is in His Essence and Being, whose existence"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "is from His own Essence and is not caused by any cause that preceded Him, G-d forbid."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "For in the revelations,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "which are preceded by a cause and a reason,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "one cannot say the true essence of the matter of \"I have not changed,\""
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "for this very thing—that they are preceded by a cause and a reason—"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "is itself a change,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "for there is a change between before it was drawn from the cause and reason,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "and at the time it is drawn from the cause and reason,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "and after it is drawn from the cause and reason."
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "But regarding His Essence and Being, which is not caused by any cause that preceded Him, G-d forbid,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "there is no change in Him, G-d forbid,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "[and this is] the true essence of the matter of \"I am G-d, I have not changed.\""
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "And this matter is drawn down primarily to the lower realm,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "and as explained by the Mitteler Rebbe,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "that this that the lower entity feels that its existence is from His Essence,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "and in its feeling no cause or reason preceded it,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "is because its root is from His Essence and Being, whose existence is from His own Essence and is not caused by any cause that preceded Him, G-d forbid,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "for the true existence of the existence of the created being is true being."
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "And as is explained at length in the maamar \"Mi Chamochah\" of the Rebbe Maharash."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section notes that the maamar \"Mi Chamochah\" was one of the Rebbe Maharash's fixed discourses, repeated every few years.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "[For,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "as revealed by my father-in-law, the Rebbe,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "— each of the Rebbes had fixed discourses which they would repeat publicly once every two or three years,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "and one of these discourses of the Rebbe Maharash was the maamar \"Mi Chamochah\"],"
+          }
+        ]
+      }
+    ]
+  }
+}

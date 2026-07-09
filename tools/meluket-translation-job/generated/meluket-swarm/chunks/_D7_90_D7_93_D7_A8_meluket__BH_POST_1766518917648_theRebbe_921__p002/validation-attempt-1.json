@@ -1,0 +1,514 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 94,
+    "returned": 94,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917648_theRebbe_921\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the \"new moons\" after the Exodus are on a higher level than before, because the Exodus revealed the Awtsmoos of Ein Sof beyond relation to worlds, while prior revelations were of light related to worlds.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the point of the explanation in this</t>\n    <t s=\"2\">(as understood from the maamar)</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">that even in the new moons</t>\n    <t s=\"5\">(from the term \"renewal\"),</t>\n    <t s=\"6\">which in general are the drawing down of light that is above enclothing in worlds,</t>\n    <t s=\"7\">the new moons after the Exodus from Egypt are on a more elevated level than the new moons that were before this.</t>\n    <t s=\"8\">And the explanation is,</t>\n    <t s=\"9\">that the revelations drawn down through the service of the Patriarchs,</t>\n    <t s=\"10\">and also the signs and wonders that were in Egypt</t>\n    <t s=\"11\">(including also that in Tishrei the servitude ceased from our forefathers),</t>\n    <t s=\"12\">are from the aspect of the light that pertains to worlds</t>\n    <t s=\"13\">(except that in this light itself,</t>\n    <t s=\"14\">the source of the signs and wonders is from the aspect of the light that is above enclothing in worlds),</t>\n    <t s=\"15\">for this is why these signs and wonders were in Egypt, from the term \"straits\" and \"boundary\",</t>\n    <t s=\"16\">for the totality of the light that pertains to worlds</t>\n    <t s=\"17\">(even that which is above enclothing)</t>\n    <t s=\"18\">is in measure and limitation,</t>\n    <t s=\"19\">and in the Exodus from Egypt there was the revelation of the Awtsmoos of Ein Sof that is above relation to worlds,</t>\n    <t s=\"20\">and through this the going out from Egypt was effected,</t>\n    <t s=\"21\">the going out from the straits and limitations,</t>\n    <t s=\"22\">even from the most supernal straits and limitations.</t>\n    <t s=\"23\">And from this it is understood,</t>\n    <t s=\"24\">that before the Exodus from Egypt,</t>\n    <t s=\"25\">even the new moons</t>\n    <t s=\"26\">(from the term \"renewal\")</t>\n    <t s=\"27\">that were then,</t>\n    <t s=\"28\">they are new moons that pertain to creation,</t>\n    <t s=\"29\">and the true concept of new moons from the term \"renewal\" is specifically after the Exodus from Egypt.</t>\n    <t s=\"30\">For the twelve new moons that pertain to creation, their source is in the twelve permutations of the Name Adn\"i,</t>\n    <t s=\"31\">and the twelve new moons that are above creation, their source is in the twelve permutations of the Name Havayah.</t>\n    <t s=\"32\">[And one can connect this with what is explained in the maamar,</t>\n    <t s=\"33\">that one can say the distinction between \"new moons\" in general and \"months of the year\",</t>\n    <t s=\"34\">that \"months of the year\",</t>\n    <t s=\"35\">despite being revelations that are above the world</t>\n    <t s=\"36\">(\"new moons\" from the term \"renewal\"),</t>\n    <t s=\"37\">nevertheless they have a relation to the world</t>\n    <t s=\"38\">(and \"year\",</t>\n    <t s=\"39\">the conduct of nature),</t>\n    <t s=\"40\">and \"new moons\" in general are the revelations that are above relation to worlds].</t>\n    <t s=\"41\">And this is that before the Exodus from Egypt, Tishrei was the first of the new moons, and now Nissan is the first,</t>\n    <t s=\"42\">for the drawing down of the light that pertains to worlds is in Tishrei, in which the world was created,</t>\n    <t s=\"43\">and the drawing down of the Awtsmoos of Ein Sof that is above relation to worlds is in Nissan, the month of redemption.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section raises a difficulty: according to the explanation, Nissan being the first month after the Exodus seems to apply only to supernal new moons, yet the Targum and Torah's counting indicate it applies even to the lower new moons that were previously counted from Tishrei.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And it must be understood,</t>\n    <t s=\"2\">that according to this explanation, it would seemingly be that this—that after the Exodus from Egypt Nissan is the first of the new moons—is only regarding the new moons that are above creation</t>\n    <t s=\"3\">(from the twelve permutations of the Name Havayah,</t>\n    <t s=\"4\">whose concept is the revelation of Ein Sof that is above relation to worlds),</t>\n    <t s=\"5\">but from the language of the Targum \"the ancients called it the first month... and now it is the seventh month,\" it implies that this—that now Nissan is the first—is</t>\n    <t s=\"6\">(also)</t>\n    <t s=\"7\">regarding the new moons in which Tishrei was the first</t>\n    <t s=\"8\">(i.e., the new moons of the twelve permutations of Adn\"i,</t>\n    <t s=\"9\">whose concept is the revelation of Ein Sof that pertains to worlds).</t>\n    <t s=\"10\">And so too is it understood from the fact that the counting of months in the Torah everywhere is from Nissan</t>\n    <t s=\"11\">(for Iyar is called the second month,</t>\n    <t s=\"12\">Sivan the third month),</t>\n    <t s=\"13\">for after the Exodus from Egypt and the Giving of the Torah,</t>\n    <t s=\"14\">Nissan is the first month regarding all matters.</t>\n    <t s=\"15\">And moreover,</t>\n    <t s=\"16\">even in the Torah portions that are before the portion of HaChodesh,</t>\n    <t s=\"17\">since these portions too are part of the Torah that was given after the Exodus from Egypt</t>\n    <t s=\"18\">(and the first utterance of the Giving of the Torah is \"I am... who brought you out of the land of Egypt\"),</t>\n    <t s=\"19\">the counting of months in them is not from Tishrei but from Nissan.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section questions why the counting of months now begins only from Nissan and not Tishrei, since even after the Exodus, Rosh Hashanah is still in Tishrei, and the explanation about G-dliness being felt in nature does not fully account for this change.</sectionSummaryBrief>\n    <t s=\"0\">And seemingly it could be explained based on what is stated in the maamar,</t>\n    <t s=\"1\">that this—that after it says \"This month is for you the first of months,\" it adds \"it is the first for you of the months of the year\"—</t>\n    <t s=\"2\">is,</t>\n    <t s=\"3\">that \"months of the year\"</t>\n    <t s=\"4\">(new moons that pertain to the year)</t>\n    <t s=\"5\">are the revelations that are drawn into the world in garments of nature,</t>\n    <t s=\"6\">and this is what it adds: \"it is the first for you of the months of the year,\"</t>\n    <t s=\"7\">that in Israel</t>\n    <t s=\"8\">(\"for you\"),</t>\n    <t s=\"9\">the revelation of G-dliness that is above nature</t>\n    <t s=\"10\">(Nissan)</t>\n    <t s=\"11\">will be also within nature</t>\n    <t s=\"12\">(\"months of the year\").</t>\n    <t s=\"13\">But still it must be understood,</t>\n    <t s=\"14\">that seemingly this concept</t>\n    <t s=\"15\">(that in Israel, even in nature, the G-dliness that is above nature must be felt)</t>\n    <t s=\"16\">is an explanation only for this—that after the Exodus from Egypt, the months of the year also pertain to Nissan,</t>\n    <t s=\"17\">but what is the reason for this—that the counting of months</t>\n    <t s=\"18\">(even of the months of the year)</t>\n    <t s=\"19\">now is only from Nissan and not from Tishrei?</t>\n    <t s=\"20\">For since the months of the year are the revelations that pertain to creation,</t>\n    <t s=\"21\">in which</t>\n    <t s=\"22\">(initially)</t>\n    <t s=\"23\">Tishrei was the first,</t>\n    <t s=\"24\">why was it changed,</t>\n    <t s=\"25\">so that now Nissan is the first of the months of the year?</t>\n    <t s=\"26\">And behold, even now</t>\n    <t s=\"27\">(even though in Israel, even in nature, the G-dliness that is above nature must be felt,</t>\n    <t s=\"28\">and nevertheless)</t>\n    <t s=\"29\">Rosh Hashanah is on the first of Tishrei.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917648_theRebbe_921",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917648_theRebbe_921__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the \"new moons\" after the Exodus are on a higher level than before, because the Exodus revealed the Awtsmoos of Ein Sof beyond relation to worlds, while prior revelations were of light related to worlds.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the point of the explanation in this"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(as understood from the maamar)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "is,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "that even in the new moons"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "(from the term \"renewal\"),"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "which in general are the drawing down of light that is above enclothing in worlds,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "the new moons after the Exodus from Egypt are on a more elevated level than the new moons that were before this."
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "that the revelations drawn down through the service of the Patriarchs,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and also the signs and wonders that were in Egypt"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "(including also that in Tishrei the servitude ceased from our forefathers),"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "are from the aspect of the light that pertains to worlds"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(except that in this light itself,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "the source of the signs and wonders is from the aspect of the light that is above enclothing in worlds),"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "for this is why these signs and wonders were in Egypt, from the term \"straits\" and \"boundary\","
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "for the totality of the light that pertains to worlds"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "(even that which is above enclothing)"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "is in measure and limitation,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "and in the Exodus from Egypt there was the revelation of the Awtsmoos of Ein Sof that is above relation to worlds,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "and through this the going out from Egypt was effected,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "the going out from the straits and limitations,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "even from the most supernal straits and limitations."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "that before the Exodus from Egypt,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "even the new moons"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(from the term \"renewal\")"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "that were then,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "they are new moons that pertain to creation,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "and the true concept of new moons from the term \"renewal\" is specifically after the Exodus from Egypt."
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "For the twelve new moons that pertain to creation, their source is in the twelve permutations of the Name Adn\"i,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "and the twelve new moons that are above creation, their source is in the twelve permutations of the Name Havayah."
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "[And one can connect this with what is explained in the maamar,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "that one can say the distinction between \"new moons\" in general and \"months of the year\","
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "that \"months of the year\","
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "despite being revelations that are above the world"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "(\"new moons\" from the term \"renewal\"),"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "nevertheless they have a relation to the world"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "(and \"year\","
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "the conduct of nature),"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "and \"new moons\" in general are the revelations that are above relation to worlds]."
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "And this is that before the Exodus from Egypt, Tishrei was the first of the new moons, and now Nissan is the first,"
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "for the drawing down of the light that pertains to worlds is in Tishrei, in which the world was created,"
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "and the drawing down of the Awtsmoos of Ein Sof that is above relation to worlds is in Nissan, the month of redemption."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section raises a difficulty: according to the explanation, Nissan being the first month after the Exodus seems to apply only to supernal new moons, yet the Targum and Torah's counting indicate it applies even to the lower new moons that were previously counted from Tishrei.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that according to this explanation, it would seemingly be that this—that after the Exodus from Egypt Nissan is the first of the new moons—is only regarding the new moons that are above creation"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(from the twelve permutations of the Name Havayah,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "whose concept is the revelation of Ein Sof that is above relation to worlds),"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "but from the language of the Targum \"the ancients called it the first month... and now it is the seventh month,\" it implies that this—that now Nissan is the first—is"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(also)"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "regarding the new moons in which Tishrei was the first"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "(i.e., the new moons of the twelve permutations of Adn\"i,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "whose concept is the revelation of Ein Sof that pertains to worlds)."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "And so too is it understood from the fact that the counting of months in the Torah everywhere is from Nissan"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "(for Iyar is called the second month,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "Sivan the third month),"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "for after the Exodus from Egypt and the Giving of the Torah,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "Nissan is the first month regarding all matters."
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "even in the Torah portions that are before the portion of HaChodesh,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "since these portions too are part of the Torah that was given after the Exodus from Egypt"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "(and the first utterance of the Giving of the Torah is \"I am... who brought you out of the land of Egypt\"),"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "the counting of months in them is not from Tishrei but from Nissan."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section questions why the counting of months now begins only from Nissan and not Tishrei, since even after the Exodus, Rosh Hashanah is still in Tishrei, and the explanation about G-dliness being felt in nature does not fully account for this change.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And seemingly it could be explained based on what is stated in the maamar,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "that this—that after it says \"This month is for you the first of months,\" it adds \"it is the first for you of the months of the year\"—"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "is,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that \"months of the year\""
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "(new moons that pertain to the year)"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "are the revelations that are drawn into the world in garments of nature,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and this is what it adds: \"it is the first for you of the months of the year,\""
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "that in Israel"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "(\"for you\"),"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "the revelation of G-dliness that is above nature"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "(Nissan)"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "will be also within nature"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "(\"months of the year\")."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "But still it must be understood,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "that seemingly this concept"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "(that in Israel, even in nature, the G-dliness that is above nature must be felt)"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "is an explanation only for this—that after the Exodus from Egypt, the months of the year also pertain to Nissan,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "but what is the reason for this—that the counting of months"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "(even of the months of the year)"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "now is only from Nissan and not from Tishrei?"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "For since the months of the year are the revelations that pertain to creation,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "in which"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "(initially)"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "Tishrei was the first,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "why was it changed,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "so that now Nissan is the first of the months of the year?"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "And behold, even now"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "(even though in Israel, even in nature, the G-dliness that is above nature must be felt,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "and nevertheless)"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "Rosh Hashanah is on the first of Tishrei."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,150 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914213_theRebbe_9" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914213_theRebbe_9" title="מאמר בסוכות תשבו תשל"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p005">
+  <section v="12">
+    <src s="0">י)</src>
+    <src s="1">והנה,</src>
+    <src s="2">כיון שהיא התחלת השנה וצריכים להמשיך את כל סדר ההשתלשלות מחדש וגם באופן גלוי,</src>
+    <src s="3">לכן צריך להמשיך מבחי' אחת.</src>
+    <src s="4">והמשכה זו</src>
+    <src s="5">(בבחי' גילוי)</src>
+    <src s="6">נעשית ביום חגינו</src>
+    <src s="7">(בחג הסוכות)</src>
+    <src s="8">כנ"ל,</src>
+    <src s="9">ולכן גם התחלת העבודה דסוכות צ"ל בהענין דסוכה אחת</src>
+    <src s="10">(שהסוכה אחת שייכת לעבודת יום הכפורים בג' בחינות אחת שבעש"ן,</src>
+    <src s="11">כנ"ל),</src>
+    <src s="12">כי ע"י העבודה דסוכה אחת הנה מגיעים לבחי' אחת שלמעלה לגמרי אפי' מכל גדר ענין המספר</src>
+    <src s="13">(אלא שכיון שאין לנו שם אחר לקרותו משו"ז קורין אותו אחת),</src>
+    <src s="14">לעצומ"ה ית'.</src>
+    <src s="15">דאחת פי' יחידה כדאיתא בתוס'51,</src>
+    <src s="16">והשם יחידה הוא ע"ש שמקבלת מיחיד.</src>
+    <src s="17">וכמו"כ הוא בבחי' סוכה אחת שענינה הו"ע היחידה,</src>
+    <src s="18">כנ"ל.</src>
+    <src s="19">וכיון שענין הסוכה שרשה מבחי' אחת,</src>
+    <src s="20">לכן נמשך למטה שראוים כל ישראל לישב בסוכה אחת,</src>
+    <src s="21">שהסוכה היא למעלה מכל התחלקות היות ששרשה הוא בבחי' שלמעלה מהתחלקות.</src>
+    <src s="22">ומצד טעם זה גופא נמשך בחי' הסוכה אחת גם בעוה"ז התחתון שאין תחתון למטה ממנו,</src>
+    <src s="23">כיון שבערך עצומ"ה ית' אין שייך לחלק בין עליון לתחתון.</src>
+  </section>
+  <section v="13">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">והנה,</src>
+    <src s="3">המשכת העצמות בגלוי</src>
+    <src s="4">(בחי' סוכה אחת)</src>
+    <src s="5">יהי' רק לע"ל,</src>
+    <src s="6">שהרי אז יהי' ונגלה כבוד הוי' וראו כל בשר יחדיו52,</src>
+    <src s="7">ולמעלה מזה יהי' גם ולא יכנף עוד מוריך והיו עיניך רואות את מוריך53,</src>
+    <src s="8">כדאיתא בתניא54.</src>
+    <src s="9">אמנם למעלה מזה הוא בחי' אחת,</src>
+    <src s="10">שענינה הוא המשכת העצמות למטה בגלוי,</src>
+    <src s="11">ומזה מובן שגם הגילוי דסוכה אחת יהי' רק לע"ל.</src>
+    <src s="12">ועפי"ז מובן למה דרשו רז"ל שראוים כל ישראל לישב בסוכה אחת ממ"ש בסיום הכתוב כל האזרח בישראל גו' דוקא,</src>
+    <src s="13">ולא דרשו כן מההתחלה דבסוכות תשבו שבעת ימים,</src>
+    <src s="14">כי בסוכות תשבו שבעת ימים קאי על העבודה בזמן הזה בהשיתא אלפי שני דהוה עלמא,</src>
+    <src s="15">ובזמן הזה הרי עדיין לא נמשך בחי' אחת בגלוי.</src>
+    <src s="16">וגילוי זה יהי' רק לע"ל ומשו"ז דרשו זה ממ"ש כל האזרח בישראל גו',</src>
+    <src s="17">כי אזרח הוא ל' עתיד,</src>
+    <src s="18">דהיינו מה שיזרח לע"ל,</src>
+    <src s="19">כמבואר בכמה דרושים55.</src>
+    <src s="20">וכן הוא גם ע"פ כללי הדקדוק שאותיות איתן מורים על העתיד56.</src>
+    <src s="21">וזהו כל האזרח בישראל גו',</src>
+    <src s="22">שלע"ל תהי' זריחה דבחי' אחת,</src>
+    <src s="23">ולכן ישבו אז כל ישראל בסוכה אחת.</src>
+    <src s="24">אמנם,</src>
+    <src s="25">אעפ"כ גם עכשיו,</src>
+    <src s="26">בהשית אלפי שני דהוה עלמא,</src>
+    <src s="27">מאירה הארה וזריחה מבחי' אחת שתהי' בגילוי לע"ל.</src>
+    <src s="28">ועוד זאת,</src>
+    <src s="29">גילוי בחי' אחת שלעתיד נמשך</src>
+    <src s="30">(כשאר הגילויים דלעתיד57)</src>
+    <src s="31">ע"י מעשינו ועבודתינו דעתה דוקא.</src>
+    <src s="32">ומזה מובן שגם עתה ישנו מעין והארה מבחי' אחת58.</src>
+    <src s="33">וזהו משארז"ל שראוים כל ישראל לישב בסוכה אחת,</src>
+    <src s="34">שקאי על זמן הזה,</src>
+    <src s="35">שגם בזמן הזה ישנו הענין שראוים כל ישראל לישב בסוכה אחת</src>
+    <src s="36">(מעין דהישיבה בפועל לע"ל).</src>
+    <src s="37">אלא שזה גופא שבזמן הזה ראוים כו' לישב נלמד ממ"ש כל האזרח גו'</src>
+    <src s="38">(ל' עתיד),</src>
+    <src s="39">היינו שלוקח הכח ונמשך מהזריחה שתהי' לע"ל,</src>
+    <src s="40">שיהי' גילוי העצמות,</src>
+    <src s="41">כמ"ש לא יכנף עוד מוריך.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">והנה ע"פ הנ"ל יובן גם הסדר בהעבודות דראש השנה יום הכפורים וסוכות.</src>
+    <src s="3">והענין הוא,</src>
+    <src s="4">ע"ד הסדר בתומ"צ דכללות ופרטות נאמרו,</src>
+    <src s="5">דתחלה הענינים הם באופן של כלל ואח"כ נמשכים לפרטים,</src>
+    <src s="6">הנה כמו"כ הוא בסדר העבודה דראש השנה יום הכפורים וסוכות.</src>
+    <src s="7">דהנה התורה בשלימותה היא בריבוי פרטים,</src>
+    <src s="8">כמ"ש59</src>
+    <src s="9">ששים המה מלכות ושמנים פלגשים ועלמות אין מספר,</src>
+    <src s="10">ודרז"ל60</src>
+    <src s="11">דששים המה מלכות אלו המשניות,</src>
+    <src s="12">ושמנים פלגשים אלו הברייתות ועלמות אין מספר אלו דרשות חז"ל ומימרות ה</src>
+    <src s="13">(תנאים ו)</src>
+    <src s="14">אמוראים.</src>
+    <src s="15">ולפנ"ז ישנה התורה כמו שהיא בתושב"כ,</src>
+    <src s="16">כל' הרגיל בש"ס מנא הני מילי דאמר קרא.</src>
+    <src s="17">דכ"ז הו"ע התורה כמו שהיא באופן של פרטים ופרטי פרטים.</src>
+    <src s="18">אמנם ישנו גם כמו שהתורה היא באופן של כלל,</src>
+    <src s="19">דכללותי' ודקדוקי' כולם נאמרו מסיני61.</src>
+    <src s="20">ובאמירת הכללים והפרטים עצמם,</src>
+    <src s="21">הנה תחלה נאמרו הכללים,</src>
+    <src s="22">ואח"כ הפרטים.</src>
+    <src s="23">דתחלה נאמרו עשה"ד שבהם נכללו כל פרטי התורה.</src>
+    <src s="24">ועשה"ד עצמן כלולים בהדברות אנכי ולא יהי' לך,</src>
+    <src s="25">כדאיתא בתניא62.</src>
+    <src s="26">וב' דברות אלו כלולות63</src>
+    <src s="27">באנכי שהיא תיבה הראשונה שבדיבור הראשון.</src>
+    <src s="28">ובאנכי גופא אות אל"ף הוא הר"ת שלה.</src>
+    <src s="29">ובאל"ף זו כלולים כל כללי התורה.</src>
+    <src s="30">דאות אל"ף מורה על ענין של כלל,</src>
+    <src s="31">דהנה איתא בירושלמי64</src>
+    <src s="32">שהדיבור דאנכי נרמז במ"ש65</src>
+    <src s="33">שמע ישראל ה' אלקינו,</src>
+    <src s="34">וידוע בביאור תיבת אחד שהח' מרמזת לז' רקיעים וארץ והד' לד' רוחות העולם,</src>
+    <src s="35">והא' שלפניהם היא כנגד הקב"ה אלופו של עולם,</src>
+    <src s="36">כמובא בב"י66</src>
+    <src s="37">מהסמ"ק,</src>
+    <src s="38">כמובא ומבואר בכ"מ67.</src>
+    <src s="39">ומזה מובן שהאל"ף דאנכי</src>
+    <src s="40">(השייך לאחד דשמע ישראל)</src>
+    <src s="41">הוא כלל הכולל את כל התורה כולה.</src>
+  </section>
+</awtsmoosMeluketSource>

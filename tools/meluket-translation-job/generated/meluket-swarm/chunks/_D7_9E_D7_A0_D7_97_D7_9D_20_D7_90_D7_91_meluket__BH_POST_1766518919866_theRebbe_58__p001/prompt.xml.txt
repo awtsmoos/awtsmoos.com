@@ -1,0 +1,107 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919866_theRebbe_58" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919866_theRebbe_58__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919866_theRebbe_58" title="מאמר ויענך וירעיבך ויאכילך תשכ"ג" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919866_theRebbe_58__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ עקב,</src>
+    <src s="2">כ"ף מנחם-אב ה'תשכ"ג*</src>
+  </section>
+  <section v="1">
+    <src s="0">ויענך וירעיבך ויאכילך את המן גו'1,</src>
+    <src s="1">ומדייק אדמו"ר</src>
+    <src s="2">(מהורש"ב)</src>
+    <src s="3">נ"ע במאמרו ד"ה זה2,</src>
+    <src s="4">דבכ"מ בתורה מדבר במעלת המן,</src>
+    <src s="5">וכאן אומר ויענך וירעיבך גו' שהוא לכאורה היפך המעלה.</src>
+    <src s="6">גם צריך להבין דאיתא בגמרא3</src>
+    <src s="7">משה תיקן לישראל ברכת הזן בשעה שירד להם מן,</src>
+    <src s="8">יהושע תיקן להם ברכת הארץ כיון שנכנסו לארץ.</src>
+    <src s="9">וכתב הרשב"א4</src>
+    <src s="10">דפירוש משה תיקן כו' יהושע תיקן כו'5</src>
+    <src s="11">הוא שתיקנו להם מטבע הברכות,</src>
+    <src s="12">דהברכות עצמם הם מן התורה</src>
+    <src s="13">[כדאיתא בגמרא3,</src>
+    <src s="14">ואכלת ושבעת וברכת6</src>
+    <src s="15">זו ברכת הזן כו' על הארץ זו ברכת הארץ].</src>
+    <src s="16">ואיתא בלקו"ת7,</src>
+    <src s="17">דהטעם על שגם בברכת הארץ מזכירין ועל אכילת מזון ובחתימת הברכה חותמין על הארץ ועל המזון</src>
+    <src s="18">(אע"פ שבירכו כבר ברכת הזן),</src>
+    <src s="19">הוא,</src>
+    <src s="20">כי הנוסח והמטבע דברכת הזן הוא על המן,</src>
+    <src s="21">לחם מן השמים,</src>
+    <src s="22">ומזון שבברכת הארץ הוא לחם מן הארץ8.</src>
+    <src s="23">וצריך ביאור,</src>
+    <src s="24">דברכת הזן הוא על אכילה המשבעת</src>
+    <src s="25">(ואכלת ושבעת),</src>
+    <src s="26">דאכילה המשבעת היא</src>
+    <src s="27">(בעיקר)</src>
+    <src s="28">בלחם מן הארץ,</src>
+    <src s="29">ואעפ"כ,</src>
+    <src s="30">הברכה על המזון דלחם מן הארץ היא בברכת הארץ</src>
+    <src s="31">(שלא נאמר בה ואכלת ושבעת9),</src>
+    <src s="32">והנוסח דברכת הזן</src>
+    <src s="33">(דכתיב בה ואכלת ושבעת)</src>
+    <src s="34">הוא על המן דכתיב בי' ויענך וירעיבך10.</src>
+  </section>
+  <section v="2">
+    <src s="0">גם צריך להבין מה שהעינוי דיום הכיפורים למדין11</src>
+    <src s="1">מעינוי הנאמר גבי מן,</src>
+    <src s="2">נאמר כאן עינוי</src>
+    <src s="3">(ועניתם את נפשותיכם12)</src>
+    <src s="4">ונאמר להלן עינוי</src>
+    <src s="5">(ויענך וירעיבך)</src>
+    <src s="6">מה להלן עינוי רעבון אף כאן עינוי רעבון.</src>
+    <src s="7">וצריך ביאור,</src>
+    <src s="8">שעינוי רעבון דמן הוא שאכילת המן לא השביעה אותם ככל הדרוש</src>
+    <src s="9">[כי אינו דומה מי שיש לו פת בסלו למי שאין לו פת בסלו11</src>
+    <src s="10">(והמן הי' דבר13</src>
+    <src s="11">יום ביומו14)</src>
+    <src s="12">ואינו דומה מי שרואה ואוכל למי שאינו רואה ואוכל11</src>
+    <src s="13">(ובהמן היו טועמים כל המינים ולא ראו אלא מן14)],</src>
+    <src s="14">ומזה שמדמין עינוי רעבון דמן לעינוי רעבון דיוהכ"פ,</src>
+    <src s="15">משמע,</src>
+    <src s="16">שעינוי רעבון דמן הוא</src>
+    <src s="17">(לא שאכילת המן לא השביעה כאכילה ע"ד הרגיל,</src>
+    <src s="18">אלא)</src>
+    <src s="19">כמו שלא אכל15.</src>
+    <src s="20">ולהעיר,</src>
+    <src s="21">שעפ"ז צריך להבין עוד יותר שהנוסח דברכת הזן הוא על המן.</src>
+    <src s="22">גם צריך להבין16,</src>
+    <src s="23">דעכשיו</src>
+    <src s="24">(לאחרי שנפסק המן),</src>
+    <src s="25">כל הברכות דברכת המזון הם לכאורה על לחם מן הארץ,</src>
+    <src s="26">ואעפ"כ הנוסח דברכת הזן הוא הנוסח שתיקן משה על המן.</src>
+  </section>
+</awtsmoosMeluketSource>

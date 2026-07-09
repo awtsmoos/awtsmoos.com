@@ -1,0 +1,73 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919434_theRebbe_712" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919434_theRebbe_712" title="מאמר וחזקת והיית לאיש תשכ"ח" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p006">
+  <section v="15">
+    <src s="0">ז)</src>
+    <src s="1">וזהו וחזקת והיית לאיש,</src>
+    <src s="2">דזה שבן י"ג שנה נעשה איש ע"פ טבע,</src>
+    <src s="3">הוא ענין שמצד למעלה,</src>
+    <src s="4">מצד שהקב"ה הטביע הטבע בהבריאה,</src>
+    <src s="5">ומכיון שעיקר המעלה דכל ענין הוא כשהוא בא ע"י עבודת האדם</src>
+    <src s="6">(כנ"ל בארוכה),</src>
+    <src s="7">לכן צ"ל וחזקת והיית לאיש,</src>
+    <src s="8">שיהי' לאיש</src>
+    <src s="9">(גם)</src>
+    <src s="10">ע"י עבודתו.</src>
+    <src s="11">ועפ"ז יש לבאר גם הדיוק דוחזקת והיית לאיש,</src>
+    <src s="12">דאיש מורה על המדות,</src>
+    <src s="13">אף שהמעלה דבן י"ג שנה היא בהמוחין,</src>
+    <src s="14">שיש לו עצם המוחין שלמעלה מענין המדות,</src>
+    <src s="15">כי המעלה דעבודת האדם שמגעת במחשבה העצמית היא בעיקר בהעבודה דהמשכת עצם המוחין</src>
+    <src s="16">(שלמעלה מענין המדות)</src>
+    <src s="17">בהמדות,</src>
+    <src s="18">ע"ד המבואר לעיל בענין יוסף שממשיך גילוי האצילות</src>
+    <src s="19">(שלמעלה משרש הנבראים)</src>
+    <src s="20">בבי"ע.</src>
+  </section>
+  <section v="16">
+    <src s="0">ויש לקשר כ"ז עם עבודתו של כ"ק מו"ח אדמו"ר,</src>
+    <src s="1">יוסף שבדורנו67,</src>
+    <src s="2">שהמאמר ד"ה וחזקת והיית לאיש נאמר בסיום וחותם חגיגת הבר מצוה שלו,</src>
+    <src s="3">שעבודתו העיקרית היתה יפוצו מעינותיך חוצה,</src>
+    <src s="4">שגם בחוצה הכי תחתון שאין חוצה למטה ממנו68</src>
+    <src s="5">יומשכו</src>
+    <src s="6">(נוסף על מים שנמשכים מהמעינות,</src>
+    <src s="7">גם)</src>
+    <src s="8">המעינות עצמם.</src>
+    <src s="9">שזו</src>
+    <src s="10">(הפצת המעינות חוצה)</src>
+    <src s="11">היא ההכנה והכלי לאתי בקרוב ממש מר דא מלכא משיחא69.</src>
+  </section>
+</awtsmoosMeluketSource>

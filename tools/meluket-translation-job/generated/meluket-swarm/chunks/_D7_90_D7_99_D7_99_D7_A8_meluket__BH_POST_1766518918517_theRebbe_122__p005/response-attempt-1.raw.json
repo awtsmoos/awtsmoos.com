@@ -1,0 +1,28 @@
+{
+  "id": "1d8faf78-a27e-4066-9b77-e978ab7a1d7a",
+  "object": "chat.completion",
+  "created": 1783583777,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918517_theRebbe_122\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918517_theRebbe_122__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>Prayer effects change in creations through two aspects: drawing down Ein Sof beyond Seder Hishtalshelus and refining the vessel below.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">Now, that in order to effect a change in the creations it is</t>\n    <t s=\"2\">(generally)</t>\n    <t s=\"3\">through prayer</t>\n    <t s=\"4\">(as brought above in section 2 of Tanya),</t>\n    <t s=\"5\">is for two reasons.</t>\n    <t s=\"6\">For that a change is made in the creations is through drawing down Ein Sof that is above Seder Hishtalshelus,</t>\n    <t s=\"7\">and this drawing down is through the raising of Mayin Nukvin of prayer</t>\n    <t s=\"8\">(as above at the end of section 3),</t>\n    <t s=\"9\">and also because in order for there to be a change in the creations below through the light that is above Seder Hishtalshelus that is drawn into them, they need to be vessels for the light,</t>\n    <t s=\"10\">and through the raising of Mayin Nukvin from below, the lower realm becomes a vessel for the light.</t>\n    <t s=\"11\">And based on this, it must be said,</t>\n    <t s=\"12\">that this that Rashbi drew down rainfall through his utterance of Torah is because in his utterance of Torah there were both aspects,</t>\n    <t s=\"13\">the drawing down of Ein Sof that is above Seder Hishtalshelus,</t>\n    <t s=\"14\">and also the refinement of the lower realm</t>\n    <t s=\"15\">(as will be explained).</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>The fact that Rashbi's Torah brought rain emphasizes that his Torah included not only the advantage of drawing from above Seder Hishtalshelus but also the refinement of the vessel.</sectionSummaryBrief>\n    <t s=\"0\">And it may be said,</t>\n    <t s=\"1\">that this is also what is stated in the Zohar, that the influence that Rashbi drew down through his utterance of Torah was the descent of rain,</t>\n    <t s=\"2\">for in this it is emphasized that in the Torah of Rashbi there was also the advantage of prayer—not only the advantage of drawing down from above Seder Hishtalshelus, but also the advantage of refining the vessel.</t>\n    <t s=\"3\">And the explanation is,</t>\n    <t s=\"4\">that this that the influence of rain comes through an arousal from below is related to the rain itself.</t>\n    <t s=\"5\">For just as physically, rain comes from clouds that are formed from the moisture of the earth,</t>\n    <t s=\"6\">\"And a mist ascended from the earth and watered the entire face of the ground,\"</t>\n    <t s=\"7\">so too is it spiritually,</t>\n    <t s=\"8\">that rain is a matter that is made</t>\n    <t s=\"9\">(drawn down)</t>\n    <t s=\"10\">through an arousal from below.</t>\n    <t s=\"11\">And since the matter of rain is a drawing down that comes through an arousal from below,</t>\n    <t s=\"12\">it is understood,</t>\n    <t s=\"13\">that this that through the utterance of Torah of Rashbi rain descended,</t>\n    <t s=\"14\">is</t>\n    <t s=\"15\">because in the Torah of Rashbi there exists, in addition to the advantage that comes through an arousal from below</t>\n    <t s=\"16\">(drawing down from above Seder Hishtalshelus),</t>\n    <t s=\"17\">also the advantage of the arousal from below itself,</t>\n    <t s=\"18\">the refinement of the vessel.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>In the root of souls within Atzmus, there is no distinction between Torah and prayer, and this unity is revealed in the inner dimension of Torah, the Torah of Rashbi.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation of this may be said,</t>\n    <t s=\"1\">that this that Torah</t>\n    <t s=\"2\">[drawing down from above]</t>\n    <t s=\"3\">and prayer</t>\n    <t s=\"4\">[the service of man]</t>\n    <t s=\"5\">are two matters</t>\n    <t s=\"6\">[and in each one there is an advantage]</t>\n    <t s=\"7\">is on the level of souls as they come into existence,</t>\n    <t s=\"8\">but from the perspective of the root of souls as they are rooted in Atzmus, there is no division between drawing down from above and the service of man,</t>\n    <t s=\"9\">for Yisrael and the Holy One, blessed be He, are entirely one.</t>\n    <t s=\"10\">For the revelation of this matter</t>\n    <t s=\"11\">(that Yisrael and the Holy One, blessed be He, are literally one)</t>\n    <t s=\"12\">is in the inner dimension of Torah,</t>\n    <t s=\"13\">the Torah of Rashbi,</t>\n    <t s=\"14\">and therefore in the Torah of Rashbi there is also the aspect of prayer</t>\n    <t s=\"15\">(refinement of the vessel).</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1928,
+    "completion_tokens": 1415,
+    "total_tokens": 3343,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1672
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

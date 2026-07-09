@@ -1,0 +1,127 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917870_theRebbe_730" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917870_theRebbe_730__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917870_theRebbe_730" title="מאמר אשרי תבחר ותקרב תשט"ז" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917870_theRebbe_730__p004">
+  <section v="9">
+    <src s="0">וזהו שד' ענינים הנ"ל שבעבודת האדם הם דוגמת ד' העולמות אבי"ע,</src>
+    <src s="1">דהביטול בנפש הבהמית ובנפש השכלית,</src>
+    <src s="2">שהביטול הוא דבר נוסף על מציאותם,</src>
+    <src s="3">הוא ע"ד הביטול דעשי' ויצירה.</src>
+    <src s="4">[ולהוסיף,</src>
+    <src s="5">דזה שחצר צריך שמירה הוא לפי שעשי' ויצירה הם מציאות,</src>
+    <src s="6">ולכן הדברים שנשתלשלו מהם צריכים שמירה.</src>
+    <src s="7">וענין חצריך לשון רבים הוא,</src>
+    <src s="8">כי העבודה שמצד עולם העשי',</src>
+    <src s="9">עיקרה הוא מעשה בפועל,</src>
+    <src s="10">שלזה מספיק השמירה שע"י מחיצות – חצר שאינו מקורה,</src>
+    <src s="11">והעבודה שמצד יצירה עיקרה הוא מדות,</src>
+    <src s="12">שלזה צריך השמירה דגג – חצר מקורה].</src>
+    <src s="13">והשכל והמדות דנפש האלקית שמתלבשים בנה"ב,</src>
+    <src s="14">שהביטול שבהם אינו דבר נוסף על מציאותם אבל הוא דוגמת ביטול היש – הוא ע"ד הביטול דבריאה,</src>
+    <src s="15">והביטול דנה"א עצמה</src>
+    <src s="16">(כולל גם הביטול דדרגת הנשמה המלובשת בנה"ב כמו שהיא בפנימיותה)</src>
+    <src s="17">שהוא ביטול במציאות – הוא ע"ד הביטול דאצילות.</src>
+  </section>
+  <section v="10">
+    <src s="0">ו)</src>
+    <src s="1">וזהו בקדמיתא חצריך לבתר ביתך ולבתר היכלך,</src>
+    <src s="2">בקדמיתא חצריך</src>
+    <src s="3">(לשון רבים,</src>
+    <src s="4">חצר שאינו מקורה וחצר מקורה)</src>
+    <src s="5">הוא הבירור והזיכוך דנה"ב ונפש השכלית,</src>
+    <src s="6">שגם לאחרי הבירור והזיכוך שלהם הם בדרגת בעלי חיים.</src>
+    <src s="7">לבתר ביתך הוא גילוי נפש האלקית כמו שמתלבשת בנפש השכלית והבהמית,</src>
+    <src s="8">שהביטול שלה הוא דוגמת הביטול שבבריאה.</src>
+    <src s="9">ונק' בית,</src>
+    <src s="10">כי כמו שבית הוא מקום מושב האדם כמ"ש38</src>
+    <src s="11">כתפארת אדם לשבת בית,</src>
+    <src s="12">כך עולם הבריאה</src>
+    <src s="13">(עולם הכסא39)</src>
+    <src s="14">הוא מקום מושב אדם העליון,</src>
+    <src s="15">שעיקר דירתו של אדם העליון בנבראים40</src>
+    <src s="16">הוא כשהביטול שלהם לאלקות הוא באופן שזה</src>
+    <src s="17">(הביטול)</src>
+    <src s="18">הוא כל מציאותם.</src>
+    <src s="19">ולבתר היכלך הוא גילוי הנשמה שלמעלה מהתלבשות בנה"ב</src>
+    <src s="20">(כולל גם הפנימיות דדרגת הנשמה המלובשת בנה"ב),</src>
+    <src s="21">שהביטול שלה הוא ביטול במציאות כהביטול דאצילות41.</src>
+    <src s="22">ונק' היכלך,</src>
+    <src s="23">דענין היכלך הוא כמ"ש42</src>
+    <src s="24">והוי' בהיכל קדשו הס מפניו כל הארץ,</src>
+    <src s="25">שלגבי הוי' בהיכל קדשו מתבטל</src>
+    <src s="26">(הס)</src>
+    <src s="27">כל ענין המציאות</src>
+    <src s="28">(כל הארץ),</src>
+    <src s="29">ועד שאין שייך גם אפשרות המציאות.</src>
+  </section>
+  <section v="11">
+    <src s="0">ז)</src>
+    <src s="1">וזהו שקודם ברית מילה אומרים הפסוק אשרי תבחר ותקרב גו',</src>
+    <src s="2">כי ד' העולמות אבי"ע הם בכלל סדר ההשתלשלות,</src>
+    <src s="3">ומילה היא למעלה מהשתלשלות.</src>
+    <src s="4">וכמרז"ל43</src>
+    <src s="5">עה"פ44</src>
+    <src s="6">למנצח על השמינית על מילה שניתנה בשמיני,</src>
+    <src s="7">ומבואר בלקו"ת</src>
+    <src s="8">(ד"ה למנצח על השמינית45)</src>
+    <src s="9">דזה שהשירה של דוד היתה על זה שמילה ניתנה בשמיני,</src>
+    <src s="10">הוא,</src>
+    <src s="11">כי שמיני הוא בחינת א"ק שלמעלה מאצילות46.</src>
+    <src s="12">ולכאורה יש להוסיף,</src>
+    <src s="13">דמילה היא למעלה לא רק מד' העולמות אלא גם מד' האותיות דשם הוי'</src>
+    <src s="14">(לשון מהווה47)</src>
+    <src s="15">שמהם מתהווים ד' העולמות48.</src>
+    <src s="16">וכמ"ש בתו"א49</src>
+    <src s="17">ע"פ50</src>
+    <src s="18">מי יעלה לנו השמימה,</src>
+    <src s="19">שהוא ראשי תיבות מילה וסופי תיבות הוי'51,</src>
+    <src s="20">דזה שמילה הוא ראשי תיבות והוי' הוא סופי תיבות הוא לפי שמילה היא למעלה מהוי'.</src>
+    <src s="21">אבל בכדי שתהי' המשכת הגילוי שלמעלה מהשתלשלות ע"י המילה,</src>
+    <src s="22">צריך להיות תחלה השלימות דהשתלשלות,</src>
+    <src s="23">כמארז"ל52</src>
+    <src s="24">כדי שיעבור עליו שבת אחת,</src>
+    <src s="25">דשבת הוא השלימות דהשתלשלות ועי"ז אפשר להגיע להגילוי שלמעלה מהשתלשלות</src>
+    <src s="26">(מילה בשמיני).</src>
+    <src s="27">ויש לומר,</src>
+    <src s="28">דזהו מ"ש53</src>
+    <src s="29">התהלך לפני והי' תמים,</src>
+    <src s="30">שבתחלה צריך להיות והי' אותיות הוי' ועי"ז באים אח"כ לבחינת תמים,</src>
+    <src s="31">הגילוי שע"י מילה.</src>
+    <src s="32">ולכן אומרים קודם הברית הפסוק אשרי תבחר ותקרב ישכון חצריך נשבעה בטוב ביתך קדוש היכלך</src>
+    <src s="33">[וגם בלילה שלפני הברית</src>
+    <src s="34">(שאז הוא התחלת ההכנה להברית)</src>
+    <src s="35">נוהגים ללמוד מאמר הזהר ע"פ זה54],</src>
+    <src s="36">כי העבודה בד' הענינים שבפסוק זה שהם כנגד ד' העולמות וד' אותיות שם הוי' היא ההכנה והכלי להגילוי שלמעלה מהשתלשלות.</src>
+  </section>
+</awtsmoosMeluketSource>

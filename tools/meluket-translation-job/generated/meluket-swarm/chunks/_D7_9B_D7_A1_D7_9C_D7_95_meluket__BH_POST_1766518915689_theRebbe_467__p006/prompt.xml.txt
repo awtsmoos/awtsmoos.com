@@ -1,0 +1,78 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915689_theRebbe_467" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915689_theRebbe_467__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915689_theRebbe_467" title="הוספה משיחות ש"פ וישב-מקץ תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915689_theRebbe_467__p006">
+  <section v="15">
+    <src s="0">ועפי"ז יובן מה שאומר כאן כל העוסק כו',</src>
+    <src s="1">שמדבר בנוגע להאדם,</src>
+    <src s="2">כי בחי' יחידה שבנפש היא למעלה מבחי' עולם.</src>
+    <src s="3">ולכן,</src>
+    <src s="4">אינו מדבר כאן בנוגע לתורה גמ"ח ותפלה בצבור עצמם,</src>
+    <src s="5">וואָס זיי דאַרפן זיך אָפּטאָן און אויפטאָן אין עולם,</src>
+    <src s="6">כ"א בנוגע להאדם העוסק,</src>
+    <src s="7">בחי' יחידה שלו,</src>
+    <src s="8">שלמעלה מענין העולם.</src>
+    <src s="9">(משא"כ במשנה דאבות שמדבר בענין עמידת העולם,</src>
+    <src s="10">על שלשה דברים העולם עומד,</src>
+    <src s="11">הנה שם נוגע ענין ג' קוין אלה כמו ששייכים לעולם).</src>
+  </section>
+  <section v="16">
+    <src s="0">* * *</src>
+  </section>
+  <section v="17">
+    <src s="0">ועפי"ז תומתק יותר השייכות דפדה בשלום כו' וכל העוסק בתורה ובגמ"ח ומתפלל עם הצבור לגאולת רבינו הזקן שענינה הוא הפצת מעינות תורת החסידות כנ"ל.</src>
+    <src s="1">דהנה ענינה של תורת החסידות היא בחי' יחידה.</src>
+    <src s="2">וכמו שנת"ל</src>
+    <src s="3">(בשיחת י"ט כסלו22)</src>
+    <src s="4">דלהיות שחסידות היא בחי' יחידה,</src>
+    <src s="5">לכן היא נותנת חיות בכל ד' חלקי התורה,</src>
+    <src s="6">פשט רמז דרוש סוד,</src>
+    <src s="7">שהם בחי' נרנ"ח.</src>
+    <src s="8">ולכן,</src>
+    <src s="9">ההכנה להנתינת רשות מלמעלה על הפצת המעינות,</src>
+    <src s="10">גילוי יחידה דתורה,</src>
+    <src s="11">היתה עבודת רבינו הזקן בבחי' יחידה שלו,</src>
+    <src s="12">ובחי' יחידה שלו האירה בכל ג' הקוין תורה גמילות חסדים ותפלה,</src>
+    <src s="13">שהם כללות עבודת האדם.</src>
+    <src s="14">ועל ידי עבודה זו – גילוי היחידה והתגלותה בכל ג' הקוין – ניתן הרשות מלמעלה לגלות את המעינות,</src>
+    <src s="15">בחי' יחידה דתורה,</src>
+    <src s="16">ושתאיר ותכניס חיות בכל ד' חלקי התורה,</src>
+    <src s="17">נרנ"ח שבתורה,</src>
+    <src s="18">עד לבחי' נרנ"ח שבעולם,</src>
+    <src s="19">עד לבחינה היותר תחתונה שבעולם,</src>
+    <src s="20">עד אשר גם כח הפועל בנפעל וגם הנפעל עצמו</src>
+    <src s="21">(בחי' חוצה)</src>
+    <src s="22">יכיר וירגיש אשר אין עוד מלבדו.</src>
+  </section>
+</awtsmoosMeluketSource>

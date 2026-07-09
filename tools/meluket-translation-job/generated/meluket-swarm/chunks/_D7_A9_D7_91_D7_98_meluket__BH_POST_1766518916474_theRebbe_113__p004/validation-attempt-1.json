@@ -1,0 +1,729 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 137,
+    "returned": 137,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916474_theRebbe_113\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916474_theRebbe_113__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the ultimate purpose of creation is not for the higher worlds but for the lower world, where through transforming folly and darkness one makes a dwelling place for the Essence of the Ein Sof.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">Now, not only according to the opinion</t>\n    <t s=\"2\">that the Tzemach Tzedek brings,</t>\n    <t s=\"3\">that even the vessels of Atzilus are a revelation of the concealment,</t>\n    <t s=\"4\">for according to this opinion certainly the intention is not for Atzilus, since this is a descent and only revelations,</t>\n    <t s=\"5\">but even according to the second opinion that he brings there, that the vessels are a creation of yesh mei’ayin,</t>\n    <t s=\"6\">it is explained in many places</t>\n    <t s=\"7\">that when we say the vessels are a creation of yesh mei’ayin, the intention is not a literal yesh mei’ayin,</t>\n    <t s=\"8\">rather this is only relative to the light,</t>\n    <t s=\"9\">because the source of the vessels is from the reshimah, which is a state of concealment, and therefore their existence is also in a manner that their origin is in concealment,</t>\n    <t s=\"10\">and therefore relative to the light they are like a creation of yesh mei’ayin,</t>\n    <t s=\"11\">but relative to the reshimah they are a revelation of the concealment.</t>\n    <t s=\"12\">Thus, it is understood that the intention is not the upper worlds, but rather the service in this lower world of itkafya and it’hapcha.</t>\n    <t s=\"13\">And even though now, through the performance of mitzvos, we add lights in Atzilus,</t>\n    <t s=\"14\">and if so, how can we say that even now the main intention is specifically this lower world?</t>\n    <t s=\"15\">To this, the Rebbe Maharash explains</t>\n    <t s=\"16\">that these lights in Atzilus are there like something placed in a box,</t>\n    <t s=\"17\">because they are not for the sake of Atzilus,</t>\n    <t s=\"18\">but rather for the need of the lower world, and they are not revealed in Atzilus.</t>\n    <t s=\"19\">And this is what the Rebbe, of blessed memory, explains</t>\n    <t s=\"20\">regarding the matter that it is impossible to say that the intention is for the upper worlds, since for them it is a descent from the light of His countenance,</t>\n    <t s=\"21\">that the explanation of this is that the upper worlds are matters of revelation, which is a descent, and also that the Awtsmoos is separate from the matter of revelations,</t>\n    <t s=\"22\">rather the ultimate purpose is this lower world,</t>\n    <t s=\"23\">for so it arose in His will, to have gratification before Him when the sitra achra is subdued</t>\n    <t s=\"24\">and darkness is transformed into light,</t>\n    <t s=\"25\">and as is explained in the maamar,</t>\n    <t s=\"26\">that all the service is to transform the folly of the side of impurity into the folly of holiness,</t>\n    <t s=\"27\">and through this there is gratification before Him, “I said and My will was done,”</t>\n    <t s=\"28\">and through this they draw down that He should have a dwelling place in the lower realms,</t>\n    <t s=\"29\">and just as in a dwelling, a person dwells in it with all his essence and being,</t>\n    <t s=\"30\">so too is it in the lower realms, that they are a dwelling place for Him,</t>\n    <t s=\"31\">meaning that they draw down not only revelations, but rather the Essence of Ein Sof, blessed is He, is found in them.</t>\n    <t s=\"32\">And this is the ultimate purpose of the creation and the chain of descent of the worlds.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section illustrates how the Rebbes personally fulfilled the service of transforming folly and selflessly devoted themselves to others, serving as examples for their followers.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">Now, at the conclusion of the maamar,</t>\n    <t s=\"2\">it is explained,</t>\n    <t s=\"3\">that because the main dwelling of the Shechinah is in the lower realms,</t>\n    <t s=\"4\">the main revelation of this was in the Holy Temple,</t>\n    <t s=\"5\">this is the reason that the Mishkan was specifically made of shittim wood,</t>\n    <t s=\"6\">because the intention is to transform the folly of the side of impurity and the agitation of the animal soul into the folly of holiness,</t>\n    <t s=\"7\">and as our sages said,</t>\n    <t s=\"8\">“His folly helped the elder,”</t>\n    <t s=\"9\">service and self-nullification that are above reason and intellect.</t>\n    <t s=\"10\">Now, all the matters that were demanded of us by my revered father-in-law, the Rebbe, and likewise the other Nesi’im, they themselves fulfilled,</t>\n    <t s=\"11\">and this is in the manner of our sages’ explanation of the verse,</t>\n    <t s=\"12\">“He declares His words to Yaakov, His statutes and judgments to Israel,” that what He does, He tells Israel to do and to observe,</t>\n    <t s=\"13\">and likewise, what He commands Israel, He does,</t>\n    <t s=\"14\">and so it is with the instructions of our Nesi’im, that what they demanded of those connected and belonging to them, they themselves fulfilled and did so.</t>\n    <t s=\"15\">And what they revealed to us that they fulfilled this,</t>\n    <t s=\"16\">is so that it would be easier for us to fulfill them.</t>\n    <t s=\"17\">And so it is with the matter of Ahavas Yisrael, about which there are many stories from each of the Nesi’im.</t>\n    <t s=\"18\">For example, from the Alter Rebbe, who interrupted his prayer and went to chop wood, cook soup, and personally feed a woman who had just given birth,</t>\n    <t s=\"19\">because there were no other people in the house.</t>\n    <t s=\"20\">From the Mitteler Rebbe,</t>\n    <t s=\"21\">how someone came to him for yechidus and complained about the matters that young married scholars complain about.</t>\n    <t s=\"22\">And the Mitteler Rebbe bared his arm and said to him, “Do you not see that my skin has shriveled upon me?”</t>\n    <t s=\"23\">“And all this is from your vitality.”</t>\n    <t s=\"24\">From this one understands the wonder and exalted level of the Mitteler Rebbe in general, and particularly regarding those matters that are related to such things,</t>\n    <t s=\"25\">and nevertheless, his connection with them was so great that from their matters, which were not as they should be,</t>\n    <t s=\"26\">it caused him extreme physical weakness,</t>\n    <t s=\"27\">until his skin shriveled upon him.</t>\n    <t s=\"28\">From the Tzemach Tzedek,</t>\n    <t s=\"29\">how before prayer he went to accompany a gemach for a simple person, which affected his livelihood.</t>\n    <t s=\"30\">From the Rebbe Maharash,</t>\n    <t s=\"31\">that once</t>\n    <t s=\"32\">he traveled specifically from Koharart to Paris and met there with a young married scholar and told him: “Young man, yeyn nesech dulls the mind and heart,</t>\n    <t s=\"33\">be a Jew.”</t>\n    <t s=\"34\">And the young scholar went home,</t>\n    <t s=\"35\">and was not at rest until he came to the Rebbe Maharash,</t>\n    <t s=\"36\">repented, and from him emerged a family of G-d-fearing and pious people.</t>\n    <t s=\"37\">It is known that for the Rebbe Maharash, time was extremely precious,</t>\n    <t s=\"38\">to the extent that even the delivery of Chassidus was brief,</t>\n    <t s=\"39\">and at certain times, by the eighth hour in the morning he was already after prayer,</t>\n    <t s=\"40\">and nevertheless, he traveled a distant journey and stayed there for a length of time for the sake of a young scholar, etc.</t>\n    <t s=\"41\">From the Rebbe, of blessed memory, at the beginning of his leadership,</t>\n    <t s=\"42\">when a new decree was then decreed and he needed to travel regarding this to Moscow.</t>\n    <t s=\"43\">And his older brother, the Raza, of blessed memory, said to him,</t>\n    <t s=\"44\">“Your time is precious and you do not know the language of the country well”</t>\n    <t s=\"45\">(the Raza was learned in languages)</t>\n    <t s=\"46\">“and you also need to seek acquaintances,</t>\n    <t s=\"47\">therefore I will travel regarding this matter according to your instructions.”</t>\n    <t s=\"48\">But the Rebbe, of blessed memory, did not agree to this and traveled himself and succeeded.</t>\n    <t s=\"49\">And likewise there are several stories about my revered father-in-law, the Rebbe, regarding his efforts to do good, even for a private individual,</t>\n    <t s=\"50\">whether spiritually or physically.</t>\n    <t s=\"51\">And he devoted himself to this,</t>\n    <t s=\"52\">not only his physical being but also his spiritual being,</t>\n    <t s=\"53\">even though the one he was benefiting was not only not in the category of “your friend in Torah and mitzvos,”</t>\n    <t s=\"54\">but was completely incomparable to him.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that through itkafya and it’hapcha, a dwelling place is made in the lower realms on a higher level than before the sin, and the service of the seventh generation is to draw down the Shechinah below by transforming the folly of the animal soul.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">Now, through itkafya and it’hapcha into the folly of holiness, through this the purpose of creation is fulfilled,</t>\n    <t s=\"2\">which is that He should have a dwelling place in the lower realms,</t>\n    <t s=\"3\">and this, that through itkafya and it’hapcha a dwelling place is made in the lower realms,</t>\n    <t s=\"4\">“I have come to My garden,”</t>\n    <t s=\"5\">is on a more elevated level than before the sin.</t>\n    <t s=\"6\">For just as when one demolishes a previous building in order to rebuild,</t>\n    <t s=\"7\">it is obvious that the new building must be on a more elevated level than the previous building,</t>\n    <t s=\"8\">so too it must be said that through itkafya and it’hapcha a dwelling place is made on a more elevated level,</t>\n    <t s=\"9\">and as is explained in the maamar,</t>\n    <t s=\"10\">that through the subduing of the sitra achra, “the glory of the Holy One, blessed be He, is elevated throughout all the worlds,”</t>\n    <t s=\"11\">meaning the light that is in all the worlds equally.</t>\n    <t s=\"12\">And even though the language in the maamar is “the light that encompasses all worlds,”</t>\n    <t s=\"13\">nevertheless, it is impossible to say that the intention is that a light is drawn down that is within the category of the worlds, but rather it encompasses and surrounds them,</t>\n    <t s=\"14\">rather the intention is that a supernal light is drawn down that is not within the category of worlds at all.</t>\n    <t s=\"15\">Therefore, the revelation of this light is called “elevation.”</t>\n    <t s=\"16\">And therefore, the passing of tzaddikim is also called “elevation,”</t>\n    <t s=\"17\">because elevation is the revelation of a most supernal light.</t>\n    <t s=\"18\">For there are two letters in Igeres HaKodesh</t>\n    <t s=\"19\">that explain the matter of elevation.</t>\n    <t s=\"20\">And in the second letter, the matter of elevation is explained there regarding the matter of the red heifer.</t>\n    <t s=\"21\">For the matters done inside cannot refine the most severe impurity,</t>\n    <t s=\"22\">rather only a matter done outside specifically,</t>\n    <t s=\"23\">the heifer done outside.</t>\n    <t s=\"24\">And to this the death of tzaddikim is compared.</t>\n    <t s=\"25\">Now, there is no red heifer now,</t>\n    <t s=\"26\">for because of our sins it was necessary that we be exiled from our land,</t>\n    <t s=\"27\">but the passing of tzaddikim occurred.</t>\n    <t s=\"28\">And regarding the matter of the passing of tzaddikim, there are two statements of our sages:</t>\n    <t s=\"29\">“The death of tzaddikim is equivalent to the burning of the house of our G-d.”</t>\n    <t s=\"30\">“The passing of tzaddikim is more difficult than the destruction of the Holy Temple.”</t>\n    <t s=\"31\">Through all this, “the glory of the Holy One, blessed be He, is elevated.”</t>\n    <t s=\"32\">And the explanation of the matter of elevation was explained by all the Rebbes,</t>\n    <t s=\"33\">the Alter Rebbe,</t>\n    <t s=\"34\">the Mitteler Rebbe,</t>\n    <t s=\"35\">the Tzemach Tzedek,</t>\n    <t s=\"36\">the Rebbe Maharash,</t>\n    <t s=\"37\">the Rebbe, of blessed memory, and my revered father-in-law, the Rebbe,</t>\n    <t s=\"38\">that the intention in the explanation of the word “elevation” is not that it is an ascent above, heaven forbid,</t>\n    <t s=\"39\">rather the intention is that he is found below, but in a state of loftiness.</t>\n    <t s=\"40\">And this is demanded of us,</t>\n    <t s=\"41\">the seventh generation from the Alter Rebbe,</t>\n    <t s=\"42\">and all sevenths are beloved,</t>\n    <t s=\"43\">that even though one has not merited it and has not labored for it,</t>\n    <t s=\"44\">nevertheless, all sevenths are beloved, and the service of the seventh generation is to draw down the Shechinah below, literally.</t>\n    <t s=\"45\">To transform the folly of the animal soul,</t>\n    <t s=\"46\">which a person knows in himself that he has it,</t>\n    <t s=\"47\">and the agitation of the animal soul that he has it, and perhaps sometimes even lower,</t>\n    <t s=\"48\">to make from this and transform this into the folly of holiness.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916474_theRebbe_113",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916474_theRebbe_113__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the ultimate purpose of creation is not for the higher worlds but for the lower world, where through transforming folly and darkness one makes a dwelling place for the Essence of the Ein Sof.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "Now, not only according to the opinion"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that the Tzemach Tzedek brings,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "that even the vessels of Atzilus are a revelation of the concealment,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "for according to this opinion certainly the intention is not for Atzilus, since this is a descent and only revelations,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "but even according to the second opinion that he brings there, that the vessels are a creation of yesh mei’ayin,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "it is explained in many places"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "that when we say the vessels are a creation of yesh mei’ayin, the intention is not a literal yesh mei’ayin,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "rather this is only relative to the light,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "because the source of the vessels is from the reshimah, which is a state of concealment, and therefore their existence is also in a manner that their origin is in concealment,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "and therefore relative to the light they are like a creation of yesh mei’ayin,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "but relative to the reshimah they are a revelation of the concealment."
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "Thus, it is understood that the intention is not the upper worlds, but rather the service in this lower world of itkafya and it’hapcha."
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "And even though now, through the performance of mitzvos, we add lights in Atzilus,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "and if so, how can we say that even now the main intention is specifically this lower world?"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "To this, the Rebbe Maharash explains"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "that these lights in Atzilus are there like something placed in a box,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "because they are not for the sake of Atzilus,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "but rather for the need of the lower world, and they are not revealed in Atzilus."
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "And this is what the Rebbe, of blessed memory, explains"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "regarding the matter that it is impossible to say that the intention is for the upper worlds, since for them it is a descent from the light of His countenance,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "that the explanation of this is that the upper worlds are matters of revelation, which is a descent, and also that the Awtsmoos is separate from the matter of revelations,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "rather the ultimate purpose is this lower world,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "for so it arose in His will, to have gratification before Him when the sitra achra is subdued"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "and darkness is transformed into light,"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "and as is explained in the maamar,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "that all the service is to transform the folly of the side of impurity into the folly of holiness,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "and through this there is gratification before Him, “I said and My will was done,”"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "and through this they draw down that He should have a dwelling place in the lower realms,"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "and just as in a dwelling, a person dwells in it with all his essence and being,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "so too is it in the lower realms, that they are a dwelling place for Him,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "meaning that they draw down not only revelations, but rather the Essence of Ein Sof, blessed is He, is found in them."
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "And this is the ultimate purpose of the creation and the chain of descent of the worlds."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section illustrates how the Rebbes personally fulfilled the service of transforming folly and selflessly devoted themselves to others, serving as examples for their followers.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "Now, at the conclusion of the maamar,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "it is explained,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "that because the main dwelling of the Shechinah is in the lower realms,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "the main revelation of this was in the Holy Temple,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "this is the reason that the Mishkan was specifically made of shittim wood,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "because the intention is to transform the folly of the side of impurity and the agitation of the animal soul into the folly of holiness,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "and as our sages said,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "“His folly helped the elder,”"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "service and self-nullification that are above reason and intellect."
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "Now, all the matters that were demanded of us by my revered father-in-law, the Rebbe, and likewise the other Nesi’im, they themselves fulfilled,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "and this is in the manner of our sages’ explanation of the verse,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "“He declares His words to Yaakov, His statutes and judgments to Israel,” that what He does, He tells Israel to do and to observe,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "and likewise, what He commands Israel, He does,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "and so it is with the instructions of our Nesi’im, that what they demanded of those connected and belonging to them, they themselves fulfilled and did so."
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "And what they revealed to us that they fulfilled this,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "is so that it would be easier for us to fulfill them."
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "And so it is with the matter of Ahavas Yisrael, about which there are many stories from each of the Nesi’im."
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "For example, from the Alter Rebbe, who interrupted his prayer and went to chop wood, cook soup, and personally feed a woman who had just given birth,"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "because there were no other people in the house."
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "From the Mitteler Rebbe,"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "how someone came to him for yechidus and complained about the matters that young married scholars complain about."
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "And the Mitteler Rebbe bared his arm and said to him, “Do you not see that my skin has shriveled upon me?”"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "“And all this is from your vitality.”"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "From this one understands the wonder and exalted level of the Mitteler Rebbe in general, and particularly regarding those matters that are related to such things,"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "and nevertheless, his connection with them was so great that from their matters, which were not as they should be,"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "it caused him extreme physical weakness,"
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "until his skin shriveled upon him."
+          },
+          {
+            "v": 10,
+            "s": 28,
+            "translation": "From the Tzemach Tzedek,"
+          },
+          {
+            "v": 10,
+            "s": 29,
+            "translation": "how before prayer he went to accompany a gemach for a simple person, which affected his livelihood."
+          },
+          {
+            "v": 10,
+            "s": 30,
+            "translation": "From the Rebbe Maharash,"
+          },
+          {
+            "v": 10,
+            "s": 31,
+            "translation": "that once"
+          },
+          {
+            "v": 10,
+            "s": 32,
+            "translation": "he traveled specifically from Koharart to Paris and met there with a young married scholar and told him: “Young man, yeyn nesech dulls the mind and heart,"
+          },
+          {
+            "v": 10,
+            "s": 33,
+            "translation": "be a Jew.”"
+          },
+          {
+            "v": 10,
+            "s": 34,
+            "translation": "And the young scholar went home,"
+          },
+          {
+            "v": 10,
+            "s": 35,
+            "translation": "and was not at rest until he came to the Rebbe Maharash,"
+          },
+          {
+            "v": 10,
+            "s": 36,
+            "translation": "repented, and from him emerged a family of G-d-fearing and pious people."
+          },
+          {
+            "v": 10,
+            "s": 37,
+            "translation": "It is known that for the Rebbe Maharash, time was extremely precious,"
+          },
+          {
+            "v": 10,
+            "s": 38,
+            "translation": "to the extent that even the delivery of Chassidus was brief,"
+          },
+          {
+            "v": 10,
+            "s": 39,
+            "translation": "and at certain times, by the eighth hour in the morning he was already after prayer,"
+          },
+          {
+            "v": 10,
+            "s": 40,
+            "translation": "and nevertheless, he traveled a distant journey and stayed there for a length of time for the sake of a young scholar, etc."
+          },
+          {
+            "v": 10,
+            "s": 41,
+            "translation": "From the Rebbe, of blessed memory, at the beginning of his leadership,"
+          },
+          {
+            "v": 10,
+            "s": 42,
+            "translation": "when a new decree was then decreed and he needed to travel regarding this to Moscow."
+          },
+          {
+            "v": 10,
+            "s": 43,
+            "translation": "And his older brother, the Raza, of blessed memory, said to him,"
+          },
+          {
+            "v": 10,
+            "s": 44,
+            "translation": "“Your time is precious and you do not know the language of the country well”"
+          },
+          {
+            "v": 10,
+            "s": 45,
+            "translation": "(the Raza was learned in languages)"
+          },
+          {
+            "v": 10,
+            "s": 46,
+            "translation": "“and you also need to seek acquaintances,"
+          },
+          {
+            "v": 10,
+            "s": 47,
+            "translation": "therefore I will travel regarding this matter according to your instructions.”"
+          },
+          {
+            "v": 10,
+            "s": 48,
+            "translation": "But the Rebbe, of blessed memory, did not agree to this and traveled himself and succeeded."
+          },
+          {
+            "v": 10,
+            "s": 49,
+            "translation": "And likewise there are several stories about my revered father-in-law, the Rebbe, regarding his efforts to do good, even for a private individual,"
+          },
+          {
+            "v": 10,
+            "s": 50,
+            "translation": "whether spiritually or physically."
+          },
+          {
+            "v": 10,
+            "s": 51,
+            "translation": "And he devoted himself to this,"
+          },
+          {
+            "v": 10,
+            "s": 52,
+            "translation": "not only his physical being but also his spiritual being,"
+          },
+          {
+            "v": 10,
+            "s": 53,
+            "translation": "even though the one he was benefiting was not only not in the category of “your friend in Torah and mitzvos,”"
+          },
+          {
+            "v": 10,
+            "s": 54,
+            "translation": "but was completely incomparable to him."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that through itkafya and it’hapcha, a dwelling place is made in the lower realms on a higher level than before the sin, and the service of the seventh generation is to draw down the Shechinah below by transforming the folly of the animal soul.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "Now, through itkafya and it’hapcha into the folly of holiness, through this the purpose of creation is fulfilled,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "which is that He should have a dwelling place in the lower realms,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "and this, that through itkafya and it’hapcha a dwelling place is made in the lower realms,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "“I have come to My garden,”"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "is on a more elevated level than before the sin."
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "For just as when one demolishes a previous building in order to rebuild,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "it is obvious that the new building must be on a more elevated level than the previous building,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "so too it must be said that through itkafya and it’hapcha a dwelling place is made on a more elevated level,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "and as is explained in the maamar,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "that through the subduing of the sitra achra, “the glory of the Holy One, blessed be He, is elevated throughout all the worlds,”"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "meaning the light that is in all the worlds equally."
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "And even though the language in the maamar is “the light that encompasses all worlds,”"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "nevertheless, it is impossible to say that the intention is that a light is drawn down that is within the category of the worlds, but rather it encompasses and surrounds them,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "rather the intention is that a supernal light is drawn down that is not within the category of worlds at all."
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "Therefore, the revelation of this light is called “elevation.”"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "And therefore, the passing of tzaddikim is also called “elevation,”"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "because elevation is the revelation of a most supernal light."
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "For there are two letters in Igeres HaKodesh"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "that explain the matter of elevation."
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "And in the second letter, the matter of elevation is explained there regarding the matter of the red heifer."
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "For the matters done inside cannot refine the most severe impurity,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "rather only a matter done outside specifically,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "the heifer done outside."
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "And to this the death of tzaddikim is compared."
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "Now, there is no red heifer now,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "for because of our sins it was necessary that we be exiled from our land,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "but the passing of tzaddikim occurred."
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "And regarding the matter of the passing of tzaddikim, there are two statements of our sages:"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "“The death of tzaddikim is equivalent to the burning of the house of our G-d.”"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "“The passing of tzaddikim is more difficult than the destruction of the Holy Temple.”"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "Through all this, “the glory of the Holy One, blessed be He, is elevated.”"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "And the explanation of the matter of elevation was explained by all the Rebbes,"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "the Alter Rebbe,"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "the Mitteler Rebbe,"
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "the Tzemach Tzedek,"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "the Rebbe Maharash,"
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "the Rebbe, of blessed memory, and my revered father-in-law, the Rebbe,"
+          },
+          {
+            "v": 11,
+            "s": 38,
+            "translation": "that the intention in the explanation of the word “elevation” is not that it is an ascent above, heaven forbid,"
+          },
+          {
+            "v": 11,
+            "s": 39,
+            "translation": "rather the intention is that he is found below, but in a state of loftiness."
+          },
+          {
+            "v": 11,
+            "s": 40,
+            "translation": "And this is demanded of us,"
+          },
+          {
+            "v": 11,
+            "s": 41,
+            "translation": "the seventh generation from the Alter Rebbe,"
+          },
+          {
+            "v": 11,
+            "s": 42,
+            "translation": "and all sevenths are beloved,"
+          },
+          {
+            "v": 11,
+            "s": 43,
+            "translation": "that even though one has not merited it and has not labored for it,"
+          },
+          {
+            "v": 11,
+            "s": 44,
+            "translation": "nevertheless, all sevenths are beloved, and the service of the seventh generation is to draw down the Shechinah below, literally."
+          },
+          {
+            "v": 11,
+            "s": 45,
+            "translation": "To transform the folly of the animal soul,"
+          },
+          {
+            "v": 11,
+            "s": 46,
+            "translation": "which a person knows in himself that he has it,"
+          },
+          {
+            "v": 11,
+            "s": 47,
+            "translation": "and the agitation of the animal soul that he has it, and perhaps sometimes even lower,"
+          },
+          {
+            "v": 11,
+            "s": 48,
+            "translation": "to make from this and transform this into the folly of holiness."
+          }
+        ]
+      }
+    ]
+  }
+}

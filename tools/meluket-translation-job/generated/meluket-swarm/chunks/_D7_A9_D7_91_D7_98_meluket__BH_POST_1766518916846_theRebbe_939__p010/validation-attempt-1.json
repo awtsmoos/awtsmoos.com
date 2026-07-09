@@ -1,0 +1,454 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 82,
+    "returned": 82,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916846_theRebbe_939\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p010\">\n  <section v=\"27\">\n    <sectionSummaryBrief>This section distinguishes the effect of tzimtzum on bounded light versus encompassing light, explaining that tzimtzum changes the bounded light itself but only prevents the encompassing light from shining into the vacated space without altering it.</sectionSummaryBrief>\n    <t s=\"0\">Now, although the light that did not shine even before the tzimtzum is a more elevated light than the light that filled the vacated space,</t>\n    <t s=\"1\">nevertheless,</t>\n    <t s=\"2\">the aforementioned precision</t>\n    <t s=\"3\">[that the tzimtzum from which the worlds came into being and the revelation of the light before the tzimtzum are two opposites],</t>\n    <t s=\"4\">is primarily regarding the light that filled the vacated space.</t>\n    <t s=\"5\">And as the Rebbe</t>\n    <t s=\"6\">(the Rebbe Rashab)</t>\n    <t s=\"7\">explains in the Hemshech of Ta\"Ra\"B 108</t>\n    <t s=\"8\">the distinction between the effect of tzimtzum on bounded light</t>\n    <t s=\"9\">(the source of the memaleh)</t>\n    <t s=\"10\">and the effect of tzimtzum on encompassing light</t>\n    <t s=\"11\">(the source of the sovev),</t>\n    <t s=\"12\">that the effect of tzimtzum on bounded light is in the light itself,</t>\n    <t s=\"13\">that through the tzimtzum it comes into measure and boundary,</t>\n    <t s=\"14\">and the effect of tzimtzum on encompassing light is</t>\n    <t s=\"15\">(not in the light itself,</t>\n    <t s=\"16\">but rather)</t>\n    <t s=\"17\">that it should not shine in the vacated space.</t>\n    <t s=\"18\">And this is that the concealment of encompassing light is</t>\n    <t s=\"19\">(not that it is concealed within the concealment of the tzimtzum,</t>\n    <t s=\"20\">but rather)</t>\n    <t s=\"21\">that it is concealed and included in its source,</t>\n    <t s=\"22\">for the matter of its concealment in its source is that it does not shine in the vacated space,</t>\n    <t s=\"23\">but in the light itself no change occurred</t>\n    <t s=\"24\">[and analogous to what is explained elsewhere 109</t>\n    <t s=\"25\">that in encompassing light there was no actual tzimtzum, only the tzimtzum touched it].</t>\n    <t s=\"26\">And furthermore,</t>\n    <t s=\"27\">even this effect on encompassing light, that it does not shine in revelation in the vacated space,</t>\n    <t s=\"28\">is only regarding the worlds</t>\n    <t s=\"29\">(that it is not felt in them),</t>\n    <t s=\"30\">and not regarding the light.</t>\n    <t s=\"31\">And there are two matters in this.</t>\n    <t s=\"32\">That in His knowledge, may He be blessed,</t>\n    <t s=\"33\">even now</t>\n    <t s=\"34\">(after the tzimtzum)</t>\n    <t s=\"35\">it shines in the vacated space in actual revelation,</t>\n    <t s=\"36\">as explained in many places 110.</t>\n    <t s=\"37\">And furthermore,</t>\n    <t s=\"38\">since regarding encompassing light the tzimtzum does not conceal,</t>\n    <t s=\"39\">behold, from the perspective of the light</t>\n    <t s=\"40\">(the encompassing light)</t>\n    <t s=\"41\">it can be in actual revelation that is felt also in the worlds.</t>\n    <t s=\"42\">For bounded light,</t>\n    <t s=\"43\">since the tzimtzum acted in it that its revelation in the worlds should be according to the measure of the worlds,</t>\n    <t s=\"44\">therefore,</t>\n    <t s=\"45\">it is difficult, as it were 111,</t>\n    <t s=\"46\">for it to be revealed in the worlds as it is in its source before the tzimtzum,</t>\n    <t s=\"47\">for these two matters</t>\n    <t s=\"48\">(the effect of the tzimtzum that occurred in it,</t>\n    <t s=\"49\">and the revelation not according to the order established by the tzimtzum)</t>\n    <t s=\"50\">are two opposites.</t>\n    <t s=\"51\">But not so encompassing light,</t>\n    <t s=\"52\">since regarding it there was no effect of tzimtzum,</t>\n    <t s=\"53\">for it to be in revelation not according to the order established by the tzimtzum</t>\n    <t s=\"54\">(that is, that its revelation should be in a manner that is felt also in the worlds),</t>\n    <t s=\"55\">this is not a difficult thing 112.</t>\n  </section>\n  <section v=\"28\">\n    <sectionSummaryBrief>This section applies the distinction between bounded and encompassing light to the question of how the world can receive a revelation beyond its worth, concluding that the difficulty primarily concerns bounded light.</sectionSummaryBrief>\n    <t s=\"0\">Now, in the aforementioned Hemshech,</t>\n    <t s=\"1\">the distinction between bounded light and encompassing light is regarding the drawing down and revelation of the light.</t>\n    <t s=\"2\">For drawing down the revelation of bounded light as it is in its source is difficult,</t>\n    <t s=\"3\">but not so the drawing down of the revelation of encompassing light.</t>\n    <t s=\"4\">And it can be said,</t>\n    <t s=\"5\">that analogously, this is also regarding the fact that the world receives a revelation that is not commensurate with its worth.</t>\n    <t s=\"6\">For regarding the revelation of encompassing light,</t>\n    <t s=\"7\">it is possible that its revelation in the worlds is from the aspect that the light is encompassing,</t>\n    <t s=\"8\">even though the worlds</t>\n    <t s=\"9\">(from the perspective of their essence)</t>\n    <t s=\"10\">are not vessels for the revelation.</t>\n    <t s=\"11\">And the precise question of how it is possible for the world to receive a revelation not commensurate with its worth is</t>\n    <t s=\"12\">(primarily)</t>\n    <t s=\"13\">regarding the revelation of bounded light.</t>\n    <t s=\"14\">For since in this light the tzimtzum acted that its revelation in the worlds should be according to the measure of the worlds,</t>\n    <t s=\"15\">one must understand,</t>\n    <t s=\"16\">how is it possible for the world to receive light that is not commensurate with its worth.</t>\n  </section>\n  <section v=\"29\">\n    <sectionSummaryBrief>This section explains that through the service of transforming darkness into light, the worlds become vessels for the revelation of both bounded and encompassing light, including the inner revelation of encompassing light.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation is,</t>\n    <t s=\"1\">as explained in the aforementioned Hemshech 113,</t>\n    <t s=\"2\">that through the service of it'hapcha chashucha l'nehora (transforming darkness into light), they transform the darkness of the tzimtzum into light,</t>\n    <t s=\"3\">and through this the worlds</t>\n    <t s=\"4\">(that were brought into being from the tzimtzum)</t>\n    <t s=\"5\">become vessels for the revelation of a more elevated light,</t>\n    <t s=\"6\">both regarding the revelation of bounded light 114</t>\n    <t s=\"7\">and regarding the revelation of encompassing light,</t>\n    <t s=\"8\">and also the revelation of encompassing light shines within them in an inward manner.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916846_theRebbe_939",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p010"
+    },
+    "sections": [
+      {
+        "v": 27,
+        "sectionSummaryBrief": "This section distinguishes the effect of tzimtzum on bounded light versus encompassing light, explaining that tzimtzum changes the bounded light itself but only prevents the encompassing light from shining into the vacated space without altering it.",
+        "translations": [
+          {
+            "v": 27,
+            "s": 0,
+            "translation": "Now, although the light that did not shine even before the tzimtzum is a more elevated light than the light that filled the vacated space,"
+          },
+          {
+            "v": 27,
+            "s": 1,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 27,
+            "s": 2,
+            "translation": "the aforementioned precision"
+          },
+          {
+            "v": 27,
+            "s": 3,
+            "translation": "[that the tzimtzum from which the worlds came into being and the revelation of the light before the tzimtzum are two opposites],"
+          },
+          {
+            "v": 27,
+            "s": 4,
+            "translation": "is primarily regarding the light that filled the vacated space."
+          },
+          {
+            "v": 27,
+            "s": 5,
+            "translation": "And as the Rebbe"
+          },
+          {
+            "v": 27,
+            "s": 6,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 27,
+            "s": 7,
+            "translation": "explains in the Hemshech of Ta\"Ra\"B 108"
+          },
+          {
+            "v": 27,
+            "s": 8,
+            "translation": "the distinction between the effect of tzimtzum on bounded light"
+          },
+          {
+            "v": 27,
+            "s": 9,
+            "translation": "(the source of the memaleh)"
+          },
+          {
+            "v": 27,
+            "s": 10,
+            "translation": "and the effect of tzimtzum on encompassing light"
+          },
+          {
+            "v": 27,
+            "s": 11,
+            "translation": "(the source of the sovev),"
+          },
+          {
+            "v": 27,
+            "s": 12,
+            "translation": "that the effect of tzimtzum on bounded light is in the light itself,"
+          },
+          {
+            "v": 27,
+            "s": 13,
+            "translation": "that through the tzimtzum it comes into measure and boundary,"
+          },
+          {
+            "v": 27,
+            "s": 14,
+            "translation": "and the effect of tzimtzum on encompassing light is"
+          },
+          {
+            "v": 27,
+            "s": 15,
+            "translation": "(not in the light itself,"
+          },
+          {
+            "v": 27,
+            "s": 16,
+            "translation": "but rather)"
+          },
+          {
+            "v": 27,
+            "s": 17,
+            "translation": "that it should not shine in the vacated space."
+          },
+          {
+            "v": 27,
+            "s": 18,
+            "translation": "And this is that the concealment of encompassing light is"
+          },
+          {
+            "v": 27,
+            "s": 19,
+            "translation": "(not that it is concealed within the concealment of the tzimtzum,"
+          },
+          {
+            "v": 27,
+            "s": 20,
+            "translation": "but rather)"
+          },
+          {
+            "v": 27,
+            "s": 21,
+            "translation": "that it is concealed and included in its source,"
+          },
+          {
+            "v": 27,
+            "s": 22,
+            "translation": "for the matter of its concealment in its source is that it does not shine in the vacated space,"
+          },
+          {
+            "v": 27,
+            "s": 23,
+            "translation": "but in the light itself no change occurred"
+          },
+          {
+            "v": 27,
+            "s": 24,
+            "translation": "[and analogous to what is explained elsewhere 109"
+          },
+          {
+            "v": 27,
+            "s": 25,
+            "translation": "that in encompassing light there was no actual tzimtzum, only the tzimtzum touched it]."
+          },
+          {
+            "v": 27,
+            "s": 26,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 27,
+            "s": 27,
+            "translation": "even this effect on encompassing light, that it does not shine in revelation in the vacated space,"
+          },
+          {
+            "v": 27,
+            "s": 28,
+            "translation": "is only regarding the worlds"
+          },
+          {
+            "v": 27,
+            "s": 29,
+            "translation": "(that it is not felt in them),"
+          },
+          {
+            "v": 27,
+            "s": 30,
+            "translation": "and not regarding the light."
+          },
+          {
+            "v": 27,
+            "s": 31,
+            "translation": "And there are two matters in this."
+          },
+          {
+            "v": 27,
+            "s": 32,
+            "translation": "That in His knowledge, may He be blessed,"
+          },
+          {
+            "v": 27,
+            "s": 33,
+            "translation": "even now"
+          },
+          {
+            "v": 27,
+            "s": 34,
+            "translation": "(after the tzimtzum)"
+          },
+          {
+            "v": 27,
+            "s": 35,
+            "translation": "it shines in the vacated space in actual revelation,"
+          },
+          {
+            "v": 27,
+            "s": 36,
+            "translation": "as explained in many places 110."
+          },
+          {
+            "v": 27,
+            "s": 37,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 27,
+            "s": 38,
+            "translation": "since regarding encompassing light the tzimtzum does not conceal,"
+          },
+          {
+            "v": 27,
+            "s": 39,
+            "translation": "behold, from the perspective of the light"
+          },
+          {
+            "v": 27,
+            "s": 40,
+            "translation": "(the encompassing light)"
+          },
+          {
+            "v": 27,
+            "s": 41,
+            "translation": "it can be in actual revelation that is felt also in the worlds."
+          },
+          {
+            "v": 27,
+            "s": 42,
+            "translation": "For bounded light,"
+          },
+          {
+            "v": 27,
+            "s": 43,
+            "translation": "since the tzimtzum acted in it that its revelation in the worlds should be according to the measure of the worlds,"
+          },
+          {
+            "v": 27,
+            "s": 44,
+            "translation": "therefore,"
+          },
+          {
+            "v": 27,
+            "s": 45,
+            "translation": "it is difficult, as it were 111,"
+          },
+          {
+            "v": 27,
+            "s": 46,
+            "translation": "for it to be revealed in the worlds as it is in its source before the tzimtzum,"
+          },
+          {
+            "v": 27,
+            "s": 47,
+            "translation": "for these two matters"
+          },
+          {
+            "v": 27,
+            "s": 48,
+            "translation": "(the effect of the tzimtzum that occurred in it,"
+          },
+          {
+            "v": 27,
+            "s": 49,
+            "translation": "and the revelation not according to the order established by the tzimtzum)"
+          },
+          {
+            "v": 27,
+            "s": 50,
+            "translation": "are two opposites."
+          },
+          {
+            "v": 27,
+            "s": 51,
+            "translation": "But not so encompassing light,"
+          },
+          {
+            "v": 27,
+            "s": 52,
+            "translation": "since regarding it there was no effect of tzimtzum,"
+          },
+          {
+            "v": 27,
+            "s": 53,
+            "translation": "for it to be in revelation not according to the order established by the tzimtzum"
+          },
+          {
+            "v": 27,
+            "s": 54,
+            "translation": "(that is, that its revelation should be in a manner that is felt also in the worlds),"
+          },
+          {
+            "v": 27,
+            "s": 55,
+            "translation": "this is not a difficult thing 112."
+          }
+        ]
+      },
+      {
+        "v": 28,
+        "sectionSummaryBrief": "This section applies the distinction between bounded and encompassing light to the question of how the world can receive a revelation beyond its worth, concluding that the difficulty primarily concerns bounded light.",
+        "translations": [
+          {
+            "v": 28,
+            "s": 0,
+            "translation": "Now, in the aforementioned Hemshech,"
+          },
+          {
+            "v": 28,
+            "s": 1,
+            "translation": "the distinction between bounded light and encompassing light is regarding the drawing down and revelation of the light."
+          },
+          {
+            "v": 28,
+            "s": 2,
+            "translation": "For drawing down the revelation of bounded light as it is in its source is difficult,"
+          },
+          {
+            "v": 28,
+            "s": 3,
+            "translation": "but not so the drawing down of the revelation of encompassing light."
+          },
+          {
+            "v": 28,
+            "s": 4,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 28,
+            "s": 5,
+            "translation": "that analogously, this is also regarding the fact that the world receives a revelation that is not commensurate with its worth."
+          },
+          {
+            "v": 28,
+            "s": 6,
+            "translation": "For regarding the revelation of encompassing light,"
+          },
+          {
+            "v": 28,
+            "s": 7,
+            "translation": "it is possible that its revelation in the worlds is from the aspect that the light is encompassing,"
+          },
+          {
+            "v": 28,
+            "s": 8,
+            "translation": "even though the worlds"
+          },
+          {
+            "v": 28,
+            "s": 9,
+            "translation": "(from the perspective of their essence)"
+          },
+          {
+            "v": 28,
+            "s": 10,
+            "translation": "are not vessels for the revelation."
+          },
+          {
+            "v": 28,
+            "s": 11,
+            "translation": "And the precise question of how it is possible for the world to receive a revelation not commensurate with its worth is"
+          },
+          {
+            "v": 28,
+            "s": 12,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 28,
+            "s": 13,
+            "translation": "regarding the revelation of bounded light."
+          },
+          {
+            "v": 28,
+            "s": 14,
+            "translation": "For since in this light the tzimtzum acted that its revelation in the worlds should be according to the measure of the worlds,"
+          },
+          {
+            "v": 28,
+            "s": 15,
+            "translation": "one must understand,"
+          },
+          {
+            "v": 28,
+            "s": 16,
+            "translation": "how is it possible for the world to receive light that is not commensurate with its worth."
+          }
+        ]
+      },
+      {
+        "v": 29,
+        "sectionSummaryBrief": "This section explains that through the service of transforming darkness into light, the worlds become vessels for the revelation of both bounded and encompassing light, including the inner revelation of encompassing light.",
+        "translations": [
+          {
+            "v": 29,
+            "s": 0,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 29,
+            "s": 1,
+            "translation": "as explained in the aforementioned Hemshech 113,"
+          },
+          {
+            "v": 29,
+            "s": 2,
+            "translation": "that through the service of it'hapcha chashucha l'nehora (transforming darkness into light), they transform the darkness of the tzimtzum into light,"
+          },
+          {
+            "v": 29,
+            "s": 3,
+            "translation": "and through this the worlds"
+          },
+          {
+            "v": 29,
+            "s": 4,
+            "translation": "(that were brought into being from the tzimtzum)"
+          },
+          {
+            "v": 29,
+            "s": 5,
+            "translation": "become vessels for the revelation of a more elevated light,"
+          },
+          {
+            "v": 29,
+            "s": 6,
+            "translation": "both regarding the revelation of bounded light 114"
+          },
+          {
+            "v": 29,
+            "s": 7,
+            "translation": "and regarding the revelation of encompassing light,"
+          },
+          {
+            "v": 29,
+            "s": 8,
+            "translation": "and also the revelation of encompassing light shines within them in an inward manner."
+          }
+        ]
+      }
+    ]
+  }
+}

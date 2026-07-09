@@ -1,0 +1,28 @@
+{
+  "id": "88a2fcea-4a76-489d-aafd-5608c1459b22",
+  "object": "chat.completion",
+  "created": 1783582314,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917471_theRebbe_230\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917471_theRebbe_230__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that through the disturbance of the King's sleep, a connection is made between the encompassing and internal lights, drawing down Atzmus to unite concealment and revelation, thereby bringing general salvation and transforming the source of impurity into joy for Israel.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And one should connect this with what is explained in the maamar,</t>\n    <t s=\"2\">that through the sleep of the King being disturbed, a connection of the encompassing (makif) with the internal (pnimi) is made,</t>\n    <t s=\"3\">so that even the light that is above the chain of descent (hishtalshelus)</t>\n    <t s=\"4\">(the encompassing light)</t>\n    <t s=\"5\">is drawn into the innerness,</t>\n    <t s=\"6\">for the root of the encompassing and the internal is revelation and concealment</t>\n    <t s=\"7\">[for the encompassing is from the aspect of revelation,</t>\n    <t s=\"8\">and the internal, which is drawn through tzimtzum (contraction), is from the aspect of concealment],</t>\n    <t s=\"9\">and through the drawing down of Atzmus (Essence) that occurred then,</t>\n    <t s=\"10\">by which concealment and revelation became united,</t>\n    <t s=\"11\">the union of encompassing and internal was also effected.</t>\n    <t s=\"12\">And through this, a general salvation was drawn for all of Israel,</t>\n    <t s=\"13\">for in the aspect of the encompassing,</t>\n    <t s=\"14\">the kelipot (husks) have more connection to receive from there,</t>\n    <t s=\"15\">for this is what Haman did—he made a tree fifty cubits high,</t>\n    <t s=\"16\">raising himself to receive from the gate of the Nun (fifty) that is above the chain of descent</t>\n    <t s=\"17\">(the encompassing),</t>\n    <t s=\"18\">and through the encompassing being drawn into the innerness,</t>\n    <t s=\"19\">\"for the Jews there was light and joy and gladness and honor\" was realized,</t>\n    <t s=\"20\">so may it be for us.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1098,
+    "completion_tokens": 656,
+    "total_tokens": 1754,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 842
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

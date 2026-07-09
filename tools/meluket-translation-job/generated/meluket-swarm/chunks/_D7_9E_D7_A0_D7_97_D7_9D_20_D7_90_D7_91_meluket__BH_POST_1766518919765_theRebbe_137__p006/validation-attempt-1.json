@@ -1,0 +1,354 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 62,
+    "returned": 62,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919765_theRebbe_137\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>Based on the precision of our Rebbes' teachings, the connection of this maamar to the postponed Tisha B'Av is seen in both its general theme of light and its specific details about light.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">Now, according to the known great precision in the discourses of our Rebbes and Nesi'im</t>\n    <t s=\"2\">(also regarding the time of their delivery),</t>\n    <t s=\"3\">it stands to reason,</t>\n    <t s=\"4\">that the connection of the aforementioned maamar to the postponed Tisha B'Av is both from the perspective of the general content of the maamar—the matter of light—</t>\n    <t s=\"5\">and also from the perspective of the details of the light explained in the maamar.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>For darkness to be completely nullified, it requires the revelation of unlimited light contained within the luminary, unlike the light that spreads outward which only illuminates darkness.</sectionSummaryBrief>\n    <t s=\"0\">The explanation is,</t>\n    <t s=\"1\">that in order for the darkness to be completely nullified</t>\n    <t s=\"2\">(and not merely be pushed aside by the light)</t>\n    <t s=\"3\">it is</t>\n    <t s=\"4\">(specifically)</t>\n    <t s=\"5\">through the revelation of unlimited light</t>\n    <t s=\"6\">(as in section 2 above).</t>\n    <t s=\"7\">And in more detail—through the revelation of the light that is included in the luminary.</t>\n    <t s=\"8\">For the light that spreads outside the luminary,</t>\n    <t s=\"9\">its function is to illuminate the darkness.</t>\n    <t s=\"10\">Like the light of the sun that spreads into the space of the world</t>\n    <t s=\"11\">(outside the sun),</t>\n    <t s=\"12\">where the place of the space of the world is a dark place,</t>\n    <t s=\"13\">and the function of the light that spreads into the space of the world is to illuminate the place of darkness.</t>\n    <t s=\"14\">But the light that is included in the luminary is in a place</t>\n    <t s=\"15\">(level)</t>\n    <t s=\"16\">where the matter of darkness does not apply.</t>\n    <t s=\"17\">And likewise above,</t>\n    <t s=\"18\">that from the distinctions between the Ein Sof light before the tzimtzum</t>\n    <t s=\"19\">(the light included in His Essence)</t>\n    <t s=\"20\">and the light after the tzimtzum</t>\n    <t s=\"21\">(which is analogous to the light that spreads outside the luminary),</t>\n    <t s=\"22\">it is,</t>\n    <t s=\"23\">that the light drawn down after the tzimtzum, its function is to illuminate the worlds.</t>\n    <t s=\"24\">Therefore,</t>\n    <t s=\"25\">the G-dly revelation that exists in the world through the revelation of the light after the tzimtzum is in a manner of renewal.</t>\n    <t s=\"26\">Existence in simplicity and G-dliness in renewal40.</t>\n    <t s=\"27\">[Analogous to the light of the sun that spreads into the space of the world,</t>\n    <t s=\"28\">where the place of the space of the world in itself is a dark place,</t>\n    <t s=\"29\">and the light that shines in it is in a manner of addition and renewal].</t>\n    <t s=\"30\">But when the revelation of the Ein Sof light before the tzimtzum shines in the world,</t>\n    <t s=\"31\">G-dliness is in simplicity40,</t>\n    <t s=\"32\">to the extent that there is no place at all for anything that is not G-dliness.</t>\n    <t s=\"33\">[In the analogy of what was before the tzimtzum,</t>\n    <t s=\"34\">when the Ein Sof light filled the place of the void,</t>\n    <t s=\"35\">when there was no place for the existence of the worlds41].</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>The complete nullification of darkness is through the revelation of the light included in the luminary, which is above the concealment of the world, unlike the light after tzimtzum that can be concealed.</sectionSummaryBrief>\n    <t s=\"0\">And this is that the nullification of darkness completely is through the revelation of the light included in the luminary</t>\n    <t s=\"1\">(the Ein Sof light before the tzimtzum),</t>\n    <t s=\"2\">for the light after the tzimtzum,</t>\n    <t s=\"3\">since its function is to illuminate the worlds,</t>\n    <t s=\"4\">from this it is understood that the worlds occupy a place relative to it,</t>\n    <t s=\"5\">therefore,</t>\n    <t s=\"6\">the revelation of this light is in a manner that the concealment and hiding of the world is capable of concealing it.</t>\n    <t s=\"7\">That is,</t>\n    <t s=\"8\">in addition to the concealment of the world that exists even when the revelation shines,</t>\n    <t s=\"9\">that the G-dly revelation in the world through the revelation of this light is in a manner of renewal</t>\n    <t s=\"10\">(as above),</t>\n    <t s=\"11\">it is possible that the concealment of the world will also conceal this revelation</t>\n    <t s=\"12\">(so that there will be no G-dly revelation in the world at all,</t>\n    <t s=\"13\">not even a revelation that is in a manner of renewal).</t>\n    <t s=\"14\">And in order for there to be a nullification of darkness, it is through the revelation of the essence of the light that is above the light that illuminates the worlds,</t>\n    <t s=\"15\">for this light the world cannot conceal.</t>\n    <t s=\"16\">And this is what is said in the Midrash42</t>\n    <t s=\"17\">that the future redemption is analogous to the light of day which cannot be extinguished,</t>\n    <t s=\"18\">it can be said that the intention in this is for the light that is above any connection to worlds,</t>\n    <t s=\"19\">for which concealment does not apply.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919765_theRebbe_137",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "Based on the precision of our Rebbes' teachings, the connection of this maamar to the postponed Tisha B'Av is seen in both its general theme of light and its specific details about light.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "Now, according to the known great precision in the discourses of our Rebbes and Nesi'im"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "(also regarding the time of their delivery),"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "it stands to reason,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "that the connection of the aforementioned maamar to the postponed Tisha B'Av is both from the perspective of the general content of the maamar—the matter of light—"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "and also from the perspective of the details of the light explained in the maamar."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "For darkness to be completely nullified, it requires the revelation of unlimited light contained within the luminary, unlike the light that spreads outward which only illuminates darkness.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "The explanation is,"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "that in order for the darkness to be completely nullified"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "(and not merely be pushed aside by the light)"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "it is"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "through the revelation of unlimited light"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "(as in section 2 above)."
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "And in more detail—through the revelation of the light that is included in the luminary."
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "For the light that spreads outside the luminary,"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "its function is to illuminate the darkness."
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "Like the light of the sun that spreads into the space of the world"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "(outside the sun),"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "where the place of the space of the world is a dark place,"
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "and the function of the light that spreads into the space of the world is to illuminate the place of darkness."
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "But the light that is included in the luminary is in a place"
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "(level)"
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "where the matter of darkness does not apply."
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "And likewise above,"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "that from the distinctions between the Ein Sof light before the tzimtzum"
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "(the light included in His Essence)"
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "and the light after the tzimtzum"
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "(which is analogous to the light that spreads outside the luminary),"
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "it is,"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "that the light drawn down after the tzimtzum, its function is to illuminate the worlds."
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 16,
+            "s": 25,
+            "translation": "the G-dly revelation that exists in the world through the revelation of the light after the tzimtzum is in a manner of renewal."
+          },
+          {
+            "v": 16,
+            "s": 26,
+            "translation": "Existence in simplicity and G-dliness in renewal40."
+          },
+          {
+            "v": 16,
+            "s": 27,
+            "translation": "[Analogous to the light of the sun that spreads into the space of the world,"
+          },
+          {
+            "v": 16,
+            "s": 28,
+            "translation": "where the place of the space of the world in itself is a dark place,"
+          },
+          {
+            "v": 16,
+            "s": 29,
+            "translation": "and the light that shines in it is in a manner of addition and renewal]."
+          },
+          {
+            "v": 16,
+            "s": 30,
+            "translation": "But when the revelation of the Ein Sof light before the tzimtzum shines in the world,"
+          },
+          {
+            "v": 16,
+            "s": 31,
+            "translation": "G-dliness is in simplicity40,"
+          },
+          {
+            "v": 16,
+            "s": 32,
+            "translation": "to the extent that there is no place at all for anything that is not G-dliness."
+          },
+          {
+            "v": 16,
+            "s": 33,
+            "translation": "[In the analogy of what was before the tzimtzum,"
+          },
+          {
+            "v": 16,
+            "s": 34,
+            "translation": "when the Ein Sof light filled the place of the void,"
+          },
+          {
+            "v": 16,
+            "s": 35,
+            "translation": "when there was no place for the existence of the worlds41]."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "The complete nullification of darkness is through the revelation of the light included in the luminary, which is above the concealment of the world, unlike the light after tzimtzum that can be concealed.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "And this is that the nullification of darkness completely is through the revelation of the light included in the luminary"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "(the Ein Sof light before the tzimtzum),"
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "for the light after the tzimtzum,"
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "since its function is to illuminate the worlds,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "from this it is understood that the worlds occupy a place relative to it,"
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "therefore,"
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "the revelation of this light is in a manner that the concealment and hiding of the world is capable of concealing it."
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "That is,"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "in addition to the concealment of the world that exists even when the revelation shines,"
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "that the G-dly revelation in the world through the revelation of this light is in a manner of renewal"
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "(as above),"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "it is possible that the concealment of the world will also conceal this revelation"
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "(so that there will be no G-dly revelation in the world at all,"
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "not even a revelation that is in a manner of renewal)."
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "And in order for there to be a nullification of darkness, it is through the revelation of the essence of the light that is above the light that illuminates the worlds,"
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "for this light the world cannot conceal."
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "And this is what is said in the Midrash42"
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "that the future redemption is analogous to the light of day which cannot be extinguished,"
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "it can be said that the intention in this is for the light that is above any connection to worlds,"
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "for which concealment does not apply."
+          }
+        ]
+      }
+    ]
+  }
+}

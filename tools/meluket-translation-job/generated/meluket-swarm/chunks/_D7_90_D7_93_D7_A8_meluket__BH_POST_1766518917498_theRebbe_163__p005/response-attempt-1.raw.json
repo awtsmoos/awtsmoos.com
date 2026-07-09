@@ -1,0 +1,28 @@
+{
+  "id": "46cd153e-0420-480a-854c-c8153d81d57c",
+  "object": "chat.completion",
+  "created": 1783583780,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917498_theRebbe_163\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917498_theRebbe_163__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>Simply, the true and complete redemption of all Israel throughout all generations will occur very soon.</sectionSummaryBrief>\n    <t s=\"0\">And simply – that in the very near future there will be the true and complete redemption of all Israel throughout all the generations,</t>\n    <t s=\"1\">souls in bodies,</t>\n    <t s=\"2\">through our righteous Moshiach,</t>\n    <t s=\"3\">speedily in our actual times.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 698,
+    "completion_tokens": 226,
+    "total_tokens": 924,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 314
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

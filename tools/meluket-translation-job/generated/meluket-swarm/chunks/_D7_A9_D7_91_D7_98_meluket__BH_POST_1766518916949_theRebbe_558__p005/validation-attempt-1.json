@@ -1,0 +1,399 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 71,
+    "returned": 71,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916949_theRebbe_558\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916949_theRebbe_558__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the term \"Tzivos Hashem\" refers to the sparks refined in Egypt that become included in the name Havayah, and that Israel, as the refiners, are elevated above these sparks.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And this is the meaning of \"And it was on that very day, all the legions of Havayah went out of the land of Egypt,\" and afterward it is written, \"And it was on that very day, Havayah brought out the children of Israel from the land of Egypt upon their legions.\"</t>\n    <t s=\"2\">\"Legions of Havayah\" in the construct state are the legions that were refined in the Egyptian exile and elevated to be included in the name Havayah.</t>\n    <t s=\"3\">Therefore they are called \"Legions of Havayah\" because they are subordinate to and included in the name Havayah.</t>\n    <t s=\"4\">And from the aspect of the sparks that were refined by Israel,</t>\n    <t s=\"5\">Israel also are called \"Legions of Havayah.\"</t>\n    <t s=\"6\">And even more so—\"Havayah brought out the children of Israel... upon their legions\" means that Israel are above the aspect of the sparks that were refined.</t>\n    <t s=\"7\">For since Israel are the refiners of the sparks, they are above them.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that through the work of refining sparks and their inclusion in Havayah, Israel draws down a supernal light that breaks all barriers, unifying the lower worlds with Atzilus.</sectionSummaryBrief>\n    <t s=\"0\">And this is the connection of \"Legions of Havayah\" and \"upon their legions\" to the name Tzevaos,</t>\n    <t s=\"1\">for through the work of refining the sparks and their inclusion in Havayah,</t>\n    <t s=\"2\">\"Legions of Havayah,\"</t>\n    <t s=\"3\">that through this work Israel become \"upon their legions,\"</t>\n    <t s=\"4\">above the aspect of the sparks,</t>\n    <t s=\"5\">behold, through this they draw down a multitude of light from a most supernal place</t>\n    <t s=\"6\">(which is above the aspect of Torah as it is revealed),</t>\n    <t s=\"7\">and this light breaks through all the partitions and screens between Atzilus and Biyah,</t>\n    <t s=\"8\">until even in Biyah it becomes \"He and His causations are one\" as in Atzilus.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section explains that the name Tzevaos is in Netzach and Hod, and through the work of Netzach—victory in battle—a revelation is drawn from the Essence of Ein Sof, connecting to the form of Israel engraved in Him.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And the explanation of the matter</t>\n    <t s=\"2\">(the connection of \"Legions of Havayah\" to the name Tzevaos)</t>\n    <t s=\"3\">in greater depth,</t>\n    <t s=\"4\">behold, the name Tzevaos is in Netzach and Hod.</t>\n    <t s=\"5\">And it is explained by my father-in-law, the Rebbe, in the continuation of the discourse of the day of the Hilula,</t>\n    <t s=\"6\">that the attribute of Netzach is rooted and embedded in the essence of the soul,</t>\n    <t s=\"7\">and for the sake of victory in battle, it is revealed from the essence of the soul.</t>\n    <t s=\"8\">Therefore, through the work of the attribute of Netzach,</t>\n    <t s=\"9\">victory in battle</t>\n    <t s=\"10\">(with the Nefesh HaBahamis),</t>\n    <t s=\"11\">there is drawn and revealed from the Essence of Ein Sof,</t>\n    <t s=\"12\">as explained at length in the continuation,</t>\n    <t s=\"13\">and at greater length</t>\n    <t s=\"14\">(with several additional details)</t>\n    <t s=\"15\">in the discourses of my father-in-law, the Rebbe</t>\n    <t s=\"16\">(the Rebbe Rashab)</t>\n    <t s=\"17\">of blessed memory,</t>\n    <t s=\"18\">up to the matter of \"the righteousness of his nobles in Israel,\"</t>\n    <t s=\"19\">\"nobles\" (parzono) a term meaning open (parzah), as in the verse</t>\n    <t s=\"20\">\"Open (parzot) shall Jerusalem dwell without walls,\"</t>\n    <t s=\"21\">above the measure of the attributes.</t>\n    <t s=\"22\">And based on this, it will be understood that through the work of \"Legions of Havayah\" they draw down the name Tzevaos,</t>\n    <t s=\"23\">for behold, the teaching of the Maggid is known</t>\n    <t s=\"24\">(regarding \"Whom did He consult? The souls of the righteous\"),</t>\n    <t s=\"25\">that Israel, even before they were created</t>\n    <t s=\"26\">(before the entire order of Hishtalshelus about which He consulted),</t>\n    <t s=\"27\">their form was engraved in Him, blessed be He.</t>\n    <t s=\"28\">And through the work of the children of Israel, this matter is drawn and revealed.</t>\n    <t s=\"29\">And therefore, through the work of \"Legions of Havayah,\"</t>\n    <t s=\"30\">the name Tzevaos is drawn,</t>\n    <t s=\"31\">for this name is</t>\n    <t s=\"32\">(as above)</t>\n    <t s=\"33\">in Netzach and Hod,</t>\n    <t s=\"34\">and as my father and teacher, the Rebbe, explains</t>\n    <t s=\"35\">at length, that the letters of the name Tzevaos and their order</t>\n    <t s=\"36\">(Tzadi, Bet,</t>\n    <t s=\"37\">the two Yuds of Aleph,</t>\n    <t s=\"38\">and Tav)</t>\n    <t s=\"39\">indicate Netzach and Hod</t>\n    <t s=\"40\">[In the Pardes</t>\n    <t s=\"41\">and in many places in Kabbalah it is stated that the name Tzevaos is also in Yesod,</t>\n    <t s=\"42\">but what is relevant here is the aspect of the name Tzevaos as it is in Netzach and Hod],</t>\n    <t s=\"43\">and since the form of Israel is engraved in Him, blessed be He,</t>\n    <t s=\"44\">(as above),</t>\n    <t s=\"45\">therefore, through the work of \"Legions of Havayah,\"</t>\n    <t s=\"46\">the work of Netzach,</t>\n    <t s=\"47\">the matter of the name Tzevaos which is in Netzach</t>\n    <t s=\"48\">(and Hod) is effected.</t>\n    <t s=\"49\">And this means that through the work of victory in battle,</t>\n    <t s=\"50\">there is drawn and revealed from the Essence of Ein Sof,</t>\n    <t s=\"51\">and through this drawing, it becomes \"He and His causations are one\"</t>\n    <t s=\"52\">(also)</t>\n    <t s=\"53\">in Biyah.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916949_theRebbe_558",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916949_theRebbe_558__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the term \"Tzivos Hashem\" refers to the sparks refined in Egypt that become included in the name Havayah, and that Israel, as the refiners, are elevated above these sparks.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And this is the meaning of \"And it was on that very day, all the legions of Havayah went out of the land of Egypt,\" and afterward it is written, \"And it was on that very day, Havayah brought out the children of Israel from the land of Egypt upon their legions.\""
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "\"Legions of Havayah\" in the construct state are the legions that were refined in the Egyptian exile and elevated to be included in the name Havayah."
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "Therefore they are called \"Legions of Havayah\" because they are subordinate to and included in the name Havayah."
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "And from the aspect of the sparks that were refined by Israel,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "Israel also are called \"Legions of Havayah.\""
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "And even more so—\"Havayah brought out the children of Israel... upon their legions\" means that Israel are above the aspect of the sparks that were refined."
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "For since Israel are the refiners of the sparks, they are above them."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that through the work of refining sparks and their inclusion in Havayah, Israel draws down a supernal light that breaks all barriers, unifying the lower worlds with Atzilus.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And this is the connection of \"Legions of Havayah\" and \"upon their legions\" to the name Tzevaos,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "for through the work of refining the sparks and their inclusion in Havayah,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "\"Legions of Havayah,\""
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "that through this work Israel become \"upon their legions,\""
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "above the aspect of the sparks,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "behold, through this they draw down a multitude of light from a most supernal place"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "(which is above the aspect of Torah as it is revealed),"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "and this light breaks through all the partitions and screens between Atzilus and Biyah,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "until even in Biyah it becomes \"He and His causations are one\" as in Atzilus."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section explains that the name Tzevaos is in Netzach and Hod, and through the work of Netzach—victory in battle—a revelation is drawn from the Essence of Ein Sof, connecting to the form of Israel engraved in Him.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And the explanation of the matter"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "(the connection of \"Legions of Havayah\" to the name Tzevaos)"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "in greater depth,"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "behold, the name Tzevaos is in Netzach and Hod."
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "And it is explained by my father-in-law, the Rebbe, in the continuation of the discourse of the day of the Hilula,"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "that the attribute of Netzach is rooted and embedded in the essence of the soul,"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "and for the sake of victory in battle, it is revealed from the essence of the soul."
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "Therefore, through the work of the attribute of Netzach,"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "victory in battle"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "(with the Nefesh HaBahamis),"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "there is drawn and revealed from the Essence of Ein Sof,"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "as explained at length in the continuation,"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "and at greater length"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "(with several additional details)"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "in the discourses of my father-in-law, the Rebbe"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "of blessed memory,"
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "up to the matter of \"the righteousness of his nobles in Israel,\""
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "\"nobles\" (parzono) a term meaning open (parzah), as in the verse"
+          },
+          {
+            "v": 14,
+            "s": 20,
+            "translation": "\"Open (parzot) shall Jerusalem dwell without walls,\""
+          },
+          {
+            "v": 14,
+            "s": 21,
+            "translation": "above the measure of the attributes."
+          },
+          {
+            "v": 14,
+            "s": 22,
+            "translation": "And based on this, it will be understood that through the work of \"Legions of Havayah\" they draw down the name Tzevaos,"
+          },
+          {
+            "v": 14,
+            "s": 23,
+            "translation": "for behold, the teaching of the Maggid is known"
+          },
+          {
+            "v": 14,
+            "s": 24,
+            "translation": "(regarding \"Whom did He consult? The souls of the righteous\"),"
+          },
+          {
+            "v": 14,
+            "s": 25,
+            "translation": "that Israel, even before they were created"
+          },
+          {
+            "v": 14,
+            "s": 26,
+            "translation": "(before the entire order of Hishtalshelus about which He consulted),"
+          },
+          {
+            "v": 14,
+            "s": 27,
+            "translation": "their form was engraved in Him, blessed be He."
+          },
+          {
+            "v": 14,
+            "s": 28,
+            "translation": "And through the work of the children of Israel, this matter is drawn and revealed."
+          },
+          {
+            "v": 14,
+            "s": 29,
+            "translation": "And therefore, through the work of \"Legions of Havayah,\""
+          },
+          {
+            "v": 14,
+            "s": 30,
+            "translation": "the name Tzevaos is drawn,"
+          },
+          {
+            "v": 14,
+            "s": 31,
+            "translation": "for this name is"
+          },
+          {
+            "v": 14,
+            "s": 32,
+            "translation": "(as above)"
+          },
+          {
+            "v": 14,
+            "s": 33,
+            "translation": "in Netzach and Hod,"
+          },
+          {
+            "v": 14,
+            "s": 34,
+            "translation": "and as my father and teacher, the Rebbe, explains"
+          },
+          {
+            "v": 14,
+            "s": 35,
+            "translation": "at length, that the letters of the name Tzevaos and their order"
+          },
+          {
+            "v": 14,
+            "s": 36,
+            "translation": "(Tzadi, Bet,"
+          },
+          {
+            "v": 14,
+            "s": 37,
+            "translation": "the two Yuds of Aleph,"
+          },
+          {
+            "v": 14,
+            "s": 38,
+            "translation": "and Tav)"
+          },
+          {
+            "v": 14,
+            "s": 39,
+            "translation": "indicate Netzach and Hod"
+          },
+          {
+            "v": 14,
+            "s": 40,
+            "translation": "[In the Pardes"
+          },
+          {
+            "v": 14,
+            "s": 41,
+            "translation": "and in many places in Kabbalah it is stated that the name Tzevaos is also in Yesod,"
+          },
+          {
+            "v": 14,
+            "s": 42,
+            "translation": "but what is relevant here is the aspect of the name Tzevaos as it is in Netzach and Hod],"
+          },
+          {
+            "v": 14,
+            "s": 43,
+            "translation": "and since the form of Israel is engraved in Him, blessed be He,"
+          },
+          {
+            "v": 14,
+            "s": 44,
+            "translation": "(as above),"
+          },
+          {
+            "v": 14,
+            "s": 45,
+            "translation": "therefore, through the work of \"Legions of Havayah,\""
+          },
+          {
+            "v": 14,
+            "s": 46,
+            "translation": "the work of Netzach,"
+          },
+          {
+            "v": 14,
+            "s": 47,
+            "translation": "the matter of the name Tzevaos which is in Netzach"
+          },
+          {
+            "v": 14,
+            "s": 48,
+            "translation": "(and Hod) is effected."
+          },
+          {
+            "v": 14,
+            "s": 49,
+            "translation": "And this means that through the work of victory in battle,"
+          },
+          {
+            "v": 14,
+            "s": 50,
+            "translation": "there is drawn and revealed from the Essence of Ein Sof,"
+          },
+          {
+            "v": 14,
+            "s": 51,
+            "translation": "and through this drawing, it becomes \"He and His causations are one\""
+          },
+          {
+            "v": 14,
+            "s": 52,
+            "translation": "(also)"
+          },
+          {
+            "v": 14,
+            "s": 53,
+            "translation": "in Biyah."
+          }
+        ]
+      }
+    ]
+  }
+}

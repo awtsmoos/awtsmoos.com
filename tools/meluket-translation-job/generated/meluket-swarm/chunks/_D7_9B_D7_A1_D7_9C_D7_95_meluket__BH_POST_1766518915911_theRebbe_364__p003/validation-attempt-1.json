@@ -1,0 +1,434 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 78,
+    "returned": 78,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915911_theRebbe_364\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that Torah is compared to wine and oil regarding its hidden secrets, while the comparison to water refers to the revealed aspects of Torah, and raises a question about the apparent contradiction with the maamar.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, it is explained in several discourses,</t>\n    <t s=\"2\">that the fact that Torah is compared to wine and oil</t>\n    <t s=\"3\">refers to the secrets of Torah,</t>\n    <t s=\"4\">which are analogous to wine and oil that are concealed and hidden within grapes and olives</t>\n    <t s=\"5\">[And the difference between wine and oil is,</t>\n    <t s=\"6\">that wine is the secrets of Torah,</t>\n    <t s=\"7\">and oil is the secrets within secrets].</t>\n    <t s=\"8\">From this it is understood,</t>\n    <t s=\"9\">that the fact that Torah is compared to water</t>\n    <t s=\"10\">refers to the revealed part of Torah.</t>\n    <t s=\"11\">And as explained in Tanya,</t>\n    <t s=\"12\">that the reason for this, that Torah is compared to water, is that just as water descends from a high place to a low place,</t>\n    <t s=\"13\">so too Torah descended from its place, which is His will and wisdom, blessed be He, and from there it traveled and descended until it clothed itself in physical matters and worldly affairs,</t>\n    <t s=\"14\">for most laws of the Torah are about physical matters.</t>\n    <t s=\"15\">And one must understand,</t>\n    <t s=\"16\">that this explanation is seemingly the opposite of what is explained in this maamar</t>\n    <t s=\"17\">(the discourse \"Baruch She'asah Nissim\")</t>\n    <t s=\"18\">and in the discourses of the festival of Sukkos</t>\n    <t s=\"19\">(regarding the libation of water and wine)</t>\n    <t s=\"20\">that water is superior to wine.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section resolves the contradiction by explaining that water's nature to descend to a low place stems from its very high source, so water is lower in actuality but higher in root, while wine is hidden and requires effort to reveal.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation of this can be stated,</t>\n    <t s=\"1\">based on the well-known principle</t>\n    <t s=\"2\">that whatever is highest descends the lowest.</t>\n    <t s=\"3\">From this it is understood,</t>\n    <t s=\"4\">that the fact that water, in their own essence, have a nature of extension and revelation,</t>\n    <t s=\"5\">to the point that they descend</t>\n    <t s=\"6\">(specifically)</t>\n    <t s=\"7\">to a low place,</t>\n    <t s=\"8\">and even after they have been drawn downward they continue by their nature to a lower place,</t>\n    <t s=\"9\">is because the source of their extension is from the highest place.</t>\n    <t s=\"10\">And based on this, it can be said,</t>\n    <t s=\"11\">that the implication in several discourses that water is lower than wine is from the perspective of their actual nature.</t>\n    <t s=\"12\">For water has a nature of extension and revelation as mentioned,</t>\n    <t s=\"13\">unlike wine, which in its own essence,</t>\n    <t s=\"14\">is concealed and hidden within its grapes,</t>\n    <t s=\"15\">and in order for it to come from concealment to revelation, it requires action and effort.</t>\n    <t s=\"16\">[This is also the reason for the saying \"when wine enters, a secret emerges,\"</t>\n    <t s=\"17\">for just as the wine itself is a revelation of the hidden</t>\n    <t s=\"18\">(that which was initially in concealment</t>\n    <t s=\"19\">(hidden within its grapes)</t>\n    <t s=\"20\">came to revelation),</t>\n    <t s=\"21\">so too it acts upon the person,</t>\n    <t s=\"22\">that he \"brings out\" the secret within him,</t>\n    <t s=\"23\">so that it comes into revelation].</t>\n    <t s=\"24\">And what is explained in these discourses, that water is superior to wine, is from the perspective of the superiority of the source of water,</t>\n    <t s=\"25\">which is also evident in their nature</t>\n    <t s=\"26\">(in actuality),</t>\n    <t s=\"27\">that their descending to a low place is,</t>\n    <t s=\"28\">as mentioned,</t>\n    <t s=\"29\">because in their source they are higher.</t>\n    <t s=\"30\">And this is also why water has no taste,</t>\n    <t s=\"31\">for since even in their descent below it is evident in them that in their source they are higher,</t>\n    <t s=\"32\">therefore,</t>\n    <t s=\"33\">even in their descent below they are above taste</t>\n    <t s=\"34\">(as mentioned in section 3).</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that oil is superior to both wine and water in two aspects: its concealment is greater than that of wine, and it is above the taste and pleasure of man.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">Now, it is explained above</t>\n    <t s=\"2\">(section 1,</t>\n    <t s=\"3\">from the discourse \"Baruch She'asah Nissim\"),</t>\n    <t s=\"4\">that the fact that oil floats on top of all other liquids is because oil is higher than them.</t>\n    <t s=\"5\">And based on what is explained above</t>\n    <t s=\"6\">(section 4),</t>\n    <t s=\"7\">that the superiority of wine over water is that wine in its own essence is in concealment</t>\n    <t s=\"8\">(hidden within its grapes),</t>\n    <t s=\"9\">and the superiority of water over wine is from the perspective of their source, which is evident in them also in that they are above taste,</t>\n    <t s=\"10\">it must be said,</t>\n    <t s=\"11\">that the fact that oil is higher than both wine and water is in both aspects,</t>\n    <t s=\"12\">both in the aspect of its concealment,</t>\n    <t s=\"13\">for the concealment of oil</t>\n    <t s=\"14\">(that it is hidden within olives)</t>\n    <t s=\"15\">is a greater concealment than the concealment of wine</t>\n    <t s=\"16\">(that is hidden within its grapes),</t>\n    <t s=\"17\">and also in that it is above taste</t>\n    <t s=\"18\">(pleasure)</t>\n    <t s=\"19\">of man,</t>\n    <t s=\"20\">as will be explained below</t>\n    <t s=\"21\">(section 7).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915911_theRebbe_364",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that Torah is compared to wine and oil regarding its hidden secrets, while the comparison to water refers to the revealed aspects of Torah, and raises a question about the apparent contradiction with the maamar.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, it is explained in several discourses,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that the fact that Torah is compared to wine and oil"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "refers to the secrets of Torah,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "which are analogous to wine and oil that are concealed and hidden within grapes and olives"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "[And the difference between wine and oil is,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "that wine is the secrets of Torah,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "and oil is the secrets within secrets]."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "From this it is understood,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "that the fact that Torah is compared to water"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "refers to the revealed part of Torah."
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "And as explained in Tanya,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that the reason for this, that Torah is compared to water, is that just as water descends from a high place to a low place,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "so too Torah descended from its place, which is His will and wisdom, blessed be He, and from there it traveled and descended until it clothed itself in physical matters and worldly affairs,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "for most laws of the Torah are about physical matters."
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "And one must understand,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "that this explanation is seemingly the opposite of what is explained in this maamar"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "(the discourse \"Baruch She'asah Nissim\")"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "and in the discourses of the festival of Sukkos"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "(regarding the libation of water and wine)"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "that water is superior to wine."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section resolves the contradiction by explaining that water's nature to descend to a low place stems from its very high source, so water is lower in actuality but higher in root, while wine is hidden and requires effort to reveal.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And the explanation of this can be stated,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "based on the well-known principle"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that whatever is highest descends the lowest."
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "From this it is understood,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "that the fact that water, in their own essence, have a nature of extension and revelation,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "to the point that they descend"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "to a low place,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "and even after they have been drawn downward they continue by their nature to a lower place,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "is because the source of their extension is from the highest place."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "that the implication in several discourses that water is lower than wine is from the perspective of their actual nature."
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "For water has a nature of extension and revelation as mentioned,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "unlike wine, which in its own essence,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "is concealed and hidden within its grapes,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "and in order for it to come from concealment to revelation, it requires action and effort."
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "[This is also the reason for the saying \"when wine enters, a secret emerges,\""
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "for just as the wine itself is a revelation of the hidden"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "(that which was initially in concealment"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(hidden within its grapes)"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "came to revelation),"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "so too it acts upon the person,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "that he \"brings out\" the secret within him,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "so that it comes into revelation]."
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "And what is explained in these discourses, that water is superior to wine, is from the perspective of the superiority of the source of water,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "which is also evident in their nature"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "(in actuality),"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "that their descending to a low place is,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "as mentioned,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "because in their source they are higher."
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "And this is also why water has no taste,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "for since even in their descent below it is evident in them that in their source they are higher,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "therefore,"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "even in their descent below they are above taste"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "(as mentioned in section 3)."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that oil is superior to both wine and water in two aspects: its concealment is greater than that of wine, and it is above the taste and pleasure of man.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "Now, it is explained above"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "(section 1,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "from the discourse \"Baruch She'asah Nissim\"),"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "that the fact that oil floats on top of all other liquids is because oil is higher than them."
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "And based on what is explained above"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "(section 4),"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "that the superiority of wine over water is that wine in its own essence is in concealment"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(hidden within its grapes),"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "and the superiority of water over wine is from the perspective of their source, which is evident in them also in that they are above taste,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "it must be said,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "that the fact that oil is higher than both wine and water is in both aspects,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "both in the aspect of its concealment,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "for the concealment of oil"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "(that it is hidden within olives)"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "is a greater concealment than the concealment of wine"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "(that is hidden within its grapes),"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "and also in that it is above taste"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "(pleasure)"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "of man,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "as will be explained below"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "(section 7)."
+          }
+        ]
+      }
+    ]
+  }
+}

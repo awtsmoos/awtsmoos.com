@@ -1,0 +1,97 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920368_theRebbe_469" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920368_theRebbe_469__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920368_theRebbe_469" title="מאמר השקיפה ממעון קדשך תשכ"ז" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920368_theRebbe_469__p006">
+  <section v="15">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">וזהו הנותן שלג כצמר,</src>
+    <src s="3">כי בכ"א מהם יש יתרון.</src>
+    <src s="4">היתרון דשלג הוא שתיקון ומילוי הפגמים שע"י י"ג תיקוני דיקנא</src>
+    <src s="5">(שלג)</src>
+    <src s="6">היא בפנימיות</src>
+    <src s="7">(בהציור דכחות הגלויים),</src>
+    <src s="8">אבל הוא במדידה והגבלה,</src>
+    <src s="9">דכיון שהוא בדרך פעולה</src>
+    <src s="10">[שהעצם השייך לכחות הגלויים פועל בהם]</src>
+    <src s="11">יש בזה כמה חילוקי דרגות.</src>
+    <src s="12">והיתרון דצמר הוא,</src>
+    <src s="13">דתיקון הפגמים שע"י שער רישי' הוא שמתגלה בהם שבפנימיות</src>
+    <src s="14">(מצד העצם שלהם)</src>
+    <src s="15">אין שייך כלל שיהי' בהם פגם.</src>
+    <src s="16">וענין הנותן שלג כצמר,</src>
+    <src s="17">שגם בשלג יומשך בחינת צמר,</src>
+    <src s="18">הוא – שיהיו שתי המעלות.</src>
+    <src s="19">היינו,</src>
+    <src s="20">דזה שמצד העצם אין שייך בהם פגם,</src>
+    <src s="21">יפעול גם בהציור שלהם.</src>
+  </section>
+  <section v="16">
+    <src s="0">ובכדי שיהי' החיבור דצמר ושלג הוא ע"י המשכה ממקום הגבוה משניהם</src>
+    <src s="1">[כמובא לעיל</src>
+    <src s="2">(סעיף ח)</src>
+    <src s="3">מהמאמר].</src>
+    <src s="4">וי"ל הביאור בזה,</src>
+    <src s="5">דזה שעצם הנשמה והציור דכחות הם</src>
+    <src s="6">(דוגמת)</src>
+    <src s="7">שני ענינים,</src>
+    <src s="8">הוא לפי שגם עצם הנשמה היא מוגדרת בגדר,</src>
+    <src s="9">והגדר שלה הוא למעלה מציור דכחות.</src>
+    <src s="10">אבל מצד עצם הנשמה כמו שהיא מושרשת בהעצמות,</src>
+    <src s="11">הפשיטות דהנשמה והציור דשכל ומדות שבה הם כולא חד65.</src>
+    <src s="12">וע"י גילוי בחינה זו דהנשמה,</src>
+    <src s="13">גם הכחות דהנשמה</src>
+    <src s="14">(הציור דהכחות)</src>
+    <src s="15">הם באופן שאין שייך שיהיו שלא כפי הכוונה.</src>
+    <src s="16">וע"י ההמשכה דעצם הנשמה</src>
+    <src s="17">(צמר)</src>
+    <src s="18">בכחות הפרטיים</src>
+    <src s="19">(שלג)</src>
+    <src s="20">נעשה עילוי גם בעצם הנשמה,</src>
+    <src s="21">כי עי"ז מתגלה בה שרשה כמו שהיא מושרשת בהעצמות.</src>
+  </section>
+  <section v="17">
+    <src s="0">ועפ"ז יש לבאר השייכות דענין הנותן שלג כצמר לענין כי חזק בריחי שעריך,</src>
+    <src s="1">דצמר ושלג הם דוגמת מקיף ופנימי.</src>
+    <src s="2">וע"י החיבור דצמר ושלג,</src>
+    <src s="3">דעצם הנשמה שלמעלה מכחות הגלויים</src>
+    <src s="4">(צמר,</src>
+    <src s="5">מקיף)</src>
+    <src s="6">נמשכת בכחות הגלויים</src>
+    <src s="7">(שלג,</src>
+    <src s="8">פנימי),</src>
+    <src s="9">עי"ז נעשה עד"ז בהגילויים דלמעלה,</src>
+    <src s="10">שגם המקיפים נמשכים בפנימיות.</src>
+  </section>
+</awtsmoosMeluketSource>

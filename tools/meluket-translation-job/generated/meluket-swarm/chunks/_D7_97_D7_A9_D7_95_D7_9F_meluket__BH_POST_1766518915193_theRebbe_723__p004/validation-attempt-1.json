@@ -1,0 +1,409 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 73,
+    "returned": 73,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915193_theRebbe_723\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the phrase \"Yitzchak ben Avraham\" indicates the elevation itself comes through the precedence of drawing down, while \"Avraham gave birth to Yitzchak\" means the power of the birth is given to Yitzchak, paralleling the two aspects in the giving of power from Zeir Anpin to Malchus regarding \"tomorrow is the new moon.\"</sectionSummaryBrief>\n    <t s=\"0\">And this is: \"Yitzchak ben Avraham, Avraham gave birth to Yitzchak,\"</t>\n    <t s=\"1\">\"Yitzchak ben Avraham\"</t>\n    <t s=\"2\">(that Yitzchak himself is the son of Avraham)</t>\n    <t s=\"3\">is that the elevation itself comes about through the precedence of the drawing down,</t>\n    <t s=\"4\">and \"Avraham gave birth to Yitzchak\"</t>\n    <t s=\"5\">—\"gave birth\" is a transitive verb, meaning he gives the power of procreation into Yitzchak—</t>\n    <t s=\"6\">it is</t>\n    <t s=\"7\">that the power in the elevation of the lower to reach the upper is drawn down</t>\n    <t s=\"8\">(revealed)</t>\n    <t s=\"9\">through the drawing down from above</t>\n    <t s=\"10\">(which precedes the elevation).</t>\n    <t s=\"11\">And it can be said</t>\n    <t s=\"12\">that this is the case in \"And Yehonatan said to him: Tomorrow is the new moon,\"</t>\n    <t s=\"13\">the drawing down of the giving of power from Zeir Anpin to Malchus concerning the matter of \"tomorrow is the new moon,\"</t>\n    <t s=\"14\">which contains two aspects,</t>\n    <t s=\"15\">analogous to the two aspects in the drawing down from Avraham to Yitzchak:</t>\n    <t s=\"16\">The giving of power concerning the matter of \"your seat will be missed,\"</t>\n    <t s=\"17\">the nullification and elevation of Malchus—like \"Yitzchak ben Avraham,\"</t>\n    <t s=\"18\">and the giving of power whereby \"your seat will be missed\" will bring about \"and you will be missed\"—like \"Avraham gave birth to Yitzchak.\"</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section discusses two aspects of the superiority of elevation from below to above relative to drawing down from above to below: the elevation arouses a higher drawing down, and the elevation itself is even more sublime, returning to the very essence of the Emanator.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">Now, regarding the superiority of elevation from below to above over drawing down from above to below,</t>\n    <t s=\"2\">there are two aspects:</t>\n    <t s=\"3\">That the elevation from below to above arouses and draws down from a place more sublime than the drawing down that comes from above on its own.</t>\n    <t s=\"4\">[As brought above in the discourses, that the superiority of elevation over drawing down is like \"if a woman emits seed first, she gives birth to a male,\"</t>\n    <t s=\"5\">that the birth of love in the aspect of the male</t>\n    <t s=\"6\">(great love)</t>\n    <t s=\"7\">comes from the arousal from above,</t>\n    <t s=\"8\">except that the fact that the arousal from above is drawn from the inwardness of the light</t>\n    <t s=\"9\">(therefore great love is born from it)</t>\n    <t s=\"10\">is because its drawing down is through the arousal from below.]</t>\n    <t s=\"11\">And the superiority of the elevation itself,</t>\n    <t s=\"12\">which is more sublime even than the drawing down that comes through elevation.</t>\n    <t s=\"13\">And as explained in the discourses,</t>\n    <t s=\"14\">the superiority of the returning light</t>\n    <t s=\"15\">(elevation)</t>\n    <t s=\"16\">is that it returns to the very essence of the Emanator.</t>\n    <t s=\"17\">Therefore, in the future, specifically to Yitzchak it will be said \"for You are our father,\"</t>\n    <t s=\"18\">because then the superiority of the elevation itself will be revealed.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the two aspects are interconnected, and that the concept of \"Yitzchak (ben Avraham)\" is more sublime than \"Avraham gave birth to Yitzchak,\" as the former represents the elevation itself and the latter the drawing down through elevation.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said</t>\n    <t s=\"1\">that these two aspects are related to each other.</t>\n    <t s=\"2\">For the fact that through elevation,</t>\n    <t s=\"3\">the drawing down is more sublime,</t>\n    <t s=\"4\">is due to the superiority of the elevation itself.</t>\n    <t s=\"5\">But now,</t>\n    <t s=\"6\">when the primary superiority is in the drawing down from above,</t>\n    <t s=\"7\">the superiority of elevation is that the drawing down through it is a more sublime drawing down,</t>\n    <t s=\"8\">but in the future the superiority of the elevation itself will be revealed.</t>\n    <t s=\"9\">And based on this, it can be said</t>\n    <t s=\"10\">that the concept of Yitzchak</t>\n    <t s=\"11\">[ben Avraham]</t>\n    <t s=\"12\">is more sublime than the concept of</t>\n    <t s=\"13\">[Avraham]</t>\n    <t s=\"14\">gave birth to Yitzchak.</t>\n    <t s=\"15\">For the concept of \"gave birth to Yitzchak,\"</t>\n    <t s=\"16\">the drawing down of the power of procreation into Yitzchak,</t>\n    <t s=\"17\">the birth of love in the aspect of the male through the elevation of the female waters</t>\n    <t s=\"18\">(\"when a woman conceives and gives seed\"),</t>\n    <t s=\"19\">is the superiority of the drawing down that comes through elevation.</t>\n    <t s=\"20\">And the concept of Yitzchak</t>\n    <t s=\"21\">(ben Avraham)</t>\n    <t s=\"22\">is the superiority of the elevation itself.</t>\n    <t s=\"23\">And this is why in \"Yitzchak ben Avraham,\" Yitzchak is mentioned before Avraham,</t>\n    <t s=\"24\">while in \"Avraham gave birth to Yitzchak,\" Avraham is mentioned before Yitzchak,</t>\n    <t s=\"25\">because in \"Avraham gave birth to Yitzchak,\"</t>\n    <t s=\"26\">the primary superiority is in the drawing down,</t>\n    <t s=\"27\">so the beginning and the main thing is Avraham,</t>\n    <t s=\"28\">while in \"Yitzchak ben Avraham\"</t>\n    <t s=\"29\">(Yitzchak himself),</t>\n    <t s=\"30\">the primary superiority is in the elevation,</t>\n    <t s=\"31\">so Yitzchak is mentioned first,</t>\n    <t s=\"32\">because he is the main thing</t>\n    <t s=\"33\">(and afterwards it explains that the way to arrive at the elevation of Yitzchak is through a drawing down from above to below,</t>\n    <t s=\"34\">\"ben Avraham\").</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915193_theRebbe_723",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the phrase \"Yitzchak ben Avraham\" indicates the elevation itself comes through the precedence of drawing down, while \"Avraham gave birth to Yitzchak\" means the power of the birth is given to Yitzchak, paralleling the two aspects in the giving of power from Zeir Anpin to Malchus regarding \"tomorrow is the new moon.\"",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And this is: \"Yitzchak ben Avraham, Avraham gave birth to Yitzchak,\""
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "\"Yitzchak ben Avraham\""
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(that Yitzchak himself is the son of Avraham)"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "is that the elevation itself comes about through the precedence of the drawing down,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "and \"Avraham gave birth to Yitzchak\""
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "—\"gave birth\" is a transitive verb, meaning he gives the power of procreation into Yitzchak—"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "it is"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "that the power in the elevation of the lower to reach the upper is drawn down"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "(revealed)"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "through the drawing down from above"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "(which precedes the elevation)."
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "that this is the case in \"And Yehonatan said to him: Tomorrow is the new moon,\""
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "the drawing down of the giving of power from Zeir Anpin to Malchus concerning the matter of \"tomorrow is the new moon,\""
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "which contains two aspects,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "analogous to the two aspects in the drawing down from Avraham to Yitzchak:"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "The giving of power concerning the matter of \"your seat will be missed,\""
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "the nullification and elevation of Malchus—like \"Yitzchak ben Avraham,\""
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "and the giving of power whereby \"your seat will be missed\" will bring about \"and you will be missed\"—like \"Avraham gave birth to Yitzchak.\""
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section discusses two aspects of the superiority of elevation from below to above relative to drawing down from above to below: the elevation arouses a higher drawing down, and the elevation itself is even more sublime, returning to the very essence of the Emanator.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "Now, regarding the superiority of elevation from below to above over drawing down from above to below,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "there are two aspects:"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "That the elevation from below to above arouses and draws down from a place more sublime than the drawing down that comes from above on its own."
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "[As brought above in the discourses, that the superiority of elevation over drawing down is like \"if a woman emits seed first, she gives birth to a male,\""
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "that the birth of love in the aspect of the male"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "(great love)"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "comes from the arousal from above,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "except that the fact that the arousal from above is drawn from the inwardness of the light"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "(therefore great love is born from it)"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "is because its drawing down is through the arousal from below.]"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "And the superiority of the elevation itself,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "which is more sublime even than the drawing down that comes through elevation."
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "And as explained in the discourses,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "the superiority of the returning light"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "(elevation)"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "is that it returns to the very essence of the Emanator."
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "Therefore, in the future, specifically to Yitzchak it will be said \"for You are our father,\""
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "because then the superiority of the elevation itself will be revealed."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the two aspects are interconnected, and that the concept of \"Yitzchak (ben Avraham)\" is more sublime than \"Avraham gave birth to Yitzchak,\" as the former represents the elevation itself and the latter the drawing down through elevation.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that these two aspects are related to each other."
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "For the fact that through elevation,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "the drawing down is more sublime,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "is due to the superiority of the elevation itself."
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "But now,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "when the primary superiority is in the drawing down from above,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "the superiority of elevation is that the drawing down through it is a more sublime drawing down,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "but in the future the superiority of the elevation itself will be revealed."
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "And based on this, it can be said"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "that the concept of Yitzchak"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "[ben Avraham]"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "is more sublime than the concept of"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "[Avraham]"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "gave birth to Yitzchak."
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "For the concept of \"gave birth to Yitzchak,\""
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "the drawing down of the power of procreation into Yitzchak,"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "the birth of love in the aspect of the male through the elevation of the female waters"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "(\"when a woman conceives and gives seed\"),"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "is the superiority of the drawing down that comes through elevation."
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "And the concept of Yitzchak"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "(ben Avraham)"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "is the superiority of the elevation itself."
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "And this is why in \"Yitzchak ben Avraham,\" Yitzchak is mentioned before Avraham,"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "while in \"Avraham gave birth to Yitzchak,\" Avraham is mentioned before Yitzchak,"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "because in \"Avraham gave birth to Yitzchak,\""
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "the primary superiority is in the drawing down,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "so the beginning and the main thing is Avraham,"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "while in \"Yitzchak ben Avraham\""
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "(Yitzchak himself),"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "the primary superiority is in the elevation,"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "so Yitzchak is mentioned first,"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "because he is the main thing"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "(and afterwards it explains that the way to arrive at the elevation of Yitzchak is through a drawing down from above to below,"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "\"ben Avraham\")."
+          }
+        ]
+      }
+    ]
+  }
+}

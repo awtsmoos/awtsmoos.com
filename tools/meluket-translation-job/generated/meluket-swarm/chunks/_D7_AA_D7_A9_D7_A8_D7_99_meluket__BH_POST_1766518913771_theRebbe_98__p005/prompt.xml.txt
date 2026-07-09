@@ -1,0 +1,104 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" title="מאמר יו"ט של ר"ה תשל"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p005">
+  <section v="12">
+    <src s="0">ח)</src>
+    <src s="1">ואולי יש להוסיף,</src>
+    <src s="2">דזה שארז"ל שהטעם על זה שהאדם נברא בסוף הוא כדי שיכנס לסעודה מיד,</src>
+    <src s="3">הכוונה בזה היא,</src>
+    <src s="4">לא רק להעולם שהאדם צריך לעשותו דירה לו ית',</src>
+    <src s="5">אלא גם להנתינת כח להאדם,</src>
+    <src s="6">משביעין אותו מלשון שובע</src>
+    <src s="7">(ענין סעודה),</src>
+    <src s="8">שיוכל לעשות את העולם דירה לו ית'.</src>
+    <src s="9">ועפ"ז יש לומר,</src>
+    <src s="10">דזה שהאדם הוא קדם למעשה בראשית והכל נברא בשבילו,</src>
+    <src s="11">נכלל בזה גם השבועה.</src>
+    <src s="12">דהכוונה בהשבועה,</src>
+    <src s="13">המשכת בחינת עתיק</src>
+    <src s="14">[וי"ל יתירה מזו,</src>
+    <src s="15">גם הכוונה בבחינת עתיק עצמה],</src>
+    <src s="16">היא בשביל עבודת האדם.</src>
+    <src s="17">וע"י שהאדם יקיים את השבועה,</src>
+    <src s="18">נעשה בה עילוי,</src>
+    <src s="19">שנשלמת כוונת השבועה.</src>
+  </section>
+  <section v="13">
+    <src s="0">ט)</src>
+    <src s="1">והנה זה שנת"ל</src>
+    <src s="2">(סעיף ז)</src>
+    <src s="3">שבראש השנה נמשכת נתינת כח להאדם לפעול בהעולם ולעשותו דירה לו ית',</src>
+    <src s="4">יש לקשר עם המבואר בכ"מ54,</src>
+    <src s="5">שבתחלת הבריאה,</src>
+    <src s="6">המשכת הרצון והתענוג בבריאת העולמות היתה מצד עצמו,</src>
+    <src s="7">כי חפץ חסד הוא55,</src>
+    <src s="8">והמשכת הרצון והתענוג בבריאת העולם עכשיו היא ע"י עבודת האדם,</src>
+    <src s="9">דיש לומר,</src>
+    <src s="10">דחילוק זה הוא לא רק באופן ההמשכה</src>
+    <src s="11">(אם ההמשכה היא מצד עצמה או שההמשכה היא ע"י עבודת האדם)</src>
+    <src s="12">אלא גם בהרצון והתענוג עצמם.</src>
+    <src s="13">דהרצון והתענוג שבבריאת העולמות שמצד חפץ חסד הוא בבריאת העולמות,</src>
+    <src s="14">שעי"ז מתגלה חסדו ית'56,</src>
+    <src s="15">והרצון והתענוג שבבריאת העולמות שע"י עבודת האדם הוא זה שנתאוה הקב"ה להיות לו ית' דירה בתחתונים57</src>
+    <src s="16">ושעשיית הדירה תהי' ע"י עבודת האדם.</src>
+    <src s="17">וע"י גילוי תענוג זה בבריאת העולמות,</src>
+    <src s="18">שהכוונה דבריאת העולמות היא בשביל ישראל,</src>
+    <src s="19">יש כח בהאדם</src>
+    <src s="20">(אתם קרויין אדם)</src>
+    <src s="21">לפעול בהבריאה ולעשות דירה לו ית'.</src>
+    <src s="22">דזה שנת"ל שהנתינת כח להאדם לפעול בהבריאה הוא גילוי שרש הנשמה</src>
+    <src s="23">(ענין השבועה),</src>
+    <src s="24">הוא בנוגע להאדם.</src>
+    <src s="25">והפעולה שנעשית בהעולם ע"י עבודת האדם</src>
+    <src s="26">(שע"י עבודת האדם נעשה העולם דירה לו ית')</src>
+    <src s="27">הוא ע"י גילוי כוונת הבריאה,</src>
+    <src s="28">שבריאת העולם היא בשביל ישראל.</src>
+  </section>
+  <section v="14">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">ועפ"ז יש לבאר שגם בראש השנה שחל להיות בשבת ישנה מעלת העבודה58,</src>
+    <src s="3">כי הכוונה בהמשכת התענוג</src>
+    <src s="4">[וגם בהתענוג עצמו]</src>
+    <src s="5">היא בשביל האדם,</src>
+    <src s="6">שע"י התענוג תהי' נתינת כח לאדם לעשות את העולם דירה לו ית'</src>
+    <src s="7">(וע"ד שנת"ל סעיף ח בענין השבועה),</src>
+    <src s="8">דהנתינת כח להאדם הוא דוקא כשהמשכת התענוג הוא בגילוי.</src>
+    <src s="9">וכיון שגם בראש השנה שחל להיות בשבת גילוי התענוג הוא ע"י אמירת פסוקי שופרות</src>
+    <src s="10">(כמבואר לעיל סעיף ב מהמשך תרס"ו),</src>
+    <src s="11">נמצא,</src>
+    <src s="12">שגם העבודה דאמירת פסוקי שופרות היא בנוגע לענין עיקרי.</src>
+  </section>
+</awtsmoosMeluketSource>

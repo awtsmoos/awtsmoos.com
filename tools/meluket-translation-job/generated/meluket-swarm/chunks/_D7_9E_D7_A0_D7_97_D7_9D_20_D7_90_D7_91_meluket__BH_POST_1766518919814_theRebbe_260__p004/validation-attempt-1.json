@@ -1,0 +1,484 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 88,
+    "returned": 88,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919814_theRebbe_260\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains the two interpretations of \"the field that Hashem blessed\" as Gan Eden and the Beis HaMikdash, and how both have a level of inherent light and an additional light drawn through service.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">Now, it is explained in the maamar,</t>\n    <t s=\"2\">that regarding \"the field that Hashem blessed,\"</t>\n    <t s=\"3\">there are two interpretations.</t>\n    <t s=\"4\">Rashi's interpretation is that it is Gan Eden,</t>\n    <t s=\"5\">and the Targum Yonasan's interpretation is that it is the Beis HaMikdash.</t>\n    <t s=\"6\">And as explained in many places,</t>\n    <t s=\"7\">the Beis HaMikdash is like Gan Eden.</t>\n    <t s=\"8\">And just as</t>\n    <t s=\"9\">in Gan Eden there are two levels,</t>\n    <t s=\"10\">Gan Eden in its own right and the additional light drawn into it through service,</t>\n    <t s=\"11\">similarly is it in the Beis HaMikdash,</t>\n    <t s=\"12\">for in addition to the revelation that was in the Beis HaMikdash in its own right,</t>\n    <t s=\"13\">through the service in the Beis HaMikdash</t>\n    <t s=\"14\">(the service of the offerings)</t>\n    <t s=\"15\">a more elevated revelation shone within it.</t>\n    <t s=\"16\">And based on what is stated in the maamar, that the concept of \"the moon stands in its fullness\" is</t>\n    <t s=\"17\">(primarily)</t>\n    <t s=\"18\">through the service in the field</t>\n    <t s=\"19\">(\"a king is served by the field\"),</t>\n    <t s=\"20\">it is understood,</t>\n    <t s=\"21\">that likewise, regarding the Beis HaMikdash,</t>\n    <t s=\"22\">the concept of \"the moon stands in its fullness\" that was in the Beis HaMikdash in its own right,</t>\n    <t s=\"23\">that is, the place of the Beis HaMikdash, of which it is said \"there is no ordinary place,\"</t>\n    <t s=\"24\">and also the time of the building of the Beis HaMikdash, which was built by Shlomo in the fifteenth generation from Avraham, when \"the moon stood in its fullness,\"</t>\n    <t s=\"25\">is analogous to the revelation in Gan Eden in its own right,</t>\n    <t s=\"26\">[which is] \"field,\"</t>\n    <t s=\"27\">and the primary \"moon stands in its fullness\" that was in the Beis HaMikdash is that through the service in the Beis HaMikdash, an additional light was drawn into it, which is above the chain of descent,</t>\n    <t s=\"28\">\"a king is served by the field.\"</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section distinguishes between the limited light of the Beis HaMikdash inherent to the time of the Temple and the unlimited light drawn through service that continues even during exile.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, it can be said,</t>\n    <t s=\"1\">that the revelation that was in the Beis HaMikdash in its own right,</t>\n    <t s=\"2\">its drawing down was only during the time of the Temple.</t>\n    <t s=\"3\">And as explained in the maamar,</t>\n    <t s=\"4\">the difference between the time of the Temple and the time of exile is analogous to the difference between the upper hemisphere of the moon and its lower hemisphere.</t>\n    <t s=\"5\">Therefore,</t>\n    <t s=\"6\">since the revelation that was in the Beis HaMikdash in its own right is a limited light that shines only</t>\n    <t s=\"7\">in the level of Malchus that receives from Z'eir Anpin</t>\n    <t s=\"8\">(the upper hemisphere of the moon),</t>\n    <t s=\"9\">its drawing down was only during the time of the Temple.</t>\n    <t s=\"10\">But the light that was added in the Beis HaMikdash through the service</t>\n    <t s=\"11\">[the service of the offerings,</t>\n    <t s=\"12\">and likewise the service of \"make for Me a Sanctuary\"],</t>\n    <t s=\"13\">since this light is without limit, to which cessation does not apply,</t>\n    <t s=\"14\">its drawing down is also during the time of exile.</t>\n    <t s=\"15\">However, due to the descent of the time of exile,</t>\n    <t s=\"16\">the light is not felt in the world</t>\n    <t s=\"17\">(as will be explained in section 6).</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section presents a second interpretation of \"a king is served by the field\" as a negative concept, explaining that this descent enables a superior revelation of the Crown (Kesser) that is beyond all comparison.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And the maamar continues,</t>\n    <t s=\"2\">that there is another interpretation in the Zohar</t>\n    <t s=\"3\">regarding \"a king is served by the field,\"</t>\n    <t s=\"4\">that it is for the worse.</t>\n    <t s=\"5\">For \"field\" is the field of the Other Side</t>\n    <t s=\"6\">[as in \"in the field she was found\"],</t>\n    <t s=\"7\">and \"a king is served by the field\" is that the kingship of holiness is served by the field of the Other Side.</t>\n    <t s=\"8\">And it can be said,</t>\n    <t s=\"9\">that this interpretation of \"a king is served by the field\" coming after and in continuation of the interpretation that \"a king is served by the field\" is for the better,</t>\n    <t s=\"10\">is,</t>\n    <t s=\"11\">because the existence of the concept of \"a king is served by the field\" for the worse is in order that the concept of \"a king is served by the field\" for the better,</t>\n    <t s=\"12\">the drawing down of the Supernal King</t>\n    <t s=\"13\">(Kesser),</t>\n    <t s=\"14\">will be in a more elevated manner.</t>\n    <t s=\"15\">And it can be said that the enhancement added to the drawing down of Kesser through the descent</t>\n    <t s=\"16\">(of \"a king is served by the field\" for the worse)</t>\n    <t s=\"17\">relative to the drawing down that preceded the descent,</t>\n    <t s=\"18\">is an addition that is beyond comparison.</t>\n    <t s=\"19\">And to the extent that relative to the drawing down after the descent,</t>\n    <t s=\"20\">the drawing down that was beforehand is within the order of the chain of descent.</t>\n    <t s=\"21\">And this is what our sages said,</t>\n    <t s=\"22\">that \"a lion arose in the constellation of Leo and destroyed Ariel... is in order that a lion will come in the constellation of Leo and build Ariel,\"</t>\n    <t s=\"23\">and it is known</t>\n    <t s=\"24\">that \"a lion will come\"</t>\n    <t s=\"25\">[this is the Holy One, blessed be He,</t>\n    <t s=\"26\">of Whom it is written,</t>\n    <t s=\"27\">\"a lion has roared, who will not fear\"]</t>\n    <t s=\"28\">is the revelation of Kesser, which is above the chain of descent.</t>\n    <t s=\"29\">And from the fact that in order for there to be \"a lion will come\"</t>\n    <t s=\"30\">(the revelation of Kesser, which is above the chain of descent)</t>\n    <t s=\"31\">it was necessary for \"a lion arose... and destroyed Ariel,\"</t>\n    <t s=\"32\">even though the concept of \"a king is served by the field\"</t>\n    <t s=\"33\">(for the better)</t>\n    <t s=\"34\">also existed beforehand,</t>\n    <t s=\"35\">it is understood,</t>\n    <t s=\"36\">that the drawing down of Kesser</t>\n    <t s=\"37\">(the Supernal King)</t>\n    <t s=\"38\">that was beforehand,</t>\n    <t s=\"39\">relative to the drawing down after the descent,</t>\n    <t s=\"40\">is within the order of the chain of descent.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919814_theRebbe_260",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains the two interpretations of \"the field that Hashem blessed\" as Gan Eden and the Beis HaMikdash, and how both have a level of inherent light and an additional light drawn through service.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "Now, it is explained in the maamar,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that regarding \"the field that Hashem blessed,\""
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "there are two interpretations."
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "Rashi's interpretation is that it is Gan Eden,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and the Targum Yonasan's interpretation is that it is the Beis HaMikdash."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "And as explained in many places,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "the Beis HaMikdash is like Gan Eden."
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "And just as"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "in Gan Eden there are two levels,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "Gan Eden in its own right and the additional light drawn into it through service,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "similarly is it in the Beis HaMikdash,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "for in addition to the revelation that was in the Beis HaMikdash in its own right,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "through the service in the Beis HaMikdash"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "(the service of the offerings)"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "a more elevated revelation shone within it."
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "And based on what is stated in the maamar, that the concept of \"the moon stands in its fullness\" is"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "through the service in the field"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "(\"a king is served by the field\"),"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "that likewise, regarding the Beis HaMikdash,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "the concept of \"the moon stands in its fullness\" that was in the Beis HaMikdash in its own right,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "that is, the place of the Beis HaMikdash, of which it is said \"there is no ordinary place,\""
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "and also the time of the building of the Beis HaMikdash, which was built by Shlomo in the fifteenth generation from Avraham, when \"the moon stood in its fullness,\""
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "is analogous to the revelation in Gan Eden in its own right,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "[which is] \"field,\""
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "and the primary \"moon stands in its fullness\" that was in the Beis HaMikdash is that through the service in the Beis HaMikdash, an additional light was drawn into it, which is above the chain of descent,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "\"a king is served by the field.\""
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section distinguishes between the limited light of the Beis HaMikdash inherent to the time of the Temple and the unlimited light drawn through service that continues even during exile.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "that the revelation that was in the Beis HaMikdash in its own right,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "its drawing down was only during the time of the Temple."
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "And as explained in the maamar,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "the difference between the time of the Temple and the time of exile is analogous to the difference between the upper hemisphere of the moon and its lower hemisphere."
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "since the revelation that was in the Beis HaMikdash in its own right is a limited light that shines only"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "in the level of Malchus that receives from Z'eir Anpin"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(the upper hemisphere of the moon),"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "its drawing down was only during the time of the Temple."
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "But the light that was added in the Beis HaMikdash through the service"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "[the service of the offerings,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "and likewise the service of \"make for Me a Sanctuary\"],"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "since this light is without limit, to which cessation does not apply,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "its drawing down is also during the time of exile."
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "However, due to the descent of the time of exile,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "the light is not felt in the world"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "(as will be explained in section 6)."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section presents a second interpretation of \"a king is served by the field\" as a negative concept, explaining that this descent enables a superior revelation of the Crown (Kesser) that is beyond all comparison.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And the maamar continues,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that there is another interpretation in the Zohar"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "regarding \"a king is served by the field,\""
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "that it is for the worse."
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "For \"field\" is the field of the Other Side"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "[as in \"in the field she was found\"],"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "and \"a king is served by the field\" is that the kingship of holiness is served by the field of the Other Side."
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "that this interpretation of \"a king is served by the field\" coming after and in continuation of the interpretation that \"a king is served by the field\" is for the better,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "is,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "because the existence of the concept of \"a king is served by the field\" for the worse is in order that the concept of \"a king is served by the field\" for the better,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "the drawing down of the Supernal King"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "(Kesser),"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "will be in a more elevated manner."
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "And it can be said that the enhancement added to the drawing down of Kesser through the descent"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "(of \"a king is served by the field\" for the worse)"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "relative to the drawing down that preceded the descent,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "is an addition that is beyond comparison."
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "And to the extent that relative to the drawing down after the descent,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "the drawing down that was beforehand is within the order of the chain of descent."
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "And this is what our sages said,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "that \"a lion arose in the constellation of Leo and destroyed Ariel... is in order that a lion will come in the constellation of Leo and build Ariel,\""
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "and it is known"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "that \"a lion will come\""
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "[this is the Holy One, blessed be He,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "of Whom it is written,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "\"a lion has roared, who will not fear\"]"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "is the revelation of Kesser, which is above the chain of descent."
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "And from the fact that in order for there to be \"a lion will come\""
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "(the revelation of Kesser, which is above the chain of descent)"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "it was necessary for \"a lion arose... and destroyed Ariel,\""
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "even though the concept of \"a king is served by the field\""
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "(for the better)"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "also existed beforehand,"
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "that the drawing down of Kesser"
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "(the Supernal King)"
+          },
+          {
+            "v": 11,
+            "s": 38,
+            "translation": "that was beforehand,"
+          },
+          {
+            "v": 11,
+            "s": 39,
+            "translation": "relative to the drawing down after the descent,"
+          },
+          {
+            "v": 11,
+            "s": 40,
+            "translation": "is within the order of the chain of descent."
+          }
+        ]
+      }
+    ]
+  }
+}

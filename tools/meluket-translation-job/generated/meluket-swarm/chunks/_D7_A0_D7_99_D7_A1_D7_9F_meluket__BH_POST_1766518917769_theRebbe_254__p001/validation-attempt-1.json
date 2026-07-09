@@ -1,0 +1,374 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 66,
+    "returned": 66,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917769_theRebbe_254\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917769_theRebbe_254__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">11 Nissan 5731</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section discusses the name of the tribe Asher, its connection to Israel's praise and redemption, and raises questions about the nature of choice between Israel and G-d.</sectionSummaryBrief>\n    <t s=\"0\">\"On the eleventh day, the prince of the children of Asher [offered].\"</t>\n    <t s=\"1\">And it is brought in the Midrash:</t>\n    <t s=\"2\">All the tribes were named for the sake of Israel's redemption and for their praise.</t>\n    <t s=\"3\">And Asher was named for the sake of Israel's redemption, as it is said:</t>\n    <t s=\"4\">\"And all nations shall call you fortunate, for you shall be a desirable land, says the L-rd of Hosts.\"</t>\n    <t s=\"5\">And for their praise, as it is said:</t>\n    <t s=\"6\">\"Fortunate is the people for whom it is so; fortunate is the people whose G-d is the L-rd.\"</t>\n    <t s=\"7\">The good fortune of Israel is only because they chose the Holy One, blessed be He, to be their G-d.</t>\n    <t s=\"8\">And the Holy One, blessed be He, chose them to be His treasured people.</t>\n    <t s=\"9\">Therefore, when the prince of Asher came to offer,</t>\n    <t s=\"10\">he offered his sacrifice regarding the choice that the Holy One, blessed be He, chose Israel from among all the nations,</t>\n    <t s=\"11\">as it is said:</t>\n    <t s=\"12\">\"And the L-rd your G-d has chosen you to be His treasured people.\"</t>\n    <t s=\"13\">And it needs to be understood:</t>\n    <t s=\"14\">For at the beginning of the matter, it says that Israel's good fortune is that they chose the Holy One, blessed be He</t>\n    <t s=\"15\">(and that He then chose them seems to be an additional matter).</t>\n    <t s=\"16\">And afterwards it says that Asher</t>\n    <t s=\"17\">(for the name of Israel's good fortune)</t>\n    <t s=\"18\">offered his sacrifice regarding the choice that the Holy One, blessed be He, chose Israel.</t>\n    <t s=\"19\">Also, it needs to be understood:</t>\n    <t s=\"20\">Choice applies specifically to two things that are equal,</t>\n    <t s=\"21\">or where each has a virtue that the other lacks.</t>\n    <t s=\"22\">But regarding the Holy One, blessed be He, and, by contrast, the alien gods,</t>\n    <t s=\"23\">how can it be said that Israel chose the Holy One, blessed be He?</t>\n    <t s=\"24\">And similarly, regarding the Holy One, blessed be He, choosing Israel,</t>\n    <t s=\"25\">Israel is incomparably superior to all the nations,</t>\n    <t s=\"26\">so what is the meaning of the Holy One, blessed be He, choosing Israel?</t>\n    <t s=\"27\">Also, what is said in Tanya,</t>\n    <t s=\"28\">that \"You have chosen us from every people and tongue\" refers to the physical body, which in its materiality resembles the bodies of the nations of the world,</t>\n    <t s=\"29\">requires explanation,</t>\n    <t s=\"30\">for that the body of Israel resembles</t>\n    <t s=\"31\">(externally)</t>\n    <t s=\"32\">the bodies of the nations of the world is not an explanation</t>\n    <t s=\"33\">(apparently)</t>\n    <t s=\"34\">regarding the Holy One, blessed be He.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the Midrashic parable of the king and the wise man, questioning why special cleverness is needed to choose the king over the changing officials.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And this will be understood by prefacing what is said,</t>\n    <t s=\"2\">\"The L-rd is my portion, said my soul.\"</t>\n    <t s=\"3\">And it is brought in the Midrash:</t>\n    <t s=\"4\">A parable of a king who entered a province, and with him were dukes, governors, and generals, etc.</t>\n    <t s=\"5\">One said, \"I will take the dukes for myself\"; another said, \"I will take the governors for myself\"; another said, \"I will take the generals for myself.\"</t>\n    <t s=\"6\">There was one clever person there who said, \"I will take the king for myself, for all of them are replaceable, but the king is not replaceable.\"</t>\n    <t s=\"7\">So too, the nations of the world—some worship the sun, some worship the moon, etc., but Israel worships only the Holy One, blessed be He.</t>\n    <t s=\"8\">Thus it is said, \"The L-rd is my portion, said my soul.\"</t>\n    <t s=\"9\">And the precise point in this is known,</t>\n    <t s=\"10\">for apparently,</t>\n    <t s=\"11\">even one who is not clever, and even a small child,</t>\n    <t s=\"12\">knows that the king is greater than the dukes, etc.</t>\n    <t s=\"13\">So why is cleverness needed to choose the king?</t>\n    <t s=\"14\">And also,</t>\n    <t s=\"15\">even if the dukes, etc., were not replaceable, it would be simply understood that the king is greater than them.</t>\n    <t s=\"16\">[And especially according to what is known</t>\n    <t s=\"17\">in the explanation of the verse,</t>\n    <t s=\"18\">\"From his shoulder and upward he was taller than all the people,\"</t>\n    <t s=\"19\">that even the shoulder of the king,</t>\n    <t s=\"20\">meaning the attributes that are drawn from the intellect of the head and below it,</t>\n    <t s=\"21\">is higher than the head</t>\n    <t s=\"22\">(the intellect)</t>\n    <t s=\"23\">of all the people,</t>\n    <t s=\"24\">in which</t>\n    <t s=\"25\">(all the people)</t>\n    <t s=\"26\">are included even the greatest ministers],</t>\n    <t s=\"27\">so why</t>\n    <t s=\"28\">is the reason needed that \"all of them are replaceable\"?</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917769_theRebbe_254",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917769_theRebbe_254__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "11 Nissan 5731"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section discusses the name of the tribe Asher, its connection to Israel's praise and redemption, and raises questions about the nature of choice between Israel and G-d.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"On the eleventh day, the prince of the children of Asher [offered].\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is brought in the Midrash:"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "All the tribes were named for the sake of Israel's redemption and for their praise."
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "And Asher was named for the sake of Israel's redemption, as it is said:"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "\"And all nations shall call you fortunate, for you shall be a desirable land, says the L-rd of Hosts.\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And for their praise, as it is said:"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "\"Fortunate is the people for whom it is so; fortunate is the people whose G-d is the L-rd.\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "The good fortune of Israel is only because they chose the Holy One, blessed be He, to be their G-d."
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "And the Holy One, blessed be He, chose them to be His treasured people."
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "Therefore, when the prince of Asher came to offer,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "he offered his sacrifice regarding the choice that the Holy One, blessed be He, chose Israel from among all the nations,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "as it is said:"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "\"And the L-rd your G-d has chosen you to be His treasured people.\""
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "And it needs to be understood:"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "For at the beginning of the matter, it says that Israel's good fortune is that they chose the Holy One, blessed be He"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "(and that He then chose them seems to be an additional matter)."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And afterwards it says that Asher"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "(for the name of Israel's good fortune)"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "offered his sacrifice regarding the choice that the Holy One, blessed be He, chose Israel."
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "Also, it needs to be understood:"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "Choice applies specifically to two things that are equal,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "or where each has a virtue that the other lacks."
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "But regarding the Holy One, blessed be He, and, by contrast, the alien gods,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "how can it be said that Israel chose the Holy One, blessed be He?"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "And similarly, regarding the Holy One, blessed be He, choosing Israel,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "Israel is incomparably superior to all the nations,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "so what is the meaning of the Holy One, blessed be He, choosing Israel?"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "Also, what is said in Tanya,"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "that \"You have chosen us from every people and tongue\" refers to the physical body, which in its materiality resembles the bodies of the nations of the world,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "requires explanation,"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "for that the body of Israel resembles"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "(externally)"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "the bodies of the nations of the world is not an explanation"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "(apparently)"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "regarding the Holy One, blessed be He."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the Midrashic parable of the king and the wise man, questioning why special cleverness is needed to choose the king over the changing officials.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what is said,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "\"The L-rd is my portion, said my soul.\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "And it is brought in the Midrash:"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "A parable of a king who entered a province, and with him were dukes, governors, and generals, etc."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "One said, \"I will take the dukes for myself\"; another said, \"I will take the governors for myself\"; another said, \"I will take the generals for myself.\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "There was one clever person there who said, \"I will take the king for myself, for all of them are replaceable, but the king is not replaceable.\""
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "So too, the nations of the world—some worship the sun, some worship the moon, etc., but Israel worships only the Holy One, blessed be He."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "Thus it is said, \"The L-rd is my portion, said my soul.\""
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And the precise point in this is known,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "for apparently,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "even one who is not clever, and even a small child,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "knows that the king is greater than the dukes, etc."
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "So why is cleverness needed to choose the king?"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And also,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "even if the dukes, etc., were not replaceable, it would be simply understood that the king is greater than them."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "[And especially according to what is known"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "in the explanation of the verse,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "\"From his shoulder and upward he was taller than all the people,\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that even the shoulder of the king,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "meaning the attributes that are drawn from the intellect of the head and below it,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "is higher than the head"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "(the intellect)"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "of all the people,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "in which"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "(all the people)"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "are included even the greatest ministers],"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "so why"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "is the reason needed that \"all of them are replaceable\"?"
+          }
+        ]
+      }
+    ]
+  }
+}

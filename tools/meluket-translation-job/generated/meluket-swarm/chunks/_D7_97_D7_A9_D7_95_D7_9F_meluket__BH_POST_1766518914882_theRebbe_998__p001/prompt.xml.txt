@@ -1,0 +1,142 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914882_theRebbe_998" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914882_theRebbe_998" title="מאמר ויהיו חיי שרה תש"ל" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ חיי שרה,</src>
+    <src s="2">מבה"ח כסלו,</src>
+    <src s="3">ה'תש"ל</src>
+  </section>
+  <section v="1">
+    <src s="0">ויהיו חיי שרה מאה שנה ועשרים שנה ושבע שנים שני חיי שרה1,</src>
+    <src s="1">ומדייק אדמו"ר</src>
+    <src s="2">(מהורש"ב)</src>
+    <src s="3">נ"ע בעל יום ההולדת דכ"ף מרחשון במאמרו ד"ה זה2,</src>
+    <src s="4">הרי כבר נאמר ויהיו חיי שרה,</src>
+    <src s="5">ולמה נכפל עוד פעם שני חיי שרה.</src>
+    <src s="6">וממשיך בהמאמר,</src>
+    <src s="7">שבזהר3</src>
+    <src s="8">עה"פ ויהיו חיי שרה מבאר תחלה את הפסוק4</src>
+    <src s="9">ויתרון ארץ בכל היא מלך לשדה נעבד,</src>
+    <src s="10">ולאח"ז5</src>
+    <src s="11">אומר דענין ויהיו חיי שרה הוא ששרה זכתה לחיין עילאין.</src>
+    <src s="12">ומבאר בהמאמר השייכות דויתרון ארץ בכל היא מלך לשדה נעבד לויהיו חיי שרה,</src>
+    <src s="13">דארץ ושדה הם בחינת מלכות,</src>
+    <src s="14">וענין יתרון ארץ בכל היא מלך לשדה נעבד הוא המשכת האורות שלמעלה ממלכות,</src>
+    <src s="15">בחינת כל ובחינת מלך,</src>
+    <src s="16">במלכות.</src>
+    <src s="17">וזוהי השייכות דויתרון ארץ בכל היא מלך לשדה נעבד לויהיו חיי שרה,</src>
+    <src s="18">כי שרה היא בחינת מלכות</src>
+    <src s="19">(דוגמת ארץ ושדה),</src>
+    <src s="20">וזה ששרה זכתה לחיין עילאין הוא שנמשכו בה האורות שלמעלה ממלכות.</src>
+    <src s="21">ומבאר בארוכה ד' הענינים שבפסוק ויתרון ארץ גו',</src>
+    <src s="22">שתי הבחינות שבמלכות,</src>
+    <src s="23">ארץ ושדה,</src>
+    <src s="24">ושתי הבחינות בהאורות שלמעלה מהמלכות הנמשכים במלכות,</src>
+    <src s="25">בחינת כל ובחינת מלך.</src>
+    <src s="26">ומבאר,</src>
+    <src s="27">דעשרים שנה ושבע שנים הוא ע"ד בחינת כל,</src>
+    <src s="28">ומאה שנה הוא ע"ד בחינת מלך6.</src>
+    <src s="29">ולאחרי זה מבאר</src>
+    <src s="30">(בסיום המאמר),</src>
+    <src s="31">דויהיו חיי שרה הוא המשכת החיין עילאין</src>
+    <src s="32">(מאה שנה ועשרים שנה ושבע שנים)</src>
+    <src s="33">במלכות,</src>
+    <src s="34">ושני חיי שרה הוא,</src>
+    <src s="35">שהחיין עילאין נמשכו בבי"ע.</src>
+    <src s="36">וצריך להבין,</src>
+    <src s="37">דבכדי לבאר ההוספה דשני חיי שרה על ויהיו חיי שרה נוגע לכאורה רק שויהיו חיי שרה הוא המשכת חיין עילאין במלכות,</src>
+    <src s="38">דעפ"ז יש לבאר שההוספה דשני חיי שרה היא ההמשכה בבי"ע,</src>
+    <src s="39">ומזה שביאור זה בא</src>
+    <src s="40">(בהמאמר)</src>
+    <src s="41">לאחרי ביאור הפסוק ויתרון ארץ גו' ושייכותו לויהיו חיי שרה,</src>
+    <src s="42">משמע,</src>
+    <src s="43">שעי"ז מיתוסף ביאור בהענין דשני חיי שרה</src>
+    <src s="44">(ההמשכה בבי"ע).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה ע"פ המבואר בהמאמר7</src>
+    <src s="2">החילוק בין ארץ ושדה,</src>
+    <src s="3">דארץ הוא כללות העולם,</src>
+    <src s="4">ושדה</src>
+    <src s="5">(המובחר שבארץ)</src>
+    <src s="6">הוא הגן עדן.</src>
+    <src s="7">וחילוק זה שבין כללות העולם לג"ע</src>
+    <src s="8">(שכללות העולם נקרא ארץ וג"ע שדה)</src>
+    <src s="9">הוא בשרשם.</src>
+    <src s="10">דהתהוות העולם הוא מבחינת חיצוניות המלכות שנק' ארץ,</src>
+    <src s="11">והג"ע הוא מבחינת פנימיות המלכות שנק' שדה.</src>
+    <src s="12">וממשיך בהמאמר,</src>
+    <src s="13">דכמו שמעלת השדה כפשוטה היא שהוא מקום הראוי לזריעה,</src>
+    <src s="14">עד"ז הוא בנוגע לג"ע,</src>
+    <src s="15">שהוא מקום מוכשר להמשכת הגילוי דאוא"ס</src>
+    <src s="16">(צמיחה)</src>
+    <src s="17">שע"י זריעת המצוות.</src>
+    <src s="18">[וכמבואר במק"א8</src>
+    <src s="19">עה"פ9</src>
+    <src s="20">ויקח ה' אלקים את האדם ויניחהו בגן עדן לעבדה ולשמרה וארז"ל10</src>
+    <src s="21">לעבדה זה רמ"ח מ"ע ולשמרה זה שס"ה מל"ת,</src>
+    <src s="22">דהטעם על זה שהניחהו בג"ע</src>
+    <src s="23">(דוקא)</src>
+    <src s="24">לעבדה ולשמרה,</src>
+    <src s="25">הוא,</src>
+    <src s="26">כי ג"ע הוא מקום מוכשר להגילוי שנמשך ע"י קיום המצוות.</src>
+    <src s="27">וזה שנמשך הגילוי ע"י קיום המצוות בכללות העולם</src>
+    <src s="28">(לאחרי שגורש האדם מג"ע)</src>
+    <src s="29">הוא כמ"ש11</src>
+    <src s="30">וישלחהו ה' אלקים מגן עדן לעבוד את האדמה גו',</src>
+    <src s="31">דענין לעבוד את האדמה הוא לעשות המקום דעולם שיהי' מוכשר להגילוי12].</src>
+    <src s="32">וזהו ויתרון ארץ בכל היא מלך לשדה נעבד,</src>
+    <src s="33">שהיתרון דארץ</src>
+    <src s="34">[כללות העולם,</src>
+    <src s="35">שהתהוותו היא מחיצוניות המלכות]</src>
+    <src s="36">היא בכל,</src>
+    <src s="37">שנמשך בה בחינת כל,</src>
+    <src s="38">היא ספירת היסוד שנקראת כל13.</src>
+    <src s="39">ומלך לשדה נעבד הוא המשכת הגילוי דאוא"ס</src>
+    <src s="40">(שלמעלה מבחינת כל)</src>
+    <src s="41">שע"י קיום המצוות.</src>
+    <src s="42">כדאיתא בזהר שם,</src>
+    <src s="43">מאן מלך דא מלך עילאה דאתחבר לשדה כד איהו נעבד,</src>
+    <src s="44">שע"י העבודה בג"ע</src>
+    <src s="45">(שדה נעבד)</src>
+    <src s="46">שהיא העבודה דקיום המצוות</src>
+    <src s="47">(לעבדה רמ"ח מ"ע ולשמרה שס"ה מל"ת),</src>
+    <src s="48">נמשך גילוי אוא"ס</src>
+    <src s="49">(מלך עילאה),</src>
+    <src s="50">שלמעלה מהגילוי דבחינת כל.</src>
+  </section>
+</awtsmoosMeluketSource>

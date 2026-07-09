@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917207_theRebbe_479" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917207_theRebbe_479__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917207_theRebbe_479" title="מאמר ואלה המשפטים תשמ"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917207_theRebbe_479__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ משפטים,</src>
+    <src s="2">מבה"ח אדר ראשון ה'תשמ"א*</src>
+  </section>
+  <section v="1">
+    <src s="0">ואלה המשפטים אשר תשים לפניהם כי תקנה עבד עברי גו'1,</src>
+    <src s="1">וידוע הדיוק בזה2,</src>
+    <src s="2">דלפניהם הוא לשון רבים ולשון נסתר ותקנה הוא לשון יחיד ולשון נוכח.</src>
+    <src s="3">גם צריך להבין מה דאיתא בירושלמי3</src>
+    <src s="4">עה"פ ואלה המשפטים אשר תשים לפניהם,</src>
+    <src s="5">דתשים הוא מלשון סימה</src>
+    <src s="6">(אוצר)</src>
+    <src s="7">שאינה נגלית כו',</src>
+    <src s="8">רזי תורה.</src>
+    <src s="9">וצריך להבין,</src>
+    <src s="10">הרי משפטים הם הדינים שמובנים גם בשכל אנושי4</src>
+    <src s="11">[ואפילו בשכל דאומות העולם5],</src>
+    <src s="12">ומהי השייכות דמשפטים לתשים מלשון סימה,</src>
+    <src s="13">רזי תורה.</src>
+    <src s="14">גם צריך להבין6</src>
+    <src s="15">מה שמתחיל המשפטים בדין עבד עברי7.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה מבואר באוה"ת8,</src>
+    <src s="2">דענין עבד עברי ברוחניות הוא,</src>
+    <src s="3">שעבודתו את השם היא בדרך קבלת עול,</src>
+    <src s="4">עבודת עבד.</src>
+    <src s="5">ועפ"ז יש לומר,</src>
+    <src s="6">דזה שהתחלת המשפטים הוא בדין עבד עברי,</src>
+    <src s="7">הוא לרמז,</src>
+    <src s="8">שגם קיום המצוות דמשפטים,</src>
+    <src s="9">שהם מובנים בשכל,</src>
+    <src s="10">צריך לקיימם מצד קבלת עול,</src>
+    <src s="11">בדרך עבודת עבד9.</src>
+    <src s="12">דהגם שמזה שמצוות אלו נקראים בתורת אמת בשם משפטים מובן שמצוות אלה צריך לקיימם גם מצד הטעם10,</src>
+    <src s="13">מ"מ,</src>
+    <src s="14">עיקר קיומם צ"ל בדרך קבלת עול,</src>
+    <src s="15">הן מצד האדם המקיים את המצוות,</src>
+    <src s="16">שקיום המצוות שלו צריך להיות בדרך עבודת עבד11,</src>
+    <src s="17">וגם מצד המצוות,</src>
+    <src s="18">כי כל המצוות</src>
+    <src s="19">(גם המצוות דמשפטים)</src>
+    <src s="20">עיקרם הוא שהם רצון הקב"ה,</src>
+    <src s="21">רצון שלמעלה מטעם,</src>
+    <src s="22">אלא שכך גזר הקב"ה שהרצון דמצוות אלו יתלבש גם בטעם12.</src>
+    <src s="23">ולהוסיף,</src>
+    <src s="24">דזה שגם קיום המצוות דמשפטים צ"ל בדרך קבלת עול,</src>
+    <src s="25">הוא גם בענין המשפטים שבהם.</src>
+    <src s="26">היינו דזה שמצוות אלו צריך לקיימם גם מצד הטעם הוא מפני שכך הוא ציווי הקב"ה שקיום מצוות אלו יהי' גם מצד הטעם13.</src>
+    <src s="27">ויש לומר,</src>
+    <src s="28">דזהו שארז"ל14</src>
+    <src s="29">עה"פ ואלה המשפטים,</src>
+    <src s="30">ואלה מוסיף על הראשונים,</src>
+    <src s="31">מה הראשונים מסיני אף אלו מסיני,</src>
+    <src s="32">דבמתן תורה</src>
+    <src s="33">(סיני)</src>
+    <src s="34">נעשו ישראל עבדים להקב"ה15,</src>
+    <src s="35">והרמז אף אלו מסיני הוא,</src>
+    <src s="36">שגם קיום המצוות דמשפטים,</src>
+    <src s="37">כולל גם ענין זה שצריך לקיימם גם מצד הטעם</src>
+    <src s="38">[אף אלו,</src>
+    <src s="39">משפטים],</src>
+    <src s="40">צריך להיות בדרך עבודת עבד.</src>
+    <src s="41">ולכן התחלת המשפטים הוא בדין עבד עברי,</src>
+    <src s="42">בכדי לרמז,</src>
+    <src s="43">שגם המצוות דמשפטים,</src>
+    <src s="44">הגישה הראשונה</src>
+    <src s="45">(דער ערשטער צוגאַנג)</src>
+    <src s="46">ללימודם וקיומם הוא קבלת עול,</src>
+    <src s="47">עבודת עבד16.</src>
+    <src s="48">וביאור נוסף,</src>
+    <src s="49">דכיון שעיקר ענין העבדות הוא בעבד כנעני</src>
+    <src s="50">[דנוסף לזה שעבד עברי עובד רק שש שנים17</src>
+    <src s="51">(וגם עבד נרצע יוצא ביובל18)</src>
+    <src s="52">ובעבד כנעני כתיב19</src>
+    <src s="53">לעולם בהם תעבודו,</src>
+    <src s="54">השעבוד</src>
+    <src s="55">(העבדות)</src>
+    <src s="56">דעבד עברי</src>
+    <src s="57">(גם בהיותו עבד)</src>
+    <src s="58">אינו כהשעבוד</src>
+    <src s="59">(עבדות)</src>
+    <src s="60">דעבד כנעני20],</src>
+    <src s="61">הרי בכדי לרמז ענין הנ"ל</src>
+    <src s="62">(שקיום המצוות דמשפטים צ"ל בדרך עבודת עבד)</src>
+    <src s="63">הי' צריך לכאורה להתחיל המשפטים בדין עבד כנעני.</src>
+  </section>
+</awtsmoosMeluketSource>

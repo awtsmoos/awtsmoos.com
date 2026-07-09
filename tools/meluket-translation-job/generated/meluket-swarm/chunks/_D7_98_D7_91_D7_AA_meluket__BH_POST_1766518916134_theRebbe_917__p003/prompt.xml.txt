@@ -1,0 +1,117 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" title="מאמר ויגש אליו יהודה תשכ"ה" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה מבואר בדרושים הנ"ל28,</src>
+    <src s="2">שתורה ותפלה הם דוגמת שני הענינים דלמעלה מעלה עד אין קץ ולמטה מטה עד אין תכלית.</src>
+    <src s="3">דתורה שהיא המשכה מלמעלה למטה,</src>
+    <src s="4">היא דוגמת הענין דלמטה עד אין תכלית,</src>
+    <src s="5">ותפלה שהיא העלאה מלמטה למעלה היא דוגמת הענין דלמעלה עד אין קץ.</src>
+    <src s="6">וע"פ הידוע29</src>
+    <src s="7">דזה שאוא"ס הוא למטה עד אין תכלית</src>
+    <src s="8">(השרש דתורה)</src>
+    <src s="9">הוא ענין ההתפשטות והגילוי,</src>
+    <src s="10">שהוא מתפשט ומתגלה למטה מטה עד אין תכלית,</src>
+    <src s="11">וזה שאוא"ס הוא למעלה עד אין קץ הוא כמו שמתעלה ונכלל בעצמותו למעלה מעלה עד אין קץ,</src>
+    <src s="12">מובן,</src>
+    <src s="13">שתפלה היא למעלה מתורה.</src>
+    <src s="14">והבקשה אד' שפתי תפתח ופי יגיד תהלתך היא,</src>
+    <src s="15">שבהתפלה שהיא מלמטה למעלה תהי' גם המעלה דתורה,</src>
+    <src s="16">מלמעלה למטה.</src>
+  </section>
+  <section v="7">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דתפלה היא שהאדם מבקש ומתפלל,</src>
+    <src s="2">וגם ההמשכה שע"י התפלה,</src>
+    <src s="3">זה שהקב"ה ממלא את בקשתו,</src>
+    <src s="4">היא מצד המעלה דעבודת המטה,</src>
+    <src s="5">למעשה ידיך תכסוף30.</src>
+    <src s="6">ויש לומר,</src>
+    <src s="7">דמהטעמים על זה שצריך לעמוד בתפלה כעבד לפני רבו באימה ביראה ובפחד31,</src>
+    <src s="8">הוא,</src>
+    <src s="9">כי זה שעבודת המטה</src>
+    <src s="10">(תפלה)</src>
+    <src s="11">מעוררת למעלה את הרצון למלאות את בקשתו הוא</src>
+    <src s="12">(בעיקר)</src>
+    <src s="13">לפי שבעבודת המטה ישנה המעלה דביטול היש32,</src>
+    <src s="14">ולכן,</src>
+    <src s="15">כל שהתפלה היא בביטול גדול יותר,</src>
+    <src s="16">היא מעוררת יותר למעלה למלאות את בקשתו33.</src>
+    <src s="17">וזהו שתפלה היא העלאה מלמטה למעלה,</src>
+    <src s="18">כי הבקשה דתפלה היא בביטול</src>
+    <src s="19">(באופן דעבד המבקש),</src>
+    <src s="20">דענין הביטול הוא שיוצא ממציאותו,</src>
+    <src s="21">העלאה מלמטה למעלה.</src>
+    <src s="22">ותורה היא דבר השם</src>
+    <src s="23">[שישנו גם לפני עסק התורה דהאדם],</src>
+    <src s="24">והפעולה שנעשית ע"י עסק התורה דהאדם היא שהתורה ואוא"ס המלובש בה נמשכים להאדם.</src>
+    <src s="25">ויתירה מזו,</src>
+    <src s="26">שגם המשכת התורה ואוא"ס המלובש בה בהאדם העוסק בתורה,</src>
+    <src s="27">הוא</src>
+    <src s="28">(לא ע"י שהאדם מבטל את שכלו,</src>
+    <src s="29">אלא אדרבה)</src>
+    <src s="30">שהתורה נמשכת ומתלבשת בשכלו של האדם כמו שהוא במציאותו,</src>
+    <src s="31">המשכה מלמעלה למטה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דכמו שבתורה,</src>
+    <src s="2">השייכות שלה להענין דלמטה עד אין תכלית היא לזה שאוא"ס הוא למטה עד אין תכלית,</src>
+    <src s="3">שהתורה שהיא חכמתו ורצונו של הקב"ה נמשכת למטה מטה,</src>
+    <src s="4">כמו"כ הוא בתפלה,</src>
+    <src s="5">שהשייכות דתפלה להענין דלמעלה עד אין קץ היא</src>
+    <src s="6">(לא רק מפני שהתפלה היא העלאה דהאדם,</src>
+    <src s="7">אלא גם)</src>
+    <src s="8">לזה שאוא"ס הוא למעלה עד אין קץ.</src>
+    <src s="9">דזה שע"י התפלה מתעורר רצון חדש למלאות בקשת המתפלל</src>
+    <src s="10">[גם כשע"פ חכמת התורה אינו ראוי לזה]34</src>
+    <src s="11">הוא לפי שע"י התפלה נעשה עלי' בהאור שלמעלה,</src>
+    <src s="12">שהוא מתעלה למעלה מהשתלשלות,</src>
+    <src s="13">ולמעלה גם מהתורה34,</src>
+    <src s="14">עד למעלה מעלה עד אין קץ,</src>
+    <src s="15">ומשם נמשך הרצון חדש למלאות את בקשתו.</src>
+    <src s="16">אלא שאעפ"כ יש יתרון בההמשכה דתורה לגבי ההמשכה שע"י תפלה.</src>
+    <src s="17">דההמשכה שע"י התפלה,</src>
+    <src s="18">כיון שתפלה היא עבודת המטה,</src>
+    <src s="19">לכן גם ההמשכה מלמעלה שע"י התפלה היא בנוגע לעניני העולם</src>
+    <src s="20">(מילוי בקשת המתפלל),</src>
+    <src s="21">אלא ששורש ההמשכה היא מלמעלה מעלה עד אין קץ.</src>
+    <src s="22">וההמשכה דתורה,</src>
+    <src s="23">שהיא המשכה מלמעלה מצד עצמה,</src>
+    <src s="24">היא המשכת אלקות.</src>
+    <src s="25">שגם לאחרי שהתורה ירדה למטה ונתלבשה בשכל אנושי היא חכמתו של הקב"ה שלמעלה משכל הנבראים.</src>
+  </section>
+</awtsmoosMeluketSource>

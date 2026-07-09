@@ -1,0 +1,120 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913746_theRebbe_550" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913746_theRebbe_550__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913746_theRebbe_550" title="מאמר והיה ביום ההוא תשכ"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913746_theRebbe_550__p003">
+  <section v="6">
+    <src s="0">והנה מבאר בהמאמר31</src>
+    <src s="1">דזה שלע"ל יתקע בשופר גדול הוא ע"ד שופר דראש השנה עכשיו,</src>
+    <src s="2">כי מצות אינן בטילות לע"ל</src>
+    <src s="3">[אלא שאז יהי' השופר במדריגה נעלית יותר,</src>
+    <src s="4">שופר גדול].</src>
+    <src s="5">ויש לומר,</src>
+    <src s="6">שהמקור לזה</src>
+    <src s="7">(שיתקע בשופר גדול שייך לתקיעת שופר דראש השנה)</src>
+    <src s="8">הוא מה דאיתא בגמרא32,</src>
+    <src s="9">דטעמו של המ"ד בתשרי עתידין להגאל הוא אתיא שופר שופר,</src>
+    <src s="10">כתיב33</src>
+    <src s="11">הכא תקעו בחודש שופר וכתיב התם ביום ההוא יתקע בשופר גדול.</src>
+    <src s="12">ועפ"ז צריך להבין עוד יותר מה שהובא לעיל מהדרושים,</src>
+    <src s="13">דפירוש יתקע</src>
+    <src s="14">(תי"ו בקמ"ץ)</src>
+    <src s="15">בשופר גדול הוא יתקע בעצמו בלי אתערותא דלתתא כלל,</src>
+    <src s="16">הרי מענינים העקריים דראש השנה הוא עבודת האדם</src>
+    <src s="17">[וכמבואר בכ"מ34</src>
+    <src s="18">דהטעם על זה שראש השנה הוא באחד בתשרי,</src>
+    <src s="19">אף שבכ"ה באלול נברא העולם35</src>
+    <src s="20">ואחד בתשרי הוא יום הששי למעשה בראשית,</src>
+    <src s="21">הוא,</src>
+    <src s="22">כי ביום זה נברא האדם],</src>
+    <src s="23">וכיון דענין יתקע בשופר גדול הוא ע"ד תקעו בחודש שופר דראש השנה</src>
+    <src s="24">(תשרי36),</src>
+    <src s="25">הי' ראוי לכאורה שהמשכת ענין זה תהי' על ידי עבודת האדם,</src>
+    <src s="26">ואעפ"כ מבואר בהדרושים,</src>
+    <src s="27">דפירוש יתקע הוא יתקע מעצמו בלי אתערותא דלתתא כלל.</src>
+    <src s="28">גם צריך להבין,</src>
+    <src s="29">דכל הענינים שבתורה</src>
+    <src s="30">(מלשון הוראה),</src>
+    <src s="31">הם הוראה בעבודת האדם,</src>
+    <src s="32">וכיון דזה שיתקע בשופר גדול יהי' מלמעלה בלי אתערותא דלתתא,</src>
+    <src s="33">מהי ההוראה מזה בעבודת האדם.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ויובן זה ע"פ המבואר בדרושי אדמו"ר מהר"ש37,</src>
+    <src s="2">דזה ששופר צדו אחד קצר וצדו השני רחב הוא על שם מן המיצר קראתי י-ה ענני במרחב י-ה38.</src>
+    <src s="3">דכמו שקול השופר,</src>
+    <src s="4">ע"י שיוצא מן המיצר מצדו הקצר עי"ז דוקא הוא במרחב ובהתפשטות בצדו הרחב,</src>
+    <src s="5">כמו"כ הוא ברוחניות,</src>
+    <src s="6">שע"י הצעקה מן המיצר והדוחק,</src>
+    <src s="7">מן המיצר קראתי י-ה,</src>
+    <src s="8">עי"ז דוקא ענני במרחב י-ה.</src>
+    <src s="9">ומבאר שם,</src>
+    <src s="10">דזהו שאמרו רז"ל39</src>
+    <src s="11">כל שנה שרשה בתחלתה מתעשרת בסופה,</src>
+    <src s="12">דרשה בתחלתה</src>
+    <src s="13">[שישראל עושין עצמן רשין בראש השנה לדבר תחנונים ותפלה כענין שנאמר40</src>
+    <src s="14">תחנונים ידבר רש41]</src>
+    <src s="15">היא הקריאה מן המיצר,</src>
+    <src s="16">ועי"ז מתעשרת – ענני במרחב.</src>
+    <src s="17">וכמבואר במאמר הנ"ל של אדמו"ר מהר"ש42</src>
+    <src s="18">המעלה דתפלת עני על תפלת עשיר.</src>
+    <src s="19">ויש לומר,</src>
+    <src s="20">שהמעלה בתפלת עני היא בשני ענינים.</src>
+    <src s="21">בהתפלה עצמה,</src>
+    <src s="22">כתורת הבעל שם טוב43</src>
+    <src s="23">על הפסוק44</src>
+    <src s="24">תפלה לעני כי יעטוף ולפני הוי' ישפוך שיחו,</src>
+    <src s="25">דתפלת העני היא שלפני הוי' ישפוך שיחו,</src>
+    <src s="26">וגם שתפלת העני מתקבלת יותר.</src>
+    <src s="27">ועוד ענין,</src>
+    <src s="28">שגם התענוג דהאדם מההשפעה שנמשכה לו ע"י תפלתו,</src>
+    <src s="29">התענוג של העני הוא תענוג גדול יותר,</src>
+    <src s="30">כתורת הה"מ שהובאה במאמר הנ"ל45.</src>
+  </section>
+  <section v="8">
+    <src s="0">ועפ"ז יש לבאר השייכות דיתקע בשופר גדול לראש השנה,</src>
+    <src s="1">כי זה שלע"ל יתקע בשופר גדול בכדי לעורר את האובדים והנדחים,</src>
+    <src s="2">הוא,</src>
+    <src s="3">כי האובדים והנדחים הם בתכלית המיצר,</src>
+    <src s="4">וזה מעורר וממשיך התקיעה דשופר גדול</src>
+    <src s="5">(ההמשכה מבחינת סתימא דכל סתימין),</src>
+    <src s="6">תכלית המרחב.</src>
+    <src s="7">וזוהי השייכות דיתקע בשופר גדול לראש השנה</src>
+    <src s="8">(תקעו בחודש שופר),</src>
+    <src s="9">כי ענין ראש השנה הוא דע"י שהיא רשה בתחלתה</src>
+    <src s="10">(מרשית השנה,</src>
+    <src s="11">רשית חסר46),</src>
+    <src s="12">היא מתעשרת.</src>
+  </section>
+</awtsmoosMeluketSource>

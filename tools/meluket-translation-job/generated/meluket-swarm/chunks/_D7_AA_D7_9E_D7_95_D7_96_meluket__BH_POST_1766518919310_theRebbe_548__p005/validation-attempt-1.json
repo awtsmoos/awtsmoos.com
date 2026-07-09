@@ -1,0 +1,339 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 59,
+    "returned": 59,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919310_theRebbe_548\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that drawing down Atzmus is through fear (yirah), which is self-nullification, but the revelation of Atzmus comes through Torah.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And it continues in the Midrash: \"In You is Your fear, in You is Your Torah, in You is Your salvation,\"</t>\n    <t s=\"2\">that the drawing down of Atzmus is through fear.</t>\n    <t s=\"3\">And as explained in many places,</t>\n    <t s=\"4\">the distinction between love and fear:</t>\n    <t s=\"5\">that through love,</t>\n    <t s=\"6\">since it is existence and extension,</t>\n    <t s=\"7\">one reaches the revelations of Ein Sof</t>\n    <t s=\"8\">(extension),</t>\n    <t s=\"9\">and specifically through fear, which is nullification,</t>\n    <t s=\"10\">even to the nullification that stems from the essence of the soul,</t>\n    <t s=\"11\">one reaches Atzmus.</t>\n    <t s=\"12\">However,</t>\n    <t s=\"13\">this reaching of Atzmus through fear</t>\n    <t s=\"14\">is in concealment,</t>\n    <t s=\"15\">and in order for there to be a revelation of Atzmus, it is through Torah,</t>\n    <t s=\"16\">\"Torah is light.\"</t>\n    <t s=\"17\">For although the nullification of fear stems from the essence of the soul,</t>\n    <t s=\"18\">and the root of souls is above the root of Torah,</t>\n    <t s=\"19\">nevertheless, the revelation of every matter</t>\n    <t s=\"20\">(even of the root of souls as they are rooted in Atzmus)</t>\n    <t s=\"21\">is through Torah.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that all conduits in the world come through Torah, and the union of Torah's revealed and inner aspects brings the connection of the supernatural with nature into the world.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that since \"He looked into the Torah and created the world,\"</t>\n    <t s=\"2\">all conduits in the world are through Torah.</t>\n    <t s=\"3\">And the two matters of that which is above nature</t>\n    <t s=\"4\">(without limit)</t>\n    <t s=\"5\">and of nature</t>\n    <t s=\"6\">(limit)</t>\n    <t s=\"7\">in the world,</t>\n    <t s=\"8\">are drawn from the two matters of the limitless and the limited in Torah.</t>\n    <t s=\"9\">And as explained in many places</t>\n    <t s=\"10\">on the verse,</t>\n    <t s=\"11\">\"Who wraps light in a garment,\"</t>\n    <t s=\"12\">that the revealed aspect of Torah</t>\n    <t s=\"13\">(the \"garment\" of Torah)</t>\n    <t s=\"14\">is in measure and limitation,</t>\n    <t s=\"15\">and the inner aspect of Torah</t>\n    <t s=\"16\">(the \"light\" of Torah)</t>\n    <t s=\"17\">is without limit.</t>\n    <t s=\"18\">And through the union of these two matters in Torah,</t>\n    <t s=\"19\">that the revealed and the inner are one Torah,</t>\n    <t s=\"20\">and especially through engaging in Torah in a manner that in the study of the revealed, the inner aspect of Torah is felt by him in revelation</t>\n    <t s=\"21\">(the wonders within Torah),</t>\n    <t s=\"22\">through this, the connection of the supernatural with nature is drawn into the world,</t>\n    <t s=\"23\">and in a way that even within nature, the wonders of the supernatural will be felt in revelation.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section concludes that the sequence \"in You is Your fear, in You is Your Torah, in You is Your salvation\" shows that fear draws Atzmus, Torah reveals it, and from this comes a salvation that is an open miracle above nature.</sectionSummaryBrief>\n    <t s=\"0\">And this is \"in You is Your fear, in You is Your Torah, in You is Your salvation,\"</t>\n    <t s=\"1\">that first there must be \"in You is Your fear,\" through which one draws down Atzmus,</t>\n    <t s=\"2\">and afterwards \"in You is Your Torah\"</t>\n    <t s=\"3\">(\"Torah is light\")</t>\n    <t s=\"4\">through which the revelation of Atzmus is made,</t>\n    <t s=\"5\">and from this it follows that there is \"in You is Your salvation,\"</t>\n    <t s=\"6\">for although they were in a situation where they needed salvation,</t>\n    <t s=\"7\">and even afterwards</t>\n    <t s=\"8\">(since they are still in exile),</t>\n    <t s=\"9\">the salvation is in garments of nature,</t>\n    <t s=\"10\">nevertheless, it is recognizable in it in revelation,</t>\n    <t s=\"11\">and in a manner of \"all the ends of the earth saw,\"</t>\n    <t s=\"12\">which is an open miracle above nature.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919310_theRebbe_548",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that drawing down Atzmus is through fear (yirah), which is self-nullification, but the revelation of Atzmus comes through Torah.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And it continues in the Midrash: \"In You is Your fear, in You is Your Torah, in You is Your salvation,\""
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "that the drawing down of Atzmus is through fear."
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "And as explained in many places,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "the distinction between love and fear:"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "that through love,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "since it is existence and extension,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "one reaches the revelations of Ein Sof"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "(extension),"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "and specifically through fear, which is nullification,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "even to the nullification that stems from the essence of the soul,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "one reaches Atzmus."
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "However,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "this reaching of Atzmus through fear"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "is in concealment,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "and in order for there to be a revelation of Atzmus, it is through Torah,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "\"Torah is light.\""
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "For although the nullification of fear stems from the essence of the soul,"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "and the root of souls is above the root of Torah,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "nevertheless, the revelation of every matter"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "(even of the root of souls as they are rooted in Atzmus)"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "is through Torah."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that all conduits in the world come through Torah, and the union of Torah's revealed and inner aspects brings the connection of the supernatural with nature into the world.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "that since \"He looked into the Torah and created the world,\""
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "all conduits in the world are through Torah."
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "And the two matters of that which is above nature"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "(without limit)"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "and of nature"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "(limit)"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "in the world,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "are drawn from the two matters of the limitless and the limited in Torah."
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "And as explained in many places"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "\"Who wraps light in a garment,\""
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "that the revealed aspect of Torah"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "(the \"garment\" of Torah)"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "is in measure and limitation,"
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "and the inner aspect of Torah"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "(the \"light\" of Torah)"
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "is without limit."
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "And through the union of these two matters in Torah,"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "that the revealed and the inner are one Torah,"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "and especially through engaging in Torah in a manner that in the study of the revealed, the inner aspect of Torah is felt by him in revelation"
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "(the wonders within Torah),"
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "through this, the connection of the supernatural with nature is drawn into the world,"
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "and in a way that even within nature, the wonders of the supernatural will be felt in revelation."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section concludes that the sequence \"in You is Your fear, in You is Your Torah, in You is Your salvation\" shows that fear draws Atzmus, Torah reveals it, and from this comes a salvation that is an open miracle above nature.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "And this is \"in You is Your fear, in You is Your Torah, in You is Your salvation,\""
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "that first there must be \"in You is Your fear,\" through which one draws down Atzmus,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "and afterwards \"in You is Your Torah\""
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "(\"Torah is light\")"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "through which the revelation of Atzmus is made,"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "and from this it follows that there is \"in You is Your salvation,\""
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "for although they were in a situation where they needed salvation,"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "and even afterwards"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "(since they are still in exile),"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "the salvation is in garments of nature,"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "nevertheless, it is recognizable in it in revelation,"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "and in a manner of \"all the ends of the earth saw,\""
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "which is an open miracle above nature."
+          }
+        ]
+      }
+    ]
+  }
+}

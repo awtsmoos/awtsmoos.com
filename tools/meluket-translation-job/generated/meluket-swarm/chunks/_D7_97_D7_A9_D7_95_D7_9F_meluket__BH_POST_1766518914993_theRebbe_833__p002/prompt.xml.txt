@@ -1,0 +1,175 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914993_theRebbe_833" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914993_theRebbe_833" title="מאמר ויהיו חיי שרה תנש"א" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דלפירוש זה,</src>
+    <src s="3">שני חיי שרה הו"ע בפ"ע שלמעלה מג' החלוקות דמאה שנה ועשרים שנה ושבע שנים,</src>
+    <src s="4">ופשטות הכתוב ששני חיי שרה הם הקכ"ז שנים עצמם,</src>
+    <src s="5">ולא ענין בפ"ע שלמעלה מהם.</src>
+    <src s="6">וכמודגש בפירוש רש"י13</src>
+    <src s="7">שני חיי שרה כולן שוין לטובה,</src>
+    <src s="8">שהענין דשוין לטובה</src>
+    <src s="9">(למעלה מהתחלקות)</src>
+    <src s="10">הוא בכולן,</src>
+    <src s="11">היינו,</src>
+    <src s="12">בג' החלוקות דמאה שנה ועשרים שנה ושבע שנים</src>
+    <src s="13">(ולא בדרגא שלמעלה מהם).</src>
+    <src s="14">גם צריך להבין מ"ש בפירוש רש"י בת ק' כבת כ' ובת כ' כבת ז',</src>
+    <src s="15">שמזה משמע שיש עילוי בז' לגבי כ'</src>
+    <src s="16">(בת כ' כבת ז')</src>
+    <src s="17">ובכ' לגבי ק'</src>
+    <src s="18">(בת ק' כבת כ'),</src>
+    <src s="19">אע"פ שכתר</src>
+    <src s="20">(ק')</src>
+    <src s="21">הוא למעלה מהמוחין</src>
+    <src s="22">(כ'),</src>
+    <src s="23">ומוחין הם למעלה ממדות</src>
+    <src s="24">(ז').</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">ויובן בהקדם המבואר בכמה דרושים14</src>
+    <src s="2">המשך דברי הזהר מאה שנה כללא דכולא,</src>
+    <src s="3">שמאה שנה הוא רזא דמאה ברכאן בכל יומא,</src>
+    <src s="4">שחייב אדם לברך מאה ברכות בכל יום,</src>
+    <src s="5">כפי שלמדו חז"ל15</src>
+    <src s="6">מהפסוק16</src>
+    <src s="7">ועתה ישראל מה ה' אלקיך שואל מעמך,</src>
+    <src s="8">א"ת מה אלא מאה17.</src>
+    <src s="9">ונקודת הביאור,</src>
+    <src s="10">שמאה שנה הוא גם הכלל דעשרים שנה ושבע שנים,</src>
+    <src s="11">כללא דכולא.</src>
+    <src s="12">דנוסף לזה שכל מאה הדרגות</src>
+    <src s="13">(עשר ספירות שכל א' מהם כלולה מעשר)</src>
+    <src s="14">שבכתר הם כלל אחד שלמעלה מהתחלקות</src>
+    <src s="15">[למעלה גם מהכלל דעשרים שנה,</src>
+    <src s="16">שיש בו שתי דרגות</src>
+    <src s="17">(חכמה בינה)</src>
+    <src s="18">אלא שהם תרין ריעין דלא מתפרשין],</src>
+    <src s="19">הוא גם הכלל דכל ג' החלוקות,</src>
+    <src s="20">גם דעשרים שנה ושבע שנים.</src>
+    <src s="21">וכמבואר בהדרושים18</src>
+    <src s="22">שמאה שנה</src>
+    <src s="23">(כללא דכולא)</src>
+    <src s="24">נמשך ומתלבש בהפרטים דעשרים שנה</src>
+    <src s="25">(מוחין)</src>
+    <src s="26">ושבע שנים</src>
+    <src s="27">(מדות).</src>
+    <src s="28">ויש לומר,</src>
+    <src s="29">שזה שמאה הוא</src>
+    <src s="30">(גם)</src>
+    <src s="31">הכלל דעשרים ושבע,</src>
+    <src s="32">הוא,</src>
+    <src s="33">לא רק להביאור שמאה הוא כתר,</src>
+    <src s="34">דכיון שכתר הוא מקיף ה"ה הכלל דכל העשר ספירות,</src>
+    <src s="35">אלא גם להביאור שמאה הוא עצם המוחין,</src>
+    <src s="36">דאף שמוחין הם כחות פנימיים,</src>
+    <src s="37">יש לומר,</src>
+    <src s="38">שעצם המוחין הוא גם הכלל דהדרגות שלמטה ממנו,</src>
+    <src s="39">שלכן,</src>
+    <src s="40">עצם המוחין נמשך ומתלבש</src>
+    <src s="41">(אח"כ)</src>
+    <src s="42">בהמוחין השייכים אל המדות,</src>
+    <src s="43">שנחלקים</src>
+    <src s="44">(בכללות)</src>
+    <src s="45">לב' קוין</src>
+    <src s="46">(עשרים שנה),</src>
+    <src s="47">חיוב ושלילה</src>
+    <src s="48">(עשה ולא תעשה)19,</src>
+    <src s="49">ועד שנמשך בהמדות עצמם</src>
+    <src s="50">(שבע שנים)</src>
+    <src s="51">שבהם היא עיקר העבודה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">וביאור הענין דמאה שנה כללא דכולא שהוא רזא דמאה ברכות שבכל יום,</src>
+    <src s="2">יובן ע"פ המבואר בכמה דרושים20</src>
+    <src s="3">שענין הברכות הוא כללות העבודה.</src>
+    <src s="4">דהנה,</src>
+    <src s="5">ברכה היא מלשון המשכה,</src>
+    <src s="6">והפירוש דברוך אתה הוי' הוא להמשיך שם הוי'21</src>
+    <src s="7">שיהי' ברוך ונמשך בגילוי למטה.</src>
+    <src s="8">וסדר ההמשכה הוא,</src>
+    <src s="9">שתחלה נמשך שם הוי' בנפש האדם,</src>
+    <src s="10">הוי' אלקינו,</src>
+    <src s="11">להיות גילוי אוא"ס בנפש כל ישראל שתתחזק אמונת ה' בלבם בגילוי עד שנעשה אלקה שלנו,</src>
+    <src s="12">כוחינו וחיותנו,</src>
+    <src s="13">ולאחרי שנמשך ונתגלה בישראל,</src>
+    <src s="14">נמשך על ידם הגילוי גם למטה להיות מלך העולם.</src>
+    <src s="15">ויש להוסיף,</src>
+    <src s="16">שההמשכה והגילוי למטה מודגשים גם בתוכן הברכות,</src>
+    <src s="17">כי,</src>
+    <src s="18">נוסף לכך ש</src>
+    <src s="19">(רוב ה)</src>
+    <src s="20">ברכות קשורים עם עניני העולם</src>
+    <src s="21">(שהרי אפילו ברכות המצוות קשורים עם עניני העולם שבהם מקיימים המצוות,</src>
+    <src s="22">ציצית בצמר גשמי ותפילין בקלף גשמי כו'),</src>
+    <src s="23">הרי הברכות עצמם הם על עניני העולם,</src>
+    <src s="24">וכמו ברכות השחר22</src>
+    <src s="25">שתקנום חכמים על סדר העולם והנהגתו מה שהבריות נהנין בכל יום שיברכו להקב"ה על זה בפעם ראשונה שנהנין הנאה זו בכל יום23,</src>
+    <src s="26">ועד"ז הברכות על בקשת צרכיו הגשמיים רופא חולים ומברך השנים וכיו"ב,</src>
+    <src s="27">ועאכו"כ ברכות הנהנין שמברכים לפני אכילה ושתי',</src>
+    <src s="28">שע"י הברכה נעשה הדבר מותר באכילה ושתי',</src>
+    <src s="29">כמארז"ל24</src>
+    <src s="30">כל הנהנה מעוה"ז בלא ברכה כאילו נהנה מקדשי שמים,</src>
+    <src s="31">שנאמר25</src>
+    <src s="32">לה' הארץ ומלואה,</src>
+    <src s="33">לאחר ברכה הרי היא לבני אדם,</src>
+    <src s="34">היינו,</src>
+    <src s="35">שפעולת הברכה היא</src>
+    <src s="36">(לא לבטל ח"ו העילוי דקדשי שמים שבדבר זה,</src>
+    <src s="37">אלא)</src>
+    <src s="38">שקדשי שמים נעשים שלו,</src>
+    <src s="39">שאכילתו ושתייתו היא בבחינת קדשי שמים,</src>
+    <src s="40">כיון שע"י הברכה נעשה הבירור והזיכוך דהדברים הגשמיים להיות נמשך בהם הגילוי ד</src>
+    <src s="41">(הוי' אלקינו)</src>
+    <src s="42">מלך העולם.</src>
+    <src s="43">וזהו הפירוש בדברי הזהר מאה שנה כללא דכולא ברזא דמאה ברכאן בכל יומא26,</src>
+    <src s="44">כי הענין דמאה ברכות הוא כללות כל העבודה להמשיך אלקות למטה,</src>
+    <src s="45">וזהו"ע דמאה שנה כללא דכולא,</src>
+    <src s="46">כללות העבודה להמשיך אלקות למטה,</src>
+    <src s="47">ע"י ההמשכה וההתלבשות בהמוחין השייכים אל המדות</src>
+    <src s="48">(עשרים שנה)</src>
+    <src s="49">ועד לבחינת המדות</src>
+    <src s="50">(שבע שנים),</src>
+    <src s="51">שבעת ימי הבנין,</src>
+    <src s="52">שעל ידם נברא העולם27,</src>
+    <src s="53">ובהם</src>
+    <src s="54">(בבחינת המדות)</src>
+    <src s="55">היא עיקר העבודה בזמן הזה28.</src>
+  </section>
+</awtsmoosMeluketSource>

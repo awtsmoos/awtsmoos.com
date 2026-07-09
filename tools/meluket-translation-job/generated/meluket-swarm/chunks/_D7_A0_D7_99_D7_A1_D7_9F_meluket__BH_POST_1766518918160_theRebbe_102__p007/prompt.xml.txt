@@ -1,0 +1,94 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918160_theRebbe_102" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918160_theRebbe_102__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918160_theRebbe_102" title="מאמר ויאמר לו יהונתן תשכ"ח" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918160_theRebbe_102__p007">
+  <section v="18">
+    <src s="0">ויש לומר הביאור בזה,</src>
+    <src s="1">דזה שהגוף מתענג בטבעו מדברים גשמיים</src>
+    <src s="2">[מעדנים,</src>
+    <src s="3">ועד"ז רכוש גדול]</src>
+    <src s="4">הוא לפי שענינים אלה שייכים להגוף מצד ענינו הפנימי</src>
+    <src s="5">[והשייכות שלו לדברים אלה הוא לא רק מצד החומריות שבו אלא גם</src>
+    <src s="6">(בעיקר)</src>
+    <src s="7">מצד ענינו הפנימי],</src>
+    <src s="8">ולכן,</src>
+    <src s="9">ע"י הרכוש גדול והמעדנים יתוסף במלאה הארץ דעה את ה' – ע"ד הענין שהנשמה תהי' ניזונית מהגוף.</src>
+  </section>
+  <section v="19">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">והנה מבואר בכ"מ68</src>
+    <src s="3">דזה ששורש הגוף הוא למעלה משורש הנשמה,</src>
+    <src s="4">הוא,</src>
+    <src s="5">כי נשמה וגוף הם דוגמת אורות וכלים ושורש הכלים הוא למעלה משורש האורות.</src>
+    <src s="6">וכמו שע"י המשכת והתלבשות האורות בהכלים נעשה יתרון והוספה בהאורות,</src>
+    <src s="7">כמו"כ הוא גם בנשמה וגוף,</src>
+    <src s="8">שע"י ירידת הנשמה והתלבשותה בגוף מתעלית הנשמה למדריגה נעלית יותר מכמו שהיתה קודם ירידתה.</src>
+    <src s="9">וע"פ הידוע69</src>
+    <src s="10">דזה שהבריאה היא בשביל ישראל51</src>
+    <src s="11">הכוונה בזה היא לא רק לבריאת העולם אלא לכל הגילויים,</src>
+    <src s="12">יש לומר,</src>
+    <src s="13">דהטעם הפנימי על זה ששורש הכלים הוא למעלה משורש האורות</src>
+    <src s="14">[ושע"י הכלים נעשה יתרון בהאורות]</src>
+    <src s="15">הוא לפי שהכוונה דאורות וכלים היא בשביל ישראל,</src>
+    <src s="16">בכדי שעל ידם יומשך הענין דנשמה וגוף,</src>
+    <src s="17">וכיון ששורש הגוף הוא למעלה משורש הנשמה,</src>
+    <src s="18">דבהגוף הוא בחירת העצמות,</src>
+    <src s="19">לכן נתהוו האורות וכלים באופן ששורש הכלים הוא למעלה משורש האורות.</src>
+    <src s="20">[אלא שבנשמה וגוף,</src>
+    <src s="21">זה ששורש הגוף הוא למעלה משורש הנשמה הוא זה שבהגוף הוא בחירת העצמות</src>
+    <src s="22">(בחירה חפשית,</src>
+    <src s="23">ואין זה שייך לענין ומעלת הגוף),</src>
+    <src s="24">ובאורות וכלים,</src>
+    <src s="25">זה ששורש הכלים הוא למעלה משורש האורות שייך לענינם דהכלים.</src>
+    <src s="26">ועי"ז נעשה עד"ז גם בנשמה וגוף שנשתלשלו מהם,</src>
+    <src s="27">דזה ששורש הגוף הוא למעלה משורש הנשמה שייך גם לענין ומעלת הגוף].</src>
+  </section>
+  <section v="20">
+    <src s="0">ועפ"ז יש לבאר הטעם על זה שהיתרון שע"י בירור העמים</src>
+    <src s="1">[שמקבלים מהמלאכים ששרשם הוא מהכלים]</src>
+    <src s="2">יהי' גם בימות המשיח</src>
+    <src s="3">(כנ"ל סעיף ו),</src>
+    <src s="4">כי זה שע"י הכלים נעשה יתרון בהאורות הוא מפני שהשורש</src>
+    <src s="5">(האמיתי)</src>
+    <src s="6">דאורות וכלים הוא הענין דנשמה וגוף,</src>
+    <src s="7">ולכן,</src>
+    <src s="8">כמו שהעלי' דהנשמה שע"י הגוף היא לא רק שע"י עבודת הנשמה בהגוף היא מתעלית אח"כ למדריגה נעלית יותר אלא שגם העלי' עצמה דלע"ל היא שהנשמה ניזונית מהגוף,</src>
+    <src s="9">עד"ז הוא בנוגע להיתרון שע"י הכלים,</src>
+    <src s="10">וכן היתרון שע"י המלאכים ששרשם הוא מהכלים,</src>
+    <src s="11">וכן היתרון שע"י בירור אומות העולם שמקבלים מהמלאכים,</src>
+    <src s="12">שיתרון זה יהי' גם לע"ל,</src>
+    <src s="13">דע"י כי תשפוט עמים מישור יתוסף בהשפע שנמשך לישראל.</src>
+  </section>
+</awtsmoosMeluketSource>

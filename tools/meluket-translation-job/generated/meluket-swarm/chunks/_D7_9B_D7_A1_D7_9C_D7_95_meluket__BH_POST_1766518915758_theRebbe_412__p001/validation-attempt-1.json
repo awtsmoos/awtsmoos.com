@@ -1,0 +1,374 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 66,
+    "returned": 66,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915758_theRebbe_412\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the header and date of the maamar, including the Torah portion and the eve of Chanukah 5726.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Vayeishev,</t>\n    <t s=\"2\">Erev Chanukah,</t>\n    <t s=\"3\">5726</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that Chanukah candles differ from the Temple Menorah in number, location, and time, and questions why the mitzvah is specifically outdoors.</sectionSummaryBrief>\n    <t s=\"0\">To understand the matter of Chanukah candles,</t>\n    <t s=\"1\">that although the Chanukah candles were instituted because of the miracle that occurred with the candles of the Temple,</t>\n    <t s=\"2\">and whatever the Sages instituted is in the manner of Torah law they instituted,</t>\n    <t s=\"3\">nevertheless, they differ in several matters.</t>\n    <t s=\"4\">In their number—</t>\n    <t s=\"5\">for in the Menorah in the Temple there were seven candles,</t>\n    <t s=\"6\">and the Chanukah candles are eight.</t>\n    <t s=\"7\">In their place of standing—</t>\n    <t s=\"8\">for the Menorah was inside</t>\n    <t s=\"9\">(within the Sanctuary)</t>\n    <t s=\"10\">and in the south</t>\n    <t s=\"11\">(right side),</t>\n    <t s=\"12\">and the Chanukah candles are commanded to be placed outside</t>\n    <t s=\"13\">and on the left.</t>\n    <t s=\"14\">And in the time of their lighting—</t>\n    <t s=\"15\">for the Temple candles were lit from the time of the afternoon offering,</t>\n    <t s=\"16\">a duration of time</t>\n    <t s=\"17\">(an hour and a quarter)</t>\n    <t s=\"18\">before sunset,</t>\n    <t s=\"19\">and the mitzvah of the Chanukah candle is from sunset.</t>\n    <t s=\"20\">And adds my revered father-in-law, the Rebbe,</t>\n    <t s=\"21\">(in the continuation of \"Padeh BeShalom\" 5704)</t>\n    <t s=\"22\">another precision in this: that the Chanukah candle is commanded to be placed outside,</t>\n    <t s=\"23\">for we do not find a mitzvah</t>\n    <t s=\"24\">(except for the Red Heifer)</t>\n    <t s=\"25\">that must be outside</t>\n    <t s=\"26\">(the public domain)</t>\n    <t s=\"27\">specifically.</t>\n    <t s=\"28\">And he explains in the continuation,</t>\n    <t s=\"29\">that the simple reason for this, that the Chanukah candle is outside, is for the sake of publicizing the miracle.</t>\n    <t s=\"30\">But at first glance this reason is insufficient,</t>\n    <t s=\"31\">for the miracle of Purim is also publicized through a festive meal, sending portions, and gifts to the poor,</t>\n    <t s=\"32\">and nevertheless, this is not done in the public domain.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that Chanukah candles illuminate the darkness of the public domain, representing a light above the chain of descent, hence eight candles.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And the point of the explanation in this is</t>\n    <t s=\"2\">(as explained in the discourses),</t>\n    <t s=\"3\">that the matter of Chanukah candles is to illuminate the darkness.</t>\n    <t s=\"4\">For through the war of the Greeks to cause them to forget Your Torah and to make them transgress the statutes of Your will,</t>\n    <t s=\"5\">[and particularly after they entered the Sanctuary and defiled all the oils in the Sanctuary],</t>\n    <t s=\"6\">there was a strengthening of the darkness of the side of impurity,</t>\n    <t s=\"7\">and therefore,</t>\n    <t s=\"8\">when the kingdom of the Chashmonaim prevailed and they defeated the Greeks, they instituted the Chanukah candles,</t>\n    <t s=\"9\">in order to illuminate the darkness.</t>\n    <t s=\"10\">And this is why their lighting time is from sunset,</t>\n    <t s=\"11\">for their matter is to illuminate the darkness.</t>\n    <t s=\"12\">And their place of standing is outside</t>\n    <t s=\"13\">(the public domain)</t>\n    <t s=\"14\">and on the left,</t>\n    <t s=\"15\">in order to also illuminate the darkness of the public domain,</t>\n    <t s=\"16\">the \"mountains of separation,\"</t>\n    <t s=\"17\">whose nourishment is from the left side.</t>\n    <t s=\"18\">And this is why the Chanukah candles are eight candles,</t>\n    <t s=\"19\">for that the Chanukah candles illuminate the darkness</t>\n    <t s=\"20\">(even the darkness of the public domain)</t>\n    <t s=\"21\">is because the light of the Chanukah candles is a light that is above the chain of descent,</t>\n    <t s=\"22\">and therefore they are eight candles,</t>\n    <t s=\"23\">for the number eight indicates a level that is above the chain of descent.</t>\n    <t s=\"24\">And likewise regarding the festival of Chanukah,</t>\n    <t s=\"25\">that the festival of Chanukah is eight days</t>\n    <t s=\"26\">(the days of Chanukah are eight),</t>\n    <t s=\"27\">it is,</t>\n    <t s=\"28\">because the revelation that shines during the days of Chanukah is a revelation that is above the chain of descent.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915758_theRebbe_412",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the header and date of the maamar, including the Torah portion and the eve of Chanukah 5726.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Vayeishev,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Erev Chanukah,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "5726"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that Chanukah candles differ from the Temple Menorah in number, location, and time, and questions why the mitzvah is specifically outdoors.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "To understand the matter of Chanukah candles,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "that although the Chanukah candles were instituted because of the miracle that occurred with the candles of the Temple,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "and whatever the Sages instituted is in the manner of Torah law they instituted,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "nevertheless, they differ in several matters."
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "In their number—"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "for in the Menorah in the Temple there were seven candles,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "and the Chanukah candles are eight."
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "In their place of standing—"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "for the Menorah was inside"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "(within the Sanctuary)"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "and in the south"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "(right side),"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "and the Chanukah candles are commanded to be placed outside"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and on the left."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "And in the time of their lighting—"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "for the Temple candles were lit from the time of the afternoon offering,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "a duration of time"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "(an hour and a quarter)"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "before sunset,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "and the mitzvah of the Chanukah candle is from sunset."
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "And adds my revered father-in-law, the Rebbe,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "(in the continuation of \"Padeh BeShalom\" 5704)"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "another precision in this: that the Chanukah candle is commanded to be placed outside,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "for we do not find a mitzvah"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "(except for the Red Heifer)"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "that must be outside"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "(the public domain)"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "specifically."
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "And he explains in the continuation,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "that the simple reason for this, that the Chanukah candle is outside, is for the sake of publicizing the miracle."
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "But at first glance this reason is insufficient,"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "for the miracle of Purim is also publicized through a festive meal, sending portions, and gifts to the poor,"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "and nevertheless, this is not done in the public domain."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that Chanukah candles illuminate the darkness of the public domain, representing a light above the chain of descent, hence eight candles.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the point of the explanation in this is"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "(as explained in the discourses),"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "that the matter of Chanukah candles is to illuminate the darkness."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "For through the war of the Greeks to cause them to forget Your Torah and to make them transgress the statutes of Your will,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "[and particularly after they entered the Sanctuary and defiled all the oils in the Sanctuary],"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "there was a strengthening of the darkness of the side of impurity,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "when the kingdom of the Chashmonaim prevailed and they defeated the Greeks, they instituted the Chanukah candles,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "in order to illuminate the darkness."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And this is why their lighting time is from sunset,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "for their matter is to illuminate the darkness."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And their place of standing is outside"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "(the public domain)"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and on the left,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "in order to also illuminate the darkness of the public domain,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "the \"mountains of separation,\""
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "whose nourishment is from the left side."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And this is why the Chanukah candles are eight candles,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "for that the Chanukah candles illuminate the darkness"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "(even the darkness of the public domain)"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "is because the light of the Chanukah candles is a light that is above the chain of descent,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "and therefore they are eight candles,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "for the number eight indicates a level that is above the chain of descent."
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "And likewise regarding the festival of Chanukah,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "that the festival of Chanukah is eight days"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "(the days of Chanukah are eight),"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "it is,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "because the revelation that shines during the days of Chanukah is a revelation that is above the chain of descent."
+          }
+        ]
+      }
+    ]
+  }
+}

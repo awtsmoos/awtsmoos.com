@@ -1,0 +1,208 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 34,
+    "returned": 34,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919961_theRebbe_975\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919961_theRebbe_975__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the service of one hundred blessings draws down a multiplicity of lights through the self-nullifying \"Mah\" of the soul, which is beyond number, and fulfilling one's mission elevates even that \"Mah.\"</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And 4)</t>\n    <t s=\"2\">And this is \"And now, Israel, what does Hashem your G-d ask of you?\" Do not read it as \"Mah\" (what) but rather as \"Me'ah\" (one hundred),</t>\n    <t s=\"3\">so that in order for the service of one hundred blessings to be possible,</t>\n    <t s=\"4\">to draw down a multiplicity of lights from above</t>\n    <t s=\"5\">(a multiplicity in quality)</t>\n    <t s=\"6\">into the multiplicity of created beings below</t>\n    <t s=\"7\">(the multiplicity of division into details),</t>\n    <t s=\"8\">it is through the \"Mah\" that is in the soul,</t>\n    <t s=\"9\">for \"Mah\" is an essential point that is above the category of number</t>\n    <t s=\"10\">(in which the concept of multiplicity does not apply,</t>\n    <t s=\"11\">nor even multiplicity in quality).</t>\n    <t s=\"12\">And through the service of one hundred blessings,</t>\n    <t s=\"13\">through this very thing, the \"Mah\" within him is revealed.</t>\n    <t s=\"14\">Moreover, since the purpose of the soul's descent below,</t>\n    <t s=\"15\">including also the descent of the \"Mah\" of the soul,</t>\n    <t s=\"16\">is to draw down a revelation of G-dliness into the world</t>\n    <t s=\"17\">[as it is now,</t>\n    <t s=\"18\">\"now\" (atah),</t>\n    <t s=\"19\">through the service of Israel, on account of the verse \"for you have striven with G-d and with men and have prevailed\"],</t>\n    <t s=\"20\">therefore,</t>\n    <t s=\"21\">by a person fulfilling his role and mission,</t>\n    <t s=\"22\">an elevation is also brought about in the \"Mah\" within him74.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section states that since we are at the end of exile and have completed the service, we are immediately redeemed in the true and complete redemption, fulfilling the purpose of a dwelling place below.</sectionSummaryBrief>\n    <t s=\"0\">And since we are already at the end of the time of exile,</t>\n    <t s=\"1\">and every Jew has already completed the service of \"the day to do them,\"</t>\n    <t s=\"2\">for the Torah promised that Israel will ultimately repent at the end of their exile75</t>\n    <t s=\"3\">— behold, they are immediately redeemed75,</t>\n    <t s=\"4\">with the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"5\">for then the intention of a dwelling place in the lower realms will be completed,</t>\n    <t s=\"6\">that there will be a revelation of G-dliness in this physical world and in all its details,</t>\n    <t s=\"7\">and Israel</t>\n    <t s=\"8\">[who drew down the revelation into the world]</t>\n    <t s=\"9\">will be on an even more elevated level76,</t>\n    <t s=\"10\">and all this — speedily, truly, immediately.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919961_theRebbe_975",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919961_theRebbe_975__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the service of one hundred blessings draws down a multiplicity of lights through the self-nullifying \"Mah\" of the soul, which is beyond number, and fulfilling one's mission elevates even that \"Mah.\"",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And 4)"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "And this is \"And now, Israel, what does Hashem your G-d ask of you?\" Do not read it as \"Mah\" (what) but rather as \"Me'ah\" (one hundred),"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "so that in order for the service of one hundred blessings to be possible,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "to draw down a multiplicity of lights from above"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "(a multiplicity in quality)"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "into the multiplicity of created beings below"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "(the multiplicity of division into details),"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "it is through the \"Mah\" that is in the soul,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "for \"Mah\" is an essential point that is above the category of number"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "(in which the concept of multiplicity does not apply,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "nor even multiplicity in quality)."
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "And through the service of one hundred blessings,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "through this very thing, the \"Mah\" within him is revealed."
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "Moreover, since the purpose of the soul's descent below,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "including also the descent of the \"Mah\" of the soul,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "is to draw down a revelation of G-dliness into the world"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "[as it is now,"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "\"now\" (atah),"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "through the service of Israel, on account of the verse \"for you have striven with G-d and with men and have prevailed\"],"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "therefore,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "by a person fulfilling his role and mission,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "an elevation is also brought about in the \"Mah\" within him74."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section states that since we are at the end of exile and have completed the service, we are immediately redeemed in the true and complete redemption, fulfilling the purpose of a dwelling place below.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And since we are already at the end of the time of exile,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "and every Jew has already completed the service of \"the day to do them,\""
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "for the Torah promised that Israel will ultimately repent at the end of their exile75"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "— behold, they are immediately redeemed75,"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "with the true and complete redemption through our righteous Moshiach,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "for then the intention of a dwelling place in the lower realms will be completed,"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "that there will be a revelation of G-dliness in this physical world and in all its details,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "and Israel"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "[who drew down the revelation into the world]"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "will be on an even more elevated level76,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "and all this — speedily, truly, immediately."
+          }
+        ]
+      }
+    ]
+  }
+}

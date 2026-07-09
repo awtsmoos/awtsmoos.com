@@ -1,0 +1,254 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 42,
+    "returned": 42,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915617_theRebbe_822\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915617_theRebbe_822__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>This section explains that there are two types of miracles: a change in the form and nature of creations, and a change in their very material existence, each enabled by the corresponding nullification of the creation.</sectionSummaryBrief>\n    <t s=\"0\">And this is that in miracles there are two types,</t>\n    <t s=\"1\">a change in the form and nature of creations</t>\n    <t s=\"2\">(like the splitting of the Sea of Reeds where the waters stood like a wall)</t>\n    <t s=\"3\">and a change in the very existence of their material substance</t>\n    <t s=\"4\">(like the miracle that the water turned to blood and that the staff turned into a serpent),</t>\n    <t s=\"5\">for through the nullification that is in the form of creations</t>\n    <t s=\"6\">(for the coming into being of form is from the Will)</t>\n    <t s=\"7\">they are like vessels for the miracle of change of form and nature,</t>\n    <t s=\"8\">and through the nullification that is in their very existence</t>\n    <t s=\"9\">(for the coming into being of their existence has no place in intellect)</t>\n    <t s=\"10\">they are like vessels for the miracle of change of their very existence.</t>\n  </section>\n  <section v=\"19\">\n    <sectionSummaryBrief>This section explains that conversely, for the supernal to be drawn into the natural world, there must be a parallel of nature within the supernal, which is why the blessing mentions multiple types of miracles.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And it may be said,</t>\n    <t s=\"2\">that correspondingly it is on the other side,</t>\n    <t s=\"3\">that in order for that which is above nature to be drawn into the nature of the world,</t>\n    <t s=\"4\">it is through that which is above nature having a likeness of nature.</t>\n    <t s=\"5\">And this is \"Blessed is He Who performed miracles\" in the plural,</t>\n    <t s=\"6\">a multiplicity of types of miracles,</t>\n    <t s=\"7\">for it may be said that from the reasons that there are a multiplicity of miracles,</t>\n    <t s=\"8\">even though the matter of multiplicity</t>\n    <t s=\"9\">(division)</t>\n    <t s=\"10\">is in the chain of descent and the root which is above nature is above the chain of descent,</t>\n    <t s=\"11\">it is in order that through this it will be possible for the drawing down of that which is above nature into the nature of the world.</t>\n  </section>\n  <section v=\"20\">\n    <sectionSummaryBrief>This section explains the two general categories of miracles as taught by the Rebbe Rashab: miracles above nature and miracles clothed in natural ways, with further subdivisions regarding how the natural garment reveals or conceals the miracle.</sectionSummaryBrief>\n    <t s=\"0\">And the matter of the multiplicity of types in miracles is explained by the Rebbe</t>\n    <t s=\"1\">(Moharashab)</t>\n    <t s=\"2\">of blessed memory in the maamar,</t>\n    <t s=\"3\">that in general they are divided into two types33.</t>\n    <t s=\"4\">Miracles that are above nature,</t>\n    <t s=\"5\">and miracles that are clothed in natural ways.</t>\n    <t s=\"6\">And in particular,</t>\n    <t s=\"7\">even within the miracles that are clothed in nature itself there are two types.</t>\n    <t s=\"8\">The garments of nature are in a manner that it is recognizable in them that they are only a garment for the miracle that is clothed in them,</t>\n    <t s=\"9\">like the miracles of Chanukah and Purim</t>\n    <t s=\"10\">(and likewise the miracles of the redemption of Yud Tes Kislev and Yud Beis Tammuz)</t>\n    <t s=\"11\">that despite their being clothed in natural ways,</t>\n    <t s=\"12\">nevertheless the miracle within them was revealed and apparent</t>\n    <t s=\"13\">(to the extent that all the ends of the earth saw)</t>\n    <t s=\"14\">the miracle within them.</t>\n    <t s=\"15\">And the garments of nature conceal and hide the miracle that is clothed in them.</t>\n    <t s=\"16\">To the extent that sometimes they conceal and hide it completely,</t>\n    <t s=\"17\">so that it is not at all recognizable that it is a miracle,</t>\n    <t s=\"18\">\"the master of the miracle does not recognize his miracle\"34.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915617_theRebbe_822",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915617_theRebbe_822__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "This section explains that there are two types of miracles: a change in the form and nature of creations, and a change in their very material existence, each enabled by the corresponding nullification of the creation.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "And this is that in miracles there are two types,"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "a change in the form and nature of creations"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "(like the splitting of the Sea of Reeds where the waters stood like a wall)"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "and a change in the very existence of their material substance"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "(like the miracle that the water turned to blood and that the staff turned into a serpent),"
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "for through the nullification that is in the form of creations"
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "(for the coming into being of form is from the Will)"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "they are like vessels for the miracle of change of form and nature,"
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "and through the nullification that is in their very existence"
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "(for the coming into being of their existence has no place in intellect)"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "they are like vessels for the miracle of change of their very existence."
+          }
+        ]
+      },
+      {
+        "v": 19,
+        "sectionSummaryBrief": "This section explains that conversely, for the supernal to be drawn into the natural world, there must be a parallel of nature within the supernal, which is why the blessing mentions multiple types of miracles.",
+        "translations": [
+          {
+            "v": 19,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 19,
+            "s": 1,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 19,
+            "s": 2,
+            "translation": "that correspondingly it is on the other side,"
+          },
+          {
+            "v": 19,
+            "s": 3,
+            "translation": "that in order for that which is above nature to be drawn into the nature of the world,"
+          },
+          {
+            "v": 19,
+            "s": 4,
+            "translation": "it is through that which is above nature having a likeness of nature."
+          },
+          {
+            "v": 19,
+            "s": 5,
+            "translation": "And this is \"Blessed is He Who performed miracles\" in the plural,"
+          },
+          {
+            "v": 19,
+            "s": 6,
+            "translation": "a multiplicity of types of miracles,"
+          },
+          {
+            "v": 19,
+            "s": 7,
+            "translation": "for it may be said that from the reasons that there are a multiplicity of miracles,"
+          },
+          {
+            "v": 19,
+            "s": 8,
+            "translation": "even though the matter of multiplicity"
+          },
+          {
+            "v": 19,
+            "s": 9,
+            "translation": "(division)"
+          },
+          {
+            "v": 19,
+            "s": 10,
+            "translation": "is in the chain of descent and the root which is above nature is above the chain of descent,"
+          },
+          {
+            "v": 19,
+            "s": 11,
+            "translation": "it is in order that through this it will be possible for the drawing down of that which is above nature into the nature of the world."
+          }
+        ]
+      },
+      {
+        "v": 20,
+        "sectionSummaryBrief": "This section explains the two general categories of miracles as taught by the Rebbe Rashab: miracles above nature and miracles clothed in natural ways, with further subdivisions regarding how the natural garment reveals or conceals the miracle.",
+        "translations": [
+          {
+            "v": 20,
+            "s": 0,
+            "translation": "And the matter of the multiplicity of types in miracles is explained by the Rebbe"
+          },
+          {
+            "v": 20,
+            "s": 1,
+            "translation": "(Moharashab)"
+          },
+          {
+            "v": 20,
+            "s": 2,
+            "translation": "of blessed memory in the maamar,"
+          },
+          {
+            "v": 20,
+            "s": 3,
+            "translation": "that in general they are divided into two types33."
+          },
+          {
+            "v": 20,
+            "s": 4,
+            "translation": "Miracles that are above nature,"
+          },
+          {
+            "v": 20,
+            "s": 5,
+            "translation": "and miracles that are clothed in natural ways."
+          },
+          {
+            "v": 20,
+            "s": 6,
+            "translation": "And in particular,"
+          },
+          {
+            "v": 20,
+            "s": 7,
+            "translation": "even within the miracles that are clothed in nature itself there are two types."
+          },
+          {
+            "v": 20,
+            "s": 8,
+            "translation": "The garments of nature are in a manner that it is recognizable in them that they are only a garment for the miracle that is clothed in them,"
+          },
+          {
+            "v": 20,
+            "s": 9,
+            "translation": "like the miracles of Chanukah and Purim"
+          },
+          {
+            "v": 20,
+            "s": 10,
+            "translation": "(and likewise the miracles of the redemption of Yud Tes Kislev and Yud Beis Tammuz)"
+          },
+          {
+            "v": 20,
+            "s": 11,
+            "translation": "that despite their being clothed in natural ways,"
+          },
+          {
+            "v": 20,
+            "s": 12,
+            "translation": "nevertheless the miracle within them was revealed and apparent"
+          },
+          {
+            "v": 20,
+            "s": 13,
+            "translation": "(to the extent that all the ends of the earth saw)"
+          },
+          {
+            "v": 20,
+            "s": 14,
+            "translation": "the miracle within them."
+          },
+          {
+            "v": 20,
+            "s": 15,
+            "translation": "And the garments of nature conceal and hide the miracle that is clothed in them."
+          },
+          {
+            "v": 20,
+            "s": 16,
+            "translation": "To the extent that sometimes they conceal and hide it completely,"
+          },
+          {
+            "v": 20,
+            "s": 17,
+            "translation": "so that it is not at all recognizable that it is a miracle,"
+          },
+          {
+            "v": 20,
+            "s": 18,
+            "translation": "\"the master of the miracle does not recognize his miracle\"34."
+          }
+        ]
+      }
+    ]
+  }
+}

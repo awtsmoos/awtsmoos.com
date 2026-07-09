@@ -1,0 +1,146 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916782_theRebbe_480" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916782_theRebbe_480" title="מאמר באתי לגני תשכ"ט" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">והנה זה שהמאור הוא בהתגלות בכל מקום,</src>
+    <src s="2">הוא באופן שאינו פועל בהמקום</src>
+    <src s="3">(ורק ידיעה כללית שיש אלוקה),</src>
+    <src s="4">כי כל פעולה היא ע"י אור וגילוי50,</src>
+    <src s="5">משא"כ זה שהמאור הוא בהתגלות</src>
+    <src s="6">[דזה שהמאור הוא בהתגלות אינו ענין הגילוי51],</src>
+    <src s="7">אינו פועל בהמקום.</src>
+    <src s="8">ובכדי שזה יהי' באופן של גילוי פעולה בעולם,</src>
+    <src s="9">הוא ע"י שהזכרת שם שמים</src>
+    <src s="10">[הבאה מצד שהמאור הוא בהתגלות]</src>
+    <src s="11">היא בנוגע לעניני העולם.</src>
+    <src s="12">ויש לקשר זה עם הסיפור הידוע52</src>
+    <src s="13">של אדמו"ר הזקן ששמע מרבו הרב המגיד ע"ד גודל ההשתדלות של הבעש"ט שישראל</src>
+    <src s="14">(אנשים נשים וטף)</src>
+    <src s="15">יאמרו דברי תהלה להשי"ת</src>
+    <src s="16">[כמו "ברוך השם",</src>
+    <src s="17">"געלויבט השי"ת" וכיו"ב]</src>
+    <src s="18">על זה שמשפיע להם בריאות ופרנסה,</src>
+    <src s="19">באמרו שתהלות ישראל הם פרנסתו של הקב"ה כביכול,</src>
+    <src s="20">כמ"ש53</src>
+    <src s="21">ואתה קדוש יושב תהלות ישראל,</src>
+    <src s="22">שפרנסתו של ואתה קדוש</src>
+    <src s="23">(שעלי' הוא יושב כביכול)</src>
+    <src s="24">היא תהלות ישראל,</src>
+    <src s="25">שישראל משבחים ומהללים אותו ית' על זה שמשפיע להם בני חיי ומזוני רויחי.</src>
+    <src s="26">וביאר אדמו"ר הזקן54</src>
+    <src s="27">שהוא ע"ד דאיתא במדרש עה"פ55</src>
+    <src s="28">דמיתיך רעייתי,</src>
+    <src s="29">מפרנסתי הן שירעו אותי בשני תמידין בכל יום.</src>
+    <src s="30">וע"פ הידוע56</src>
+    <src s="31">בפירוש מרז"ל57</src>
+    <src s="32">ישראל מפרנסין לאביהם שבשמים,</src>
+    <src s="33">דכמו שפרנסה כפשוטה היא שעל ידה נעשה חיבור הנשמה עם הגוף עד"ז הוא גם הפרנסה למעלה שענינה הוא שתהי' המשכת והתלבשות אוא"ס בהספירות שנק' בשם גוף,</src>
+    <src s="34">מובן,</src>
+    <src s="35">דזה שפרנסתו של ואתה קדוש הוא תהלות ישראל,</src>
+    <src s="36">הוא שע"י תהלות ישראל נעשה המשכת אוא"ס בהספירות,</src>
+    <src s="37">ועל ידם – בההשפעות שהקב"ה משפיע לישראל ע"י הספירות,</src>
+    <src s="38">ובפרט – באותם ההשפעות שישראל מהללים אותו ית' על זה שהשפיע להם השפעות אלו.</src>
+    <src s="39">דההשפעות כמו שהם מצד עצמם</src>
+    <src s="40">(לפני העבודה דתהלות ישראל),</src>
+    <src s="41">נמשכות ע"י הספירות שהם באין ערוך לגבי אוא"ס,</src>
+    <src s="42">וע"י שישראל מהללים אותו ית',</src>
+    <src s="43">את העצמות</src>
+    <src s="44">[שהרי כוונתם בזה שאומרים "ברוך השם",</src>
+    <src s="45">"געלויבט השי"ת" וכיו"ב היא לעצמותו ית'],</src>
+    <src s="46">על זה שהשפיע להם ההשפעות,</src>
+    <src s="47">עי"ז נמשך גילוי עצמות אוא"ס בהשפעות אלו.</src>
+    <src s="48">ועפ"ז יובן מ"ש בתורת הבעש"ט</src>
+    <src s="49">(הנ"ל)</src>
+    <src s="50">שתהלות ישראל שעליהם הקב"ה יושב ומתפרנס הם התהלות על זה שמשפיע להם בגשמיות</src>
+    <src s="51">("פאַר דעם געזונט און פרנסה וואָס ער ב"ה גיט זיי"),</src>
+    <src s="52">כי בכדי שתהי' המשכת עצמות אוא"ס בענינים הגשמיים צריך להיות גם ההילול בענינים אלו.</src>
+  </section>
+  <section v="10">
+    <src s="0">ט)</src>
+    <src s="1">ויובן זה ע"פ הידוע58</src>
+    <src s="2">בענין אתעדל"ע הנמשכת ע"י אתעדל"ת,</src>
+    <src s="3">דהגם שזה שאתעדל"ת מעוררת וממשכת האתעדל"ע אינו מצד מעלת האתעדל"ת עצמה אלא מפני שכך עלה ברצונו ית',</src>
+    <src s="4">מ"מ,</src>
+    <src s="5">צ"ל האתעדל"ת בדוגמת האתעדל"ע הנמשכת על ידה.</src>
+    <src s="6">וכתורת הרב המגיד59</src>
+    <src s="7">עה"פ60</src>
+    <src s="8">ועל דמות הכסא דמות כמראה אדם עליו מלמעלה,</src>
+    <src s="9">(דפירוש דמות כמראה אדם הוא)</src>
+    <src s="10">שכפי המדה שהאדם מראה מלמטה כן מראין לו מלמעלה.</src>
+    <src s="11">ויש לומר,</src>
+    <src s="12">שמקור ענין זה הוא מאמר הזהר61</src>
+    <src s="13">תא חזי</src>
+    <src s="14">(שאפשר לראות זה בראי' מוחשית)</src>
+    <src s="15">כו',</src>
+    <src s="16">אי איהו קיימא בנהירו דאנפין מתתא כדין הכי נהרין לי' מעילא כו' חדוה דב"נ משיך לגבי' חדוה אחרא עילאה כו'.</src>
+    <src s="17">ויתירה מזו,</src>
+    <src s="18">שגם זה שע"י עבודת האדם נעשים הענינים למעלה62,</src>
+    <src s="19">כתורת הרב המגיד63</src>
+    <src s="20">על מרז"ל64</src>
+    <src s="21">דע מה למעלה ממך,</src>
+    <src s="22">דכל מה שלמעלה הכל הוא ממך,</src>
+    <src s="23">צריכה להיות העבודה בדוגמת הענין דלמעלה שנעשה על ידה.</src>
+    <src s="24">ויש לומר,</src>
+    <src s="25">שעד"ז הוא בהמשכת עצמות אוא"ס שע"י העבודה דתהלות ישראל,</src>
+    <src s="26">דהגם שבנוגע לההמשכה עצמה אין שייך לומר לכאורה שהיא נמשכת ע"י העבודה65,</src>
+    <src s="27">מ"מ,</src>
+    <src s="28">בנוגע להמקום שבו תהי' ההמשכה,</src>
+    <src s="29">צריכה להיות העבודה</src>
+    <src s="30">(ההילול)</src>
+    <src s="31">בענינים אלו שבהם תבוא ההמשכה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דבההמשכה שעל ידי תהלות ישראל,</src>
+    <src s="2">שני ענינים.</src>
+    <src s="3">המשכה כללית,</src>
+    <src s="4">כהפירוש66</src>
+    <src s="5">ביושב תהלות ישראל שעל ידי תהלות ישראל הוא נמשך למטה</src>
+    <src s="6">[שההמשכה נק' בשם ישיבה,</src>
+    <src s="7">כמו היושב שמשפיל קומתו],</src>
+    <src s="8">המשכה וגילוי בכלל67</src>
+    <src s="9">שנעשה ע"י</src>
+    <src s="10">(כללות ענין)</src>
+    <src s="11">ההילול מלשון בהלו68</src>
+    <src s="12">נרו69,</src>
+    <src s="13">והמשכה שבדוגמת התלבשות בענין פרטי</src>
+    <src s="14">(ע"י שהתהלות ישראל הם בנוגע לענינים פרטים),</src>
+    <src s="15">כפירוש הבעש"ט ביושב תהלות ישראל,</src>
+    <src s="16">שתהלות ישראל הם פרנסתו של הקב"ה כביכול שעליהם הוא יושב.</src>
+    <src s="17">דענין הפרנסה הוא דוגמת הפרנסה כפשוטה שעל ידה נעשה חיבור הנפש עם הגוף בפנימיות,</src>
+    <src s="18">שהגוף חי מהנפש.</src>
+  </section>
+</awtsmoosMeluketSource>

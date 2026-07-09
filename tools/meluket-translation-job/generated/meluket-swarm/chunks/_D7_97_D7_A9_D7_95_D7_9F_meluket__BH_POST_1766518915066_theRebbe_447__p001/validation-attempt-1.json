@@ -1,0 +1,529 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 97,
+    "returned": 97,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915066_theRebbe_447\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915066_theRebbe_447__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header of the maamar for Shabbos Chayei Sarah, Mevarchim Chodesh Kislev, 5746.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">Shabbos Parshas Chayei Sarah,</t>\n    <t s=\"2\">Mevarchim Chodesh Kislev,</t>\n    <t s=\"3\">5746.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section discusses the verse \"And Avraham was old, advanced in days,\" citing the Rebbe Rashab's maamar and the Gemara and Midrash about Avraham requesting that old age be recognizable, introducing the concept of whitening hair as a revelation of the thirteen attributes of mercy.</sectionSummaryBrief>\n    <t s=\"0\">\"And Avraham was old, advanced in days,\" etc.1,</t>\n    <t s=\"1\">and with this, the Rebbe</t>\n    <t s=\"2\">(the Rebbe Rashab)</t>\n    <t s=\"3\">of blessed memory, whose birthday is the 20th of Cheshvan</t>\n    <t s=\"4\">(on this Shabbos, the concept of \"And the heavens were finished\"2 is actualized</t>\n    <t s=\"5\">in all the days of the past week,</t>\n    <t s=\"6\">including the day of the 20th of Cheshvan),</t>\n    <t s=\"7\">brings in his maamar on this verse</t>\n    <t s=\"8\">(Shabbos Parshas Chayei Sarah 56543),</t>\n    <t s=\"9\">what our sages said in the Gemara4</t>\n    <t s=\"10\">and in the Midrash5,</t>\n    <t s=\"11\">that until Avraham there was no old age... Avraham came and begged for mercy, and old age came into being, as it is said, \"And Avraham was old,\" etc.</t>\n    <t s=\"12\">And he brings the question of the Maharsha6</t>\n    <t s=\"13\">and the Yafeh Toar7,</t>\n    <t s=\"14\">for it is written before this8</t>\n    <t s=\"15\">\"And Avraham and Sarah were old, advanced in days,\" and what was the innovation now in Avraham's request?</t>\n    <t s=\"16\">And he brings their answer to this</t>\n    <t s=\"17\">(the essence of which is one,</t>\n    <t s=\"18\">and only in the details of the matter are there differences between them)</t>\n    <t s=\"19\">that the content of Avraham's request was that old age should be more recognizable.</t>\n    <t s=\"20\">For before Avraham, although there was the concept of old age, nevertheless the difference between a young man and an old man was not recognizable,</t>\n    <t s=\"21\">and Avraham requested that old age be recognizable,</t>\n    <t s=\"22\">as the language of the Midrash5</t>\n    <t s=\"23\">\"He said before Him: Master of the Worlds! A man and his son enter a place, and no one knows whom to honor...\"</t>\n    <t s=\"24\">and especially if their facial features are similar,</t>\n    <t s=\"25\">as it is brought in the Gemara there4</t>\n    <t s=\"26\">regarding Avraham and Yitzchak themselves,</t>\n    <t s=\"27\">that the facial features of Yitzchak were similar to Avraham,</t>\n    <t s=\"28\">as it is written9</t>\n    <t s=\"29\">(in the coming week's portion, which is read during Minchah of this Shabbos)</t>\n    <t s=\"30\">\"And these are the generations of Yitzchak son of Avraham, Avraham begot Yitzchak,\" and Rashi explains that the Holy One, blessed be He, formed the facial features of Yitzchak similar to Avraham,</t>\n    <t s=\"31\">and everyone testified that Avraham begot Yitzchak.</t>\n    <t s=\"32\">And it was for this that the request was made, that it be immediately recognizable that Avraham was older than Yitzchak10.</t>\n    <t s=\"33\">For this is the innovation in this request beyond what is written \"And Avraham and Sarah were old, advanced in days,\"</t>\n    <t s=\"34\">for there, the concept of old age was not recognizable and prominent in them,</t>\n    <t s=\"35\">but unlike that, through Avraham's request, a prominent change was effected in the faces of the elderly,</t>\n    <t s=\"36\">namely, both a change in the skin of the face through wrinkles, etc.</t>\n    <t s=\"37\">(creases)</t>\n    <t s=\"38\">in the skin of the face11,</t>\n    <t s=\"39\">and this concept is also in Sarah12</t>\n    <t s=\"40\">(in women),</t>\n    <t s=\"41\">as it is written13</t>\n    <t s=\"42\">\"After I have withered, I have had freshness,\"</t>\n    <t s=\"43\">and these are the change in the hairs of the head and the beard among men,</t>\n    <t s=\"44\">for even though the hairs of the beard exist already in a young man,</t>\n    <t s=\"45\">as per the halachah14</t>\n    <t s=\"46\">that a twenty-year-old's beard is filled with hair,</t>\n    <t s=\"47\">nevertheless, the innovation through old age is in the color of the hairs,</t>\n    <t s=\"48\">that the hair of the beard becomes white15.</t>\n    <t s=\"49\">And as it is brought in the Midrash16</t>\n    <t s=\"50\">that the Holy One, blessed be He, said to Avraham: \"Come, wear My garments,\" and \"Avraham was old, advanced in days,\" as it is written17</t>\n    <t s=\"51\">\"The Ancient18</t>\n    <t s=\"52\">of Days sat, His garment was white as snow, and the hair of His head like pure wool,\"</t>\n    <t s=\"53\">and this is the concept of the whitening of Avraham's hairs.</t>\n    <t s=\"54\">And just as it is regarding the concept of whitening of hairs</t>\n    <t s=\"55\">(which was innovated in the concept of \"And Avraham was old,\" etc.)</t>\n    <t s=\"56\">so too must it be said that there is an innovation also in the concept of \"advanced in days,\"</t>\n    <t s=\"57\">as will be explained below.</t>\n    <t s=\"58\">And he explains in the maamar there19</t>\n    <t s=\"59\">the general concept of the whitening of hairs,</t>\n    <t s=\"60\">that it is the drawing down of the aspect of the Thirteen Attributes of Mercy,</t>\n    <t s=\"61\">the revelation of the thirteen tikkunei dikna, about which it is said \"His garment was white as snow, and the hair of His head like pure wool,\"</t>\n    <t s=\"62\">meaning a drawing down that is above the order of the chain of descent,</t>\n    <t s=\"63\">and this was the innovation that was effected through Avraham,</t>\n    <t s=\"64\">and as is explained at length there.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section clarifies that \"advanced in days\" is not merely about reaching the end of one's life, but is a new concept connected to the innovation of the whitening of hairs, distinct from the earlier verse about Avraham and Sarah being \"advanced in days.\"</sectionSummaryBrief>\n    <t s=\"0\">However, it still needs to be understood regarding the concept of \"advanced in days\"20,</t>\n    <t s=\"1\">what is the concept and the innovation in this matter.</t>\n    <t s=\"2\">For it was already said before this, \"And Avraham and Sarah... advanced in days.\"</t>\n    <t s=\"3\">And \"advanced in days\" does not mean that he has already reached the end of his days</t>\n    <t s=\"4\">[as in this week's haftarah, where it is written21</t>\n    <t s=\"5\">\"And King Dovid was old, advanced in days,\"</t>\n    <t s=\"6\">for the intention there is</t>\n    <t s=\"7\">(also)</t>\n    <t s=\"8\">that he reached the end of his days22,</t>\n    <t s=\"9\">the age of seventy22],</t>\n    <t s=\"10\">for the verse \"And Avraham and Sarah... advanced in days\" was said more than forty years before this verse in our parshah</t>\n    <t s=\"11\">(which was said at the time of the matchmaking of Yitzchak and Rivkah when Yitzchak was forty years old23,</t>\n    <t s=\"12\">and the verse \"And Avraham and Sarah were old...\" was said before the birth of Yitzchak),</t>\n    <t s=\"13\">that is, before Avraham was one hundred years old,</t>\n    <t s=\"14\">and Avraham lived afterwards until 175 years24.</t>\n    <t s=\"15\">And similarly, what is said here \"And Avraham... advanced in days\" does not mean that he reached the end of his days,</t>\n    <t s=\"16\">for he was then one hundred and forty years old,</t>\n    <t s=\"17\">and he lived afterwards another thirty-five years,</t>\n    <t s=\"18\">and furthermore,</t>\n    <t s=\"19\">had Esav not been born, he would have lived another five years25,</t>\n    <t s=\"20\">that is, more than thirty-five years,</t>\n    <t s=\"21\">more than half of a person's years</t>\n    <t s=\"22\">(\"The days of our years in them are seventy years\"26).</t>\n    <t s=\"23\">Also, it is necessary to understand the connection of the concept of \"advanced in days\" to what is said \"And Avraham was old,\"</t>\n    <t s=\"24\">and from the fact that it is said here again \"advanced in days,\"</t>\n    <t s=\"25\">it is necessarily to say</t>\n    <t s=\"26\">that this is an innovation and is related to the innovation of \"And Avraham was old,\"</t>\n    <t s=\"27\">the concept of the whitening of hairs mentioned above.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915066_theRebbe_447",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915066_theRebbe_447__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header of the maamar for Shabbos Chayei Sarah, Mevarchim Chodesh Kislev, 5746.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Chayei Sarah,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Mevarchim Chodesh Kislev,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "5746."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section discusses the verse \"And Avraham was old, advanced in days,\" citing the Rebbe Rashab's maamar and the Gemara and Midrash about Avraham requesting that old age be recognizable, introducing the concept of whitening hair as a revelation of the thirteen attributes of mercy.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And Avraham was old, advanced in days,\" etc.1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and with this, the Rebbe"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "of blessed memory, whose birthday is the 20th of Cheshvan"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "(on this Shabbos, the concept of \"And the heavens were finished\"2 is actualized"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "in all the days of the past week,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "including the day of the 20th of Cheshvan),"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "brings in his maamar on this verse"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(Shabbos Parshas Chayei Sarah 56543),"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "what our sages said in the Gemara4"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "and in the Midrash5,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "that until Avraham there was no old age... Avraham came and begged for mercy, and old age came into being, as it is said, \"And Avraham was old,\" etc."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And he brings the question of the Maharsha6"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and the Yafeh Toar7,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "for it is written before this8"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "\"And Avraham and Sarah were old, advanced in days,\" and what was the innovation now in Avraham's request?"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And he brings their answer to this"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "(the essence of which is one,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "and only in the details of the matter are there differences between them)"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "that the content of Avraham's request was that old age should be more recognizable."
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "For before Avraham, although there was the concept of old age, nevertheless the difference between a young man and an old man was not recognizable,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "and Avraham requested that old age be recognizable,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "as the language of the Midrash5"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "\"He said before Him: Master of the Worlds! A man and his son enter a place, and no one knows whom to honor...\""
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "and especially if their facial features are similar,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "as it is brought in the Gemara there4"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "regarding Avraham and Yitzchak themselves,"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "that the facial features of Yitzchak were similar to Avraham,"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "as it is written9"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "(in the coming week's portion, which is read during Minchah of this Shabbos)"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "\"And these are the generations of Yitzchak son of Avraham, Avraham begot Yitzchak,\" and Rashi explains that the Holy One, blessed be He, formed the facial features of Yitzchak similar to Avraham,"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "and everyone testified that Avraham begot Yitzchak."
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "And it was for this that the request was made, that it be immediately recognizable that Avraham was older than Yitzchak10."
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "For this is the innovation in this request beyond what is written \"And Avraham and Sarah were old, advanced in days,\""
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "for there, the concept of old age was not recognizable and prominent in them,"
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "but unlike that, through Avraham's request, a prominent change was effected in the faces of the elderly,"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "namely, both a change in the skin of the face through wrinkles, etc."
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "(creases)"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "in the skin of the face11,"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "and this concept is also in Sarah12"
+          },
+          {
+            "v": 1,
+            "s": 40,
+            "translation": "(in women),"
+          },
+          {
+            "v": 1,
+            "s": 41,
+            "translation": "as it is written13"
+          },
+          {
+            "v": 1,
+            "s": 42,
+            "translation": "\"After I have withered, I have had freshness,\""
+          },
+          {
+            "v": 1,
+            "s": 43,
+            "translation": "and these are the change in the hairs of the head and the beard among men,"
+          },
+          {
+            "v": 1,
+            "s": 44,
+            "translation": "for even though the hairs of the beard exist already in a young man,"
+          },
+          {
+            "v": 1,
+            "s": 45,
+            "translation": "as per the halachah14"
+          },
+          {
+            "v": 1,
+            "s": 46,
+            "translation": "that a twenty-year-old's beard is filled with hair,"
+          },
+          {
+            "v": 1,
+            "s": 47,
+            "translation": "nevertheless, the innovation through old age is in the color of the hairs,"
+          },
+          {
+            "v": 1,
+            "s": 48,
+            "translation": "that the hair of the beard becomes white15."
+          },
+          {
+            "v": 1,
+            "s": 49,
+            "translation": "And as it is brought in the Midrash16"
+          },
+          {
+            "v": 1,
+            "s": 50,
+            "translation": "that the Holy One, blessed be He, said to Avraham: \"Come, wear My garments,\" and \"Avraham was old, advanced in days,\" as it is written17"
+          },
+          {
+            "v": 1,
+            "s": 51,
+            "translation": "\"The Ancient18"
+          },
+          {
+            "v": 1,
+            "s": 52,
+            "translation": "of Days sat, His garment was white as snow, and the hair of His head like pure wool,\""
+          },
+          {
+            "v": 1,
+            "s": 53,
+            "translation": "and this is the concept of the whitening of Avraham's hairs."
+          },
+          {
+            "v": 1,
+            "s": 54,
+            "translation": "And just as it is regarding the concept of whitening of hairs"
+          },
+          {
+            "v": 1,
+            "s": 55,
+            "translation": "(which was innovated in the concept of \"And Avraham was old,\" etc.)"
+          },
+          {
+            "v": 1,
+            "s": 56,
+            "translation": "so too must it be said that there is an innovation also in the concept of \"advanced in days,\""
+          },
+          {
+            "v": 1,
+            "s": 57,
+            "translation": "as will be explained below."
+          },
+          {
+            "v": 1,
+            "s": 58,
+            "translation": "And he explains in the maamar there19"
+          },
+          {
+            "v": 1,
+            "s": 59,
+            "translation": "the general concept of the whitening of hairs,"
+          },
+          {
+            "v": 1,
+            "s": 60,
+            "translation": "that it is the drawing down of the aspect of the Thirteen Attributes of Mercy,"
+          },
+          {
+            "v": 1,
+            "s": 61,
+            "translation": "the revelation of the thirteen tikkunei dikna, about which it is said \"His garment was white as snow, and the hair of His head like pure wool,\""
+          },
+          {
+            "v": 1,
+            "s": 62,
+            "translation": "meaning a drawing down that is above the order of the chain of descent,"
+          },
+          {
+            "v": 1,
+            "s": 63,
+            "translation": "and this was the innovation that was effected through Avraham,"
+          },
+          {
+            "v": 1,
+            "s": 64,
+            "translation": "and as is explained at length there."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section clarifies that \"advanced in days\" is not merely about reaching the end of one's life, but is a new concept connected to the innovation of the whitening of hairs, distinct from the earlier verse about Avraham and Sarah being \"advanced in days.\"",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "However, it still needs to be understood regarding the concept of \"advanced in days\"20,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "what is the concept and the innovation in this matter."
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "For it was already said before this, \"And Avraham and Sarah... advanced in days.\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "And \"advanced in days\" does not mean that he has already reached the end of his days"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "[as in this week's haftarah, where it is written21"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "\"And King Dovid was old, advanced in days,\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "for the intention there is"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "(also)"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that he reached the end of his days22,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "the age of seventy22],"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "for the verse \"And Avraham and Sarah... advanced in days\" was said more than forty years before this verse in our parshah"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(which was said at the time of the matchmaking of Yitzchak and Rivkah when Yitzchak was forty years old23,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and the verse \"And Avraham and Sarah were old...\" was said before the birth of Yitzchak),"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that is, before Avraham was one hundred years old,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and Avraham lived afterwards until 175 years24."
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "And similarly, what is said here \"And Avraham... advanced in days\" does not mean that he reached the end of his days,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "for he was then one hundred and forty years old,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "and he lived afterwards another thirty-five years,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "and furthermore,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "had Esav not been born, he would have lived another five years25,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "that is, more than thirty-five years,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "more than half of a person's years"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "(\"The days of our years in them are seventy years\"26)."
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "Also, it is necessary to understand the connection of the concept of \"advanced in days\" to what is said \"And Avraham was old,\""
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "and from the fact that it is said here again \"advanced in days,\""
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "it is necessarily to say"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "that this is an innovation and is related to the innovation of \"And Avraham was old,\""
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "the concept of the whitening of hairs mentioned above."
+          }
+        ]
+      }
+    ]
+  }
+}

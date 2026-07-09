@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914440_theRebbe_936" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914440_theRebbe_936__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914440_theRebbe_936" title="מאמר תורה צוה תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914440_theRebbe_936__p004">
+  <section v="9">
+    <src s="0">ה)</src>
+    <src s="1">וזהו תורה צוה גו' מורשה קהלת יעקב ויהי בישורון מלך גו' יחד שבטי ישראל,</src>
+    <src s="2">דזה שהתורה היא ירושה לכל אחד מישראל הוא מצד בחינת יעקב שבהם</src>
+    <src s="3">(מורשה קהלת יעקב),</src>
+    <src s="4">והענין דהתקן עצמך ללמוד תורה שאינה ירושה לך הוא מצד בחינת ישראל,</src>
+    <src s="5">והמתנה דתורה היא מצד בחינת ישורון.</src>
+  </section>
+  <section v="10">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דיעקב הוא בחינת עבד כמ"ש34</src>
+    <src s="2">שמע אלי יעקב עבדי,</src>
+    <src s="3">וישראל הוא בחינת בן כמ"ש35</src>
+    <src s="4">בני בכורי ישראל36.</src>
+    <src s="5">והעבודה דיעקב היא37</src>
+    <src s="6">שהוא עובד אלקים,</src>
+    <src s="7">לתקן ההסתר הנמשך משם אלקים.</src>
+    <src s="8">וישראל הוא על שם כי שרית עם אלקים38,</src>
+    <src s="9">שמושל ושולט על שם אלקים.</src>
+    <src s="10">וזהו שאיתא בזהר39</src>
+    <src s="11">שישראל ויעקב הם נגד ב' השמות הוי' ואלקים,</src>
+    <src s="12">דלגבי בחינת יעקב י' עקב40</src>
+    <src s="13">ישנו ההסתר דשם אלקים ועבודתו היא לתקן ההסתר.</src>
+    <src s="14">וגם לאחרי שמתקן ההסתר דשם אלקים,</src>
+    <src s="15">שעי"ז נמשך הגילוי דהוי',</src>
+    <src s="16">הוא הגילוי דהוי' כמו שהוא ע"י שם אלקים.</src>
+    <src s="17">וישראל שהוא על שם כי שרית עם אלקים,</src>
+    <src s="18">שלגבי' אין מלכתחילה ההעלם וההסתר דשם אלקים,</src>
+    <src s="19">הגילוי דהוי' שנמשך ע"י ישראל הוא הגילוי דהוי' עצמו.</src>
+    <src s="20">ומבואר בלקו"ת41</src>
+    <src s="21">שהעבודה בששת ימי החול היא</src>
+    <src s="22">(בדרך כלל)</src>
+    <src s="23">העבודה דיעקב,</src>
+    <src s="24">עבודת הבירורים,</src>
+    <src s="25">לתקן ההסתר דשם אלקים.</src>
+    <src s="26">והעבודה דשבת היא בבחינת ישראל.</src>
+    <src s="27">כי בשבת כתיב42</src>
+    <src s="28">ויכל אלקים,</src>
+    <src s="29">שכלתה מדת הצמצום וההסתר דשם אלקים ונמשך הגילוי דהוי',</src>
+    <src s="30">ולכן אין צריך אז לעבודת הבירורים,</src>
+    <src s="31">והעבודה דשבת היא להתענג על הוי',</src>
+    <src s="32">שלמעלה מעבודת הבירורים.</src>
+  </section>
+  <section v="11">
+    <src s="0">ובחינת ישורון היא למעלה גם מבחינת ישראל.</src>
+    <src s="1">דישורון הוא מלשון שיר,</src>
+    <src s="2">דבר עגול כטבעת שאין לו ראש וסוף43.</src>
+    <src s="3">ומבואר בלקו"ת44</src>
+    <src s="4">דזה שישראל נק' בשם ישורון הוא מצד שורש הנשמות כמו שעלו במחשבה.</src>
+    <src s="5">ויש לומר,</src>
+    <src s="6">דהחילוק שבין ישורון לישראל,</src>
+    <src s="7">אף שגם הענין דישראל על שם כי שרית עם אלקים הוא מצד הגילוי דשורש הנשמה שלמעלה מהתלבשות בגוף</src>
+    <src s="8">[וכמבואר בכ"מ45</src>
+    <src s="9">דיעקב הוא הנשמה שמלובשת בגוף וישראל הוא שורש הנשמה שלמעלה מהתלבשות בגוף],</src>
+    <src s="10">דישראל הוא בחינת בן</src>
+    <src s="11">(כנ"ל),</src>
+    <src s="12">דלשון וענין בן שייך דוקא לאחרי שהבן נמשך ממוח האב,</src>
+    <src s="13">וישורון הוא עצם הנשמה כמו שהיא מושרשת בעצמותו ית',</src>
+    <src s="14">בדוגמת הבן כמו שהוא במוח האב עצמו</src>
+    <src s="15">(טרם שנמשך).</src>
+    <src s="16">וזהו שישורון הוא מלשון שיר שאין בו ראש וסוף,</src>
+    <src s="17">כי בהדרגא דהנשמות כמו שנמשכו כבר ממוח האב</src>
+    <src s="18">(גם כמו שהם למעלה)</src>
+    <src s="19">ישנם חילוקי דרגות,</src>
+    <src s="20">והענין דשיר שאין בו ראש וסוף הוא בעצם הנשמות כמו שהם מושרשים באוא"ס.</src>
+    <src s="21">וזהו מ"ש ויהי בישורון מלך ואיתא בלקו"ת44</src>
+    <src s="22">שזה קאי על ראש השנה,</src>
+    <src s="23">שתמליכוני עליכם,</src>
+    <src s="24">כי הענין דתמליכוני עליכם הוא ע"י גילוי עצם הנשמה כמו שהיא מושרשת בעצמות אוא"ס.</src>
+  </section>
+</awtsmoosMeluketSource>

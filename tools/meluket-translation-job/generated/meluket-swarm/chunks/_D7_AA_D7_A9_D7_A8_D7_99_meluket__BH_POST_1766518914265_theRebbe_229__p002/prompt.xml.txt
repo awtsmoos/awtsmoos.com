@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914265_theRebbe_229" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914265_theRebbe_229__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914265_theRebbe_229" title="מאמר כנשר יעיר קנו תשמ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914265_theRebbe_229__p002">
+  <section v="3">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דהנה כתיב9</src>
+    <src s="2">שלשה המה נפלאו ממני גו' דרך הנשר בשמים גו',</src>
+    <src s="3">ומבואר במ"א10</src>
+    <src s="4">דהפלא הוא איך יש פני נשר שהוא עוף טמא במרכבה העליונה.</src>
+    <src s="5">וצריך להבין11,</src>
+    <src s="6">שהרי יש במרכבה גם פני ארי' אל הימין12</src>
+    <src s="7">שהוא חי' טמאה,</src>
+    <src s="8">ומדוע הפליאה היא על הנשר דוקא.</src>
+    <src s="9">והביאור בזה,</src>
+    <src s="10">ע"פ המבואר במ"א13</src>
+    <src s="11">שדרך הנשר</src>
+    <src s="12">(פני נשר שבמרכבה)</src>
+    <src s="13">הו"ע קו האמצעי.</src>
+    <src s="14">וזהו מה שתמה על פני נשר דוקא14,</src>
+    <src s="15">כי פני ארי' אל הימין,</src>
+    <src s="16">דפני ארי' שבמרכבה הם בקו הימין העולה בחיצוניות הכתר בלבד,</src>
+    <src s="17">ואין זה פלא כ"כ,</src>
+    <src s="18">משא"כ פני נשר שהם בקו האמצעי העולה בפנימיות הכתר15,</src>
+    <src s="19">יפלא מאד איך יש פני עוף טמא בפנימיות הכתר.</src>
+  </section>
+  <section v="4">
+    <src s="0">וביאור הענין,</src>
+    <src s="1">דהנה דוקא להיות מדת הרחמים מושרשת בפנימיות הכתר,</src>
+    <src s="2">לפיכך נפלה למטה מטה,</src>
+    <src s="3">וזהו שנק' נשר מלשון נשירה ונפילה16,</src>
+    <src s="4">דנפיל מן דרגי',</src>
+    <src s="5">עד לעוף טמא שמחוץ למקום הקדושה.</src>
+    <src s="6">ובזה יובן המשך הפסוקים,</src>
+    <src s="7">דכתיב לעיל מיני' ימצאהו בארץ מדבר גו',</src>
+    <src s="8">דמדבר הוא מקום אשר לא ישב אדם שם17,</src>
+    <src s="9">היינו שהוא מחוץ למושב האדם העליון18,</src>
+    <src s="10">ועד"ז מחוץ למושב בני ישראל הקרויים אדם19</src>
+    <src s="11">אדמה לעליון20,</src>
+    <src s="12">כי בכל ישראל יש נפש הקדושה שהיא חלק אלוקה ממעל ממש21,</src>
+    <src s="13">וכדכתיב לפנ"ז22</src>
+    <src s="14">כי חלק הוי' עמו גו',</src>
+    <src s="15">ולפיכך אין להם שום שייכות למקום המדבר</src>
+    <src s="16">(שמחוץ לקדושה),</src>
+    <src s="17">ולא זו בלבד שלא ישב אדם</src>
+    <src s="18">(היינו ישראל)</src>
+    <src s="19">שם,</src>
+    <src s="20">אלא שלא עבר שם,</src>
+    <src s="21">היינו שאין לישראל כל שייכות למקום זה.</src>
+    <src s="22">וזהו שממשיך כנשר יעיר קנו גו',</src>
+    <src s="23">כי למקום זה נפלה בחי' נשר.</src>
+  </section>
+  <section v="5">
+    <src s="0">אמנם23 גם על מקום זה נאמר ימצאהו בארץ מדבר גו',</src>
+    <src s="1">דגם משם יקבצך ה' אלקיך ומשם יקחך24.</src>
+    <src s="2">וההעלאה והתשובה ממקום זה היא ע"י גילוי בחי' כנשר בדרגא הכי עליונה,</src>
+    <src s="3">בחי' פנימיות הכתר,</src>
+    <src s="4">כי מיני' ובי' אבא לשדי' בי' נרגא25,</src>
+    <src s="5">ועי"ז עולים לפנימיות הכתר.</src>
+    <src s="6">דכיון שכל הגבוה יותר יורד למטה ביותר הרי דוקא ע"י שעולים ממקום רחוק כזה,</src>
+    <src s="7">העלי' היא למעלה ביותר.</src>
+    <src s="8">וע"ד המבואר בכ"מ26</src>
+    <src s="9">(מל"ת להאריז"ל27)</src>
+    <src s="10">בפי' הכתוב28</src>
+    <src s="11">כי לא על הלחם לבדו יחי' האדם כי על כל מוצא פי הוי' יחי' האדם,</src>
+    <src s="12">שהמדבר צריך למוצא פי הוי' שבדצ"ח,</src>
+    <src s="13">משום שמזה שנפלו הניצוצות למטה ביותר</src>
+    <src s="14">(בדצ"ח שלמטה ממדבר)</src>
+    <src s="15">מוכח ששרשם למעלה יותר,</src>
+    <src s="16">ולכן בכחם דוקא להחיות את המוצא פי הוי' שבמדבר.</src>
+    <src s="17">ועד"ז יובן למטה מזה,</src>
+    <src s="18">בבחי' נשר שענינה הנפילה מחוץ למקום הקדושה,</src>
+    <src s="19">דדוקא ע"י העלי' ממקום זה עולים עד לפנימיות הכתר.</src>
+    <src s="20">וזהו טעם ירידת הנשמה למטה מאיגרא רמה לבירא עמיקתא29,</src>
+    <src s="21">מבחי' נשמה שנתת בי עד לנפחתה בי30</src>
+    <src s="22">בעוה"ז התחתון,</src>
+    <src s="23">כדי שבעולם זה תהי' העלי' מלמטה ביותר,</src>
+    <src s="24">בסולם המוצב ארצה31</src>
+    <src s="25">דוקא,</src>
+    <src s="26">ועי"ז ראשו מגיע השמימה31,</src>
+    <src s="27">למעלה ביותר,</src>
+    <src s="28">עד שהרוח תשוב אל האלקים אשר נתנה32.</src>
+    <src s="29">וזהו33</src>
+    <src s="30">מה שממשיך2</src>
+    <src s="31">יצרנו כאישון עינו,</src>
+    <src s="32">דאישון הוא השחור שבעין כמארז"ל34</src>
+    <src s="33">אין אדם רואה מתוך הלבן שבעין אלא מתוך השחור שבעין,</src>
+    <src s="34">דענין השחור שבעין היינו השחרות וההעלם והריחוק וכו'.</src>
+    <src s="35">דע"י ההתבוננות בזה שנמצא במקום ההעלם,</src>
+    <src s="36">במקום רחוק,</src>
+    <src s="37">ורע ומר עזבך את ה'35,</src>
+    <src s="38">עי"ז בא לתשובה מעומקא דליבא עד שזדונות נעשו לו כזכיות וזכיות.</src>
+  </section>
+</awtsmoosMeluketSource>

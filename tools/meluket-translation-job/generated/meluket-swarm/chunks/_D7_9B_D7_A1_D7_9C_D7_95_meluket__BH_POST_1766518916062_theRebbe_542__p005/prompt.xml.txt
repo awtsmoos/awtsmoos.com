@@ -1,0 +1,142 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518916062_theRebbe_542" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518916062_theRebbe_542" title="מאמר פדה בשלום תשל"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p005">
+  <section v="12">
+    <src s="0">ו)</src>
+    <src s="1">וממשיך בהמאמר34</src>
+    <src s="2">לבאר ענין זה בתוספת ביאור</src>
+    <src s="3">(שמבחי' העקודים ששם נמצאים כל הענינים בהעלם,</src>
+    <src s="4">כמו בבחי' היחידה,</src>
+    <src s="5">נמשכים ובאים כל הענינים בגילוי,</src>
+    <src s="6">באופן שיש חילוק בין עולם האצילות לעולמות שלמטה ממנו עד לעולם העשי'),</src>
+    <src s="7">שיובן ממה שמצינו בעולם</src>
+    <src s="8">(כנ"ל שמבשרי אחזה אלקה)</src>
+    <src s="9">שיש ד' מדריגות דצח"מ,</src>
+    <src s="10">שכל אחד מהם כלול מזולתו,</src>
+    <src s="11">היינו,</src>
+    <src s="12">שהמדבר יש בו ג"כ ג' המדריגות דחי וצומח ודומם,</src>
+    <src s="13">ומזה מובן שגם החי כלול בו לא רק בחי' צומח ודומם,</src>
+    <src s="14">אלא גם בחי' מדבר,</src>
+    <src s="15">ועד שיכול להיות דם ובשר מבשרו של המדבר,</src>
+    <src s="16">שאז מתגלה מה שהי' תחילה בהעלם.</src>
+    <src s="17">ומה שכל אחד מהם נקרא בשם בפ"ע,</src>
+    <src s="18">הרי זה ע"ש ההתגלות,</src>
+    <src s="19">שבנברא זה מתגלה בחי' המדבר,</src>
+    <src s="20">ובנברא זה מתגלה בחי' החי,</src>
+    <src s="21">ועד"ז בצומח ובדומם,</src>
+    <src s="22">אבל מצד ההעלם,</src>
+    <src s="23">הנה כשם שבבחי' המדבר כלולים חי צומח ודומם,</src>
+    <src s="24">כן הוא גם בשאר הסוגים,</src>
+    <src s="25">שגם בסוג הדומם כלולים צומח חי ומדבר.</src>
+    <src s="26">והיינו,</src>
+    <src s="27">שהחילוק הוא רק בהגילוי שבהם,</src>
+    <src s="28">ולא בההעלם שלהם.</src>
+    <src s="29">ועד"ז הוא גם בעולמות אבי"ע שהם כנגד דצח"מ35,</src>
+    <src s="30">שהתחלקות שביניהם היא רק מצד הגילוי,</src>
+    <src s="31">אבל כפי שהם כלולים בתכלית ההעלם בבחי' העקודים,</src>
+    <src s="32">הרי הם בשוה ממש.</src>
+    <src s="33">ומבחי' זו יכול להיות הגילוי בבת אחת ובשוה בעולם האצילות ובעולם העשי',</src>
+    <src s="34">ע"ד התגלות בחי' היחידה שבנפש בריבוי השכל ובריקוד שברגל בבת אחת,</src>
+    <src s="35">ולכן יכול להיות ענין ההשגחה בכל פרט ופרט,</src>
+    <src s="36">כיון שנמשך מעולם העקודים ולמעלה יותר.</src>
+    <src s="37">ומזה מובן,</src>
+    <src s="38">שזה שבחי' היחידה וכן עולם העקודים הו"ע של מקיף,</src>
+    <src s="39">אין הכוונה שמקיף וסובב מבחוץ,</src>
+    <src s="40">שהרי אדרבה,</src>
+    <src s="41">מזה נמשך ענין ההשגחה פרטית על כל פרט ופרט,</src>
+    <src s="42">וכמבואר בתניא36</src>
+    <src s="43">שהענין דהשגח"פ קשור עם חיות והתהוות הנברא,</src>
+    <src s="44">ואתה מחי' את כולם37,</src>
+    <src s="45">א"ת מחי' אלא מהווה38,</src>
+    <src s="46">שזהו אמיתית ענינו שנמצא בתוכו ותוך תוכו,</src>
+    <src s="47">אלא שנמצא בו בהעלם.</src>
+  </section>
+  <section v="13">
+    <src s="0">ז)</src>
+    <src s="1">ומסיים המאמר39</src>
+    <src s="2">בדבר טוב,</src>
+    <src s="3">שזהו ענין הברכות שאומרים ברוך אתה,</src>
+    <src s="4">לשון נוכח,</src>
+    <src s="5">ואומרים זה אפילו תינוקות ונשים.</src>
+    <src s="6">דלכאורה,</src>
+    <src s="7">כיון שאמירה זו היא לעתיקא קדישא</src>
+    <src s="8">(כמבואר בזהר40)</src>
+    <src s="9">ועד לעצמותו ית',</src>
+    <src s="10">אמיתית המציאות,</src>
+    <src s="11">שרק הוא יכול להקרא בשם אתה,</src>
+    <src s="12">א"כ,</src>
+    <src s="13">איך אפשר לומר עליו ברוך שהוא לשון המשכה41,</src>
+    <src s="14">ועד שאפילו תינוק אומר זה.</src>
+    <src s="15">אך הענין הוא,</src>
+    <src s="16">שזהו לפי שמצד בחי' היחידה,</src>
+    <src s="17">וכן בחי' היחידה למעלה בעולם הנקודים ולמעלה מזה,</src>
+    <src s="18">נמצאים כל הענינים בשוה,</src>
+    <src s="19">ואדרבה,</src>
+    <src s="20">מרום וקדוש</src>
+    <src s="21">(את מי)</src>
+    <src s="22">אשכון את דכא ושפל רוח42</src>
+    <src s="23">(דוקא).</src>
+    <src s="24">והיינו,</src>
+    <src s="25">שאף שלכאורה אין חילוק,</src>
+    <src s="26">מ"מ,</src>
+    <src s="27">כאשר ישנו ענין של יש ומציאות,</src>
+    <src s="28">הרי זה מעלים ועד לאופן שגם מסתיר ח"ו,</src>
+    <src s="29">משא"כ מי שהוא דכא ושפל רוח,</src>
+    <src s="30">ששם אין דבר המעלים,</src>
+    <src s="31">אזי מרום וקדוש אשכון בגלוי43.</src>
+  </section>
+  <section v="14">
+    <src s="0">ח)</src>
+    <src s="1">ועל44 פי זה יובן מ"ש בהמאמר ד"ה פדה בשלום הנ"ל שמצד העבודה דיחידה הפדי' היא בשלום,</src>
+    <src s="2">דמכיון שמצד עצמות אוא"ס,</src>
+    <src s="3">ועד"ז מצד בחינת יחידה שבנפש,</src>
+    <src s="4">הרי כל הענינים הם בהשוואה,</src>
+    <src s="5">לזאת הנה גם כשישנו בחי' רבים,</src>
+    <src s="6">עד לריבוי גדול ביותר,</src>
+    <src s="7">שמצד זה נעשה ענין של קרב ומלחמה,</src>
+    <src s="8">כי ענין הריבוי הוא שישנם לא רק נפרדים זה מזה אלא גם סותרים זה את זה,</src>
+    <src s="9">מ"מ מצד העבודה דבחי' יחידה,</src>
+    <src s="10">שהיא העבודה דבכל מאדך45,</src>
+    <src s="11">וכמבואר בד"ה פדה בשלום הנ"ל שבחי' בכל מאדך הו"ע מסירת הנפש עצמה שהיא למעלה ממסירת הרצון,</src>
+    <src s="12">שהוא מצד בחי' היחידה דנפש האלקית,</src>
+    <src s="13">הנה אז הוא מהפך בחי' היחידה דנה"ב,</src>
+    <src s="14">שכל העצמיות שלה מתבטלת בבחי' היחידה דנה"א,</src>
+    <src s="15">וכאשר העצם שלה מתהפך הרי במילא אין לה שייכות לענינים של היפך ח"ו</src>
+    <src s="16">(וכמבואר בהמאמר שם,</src>
+    <src s="17">שכאשר העצמיות שלה מתהפך כו' הרי במילא נלקח גם מקור החיות של כל רצון זר כו'),</src>
+    <src s="18">ובמילא לא יתכן אז ענין המלחמה כלל,</src>
+    <src s="19">והפדי' היא בשלום.</src>
+  </section>
+</awtsmoosMeluketSource>

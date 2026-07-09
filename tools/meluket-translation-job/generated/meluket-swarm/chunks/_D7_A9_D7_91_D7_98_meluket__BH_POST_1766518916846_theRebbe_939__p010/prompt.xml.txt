@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p010">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" title="מאמר באתי לגני תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p010">
+  <section v="27">
+    <src s="0">והנה אף שהאור שלא האיר גם לפני הצמצום הוא אור נעלה יותר מהאור שהי' ממלא מקום החלל,</src>
+    <src s="1">מ"מ,</src>
+    <src s="2">דיוק הנ"ל</src>
+    <src s="3">[דהצמצום שממנו נתהוו העולמות וגילוי האור שקודם הצמצום הם שני הפכים],</src>
+    <src s="4">הוא בעיקר בנוגע להאור שהי' ממלא מקום החלל.</src>
+    <src s="5">וכמו שמבאר אדמו"ר</src>
+    <src s="6">(מהורש"ב)</src>
+    <src s="7">נ"ע בהמשך תער"ב108</src>
+    <src s="8">החילוק בין פעולת הצמצום באור הגבול</src>
+    <src s="9">(שרש הממלא)</src>
+    <src s="10">ופעולת הצמצום באור הבל"ג</src>
+    <src s="11">(שרש הסובב),</src>
+    <src s="12">דפעולת הצמצום באור הגבול היא בהאור עצמו,</src>
+    <src s="13">שע"י הצמצום בא במדה וגבול,</src>
+    <src s="14">ופעולת הצמצום באור הבל"ג היא</src>
+    <src s="15">(לא בהאור עצמו,</src>
+    <src s="16">אלא)</src>
+    <src s="17">שלא יאיר במקום החלל.</src>
+    <src s="18">וזהו שההתעלמות דאור הבל"ג היא</src>
+    <src s="19">(לא שנתעלם תוך העלם הצמצום,</src>
+    <src s="20">אלא)</src>
+    <src s="21">שנתעלם ונכלל במקורו,</src>
+    <src s="22">דענין ההתעלמות במקורו הוא זה שאינו מאיר במקום החלל,</src>
+    <src s="23">אבל בהאור עצמו לא נעשה שינוי</src>
+    <src s="24">[וע"ד המבואר במק"א109</src>
+    <src s="25">דבאור הבל"ג לא הי' צמצום ממש ורק נגע בו הצמצום].</src>
+    <src s="26">ויתירה מזו,</src>
+    <src s="27">שגם פעולה זו באור הבל"ג שאינו מאיר בגילוי במקום החלל,</src>
+    <src s="28">הוא רק בנוגע להעולמות</src>
+    <src s="29">(שאינו נרגש בהם),</src>
+    <src s="30">ולא בנוגע להאור.</src>
+    <src s="31">ושני ענינים בזה.</src>
+    <src s="32">שבידיעתו ית',</src>
+    <src s="33">גם עכשיו</src>
+    <src s="34">(לאחרי הצמצום)</src>
+    <src s="35">הוא מאיר במקום החלל בגילוי ממש,</src>
+    <src s="36">כמבואר בכ"מ110.</src>
+    <src s="37">ויתירה מזו,</src>
+    <src s="38">דכיון שלגבי אור הבל"ג אין הצמצום מעלים,</src>
+    <src s="39">הרי מצד האור</src>
+    <src s="40">(הבל"ג)</src>
+    <src s="41">הוא יכול להיות בגילוי ממש שיורגש גם בהעולמות.</src>
+    <src s="42">דאור הגבול,</src>
+    <src s="43">כיון שבו פעל הצמצום שהגילוי שלו בעולמות יהי' לפי ערך העולמות,</src>
+    <src s="44">לכן,</src>
+    <src s="45">קשה כביכול111</src>
+    <src s="46">שיתגלה בעולמות כמו שהוא בשרשו לפני הצמצום,</src>
+    <src s="47">כי שני ענינים אלה</src>
+    <src s="48">(פעולת הצמצום שהיתה בו,</src>
+    <src s="49">והגילוי שלא כפי הסדר שנקבע ע"י הצמצום)</src>
+    <src s="50">הם שני הפכים.</src>
+    <src s="51">משא"כ אור הבל"ג,</src>
+    <src s="52">כיון שלגבי' לא היתה פעולת הצמצום,</src>
+    <src s="53">בכדי שיהי' בגילוי שלא כפי הסדר שנקבע ע"י הצמצום</src>
+    <src s="54">(היינו שהגילוי שלו יהי' באופן שיורגש גם בהעולמות),</src>
+    <src s="55">אין זה דבר קשה112.</src>
+  </section>
+  <section v="28">
+    <src s="0">והנה בהמשך הנ"ל,</src>
+    <src s="1">החילוק שבין אור הגבול ואור הבל"ג הוא בנוגע להמשכת וגילוי האור.</src>
+    <src s="2">דהמשכת גילוי אור הגבול כמו שהוא בשרשו הוא קשה,</src>
+    <src s="3">משא"כ המשכת גילוי אור הבל"ג.</src>
+    <src s="4">ויש לומר,</src>
+    <src s="5">שעד"ז הוא גם בנוגע לזה שהעולם מקבל גילוי שאינו בערכו.</src>
+    <src s="6">דבנוגע לגילוי אור הבל"ג,</src>
+    <src s="7">אפשר שהגילוי שלו בעולמות יהי' מצד זה שהאור הוא בל"ג,</src>
+    <src s="8">הגם שהעולמות</src>
+    <src s="9">(מצד ענינם)</src>
+    <src s="10">אינם כלים להגילוי.</src>
+    <src s="11">והדיוק איך אפשר שהעולם יקבל גילוי שאינו בערכו הוא</src>
+    <src s="12">(בעיקר)</src>
+    <src s="13">בנוגע לגילוי אור הגבול.</src>
+    <src s="14">דכיון שבאור זה פעל הצמצום שהגילוי שלו בעולמות יהי' לפי"ע העולמות,</src>
+    <src s="15">צריך להבין,</src>
+    <src s="16">איך אפשר שהעולם יקבל אור שאינו בערכו.</src>
+  </section>
+  <section v="29">
+    <src s="0">והענין הוא,</src>
+    <src s="1">כמבואר בהמשך הנ"ל113,</src>
+    <src s="2">שעל ידי העבודה דאתהפכא חשוכא לנהורא מהפכים את חושך הצמצום לאור,</src>
+    <src s="3">ועי"ז נעשים העולמות</src>
+    <src s="4">(שנתהוו מהצמצום)</src>
+    <src s="5">כלים לגילוי אור נעלה יותר,</src>
+    <src s="6">הן בנוגע לגילוי אור הגבול114</src>
+    <src s="7">והן בנוגע לגילוי אור הבל"ג,</src>
+    <src s="8">וגם גילוי אור הבל"ג מאיר בהם בפנימיות.</src>
+  </section>
+</awtsmoosMeluketSource>

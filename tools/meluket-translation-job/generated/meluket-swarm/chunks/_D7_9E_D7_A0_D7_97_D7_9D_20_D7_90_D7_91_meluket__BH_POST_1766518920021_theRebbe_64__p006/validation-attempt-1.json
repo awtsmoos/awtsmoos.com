@@ -1,0 +1,147 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 23,
+    "returned": 23,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518920021_theRebbe_64\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920021_theRebbe_64__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>Through the work of teshuvah in exile, the ingathering of the Shechinah and every Jew will occur, leading to the complete purification and the revealed good of the fifteenth of Av.</sectionSummaryBrief>\n    <t s=\"0\">And so it will be for us, very soon,</t>\n    <t s=\"1\">that through the service of teshuvah during the time of exile</t>\n    <t s=\"2\">(as hinted in the second portion of the Shema in the future tense),</t>\n    <t s=\"3\">the verse85 will be fulfilled:</t>\n    <t s=\"4\">\"And Hashem your G-d will return your captivity and have mercy on you, and will return and gather you from all the nations, etc.,\"</t>\n    <t s=\"5\">that is,</t>\n    <t s=\"6\">that the Shechinah that is in exile86</t>\n    <t s=\"7\">will return from exile together with the Jewish people87,</t>\n    <t s=\"8\">and in a manner that \"you will be gathered one by one, O children of Israel\"88,</t>\n    <t s=\"9\">that the Holy One, blessed be He, gathers each and every one of Israel89</t>\n    <t s=\"10\">— through the \"One\" that is within him,</t>\n    <t s=\"11\">and leads him to greet Moshiach our Righteous One,</t>\n    <t s=\"12\">with our young and our old, with our sons and our daughters90,</t>\n    <t s=\"13\">and their silver and their gold with them91,</t>\n    <t s=\"14\">with all the clarifications and all the holy sparks,</t>\n    <t s=\"15\">and even \"and you will be saved, etc.\"92,</t>\n    <t s=\"16\">that they will clarify everything,</t>\n    <t s=\"17\">and \"the spirit of impurity I will remove from the land\"93,</t>\n    <t s=\"18\">and it will be seen openly that \"there were no better days for Israel than the fifteenth of Av\",</t>\n    <t s=\"19\">below ten handbreadths,</t>\n    <t s=\"20\">in Jerusalem the holy city and in the Holy Land in its entirety,</t>\n    <t s=\"21\">very soon,</t>\n    <t s=\"22\">with the coming of Moshiach our Righteous One.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518920021_theRebbe_64",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920021_theRebbe_64__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "Through the work of teshuvah in exile, the ingathering of the Shechinah and every Jew will occur, leading to the complete purification and the revealed good of the fifteenth of Av.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "And so it will be for us, very soon,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "that through the service of teshuvah during the time of exile"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "(as hinted in the second portion of the Shema in the future tense),"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "the verse85 will be fulfilled:"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "\"And Hashem your G-d will return your captivity and have mercy on you, and will return and gather you from all the nations, etc.,\""
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "that is,"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "that the Shechinah that is in exile86"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "will return from exile together with the Jewish people87,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "and in a manner that \"you will be gathered one by one, O children of Israel\"88,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "that the Holy One, blessed be He, gathers each and every one of Israel89"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "— through the \"One\" that is within him,"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "and leads him to greet Moshiach our Righteous One,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "with our young and our old, with our sons and our daughters90,"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "and their silver and their gold with them91,"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "with all the clarifications and all the holy sparks,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "and even \"and you will be saved, etc.\"92,"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "that they will clarify everything,"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "and \"the spirit of impurity I will remove from the land\"93,"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "and it will be seen openly that \"there were no better days for Israel than the fifteenth of Av\","
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "below ten handbreadths,"
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "in Jerusalem the holy city and in the Holy Land in its entirety,"
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "very soon,"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "with the coming of Moshiach our Righteous One."
+          }
+        ]
+      }
+    ]
+  }
+}

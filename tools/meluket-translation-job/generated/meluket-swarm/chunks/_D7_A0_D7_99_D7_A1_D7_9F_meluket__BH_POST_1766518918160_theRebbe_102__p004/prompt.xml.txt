@@ -1,0 +1,144 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918160_theRebbe_102" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918160_theRebbe_102__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918160_theRebbe_102" title="מאמר ויאמר לו יהונתן תשכ"ח" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918160_theRebbe_102__p004">
+  <section v="9">
+    <src s="0">ה)</src>
+    <src s="1">ויש לקשר זה עם מ"ש הצ"צ ברשימותיו לתהלים44</src>
+    <src s="2">בנוגע המזמור למנצח בנגינות מזמור שיר45</src>
+    <src s="3">(שאומרים אחרי ספירת העומר46),</src>
+    <src s="4">שכתב האלשיך,</src>
+    <src s="5">שמזמור זה מדבר בימות המשיח,</src>
+    <src s="6">שאז יהיו שני דברים.</src>
+    <src s="7">שפע ברכות טוב לישראל – אלקים יחננו ויברכנו גו'47,</src>
+    <src s="8">ויתקדש שמו ית' בעולם – כי תשפוט עמים מישור גו'48.</src>
+    <src s="9">וזהו שבהתחלת המזמור נאמר מזמור שיר,</src>
+    <src s="10">מזמור על ענין הראשון שיר על ענין השני.</src>
+    <src s="11">ולאחרי שהצ"צ מעתיק את דברי האלשיך,</src>
+    <src s="12">מביא מ"ש בלקו"ת סד"ה מזמור שיר חנוכת הבית49,</src>
+    <src s="13">דמזמור הוא שיר המלאכים ושיר הוא שירת הנשמות.</src>
+    <src s="14">ולכאורה הכוונה,</src>
+    <src s="15">דמ"ש האלשיך שמזמור הוא על ענין הראשון</src>
+    <src s="16">(שפע ברכות לישראל)</src>
+    <src s="17">ושיר הוא על ענין השני</src>
+    <src s="18">(כי תשפוט עמים מישור)</src>
+    <src s="19">הוא ע"פ דרוש</src>
+    <src s="20">(וכידוע50</src>
+    <src s="21">שהאריז"ל אמר עליו שנשמתו היא מעולם הדרוש),</src>
+    <src s="22">אבל ע"פ המבואר בלקו"ת</src>
+    <src s="23">(מיוסד על קבלה,</src>
+    <src s="24">סוד)</src>
+    <src s="25">שמזמור הוא שירת המלאכים ושיר הוא שירת הנשמות,</src>
+    <src s="26">צריך לומר,</src>
+    <src s="27">שמזמור שייך לכי תשפוט עמים מישור,</src>
+    <src s="28">כי ההשפעה לאומות העולם היא מהמלאכים</src>
+    <src s="29">(ע"י הע' שרים),</src>
+    <src s="30">ושיר שייך להשפע שיושפע לישראל.</src>
+    <src s="31">וממשיך הצ"צ ברשימותיו,</src>
+    <src s="32">דהטעם שאומרים מזמור זה אחר ספירת העומר,</src>
+    <src s="33">הוא,</src>
+    <src s="34">כי ענין ספה"ע הוא בירור ז' המדות דנפש הבהמית,</src>
+    <src s="35">דשורש נה"ב הוא מחיות המרכבה – מלאכים,</src>
+    <src s="36">ענין מזמור,</src>
+    <src s="37">וע"י הבירור והעלי' דנפש הבהמית נעשה גם העלי' דנפש האלקית,</src>
+    <src s="38">שיר.</src>
+    <src s="39">ויש לומר,</src>
+    <src s="40">דזה שאומרים מזמור זה שמדבר בענין בירור עמים</src>
+    <src s="41">(כפשוטם)</src>
+    <src s="42">אחרי ספירת העומר שענינה הוא בירור המדות דנפש הבהמית</src>
+    <src s="43">(שבישראל)</src>
+    <src s="44">הוא,</src>
+    <src s="45">כי ע"י בירור המדות דנפש הבהמית נמשך גם בירור העמים,</src>
+    <src s="46">כי תשפוט עמים מישור.</src>
+    <src s="47">ועפ"ז מובן עוד יותר שבערב ר"ח אייר</src>
+    <src s="48">(החודש דספה"ע)</src>
+    <src s="49">מודגש ענין הסגול שבושלשת,</src>
+    <src s="50">הבירור שמבררים "מכל העמים" שמביא לוהייתם לי סגולה.</src>
+  </section>
+  <section v="10">
+    <src s="0">ו)</src>
+    <src s="1">והנה כמו שבספירת העומר,</src>
+    <src s="2">ע"י העלי' דנפש הבהמית</src>
+    <src s="3">(מזמור)</src>
+    <src s="4">נעשה העלי' דנפש האלקית</src>
+    <src s="5">(שיר),</src>
+    <src s="6">עד"ז הוא בימות המשיח</src>
+    <src s="7">[דמזמור זה מדבר בעיקר בימות המשיח],</src>
+    <src s="8">דע"י שיתקדש שמו ית' בעולם</src>
+    <src s="9">(כי תשפוט עמים מישור),</src>
+    <src s="10">עי"ז יתוסף בהשפע לישראל.</src>
+    <src s="11">דהגם שענין הבירורים</src>
+    <src s="12">(שעי"ז נמשך הגילוי)</src>
+    <src s="13">הוא עכשיו,</src>
+    <src s="14">וענין ימות המשיח הוא המשכת הגילוי שלאחרי עבודת הבירורים,</src>
+    <src s="15">מ"מ,</src>
+    <src s="16">ע"י כי תשפוט עמים מישור ויתקדש שמו ית' בעולם אז,</src>
+    <src s="17">יתוסף עוד יותר בההמשכה והגילוי לישראל לגבי ההמשכה והגילוי שתהי' אז ע"י עבודת הבירורים עכשיו.</src>
+    <src s="18">ולכן נאמר מזמור שיר,</src>
+    <src s="19">מזמור לפני שיר</src>
+    <src s="20">[הגם שמדבר בעיקר בימות המשיח,</src>
+    <src s="21">וענין מזמור הוא כי תשפוט עמים מישור שיהי' אז],</src>
+    <src s="22">כי גם אז יהי' בתחילה מזמור ועל ידו יהי'</src>
+    <src s="23">(הוספה ב)</src>
+    <src s="24">שיר.</src>
+    <src s="25">וזה שבהפסוקים</src>
+    <src s="26">(שלאחרי פסוק הראשון)</src>
+    <src s="27">נאמר אלקים יחננו ויברכנו גו' לפני תשפוט עמים מישור גו',</src>
+    <src s="28">יש לומר,</src>
+    <src s="29">דכיון שכוונת הבריאה היא בשביל ישראל51,</src>
+    <src s="30">הרי מובן,</src>
+    <src s="31">שעיקר הענין דימות המשיח הוא שאז יושפע שפע רב</src>
+    <src s="32">(ברוחניות ובגשמיות)</src>
+    <src s="33">לישראל,</src>
+    <src s="34">אלא ששלימות השפע לישראל הוא ע"י שיתקדש שמו ית' בעולם,</src>
+    <src s="35">ולכן נאמר אלקים יחננו ויברכנו יאר פניו אתנו סלה לפני תשפוט עמים מישור גו'.</src>
+  </section>
+  <section v="11">
+    <src s="0">וע"ד הידוע בענין נשמה וגוף,</src>
+    <src s="1">דנוסף לזה שהגילוי אלקות שנמשך להנשמה ע"י עבודתה בתומ"צ בהיותה מלובשת בגוף הוא גילוי נעלה הרבה יותר מהגילוי שהי' לה קודם ירידתה למטה,</src>
+    <src s="2">הנה גם הגילוי שע"י העבודה דתומ"צ בגוף גשמי יהי' בעיקר בתחיית המתים,</src>
+    <src s="3">כשהנשמה תהי' מלובשת בגוף גשמי.</src>
+    <src s="4">דהגם שגם הגילוי בג"ע לאחרי יציאת הנשמה מהגוף הוא נעלה הרבה מהגילוי דג"ע שהי' להנשמה קודם ירידתה,</src>
+    <src s="5">לפי שהגילוי דג"ע שלאחרי ירידתה בגוף ויציאתה מהגוף הוא ע"י העבודה דתומ"צ בגוף גשמי,</src>
+    <src s="6">מ"מ,</src>
+    <src s="7">עיקר הגילוי שע"י העבודה דתומ"צ יהי' בתחיית המתים,</src>
+    <src s="8">כשהנשמה תהי' מלובשת בגוף52.</src>
+    <src s="9">וכמובן גם מהענין דתחיית המתים עצמו,</src>
+    <src s="10">דיקומו לתחי' כל ישראל,</src>
+    <src s="11">גם הנשמות שנמצאים בג"ע כמה אלפים שנה,</src>
+    <src s="12">וג' פעמים בכל יום הם מתעלים לדרגא נעלית יותר,</src>
+    <src s="13">ואעפ"כ לע"ל יתלבשו בגופים,</src>
+    <src s="14">כי הגילוי דעולם התחי' הוא נעלה הרבה יותר מהגילוי דג"ע גם מדרגא הכי נעלית דג"ע53.</src>
+  </section>
+</awtsmoosMeluketSource>

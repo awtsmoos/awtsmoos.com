@@ -1,0 +1,544 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 100,
+    "returned": 100,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915304_theRebbe_180\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p012\">\n  <section v=\"33\">\n    <sectionSummaryBrief>This section explains the two interpretations of \"He redeemed my soul in peace\" and their mediation, relating to Dovid's wars versus Shlomo's peace, and the redemption of Yud-Tes Kislev.</sectionSummaryBrief>\n    <t s=\"0\">20)</t>\n    <t s=\"1\">5)</t>\n    <t s=\"2\">And based on this, the mediation between the two interpretations of \"He redeemed my soul in peace from the battle that was against me\" will also be understood.</t>\n    <t s=\"3\">The simple interpretation is that He redeemed and brought him out from the midst of</t>\n    <t s=\"4\">(war).</t>\n    <t s=\"5\">That is, there is an existence of the side of evil that one must wage war against.</t>\n    <t s=\"6\">For this is the connection of the matter of \"He redeemed my soul in peace\" to Dovid</t>\n    <t s=\"7\">(which in its simple sense refers to the redemption of Dovid)</t>\n    <t s=\"8\">who had opponents,</t>\n    <t s=\"9\">except that he defeated them.</t>\n    <t s=\"10\">And as is known</t>\n    <t s=\"11\">the difference between the clarifications of Dovid and the clarifications of Shlomo,</t>\n    <t s=\"12\">that the clarifications of Dovid were in a manner of war and the clarifications of Shlomo were in a manner of rest, as it is stated,</t>\n    <t s=\"13\">\"You have shed much blood and have made great wars; you shall not build a house for My name... Behold, a son shall be born to you; he shall be a man of rest... he shall build a house for My name.\"</t>\n    <t s=\"14\">And this is that even though the victory of Dovid</t>\n    <t s=\"15\">(that he defeated all the opponents)</t>\n    <t s=\"16\">was a complete victory</t>\n    <t s=\"17\">[therefore there was a thought that he would build the Beis HaMikdash],</t>\n    <t s=\"18\">nevertheless,</t>\n    <t s=\"19\">since his clarifications were in a manner of war,</t>\n    <t s=\"20\">the building of the Beis HaMikdash was specifically through Shlomo.</t>\n    <t s=\"21\">From this it is understood,</t>\n    <t s=\"22\">that the matter of \"He redeemed my soul in peace\" stated regarding Dovid is that there is an existence of the side of evil that opposes, and only that they are defeated.</t>\n    <t s=\"23\">And so it is also regarding the matter of \"He redeemed my soul in peace\" that was in the redemption of Yud-Tes Kislev</t>\n    <t s=\"24\">and the redemption of Yud Kislev,</t>\n    <t s=\"25\">that there was an existence of the opposing side of evil,</t>\n    <t s=\"26\">except that they defeated them.</t>\n    <t s=\"27\">To the extent that even after the redemption they needed permission from the government of that country</t>\n    <t s=\"28\">[but all kingdoms are called by the name of Mitzrayim, because they constrict Israel]</t>\n    <t s=\"29\">for the dissemination of Chassidus.</t>\n    <t s=\"30\">And the second interpretation is as explained in the discourse \"He redeemed my soul in peace\" of the Baal HaGeulah</t>\n    <t s=\"31\">and several discourses of this heading</t>\n    <t s=\"32\">(of Yud-Tes Kislev),</t>\n    <t s=\"33\">that the redemption is in a way of peace,</t>\n    <t s=\"34\">to the extent that there is no need for war at all,</t>\n    <t s=\"35\">as it was in the days of Shlomo, that all the nations were nullified before him without any war at all.</t>\n    <t s=\"36\">And the mediation between these two interpretations, which are seemingly from one extreme to the other,</t>\n    <t s=\"37\">and especially according to what is explained in many places</t>\n    <t s=\"38\">that the matter of \"He redeemed my soul in peace\" is the redemption in the ultimate peace, as it will be in the future, when \"I will turn to the peoples a pure language... to serve Him with one accord,\"</t>\n    <t s=\"39\">which is above even the peace that was in the days of Shlomo</t>\n    <t s=\"40\">[except that the peace in the days of Shlomo was a preparation for the peace of the future,</t>\n    <t s=\"41\">therefore Moshiach will be</t>\n    <t s=\"42\">(from the house of Dovid and)</t>\n    <t s=\"43\">specifically from the seed of Shlomo],</t>\n    <t s=\"44\">that this interpretation,</t>\n    <t s=\"45\">the elevation</t>\n    <t s=\"46\">[and perfection]</t>\n    <t s=\"47\">of the future,</t>\n    <t s=\"48\">is above the matter of extremes.</t>\n    <t s=\"49\">But the matter is,</t>\n    <t s=\"50\">that since all the revelations of the future depend on our actions and service during the time of exile,</t>\n    <t s=\"51\">therefore,</t>\n    <t s=\"52\">even in the matter of \"He redeemed my soul in peace\" during the time of exile, there is a semblance of the matter of the redemption in peace that will be in the future.</t>\n  </section>\n  <section v=\"34\">\n    <sectionSummaryBrief>This section explains the connection of the future-like peace redemption to the redemptions of Yud-Tes Kislev and Yud Kislev through the work of teshuvah pioneered by the Alter Rebbe.</sectionSummaryBrief>\n    <t s=\"0\">20)</t>\n    <t s=\"1\">6)</t>\n    <t s=\"2\">And the explanation of the connection of this matter</t>\n    <t s=\"3\">(that even now there is a semblance of the redemption in peace of the future)</t>\n    <t s=\"4\">to the redemption of Yud-Tes Kislev and Yud Kislev</t>\n    <t s=\"5\">[therefore in the discourses said in these times, the interpretation</t>\n    <t s=\"6\">(the second one above)</t>\n    <t s=\"7\">is explained, that \"He redeemed my soul in peace\" is the matter of redemption in a way of peace,</t>\n    <t s=\"8\">to the extent of how it will be in the future],</t>\n    <t s=\"9\">was stated above</t>\n    <t s=\"10\">(section 18)</t>\n    <t s=\"11\">that the reason that the Zohar precedes \"And I returned in peace\"</t>\n    <t s=\"12\">(the matter of teshuvah)</t>\n    <t s=\"13\">to \"and He gave me bread\" is,</t>\n    <t s=\"14\">because the Zohar there speaks about the matter of the end of the time of exile,</t>\n    <t s=\"15\">that then the primary service</t>\n    <t s=\"16\">(even the service of Torah and Mitzvos)</t>\n    <t s=\"17\">is the service of teshuvah.</t>\n    <t s=\"18\">For through this, the redemption is brought about in a way of peace</t>\n    <t s=\"19\">(a semblance of the peace of the future),</t>\n    <t s=\"20\">since the matter of teshuvah is the transformation of the side of evil into holiness.</t>\n    <t s=\"21\">And this is also the connection of \"He redeemed my soul in peace\" to the redemption of the Alter Rebbe</t>\n    <t s=\"22\">(Yud-Tes Kislev)</t>\n    <t s=\"23\">and the Mitteler Rebbe</t>\n    <t s=\"24\">(Yud Kislev),</t>\n    <t s=\"25\">because among the matters that were innovated by the Alter Rebbe</t>\n    <t s=\"26\">(even relative to the Maggid)</t>\n    <t s=\"27\">is that he made</t>\n    <t s=\"28\">[many]</t>\n    <t s=\"29\">baalei teshuvah.</t>\n    <t s=\"30\">And this matter was also the service of our Nesi'im who filled his place,</t>\n    <t s=\"31\">and especially of his son, the Mitteler Rebbe,</t>\n    <t s=\"32\">through whom this matter</t>\n    <t s=\"33\">was revealed.</t>\n  </section>\n  <section v=\"35\">\n    <sectionSummaryBrief>This section concludes that through the service of \"And I returned in peace,\" the future revelation of Havayah as Elokim and the revelation of Atzmus will be achieved.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">20)</t>\n    <t s=\"2\">\"And Havayah will be to me for Elokim,\"</t>\n    <t s=\"3\">that through the service of \"And I returned in peace,\"</t>\n    <t s=\"4\">which is the matter of clarifying one's portion in the world</t>\n    <t s=\"5\">(as above, section 8),</t>\n    <t s=\"6\">there will be the revelation of the future,</t>\n    <t s=\"7\">when the Holy One, blessed be He, will bring out the sun from its sheath,</t>\n    <t s=\"8\">and \"the earth will be filled with knowledge of Havayah as the waters cover the sea,\"</t>\n    <t s=\"9\">and to the extent that there will be a revelation of the Awtsmoos,</t>\n    <t s=\"10\">and \"your Teacher will no longer be hidden, and your eyes will see your Teacher.\"</t>\n    <t s=\"11\">And this is \"And Havayah will be to me for Elokim,\"</t>\n    <t s=\"12\">that relative to this revelation, the Havayah of the present is considered like Elokim.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915304_theRebbe_180",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p012"
+    },
+    "sections": [
+      {
+        "v": 33,
+        "sectionSummaryBrief": "This section explains the two interpretations of \"He redeemed my soul in peace\" and their mediation, relating to Dovid's wars versus Shlomo's peace, and the redemption of Yud-Tes Kislev.",
+        "translations": [
+          {
+            "v": 33,
+            "s": 0,
+            "translation": "20)"
+          },
+          {
+            "v": 33,
+            "s": 1,
+            "translation": "5)"
+          },
+          {
+            "v": 33,
+            "s": 2,
+            "translation": "And based on this, the mediation between the two interpretations of \"He redeemed my soul in peace from the battle that was against me\" will also be understood."
+          },
+          {
+            "v": 33,
+            "s": 3,
+            "translation": "The simple interpretation is that He redeemed and brought him out from the midst of"
+          },
+          {
+            "v": 33,
+            "s": 4,
+            "translation": "(war)."
+          },
+          {
+            "v": 33,
+            "s": 5,
+            "translation": "That is, there is an existence of the side of evil that one must wage war against."
+          },
+          {
+            "v": 33,
+            "s": 6,
+            "translation": "For this is the connection of the matter of \"He redeemed my soul in peace\" to Dovid"
+          },
+          {
+            "v": 33,
+            "s": 7,
+            "translation": "(which in its simple sense refers to the redemption of Dovid)"
+          },
+          {
+            "v": 33,
+            "s": 8,
+            "translation": "who had opponents,"
+          },
+          {
+            "v": 33,
+            "s": 9,
+            "translation": "except that he defeated them."
+          },
+          {
+            "v": 33,
+            "s": 10,
+            "translation": "And as is known"
+          },
+          {
+            "v": 33,
+            "s": 11,
+            "translation": "the difference between the clarifications of Dovid and the clarifications of Shlomo,"
+          },
+          {
+            "v": 33,
+            "s": 12,
+            "translation": "that the clarifications of Dovid were in a manner of war and the clarifications of Shlomo were in a manner of rest, as it is stated,"
+          },
+          {
+            "v": 33,
+            "s": 13,
+            "translation": "\"You have shed much blood and have made great wars; you shall not build a house for My name... Behold, a son shall be born to you; he shall be a man of rest... he shall build a house for My name.\""
+          },
+          {
+            "v": 33,
+            "s": 14,
+            "translation": "And this is that even though the victory of Dovid"
+          },
+          {
+            "v": 33,
+            "s": 15,
+            "translation": "(that he defeated all the opponents)"
+          },
+          {
+            "v": 33,
+            "s": 16,
+            "translation": "was a complete victory"
+          },
+          {
+            "v": 33,
+            "s": 17,
+            "translation": "[therefore there was a thought that he would build the Beis HaMikdash],"
+          },
+          {
+            "v": 33,
+            "s": 18,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 33,
+            "s": 19,
+            "translation": "since his clarifications were in a manner of war,"
+          },
+          {
+            "v": 33,
+            "s": 20,
+            "translation": "the building of the Beis HaMikdash was specifically through Shlomo."
+          },
+          {
+            "v": 33,
+            "s": 21,
+            "translation": "From this it is understood,"
+          },
+          {
+            "v": 33,
+            "s": 22,
+            "translation": "that the matter of \"He redeemed my soul in peace\" stated regarding Dovid is that there is an existence of the side of evil that opposes, and only that they are defeated."
+          },
+          {
+            "v": 33,
+            "s": 23,
+            "translation": "And so it is also regarding the matter of \"He redeemed my soul in peace\" that was in the redemption of Yud-Tes Kislev"
+          },
+          {
+            "v": 33,
+            "s": 24,
+            "translation": "and the redemption of Yud Kislev,"
+          },
+          {
+            "v": 33,
+            "s": 25,
+            "translation": "that there was an existence of the opposing side of evil,"
+          },
+          {
+            "v": 33,
+            "s": 26,
+            "translation": "except that they defeated them."
+          },
+          {
+            "v": 33,
+            "s": 27,
+            "translation": "To the extent that even after the redemption they needed permission from the government of that country"
+          },
+          {
+            "v": 33,
+            "s": 28,
+            "translation": "[but all kingdoms are called by the name of Mitzrayim, because they constrict Israel]"
+          },
+          {
+            "v": 33,
+            "s": 29,
+            "translation": "for the dissemination of Chassidus."
+          },
+          {
+            "v": 33,
+            "s": 30,
+            "translation": "And the second interpretation is as explained in the discourse \"He redeemed my soul in peace\" of the Baal HaGeulah"
+          },
+          {
+            "v": 33,
+            "s": 31,
+            "translation": "and several discourses of this heading"
+          },
+          {
+            "v": 33,
+            "s": 32,
+            "translation": "(of Yud-Tes Kislev),"
+          },
+          {
+            "v": 33,
+            "s": 33,
+            "translation": "that the redemption is in a way of peace,"
+          },
+          {
+            "v": 33,
+            "s": 34,
+            "translation": "to the extent that there is no need for war at all,"
+          },
+          {
+            "v": 33,
+            "s": 35,
+            "translation": "as it was in the days of Shlomo, that all the nations were nullified before him without any war at all."
+          },
+          {
+            "v": 33,
+            "s": 36,
+            "translation": "And the mediation between these two interpretations, which are seemingly from one extreme to the other,"
+          },
+          {
+            "v": 33,
+            "s": 37,
+            "translation": "and especially according to what is explained in many places"
+          },
+          {
+            "v": 33,
+            "s": 38,
+            "translation": "that the matter of \"He redeemed my soul in peace\" is the redemption in the ultimate peace, as it will be in the future, when \"I will turn to the peoples a pure language... to serve Him with one accord,\""
+          },
+          {
+            "v": 33,
+            "s": 39,
+            "translation": "which is above even the peace that was in the days of Shlomo"
+          },
+          {
+            "v": 33,
+            "s": 40,
+            "translation": "[except that the peace in the days of Shlomo was a preparation for the peace of the future,"
+          },
+          {
+            "v": 33,
+            "s": 41,
+            "translation": "therefore Moshiach will be"
+          },
+          {
+            "v": 33,
+            "s": 42,
+            "translation": "(from the house of Dovid and)"
+          },
+          {
+            "v": 33,
+            "s": 43,
+            "translation": "specifically from the seed of Shlomo],"
+          },
+          {
+            "v": 33,
+            "s": 44,
+            "translation": "that this interpretation,"
+          },
+          {
+            "v": 33,
+            "s": 45,
+            "translation": "the elevation"
+          },
+          {
+            "v": 33,
+            "s": 46,
+            "translation": "[and perfection]"
+          },
+          {
+            "v": 33,
+            "s": 47,
+            "translation": "of the future,"
+          },
+          {
+            "v": 33,
+            "s": 48,
+            "translation": "is above the matter of extremes."
+          },
+          {
+            "v": 33,
+            "s": 49,
+            "translation": "But the matter is,"
+          },
+          {
+            "v": 33,
+            "s": 50,
+            "translation": "that since all the revelations of the future depend on our actions and service during the time of exile,"
+          },
+          {
+            "v": 33,
+            "s": 51,
+            "translation": "therefore,"
+          },
+          {
+            "v": 33,
+            "s": 52,
+            "translation": "even in the matter of \"He redeemed my soul in peace\" during the time of exile, there is a semblance of the matter of the redemption in peace that will be in the future."
+          }
+        ]
+      },
+      {
+        "v": 34,
+        "sectionSummaryBrief": "This section explains the connection of the future-like peace redemption to the redemptions of Yud-Tes Kislev and Yud Kislev through the work of teshuvah pioneered by the Alter Rebbe.",
+        "translations": [
+          {
+            "v": 34,
+            "s": 0,
+            "translation": "20)"
+          },
+          {
+            "v": 34,
+            "s": 1,
+            "translation": "6)"
+          },
+          {
+            "v": 34,
+            "s": 2,
+            "translation": "And the explanation of the connection of this matter"
+          },
+          {
+            "v": 34,
+            "s": 3,
+            "translation": "(that even now there is a semblance of the redemption in peace of the future)"
+          },
+          {
+            "v": 34,
+            "s": 4,
+            "translation": "to the redemption of Yud-Tes Kislev and Yud Kislev"
+          },
+          {
+            "v": 34,
+            "s": 5,
+            "translation": "[therefore in the discourses said in these times, the interpretation"
+          },
+          {
+            "v": 34,
+            "s": 6,
+            "translation": "(the second one above)"
+          },
+          {
+            "v": 34,
+            "s": 7,
+            "translation": "is explained, that \"He redeemed my soul in peace\" is the matter of redemption in a way of peace,"
+          },
+          {
+            "v": 34,
+            "s": 8,
+            "translation": "to the extent of how it will be in the future],"
+          },
+          {
+            "v": 34,
+            "s": 9,
+            "translation": "was stated above"
+          },
+          {
+            "v": 34,
+            "s": 10,
+            "translation": "(section 18)"
+          },
+          {
+            "v": 34,
+            "s": 11,
+            "translation": "that the reason that the Zohar precedes \"And I returned in peace\""
+          },
+          {
+            "v": 34,
+            "s": 12,
+            "translation": "(the matter of teshuvah)"
+          },
+          {
+            "v": 34,
+            "s": 13,
+            "translation": "to \"and He gave me bread\" is,"
+          },
+          {
+            "v": 34,
+            "s": 14,
+            "translation": "because the Zohar there speaks about the matter of the end of the time of exile,"
+          },
+          {
+            "v": 34,
+            "s": 15,
+            "translation": "that then the primary service"
+          },
+          {
+            "v": 34,
+            "s": 16,
+            "translation": "(even the service of Torah and Mitzvos)"
+          },
+          {
+            "v": 34,
+            "s": 17,
+            "translation": "is the service of teshuvah."
+          },
+          {
+            "v": 34,
+            "s": 18,
+            "translation": "For through this, the redemption is brought about in a way of peace"
+          },
+          {
+            "v": 34,
+            "s": 19,
+            "translation": "(a semblance of the peace of the future),"
+          },
+          {
+            "v": 34,
+            "s": 20,
+            "translation": "since the matter of teshuvah is the transformation of the side of evil into holiness."
+          },
+          {
+            "v": 34,
+            "s": 21,
+            "translation": "And this is also the connection of \"He redeemed my soul in peace\" to the redemption of the Alter Rebbe"
+          },
+          {
+            "v": 34,
+            "s": 22,
+            "translation": "(Yud-Tes Kislev)"
+          },
+          {
+            "v": 34,
+            "s": 23,
+            "translation": "and the Mitteler Rebbe"
+          },
+          {
+            "v": 34,
+            "s": 24,
+            "translation": "(Yud Kislev),"
+          },
+          {
+            "v": 34,
+            "s": 25,
+            "translation": "because among the matters that were innovated by the Alter Rebbe"
+          },
+          {
+            "v": 34,
+            "s": 26,
+            "translation": "(even relative to the Maggid)"
+          },
+          {
+            "v": 34,
+            "s": 27,
+            "translation": "is that he made"
+          },
+          {
+            "v": 34,
+            "s": 28,
+            "translation": "[many]"
+          },
+          {
+            "v": 34,
+            "s": 29,
+            "translation": "baalei teshuvah."
+          },
+          {
+            "v": 34,
+            "s": 30,
+            "translation": "And this matter was also the service of our Nesi'im who filled his place,"
+          },
+          {
+            "v": 34,
+            "s": 31,
+            "translation": "and especially of his son, the Mitteler Rebbe,"
+          },
+          {
+            "v": 34,
+            "s": 32,
+            "translation": "through whom this matter"
+          },
+          {
+            "v": 34,
+            "s": 33,
+            "translation": "was revealed."
+          }
+        ]
+      },
+      {
+        "v": 35,
+        "sectionSummaryBrief": "This section concludes that through the service of \"And I returned in peace,\" the future revelation of Havayah as Elokim and the revelation of Atzmus will be achieved.",
+        "translations": [
+          {
+            "v": 35,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 35,
+            "s": 1,
+            "translation": "20)"
+          },
+          {
+            "v": 35,
+            "s": 2,
+            "translation": "\"And Havayah will be to me for Elokim,\""
+          },
+          {
+            "v": 35,
+            "s": 3,
+            "translation": "that through the service of \"And I returned in peace,\""
+          },
+          {
+            "v": 35,
+            "s": 4,
+            "translation": "which is the matter of clarifying one's portion in the world"
+          },
+          {
+            "v": 35,
+            "s": 5,
+            "translation": "(as above, section 8),"
+          },
+          {
+            "v": 35,
+            "s": 6,
+            "translation": "there will be the revelation of the future,"
+          },
+          {
+            "v": 35,
+            "s": 7,
+            "translation": "when the Holy One, blessed be He, will bring out the sun from its sheath,"
+          },
+          {
+            "v": 35,
+            "s": 8,
+            "translation": "and \"the earth will be filled with knowledge of Havayah as the waters cover the sea,\""
+          },
+          {
+            "v": 35,
+            "s": 9,
+            "translation": "and to the extent that there will be a revelation of the Awtsmoos,"
+          },
+          {
+            "v": 35,
+            "s": 10,
+            "translation": "and \"your Teacher will no longer be hidden, and your eyes will see your Teacher.\""
+          },
+          {
+            "v": 35,
+            "s": 11,
+            "translation": "And this is \"And Havayah will be to me for Elokim,\""
+          },
+          {
+            "v": 35,
+            "s": 12,
+            "translation": "that relative to this revelation, the Havayah of the present is considered like Elokim."
+          }
+        ]
+      }
+    ]
+  }
+}

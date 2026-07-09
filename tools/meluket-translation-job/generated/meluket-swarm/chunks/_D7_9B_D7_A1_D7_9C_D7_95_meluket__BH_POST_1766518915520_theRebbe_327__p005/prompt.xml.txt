@@ -1,0 +1,112 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915520_theRebbe_327" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915520_theRebbe_327" title="מאמר מרגלא בפומיה דרבא תש"מ" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p005">
+  <section v="12">
+    <src s="0">ונקודת הביאור בזה,</src>
+    <src s="1">דזה שבן ועבד הם שני ענינים,</src>
+    <src s="2">הוא בהנשמה כמו שבאה בהמשכה,</src>
+    <src s="3">אבל בשרש הנשמה כמו שהיא מושרשת בהעצמות ממש,</src>
+    <src s="4">שני הענינים שבה הם חד.</src>
+    <src s="5">ועד"ז הוא בתורה ומצוות,</src>
+    <src s="6">דכמו שהם בהעצמות,</src>
+    <src s="7">שניהם הם ענין אחד.</src>
+    <src s="8">ולכן,</src>
+    <src s="9">גם בלימוד התורה צריך להיות גם הביטול דעבד.</src>
+    <src s="10">דע"י לימוד התורה בבחינת בן בלבד,</src>
+    <src s="11">ההתקשרות דישראל באורייתא40</src>
+    <src s="12">היא בהדרגא דתורה כמו שבאה בהמשכה</src>
+    <src s="13">[שהתורה והמצוות נעשו שני ענינים],</src>
+    <src s="14">ובכדי שתהי' ההתקשרות בעצם התורה כמו שמושרשת בהעצמות</src>
+    <src s="15">[ששם התורה והמצוות הם חד],</src>
+    <src s="16">הוא ע"י שבלימוד התורה שלו מודגשים שני הענינים.</src>
+    <src s="17">דתורה לא בשמים היא אלא ניתנה לרשותו,</src>
+    <src s="18">שלכן הפסקי דינים שלו הם כפי הבנתו דוקא ואין משגיחין בבת קול9</src>
+    <src s="19">– מציאות דבן,</src>
+    <src s="20">וביחד עם זה הוא מקבל עליו עול תורה,</src>
+    <src s="21">שהתורה היא ה"אדון" שלו והוא בטל להתורה כעבד שמוטל עליו עול האדון.</src>
+  </section>
+  <section v="13">
+    <src s="0">ח)</src>
+    <src s="1">וזהו תכלית חכמה תשובה ומעשים טובים,</src>
+    <src s="2">דעיקרה של תורה הוא שיהא עמה תשובה ומעשים טובים.</src>
+    <src s="3">דנוסף לזה שהתורה מביאה לתשובה ומעשים טובים,</src>
+    <src s="4">התשובה ומעשים טובים צריכים להיות עמה,</src>
+    <src s="5">עם התורה עצמה,</src>
+    <src s="6">שבלימוד התורה יהי' גם הביטול דתשובה ומעשים טובים.</src>
+    <src s="7">[ויש לומר,</src>
+    <src s="8">דזה שאומר שיהא עמה תשובה ומעשים טובים,</src>
+    <src s="9">הוא,</src>
+    <src s="10">כי הביטול דתשובה</src>
+    <src s="11">(מה שהאדם יוצא ממציאותו,</src>
+    <src s="12">אסורה מכאן),</src>
+    <src s="13">הוא מצד ההרגש שלו,</src>
+    <src s="14">ולכן גם בהביטול מעורב</src>
+    <src s="15">(בדקות)</src>
+    <src s="16">המציאות שלו,</src>
+    <src s="17">ואמיתית הביטול הוא הביטול דמעשים טובים,</src>
+    <src s="18">דזה שקיום המצוות הוא בדרך קבלת עול הוא לא מצד הרצון שלו אלא מצד עול מלכות שמים המוטל עליו</src>
+    <src s="19">(כנ"ל סוף סעיף ד).</src>
+    <src s="20">ובפרט להביאור דלעיל</src>
+    <src s="21">(סעיף ו)</src>
+    <src s="22">שהכוונה במעשים טובים היא להמצוות</src>
+    <src s="23">(מעשים)</src>
+    <src s="24">עצמם,</src>
+    <src s="25">דלפי ביאור זה,</src>
+    <src s="26">הביטול דמעשים טובים הוא שאין נרגש בו גם זה שהוא בטל להאדון,</src>
+    <src s="27">ומה שנרגש הוא רק רצון העליון.</src>
+    <src s="28">ותכלית חכמה הוא שיהא עמה תשובה ומעשים טובים,</src>
+    <src s="29">שבלימוד התורה שלו יהי' הביטול דתשובה וגם הביטול דמעשים טובים].</src>
+    <src s="30">וענין זה הוא עיקרה של תורה,</src>
+    <src s="31">כי עי"ז תופסים בעיקר ושרש התורה כמו שהיא מושרשת בהעצמות.</src>
+  </section>
+  <section v="14">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דהטעם על זה שמאמר זה</src>
+    <src s="2">(תכלית חכמה תשובה ומעשים טובים)</src>
+    <src s="3">הי' מרגלא בפומי' דרבא דוקא,</src>
+    <src s="4">כי בלימוד התורה שני אופנים בכללות,</src>
+    <src s="5">אופן הלימוד דאביי ואופן הלימוד דרבא</src>
+    <src s="6">[שלכן,</src>
+    <src s="7">בהויות דאביי ורבא נכללים כל הענינים דתושבע"פ41].</src>
+    <src s="8">והחילוק שבין שני האופנים הוא כדאיתא בגמרא42</src>
+    <src s="9">אדמגרמיתו גרמי בי אביי תו אכלי בשרא שמינא בי רבא.</src>
+    <src s="10">וכיון שלימוד התורה דרבא הי' באופן של בישרא שמינא</src>
+    <src s="11">(הלכות צהובות מרווחות43),</src>
+    <src s="12">שבהלימוד באופן זה מודגשת המציאות של האדם הלומד,</src>
+    <src s="13">ובפרט שהנהגתו היתה שמקמי דפתח להו לרבנן אמר מילתא דבדיחותא44,</src>
+    <src s="14">לכן הי' מרגלא בפומי' המאמר תכלית חכמה תשובה ומעשים טובים,</src>
+    <src s="15">שבלימוד התורה צ"ל גם הביטול דתשובה ודמעשים טובים.</src>
+  </section>
+</awtsmoosMeluketSource>

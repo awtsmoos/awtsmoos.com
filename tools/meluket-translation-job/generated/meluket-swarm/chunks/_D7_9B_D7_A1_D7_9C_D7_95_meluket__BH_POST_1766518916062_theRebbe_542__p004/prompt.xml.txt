@@ -1,0 +1,128 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518916062_theRebbe_542" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518916062_theRebbe_542" title="מאמר פדה בשלום תשל"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p004">
+  <section v="9">
+    <src s="0">והנה כיון שענין זה נעשה ע"י הצמצום באופן של סילוק האור לגמרי,</src>
+    <src s="1">הרי מובן,</src>
+    <src s="2">שכאשר נעשה ענין של התגלות,</src>
+    <src s="3">אי אפשר שיתגלה מיד סדר השתלשלות שלם,</src>
+    <src s="4">אלא באופן שמתגלה נקודה אחת בלבד,</src>
+    <src s="5">וזהו שלאחרי הצמצום ישנו תחילה ענין עולם העקודים,</src>
+    <src s="6">שבו עקודים כל האורות בכלי אחד,</src>
+    <src s="7">ורק לאח"ז נעשה ענין עולם הנקודים,</src>
+    <src s="8">שבו ישנם עשר נקודות בעשר כלים.</src>
+    <src s="9">ויובן זה ע"ד דוגמא מנפש האדם28</src>
+    <src s="10">(כנ"ל שמבשרי אחזה אלוקה),</src>
+    <src s="11">שישנם החמשה שמות שנקראו לה עד לבחי' היחידה29,</src>
+    <src s="12">שנקראת בשם יחידה להיותה בבחי' אחדות הפשוטה,</src>
+    <src s="13">שלכן מקבלת מבחי' יחיד30,</src>
+    <src s="14">ניצוץ בורא31.</src>
+    <src s="15">והרי בבחי' היחידה לא שייך לומר שיש בה עשר ענינים</src>
+    <src s="16">(אפילו אם נאמר שאינם באופן של חכמה גלוי' וכו',</src>
+    <src s="17">אלא רק מקור לחכמה ומקור לבינה וכיו"ב בכל העשר כחות),</src>
+    <src s="18">כי זהו היפך ענינה של יחידה,</src>
+    <src s="19">אלא שם ישנו רק אור אחד,</src>
+    <src s="20">נקודה אחת.</src>
+    <src s="21">והדוגמא מזה יובן למעלה,</src>
+    <src s="22">שהגילוי הראשון לאחר הצמצום הוא באופן של נקודה אחת,</src>
+    <src s="23">ומזה נעשה אח"כ ענין של עשר נקודות,</src>
+    <src s="24">אבל כפי שהם עקודים בכלי אחד.</src>
+    <src s="25">אך לכאורה אינו מובן איך שייך בכלל הלשון כלי</src>
+    <src s="26">(אפילו כלי אחד),</src>
+    <src s="27">שזהו כבר ענין של גילוי כו',</src>
+    <src s="28">הרי זה מיד לאחרי הצמצום,</src>
+    <src s="29">עוד לפני עולם הנקודים,</src>
+    <src s="30">וא"כ,</src>
+    <src s="31">לא הי' צריך להיות ענין של כלי כלל.</src>
+    <src s="32">והביאור בזה,</src>
+    <src s="33">שהענין דכלי אחד אינו כמו שהוא בעולם הנקודים,</src>
+    <src s="34">עשר נקודות בעשר כלים,</src>
+    <src s="35">ששם ענין הכלים הוא באופן של מקור למציאות הכלי למטה,</src>
+    <src s="36">אלא הענין דכלי אחד הוא רק אפשריות שמזה יוכל להיות אח"כ מקור למקור לענין של אורות וכלים,</src>
+    <src s="37">ומה שנקרא בשם כלי הרי זה רק בגלל שאין על זה לשון ותואר אחר מלבד "כלי",</src>
+    <src s="38">ע"ש שסוכ"ס יומשך מזה מקור לכלים שיהיו תחילה בהעלם ואח"כ יומשכו בגילוי.</src>
+    <src s="39">ומ"מ,</src>
+    <src s="40">אין זה באופן שאינו שייך כלל לענין גילוי,</src>
+    <src s="41">שהרי אדרבה,</src>
+    <src s="42">בהכלי אחד ישנם עשר נקודות,</src>
+    <src s="43">ועוד זאת,</src>
+    <src s="44">כמבואר במ"א32</src>
+    <src s="45">בארוכה שהנקודה הראשונה לאחר הצמצום כוללת את כל סדר ההשתלשלות,</src>
+    <src s="46">ולכן נקרא בשם עקודים,</src>
+    <src s="47">כיון שמעקד את כל סדר ההשתלשלות.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויובן גם זה ע"פ הדוגמא מבחי' היחידה בנפש האדם,</src>
+    <src s="1">שכאשר בחי' היחידה היא בהתגלות,</src>
+    <src s="2">כמו בחתונת בנו יחידו וכיו"ב33,</src>
+    <src s="3">אזי מתגלים פתאום כל כוחותיו בבת אחת,</src>
+    <src s="4">והיינו שאין זה בדרך של סדר השתלשלות,</src>
+    <src s="5">שתחילה מתגלה ענין אחד ואח"כ מתגלה ענין נוסף,</src>
+    <src s="6">חכמה ואח"כ בינה,</src>
+    <src s="7">וכל עשר הכחות שמשתלשלים זמ"ז,</src>
+    <src s="8">אלא כל הכחות מתגלים בבת אחת,</src>
+    <src s="9">היינו,</src>
+    <src s="10">גילוי השכל,</src>
+    <src s="11">ועשיית החסד בריבוי,</src>
+    <src s="12">נגינה בריבוי,</src>
+    <src s="13">ודיבור וריקוד בריבוי,</src>
+    <src s="14">שזהו לפי שבחי' היחידה היא בגילוי,</src>
+    <src s="15">ולכן יוצאים ומתגלים כל הכחות כפי שהם בהעלם בבחי' היחידה,</src>
+    <src s="16">ששם אינם באופן של עשר כלים,</src>
+    <src s="17">כי אם בכלי אחד,</src>
+    <src s="18">ולכן מתגלים כולם בבת אחת.</src>
+    <src s="19">והיינו,</src>
+    <src s="20">שכאשר ההמשכה היא מעצם הנפש,</src>
+    <src s="21">למעלה אפילו מבחי' האור כפי שהוא בהעלם,</src>
+    <src s="22">הרי זה נמשך בגילוי עד למטה,</src>
+    <src s="23">אפילו בריקוד שברגל.</src>
+    <src s="24">וכן הוא כביכול למעלה בבחי' אדם העליון ולמעלה יותר,</src>
+    <src s="25">שהנקודה הראשונה לאחר הצמצום כוללת ומקיפה את כל סדר ההשתלשלות עד למטה כו'.</src>
+  </section>
+  <section v="11">
+    <src s="0">ועפ"ז מובן הטעות של אלו שטעו בדמיונם והקשו איך יתכן ענין של השגחה פרטית בכל פרטי הנבראים עד לעולם העשי' הזה הגשמי,</src>
+    <src s="1">דלכאורה הרי זה שלא בערך כלל שתהי' השגחה פרטית בכל פרט ופרט.</src>
+    <src s="2">אך הענין הוא,</src>
+    <src s="3">ששורש טעות זו היא מצד ההתחלקות לכלים נפרדים,</src>
+    <src s="4">אפילו כפי שהוא בעולם הנקודים,</src>
+    <src s="5">ועאכו"כ כפי שנמשך למטה מזה בעולמות בי"ע.</src>
+    <src s="6">אבל מצד זה שכל הענינים כלולים בכלי אחד,</src>
+    <src s="7">ששם כולם בהשוואה,</src>
+    <src s="8">ואינם באופן של מציאות כלל,</src>
+    <src s="9">כי אם רק מקור למקור דמקור כו',</src>
+    <src s="10">אזי גם ההתגלות היא באופן שמתגלים כל הפרטים בשוה,</src>
+    <src s="11">ולכן יכולה להיות השגחה פרטית בכל פרט ופרט.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,127 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919710_theRebbe_549" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919710_theRebbe_549__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919710_theRebbe_549" title="מאמר ציון במשפט תפדה תשל"ו" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919710_theRebbe_549__p003">
+  <section v="6">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שקיום המצוות צ"ל באופן של כחדשים ממש הוא לא רק בכדי שעי"ז יהי' קיום התומ"צ ביותר חיות,</src>
+    <src s="2">אלא ש</src>
+    <src s="3">(גם)</src>
+    <src s="4">ענין זה עצמו</src>
+    <src s="5">(דבכל יום יהיו בעיניך כחדשים)</src>
+    <src s="6">נוגע לקיום המצוות.</src>
+    <src s="7">כי ענין המצוות הוא שעל ידם נעשה יחוד קוב"ה ושכינתי'35,</src>
+    <src s="8">יחוד סובב וממלא35.</src>
+    <src s="9">וכיון שעבודת האדם</src>
+    <src s="10">(אתערותא דלתתא)</src>
+    <src s="11">שעל ידה נעשית ההמשכה</src>
+    <src s="12">(אתערותא דלעילא)</src>
+    <src s="13">צריכה להיות מעין ההמשכה,</src>
+    <src s="14">לכן כשקיום המצוות דהאדם הוא באופן שבכל יום הם בעיניו כחדשים,</src>
+    <src s="15">חיבור דזמן עם למעלה מהזמן,</src>
+    <src s="16">עי"ז מיתוסף בגילוי היחוד דסובב וממלא שנעשה ע"י המצוות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">והנה שני הענינים דסובב וממלא הם שני השמות דהוי' ואלקים.</src>
+    <src s="2">וכמבואר בכ"מ36</src>
+    <src s="3">דשם אלקים הוא לא רק המגן ונרתק שמעלים ומסתיר על האור דשם הוי',</src>
+    <src s="4">אלא שגם האור דשם הוי' כמו שנמשך ומתצמצם ע"י שם אלקים להיות מקור לנבראים,</src>
+    <src s="5">שבכללות הוא אור הממלא,</src>
+    <src s="6">נקרא אלקים.</src>
+    <src s="7">וע"פ הידוע37</src>
+    <src s="8">דזה שהגוף מעלים על הנפש הוא כי שרש הנפש הוא מהוי' ושרש הגוף הוא מאלקים38,</src>
+    <src s="9">ולכן כמו שאלקים מעלים על הוי' כן הגוף מעלים על הנפש,</src>
+    <src s="10">יש לומר,</src>
+    <src s="11">שעד"ז הוא גם בהענין דסובב וממלא</src>
+    <src s="12">[שגם אור הממלא נק' אלקים,</src>
+    <src s="13">כנ"ל],</src>
+    <src s="14">שבכדי שהאדם ידע וירגיש שהעיקר הוא עניני הנשמה ועניני הגוף הם רק טפל,</src>
+    <src s="15">הוא ע"י יחוד סובב וממלא.</src>
+    <src s="16">דבאור הממלא</src>
+    <src s="17">(כמו שהוא מצד עצמו)</src>
+    <src s="18">להיותו מקור לנבראים והנבראים תופסים מקום לגבי',</src>
+    <src s="19">יש תפיסת מקום לעניני הגוף,</src>
+    <src s="20">וע"י היחוד דסובב וממלא,</src>
+    <src s="21">שגם בהאור כמו שנעשה מקור לעולמות מאיר הגילוי דאוא"ס שלמעלה מעולמות,</src>
+    <src s="22">דכולא קמי' כלא חשיב,</src>
+    <src s="23">עי"ז ישנה ההכרה שעניני הגוף הם רק בשביל הנשמה.</src>
+    <src s="24">ועפ"ז יש לבאר מ"ש בלקו"ת דכאשר לא ישנו הענין דבכל יום כחדשים אזי המרירות והתענוג שלו הם מעניני עוה"ז,</src>
+    <src s="25">כי בכדי שיהי' היחוד דסובב וממלא,</src>
+    <src s="26">שעי"ז עניני עוה"ז אינם תופסים מקום אצלו,</src>
+    <src s="27">הוא ע"י שקיום המצוות שלו הוא באופן דבכל יום כחדשים.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">ועפ"ז יש לבאר השייכות דגלות לשכחה,</src>
+    <src s="2">כמ"ש39</src>
+    <src s="3">למה לנצח תשכחנו גו',</src>
+    <src s="4">כי סיבת השכחה היא שהידיעה שהיתה אצלו מקודם היתה מוגבלת,</src>
+    <src s="5">ולכן במשך הזמן היא נפסקת40.</src>
+    <src s="6">ומזה מובן בענין הזכרון והשכחה</src>
+    <src s="7">(כביכול)</src>
+    <src s="8">למעלה,</src>
+    <src s="9">דענין הזכרון הוא בסובב,</src>
+    <src s="10">דכיון שהוא בל"ג,</src>
+    <src s="11">אין שייך שם הפסק,</src>
+    <src s="12">וענין השכחה הוא במלכות,</src>
+    <src s="13">דמלכות היא שרש הנבראים,</src>
+    <src s="14">ממלא41.</src>
+    <src s="15">ולכן,</src>
+    <src s="16">כשקיום התומ"צ דהאדם הוא באופן דבכל יום הם כחדשים,</src>
+    <src s="17">שעי"ז מאיר הגילוי דאור הבל"ג גם באור המוגבל,</src>
+    <src s="18">אין שייך ענין השכחה,</src>
+    <src s="19">אבל כאשר קיום התומ"צ דהאדם הוא בהגבלה,</src>
+    <src s="20">שאז,</src>
+    <src s="21">כשמקיים אותה המצוה בפעם שני' ושלישית אין לו אותו החיות כמו שהי' אצלו בפעם הראשונה,</src>
+    <src s="22">שעי"ז גורם גם למעלה שבאור המוגבל לא יהי' הגילוי דאור הבל"ג,</src>
+    <src s="23">מזה נמשך ענין השכחה.</src>
+    <src s="24">וכמו שבאדם,</src>
+    <src s="25">כשקיום התומ"צ שלו הוא באופן דהגבלה,</src>
+    <src s="26">משתלשל מזה שהתענוג שלו הוא בעניני עוה"ז,</src>
+    <src s="27">שזה</src>
+    <src s="28">(התענוג בעניני עוה"ז,</src>
+    <src s="29">גם בתאוות היתר)</src>
+    <src s="30">הוא היפך הקדושה,</src>
+    <src s="31">עד"ז הוא למעלה,</src>
+    <src s="32">דע"י שז"א</src>
+    <src s="33">(סובב)</src>
+    <src s="34">מסתלק,</src>
+    <src s="35">קוב"ה סליק לעילא42,</src>
+    <src s="36">ונשאר רק המלכות</src>
+    <src s="37">(ממלא),</src>
+    <src s="38">זה גורם ירידת המלכות להחיות הקליפות,</src>
+    <src s="39">גלות השכינה.</src>
+  </section>
+</awtsmoosMeluketSource>

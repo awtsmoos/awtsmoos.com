@@ -1,0 +1,1004 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 192,
+    "returned": 192,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916557_theRebbe_582\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916557_theRebbe_582__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header of the maamar, including the date.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven,</t>\n    <t s=\"1\">10 Shevat,</t>\n    <t s=\"2\">5712*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the Midrash that the Divine Presence originally dwelt in the lower realms, was removed through sins, and was restored by the righteous, especially Moshe, culminating in the Mishkan and the spiritual service of offerings within every Jew.</sectionSummaryBrief>\n    <t s=\"0\">\"I have come to My garden,</t>\n    <t s=\"1\">My sister, My bride.\"</t>\n    <t s=\"2\">And it is brought in Midrash Rabbah</t>\n    <t s=\"3\">(in its place)</t>\n    <t s=\"4\">\"To My garden\" means \"to My bridal chamber,\"</t>\n    <t s=\"5\">to the place which was My primary [dwelling] initially,</t>\n    <t s=\"6\">for the primary [dwelling of the] Shechinah was in the lower realms,</t>\n    <t s=\"7\">and through sins—namely, through the sin of the Tree of Knowledge, the Shechinah departed from the earth to the first firmament,</t>\n    <t s=\"8\">and through other sins it departed from firmament to firmament until the seventh firmament.</t>\n    <t s=\"9\">And afterward, righteous ones arose and brought down the Shechinah from firmament to firmament,</t>\n    <t s=\"10\">until the seventh came,</t>\n    <t s=\"11\">and all sevenths are beloved,</t>\n    <t s=\"12\">who is Moshe,</t>\n    <t s=\"13\">and he brought it down below to the earth.</t>\n    <t s=\"14\">And this is [the meaning of] \"The righteous shall inherit the land and dwell upon it forever,\"</t>\n    <t s=\"15\">that the righteous shall inherit the land, which is the Garden of Eden, because they draw down and cause to dwell</t>\n    <t s=\"16\">the Shechinah in the lower earth,</t>\n    <t s=\"17\">for this is the ultimate purpose of the creation and coming-into-being of the worlds.</t>\n    <t s=\"18\">And the primary revelation of what they drew down of the Shechinah below,</t>\n    <t s=\"19\">was in the Mikdash,</t>\n    <t s=\"20\">as it is written,</t>\n    <t s=\"21\">\"And they shall make for Me a Mikdash, and I will dwell in their midst.\"</t>\n    <t s=\"22\">And behold, our Sages, of blessed memory, precisely noted regarding this,</t>\n    <t s=\"23\">\"It does not say 'in it,' but rather 'in their midst,'</t>\n    <t s=\"24\">within each and every one of Yisrael,\"</t>\n    <t s=\"25\">meaning that in each and every one of Yisrael,</t>\n    <t s=\"26\">by his performing within himself those same services that were in the Mikdash,</t>\n    <t s=\"27\">through this the primary Shechinah dwells within him,</t>\n    <t s=\"28\">as it was at the beginning of the creation of the worlds, and even more than at the beginning,</t>\n    <t s=\"29\">and a primary dwelling place is made in the lower realms.</t>\n    <t s=\"30\">And behold,</t>\n    <t s=\"31\">one of the primary services</t>\n    <t s=\"32\">that were in the Mikdash,</t>\n    <t s=\"33\">is the service of the offerings,</t>\n    <t s=\"34\">which is a spiritual service.</t>\n    <t s=\"35\">For even the service of the offerings that was in the Mikdash,</t>\n    <t s=\"36\">where they offered a physical animal,</t>\n    <t s=\"37\">behold, this too was a spiritual service,</t>\n    <t s=\"38\">and a proof of this is from the matter of the participation of the Kohanim in their service and the Levi'im in their song and music at the time of bringing the offering,</t>\n    <t s=\"39\">which are spiritual matters,</t>\n    <t s=\"40\">and as it is written in the Zohar,</t>\n    <t s=\"41\">that the Kohanim [draw down] in silence and with the desire of the heart, a drawing down,</t>\n    <t s=\"42\">and the Levi'im with song and music, which is a matter of elevation from below to above.</t>\n    <t s=\"43\">Thus, even the service of the offerings in the Mikdash is a spiritual service,</t>\n    <t s=\"44\">and all the more so the service of the offerings as it is in each and every one of Yisrael,</t>\n    <t s=\"45\">which is a spiritual service,</t>\n    <t s=\"46\">and this is what is written at the beginning of the section of the offerings,</t>\n    <t s=\"47\">\"Adam, when he brings from you an offering to Havayah,\"</t>\n    <t s=\"48\">and it is known</t>\n    <t s=\"49\">the explanation of the Alter Rebbe, of blessed memory, regarding this,</t>\n    <t s=\"50\">that it should have said \"Adam from you, when he brings,\"</t>\n    <t s=\"51\">and what is it saying, \"Adam, when he brings from you\"?</t>\n    <t s=\"52\">Rather, the explanation is,</t>\n    <t s=\"53\">\"Adam, when he brings,\"</t>\n    <t s=\"54\">when a person comes to draw near to G-dliness,</t>\n    <t s=\"55\">for this is the matter of an offering,</t>\n    <t s=\"56\">for</t>\n    <t s=\"57\">it is called an offering only because it brings near,</t>\n    <t s=\"58\">for offerings are a matter of drawing near the powers and senses,</t>\n    <t s=\"59\">then \"from you is an offering to Havayah,\"</t>\n    <t s=\"60\">you must bring an offering from yourselves.</t>\n    <t s=\"61\">And this is that just as the matter of offerings in physicality is that they take a complete and living animal and slaughter it,</t>\n    <t s=\"62\">meaning they extract from it the life-force,</t>\n    <t s=\"63\">and afterward is the offering of the fats,</t>\n    <t s=\"64\">that the fat is burned in the fire upon the altar,</t>\n    <t s=\"65\">and even more so in the burnt-offering,</t>\n    <t s=\"66\">the beginning of the offerings,</t>\n    <t s=\"67\">which is a wholly burnt offering to the altar,</t>\n    <t s=\"68\">so too is it in the service of the offerings in spirituality,</t>\n    <t s=\"69\">that there must be a complete animal,</t>\n    <t s=\"70\">meaning he must examine himself that the animal within him is complete,</t>\n    <t s=\"71\">meaning also the body and the animal soul,</t>\n    <t s=\"72\">and the examination must be for his own sake,</t>\n    <t s=\"73\">not in the manner of \"a commandment of men learned by rote,\"</t>\n    <t s=\"74\">for in this way the examination will not be good and sufficient.</t>\n    <t s=\"75\">But when he knows that the matter affects him in his very life's soul,</t>\n    <t s=\"76\">then he examines himself in every corner of his soul,</t>\n    <t s=\"77\">in the intellect and the emotions, and particularly in the three garments—thought, speech, and deed,</t>\n    <t s=\"78\">and then he will know all his matters that require correction.</t>\n    <t s=\"79\">And because the matter affects him in his life's soul,</t>\n    <t s=\"80\">he will do and actually fulfill the necessary corrections so that there will be no blemish in him.</t>\n    <t s=\"81\">And after the examination, then he will desire to be an offering,</t>\n    <t s=\"82\">that he slaughters it,</t>\n    <t s=\"83\">meaning that the flesh etc. remains intact, but they extract from it the life-force,</t>\n    <t s=\"84\">that he extracts the life-force from physical matters,</t>\n    <t s=\"85\">meaning that the body of the physical things remains,</t>\n    <t s=\"86\">but he uses them only in order to have additional strength in the service of Havayah,</t>\n    <t s=\"87\">as per the saying,</t>\n    <t s=\"88\">\"Wine and fragrance enlighten,\"</t>\n    <t s=\"89\">for</t>\n    <t s=\"90\">\"I ate the meat of an ox, I did not scrutinize the taste of the thing.\"</t>\n    <t s=\"91\">All this is regarding matters that are permissible,</t>\n    <t s=\"92\">and particularly in matters of a mitzvah,</t>\n    <t s=\"93\">like eating on Shabbos and Yom Tov,</t>\n    <t s=\"94\">or tzitzis from physical wool and tefillin from physical leather,</t>\n    <t s=\"95\">meaning physical things with which they themselves perform a mitzvah,</t>\n    <t s=\"96\">and not only the command of \"In all</t>\n    <t s=\"97\">your ways know Him.\"</t>\n    <t s=\"98\">And this is the service of the offerings,</t>\n    <t s=\"99\">to extract the life-force from physical matters,</t>\n    <t s=\"100\">so that he uses them only for the service of Havayah,</t>\n    <t s=\"101\">for then it is \"from you an offering,\"</t>\n    <t s=\"102\">from yourselves.</t>\n    <t s=\"103\">And when a person brings \"from you an offering,\"</t>\n    <t s=\"104\">then it is an offering to Havayah, that he draws near and unites with Havayah.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section discusses the person's despair upon examining his spiritual state and realizing his sins remain unrectified, and then explains the Rebbe's interpretation that \"from you\" means the ability to become an offering to Havayah depends entirely on the person himself, reaching beyond even the name Havayah to the level of Ein Sof.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">However, when he contemplates his standing and situation, for his own sake as above,</t>\n    <t s=\"2\">behold,</t>\n    <t s=\"3\">often,</t>\n    <t s=\"4\">he will see and prove that even if currently he is not a transgressor,</t>\n    <t s=\"5\">nevertheless, \"my sin is before me always,\"</t>\n    <t s=\"6\">for his sins that he committed during the course of his life,</t>\n    <t s=\"7\">and among them also those he committed before Bar Mitzvah,</t>\n    <t s=\"8\">as stated by</t>\n    <t s=\"9\">the Mitteler Rebbe,</t>\n    <t s=\"10\">they exist,</t>\n    <t s=\"11\">because he has not yet corrected them.</t>\n    <t s=\"12\">And a proof that he has not corrected them,</t>\n    <t s=\"13\">for if he had done teshuvah properly,</t>\n    <t s=\"14\">then,</t>\n    <t s=\"15\">not only would he not have the matter of \"one transgression leads to another,\"</t>\n    <t s=\"16\">but,</t>\n    <t s=\"17\">on the contrary,</t>\n    <t s=\"18\">from the fact that he became a baal teshuvah,</t>\n    <t s=\"19\">his service from now on should have been with greater strength</t>\n    <t s=\"20\">than it was until now,</t>\n    <t s=\"21\">for that which he was previously in a land of drought and the shadow of death,</t>\n    <t s=\"22\">this would have aroused in him a greater longing for G-dliness.</t>\n    <t s=\"23\">But in his contemplation of his true standing and situation,</t>\n    <t s=\"24\">without being lenient with himself and without deceiving himself at all,</t>\n    <t s=\"25\">he feels in his soul the complete opposite of this,</t>\n    <t s=\"26\">that not only did his previous standing and situation not bring him to the great love that \"willful sins</t>\n    <t s=\"27\">become for him like merits,\"</t>\n    <t s=\"28\">but,</t>\n    <t s=\"29\">on the contrary,</t>\n    <t s=\"30\">this caused him and brought him to a state of thickness and coarseness,</t>\n    <t s=\"31\">to the point that he is in the pattern of \"one transgression leads to another.\"</t>\n    <t s=\"32\">From all this there is a clear proof that regarding him, the matter of \"my sin is before me always\" is not in a manner that he has already done proper teshuvah, but rather that according to his present standing and situation, the previous teshuvah is insufficient and he now needs a more elevated teshuvah,</t>\n    <t s=\"33\">but rather that from the outset he never corrected his matters at all,</t>\n    <t s=\"34\">and they are a separating screen between him and his Father in Heaven,</t>\n    <t s=\"35\">and they interrupt and prevent the service of Havayah.</t>\n    <t s=\"36\">Now, when he contemplates all this and also knows the greatness of the matter of offerings, which is the drawing near of the powers and senses,</t>\n    <t s=\"37\">until he is included in the fire from above,</t>\n    <t s=\"38\">and the secret of the offering ascends to the secret of Ein Sof, as will be explained,</t>\n    <t s=\"39\">he asks himself,</t>\n    <t s=\"40\">what connection does he have to the matter of offerings,</t>\n    <t s=\"41\">and how can he desire to be an offering to Havayah,</t>\n    <t s=\"42\">when he has no soundness in him,</t>\n    <t s=\"43\">and to remove this difficulty, my father-in-law, the Rebbe, adds</t>\n    <t s=\"44\">to the explanation of the Alter Rebbe on the word \"from you,\"</t>\n    <t s=\"45\">and says,</t>\n    <t s=\"46\">\"From you\" means \"from you, and in you the matter depends,\"</t>\n    <t s=\"47\">it depends on yourselves,</t>\n    <t s=\"48\">that without regard to his standing and situation and all that has passed over him until now,</t>\n    <t s=\"49\">that he knows the plagues of his heart,</t>\n    <t s=\"50\">nevertheless, \"in you the matter depends,\"</t>\n    <t s=\"51\">to the point that each and every one can say, \"When will my deeds reach the deeds of my forefathers Avraham, Yitzchak, and Yaakov.\"</t>\n    <t s=\"52\">And this is \"from you an offering to Havayah,\"</t>\n    <t s=\"53\">in you the matter depends to be an offering to Havayah,</t>\n    <t s=\"54\">to draw near and unite with Havayah.</t>\n    <t s=\"55\">For offerings are specifically to Havayah,</t>\n    <t s=\"56\">not to Elokim, which has the numerical value of nature,</t>\n    <t s=\"57\">but specifically to Havayah,</t>\n    <t s=\"58\">and as explained in the Zohar</t>\n    <t s=\"59\">on the verse \"One who slaughters to Elokim shall be destroyed,\"</t>\n    <t s=\"60\">that the matter of offerings is specifically to Havayah,</t>\n    <t s=\"61\">above the name Elokim.</t>\n    <t s=\"62\">And in truth, it reaches even higher,</t>\n    <t s=\"63\">\"before Havayah,\"</t>\n    <t s=\"64\">for the secret of the offering ascends to the secret of Ein Sof,</t>\n    <t s=\"65\">which is above even Havayah,</t>\n    <t s=\"66\">for the name Havayah, even though it is above the name Elokim,</t>\n    <t s=\"67\">nevertheless, its four letters allude to the contraction, expansion, flow, and diffusion,</t>\n    <t s=\"68\">which is an order of Hishtalshelus,</t>\n    <t s=\"69\">but Ein Sof is above Havayah,</t>\n    <t s=\"70\">and to there the service of the offerings reaches.</t>\n    <t s=\"71\">And this is what concludes regarding the matter of the offering \"for his acceptance before Havayah.\"</t>\n    <t s=\"72\">For before this it says \"an offering to Havayah,\" and at the conclusion of the matter,</t>\n    <t s=\"73\">after it says \"from the animal, from the cattle, and from the flock,\"</t>\n    <t s=\"74\">it says \"before Havayah,\"</t>\n    <t s=\"75\">and the Tzemach Tzedek explained,</t>\n    <t s=\"76\">\"before Havayah\" means above Havayah.</t>\n    <t s=\"77\">And this is the matter of offerings,</t>\n    <t s=\"78\">that the service is not only with the G-dly soul,</t>\n    <t s=\"79\">but rather \"from the animal, from the cattle, and from the flock,\" which is the animal soul,</t>\n    <t s=\"80\">and particularly as it was in the Mikdash,</t>\n    <t s=\"81\">where the service of the offerings could be with a literal physical animal,</t>\n    <t s=\"82\">that through this he reaches \"before Havayah,\"</t>\n    <t s=\"83\">the secret of Ein Sof.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916557_theRebbe_582",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916557_theRebbe_582__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header of the maamar, including the date.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven,"
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "10 Shevat,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "5712*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the Midrash that the Divine Presence originally dwelt in the lower realms, was removed through sins, and was restored by the righteous, especially Moshe, culminating in the Mishkan and the spiritual service of offerings within every Jew.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"I have come to My garden,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "My sister, My bride.\""
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "And it is brought in Midrash Rabbah"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "(in its place)"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "\"To My garden\" means \"to My bridal chamber,\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "to the place which was My primary [dwelling] initially,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "for the primary [dwelling of the] Shechinah was in the lower realms,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "and through sins—namely, through the sin of the Tree of Knowledge, the Shechinah departed from the earth to the first firmament,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "and through other sins it departed from firmament to firmament until the seventh firmament."
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "And afterward, righteous ones arose and brought down the Shechinah from firmament to firmament,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "until the seventh came,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "and all sevenths are beloved,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "who is Moshe,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and he brought it down below to the earth."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "And this is [the meaning of] \"The righteous shall inherit the land and dwell upon it forever,\""
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that the righteous shall inherit the land, which is the Garden of Eden, because they draw down and cause to dwell"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "the Shechinah in the lower earth,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "for this is the ultimate purpose of the creation and coming-into-being of the worlds."
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "And the primary revelation of what they drew down of the Shechinah below,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "was in the Mikdash,"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "\"And they shall make for Me a Mikdash, and I will dwell in their midst.\""
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "And behold, our Sages, of blessed memory, precisely noted regarding this,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "\"It does not say 'in it,' but rather 'in their midst,'"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "within each and every one of Yisrael,\""
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "meaning that in each and every one of Yisrael,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "by his performing within himself those same services that were in the Mikdash,"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "through this the primary Shechinah dwells within him,"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "as it was at the beginning of the creation of the worlds, and even more than at the beginning,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "and a primary dwelling place is made in the lower realms."
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "And behold,"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "one of the primary services"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "that were in the Mikdash,"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "is the service of the offerings,"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "which is a spiritual service."
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "For even the service of the offerings that was in the Mikdash,"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "where they offered a physical animal,"
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "behold, this too was a spiritual service,"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "and a proof of this is from the matter of the participation of the Kohanim in their service and the Levi'im in their song and music at the time of bringing the offering,"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "which are spiritual matters,"
+          },
+          {
+            "v": 1,
+            "s": 40,
+            "translation": "and as it is written in the Zohar,"
+          },
+          {
+            "v": 1,
+            "s": 41,
+            "translation": "that the Kohanim [draw down] in silence and with the desire of the heart, a drawing down,"
+          },
+          {
+            "v": 1,
+            "s": 42,
+            "translation": "and the Levi'im with song and music, which is a matter of elevation from below to above."
+          },
+          {
+            "v": 1,
+            "s": 43,
+            "translation": "Thus, even the service of the offerings in the Mikdash is a spiritual service,"
+          },
+          {
+            "v": 1,
+            "s": 44,
+            "translation": "and all the more so the service of the offerings as it is in each and every one of Yisrael,"
+          },
+          {
+            "v": 1,
+            "s": 45,
+            "translation": "which is a spiritual service,"
+          },
+          {
+            "v": 1,
+            "s": 46,
+            "translation": "and this is what is written at the beginning of the section of the offerings,"
+          },
+          {
+            "v": 1,
+            "s": 47,
+            "translation": "\"Adam, when he brings from you an offering to Havayah,\""
+          },
+          {
+            "v": 1,
+            "s": 48,
+            "translation": "and it is known"
+          },
+          {
+            "v": 1,
+            "s": 49,
+            "translation": "the explanation of the Alter Rebbe, of blessed memory, regarding this,"
+          },
+          {
+            "v": 1,
+            "s": 50,
+            "translation": "that it should have said \"Adam from you, when he brings,\""
+          },
+          {
+            "v": 1,
+            "s": 51,
+            "translation": "and what is it saying, \"Adam, when he brings from you\"?"
+          },
+          {
+            "v": 1,
+            "s": 52,
+            "translation": "Rather, the explanation is,"
+          },
+          {
+            "v": 1,
+            "s": 53,
+            "translation": "\"Adam, when he brings,\""
+          },
+          {
+            "v": 1,
+            "s": 54,
+            "translation": "when a person comes to draw near to G-dliness,"
+          },
+          {
+            "v": 1,
+            "s": 55,
+            "translation": "for this is the matter of an offering,"
+          },
+          {
+            "v": 1,
+            "s": 56,
+            "translation": "for"
+          },
+          {
+            "v": 1,
+            "s": 57,
+            "translation": "it is called an offering only because it brings near,"
+          },
+          {
+            "v": 1,
+            "s": 58,
+            "translation": "for offerings are a matter of drawing near the powers and senses,"
+          },
+          {
+            "v": 1,
+            "s": 59,
+            "translation": "then \"from you is an offering to Havayah,\""
+          },
+          {
+            "v": 1,
+            "s": 60,
+            "translation": "you must bring an offering from yourselves."
+          },
+          {
+            "v": 1,
+            "s": 61,
+            "translation": "And this is that just as the matter of offerings in physicality is that they take a complete and living animal and slaughter it,"
+          },
+          {
+            "v": 1,
+            "s": 62,
+            "translation": "meaning they extract from it the life-force,"
+          },
+          {
+            "v": 1,
+            "s": 63,
+            "translation": "and afterward is the offering of the fats,"
+          },
+          {
+            "v": 1,
+            "s": 64,
+            "translation": "that the fat is burned in the fire upon the altar,"
+          },
+          {
+            "v": 1,
+            "s": 65,
+            "translation": "and even more so in the burnt-offering,"
+          },
+          {
+            "v": 1,
+            "s": 66,
+            "translation": "the beginning of the offerings,"
+          },
+          {
+            "v": 1,
+            "s": 67,
+            "translation": "which is a wholly burnt offering to the altar,"
+          },
+          {
+            "v": 1,
+            "s": 68,
+            "translation": "so too is it in the service of the offerings in spirituality,"
+          },
+          {
+            "v": 1,
+            "s": 69,
+            "translation": "that there must be a complete animal,"
+          },
+          {
+            "v": 1,
+            "s": 70,
+            "translation": "meaning he must examine himself that the animal within him is complete,"
+          },
+          {
+            "v": 1,
+            "s": 71,
+            "translation": "meaning also the body and the animal soul,"
+          },
+          {
+            "v": 1,
+            "s": 72,
+            "translation": "and the examination must be for his own sake,"
+          },
+          {
+            "v": 1,
+            "s": 73,
+            "translation": "not in the manner of \"a commandment of men learned by rote,\""
+          },
+          {
+            "v": 1,
+            "s": 74,
+            "translation": "for in this way the examination will not be good and sufficient."
+          },
+          {
+            "v": 1,
+            "s": 75,
+            "translation": "But when he knows that the matter affects him in his very life's soul,"
+          },
+          {
+            "v": 1,
+            "s": 76,
+            "translation": "then he examines himself in every corner of his soul,"
+          },
+          {
+            "v": 1,
+            "s": 77,
+            "translation": "in the intellect and the emotions, and particularly in the three garments—thought, speech, and deed,"
+          },
+          {
+            "v": 1,
+            "s": 78,
+            "translation": "and then he will know all his matters that require correction."
+          },
+          {
+            "v": 1,
+            "s": 79,
+            "translation": "And because the matter affects him in his life's soul,"
+          },
+          {
+            "v": 1,
+            "s": 80,
+            "translation": "he will do and actually fulfill the necessary corrections so that there will be no blemish in him."
+          },
+          {
+            "v": 1,
+            "s": 81,
+            "translation": "And after the examination, then he will desire to be an offering,"
+          },
+          {
+            "v": 1,
+            "s": 82,
+            "translation": "that he slaughters it,"
+          },
+          {
+            "v": 1,
+            "s": 83,
+            "translation": "meaning that the flesh etc. remains intact, but they extract from it the life-force,"
+          },
+          {
+            "v": 1,
+            "s": 84,
+            "translation": "that he extracts the life-force from physical matters,"
+          },
+          {
+            "v": 1,
+            "s": 85,
+            "translation": "meaning that the body of the physical things remains,"
+          },
+          {
+            "v": 1,
+            "s": 86,
+            "translation": "but he uses them only in order to have additional strength in the service of Havayah,"
+          },
+          {
+            "v": 1,
+            "s": 87,
+            "translation": "as per the saying,"
+          },
+          {
+            "v": 1,
+            "s": 88,
+            "translation": "\"Wine and fragrance enlighten,\""
+          },
+          {
+            "v": 1,
+            "s": 89,
+            "translation": "for"
+          },
+          {
+            "v": 1,
+            "s": 90,
+            "translation": "\"I ate the meat of an ox, I did not scrutinize the taste of the thing.\""
+          },
+          {
+            "v": 1,
+            "s": 91,
+            "translation": "All this is regarding matters that are permissible,"
+          },
+          {
+            "v": 1,
+            "s": 92,
+            "translation": "and particularly in matters of a mitzvah,"
+          },
+          {
+            "v": 1,
+            "s": 93,
+            "translation": "like eating on Shabbos and Yom Tov,"
+          },
+          {
+            "v": 1,
+            "s": 94,
+            "translation": "or tzitzis from physical wool and tefillin from physical leather,"
+          },
+          {
+            "v": 1,
+            "s": 95,
+            "translation": "meaning physical things with which they themselves perform a mitzvah,"
+          },
+          {
+            "v": 1,
+            "s": 96,
+            "translation": "and not only the command of \"In all"
+          },
+          {
+            "v": 1,
+            "s": 97,
+            "translation": "your ways know Him.\""
+          },
+          {
+            "v": 1,
+            "s": 98,
+            "translation": "And this is the service of the offerings,"
+          },
+          {
+            "v": 1,
+            "s": 99,
+            "translation": "to extract the life-force from physical matters,"
+          },
+          {
+            "v": 1,
+            "s": 100,
+            "translation": "so that he uses them only for the service of Havayah,"
+          },
+          {
+            "v": 1,
+            "s": 101,
+            "translation": "for then it is \"from you an offering,\""
+          },
+          {
+            "v": 1,
+            "s": 102,
+            "translation": "from yourselves."
+          },
+          {
+            "v": 1,
+            "s": 103,
+            "translation": "And when a person brings \"from you an offering,\""
+          },
+          {
+            "v": 1,
+            "s": 104,
+            "translation": "then it is an offering to Havayah, that he draws near and unites with Havayah."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section discusses the person's despair upon examining his spiritual state and realizing his sins remain unrectified, and then explains the Rebbe's interpretation that \"from you\" means the ability to become an offering to Havayah depends entirely on the person himself, reaching beyond even the name Havayah to the level of Ein Sof.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "However, when he contemplates his standing and situation, for his own sake as above,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "behold,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "often,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "he will see and prove that even if currently he is not a transgressor,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "nevertheless, \"my sin is before me always,\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "for his sins that he committed during the course of his life,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and among them also those he committed before Bar Mitzvah,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "as stated by"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "the Mitteler Rebbe,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "they exist,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "because he has not yet corrected them."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And a proof that he has not corrected them,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "for if he had done teshuvah properly,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "then,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "not only would he not have the matter of \"one transgression leads to another,\""
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "but,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "on the contrary,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "from the fact that he became a baal teshuvah,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "his service from now on should have been with greater strength"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "than it was until now,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "for that which he was previously in a land of drought and the shadow of death,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "this would have aroused in him a greater longing for G-dliness."
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "But in his contemplation of his true standing and situation,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "without being lenient with himself and without deceiving himself at all,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "he feels in his soul the complete opposite of this,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "that not only did his previous standing and situation not bring him to the great love that \"willful sins"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "become for him like merits,\""
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "but,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "on the contrary,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "this caused him and brought him to a state of thickness and coarseness,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "to the point that he is in the pattern of \"one transgression leads to another.\""
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "From all this there is a clear proof that regarding him, the matter of \"my sin is before me always\" is not in a manner that he has already done proper teshuvah, but rather that according to his present standing and situation, the previous teshuvah is insufficient and he now needs a more elevated teshuvah,"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "but rather that from the outset he never corrected his matters at all,"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "and they are a separating screen between him and his Father in Heaven,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "and they interrupt and prevent the service of Havayah."
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "Now, when he contemplates all this and also knows the greatness of the matter of offerings, which is the drawing near of the powers and senses,"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "until he is included in the fire from above,"
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "and the secret of the offering ascends to the secret of Ein Sof, as will be explained,"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "he asks himself,"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "what connection does he have to the matter of offerings,"
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "and how can he desire to be an offering to Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "when he has no soundness in him,"
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "and to remove this difficulty, my father-in-law, the Rebbe, adds"
+          },
+          {
+            "v": 2,
+            "s": 44,
+            "translation": "to the explanation of the Alter Rebbe on the word \"from you,\""
+          },
+          {
+            "v": 2,
+            "s": 45,
+            "translation": "and says,"
+          },
+          {
+            "v": 2,
+            "s": 46,
+            "translation": "\"From you\" means \"from you, and in you the matter depends,\""
+          },
+          {
+            "v": 2,
+            "s": 47,
+            "translation": "it depends on yourselves,"
+          },
+          {
+            "v": 2,
+            "s": 48,
+            "translation": "that without regard to his standing and situation and all that has passed over him until now,"
+          },
+          {
+            "v": 2,
+            "s": 49,
+            "translation": "that he knows the plagues of his heart,"
+          },
+          {
+            "v": 2,
+            "s": 50,
+            "translation": "nevertheless, \"in you the matter depends,\""
+          },
+          {
+            "v": 2,
+            "s": 51,
+            "translation": "to the point that each and every one can say, \"When will my deeds reach the deeds of my forefathers Avraham, Yitzchak, and Yaakov.\""
+          },
+          {
+            "v": 2,
+            "s": 52,
+            "translation": "And this is \"from you an offering to Havayah,\""
+          },
+          {
+            "v": 2,
+            "s": 53,
+            "translation": "in you the matter depends to be an offering to Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 54,
+            "translation": "to draw near and unite with Havayah."
+          },
+          {
+            "v": 2,
+            "s": 55,
+            "translation": "For offerings are specifically to Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 56,
+            "translation": "not to Elokim, which has the numerical value of nature,"
+          },
+          {
+            "v": 2,
+            "s": 57,
+            "translation": "but specifically to Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 58,
+            "translation": "and as explained in the Zohar"
+          },
+          {
+            "v": 2,
+            "s": 59,
+            "translation": "on the verse \"One who slaughters to Elokim shall be destroyed,\""
+          },
+          {
+            "v": 2,
+            "s": 60,
+            "translation": "that the matter of offerings is specifically to Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 61,
+            "translation": "above the name Elokim."
+          },
+          {
+            "v": 2,
+            "s": 62,
+            "translation": "And in truth, it reaches even higher,"
+          },
+          {
+            "v": 2,
+            "s": 63,
+            "translation": "\"before Havayah,\""
+          },
+          {
+            "v": 2,
+            "s": 64,
+            "translation": "for the secret of the offering ascends to the secret of Ein Sof,"
+          },
+          {
+            "v": 2,
+            "s": 65,
+            "translation": "which is above even Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 66,
+            "translation": "for the name Havayah, even though it is above the name Elokim,"
+          },
+          {
+            "v": 2,
+            "s": 67,
+            "translation": "nevertheless, its four letters allude to the contraction, expansion, flow, and diffusion,"
+          },
+          {
+            "v": 2,
+            "s": 68,
+            "translation": "which is an order of Hishtalshelus,"
+          },
+          {
+            "v": 2,
+            "s": 69,
+            "translation": "but Ein Sof is above Havayah,"
+          },
+          {
+            "v": 2,
+            "s": 70,
+            "translation": "and to there the service of the offerings reaches."
+          },
+          {
+            "v": 2,
+            "s": 71,
+            "translation": "And this is what concludes regarding the matter of the offering \"for his acceptance before Havayah.\""
+          },
+          {
+            "v": 2,
+            "s": 72,
+            "translation": "For before this it says \"an offering to Havayah,\" and at the conclusion of the matter,"
+          },
+          {
+            "v": 2,
+            "s": 73,
+            "translation": "after it says \"from the animal, from the cattle, and from the flock,\""
+          },
+          {
+            "v": 2,
+            "s": 74,
+            "translation": "it says \"before Havayah,\""
+          },
+          {
+            "v": 2,
+            "s": 75,
+            "translation": "and the Tzemach Tzedek explained,"
+          },
+          {
+            "v": 2,
+            "s": 76,
+            "translation": "\"before Havayah\" means above Havayah."
+          },
+          {
+            "v": 2,
+            "s": 77,
+            "translation": "And this is the matter of offerings,"
+          },
+          {
+            "v": 2,
+            "s": 78,
+            "translation": "that the service is not only with the G-dly soul,"
+          },
+          {
+            "v": 2,
+            "s": 79,
+            "translation": "but rather \"from the animal, from the cattle, and from the flock,\" which is the animal soul,"
+          },
+          {
+            "v": 2,
+            "s": 80,
+            "translation": "and particularly as it was in the Mikdash,"
+          },
+          {
+            "v": 2,
+            "s": 81,
+            "translation": "where the service of the offerings could be with a literal physical animal,"
+          },
+          {
+            "v": 2,
+            "s": 82,
+            "translation": "that through this he reaches \"before Havayah,\""
+          },
+          {
+            "v": 2,
+            "s": 83,
+            "translation": "the secret of Ein Sof."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 49,
+    "returned": 49,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518920090_theRebbe_103\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920090_theRebbe_103__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header of the maamar for Shabbos Re'eh, Rosh Chodesh Elul, 5716.</sectionSummaryBrief>\n    <t s=\"0\">B'Siyata D'Shmaya.</t>\n    <t s=\"1\">Shabbos Parshas Re'eh,</t>\n    <t s=\"2\">Rosh Chodesh Elul,</t>\n    <t s=\"3\">the year 5716 *</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that the maamar is an unedited draft.</sectionSummaryBrief>\n    <t s=\"0\">(An unedited draft)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section introduces the verse \"I will make your windows of kadkod\" and the Talmudic dispute about the stones shoham and yashfeh, explaining that both will be fulfilled in the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">\"And I will make your windows of kadkod\"1,</t>\n    <t s=\"1\">And our sages, of blessed memory, said2,</t>\n    <t s=\"2\">One said they are shoham and one said they are yashfeh; the Holy One, blessed be He, said: Let it be like this and like this.</t>\n    <t s=\"3\">Now, this verse is one of the promises that will be in the future redemption that will come through Moshiach Tzidkeinu, speedily in our days.</t>\n    <t s=\"4\">And there are two aspects in this,</t>\n    <t s=\"5\">[the aspects of] shoham and yashfeh,</t>\n    <t s=\"6\">And the Holy One, blessed be He, said: Let it be like this and like this.</t>\n    <t s=\"7\">And to understand these two aspects in a spiritual sense,</t>\n    <t s=\"8\">that is, in the revelation of G-dliness that will be in the future,</t>\n    <t s=\"9\">This can be understood from the fact that these two stones were among the twelve precious stones in the Choshen of the Kohen Gadol,</t>\n    <t s=\"10\">corresponding to the number of the tribes of the Children of Israel,</t>\n    <t s=\"11\">Shoham corresponding to Yosef and Yashfeh corresponding to Binyamin.</t>\n    <t s=\"12\">And now,</t>\n    <t s=\"13\">Yosef and Binyamin are the Supernal Tzaddik and the Lower Tzaddik,</t>\n    <t s=\"14\">For the aspect of Yosef is the drawing down of G-dliness from above to below,</t>\n    <t s=\"15\">Yosef is the provider of bread3,</t>\n    <t s=\"16\">Who draws down G-dliness from Above to below,</t>\n    <t s=\"17\">And this means that even when the world has not yet been refined to the extent that it can receive within itself the revelation of a lofty light,</t>\n    <t s=\"18\">Nevertheless, light is drawn down in a manner of from Above to below.</t>\n    <t s=\"19\">And the aspect of Binyamin is refinement and ascent from below to above,</t>\n    <t s=\"20\">That is, he effects clarification, refinement, ascent, and connection in the souls of Israel and their portion in the world,</t>\n    <t s=\"21\">And consequently, also in the entirety of creation,</t>\n    <t s=\"22\">So that they can receive the light.</t>\n    <t s=\"23\">And by way of analogy, just as the brain of an animal is not a vessel for intellect, while the brain of a human is a vessel for intellect,</t>\n    <t s=\"24\">Because it is more refined,</t>\n    <t s=\"25\">So the service of Binyamin is an ascent from below to above that effects refinement in the brain and intellect of man until it becomes a vessel for a lofty G-dly light.</t>\n    <t s=\"26\">And now,</t>\n    <t s=\"27\">In these two aspects, each one has a unique advantage.</t>\n    <t s=\"28\">The advantage in the service of Binyamin,</t>\n    <t s=\"29\">Which is the matter of Yashfeh,</t>\n    <t s=\"30\">Is that the lower [realm] becomes more unified with the G-dly light,</t>\n    <t s=\"31\">For since the drawing down is due to the refinement that made it a vessel for the light,</t>\n    <t s=\"32\">Consequently, it is in complete unity with the light.</t>\n    <t s=\"33\">And the advantage in the service of Yosef,</t>\n    <t s=\"34\">Which is the matter of Shoham,</t>\n    <t s=\"35\">Is that a most lofty light is drawn down, not according to the manner of the lower [realm], but rather as it is from the perspective of the Upper [realm].</t>\n    <t s=\"36\">And about this the Holy One, blessed be He, said: Let it be like this and like this,</t>\n    <t s=\"37\">That in the future, both advantages will be [present].</t>\n    <t s=\"38\">And as all the above is explained at length in Likkutei Torah in the discourses on \"Vesamti Kadkod\"4.</t>\n    <t s=\"39\">And now,</t>\n    <t s=\"40\">It is known that all the revelations that will be in the future depend on our deeds and service throughout the time of the exile5,</t>\n    <t s=\"41\">And since in the future there will be the aspects of from Above to below and from below to above,</t>\n    <t s=\"42\">It necessarily follows that also in the service during the time of the exile, these aspects exist as well.</t>\n    <t s=\"43\">And one must understand what is the matter of these two aspects of Shoham and Yashfeh in [divine] service.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518920090_theRebbe_103",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920090_theRebbe_103__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header of the maamar for Shabbos Re'eh, Rosh Chodesh Elul, 5716.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B'Siyata D'Shmaya."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Re'eh,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Rosh Chodesh Elul,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "the year 5716 *"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section notes that the maamar is an unedited draft.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "(An unedited draft)"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section introduces the verse \"I will make your windows of kadkod\" and the Talmudic dispute about the stones shoham and yashfeh, explaining that both will be fulfilled in the future redemption.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"And I will make your windows of kadkod\"1,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And our sages, of blessed memory, said2,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "One said they are shoham and one said they are yashfeh; the Holy One, blessed be He, said: Let it be like this and like this."
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "Now, this verse is one of the promises that will be in the future redemption that will come through Moshiach Tzidkeinu, speedily in our days."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "And there are two aspects in this,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "[the aspects of] shoham and yashfeh,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And the Holy One, blessed be He, said: Let it be like this and like this."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "And to understand these two aspects in a spiritual sense,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that is, in the revelation of G-dliness that will be in the future,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "This can be understood from the fact that these two stones were among the twelve precious stones in the Choshen of the Kohen Gadol,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "corresponding to the number of the tribes of the Children of Israel,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "Shoham corresponding to Yosef and Yashfeh corresponding to Binyamin."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And now,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "Yosef and Binyamin are the Supernal Tzaddik and the Lower Tzaddik,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "For the aspect of Yosef is the drawing down of G-dliness from above to below,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "Yosef is the provider of bread3,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "Who draws down G-dliness from Above to below,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "And this means that even when the world has not yet been refined to the extent that it can receive within itself the revelation of a lofty light,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "Nevertheless, light is drawn down in a manner of from Above to below."
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "And the aspect of Binyamin is refinement and ascent from below to above,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "That is, he effects clarification, refinement, ascent, and connection in the souls of Israel and their portion in the world,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "And consequently, also in the entirety of creation,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "So that they can receive the light."
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "And by way of analogy, just as the brain of an animal is not a vessel for intellect, while the brain of a human is a vessel for intellect,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "Because it is more refined,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "So the service of Binyamin is an ascent from below to above that effects refinement in the brain and intellect of man until it becomes a vessel for a lofty G-dly light."
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "And now,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "In these two aspects, each one has a unique advantage."
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "The advantage in the service of Binyamin,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "Which is the matter of Yashfeh,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "Is that the lower [realm] becomes more unified with the G-dly light,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "For since the drawing down is due to the refinement that made it a vessel for the light,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "Consequently, it is in complete unity with the light."
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "And the advantage in the service of Yosef,"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "Which is the matter of Shoham,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "Is that a most lofty light is drawn down, not according to the manner of the lower [realm], but rather as it is from the perspective of the Upper [realm]."
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "And about this the Holy One, blessed be He, said: Let it be like this and like this,"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "That in the future, both advantages will be [present]."
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "And as all the above is explained at length in Likkutei Torah in the discourses on \"Vesamti Kadkod\"4."
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "And now,"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "It is known that all the revelations that will be in the future depend on our deeds and service throughout the time of the exile5,"
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "And since in the future there will be the aspects of from Above to below and from below to above,"
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "It necessarily follows that also in the service during the time of the exile, these aspects exist as well."
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "And one must understand what is the matter of these two aspects of Shoham and Yashfeh in [divine] service."
+          }
+        ]
+      }
+    ]
+  }
+}

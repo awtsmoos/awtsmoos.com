@@ -1,0 +1,81 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919556_theRebbe_605" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919556_theRebbe_605__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919556_theRebbe_605" title="מאמר אלה מסעי תשי"ג" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919556_theRebbe_605__p005">
+  <section v="12">
+    <src s="0">ז)</src>
+    <src s="1">וזהו79 מש"נ ואלה מסעי בני ישראל אשר יצאו מארץ מצרים,</src>
+    <src s="2">דהנה,</src>
+    <src s="3">כל הגליות80</src>
+    <src s="4">נקראו מצרים,</src>
+    <src s="5">מצרים לשון מיצר וגבול,</src>
+    <src s="6">ועד שבאים81</src>
+    <src s="7">לירדן ירחו,</src>
+    <src s="8">ירחו לשון ריח,</src>
+    <src s="9">עבודה שלמעלה מטעם ודעת,</src>
+    <src s="10">ה"ז עדיין בחי' מיצר וגבול,</src>
+    <src s="11">ובגאולה העתידה ע"י משיח צדקנו יתגלה בחי' זו,</src>
+    <src s="12">וכדכתיב82</src>
+    <src s="13">עליו אשר לא למשמע אזניו יוכיח ואפילו לא למראה עיניו כ"א והריחו ביראת הוי' דמורח ודאין83,</src>
+    <src s="14">מקיפים שלמעלה מחו"ב,</src>
+    <src s="15">ועד שבאין לזה הוא ענין המסעות.</src>
+    <src s="16">והעבודה שבהמסעות היינו בירידת הנשמה והתלבשותה במיצר הגוף בכלל,</src>
+    <src s="17">ובפרט בזמן המצרים ההעלמות וההסתרים שבהגליות,</src>
+    <src s="18">הנה הנתינת כח על זה הוא מבחי' מוצאיהם,</src>
+    <src s="19">לשון וכמוצא מים אשר לא יכזבו מימיו84,</src>
+    <src s="20">שרש ועצם הנשמה,</src>
+    <src s="21">מ"ה שבנשמה,</src>
+    <src s="22">וע"י המשכה ממוצאיהם למסעיהם,</src>
+    <src s="23">שנעשה זה ע"י בחי' משה שבכאו"א מישראל,</src>
+    <src s="24">ויכתוב משה,</src>
+    <src s="25">נתגלה בחי' מ"ה גם בהנשמה שבגוף ועי"ז עובד עבודתו.</src>
+    <src s="26">והעבודה היא הנסיעה והעלאה ממטה למעלה,</src>
+    <src s="27">מסעיהם למוצאיהם.</src>
+    <src s="28">ואין מקרא יוצא מידי פשוטו85,</src>
+    <src s="29">המסעות של דור המדבר במדבר העמים,</src>
+    <src s="30">כי מה שיש יכולת לאדם להמשיך מ"ה דבנשמה בגילוי ולהתגבר על גופו ונפשו הבהמית,</src>
+    <src s="31">ובפרט בזמן הגלות ודרא דעקבתא דמשיחא,</src>
+    <src s="32">חשך כפול ומכופל,</src>
+    <src s="33">זמן הנסיונות וכו' כנ"ל,</src>
+    <src s="34">הוא ע"י מעשה אבות שהכניעו מקור הקליפות ע"י שנסעו וחנו במדבר העמים נחש שרף ועקרב,</src>
+    <src s="35">ויהי בנסוע גו' ויאמר משה גו' ויפצו אויביך וינוסו משנאיך גו'86,</src>
+    <src s="36">לכן גם הענפים יהיו נכנעים אח"כ ע"י האדם במשך כל הדורות,</src>
+    <src s="37">ע"י אשר ויכתוב משה שבכאו"א את מוצאיהם למסעיהם ואלה מסעיהם למוצאיהם,</src>
+    <src s="38">והיינו ע"ד כלל ופרט,</src>
+    <src s="39">עד אשר יבואו לירדן ירחו,</src>
+    <src s="40">מורח ודאין בעבודתו בפרט87,</src>
+    <src s="41">ואח"כ לגאולה הכללית ביאת משיח צדקנו אשר לא למשמע אזניו יוכיח ולא למראה עיניו ישפוט כי אם והריחו ביראת הוי' דמורח ודאין,</src>
+    <src s="42">בגאולה העתידה לבוא במהרה בימינו.</src>
+  </section>
+</awtsmoosMeluketSource>

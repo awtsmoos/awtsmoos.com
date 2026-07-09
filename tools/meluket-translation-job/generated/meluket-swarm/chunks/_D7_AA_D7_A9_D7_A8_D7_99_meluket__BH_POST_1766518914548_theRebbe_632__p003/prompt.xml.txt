@@ -1,0 +1,122 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914548_theRebbe_632" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914548_theRebbe_632__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914548_theRebbe_632" title="מאמר ביום השמיני תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914548_theRebbe_632__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה הכוונה בבריאת האדם היא שיהי' באופן דעשה האלקים את האדם ישר35,</src>
+    <src s="2">שילך כל ימיו בדרך הישרה,</src>
+    <src s="3">כדיוק לשון רז"ל36</src>
+    <src s="4">במי נמלך בנשמותיהן של צדיקים,</src>
+    <src s="5">צדיקים דייקא37.</src>
+    <src s="6">ואף שבמקום שבעלי תשובה עומדין אין צדיקים גמורין יכולים לעמוד בו,</src>
+    <src s="7">הרי ידוע38</src>
+    <src s="8">דענין התשובה הוא</src>
+    <src s="9">(לא רק על עבירות,</src>
+    <src s="10">כי אם גם)</src>
+    <src s="11">השבת הנפש למקורה ושרשה,</src>
+    <src s="12">דתשובה זו היא גם בצדיקים גמורים.</src>
+    <src s="13">דזה גופא שנשמתו נמצאת למטה ולא במקורה ושרשה,</src>
+    <src s="14">שזהו מקומה האמיתי</src>
+    <src s="15">[ובפרט דזה שהנשמה היא למטה בעוה"ז,</src>
+    <src s="16">הוא "בחי' גלות ממש"39],</src>
+    <src s="17">הרי צריך להשיבה למקומה.</src>
+    <src s="18">ומעלת הבעלי תשובה על צדיקים גמורים,</src>
+    <src s="19">דבמקום שבעלי תשובה עומדין אין צדיקים גמורין יכולים לעמוד בו,</src>
+    <src s="20">הוא גם בתשובה זו</src>
+    <src s="21">(דצדיקים).</src>
+    <src s="22">ותכלית ירידת הנשמה לעוה"ז הגשמי הוא בשביל תשובה זו40.</src>
+  </section>
+  <section v="7">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דג' מעלות הנ"ל שבבעלי תשובה על צדיקים גמורים,</src>
+    <src s="2">הם גם בהנשמה כשנעשית בעל תשובה ע"י ירידתה למטה לגבי כמו שהיתה קודם הירידה</src>
+    <src s="3">(בחי' צדיק).</src>
+    <src s="4">דמכיון שגם הריחוק שמצד ירידת הנשמה למטה</src>
+    <src s="5">(גם כשלא עבר עבירה מימיו)</src>
+    <src s="6">הוא ריחוק עצום ביותר,</src>
+    <src s="7">ועד שהירידה למטה היא "בחי' גלות ממש"</src>
+    <src s="8">(כנ"ל),</src>
+    <src s="9">הרי ריחוק זה מעורר אצלו צמאון גדול,</src>
+    <src s="10">וגם התענוג והשמחה שבקירוב שלאחרי הריחוק הוא תענוג גדול ביותר.</src>
+    <src s="11">ועד"ז הוא בענין החידוש שבתשובה,</src>
+    <src s="12">דמכיון שענין התשובה</src>
+    <src s="13">(גם תשובה דצדיקים)</src>
+    <src s="14">הוא שמתמרמר על מצבו</src>
+    <src s="15">(שהוא מרוחק מאלקות)41</src>
+    <src s="16">ורוצה לצאת ממצבו ומציאותו42,</src>
+    <src s="17">אסורה מכאן43,</src>
+    <src s="18">הרי זה ענין של חידוש.</src>
+  </section>
+  <section v="8">
+    <src s="0">אלא שאעפ"כ,</src>
+    <src s="1">מכיון שי"ל שאין מרז"ל זה יוצא מידי פשוטו,</src>
+    <src s="2">הרי זה שאמרו במקום שבעלי תשובה עומדין אין צדיקים גמורין יכולים לעמוד בו,</src>
+    <src s="3">הוא בעיקר בבעלי תשובה כפשוטם44.</src>
+    <src s="4">ויש לומר,</src>
+    <src s="5">דזה שעיקר המעלה דבעלי תשובה הוא בבעלי תשובה כפשוטם,</src>
+    <src s="6">הוא במעלת החידוש שבתשובה.</src>
+    <src s="7">דבמעלת הצמאון,</src>
+    <src s="8">ובהמעלה דקירוב שלאחרי הריחוק,</src>
+    <src s="9">אין חילוק</src>
+    <src s="10">(כ"כ)</src>
+    <src s="11">ביניהם,</src>
+    <src s="12">וזה שעיקר העילוי דתשובה הוא בתשובה כפשוטה הוא במעלת החידוש שבתשובה.</src>
+    <src s="13">והענין הוא,</src>
+    <src s="14">דבצדיקים,</src>
+    <src s="15">מכיון שנשמתם מאירה אצלם בגילוי,</src>
+    <src s="16">הרי המרירות שלהם על ריחוקם מאלקות,</src>
+    <src s="17">ועד שהמרירות נוגעת עד הנפש,</src>
+    <src s="18">אין זה פלא וחידוש</src>
+    <src s="19">(כ"כ).</src>
+    <src s="20">והגם דענין התשובה הוא שיוצא ממציאות שלו,</src>
+    <src s="21">מ"מ,</src>
+    <src s="22">מכיון שהנשמה בטבעה רוצה למלאות רצון קונה,</src>
+    <src s="23">והכוונה שלמעלה</src>
+    <src s="24">(רצון קונה)</src>
+    <src s="25">בירידת הנשמה בגוף היא לבוא לתשובה,</src>
+    <src s="26">הרי בהרצון</src>
+    <src s="27">(שמצד טבע הנשמה)</src>
+    <src s="28">למלאות רצון קונו,</src>
+    <src s="29">נכלל גם היציאה ממציאותו שע"י התשובה45.</src>
+    <src s="30">משא"כ בתשובה כפשוטה,</src>
+    <src s="31">מכיון שמקודם</src>
+    <src s="32">(לפני התשובה)</src>
+    <src s="33">הי' במצב כזה שלא עשה רצון הקב"ה46,</src>
+    <src s="34">שהרי עשה עבירות במזיד,</src>
+    <src s="35">הרי זה שעושה אח"כ תשובה,</src>
+    <src s="36">אין זה המשך ממצבו הקודם,</src>
+    <src s="37">ועל ידי התשובה נעשה מציאות חדשה לגמרי.</src>
+  </section>
+</awtsmoosMeluketSource>

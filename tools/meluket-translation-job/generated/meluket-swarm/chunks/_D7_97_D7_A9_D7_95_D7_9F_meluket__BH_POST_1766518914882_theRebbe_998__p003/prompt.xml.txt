@@ -1,0 +1,133 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914882_theRebbe_998" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914882_theRebbe_998" title="מאמר ויהיו חיי שרה תש"ל" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">ומבואר בהמאמר,</src>
+    <src s="2">דזה שהיסוד נקרא בשם כל הוא על שם נו"ן שערי בינה שנמשכים בו</src>
+    <src s="3">(כל בגימטריא נו"ן23).</src>
+    <src s="4">ומזה מובן,</src>
+    <src s="5">דהיתרון בארץ</src>
+    <src s="6">(מלכות)</src>
+    <src s="7">ע"י בחינת כל הוא בשני ענינים.</src>
+    <src s="8">שנמשך בה היסוד,</src>
+    <src s="9">שהוא סיום המדות דאצילות,</src>
+    <src s="10">ויתירה מזו,</src>
+    <src s="11">שע"י היסוד נמשכים בה נו"ן שערי בינה,</src>
+    <src s="12">מוחין שלמעלה ממדות.</src>
+    <src s="13">ויש לומר,</src>
+    <src s="14">דשני ענינים אלה שייכים זה לזה.</src>
+    <src s="15">והענין הוא,</src>
+    <src s="16">דמדות הם שייכים להזולת.</src>
+    <src s="17">דהגם שהמדות הם ענין שנוגע להאדם עצמו</src>
+    <src s="18">(ולא כהדיבור שהוא גילוי להזולת),</src>
+    <src s="19">מ"מ,</src>
+    <src s="20">הם בדרגת האדם כמו ששייך אל הזולת,</src>
+    <src s="21">והמוחין הם בדרגת האדם כמו שהוא לעצמו,</src>
+    <src s="22">מובדל מהזולת.</src>
+    <src s="23">ולכן,</src>
+    <src s="24">כשההמשכה היא רק מבחינת המדות דז"א שהם שייכים לזולת,</src>
+    <src s="25">אזי,</src>
+    <src s="26">ע"י שהמלכות מקבלת בתוכה את המדות דז"א נעשה בה שינוי</src>
+    <src s="27">(כנ"ל סעיף ג),</src>
+    <src s="28">וזה שהמלכות מקבלת את המדות דז"א כמו שהם</src>
+    <src s="29">[דזהו"ע יתרון ארץ בכל היא,</src>
+    <src s="30">שגם בארץ מאיר הגילוי דבחינת כל כמו שהוא בעצמותו],</src>
+    <src s="31">הוא ע"י ששרש ההמשכה הוא מהמוחין,</src>
+    <src s="32">דכיון שהמוחין הם למעלה משייכות לזולת</src>
+    <src s="33">(ענין הדיבור,</src>
+    <src s="34">מלכות),</src>
+    <src s="35">לכן,</src>
+    <src s="36">גם כשההמשכה באה בדיבור,</src>
+    <src s="37">אין ביכולת הדיבור לפעול בה שינוי.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">והנה גם המוחין שלמעלה משייכות לזולת הם בכלל סדר ההשתלשלות.</src>
+    <src s="2">והגילוי דבחינת מלך עילאה שע"י קיום המצוות</src>
+    <src s="3">(מלך לשדה נעבד)</src>
+    <src s="4">שלמעלה מבחינת כל,</src>
+    <src s="5">הוא למעלה מהשתלשלות.</src>
+    <src s="6">ולהוסיף,</src>
+    <src s="7">דע"פ המבואר במק"א24</src>
+    <src s="8">דכל הוא בחינת סובב25,</src>
+    <src s="9">וזה שהיסוד נקרא בשם כל הוא לפי שהיסוד הוא בקו האמצעי שמגיע בכתר</src>
+    <src s="10">(סובב)</src>
+    <src s="11">[וזהו מ"ש26</src>
+    <src s="12">כי כל בשמים ובארץ ותרגם דאחיד בשמיא ובארעא,</src>
+    <src s="13">כי לגבי הסובב שמים וארץ הם בשוה],</src>
+    <src s="14">צריך לומר,</src>
+    <src s="15">שהגילוי דבחינת מלך עילאה</src>
+    <src s="16">(שע"י קיום המצוות)</src>
+    <src s="17">הוא למעלה גם מבחינת סובב.</src>
+    <src s="18">דסובב הוא שייך לעולמות אלא שהוא למעלה מהם וכולל את כולם כאחד.</src>
+    <src s="19">וזהו כי כל בשמים ובארץ,</src>
+    <src s="20">שגם לגבי סובב יש שמים וארץ,</src>
+    <src s="21">אלא שהוא מחברם ומאחדם – דאחיד בשמיא ובארעא.</src>
+    <src s="22">וע"י המצוות הוא המשכת גילוי עצמות אוא"ס שלמעלה משייכות לעולמות,</src>
+    <src s="23">למעלה גם מסובב.</src>
+    <src s="24">וכמבואר בהמאמר,</src>
+    <src s="25">דההמשכה שע"י קיום המצוות היא מפנימיות הכתר.</src>
+    <src s="26">והחילוק שבין אריך</src>
+    <src s="27">(חיצוניות הכתר)</src>
+    <src s="28">לעתיק</src>
+    <src s="29">(פנימיות הכתר)</src>
+    <src s="30">הוא,</src>
+    <src s="31">דאריך הוא שרש ומקור הנאצלים אלא שהוא מקיף עליהם – סובב27,</src>
+    <src s="32">ועתיק הוא בחינה תחתונה שבמאציל – אוא"ס שלמעלה משייכות לעולמות.</src>
+  </section>
+  <section v="8">
+    <src s="0">ומבואר בהמאמר,</src>
+    <src s="1">דמלך עילאה הוא ת"ת</src>
+    <src s="2">[כדאיתא בזהר שם מלך דא קוב"ה,</src>
+    <src s="3">וקוב"ה הוא בחינת ת"ת]</src>
+    <src s="4">ות"ת ממשיך מפנימיות הכתר.</src>
+    <src s="5">ויש לומר,</src>
+    <src s="6">דזה שהת"ת</src>
+    <src s="7">(דוקא)</src>
+    <src s="8">ממשיך מפנימיות הכתר,</src>
+    <src s="9">אף שגם היסוד הוא בקו האמצעי,</src>
+    <src s="10">הוא,</src>
+    <src s="11">כי חג"ת הם עצם המדות ונה"י הם שעל ידם היא ההשפעה</src>
+    <src s="12">(דהמדות חג"ת)28,</src>
+    <src s="13">ולכן,</src>
+    <src s="14">הגילוי דכתר שע"י היסוד</src>
+    <src s="15">(שעל ידו היא ההשפעה)</src>
+    <src s="16">הוא בחינת שרש הנאצלים,</src>
+    <src s="17">והגילוי דכתר שע"י הת"ת</src>
+    <src s="18">(שלמעלה מהשפעה)</src>
+    <src s="19">הוא בחינת פנימיות הכתר.</src>
+  </section>
+</awtsmoosMeluketSource>

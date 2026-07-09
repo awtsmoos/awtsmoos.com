@@ -1,0 +1,69 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915018_theRebbe_923" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915018_theRebbe_923__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915018_theRebbe_923" title="מאמר ואברהם זקן תשל"ז" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915018_theRebbe_923__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">והנה זה שמסופר בתורה שבע"פ שאברהם זכה לבחינת כל ע"י שעמד בעשר נסיונות הוא</src>
+    <src s="2">(ככל הענינים שבתורה מלשון הוראה60)</src>
+    <src s="3">הוראה שצריך להיות</src>
+    <src s="4">(דוגמת61)</src>
+    <src s="5">העבודה דנסיונות,</src>
+    <src s="6">היינו,</src>
+    <src s="7">שהעבודה צריכה להיות ביגיעה גדולה,</src>
+    <src s="8">יגיעה שלא ע"ד הרגיל,</src>
+    <src s="9">בדוגמת העבודה דנסיונות.</src>
+    <src s="10">וזהו דאיתא בזהר שם עה"פ62</src>
+    <src s="11">עין לא ראתה גו' יעשה למחכה לו,</src>
+    <src s="12">מאי למחכה לו כו' אינון דדחקין למלה דחוכמתא כו'</src>
+    <src s="13">[וענין זה שבזהר בא בהמשך להפירוש מאי בכל,</src>
+    <src s="14">כמובא בהמאמר],</src>
+    <src s="15">שע"י היגיעה בתורה,</src>
+    <src s="16">יגיעה שלא ע"ד הרגיל</src>
+    <src s="17">[וכמבואר בהמאמר דדחקין למלה דחוכמתא הוא יגיעה בדרך אור חוזר],</src>
+    <src s="18">ומזה נמשך שגם קיום המצוות יהי' ביגיעה גדולה</src>
+    <src s="19">(ע"ד מרז"ל63</src>
+    <src s="20">גדול לימוד שמביא לידי מעשה),</src>
+    <src s="21">כולל גם היגיעה בהפצת המעינות חוצה,</src>
+    <src s="22">דנוסף להיגיעה שצריכה להיות בלימוד והבנת המעינות</src>
+    <src s="23">(דחקין למלה דחוכמתא),</src>
+    <src s="24">צריכה להיות יגיעה מיוחדת להפיץ את המעינות חוצה,</src>
+    <src s="25">להביא את המעינות גם לאלו שנמצאים חוצה,</src>
+    <src s="26">"בין החוחים",</src>
+    <src s="27">ועי"ז יהי' אתי מר דא מלכא משיחא64,</src>
+    <src s="28">שאז יהי' גילוי העלם העצמי,</src>
+    <src s="29">עין לא ראתה,</src>
+    <src s="30">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

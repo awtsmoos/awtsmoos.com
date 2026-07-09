@@ -1,0 +1,399 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 71,
+    "returned": 71,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917950_theRebbe_524\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>Just as physical dew descends, so too the \"dew of Torah\" descends and is drawn into the Torah a person learns, with two aspects: the lower aspect drawn through human study and the higher aspect drawn from above, for which human study serves as a vessel, especially in the study of Pnimiyus HaTorah.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And behold, just as dew</t>\n    <t s=\"2\">(in its simple sense)</t>\n    <t s=\"3\">descends and is drawn downward,</t>\n    <t s=\"4\">so too is it with the dew of Torah,</t>\n    <t s=\"5\">which is drawn and revealed downward in the Torah that a person learns.</t>\n    <t s=\"6\">For in addition to the fact that the Holy One, blessed be He, sits and engages in Torah</t>\n    <t s=\"7\">(the aspect of the dew of Torah)</t>\n    <t s=\"8\">is a granting of power to a person so that he can engage in Torah, and that through his engagement in Torah the Holy One, blessed be He, will read and review opposite him,</t>\n    <t s=\"9\">behold, also the matter of the dew of Torah itself is drawn and revealed downward in the Torah that a person learns.</t>\n    <t s=\"10\">For in the drawing down of the Torah above into the Torah that a person learns,</t>\n    <t s=\"11\">there are two matters.</t>\n    <t s=\"12\">The Torah as it is in the Z\"T of Atik,</t>\n    <t s=\"13\">[is] the rain of Torah.</t>\n    <t s=\"14\">And the drawing down of this aspect is through a person's engagement in Torah,</t>\n    <t s=\"15\">for since the Z\"T of Atik are invested in Arich, the root of the chain of descent,</t>\n    <t s=\"16\">therefore a person's engagement in Torah is an arousal from below that awakens and draws down this aspect.</t>\n    <t s=\"17\">And the Torah as it is in the G\"R of Atik,</t>\n    <t s=\"18\">[is] the dew of Torah.</t>\n    <t s=\"19\">And the drawing down of this aspect is from above,</t>\n    <t s=\"20\">and a person's engagement in Torah is only like a vessel in which the dew of Torah is drawn and revealed.</t>\n    <t s=\"21\">And it can be said,</t>\n    <t s=\"22\">that this—that a person's study of Torah is a vessel for the dew of Torah—is primarily in the study of Pnimiyus HaTorah.</t>\n    <t s=\"23\">For since Pnimiyus HaTorah</t>\n    <t s=\"24\">(even as it is drawn downward)</t>\n    <t s=\"25\">is the Tree of Life, which is above the matter of clarifications,</t>\n    <t s=\"26\">therefore it is like a vessel for the essence of Torah, which is above any connection to the chain of descent</t>\n    <t s=\"27\">(the G\"R of Atik, which are not invested in Arich),</t>\n    <t s=\"28\">the dew of Torah.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>Based on this, the two versions of the Sages' statement—\"or Torah\" and \"tal Torah\"—can be explained, where \"or Torah\" refers to Pnimiyus HaTorah, which serves as a vessel for \"tal Torah.\"</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we can explain the connection between the two versions in the words of our Sages, of blessed memory,</t>\n    <t s=\"1\">\"Whoever uses the light of Torah, the light of Torah revives him,\"</t>\n    <t s=\"2\">for the version in the Gemara is \"light of Torah\" and the version in the Yalkut</t>\n    <t s=\"3\">is \"dew of Torah,\"</t>\n    <t s=\"4\">and it can be said,</t>\n    <t s=\"5\">that \"light of Torah\" is Pnimiyus HaTorah,</t>\n    <t s=\"6\">and the study of Pnimiyus HaTorah is a vessel for the dew of Torah.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>Similarly in prayer, although generally it is an elevation from below to above, it also contains the aspect of drawing down from above to below, beginning with the verse \"Ad-nai, open my lips,\" which is prayed that one's speech be like Torah, drawing down God's own prayer.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And similarly is it in prayer,</t>\n    <t s=\"2\">for although in general it is an elevation from below to above,</t>\n    <t s=\"3\">it also contains the matter of drawing down from above to below.</t>\n    <t s=\"4\">And the explanation is,</t>\n    <t s=\"5\">that the beginning of the prayer of the Silent Amidah</t>\n    <t s=\"6\">[which is the main prayer]</t>\n    <t s=\"7\">is the verse,</t>\n    <t s=\"8\">\"Ad-nai, open my lips, and my mouth will declare Your praise,\"</t>\n    <t s=\"9\">for the recitation of this verse is</t>\n    <t s=\"10\">(not only an introduction to prayer,</t>\n    <t s=\"11\">but rather)</t>\n    <t s=\"12\">the beginning of the prayer itself,</t>\n    <t s=\"13\">as it is stated in the Gemara</t>\n    <t s=\"14\">that it is like a long prayer.</t>\n    <t s=\"15\">And behold, in the Targum on the verse \"Ad-nai, open my lips,\" it is translated,</t>\n    <t s=\"16\">\"Open my lips in Torah.\"</t>\n    <t s=\"17\">That is,</t>\n    <t s=\"18\">that the request in this verse at the beginning of prayer is,</t>\n    <t s=\"19\">that the prayer</t>\n    <t s=\"20\">(and my mouth will declare Your praise)</t>\n    <t s=\"21\">should be like Torah</t>\n    <t s=\"22\">(\"Ad-nai, open my lips in Torah\").</t>\n    <t s=\"23\">For just as in Torah,</t>\n    <t s=\"24\">the Torah that a person learns is the word of G-d,</t>\n    <t s=\"25\">\"My words that I have placed in your mouth,\"</t>\n    <t s=\"26\">and the person is like one who responds after the reader,</t>\n    <t s=\"27\">so too should the prayer be in the manner of \"and my mouth will declare Your praise,\"</t>\n    <t s=\"28\">that a person's prayer should be</t>\n    <t s=\"29\">(not his own prayer,</t>\n    <t s=\"30\">but rather)</t>\n    <t s=\"31\">that only through it will be drawn down</t>\n    <t s=\"32\">(\"declare\" from the term \"drawing down\")</t>\n    <t s=\"33\">\"Your praise,\"</t>\n    <t s=\"34\">the prayer of the Holy One, blessed be He.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917950_theRebbe_524",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "Just as physical dew descends, so too the \"dew of Torah\" descends and is drawn into the Torah a person learns, with two aspects: the lower aspect drawn through human study and the higher aspect drawn from above, for which human study serves as a vessel, especially in the study of Pnimiyus HaTorah.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And behold, just as dew"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(in its simple sense)"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "descends and is drawn downward,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "so too is it with the dew of Torah,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "which is drawn and revealed downward in the Torah that a person learns."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "For in addition to the fact that the Holy One, blessed be He, sits and engages in Torah"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(the aspect of the dew of Torah)"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "is a granting of power to a person so that he can engage in Torah, and that through his engagement in Torah the Holy One, blessed be He, will read and review opposite him,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "behold, also the matter of the dew of Torah itself is drawn and revealed downward in the Torah that a person learns."
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "For in the drawing down of the Torah above into the Torah that a person learns,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "there are two matters."
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "The Torah as it is in the Z\"T of Atik,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "[is] the rain of Torah."
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "And the drawing down of this aspect is through a person's engagement in Torah,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "for since the Z\"T of Atik are invested in Arich, the root of the chain of descent,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "therefore a person's engagement in Torah is an arousal from below that awakens and draws down this aspect."
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "And the Torah as it is in the G\"R of Atik,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "[is] the dew of Torah."
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "And the drawing down of this aspect is from above,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "and a person's engagement in Torah is only like a vessel in which the dew of Torah is drawn and revealed."
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "that this—that a person's study of Torah is a vessel for the dew of Torah—is primarily in the study of Pnimiyus HaTorah."
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "For since Pnimiyus HaTorah"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "(even as it is drawn downward)"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "is the Tree of Life, which is above the matter of clarifications,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "therefore it is like a vessel for the essence of Torah, which is above any connection to the chain of descent"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "(the G\"R of Atik, which are not invested in Arich),"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "the dew of Torah."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "Based on this, the two versions of the Sages' statement—\"or Torah\" and \"tal Torah\"—can be explained, where \"or Torah\" refers to Pnimiyus HaTorah, which serves as a vessel for \"tal Torah.\"",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And based on this, we can explain the connection between the two versions in the words of our Sages, of blessed memory,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "\"Whoever uses the light of Torah, the light of Torah revives him,\""
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "for the version in the Gemara is \"light of Torah\" and the version in the Yalkut"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "is \"dew of Torah,\""
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "and it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "that \"light of Torah\" is Pnimiyus HaTorah,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "and the study of Pnimiyus HaTorah is a vessel for the dew of Torah."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "Similarly in prayer, although generally it is an elevation from below to above, it also contains the aspect of drawing down from above to below, beginning with the verse \"Ad-nai, open my lips,\" which is prayed that one's speech be like Torah, drawing down God's own prayer.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And similarly is it in prayer,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "for although in general it is an elevation from below to above,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "it also contains the matter of drawing down from above to below."
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "that the beginning of the prayer of the Silent Amidah"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "[which is the main prayer]"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "is the verse,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "\"Ad-nai, open my lips, and my mouth will declare Your praise,\""
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "for the recitation of this verse is"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "(not only an introduction to prayer,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "but rather)"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "the beginning of the prayer itself,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "as it is stated in the Gemara"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "that it is like a long prayer."
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "And behold, in the Targum on the verse \"Ad-nai, open my lips,\" it is translated,"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "\"Open my lips in Torah.\""
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "That is,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "that the request in this verse at the beginning of prayer is,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "that the prayer"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "(and my mouth will declare Your praise)"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "should be like Torah"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "(\"Ad-nai, open my lips in Torah\")."
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "For just as in Torah,"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "the Torah that a person learns is the word of G-d,"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "\"My words that I have placed in your mouth,\""
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "and the person is like one who responds after the reader,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "so too should the prayer be in the manner of \"and my mouth will declare Your praise,\""
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "that a person's prayer should be"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "(not his own prayer,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "but rather)"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "that only through it will be drawn down"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "(\"declare\" from the term \"drawing down\")"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "\"Your praise,\""
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "the prayer of the Holy One, blessed be He."
+          }
+        ]
+      }
+    ]
+  }
+}

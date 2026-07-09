@@ -1,0 +1,117 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" title="מאמר שובה ישראל תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p002">
+  <section v="3">
+    <src s="0">ועפ"ז יש לבאר השייכות דתשובה לבחינת עד</src>
+    <src s="1">(שובה ישראל עד),</src>
+    <src s="2">כי בתשובה שני ענינים.</src>
+    <src s="3">זה שע"י התשובה הוא מתקן וממלא את זה שהי' צריך לעשות,</src>
+    <src s="4">דזה הוא</src>
+    <src s="5">(בעיקר)</src>
+    <src s="6">בהבחינות דהשתלשלות</src>
+    <src s="7">(כי אדם הוא ציור מוחין ומדות),</src>
+    <src s="8">עד ועד בכלל.</src>
+    <src s="9">וזה שבכדי שיוכל לתקן ולמלאות ענינים אלו,</src>
+    <src s="10">צריך להגיע לבחי' שלמעלה מהשתלשלות</src>
+    <src s="11">(לא אדם שבאדם9),</src>
+    <src s="12">עד ולא עד בכלל.</src>
+    <src s="13">ויש לומר,</src>
+    <src s="14">שזהו גם מה שממשיך בכתוב</src>
+    <src s="15">(לאחרי אמרו שובה ישראל עד)</src>
+    <src s="16">הוי' אלקיך,</src>
+    <src s="17">כי הוי' ואלקים הם סובב וממלא,</src>
+    <src s="18">וע"י שובה ישראל עד,</src>
+    <src s="19">שהתשובה שלו היא באופן שמעורר בחינת לא אדם שבו</src>
+    <src s="20">(עד ולא עד בכלל)</src>
+    <src s="21">וממשיך זה בגילוי בציור אדם שבו,</src>
+    <src s="22">עי"ז יהי' הוי' אלקיך כחך וחיותך,</src>
+    <src s="23">שאור הסובב שלמעלה מהשתלשלות יאיר בו בגילוי בפנימיות.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה נתבאר לעיל10,</src>
+    <src s="2">דבפירוש שובה ישראל עד הוי' אלקיך,</src>
+    <src s="3">שהתשובה צריכה להיות עד שהוי' יהי' אלקיך,</src>
+    <src s="4">שני ענינים,</src>
+    <src s="5">שהוי' יהי' אלקיך כחך וחיותך,</src>
+    <src s="6">ושהוי' יהי' רק בחי' אלקים וצמצום לגבי אוא"ס שלמעלה מהוי'.</src>
+    <src s="7">ויש לומר,</src>
+    <src s="8">דשני הענינים שב</src>
+    <src s="9">(שובה ישראל)</src>
+    <src s="10">עד,</src>
+    <src s="11">עד ועד בכלל ועד ולא עד בכלל,</src>
+    <src s="12">הם בהתאם לשני הפירושים</src>
+    <src s="13">(ענינים)</src>
+    <src s="14">בהוי' אלקיך.</src>
+    <src s="15">והענין הוא,</src>
+    <src s="16">דזה שנתבאר לעיל ששני הענינים שבעד הם השתלשלות ולמעלה מהשתלשלות,</src>
+    <src s="17">הוא בכללות,</src>
+    <src s="18">אבל בפרטיות,</src>
+    <src s="19">גם בלמעלה מהשתלשלות ישנם שני הענינים שבעד.</src>
+    <src s="20">כמ"ש בלקו"ת11,</src>
+    <src s="21">דשני הענינים שבעד הם בכתר</src>
+    <src s="22">[דכתר,</src>
+    <src s="23">בכלל,</src>
+    <src s="24">הוא למעלה מהשתלשלות].</src>
+    <src s="25">עד ועד בכלל הוא באריך,</src>
+    <src s="26">שרש הנאצלים.</src>
+    <src s="27">ועד ולא עד בכלל הוא בעתיק,</src>
+    <src s="28">בחינה תחתונה שבמאציל.</src>
+  </section>
+  <section v="5">
+    <src s="0">ויובן זה ע"פ הידוע12,</src>
+    <src s="1">שע"י ההשגה באור הממלא שמתלבש בעולמות,</src>
+    <src s="2">שהוא הארה בלבד</src>
+    <src s="3">(כדמוכח מזה גופא שהוא בהתלבשות),</src>
+    <src s="4">באים לידי ידיעה שישנו אור שהוא מופלא מעולמות,</src>
+    <src s="5">שממנו נמשכת ההארה שבהתלבשות,</src>
+    <src s="6">ומכיון שע"י ההשגה בההארה המתלבשת בעולמות באים להידיעה דאור המופלא מעולמות,</src>
+    <src s="7">אף שהידיעה באור זה היא רק ידיעת השלילה,</src>
+    <src s="8">שיודע שאור זה הוא מופלא מהעולמות ומההארה המתלבשת בהם,</src>
+    <src s="9">מ"מ,</src>
+    <src s="10">מכיון שגם ידיעת השלילה היא ידיעה והשגה13,</src>
+    <src s="11">לכן גם האור המופלא מעולמות הוא בכלל עד ועד בכלל.</src>
+    <src s="12">[ועד"ז הוא בעבודת האדם,</src>
+    <src s="13">דמכיון שהשכל עצמו מכריח אַז מיט שכל אַליין קען מען ניט דורכגיין,</src>
+    <src s="14">ובכדי שתהי' העבודה כדבעי,</src>
+    <src s="15">הוא דוקא ע"י קבלת עול שלמעלה מהשכל,</src>
+    <src s="16">לכן,</src>
+    <src s="17">גם הקבלת עול</src>
+    <src s="18">(הבאה מזה שהשכל מכריח)</src>
+    <src s="19">היא בכלל עד ועד בכלל].</src>
+    <src s="20">וענין עד ולא עד בכלל הוא בהאור שאין שייך בו גם ידיעת השלילה14</src>
+    <src s="21">[ובעבודת האדם – בהקבלת עול שמצד הנשמה].</src>
+  </section>
+</awtsmoosMeluketSource>

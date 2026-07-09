@@ -1,0 +1,109 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918762_theRebbe_940" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918762_theRebbe_940" title="מאמר וידבר אלוקים את כל הדברים האלה תשכ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p002">
+  <section v="3">
+    <src s="0">ומבאר בהמאמר הטעם על זה שהדיבור דעשרת הדברות הי' באופן דעמי הדיבור מדבר,</src>
+    <src s="1">בלשון יחיד לכאו"א בפ"ע</src>
+    <src s="2">[הגם שכל ציוויי התורה הם לכאו"א מישראל ובכל התורה נאמר אני ה' אלקיכם],</src>
+    <src s="3">ע"פ מה דאיתא בילקוט שם,</src>
+    <src s="4">דבשעת מ"ת שיתף הקב"ה את שמו בכאו"א מישראל.</src>
+    <src s="5">דזהו מ"ש22</src>
+    <src s="6">רכב אלקים רבותיים גו' אד' בם סיני בקודש,</src>
+    <src s="7">דכמו שאד' בם</src>
+    <src s="8">(בהמלאכים),</src>
+    <src s="9">שבשמו של כל מלאך משותף</src>
+    <src s="10">(בסופו)</src>
+    <src s="11">שמו של הקב"ה,</src>
+    <src s="12">א-ל</src>
+    <src s="13">(מיכאל גבריאל רפאל),</src>
+    <src s="14">כן במתן תורה,</src>
+    <src s="15">סיני בקודש,</src>
+    <src s="16">שיתף הקב"ה את שמו בכאו"א מישראל,</src>
+    <src s="17">אנכי הוי' אלקיך.</src>
+    <src s="18">וממשיך בהמאמר,</src>
+    <src s="19">דע"י ששמו של הקב"ה משותף במלאכים,</src>
+    <src s="20">הם בטלים לגבי שמו ית' שמשותף בהם.</src>
+    <src s="21">וכמו"כ הוא בישראל,</src>
+    <src s="22">דע"י ששיתף הקב"ה את שמו בישראל,</src>
+    <src s="23">הם בביטול,</src>
+    <src s="24">כמבואר בארוכה בהמאמר.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה23 שמו של הקב"ה ששיתף בישראל הוא למעלה יותר משמו שמשותף במלאכים.</src>
+    <src s="2">דבמלאכים כתיב אד' בם,</src>
+    <src s="3">וכמבואר בתניא24</src>
+    <src s="4">שהמלאכים נק' בשם אלקים,</src>
+    <src s="5">דאלקים ואד' הם</src>
+    <src s="6">(בכללות)</src>
+    <src s="7">ענין אחד25,</src>
+    <src s="8">אבל בישראל כתיב26</src>
+    <src s="9">כי חלק הוי' עמו,</src>
+    <src s="10">חלק משם הוי'27.</src>
+    <src s="11">והגם שהענין דחלק הוי' עמו הי' גם קודם מ"ת,</src>
+    <src s="12">לא האיר זה בגילוי</src>
+    <src s="13">(כ"כ),</src>
+    <src s="14">כי הענין דחלק הוי' עמו הוא מצד הנשמה,</src>
+    <src s="15">ובירידת הנשמה למטה,</src>
+    <src s="16">הגוף מעלים ומסתיר על הנשמה ועל שם הוי' שבה,</src>
+    <src s="17">ובמתן תורה,</src>
+    <src s="18">ע"י הדיבור אנכי הוי' אלקיך,</src>
+    <src s="19">נמשך זה בגילוי.</src>
+    <src s="20">וכמבואר בלקו"ת28,</src>
+    <src s="21">דפירוש</src>
+    <src s="22">(אנכי)</src>
+    <src s="23">הוי' אלקיך הוא,</src>
+    <src s="24">שהוי' יהי' מאיר ומתגלה בך כל כך עד שיהי' נקרא על שמך,</src>
+    <src s="25">אלקיך.</src>
+    <src s="26">והכח על הוי' אלקיך</src>
+    <src s="27">[שגם לאחרי שהנשמה מתלבשת בגוף יהי' הוי' בו בגילוי ועד שיהי' נקרא על שמו]</src>
+    <src s="28">הוא מעצמות אוא"ס שלמעלה גם מהוי'.</src>
+    <src s="29">דשם הוי'</src>
+    <src s="30">(מצד עצמו),</src>
+    <src s="31">הגילוי שלו הוא למעלה דוקא,</src>
+    <src s="32">ובכדי שיהי' בגילוי למטה בגוף גשמי הוא ע"י המשכת עצמות אוא"ס שלמעלה מהוי',</src>
+    <src s="33">דכל הגבוה יותר יורד ומתגלה למטה יותר29.</src>
+    <src s="34">וזהו אנכי הוי' אלקיך,</src>
+    <src s="35">שהכח על זה שהוי' יהי' אלקיך,</src>
+    <src s="36">הוא מבחינת אנכי שלמעלה גם מהוי'.</src>
+  </section>
+  <section v="5">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דכיון ששמו של הקב"ה ששיתף בישראל הוא שם הוי' שלמעלה משם אד' שמשותף במלאכים</src>
+    <src s="2">[ובפרט שהשורש דשיתוף שמו בישראל הוא מבחינת אנכי שלמעלה גם מהוי'],</src>
+    <src s="3">לכן,</src>
+    <src s="4">גם הביטול דישראל שנעשה ע"י שמו ית' המשותף בהם הוא ביטול גדול יותר מביטול המלאכים.</src>
+  </section>
+</awtsmoosMeluketSource>

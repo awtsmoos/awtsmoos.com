@@ -1,0 +1,489 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 89,
+    "returned": 89,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915661_theRebbe_783\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the phrase \"Your pious ones will bless You\" means they draw down a revelation into Malchus specifically from the level of Ein Sof that is beyond comprehension, where only acknowledgment (Hoda'ah) applies.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And this will be understood by prefacing what is said</t>\n    <t s=\"2\">\"All Your works shall praise You, and Your pious ones will bless You,\"</t>\n    <t s=\"3\">and it is brought in the Zohar</t>\n    <t s=\"4\">that the explanation of \"will bless You\" (yevarchuchah) is \"they will bless *koh*.\"</t>\n    <t s=\"5\">And the Rebbe</t>\n    <t s=\"6\">(the Rebbe Rashab)</t>\n    <t s=\"7\">of blessed memory</t>\n    <t s=\"8\">(in his maamar beginning \"Padeh b'Shalom\" from the year 5668),</t>\n    <t s=\"9\">explains that *koh* is Malchus,</t>\n    <t s=\"10\">and \"they will bless *koh*\" means to draw down a revelation of light into Malchus.</t>\n    <t s=\"11\">And it is stated \"and Your pious ones will bless You,\"</t>\n    <t s=\"12\">that this drawing down is specifically through the power of \"Your pious ones.\"</t>\n    <t s=\"13\">And the explanation is,</t>\n    <t s=\"14\">that this matter of \"Your pious ones will bless You\" is in proximity and continuation to \"All Your works shall praise You,\"</t>\n    <t s=\"15\">that is,</t>\n    <t s=\"16\">because the drawing down into Malchus</t>\n    <t s=\"17\">(which is through \"Your pious ones\")</t>\n    <t s=\"18\">is from a very exalted place</t>\n    <t s=\"19\">(the Ein Sof that is above the chain of descent)</t>\n    <t s=\"20\">regarding which comprehension does not apply, only acknowledgment (Hoda'ah) alone,</t>\n    <t s=\"21\">\"they will praise You.\"</t>\n    <t s=\"22\">And the drawing down from there</t>\n    <t s=\"23\">(in the manner of blessing)</t>\n    <t s=\"24\">is specifically through the power of \"Your pious ones.\"</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section distinguishes between prayer (from below to above, requesting new light) and blessing (from above to below, commanding an existing flow), noting that prayer can draw a new will from Ein Sof while blessing is a certain command.</sectionSummaryBrief>\n    <t s=\"0\">And in order to understand the great superiority of the drawing down in the manner of blessing from the place where there is acknowledgment (Hoda'ah),</t>\n    <t s=\"1\">the maamar prefaces the distinction between blessing and prayer,</t>\n    <t s=\"2\">that in each one there is an advantage over the other.</t>\n    <t s=\"3\">And the explanation is,</t>\n    <t s=\"4\">that prayer is from below to above,</t>\n    <t s=\"5\">meaning that the one praying is below and requests that they bestow upon him from above,</t>\n    <t s=\"6\">and blessing is from above to below,</t>\n    <t s=\"7\">that the one who blesses is above the source from which the blessing is drawn, and he draws it from above to below.</t>\n    <t s=\"8\">And this is that blessing is in the manner of a command,</t>\n    <t s=\"9\">for since the one who blesses is above the source from which the blessing is drawn,</t>\n    <t s=\"10\">therefore he has the power to command.</t>\n    <t s=\"11\">And this is that blessing is specifically for one who has the power to bless</t>\n    <t s=\"12\">(like Avraham Avinu, to whom the Holy One, blessed be He, said \"the blessings are given to you\"),</t>\n    <t s=\"13\">[and unlike prayer, which anyone can pray,</t>\n    <t s=\"14\">and moreover, everyone is commanded to pray],</t>\n    <t s=\"15\">because in order to bless,</t>\n    <t s=\"16\">the one who blesses must be above the source from which the blessing is drawn.</t>\n    <t s=\"17\">And from this the advantage of blessing over prayer is understood,</t>\n    <t s=\"18\">for in prayer,</t>\n    <t s=\"19\">which is a request that they draw down the influence,</t>\n    <t s=\"20\">there is no certainty that the request will be fulfilled.</t>\n    <t s=\"21\">But in blessing, which is in the manner of a command—the influence will certainly be drawn down,</t>\n    <t s=\"22\">since the one who blesses has the power to command.</t>\n    <t s=\"23\">And the advantage of prayer over blessing is in the drawing down itself,</t>\n    <t s=\"24\">that the drawing down through prayer is more exalted.</t>\n    <t s=\"25\">For the matter of blessing is to draw down what already exists in the source, and not something new,</t>\n    <t s=\"26\">and the matter of prayer is a request from the Holy One, blessed be He, that even if the influence is not changed even in the source, heaven forbid,</t>\n    <t s=\"27\">and moreover, even if it has been decreed upon him that he should be ill, heaven forbid, and the like,</t>\n    <t s=\"28\">nevertheless,</t>\n    <t s=\"29\">a new influence will be drawn down to him from the Ein Sof that is above the chain of descent.</t>\n    <t s=\"30\">For this is what is said in several prayers, \"May it be His will\" (Yehi Ratzon),</t>\n    <t s=\"31\">that the explanation of \"May it be His will\" is that there should be a new will.</t>\n    <t s=\"32\">And the reason for this, that the drawing down of a new light is specifically through prayer,</t>\n    <t s=\"33\">is \"for You desire the work of Your hands,\"</t>\n    <t s=\"34\">and therefore,</t>\n    <t s=\"35\">through prayer,</t>\n    <t s=\"36\">the work of the one below,</t>\n    <t s=\"37\">they reach the Ein Sof that is above the chain of descent.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the blessing of the pious ones combines both advantages: it draws a new will from Ein Sof (like prayer) yet is issued as a command (like blessing), as seen in the Jerusalem Talmud about a righteous person's decree overriding G-d's.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, the great superiority of the blessing</t>\n    <t s=\"1\">(of \"Your pious ones\")</t>\n    <t s=\"2\">is understood, that its drawing down is from the place where there is acknowledgment (Hoda'ah),</t>\n    <t s=\"3\">for in this blessing there are both advantages.</t>\n    <t s=\"4\">That the drawing down is from the Ein Sof that is above the chain of descent,</t>\n    <t s=\"5\">meaning that through this blessing a new will is made—the advantage of prayer.</t>\n    <t s=\"6\">And nevertheless it is</t>\n    <t s=\"7\">(not prayer,</t>\n    <t s=\"8\">a request,</t>\n    <t s=\"9\">but rather)</t>\n    <t s=\"10\">a blessing,</t>\n    <t s=\"11\">in the manner of a command.</t>\n    <t s=\"12\">And this is similar to what is brought in the Jerusalem Talmud</t>\n    <t s=\"13\">on the verse</t>\n    <t s=\"14\">\"And you shall decree a thing, and it will be established for you,\"</t>\n    <t s=\"15\">that even if He</t>\n    <t s=\"16\">(the Holy One, blessed be He)</t>\n    <t s=\"17\">says \"thus\" and you say \"thus,\"</t>\n    <t s=\"18\">yours stands and Mine does not stand.</t>\n    <t s=\"19\">For this, that the Holy One, blessed be He, nullifies His decree because of the decree of the righteous person,</t>\n    <t s=\"20\">is</t>\n    <t s=\"21\">because the righteous person draws down a new will—the advantage of prayer,</t>\n    <t s=\"22\">and the manner of the nullification of the decree is</t>\n    <t s=\"23\">(not through a request,</t>\n    <t s=\"24\">but rather)</t>\n    <t s=\"25\">through the decree of the righteous person—the advantage of blessing, which is in the manner of a command.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915661_theRebbe_783",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the phrase \"Your pious ones will bless You\" means they draw down a revelation into Malchus specifically from the level of Ein Sof that is beyond comprehension, where only acknowledgment (Hoda'ah) applies.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what is said"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "\"All Your works shall praise You, and Your pious ones will bless You,\""
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "and it is brought in the Zohar"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "that the explanation of \"will bless You\" (yevarchuchah) is \"they will bless *koh*.\""
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "And the Rebbe"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "of blessed memory"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "(in his maamar beginning \"Padeh b'Shalom\" from the year 5668),"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "explains that *koh* is Malchus,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and \"they will bless *koh*\" means to draw down a revelation of light into Malchus."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "And it is stated \"and Your pious ones will bless You,\""
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "that this drawing down is specifically through the power of \"Your pious ones.\""
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "that this matter of \"Your pious ones will bless You\" is in proximity and continuation to \"All Your works shall praise You,\""
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "that is,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "because the drawing down into Malchus"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "(which is through \"Your pious ones\")"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "is from a very exalted place"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "(the Ein Sof that is above the chain of descent)"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "regarding which comprehension does not apply, only acknowledgment (Hoda'ah) alone,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "\"they will praise You.\""
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "And the drawing down from there"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "(in the manner of blessing)"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "is specifically through the power of \"Your pious ones.\""
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section distinguishes between prayer (from below to above, requesting new light) and blessing (from above to below, commanding an existing flow), noting that prayer can draw a new will from Ein Sof while blessing is a certain command.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And in order to understand the great superiority of the drawing down in the manner of blessing from the place where there is acknowledgment (Hoda'ah),"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "the maamar prefaces the distinction between blessing and prayer,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that in each one there is an advantage over the other."
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that prayer is from below to above,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "meaning that the one praying is below and requests that they bestow upon him from above,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "and blessing is from above to below,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "that the one who blesses is above the source from which the blessing is drawn, and he draws it from above to below."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And this is that blessing is in the manner of a command,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "for since the one who blesses is above the source from which the blessing is drawn,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "therefore he has the power to command."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "And this is that blessing is specifically for one who has the power to bless"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "(like Avraham Avinu, to whom the Holy One, blessed be He, said \"the blessings are given to you\"),"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "[and unlike prayer, which anyone can pray,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "and moreover, everyone is commanded to pray],"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "because in order to bless,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "the one who blesses must be above the source from which the blessing is drawn."
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "And from this the advantage of blessing over prayer is understood,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "for in prayer,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "which is a request that they draw down the influence,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "there is no certainty that the request will be fulfilled."
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "But in blessing, which is in the manner of a command—the influence will certainly be drawn down,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "since the one who blesses has the power to command."
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "And the advantage of prayer over blessing is in the drawing down itself,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "that the drawing down through prayer is more exalted."
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "For the matter of blessing is to draw down what already exists in the source, and not something new,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "and the matter of prayer is a request from the Holy One, blessed be He, that even if the influence is not changed even in the source, heaven forbid,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "and moreover, even if it has been decreed upon him that he should be ill, heaven forbid, and the like,"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "a new influence will be drawn down to him from the Ein Sof that is above the chain of descent."
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "For this is what is said in several prayers, \"May it be His will\" (Yehi Ratzon),"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "that the explanation of \"May it be His will\" is that there should be a new will."
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "And the reason for this, that the drawing down of a new light is specifically through prayer,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "is \"for You desire the work of Your hands,\""
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "through prayer,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "the work of the one below,"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "they reach the Ein Sof that is above the chain of descent."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the blessing of the pious ones combines both advantages: it draws a new will from Ein Sof (like prayer) yet is issued as a command (like blessing), as seen in the Jerusalem Talmud about a righteous person's decree overriding G-d's.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And based on this, the great superiority of the blessing"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "(of \"Your pious ones\")"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "is understood, that its drawing down is from the place where there is acknowledgment (Hoda'ah),"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "for in this blessing there are both advantages."
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "That the drawing down is from the Ein Sof that is above the chain of descent,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "meaning that through this blessing a new will is made—the advantage of prayer."
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "And nevertheless it is"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "(not prayer,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "a request,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "but rather)"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "a blessing,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "in the manner of a command."
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "And this is similar to what is brought in the Jerusalem Talmud"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "on the verse"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "\"And you shall decree a thing, and it will be established for you,\""
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "that even if He"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "(the Holy One, blessed be He)"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "says \"thus\" and you say \"thus,\""
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "yours stands and Mine does not stand."
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "For this, that the Holy One, blessed be He, nullifies His decree because of the decree of the righteous person,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "is"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "because the righteous person draws down a new will—the advantage of prayer,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "and the manner of the nullification of the decree is"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "(not through a request,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "but rather)"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "through the decree of the righteous person—the advantage of blessing, which is in the manner of a command."
+          }
+        ]
+      }
+    ]
+  }
+}

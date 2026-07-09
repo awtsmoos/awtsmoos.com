@@ -1,0 +1,123 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918408_theRebbe_266" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918408_theRebbe_266__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918408_theRebbe_266" title="מאמר ונקדשתי תשכ"ה" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918408_theRebbe_266__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ אמור,</src>
+    <src s="2">י"ג אייר,</src>
+    <src s="3">ה'תשכ"ה</src>
+  </section>
+  <section v="1">
+    <src s="0">ונקדשתי בתוך בני ישראל אני ה' מקדישכם1,</src>
+    <src s="1">ומבאר אדמו"ר הזקן בלקו"ת ד"ה זה2,</src>
+    <src s="2">דונקדשתי בתוך בני ישראל</src>
+    <src s="3">(גילוי קדושתו ית' בתוך הלב3</src>
+    <src s="4">דישראל)</src>
+    <src s="5">הוא באופן דמלמטה למעלה,</src>
+    <src s="6">שלבם של ישראל בוער כרשפי אש ליכלל בקדושתו ית',</src>
+    <src s="7">ועי"ז נמשך אח"כ אני הוי' מקדישכם,</src>
+    <src s="8">המשכת קדושתו ית' מלמעלה למטה.</src>
+    <src s="9">ובזה עצמו</src>
+    <src s="10">(בההמשכה מלמעלה למטה)</src>
+    <src s="11">שני ענינים,</src>
+    <src s="12">ההמשכה ע"י תורה וההמשכה ע"י מצוות4.</src>
+    <src s="13">דההמשכה שע"י תורה היא בפנימיות העולמות</src>
+    <src s="14">(ברוחניות),</src>
+    <src s="15">ובכדי שתהי' ההמשכה בחיצוניות העולמות</src>
+    <src s="16">(בגשמיות),</src>
+    <src s="17">הוא ע"י מעשה המצוות5.</src>
+    <src s="18">וזהו מ"ש ג' פעמים קדוש6,</src>
+    <src s="19">דקדוש הא' הוא העלאה מלמטה למעלה,</src>
+    <src s="20">וקדוש הב' והג' הם המשכות מלמעלה למטה,</src>
+    <src s="21">ע"י תורה וע"י מצוות5.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך ב</src>
+    <src s="2">(הביאור ל)</src>
+    <src s="3">המאמר7,</src>
+    <src s="4">שג' פעמים קדוש הם ג' מדריגות.</src>
+    <src s="5">קדוש הא' הוא כתר</src>
+    <src s="6">(שלמעלה מחכמה),</src>
+    <src s="7">קדוש הב' הוא כתר דז"א,</src>
+    <src s="8">וקדוש הג' הוא כתר דמלכות.</src>
+    <src s="9">ויש לומר הביאור בזה ע"פ הידוע8</src>
+    <src s="10">שקדוש</src>
+    <src s="11">(בכלל)</src>
+    <src s="12">קאי על אור הסובב שהוא קדוש ומובדל מהשתלשלות.</src>
+    <src s="13">ולכן עיקר הענין דקדוש</src>
+    <src s="14">(קדוש הא')</src>
+    <src s="15">הוא בכתר שלמעלה מהחכמה</src>
+    <src s="16">(כי חכמה היא ראשית ההשתלשלות9).</src>
+    <src s="17">וזה שגם הכתר דז"א וכתר דמלכות נק' בשם קדוש,</src>
+    <src s="18">הוא,</src>
+    <src s="19">כי השתלשלות הכתרים היא לא כהשתלשלות עילה ועלול שהעלול הוא מהות אחר מהעילה,</src>
+    <src s="20">כי אם,</src>
+    <src s="21">שכל הכתרים הם מהות אחד10,</src>
+    <src s="22">וגם לאחרי ירידת הכתר להיות כתר לז"א או למלכות,</src>
+    <src s="23">הוא במהותו כמו שהי' קודם</src>
+    <src s="24">(כתר שלמעלה מחכמה).</src>
+    <src s="25">ויש לומר,</src>
+    <src s="26">דזה שמבאר בהמאמר שג' פעמים קדוש הם חלוקים במדריגתם</src>
+    <src s="27">(שקדוש הא' הוא הכתר שלמעלה מחכמה,</src>
+    <src s="28">וקדוש הב' והג' הם הכתר דז"א ודמלכות),</src>
+    <src s="29">הוא גם ביאור על החילוק באופנם</src>
+    <src s="30">(שקדוש הא' הוא באופן דמלמטה למעלה וקדוש הב' והג' הם באופן דמלמעלה למטה).</src>
+    <src s="31">דהסובב</src>
+    <src s="32">(כתר)</src>
+    <src s="33">עצמו,</src>
+    <src s="34">כיון שהוא קדוש ומובדל לגמרי,</src>
+    <src s="35">הגילוי שלו באדם הוא באופן שהוא מכיר ומרגיש שזהו ענין שמופלא ומובדל ממנו,</src>
+    <src s="36">ולכן הוא משתוקק לצאת ממציאותו וליכלל בהענין המופלא,</src>
+    <src s="37">וכאשר הסובב יורד להיות כתר לז"א או למלכות,</src>
+    <src s="38">אז הגילוי שלו הוא באופן שנמשך למטה.</src>
+    <src s="39">ועד"ז הוא בנוגע לקדוש הב' והג',</src>
+    <src s="40">שהחילוק באופן המשכתם הוא מפני שהם חלוקים במדריגתם.</src>
+    <src s="41">דקדוש הב',</src>
+    <src s="42">כיון שהירידה שלו הוא שנעשה כתר לז"א</src>
+    <src s="43">(דז"א הוא סוף האצילות11),</src>
+    <src s="44">המשכתו היא</src>
+    <src s="45">(רק)</src>
+    <src s="46">בפנימיות העולמות</src>
+    <src s="47">(ע"י תורה),</src>
+    <src s="48">וקדוש הג',</src>
+    <src s="49">שיורד להיות כתר למלכות</src>
+    <src s="50">(דמלכות היא שרש הנבראים11),</src>
+    <src s="51">המשכתו היא</src>
+    <src s="52">(גם)</src>
+    <src s="53">בחיצוניות העולמות</src>
+    <src s="54">(ע"י מעשה המצוות).</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,464 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 84,
+    "returned": 84,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916159_theRebbe_933\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar delivered on Shabbat Parshat Vayigash, 7 Tevet 5732.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbat Parshat Vayigash,</t>\n    <t s=\"2\">7 Tevet,</t>\n    <t s=\"3\">5732</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the verse \"And Dovid My servant is a prince for them forever\" from the haftarah of Vayigash, questioning its connection to the parshah which emphasizes Yehudah's submission to Yosef, while the haftarah reveals Yehudah's hidden superiority.</sectionSummaryBrief>\n    <t s=\"0\">\"And Dovid My servant is a prince for them forever.\"</t>\n    <t s=\"1\">Now, this verse is in the haftarah of Parshat Vayigash.</t>\n    <t s=\"2\">And it needs to be understood,</t>\n    <t s=\"3\">for seemingly the connection of the haftarah to the parshah</t>\n    <t s=\"4\">is that the content of both is the connection of Yehudah and Yosef.</t>\n    <t s=\"5\">For the beginning of the parshah is \"And Yehudah approached him,\" and in the haftarah it is stated,</t>\n    <t s=\"6\">\"Take for yourself one stick and write upon it 'for Yehudah'... and take one stick and write upon it 'for Yosef'... and bring them close one to another for yourself into one stick... and I will make them into one nation... and one king will be for all of them...\"</t>\n    <t s=\"7\">But in particular,</t>\n    <t s=\"8\">in Yehudah's approach to Yosef</t>\n    <t s=\"9\">(in the parshah)</t>\n    <t s=\"10\">it is emphasized that Yosef was more elevated than Yehudah</t>\n    <t s=\"11\">[both in the approach itself,</t>\n    <t s=\"12\">for the fact that Yehudah approached Yosef was because he needed him</t>\n    <t s=\"13\">(to release Binyamin),</t>\n    <t s=\"14\">and also in Yehudah's words to Yosef when he said,</t>\n    <t s=\"15\">\"Please, my lord, let your servant speak a word in my lord's ears...\"]</t>\n    <t s=\"16\">to the extent that Yosef was king over all his brothers,</t>\n    <t s=\"17\">including Yehudah,</t>\n    <t s=\"18\">and in the haftarah it is stated,</t>\n    <t s=\"19\">\"And My servant Dovid will be king over them... and Dovid My servant is a prince for them forever.\"</t>\n    <t s=\"20\">And from the fact that these verses are in the haftarah of Parshat Vayigash,</t>\n    <t s=\"21\">it implies</t>\n    <t s=\"22\">that this matter</t>\n    <t s=\"23\">(the superiority of Yehudah over Yosef)</t>\n    <t s=\"24\">exists</t>\n    <t s=\"25\">(in a hint)</t>\n    <t s=\"26\">also in \"And Yehudah approached him,\"</t>\n    <t s=\"27\">except that in \"And Yehudah approached him,\"</t>\n    <t s=\"28\">the superiority of Yehudah over Yosef is in a hint and in concealment</t>\n    <t s=\"29\">(and that which is emphasized in a revealed way in \"And Yehudah approached him\" is the superiority of Yosef over Yehudah),</t>\n    <t s=\"30\">and in the haftarah it is in a revealed way.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the concealed superiority of Yehudah over Yosef parallels the superiority of the inanimate (domeim) over the vegetative and living in the Holy Temple, reflecting the root of Malchus being higher than Zeir Anpin.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And now, this matter</t>\n    <t s=\"2\">[that in \"And Yehudah approached him\" there is</t>\n    <t s=\"3\">(in concealment)</t>\n    <t s=\"4\">also the superiority of Yehudah over Yosef]</t>\n    <t s=\"5\">is also understood from what is explained in Torah Ohr, the discourse beginning \"Vayigash eilav Yehudah,\"</t>\n    <t s=\"6\">that the fact that the Holy Temple was of inanimate matter</t>\n    <t s=\"7\">[and unlike the Mishkan,</t>\n    <t s=\"8\">where only the floor of the Mishkan was of earth,</t>\n    <t s=\"9\">inanimate,</t>\n    <t s=\"10\">but the walls of the Mishkan were of vegetative matter,</t>\n    <t s=\"11\">and the covering over the Mishkan</t>\n    <t s=\"12\">(the curtains)</t>\n    <t s=\"13\">was of living matter],</t>\n    <t s=\"14\">is</t>\n    <t s=\"15\">because that the inanimate is lower than the vegetative according to the order of Hishtalshelus (the chain of descent),</t>\n    <t s=\"16\">but in their root,</t>\n    <t s=\"17\">the root of the inanimate is higher than the root of the vegetative and living</t>\n    <t s=\"18\">[and analogous to heaven and earth,</t>\n    <t s=\"19\">for in actual existence,</t>\n    <t s=\"20\">heaven preceded earth,</t>\n    <t s=\"21\">but in their root in thought,</t>\n    <t s=\"22\">earth preceded.</t>\n    <t s=\"23\">For this very fact that the earth was created last indicates that in thought it preceded heaven,</t>\n    <t s=\"24\">for \"the final deed was in thought first\"].</t>\n    <t s=\"25\">And likewise is it with Zeir Anpin and Malchus</t>\n    <t s=\"26\">[which are analogous to vegetative and inanimate],</t>\n    <t s=\"27\">that in the order of Hishtalshelus,</t>\n    <t s=\"28\">Zeir Anpin is higher than Malchus,</t>\n    <t s=\"29\">but in their root,</t>\n    <t s=\"30\">the root of Malchus is higher than the root of Zeir Anpin.</t>\n    <t s=\"31\">And therefore in the future, Malchus will be above Zeir Anpin,</t>\n    <t s=\"32\">\"A woman of valor is the crown of her husband,\"</t>\n    <t s=\"33\">for then the root of Malchus will be revealed</t>\n    <t s=\"34\">(which is above the root of Zeir Anpin).</t>\n    <t s=\"35\">And this is that in the Mishkan the walls and roof were of vegetative and living matter, and in the Holy Temple all of this was of inanimate matter,</t>\n    <t s=\"36\">for the Mishkan, which was only a temporary dwelling for the Holy One, blessed be He,</t>\n    <t s=\"37\">was according to the order of Hishtalshelus,</t>\n    <t s=\"38\">and therefore the floor of the Mishkan was of inanimate matter,</t>\n    <t s=\"39\">the walls of the Mishkan of vegetative matter,</t>\n    <t s=\"40\">and the roof of the Mishkan of living matter,</t>\n    <t s=\"41\">for in the order of Hishtalshelus,</t>\n    <t s=\"42\">vegetative is higher than inanimate, and living is higher even than vegetative.</t>\n    <t s=\"43\">But the Holy Temple, which was a permanent dwelling for the Holy One, blessed be He,</t>\n    <t s=\"44\">was a semblance of the World to Come,</t>\n    <t s=\"45\">when Malchus</t>\n    <t s=\"46\">(inanimate)</t>\n    <t s=\"47\">will be above all the Sefiros.</t>\n    <t s=\"48\">And therefore even the roof was of inanimate matter.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916159_theRebbe_933",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar delivered on Shabbat Parshat Vayigash, 7 Tevet 5732.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbat Parshat Vayigash,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "7 Tevet,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "5732"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the verse \"And Dovid My servant is a prince for them forever\" from the haftarah of Vayigash, questioning its connection to the parshah which emphasizes Yehudah's submission to Yosef, while the haftarah reveals Yehudah's hidden superiority.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And Dovid My servant is a prince for them forever.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "Now, this verse is in the haftarah of Parshat Vayigash."
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "for seemingly the connection of the haftarah to the parshah"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "is that the content of both is the connection of Yehudah and Yosef."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "For the beginning of the parshah is \"And Yehudah approached him,\" and in the haftarah it is stated,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "\"Take for yourself one stick and write upon it 'for Yehudah'... and take one stick and write upon it 'for Yosef'... and bring them close one to another for yourself into one stick... and I will make them into one nation... and one king will be for all of them...\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "But in particular,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "in Yehudah's approach to Yosef"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "(in the parshah)"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "it is emphasized that Yosef was more elevated than Yehudah"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "[both in the approach itself,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "for the fact that Yehudah approached Yosef was because he needed him"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "(to release Binyamin),"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "and also in Yehudah's words to Yosef when he said,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "\"Please, my lord, let your servant speak a word in my lord's ears...\"]"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "to the extent that Yosef was king over all his brothers,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "including Yehudah,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "and in the haftarah it is stated,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "\"And My servant Dovid will be king over them... and Dovid My servant is a prince for them forever.\""
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "And from the fact that these verses are in the haftarah of Parshat Vayigash,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "it implies"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "that this matter"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "(the superiority of Yehudah over Yosef)"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "exists"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "(in a hint)"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "also in \"And Yehudah approached him,\""
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "except that in \"And Yehudah approached him,\""
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "the superiority of Yehudah over Yosef is in a hint and in concealment"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "(and that which is emphasized in a revealed way in \"And Yehudah approached him\" is the superiority of Yosef over Yehudah),"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "and in the haftarah it is in a revealed way."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the concealed superiority of Yehudah over Yosef parallels the superiority of the inanimate (domeim) over the vegetative and living in the Holy Temple, reflecting the root of Malchus being higher than Zeir Anpin.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And now, this matter"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "[that in \"And Yehudah approached him\" there is"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(in concealment)"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "also the superiority of Yehudah over Yosef]"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "is also understood from what is explained in Torah Ohr, the discourse beginning \"Vayigash eilav Yehudah,\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "that the fact that the Holy Temple was of inanimate matter"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "[and unlike the Mishkan,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "where only the floor of the Mishkan was of earth,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "inanimate,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "but the walls of the Mishkan were of vegetative matter,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "and the covering over the Mishkan"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "(the curtains)"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "was of living matter],"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "is"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "because that the inanimate is lower than the vegetative according to the order of Hishtalshelus (the chain of descent),"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "but in their root,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "the root of the inanimate is higher than the root of the vegetative and living"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "[and analogous to heaven and earth,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "for in actual existence,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "heaven preceded earth,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "but in their root in thought,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "earth preceded."
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "For this very fact that the earth was created last indicates that in thought it preceded heaven,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "for \"the final deed was in thought first\"]."
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "And likewise is it with Zeir Anpin and Malchus"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "[which are analogous to vegetative and inanimate],"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "that in the order of Hishtalshelus,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "Zeir Anpin is higher than Malchus,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "but in their root,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "the root of Malchus is higher than the root of Zeir Anpin."
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "And therefore in the future, Malchus will be above Zeir Anpin,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "\"A woman of valor is the crown of her husband,\""
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "for then the root of Malchus will be revealed"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "(which is above the root of Zeir Anpin)."
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "And this is that in the Mishkan the walls and roof were of vegetative and living matter, and in the Holy Temple all of this was of inanimate matter,"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "for the Mishkan, which was only a temporary dwelling for the Holy One, blessed be He,"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "was according to the order of Hishtalshelus,"
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "and therefore the floor of the Mishkan was of inanimate matter,"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "the walls of the Mishkan of vegetative matter,"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "and the roof of the Mishkan of living matter,"
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "for in the order of Hishtalshelus,"
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "vegetative is higher than inanimate, and living is higher even than vegetative."
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "But the Holy Temple, which was a permanent dwelling for the Holy One, blessed be He,"
+          },
+          {
+            "v": 2,
+            "s": 44,
+            "translation": "was a semblance of the World to Come,"
+          },
+          {
+            "v": 2,
+            "s": 45,
+            "translation": "when Malchus"
+          },
+          {
+            "v": 2,
+            "s": 46,
+            "translation": "(inanimate)"
+          },
+          {
+            "v": 2,
+            "s": 47,
+            "translation": "will be above all the Sefiros."
+          },
+          {
+            "v": 2,
+            "s": 48,
+            "translation": "And therefore even the roof was of inanimate matter."
+          }
+        ]
+      }
+    ]
+  }
+}

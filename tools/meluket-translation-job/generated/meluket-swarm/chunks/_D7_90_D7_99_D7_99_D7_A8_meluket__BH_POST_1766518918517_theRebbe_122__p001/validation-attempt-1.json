@@ -1,0 +1,194 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 30,
+    "returned": 30,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918517_theRebbe_122\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918517_theRebbe_122__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>Opening with the date of Lag BaOmer 5722.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Lag BaOmer,</t>\n    <t s=\"2\">5722*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>Explaining the verse \"Behold how good and how pleasant it is for brothers to dwell together also in unity,\" and the Rebbe's distinction between \"brothers\" and \"also in unity.\"</sectionSummaryBrief>\n    <t s=\"0\">\"A Song of Ascents by Dovid: Behold how good and how pleasant it is for brothers to dwell together also in unity.\"</t>\n    <t s=\"1\">And the Rebbe, my father-in-law, the Rebbe, precisely analyzes in his maamar beginning with this phrase,</t>\n    <t s=\"2\">[that] \"for brothers to dwell\" is when they sit together in brotherhood and love,</t>\n    <t s=\"3\">and what does \"also in unity\" add?</t>\n    <t s=\"4\">And he explains,</t>\n    <t s=\"5\">that \"brothers\" are the souls of the male and female that belong to each other</t>\n    <t s=\"6\">(groom and bride),</t>\n    <t s=\"7\">and \"for brothers to dwell\" is the drawing near and connection of their betrothal bonds,</t>\n    <t s=\"8\">and this is the preparation for the marriage,</t>\n    <t s=\"9\">at which time there is</t>\n    <t s=\"10\">(also)</t>\n    <t s=\"11\">\"in unity,\"</t>\n    <t s=\"12\">in addition to connection, also unification.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>Connecting the interpretation of \"brothers\" as groom and bride to the Zohar's statement that \"brothers\" refers to the Holy One Blessed be He and the Congregation of Israel.</sectionSummaryBrief>\n    <t s=\"0\">And he continues in the maamar,</t>\n    <t s=\"1\">that it is stated in the Zohar</t>\n    <t s=\"2\">[regarding] \"for brothers to dwell also in unity,\"</t>\n    <t s=\"3\">[that it refers to] the Holy One Blessed be He and the Congregation of Israel,</t>\n    <t s=\"4\">\"also\" includes the lower Israel.</t>\n    <t s=\"5\">And it can be said,</t>\n    <t s=\"6\">that the connection of the interpretation that \"brothers\" are groom and bride with the statement of the Zohar that it refers to the Holy One Blessed be He and the Congregation of Israel,</t>\n    <t s=\"7\">is,</t>\n    <t s=\"8\">that the groom and bride below are derived from the groom and bride above,</t>\n    <t s=\"9\">[namely] the Holy One Blessed be He and the Congregation of Israel,</t>\n    <t s=\"10\">and therefore the maamar brings what is said in the Zohar</t>\n    <t s=\"11\">(that)</t>\n    <t s=\"12\">\"brothers\" are the Holy One Blessed be He and the Congregation of Israel,</t>\n    <t s=\"13\">for this is the foundation for the interpretation that \"brothers\" are groom and bride.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918517_theRebbe_122",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918517_theRebbe_122__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "Opening with the date of Lag BaOmer 5722.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Lag BaOmer,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "5722*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "Explaining the verse \"Behold how good and how pleasant it is for brothers to dwell together also in unity,\" and the Rebbe's distinction between \"brothers\" and \"also in unity.\"",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"A Song of Ascents by Dovid: Behold how good and how pleasant it is for brothers to dwell together also in unity.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe, my father-in-law, the Rebbe, precisely analyzes in his maamar beginning with this phrase,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "[that] \"for brothers to dwell\" is when they sit together in brotherhood and love,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "and what does \"also in unity\" add?"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that \"brothers\" are the souls of the male and female that belong to each other"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "(groom and bride),"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "and \"for brothers to dwell\" is the drawing near and connection of their betrothal bonds,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "and this is the preparation for the marriage,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "at which time there is"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "(also)"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "\"in unity,\""
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "in addition to connection, also unification."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "Connecting the interpretation of \"brothers\" as groom and bride to the Zohar's statement that \"brothers\" refers to the Holy One Blessed be He and the Congregation of Israel.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And he continues in the maamar,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that it is stated in the Zohar"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "[regarding] \"for brothers to dwell also in unity,\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "[that it refers to] the Holy One Blessed be He and the Congregation of Israel,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "\"also\" includes the lower Israel."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "that the connection of the interpretation that \"brothers\" are groom and bride with the statement of the Zohar that it refers to the Holy One Blessed be He and the Congregation of Israel,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "is,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that the groom and bride below are derived from the groom and bride above,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "[namely] the Holy One Blessed be He and the Congregation of Israel,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "and therefore the maamar brings what is said in the Zohar"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(that)"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "\"brothers\" are the Holy One Blessed be He and the Congregation of Israel,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "for this is the foundation for the interpretation that \"brothers\" are groom and bride."
+          }
+        ]
+      }
+    ]
+  }
+}

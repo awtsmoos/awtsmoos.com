@@ -1,0 +1,87 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914265_theRebbe_229" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914265_theRebbe_229__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914265_theRebbe_229" title="מאמר כנשר יעיר קנו תשמ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914265_theRebbe_229__p003">
+  <section v="6">
+    <src s="0">וזהו כנשר יעיר קנו על גוזליו ירחף גו',</src>
+    <src s="1">דהריחוף על גוזליו מורה על הרחמים של נשר כפשוטו,</src>
+    <src s="2">דע"י עבודת התשובה מבחי' נשר למטה עולים לבחי' כנשר יעיר קנו שלמעלה מעלה.</src>
+    <src s="3">וע"ד מ"ש במ"א36</src>
+    <src s="4">דאית רצון ואית רצון,</src>
+    <src s="5">דהרצון התחתון כלי וממשיך את הרצון העליון.</src>
+    <src s="6">ועד"ז יראה תתאה היא כלי ליראה עילאה וחכמה תתאה היא כלי לחכמה עילאה.</src>
+    <src s="7">הרי עד"ז ע"י בחי' נשר עולים למדת הרחמים שלמעלה עד לרחמים שלמעלה מעלה ממדה.</src>
+    <src s="8">וזהו ימצאהו בארץ מדבר גו',</src>
+    <src s="9">דמציאה שייך בדבר שנאבד,</src>
+    <src s="10">היינו שגם אלה שנאבדו בארץ מדבר הרי משם יקבצך גו',</src>
+    <src s="11">ועד שהיא בחי' מציאה,</src>
+    <src s="12">ענין שלא לפי ערך היגיעה,</src>
+    <src s="13">כי הקב"ה לא שיער כביכול בעצמו</src>
+    <src s="14">(האָט זיך ניט געריכט)</src>
+    <src s="15">שימצא את החלק אלוקה בשלימותו במדבר,</src>
+    <src s="16">שהרי הכל בידי שמים חוץ מיראת שמים37.</src>
+    <src s="17">ומשום זה הקב"ה הוא בהתפעלות מעבודת ישראל.</src>
+    <src s="18">ועד שזה מביא לידי תענוג גדול,</src>
+    <src s="19">וכפשטות הענין,</src>
+    <src s="20">דאינו דומה התענוג של מי שהרויח לפי ערך עבודתו</src>
+    <src s="21">(כמ"ש38</src>
+    <src s="22">עובד אדמתו ישבע לחם)</src>
+    <src s="23">למי שמוצא מציאה שזהו לא לפי ערך היגיעה.</src>
+    <src s="24">וזהו שממשיך1</src>
+    <src s="25">ישאהו על אברתו,</src>
+    <src s="26">לפי שע"י עבודת התשובה עולים למעלה מעלה,</src>
+    <src s="27">עד למעלה מבחי' אברתו,</src>
+    <src s="28">היינו למעלה מרמ"ח אברין דמלכא39,</src>
+    <src s="29">כי ישראל קדמו לתורה ומצוות כדאיתא בתד"א40</src>
+    <src s="30">ואני אומר ישראל קדמו שנאמר</src>
+    <src s="31">(בתורה)</src>
+    <src s="32">דבר אל בני ישראל אמור אל בני ישראל כו'41.</src>
+    <src s="33">ועד שעולים למקום זה שנאמר עליו הוי' בדד ינחנו גו',</src>
+    <src s="34">ישראל ומלכא בלחודוהי42,</src>
+    <src s="35">שישראל ועצומ"ה ית' כולא חד.</src>
+  </section>
+  <section v="7">
+    <src s="0">והנה ע"י שענינים אלו נלמדים בתושב"כ ואח"כ בתושבע"פ ועד לתורת חב"ד שענינה הוא ההסברה ועד שיתפרנסון מיני'43,</src>
+    <src s="1">הרי התבוננות זו מביאה לידי מעשה,</src>
+    <src s="2">חיפוש ובירור הניצוצות בכל מקום,</src>
+    <src s="3">ובפרט כשפוגש ניצוצות אלו בהשגחה פרטית,</src>
+    <src s="4">ועי"ז באים לקיום היעוד הוי' בדד ינחנו גו',</src>
+    <src s="5">כמ"ש44</src>
+    <src s="6">וישכון ישראל בטח בדד עין יעקב,</src>
+    <src s="7">בקרוב ממש,</src>
+    <src s="8">בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="9">יבוא ויגאלנו ויוליכנו קוממיות לארצנו,</src>
+    <src s="10">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

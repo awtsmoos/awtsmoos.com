@@ -1,0 +1,434 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 78,
+    "returned": 78,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916134_theRebbe_917\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>Yehudah's approach to Yosef contains two aspects: the revealed one of receiver approaching the giver, and the hidden one of their future unification and elevation of Malchus above Zeir Anpin.</sectionSummaryBrief>\n    <t s=\"0\">And from this it is understood,</t>\n    <t s=\"1\">that in Yehudah's approach to Yosef,</t>\n    <t s=\"2\">there are two matters.</t>\n    <t s=\"3\">In a revealed way,</t>\n    <t s=\"4\">the matter of Yehudah's approach to Yosef is because Yosef</t>\n    <t s=\"5\">(Yesod of Zeir Anpin)</t>\n    <t s=\"6\">is the one who bestows and Yehudah</t>\n    <t s=\"7\">(Malchus)</t>\n    <t s=\"8\">is the receiver,</t>\n    <t s=\"9\">and therefore Yehudah approached Yosef and requested \"Bi Adoni,\"</t>\n    <t s=\"10\">that influence should be drawn into him from Yosef the Righteous.</t>\n    <t s=\"11\">And there is another matter in Yehudah's approach to Yosef,</t>\n    <t s=\"12\">hinted at in the final letters of \"Vayigash eilav Yehudah,\"</t>\n    <t s=\"13\">which is the connection and unification of Yosef</t>\n    <t s=\"14\">(Zeir Anpin,</t>\n    <t s=\"15\">the higher Daas)</t>\n    <t s=\"16\">and Yehudah</t>\n    <t s=\"17\">(Malchus,</t>\n    <t s=\"18\">the lower Daas)</t>\n    <t s=\"19\">that will be in the future,</t>\n    <t s=\"20\">when Malchus will be like Zeir Anpin.</t>\n    <t s=\"21\">And based on this it can be said,</t>\n    <t s=\"22\">that in \"Vayigash eilav Yehudah\" is also hinted the elevation of Malchus that will be in the future,</t>\n    <t s=\"23\">that Malchus will be above Zeir Anpin,</t>\n    <t s=\"24\">\"A woman of valor is the crown of her husband\"15,</t>\n    <t s=\"25\">above even the matter of both of them being equal.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This is the meaning of the Zohar's statement that Yehudah's approach to Yosef is the matter of \"joining redemption to prayer,\" where prayer (Malchus) is primary and redemption (Yesod) is secondary.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this is what is stated in the Zohar16,</t>\n    <t s=\"2\">that Yehudah's approach to Yosef is the matter of joining redemption to prayer</t>\n    <t s=\"3\">[for redemption is the aspect of Yesod,</t>\n    <t s=\"4\">Yosef,</t>\n    <t s=\"5\">and prayer is the aspect of Malchus,</t>\n    <t s=\"6\">Yehudah17].</t>\n    <t s=\"7\">For from the language of our sages18,</t>\n    <t s=\"8\">\"joining redemption to prayer\"</t>\n    <t s=\"9\">(and not \"joining prayer to redemption\"),</t>\n    <t s=\"10\">[meaning] that prayer is in its place and redemption is joined</t>\n    <t s=\"11\">(approached)</t>\n    <t s=\"12\">to prayer,</t>\n    <t s=\"13\">it is understood19,</t>\n    <t s=\"14\">that the main thing is20</t>\n    <t s=\"15\">prayer.</t>\n    <t s=\"16\">And from this that the Zohar says that Yehudah's approach to Yosef is the matter of joining redemption to prayer,</t>\n    <t s=\"17\">it implies,</t>\n    <t s=\"18\">that also in Yehudah's approach to Yosef there is</t>\n    <t s=\"19\">(in a concealed way)</t>\n    <t s=\"20\">the superiority of Yehudah over Yosef.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>The explanation is prefaced by the Rebbe Rashab's teaching that Yehudah's opening with \"Bi Adoni\" parallels the verse \"Ad-nai, open my lips\" before prayer, which is like Torah, so that prayer becomes a drawing down of God's own prayer.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And this will be understood by prefacing what the Rebbe</t>\n    <t s=\"2\">(the Rebbe Rashab)</t>\n    <t s=\"3\">of blessed memory said in the discourse on this verse21,</t>\n    <t s=\"4\">that this that Yehudah first began with \"Bi Adoni\"</t>\n    <t s=\"5\">(for seemingly he should have begun \"Please let your servant speak...\")</t>\n    <t s=\"6\">is like the matter of the precedence of the verse22</t>\n    <t s=\"7\">\"Ad-nai, open my lips\" before prayer</t>\n    <t s=\"8\">[and this is not an interruption between redemption and prayer,</t>\n    <t s=\"9\">as stated in the Gemara23,</t>\n    <t s=\"10\">since the sages instituted saying \"Ad-nai, open my lips,\"</t>\n    <t s=\"11\">it is considered like a long prayer].</t>\n    <t s=\"12\">And in the Targum on the verse \"Ad-nai, open my lips\" it is explained,</t>\n    <t s=\"13\">\"my lips open in Torah.\"</t>\n    <t s=\"14\">And it is explained in many discourses24</t>\n    <t s=\"15\">that explain the matter of Torah and prayer</t>\n    <t s=\"16\">(and also in the aforementioned discourse25),</t>\n    <t s=\"17\">that the request in this verse at the beginning of prayer is,</t>\n    <t s=\"18\">that prayer</t>\n    <t s=\"19\">(and \"my mouth will declare Your praise\")</t>\n    <t s=\"20\">should be like Torah</t>\n    <t s=\"21\">(\"Ad-nai, open my lips\" in Torah).</t>\n    <t s=\"22\">For just as in Torah,</t>\n    <t s=\"23\">the Torah that a person learns is the word of God,</t>\n    <t s=\"24\">\"My words that I have placed in your mouth\"26,</t>\n    <t s=\"25\">and the person is like one who answers after the caller27,</t>\n    <t s=\"26\">so too prayer should be in the manner of \"and my mouth will declare Your praise,\"</t>\n    <t s=\"27\">that a person's prayer should be that through it there will be drawn</t>\n    <t s=\"28\">(\"declare\" from the term \"drawing\")</t>\n    <t s=\"29\">Your praise,</t>\n    <t s=\"30\">the prayer of the Holy One, blessed be He.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916134_theRebbe_917",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "Yehudah's approach to Yosef contains two aspects: the revealed one of receiver approaching the giver, and the hidden one of their future unification and elevation of Malchus above Zeir Anpin.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that in Yehudah's approach to Yosef,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "there are two matters."
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "In a revealed way,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "the matter of Yehudah's approach to Yosef is because Yosef"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "(Yesod of Zeir Anpin)"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "is the one who bestows and Yehudah"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "(Malchus)"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "is the receiver,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "and therefore Yehudah approached Yosef and requested \"Bi Adoni,\""
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "that influence should be drawn into him from Yosef the Righteous."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "And there is another matter in Yehudah's approach to Yosef,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "hinted at in the final letters of \"Vayigash eilav Yehudah,\""
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "which is the connection and unification of Yosef"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "(Zeir Anpin,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "the higher Daas)"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "and Yehudah"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "(Malchus,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "the lower Daas)"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "that will be in the future,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "when Malchus will be like Zeir Anpin."
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "And based on this it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "that in \"Vayigash eilav Yehudah\" is also hinted the elevation of Malchus that will be in the future,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "that Malchus will be above Zeir Anpin,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "\"A woman of valor is the crown of her husband\"15,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "above even the matter of both of them being equal."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This is the meaning of the Zohar's statement that Yehudah's approach to Yosef is the matter of \"joining redemption to prayer,\" where prayer (Malchus) is primary and redemption (Yesod) is secondary.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "that this is what is stated in the Zohar16,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that Yehudah's approach to Yosef is the matter of joining redemption to prayer"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "[for redemption is the aspect of Yesod,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "Yosef,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "and prayer is the aspect of Malchus,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "Yehudah17]."
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "For from the language of our sages18,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "\"joining redemption to prayer\""
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(and not \"joining prayer to redemption\"),"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "[meaning] that prayer is in its place and redemption is joined"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "(approached)"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "to prayer,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "it is understood19,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "that the main thing is20"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "prayer."
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "And from this that the Zohar says that Yehudah's approach to Yosef is the matter of joining redemption to prayer,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "it implies,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "that also in Yehudah's approach to Yosef there is"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "(in a concealed way)"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "the superiority of Yehudah over Yosef."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "The explanation is prefaced by the Rebbe Rashab's teaching that Yehudah's opening with \"Bi Adoni\" parallels the verse \"Ad-nai, open my lips\" before prayer, which is like Torah, so that prayer becomes a drawing down of God's own prayer.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what the Rebbe"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "of blessed memory said in the discourse on this verse21,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "that this that Yehudah first began with \"Bi Adoni\""
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "(for seemingly he should have begun \"Please let your servant speak...\")"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "is like the matter of the precedence of the verse22"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "\"Ad-nai, open my lips\" before prayer"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "[and this is not an interruption between redemption and prayer,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "as stated in the Gemara23,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "since the sages instituted saying \"Ad-nai, open my lips,\""
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "it is considered like a long prayer]."
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "And in the Targum on the verse \"Ad-nai, open my lips\" it is explained,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "\"my lips open in Torah.\""
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "And it is explained in many discourses24"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "that explain the matter of Torah and prayer"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "(and also in the aforementioned discourse25),"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "that the request in this verse at the beginning of prayer is,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "that prayer"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "(and \"my mouth will declare Your praise\")"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "should be like Torah"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "(\"Ad-nai, open my lips\" in Torah)."
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "For just as in Torah,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "the Torah that a person learns is the word of God,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "\"My words that I have placed in your mouth\"26,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "and the person is like one who answers after the caller27,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "so too prayer should be in the manner of \"and my mouth will declare Your praise,\""
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "that a person's prayer should be that through it there will be drawn"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "(\"declare\" from the term \"drawing\")"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "Your praise,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "the prayer of the Holy One, blessed be He."
+          }
+        ]
+      }
+    ]
+  }
+}

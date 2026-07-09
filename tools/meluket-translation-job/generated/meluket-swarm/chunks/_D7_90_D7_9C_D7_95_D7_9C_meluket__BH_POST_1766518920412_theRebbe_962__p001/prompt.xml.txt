@@ -1,0 +1,83 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920412_theRebbe_962" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920412_theRebbe_962__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920412_theRebbe_962" title="מאמר קומי אורי תשל"ג" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920412_theRebbe_962__p001">
+  <section v="0">
+    <src s="0">*</src>
+  </section>
+  <section v="1">
+    <src s="0">קומי אורי כי בא אורך גו'1,</src>
+    <src s="1">הנה,</src>
+    <src s="2">כי בא אורך הוא טעם על קומי אורי.</src>
+    <src s="3">שהקב"ה אומר לישראל2,</src>
+    <src s="4">דכיון שכבר בא אורך,</src>
+    <src s="5">האור שלך</src>
+    <src s="6">(של ישראל),</src>
+    <src s="7">לכן צריכה את לקום ולהאיר.</src>
+    <src s="8">וצריך להבין מהו ענינם של שני אורות אלה,</src>
+    <src s="9">האור של ישראל עצמם והאור שצריכים להאיר.</src>
+    <src s="10">ויובן זה ע"פ מה דאיתא בילקוט3,</src>
+    <src s="11">אמרו ישראל לפני הקב"ה,</src>
+    <src s="12">עשינו לך מנורה בימי משה וכבתה,</src>
+    <src s="13">בימי שלמה וכבתה,</src>
+    <src s="14">מכאן ואילך אין אנו ממתינין אלא לאורך,</src>
+    <src s="15">שנאמר4</src>
+    <src s="16">כי עמך מקור חיים באורך נראה אור,</src>
+    <src s="17">וכך אמר הקב"ה קומי אורי כי בא אורך.</src>
+    <src s="18">ומזה שמדמין קומי אורי כי בא אורך לבאורך נראה אור,</src>
+    <src s="19">מובן,</src>
+    <src s="20">ששני הענינים שבפסוק קומי אורי כי בא אורך הם דוגמת שני הענינים שבפסוק באורך נראה אור.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים מה שמבאר כ"ק מו"ח אדמו"ר במאמרו ד"ה כי עמך מקור חיים באורך נראה אור5,</src>
+    <src s="2">שבפסוק זה יש ד' ענינים.</src>
+    <src s="3">חיים,</src>
+    <src s="4">מקור חיים,</src>
+    <src s="5">אורך ואור.</src>
+    <src s="6">וד' ענינים אלו הם בסדר מלמטה למעלה.</src>
+    <src s="7">חיים הוא החיות אלקי שמתלבש בעולמות,</src>
+    <src s="8">ממלא כל עלמין.</src>
+    <src s="9">[ויש להוסיף ביאור,</src>
+    <src s="10">דזה שנק' בשם חיים לשון רבים הוא,</src>
+    <src s="11">כי החיות המתלבש בעולמות ונבראים הוא בריבוי התחלקות,</src>
+    <src s="12">בכל נברא לפי ענינו].</src>
+    <src s="13">מקור חיים הוא אור הסובב כל עלמין.</src>
+    <src s="14">אורך הוא תורה,</src>
+    <src s="15">תורה אור6,</src>
+    <src s="16">שלמעלה גם מסובב.</src>
+    <src s="17">והאור שנראה ע"י אורך הוא למעלה גם מאורך,</src>
+    <src s="18">ועד שאורך אינו אלא הכנה להאור שנראה על ידו.</src>
+  </section>
+</awtsmoosMeluketSource>

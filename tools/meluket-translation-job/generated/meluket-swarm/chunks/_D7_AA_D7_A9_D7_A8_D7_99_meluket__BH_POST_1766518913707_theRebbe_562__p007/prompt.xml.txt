@@ -1,0 +1,98 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913707_theRebbe_562" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913707_theRebbe_562" title="מאמר יבחר לנו את נחלתינו תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p007">
+  <section v="18">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שהוחלט ברצון המוחלט שהתעוררות רצון הגלוי תהי' ע"י אתעדל"ת דוקא,</src>
+    <src s="2">הוא,</src>
+    <src s="3">בכדי שמלכותו ית' על העולמות תהי'</src>
+    <src s="4">(גם)</src>
+    <src s="5">מצד העולמות.</src>
+    <src s="6">[וע"ד כמו שהוא במלכותא דארעא56,</src>
+    <src s="7">דע"י שהמלכות נעשית ע"י הכתרת העם,</src>
+    <src s="8">שום תשים עליך מלך57,</src>
+    <src s="9">ביטול העם להמלך הוא מצד המציאות שלהם58].</src>
+    <src s="10">ועפ"ז יובן השייכות דתמליכוני עליכם</src>
+    <src s="11">(גם)</src>
+    <src s="12">להמצוה דתקיעת שופר,</src>
+    <src s="13">כי קיום המצוה דתקיעת שופר הוא האתערותא דלתתא שמעוררת את רצון הגלוי.</src>
+    <src s="14">דהביטול שמצד עצם הנשמה שבתקיעת שופר,</src>
+    <src s="15">אינו אתערותא דלתתא לעורר את רצון הגלוי,</src>
+    <src s="16">כי ענין אתערותא דלתתא הוא שעבודת התחתון</src>
+    <src s="17">(מציאות)</src>
+    <src s="18">מעוררת את ההמשכה.</src>
+    <src s="19">ולכן צריך לשני הענינים.</src>
+    <src s="20">שהאתערותא דלתתא המעוררת את רצון הגלוי הוא קיום המצוה דתקיעת שופר.</src>
+    <src s="21">והמשכת רצון המוחלט</src>
+    <src s="22">[דזה שע"י אתערותא דלתתא מתעורר הרצון גלוי הוא לפי שכך הוחלט ברצון המוחלט]</src>
+    <src s="23">הוא ע"י הביטול שמצד עצם הנשמה שבתקיעת שופר.</src>
+  </section>
+  <section v="19">
+    <src s="0">ט)</src>
+    <src s="1">והנה גם ברצון המוחלט שני ענינים.</src>
+    <src s="2">כמו שהוא בשייכות לרצון הגלוי,</src>
+    <src s="3">שע"י המשכת רצון המוחלט מתעורר הרצון גלוי ע"י אתעדל"ת אף שהאתעדל"ת היא באין ערוך,</src>
+    <src s="4">דענין זה הוא ההפלאה דעצמות אוא"ס שאינו מוגדר בשום גדר וביכלתו ית' שתהי' ההתעוררות גם ע"י ענין שבאין ערוך</src>
+    <src s="5">[וע"ד המבואר לעיל</src>
+    <src s="6">(סעיף ה)</src>
+    <src s="7">בענין ההפלאה,</src>
+    <src s="8">שההפלאה היא זה שאינו מוגדר וביכלתו לירד למטה].</src>
+    <src s="9">ורצון המוחלט עצמו,</src>
+    <src s="10">שהוא מצד בחירת העצמות.</src>
+    <src s="11">דזה שהוחלט אצלו לרצות כך הוא לא מפני שעי"ז מתגלה ההפלאה שלו,</src>
+    <src s="12">אלא שכן בחר בבחירתו החפשית.</src>
+  </section>
+  <section v="20">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזהו שבתקיעת שופר ג' ענינים</src>
+    <src s="2">(בכללות).</src>
+    <src s="3">המצוה שבה,</src>
+    <src s="4">ענין התשובה59,</src>
+    <src s="5">והביטול פנימי שמצד עצם הנשמה.</src>
+    <src s="6">שקיום המצוה דתקיעת שופר הוא האתעדל"ת המעוררת את הרצון גלוי</src>
+    <src s="7">(כנ"ל).</src>
+    <src s="8">וע"י התשובה דתקיעת שופר,</src>
+    <src s="9">דענין התשובה הוא שיוצא מההגבלות שלו,</src>
+    <src s="10">נמשך ההפלאה</src>
+    <src s="11">(בל"ג)</src>
+    <src s="12">שבעצמות אוא"ס,</src>
+    <src s="13">שההתעוררות</src>
+    <src s="14">(דרצון הגלוי)</src>
+    <src s="15">הוא ע"י ענין שבאין ערוך,</src>
+    <src s="16">רצון המוחלט שבנוגע לרצון הגלוי.</src>
+    <src s="17">וע"י גילוי עצם הנשמה שע"י תקיעת שופר נמשך רצון המוחלט עצמו,</src>
+    <src s="18">בחירת העצמות.</src>
+  </section>
+</awtsmoosMeluketSource>

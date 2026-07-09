@@ -1,0 +1,131 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920390_theRebbe_690" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920390_theRebbe_690__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920390_theRebbe_690" title="מאמר את הוי' האמרת תש"ל" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920390_theRebbe_690__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">ויש לקשר זה עם הגילוי דתורת החסידות,</src>
+    <src s="2">דח"י אלול הוא יום הולדת דהבעש"ט מייסד תורת החסידות הכללית ודאדמו"ר הזקן מייסד תורת חסידות חב"ד,</src>
+    <src s="3">שמההדגשות העיקריות בתורת החסידות היא שכל הענינים יומשכו למטה בגילוי.</src>
+    <src s="4">וכמ"ש אדמו"ר הזקן בשער היחוד והאמונה בתחילתו "כתיב79</src>
+    <src s="5">לעולם הוי' דברך נצב בשמים,</src>
+    <src s="6">ופירש הבעש"ט ז"ל כי דברך שאמרת יהי רקיע בתוך המים וגו' תיבות ואותיות אלו הן נצבות ועומדות לעולם בתוך רקיע השמים וכו'",</src>
+    <src s="7">דאף שפירוש זה איתא במדרש תהלים על הפסוק</src>
+    <src s="8">(כמובא בלקוטי תורה80),</src>
+    <src s="9">מ"מ כותב אדמו"ר הזקן "ופירש הבעש"ט ז"ל",</src>
+    <src s="10">דאחד הביאורים בזה81,</src>
+    <src s="11">שהבעל שם טוב פירש</src>
+    <src s="12">(פאַנאַנדערגעשפּרייט)</src>
+    <src s="13">וגילה זה שיהי' ידוע לכל.</src>
+    <src s="14">ואדמו"ר הזקן המשיך זה בשכל,</src>
+    <src s="15">שיהי' לתהלה ולשם ולתפארת82,</src>
+    <src s="16">דקאי על חב"ד83,</src>
+    <src s="17">ועד שזה יהי' מושג גם בשכל דנפש הבהמית,</src>
+    <src s="18">ואפילו בשכלם של אלה שהיו</src>
+    <src s="19">(לפני שלמדו ענין זה)</src>
+    <src s="20">מינים84,</src>
+    <src s="21">לתתך עליון על כל הגוים85.</src>
+  </section>
+  <section v="10">
+    <src s="0">ט)</src>
+    <src s="1">וזהו את הוי' האמרת אתם עשיתוני חטיבה אחת בעולם שנאמר שמע ישראל הוי' אלקינו הוי' אחד,</src>
+    <src s="2">שע"י שישראל אומרים הוי' אחד בק"ש,</src>
+    <src s="3">ובפרט בתפילין86</src>
+    <src s="4">שממשיכים הוי' אחד גם בקלף הגשמי,</src>
+    <src s="5">עי"ז הקב"ה מניח תפילין,</src>
+    <src s="6">שהם</src>
+    <src s="7">(התפילין)</src>
+    <src s="8">הפאר והשבח שלו</src>
+    <src s="9">(כנ"ל),</src>
+    <src s="10">האמרת לשון חשיבות ושבח.</src>
+    <src s="11">והטעם על זה שבכחם של ישראל שע"י קיום המצוות שלהם יהי' קיום המצוות דהקב"ה,</src>
+    <src s="12">ממשיך בכתוב,</src>
+    <src s="13">והוי' האמירך גו' להיות לו לעם סגולה87.</src>
+    <src s="14">וזהו שמסיים</src>
+    <src s="15">(בפסוק והוי' האמירך)</src>
+    <src s="16">ולשמור כל מצותיו</src>
+    <src s="17">(אף שלכאורה שייך זה בפסוק את ה' האמרת,</src>
+    <src s="18">דהשבח שישראל משבחים את הקב"ה הוא זה שקיבלו עליהם להיות לך לאלקים גו' ולשמור חוקיו ומצותיו גו')88,</src>
+    <src s="19">כי לשמור כל מצותיו דישראל מביאה את מצותיו,</src>
+    <src s="20">שהקב"ה יעשה המצוות.</src>
+    <src s="21">ולכן נאמר זה בפסוק והוי' האמירך</src>
+    <src s="22">(בהשבח שהקב"ה משבח את ישראל),</src>
+    <src s="23">כי זה שבכחם של ישראל לעשות</src>
+    <src s="24">(ע"י קיום המצוות שלהם)</src>
+    <src s="25">שיהי' מצותיו דהקב"ה,</src>
+    <src s="26">הוא שבח גדול לישראל89.</src>
+    <src s="27">ויש לומר,</src>
+    <src s="28">דזהו מ"ש הרשב"א דענין האמרת והאמירך הוא ע"ד דודי לי ואני לו</src>
+    <src s="29">(בתחילה דודי לי ואח"כ ואני לו),</src>
+    <src s="30">כי הכח בישראל להיות את ה' האמרת,</src>
+    <src s="31">להוסיף</src>
+    <src s="32">(כביכול)</src>
+    <src s="33">חשיבות ושבח בהקב"ה,</src>
+    <src s="34">הוא ע"י זה שהוי' האמירך.</src>
+  </section>
+  <section v="11">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">והנה זה דהוי' האמירך להיות לו לעם סגולה,</src>
+    <src s="3">הוא לא מצד הטעם,</src>
+    <src s="4">מצד המעלה דישראל,</src>
+    <src s="5">קיום התומ"צ שלהם וכיו"ב,</src>
+    <src s="6">כי אם,</src>
+    <src s="7">שכך בחר הקב"ה בבחירתו</src>
+    <src s="8">(החפשית),</src>
+    <src s="9">כמ"ש90</src>
+    <src s="10">כי יעקב בחר לו י"ה ישראל לסגולתו88.</src>
+    <src s="11">דזה שישראל הם סגולתו ית' הוא מצד בחירתו,</src>
+    <src s="12">ולכן,</src>
+    <src s="13">זהו בהעצם דישראל.</src>
+    <src s="14">דכאו"א מישראל</src>
+    <src s="15">(גם לפני שמקיים תומ"צ91)</src>
+    <src s="16">הוא סגולתו ית'.</src>
+    <src s="17">ועי"ז נעשה בהם גם מעלה</src>
+    <src s="18">(בענין הגילויים),</src>
+    <src s="19">דע"י קיום המצוות שלהם נעשה מצותיו דהקב"ה.</src>
+    <src s="20">וזהו מה שבתפילין דמארי עלמא כתיב</src>
+    <src s="21">(לא הפסוק שמע ישראל גו' הוי' אחד,</src>
+    <src s="22">כי אם)</src>
+    <src s="23">ומי כעמך ישראל גו',</src>
+    <src s="24">כי עיקר תפארתו ושבחו של הקב"ה הוא לא התוספת אור שנעשה למעלה</src>
+    <src s="25">(קיום המצוות דהקב"ה)</src>
+    <src s="26">שנעשה ע"י קיום המצוות דישראל,</src>
+    <src s="27">כי אם,</src>
+    <src s="28">השבח דישראל גופא,</src>
+    <src s="29">שזה דוקא מגיע ב</src>
+    <src s="30">(בחירת)</src>
+    <src s="31">העצמות92.</src>
+  </section>
+</awtsmoosMeluketSource>

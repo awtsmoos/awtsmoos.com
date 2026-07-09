@@ -1,0 +1,339 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 59,
+    "returned": 59,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916815_theRebbe_81\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p010\">\n  <section v=\"27\">\n    <sectionSummaryBrief>The advice to be rid of distracting thoughts during Torah and prayer is specifically to arouse the attribute of Netzach, which is rooted in the essence of the soul above revealed faculties, enabling one to overcome and push away all disturbances.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">7)</t>\n    <t s=\"2\">And the maamar continues,</t>\n    <t s=\"3\">that the advice to be rid of the thoughts that fall upon him during the time of Torah and prayer is to arouse the attribute of Netzach that is in his soul.</t>\n    <t s=\"4\">For since the attribute of Netzach is implanted in the essence of the soul, above the revealed faculties,</t>\n    <t s=\"5\">therefore,</t>\n    <t s=\"6\">through the attribute of Netzach he can overcome and push away all the disturbances and confusions.</t>\n    <t s=\"7\">And seemingly, one could say,</t>\n    <t s=\"8\">that what the maamar says, that the advice is specifically to arouse the attribute of Netzach,</t>\n    <t s=\"9\">is,</t>\n    <t s=\"10\">because the advice brought earlier</t>\n    <t s=\"11\">(section 16)</t>\n    <t s=\"12\">from Kuntres HaTefillah is only regarding foreign thoughts that fall upon him during prayer due to his own disturbances,</t>\n    <t s=\"13\">but when thoughts fall upon him specifically during prayer,</t>\n    <t s=\"14\">in order to confuse him</t>\n    <t s=\"15\">(for the maamar speaks about these types of thoughts),</t>\n    <t s=\"16\">the advice is to arouse the attribute of Netzach.</t>\n    <t s=\"17\">And it needs to be understood,</t>\n    <t s=\"18\">for seemingly,</t>\n    <t s=\"19\">even regarding these thoughts,</t>\n    <t s=\"20\">one could be rid of them by contemplating that the fact that they fall upon him specifically during his service is because their entire purpose is to confuse him from Torah and service.</t>\n    <t s=\"21\">And in the maamar it says that the advice to be rid of these thoughts is not through contemplation, but specifically through the way of Netzach (victory).</t>\n  </section>\n  <section v=\"28\">\n    <sectionSummaryBrief>The Baal Shem Tov teaches that when someone disturbs one's prayer, one should contemplate that this is a descent of the Shechinah to clothe a spark in that person's speech, which awakens one to pray with greater intention from the depths of the heart.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">8)</t>\n    <t s=\"2\">Now, it is explained in Tanya117,</t>\n    <t s=\"3\">that foreign thoughts that fall upon a person during prayer in order to confuse him are analogous to a person praying with concentration, and standing before him is an uncircumcised118</t>\n    <t s=\"4\">wicked person and apostate who speaks with him in order to confuse him.</t>\n    <t s=\"5\">And the teaching of the Baal Shem Tov is known119,</t>\n    <t s=\"6\">that when another person</t>\n    <t s=\"7\">(and certainly a non-Jew or a minor120)</t>\n    <t s=\"8\">speaks and confuses him during his prayer,</t>\n    <t s=\"9\">he should contemplate that since everything is by Divine Providence,</t>\n    <t s=\"10\">it is therefore understood,</t>\n    <t s=\"11\">that this is a descent of the Shechinah, as it were, that descended wondrously to clothe a spark of its illumination in the mouth of this person who is confusing him,</t>\n    <t s=\"12\">and that the Shechinah descended so low is in order that I strengthen myself in the service of prayer.</t>\n    <t s=\"13\">And through this contemplation he is aroused to pray with more concentration from the depths of the heart, until he does not hear the speech of the one confusing him.</t>\n  </section>\n  <section v=\"29\">\n    <sectionSummaryBrief>This is connected to the Maggid's teaching on the verse \"in order that I may place these signs of Mine within him,\" that God hardened Pharaoh's heart to refine the fallen sparks of letters through the stories of the Torah, and afterward the Jews borrowed vessels to complete the refinement.</sectionSummaryBrief>\n    <t s=\"0\">And one can connect this with the teaching of the Maggid121</t>\n    <t s=\"1\">at the beginning of our portion</t>\n    <t s=\"2\">(Parshat Bo)</t>\n    <t s=\"3\">on the verse122</t>\n    <t s=\"4\">\"in order that I may place these signs of Mine within him,\"</t>\n    <t s=\"5\">that the Holy One, blessed be He, hardening the heart of Pharaoh and bringing upon him three more plagues was in order to refine the sparks that were in Egypt that had not been refined previously.</t>\n    <t s=\"6\">And this is \"in order that I may place these signs of Mine,\"</t>\n    <t s=\"7\">\"signs of Mine\" (otosai) from the word for letters (otiyot),</t>\n    <t s=\"8\">that the sparks that fell into the kelipot are from the letters that were broken</t>\n    <t s=\"9\">[as is known regarding the matter of the vessels of Tohu123,</t>\n    <t s=\"10\">that the breaking of the vessels is the breaking of the letters,</t>\n    <t s=\"11\">and this caused that afterwards sparks from them fell into the kelipot].</t>\n    <t s=\"12\">And the main refinement of them is by bringing them</t>\n    <t s=\"13\">(after changing their arrangement)</t>\n    <t s=\"14\">into Torah.</t>\n    <t s=\"15\">And the refinement of the letters that were broken and fell into the kelipot in Egypt that had not been refined previously was through the Holy One, blessed be He, bringing them into the narratives at the beginning of the portion.</t>\n    <t s=\"16\">And this is \"in order that I may place these signs of Mine,\" etc.,</t>\n    <t s=\"17\">that the Holy One, blessed be He, hardening the heart of Pharaoh was \"in order that I may place these signs of Mine,\"</t>\n    <t s=\"18\">in order to refine these letters that fell in the breaking by bringing them into the narratives that are in the Torah.</t>\n    <t s=\"19\">[However, even so,</t>\n    <t s=\"20\">since there still remained in Egypt sparks that had not been refined, there was the command124</t>\n    <t s=\"21\">\"and they shall ask, each man from his neighbor, etc., vessels of silver and vessels of gold,\"</t>\n    <t s=\"22\">in order to refine all the sparks that were in Egypt].</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916815_theRebbe_81",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p010"
+    },
+    "sections": [
+      {
+        "v": 27,
+        "sectionSummaryBrief": "The advice to be rid of distracting thoughts during Torah and prayer is specifically to arouse the attribute of Netzach, which is rooted in the essence of the soul above revealed faculties, enabling one to overcome and push away all disturbances.",
+        "translations": [
+          {
+            "v": 27,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 27,
+            "s": 1,
+            "translation": "7)"
+          },
+          {
+            "v": 27,
+            "s": 2,
+            "translation": "And the maamar continues,"
+          },
+          {
+            "v": 27,
+            "s": 3,
+            "translation": "that the advice to be rid of the thoughts that fall upon him during the time of Torah and prayer is to arouse the attribute of Netzach that is in his soul."
+          },
+          {
+            "v": 27,
+            "s": 4,
+            "translation": "For since the attribute of Netzach is implanted in the essence of the soul, above the revealed faculties,"
+          },
+          {
+            "v": 27,
+            "s": 5,
+            "translation": "therefore,"
+          },
+          {
+            "v": 27,
+            "s": 6,
+            "translation": "through the attribute of Netzach he can overcome and push away all the disturbances and confusions."
+          },
+          {
+            "v": 27,
+            "s": 7,
+            "translation": "And seemingly, one could say,"
+          },
+          {
+            "v": 27,
+            "s": 8,
+            "translation": "that what the maamar says, that the advice is specifically to arouse the attribute of Netzach,"
+          },
+          {
+            "v": 27,
+            "s": 9,
+            "translation": "is,"
+          },
+          {
+            "v": 27,
+            "s": 10,
+            "translation": "because the advice brought earlier"
+          },
+          {
+            "v": 27,
+            "s": 11,
+            "translation": "(section 16)"
+          },
+          {
+            "v": 27,
+            "s": 12,
+            "translation": "from Kuntres HaTefillah is only regarding foreign thoughts that fall upon him during prayer due to his own disturbances,"
+          },
+          {
+            "v": 27,
+            "s": 13,
+            "translation": "but when thoughts fall upon him specifically during prayer,"
+          },
+          {
+            "v": 27,
+            "s": 14,
+            "translation": "in order to confuse him"
+          },
+          {
+            "v": 27,
+            "s": 15,
+            "translation": "(for the maamar speaks about these types of thoughts),"
+          },
+          {
+            "v": 27,
+            "s": 16,
+            "translation": "the advice is to arouse the attribute of Netzach."
+          },
+          {
+            "v": 27,
+            "s": 17,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 27,
+            "s": 18,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 27,
+            "s": 19,
+            "translation": "even regarding these thoughts,"
+          },
+          {
+            "v": 27,
+            "s": 20,
+            "translation": "one could be rid of them by contemplating that the fact that they fall upon him specifically during his service is because their entire purpose is to confuse him from Torah and service."
+          },
+          {
+            "v": 27,
+            "s": 21,
+            "translation": "And in the maamar it says that the advice to be rid of these thoughts is not through contemplation, but specifically through the way of Netzach (victory)."
+          }
+        ]
+      },
+      {
+        "v": 28,
+        "sectionSummaryBrief": "The Baal Shem Tov teaches that when someone disturbs one's prayer, one should contemplate that this is a descent of the Shechinah to clothe a spark in that person's speech, which awakens one to pray with greater intention from the depths of the heart.",
+        "translations": [
+          {
+            "v": 28,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 28,
+            "s": 1,
+            "translation": "8)"
+          },
+          {
+            "v": 28,
+            "s": 2,
+            "translation": "Now, it is explained in Tanya117,"
+          },
+          {
+            "v": 28,
+            "s": 3,
+            "translation": "that foreign thoughts that fall upon a person during prayer in order to confuse him are analogous to a person praying with concentration, and standing before him is an uncircumcised118"
+          },
+          {
+            "v": 28,
+            "s": 4,
+            "translation": "wicked person and apostate who speaks with him in order to confuse him."
+          },
+          {
+            "v": 28,
+            "s": 5,
+            "translation": "And the teaching of the Baal Shem Tov is known119,"
+          },
+          {
+            "v": 28,
+            "s": 6,
+            "translation": "that when another person"
+          },
+          {
+            "v": 28,
+            "s": 7,
+            "translation": "(and certainly a non-Jew or a minor120)"
+          },
+          {
+            "v": 28,
+            "s": 8,
+            "translation": "speaks and confuses him during his prayer,"
+          },
+          {
+            "v": 28,
+            "s": 9,
+            "translation": "he should contemplate that since everything is by Divine Providence,"
+          },
+          {
+            "v": 28,
+            "s": 10,
+            "translation": "it is therefore understood,"
+          },
+          {
+            "v": 28,
+            "s": 11,
+            "translation": "that this is a descent of the Shechinah, as it were, that descended wondrously to clothe a spark of its illumination in the mouth of this person who is confusing him,"
+          },
+          {
+            "v": 28,
+            "s": 12,
+            "translation": "and that the Shechinah descended so low is in order that I strengthen myself in the service of prayer."
+          },
+          {
+            "v": 28,
+            "s": 13,
+            "translation": "And through this contemplation he is aroused to pray with more concentration from the depths of the heart, until he does not hear the speech of the one confusing him."
+          }
+        ]
+      },
+      {
+        "v": 29,
+        "sectionSummaryBrief": "This is connected to the Maggid's teaching on the verse \"in order that I may place these signs of Mine within him,\" that God hardened Pharaoh's heart to refine the fallen sparks of letters through the stories of the Torah, and afterward the Jews borrowed vessels to complete the refinement.",
+        "translations": [
+          {
+            "v": 29,
+            "s": 0,
+            "translation": "And one can connect this with the teaching of the Maggid121"
+          },
+          {
+            "v": 29,
+            "s": 1,
+            "translation": "at the beginning of our portion"
+          },
+          {
+            "v": 29,
+            "s": 2,
+            "translation": "(Parshat Bo)"
+          },
+          {
+            "v": 29,
+            "s": 3,
+            "translation": "on the verse122"
+          },
+          {
+            "v": 29,
+            "s": 4,
+            "translation": "\"in order that I may place these signs of Mine within him,\""
+          },
+          {
+            "v": 29,
+            "s": 5,
+            "translation": "that the Holy One, blessed be He, hardening the heart of Pharaoh and bringing upon him three more plagues was in order to refine the sparks that were in Egypt that had not been refined previously."
+          },
+          {
+            "v": 29,
+            "s": 6,
+            "translation": "And this is \"in order that I may place these signs of Mine,\""
+          },
+          {
+            "v": 29,
+            "s": 7,
+            "translation": "\"signs of Mine\" (otosai) from the word for letters (otiyot),"
+          },
+          {
+            "v": 29,
+            "s": 8,
+            "translation": "that the sparks that fell into the kelipot are from the letters that were broken"
+          },
+          {
+            "v": 29,
+            "s": 9,
+            "translation": "[as is known regarding the matter of the vessels of Tohu123,"
+          },
+          {
+            "v": 29,
+            "s": 10,
+            "translation": "that the breaking of the vessels is the breaking of the letters,"
+          },
+          {
+            "v": 29,
+            "s": 11,
+            "translation": "and this caused that afterwards sparks from them fell into the kelipot]."
+          },
+          {
+            "v": 29,
+            "s": 12,
+            "translation": "And the main refinement of them is by bringing them"
+          },
+          {
+            "v": 29,
+            "s": 13,
+            "translation": "(after changing their arrangement)"
+          },
+          {
+            "v": 29,
+            "s": 14,
+            "translation": "into Torah."
+          },
+          {
+            "v": 29,
+            "s": 15,
+            "translation": "And the refinement of the letters that were broken and fell into the kelipot in Egypt that had not been refined previously was through the Holy One, blessed be He, bringing them into the narratives at the beginning of the portion."
+          },
+          {
+            "v": 29,
+            "s": 16,
+            "translation": "And this is \"in order that I may place these signs of Mine,\" etc.,"
+          },
+          {
+            "v": 29,
+            "s": 17,
+            "translation": "that the Holy One, blessed be He, hardening the heart of Pharaoh was \"in order that I may place these signs of Mine,\""
+          },
+          {
+            "v": 29,
+            "s": 18,
+            "translation": "in order to refine these letters that fell in the breaking by bringing them into the narratives that are in the Torah."
+          },
+          {
+            "v": 29,
+            "s": 19,
+            "translation": "[However, even so,"
+          },
+          {
+            "v": 29,
+            "s": 20,
+            "translation": "since there still remained in Egypt sparks that had not been refined, there was the command124"
+          },
+          {
+            "v": 29,
+            "s": 21,
+            "translation": "\"and they shall ask, each man from his neighbor, etc., vessels of silver and vessels of gold,\""
+          },
+          {
+            "v": 29,
+            "s": 22,
+            "translation": "in order to refine all the sparks that were in Egypt]."
+          }
+        ]
+      }
+    ]
+  }
+}

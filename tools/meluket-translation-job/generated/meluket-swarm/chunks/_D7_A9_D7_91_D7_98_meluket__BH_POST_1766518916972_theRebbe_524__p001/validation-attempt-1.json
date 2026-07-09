@@ -1,0 +1,329 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 57,
+    "returned": 57,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916972_theRebbe_524\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916972_theRebbe_524__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header information for the maamar, including the Torah portion and date.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">Shabbos Parshas Beshalach,</t>\n    <t s=\"2\">11 Shevat 5748*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the Midrashic interpretation of \"I have come to My garden,\" that the primary dwelling of the Shechinah was originally in the lower realms, and through seven tzaddikim, culminating in Moshe, it was brought back down through the Mishkan.</sectionSummaryBrief>\n    <t s=\"0\">\"I have come to My garden, My sister, [My] bride,\"</t>\n    <t s=\"1\">and the Rebbe, my father-in-law, the Nasi, the Baal HaHilula, brings on this in the maamar of the day of his histalkus and his day of hilula,</t>\n    <t s=\"2\">that it is stated in Midrash Rabbah</t>\n    <t s=\"3\">(in its place)</t>\n    <t s=\"4\">\"to My garden\" — to My bridal chamber,</t>\n    <t s=\"5\">to the place which was My primary [dwelling] initially,</t>\n    <t s=\"6\">for the primary dwelling of the Shechinah was in the lower realms,</t>\n    <t s=\"7\">except that through undesirable matters the Shechinah departed from below upward until the seventh heaven,</t>\n    <t s=\"8\">and afterwards</t>\n    <t s=\"9\">[and it began immediately after this]</t>\n    <t s=\"10\">seven tzaddikim arose and brought down the Shechinah from above downward,</t>\n    <t s=\"11\">until Moshe, who is the seventh, came</t>\n    <t s=\"12\">(for all sevenths are beloved)</t>\n    <t s=\"13\">and brought it down below to earth.</t>\n    <t s=\"14\">And this matter</t>\n    <t s=\"15\">(the descent and drawing down of the Shechinah below to earth)</t>\n    <t s=\"16\">was accomplished primarily through the Mishkan that Moshe made</t>\n    <t s=\"17\">[to the extent that the Mishkan is called \"the work of Moshe\"],</t>\n    <t s=\"18\">as it is stated,</t>\n    <t s=\"19\">\"And they shall make for Me a Sanctuary, and I will dwell in their midst.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the drawing down of the primary Shechinah is achieved through the work of transforming darkness into light, specifically by turning the \"falsehood\" (sheker) of the world into the boards of the Mishkan, and the \"foolishness\" (shtus) of idolatry into holy foolishness beyond intellect.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And he continues in the maamar,</t>\n    <t s=\"2\">that the drawing down of the primary Shechinah below</t>\n    <t s=\"3\">(\"and I will dwell in their midst\")</t>\n    <t s=\"4\">is accomplished through the service of transforming darkness into light.</t>\n    <t s=\"5\">And this is what is written regarding the Mishkan,</t>\n    <t s=\"6\">\"And you shall make the boards for the Mishkan,\"</t>\n    <t s=\"7\">\"keresh\" (board) is the letters of \"sheker\" (falsehood),</t>\n    <t s=\"8\">and by transforming the falsehood of the world into the boards of the Mishkan,</t>\n    <t s=\"9\">through this is achieved \"and I will dwell in their midst,\"</t>\n    <t s=\"10\">the drawing down of the primary Shechinah in the lower realms.</t>\n    <t s=\"11\">[And one may add,</t>\n    <t s=\"12\">that this is also what [is indicated by] \"sheker\" being the letters of \"kesher\" (connection),</t>\n    <t s=\"13\">for the service through which \"and I will dwell in their midst\" is achieved is not in a manner that the serving person separates himself from worldly matters,</t>\n    <t s=\"14\">but rather,</t>\n    <t s=\"15\">that he has a connection with the world,</t>\n    <t s=\"16\">and transforms the world itself into holiness,</t>\n    <t s=\"17\">transforming darkness into light].</t>\n    <t s=\"18\">And this is</t>\n    <t s=\"19\">also what [is indicated by] the Mishkan being made of shittim wood,</t>\n    <t s=\"20\">\"shittim\" from the term \"shtus\" (foolishness),</t>\n    <t s=\"21\">meaning the foolishness of idolatry,</t>\n    <t s=\"22\">and the service through which \"and I will dwell in their midst\" is achieved is to transform the foolishness of idolatry into the foolishness of holiness.</t>\n    <t s=\"23\">For in order that there be \"and I will dwell in their midst,\" the drawing down of the primary Shechinah below</t>\n    <t s=\"24\">[for the primary Shechinah is the Essence (Atzmus) of Ein Sof, which is beyond any relation to the worlds]</t>\n    <t s=\"25\">the service according to intellect and reason is insufficient,</t>\n    <t s=\"26\">and there must be the service of the foolishness of holiness, which is beyond intellect and reason.</t>\n    <t s=\"27\">As the Sages said,</t>\n    <t s=\"28\">\"His foolishness benefited the elder,\"</t>\n    <t s=\"29\">for this statement is regarding an Amora who was among the great ones of Israel</t>\n    <t s=\"30\">(even before this)</t>\n    <t s=\"31\">to the extent that he was called by the name \"Saba\" (the elder),</t>\n    <t s=\"32\">and through his service in a manner of the foolishness of holiness beyond intellect and reason, he was elevated even more,</t>\n    <t s=\"33\">\"his foolishness benefited him.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916972_theRebbe_524",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916972_theRebbe_524__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header information for the maamar, including the Torah portion and date.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Beshalach,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "11 Shevat 5748*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the Midrashic interpretation of \"I have come to My garden,\" that the primary dwelling of the Shechinah was originally in the lower realms, and through seven tzaddikim, culminating in Moshe, it was brought back down through the Mishkan.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"I have come to My garden, My sister, [My] bride,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and the Rebbe, my father-in-law, the Nasi, the Baal HaHilula, brings on this in the maamar of the day of his histalkus and his day of hilula,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that it is stated in Midrash Rabbah"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "(in its place)"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "\"to My garden\" — to My bridal chamber,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "to the place which was My primary [dwelling] initially,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "for the primary dwelling of the Shechinah was in the lower realms,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "except that through undesirable matters the Shechinah departed from below upward until the seventh heaven,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "and afterwards"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "[and it began immediately after this]"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "seven tzaddikim arose and brought down the Shechinah from above downward,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "until Moshe, who is the seventh, came"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "(for all sevenths are beloved)"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and brought it down below to earth."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "And this matter"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "(the descent and drawing down of the Shechinah below to earth)"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "was accomplished primarily through the Mishkan that Moshe made"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "[to the extent that the Mishkan is called \"the work of Moshe\"],"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "\"And they shall make for Me a Sanctuary, and I will dwell in their midst.\""
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the drawing down of the primary Shechinah is achieved through the work of transforming darkness into light, specifically by turning the \"falsehood\" (sheker) of the world into the boards of the Mishkan, and the \"foolishness\" (shtus) of idolatry into holy foolishness beyond intellect.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And he continues in the maamar,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the drawing down of the primary Shechinah below"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(\"and I will dwell in their midst\")"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "is accomplished through the service of transforming darkness into light."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "And this is what is written regarding the Mishkan,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "\"And you shall make the boards for the Mishkan,\""
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "\"keresh\" (board) is the letters of \"sheker\" (falsehood),"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "and by transforming the falsehood of the world into the boards of the Mishkan,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "through this is achieved \"and I will dwell in their midst,\""
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "the drawing down of the primary Shechinah in the lower realms."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "[And one may add,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "that this is also what [is indicated by] \"sheker\" being the letters of \"kesher\" (connection),"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "for the service through which \"and I will dwell in their midst\" is achieved is not in a manner that the serving person separates himself from worldly matters,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "but rather,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "that he has a connection with the world,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "and transforms the world itself into holiness,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "transforming darkness into light]."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And this is"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "also what [is indicated by] the Mishkan being made of shittim wood,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "\"shittim\" from the term \"shtus\" (foolishness),"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "meaning the foolishness of idolatry,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "and the service through which \"and I will dwell in their midst\" is achieved is to transform the foolishness of idolatry into the foolishness of holiness."
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "For in order that there be \"and I will dwell in their midst,\" the drawing down of the primary Shechinah below"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "[for the primary Shechinah is the Essence (Atzmus) of Ein Sof, which is beyond any relation to the worlds]"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "the service according to intellect and reason is insufficient,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "and there must be the service of the foolishness of holiness, which is beyond intellect and reason."
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "As the Sages said,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "\"His foolishness benefited the elder,\""
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "for this statement is regarding an Amora who was among the great ones of Israel"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "(even before this)"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "to the extent that he was called by the name \"Saba\" (the elder),"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "and through his service in a manner of the foolishness of holiness beyond intellect and reason, he was elevated even more,"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "\"his foolishness benefited him.\""
+          }
+        ]
+      }
+    ]
+  }
+}

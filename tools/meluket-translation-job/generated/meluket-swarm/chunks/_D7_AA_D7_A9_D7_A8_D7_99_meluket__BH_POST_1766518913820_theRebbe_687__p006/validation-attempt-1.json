@@ -1,0 +1,634 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 118,
+    "returned": 118,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913820_theRebbe_687\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913820_theRebbe_687__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section questions why the emphasis on Rosh Hashanah is specifically on Malchus, since all Sefiros return to their source in Atzmus on this day.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">a)</t>\n    <t s=\"2\">However, it still needs to be understood,</t>\n    <t s=\"3\">for all the Sefiros have their first root in Arich Anpin,</t>\n    <t s=\"4\">that is, all the Sefiros</t>\n    <t s=\"5\">(except for the Sefirah of Malchus)</t>\n    <t s=\"6\">are included in Arich Anpin in that they are later drawn down into Arich Anpin,</t>\n    <t s=\"7\">but their first root</t>\n    <t s=\"8\">(even of these Sefiros)</t>\n    <t s=\"9\">is in Arich Anpin,</t>\n    <t s=\"10\">and higher still, up to His very Essence,</t>\n    <t s=\"11\">as it is said,</t>\n    <t s=\"12\">\"For from You is everything.\"</t>\n    <t s=\"13\">And since on Rosh Hashanah all things return to their primordial state,</t>\n    <t s=\"14\">then also all the attributes and Sefiros are drawn at that time from His very Essence,</t>\n    <t s=\"15\">and if so, the innovation of Rosh Hashanah applies to all the attributes and Sefiros,</t>\n    <t s=\"16\">so why do they specifically emphasize the matter of Malchus?</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section explains that Malchus is unique because its essence remains non-existence even when drawn down, revealing its root in Atzmus, unlike other Sefiros which become illuminations.</sectionSummaryBrief>\n    <t s=\"0\">The explanation of this is as follows:</t>\n    <t s=\"1\">The difference between the Sefirah of Malchus and the other Sefiros</t>\n    <t s=\"2\">(as it pertains to our discussion)</t>\n    <t s=\"3\">is in their ultimate purpose.</t>\n    <t s=\"4\">For it is known</t>\n    <t s=\"5\">that the emanation of all the Sefiros of Atzilus is in order that through them there should be a revelation of Elokus in Biyah, down to the lowest level in this physical world</t>\n    <t s=\"6\">(so that the souls of Yisrael, as they are clothed in a physical body, will be one with the Atzmus).</t>\n    <t s=\"7\">From the aspect of Chochmah of Atzilus</t>\n    <t s=\"8\">[which is the primary aspect of Atzilus]</t>\n    <t s=\"9\">the matter of Chochmah is drawn downward,</t>\n    <t s=\"10\">knowledge and comprehension of Elokus,</t>\n    <t s=\"11\">and so it is with all the Sefiros.</t>\n    <t s=\"12\">And in this lies the superiority of the Sefirah of Malchus over all the other Sefiros,</t>\n    <t s=\"13\">that even in its drawing down below, it is in the same manner as it is in its first root in the aspect of Arich Anpin,</t>\n    <t s=\"14\">for all the other Sefiros,</t>\n    <t s=\"15\">since their function is that they are illuminations,</t>\n    <t s=\"16\">revelation</t>\n    <t s=\"17\">[for although their first root is in Arich Anpin,</t>\n    <t s=\"18\">nevertheless, after their drawing down into the aspect of Arich Anpin, they are illuminations, and this is their function],</t>\n    <t s=\"19\">therefore,</t>\n    <t s=\"20\">even their drawing down below into Biyah is in the aspect of illuminations,</t>\n    <t s=\"21\">revelation.</t>\n    <t s=\"22\">However, the Sefirah of Malchus, its function is the aspect of a point and the aspect of non-existence,</t>\n    <t s=\"23\">and even in its drawing down through the levels below Arich Anpin</t>\n    <t s=\"24\">[in the aspect of its essence, and in the aspect of the existence of its essence, and in the aspect of its arousal, and in the aspect of the manner of its arousal, and in the aspect of its revelation, and in the aspect of the manner of its revelation,</t>\n    <t s=\"25\">as mentioned above]</t>\n    <t s=\"26\">it is in the same manner as it is in its root in the aspect of Arich Anpin,</t>\n    <t s=\"27\">and even in its drawing down to the very lowest levels,</t>\n    <t s=\"28\">in Biyah,</t>\n    <t s=\"29\">it is in this manner, that its root</t>\n    <t s=\"30\">(the Atzmus) is felt within it.</t>\n    <t s=\"31\">For although Malchus</t>\n    <t s=\"32\">(as it is in revelation)</t>\n    <t s=\"33\">is in the aspect of exaltation over a nation,</t>\n    <t s=\"34\">nevertheless, this matter of exaltation over a nation is</t>\n    <t s=\"35\">(as above)</t>\n    <t s=\"36\">from the aspect of the exaltation of the Atzmus.</t>\n    <t s=\"37\">And this is also why the emphasis on Rosh Hashanah is specifically on the matter of Malchus and not on the matter of speech,</t>\n    <t s=\"38\">for speech is in the aspect of existence and in the aspect of division</t>\n    <t s=\"39\">(as explained in the Siddur, Shaar HaTekios, there,</t>\n    <t s=\"40\">regarding the difference between a voice and speech),</t>\n    <t s=\"41\">but Malchus is in the aspect of non-existence,</t>\n    <t s=\"42\">and the loftiness and exaltation</t>\n    <t s=\"43\">(over a nation)</t>\n    <t s=\"44\">of Malchus is from the aspect of the loftiness and exaltation of the Atzmus.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains that Rosh Hashanah is called \"the beginning of Your works\" because through the service of Yisrael, the ultimate purpose of creation—a dwelling place for Atzmus in the lowest physical world—is fulfilled.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">b)</t>\n    <t s=\"2\">And this is \"This day is the beginning of Your works,\"</t>\n    <t s=\"3\">for although the world was created on the twenty-fifth of Elul and Rosh Hashanah is the sixth day of creation,</t>\n    <t s=\"4\">nevertheless, since the ultimate purpose of creation is as our Sages said,</t>\n    <t s=\"5\">\"The Holy One, blessed be He, desired to have a dwelling place for Himself in the lower realms,\"</t>\n    <t s=\"6\">a dwelling place for His very Essence</t>\n    <t s=\"7\">[as is known,</t>\n    <t s=\"8\">that the concept of a dwelling place is that the essence is found within the dwelling place],</t>\n    <t s=\"9\">and that this dwelling place should be in the lower realms,</t>\n    <t s=\"10\">in this physical world, below which there is no lower level,</t>\n    <t s=\"11\">therefore we say about the day of Rosh Hashanah,</t>\n    <t s=\"12\">the day of the creation of man,</t>\n    <t s=\"13\">\"This day is the beginning of Your works,\"</t>\n    <t s=\"14\">because this intention is completed through the service of each and every one of Yisrael,</t>\n    <t s=\"15\">\"You are called 'man.'\"</t>\n    <t s=\"16\">For through the service in the study of Torah and the fulfillment of the mitzvos</t>\n    <t s=\"17\">(a statute for Yisrael and a judgment for the G-d of Yaakov)</t>\n    <t s=\"18\">they make and effect in the world that it returns and becomes as it was at the beginning of creation</t>\n    <t s=\"19\">(before the descent caused by the sin of the Tree of Knowledge),</t>\n    <t s=\"20\">and moreover, that it will be on a higher level than it was before creation,</t>\n    <t s=\"21\">until it becomes a dwelling place for the Atzmus.</t>\n    <t s=\"22\">For through the service of Yisrael,</t>\n    <t s=\"23\">a dwelling place for His very Essence is made in the lower realms,</t>\n    <t s=\"24\">in this physical world, below which there is no lower level,</t>\n    <t s=\"25\">and specifically in its very lowest levels,</t>\n    <t s=\"26\">\"And let every deed know that You have wrought it.\"</t>\n    <t s=\"27\">For through the service of fulfilling the mitzvos with the power of action of man,</t>\n    <t s=\"28\">a revelation of Elokus is drawn into the lower aspect</t>\n    <t s=\"29\">(the power of action)</t>\n    <t s=\"30\">within man,</t>\n    <t s=\"31\">and through the operation of the power of action of man upon the physical object outside of him, the power is drawn also into the physical object,</t>\n    <t s=\"32\">as is known,</t>\n    <t s=\"33\">that the craftsman is recognized in the vessel through the power of the craftsman,</t>\n    <t s=\"34\">the power of the actor within the acted-upon</t>\n    <t s=\"35\">(even though the making of the vessel is yesh miyesh),</t>\n    <t s=\"36\">and through this, even the physical object</t>\n    <t s=\"37\">(the lowest in the world)</t>\n    <t s=\"38\">becomes a dwelling place for Him,</t>\n    <t s=\"39\">and through this, the intention of \"The Holy One, blessed be He, desired to have a dwelling place for Himself in the lower realms\" is completed,</t>\n    <t s=\"40\">for this desire is above reason and intellect,</t>\n    <t s=\"41\">and as is known the statement of our Rebbe, the Alter Rebbe,</t>\n    <t s=\"42\">\"On a desire, there is no question.\"</t>\n    <t s=\"43\">And through this, the physical yesh becomes true existence,</t>\n    <t s=\"44\">and as explained by the Rebbe Maharash</t>\n    <t s=\"45\">[in his maamar</t>\n    <t s=\"46\">which he would say from time to time in order to purify the air of the world],</t>\n    <t s=\"47\">that the existence of the world and everything created in it is not a delusion or an optical illusion, but rather it is true existence.</t>\n    <t s=\"48\">And he brings a proof for this from a halachic ruling.</t>\n    <t s=\"49\">That is to say,</t>\n    <t s=\"50\">for although the yesh is constantly brought into being from the ayin and is nullified to it,</t>\n    <t s=\"51\">nevertheless, it is true existence,</t>\n    <t s=\"52\">for since from the truth of His existence all existences are found,</t>\n    <t s=\"53\">therefore the existence of all existences is the truth of His existence,</t>\n    <t s=\"54\">and as explained by the Mitteler Rebbe in Biurei HaZohar,</t>\n    <t s=\"55\">that the true existence of the physical yesh is the true yesh.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913820_theRebbe_687",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913820_theRebbe_687__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section questions why the emphasis on Rosh Hashanah is specifically on Malchus, since all Sefiros return to their source in Atzmus on this day.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "a)"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "However, it still needs to be understood,"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "for all the Sefiros have their first root in Arich Anpin,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "that is, all the Sefiros"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "(except for the Sefirah of Malchus)"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "are included in Arich Anpin in that they are later drawn down into Arich Anpin,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "but their first root"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "(even of these Sefiros)"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "is in Arich Anpin,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "and higher still, up to His very Essence,"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "as it is said,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "\"For from You is everything.\""
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "And since on Rosh Hashanah all things return to their primordial state,"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "then also all the attributes and Sefiros are drawn at that time from His very Essence,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "and if so, the innovation of Rosh Hashanah applies to all the attributes and Sefiros,"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "so why do they specifically emphasize the matter of Malchus?"
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section explains that Malchus is unique because its essence remains non-existence even when drawn down, revealing its root in Atzmus, unlike other Sefiros which become illuminations.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "The explanation of this is as follows:"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "The difference between the Sefirah of Malchus and the other Sefiros"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "(as it pertains to our discussion)"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "is in their ultimate purpose."
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "For it is known"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "that the emanation of all the Sefiros of Atzilus is in order that through them there should be a revelation of Elokus in Biyah, down to the lowest level in this physical world"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "(so that the souls of Yisrael, as they are clothed in a physical body, will be one with the Atzmus)."
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "From the aspect of Chochmah of Atzilus"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "[which is the primary aspect of Atzilus]"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "the matter of Chochmah is drawn downward,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "knowledge and comprehension of Elokus,"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "and so it is with all the Sefiros."
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "And in this lies the superiority of the Sefirah of Malchus over all the other Sefiros,"
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "that even in its drawing down below, it is in the same manner as it is in its first root in the aspect of Arich Anpin,"
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "for all the other Sefiros,"
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "since their function is that they are illuminations,"
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "revelation"
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "[for although their first root is in Arich Anpin,"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "nevertheless, after their drawing down into the aspect of Arich Anpin, they are illuminations, and this is their function],"
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "therefore,"
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "even their drawing down below into Biyah is in the aspect of illuminations,"
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "revelation."
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "However, the Sefirah of Malchus, its function is the aspect of a point and the aspect of non-existence,"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "and even in its drawing down through the levels below Arich Anpin"
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "[in the aspect of its essence, and in the aspect of the existence of its essence, and in the aspect of its arousal, and in the aspect of the manner of its arousal, and in the aspect of its revelation, and in the aspect of the manner of its revelation,"
+          },
+          {
+            "v": 16,
+            "s": 25,
+            "translation": "as mentioned above]"
+          },
+          {
+            "v": 16,
+            "s": 26,
+            "translation": "it is in the same manner as it is in its root in the aspect of Arich Anpin,"
+          },
+          {
+            "v": 16,
+            "s": 27,
+            "translation": "and even in its drawing down to the very lowest levels,"
+          },
+          {
+            "v": 16,
+            "s": 28,
+            "translation": "in Biyah,"
+          },
+          {
+            "v": 16,
+            "s": 29,
+            "translation": "it is in this manner, that its root"
+          },
+          {
+            "v": 16,
+            "s": 30,
+            "translation": "(the Atzmus) is felt within it."
+          },
+          {
+            "v": 16,
+            "s": 31,
+            "translation": "For although Malchus"
+          },
+          {
+            "v": 16,
+            "s": 32,
+            "translation": "(as it is in revelation)"
+          },
+          {
+            "v": 16,
+            "s": 33,
+            "translation": "is in the aspect of exaltation over a nation,"
+          },
+          {
+            "v": 16,
+            "s": 34,
+            "translation": "nevertheless, this matter of exaltation over a nation is"
+          },
+          {
+            "v": 16,
+            "s": 35,
+            "translation": "(as above)"
+          },
+          {
+            "v": 16,
+            "s": 36,
+            "translation": "from the aspect of the exaltation of the Atzmus."
+          },
+          {
+            "v": 16,
+            "s": 37,
+            "translation": "And this is also why the emphasis on Rosh Hashanah is specifically on the matter of Malchus and not on the matter of speech,"
+          },
+          {
+            "v": 16,
+            "s": 38,
+            "translation": "for speech is in the aspect of existence and in the aspect of division"
+          },
+          {
+            "v": 16,
+            "s": 39,
+            "translation": "(as explained in the Siddur, Shaar HaTekios, there,"
+          },
+          {
+            "v": 16,
+            "s": 40,
+            "translation": "regarding the difference between a voice and speech),"
+          },
+          {
+            "v": 16,
+            "s": 41,
+            "translation": "but Malchus is in the aspect of non-existence,"
+          },
+          {
+            "v": 16,
+            "s": 42,
+            "translation": "and the loftiness and exaltation"
+          },
+          {
+            "v": 16,
+            "s": 43,
+            "translation": "(over a nation)"
+          },
+          {
+            "v": 16,
+            "s": 44,
+            "translation": "of Malchus is from the aspect of the loftiness and exaltation of the Atzmus."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section explains that Rosh Hashanah is called \"the beginning of Your works\" because through the service of Yisrael, the ultimate purpose of creation—a dwelling place for Atzmus in the lowest physical world—is fulfilled.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "b)"
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "And this is \"This day is the beginning of Your works,\""
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "for although the world was created on the twenty-fifth of Elul and Rosh Hashanah is the sixth day of creation,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "nevertheless, since the ultimate purpose of creation is as our Sages said,"
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "\"The Holy One, blessed be He, desired to have a dwelling place for Himself in the lower realms,\""
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "a dwelling place for His very Essence"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "[as is known,"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "that the concept of a dwelling place is that the essence is found within the dwelling place],"
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "and that this dwelling place should be in the lower realms,"
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "in this physical world, below which there is no lower level,"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "therefore we say about the day of Rosh Hashanah,"
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "the day of the creation of man,"
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "\"This day is the beginning of Your works,\""
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "because this intention is completed through the service of each and every one of Yisrael,"
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "\"You are called 'man.'\""
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "For through the service in the study of Torah and the fulfillment of the mitzvos"
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "(a statute for Yisrael and a judgment for the G-d of Yaakov)"
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "they make and effect in the world that it returns and becomes as it was at the beginning of creation"
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "(before the descent caused by the sin of the Tree of Knowledge),"
+          },
+          {
+            "v": 17,
+            "s": 20,
+            "translation": "and moreover, that it will be on a higher level than it was before creation,"
+          },
+          {
+            "v": 17,
+            "s": 21,
+            "translation": "until it becomes a dwelling place for the Atzmus."
+          },
+          {
+            "v": 17,
+            "s": 22,
+            "translation": "For through the service of Yisrael,"
+          },
+          {
+            "v": 17,
+            "s": 23,
+            "translation": "a dwelling place for His very Essence is made in the lower realms,"
+          },
+          {
+            "v": 17,
+            "s": 24,
+            "translation": "in this physical world, below which there is no lower level,"
+          },
+          {
+            "v": 17,
+            "s": 25,
+            "translation": "and specifically in its very lowest levels,"
+          },
+          {
+            "v": 17,
+            "s": 26,
+            "translation": "\"And let every deed know that You have wrought it.\""
+          },
+          {
+            "v": 17,
+            "s": 27,
+            "translation": "For through the service of fulfilling the mitzvos with the power of action of man,"
+          },
+          {
+            "v": 17,
+            "s": 28,
+            "translation": "a revelation of Elokus is drawn into the lower aspect"
+          },
+          {
+            "v": 17,
+            "s": 29,
+            "translation": "(the power of action)"
+          },
+          {
+            "v": 17,
+            "s": 30,
+            "translation": "within man,"
+          },
+          {
+            "v": 17,
+            "s": 31,
+            "translation": "and through the operation of the power of action of man upon the physical object outside of him, the power is drawn also into the physical object,"
+          },
+          {
+            "v": 17,
+            "s": 32,
+            "translation": "as is known,"
+          },
+          {
+            "v": 17,
+            "s": 33,
+            "translation": "that the craftsman is recognized in the vessel through the power of the craftsman,"
+          },
+          {
+            "v": 17,
+            "s": 34,
+            "translation": "the power of the actor within the acted-upon"
+          },
+          {
+            "v": 17,
+            "s": 35,
+            "translation": "(even though the making of the vessel is yesh miyesh),"
+          },
+          {
+            "v": 17,
+            "s": 36,
+            "translation": "and through this, even the physical object"
+          },
+          {
+            "v": 17,
+            "s": 37,
+            "translation": "(the lowest in the world)"
+          },
+          {
+            "v": 17,
+            "s": 38,
+            "translation": "becomes a dwelling place for Him,"
+          },
+          {
+            "v": 17,
+            "s": 39,
+            "translation": "and through this, the intention of \"The Holy One, blessed be He, desired to have a dwelling place for Himself in the lower realms\" is completed,"
+          },
+          {
+            "v": 17,
+            "s": 40,
+            "translation": "for this desire is above reason and intellect,"
+          },
+          {
+            "v": 17,
+            "s": 41,
+            "translation": "and as is known the statement of our Rebbe, the Alter Rebbe,"
+          },
+          {
+            "v": 17,
+            "s": 42,
+            "translation": "\"On a desire, there is no question.\""
+          },
+          {
+            "v": 17,
+            "s": 43,
+            "translation": "And through this, the physical yesh becomes true existence,"
+          },
+          {
+            "v": 17,
+            "s": 44,
+            "translation": "and as explained by the Rebbe Maharash"
+          },
+          {
+            "v": 17,
+            "s": 45,
+            "translation": "[in his maamar"
+          },
+          {
+            "v": 17,
+            "s": 46,
+            "translation": "which he would say from time to time in order to purify the air of the world],"
+          },
+          {
+            "v": 17,
+            "s": 47,
+            "translation": "that the existence of the world and everything created in it is not a delusion or an optical illusion, but rather it is true existence."
+          },
+          {
+            "v": 17,
+            "s": 48,
+            "translation": "And he brings a proof for this from a halachic ruling."
+          },
+          {
+            "v": 17,
+            "s": 49,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 17,
+            "s": 50,
+            "translation": "for although the yesh is constantly brought into being from the ayin and is nullified to it,"
+          },
+          {
+            "v": 17,
+            "s": 51,
+            "translation": "nevertheless, it is true existence,"
+          },
+          {
+            "v": 17,
+            "s": 52,
+            "translation": "for since from the truth of His existence all existences are found,"
+          },
+          {
+            "v": 17,
+            "s": 53,
+            "translation": "therefore the existence of all existences is the truth of His existence,"
+          },
+          {
+            "v": 17,
+            "s": 54,
+            "translation": "and as explained by the Mitteler Rebbe in Biurei HaZohar,"
+          },
+          {
+            "v": 17,
+            "s": 55,
+            "translation": "that the true existence of the physical yesh is the true yesh."
+          }
+        ]
+      }
+    ]
+  }
+}

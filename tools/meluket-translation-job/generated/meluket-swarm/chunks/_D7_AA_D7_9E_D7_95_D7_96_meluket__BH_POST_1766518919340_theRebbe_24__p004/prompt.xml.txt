@@ -1,0 +1,121 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919340_theRebbe_24" title="מאמר עשרה שיושבין תשמ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p004">
+  <section v="9">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">דגם בהביאור</src>
+    <src s="2">(שבתחלת המאמר)</src>
+    <src s="3">שהאתעדל"ת דרבים ממשכת אור נעלה יותר,</src>
+    <src s="4">מבאר שההמשכה שע"י אתעדל"ת דרבים היא י"ג מדה"ר,</src>
+    <src s="5">דיגמה"ר הם למעלה מהשתלשלות,</src>
+    <src s="6">והמשכה שלמעלה מהשתלשלות היא שלא לפי ערך האתעדל"ת,</src>
+    <src s="7">ואעפ"כ מוסיף אח"כ</src>
+    <src s="8">(עוד ענין)</src>
+    <src s="9">שההמשכה שע"י רבים היא שלא לפי ערך האתעדל"ת דהרבים.</src>
+    <src s="10">ונקודת הביאור בזה,</src>
+    <src s="11">שהכוונה בזה שמוסיף שההמשכה שע"י רבים היא שלא לפי ערך האתעדל"ת שלהם היא,</src>
+    <src s="12">שההמשכה שע"י רבים היא לא רק שההמשכה היא יותר מהעבודה</src>
+    <src s="13">[דענין זה הוא בכל המשכה שלמעלה מהשתלשלות]</src>
+    <src s="14">אלא גם שההמשכה היא</src>
+    <src s="15">(בעיקר)</src>
+    <src s="16">מצד למעלה35,</src>
+    <src s="17">ע"ד36</src>
+    <src s="18">אתערותא דלעילא מצד עצמה שנמשכת37</src>
+    <src s="19">ממקום שאין אתערותא דלתתא מגעת לשם38.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויש לומר שהוא ע"ד הענין דיגעתי ומצאתי39,</src>
+    <src s="1">שהידיעה הבאה ע"י היגיעה היא באופן דמציאה</src>
+    <src s="2">(מצאתי)</src>
+    <src s="3">שלא לפי ערך היגיעה,</src>
+    <src s="4">ושני אופנים בזה.</src>
+    <src s="5">ההצלחה בידיעת והבנת הענין שהתייגע בו – ע"ד המעלה דתפלת רבים,</src>
+    <src s="6">שההמשכה היא למעלה מהשתלשלות</src>
+    <src s="7">(למעלה מסדר והדרגה),</src>
+    <src s="8">אבל</src>
+    <src s="9">(רק)</src>
+    <src s="10">ממקום זה שלשם הגיעה האתעדל"ת.</src>
+    <src s="11">ושההצלחה בידיעת התורה הבאה ע"י יגיעת האדם היא במקום שלא התייגע בו כלל,</src>
+    <src s="12">הוא עמל במקום זה ותורתו עומלת לו ממקום אחר40</src>
+    <src s="13">– ע"ד ענין השני דתפלת רבים,</src>
+    <src s="14">שההמשכה שע"י העבודה</src>
+    <src s="15">(תפלה),</src>
+    <src s="16">היא ע"ד אתערותא דלעילא מצד עצמה שאתערותא דלתתא</src>
+    <src s="17">(גם האתעדל"ת דתפלת רבים)</src>
+    <src s="18">אינה מגעת לשם.</src>
+    <src s="19">אלא שמ"מ המשכה זו באה ע"י תפלת רבים,</src>
+    <src s="20">בדוגמת שגם שתורתו עומלת לו במקום אחר הוא ע"י העמל דהאדם41.</src>
+  </section>
+  <section v="11">
+    <src s="0">ה)</src>
+    <src s="1">ויש לומר שהחילוק דשני ענינים אלה הוא גם בשרשם,</src>
+    <src s="2">בי"ג מדות הרחמים.</src>
+    <src s="3">והענין הוא,</src>
+    <src s="4">דמספר42</src>
+    <src s="5">י"ג</src>
+    <src s="6">(תיקוני דיקנא)</src>
+    <src s="7">הוא י"ב עם אחד.</src>
+    <src s="8">די"ב הוא י"ב בקר</src>
+    <src s="9">(שבבריאה),</src>
+    <src s="10">והא'</src>
+    <src s="11">(המיתוסף על י"ב)</src>
+    <src s="12">הוא הים שעומד עליהם</src>
+    <src s="13">(מלכות דאצילות).</src>
+    <src s="14">ולמעלה יותר,</src>
+    <src s="15">י"ב הוא י"ב גבולי אלכסון שבאצילות,</src>
+    <src s="16">והא'</src>
+    <src s="17">(המיתוסף על י"ב)</src>
+    <src s="18">הוא למעלה מאצילות.</src>
+    <src s="19">ויש לומר דזה שי"ג הוא למעלה מהשתלשלות,</src>
+    <src s="20">הוא,</src>
+    <src s="21">כי ע"י הא' שמיתוסף בהי"ב,</src>
+    <src s="22">גם הי"ב הם למעלה מהשתלשלות.</src>
+    <src s="23">ויש לומר,</src>
+    <src s="24">דשני אופנים</src>
+    <src s="25">(מדריגות)</src>
+    <src s="26">בזה.</src>
+    <src s="27">שהא' נמשך בהי"ב כמו שהם במקומם,</src>
+    <src s="28">דבאופן זה,</src>
+    <src s="29">גם לאחרי שנמשך בהם הא',</src>
+    <src s="30">הם גבול</src>
+    <src s="31">(גבולי אלכסון),</src>
+    <src s="32">אלא שע"י שנמשך בהם הא' שלמעלה מהשתלשלות יש בהם כח בלתי מוגבל.</src>
+    <src s="33">ועוד אופן,</src>
+    <src s="34">שהי"ב מתעלים ונכללים בהא',</src>
+    <src s="35">שעי"ז הם יוצאים מהגבלתם ונעשים בבחי' בל"ג.</src>
+    <src s="36">ויש לומר דזהו שאחד בגימטריא י"ג,</src>
+    <src s="37">שכל הי"ג הם אחד.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,135 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918601_theRebbe_37" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918601_theRebbe_37__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918601_theRebbe_37" title="מאמר גל עיני ואביטה תשל"ז" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918601_theRebbe_37__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ומבאר בהמאמר17,</src>
+    <src s="2">דבנפלאות שבתורה</src>
+    <src s="3">(פנימיות התורה)</src>
+    <src s="4">שתי דרגות.</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">דאיתא בזהר18</src>
+    <src s="7">שבתורה יש לבוש,</src>
+    <src s="8">גוף,</src>
+    <src s="9">נשמה ונשמה לנשמה.</src>
+    <src s="10">גליא דתורה הוא הלבוש והגוף דתורה</src>
+    <src s="11">[הסיפורים דתורה – לבוש,</src>
+    <src s="12">וההלכות דתורה – הגוף],</src>
+    <src s="13">והנשמה דתורה היא פנימיות התורה,</src>
+    <src s="14">שנחלקת בכללות לשתי דרגות.</src>
+    <src s="15">רזין דאורייתא</src>
+    <src s="16">(סתים)</src>
+    <src s="17">– נשמתא,</src>
+    <src s="18">ורזין דרזין</src>
+    <src s="19">(סתימא דכל סתימין)</src>
+    <src s="20">– נשמתא לנשמתא.</src>
+    <src s="21">והבקשה גל עיני ואביטה נפלאות מתורתך</src>
+    <src s="22">(נפלאות לשון רבים)</src>
+    <src s="23">היא שיראה את שתי הדרגות דנפלאות שבתורה,</src>
+    <src s="24">רזין ורזין דרזין.</src>
+    <src s="25">ומבאר,</src>
+    <src s="26">שנשמתא היא בחינת נר"ן,</src>
+    <src s="27">ונשמתא לנשמתא היא בחינת ח"י.</src>
+    <src s="28">ואולי יש לומר,</src>
+    <src s="29">שהענינים דפנימיות התורה שגילה רשב"י במשך כל ימי חייו19</src>
+    <src s="30">הם בחינת נשמתא דאורייתא,</src>
+    <src s="31">והענינים שגילה ביום הסתלקותו19</src>
+    <src s="32">הם בחינת נשמתא לנשמתא.</src>
+  </section>
+  <section v="4">
+    <src s="0">והנה ברשימות הצ"צ לתהלים עה"פ גל עיני ואביטה נפלאות מתורתך20</src>
+    <src s="1">מביא מאמר הזהר הנ"ל שבתורה יש לבושא וגופא ונשמתא ונשמתא לנשמתא,</src>
+    <src s="2">ומבאר,</src>
+    <src s="3">שהבקשה גל עיני ואביטה נפלאות היא שיראה לא רק הלבוש לבד אלא גם נשמתא.</src>
+    <src s="4">ובהמשך הענין מביא פירוש השל"ה21</src>
+    <src s="5">דאביטה נפלאות הוא כוונת המצוות.</src>
+    <src s="6">ולאחרי שמביא פירוש השל"ה ממשיך לבאר שנפלאות הוא פנימיות התורה,</src>
+    <src s="7">נשמתא דאורייתא.</src>
+    <src s="8">וצריך להבין,</src>
+    <src s="9">דלכאורה הי' צריך תחלה לסיים ביאור הפירוש שנפלאות הוא נשמתא דאורייתא ולאח"ז להביא עוד פירוש שנפלאות הוא כוונת המצוות,</src>
+    <src s="10">ומזה שמביא פירוש זה באמצע הביאור שנפלאות הוא נשמתא דאורייתא,</src>
+    <src s="11">משמע,</src>
+    <src s="12">שהפירוש שנפלאות הוא כוונת המצוות נוגע לביאור והבנת הפירוש דאביטה נפלאות הוא שיראה נשמתא דאורייתא.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">ויובן זה בהקדים מ"ש גל עיני גו' שמבקש מהקב"ה שיפקח את עיניו,</src>
+    <src s="2">דלכאורה,</src>
+    <src s="3">כיון שהסיבה לזה שע"ד הרגיל אין רואים את הנפלאות דתורה הוא</src>
+    <src s="4">(לא מצד החסרון דהכלים,</src>
+    <src s="5">אלא)</src>
+    <src s="6">לפי שהנפלאות הם מכוסים ונעלמים</src>
+    <src s="7">[ויש לומר,</src>
+    <src s="8">שההעלם דבחינת נשמתא דאורייתא הוא מפני שהיא מלובשת בהגוף דתורה</src>
+    <src s="9">(גליא דתורה)</src>
+    <src s="10">שמעלים על הנשמה,</src>
+    <src s="11">וההעלם דבחינת נשמתא לנשמתא דאורייתא הוא</src>
+    <src s="12">(לא שהיא מלובשת באיזה דבר שמעלים עלי',</src>
+    <src s="13">אלא)</src>
+    <src s="14">שמצד עצמה היא בהעלם,</src>
+    <src s="15">העלם שלמעלה מגילוי],</src>
+    <src s="16">הוה לי' לבקש שהקב"ה יגלה את הנפלאות דתורה22,</src>
+    <src s="17">ומהי הבקשה גל עיני שהקב"ה יפקח את עיניו.</src>
+    <src s="18">ונקודת הביאור בזה,</src>
+    <src s="19">ע"פ מה דאיתא במדרש23,</src>
+    <src s="20">משל למלך שגזר ואמר בני רומי לא ירדו לסוריא ובני סוריא לא יעלו לרומי,</src>
+    <src s="21">כך כשברא הקב"ה את העולם גזר ואמר השמים שמים לה' והארץ נתן לבני אדם24,</src>
+    <src s="22">כשביקש ליתן התורה ביטל הגזירה ואמר התחתונים יעלו לעליונים והעליונים ירדו לתחתונים,</src>
+    <src s="23">ואני המתחיל,</src>
+    <src s="24">שנאמר25</src>
+    <src s="25">וירד הוי' על הר סיני וכתיב26</src>
+    <src s="26">ואל משה אמר עלה אל הוי'.</src>
+    <src s="27">ומבואר במק"א27,</src>
+    <src s="28">דהטעם שאומר התחתונים יעלו לעליונים לפני והעליונים ירדו לתחתונים,</src>
+    <src s="29">אף שירידת העליונים למטה היתה קודם,</src>
+    <src s="30">אני המתחיל,</src>
+    <src s="31">הוא,</src>
+    <src s="32">כי תכלית הכוונה דמתן תורה הוא התחתונים יעלו לעליונים</src>
+    <src s="33">[שיהיו כלי לגילוי אלקות,</src>
+    <src s="34">ויתירה מזה שגם המשכת הגילוי בהם תהי' מצד ענינם וע"י עבודתם],</src>
+    <src s="35">אלא שבכדי שיוכל להיות עליית התחתונים למעלה הוא ע"י ירידת העליונים למטה,</src>
+    <src s="36">שהיא ההתחלה והנתינת כח על עליית התחתונים למעלה.</src>
+    <src s="37">ועד"ז הוא במתן תורה דפנימיות התורה שבל"ג בעומר,</src>
+    <src s="38">שהכוונה בביטול הגזירה והמחיצה בין עליונים ותחתונים בנוגע לפנימיות התורה היא,</src>
+    <src s="39">שהגילוי דפנימיות התורה שנמשך להאדם יהי'</src>
+    <src s="40">(גם)</src>
+    <src s="41">מצד האדם.</src>
+    <src s="42">וזהו גל עיני ואביטה נפלאות מתורתך,</src>
+    <src s="43">שהקב"ה יפקח את עיני האדם ויראה את הנפלאות שבתורה</src>
+    <src s="44">(לא רק ע"י שהנפלאות יהיו בגילוי,</src>
+    <src s="45">אלא גם)</src>
+    <src s="46">מצד ענינו של האדם.</src>
+  </section>
+</awtsmoosMeluketSource>

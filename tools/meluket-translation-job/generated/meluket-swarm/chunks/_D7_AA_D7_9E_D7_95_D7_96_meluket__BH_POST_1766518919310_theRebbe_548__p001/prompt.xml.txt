@@ -1,0 +1,92 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919310_theRebbe_548" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919310_theRebbe_548" title="מאמר זה היום עשה ה' תשל"ח" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">י"ב תמוז ה'תשל"ח*</src>
+  </section>
+  <section v="1">
+    <src s="0">זה היום עשה ה' נגילה ונשמחה בו1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר בעל הגאולה במאמרו ד"ה זה</src>
+    <src s="2">[שאמרו בחגיגת י"ב תמוז הראשונה</src>
+    <src s="3">(בסעודת הודאה),</src>
+    <src s="4">בשנת תרפ"ח2],</src>
+    <src s="5">דאיתא במדרש3,</src>
+    <src s="6">אמר ר' אבין אין אנו יודעים במה לשמוח אם ביום או בהקב"ה,</src>
+    <src s="7">בא שלמה ופירש4</src>
+    <src s="8">נגילה ונשמחה בך בהקב"ה,</src>
+    <src s="9">בך ביראתך,</src>
+    <src s="10">בך בתורתך,</src>
+    <src s="11">בך בישועתך5.</src>
+    <src s="12">אמר ר' יצחק בך בעשרים ושתים אותיות שכתבת לנו בתורה,</src>
+    <src s="13">ב' תרין כ' עשרין,</src>
+    <src s="14">הרי בך.</src>
+    <src s="15">ומדייק בהמאמר,</src>
+    <src s="16">מהו אומרו אין אנו יודעים במה לשמוח אם ביום או בהקב"ה,</src>
+    <src s="17">דמכיון שזה היום עשה ה'</src>
+    <src s="18">[היינו,</src>
+    <src s="19">דגם מעלתו של היום הוא לא מצד עצמו אלא שזה היום עשה ה'],</src>
+    <src s="20">הרי מובן לכאורה שהשמחה צריכה להיות בהקב"ה,</src>
+    <src s="21">ומהו אומרו אין אנו יודעים במה לשמוח אם ביום או בהקב"ה.</src>
+    <src s="22">וגם מה הם ג' הענינים דיראה תורה וישועה.</src>
+    <src s="23">וגם צ"ל המאמר דר' יצחק בך בעשרים ושתים אותיות כו',</src>
+    <src s="24">הרי בך בפשטות הוא בך בהקב"ה,</src>
+    <src s="25">ולמה מפרש בך בעשרים ושתים אותיות.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה ביאור מעלת היום</src>
+    <src s="2">(ועד שיש קס"ד לשמוח בהיום)</src>
+    <src s="3">הוא6,</src>
+    <src s="4">כי היום שבו נעשה נס7</src>
+    <src s="5">הוא יום נעלה.</src>
+    <src s="6">ושני ענינים בזה.</src>
+    <src s="7">דהיום שבו נעשה נס הוא יום זכאי מצד עצמו</src>
+    <src s="8">(גם מקודם),</src>
+    <src s="9">שלכן נעשה בו נס,</src>
+    <src s="10">כי מגלגלין זכות ליום זכאי8.</src>
+    <src s="11">ועוד דע"י הנס שהי' בו,</src>
+    <src s="12">נעשה יום זכאי ויום סגולה וכו'</src>
+    <src s="13">(עוד יותר מכמו שהי' לפני זה).</src>
+    <src s="14">ולא עוד אלא שביום זה עצמו עיקר העילוי הוא בהזמן הפרטי</src>
+    <src s="15">(יום או לילה)</src>
+    <src s="16">שבו נעשה הנס.</src>
+    <src s="17">כדאיתא במדרש9</src>
+    <src s="18">בשעה שאתה עושה לנו נסים ביום אנו אומרים לפניך שירה ביום</src>
+    <src s="19">(ותשר דבורה וברק בן אבינועם ביום וגו'10),</src>
+    <src s="20">ובשעה שאתה עושה לנו נסים בלילה אנו אומרים לפניך שירה בלילה</src>
+    <src s="21">(השיר יהי' לכם כליל התקדש חג11).</src>
+  </section>
+</awtsmoosMeluketSource>

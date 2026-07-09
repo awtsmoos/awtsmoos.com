@@ -1,0 +1,107 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919310_theRebbe_548" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919310_theRebbe_548" title="מאמר זה היום עשה ה' תשל"ח" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">והנה ידוע21,</src>
+    <src s="2">דשרש הטבע הוא משם אלקים</src>
+    <src s="3">(אלקים בגימטריא הטבע22),</src>
+    <src s="4">דבכללות הוא אור הממלא שמתלבש בעולמות לפי ערכם,</src>
+    <src s="5">ושרש הנסים הוא משם הוי',</src>
+    <src s="6">דבכללות הוא אור הסובב שלמעלה מעולמות.</src>
+    <src s="7">ומזה מובן,</src>
+    <src s="8">דהנסים שאינם מלובשים בטבע,</src>
+    <src s="9">שרש המשכתם הוא מהגילוי דהוי' עצמו,</src>
+    <src s="10">שלמעלה מהתלבשות בשם אלקים,</src>
+    <src s="11">והנסים המלובשים בטבע שרש המשכתם הוא23</src>
+    <src s="12">מהגילוי דשם הוי' כמו שמתלבש בשם אלקים24.</src>
+  </section>
+  <section v="7">
+    <src s="0">ויובן זה עד"מ בכח הרצון שבאדם</src>
+    <src s="1">(דרצון הוא משל על אור הסובב),</src>
+    <src s="2">שיש בו ב' מדריגות.</src>
+    <src s="3">רצון שלמעלה מטעם,</src>
+    <src s="4">ורצון שמתלבש בטעם.</src>
+    <src s="5">ובזה גופא</src>
+    <src s="6">(ברצון המלובש בטעם)</src>
+    <src s="7">שני אופנים25.</src>
+    <src s="8">דעם היותו מלובש בטעם,</src>
+    <src s="9">ניכר בו בגילוי שבעיקרו הוא רצון</src>
+    <src s="10">(שלמעלה מטעם).</src>
+    <src s="11">ושהרצון מטה את השכל באופן שהשכל עצמו נעשה כפי הרצון,</src>
+    <src s="12">ונרגש בו דזה שהוא סובר כן הוא</src>
+    <src s="13">(לא מצד הטיית הרצון אלא)</src>
+    <src s="14">מצד השכל26.</src>
+    <src s="15">ועד"ז הוא בנמשל,</src>
+    <src s="16">בגילוי אור הסובב,</src>
+    <src s="17">שיש בו דוגמת ג' דרגות הנ"ל,</src>
+    <src s="18">שהם שרש ג' הסוגים בנסים,</src>
+    <src s="19">נס שלמעלה מהטבע לגמרי,</src>
+    <src s="20">נס המלובש בטבע באופן שניכר הנס שבו,</src>
+    <src s="21">ונס המלובש בטבע באופן שהטבע מסתיר הנס שבו.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">והנה זה שנס הוא מלשון הרמה,</src>
+    <src s="2">שע"י הנס נעשה הרמה ועלי' בהטבע,</src>
+    <src s="3">הוא בעיקר בהנסים המלובשים בטבע27.</src>
+    <src s="4">שבהנסים שלמעלה מהטבע,</src>
+    <src s="5">הגילוי דשם הוי' שלמעלה מהטבע הוא באופן שהטבע</src>
+    <src s="6">(הנמשך משם אלקים)</src>
+    <src s="7">בטל ע"י הגילוי,</src>
+    <src s="8">שידוד מערכות הטבע,</src>
+    <src s="9">וענין נס מלשון הרמה שהגילוי דשם הוי' הוא באופן שהטבע</src>
+    <src s="10">(שנמשך משם אלקים)</src>
+    <src s="11">מתעלה בהאור דשם הוי',</src>
+    <src s="12">הוא</src>
+    <src s="13">(בעיקר)</src>
+    <src s="14">בהנסים המלובשים בטבע.</src>
+    <src s="15">אלא שאעפ"כ,</src>
+    <src s="16">מזה שגם הנסים שאינם מלובשים בטבע נקראים בשם נס מלשון הרמה,</src>
+    <src s="17">מובן,</src>
+    <src s="18">שגם ע"י נסים אלו נעשה הרמה ועלי' בהטבע.</src>
+    <src s="19">דכיון28</src>
+    <src s="20">ששידוד הטבע שע"י הנס הוא רק בפרט אחד ולא בכללות הדבר</src>
+    <src s="21">[כהנס דקריעת ים סוף,</src>
+    <src s="22">שהשינוי</src>
+    <src s="23">(שידוד הטבע)</src>
+    <src s="24">הי' רק בזה שהמים נצבו כמו נד וכחומה29,</src>
+    <src s="25">אבל עצם חומר המים נשאר כמו שהי' מקודם30],</src>
+    <src s="26">נמצא,</src>
+    <src s="27">שגם בנסים אלה,</src>
+    <src s="28">הגילוי דשם הוי' הוא בהתלבשות בהטבע של כללות הדבר שנעשה בו הנס,</src>
+    <src s="29">ועי"ז נעשה בו הרמה ועלי'31.</src>
+  </section>
+</awtsmoosMeluketSource>

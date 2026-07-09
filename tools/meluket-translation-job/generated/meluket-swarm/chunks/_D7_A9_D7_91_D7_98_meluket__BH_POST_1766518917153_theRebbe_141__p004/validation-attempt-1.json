@@ -1,0 +1,368 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 66,
+    "returned": 66,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917153_theRebbe_141\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917153_theRebbe_141__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section connects the concept of the Mishkan to the service of making a dwelling place for G-d below, culminating in the ultimate redemption through the work of teshuvah.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And one must connect this with the matter of the Mishkan explained in Parshat Terumah</t>\n    <t s=\"2\">[the parshah of the coming week, which is read on Shabbat during Minchah time,</t>\n    <t s=\"3\">for then it is already the beginning of connection to Motzaei Shabbat],</t>\n    <t s=\"4\">whose purpose is that through it, “I will dwell in their midst.”69</t>\n    <t s=\"5\">And primarily, this indwelling was through the Ark</t>\n    <t s=\"6\">[therefore the command to make the Ark preceded all other matters of the Mishkan,</t>\n    <t s=\"7\">for the inner essence and ultimate intention of the entire Mishkan was</t>\n    <t s=\"8\">(the indwelling of the Shechinah which is in)</t>\n    <t s=\"9\">the Ark, as explained at length in the Ramban on the Torah.70</t>\n    <t s=\"10\">And this is in line with the explanation of the Midrash cited above, that the reason it begins specifically with “And these are the judgments” regarding the law of the Hebrew slave is that in this mitzvah is hinted the inner point of the service of Israel – “I was created to serve my Master,”71</t>\n    <t s=\"11\">and as explained in the Midrash there, “I acquired you in Egypt, etc.”</t>\n    <t s=\"12\">And likewise in actual service, one first precedes the ultimate purpose of service,</t>\n    <t s=\"13\">which is the drawing down of the Shechinah through the Ark]</t>\n    <t s=\"14\">through which it is drawn to make for Him a dwelling place in the lower realms.</t>\n    <t s=\"15\">For by first having “I will dwell in their midst,”72</t>\n    <t s=\"16\">within each and every one,73</t>\n    <t s=\"17\">then afterward it is drawn to be “I will dwell in their midst” literally, in the Mishkan and in the Holy Temple, and even to the entire world</t>\n    <t s=\"18\">(and this will be complete in the seventh [millennium],</t>\n    <t s=\"19\">in the seventh thousandth year74).</t>\n    <t s=\"20\">And the service to effect the drawing down of the Shechinah is the making of the Ark, which is the matter of the Torah,</t>\n    <t s=\"21\">for through it the Shechinah is subsequently drawn also into the world,</t>\n    <t s=\"22\">for “a mitzvah is a lamp and Torah is light,”75</t>\n    <t s=\"23\">that the Torah illuminates76</t>\n    <t s=\"24\">and shows the path of each and every Jew to know the deed that they should do77</t>\n    <t s=\"25\">and those that they should not do.78</t>\n    <t s=\"26\">And first they draw down the indwelling of the Shechinah into the gold, silver, copper, etc.79</t>\n    <t s=\"27\">of the Mishkan,</t>\n    <t s=\"28\">and from the Mishkan and the Temple, light goes out to the world,80</t>\n    <t s=\"29\">until the world is filled with this light in a revealed manner,</t>\n    <t s=\"30\">and as the statement:81</t>\n    <t s=\"31\">“In the future, Jerusalem will spread throughout all the Land of Israel, and the Land of Israel will spread throughout all the lands,” in the true and complete redemption.</t>\n    <t s=\"32\">For this redemption depends on our deeds and service during the six thousand years that the world exists,82</t>\n    <t s=\"33\">and particularly in the service during the time of exile,83</t>\n    <t s=\"34\">and especially in the service at the conclusion and seal of the time of exile, in the footsteps of Moshiach</t>\n    <t s=\"35\">[and everything follows the conclusion84],</t>\n    <t s=\"36\">through which they bring the redemption, when the Holy Temple will be built in its place, revealed and literal,</t>\n    <t s=\"37\">and in the elevation that will be in the Third Holy Temple, of which it is said, “The Sanctuary, O L-rd, which Your hands established,”85</t>\n    <t s=\"38\">which is superior even to the First and Second Holy Temples86</t>\n    <t s=\"39\">and also superior to the elevation that was in the Mishkan.</t>\n    <t s=\"40\">For although the Mishkan was the handiwork of Moshe, and the handiworks of Moshe are eternal, as stated in the Gemara,87</t>\n    <t s=\"41\">and therefore the Mishkan is also eternal,</t>\n    <t s=\"42\">nevertheless, through the service of Israel during the time of exile, there will be</t>\n    <t s=\"43\">(in the Third Holy Temple)</t>\n    <t s=\"44\">an elevation that is superior even to the level of the Mishkan</t>\n    <t s=\"45\">[similar to the elevation of Moshiach over Moshe Rabbeinu88],</t>\n    <t s=\"46\">which will be the elevation of the service of teshuvah,</t>\n    <t s=\"47\">that from the very concealment and hiding of the world, they make a dwelling place for Him in the lower realms,</t>\n    <t s=\"48\">and as is known, the matter of Moshiach is the matter of teshuvah,89</t>\n    <t s=\"49\">as the statement:90</t>\n    <t s=\"50\">“Moshiach comes to bring the righteous back in teshuvah.”</t>\n    <t s=\"51\">“And a shoot will emerge from the stem of Yishai, and a branch from his roots will bear fruit,”91</t>\n    <t s=\"52\">until “the earth will be filled with knowledge of the L-rd as the waters cover the sea,”92</t>\n    <t s=\"53\">in the true and complete redemption.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>Through the aforementioned service, the redemption is hastened and brought with great speed, even in the present time, leading to the revealed fulfillment of the prophecies.</sectionSummaryBrief>\n    <t s=\"0\">And through the aforementioned service, they hasten,</t>\n    <t s=\"1\">speed up, and accelerate its coming even more,</t>\n    <t s=\"2\">so that it comes with the greatest speed, in our very own days, below ten handbreadths.</t>\n    <t s=\"3\">And it will be seen openly that “nations will walk by your light,”93</t>\n    <t s=\"4\">“and kings will be your attendants and their queens your nursemaids,”94</t>\n    <t s=\"5\">and so it will be for us even in the latter days of the exile,</t>\n    <t s=\"6\">for although “we are still servants of Achashverosh,”95</t>\n    <t s=\"7\">nevertheless, even then “the fear of the Jews fell upon them,”96</t>\n    <t s=\"8\">and even Achashverosh himself “kicked and gave the house of Haman to Queen Esther,”97</t>\n    <t s=\"9\">and this is a close preparation for the fulfillment of the prophecy98</t>\n    <t s=\"10\">that “then I will transform the peoples to a pure language, etc.,”</t>\n    <t s=\"11\">in the true and complete redemption through Moshiach Tzidkeinu.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917153_theRebbe_141",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917153_theRebbe_141__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section connects the concept of the Mishkan to the service of making a dwelling place for G-d below, culminating in the ultimate redemption through the work of teshuvah.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And one must connect this with the matter of the Mishkan explained in Parshat Terumah"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "[the parshah of the coming week, which is read on Shabbat during Minchah time,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "for then it is already the beginning of connection to Motzaei Shabbat],"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "whose purpose is that through it, “I will dwell in their midst.”69"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "And primarily, this indwelling was through the Ark"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "[therefore the command to make the Ark preceded all other matters of the Mishkan,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "for the inner essence and ultimate intention of the entire Mishkan was"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "(the indwelling of the Shechinah which is in)"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "the Ark, as explained at length in the Ramban on the Torah.70"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "And this is in line with the explanation of the Midrash cited above, that the reason it begins specifically with “And these are the judgments” regarding the law of the Hebrew slave is that in this mitzvah is hinted the inner point of the service of Israel – “I was created to serve my Master,”71"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "and as explained in the Midrash there, “I acquired you in Egypt, etc.”"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "And likewise in actual service, one first precedes the ultimate purpose of service,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "which is the drawing down of the Shechinah through the Ark]"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "through which it is drawn to make for Him a dwelling place in the lower realms."
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "For by first having “I will dwell in their midst,”72"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "within each and every one,73"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "then afterward it is drawn to be “I will dwell in their midst” literally, in the Mishkan and in the Holy Temple, and even to the entire world"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "(and this will be complete in the seventh [millennium],"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "in the seventh thousandth year74)."
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "And the service to effect the drawing down of the Shechinah is the making of the Ark, which is the matter of the Torah,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "for through it the Shechinah is subsequently drawn also into the world,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "for “a mitzvah is a lamp and Torah is light,”75"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "that the Torah illuminates76"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "and shows the path of each and every Jew to know the deed that they should do77"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "and those that they should not do.78"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "And first they draw down the indwelling of the Shechinah into the gold, silver, copper, etc.79"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "of the Mishkan,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "and from the Mishkan and the Temple, light goes out to the world,80"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "until the world is filled with this light in a revealed manner,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "and as the statement:81"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "“In the future, Jerusalem will spread throughout all the Land of Israel, and the Land of Israel will spread throughout all the lands,” in the true and complete redemption."
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "For this redemption depends on our deeds and service during the six thousand years that the world exists,82"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "and particularly in the service during the time of exile,83"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "and especially in the service at the conclusion and seal of the time of exile, in the footsteps of Moshiach"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "[and everything follows the conclusion84],"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "through which they bring the redemption, when the Holy Temple will be built in its place, revealed and literal,"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "and in the elevation that will be in the Third Holy Temple, of which it is said, “The Sanctuary, O L-rd, which Your hands established,”85"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "which is superior even to the First and Second Holy Temples86"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "and also superior to the elevation that was in the Mishkan."
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "For although the Mishkan was the handiwork of Moshe, and the handiworks of Moshe are eternal, as stated in the Gemara,87"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "and therefore the Mishkan is also eternal,"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "nevertheless, through the service of Israel during the time of exile, there will be"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "(in the Third Holy Temple)"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "an elevation that is superior even to the level of the Mishkan"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "[similar to the elevation of Moshiach over Moshe Rabbeinu88],"
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "which will be the elevation of the service of teshuvah,"
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "that from the very concealment and hiding of the world, they make a dwelling place for Him in the lower realms,"
+          },
+          {
+            "v": 9,
+            "s": 48,
+            "translation": "and as is known, the matter of Moshiach is the matter of teshuvah,89"
+          },
+          {
+            "v": 9,
+            "s": 49,
+            "translation": "as the statement:90"
+          },
+          {
+            "v": 9,
+            "s": 50,
+            "translation": "“Moshiach comes to bring the righteous back in teshuvah.”"
+          },
+          {
+            "v": 9,
+            "s": 51,
+            "translation": "“And a shoot will emerge from the stem of Yishai, and a branch from his roots will bear fruit,”91"
+          },
+          {
+            "v": 9,
+            "s": 52,
+            "translation": "until “the earth will be filled with knowledge of the L-rd as the waters cover the sea,”92"
+          },
+          {
+            "v": 9,
+            "s": 53,
+            "translation": "in the true and complete redemption."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "Through the aforementioned service, the redemption is hastened and brought with great speed, even in the present time, leading to the revealed fulfillment of the prophecies.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And through the aforementioned service, they hasten,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "speed up, and accelerate its coming even more,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "so that it comes with the greatest speed, in our very own days, below ten handbreadths."
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "And it will be seen openly that “nations will walk by your light,”93"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "“and kings will be your attendants and their queens your nursemaids,”94"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "and so it will be for us even in the latter days of the exile,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "for although “we are still servants of Achashverosh,”95"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "nevertheless, even then “the fear of the Jews fell upon them,”96"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "and even Achashverosh himself “kicked and gave the house of Haman to Queen Esther,”97"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "and this is a close preparation for the fulfillment of the prophecy98"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "that “then I will transform the peoples to a pure language, etc.,”"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "in the true and complete redemption through Moshiach Tzidkeinu."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,153 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915883_theRebbe_878" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915883_theRebbe_878__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915883_theRebbe_878" title="מאמר מצותה משתשקע החמה תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915883_theRebbe_878__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ועפ"ז יובן מה שמובא28</src>
+    <src s="2">בענין משתשקע החמה מאמר הזהר29</src>
+    <src s="3">עה"פ30</src>
+    <src s="4">ואל מקומו שואף זורח הוא שם,</src>
+    <src s="5">כד אזיל שמשא למערב האי מערב אקרי מקומו דשמשא כו'.</src>
+    <src s="6">וידוע הביאור בזה31,</src>
+    <src s="7">מערב הוא מלכות32</src>
+    <src s="8">(כמאמר33</src>
+    <src s="9">שכינה במערב),</src>
+    <src s="10">וכד אזיל שמשא למערב הוא המשכת וירידת ז"א</src>
+    <src s="11">(שמש)</src>
+    <src s="12">במלכות,</src>
+    <src s="13">עד בהמלכות כמו שנעשית מקור לבי"ע ועד ש"נשקע אור האצילות",</src>
+    <src s="14">ואעפ"כ האי מערב אקרי מקומו דשמשא כו',</src>
+    <src s="15">שזה הוא מקומו האמיתי</src>
+    <src s="16">(כי הכוונה האמיתית בהאצלת האצילות היא בשביל התהוות בי"ע),</src>
+    <src s="17">ועד ששם דוקא זורח הוא,</src>
+    <src s="18">שעיקר ואמיתית ענין הזריחה הוא בבי"ע דוקא.</src>
+    <src s="19">וכמבואר בספר תניא קדישא34,</src>
+    <src s="20">שעולמות העליונים הם בבחי' ירידה מאור פניו ית',</src>
+    <src s="21">משא"כ עולמות בי"ע,</src>
+    <src s="22">ובפרט עוה"ז התחתון שאין תחתון למטה ממנו,</src>
+    <src s="23">נעשים דירה לו ית',</src>
+    <src s="24">דירה לעצמותו</src>
+    <src s="25">(בדוגמת דירת האדם שעצמות האדם דר בהדירה35),</src>
+    <src s="26">ועד שכידוע36,</src>
+    <src s="27">יש הנברא</src>
+    <src s="28">(שבהרגשתו מציאותו מעצמותו)</src>
+    <src s="29">הוא דוגמת יש האמיתי.</src>
+    <src s="30">וזהו מה שנ"ח מצותה משתשקע החמה,</src>
+    <src s="31">כי ענין נ"ח הוא להאיר החושך דבי"ע</src>
+    <src s="32">(שקיעת השמש הוי' דאצילות),</src>
+    <src s="33">שעי"ז דוקא נעשה הזריחה,</src>
+    <src s="34">ועד לגילוי ודירת העצמות,</src>
+    <src s="35">כנ"ל.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">ויש לומר דענין משתשקע החמה למטה יותר קאי על התהוות הקליפות,</src>
+    <src s="2">שקיעה שלא בערך דאור הקדושה.</src>
+    <src s="3">ומכיון שכל הגבוה גבוה יותר יורד למטה מטה יותר</src>
+    <src s="4">(כנ"ל ס"ב),</src>
+    <src s="5">הנה הזריחה שע"י שקיעה זו היא זריחת אור נעלה יותר גם מהזריחה שע"י שקיעה הנ"ל דשמש הוי' דאצילות.</src>
+    <src s="6">[ובדוגמת העילוי שבהתהוות היש דבי"ע הפרטיים</src>
+    <src s="7">(שקיעת אצילות הפרטית)</src>
+    <src s="8">על העילוי דהתהוות בי"ע הכלליים</src>
+    <src s="9">(שקיעת אצילות הכללית),</src>
+    <src s="10">שבהתהוות היש דבי"ע</src>
+    <src s="11">(הפרטיים)</src>
+    <src s="12">דוקא מתגלה כח העצמות,</src>
+    <src s="13">ובבי"ע גופא עיקר גילוי כח העצמות הוא בהתהוות היש הגשמי דוקא37].</src>
+    <src s="14">וכמאמר38</src>
+    <src s="15">כד אתכפיא סט"א אסתלק יקרא דקוב"ה בכולהו עלמין,</src>
+    <src s="16">דעי"ז שיש מציאות דסט"א</src>
+    <src s="17">(ע"י שקיעת שמש דקדושה),</src>
+    <src s="18">ואתכפיא סט"א ואתהפכא סט"א,</src>
+    <src s="19">נמשך גילוי אור נעלה ביותר,</src>
+    <src s="20">אור שלמעלה מגדר גילוי,</src>
+    <src s="21">שלכן נקרא בשם אסתלק39.</src>
+    <src s="22">ועי"ז דוקא נשלמת הכוונה שנתאוה הקב"ה להיות לו ית' דירה בתחתונים40.</src>
+    <src s="23">ובכדי שתושלם כוונה זו נתהווה מציאות הרע41</src>
+    <src s="24">(כמרז"ל42</src>
+    <src s="25">עה"פ43</src>
+    <src s="26">נורא עלילה על בני אדם),</src>
+    <src s="27">דזהו שהי' הקב"ה בונה עולמות ומחריבן44</src>
+    <src s="28">שקאי על בנין עולם התוהו ושבירתו45,</src>
+    <src s="29">בכדי שהאדם</src>
+    <src s="30">[אתם קרויין אדם46</src>
+    <src s="31">אדמה לעליון47]</src>
+    <src s="32">יברר את הניצוצות</src>
+    <src s="33">(שלא נתבררו ע"י הבירור שלמעלה)</src>
+    <src s="34">ויתקנם ויעלם ע"י עבודתו,</src>
+    <src s="35">ועי"ז דוקא נשלמת הכוונה דדירה בתחתונים.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">וזהו פי' עד שתכלה רגל מן השוק: פירוש א',</src>
+    <src s="2">שהו"ע בקדושה,</src>
+    <src s="3">שוק,</src>
+    <src s="4">שוקיו עמודי שש48</src>
+    <src s="5">זה העולם שנשתוקק49</src>
+    <src s="6">הקב"ה לבראותו50.</src>
+    <src s="7">ורגל</src>
+    <src s="8">(מן השוק)</src>
+    <src s="9">הו"ע ג' רגלים51,</src>
+    <src s="10">דרגא הכי נעלית בקדושה כמרז"ל52</src>
+    <src s="11">כשם שבא לראות כך בא ליראות וכשם שבא ליראות כך בא לראות.</src>
+    <src s="12">ופירוש הב' הוא,</src>
+    <src s="13">שוק ורה"ר,</src>
+    <src s="14">רה"ר טורי דפרודא,</src>
+    <src s="15">ועד שבשוק זה ישנם תרמודאי המורדים במלכות שמים</src>
+    <src s="16">(תרמוד אותיות מורדת13),</src>
+    <src s="17">ורגל מן השוק הוא ריגלא דתרמודאי,</src>
+    <src s="18">היינו שבהשוק נמצאים מורדים והם גם מהלכים בו</src>
+    <src s="19">(כי רגל מורה53</src>
+    <src s="20">על הליכה54),</src>
+    <src s="21">ומן וע"י השוק.</src>
+    <src s="22">ושני פירושים אלו שייכים זל"ז,</src>
+    <src s="23">כי זה שנשתוקק הקב"ה לברוא את העולם</src>
+    <src s="24">(פירוש הא' בשוק)</src>
+    <src s="25">הוא כדי שיהי' לו ית' דירה בתחתונים,</src>
+    <src s="26">בעוה"ז התחתון שאין תחתון למטה ממנו בענין הסתר אורו ית'55,</src>
+    <src s="27">ולכן היתה ההתהוות באופן דנעשה56</src>
+    <src s="28">לשון רבים</src>
+    <src s="29">[רשות הרבים</src>
+    <src s="30">(פירוש הב' בשוק)]</src>
+    <src s="31">והרוצה לטעות יטעה57,</src>
+    <src s="32">כי בכדי שיהי' ובחרת בחיים58</src>
+    <src s="33">(ענין הבחירה)</src>
+    <src s="34">צריך להיות נתינת מקום לטעות.</src>
+    <src s="35">ודוקא עי"ז שהתהוות העולם היתה באופן דנעשה לשון רבים,</src>
+    <src s="36">ענין רשות הרבים,</src>
+    <src s="37">והאדם בעבודתו מהפך את העולם שיהי' רשות היחיד ליחידו של עולם59,</src>
+    <src s="38">עי"ז נשלמת כביכול שוקיו תשוקתו של הקב"ה בבריאת העולם שיהי' לו ית' דירה בתחתונים.</src>
+  </section>
+</awtsmoosMeluketSource>

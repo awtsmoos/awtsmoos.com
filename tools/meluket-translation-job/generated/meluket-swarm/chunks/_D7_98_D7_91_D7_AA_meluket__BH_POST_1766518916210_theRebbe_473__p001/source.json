@@ -1,0 +1,51 @@
+{
+  "globalIndex": 430,
+  "owner": 30,
+  "jobId": "_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916210_theRebbe_473__p001",
+  "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916210_theRebbe_473__p001",
+  "seriesId": "טבת_meluket",
+  "postId": "BH_POST_1766518916210_theRebbe_473",
+  "title": "מאמר יהודה אתה יודוך תשל\"ח",
+  "part": 1,
+  "sections": [
+    {
+      "v": 0,
+      "items": [
+        {
+          "s": 0,
+          "text": "בס\"ד."
+        },
+        {
+          "s": 1,
+          "text": "אור ליום ג' פ' ויחי,"
+        },
+        {
+          "s": 2,
+          "text": "עשרה בטבת,"
+        },
+        {
+          "s": 3,
+          "text": "יהפך לשמחה"
+        }
+      ]
+    },
+    {
+      "v": 1,
+      "items": [
+        {
+          "s": 0,
+          "text": "– בחדרו – ה'תשל\"ח*"
+        }
+      ]
+    },
+    {
+      "v": 2,
+      "items": [
+        {
+          "s": 0,
+          "text": "– הנחה –"
+        }
+      ]
+    }
+  ]
+}

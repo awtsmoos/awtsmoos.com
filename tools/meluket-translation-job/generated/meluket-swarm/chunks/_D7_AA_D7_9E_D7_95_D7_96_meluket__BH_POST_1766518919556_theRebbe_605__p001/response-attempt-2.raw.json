@@ -1,0 +1,28 @@
+{
+  "id": "82c68704-4933-4e1c-9f88-f41d4f8c2c34",
+  "object": "chat.completion",
+  "created": 1783584266,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919556_theRebbe_605\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919556_theRebbe_605__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header of the maamar for Shabbos Mattos-Masei, Menachem Av 5713.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Mattos-Masei,</t>\n    <t s=\"2\">Rosh Chodesh Menachem-Av*,</t>\n    <t s=\"3\">the year 5713</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that the text is an unedited transcription.</sectionSummaryBrief>\n    <t s=\"0\">(An unedited transcription)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section introduces the verse and raises several textual difficulties regarding the plural \"these are the journeys,\" the mention of Moshe writing, the repetition and reversal of terms, and the eternal relevance of the narrative.</sectionSummaryBrief>\n    <t s=\"0\">\"These are the journeys of the children of Israel who went out of the land of Egypt etc. And Moshe wrote their goings out according to their journeys etc. And these are their journeys according to their goings out.\"</t>\n    <t s=\"1\">And the precise points</t>\n    <t s=\"2\">in this are known,</t>\n    <t s=\"3\">[namely] that it says \"these are the journeys,\"</t>\n    <t s=\"4\">which is in the plural,</t>\n    <t s=\"5\">and it concludes \"who went out of the land of Egypt,\" which is only the first departure and journey.</t>\n    <t s=\"6\">Also, it is not understood why it says \"and Moshe wrote,\"</t>\n    <t s=\"7\">for Moshe Rabbeinu wrote the entire Torah,</t>\n    <t s=\"8\">so what does this inform us?</t>\n    <t s=\"9\">Also, what is the duplication of \"their goings out according to their journeys\" and \"their journeys according to their goings out,\"</t>\n    <t s=\"10\">and the reversal of order from the beginning to the end.</t>\n    <t s=\"11\">And in general, one must understand,</t>\n    <t s=\"12\">what is the relevance of the story and knowledge of the order of the journeys,</t>\n    <t s=\"13\">and even for that generation, the Midrash explains</t>\n    <t s=\"14\">a parable of a king and his son who traveled etc., when they returned they would count all the journeys and events that occurred in them,</t>\n    <t s=\"15\">but the Torah is eternal,</t>\n    <t s=\"16\">and therefore this story must be relevant in all times and in all places.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1179,
+    "completion_tokens": 757,
+    "total_tokens": 1936,
+    "prompt_tokens_details": {
+      "cached_tokens": 1152
+    },
+    "prompt_cache_hit_tokens": 1152,
+    "prompt_cache_miss_tokens": 27
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

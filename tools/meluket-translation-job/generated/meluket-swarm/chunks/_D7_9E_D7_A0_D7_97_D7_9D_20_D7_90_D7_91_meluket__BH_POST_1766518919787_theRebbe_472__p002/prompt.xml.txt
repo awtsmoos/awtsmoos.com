@@ -1,0 +1,141 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919787_theRebbe_472" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919787_theRebbe_472__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919787_theRebbe_472" title="מאמר איכה ישבה בדד תשל"א" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919787_theRebbe_472__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והנה גודל העילוי שיהי' לע"ל יובן מגודל הפלאת העבודה שבזה"ג שלפני זה – הכנה והקדמה לזה30.</src>
+    <src s="2">דהנה ידוע31</src>
+    <src s="3">מאמר כ"ק אדמו"ר הזקן בשם הבעש"ט עה"פ32</src>
+    <src s="4">כן בקודש חזיתיך הלואי בזמן הבית חזיתיך,</src>
+    <src s="5">וכידוע33</src>
+    <src s="6">בפי' והאיש משה עניו מאד מכל האדם אשר על פני האדמה34,</src>
+    <src s="7">שביותר הוא כשראה משה את הדור דעקבתא דמשיחא,</src>
+    <src s="8">שיהיו אז ריבוי העלמות והסתרים וכו' ובכל זה ילמדו תורה ויקיימו מצות ובאופן דמוסיף והולך מוסיף ואור,</src>
+    <src s="9">הנה עבודה זו פעלה ענוה וביטול אצל משה.</src>
+    <src s="10">ומשה אמת35</src>
+    <src s="11">וארז"ל36</src>
+    <src s="12">מדת אמת ראה,</src>
+    <src s="13">הרי מובן מזה,</src>
+    <src s="14">שכ"ה באמת,</src>
+    <src s="15">שישנה מעלה בהעבודה דזה"ג37</src>
+    <src s="16">לגבי עבודת משה.</src>
+    <src s="17">ומזה מובן גודל העילוי שיהי' לע"ל,</src>
+    <src s="18">מכיון שהגילוי יהי' לאחרי וע"י עבודה נעלית כזו.</src>
+    <src s="19">ובזה יובן ג"כ הטעם לאריכות הגלות הזה,</src>
+    <src s="20">כי מכיון שגלות זה הוא הקדמה לגילוי נעלה ביותר,</src>
+    <src s="21">שלמעלה יותר מויניחהו בג"ע דאדה"ר,</src>
+    <src s="22">ממתן תורה,</src>
+    <src s="23">מבית ראשון ומבית שני,</src>
+    <src s="24">לכן הגלות הוא באריכות גדולה כזו,</src>
+    <src s="25">בכדי שע"י עבודת בנ"י במשך זמן הגלות יגיעו בקרוב ממש לבית השלישי,</src>
+    <src s="26">שהוא גילוי נעלה ביותר,</src>
+    <src s="27">בטח בדד עין יעקב,</src>
+    <src s="28">נחלה בלי מצרים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">והנה בכדי שבחינת בדד יומשך למטה ובאופן דישבה – התיישבות,</src>
+    <src s="2">צריכה להיות ההמשכה בהמדריגות דסדר השתלשלות.</src>
+    <src s="3">וזהו מ"ש איכה ישבה בדד,</src>
+    <src s="4">שהמשכת בחי' בדד למטה,</src>
+    <src s="5">ובאופן דישבה</src>
+    <src s="6">(בהתיישבות),</src>
+    <src s="7">הוא ע"י איכה.</src>
+    <src s="8">דהנה א' רומזת לכמה דרגות זעג"ז.</src>
+    <src s="9">וכמו א' דאחד – א' שלמעלה מח' וד',</src>
+    <src s="10">ז"ר וארץ וד' רוחות העולם – א' – אלופו של עולם,</src>
+    <src s="11">אבל א' דאיכה,</src>
+    <src s="12">א' למעלה מי' – למעלה מענין ע"ס,</src>
+    <src s="13">(וי"ל למעלה גם מע"ס הגנוזות38),</src>
+    <src s="14">והאל"ף,</src>
+    <src s="15">נמשך בהיו"ד</src>
+    <src s="16">(שבאיכה)</src>
+    <src s="17">הרומז לע"ס דאצילות,</src>
+    <src s="18">ואח"כ – ב"כה"</src>
+    <src s="19">(דאיכה)</src>
+    <src s="20">שקאי על בחי' המלכות ובפרט – מל' כמו ששייכת כבר או גם – כמו שירדה ומתלבשת בבי"ע39.</src>
+    <src s="21">וכידוע40</src>
+    <src s="22">ההפרש שבין זה לכה,</src>
+    <src s="23">שזה הו"ע מראה באצבעו ואומר זה,</src>
+    <src s="24">ועד"ז הוא גם לשון זאת</src>
+    <src s="25">(שהיא ג"כ ע"ד בחי' זה,</src>
+    <src s="26">אלא שזאת הוא בחי' נוקבא41),</src>
+    <src s="27">שהוא בחי' המלכות כמו שהיא באצילות42,</src>
+    <src s="28">ובחי' כה הוא בחי' המלכות ובפרט – כמו שהיא מתלבשת בבי"ע,</src>
+    <src s="29">בחי' כדמותנו.</src>
+    <src s="30">וזהו"ע איכה ישבה בדד,</src>
+    <src s="31">שבדד הוא בחי' יחיד שלמעלה גם מבחי' אחד,</src>
+    <src s="32">כי האל"ף דכאן</src>
+    <src s="33">(דאיכה)</src>
+    <src s="34">הוא – אחד ואין שני גם בן ואח אין לו43,</src>
+    <src s="35">בחי' עתיק שאין בו התחלקות כלל,</src>
+    <src s="36">וכידוע בקבלה44</src>
+    <src s="37">שזווג</src>
+    <src s="38">(מ"ד ומ"ן)</src>
+    <src s="39">שבעתיק הוא מיני' ובי',</src>
+    <src s="40">הנה לע"ל יומשך גם בחי' בדד בגילוי למטה ובהתיישבות45.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">והנה ידוע תורת הרב המגיד46</src>
+    <src s="2">שבדד ב' דלתי"ן.</src>
+    <src s="3">ד' דמשפיע וד' דמקבל.</src>
+    <src s="4">ולכאורה,</src>
+    <src s="5">הרי דל"ת הוא ענין דלות,</src>
+    <src s="6">דלותי,</src>
+    <src s="7">ואיך שייך דל"ת דמשפיע.</src>
+    <src s="8">ומבואר שם שהוא כמרז"ל47</src>
+    <src s="9">יותר משהעגל רוצה לינק הפרה רוצה להניק,</src>
+    <src s="10">והיינו שיש כוסף ותשוקה בהמשפיע להשפיע להמקבל,</src>
+    <src s="11">וזהו דל"ת דהמשפיע.</src>
+    <src s="12">ואולי יש לקשר זה עם משנ"ת בענין למעשה ידיך תכסוף.</src>
+    <src s="13">והנה כמו שרצון</src>
+    <src s="14">(הדל"ת)</src>
+    <src s="15">דהמשפיע הוא שיתמלא חסרון דהמקבל,</src>
+    <src s="16">כן רצון</src>
+    <src s="17">(דל"ת)</src>
+    <src s="18">המקבל צ"ל שיתמלא החסרון,</src>
+    <src s="19">כביכול,</src>
+    <src s="20">דהמשפיע,</src>
+    <src s="21">וכידוע בפירוש הרב המגיד במשנה אין עומדין להתפלל אלא מתוך כובד ראש48,</src>
+    <src s="22">שהתפלה צריכה להיות על הכובד ראש שלמעלה,</src>
+    <src s="23">ששכינה אומרת49</src>
+    <src s="24">קלני מראשי קלני מזרועי.</src>
+    <src s="25">וכן משמע פירוש הבעש"ט50</src>
+    <src s="26">עה"פ51</src>
+    <src s="27">זאת אשיב אל לבי על כן אוחיל,</src>
+    <src s="28">זאת – השכינה.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,92 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916328_theRebbe_715" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916328_theRebbe_715" title="מאמר וארא אל אברהם תשל"ה" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ וארא,</src>
+    <src s="2">מבה"ח שבט ה'תשל"ה*</src>
+  </section>
+  <section v="1">
+    <src s="0">וארא אל אברהם אל יצחק ואל יעקב בא-ל שדי ושמי הוי' לא נודעתי להם1,</src>
+    <src s="1">ופירש רש"י לא ניכרתי להם במדת אמיתית שלי,</src>
+    <src s="2">ומדייק אדמו"ר מהר"ש במאמרו ד"ה זה2,</src>
+    <src s="3">הרי כל שמותיו של הקב"ה הם אמת,</src>
+    <src s="4">ואעפ"כ אומר שדוקא שם הוי' הוא מדת אמיתית.</src>
+    <src s="5">גם צריך להבין לאידך מ"ש רש"י ששם הוי' הוא מדת אמיתית,</src>
+    <src s="6">הרי שם הוי' הוא שם העצם3</src>
+    <src s="7">שלמעלה ממדידה והגבלה,</src>
+    <src s="8">ואעפ"כ אומר שגם שם הוי' הוא</src>
+    <src s="9">(רק)</src>
+    <src s="10">מדת אמיתית שלי,</src>
+    <src s="11">מדת מלשון מדידה והגבלה.</src>
+    <src s="12">ומבאר בהמאמר4,</src>
+    <src s="13">שגם שם הוי' הוא רק הארה ולכן נק' מדה.</src>
+    <src s="14">ובסיום המאמר5,</src>
+    <src s="15">דיש בחינה שלמעלה מהגילוי דהוי' עכשיו.</src>
+    <src s="16">ומזה משמע,</src>
+    <src s="17">שהגילוי דהוי' שיהי' לעתיד לבוא הוא למעלה ממדה.</src>
+    <src s="18">ויש לקשר זה עם מ"ש אדמו"ר הזקן6</src>
+    <src s="19">(בעל ההילולא דכ"ד טבת),</src>
+    <src s="20">דהטעם על זה ששם הוי' לא נודעתי להם</src>
+    <src s="21">(להאבות)</src>
+    <src s="22">הוא לפי שלא ניתנה התורה להם,</src>
+    <src s="23">וגילוי שם הוי' הוא ע"י מתן תורה.</src>
+    <src s="24">ועפ"ז יש לומר,</src>
+    <src s="25">דכיון שלע"ל יהי' הגילוי דפנימיות התורה שלמעלה ממדידה7,</src>
+    <src s="26">לכן גם הגילוי דהוי' לע"ל יהי' למעלה ממדה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה זה שוארא אל אברהם בא-ל שדי הוא8</src>
+    <src s="2">מה שאמר הקב"ה לאברהם</src>
+    <src s="3">(במצות מילה)</src>
+    <src s="4">אני א-ל שדי התהלך לפני והי' תמים9,</src>
+    <src s="5">דהגילוי שהי' לאברהם במצות מילה הי' בודאי גילוי נעלה ביותר,</src>
+    <src s="6">וצריך להבין</src>
+    <src s="7">(כמו שמדייק בהמאמר),</src>
+    <src s="8">הרי שם שדי הי' גם בבריאת העולם,</src>
+    <src s="9">כדאיתא בגמרא10</src>
+    <src s="10">מאי דכתיב אני א-ל שדי אני הוא שאמרתי לעולמי די שהי' הרקיע מתמתח והולך עד שגער בו הקב"ה ואמר לו די,</src>
+    <src s="11">ומהו החידוש בזה שאמר הקב"ה לאברהם אני א-ל שדי.</src>
+    <src s="12">ולכאורה הי' אפשר לומר,</src>
+    <src s="13">דבריאת העולם היא בדרך העלם והסתר הבורא מהנברא,</src>
+    <src s="14">וע"י שאמר הקב"ה לאברהם אני א-ל שדי,</src>
+    <src s="15">האיר לו שם זה בגילוי.</src>
+    <src s="16">אבל מלשון הפסוק אני א-ל שדי משמע שבאמירה זו גילה לו הקב"ה ענין חדש שלפני זה לא הי' בהעולם.</src>
+    <src s="17">ומזה מוכח,</src>
+    <src s="18">שהגילוי דשם שדי שהי' לאברהם הוא נעלה יותר מזה שאמרתי לעולמי די</src>
+    <src s="19">(כדלקמן סעיף ג').</src>
+  </section>
+</awtsmoosMeluketSource>

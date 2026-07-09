@@ -1,0 +1,107 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 15,
+    "returned": 15,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915545_theRebbe_780\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915545_theRebbe_780__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>May it be His will that each person engages in this, and even more so in the remaining days of exile, leading to the immediate redemption with joy, to greet Moshiach and go with him and all Torah scrolls and synagogues to the Holy Land.</sectionSummaryBrief>\n    <t s=\"0\">And may it be His will that each and every one engages in this,</t>\n    <t s=\"1\">and as is proper,</t>\n    <t s=\"2\">and even more so,</t>\n    <t s=\"3\">in the final days that still remain of the days of exile,</t>\n    <t s=\"4\">and this will bring about, very soon,</t>\n    <t s=\"5\">and out of joy and goodness of heart,</t>\n    <t s=\"6\">that we will go with our young and with our elders, with our sons and with our daughters,</t>\n    <t s=\"7\">to greet the face of Moshiach our righteousness.</t>\n    <t s=\"8\">And we will go together with Moshiach our righteousness,</t>\n    <t s=\"9\">and with all the Torah scrolls that are in the diaspora,</t>\n    <t s=\"10\">and including the synagogues and study halls that are in Babylonia</t>\n    <t s=\"11\">(which is in the diaspora),</t>\n    <t s=\"12\">to the land of Israel,</t>\n    <t s=\"13\">the holy land,</t>\n    <t s=\"14\">speedily in our days, literally, with joy and with goodness of heart.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915545_theRebbe_780",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915545_theRebbe_780__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "May it be His will that each person engages in this, and even more so in the remaining days of exile, leading to the immediate redemption with joy, to greet Moshiach and go with him and all Torah scrolls and synagogues to the Holy Land.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And may it be His will that each and every one engages in this,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "and as is proper,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "and even more so,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "in the final days that still remain of the days of exile,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "and this will bring about, very soon,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and out of joy and goodness of heart,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "that we will go with our young and with our elders, with our sons and with our daughters,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "to greet the face of Moshiach our righteousness."
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "And we will go together with Moshiach our righteousness,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "and with all the Torah scrolls that are in the diaspora,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "and including the synagogues and study halls that are in Babylonia"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "(which is in the diaspora),"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "to the land of Israel,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "the holy land,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "speedily in our days, literally, with joy and with goodness of heart."
+          }
+        ]
+      }
+    ]
+  }
+}

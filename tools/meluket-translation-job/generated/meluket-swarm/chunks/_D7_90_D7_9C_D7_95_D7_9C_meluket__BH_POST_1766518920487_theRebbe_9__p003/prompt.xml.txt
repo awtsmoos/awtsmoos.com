@@ -1,0 +1,150 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" title="מאמר לך אמר לבי תש"כ" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה בהענין דפני,</src>
+    <src s="2">בכל אחת מג' בחינות אלה,</src>
+    <src s="3">יש ב' מדריגות,</src>
+    <src s="4">בכללות.</src>
+    <src s="5">פנימיות שיש לה שייכות להחיצוניות,</src>
+    <src s="6">ופנימיות ממש שמובדלת מהחיצוניות.</src>
+    <src s="7">דבענין העולמות הוא אצילות ולמעלה מאצילות.</src>
+    <src s="8">וכמ"ש הצ"צ20</src>
+    <src s="9">בפירוש הכתוב בקשו פני את פניך הוי' אבקש,</src>
+    <src s="10">דבקשו פני הוא להמשיך החכמה,</src>
+    <src s="11">אצילות,</src>
+    <src s="12">ואת פניך הוי' אבקש הוא להמשיך הפנים של הוי',</src>
+    <src s="13">האורות דאריך ועתיק.</src>
+    <src s="14">דהחילוק בין אצילות ולמעלה מאצילות הוא,</src>
+    <src s="15">דאצילות הוא בכלל ד' העולמות אלא שהוא ה"פנים" שלהם,</src>
+    <src s="16">פנימיות ששייך לחיצוניות,</src>
+    <src s="17">ולמעלה מאצילות הוא למעלה מעולמות,</src>
+    <src s="18">פנימיות שמובדל מחיצוניות.</src>
+    <src s="19">ועד"ז הוא בפנימיות הלב,</src>
+    <src s="20">פנים דהנשמות,</src>
+    <src s="21">שיש בו דוגמת ב' מדריגות אלה.</src>
+    <src s="22">וכמבואר בלקו"ת ד"ה כי תצא למלחמה על אויביך21,</src>
+    <src s="23">דבפנימיות הלב יש שתי מדריגות,</src>
+    <src s="24">הארת נקודת הלב ועצמות נקודת הלב,</src>
+    <src s="25">דשתי המדריגות הם מאצילות</src>
+    <src s="26">[דזהו החילוק שבין חיצוניות הלב לפנימיות הלב,</src>
+    <src s="27">שחיצוניות הלב הוא מבי"ע ופנימיות הלב הוא מאצילות.</src>
+    <src s="28">וזהו מה שחיצוניות הלב הוא ע"פ טעם ודעת ופנימיות הלב הוא למעלה מטעם ודעת,</src>
+    <src s="29">כי בבריאה הוא ענין ההשגה,</src>
+    <src s="30">אימא מקננא בכורסיא22,</src>
+    <src s="31">ואצילות בכלל הוא חכמה,</src>
+    <src s="32">דאמיתית ענין החכמה הוא למעלה מהשכל],</src>
+    <src s="33">אלא שהארת נקודת הלב היא מאצילות שבפנימיות בי"ע ועצמות נקודת הלב היא מאצילות עצמו.</src>
+    <src s="34">וכמו שלמעלה,</src>
+    <src s="35">בחינת האצילות שבבי"ע היא רק הארת האצילות,</src>
+    <src s="36">עד"ז הוא בנשמת האדם,</src>
+    <src s="37">שבחינה זו היא רק הארת נקודת הלב.</src>
+    <src s="38">ונמצא,</src>
+    <src s="39">שהארת נקודת הלב הוא מה שמאיר מפנימיות הלב לחיצוניות הלב</src>
+    <src s="40">(ע"ד הארת האצילות בבי"ע),</src>
+    <src s="41">ועצמות נקודת הלב הוא הפנימיות כמו שהוא במקומו.</src>
+  </section>
+  <section v="7">
+    <src s="0">ועד"ז הוא גם בהפנימיות דאלקות,</src>
+    <src s="1">שיש בו דוגמת ב' מדריגות הנ"ל.</src>
+    <src s="2">ויובן זה ע"פ מ"ש בתניא23</src>
+    <src s="3">בענין ב' השמות הוי' ואלקים,</src>
+    <src s="4">דאלקים הוא חיצוניות והוי' הוא פנימיות.</src>
+    <src s="5">[ויש לקשר זה עם המבואר בלקו"ת שם24,</src>
+    <src s="6">דהאהבה שבחיצוניות הלב באה ע"י ההתבוננות באור הממלא,</src>
+    <src s="7">והאהבה</src>
+    <src s="8">(רעו"ד שלמעלה מטו"ד)</src>
+    <src s="9">שבפנימיות הלב נמשכת מאור הסובב,</src>
+    <src s="10">כי הוי' ואלקים הם</src>
+    <src s="11">(בד"כ)</src>
+    <src s="12">סובב וממלא25.</src>
+    <src s="13">ולכן,</src>
+    <src s="14">אור הממלא</src>
+    <src s="15">(אלקים),</src>
+    <src s="16">חיצוניות26,</src>
+    <src s="17">הוא שרש להאהבה דחיצוניות הלב,</src>
+    <src s="18">ואור הסובב</src>
+    <src s="19">(הוי'),</src>
+    <src s="20">פנימיות,</src>
+    <src s="21">הוא שרש להאהבה דפנימיות הלב].</src>
+    <src s="22">ועפ"ז יש לומר,</src>
+    <src s="23">דפירוש פניך הוי' הוא העצם דהוי' שלמעלה מהתלבשות באלקים.</src>
+    <src s="24">דזה שהוי'</src>
+    <src s="25">(בכלל)</src>
+    <src s="26">הוא פנימיות,</src>
+    <src s="27">הוא גם לאחרי שמתלבש באלקים.</src>
+    <src s="28">ופניך הוי' הוא העצם דהוי' שלמעלה מהתלבשות באלקים.</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">ויש לומר דבחינת פניך הוי',</src>
+    <src s="2">הפנימיות דהוי',</src>
+    <src s="3">הוא למעלה גם מהוי' שלמעלה מהתלבשות באלקים.</src>
+    <src s="4">[וע"ד המבואר במקום אחר27</src>
+    <src s="5">בפירוש הכתוב28</src>
+    <src s="6">ואמת הוי' לעולם,</src>
+    <src s="7">דגם שם הוי' שלמעלה מהתלבשות באלקים הוא הוי'</src>
+    <src s="8">(סתם),</src>
+    <src s="9">ואמת הוי'</src>
+    <src s="10">(האמיתית דהוי')</src>
+    <src s="11">הוא עצמות אוא"ס שלמעלה משם הוי',</src>
+    <src s="12">למעלה גם מהוי' שלמעלה מהתלבשות באלקים].</src>
+    <src s="13">ויובן זה ע"פ הידוע29</src>
+    <src s="14">דהפנימיות של כל דבר הוא הדבר עצמו,</src>
+    <src s="15">וזה שהוא מקור לאיזה ענין אחר,</src>
+    <src s="16">הוא החיצוניות שלו.</src>
+    <src s="17">ועפ"ז יש לבאר החילוק בין שתי הדרגות בהפנימיות שלמעלה</src>
+    <src s="18">(הוי' ואוא"ס שלמעלה מהוי'),</src>
+    <src s="19">דהוי' הוא לשון מהווה30,</src>
+    <src s="20">אלא שההתהוות שמשם הוי' היא באופן דבדרך ממילא.</src>
+    <src s="21">וכידוע31</src>
+    <src s="22">דההתהוות שמשם אלקים היא בדרך התלבשות</src>
+    <src s="23">(בראשית ברא אלקים32),</src>
+    <src s="24">וההתהוות משם הוי' היא באופן דבדרך ממילא</src>
+    <src s="25">(יהללו את שם הוי' כי הוא צוה ונבראו33).</src>
+    <src s="26">ולכן,</src>
+    <src s="27">בכללות,</src>
+    <src s="28">שם הוי' הוא פנימיות,</src>
+    <src s="29">כי זה שההתהוות ממנו היא באופן דבדרך ממילא,</src>
+    <src s="30">מורה על זה שהוא מופלא מענין ההתהוות34</src>
+    <src s="31">(ואינו מקור ממש).</src>
+    <src s="32">אבל בפרטיות,</src>
+    <src s="33">זה שמשם הוי' נעשה ההתהוות,</src>
+    <src s="34">הוא מפני שהוא מקור לההתהוות35,</src>
+    <src s="35">ולכן,</src>
+    <src s="36">עיקר ענין הפנימיות הוא בעצמות אוא"ס שלמעלה מהוי'.</src>
+  </section>
+</awtsmoosMeluketSource>

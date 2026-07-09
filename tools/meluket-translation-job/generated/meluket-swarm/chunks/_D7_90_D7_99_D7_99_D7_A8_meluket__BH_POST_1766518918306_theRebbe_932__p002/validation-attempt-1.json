@@ -1,0 +1,399 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 71,
+    "returned": 71,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918306_theRebbe_932\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the \"poor\" person in the verse refers not only to one in a state of self-nullification, but also to one who is literally poor in knowledge, serving G-d through simple faith below reason, yet this very poverty contains an aspect of sublime nullification, likened to the moon which at its new phase is a mere point or completely hidden, yet then receives new light from above the sun.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And we may add in explanation of the verse, “And to this one I will look: to the poor [ani]…,”</t>\n    <t s=\"2\">that the intent of “poor” is not only regarding the matter of self-nullification [bittul],</t>\n    <t s=\"3\">but also [refers to] poverty in its simple sense</t>\n    <t s=\"4\">(one who is poor in knowledge),</t>\n    <t s=\"5\">who has no knowledge or comprehension of G-dliness, and his service is only from the aspect of faith</t>\n    <t s=\"6\">that is below</t>\n    <t s=\"7\">reason and understanding,</t>\n    <t s=\"8\">nevertheless,</t>\n    <t s=\"9\">since in this poverty</t>\n    <t s=\"10\">(of faith that is below reason and understanding)</t>\n    <t s=\"11\">there is also the aspect of poverty that is a virtue,</t>\n    <t s=\"12\">[namely] self-nullification,</t>\n    <t s=\"13\">therefore,</t>\n    <t s=\"14\">“To this one I will look.”</t>\n    <t s=\"15\">And this is analogous to the moon,</t>\n    <t s=\"16\">for although at the time of the new moon it is only a point</t>\n    <t s=\"17\">(and all the more so, in the moment before the new moon it is completely concealed and hidden),</t>\n    <t s=\"18\">this is because it does not shine,</t>\n    <t s=\"19\">and nevertheless,</t>\n    <t s=\"20\">since this is also connected with its self-nullification,</t>\n    <t s=\"21\">a new light from above the sun is drawn into it then.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section connects the previous idea to the explanation of the Rebbe Maharash on the verse \"And at the beginnings of your months,\" explaining that the month represents the attribute of Malchus, which is the aspect of faith, containing two points—the lower point of the segol and the upper point of the segolta, for their beginning is embedded in their end.</sectionSummaryBrief>\n    <t s=\"0\">And this can be connected with the explanation of the Rebbe Maharash</t>\n    <t s=\"1\">(whose birthday is the 2nd of Iyar)</t>\n    <t s=\"2\">on the verse,</t>\n    <t s=\"3\">“And at the beginnings of your months,”</t>\n    <t s=\"4\">that what is written “beginnings of your months,”</t>\n    <t s=\"5\">“beginnings” in the plural,</t>\n    <t s=\"6\">is [explained as follows]:</t>\n    <t s=\"7\">For “month” [chodesh] is the attribute of Malchus,</t>\n    <t s=\"8\">which is the aspect of faith,</t>\n    <t s=\"9\">that contains two points.</t>\n    <t s=\"10\">For in the segol [vowel], the middle point is beneath the two [outer] points,</t>\n    <t s=\"11\">and in the segolta [cantillation mark], the middle point is above the two [outer] points,</t>\n    <t s=\"12\">and in faith there are both points.</t>\n    <t s=\"13\">For in revelation it is the lower point of the segol,</t>\n    <t s=\"14\">yet it also contains the upper point of the segolta,</t>\n    <t s=\"15\">for their beginning</t>\n    <t s=\"16\">is embedded in their end.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section concludes that the service of the \"poor and lowly of spirit\" (faith) must precede the service of \"The heavens are My throne and the earth My footstool\" (Torah and mitzvos) and even the service of \"What house will you build for Me\" (with all your might), for faith and self-nullification are the foundation of all; initially this poverty is simple, but after inner and encompassing service it becomes like that of Moshe Rabbeinu, for whom all matters of G-dliness were in a manner of faith, representing a nullification of existence above reason.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And based on this, it follows</t>\n    <t s=\"2\">that the service of the “poor and lowly of spirit”</t>\n    <t s=\"3\">(faith)</t>\n    <t s=\"4\">must be even before the service of “The heavens are My throne and the earth My footstool”</t>\n    <t s=\"5\">(Torah and mitzvos),</t>\n    <t s=\"6\">and all the more so before the service of “What house will you build for Me”</t>\n    <t s=\"7\">(with all your might),</t>\n    <t s=\"8\">for faith and self-nullification are the foundation of all matters.</t>\n    <t s=\"9\">However, initially,</t>\n    <t s=\"10\">his poverty is in its simple sense,</t>\n    <t s=\"11\">that the need for faith in G-dliness</t>\n    <t s=\"12\">(even though many matters are necessary from the perspective of intellect)</t>\n    <t s=\"13\">is because he is poor in knowledge,</t>\n    <t s=\"14\">and after the service with the inner powers</t>\n    <t s=\"15\">(“The heavens are My throne and the earth My footstool”)</t>\n    <t s=\"16\">and with the encompassing powers</t>\n    <t s=\"17\">(“house”),</t>\n    <t s=\"18\">his poverty is</t>\n    <t s=\"19\">in the manner of our Sages’ statement,</t>\n    <t s=\"20\">“A simpleton believes every word”</t>\n    <t s=\"21\">—this is Moshe Rabbeinu,</t>\n    <t s=\"22\">for although Moshe possessed comprehension of the utmost perfection,</t>\n    <t s=\"23\">nevertheless, for him all matters</t>\n    <t s=\"24\">(of G-dliness)</t>\n    <t s=\"25\">were in a manner of faith,</t>\n    <t s=\"26\">for since regarding the Holy One, blessed be He, “no thought can grasp Him at all,”</t>\n    <t s=\"27\">everything is as naught before Him,</t>\n    <t s=\"28\">therefore all matters must be in a manner of faith.</t>\n    <t s=\"29\">And in general terms,</t>\n    <t s=\"30\">the poverty at the beginning of service is the self-nullification of acceptance of the yoke that is below reason and understanding,</t>\n    <t s=\"31\">and the poverty afterward is the self-nullification of existence that is above reason and understanding.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918306_theRebbe_932",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the \"poor\" person in the verse refers not only to one in a state of self-nullification, but also to one who is literally poor in knowledge, serving G-d through simple faith below reason, yet this very poverty contains an aspect of sublime nullification, likened to the moon which at its new phase is a mere point or completely hidden, yet then receives new light from above the sun.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And we may add in explanation of the verse, “And to this one I will look: to the poor [ani]…,”"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that the intent of “poor” is not only regarding the matter of self-nullification [bittul],"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "but also [refers to] poverty in its simple sense"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "(one who is poor in knowledge),"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "who has no knowledge or comprehension of G-dliness, and his service is only from the aspect of faith"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "that is below"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "reason and understanding,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "since in this poverty"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "(of faith that is below reason and understanding)"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "there is also the aspect of poverty that is a virtue,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "[namely] self-nullification,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "therefore,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "“To this one I will look.”"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "And this is analogous to the moon,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "for although at the time of the new moon it is only a point"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "(and all the more so, in the moment before the new moon it is completely concealed and hidden),"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "this is because it does not shine,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "and nevertheless,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "since this is also connected with its self-nullification,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "a new light from above the sun is drawn into it then."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section connects the previous idea to the explanation of the Rebbe Maharash on the verse \"And at the beginnings of your months,\" explaining that the month represents the attribute of Malchus, which is the aspect of faith, containing two points—the lower point of the segol and the upper point of the segolta, for their beginning is embedded in their end.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And this can be connected with the explanation of the Rebbe Maharash"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "(whose birthday is the 2nd of Iyar)"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "“And at the beginnings of your months,”"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that what is written “beginnings of your months,”"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "“beginnings” in the plural,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "is [explained as follows]:"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "For “month” [chodesh] is the attribute of Malchus,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "which is the aspect of faith,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "that contains two points."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "For in the segol [vowel], the middle point is beneath the two [outer] points,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "and in the segolta [cantillation mark], the middle point is above the two [outer] points,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "and in faith there are both points."
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "For in revelation it is the lower point of the segol,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "yet it also contains the upper point of the segolta,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "for their beginning"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "is embedded in their end."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section concludes that the service of the \"poor and lowly of spirit\" (faith) must precede the service of \"The heavens are My throne and the earth My footstool\" (Torah and mitzvos) and even the service of \"What house will you build for Me\" (with all your might), for faith and self-nullification are the foundation of all; initially this poverty is simple, but after inner and encompassing service it becomes like that of Moshe Rabbeinu, for whom all matters of G-dliness were in a manner of faith, representing a nullification of existence above reason.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And based on this, it follows"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "that the service of the “poor and lowly of spirit”"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "(faith)"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "must be even before the service of “The heavens are My throne and the earth My footstool”"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "(Torah and mitzvos),"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and all the more so before the service of “What house will you build for Me”"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "(with all your might),"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "for faith and self-nullification are the foundation of all matters."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "However, initially,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "his poverty is in its simple sense,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "that the need for faith in G-dliness"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "(even though many matters are necessary from the perspective of intellect)"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "is because he is poor in knowledge,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "and after the service with the inner powers"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "(“The heavens are My throne and the earth My footstool”)"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "and with the encompassing powers"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "(“house”),"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "his poverty is"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "in the manner of our Sages’ statement,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "“A simpleton believes every word”"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "—this is Moshe Rabbeinu,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "for although Moshe possessed comprehension of the utmost perfection,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "nevertheless, for him all matters"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "(of G-dliness)"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "were in a manner of faith,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "for since regarding the Holy One, blessed be He, “no thought can grasp Him at all,”"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "everything is as naught before Him,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "therefore all matters must be in a manner of faith."
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "And in general terms,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "the poverty at the beginning of service is the self-nullification of acceptance of the yoke that is below reason and understanding,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "and the poverty afterward is the self-nullification of existence that is above reason and understanding."
+          }
+        ]
+      }
+    ]
+  }
+}

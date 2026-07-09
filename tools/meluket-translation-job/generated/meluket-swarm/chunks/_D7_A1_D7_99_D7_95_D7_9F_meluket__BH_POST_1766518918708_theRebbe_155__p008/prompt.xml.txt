@@ -1,0 +1,48 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918708_theRebbe_155" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918708_theRebbe_155__p008">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918708_theRebbe_155" title="מאמר בשעה שעלה משה למרום תשכ"ה" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918708_theRebbe_155__p008">
+  <section v="21">
+    <src s="0">וזהו מ"ש וספרתם לכם גו' מיום הביאכם את עומר התנופה גו',</src>
+    <src s="1">דענין עומר התנופה גו' הוא כמ"ש61</src>
+    <src s="2">והניף את העומר גו' לרצונכם,</src>
+    <src s="3">לרצונכם הוא רעותא דלבא,</src>
+    <src s="4">וע"י רצון זה</src>
+    <src s="5">(דהאדם)</src>
+    <src s="6">עושים וממשיכים רצונו של מקום.</src>
+    <src s="7">וזהו אימתי הן תמימות בזמן שישראל עושין רצונו של מקום,</src>
+    <src s="8">דהמשכה זו הו"ע התמימות,</src>
+    <src s="9">אמיתית השלימות.</src>
+  </section>
+</awtsmoosMeluketSource>

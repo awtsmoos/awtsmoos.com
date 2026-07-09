@@ -1,0 +1,252 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 44,
+    "returned": 44,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914213_theRebbe_9\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>This section explains the sequence from Rosh Hashanah through Sukkos, culminating in the future redemption and the universal service of G-d.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">7)</t>\n    <t s=\"2\">And this is the meaning of what is said, \"In sukkos you shall dwell for seven days; every citizen in Israel shall dwell in sukkos,\"</t>\n    <t s=\"3\">that after the service of \"Blow the shofar in the month\" on Rosh Hashanah,</t>\n    <t s=\"4\">when the drawing down is still in a manner of \"in concealment,\"</t>\n    <t s=\"5\">behold, after this come the ten days between Rosh Hashanah and Yom Kippur, about which it is said,</t>\n    <t s=\"6\">\"Seek G-d when He is found, call Him when He is near,\"</t>\n    <t s=\"7\">and the saying of the Holy One, blessed be He, is considered an action,</t>\n    <t s=\"8\">and it becomes an action in actuality,</t>\n    <t s=\"9\">that \"seek\" and \"call Him\" are actualized in deed.</t>\n    <t s=\"10\">And this then effects the four days between Yom Kippur and Sukkos,</t>\n    <t s=\"11\">when the Torah of truth testifies that all of Israel and every individual Jew are occupied with mitzvos,</t>\n    <t s=\"12\">and after the preparation</t>\n    <t s=\"13\">(during these four days)</t>\n    <t s=\"14\">of \"the festival of Sukkos you shall make for yourself\" etc.</t>\n    <t s=\"15\">(with all the interpretations thereof)</t>\n    <t s=\"16\">[that even the making of the sukkah is included in the mitzvah,</t>\n    <t s=\"17\">as the Alter Rebbe writes in his Shulchan Aruch</t>\n    <t s=\"18\">to rule halachically regarding the reason for the ruling that we do not recite a blessing over its making because it is not the completion of the mitzvah,</t>\n    <t s=\"19\">and the blessing of Shehecheyanu also applies to the making]</t>\n    <t s=\"20\">behold, they then come on the festival of Sukkos to the fulfillment of the mitzvah itself,</t>\n    <t s=\"21\">\"In sukkos you shall dwell for seven days.\"</t>\n    <t s=\"22\">And immediately the next morning</t>\n    <t s=\"23\">(at dawn and sunrise)</t>\n    <t s=\"24\">comes the mitzvah of the Four Species,</t>\n    <t s=\"25\">\"And you shall take for yourselves on the first day the fruit of a beautiful tree, branches of date palms, and a branch of a leafy tree, and willows of the brook, and you shall rejoice before the L-rd your G-d.\"</t>\n    <t s=\"26\">Until they come to the Simchas Beis HaShoevah,</t>\n    <t s=\"27\">where the great joy of \"and you shall rejoice\" occurs in a manner of \"whoever has not seen the Simchas Beis HaShoevah has never seen joy in his life.\"</t>\n    <t s=\"28\">And then they merit that very soon, \"every citizen in Israel shall dwell in sukkos\" will actually be fulfilled</t>\n    <t s=\"29\">(and not merely that they are fit to dwell),</t>\n    <t s=\"30\">for the true and complete redemption will come through our righteous Mashiach.</t>\n    <t s=\"31\">And then the fulfillment of the mitzvah of \"and you shall rejoice before the L-rd your G-d\" will be in completeness and from the Torah,</t>\n    <t s=\"32\">its fulfillment being in the Beis HaMikdash,</t>\n    <t s=\"33\">the third Beis HaMikdash,</t>\n    <t s=\"34\">\"The Sanctuary, O L-rd, which Your hands have established,\"</t>\n    <t s=\"35\">very soon.</t>\n    <t s=\"36\">He will come and redeem us and lead us upright to our land,</t>\n    <t s=\"37\">and build the Beis HaMikdash in its place,</t>\n    <t s=\"38\">and gather the dispersed of Israel, and the kingdom shall be the L-rd's.</t>\n    <t s=\"39\">And as an introduction to this, it will be as it is said,</t>\n    <t s=\"40\">\"For then I will turn to the peoples a pure language, etc., to serve Him with one accord,\"</t>\n    <t s=\"41\">which is drawn down in revelation through the offering of the seventy bulls on the festival of Sukkos.</t>\n    <t s=\"42\">May it be so for us,</t>\n    <t s=\"43\">and very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914213_theRebbe_9",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "This section explains the sequence from Rosh Hashanah through Sukkos, culminating in the future redemption and the universal service of G-d.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "7)"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "And this is the meaning of what is said, \"In sukkos you shall dwell for seven days; every citizen in Israel shall dwell in sukkos,\""
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "that after the service of \"Blow the shofar in the month\" on Rosh Hashanah,"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "when the drawing down is still in a manner of \"in concealment,\""
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "behold, after this come the ten days between Rosh Hashanah and Yom Kippur, about which it is said,"
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "\"Seek G-d when He is found, call Him when He is near,\""
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "and the saying of the Holy One, blessed be He, is considered an action,"
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "and it becomes an action in actuality,"
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "that \"seek\" and \"call Him\" are actualized in deed."
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "And this then effects the four days between Yom Kippur and Sukkos,"
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "when the Torah of truth testifies that all of Israel and every individual Jew are occupied with mitzvos,"
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "and after the preparation"
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "(during these four days)"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "of \"the festival of Sukkos you shall make for yourself\" etc."
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "(with all the interpretations thereof)"
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "[that even the making of the sukkah is included in the mitzvah,"
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "as the Alter Rebbe writes in his Shulchan Aruch"
+          },
+          {
+            "v": 18,
+            "s": 18,
+            "translation": "to rule halachically regarding the reason for the ruling that we do not recite a blessing over its making because it is not the completion of the mitzvah,"
+          },
+          {
+            "v": 18,
+            "s": 19,
+            "translation": "and the blessing of Shehecheyanu also applies to the making]"
+          },
+          {
+            "v": 18,
+            "s": 20,
+            "translation": "behold, they then come on the festival of Sukkos to the fulfillment of the mitzvah itself,"
+          },
+          {
+            "v": 18,
+            "s": 21,
+            "translation": "\"In sukkos you shall dwell for seven days.\""
+          },
+          {
+            "v": 18,
+            "s": 22,
+            "translation": "And immediately the next morning"
+          },
+          {
+            "v": 18,
+            "s": 23,
+            "translation": "(at dawn and sunrise)"
+          },
+          {
+            "v": 18,
+            "s": 24,
+            "translation": "comes the mitzvah of the Four Species,"
+          },
+          {
+            "v": 18,
+            "s": 25,
+            "translation": "\"And you shall take for yourselves on the first day the fruit of a beautiful tree, branches of date palms, and a branch of a leafy tree, and willows of the brook, and you shall rejoice before the L-rd your G-d.\""
+          },
+          {
+            "v": 18,
+            "s": 26,
+            "translation": "Until they come to the Simchas Beis HaShoevah,"
+          },
+          {
+            "v": 18,
+            "s": 27,
+            "translation": "where the great joy of \"and you shall rejoice\" occurs in a manner of \"whoever has not seen the Simchas Beis HaShoevah has never seen joy in his life.\""
+          },
+          {
+            "v": 18,
+            "s": 28,
+            "translation": "And then they merit that very soon, \"every citizen in Israel shall dwell in sukkos\" will actually be fulfilled"
+          },
+          {
+            "v": 18,
+            "s": 29,
+            "translation": "(and not merely that they are fit to dwell),"
+          },
+          {
+            "v": 18,
+            "s": 30,
+            "translation": "for the true and complete redemption will come through our righteous Mashiach."
+          },
+          {
+            "v": 18,
+            "s": 31,
+            "translation": "And then the fulfillment of the mitzvah of \"and you shall rejoice before the L-rd your G-d\" will be in completeness and from the Torah,"
+          },
+          {
+            "v": 18,
+            "s": 32,
+            "translation": "its fulfillment being in the Beis HaMikdash,"
+          },
+          {
+            "v": 18,
+            "s": 33,
+            "translation": "the third Beis HaMikdash,"
+          },
+          {
+            "v": 18,
+            "s": 34,
+            "translation": "\"The Sanctuary, O L-rd, which Your hands have established,\""
+          },
+          {
+            "v": 18,
+            "s": 35,
+            "translation": "very soon."
+          },
+          {
+            "v": 18,
+            "s": 36,
+            "translation": "He will come and redeem us and lead us upright to our land,"
+          },
+          {
+            "v": 18,
+            "s": 37,
+            "translation": "and build the Beis HaMikdash in its place,"
+          },
+          {
+            "v": 18,
+            "s": 38,
+            "translation": "and gather the dispersed of Israel, and the kingdom shall be the L-rd's."
+          },
+          {
+            "v": 18,
+            "s": 39,
+            "translation": "And as an introduction to this, it will be as it is said,"
+          },
+          {
+            "v": 18,
+            "s": 40,
+            "translation": "\"For then I will turn to the peoples a pure language, etc., to serve Him with one accord,\""
+          },
+          {
+            "v": 18,
+            "s": 41,
+            "translation": "which is drawn down in revelation through the offering of the seventy bulls on the festival of Sukkos."
+          },
+          {
+            "v": 18,
+            "s": 42,
+            "translation": "May it be so for us,"
+          },
+          {
+            "v": 18,
+            "s": 43,
+            "translation": "and very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

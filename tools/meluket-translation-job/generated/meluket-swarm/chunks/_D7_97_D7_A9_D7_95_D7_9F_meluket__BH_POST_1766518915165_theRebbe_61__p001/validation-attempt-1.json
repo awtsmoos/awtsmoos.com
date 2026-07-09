@@ -1,0 +1,219 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 35,
+    "returned": 35,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915165_theRebbe_61\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915165_theRebbe_61__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>Introductory header with the date and Torah portion for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Toldos,</t>\n    <t s=\"2\">Erev Rosh Chodesh and Erev Rosh Chodesh Kislev,</t>\n    <t s=\"3\">5731</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>Note that this is an unedited talk.</sectionSummaryBrief>\n    <t s=\"0\">(Unedited talk)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>Yonasan's statement about the new moon teaches that through the nullification of the recipient, a renewal is brought about from a level above the chain of descent.</sectionSummaryBrief>\n    <t s=\"0\">\"And Yonasan said to him: Tomorrow is the new moon, and you will be missed, for your seat will be vacant.\"</t>\n    <t s=\"1\">This means that through the nullification of the recipient, which is the aspect of \"your seat will be vacant,\"</t>\n    <t s=\"2\">through this, a remembrance is made above</t>\n    <t s=\"3\">(as it is in its simple sense),</t>\n    <t s=\"4\">that through the concealment and hiding of the moon completely on the eve of Rosh Chodesh,</t>\n    <t s=\"5\">until not even a point remains of it,</t>\n    <t s=\"6\">through this \"tomorrow\" is made—a new month,</t>\n    <t s=\"7\">which is the rebirth of the moon anew,</t>\n    <t s=\"8\">which is the matter of the union of the sun and the moon.</t>\n    <t s=\"9\">And in avodah, it is that through the nullification of the recipient, renewal is brought about through this.</t>\n    <t s=\"10\">Now, in order for the matter of renewal to exist, it must be drawn from a level that is above the order of the chain of descent,</t>\n    <t s=\"11\">and as it will be in the future to come, when there will be a renewal in creation, because the drawing down will be from the aspect of the innerness of Atik.</t>\n    <t s=\"12\">For all the current drawngs down are only from the externality of Atik, unlike the future to come, when it will be drawn from the innerness of Atik itself.</t>\n    <t s=\"13\">And the revelations of the future depend on our deeds and our service during the time of exile,</t>\n    <t s=\"14\">therefore, the aspect of the rebirth of the moon on Rosh Chodesh, which is the matter of renewal,</t>\n    <t s=\"15\">is a foretaste of that which they are destined to be renewed like it in the future to come.</t>\n    <t s=\"16\">And similar to what is explained in the Midrash</t>\n    <t s=\"17\">regarding the matter of \"They are new every morning; great is Your faithfulness,\"</t>\n    <t s=\"18\">that from the fact that a person is renewed every morning as a new creation, \"great is Your faithfulness\" is that it is an example of the resurrection of the dead, that the Holy One, blessed be He, revives them with the dew that revives.</t>\n    <t s=\"19\">However, the primary matter of renewal will be specifically in the future to come, as explained in Likkutei Torah,</t>\n    <t s=\"20\">that then there will be new souls.</t>\n    <t s=\"21\">And it is true that even now there are new souls, but this is not the true essence of the matter of renewal,</t>\n    <t s=\"22\">and the true essence of the aspect of new souls will be specifically in the future to come,</t>\n    <t s=\"23\">this being the matter of \"and their crowns\"</t>\n    <t s=\"24\">\"on their heads\"</t>\n    <t s=\"25\">etc.</t>\n    <t s=\"26\">But nevertheless, there is an example of the matter of renewal even now, on Rosh Chodesh, that through nullification etc. one reaches the aspect of Eden,</t>\n    <t s=\"27\">about which our sages, of blessed memory, said,</t>\n    <t s=\"28\">\"All the prophets prophesied only about the days of Moshiach, but regarding the World to Come, 'No eye has seen a God besides You'\"</t>\n    <t s=\"29\">etc.—this is Eden etc.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915165_theRebbe_61",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915165_theRebbe_61__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "Introductory header with the date and Torah portion for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Toldos,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Erev Rosh Chodesh and Erev Rosh Chodesh Kislev,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "5731"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "Note that this is an unedited talk.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "(Unedited talk)"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "Yonasan's statement about the new moon teaches that through the nullification of the recipient, a renewal is brought about from a level above the chain of descent.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"And Yonasan said to him: Tomorrow is the new moon, and you will be missed, for your seat will be vacant.\""
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "This means that through the nullification of the recipient, which is the aspect of \"your seat will be vacant,\""
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "through this, a remembrance is made above"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(as it is in its simple sense),"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that through the concealment and hiding of the moon completely on the eve of Rosh Chodesh,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "until not even a point remains of it,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "through this \"tomorrow\" is made—a new month,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "which is the rebirth of the moon anew,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "which is the matter of the union of the sun and the moon."
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And in avodah, it is that through the nullification of the recipient, renewal is brought about through this."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "Now, in order for the matter of renewal to exist, it must be drawn from a level that is above the order of the chain of descent,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "and as it will be in the future to come, when there will be a renewal in creation, because the drawing down will be from the aspect of the innerness of Atik."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "For all the current drawngs down are only from the externality of Atik, unlike the future to come, when it will be drawn from the innerness of Atik itself."
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "And the revelations of the future depend on our deeds and our service during the time of exile,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "therefore, the aspect of the rebirth of the moon on Rosh Chodesh, which is the matter of renewal,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "is a foretaste of that which they are destined to be renewed like it in the future to come."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And similar to what is explained in the Midrash"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "regarding the matter of \"They are new every morning; great is Your faithfulness,\""
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "that from the fact that a person is renewed every morning as a new creation, \"great is Your faithfulness\" is that it is an example of the resurrection of the dead, that the Holy One, blessed be He, revives them with the dew that revives."
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "However, the primary matter of renewal will be specifically in the future to come, as explained in Likkutei Torah,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "that then there will be new souls."
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "And it is true that even now there are new souls, but this is not the true essence of the matter of renewal,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "and the true essence of the aspect of new souls will be specifically in the future to come,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "this being the matter of \"and their crowns\""
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "\"on their heads\""
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "etc."
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "But nevertheless, there is an example of the matter of renewal even now, on Rosh Chodesh, that through nullification etc. one reaches the aspect of Eden,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "about which our sages, of blessed memory, said,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "\"All the prophets prophesied only about the days of Moshiach, but regarding the World to Come, 'No eye has seen a God besides You'\""
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "etc.—this is Eden etc."
+          }
+        ]
+      }
+    ]
+  }
+}

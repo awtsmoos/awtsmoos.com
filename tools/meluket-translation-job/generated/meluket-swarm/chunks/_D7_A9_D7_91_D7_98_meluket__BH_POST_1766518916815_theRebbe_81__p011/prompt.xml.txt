@@ -1,0 +1,118 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p011">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" title="מאמר באתי לגני תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p011">
+  <section v="30">
+    <src s="0">י)</src>
+    <src s="1">ט)</src>
+    <src s="2">והנה ענין זה שהעצה ליפטר מבלבולים בתפלה הוא ע"י ההתבוננות שהכוונה בהבלבולים היא בכדי לעורר את האדם להתפלל יותר בכוונה,</src>
+    <src s="3">הוא כשהבלבולים הם ע"י דיבורו של אדם אחר המבלבלו.</src>
+    <src s="4">משא"כ כשהבלבולים הם ממחשבות זרות שנופלות לו מנפשו הבהמית בכדי לבלבלו</src>
+    <src s="5">(אף שזה שנפשו הבהמית מבלבלת אותו בהמחשבות זרות הוא כמשל ערל רשע שמבלבל אותו ע"י דיבורו,</src>
+    <src s="6">כמובא לעיל מתניא),</src>
+    <src s="7">מ"מ,</src>
+    <src s="8">בעת נפילת המחשבות זרות אין מקום להתבונן בהכוונה דירידת השכינה והתלבשות ניצוץ מהארתה בהמחשבות זרות,</src>
+    <src s="9">וכמ"ש בתניא שם שלא ישיב שום טענה ומענה נגד המחשבה זרה</src>
+    <src s="10">[ויש לומר,</src>
+    <src s="11">שגם ההתבוננות בסיבת המחשבה זרה היא בכלל טענה ומענה],</src>
+    <src s="12">והעצה היא שיעשה עצמו כלא יודע ולא שומע ההרהורים שנפלו לו ויסירם מדעתו.</src>
+    <src s="13">[דכאשר מתבונן בהכוונה דהמחשבות זרות בזמן אחר,</src>
+    <src s="14">ההתבוננות יכולה להועיל שבעת התפלה לא יהיו לו מחשבות זרות.</src>
+    <src s="15">אבל בעת נפילת המחשבות עצמם,</src>
+    <src s="16">העצה היא לעשות עצמו כלא יודע ולא שומע ההרהורים שנפלו לו].</src>
+    <src s="17">ולכן אומר בהמאמר שהעצה ליפטר מהמחשבות שנופלות בשעת התורה והתפלה היא לעורר מדת הנצח,</src>
+    <src s="18">כי בעת נפילת המחשבות זרות אין מקום להתבוננות,</src>
+    <src s="19">כנ"ל.</src>
+  </section>
+  <section v="31">
+    <src s="0">כ)</src>
+    <src s="1">"ף)</src>
+    <src s="2">והנה ע"י ההתבוננות בסיבת הבלבולים</src>
+    <src s="3">[הבאים ע"י דיבורו של אדם אחר המבלבלו,</src>
+    <src s="4">ועד"ז ההתבוננות בסיבת הבלבולים דמחשבות זרות הבאות מנפש הבהמית,</src>
+    <src s="5">שמתבונן בזה בזמן אחר]</src>
+    <src s="6">דירידת השכינה והתלבשות ניצוץ מהארתה בהדיבורים ובהמחשבות המבלבלים הוא בכדי שעי"ז יתעורר בכוונה יתירה,</src>
+    <src s="7">ירידה צורך עלי',</src>
+    <src s="8">עי"ז הוא מעלה את הניצוצות שנפלו בהדיבור,</src>
+    <src s="9">אתהפכא.</src>
+    <src s="10">וכאשר מעורר את מדת הנצח שבו ומתגבר על הבלבולים ומדחה אותם,</src>
+    <src s="11">ועושה עצמו שלא שומע ההרהורים,</src>
+    <src s="12">הוא אתכפיא.</src>
+    <src s="13">וע"פ המבואר לעיל</src>
+    <src s="14">(סעיף ה)</src>
+    <src s="15">שההמשכה שע"י העבודה דאתכפיא היא נעלית יותר מההמשכה שע"י העבודה דאתהפכא,</src>
+    <src s="16">יש לומר,</src>
+    <src s="17">שע"י שמדחה את ההרהורים באופן דאתכפיא,</src>
+    <src s="18">מיתוסף אומץ בכוונתו בתפלה עוד יותר מההוספה בכוונה שנעשית ע"י ההתבוננות הנ"ל.</src>
+  </section>
+  <section v="32">
+    <src s="0">כ)</src>
+    <src s="1">א)</src>
+    <src s="2">והנה בכדי שיוכל האדם להתגבר על הבלבולים ולדחותם,</src>
+    <src s="3">שזוהי עבודה גדולה וקשה ביותר,</src>
+    <src s="4">נותנים לו מלמעלה,</src>
+    <src s="5">ובאופן דבזבוז,</src>
+    <src s="6">האוצר העליון.</src>
+    <src s="7">ויש לבאר השייכות דשני הענינים,</src>
+    <src s="8">דכיון שאוצר הוא ענין הנעלם,</src>
+    <src s="9">עין לא ראתה125,</src>
+    <src s="10">הרי זה שנותנים ומגלים את האוצר,</src>
+    <src s="11">ובפרט באופן דבזבוז,</src>
+    <src s="12">הוא קשה כביכול לפני הקב"ה,</src>
+    <src s="13">ומ"מ עושים זה בשביל האדם,</src>
+    <src s="14">בכדי שיוכל לעבוד עבודה קשה הנ"ל.</src>
+    <src s="15">ויש להוסיף,</src>
+    <src s="16">שע"פ הידוע126</src>
+    <src s="17">שההמשכה מלמעלה הבאה ע"י עבודת האדם היא נעלית יותר מההמשכה מלמעלה שהיא נתינת כח להאדם לעבוד עבודתו,</src>
+    <src s="18">יש לומר,</src>
+    <src s="19">שע"י שהאדם מתגבר על הבלבולים ומדחה אותם</src>
+    <src s="20">(ע"י הנתינת כח דהמשכת אוצר העליון),</src>
+    <src s="21">המשכת האוצר הבאה ע"י עבודתו,</src>
+    <src s="22">היא נעלית עוד יותר.</src>
+    <src s="23">ויש לומר,</src>
+    <src s="24">דזהו שאומר בהמאמר</src>
+    <src s="25">(בהסיום והחותם דפרק העשרים,</src>
+    <src s="26">שהוא גם הסיום והחותם דכל ההמשך),</src>
+    <src s="27">דע"י הנצחון שאדם מנצח את הנה"ב שלו הוא גורם127</src>
+    <src s="28">המשכת אוצר העליון,</src>
+    <src s="29">שהוא גילוי פנימיות ועצמות אין סוף ב"ה.</src>
+    <src s="30">דבפרקים הקודמים כשמבאר ענין האוצר,</src>
+    <src s="31">אינו אומר לשון זה</src>
+    <src s="32">(פנימיות ועצמות א"ס ב"ה)128,</src>
+    <src s="33">כי שם מדבר בענין המשכת וגילוי האוצר שבשביל הנצחון,</src>
+    <src s="34">ובסיום וחותם ההמשך שמדבר בענין המשכת האוצר הבא ע"י הנצחון דהאדם,</src>
+    <src s="35">אומר,</src>
+    <src s="36">שהוא גילוי פנימיות ועצמות אין סוף ב"ה.</src>
+  </section>
+</awtsmoosMeluketSource>

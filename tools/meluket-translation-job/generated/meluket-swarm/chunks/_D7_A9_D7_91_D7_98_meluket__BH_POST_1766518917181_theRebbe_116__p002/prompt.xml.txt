@@ -1,0 +1,85 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917181_theRebbe_116" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917181_theRebbe_116__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917181_theRebbe_116" title="מאמר זה יתנו תש"מ" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917181_theRebbe_116__p002">
+  <section v="3">
+    <src s="0">וזהו אין עומדין להתפלל אלא מתוך כובד ראש,</src>
+    <src s="1">וע"י התפלה הנה לא זו בלבד שמבטל את הכובד ראש,</src>
+    <src s="2">אלא עוד זאת שנעשה שאו את ראש גו' בני ישראל גו' לגולגלותם20</src>
+    <src s="3">(כמבואר בלקו"ת ר"פ במדבר),</src>
+    <src s="4">שמגבי' את ראש עד לבחי' גולגלותם,</src>
+    <src s="5">שלמעלה מהראש.</src>
+    <src s="6">והוא ע"י העבודה בבירור נה"ב,</src>
+    <src s="7">שעי"ז מגבי' את הראש דנה"א,</src>
+    <src s="8">כי שרש נה"ב הוא מבחי' התוהו שקדם לתיקון,</src>
+    <src s="9">כי עשו הוא בנה הגדול21,</src>
+    <src s="10">והאורות מרובים דתוהו מעלים את האורות דתיקון.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">וזהו ענין מחצית השקל,</src>
+    <src s="2">שהנתינה מלמטה היא רק מחצית22,</src>
+    <src s="3">וכתורת הה"מ23</src>
+    <src s="4">עשה לך שתי חצוצרות24,</src>
+    <src s="5">שתי חצאי צורות,</src>
+    <src s="6">שהקב"ה וכנס"י הם ב' חצאי צורות המשלימים זא"ז כביכול,</src>
+    <src s="7">וכמרז"ל25</src>
+    <src s="8">תמתי תאומתי.</src>
+    <src s="9">היינו,</src>
+    <src s="10">שע"י עבודתו בעשר הכחות שלו ה"ה פועל עלי' גם למעלה.</src>
+    <src s="11">ובעבודתו גופא ענין מחצית השקל הוא,</src>
+    <src s="12">שמעלה את עשר הכחות דנה"ב,</src>
+    <src s="13">ועי"ז פועל עלי' בנה"א,</src>
+    <src s="14">וכנ"ל דהאורות מרובים דתוהו מעלים את האורות דתיקון.</src>
+  </section>
+  <section v="5">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזהו גם הקישור26</src>
+    <src s="2">דב' הפירושים בכובד ראש,</src>
+    <src s="3">ראש שלמעלה וראש דנשמה</src>
+    <src s="4">(נה"א).</src>
+    <src s="5">כי כשם שע"י בירור עשר כחות דנה"ב,</src>
+    <src s="6">עשר גרה,</src>
+    <src s="7">מעלים את המחצית העליון,</src>
+    <src s="8">עשר כחות דנה"א,</src>
+    <src s="9">עד"ז הוא להפי' דקאי על ראש שלמעלה,</src>
+    <src s="10">כי ע"י ש</src>
+    <src s="11">(הקב"ה עוזרו ה"ה)</src>
+    <src s="12">מעלה את עשר כחות נפשו,</src>
+    <src s="13">שהנשמה ירדה למטה,</src>
+    <src s="14">והרשות והיכולת נתונה לכל אדם27</src>
+    <src s="15">וכו',</src>
+    <src s="16">ועי"ז פועל עלי' כביכול גם בשכינה וכו'.</src>
+  </section>
+</awtsmoosMeluketSource>

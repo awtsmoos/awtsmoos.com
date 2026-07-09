@@ -1,0 +1,339 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 59,
+    "returned": 59,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914597_theRebbe_351\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914597_theRebbe_351__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the true reason a Jew fulfills a mitzvah is the essential will of the soul, which is above conscious awareness, and this is revealed primarily in the physical act of the mitzvah, connecting to the Essence of the Ein Sof.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And based on the known explanation</t>\n    <t s=\"2\">in the interpretation of \"For from You is their rest\"</t>\n    <t s=\"3\">(which is said during the Minchah of Shabbos),</t>\n    <t s=\"4\">that their rest which comes from You,</t>\n    <t s=\"5\">from You literally,</t>\n    <t s=\"6\">is the rest</t>\n    <t s=\"7\">(of Shabbos)</t>\n    <t s=\"8\">that is in actual deed</t>\n    <t s=\"9\">(cessation from physical labor),</t>\n    <t s=\"10\">in which all Yisrael are equal,</t>\n    <t s=\"11\">it can be said,</t>\n    <t s=\"12\">that analogous to this is the matter of fulfilling the mitzvah for the sake of the mitzvah itself,</t>\n    <t s=\"13\">a bonding and connection with the Ein Sof, the Commander of the mitzvah,</t>\n    <t s=\"14\">for this matter is revealed primarily in the fulfillment of mitzvos in actual deed,</t>\n    <t s=\"15\">in which all Yisrael are equal.</t>\n    <t s=\"16\">And the explanation is,</t>\n    <t s=\"17\">that the true reason that a Jew fulfills a mitzvah</t>\n    <t s=\"18\">(even when he has no vitality in it)</t>\n    <t s=\"19\">is,</t>\n    <t s=\"20\">because each and every Jew, in his essential self, wants to do everything that is the will of G-d.</t>\n    <t s=\"21\">For this will that stems from the essence of the soul is the true cause of his wanting in a revealed way to do the mitzvah</t>\n    <t s=\"22\">[except that in his revealed will he does not feel that its cause is the will that stems from the essence of the soul,</t>\n    <t s=\"23\">and therefore it seems to him that his fulfillment of the mitzvah is due to habit,</t>\n    <t s=\"24\">or for some ulterior motive].</t>\n    <t s=\"25\">And furthermore it can be said,</t>\n    <t s=\"26\">that even when he does it unintentionally</t>\n    <t s=\"27\">(a rock fell from his hand and found a poor man),</t>\n    <t s=\"28\">the true cause of this is the will of the essence of the soul to do the will of G-d.</t>\n    <t s=\"29\">For the essence of the soul is above knowledge,</t>\n    <t s=\"30\">and therefore the effect of the will of the essence of the soul upon the power of action is even when he is unaware of it.</t>\n    <t s=\"31\">And this is that the matter of fulfilling the mitzvah in a manner of bonding and connection with the Essence of the Ein Sof, the Commander of the mitzvah, is revealed primarily in the deed of the mitzvah,</t>\n    <t s=\"32\">because the true cause of his doing the mitzvah is that the will from the essence of the soul, which is connected to the Essence of the Ein Sof, has been revealed in him.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that even in this mode of mitzvah fulfillment, the concept of \"Zachor and Shamor in one utterance\" applies, as the deed and intention both stem from the undivided essence of the soul.</sectionSummaryBrief>\n    <t s=\"0\">And it can be added,</t>\n    <t s=\"1\">that even in the fulfillment of mitzvos in this manner, there is the matter of Zachor and Shamor in one utterance.</t>\n    <t s=\"2\">For since the true cause of his doing the mitzvah is that the will of the essence of the soul is revealed in him,</t>\n    <t s=\"3\">then the mitzvah that is done is a complete mitzvah,</t>\n    <t s=\"4\">which has a body</t>\n    <t s=\"5\">(the deed of the mitzvah)</t>\n    <t s=\"6\">and a soul</t>\n    <t s=\"7\">(the intention of the mitzvah,</t>\n    <t s=\"8\">which stems from the will of the essence of the soul).</t>\n    <t s=\"9\">[Except that the body of the mitzvah is revealed and the soul of the mitzvah is hidden.]</t>\n    <t s=\"10\">And since both matters</t>\n    <t s=\"11\">[the intention and the deed]</t>\n    <t s=\"12\">stem from the essence of the soul, which is above division,</t>\n    <t s=\"13\">therefore they are completely one,</t>\n    <t s=\"14\">Zachor and Shamor in one utterance.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the double mention of \"Noach, Noach\" in the verse \"These are the generations of Noach, Noach\" indicates that the two aspects of rest (for the upper and lower realms) are a single point, revealed primarily in the deeds of the righteous.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this is \"These are the generations of Noach, Noach,\"</t>\n    <t s=\"2\">for the reason that it says \"Noach, Noach\" twice regarding the generations of Noach,</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">because the true essence of the matter of \"Noach, Noach\" twice is,</t>\n    <t s=\"5\">that the two matters of rest for the upper realms and rest for the lower realms are one point that includes both of them,</t>\n    <t s=\"6\">and the revelation of this matter is primarily in the \"generations of Noach,\"</t>\n    <t s=\"7\">for the generations of the righteous are good deeds,</t>\n    <t s=\"8\">as mentioned above</t>\n    <t s=\"9\">(section 4)</t>\n    <t s=\"10\">that the true essence of the matter of Zachor and Shamor in one utterance is in the deed of the mitzvos.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914597_theRebbe_351",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914597_theRebbe_351__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the true reason a Jew fulfills a mitzvah is the essential will of the soul, which is above conscious awareness, and this is revealed primarily in the physical act of the mitzvah, connecting to the Essence of the Ein Sof.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And based on the known explanation"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "in the interpretation of \"For from You is their rest\""
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(which is said during the Minchah of Shabbos),"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that their rest which comes from You,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "from You literally,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "is the rest"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "(of Shabbos)"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "that is in actual deed"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "(cessation from physical labor),"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "in which all Yisrael are equal,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that analogous to this is the matter of fulfilling the mitzvah for the sake of the mitzvah itself,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "a bonding and connection with the Ein Sof, the Commander of the mitzvah,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "for this matter is revealed primarily in the fulfillment of mitzvos in actual deed,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "in which all Yisrael are equal."
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "that the true reason that a Jew fulfills a mitzvah"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "(even when he has no vitality in it)"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "is,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "because each and every Jew, in his essential self, wants to do everything that is the will of G-d."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "For this will that stems from the essence of the soul is the true cause of his wanting in a revealed way to do the mitzvah"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "[except that in his revealed will he does not feel that its cause is the will that stems from the essence of the soul,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "and therefore it seems to him that his fulfillment of the mitzvah is due to habit,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "or for some ulterior motive]."
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "And furthermore it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "that even when he does it unintentionally"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "(a rock fell from his hand and found a poor man),"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "the true cause of this is the will of the essence of the soul to do the will of G-d."
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "For the essence of the soul is above knowledge,"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "and therefore the effect of the will of the essence of the soul upon the power of action is even when he is unaware of it."
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "And this is that the matter of fulfilling the mitzvah in a manner of bonding and connection with the Essence of the Ein Sof, the Commander of the mitzvah, is revealed primarily in the deed of the mitzvah,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "because the true cause of his doing the mitzvah is that the will from the essence of the soul, which is connected to the Essence of the Ein Sof, has been revealed in him."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that even in this mode of mitzvah fulfillment, the concept of \"Zachor and Shamor in one utterance\" applies, as the deed and intention both stem from the undivided essence of the soul.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And it can be added,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "that even in the fulfillment of mitzvos in this manner, there is the matter of Zachor and Shamor in one utterance."
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "For since the true cause of his doing the mitzvah is that the will of the essence of the soul is revealed in him,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "then the mitzvah that is done is a complete mitzvah,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "which has a body"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "(the deed of the mitzvah)"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "and a soul"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "(the intention of the mitzvah,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "which stems from the will of the essence of the soul)."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "[Except that the body of the mitzvah is revealed and the soul of the mitzvah is hidden.]"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "And since both matters"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "[the intention and the deed]"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "stem from the essence of the soul, which is above division,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "therefore they are completely one,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "Zachor and Shamor in one utterance."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that the double mention of \"Noach, Noach\" in the verse \"These are the generations of Noach, Noach\" indicates that the two aspects of rest (for the upper and lower realms) are a single point, revealed primarily in the deeds of the righteous.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And this is \"These are the generations of Noach, Noach,\""
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "for the reason that it says \"Noach, Noach\" twice regarding the generations of Noach,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "is,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "because the true essence of the matter of \"Noach, Noach\" twice is,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "that the two matters of rest for the upper realms and rest for the lower realms are one point that includes both of them,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "and the revelation of this matter is primarily in the \"generations of Noach,\""
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "for the generations of the righteous are good deeds,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "as mentioned above"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "(section 4)"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "that the true essence of the matter of Zachor and Shamor in one utterance is in the deed of the mitzvos."
+          }
+        ]
+      }
+    ]
+  }
+}

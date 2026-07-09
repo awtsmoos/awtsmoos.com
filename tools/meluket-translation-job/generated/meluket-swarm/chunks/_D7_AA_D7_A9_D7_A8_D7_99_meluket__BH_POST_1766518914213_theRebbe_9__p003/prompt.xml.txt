@@ -1,0 +1,137 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914213_theRebbe_9" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914213_theRebbe_9" title="מאמר בסוכות תשבו תשל"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">וביאור הענין הוא,</src>
+    <src s="2">דהנה כתיב19</src>
+    <src s="3">בכסה ליום חגינו,</src>
+    <src s="4">דיום חגינו קאי על חג הסוכות כמבואר בכ"מ20.</src>
+    <src s="5">וזהו בכסה ליום חגינו,</src>
+    <src s="6">שכל הענינים שהיו בכסה</src>
+    <src s="7">(בכיסוי והעלם)</src>
+    <src s="8">בהימים שלפני יום חגינו,</src>
+    <src s="9">ובפרט הענינים שהיו בכיסוי והעלם בראש השנה</src>
+    <src s="10">[שעליו נאמר בכסה מלשון ליום הכסה יבוא ביתו21,</src>
+    <src s="11">וע"ז קאי מש"כ תקעו בחדש שופר</src>
+    <src s="12">(בהקדמה לבכסה ליום חגינו)],</src>
+    <src s="13">מתגלים הם בסוכות.</src>
+    <src s="14">וכדאיתא במדרש22</src>
+    <src s="15">דבראש השנה לית אנן ידעין מאן הוא נוצח,</src>
+    <src s="16">וכשישראל יוצאין כו' ולולביהון ואתרוגיהון בידן אנן ידעין דישראל אינון ניצוחיא.</src>
+    <src s="17">והיינו,</src>
+    <src s="18">שבסוכות נתגלה דאנן ניצוחיא,</src>
+    <src s="19">ובאופן גלוי לכל יושבי תבל,</src>
+    <src s="20">עד שכל מציאות העולם רואה שאנן ניצוחיא.</src>
+    <src s="21">ואע"פ שהנצחון דישראל כבר הי' בראש השנה,</src>
+    <src s="22">וכמאמר המדרש23</src>
+    <src s="23">איזו אומה כאומה זו שיודעת אופי' של אלקי',</src>
+    <src s="24">שישראל יודעים שהקב"ה יעשה להם נס ויזכו בדין,</src>
+    <src s="25">וא"כ דבר פשוט הוא שביום ראש השנה הי' להם כתיבה וחתימה טובה,</src>
+    <src s="26">מ"מ תכלית הכוונה והשלימות הוא שנצחון זה יהי' בגילוי.</src>
+    <src s="27">וזה נעשה בחג הסוכות,</src>
+    <src s="28">בכסה ליום חגינו,</src>
+    <src s="29">שהנצחון שהי' בכסה</src>
+    <src s="30">(בהעלם)</src>
+    <src s="31">בראש השנה נמשך בגלוי ביום חגינו,</src>
+    <src s="32">ועי"ז באים לתכלית השלימות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">והנה יום הכפורים נקרא ראש השנה בקרא24</src>
+    <src s="2">כמובא בלקו"ת25.</src>
+    <src s="3">ובסדר הימים הנה יום הכפורים הוא בעשור לחדש השביעי,</src>
+    <src s="4">ובתחלת החדש,</src>
+    <src s="5">באחד לחדש השביעי הוא ראש השנה.</src>
+    <src s="6">ויתירה מזו,</src>
+    <src s="7">הנה אמרז"ל26</src>
+    <src s="8">אלו עשרה ימים שבין ראש השנה ליום הכפורים,</src>
+    <src s="9">היינו שראש השנה ויום הכפורים נכללים באותן עשרת הימים27</src>
+    <src s="10">(וענינם ענין אחד).</src>
+    <src s="11">ומזה מובן שביום הכפורים נמשך ענין מיוחד השייך לההמשכה דראש השנה.</src>
+    <src s="12">והענין הוא,</src>
+    <src s="13">כמבואר בלקו"ת25</src>
+    <src s="14">שביום הכפורים הוא ההמשכה דבחי' נשמה ופנימיות,</src>
+    <src s="15">וכיון שההמשכה בבחי' פנימיות היא בענין עיקרי,</src>
+    <src s="16">מובן שגם בכל שאר הענינים ההמשכה דיום הכפורים היא בבחי' פנימיות.</src>
+    <src s="17">אמנם גם המשכה זו שביום הכפורים עדיין היא באופן דבכסה.</src>
+    <src s="18">וההמשכה באופן דאנן ניצוחיא ובגלוי</src>
+    <src s="19">[עד שהוא גילוי באופן כזה שנעשה על ידה זמן שמחתנו,</src>
+    <src s="20">ששמחה היא על דבר שבגלוי דוקא,</src>
+    <src s="21">כידוע28]</src>
+    <src s="22">היא ביום חגינו</src>
+    <src s="23">(חג הסוכות)</src>
+    <src s="24">דוקא,</src>
+    <src s="25">בחמשה עשר לחדש,</src>
+    <src s="26">כשקיימא סיהרא באשלמותא,</src>
+    <src s="27">כמבואר בכ"מ.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">ובזה יובן מה שמצינו קשר בין תקיעת שופר לסוכות,</src>
+    <src s="2">וכידוע29</src>
+    <src s="3">שסכך</src>
+    <src s="4">[דכל סוכות הכתוב סכך משמע30,</src>
+    <src s="5">וכמו שמבאר כ"ק אדמו"ר הזקן בשו"ע הל' סוכה31</src>
+    <src s="6">דאין נקרא סוכה אלא הסכך בלבד.</src>
+    <src s="7">דהיינו,</src>
+    <src s="8">שלא רק שהסכך הוא עיקר הסוכה אלא עוד זאת שבענין הסכך מתבטא</src>
+    <src s="9">(גיט זיך ארויס)</src>
+    <src s="10">כל ענין הסוכה]</src>
+    <src s="11">בגימט' מאה,</src>
+    <src s="12">כנגד מאה קולות דשופר שנהגו ישראל32</src>
+    <src s="13">לתקוע בראש השנה.</src>
+    <src s="14">וטעם הדבר הוא כנ"ל היות שענין הסוכה נמשך ע"י התקיעת שופר דראש השנה.</src>
+    <src s="15">שבראש השנה ההמשכה</src>
+    <src s="16">(שממשיכים בתקיעת שופר ע"י המאה קולות)</src>
+    <src s="17">היא באופן דבכסה</src>
+    <src s="18">(בהעלם)</src>
+    <src s="19">ואח"כ באה לידי גילוי בחג הסוכות</src>
+    <src s="20">(ליום חגינו)</src>
+    <src s="21">בסכך הסוכה.</src>
+    <src s="22">ועד"ז הוא גם בנוגע ליום הכפורים,</src>
+    <src s="23">כידוע שסכך הסוכה הוא דוגמת ענני הכבוד</src>
+    <src s="24">[כהדעה בגמרא33</src>
+    <src s="25">ענני כבוד היו,</src>
+    <src s="26">וכן הובא לפסק הלכה בשו"ע אדה"ז בהל' סוכות בתחלתם],</src>
+    <src s="27">והוא נמשך מענן הקטרת דיוה"כ.</src>
+    <src s="28">וביאור הענין הוא,</src>
+    <src s="29">כנ"ל דתחלה באה ההמשכה דראש השנה בבחי' פנימיות ביום הכפורים.</src>
+    <src s="30">והמשכה זו שביום הכפורים היא ע"י ענין הקטרת שממנו הי' צ"ל וכסה ענן הקטרת את הכפרת34,</src>
+    <src s="31">ובכללות יותר זהו ע"י כללות עבודת כהן גדול ביום הכפורים בקדש הקדשים.</src>
+    <src s="32">ומענן הקטרת שביום הכפורים נמשך אח"כ סכך הסוכה</src>
+    <src s="33">(שהסוכה היא ע"ש ענני הכבוד).</src>
+  </section>
+</awtsmoosMeluketSource>

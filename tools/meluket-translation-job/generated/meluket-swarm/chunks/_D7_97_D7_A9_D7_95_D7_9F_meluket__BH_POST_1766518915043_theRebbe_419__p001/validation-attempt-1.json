@@ -1,0 +1,334 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 58,
+    "returned": 58,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915043_theRebbe_419\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915043_theRebbe_419__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Motzaei Shabbat Parshat Chayei Sarah,</t>\n    <t s=\"2\">Erev Rosh Chodesh Kislev – in his room – 5738</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the verse \"And Avraham was old, coming in days,\" the Alter Rebbe's explanation, and the question of why performing a mitzvah each specific day is crucial.</sectionSummaryBrief>\n    <t s=\"0\">\"And Avraham was old, coming in days...\"</t>\n    <t s=\"1\">And our master, the Alter Rebbe, brings in his Torah Or, in our parshah, the discourse beginning with the words,</t>\n    <t s=\"2\">\"To understand the matter of what our sages, of blessed memory, said:</t>\n    <t s=\"3\">'One hour of repentance and good deeds in this world is more beautiful than all the life of the World to Come.'\"</t>\n    <t s=\"4\">(And before the discourse—which is \"connected to the verse 'And Avraham was old, coming in days'\")</t>\n    <t s=\"5\">[He brings] the statement of the Zohar</t>\n    <t s=\"6\">on the verse \"in those supernal days,\" etc.,</t>\n    <t s=\"7\">that they are the garments of Torah and mitzvot</t>\n    <t s=\"8\">(repentance and good deeds),</t>\n    <t s=\"9\">through which the soul can enjoy the radiance of the Divine Presence in the World to Come.</t>\n    <t s=\"10\">And this matter also relates to days in their simple sense,</t>\n    <t s=\"11\">that all the days need to be complete,</t>\n    <t s=\"12\">meaning that each day should be filled with the performance of a mitzvah</t>\n    <t s=\"13\">(\"supernal days\").</t>\n    <t s=\"14\">And it is known the statement of the Baal Shem Tov,</t>\n    <t s=\"15\">\"He should not let any day pass without performing a mitzvah, etc.\"</t>\n    <t s=\"16\">And this is \"coming in days\"—</t>\n    <t s=\"17\">that Avraham Avinu performed his service each and every day,</t>\n    <t s=\"18\">so that all his days were complete days</t>\n    <t s=\"19\">(and not lacking, Heaven forbid),</t>\n    <t s=\"20\">and through this he \"came in days—into those supernal days.\"</t>\n    <t s=\"21\">And the precise point in this is known:</t>\n    <t s=\"22\">After all, the main thing is the garments of the mitzvot</t>\n    <t s=\"23\">(\"supernal days\"),</t>\n    <t s=\"24\">so what relevance does the matter of days</t>\n    <t s=\"25\">(in their simple sense)</t>\n    <t s=\"26\">—that he should not let any day pass without performing a mitzvah, etc.—have?</t>\n    <t s=\"27\">Could he not do two mitzvot tomorrow?</t>\n    <t s=\"28\">For seemingly, even when he performs several mitzvot in one day, he has the same number of mitzvot as if he had performed them over several days,</t>\n    <t s=\"29\">and if so,</t>\n    <t s=\"30\">what does it matter that he specifically fulfill a mitzvah each day,</t>\n    <t s=\"31\">to the extent that when he misses one day, he is missing a garment?</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that \"coming in days\" is a greater level than \"old,\" which relates to the garment of Atik Yomin, and questions the superiority of performing a mitzvah each specific day.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">Now, from the fact that this quality of Avraham</t>\n    <t s=\"2\">(\"coming in days\")</t>\n    <t s=\"3\">appears in the verse after several of his other qualities mentioned in the preceding verses,</t>\n    <t s=\"4\">and even in this very verse it first says \"And Avraham was old\" and then adds \"coming in days,\"</t>\n    <t s=\"5\">it is understood that the matter of \"coming in days\" is a greater quality even than the quality of \"old.\"</t>\n    <t s=\"6\">For although \"And Avraham was old\" means that he was in a most wondrous elevation,</t>\n    <t s=\"7\">as our sages, of blessed memory, said,</t>\n    <t s=\"8\">that the Holy One, blessed be He, said to Avraham, \"Come, don My garments\"</t>\n    <t s=\"9\">(for the Holy One, blessed be He, is called</t>\n    <t s=\"10\">\"Atik Yomin\"</t>\n    <t s=\"11\">[the Ancient of Days]),</t>\n    <t s=\"12\">meaning that \"And Avraham was old\" is the quality of Avraham in that he dons the garment of the Holy One, blessed be He, just as the Holy One, blessed be He, is in the aspect of Atik Yomin,</t>\n    <t s=\"13\">nevertheless, \"coming in days\" is even more elevated.</t>\n    <t s=\"14\">And one must understand what is the greatness of the elevation of \"coming in days\"—</t>\n    <t s=\"15\">the garments of the mitzvot</t>\n    <t s=\"16\">[and particularly in the matter of performing a mitzvah specifically each day,</t>\n    <t s=\"17\">even though this does not add to the number of mitzvot],</t>\n    <t s=\"18\">to the point that this is more elevated than the matter of</t>\n    <t s=\"19\">(\"And Avraham\")</t>\n    <t s=\"20\">\"old,\" which is the aspect of</t>\n    <t s=\"21\">(the garment of)</t>\n    <t s=\"22\">Atik Yomin.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915043_theRebbe_419",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915043_theRebbe_419__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Motzaei Shabbat Parshat Chayei Sarah,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Erev Rosh Chodesh Kislev – in his room – 5738"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the verse \"And Avraham was old, coming in days,\" the Alter Rebbe's explanation, and the question of why performing a mitzvah each specific day is crucial.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And Avraham was old, coming in days...\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And our master, the Alter Rebbe, brings in his Torah Or, in our parshah, the discourse beginning with the words,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "\"To understand the matter of what our sages, of blessed memory, said:"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "'One hour of repentance and good deeds in this world is more beautiful than all the life of the World to Come.'\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "(And before the discourse—which is \"connected to the verse 'And Avraham was old, coming in days'\")"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "[He brings] the statement of the Zohar"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "on the verse \"in those supernal days,\" etc.,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "that they are the garments of Torah and mitzvot"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(repentance and good deeds),"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "through which the soul can enjoy the radiance of the Divine Presence in the World to Come."
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "And this matter also relates to days in their simple sense,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "that all the days need to be complete,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "meaning that each day should be filled with the performance of a mitzvah"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "(\"supernal days\")."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "And it is known the statement of the Baal Shem Tov,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "\"He should not let any day pass without performing a mitzvah, etc.\""
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And this is \"coming in days\"—"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "that Avraham Avinu performed his service each and every day,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "so that all his days were complete days"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "(and not lacking, Heaven forbid),"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "and through this he \"came in days—into those supernal days.\""
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "And the precise point in this is known:"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "After all, the main thing is the garments of the mitzvot"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "(\"supernal days\"),"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "so what relevance does the matter of days"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "(in their simple sense)"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "—that he should not let any day pass without performing a mitzvah, etc.—have?"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "Could he not do two mitzvot tomorrow?"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "For seemingly, even when he performs several mitzvot in one day, he has the same number of mitzvot as if he had performed them over several days,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "and if so,"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "what does it matter that he specifically fulfill a mitzvah each day,"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "to the extent that when he misses one day, he is missing a garment?"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that \"coming in days\" is a greater level than \"old,\" which relates to the garment of Atik Yomin, and questions the superiority of performing a mitzvah each specific day.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "Now, from the fact that this quality of Avraham"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "(\"coming in days\")"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "appears in the verse after several of his other qualities mentioned in the preceding verses,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "and even in this very verse it first says \"And Avraham was old\" and then adds \"coming in days,\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "it is understood that the matter of \"coming in days\" is a greater quality even than the quality of \"old.\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "For although \"And Avraham was old\" means that he was in a most wondrous elevation,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "as our sages, of blessed memory, said,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that the Holy One, blessed be He, said to Avraham, \"Come, don My garments\""
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "(for the Holy One, blessed be He, is called"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "\"Atik Yomin\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "[the Ancient of Days]),"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "meaning that \"And Avraham was old\" is the quality of Avraham in that he dons the garment of the Holy One, blessed be He, just as the Holy One, blessed be He, is in the aspect of Atik Yomin,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "nevertheless, \"coming in days\" is even more elevated."
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And one must understand what is the greatness of the elevation of \"coming in days\"—"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "the garments of the mitzvot"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "[and particularly in the matter of performing a mitzvah specifically each day,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "even though this does not add to the number of mitzvot],"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "to the point that this is more elevated than the matter of"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(\"And Avraham\")"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "\"old,\" which is the aspect of"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "(the garment of)"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "Atik Yomin."
+          }
+        ]
+      }
+    ]
+  }
+}

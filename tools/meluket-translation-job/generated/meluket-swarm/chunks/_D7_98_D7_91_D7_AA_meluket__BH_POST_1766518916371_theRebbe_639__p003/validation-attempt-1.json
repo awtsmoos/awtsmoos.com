@@ -1,0 +1,418 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 76,
+    "returned": 76,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916371_theRebbe_639\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916371_theRebbe_639__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains the difference between a general call to God and a true call through Torah, which brings a deeper closeness.</sectionSummaryBrief>\n    <t s=\"0\">And there is to add explanation in what is said in the continuation of the verse, “to all who call Him in truth,”</t>\n    <t s=\"1\">for the matter of “close to all who call Him” equally</t>\n    <t s=\"2\">is from the aspect of a simple call,</t>\n    <t s=\"3\">an external call,</t>\n    <t s=\"4\">and above this is the closeness to “all who call Him in truth,”</t>\n    <t s=\"5\">which is the matter of an inner call,</t>\n    <t s=\"6\">which is a call in truth,</t>\n    <t s=\"7\">for then He is close in the utmost way,</t>\n    <t s=\"8\">and as explained elsewhere22</t>\n    <t s=\"9\">that “they call Him in truth” refers to the Torah,</t>\n    <t s=\"10\">“there is no truth but Torah,”23</t>\n    <t s=\"11\">for specifically through the Torah is the inner drawing down.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the revelation of the level of Havayah above required the Exodus and the Giving of the Torah, drawing from a higher source beyond limitation.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And based on this24 there is to explain with additional elucidation the connection of the revelation of Havayah above to the Exodus from Egypt and the Giving of the Torah,</t>\n    <t s=\"2\">for in order for there to be a descent also to the lower ones</t>\n    <t s=\"3\">(which was innovated at the Giving of the Torah)</t>\n    <t s=\"4\">there must be a drawing down from a more elevated aspect.</t>\n    <t s=\"5\">In the manner explained in the maamar, that in order for there to be “the God of the King” and especially “and I will bless Your name forever and ever,” there must be “I will exalt You.”</t>\n    <t s=\"6\">And this is “And God spoke to Moshe and said to him, ‘I am Havayah,’”</t>\n    <t s=\"7\">that initially the revelation of the Name Havayah was specifically through the Name Elokim,</t>\n    <t s=\"8\">and “My Name Havayah above I was not known to them.”</t>\n    <t s=\"9\">But in order to take Israel out of Egypt and for there to be the Giving of the Torah,</t>\n    <t s=\"10\">there must be drawn from a higher place,</t>\n    <t s=\"11\">from the aspect of Havayah above.</t>\n    <t s=\"12\">It is written,25</t>\n    <t s=\"13\">“Great is Havayah and exceedingly praised in the city of our God,”</t>\n    <t s=\"14\">and our sages, of blessed memory, said,26</t>\n    <t s=\"15\">“When is He great? When He is in the city of our God,”</t>\n    <t s=\"16\">that through the city of our God27</t>\n    <t s=\"17\">Havayah comes in a multiplicity of divisions to bring into being a multitude of creations,</t>\n    <t s=\"18\">“How manifold are Your works, Havayah!”28</t>\n    <t s=\"19\">(and also the bringing into being of “How great are Your works, Havayah!”29</t>\n    <t s=\"20\">is specifically through His coming into the city of our God).</t>\n    <t s=\"21\">However, the aspect of Havayah in His own essence is above division,</t>\n    <t s=\"22\">“He was, He is, and He will be as one,”30</t>\n    <t s=\"23\">and even to simple unity,</t>\n    <t s=\"24\">which is “and to His greatness there is no investigation,”31</t>\n    <t s=\"25\">which is the aspect of the greatness of Havayah in His own essence.</t>\n    <t s=\"26\">And behold, the aspect of the Name Havayah as it is contracted through the Name Elokim,</t>\n    <t s=\"27\">since it is a contracted and limited light,</t>\n    <t s=\"28\">is drawn only to Atzilus,</t>\n    <t s=\"29\">and in order for it to be drawn also below into the worlds of Beriah, Yetzirah, and Asiyah,</t>\n    <t s=\"30\">and even to this lowest world, beneath which there is no lower32</t>\n    <t s=\"31\">(the connection of the upper and lower that was innovated at the Giving of the Torah),</t>\n    <t s=\"32\">there must be drawn the Name Havayah that is above vestiture in the Name Elokim,</t>\n    <t s=\"33\">which is the aspect of Havayah above.</t>\n    <t s=\"34\">And based on this will be understood what Rashi explained: “I was not known to them in My attribute of truth,”</t>\n    <t s=\"35\">for seemingly, how can it be said that the attribute of truth was not revealed to the Patriarchs,</t>\n    <t s=\"36\">and especially to Yaakov, whose attribute is the attribute of truth?33</t>\n    <t s=\"37\">Rather, the intention is that the aspect of Havayah above was not revealed to them,</t>\n    <t s=\"38\">which is specifically His attribute of truth,</t>\n    <t s=\"39\">in the manner of what is said, “You give truth to Yaakov,”34</t>\n    <t s=\"40\">that even to Yaakov, whose attribute is the attribute of truth,</t>\n    <t s=\"41\">there is need to draw down the aspect of the supernal truth, the truth of Havayah.35</t>\n    <t s=\"42\">And this is what was innovated at the Exodus from Egypt and the Giving of the Torah,</t>\n    <t s=\"43\">that the aspect of the Name Havayah above shone then,</t>\n    <t s=\"44\">and more particularly,</t>\n    <t s=\"45\">the Name Havayah of the aspect of Atik.</t>\n    <t s=\"46\">And likewise it will be in the future,</t>\n    <t s=\"47\">as it is said,36</t>\n    <t s=\"48\">“As in the days of your going out from the land of Egypt, I will show him wonders,”</t>\n    <t s=\"49\">that there will then be a revelation of the Name Havayah above,</t>\n    <t s=\"50\">the aspect of “My attribute of truth,”</t>\n    <t s=\"51\">and even more than at the time of the Exodus from Egypt,37</t>\n    <t s=\"52\">for “I will show him the wonders” that at the Exodus from Egypt “and My face shall not be seen.”38</t>\n    <t s=\"53\">And behold, all the revelations of the future depend39</t>\n    <t s=\"54\">on our deeds and service during the time of exile,</t>\n    <t s=\"55\">therefore now the service must be above measure and limitation,</t>\n    <t s=\"56\">in the manner of the statement of our sages, of blessed memory, on the verse “And I appeared,” that the service must be in a manner of “they did not question,”40</t>\n    <t s=\"57\">“and I am Havayah,”</t>\n    <t s=\"58\">faithful41</t>\n    <t s=\"59\">to pay a good reward and to fulfill His promises, “and I will take you out, and I will save, and I will redeem, and I will take,”42</t>\n    <t s=\"60\">— which was said to Moshe, the faithful shepherd,</t>\n    <t s=\"61\">“He is the first redeemer, He is the final redeemer,”43</t>\n    <t s=\"62\">may he come and redeem us and lead us upright to our land,</t>\n    <t s=\"63\">speedily in our days.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916371_theRebbe_639",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916371_theRebbe_639__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains the difference between a general call to God and a true call through Torah, which brings a deeper closeness.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And there is to add explanation in what is said in the continuation of the verse, “to all who call Him in truth,”"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "for the matter of “close to all who call Him” equally"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "is from the aspect of a simple call,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "an external call,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "and above this is the closeness to “all who call Him in truth,”"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "which is the matter of an inner call,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "which is a call in truth,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "for then He is close in the utmost way,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "and as explained elsewhere22"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "that “they call Him in truth” refers to the Torah,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "“there is no truth but Torah,”23"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "for specifically through the Torah is the inner drawing down."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the revelation of the level of Havayah above required the Exodus and the Giving of the Torah, drawing from a higher source beyond limitation.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And based on this24 there is to explain with additional elucidation the connection of the revelation of Havayah above to the Exodus from Egypt and the Giving of the Torah,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "for in order for there to be a descent also to the lower ones"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(which was innovated at the Giving of the Torah)"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "there must be a drawing down from a more elevated aspect."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "In the manner explained in the maamar, that in order for there to be “the God of the King” and especially “and I will bless Your name forever and ever,” there must be “I will exalt You.”"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "And this is “And God spoke to Moshe and said to him, ‘I am Havayah,’”"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "that initially the revelation of the Name Havayah was specifically through the Name Elokim,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "and “My Name Havayah above I was not known to them.”"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "But in order to take Israel out of Egypt and for there to be the Giving of the Torah,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "there must be drawn from a higher place,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "from the aspect of Havayah above."
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "It is written,25"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "“Great is Havayah and exceedingly praised in the city of our God,”"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "and our sages, of blessed memory, said,26"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "“When is He great? When He is in the city of our God,”"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that through the city of our God27"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "Havayah comes in a multiplicity of divisions to bring into being a multitude of creations,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "“How manifold are Your works, Havayah!”28"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(and also the bringing into being of “How great are Your works, Havayah!”29"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "is specifically through His coming into the city of our God)."
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "However, the aspect of Havayah in His own essence is above division,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "“He was, He is, and He will be as one,”30"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "and even to simple unity,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "which is “and to His greatness there is no investigation,”31"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "which is the aspect of the greatness of Havayah in His own essence."
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "And behold, the aspect of the Name Havayah as it is contracted through the Name Elokim,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "since it is a contracted and limited light,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "is drawn only to Atzilus,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "and in order for it to be drawn also below into the worlds of Beriah, Yetzirah, and Asiyah,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and even to this lowest world, beneath which there is no lower32"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "(the connection of the upper and lower that was innovated at the Giving of the Torah),"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "there must be drawn the Name Havayah that is above vestiture in the Name Elokim,"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "which is the aspect of Havayah above."
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "And based on this will be understood what Rashi explained: “I was not known to them in My attribute of truth,”"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "for seemingly, how can it be said that the attribute of truth was not revealed to the Patriarchs,"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "and especially to Yaakov, whose attribute is the attribute of truth?33"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "Rather, the intention is that the aspect of Havayah above was not revealed to them,"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "which is specifically His attribute of truth,"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "in the manner of what is said, “You give truth to Yaakov,”34"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "that even to Yaakov, whose attribute is the attribute of truth,"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "there is need to draw down the aspect of the supernal truth, the truth of Havayah.35"
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "And this is what was innovated at the Exodus from Egypt and the Giving of the Torah,"
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "that the aspect of the Name Havayah above shone then,"
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "and more particularly,"
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "the Name Havayah of the aspect of Atik."
+          },
+          {
+            "v": 7,
+            "s": 46,
+            "translation": "And likewise it will be in the future,"
+          },
+          {
+            "v": 7,
+            "s": 47,
+            "translation": "as it is said,36"
+          },
+          {
+            "v": 7,
+            "s": 48,
+            "translation": "“As in the days of your going out from the land of Egypt, I will show him wonders,”"
+          },
+          {
+            "v": 7,
+            "s": 49,
+            "translation": "that there will then be a revelation of the Name Havayah above,"
+          },
+          {
+            "v": 7,
+            "s": 50,
+            "translation": "the aspect of “My attribute of truth,”"
+          },
+          {
+            "v": 7,
+            "s": 51,
+            "translation": "and even more than at the time of the Exodus from Egypt,37"
+          },
+          {
+            "v": 7,
+            "s": 52,
+            "translation": "for “I will show him the wonders” that at the Exodus from Egypt “and My face shall not be seen.”38"
+          },
+          {
+            "v": 7,
+            "s": 53,
+            "translation": "And behold, all the revelations of the future depend39"
+          },
+          {
+            "v": 7,
+            "s": 54,
+            "translation": "on our deeds and service during the time of exile,"
+          },
+          {
+            "v": 7,
+            "s": 55,
+            "translation": "therefore now the service must be above measure and limitation,"
+          },
+          {
+            "v": 7,
+            "s": 56,
+            "translation": "in the manner of the statement of our sages, of blessed memory, on the verse “And I appeared,” that the service must be in a manner of “they did not question,”40"
+          },
+          {
+            "v": 7,
+            "s": 57,
+            "translation": "“and I am Havayah,”"
+          },
+          {
+            "v": 7,
+            "s": 58,
+            "translation": "faithful41"
+          },
+          {
+            "v": 7,
+            "s": 59,
+            "translation": "to pay a good reward and to fulfill His promises, “and I will take you out, and I will save, and I will redeem, and I will take,”42"
+          },
+          {
+            "v": 7,
+            "s": 60,
+            "translation": "— which was said to Moshe, the faithful shepherd,"
+          },
+          {
+            "v": 7,
+            "s": 61,
+            "translation": "“He is the first redeemer, He is the final redeemer,”43"
+          },
+          {
+            "v": 7,
+            "s": 62,
+            "translation": "may he come and redeem us and lead us upright to our land,"
+          },
+          {
+            "v": 7,
+            "s": 63,
+            "translation": "speedily in our days."
+          }
+        ]
+      }
+    ]
+  }
+}

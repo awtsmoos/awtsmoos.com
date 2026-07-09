@@ -1,0 +1,162 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915661_theRebbe_783" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915661_theRebbe_783" title="מאמר פדה בשלום תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">שההמשכה שע"י הברכה דחסידיך היא ע"ד ההמשכה שע"י תורה.</src>
+    <src s="3">דע"י התורה נעשה שינוי וחידוש בעולם</src>
+    <src s="4">[היינו שנעשה דבר חדש שלא הי' גם בשורש ומקור העולם],</src>
+    <src s="5">והשינוי והחידוש הוא</src>
+    <src s="6">(לא בדרך בקשה,</src>
+    <src s="7">כבתפלה אלא)</src>
+    <src s="8">בדרך ממילא.</src>
+    <src s="9">וכמו רשב"י שהמשיך ירידת גשמים ע"י אמירת תורה19,</src>
+    <src s="10">דבכדי שתהי' ירידת גשמים לאחרי שנגזר שתהי' עצירת גשמים,</src>
+    <src s="11">הוא ע"י המשכת רצון חדש,</src>
+    <src s="12">ואעפ"כ ע"י אמירת תורה,</src>
+    <src s="13">היתה ההמשכה בדרך ממילא,</src>
+    <src s="14">בלי עבודה ויגיעה.</src>
+    <src s="15">ויש לומר,</src>
+    <src s="16">דמ"ש בהמאמר שההמשכה שע"י הברכה דחסידיך היא כמו ההמשכה שע"י תורה,</src>
+    <src s="17">הוא לא רק בכדי להביא דוגמא מהמשכה שיש בה שתי המעלות</src>
+    <src s="18">(דתפלה ודברכה)</src>
+    <src s="19">אלא גם לפי שע"י דוגמא זו מיתוסף ביאור בהעילוי דחסידיך יברכוכה.</src>
+  </section>
+  <section v="7">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דמבואר בלקו"ת20</src>
+    <src s="2">בענין המופתים העצומים שעשו כמה תנאים ואמוראים,</src>
+    <src s="3">כמו רפב"י שאמר גינאי נהרא חלוק לי מימיך21,</src>
+    <src s="4">כי ע"י עסק התורה שלהם המשיכו גילוי אוא"ס שלמעלה מהשתלשלות.</src>
+    <src s="5">ועפ"ז,</src>
+    <src s="6">גם בההמשכה שע"י עסק התורה דכל התנאים ואמוראים היו שני ענינים</src>
+    <src s="7">(מעלות)</src>
+    <src s="8">הנ"ל.</src>
+    <src s="9">שע"י עסק התורה שלהם נעשה שינוי וחידוש בהעולם</src>
+    <src s="10">[חידוש אמיתי שלא הי' גם בשורש ומקור העולם22],</src>
+    <src s="11">וכמו חלוקת הנהר,</src>
+    <src s="12">שהוא שינוי וחידוש גם לגבי שרשו ומקורו דהנהר23</src>
+    <src s="13">– המעלה דתפלה,</src>
+    <src s="14">ושהשינוי נעשה</src>
+    <src s="15">(לא ע"י בקשה,</src>
+    <src s="16">אלא)</src>
+    <src s="17">ע"י הציווי של רפב"י – המעלה דברכה שהיא בדרך ציווי.</src>
+    <src s="18">ויש לומר,</src>
+    <src s="19">שהחידוש בזה שרשב"י המשיך ירידת גשמים ע"י אמירת תורה לגבי המופתים העצומים שעשו כמה תנאים ואמוראים ע"י עסק התורה שלהם הוא24,</src>
+    <src s="20">שהשינוי בעולם שעשו כל התנאים ואמוראים הוא ע"י הציווי והגזירה שלהם,</src>
+    <src s="21">וכמו רפב"י שציוה וגזר על הנהר שיחלוק את מימיו,</src>
+    <src s="22">והחידוש דירידת מטר ע"י אמירת תורה דרשב"י הוא,</src>
+    <src s="23">דהגם שבהדרוש שאמר לא הי' ציווי כלל</src>
+    <src s="24">(גם לא ברמז),</src>
+    <src s="25">מ"מ,</src>
+    <src s="26">ע"י אמירת תורה שלו נעשה ירידת גשמים.</src>
+    <src s="27">ועפ"ז יש לומר,</src>
+    <src s="28">דזה שמביא בהמאמר הדוגמא דירידת גשמים ע"י אמירת תורה הוא בכדי לרמז שעד"ז הוא ההמשכה שע"י הברכה דחסידיך יברכוכה</src>
+    <src s="29">(כדלקמן סעיף יב).</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">ומבאר בהמאמר השייכות דיברכו כה</src>
+    <src s="2">[ההמשכה במלכות</src>
+    <src s="3">(כה)</src>
+    <src s="4">מאוא"ס שלמעלה מהשתלשלות]</src>
+    <src s="5">לחסידיך,</src>
+    <src s="6">ע"פ מ"ש הרמב"ם25</src>
+    <src s="7">החילוק שבין חסד לצדקה,</src>
+    <src s="8">דצדקה הו"ע היושר</src>
+    <src s="9">(צדקה מלשון צדק ויושר)</src>
+    <src s="10">לתת לכל אחד כפי הראוי לו,</src>
+    <src s="11">וחסד הוא הפלגת הטוב להטיב יותר ממה שהוא ראוי.</src>
+    <src s="12">ומביא בהמאמר,</src>
+    <src s="13">דמ"ש הרמב"ם שצדקה הוא ההשפעה לכל אחד כפי הראוי לו הוא כמ"ש</src>
+    <src s="14">(גבי מצות צדקה26)</src>
+    <src s="15">די מחסורו אשר יחסר לו,</src>
+    <src s="16">ואמרו רז"ל27</src>
+    <src s="17">די מחסורו ואי אתה מצווה לעשרו.</src>
+    <src s="18">והחסד</src>
+    <src s="19">[שהוא הפלגת הטוב להטיב יותר ממה שהוא ראוי]</src>
+    <src s="20">הוא השפעה בריבוי</src>
+    <src s="21">(למעלה ממילוי החסרון),</src>
+    <src s="22">עשירות.</src>
+    <src s="23">ועד"ז הוא למעלה בההמשכה בספירת המלכות,</src>
+    <src s="24">דענין הצדקה הוא המשכת הגילוי ששייך למלכות,</src>
+    <src s="25">שעי"ז נתמלא החסרון שלה.</src>
+    <src s="26">[וכידוע28</src>
+    <src s="27">בענין את עשית את השמים גו'29,</src>
+    <src s="28">את חסר ה',</src>
+    <src s="29">דזה שהמלכות נעשית מקור להוות את העולמות</src>
+    <src s="30">(עשית את השמים גו')</src>
+    <src s="31">הוא ע"י שנחסרו ממנה ה' פרצופים</src>
+    <src s="32">(כתר,</src>
+    <src s="33">חכמה,</src>
+    <src s="34">בינה,</src>
+    <src s="35">ז"א ומלכות,</src>
+    <src s="36">וזה שנשאר הוא רק חיצוניות המלכות,</src>
+    <src s="37">מלכות דמלכות)].</src>
+    <src s="38">וענין החסד הוא המשכת גילוי אור שלמעלה משייכות למלכות שנמשך במלכות.</src>
+    <src s="39">וזהו שאמרו רז"ל30</src>
+    <src s="40">איזהו חסיד המתחסד עם קונו,</src>
+    <src s="41">ומפרש בתקו"ז31,</src>
+    <src s="42">עם קונו – עם קן דילי',</src>
+    <src s="43">קונו הוא ז"א</src>
+    <src s="44">(כי אצילות נק' קנין32,</src>
+    <src s="45">וז"א הוא סוף האצילות33),</src>
+    <src s="46">וקן דילי' הוא המלכות</src>
+    <src s="47">(כמ"ש בפרדס34</src>
+    <src s="48">שהמלכות נקראת קן),</src>
+    <src s="49">וענין המתחסד עם קן דילי' הוא שממשיך במלכות גילוי אור חדש</src>
+    <src s="50">(שלמעלה מהאור שנסתלק ממנה),</src>
+    <src s="51">עשירות.</src>
+    <src s="52">ובענין הספירות הוא פנימיות הכתר,</src>
+    <src s="53">עתיק.</src>
+    <src s="54">שההמשכה דחיצוניות הכתר,</src>
+    <src s="55">אריך,</src>
+    <src s="56">הוא בכלל מילוי החסרון35.</src>
+    <src s="57">דכיון שאריך הוא שורש ומקור הנאצלים אלא שהוא מקיף עליהם</src>
+    <src s="58">(סובב),</src>
+    <src s="59">הוא בכלל האור השייך לעולמות</src>
+    <src s="60">(מלכות),</src>
+    <src s="61">ולכן,</src>
+    <src s="62">כשאור זה אינו מתגלה במלכות,</src>
+    <src s="63">המלכות היא חסירה,</src>
+    <src s="64">וע"י שנמשך ומתגלה,</src>
+    <src s="65">נתמלא החסרון36.</src>
+    <src s="66">ועתיק הוא בחינה תחתונה שבמאציל,</src>
+    <src s="67">אוא"ס שלמעלה משייכות לעולמות</src>
+    <src s="68">(למעלה גם משייכות באופן דסובב ומקיף),</src>
+    <src s="69">עשירות36.</src>
+  </section>
+</awtsmoosMeluketSource>

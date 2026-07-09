@@ -1,0 +1,102 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918104_theRebbe_982" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918104_theRebbe_982" title="מאמר כל ישראל תשל"ג" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p001">
+  <section v="0">
+    <src s="0">*</src>
+  </section>
+  <section v="1">
+    <src s="0">כל ישראל יש להם חלק לעולם הבא1,</src>
+    <src s="1">דפירוש2</src>
+    <src s="2">עולם הבא במשנה זו הוא עולם התחי',</src>
+    <src s="3">וכדמוכח מהמשך המשנה ואלו שאין להם חלק לעולם הבא האומר אין תחיית המתים מן התורה,</src>
+    <src s="4">שהטעם על זה הוא כדאיתא בגמרא3</src>
+    <src s="5">הוא כפר בתחיית המתים לפיכך לא יהי' לו חלק בתחיית המתים כו' מדה כנגד מדה.</src>
+    <src s="6">וכל ישראל יש להם חלק לעולם הבא,</src>
+    <src s="7">דבגן עדן כתיב4</src>
+    <src s="8">מי יעלה בהר הוי' גו' נקי כפים ובר לבב גו',</src>
+    <src s="9">שישנם כמה תנאים בכדי לעלות לג"ע,</src>
+    <src s="10">אפילו לג"ע התחתון5,</src>
+    <src s="11">משא"כ בנוגע עולם התחי' כל ישראל יש להם חלק לעולם הבא6.</src>
+    <src s="12">וצריך להבין,</src>
+    <src s="13">הרי הגילוי שיהי' בעולם התחי' הוא נעלה הרבה יותר מהגילוי דג"ע7,</src>
+    <src s="14">גם מהגילוי שבג"ע העליון,</src>
+    <src s="15">גם מדרגא הכי נעלית שבג"ע</src>
+    <src s="16">[וכמובן גם מהענין דתחיית המתים עצמו,</src>
+    <src s="17">דיקומו לתחי' כל ישראל,</src>
+    <src s="18">גם הנשמות שנמצאים בג"ע כמה אלפים שנה,</src>
+    <src s="19">וג' פעמים בכל יום הם מתעלים לדרגא נעלית יותר,</src>
+    <src s="20">ואעפ"כ לע"ל יתלבשו בגופים,</src>
+    <src s="21">כי הגילוי דעולם התחי' הוא נעלה הרבה יותר מהגילוי דג"ע,</src>
+    <src s="22">גם מדרגא הכי נעלית דג"ע8],</src>
+    <src s="23">ואעפ"כ בכדי לזכות להגילוי דג"ע צ"ל כמה תנאים,</src>
+    <src s="24">והגילוי דעולם התחי' יהי' לכל ישראל.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים הביאור דענין זה שהגילוי דעולם התחי' הוא נעלה הרבה יותר מהגילוי דג"ע.</src>
+    <src s="2">דלכאורה,</src>
+    <src s="3">כיון שג"ע הוא עולם הנשמות</src>
+    <src s="4">(נשמות בלא גופים),</src>
+    <src s="5">ובעולם התחי' יהיו נשמות בגופים,</src>
+    <src s="6">מהו הביאור בזה שבעולם התחי',</src>
+    <src s="7">כשהנשמה תהי' מלובשת בגוף גשמי,</src>
+    <src s="8">יהי' גילוי נעלה יותר מבג"ע.</src>
+    <src s="9">והגם שלע"ל יהי' הגוף בתכלית הזיכוך,</src>
+    <src s="10">וכמו גופו של אדה"ר</src>
+    <src s="11">(יציר9</src>
+    <src s="12">כפיו של הקב"ה)10,</src>
+    <src s="13">שהי' מכהה גלגל חמה11,</src>
+    <src s="14">ויתירה מזו,</src>
+    <src s="15">שלע"ל יהי' הגוף בתכלית השלימות עוד יותר מכמו של אדה"ר12,</src>
+    <src s="16">הרי זהו לכאורה ביאור רק על זה שלע"ל יהיו הנשמות המלובשים בגופים כלים לקבל גילוי נעלה יותר מהגילוי שמתגלה עכשיו לנשמות בלא גופים.</src>
+    <src s="17">אבל אין בזה ביאור על זה שהגילוי דלע"ל יהי' דוקא לנשמות בגופים.</src>
+    <src s="18">דהגם שגם לע"ל,</src>
+    <src s="19">כשהגוף יהי' בתכלית השלימות,</src>
+    <src s="20">יהי' גוף גשמי,</src>
+    <src s="21">דההגבלות שבדבר גשמי הם יותר מההגבלות שבדבר רוחני13,</src>
+    <src s="22">וכמו ההגבלה דזמן ומקום שהיא</src>
+    <src s="23">(בעיקר)</src>
+    <src s="24">בדברים גשמיים14,</src>
+    <src s="25">ואעפ"כ,</src>
+    <src s="26">בכדי שהנשמה תוכל לקבל הגילוי דלע"ל,</src>
+    <src s="27">הוא דוקא ע"י שמתלבשת בגוף גשמי.</src>
+    <src s="28">והיינו,</src>
+    <src s="29">שמהחילוקים בין הגילוי דג"ע והגילוי דלע"ל הוא שבכדי לקבל הגילוי דג"ע הוא ע"י ההפשטה מדברים הגשמיים.</src>
+    <src s="30">שקודם עליית הנשמה לג"ע צריך להיות תחלה הטבילה בנהר דינור לשכוח חיזו דהאי עלמא15.</src>
+    <src s="31">[ועד"ז הוא בהעליות שבג"ע עצמו,</src>
+    <src s="32">שבכל עלי' צריך תחלה לשכוח ההשגה והתענוג דמדריגה התחתונה15].</src>
+    <src s="33">ובכדי לקבל הגילוי דלע"ל הוא ע"י שמתלבשת בגוף גשמי.</src>
+  </section>
+</awtsmoosMeluketSource>

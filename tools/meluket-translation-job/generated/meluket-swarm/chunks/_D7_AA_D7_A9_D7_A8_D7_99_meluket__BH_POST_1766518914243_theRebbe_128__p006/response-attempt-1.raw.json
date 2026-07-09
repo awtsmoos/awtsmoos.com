@@ -1,0 +1,28 @@
+{
+  "id": "375ef1b5-6738-4600-a52d-bbe91ad2e3c2",
+  "object": "chat.completion",
+  "created": 1783582142,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914243_theRebbe_128\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section expresses the hope that the joy of Sukkot will soon lead to the ultimate and complete joy of the true redemption through Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">May it be His will that from the time of our joy of Sukkot</t>\n    <t s=\"1\">(And you shall take for yourselves... and you shall rejoice...)</t>\n    <t s=\"2\">they will come very soon to the greatest joy,</t>\n    <t s=\"3\">eternal joy upon their heads,</t>\n    <t s=\"4\">in the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"5\">may he come and redeem us and lead us upright to our land,</t>\n    <t s=\"6\">speedily in our days, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 788,
+    "completion_tokens": 307,
+    "total_tokens": 1095,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 404
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

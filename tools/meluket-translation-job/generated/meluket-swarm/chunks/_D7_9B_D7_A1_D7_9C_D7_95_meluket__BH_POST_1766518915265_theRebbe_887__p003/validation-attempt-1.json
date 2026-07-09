@@ -1,0 +1,544 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 100,
+    "returned": 100,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915265_theRebbe_887\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915265_theRebbe_887__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that from the root of souls in Atzmus there is no place for other existence, only Israel and the King, but after descent for refinement, the world exists relative to Israel, leading to the term \"one nation\" rather than \"singular nation,\" which the parable of an only son refutes.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And behold, this is the case with Israel,</t>\n    <t s=\"2\">that there is in them an analogy of these two matters.</t>\n    <t s=\"3\">For from the aspect of the root of souls as they are rooted in Atzmus,</t>\n    <t s=\"4\">there is no place for another existence,</t>\n    <t s=\"5\">only Israel and the King alone.</t>\n    <t s=\"6\">And it can be said,</t>\n    <t s=\"7\">that in this level,</t>\n    <t s=\"8\">it is not applicable to say even that Israel preceded the world.</t>\n    <t s=\"9\">But after the souls descended below in order to refine and clarify the world,</t>\n    <t s=\"10\">behold, relative to this level of Israel, there is an existence of the world,</t>\n    <t s=\"11\">except that Israel is above the world,</t>\n    <t s=\"12\">and the creation of the world is for the sake of Israel.</t>\n    <t s=\"13\">And based on this, it would be possible to say,</t>\n    <t s=\"14\">that this that Israel is called \"one nation\"</t>\n    <t s=\"15\">(and not \"singular\")</t>\n    <t s=\"16\">is from the aspect of their descent below,</t>\n    <t s=\"17\">as the expression \"one nation in the land.\"</t>\n    <t s=\"18\">For since the descent of the soul below is in order to refine the world,</t>\n    <t s=\"19\">beginning with the species of the speaker in the world,</t>\n    <t s=\"20\">behold, relative to this level of Israel</t>\n    <t s=\"21\">(as they are in the land)</t>\n    <t s=\"22\">there is an existence of the nations of the world</t>\n    <t s=\"23\">[to the extent that through Israel effecting refinement in the nations, an elevation is brought about in them],</t>\n    <t s=\"24\">therefore it is said \"one nation,\"</t>\n    <t s=\"25\">one that is counted,</t>\n    <t s=\"26\">that also counts the nations of the world</t>\n    <t s=\"27\">[since specifically through them this elevation in Israel is effected],</t>\n    <t s=\"28\">except that Israel is \"one nation,\"</t>\n    <t s=\"29\">that does not intermingle with the other nations</t>\n    <t s=\"30\">[analogous to \"one day,\"</t>\n    <t s=\"31\">that the first day of the six days of creation is counted with the other days,</t>\n    <t s=\"32\">one that is counted,</t>\n    <t s=\"33\">but it is elevated above them].</t>\n    <t s=\"34\">And in order to negate this interpretation, the maamar brings the parable of an only son,</t>\n    <t s=\"35\">that the concept of an only son is</t>\n    <t s=\"36\">(not only that in actuality he is the only son,</t>\n    <t s=\"37\">but)</t>\n    <t s=\"38\">also</t>\n    <t s=\"39\">(and primarily)</t>\n    <t s=\"40\">that his love for his father and his father's love for him is a unique love</t>\n    <t s=\"41\">(that is not comparable to the love of a father and son when there is more than one son).</t>\n    <t s=\"42\">And likewise is it in this that Israel is an only son to the Singular of the world,</t>\n    <t s=\"43\">that the love of the Holy One, blessed be He, for Israel and the love of Israel for the Holy One, blessed be He, is a unique love that has no parallel among all the nations.</t>\n    <t s=\"44\">And since even in the land the love of the Holy One, blessed be He, for Israel and of Israel for the Holy One, blessed be He, is a unique love,</t>\n    <t s=\"45\">it is seemingly not applicable to count them with the other nations,</t>\n    <t s=\"46\">and it should have said \"a singular nation.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the root of parental love and a child's love is the love between the Holy One and Israel, and since Israel is an only son, this essential love is primarily manifest in an only son.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And this will be understood in greater depth,</t>\n    <t s=\"2\">by prefacing the explanation of this, that the love of parents for their children when they have more than one child is not as great a love as their love for an only son,</t>\n    <t s=\"3\">and likewise the love of an only son for his parents is greater than the love of children for their parents when there is more than one son.</t>\n    <t s=\"4\">For seemingly,</t>\n    <t s=\"5\">even regarding the love of parents for their children,</t>\n    <t s=\"6\">it is not applicable to say that by having many children their love is diminished,</t>\n    <t s=\"7\">for are there compartments in the heart of a person?</t>\n    <t s=\"8\">And all the more so regarding the love of a child for parents,</t>\n    <t s=\"9\">for since each one</t>\n    <t s=\"10\">(even when he has siblings)</t>\n    <t s=\"11\">is singular in his own feeling,</t>\n    <t s=\"12\">behold, that he has siblings who also love his parents is not a reason</t>\n    <t s=\"13\">(seemingly)</t>\n    <t s=\"14\">that thereby his love should be diminished</t>\n    <t s=\"15\">(since in his own feeling he is singular).</t>\n    <t s=\"16\">And the explanation of this can be said,</t>\n    <t s=\"17\">based on what is known</t>\n    <t s=\"18\">that all matters below have a root above.</t>\n    <t s=\"19\">And based on this, it can be said,</t>\n    <t s=\"20\">that the root of the love of parents for their children is the love of the Holy One, blessed be He, for Israel, who are children to the Holy One, blessed be He,</t>\n    <t s=\"21\">and the root of the love of a child for his parents is the love of Israel for our Father in Heaven.</t>\n    <t s=\"22\">And since Israel is an only son to the Singular of the world,</t>\n    <t s=\"23\">therefore,</t>\n    <t s=\"24\">the essential love of father and son below</t>\n    <t s=\"25\">(the love of a father for his son and the love of a son for his father),</t>\n    <t s=\"26\">which is drawn from the essential love of the Holy One, blessed be He, and Israel</t>\n    <t s=\"27\">(the love of the Holy One, blessed be He, for Israel and the love of Israel for the Holy One, blessed be He),</t>\n    <t s=\"28\">is primarily in an only son</t>\n    <t s=\"29\">(and for this reason,</t>\n    <t s=\"30\">the totality of the essential love of parents for their child and of a child for his parents is in Israel more than in the nations of the world,</t>\n    <t s=\"31\">because the root of this love is the love of the Holy One, blessed be He, for Israel and the love of Israel for the Holy One, blessed be He).</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that since Israel is an only son rooted in Atzmus where there is no place for other existence, and this is revealed even below, it should have said \"singular nation\" rather than \"one nation.\"</sectionSummaryBrief>\n    <t s=\"0\">And based on this, there is additional explanation in the relevance of the parable of an only son to the precision that it should have said \"a singular nation,\"</t>\n    <t s=\"1\">for this that Israel is the only son of the Holy One, blessed be He, is</t>\n    <t s=\"2\">(not like an only son below, that even when a person has only one son it is possible and applicable that he could have additional sons,</t>\n    <t s=\"3\">but)</t>\n    <t s=\"4\">that it is not applicable, so to speak, that He could have additional sons,</t>\n    <t s=\"5\">for this that Israel are His sons of the Holy One, blessed be He, is that they are rooted in Atzmus</t>\n    <t s=\"6\">(analogous to a son below who is rooted in the essence of the father),</t>\n    <t s=\"7\">and there there is no place for another existence,</t>\n    <t s=\"8\">Israel and the King alone</t>\n    <t s=\"9\">(as above in section 3).</t>\n    <t s=\"10\">And since even when they are below in the land,</t>\n    <t s=\"11\">the love of the Holy One, blessed be He, for Israel is like the love of a father for an only son,</t>\n    <t s=\"12\">and the love of Israel for the Holy One, blessed be He, is like the love of an only son for his father,</t>\n    <t s=\"13\">through which it is revealed in them in a revealed way</t>\n    <t s=\"14\">that even when they are below in the land they are connected with their root in Atzmus,</t>\n    <t s=\"15\">where there is no place for another existence</t>\n    <t s=\"16\">(even not for the existence of angels and the like,</t>\n    <t s=\"17\">and certainly there is no place for the nations of the world),</t>\n    <t s=\"18\">it is seemingly not applicable to count them with the nations and to say of them that they are \"one nation\"</t>\n    <t s=\"19\">(one that is counted)</t>\n    <t s=\"20\">and it should have said \"a singular nation.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915265_theRebbe_887",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915265_theRebbe_887__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that from the root of souls in Atzmus there is no place for other existence, only Israel and the King, but after descent for refinement, the world exists relative to Israel, leading to the term \"one nation\" rather than \"singular nation,\" which the parable of an only son refutes.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And behold, this is the case with Israel,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that there is in them an analogy of these two matters."
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "For from the aspect of the root of souls as they are rooted in Atzmus,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "there is no place for another existence,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "only Israel and the King alone."
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that in this level,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "it is not applicable to say even that Israel preceded the world."
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "But after the souls descended below in order to refine and clarify the world,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "behold, relative to this level of Israel, there is an existence of the world,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "except that Israel is above the world,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "and the creation of the world is for the sake of Israel."
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "And based on this, it would be possible to say,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "that this that Israel is called \"one nation\""
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "(and not \"singular\")"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "is from the aspect of their descent below,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "as the expression \"one nation in the land.\""
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "For since the descent of the soul below is in order to refine the world,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "beginning with the species of the speaker in the world,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "behold, relative to this level of Israel"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "(as they are in the land)"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "there is an existence of the nations of the world"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "[to the extent that through Israel effecting refinement in the nations, an elevation is brought about in them],"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "therefore it is said \"one nation,\""
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "one that is counted,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "that also counts the nations of the world"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "[since specifically through them this elevation in Israel is effected],"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "except that Israel is \"one nation,\""
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "that does not intermingle with the other nations"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "[analogous to \"one day,\""
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "that the first day of the six days of creation is counted with the other days,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "one that is counted,"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "but it is elevated above them]."
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "And in order to negate this interpretation, the maamar brings the parable of an only son,"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "that the concept of an only son is"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "(not only that in actuality he is the only son,"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "but)"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "also"
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "(and primarily)"
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "that his love for his father and his father's love for him is a unique love"
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "(that is not comparable to the love of a father and son when there is more than one son)."
+          },
+          {
+            "v": 6,
+            "s": 42,
+            "translation": "And likewise is it in this that Israel is an only son to the Singular of the world,"
+          },
+          {
+            "v": 6,
+            "s": 43,
+            "translation": "that the love of the Holy One, blessed be He, for Israel and the love of Israel for the Holy One, blessed be He, is a unique love that has no parallel among all the nations."
+          },
+          {
+            "v": 6,
+            "s": 44,
+            "translation": "And since even in the land the love of the Holy One, blessed be He, for Israel and of Israel for the Holy One, blessed be He, is a unique love,"
+          },
+          {
+            "v": 6,
+            "s": 45,
+            "translation": "it is seemingly not applicable to count them with the other nations,"
+          },
+          {
+            "v": 6,
+            "s": 46,
+            "translation": "and it should have said \"a singular nation.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the root of parental love and a child's love is the love between the Holy One and Israel, and since Israel is an only son, this essential love is primarily manifest in an only son.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this will be understood in greater depth,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "by prefacing the explanation of this, that the love of parents for their children when they have more than one child is not as great a love as their love for an only son,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "and likewise the love of an only son for his parents is greater than the love of children for their parents when there is more than one son."
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "For seemingly,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "even regarding the love of parents for their children,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "it is not applicable to say that by having many children their love is diminished,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "for are there compartments in the heart of a person?"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "And all the more so regarding the love of a child for parents,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "for since each one"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "(even when he has siblings)"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "is singular in his own feeling,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "behold, that he has siblings who also love his parents is not a reason"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "(seemingly)"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "that thereby his love should be diminished"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "(since in his own feeling he is singular)."
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "And the explanation of this can be said,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "based on what is known"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "that all matters below have a root above."
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "that the root of the love of parents for their children is the love of the Holy One, blessed be He, for Israel, who are children to the Holy One, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "and the root of the love of a child for his parents is the love of Israel for our Father in Heaven."
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "And since Israel is an only son to the Singular of the world,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "therefore,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "the essential love of father and son below"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "(the love of a father for his son and the love of a son for his father),"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "which is drawn from the essential love of the Holy One, blessed be He, and Israel"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "(the love of the Holy One, blessed be He, for Israel and the love of Israel for the Holy One, blessed be He),"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "is primarily in an only son"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "(and for this reason,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "the totality of the essential love of parents for their child and of a child for his parents is in Israel more than in the nations of the world,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "because the root of this love is the love of the Holy One, blessed be He, for Israel and the love of Israel for the Holy One, blessed be He)."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that since Israel is an only son rooted in Atzmus where there is no place for other existence, and this is revealed even below, it should have said \"singular nation\" rather than \"one nation.\"",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And based on this, there is additional explanation in the relevance of the parable of an only son to the precision that it should have said \"a singular nation,\""
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "for this that Israel is the only son of the Holy One, blessed be He, is"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "(not like an only son below, that even when a person has only one son it is possible and applicable that he could have additional sons,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "but)"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "that it is not applicable, so to speak, that He could have additional sons,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "for this that Israel are His sons of the Holy One, blessed be He, is that they are rooted in Atzmus"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "(analogous to a son below who is rooted in the essence of the father),"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "and there there is no place for another existence,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "Israel and the King alone"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "(as above in section 3)."
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "And since even when they are below in the land,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "the love of the Holy One, blessed be He, for Israel is like the love of a father for an only son,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "and the love of Israel for the Holy One, blessed be He, is like the love of an only son for his father,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "through which it is revealed in them in a revealed way"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "that even when they are below in the land they are connected with their root in Atzmus,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "where there is no place for another existence"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "(even not for the existence of angels and the like,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "and certainly there is no place for the nations of the world),"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "it is seemingly not applicable to count them with the nations and to say of them that they are \"one nation\""
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "(one that is counted)"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "and it should have said \"a singular nation.\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917720_theRebbe_340" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917720_theRebbe_340" title="מאמר ויקרא אל משה תשל"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917720_theRebbe_340__p005">
+  <section v="12">
+    <src s="0">ח)</src>
+    <src s="1">והנה שני הענינים בבחינת המים דתורה,</src>
+    <src s="2">שהתורה יורדת למטה ושע"י הירידה למטה דוקא מתגלה שרש התורה כמו שמושרשת בהעצמות,</src>
+    <src s="3">הוא בעיקר בההלכות דתורה.</src>
+    <src s="4">דענין ההלכות הוא פסק דין בנוגע למעשה – ירידה למטה ביותר,</src>
+    <src s="5">ושרש ההלכות הוא למעלה יותר מהשרש דשאר חלקי התורה,</src>
+    <src s="6">וכמבואר בהמשך תרס"ו54</src>
+    <src s="7">דזה שאלו ואלו דברי אלקים חיים55</src>
+    <src s="8">הוא בחי' אלקים דוקא,</src>
+    <src s="9">והלכות הם משם הוי' כמרז"ל56</src>
+    <src s="10">והוי' עמו57</src>
+    <src s="11">שהלכה כמותו,</src>
+    <src s="12">דהכוונה בשם הוי' כאן היא עד לבחינת שמו הכלול בעצמותו,</src>
+    <src s="13">יכולת העצמות.</src>
+  </section>
+  <section v="13">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דזה שבחינת המים דתורה הוא בעיקר בהלכות התורה הוא גם בנוגע לזה שארז"ל58</src>
+    <src s="2">שדברי תורה נמשלו למים כי כמו שמים מניחין מקום גבוה והולכין למקום נמוך כך דברי תורה אין מתקיימין אלא במי שדעתו שפלה.</src>
+    <src s="3">וכמבואר בהמשך תרס"ו59</src>
+    <src s="4">שבכדי לכוין הלכה לאמיתתה הוא ע"י הביטול והשפלות.</src>
+    <src s="5">דזהו שנקבעה הלכה כבית הלל מפני שנוחין ועלובין היו55,</src>
+    <src s="6">כי ע"י הביטול שלהם הגיעו להעלם העצמי.</src>
+  </section>
+  <section v="14">
+    <src s="0">ועפ"ז יש להוסיף ביאור בזה שנתבאר לעיל</src>
+    <src s="1">(סעיף ד)</src>
+    <src s="2">דזה שבני יששכר נתנו עצה להתנדב קרבנות הוא לפי שהיו יודעים בתורה והגילוי דתורה הוא בענין הקרבנות,</src>
+    <src s="3">כי זה ששבט יששכר הקריב ביום השני והקדים לפניו את שבט יהודה הוא מצד הביטול שלו</src>
+    <src s="4">[וע"ד שב"ה הקדימו דברי ב"ש לדבריהם55],</src>
+    <src s="5">ולכן זכו לכוין ההלכה לאמיתתה,</src>
+    <src s="6">כמבואר בדרושי אדמו"ר מהר"ש60.</src>
+    <src s="7">ועפ"ז יש לומר,</src>
+    <src s="8">דזה שידיעתם בתורה הביא אותם לענין הקרבנות,</src>
+    <src s="9">בירור וקיום העולם,</src>
+    <src s="10">הוא,</src>
+    <src s="11">כי ע"י שעסק התורה שלהם הי' בביטול61,</src>
+    <src s="12">הגיעו לעצם התורה כמו שהיא מושרשת בהעצמות,</src>
+    <src s="13">ולכן הי' נרגש אצלם שהתכלית דידיעת התורה היא להשלים כוונת העצמות,</src>
+    <src s="14">לעשות לו ית' דירה בתחתונים.</src>
+  </section>
+</awtsmoosMeluketSource>

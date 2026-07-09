@@ -1,0 +1,136 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920412_theRebbe_962" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920412_theRebbe_962__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920412_theRebbe_962" title="מאמר קומי אורי תשל"ג" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920412_theRebbe_962__p003">
+  <section v="6">
+    <src s="0">ו)</src>
+    <src s="1">וממשיך בכתוב נראה אור,</src>
+    <src s="2">שהוא למעלה גם מאורך,</src>
+    <src s="3">ועד שאורך אינו אלא הכנה להאור הנראה על ידו</src>
+    <src s="4">(כנ"ל מהמאמר).</src>
+    <src s="5">ויש לומר הביאור בזה ע"פ הידוע29</src>
+    <src s="6">בענין תורה ונש"י,</src>
+    <src s="7">דשרש ישראל הוא למעלה משרש התורה30,</src>
+    <src s="8">כדאיתא בתדב"א31</src>
+    <src s="9">שני דברים קדמו לעולם תורה וישראל,</src>
+    <src s="10">ואיני יודע איזה מהם קודם,</src>
+    <src s="11">כשהוא אומר צו את בני ישראל דבר אל בני ישראל,</src>
+    <src s="12">אומר אני ישראל קדמו.</src>
+    <src s="13">אלא שנש"י נמשכו וירדו בבחינת מציאות בפ"ע,</src>
+    <src s="14">כמו הבן</src>
+    <src s="15">(בנים אתם לה' אלקיכם32)</src>
+    <src s="16">שעם היותו מעצמות האב,</src>
+    <src s="17">הוא מציאות נבדל33,</src>
+    <src s="18">והתורה גם כמו שנמשכה למטה היא מיוחדת עמו ית',</src>
+    <src s="19">אורייתא וקוב"ה כולא חד34.</src>
+    <src s="20">וזהו הטעם שמעלתן של ישראל</src>
+    <src s="21">(שקדמו לתורה)</src>
+    <src s="22">נתגלתה ע"י התורה</src>
+    <src s="23">(שבתורה נאמר צו את בני ישראל,</src>
+    <src s="24">דבר אל בני ישראל),</src>
+    <src s="25">כי הנשמות,</src>
+    <src s="26">כמו שהן מצד עצמן,</src>
+    <src s="27">להיותן מציאות נבדל,</src>
+    <src s="28">השרש שלהם הוא בהעלם,</src>
+    <src s="29">משא"כ תורה,</src>
+    <src s="30">שהיא חד עם הקב"ה,</src>
+    <src s="31">היא בחי' גילוי</src>
+    <src s="32">(ותורה אור),</src>
+    <src s="33">וע"י התורה מתגלה</src>
+    <src s="34">(גם)</src>
+    <src s="35">השרש דישראל.</src>
+    <src s="36">ועפ"ז יש לומר ששני הענינים דבאורך נראה אור הם תורה וישראל.</src>
+    <src s="37">אורך היא תורה</src>
+    <src s="38">(כנ"ל),</src>
+    <src s="39">והאור שנראה ע"י אורך הוא השרש דישראל שמתגלה ע"י התורה35.</src>
+  </section>
+  <section v="7">
+    <src s="0">ז)</src>
+    <src s="1">וזהו קומי אורי כי בא אורך,</src>
+    <src s="2">דשני ענינים אלו</src>
+    <src s="3">(אורי ואורך)</src>
+    <src s="4">הם דוגמת שני הענינים דבאורך נראה אור</src>
+    <src s="5">(כנ"ל בתחלת המאמר).</src>
+    <src s="6">אורך,</src>
+    <src s="7">האור של ישראל עצמם,</src>
+    <src s="8">הוא ע"ד באורך</src>
+    <src s="9">(אור שלך),</src>
+    <src s="10">וקומי אורי,</src>
+    <src s="11">האור שישראל מאירים,</src>
+    <src s="12">הוא ע"ד האור שנראה ע"י אורך</src>
+    <src s="13">(שלמעלה מאורך).</src>
+    <src s="14">ויובן זה ע"פ המבואר במק"א36</src>
+    <src s="15">בענין נשמה וגוף,</src>
+    <src s="16">דבנשמות כתיב32</src>
+    <src s="17">בנים אתם להוי' אלקיכם37,</src>
+    <src s="18">ולכן,</src>
+    <src s="19">האהבה וההתקשרות דהקב"ה לישראל מצד נשמתם היא כמו אהבה טבעית כביכול</src>
+    <src s="20">(ע"ד אהבת אב לבנו).</src>
+    <src s="21">היינו,</src>
+    <src s="22">ששרש אהבה זו היא ממדריגה ששייכת שם תפיסת מקום דהנאהב,</src>
+    <src s="23">ואינה מעצמותו ממש.</src>
+    <src s="24">משא"כ האהבה וההתקשרות דהקב"ה לישראל מצד הגוף שלהם,</src>
+    <src s="25">היא</src>
+    <src s="26">(לא מצד מעלת הגוף,</src>
+    <src s="27">גם לא המעלה ד"בן",</src>
+    <src s="28">מעלה עצמית,</src>
+    <src s="29">אלא)</src>
+    <src s="30">מצד זה שהקב"ה בחר בהגוף דישראל38,</src>
+    <src s="31">בבחירתו חפשית,</src>
+    <src s="32">שבחירה זו היא מעצמותו ממש.</src>
+    <src s="33">אלא,</src>
+    <src s="34">שמעלת הנשמה</src>
+    <src s="35">(שהיא בן להקב"ה)</src>
+    <src s="36">היא בגילוי,</src>
+    <src s="37">משא"כ מעלת הגוף</src>
+    <src s="38">(שבו הוא בחירת העצמות)</src>
+    <src s="39">היא בהעלם.</src>
+    <src s="40">וע"י שהנשמה עובדת עם הגוף,</src>
+    <src s="41">מתגלה בו מעלתו,</src>
+    <src s="42">בחירת העצמות.</src>
+  </section>
+  <section v="8">
+    <src s="0">ועפ"ז יש לומר פירוש קומי אורי כי בא אורך,</src>
+    <src s="1">שאורך הוא האור דהנשמה,</src>
+    <src s="2">וקומי אורי הוא שע"י האור דהנשמה</src>
+    <src s="3">(בא אורך)</src>
+    <src s="4">היא צריכה לעבוד בהגוף ולהאיר אותו,</src>
+    <src s="5">שעי"ז נתגלה ענין נעלה יותר מהאור של הנשמה</src>
+    <src s="6">(אורך),</src>
+    <src s="7">ע"ד שנת"ל</src>
+    <src s="8">(סעיף ב)</src>
+    <src s="9">בענין באורך נראה אור,</src>
+    <src s="10">דהאור שנראה ע"י אורך הוא נעלה יותר מאורך.</src>
+  </section>
+</awtsmoosMeluketSource>

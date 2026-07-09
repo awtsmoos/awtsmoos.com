@@ -1,0 +1,133 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918872_theRebbe_254" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918872_theRebbe_254" title="מאמר בהעלותך את הנרות תשכ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p004">
+  <section v="9">
+    <src s="0">והנה ידוע37</src>
+    <src s="1">דאהבה היא האהבה והרצון דהאדם</src>
+    <src s="2">(האוהב),</src>
+    <src s="3">ולכן,</src>
+    <src s="4">גם כשהאהבה והרצון שלו הוא שיושלם רצון העליון,</src>
+    <src s="5">מ"מ,</src>
+    <src s="6">עצם ענין האהבה והרצון הוא מציאות.</src>
+    <src s="7">ואמיתית ענין הביטול הוא בהעבודה דקבלת עול,</src>
+    <src s="8">שהוא כמו עבד שאין לו שום רצונות,</src>
+    <src s="9">וכל מה שעושה הוא מצד עול האדון שמוטל עליו,</src>
+    <src s="10">שמצד זה הוא מוכרח לקיים רצון האדון.</src>
+    <src s="11">ויש לומר,</src>
+    <src s="12">דכיון שביטול המרכבה להרוכב הוא לא מצד הרצון דהמרכבה</src>
+    <src s="13">(שרוצה להיות בטילה להרוכב ומרכבה אליו)</src>
+    <src s="14">אלא מצד הרוכב,</src>
+    <src s="15">לכן בהירושה מהאבות הן הן המרכבה כלול בהעלם גם הביטול דקבלת עול.</src>
+    <src s="16">[ולהעיר ממאמר רז"ל38</src>
+    <src s="17">בשעה שהקדימו ישראל נעשה לנשמע כו' מי גילה לבני רז זה ומבואר בחסידות39</src>
+    <src s="18">דזה שהקדימו נעשה לנשמע</src>
+    <src s="19">[שבהביטול דקבלת עול עצמו הוא ביטול נעלה ביותר,</src>
+    <src s="20">ביטול לבעל הרצון]</src>
+    <src s="21">הוא ע"י גילוי אהבה המסותרת,</src>
+    <src s="22">רז.</src>
+    <src s="23">ויש לומר,</src>
+    <src s="24">שהשייכות דאהבה מסותרת</src>
+    <src s="25">(מציאות)</src>
+    <src s="26">להקדמת נעשה לנשמע</src>
+    <src s="27">(ביטול דקבלת עול),</src>
+    <src s="28">הוא,</src>
+    <src s="29">כי אהבה המסותרת היא בירושה מהאבות הן הן המרכבה].</src>
+    <src s="30">ומזה מובן,</src>
+    <src s="31">דהביטול שנמשך לישראל במתן תורה</src>
+    <src s="32">(לאחרי שהקדימו נעשה לנשמע)</src>
+    <src s="33">הוא ביטול נעלה יותר גם מהביטול דמרכבה.</src>
+  </section>
+  <section v="10">
+    <src s="0">ו)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דאיתא בגמרא40</src>
+    <src s="3">אמרו עליו על ריב"ז שלא הניח דבר גדול ודבר קטן,</src>
+    <src s="4">דבר גדול מעשה מרכבה דבר קטן הוויות דאביי ורבא.</src>
+    <src s="5">ומבואר בהמאמר41,</src>
+    <src s="6">דהטעם שמעשה מרכבה נק' דבר גדול הוא,</src>
+    <src s="7">כי ע"י המרכבה42</src>
+    <src s="8">מגיע האדם הרוכב על המרכבה למקום שאינו יכול להגיע לשם מצד עצמו,</src>
+    <src s="9">וכמו"כ הוא במרכבה העליונה,</src>
+    <src s="10">שהחיות נושאות את הכסא43</src>
+    <src s="11">ואת האדם שעל הכסא44</src>
+    <src s="12">לבחינת לא אדם45.</src>
+    <src s="13">ועיקר ההעלאה לבחינת לא אדם הוא בהמרכבה דהאבות</src>
+    <src s="14">(האבות הן הן המרכבה),</src>
+    <src s="15">מרכבה דאצילות.</src>
+    <src s="16">כי העלי' דבחינת אדם לבחינת לא אדם שע"י מרכבה דבי"ע היא שהאדם שעל הכסא</src>
+    <src s="17">(אדם דבי"ע)</src>
+    <src s="18">מתעלה לדרגא שהיא בחינת לא אדם לגבי אדם דבי"ע,</src>
+    <src s="19">וע"י המרכבה דהאבות,</src>
+    <src s="20">מרכבה דאצילות,</src>
+    <src s="21">נעשה העלי' דבחי' אדם דאצילות לבחינת לא אדם שלמעלה מאצילות,</src>
+    <src s="22">אריך.</src>
+    <src s="23">וזהו שמעשה מרכבה נקרא דבר גדול,</src>
+    <src s="24">כי אדם,</src>
+    <src s="25">זעיר אנפין,</src>
+    <src s="26">הוא בחינת קטנות וצמצום,</src>
+    <src s="27">וע"י המרכבה הוא מתעלה לבחינת אריך,</src>
+    <src s="28">גדול.</src>
+  </section>
+  <section v="11">
+    <src s="0">והטעם שהוויות דאביי ורבא נק' דבר קטן</src>
+    <src s="1">(אף שהוא עיקר בתושבע"פ)</src>
+    <src s="2">הוא,</src>
+    <src s="3">כי הלכות התורה נתלבשו בדברים קטנים.</src>
+    <src s="4">דנוסף לזה שהמצוות נתלבשו בדברים גשמיים,</src>
+    <src s="5">יש בכל מצוה כמה פרטי דינים,</src>
+    <src s="6">דענין ההתחלקות</src>
+    <src s="7">(פרטים)</src>
+    <src s="8">הוא צמצום והגבלה,</src>
+    <src s="9">קטנות.</src>
+    <src s="10">[ועפ"ז46,</src>
+    <src s="11">החילוק בין מעשה מרכבה להוויות דאביי ורבא הוא מן הקצה אל הקצה.</src>
+    <src s="12">דענין מרכבה הוא היציאה מבחינת הגבלה</src>
+    <src s="13">(אדם)</src>
+    <src s="14">לבחינת בל"ג</src>
+    <src s="15">(לא אדם)</src>
+    <src s="16">– דבר גדול</src>
+    <src s="17">(דאמיתית ענין הגדלות הוא בדבר שאינו מוגבל47),</src>
+    <src s="18">ובהוויות דאביי ורבא הוא להיפך,</src>
+    <src s="19">התלבשות רצון העליון,</src>
+    <src s="20">בלי גבול,</src>
+    <src s="21">בדברים מוגבלים – דבר קטן].</src>
+    <src s="22">וממשיך בהמאמר עוד טעם על זה שהוויות דאביי ורבא נק' דבר קטן,</src>
+    <src s="23">כי התורה דעכשיו היא דבר קטן לגבי פנימיות התורה שתתגלה לעתיד.</src>
+    <src s="24">וגם לפי שהתורה היא משל ולבוש לאוא"ס המלובש בה.</src>
+    <src s="25">שלכן נקראת התורה בשם משל הקדמוני48,</src>
+    <src s="26">שהיא משל ולבוש לבחי' קדמונו של עולם49.</src>
+    <src s="27">ומשל לגבי נמשל הוא דבר קטן.</src>
+  </section>
+</awtsmoosMeluketSource>

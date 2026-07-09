@@ -7,20 +7,20 @@ import { loadTracks } from './loader.js';
 
 /**
  * B"H
- * Download chamber. One file downloads directly; many files become a ZIP vessel.
- * No single-file action lies with false ZIP language.
+ * Download chamber. One file says Download and descends alone. Many files say
+ * ZIP and enter a newest-first vessel. No button lies about its garment.
  */
 export async function downloadAllResults(results = []) {
   const rows = [];
   for (const item of results) (await loadTracks(item)).forEach(track => rows.push({ item, track, trackIndex: rows.length + 1 }));
-  return downloadRowsAsZip(rows, `rebbe-search-results-${Date.now()}.zip`, 'Exporting search results');
+  return downloadRowsAsZip(rows, `rebbe-search-results-${Date.now()}.zip`, 'Zipping search results newest-first');
 }
 
 /** @param {Array<object>} items Selected track items. @returns {Promise<void>} */
 export async function downloadSelectedTracks(items = []) {
   const rows = items.map((item, i) => ({ item: item.event || item, track: item.track || item, trackIndex: i + 1 }));
   if (rows.length === 1) return downloadTrack(rows[0].track, rows[0].item);
-  return downloadRowsAsZip(rows, `rebbe-selected-tracks-${Date.now()}.zip`, 'Exporting selected tracks');
+  return downloadRowsAsZip(rows, `rebbe-selected-tracks-${Date.now()}.zip`, 'Zipping selected files newest-first');
 }
 
 /** @param {object} item Event item. @param {Array<object>} tracks Optional tracks. @returns {Promise<void>} */
@@ -29,7 +29,7 @@ export async function downloadEvent(item, tracks) {
   if (!files.length) return Render.log('No event files to download', true);
   if (files.length === 1) return downloadTrack(files[0], item);
   const rows = files.map((track, i) => ({ item, track, trackIndex: i + 1 }));
-  return downloadRowsAsZip(rows, `${safeName(titleOf(item))}.zip`, `Exporting event: ${titleOf(item)}`);
+  return downloadRowsAsZip(rows, `${safeName(titleOf(item))}.zip`, `Zipping event newest-first: ${titleOf(item)}`);
 }
 
 /** @param {object} track Track row. @param {object} item Event context. @returns {Promise<void>} */

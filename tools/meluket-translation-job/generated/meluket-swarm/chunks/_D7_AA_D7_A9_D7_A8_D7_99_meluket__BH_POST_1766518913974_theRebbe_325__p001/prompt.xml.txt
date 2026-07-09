@@ -1,0 +1,77 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913974_theRebbe_325" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913974_theRebbe_325__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913974_theRebbe_325" title="מאמר וכל אדם תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913974_theRebbe_325__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ האזינו,</src>
+    <src s="2">שבת תשובה ה'תשכ"ג</src>
+  </section>
+  <section v="1">
+    <src s="0">וכל אדם לא יהי' באוהל מועד בבואו לכפר בקודש גו'1</src>
+    <src s="1">ואיתא בירושלמי2</src>
+    <src s="2">אפילו אותן שכתב בהן3</src>
+    <src s="3">ודמות פניהם פני אדם.</src>
+    <src s="4">ומבאר הצ"צ במאמרו ד"ה זה4,</src>
+    <src s="5">שהגילוי שנמשך כשכהן גדול הי' נכנס לקודש הקדשים הוא גילוי שלמעלה מהשתלשלות.</src>
+    <src s="6">וכדאיתא במדרש5</src>
+    <src s="7">עה"פ6</src>
+    <src s="8">בזאת יבוא אהרן,</src>
+    <src s="9">באיזה זכות הי' אהרן נכנס לבית קדשי הקדשים כו' זכות המילה היתה נכנסת עמו,</src>
+    <src s="10">ומילה ניתנה בשמיני,</src>
+    <src s="11">דשמיני הוא למעלה מהשתלשלות.</src>
+    <src s="12">וכדאיתא במדרש7</src>
+    <src s="13">עה"פ8</src>
+    <src s="14">סוד הוי' ליראיו איזהו סוד הוי' זו מילה.</src>
+    <src s="15">שהגילויים דהשתלשלות הם מבחי' גליא דקוב"ה,</src>
+    <src s="16">והגילוי שנמשך ע"י מילה הוא מבחי' סתים דקוב"ה,</src>
+    <src s="17">ולכן נק' סוד הוי',</src>
+    <src s="18">דסוד הוא מה שהוא סתום ונעלם.</src>
+    <src s="19">ובשעה שהכה"ג הי' נכנס לקודש הקדשים נמשך הגילוי דסוד הוי'.</src>
+    <src s="20">ולכן לא היו שם אפילו אותן שכתב בהן ודמות פניהם פני אדם,</src>
+    <src s="21">כי לגבי גילוי זה אין מקום לנבראים,</src>
+    <src s="22">אפילו לא להמלאכים שדמות פניהם פני אדם.</src>
+  </section>
+  <section v="2">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">דמזה שבכדי שהכהן גדול יוכל ליכנס לקודש הקדשים הוא ע"י זכות המילה שניתנה בשמיני,</src>
+    <src s="2">מוכח,</src>
+    <src s="3">שהגילוי דלמעלה מהשתלשלות שהי' בקדה"ק הוא מצד מעלת קדה"ק עצמו</src>
+    <src s="4">(ולא שע"י כניסתו של הכהן גדול לקדה"ק נמשך הגילוי),</src>
+    <src s="5">ואעפ"כ,</src>
+    <src s="6">זה שוכל אדם לא יהי' גו' אפילו אותן שכתב בהן ודמות פניהם פני אדם הוא דוקא בבואו של הכהן גדול לקדה"ק לכפר בקודש.</src>
+    <src s="7">דמזה מובן,</src>
+    <src s="8">שהגילוי שנמשך ע"י העבודה דכהן גדול בקדה"ק הוא נעלה יותר מהגילוי שהי' בקדה"ק מצד עצמו.</src>
+  </section>
+</awtsmoosMeluketSource>

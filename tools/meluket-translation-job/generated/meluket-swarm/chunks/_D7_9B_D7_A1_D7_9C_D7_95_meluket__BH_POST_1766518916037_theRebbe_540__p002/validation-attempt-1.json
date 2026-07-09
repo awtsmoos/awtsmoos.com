@@ -1,0 +1,999 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 191,
+    "returned": 191,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518916037_theRebbe_540\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains the precise wording of the verse \"He redeemed my soul in peace from battle,\" analyzing the terms \"peace,\" \"battle,\" and \"war\" in the Holy Tongue, and offering two interpretations of \"from battle.\"</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And this will be understood by prefacing what is said,</t>\n    <t s=\"2\">\"He redeemed my soul in peace from battle, for many were with me,\"</t>\n    <t s=\"3\">and the precise point of the phrase \"He redeemed in peace\" is known,</t>\n    <t s=\"4\">for from this language it implies that it is possible for there to be a redemption that is not in a manner of peace,</t>\n    <t s=\"5\">therefore it says here \"He redeemed in peace\" specifically,</t>\n    <t s=\"6\">that this redemption is in peace.</t>\n    <t s=\"7\">And also it needs to be understood what is said, \"from battle,\"</t>\n    <t s=\"8\">for it says \"from battle\" and not the term \"war,\"</t>\n    <t s=\"9\">as is the usual language in many places.</t>\n    <t s=\"10\">For the Holy Tongue is not a conventional language,</t>\n    <t s=\"11\">rather it is the language with which the world was created,</t>\n    <t s=\"12\">meaning that the name of each thing indicates its content and inner essence of the thing,</t>\n    <t s=\"13\">which was the wisdom of Adam the first,</t>\n    <t s=\"14\">and moreover,</t>\n    <t s=\"15\">that the name indicates the G-dly vitality of the thing called by this name,</t>\n    <t s=\"16\">as stated by our master, the Alter Rebbe, the Baal HaGeulah VeHaSimchah, in Shaar HaYichud VeHaEmunah.</t>\n    <t s=\"17\">From this it is understood regarding the matter of synonymous terms in the Holy Tongue,</t>\n    <t s=\"18\">that although all the names indicate,</t>\n    <t s=\"19\">in general,</t>\n    <t s=\"20\">that same thing,</t>\n    <t s=\"21\">nevertheless, each and every name</t>\n    <t s=\"22\">indicates and brings out a different content.</t>\n    <t s=\"23\">For so it is also regarding the terms \"battle\" and \"war,\"</t>\n    <t s=\"24\">that although \"battle\" also means war,</t>\n    <t s=\"25\">nevertheless, it must necessarily be said</t>\n    <t s=\"26\">that the word \"battle\" indicates a particular manner of war,</t>\n    <t s=\"27\">that specifically such a war is called by the name \"battle.\"</t>\n    <t s=\"28\">And it needs to be understood what is said here, \"from battle\" specifically.</t>\n    <t s=\"29\">And moreover it is not understood according to what is said in the Yerushalmi,</t>\n    <t s=\"30\">that \"He redeemed my soul in peace from battle\" refers to the wars of Avshalom,</t>\n    <t s=\"31\">and behold, this war is called in the Tanach by the name \"war,\"</t>\n    <t s=\"32\">so why does it call it here specifically by the name \"battle\"?</t>\n    <t s=\"33\">And regarding what is said, \"from battle,\"</t>\n    <t s=\"34\">there are two explanations.</t>\n    <t s=\"35\">The first explanation is,</t>\n    <t s=\"36\">that when Dovid was in a state of battle,</t>\n    <t s=\"37\">then, at that time,</t>\n    <t s=\"38\">\"He redeemed my soul in peace.\"</t>\n    <t s=\"39\">And the second explanation is,</t>\n    <t s=\"40\">that He redeemed and took him out of the battle,</t>\n    <t s=\"41\">this is what is said \"from battle\" with the letter mem,</t>\n    <t s=\"42\">(and like \"from Egypt You redeemed us,\"</t>\n    <t s=\"43\">whose explanation is,</t>\n    <t s=\"44\">the redemption and the departure from Egypt).</t>\n    <t s=\"45\">And it needs to be understood what is the concept of these two explanations.</t>\n    <t s=\"46\">And at the conclusion of the matter it says,</t>\n    <t s=\"47\">\"for many were with me.\"</t>\n    <t s=\"48\">For \"ki\" is a giving of a reason,</t>\n    <t s=\"49\">that what \"He redeemed in peace etc.\" is because many were with me,</t>\n    <t s=\"50\">as it says in the Yerushalmi,</t>\n    <t s=\"51\">that even the men of Avshalom prayed for Dovid,</t>\n    <t s=\"52\">through this \"He redeemed my soul in peace.\"</t>\n    <t s=\"53\">And additionally there is to explain,</t>\n    <t s=\"54\">that \"ki\" is a term meaning \"that which,\"</t>\n    <t s=\"55\">and meaning that \"many were with me\" is the explanation of \"He redeemed my soul in peace etc.,\"</t>\n    <t s=\"56\">that the matter of the redemption in peace is this, that many were with me,</t>\n    <t s=\"57\">and from the conclusion</t>\n    <t s=\"58\">[from these two explanations]</t>\n    <t s=\"59\">it is understood in the explanation of \"for many were with me,\"</t>\n    <t s=\"60\">that through that many were with me,</t>\n    <t s=\"61\">behold, through this the redemption was effected in peace etc. and that many were with me.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section discusses the eight kings of Edom mentioned in the Torah, explaining that the eighth king, Hadar, did not experience the \"breaking\" of the vessels, and distinguishes between the male and female aspects of these kings.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And to understand all this,</t>\n    <t s=\"2\">we must preface what is said,</t>\n    <t s=\"3\">\"And these are the kings who reigned in the land of Edom before a king reigned over the children of Israel,\"</t>\n    <t s=\"4\">and it is brought</t>\n    <t s=\"5\">in Midrash Rabbah,</t>\n    <t s=\"6\">\"The Holy One, blessed be He, said to Yaakov: You humbled yourself and called Esav 'my lord' eight times,</t>\n    <t s=\"7\">by your life, I will establish from his descendants eight kings before your children,</t>\n    <t s=\"8\">as it is said, 'And these are the kings etc. before a king reigned over the children of Israel etc.'\"</t>\n    <t s=\"9\">And it needs to be understood,</t>\n    <t s=\"10\">for it is known and famous in Kabbalah and Chassidus that the kings of Tohu are seven kings,</t>\n    <t s=\"11\">and in the Midrash it counts eight kings.</t>\n    <t s=\"12\">And also it needs to be understood that in the verse it counts eight kings.</t>\n    <t s=\"13\">And the explanation of this is known,</t>\n    <t s=\"14\">that the eighth king,</t>\n    <t s=\"15\">Hadar,</t>\n    <t s=\"16\">is not said of him \"and he died,\"</t>\n    <t s=\"17\">that there was no aspect of breaking in him,</t>\n    <t s=\"18\">and on the contrary,</t>\n    <t s=\"19\">from him is the beginning of the root of the rectification.</t>\n    <t s=\"20\">But it needs to be understood,</t>\n    <t s=\"21\">for in Divrei HaYamim</t>\n    <t s=\"22\">it says \"and he died\" also regarding Hadar.</t>\n    <t s=\"23\">And the explanation of this is known,</t>\n    <t s=\"24\">as it is brought in Zohar HaRakia,</t>\n    <t s=\"25\">that in the Writings, which are the aspect of Malchus,</t>\n    <t s=\"26\">and particularly Divrei HaYamim which is connected with time,</t>\n    <t s=\"27\">the Sefirah of Malchus,</t>\n    <t s=\"28\">it speaks about the aspect of the kings of Nukva,</t>\n    <t s=\"29\">meaning as the Sefiros are in Malchus,</t>\n    <t s=\"30\">where there was the aspect of breaking also in the eighth king,</t>\n    <t s=\"31\">but not so in the Torah, which is the aspect of Zeir Anpin,</t>\n    <t s=\"32\">it speaks about the kings of Duchra,</t>\n    <t s=\"33\">that in this aspect there was no aspect of breaking in the eighth king,</t>\n    <t s=\"34\">the aspect of Yesod,</t>\n    <t s=\"35\">and on the contrary,</t>\n    <t s=\"36\">from him is the beginning of the root of the rectification.</t>\n    <t s=\"37\">And behold,</t>\n    <t s=\"38\">the first king</t>\n    <t s=\"39\">(in whom is the beginning of the breaking)</t>\n    <t s=\"40\">is Bela the son of Beor,</t>\n    <t s=\"41\">who is the aspect of Daas,</t>\n    <t s=\"42\">(and this is not a contradiction to what is explained elsewhere,</t>\n    <t s=\"43\">that the beginning is from Chessed,</t>\n    <t s=\"44\">as stated in Otzros Chaim).</t>\n    <t s=\"45\">And at first glance it needs to be understood,</t>\n    <t s=\"46\">for it is explained that the entire matter of the breaking was in the emotions.</t>\n    <t s=\"47\">But nevertheless, it must be said that the breaking is from the aspect of Daas,</t>\n    <t s=\"48\">and as is simply understood from this that the matter of the breaking below is the concept of the sin of Adam HaRishon who ate from the Tree of Knowledge,</t>\n    <t s=\"49\">the matter of Daas specifically.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the sin of the Tree of Knowledge was the desire to feel physical pleasure as a separate entity, which introduced the aspect of Daas (awareness/feeling) as the cause of the breaking of the vessels.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And the explanation of the matter is,</t>\n    <t s=\"2\">that behold,</t>\n    <t s=\"3\">the sin of the Tree of Knowledge, its concept is that there was the sensation of physicality,</t>\n    <t s=\"4\">and as it is said,</t>\n    <t s=\"5\">\"And the woman saw that the tree was good for food and that it was a delight to the eyes,\"</t>\n    <t s=\"6\">meaning,</t>\n    <t s=\"7\">that before the sin of the Tree of Knowledge, the palate of Adam HaRishon felt a spiritual taste,</t>\n    <t s=\"8\">and the sin was that he felt a physical taste.</t>\n    <t s=\"9\">And the matter is,</t>\n    <t s=\"10\">that it is known that before the sin, Adam HaRishon was comprised of Beriah, Yetzirah, and Asiyah,</t>\n    <t s=\"11\">his head in Beriah, his body in Yetzirah, and his feet in Asiyah,</t>\n    <t s=\"12\">and it is understood,</t>\n    <t s=\"13\">that even his feet were on a more elevated level,</t>\n    <t s=\"14\">for the feet are connected with the rest of the body,</t>\n    <t s=\"15\">which is one body.</t>\n    <t s=\"16\">And furthermore,</t>\n    <t s=\"17\">that at the beginning of creation, the world was created in its fullness.</t>\n    <t s=\"18\">Therefore, even on the level of the feet of Adam HaRishon, his physical palate felt a spiritual taste.</t>\n    <t s=\"19\">And this is what our Rabbis, of blessed memory, said,</t>\n    <t s=\"20\">that the heel of Adam HaRishon dimmed the orb of the sun,</t>\n    <t s=\"21\">for \"heel\" is the lowest level of the foot,</t>\n    <t s=\"22\">and nevertheless it would dim the orb of the sun,</t>\n    <t s=\"23\">which is the aspect of the constellations,</t>\n    <t s=\"24\">meaning,</t>\n    <t s=\"25\">that the heel of Adam HaRishon was above the constellations.</t>\n    <t s=\"26\">And the matter of the constellations is as our Rabbis, of blessed memory, said,</t>\n    <t s=\"27\">\"There is not a single blade of grass below that does not have a constellation above that strikes it and says to it, 'Grow!'\"</t>\n    <t s=\"28\">and as the Alter Rebbe precisely notes,</t>\n    <t s=\"29\">the language \"says to it, 'Grow!'\"</t>\n    <t s=\"30\">that the intention is not that the very coming into being is done by the constellation,</t>\n    <t s=\"31\">rather, after the existence has come into being,</t>\n    <t s=\"32\">then through the constellation its growth is effected,</t>\n    <t s=\"33\">in taste and sweetness and in the other matters.</t>\n    <t s=\"34\">And it is understood that since the constellation is spiritual,</t>\n    <t s=\"35\">behold, physical sweetness does not apply to it.</t>\n    <t s=\"36\">And similarly it will be understood regarding Adam HaRishon, that his heel dimmed the orb of the sun,</t>\n    <t s=\"37\">that he was above the constellations,</t>\n    <t s=\"38\">that his palate tasted a spiritual taste.</t>\n    <t s=\"39\">And the sin was that he tasted a physical taste,</t>\n    <t s=\"40\">and the explanation of this is,</t>\n    <t s=\"41\">that his will was to taste a physical taste,</t>\n    <t s=\"42\">and therefore he felt the physical taste.</t>\n    <t s=\"43\">And the intention is not that through this the physical taste was created,</t>\n    <t s=\"44\">for even as the world was created in its fullness, the taste was physical,</t>\n    <t s=\"45\">rather, before the sin Adam HaRishon tasted the spiritual taste,</t>\n    <t s=\"46\">whereas the physical taste was absorbed and included within the spiritual,</t>\n    <t s=\"47\">that it had no independent existence.</t>\n    <t s=\"48\">And the matter of the sin was that he wanted to feel the physical as it is in its own right.</t>\n    <t s=\"49\">And this is that before the sin his body was in Yetzirah,</t>\n    <t s=\"50\">where he tasted the sweetness of the Torah,</t>\n    <t s=\"51\">and on the level of his feet in Asiyah,</t>\n    <t s=\"52\">the sensation of sweetness was only spiritual sweetness,</t>\n    <t s=\"53\">and the physical was drawn after the spiritual.</t>\n    <t s=\"54\">And the sin was that he wanted to feel the physical.</t>\n    <t s=\"55\">And this is also the explanation of what is said,</t>\n    <t s=\"56\">\"And they knew that they were naked,\"</t>\n    <t s=\"57\">that the intention is not that at first they did not know,</t>\n    <t s=\"58\">for if so, what is the novelty that they were not ashamed,</t>\n    <t s=\"59\">rather, what is said \"and they knew\" is the concept of recognition and sensation,</t>\n    <t s=\"60\">meaning,</t>\n    <t s=\"61\">that at first there was no sensation and desire in this matter,</t>\n    <t s=\"62\">and as it says in Reishis Chochmah,</t>\n    <t s=\"63\">that before the sin, the sensation was that just as through the hand one fulfills the mitzvah of tefillin</t>\n    <t s=\"64\">(for the entire Torah is equated to tefillin),</t>\n    <t s=\"65\">so too through this organ one fulfills the mitzvah of \"be fruitful and multiply,\"</t>\n    <t s=\"66\">which is a lofty and exalted mitzvah,</t>\n    <t s=\"67\">and as it is said,</t>\n    <t s=\"68\">\"He did not create it for chaos, He formed it to be inhabited,\"</t>\n    <t s=\"69\">and the sin caused that there came to be for them sensation and desire in this matter.</t>\n    <t s=\"70\">And therefore the matter of \"garments\" was needed,</t>\n    <t s=\"71\">and from this it devolved into actual halachah that garments are needed.</t>\n    <t s=\"72\">And similarly it is regarding the matter of the sin of the Tree of Knowledge,</t>\n    <t s=\"73\">that its cause is Daas and sensation,</t>\n    <t s=\"74\">meaning that the sin was that there came to be for him the sensation of the physical thing as it is in its own right,</t>\n    <t s=\"75\">and not as it is drawn after the spiritual.</t>\n    <t s=\"76\">And from this it is also understood above,</t>\n    <t s=\"77\">that the cause of the breaking in the emotions is the matter of sensation,</t>\n    <t s=\"78\">the aspect of Daas.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518916037_theRebbe_540",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains the precise wording of the verse \"He redeemed my soul in peace from battle,\" analyzing the terms \"peace,\" \"battle,\" and \"war\" in the Holy Tongue, and offering two interpretations of \"from battle.\"",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what is said,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "\"He redeemed my soul in peace from battle, for many were with me,\""
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "and the precise point of the phrase \"He redeemed in peace\" is known,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "for from this language it implies that it is possible for there to be a redemption that is not in a manner of peace,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "therefore it says here \"He redeemed in peace\" specifically,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "that this redemption is in peace."
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "And also it needs to be understood what is said, \"from battle,\""
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "for it says \"from battle\" and not the term \"war,\""
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "as is the usual language in many places."
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "For the Holy Tongue is not a conventional language,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "rather it is the language with which the world was created,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "meaning that the name of each thing indicates its content and inner essence of the thing,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "which was the wisdom of Adam the first,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "that the name indicates the G-dly vitality of the thing called by this name,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "as stated by our master, the Alter Rebbe, the Baal HaGeulah VeHaSimchah, in Shaar HaYichud VeHaEmunah."
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "From this it is understood regarding the matter of synonymous terms in the Holy Tongue,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "that although all the names indicate,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "in general,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "that same thing,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "nevertheless, each and every name"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "indicates and brings out a different content."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "For so it is also regarding the terms \"battle\" and \"war,\""
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "that although \"battle\" also means war,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "nevertheless, it must necessarily be said"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "that the word \"battle\" indicates a particular manner of war,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "that specifically such a war is called by the name \"battle.\""
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "And it needs to be understood what is said here, \"from battle\" specifically."
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "And moreover it is not understood according to what is said in the Yerushalmi,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "that \"He redeemed my soul in peace from battle\" refers to the wars of Avshalom,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "and behold, this war is called in the Tanach by the name \"war,\""
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "so why does it call it here specifically by the name \"battle\"?"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "And regarding what is said, \"from battle,\""
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "there are two explanations."
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "The first explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "that when Dovid was in a state of battle,"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "then, at that time,"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "\"He redeemed my soul in peace.\""
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "And the second explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "that He redeemed and took him out of the battle,"
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "this is what is said \"from battle\" with the letter mem,"
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "(and like \"from Egypt You redeemed us,\""
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "whose explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 44,
+            "translation": "the redemption and the departure from Egypt)."
+          },
+          {
+            "v": 3,
+            "s": 45,
+            "translation": "And it needs to be understood what is the concept of these two explanations."
+          },
+          {
+            "v": 3,
+            "s": 46,
+            "translation": "And at the conclusion of the matter it says,"
+          },
+          {
+            "v": 3,
+            "s": 47,
+            "translation": "\"for many were with me.\""
+          },
+          {
+            "v": 3,
+            "s": 48,
+            "translation": "For \"ki\" is a giving of a reason,"
+          },
+          {
+            "v": 3,
+            "s": 49,
+            "translation": "that what \"He redeemed in peace etc.\" is because many were with me,"
+          },
+          {
+            "v": 3,
+            "s": 50,
+            "translation": "as it says in the Yerushalmi,"
+          },
+          {
+            "v": 3,
+            "s": 51,
+            "translation": "that even the men of Avshalom prayed for Dovid,"
+          },
+          {
+            "v": 3,
+            "s": 52,
+            "translation": "through this \"He redeemed my soul in peace.\""
+          },
+          {
+            "v": 3,
+            "s": 53,
+            "translation": "And additionally there is to explain,"
+          },
+          {
+            "v": 3,
+            "s": 54,
+            "translation": "that \"ki\" is a term meaning \"that which,\""
+          },
+          {
+            "v": 3,
+            "s": 55,
+            "translation": "and meaning that \"many were with me\" is the explanation of \"He redeemed my soul in peace etc.,\""
+          },
+          {
+            "v": 3,
+            "s": 56,
+            "translation": "that the matter of the redemption in peace is this, that many were with me,"
+          },
+          {
+            "v": 3,
+            "s": 57,
+            "translation": "and from the conclusion"
+          },
+          {
+            "v": 3,
+            "s": 58,
+            "translation": "[from these two explanations]"
+          },
+          {
+            "v": 3,
+            "s": 59,
+            "translation": "it is understood in the explanation of \"for many were with me,\""
+          },
+          {
+            "v": 3,
+            "s": 60,
+            "translation": "that through that many were with me,"
+          },
+          {
+            "v": 3,
+            "s": 61,
+            "translation": "behold, through this the redemption was effected in peace etc. and that many were with me."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section discusses the eight kings of Edom mentioned in the Torah, explaining that the eighth king, Hadar, did not experience the \"breaking\" of the vessels, and distinguishes between the male and female aspects of these kings.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And to understand all this,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "we must preface what is said,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "\"And these are the kings who reigned in the land of Edom before a king reigned over the children of Israel,\""
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "and it is brought"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "in Midrash Rabbah,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "\"The Holy One, blessed be He, said to Yaakov: You humbled yourself and called Esav 'my lord' eight times,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "by your life, I will establish from his descendants eight kings before your children,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "as it is said, 'And these are the kings etc. before a king reigned over the children of Israel etc.'\""
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "for it is known and famous in Kabbalah and Chassidus that the kings of Tohu are seven kings,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "and in the Midrash it counts eight kings."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And also it needs to be understood that in the verse it counts eight kings."
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "And the explanation of this is known,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "that the eighth king,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "Hadar,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "is not said of him \"and he died,\""
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "that there was no aspect of breaking in him,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "from him is the beginning of the root of the rectification."
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "But it needs to be understood,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "for in Divrei HaYamim"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "it says \"and he died\" also regarding Hadar."
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "And the explanation of this is known,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "as it is brought in Zohar HaRakia,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "that in the Writings, which are the aspect of Malchus,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "and particularly Divrei HaYamim which is connected with time,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "the Sefirah of Malchus,"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "it speaks about the aspect of the kings of Nukva,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "meaning as the Sefiros are in Malchus,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "where there was the aspect of breaking also in the eighth king,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "but not so in the Torah, which is the aspect of Zeir Anpin,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "it speaks about the kings of Duchra,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "that in this aspect there was no aspect of breaking in the eighth king,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "the aspect of Yesod,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "from him is the beginning of the root of the rectification."
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "And behold,"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "the first king"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "(in whom is the beginning of the breaking)"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "is Bela the son of Beor,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "who is the aspect of Daas,"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "(and this is not a contradiction to what is explained elsewhere,"
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "that the beginning is from Chessed,"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "as stated in Otzros Chaim)."
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "And at first glance it needs to be understood,"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "for it is explained that the entire matter of the breaking was in the emotions."
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "But nevertheless, it must be said that the breaking is from the aspect of Daas,"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "and as is simply understood from this that the matter of the breaking below is the concept of the sin of Adam HaRishon who ate from the Tree of Knowledge,"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "the matter of Daas specifically."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the sin of the Tree of Knowledge was the desire to feel physical pleasure as a separate entity, which introduced the aspect of Daas (awareness/feeling) as the cause of the breaking of the vessels.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And the explanation of the matter is,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "that behold,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "the sin of the Tree of Knowledge, its concept is that there was the sensation of physicality,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "and as it is said,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "\"And the woman saw that the tree was good for food and that it was a delight to the eyes,\""
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "meaning,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "that before the sin of the Tree of Knowledge, the palate of Adam HaRishon felt a spiritual taste,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "and the sin was that he felt a physical taste."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And the matter is,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "that it is known that before the sin, Adam HaRishon was comprised of Beriah, Yetzirah, and Asiyah,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "his head in Beriah, his body in Yetzirah, and his feet in Asiyah,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "and it is understood,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "that even his feet were on a more elevated level,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "for the feet are connected with the rest of the body,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "which is one body."
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "that at the beginning of creation, the world was created in its fullness."
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "Therefore, even on the level of the feet of Adam HaRishon, his physical palate felt a spiritual taste."
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "And this is what our Rabbis, of blessed memory, said,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "that the heel of Adam HaRishon dimmed the orb of the sun,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "for \"heel\" is the lowest level of the foot,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "and nevertheless it would dim the orb of the sun,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "which is the aspect of the constellations,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "meaning,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "that the heel of Adam HaRishon was above the constellations."
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "And the matter of the constellations is as our Rabbis, of blessed memory, said,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "\"There is not a single blade of grass below that does not have a constellation above that strikes it and says to it, 'Grow!'\""
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "and as the Alter Rebbe precisely notes,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "the language \"says to it, 'Grow!'\""
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "that the intention is not that the very coming into being is done by the constellation,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "rather, after the existence has come into being,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "then through the constellation its growth is effected,"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "in taste and sweetness and in the other matters."
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "And it is understood that since the constellation is spiritual,"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "behold, physical sweetness does not apply to it."
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "And similarly it will be understood regarding Adam HaRishon, that his heel dimmed the orb of the sun,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "that he was above the constellations,"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "that his palate tasted a spiritual taste."
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "And the sin was that he tasted a physical taste,"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "and the explanation of this is,"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "that his will was to taste a physical taste,"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "and therefore he felt the physical taste."
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "And the intention is not that through this the physical taste was created,"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "for even as the world was created in its fullness, the taste was physical,"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "rather, before the sin Adam HaRishon tasted the spiritual taste,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "whereas the physical taste was absorbed and included within the spiritual,"
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "that it had no independent existence."
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "And the matter of the sin was that he wanted to feel the physical as it is in its own right."
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "And this is that before the sin his body was in Yetzirah,"
+          },
+          {
+            "v": 5,
+            "s": 50,
+            "translation": "where he tasted the sweetness of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 51,
+            "translation": "and on the level of his feet in Asiyah,"
+          },
+          {
+            "v": 5,
+            "s": 52,
+            "translation": "the sensation of sweetness was only spiritual sweetness,"
+          },
+          {
+            "v": 5,
+            "s": 53,
+            "translation": "and the physical was drawn after the spiritual."
+          },
+          {
+            "v": 5,
+            "s": 54,
+            "translation": "And the sin was that he wanted to feel the physical."
+          },
+          {
+            "v": 5,
+            "s": 55,
+            "translation": "And this is also the explanation of what is said,"
+          },
+          {
+            "v": 5,
+            "s": 56,
+            "translation": "\"And they knew that they were naked,\""
+          },
+          {
+            "v": 5,
+            "s": 57,
+            "translation": "that the intention is not that at first they did not know,"
+          },
+          {
+            "v": 5,
+            "s": 58,
+            "translation": "for if so, what is the novelty that they were not ashamed,"
+          },
+          {
+            "v": 5,
+            "s": 59,
+            "translation": "rather, what is said \"and they knew\" is the concept of recognition and sensation,"
+          },
+          {
+            "v": 5,
+            "s": 60,
+            "translation": "meaning,"
+          },
+          {
+            "v": 5,
+            "s": 61,
+            "translation": "that at first there was no sensation and desire in this matter,"
+          },
+          {
+            "v": 5,
+            "s": 62,
+            "translation": "and as it says in Reishis Chochmah,"
+          },
+          {
+            "v": 5,
+            "s": 63,
+            "translation": "that before the sin, the sensation was that just as through the hand one fulfills the mitzvah of tefillin"
+          },
+          {
+            "v": 5,
+            "s": 64,
+            "translation": "(for the entire Torah is equated to tefillin),"
+          },
+          {
+            "v": 5,
+            "s": 65,
+            "translation": "so too through this organ one fulfills the mitzvah of \"be fruitful and multiply,\""
+          },
+          {
+            "v": 5,
+            "s": 66,
+            "translation": "which is a lofty and exalted mitzvah,"
+          },
+          {
+            "v": 5,
+            "s": 67,
+            "translation": "and as it is said,"
+          },
+          {
+            "v": 5,
+            "s": 68,
+            "translation": "\"He did not create it for chaos, He formed it to be inhabited,\""
+          },
+          {
+            "v": 5,
+            "s": 69,
+            "translation": "and the sin caused that there came to be for them sensation and desire in this matter."
+          },
+          {
+            "v": 5,
+            "s": 70,
+            "translation": "And therefore the matter of \"garments\" was needed,"
+          },
+          {
+            "v": 5,
+            "s": 71,
+            "translation": "and from this it devolved into actual halachah that garments are needed."
+          },
+          {
+            "v": 5,
+            "s": 72,
+            "translation": "And similarly it is regarding the matter of the sin of the Tree of Knowledge,"
+          },
+          {
+            "v": 5,
+            "s": 73,
+            "translation": "that its cause is Daas and sensation,"
+          },
+          {
+            "v": 5,
+            "s": 74,
+            "translation": "meaning that the sin was that there came to be for him the sensation of the physical thing as it is in its own right,"
+          },
+          {
+            "v": 5,
+            "s": 75,
+            "translation": "and not as it is drawn after the spiritual."
+          },
+          {
+            "v": 5,
+            "s": 76,
+            "translation": "And from this it is also understood above,"
+          },
+          {
+            "v": 5,
+            "s": 77,
+            "translation": "that the cause of the breaking in the emotions is the matter of sensation,"
+          },
+          {
+            "v": 5,
+            "s": 78,
+            "translation": "the aspect of Daas."
+          }
+        ]
+      }
+    ]
+  }
+}

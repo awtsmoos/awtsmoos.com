@@ -1,0 +1,424 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 76,
+    "returned": 76,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915935_theRebbe_175\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915935_theRebbe_175__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the miracles of war victory and finding the oil flask, though clothed in natural order, become vehicles for the revelation of the transcendent level of Hashem beyond the chain of descent through their connection to the oil miracle.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that this, that even the miracles of the victory in war and the finding of the flask of oil are from Hashem the Supernal, which is above the chain of descent</t>\n    <t s=\"2\">(except that they were clothed in the levels of the chain of descent,</t>\n    <t s=\"3\">encompassing and filling),</t>\n    <t s=\"4\">is</t>\n    <t s=\"5\">(primarily)</t>\n    <t s=\"6\">because they were a preparation for the miracle of the oil lasting for eight days,</t>\n    <t s=\"7\">a miracle that is not clothed in nature.</t>\n    <t s=\"8\">For these miracles, in and of themselves, are</t>\n    <t s=\"9\">(primarily)</t>\n    <t s=\"10\">the matters of encompassing and filling.</t>\n    <t s=\"11\">And through the fact that the miracle of the victory in war was a cause for the miracle of finding the flask of oil</t>\n    <t s=\"12\">(as mentioned above at the beginning of the maamar),</t>\n    <t s=\"13\">behold, after a miracle was performed with it</t>\n    <t s=\"14\">(with the flask they found)</t>\n    <t s=\"15\">and they lit from it for eight days,</t>\n    <t s=\"16\">through this, the revelation of the Supernal Hashem, which is above the chain of descent, was drawn down also into the miracle of finding the flask of oil and also into the miracle of the victory in war.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains why Chanukah begins on the 25th of Kislev, the day of the oil miracle, because the perfection of the war miracle (encompassing) is achieved by revealing its transcendent root through the oil miracle, and why no new practice was instituted for the 26th.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this is why they established the beginning of the days of Chanukah on the 25th of Kislev, on which the miracle of the lights occurred,</t>\n    <t s=\"2\">for the perfection of the miracle of the victory in war,</t>\n    <t s=\"3\">which was on the 24th of Kislev</t>\n    <t s=\"4\">(encompassing),</t>\n    <t s=\"5\">is,</t>\n    <t s=\"6\">that through the miracle of the oil they reveal that even it</t>\n    <t s=\"7\">(the miracle of the victory in war)</t>\n    <t s=\"8\">has its root above the chain of descent.</t>\n    <t s=\"9\">And even though there is an advantage of encompassing over filling</t>\n    <t s=\"10\">[and one could say,</t>\n    <t s=\"11\">that this is why the miracle of the victory in war was the cause for the miracle of the oil,</t>\n    <t s=\"12\">for the cause is above the effect],</t>\n    <t s=\"13\">nevertheless,</t>\n    <t s=\"14\">behold, the perfection of encompassing is that there should be in it the light and revelation of filling,</t>\n    <t s=\"15\">as explained in the maamar.</t>\n    <t s=\"16\">And the reason why on the 26th of Kislev they did not institute anything,</t>\n    <t s=\"17\">is,</t>\n    <t s=\"18\">as explained in the maamar,</t>\n    <t s=\"19\">because the primary revelation of the Supernal Hashem will be in the future to come,</t>\n    <t s=\"20\">like the harp of the days of Moshiach, which has eight strings,</t>\n    <t s=\"21\">unlike in the Holy Temple, where only the revelation of the lower Hashem shone,</t>\n    <t s=\"22\">therefore the harp of the Holy Temple had seven strings,</t>\n    <t s=\"23\">and the revelation of the Supernal Hashem that was in the miracle of the oil lasting was only temporary</t>\n    <t s=\"24\">(in the year in which the miracle occurred),</t>\n    <t s=\"25\">and therefore they did not establish that on the 26th of Kislev they should institute something.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section concludes with the prayer that God will stand by us in our time of distress, the exile, and bring the final redemption, leading to lighting candles in the Third Temple.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And may it be His will,</t>\n    <t s=\"2\">that this matter of \"He stood by them in their time of distress\" be fulfilled in us,</t>\n    <t s=\"3\">which refers to the entire matter of the exile, which is the greatest distress.</t>\n    <t s=\"4\">[For although all the decrees of destruction have already passed and will not occur again, as stated by the Mitteler Rebbe,</t>\n    <t s=\"5\">and \"affliction will not arise a second time,\"</t>\n    <t s=\"6\">since what we have already endured until now is sufficient,</t>\n    <t s=\"7\">and now everything is for the good,</t>\n    <t s=\"8\">and on the contrary,</t>\n    <t s=\"9\">even during the time of exile, it is fulfilled for each and every Jew, \"And kings shall be your nursemaids and their queens your nursing mothers,\"</t>\n    <t s=\"10\">and as it is brought in the Gemara</t>\n    <t s=\"11\">that this matter already occurred in practice in the time of the Talmud,</t>\n    <t s=\"12\">and especially when the government assists Israel in matters of Torah and mitzvos,</t>\n    <t s=\"13\">and even when it seems there is some confusion, behold, they walk in the way of Avraham Avinu,</t>\n    <t s=\"14\">the first Jew,</t>\n    <t s=\"15\">who, when he saw a river preventing him from fulfilling G-d's command,</t>\n    <t s=\"16\">stood with strength and was not affected,</t>\n    <t s=\"17\">and then it was revealed that it had no reality at all, but was merely an illusion,</t>\n    <t s=\"18\">nevertheless,</t>\n    <t s=\"19\">the state of exile</t>\n    <t s=\"20\">(in whatever manner it may be)</t>\n    <t s=\"21\">is a distress].</t>\n    <t s=\"22\">And the request is that very soon, \"He will stand by them in their time of distress.\"</t>\n    <t s=\"23\">And since \"in all their distress, He is distressed\"</t>\n    <t s=\"24\">(with a vav),</t>\n    <t s=\"25\">behold, certainly very soon the Holy One, blessed be He, will take Israel out of exile,</t>\n    <t s=\"26\">as it is stated,</t>\n    <t s=\"27\">\"And the L-rd your G-d will return your captivity,\"</t>\n    <t s=\"28\">it does not say \"and He will bring back,\" but rather \"and He will return,\"</t>\n    <t s=\"29\">until we come to give thanks and praise to Your great Name,</t>\n    <t s=\"30\">and to light candles in Your holy courts,</t>\n    <t s=\"31\">in the Third Holy Temple,</t>\n    <t s=\"32\">\"the Sanctuary of the L-rd, which Your hands established.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915935_theRebbe_175",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915935_theRebbe_175__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the miracles of war victory and finding the oil flask, though clothed in natural order, become vehicles for the revelation of the transcendent level of Hashem beyond the chain of descent through their connection to the oil miracle.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that this, that even the miracles of the victory in war and the finding of the flask of oil are from Hashem the Supernal, which is above the chain of descent"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(except that they were clothed in the levels of the chain of descent,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "encompassing and filling),"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "is"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "because they were a preparation for the miracle of the oil lasting for eight days,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "a miracle that is not clothed in nature."
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "For these miracles, in and of themselves, are"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "the matters of encompassing and filling."
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "And through the fact that the miracle of the victory in war was a cause for the miracle of finding the flask of oil"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "(as mentioned above at the beginning of the maamar),"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "behold, after a miracle was performed with it"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "(with the flask they found)"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "and they lit from it for eight days,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "through this, the revelation of the Supernal Hashem, which is above the chain of descent, was drawn down also into the miracle of finding the flask of oil and also into the miracle of the victory in war."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains why Chanukah begins on the 25th of Kislev, the day of the oil miracle, because the perfection of the war miracle (encompassing) is achieved by revealing its transcendent root through the oil miracle, and why no new practice was instituted for the 26th.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And this is why they established the beginning of the days of Chanukah on the 25th of Kislev, on which the miracle of the lights occurred,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "for the perfection of the miracle of the victory in war,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "which was on the 24th of Kislev"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "(encompassing),"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "is,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "that through the miracle of the oil they reveal that even it"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "(the miracle of the victory in war)"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "has its root above the chain of descent."
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "And even though there is an advantage of encompassing over filling"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "[and one could say,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "that this is why the miracle of the victory in war was the cause for the miracle of the oil,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "for the cause is above the effect],"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "behold, the perfection of encompassing is that there should be in it the light and revelation of filling,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "as explained in the maamar."
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "And the reason why on the 26th of Kislev they did not institute anything,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "is,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "as explained in the maamar,"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "because the primary revelation of the Supernal Hashem will be in the future to come,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "like the harp of the days of Moshiach, which has eight strings,"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "unlike in the Holy Temple, where only the revelation of the lower Hashem shone,"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "therefore the harp of the Holy Temple had seven strings,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "and the revelation of the Supernal Hashem that was in the miracle of the oil lasting was only temporary"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "(in the year in which the miracle occurred),"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "and therefore they did not establish that on the 26th of Kislev they should institute something."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section concludes with the prayer that God will stand by us in our time of distress, the exile, and bring the final redemption, leading to lighting candles in the Third Temple.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And may it be His will,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that this matter of \"He stood by them in their time of distress\" be fulfilled in us,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "which refers to the entire matter of the exile, which is the greatest distress."
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "[For although all the decrees of destruction have already passed and will not occur again, as stated by the Mitteler Rebbe,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "and \"affliction will not arise a second time,\""
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "since what we have already endured until now is sufficient,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "and now everything is for the good,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "even during the time of exile, it is fulfilled for each and every Jew, \"And kings shall be your nursemaids and their queens your nursing mothers,\""
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "and as it is brought in the Gemara"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "that this matter already occurred in practice in the time of the Talmud,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "and especially when the government assists Israel in matters of Torah and mitzvos,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "and even when it seems there is some confusion, behold, they walk in the way of Avraham Avinu,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "the first Jew,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "who, when he saw a river preventing him from fulfilling G-d's command,"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "stood with strength and was not affected,"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "and then it was revealed that it had no reality at all, but was merely an illusion,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "the state of exile"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "(in whatever manner it may be)"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "is a distress]."
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "And the request is that very soon, \"He will stand by them in their time of distress.\""
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "And since \"in all their distress, He is distressed\""
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "(with a vav),"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "behold, certainly very soon the Holy One, blessed be He, will take Israel out of exile,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "\"And the L-rd your G-d will return your captivity,\""
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "it does not say \"and He will bring back,\" but rather \"and He will return,\""
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "until we come to give thanks and praise to Your great Name,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "and to light candles in Your holy courts,"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "in the Third Holy Temple,"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "\"the Sanctuary of the L-rd, which Your hands established.\""
+          }
+        ]
+      }
+    ]
+  }
+}

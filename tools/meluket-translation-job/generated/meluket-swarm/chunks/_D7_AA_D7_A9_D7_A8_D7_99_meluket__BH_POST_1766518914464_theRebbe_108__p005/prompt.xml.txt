@@ -1,0 +1,56 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914464_theRebbe_108" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914464_theRebbe_108" title="מאמר אתה הראת לדעת תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p005">
+  <section v="12">
+    <src s="0">והכלי לשני ענינים אלה הוא האחדות דישראל בשני אופנים.</src>
+    <src s="1">שכל אחד מקבל מחבירו,</src>
+    <src s="2">ושכל ישראל הם קומה אחת.</src>
+    <src s="3">ועד"ז בעבודה הפרטית דכאו"א,</src>
+    <src s="4">שיש בזה שני ענינים אלה.</src>
+    <src s="5">העבודה דעשר כחות הנפש שלו</src>
+    <src s="6">(שהם דוגמת עשרה הסוגים מראשיכם שבטיכם עד חוצב עציך ושואב מימיך54)</src>
+    <src s="7">באופן שכל הכחות מקבלים זה מזה ומשלימים זה את זה,</src>
+    <src s="8">והעבודה שמצד יחידה שלמעלה מהתחלקות.</src>
+    <src s="9">וזוהי גם הכנה קרובה לגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="10">כי ענינו של משיח הוא יחידה55.</src>
+    <src s="11">וזהו שבכל אחד מישראל יש ניצוץ משיח56,</src>
+    <src s="12">שהיחידה הפרטית שבכ"א מישראל היא ניצוץ מהיחידה הכללית דמשיח</src>
+    <src s="13">[וע"ד משה</src>
+    <src s="14">(גואל ראשון57)</src>
+    <src s="15">שבכ"א מישראל יש בחינת משה שבו58],</src>
+    <src s="16">יבוא ויגאלנו ויוליכנו קוממיות לארצנו,</src>
+    <src s="17">בגאולה האמיתית והשלימה בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

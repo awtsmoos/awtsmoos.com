@@ -1,0 +1,384 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 68,
+    "returned": 68,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918918_theRebbe_323\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918918_theRebbe_323__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header information for the maamar, including the Torah portion and date.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbat Parshat Shlach,</t>\n    <t s=\"2\">28 Sivan,</t>\n    <t s=\"3\">Erev Rosh Chodesh Tamuz, 5719</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the verse \"And now, please, let the strength of the Lord be increased, as You spoke, saying,\" and discusses Rashi's interpretation and the Gemara's account of Moshe's plea.</sectionSummaryBrief>\n    <t s=\"0\">\"And now, please, let the strength of the Lord be increased, as You spoke, saying,\"</t>\n    <t s=\"1\">And Rashi explains,</t>\n    <t s=\"2\">\"And what is the speech? 'The Lord' –</t>\n    <t s=\"3\">slow to anger.\"</t>\n    <t s=\"4\">For the simple meaning of the verse's language is,</t>\n    <t s=\"5\">that the speech of the Holy One, blessed be He,</t>\n    <t s=\"6\">(\"as You spoke\")</t>\n    <t s=\"7\">is that the strength of the Lord will be increased.</t>\n    <t s=\"8\">Therefore Rashi needed to explain that according to the simple interpretation, the meaning is \"The Lord, slow to anger.\"</t>\n    <t s=\"9\">But from the fact that the verse is stated in this language, whose implication is that the speech is what will increase the strength of the Lord,</t>\n    <t s=\"10\">it implies that the intent of the verse is also regarding this matter.</t>\n    <t s=\"11\">And as it is brought in the Gemara,</t>\n    <t s=\"12\">\"When Moshe ascended on high... [the Holy One, blessed be He] said to him,</t>\n    <t s=\"13\">(The Holy One, blessed be He, said to Moshe)</t>\n    <t s=\"14\">'You should have helped Me</t>\n    <t s=\"15\">(by saying, 'May Your work succeed').</t>\n    <t s=\"16\">Immediately [Moshe] said to Him, 'And now, please, let the strength of the Lord be increased, as You spoke.'\"</t>\n    <t s=\"17\">That is, \"as You spoke\" refers to the statement \"You should have helped Me,\"</t>\n    <t s=\"18\">for the matter of \"help Me\"</t>\n    <t s=\"19\">[that there should be help</t>\n    <t s=\"20\">(an addition)</t>\n    <t s=\"21\">in the power of the Supernal]</t>\n    <t s=\"22\">is \"let the strength of the Lord be increased.\"</t>\n    <t s=\"23\">And one may add,</t>\n    <t s=\"24\">that the implication of the verse's language \"as You spoke, saying\" is that the speech</t>\n    <t s=\"25\">(of the Holy One, blessed be He)</t>\n    <t s=\"26\">is \"saying\"</t>\n    <t s=\"27\">(that Moshe should say).</t>\n    <t s=\"28\">And this is also understood from the aforementioned statement of our Sages, that \"as You spoke\" refers to what the Holy One, blessed be He, said to Moshe, \"You should have helped Me,\"</t>\n    <t s=\"29\">that Moshe should say,</t>\n    <t s=\"30\">\"May Your work succeed.\"</t>\n    <t s=\"31\">And according to what is known,</t>\n    <t s=\"32\">that all the interpretations of that same verse are connected to each other,</t>\n    <t s=\"33\">it is understood,</t>\n    <t s=\"34\">that these three interpretations of \"as You spoke\"</t>\n    <t s=\"35\">[that it refers to \"let the strength of the Lord be increased,\"</t>\n    <t s=\"36\">to \"saying,\"</t>\n    <t s=\"37\">and to \"The Lord, slow to anger\"]</t>\n    <t s=\"38\">are connected to each other.</t>\n    <t s=\"39\">And one must understand the connection between these three interpretations.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that Moshe's request for increased strength and the attribute of slow to anger relates to the two aspects of forgiveness: the root of forgiveness from above the chain of descent and its actual application below.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And one may say the point of the explanation in this,</t>\n    <t s=\"2\">that Moshe's request \"And now, please, let the strength of the Lord be increased... The Lord, slow to anger...\" is</t>\n    <t s=\"3\">(as the verse continues)</t>\n    <t s=\"4\">\"Please forgive the iniquity of this people...,\"</t>\n    <t s=\"5\">pardon, forgiveness, and atonement for the sin of the spies.</t>\n    <t s=\"6\">And behold, in forgiveness there are two matters.</t>\n    <t s=\"7\">For the root of forgiveness is from a level that is above the chain of descent,</t>\n    <t s=\"8\">because in order to fill the blemish, there must be a drawing down from a most exalted place where blemish does not apply,</t>\n    <t s=\"9\">but in order for the forgiveness</t>\n    <t s=\"10\">(the filling of the blemish)</t>\n    <t s=\"11\">to be actual,</t>\n    <t s=\"12\">the drawing down must be below,</t>\n    <t s=\"13\">in the place where the blemish occurred.</t>\n    <t s=\"14\">And this is \"And now, please, let the strength of the Lord be increased... The Lord, slow to anger...,\"</t>\n    <t s=\"15\">for the root of forgiveness is from the aspect of \"The Lord, slow to anger...,\"</t>\n    <t s=\"16\">the Thirteen Attributes of Mercy,</t>\n    <t s=\"17\">which are above the chain of descent,</t>\n    <t s=\"18\">and \"let the strength of the Lord be increased\" is that there should be a drawing down below, in \"Lord,\"</t>\n    <t s=\"19\">in order to rectify the blemish.</t>\n    <t s=\"20\">For the name \"Lord\" is in Malchut,</t>\n    <t s=\"21\">and the blemish of the sin of the spies, who did not desire practical mitzvot,</t>\n    <t s=\"22\">is in Malchut,</t>\n    <t s=\"23\">and through the increase of the strength of \"Lord,\" the blemish is rectified and filled.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918918_theRebbe_323",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918918_theRebbe_323__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header information for the maamar, including the Torah portion and date.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbat Parshat Shlach,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "28 Sivan,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "Erev Rosh Chodesh Tamuz, 5719"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the verse \"And now, please, let the strength of the Lord be increased, as You spoke, saying,\" and discusses Rashi's interpretation and the Gemara's account of Moshe's plea.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And now, please, let the strength of the Lord be increased, as You spoke, saying,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And Rashi explains,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "\"And what is the speech? 'The Lord' –"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "slow to anger.\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "For the simple meaning of the verse's language is,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that the speech of the Holy One, blessed be He,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "(\"as You spoke\")"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "is that the strength of the Lord will be increased."
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "Therefore Rashi needed to explain that according to the simple interpretation, the meaning is \"The Lord, slow to anger.\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "But from the fact that the verse is stated in this language, whose implication is that the speech is what will increase the strength of the Lord,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "it implies that the intent of the verse is also regarding this matter."
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "And as it is brought in the Gemara,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "\"When Moshe ascended on high... [the Holy One, blessed be He] said to him,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "(The Holy One, blessed be He, said to Moshe)"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "'You should have helped Me"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "(by saying, 'May Your work succeed')."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "Immediately [Moshe] said to Him, 'And now, please, let the strength of the Lord be increased, as You spoke.'\""
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "That is, \"as You spoke\" refers to the statement \"You should have helped Me,\""
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "for the matter of \"help Me\""
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "[that there should be help"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "(an addition)"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "in the power of the Supernal]"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "is \"let the strength of the Lord be increased.\""
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "that the implication of the verse's language \"as You spoke, saying\" is that the speech"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "(of the Holy One, blessed be He)"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "is \"saying\""
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "(that Moshe should say)."
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "And this is also understood from the aforementioned statement of our Sages, that \"as You spoke\" refers to what the Holy One, blessed be He, said to Moshe, \"You should have helped Me,\""
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "that Moshe should say,"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "\"May Your work succeed.\""
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "And according to what is known,"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "that all the interpretations of that same verse are connected to each other,"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "that these three interpretations of \"as You spoke\""
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "[that it refers to \"let the strength of the Lord be increased,\""
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "to \"saying,\""
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "and to \"The Lord, slow to anger\"]"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "are connected to each other."
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "And one must understand the connection between these three interpretations."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that Moshe's request for increased strength and the attribute of slow to anger relates to the two aspects of forgiveness: the root of forgiveness from above the chain of descent and its actual application below.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And one may say the point of the explanation in this,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that Moshe's request \"And now, please, let the strength of the Lord be increased... The Lord, slow to anger...\" is"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(as the verse continues)"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "\"Please forgive the iniquity of this people...,\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "pardon, forgiveness, and atonement for the sin of the spies."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And behold, in forgiveness there are two matters."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "For the root of forgiveness is from a level that is above the chain of descent,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "because in order to fill the blemish, there must be a drawing down from a most exalted place where blemish does not apply,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "but in order for the forgiveness"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "(the filling of the blemish)"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "to be actual,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "the drawing down must be below,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "in the place where the blemish occurred."
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And this is \"And now, please, let the strength of the Lord be increased... The Lord, slow to anger...,\""
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "for the root of forgiveness is from the aspect of \"The Lord, slow to anger...,\""
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "the Thirteen Attributes of Mercy,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "which are above the chain of descent,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "and \"let the strength of the Lord be increased\" is that there should be a drawing down below, in \"Lord,\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "in order to rectify the blemish."
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "For the name \"Lord\" is in Malchut,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "and the blemish of the sin of the spies, who did not desire practical mitzvot,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "is in Malchut,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "and through the increase of the strength of \"Lord,\" the blemish is rectified and filled."
+          }
+        ]
+      }
+    ]
+  }
+}

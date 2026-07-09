@@ -1,0 +1,329 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 57,
+    "returned": 57,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915147_theRebbe_734\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915147_theRebbe_734__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>Yitzchak's blessing \"Vayiten Lecha\" is loftier than the blessing God gave Yitzchak, which automatically extended to both sons including Esav, whereas Yaakov had to strive for this higher blessing.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">Now, the blessing with which Yitzchak blessed [Yaakov], \"And may God give you,\" is a blessing more elevated than the blessing of \"And God blessed Yitzchak his son.\"</t>\n    <t s=\"2\">For the blessing with which Yitzchak was blessed by God would have been drawn to his children even if he had not blessed them,</t>\n    <t s=\"3\">and according to Rashi's commentary on the verse,</t>\n    <t s=\"4\">\"And God blessed Yitzchak his son\" —</t>\n    <t s=\"5\">that Avraham was afraid to bless Yitzchak because he foresaw that Esav would descend from him,</t>\n    <t s=\"6\">[so] he said, \"Let the Master of blessings come and bless whomever is good in His eyes,\" and the Holy One, blessed be He, came and blessed him.</t>\n    <t s=\"7\">From this it is understood</t>\n    <t s=\"8\">that just as if Avraham had blessed Yitzchak,</t>\n    <t s=\"9\">the blessing would have been drawn also to Esav even if he had not blessed him,</t>\n    <t s=\"10\">so too regarding the blessing with which God blessed Yitzchak,</t>\n    <t s=\"11\">this blessing was drawn of itself to both his sons,</t>\n    <t s=\"12\">even to Esav.</t>\n    <t s=\"13\">But the blessing with which Yitzchak blessed [Yaakov], \"And may God give you of the dew of the heavens, etc.,\" is a more elevated blessing.</t>\n    <t s=\"14\">And this is also why Yaakov exerted himself greatly and did several things not in his usual manner,</t>\n    <t s=\"15\">in order to receive the blessings,</t>\n    <t s=\"16\">even though the blessing of \"And God blessed Yitzchak his son\" was drawn to him of itself,</t>\n    <t s=\"17\">because the blessing \"And may God give you of the dew of the heavens, etc.\" is more elevated than the blessing of \"And God blessed Yitzchak his son.\"</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>Yitzchak wanted to bless Esav to elevate his lofty holy sparks, but God arranged that Yaakov receive the blessings to properly refine those sparks through him.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">This will be understood by prefacing what is explained in Torah Ohr on our portion</t>\n    <t s=\"2\">and in several discourses,</t>\n    <t s=\"3\">that Yitzchak wanted to bless Esav even though he knew that the name of Heaven was not habitual in his mouth,</t>\n    <t s=\"4\">because Yitzchak saw that in Esav there were very high holy sparks,</t>\n    <t s=\"5\">and therefore he wanted to bless him,</t>\n    <t s=\"6\">to draw down upon him a supernal light,</t>\n    <t s=\"7\">through which the sparks within him would be refined.</t>\n    <t s=\"8\">However,</t>\n    <t s=\"9\">if this light had been drawn upon Esav</t>\n    <t s=\"10\">(not through Yaakov),</t>\n    <t s=\"11\">it would have been in one of two ways —</t>\n    <t s=\"12\">either it would have been absorbed within him, or his existence would have been nullified.</t>\n    <t s=\"13\">And in order that the refinement of Esav be specifically through Yaakov,</t>\n    <t s=\"14\">therefore the Holy One, blessed be He, arranged that Yitzchak would bless Yaakov, and the drawing down of the supernal lights</t>\n    <t s=\"15\">(the dew of the heavens and the fat of the land)</t>\n    <t s=\"16\">would be to Yaakov,</t>\n    <t s=\"17\">through which he would refine the sparks within Esav.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>The aspect of supernal lights that refine the sparks relates to the eleven klipot, whose life-force is separate and counted as an additional entity, unlike holiness where the life-force is internal and unified.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And to understand what is the aspect of the supernal lights through which the sparks are refined,</t>\n    <t s=\"2\">this will be understood from what is explained in Torah Ohr there and in the aforementioned discourses,</t>\n    <t s=\"3\">that the klipot are in number eleven.</t>\n    <t s=\"4\">For in holiness the number is ten —</t>\n    <t s=\"5\">\"ten and not nine, ten and not eleven,\"</t>\n    <t s=\"6\">but in the side of impurity there are eleven impure crowns.</t>\n    <t s=\"7\">And this is also why in the incense there were eleven spices,</t>\n    <t s=\"8\">in order to refine the eleven impure crowns.</t>\n    <t s=\"9\">And that the side of impurity is in the number eleven</t>\n    <t s=\"10\">is</t>\n    <t s=\"11\">because they also count the life-force that animates them.</t>\n    <t s=\"12\">For in holiness, the life-force of the ten Sefiros</t>\n    <t s=\"13\">[and likewise every matter in holiness,</t>\n    <t s=\"14\">that every matter is in the number ten]</t>\n    <t s=\"15\">is drawn within their inwardness and is unified with them,</t>\n    <t s=\"16\">and therefore it is not counted by itself.</t>\n    <t s=\"17\">But in the side of impurity,</t>\n    <t s=\"18\">the life-force that animates them is separate from them</t>\n    <t s=\"19\">[for if it were drawn within them in their inwardness, it would be absorbed within them and would not be an aspect of life-force],</t>\n    <t s=\"20\">and therefore it is considered by itself.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915147_theRebbe_734",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915147_theRebbe_734__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "Yitzchak's blessing \"Vayiten Lecha\" is loftier than the blessing God gave Yitzchak, which automatically extended to both sons including Esav, whereas Yaakov had to strive for this higher blessing.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "Now, the blessing with which Yitzchak blessed [Yaakov], \"And may God give you,\" is a blessing more elevated than the blessing of \"And God blessed Yitzchak his son.\""
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "For the blessing with which Yitzchak was blessed by God would have been drawn to his children even if he had not blessed them,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "and according to Rashi's commentary on the verse,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "\"And God blessed Yitzchak his son\" —"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "that Avraham was afraid to bless Yitzchak because he foresaw that Esav would descend from him,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "[so] he said, \"Let the Master of blessings come and bless whomever is good in His eyes,\" and the Holy One, blessed be He, came and blessed him."
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "From this it is understood"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "that just as if Avraham had blessed Yitzchak,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "the blessing would have been drawn also to Esav even if he had not blessed him,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "so too regarding the blessing with which God blessed Yitzchak,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "this blessing was drawn of itself to both his sons,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "even to Esav."
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "But the blessing with which Yitzchak blessed [Yaakov], \"And may God give you of the dew of the heavens, etc.,\" is a more elevated blessing."
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "And this is also why Yaakov exerted himself greatly and did several things not in his usual manner,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "in order to receive the blessings,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "even though the blessing of \"And God blessed Yitzchak his son\" was drawn to him of itself,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "because the blessing \"And may God give you of the dew of the heavens, etc.\" is more elevated than the blessing of \"And God blessed Yitzchak his son.\""
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "Yitzchak wanted to bless Esav to elevate his lofty holy sparks, but God arranged that Yaakov receive the blessings to properly refine those sparks through him.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "This will be understood by prefacing what is explained in Torah Ohr on our portion"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "and in several discourses,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "that Yitzchak wanted to bless Esav even though he knew that the name of Heaven was not habitual in his mouth,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "because Yitzchak saw that in Esav there were very high holy sparks,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "and therefore he wanted to bless him,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "to draw down upon him a supernal light,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "through which the sparks within him would be refined."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "However,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "if this light had been drawn upon Esav"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "(not through Yaakov),"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "it would have been in one of two ways —"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "either it would have been absorbed within him, or his existence would have been nullified."
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "And in order that the refinement of Esav be specifically through Yaakov,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "therefore the Holy One, blessed be He, arranged that Yitzchak would bless Yaakov, and the drawing down of the supernal lights"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "(the dew of the heavens and the fat of the land)"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "would be to Yaakov,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "through which he would refine the sparks within Esav."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "The aspect of supernal lights that refine the sparks relates to the eleven klipot, whose life-force is separate and counted as an additional entity, unlike holiness where the life-force is internal and unified.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And to understand what is the aspect of the supernal lights through which the sparks are refined,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "this will be understood from what is explained in Torah Ohr there and in the aforementioned discourses,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that the klipot are in number eleven."
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "For in holiness the number is ten —"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "\"ten and not nine, ten and not eleven,\""
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "but in the side of impurity there are eleven impure crowns."
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "And this is also why in the incense there were eleven spices,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "in order to refine the eleven impure crowns."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And that the side of impurity is in the number eleven"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "is"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "because they also count the life-force that animates them."
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "For in holiness, the life-force of the ten Sefiros"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "[and likewise every matter in holiness,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "that every matter is in the number ten]"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "is drawn within their inwardness and is unified with them,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "and therefore it is not counted by itself."
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "But in the side of impurity,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "the life-force that animates them is separate from them"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "[for if it were drawn within them in their inwardness, it would be absorbed within them and would not be an aspect of life-force],"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "and therefore it is considered by itself."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,399 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 71,
+    "returned": 71,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913746_theRebbe_550\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913746_theRebbe_550__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the great shofar awakens the true will of every Jew to leave exile, distinguishing the future redemption from the Exodus.</sectionSummaryBrief>\n    <t s=\"0\">And to add,</t>\n    <t s=\"1\">that according to what was said by my father-in-law, the Rebbe,</t>\n    <t s=\"2\">(in the maamar beginning \"And it shall be on that day, a great shofar shall be blown\"54)</t>\n    <t s=\"3\">that the great shofar will awaken the point of Judaism within each and every Jew,</t>\n    <t s=\"4\">it is understood</t>\n    <t s=\"5\">that this—that all of Israel</t>\n    <t s=\"6\">(also including the lost and the banished)</t>\n    <t s=\"7\">will want to go out from exile and go to Jerusalem and bow down to Hashem—is that through the revelation of the great shofar, the true will55</t>\n    <t s=\"8\">of Israel will be awakened.</t>\n    <t s=\"9\">For this is the difference between the redemption from Egypt and the future redemption,</t>\n    <t s=\"10\">that in the Exodus from Egypt,</t>\n    <t s=\"11\">the desire of Israel to go out from the impurity of Egypt and to cleave to Him, blessed be He,56</t>\n    <t s=\"12\">was from the side of the revelation from Above,57</t>\n    <t s=\"13\">\"He drew me,\"58</t>\n    <t s=\"14\">but in the future redemption,</t>\n    <t s=\"15\">the will to go out from exile and come to Jerusalem will be the will of Israel itself,</t>\n    <t s=\"16\">and the revelation from Above</t>\n    <t s=\"17\">(the great shofar)</t>\n    <t s=\"18\">is only a cause through which the will of Israel is revealed.</t>\n    <t s=\"19\">And their service will be from their own selves—the virtue of Rosh HaShanah,</t>\n    <t s=\"20\">the service of man.59</t>\n    <t s=\"21\">However, regarding the lost and the banished in their simple sense,</t>\n    <t s=\"22\">the virtue of the service of man is after the revelation of the great shofar, through which his true will is awakened,</t>\n    <t s=\"23\">but the drawing down of the revelation of the great shofar is from the side of Above.</t>\n    <t s=\"24\">And there is another manner in \"a great shofar shall be blown,\"</t>\n    <t s=\"25\">that even the drawing down of the revelation of the great shofar is through service,</t>\n    <t s=\"26\">as above.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section teaches that at the end of exile, service must be done with self-nullification, recognizing that all accomplishments come from Above, which strengthens rather than weakens one's work.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And this is \"And it shall be on that day, a great shofar shall be blown,\"</t>\n    <t s=\"2\">that the instruction from this—that on that day a great shofar shall be blown,</t>\n    <t s=\"3\">it shall blow of itself—</t>\n    <t s=\"4\">is,</t>\n    <t s=\"5\">that at the end of the time of exile, when only a few moments remain before that day when the great shofar shall be blown</t>\n    <t s=\"6\">[and moreover, regarding several matters, the concept of \"a great shofar shall be blown\" has already begun,</t>\n    <t s=\"7\">as understood from the aforementioned maamar of my father-in-law, the Rebbe,60</t>\n    <t s=\"8\">and especially since from the time of the writing of the maamar until now many years have already passed,</t>\n    <t s=\"9\">and all the more so in recent times, when it has been seen tangibly that many who were initially in a state of lost and banished, heaven forfend, were awakened in teshuvah through the blowing of the great shofar61]</t>\n    <t s=\"10\">the service must be with self-nullification,</t>\n    <t s=\"11\">the recognition and feeling that all matters that were effected through one's service,</t>\n    <t s=\"12\">both regarding oneself and regarding others,</t>\n    <t s=\"13\">are not from the side of one's own virtues but from the side of the empowerment from Above.</t>\n    <t s=\"14\">And to note,</t>\n    <t s=\"15\">that this feeling does not cause weakness in one's service,</t>\n    <t s=\"16\">and on the contrary,</t>\n    <t s=\"17\">through this feeling,</t>\n    <t s=\"18\">one's service is with greater strength.</t>\n    <t s=\"19\">For when one's service is connected with his own existence,</t>\n    <t s=\"20\">the service is within measure and limitation.</t>\n    <t s=\"21\">And even when one's service is in the manner of \"with all your might,\"</t>\n    <t s=\"22\">it is still from \"your might,\"</t>\n    <t s=\"23\">from your own might,62</t>\n    <t s=\"24\">and through the feeling that the matters done through one's service are not from the powers he possesses but from the G-dliness,</t>\n    <t s=\"25\">through this he goes out from his own existence and limitations,</t>\n    <t s=\"26\">and his service is beyond measure and limitation.63</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section concludes that the great shofar must bring all Jews, including the lost and banished, to physically bow in Jerusalem through Moshiach speedily.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And behold, it is explained in the maamar beginning \"And it shall be on that day, a great shofar shall be blown\"64</t>\n    <t s=\"2\">regarding the matter of the shofar of Rosh HaShanah,</t>\n    <t s=\"3\">that although the main drawing down is through the cry of the innermost heart, nevertheless the blowing must specifically be with a physical shofar,</t>\n    <t s=\"4\">because Asiyah is supernal,</t>\n    <t s=\"5\">and also in order that the revelation of the innermost supernal will</t>\n    <t s=\"6\">[the aspect of the supernal shofar65]</t>\n    <t s=\"7\">be drawn down below into physicality.</t>\n    <t s=\"8\">And from this it is understood,</t>\n    <t s=\"9\">that likewise regarding the blowing of the great shofar on that day,</t>\n    <t s=\"10\">the matters that were until now are not sufficient,</t>\n    <t s=\"11\">and the blowing of the great shofar must be in a manner that all of Israel,</t>\n    <t s=\"12\">also including the lost and the banished,</t>\n    <t s=\"13\">will come and bow down to Hashem on the holy mount in Jerusalem,</t>\n    <t s=\"14\">in physical Jerusalem,</t>\n    <t s=\"15\">through Moshiach our righteousness who will lead us upright to our land,</t>\n    <t s=\"16\">speedily in our days, very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913746_theRebbe_550",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913746_theRebbe_550__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the great shofar awakens the true will of every Jew to leave exile, distinguishing the future redemption from the Exodus.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And to add,"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "that according to what was said by my father-in-law, the Rebbe,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "(in the maamar beginning \"And it shall be on that day, a great shofar shall be blown\"54)"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "that the great shofar will awaken the point of Judaism within each and every Jew,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "it is understood"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "that this—that all of Israel"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "(also including the lost and the banished)"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "will want to go out from exile and go to Jerusalem and bow down to Hashem—is that through the revelation of the great shofar, the true will55"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "of Israel will be awakened."
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "For this is the difference between the redemption from Egypt and the future redemption,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "that in the Exodus from Egypt,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "the desire of Israel to go out from the impurity of Egypt and to cleave to Him, blessed be He,56"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "was from the side of the revelation from Above,57"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "\"He drew me,\"58"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "but in the future redemption,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "the will to go out from exile and come to Jerusalem will be the will of Israel itself,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "and the revelation from Above"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "(the great shofar)"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "is only a cause through which the will of Israel is revealed."
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "And their service will be from their own selves—the virtue of Rosh HaShanah,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "the service of man.59"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "However, regarding the lost and the banished in their simple sense,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "the virtue of the service of man is after the revelation of the great shofar, through which his true will is awakened,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "but the drawing down of the revelation of the great shofar is from the side of Above."
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "And there is another manner in \"a great shofar shall be blown,\""
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "that even the drawing down of the revelation of the great shofar is through service,"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "as above."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section teaches that at the end of exile, service must be done with self-nullification, recognizing that all accomplishments come from Above, which strengthens rather than weakens one's work.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And this is \"And it shall be on that day, a great shofar shall be blown,\""
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "that the instruction from this—that on that day a great shofar shall be blown,"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "it shall blow of itself—"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "is,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "that at the end of the time of exile, when only a few moments remain before that day when the great shofar shall be blown"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "[and moreover, regarding several matters, the concept of \"a great shofar shall be blown\" has already begun,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "as understood from the aforementioned maamar of my father-in-law, the Rebbe,60"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "and especially since from the time of the writing of the maamar until now many years have already passed,"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "and all the more so in recent times, when it has been seen tangibly that many who were initially in a state of lost and banished, heaven forfend, were awakened in teshuvah through the blowing of the great shofar61]"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "the service must be with self-nullification,"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "the recognition and feeling that all matters that were effected through one's service,"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "both regarding oneself and regarding others,"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "are not from the side of one's own virtues but from the side of the empowerment from Above."
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "And to note,"
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "that this feeling does not cause weakness in one's service,"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "through this feeling,"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "one's service is with greater strength."
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "For when one's service is connected with his own existence,"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "the service is within measure and limitation."
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "And even when one's service is in the manner of \"with all your might,\""
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "it is still from \"your might,\""
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "from your own might,62"
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "and through the feeling that the matters done through one's service are not from the powers he possesses but from the G-dliness,"
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "through this he goes out from his own existence and limitations,"
+          },
+          {
+            "v": 13,
+            "s": 26,
+            "translation": "and his service is beyond measure and limitation.63"
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section concludes that the great shofar must bring all Jews, including the lost and banished, to physically bow in Jerusalem through Moshiach speedily.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And behold, it is explained in the maamar beginning \"And it shall be on that day, a great shofar shall be blown\"64"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "regarding the matter of the shofar of Rosh HaShanah,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "that although the main drawing down is through the cry of the innermost heart, nevertheless the blowing must specifically be with a physical shofar,"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "because Asiyah is supernal,"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "and also in order that the revelation of the innermost supernal will"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "[the aspect of the supernal shofar65]"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "be drawn down below into physicality."
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "that likewise regarding the blowing of the great shofar on that day,"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "the matters that were until now are not sufficient,"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "and the blowing of the great shofar must be in a manner that all of Israel,"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "also including the lost and the banished,"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "will come and bow down to Hashem on the holy mount in Jerusalem,"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "in physical Jerusalem,"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "through Moshiach our righteousness who will lead us upright to our land,"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "speedily in our days, very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

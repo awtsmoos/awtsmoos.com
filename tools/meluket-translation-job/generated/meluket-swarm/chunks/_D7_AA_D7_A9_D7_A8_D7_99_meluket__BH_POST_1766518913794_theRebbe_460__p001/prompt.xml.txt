@@ -1,0 +1,108 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913794_theRebbe_460" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913794_theRebbe_460__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913794_theRebbe_460" title="מאמר וביום שמחתכם תש"מ" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913794_theRebbe_460__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ב' דראש השנה ה'תש"מ*</src>
+  </section>
+  <section v="1">
+    <src s="0">– הנחה –</src>
+  </section>
+  <section v="2">
+    <src s="0">וביום שמחתכם ובמועדיכם ובראשי חדשיכם ותקעתם בחצוצרות גו' והיו לכם לזכרון לפני אלקיכם1,</src>
+    <src s="1">אני ה' אלקיכם.</src>
+    <src s="2">ואיתא בגמרא2</src>
+    <src s="3">ומה תלמוד לומר אני ה' אלקיכם זה בנה אב לכל מקום שנאמר בו זכרונות יהיו מלכיות עמהן</src>
+    <src s="4">(דאני ה' אלקיכם הוא מלכיות3</src>
+    <src s="5">ומזה שאומר אני ה' אלקיכם גבי והיו לכם לזכרון גו' למדים שבכ"מ שנאמר בו זכרונות צ"ל גם מלכיות).</src>
+    <src s="6">ומזה למדים4</src>
+    <src s="7">שבר"ה צ"ל מלכיות זכרונות ושופרות,</src>
+    <src s="8">ותקעתם גו' שופרות,</src>
+    <src s="9">והיו לכם לזכרון גו' זכרונות,</src>
+    <src s="10">אני ה' אלקיכם מלכיות.</src>
+    <src s="11">והנה ג' ענינים אלו</src>
+    <src s="12">(מלכיות זכרונות ושופרות)</src>
+    <src s="13">הם לא רק בדיבור,</src>
+    <src s="14">אמירת פסוקי מלכיות זכרונות ושופרות,</src>
+    <src s="15">וכמרז"ל5</src>
+    <src s="16">אמרו לפני בר"ה מלכיות זכרונות ושופרות,</src>
+    <src s="17">אלא גם במעשה בפועל,</src>
+    <src s="18">וכמו שמבאר במרז"ל הנ"ל מלכיות כדי שתמליכוני כו'</src>
+    <src s="19">(שתמליכוני בפועל)</src>
+    <src s="20">זכרונות כדי שיעלה זכרוניכם</src>
+    <src s="21">(שיעלה זכרוניכם בפועל)</src>
+    <src s="22">ובמה בשופר ע"י תקיעת שופר במעשה בפועל6.</src>
+    <src s="23">והנה ברכות</src>
+    <src s="24">(ברכות מלכיות זכרונות ושופרות)</src>
+    <src s="25">מעכבות זו את זו7,</src>
+    <src s="26">משא"כ ברכות ותקיעות אינן מעכבות זו את זו8.</src>
+    <src s="27">ומבואר בדרושי רבותינו נשיאינו ד"ה זה</src>
+    <src s="28">(וביום שמחתכם)9</src>
+    <src s="29">לפי שברכות ותקיעות הם שני ענינים שונים,</src>
+    <src s="30">ברכות דיבור ותקיעות מעשה.</src>
+    <src s="31">וצריך להבין למה צריך בר"ה לב' הענינים10.</src>
+    <src s="32">ובפרט שפשטות לשון רז"ל ובמה בשופר פירושה היא תקיעת שופר11,</src>
+    <src s="33">שענין תמליכוני עליכם ויעלה זכרוניכם לפני לטובה נעשה ע"י תק"ש שהוא העיקר.</src>
+    <src s="34">וכדמוכח גם ממרז"ל12</src>
+    <src s="35">שמצות היום בשופר היינו שכל הענינים דיום זה</src>
+    <src s="36">(ר"ה)</src>
+    <src s="37">נמשכים ע"י תק"ש.</src>
+    <src s="38">וכמובן גם ממ"ש הרמב"ם13</src>
+    <src s="39">אע"פ שתקיעת שופר בר"ה גזירת הכתוב רמז יש בו כלומר עורו כו' ומבואר בדרושי רבותינו נשיאינו14</src>
+    <src s="40">שבאריכות לשונו של הרמב"ם מרומזים ג' הענינים דמלכיות זכרונות ושופרות,</src>
+    <src s="41">שמזה מובן,</src>
+    <src s="42">שכל ג' ענינים אלו נמשכים ע"י תק"ש,</src>
+    <src s="43">והרמז</src>
+    <src s="44">(הכללי)</src>
+    <src s="45">בשופר עורו כו' הו"ע התשובה</src>
+    <src s="46">(כמבואר ברמב"ם שם),</src>
+    <src s="47">היינו דהמצוה דתק"ש שייכת לכללות הענין דר"ה</src>
+    <src s="48">(מצות היום בשופר),</src>
+    <src s="49">כי בר"ה חוזרים כל הדברים לקדמותם וצריך לעורר המשכה חדשה מעצמותו ומהותו,</src>
+    <src s="50">ולהמשיך זה בכל סדר ההשתלשלות עד בעשי'.</src>
+    <src s="51">והמשכה זו היא ע"י שופר,</src>
+    <src s="52">כי שופר רומז לענין התשובה כנ"ל שעיקר התשובה הוא התאחדות עם המקור,</src>
+    <src s="53">קדמותם,</src>
+    <src s="54">וישנו באופן מלמטלמ"ע ומלמעלמ"ט כמ"ש15</src>
+    <src s="55">והרוח תשוב אל האלקים אשר נתנה,</src>
+    <src s="56">כמבואר בלקו"ת ריש פרשה זו</src>
+    <src s="57">(פרשת האזינו),</src>
+    <src s="58">ולכן עי"ז מעוררים המשכה חדשה מעצמותו ומהותו,</src>
+    <src s="59">וע"י העשי'</src>
+    <src s="60">(תקיעת שופר במעשה)</src>
+    <src s="61">ממשיכים16</src>
+    <src s="62">זה עד בעשי'17.</src>
+  </section>
+</awtsmoosMeluketSource>

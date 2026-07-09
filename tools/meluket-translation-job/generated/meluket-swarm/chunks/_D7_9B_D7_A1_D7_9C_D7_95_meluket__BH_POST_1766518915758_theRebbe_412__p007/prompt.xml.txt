@@ -1,0 +1,114 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915758_theRebbe_412" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915758_theRebbe_412" title="מאמר להבין ענין נרות חנוכה תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p007">
+  <section v="18">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">ועד"ז הוא הגילוי דחנוכה,</src>
+    <src s="3">ובפרט הגילוי דנרות חנוכה שתקנום מפני הנס שהי' בשמן,</src>
+    <src s="4">שהוא הגילוי דפנימיות עתיק.</src>
+    <src s="5">וזה שמבואר בהדרושים</src>
+    <src s="6">(הובאו לעיל סעיף ב)</src>
+    <src s="7">שהמעלה דנרות חנוכה</src>
+    <src s="8">(לגבי נרות המקדש)</src>
+    <src s="9">הוא שהגילוי דנרות חנוכה הוא למעלה מהשתלשלות,</src>
+    <src s="10">אף שכללות הכתר</src>
+    <src s="11">(גם אריך ומכ"ש חיצוניות עתיק)</src>
+    <src s="12">הוא למעלה מהשתלשלות,</src>
+    <src s="13">יש לומר,</src>
+    <src s="14">כי הענין דלמעלה מהשתלשלות הוא שהוא בכל מקום</src>
+    <src s="15">(למעלה ולמטה)</src>
+    <src s="16">בשוה,</src>
+    <src s="17">וענין זה הוא בעיקר בפנימיות עתיק.</src>
+    <src s="18">שהגילוי דחיצוניות עתיק הוא</src>
+    <src s="19">(בעיקר)</src>
+    <src s="20">למעלה,</src>
+    <src s="21">אלא שנמשך ופועל גם למטה.</src>
+    <src s="22">וכנ"ל</src>
+    <src s="23">(סעיף יו"ד)</src>
+    <src s="24">בענין הגילוי שהאיר ע"י שלמה</src>
+    <src s="25">(הגילוי דחיצוניות עתיק),</src>
+    <src s="26">שעיקר הגילוי הי' בירושלים,</src>
+    <src s="27">אלא שנמשך ופעל גם בשבא.</src>
+    <src s="28">ועיקר הענין דלמעלה מהשתלשלות</src>
+    <src s="29">(שהוא בכל מקום בשוה),</src>
+    <src s="30">הוא בפנימיות עתיק,</src>
+    <src s="31">שהוא עצמו נמצא גם למטה.</src>
+    <src s="32">ויתירה מזה,</src>
+    <src s="33">שלגבי הגילוי דפנימיות עתיק לא ישנו החילוק דמעלה ומטה75,</src>
+    <src s="34">כי ע"י הגילוי דפנימיות עתיק נרגש בכל דבר שהמציאות שלו גופא היא אלקות.</src>
+  </section>
+  <section v="19">
+    <src s="0">י)</src>
+    <src s="1">ג)</src>
+    <src s="2">וזהו שנר חנוכה מצוה להניחה על פתח ביתו מבחוץ,</src>
+    <src s="3">לרשות הרבים</src>
+    <src s="4">[לא כנרות המקדש שהיו בפנים ומשם האירו לחוץ],</src>
+    <src s="5">כי זה שהאור דנרות חנוכה מאיר את החושך דרשות הרבים הוא באופן שהוא עצמו נמצא</src>
+    <src s="6">(גם)</src>
+    <src s="7">ברשות הרבים.</src>
+    <src s="8">וזהו גם שזמן הדלקתם הוא משתשקע החמה,</src>
+    <src s="9">כי זה שהאור דנרות חנוכה מאיר את חושך הלילה הוא</src>
+    <src s="10">(לא באופן שעיקרו של האור הוא ביום אלא שנמשך ומאיר גם בלילה,</src>
+    <src s="11">אלא)</src>
+    <src s="12">שגם בזמן החושך ישנו האור עצמו.</src>
+    <src s="13">ויתירה מזה,</src>
+    <src s="14">דע"י שהאור דנ"ח הוא גם במקום וזמן החושך</src>
+    <src s="15">(רשות הרבים ולילה),</src>
+    <src s="16">החושך עצמו נהפך לאור.</src>
+  </section>
+  <section v="20">
+    <src s="0">י)</src>
+    <src s="1">ד)</src>
+    <src s="2">ועפ"ז יש לבאר הטעם על זה שהמשכת גילוי זה היתה דוקא ע"י המס"נ דמתתי' ובניו</src>
+    <src s="3">[ולא ע"י המס"נ דפורים],</src>
+    <src s="4">כי המס"נ דמתתי' ובניו היתה שהגם שהיו חלשים ומעטים מ"מ לחמו נגד גבורים ורבים.</src>
+    <src s="5">דזה שעשו פעולה בדרכי הטבע</src>
+    <src s="6">(מלחמה)</src>
+    <src s="7">בכדי לנצח את היונים,</src>
+    <src s="8">הגם שע"פ טבע אין מקום שחלשים ומעטים ינצחו גבורים ורבים,</src>
+    <src s="9">הוא,</src>
+    <src s="10">כי הי' מונח אצלם</src>
+    <src s="11">(אָפּגעלייגט)</src>
+    <src s="12">שגם הטבע</src>
+    <src s="13">[דעוה"ז התחתון שהקליפות גוברים בו76,</src>
+    <src s="14">ואפילו כשהעולם הוא במצב כזה שהמנגדים הם גבורים ורבים],</src>
+    <src s="15">הוא אלקות,</src>
+    <src s="16">דהנחה זו היא77</src>
+    <src s="17">מצד ההרגש שאמיתת המצאו ית' הוא המציאות דכל הנמצאים.</src>
+    <src s="18">ולכן,</src>
+    <src s="19">עי"ז המשיכו הגילוי דפנימיות עתיק.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,134 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916998_theRebbe_249" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916998_theRebbe_249__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916998_theRebbe_249" title="מאמר ארבעה ראשי שנים תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916998_theRebbe_249__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דאיתא באגה"ק ד"ה דוד זמירות קרית להו59,</src>
+    <src s="3">שכל העולמות עליונים ותחתונים תלויים בדקדוק מצוה,</src>
+    <src s="4">ומביא שתי דוגמאות לזה,</src>
+    <src s="5">קרבן ותפילין.</src>
+    <src s="6">ומבאר אאמו"ר בהערותיו לתניא60,</src>
+    <src s="7">דהטעם שתפס ב' מצוות אלו</src>
+    <src s="8">(קרבן ותפילין)</src>
+    <src s="9">הוא,</src>
+    <src s="10">כי כלל ענין המצוות הוא העלאה והמשכה,</src>
+    <src s="11">רצוא ושוב</src>
+    <src s="12">(כמ"ש בלקו"ת בד"ה זאת חוקת התורה61),</src>
+    <src s="13">ולכן תפס ב' מצוות אלו,</src>
+    <src s="14">כי קרבן הוא העלאה,</src>
+    <src s="15">רצוא,</src>
+    <src s="16">ותפילין הוא המשכה,</src>
+    <src s="17">שוב</src>
+    <src s="18">(כמ"ש בלקו"ת בדרושי הנסכים62).</src>
+    <src s="19">וצריך להבין,</src>
+    <src s="20">מה נוגע להענין המבואר באגה"ק הנ"ל</src>
+    <src s="21">[שכל העולמות תלויים בדקדוק מצוה]</src>
+    <src s="22">לרמז שענין המצוות הוא העלאה והמשכה.</src>
+    <src s="23">ויש לומר,</src>
+    <src s="24">דזה שמבאר באגה"ק שכל העולמות תלויים בדקדוק מצוה הוא הקדמה למ"ש שם לאח"ז שכל העולמות בטלים במציאות לגבי דקדוק אחד מדקדוקי תורה.</src>
+    <src s="25">דזה שאמר דוד63</src>
+    <src s="26">זמירות היו לי חוקיך גו' הוא שבחא דאורייתא</src>
+    <src s="27">(כמ"ש באגה"ק הנ"ל בתחלתה),</src>
+    <src s="28">והשבח הוא שכל העולמות בטלים במציאות</src>
+    <src s="29">(ולא רק תלויים)64</src>
+    <src s="30">לגבי דקדוק אחד מדקדוקי תורה,</src>
+    <src s="31">אלא שגילוי ענין זה דתורה הוא ע"י שכל העולמות תלויים בדקדוק מצוה.</src>
+    <src s="32">והיינו,</src>
+    <src s="33">דלגבי המצוות שהם ציוויים להאדם איך שיתנהג בעולם,</src>
+    <src s="34">בהכרח שיש איזה ערך ותפיסת מקום להעולמות,</src>
+    <src s="35">וזה שהעולמות הם בטלים במציאות הוא</src>
+    <src s="36">(דוקא)</src>
+    <src s="37">לגבי</src>
+    <src s="38">(דקדוק אחד מדקדוקי)</src>
+    <src s="39">תורה.</src>
+    <src s="40">וההוכחה על זה היא מזה שכל העולמות תלויים בדקדוק מצוה.</src>
+    <src s="41">דזה שהעולמות תלויים בדקדוק מצוה</src>
+    <src s="42">(אפילו בדקדוק קל)</src>
+    <src s="43">הוא מפני שהוא דקדוק תורה,</src>
+    <src s="44">שלגבה העולמות בטלים במציאות,</src>
+    <src s="45">ולכן,</src>
+    <src s="46">גם לאחרי שנמשך במצוות ונעשה "דקדוק מצוה",</src>
+    <src s="47">כל העולמות תלויים בו.</src>
+  </section>
+  <section v="10">
+    <src s="0">ובכדי לבאר שגם לאחרי המשכת דקדוקי תורה בהמצוות מאיר בהם בגילוי ענין התורה,</src>
+    <src s="1">מרמז באגה"ק</src>
+    <src s="2">(ע"י הבאת הדוגמאות דקרבן ותפילין)</src>
+    <src s="3">שענין המצוות הוא העלאה והמשכה,</src>
+    <src s="4">רצוא ושוב.</src>
+    <src s="5">דיש לומר,</src>
+    <src s="6">שענין ההעלאה והרצוא שבמצוות הוא שנרגש בהם מקורם כמו שהם בתורה שלמעלה מהעולם,</src>
+    <src s="7">וענין ההמשכה והשוב שבהם הוא שהם נמשכים להיות ציוויים להאדם,</src>
+    <src s="8">וגם אז נרגש בהם שהמקור שלהם הוא בתורה שלמעלה מעולמות</src>
+    <src s="9">[כי ענין רצוא ושוב הוא שגם לאחרי השוב ניכר רישומו של הרצוא65].</src>
+    <src s="10">ולהעיר מזה שאומרים בברכת המצוות אשר קדשנו במצוותיו וצונו,</src>
+    <src s="11">דיש לומר,</src>
+    <src s="12">שקדשנו במצוותיו הו"ע ההעלאה,</src>
+    <src s="13">שהעלנו למעלת קודש העליון ב"ה שהיא קדושתו של הקב"ה בכבודו ובעצמו66,</src>
+    <src s="14">וצונו הו"ע ההמשכה,</src>
+    <src s="15">שציוה אותנו.</src>
+    <src s="16">והטעם לזה שאומרים בברכת המצוות</src>
+    <src s="17">(בנוגע להמצוות שניתנו לנו)</src>
+    <src s="18">קדשנו במצוותיו,</src>
+    <src s="19">הוא,</src>
+    <src s="20">כי גם לאחרי שצונו</src>
+    <src s="21">(ונעשו ציוויים להאדם)</src>
+    <src s="22">הם מצוותיו דהקב"ה כמו שהוא קדוש ומובדל מענין הציווי לאדם.</src>
+  </section>
+  <section v="11">
+    <src s="0">ט)</src>
+    <src s="1">וזהו שע"י התורה הוא המשכת התענוג גם בעבודה דקבלת עול שבקיום המצוות.</src>
+    <src s="2">כי זה שקיום המצוות הוא באופן דקבלת עול כעבד המקיים מצות המלך</src>
+    <src s="3">[שהעבד הוא לא האדון אלא שהוא בטל להאדון]</src>
+    <src s="4">הוא מפני שהכוונה בענין המצוות</src>
+    <src s="5">(ציוויים להאדם)</src>
+    <src s="6">היא שהאדם יהי' מציאות שחוץ ממנו</src>
+    <src s="7">(שאין לו תענוג באלקות)</src>
+    <src s="8">ואעפ"כ יהי' בטל אליו.</src>
+    <src s="9">וע"י המשכת התורה</src>
+    <src s="10">(שלמעלה מציווי לאדם)</src>
+    <src s="11">בהמצוות ובהעבודה דקבלת עול</src>
+    <src s="12">(שהתורה אמרה ועבדתם),</src>
+    <src s="13">נרגש,</src>
+    <src s="14">דזה שהאדם הוא מציאות שחוץ ממנו ית' הוא בכדי להשלים הכוונה העליונה.</src>
+    <src s="15">ועי"ז,</src>
+    <src s="16">הביטול דקב"ע הוא בכל מציאותו,</src>
+    <src s="17">היינו שגם זה שנעשה כמו מציאות לעצמו הוא בכדי להשלים הכוונה.</src>
+    <src s="18">ולכן המציאות שלו אינה סתירה להתענוג שיש לו בעבודתו</src>
+    <src s="19">(היינו לתענוג האדון שנמשכת בו),</src>
+    <src s="20">לפי שגם המציאות שלו היא בכדי להשלים הכוונה.</src>
+  </section>
+</awtsmoosMeluketSource>

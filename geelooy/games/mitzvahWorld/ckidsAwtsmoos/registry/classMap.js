@@ -1,17 +1,17 @@
 // B"H
-/** @file classMap.js @description Class import map with hosted terrain and compact controls. */
+/** Class import map with active tested player and square grass terrain gates. */
 export default {
-  Domem:"../../chayim/domem/index.js?compact=true&v=domem-visible-ground-authority-20260701-bh1",
-  Tzomayach:"../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
-  Chai:"../../chayim/chai/index.js?compact=true&v=compact-engine-20260702-bh2",
+  Domem:"../../chayim/domem/index.js?compact=true&v=single-player-mixer-fast-20260709-bh1",
+  Tzomayach:"../../chayim/tzomayach.js?compact=true&v=single-player-mixer-fast-20260709-bh1",
+  Chai:"../../chayim/chai/index.js?compact=true&v=up-down-jump-ground-20260709-bh4",
   Medabeir:"../../chayim/medabeir/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
-  Chossid:"../../chayim/chossid/index.js?compact=true&v=compact-engine-20260702-bh2",
+  Chossid:"../../chayim/chossid/index.js?compact=true&v=up-down-jump-ground-20260709-bh4",
   Tool:"../../dvarim/tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Coin:"../../dvarim/coin.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Container:"../../dvarim/container.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
   Wheat:"../../dvarim/farming/wheat.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Mill:"../../dvarim/farming/mill.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Oven:"../../dvarim/farming/oven.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
   Fire:"../../dvarim/fire.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Lava:"../../dvarim/lava.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Portal:"../../dvarim/portal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
   CollectableItem:"../../dvarim/collectableItem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", CharacterMaker:"../../dvarim/characterMaker.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", CustomNpc:"../../dvarim/customNpc.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
   NatureTool:"../../dvarim/nature/natureTool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", ProceduralCloud:"../../dvarim/nature/proceduralCloud.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", ProceduralRiver:"../../dvarim/nature/proceduralRiver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
-  Forest:"../../dvarim/nature/forest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", ProceduralPool:"../../dvarim/nature/proceduralPool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", ProceduralTerrain:"../../dvarim/terrain/ProceduralTerrain.js?compact=true&v=hosted-ground-textures-20260708-bh2",
+  Forest:"../../dvarim/nature/forest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", ProceduralPool:"../../dvarim/nature/proceduralPool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", ProceduralTerrain:"../../dvarim/terrain/ProceduralTerrain.js?compact=true&v=square-grass-repeat-20260709-bh3",
   Shovel:"../../dvarim/tools/shovel.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Pickaxe:"../../dvarim/tools/pickaxe.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", RoadTool:"../../dvarim/tools/roadTool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", LivingField:"../../utils/3d/procedural/nature/LivingField.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
   Vehicle:"../../dvarim/vehicles/vehicle.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", ProceduralCar:"../../dvarim/vehicles/proceduralCar.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", GrapplingHook:"../../dvarim/tools/grapplingHook.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Blueprint:"../../dvarim/tools/blueprint.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
   FishingRod:"../../dvarim/tools/fishingRod.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Sefer:"../../dvarim/tools/sefer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Teffilin:"../../dvarim/teffilin.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", VoxelTerrain:"../../dvarim/terrain/VoxelTerrain.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",

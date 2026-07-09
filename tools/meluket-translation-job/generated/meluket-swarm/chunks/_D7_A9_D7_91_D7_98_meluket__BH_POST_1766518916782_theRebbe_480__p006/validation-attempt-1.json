@@ -1,0 +1,589 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 109,
+    "returned": 109,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916782_theRebbe_480\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>The maamar explains that true victory is achieved when the opponent is at its strongest, and this is the concept of subjugation (itkafya) of the sitra achra, which is distinct from transformation (it'hapcha).</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">3)</t>\n    <t s=\"2\">And the maamar continues,</t>\n    <t s=\"3\">that it is brought in the Midrash85,</t>\n    <t s=\"4\">that \"pleasantness in Your right hand, forever\" (Netzach) refers to the lulav taken in the right hand,</t>\n    <t s=\"5\">through which the victory is revealed.</t>\n    <t s=\"6\">And as it is brought in the Midrash86,</t>\n    <t s=\"7\">a parable of two who came before the judge, and we do not know who is victorious, but whoever takes the ayan</t>\n    <t s=\"8\">(lulav and hadas87)</t>\n    <t s=\"9\">in his hand, we know that he is the victor,</t>\n    <t s=\"10\">so too Israel, etc., we know that Israel are the victors.</t>\n    <t s=\"11\">And it can be said,</t>\n    <t s=\"12\">that this which he brings</t>\n    <t s=\"13\">(from the Midrash)</t>\n    <t s=\"14\">\"and we do not know who is victorious\"88,</t>\n    <t s=\"15\">is,</t>\n    <t s=\"16\">because since the entire matter of victory is to overcome the opponent,</t>\n    <t s=\"17\">behold, the more powerful the opponent is,</t>\n    <t s=\"18\">the greater the victory.</t>\n    <t s=\"19\">Therefore the maamar brings \"we do not know, etc.\",</t>\n    <t s=\"20\">meaning that the opponent is so powerful that there could be a doubt that he will be the victor, G-d forbid,</t>\n    <t s=\"21\">and when one overcomes the opponent when he is powerful,</t>\n    <t s=\"22\">then it is the true and essential matter of victory.</t>\n    <t s=\"23\">Based on this, one can also understand what is said at the conclusion and seal of the chapter, that the matter of victory is the subjugation of the sitra achra,</t>\n    <t s=\"24\">specifically subjugation (itkafya),</t>\n    <t s=\"25\">even though at the beginning of the continuation it says</t>\n    <t s=\"26\">(several times)</t>\n    <t s=\"27\">\"subjugation and transformation\"89,</t>\n    <t s=\"28\">because the matter of \"And they shall make Me a Sanctuary,\" which is discussed at the beginning of the continuation,</t>\n    <t s=\"29\">is accomplished primarily through the service of transformation (it'hapcha),</t>\n    <t s=\"30\">for through a person transforming his animal soul to holiness,</t>\n    <t s=\"31\">so too is it done in the world90,</t>\n    <t s=\"32\">that the world is transformed into a Sanctuary and dwelling place for Him, blessed be He.</t>\n    <t s=\"33\">However, the matter of Netzach (victory)</t>\n    <t s=\"34\">(that the more powerful the opponent is, the greater the victory,</t>\n    <t s=\"35\">as above)</t>\n    <t s=\"36\">is primarily through the service of subjugating the sitra achra while it is still in its strength and might91.</t>\n    <t s=\"37\">And this is also what he concludes in the chapter: \"And because of this is the revelation of the Supernal Treasure,\"</t>\n    <t s=\"38\">that the primary revelation of the treasure, and in a manner of disbursement, is specifically for the service of subjugation (itkafya)92.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>The service of subjugation (itkafya) is the level of the Beinoni, relevant to every Jew, and the willow branch (aravah) represents the lowest type of Jew who possesses the greatest power of victory.</sectionSummaryBrief>\n    <t s=\"0\">And one can connect this with what is explained in the maamar93,</t>\n    <t s=\"1\">that although the delivery of the treasure is specifically through officers and ministers,</t>\n    <t s=\"2\">the inner intention is the \"men of valor,\"</t>\n    <t s=\"3\">because the difference between subjugation (itkafya) and transformation (it'hapcha) is,</t>\n    <t s=\"4\">as the Admor Maharash explains94,</t>\n    <t s=\"5\">that transformation (it'hapcha) is that one abhors evil,</t>\n    <t s=\"6\">and likewise his service in the line of \"do good\" is as it is written95,</t>\n    <t s=\"7\">\"desires greatly,\"</t>\n    <t s=\"8\">meaning he desires the mitzvos with passion and will,</t>\n    <t s=\"9\">that this matter is only for the righteous</t>\n    <t s=\"10\">(officers and ministers),</t>\n    <t s=\"11\">but subjugation (itkafya) is,</t>\n    <t s=\"12\">that although he does not abhor evil,</t>\n    <t s=\"13\">and also regarding \"do good\" he has no passion or desire for mitzvos,</t>\n    <t s=\"14\">nevertheless, he forces himself to turn from evil and do good,</t>\n    <t s=\"15\">in a manner of victory.</t>\n    <t s=\"16\">And this matter applies to every Jew</t>\n    <t s=\"17\">(men of valor),</t>\n    <t s=\"18\">as it is brought in Tanya96,</t>\n    <t s=\"19\">that subjugating the sitra achra while it is in its strength and might is the trait of the Beinonim,</t>\n    <t s=\"20\">for the trait of the Beinoni is the trait of every person97.</t>\n    <t s=\"21\">And it can be said,</t>\n    <t s=\"22\">that this is also the connection of \"Netzach Yisrael\" (the Victory of Israel) with the lulav and its species,</t>\n    <t s=\"23\">for the species of the lulav indicate the types of Israel98,</t>\n    <t s=\"24\">and even the lowest type of Israel, likened to the willow which has neither taste nor fragrance, has within them the power of victory,</t>\n    <t s=\"25\">and moreover,</t>\n    <t s=\"26\">specifically in the willow the power of victory is greatest</t>\n    <t s=\"27\">[as is known99,</t>\n    <t s=\"28\">that Netzach and Hod are the willow branches which have neither taste nor fragrance],</t>\n    <t s=\"29\">and through the willows arousing the power of victory</t>\n    <t s=\"30\">(to overcome the evil inclination while it is still in its strength and might),</t>\n    <t s=\"31\">they become connected with the hadasim and the lulav100,</t>\n    <t s=\"32\">and through them there is drawn into them also a semblance of101</t>\n    <t s=\"33\">the matter of transformation (it'hapcha)102,</t>\n    <t s=\"34\">and through this it is known that \"Israel are the victors\"103,</t>\n    <t s=\"35\">that the victory is revealed before all eyes.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>The superiority of the drawing down through the service of subjugation (itkafya) is explained by the principle that the advantage of light comes specifically from darkness, drawing a transcendent encompassing light (makif).</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">4)</t>\n    <t s=\"2\">And the explanation of the superiority of the drawing down</t>\n    <t s=\"3\">(the disbursement of the treasures)</t>\n    <t s=\"4\">that is specifically through the service of subjugation (itkafya), in more detail,</t>\n    <t s=\"5\">will be understood based on what the Admor</t>\n    <t s=\"6\">(the Rebbe Rashab)</t>\n    <t s=\"7\">of blessed memory104 said</t>\n    <t s=\"8\">in explaining the maamar \"When the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated throughout all worlds,\"</t>\n    <t s=\"9\">that the reason for this, that through subjugation of the sitra achra such a lofty light is drawn, called \"elevated\" because it is an encompassing light \"that is removed from the aspect of internality\"105,</t>\n    <t s=\"10\">is,</t>\n    <t s=\"11\">because the advantage of light comes specifically from darkness,</t>\n    <t s=\"12\">for through the refinement of darkness, additional light is drawn,</t>\n    <t s=\"13\">which is above the light drawn in the manner of a root that is measured and apportioned according to the value of the worlds.</t>\n    <t s=\"14\">And he explains there,</t>\n    <t s=\"15\">that this is the reason why a person receives vitality from permitted foods,</t>\n    <t s=\"16\">for through his acting upon himself not to be drawn after the physical pleasure in the food, but rather that his intention be for the sake of Heaven, that through the power of eating he will learn and pray</t>\n    <t s=\"17\">[for in order for him to act upon himself so that his intention in eating will truly be for the sake of Heaven, he must first have the service of prayer with such contemplation that is also understood by the animal soul,</t>\n    <t s=\"18\">that even the animal soul will understand and grasp that one must desire G-dliness and not the materiality of the world],</t>\n    <t s=\"19\">through this he refines the food, separating the evil from it and elevating the good,</t>\n    <t s=\"20\">behold, through this refinement,</t>\n    <t s=\"21\">additional light is drawn to him,</t>\n    <t s=\"22\">the aspect of the encompassing light (makif).</t>\n    <t s=\"23\">And this is \"When the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated throughout all worlds,\"</t>\n    <t s=\"24\">for the drawing down of the encompassing light is specifically through the refinement of darkness.</t>\n    <t s=\"25\">And one may note,</t>\n    <t s=\"26\">that from what he explains there, that the meaning of \"when the sitra achra is subjugated\" is the refinement of darkness</t>\n    <t s=\"27\">[and particularly from the example of refining food by eating for the sake of Heaven,</t>\n    <t s=\"28\">which comes after the refinement of the animal soul through the service of prayer],</t>\n    <t s=\"29\">it is understood,</t>\n    <t s=\"30\">that also in this maamar106,</t>\n    <t s=\"31\">he explains that the intention of \"when the sitra achra is subjugated\" is</t>\n    <t s=\"32\">(primarily)</t>\n    <t s=\"33\">for the subjugation that leads to transformation (it'hapcha).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916782_theRebbe_480",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "The maamar explains that true victory is achieved when the opponent is at its strongest, and this is the concept of subjugation (itkafya) of the sitra achra, which is distinct from transformation (it'hapcha).",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "3)"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "And the maamar continues,"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "that it is brought in the Midrash85,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "that \"pleasantness in Your right hand, forever\" (Netzach) refers to the lulav taken in the right hand,"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "through which the victory is revealed."
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "And as it is brought in the Midrash86,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "a parable of two who came before the judge, and we do not know who is victorious, but whoever takes the ayan"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "(lulav and hadas87)"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "in his hand, we know that he is the victor,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "so too Israel, etc., we know that Israel are the victors."
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "that this which he brings"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "(from the Midrash)"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "\"and we do not know who is victorious\"88,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "is,"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "because since the entire matter of victory is to overcome the opponent,"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "behold, the more powerful the opponent is,"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "the greater the victory."
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "Therefore the maamar brings \"we do not know, etc.\","
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "meaning that the opponent is so powerful that there could be a doubt that he will be the victor, G-d forbid,"
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "and when one overcomes the opponent when he is powerful,"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "then it is the true and essential matter of victory."
+          },
+          {
+            "v": 15,
+            "s": 23,
+            "translation": "Based on this, one can also understand what is said at the conclusion and seal of the chapter, that the matter of victory is the subjugation of the sitra achra,"
+          },
+          {
+            "v": 15,
+            "s": 24,
+            "translation": "specifically subjugation (itkafya),"
+          },
+          {
+            "v": 15,
+            "s": 25,
+            "translation": "even though at the beginning of the continuation it says"
+          },
+          {
+            "v": 15,
+            "s": 26,
+            "translation": "(several times)"
+          },
+          {
+            "v": 15,
+            "s": 27,
+            "translation": "\"subjugation and transformation\"89,"
+          },
+          {
+            "v": 15,
+            "s": 28,
+            "translation": "because the matter of \"And they shall make Me a Sanctuary,\" which is discussed at the beginning of the continuation,"
+          },
+          {
+            "v": 15,
+            "s": 29,
+            "translation": "is accomplished primarily through the service of transformation (it'hapcha),"
+          },
+          {
+            "v": 15,
+            "s": 30,
+            "translation": "for through a person transforming his animal soul to holiness,"
+          },
+          {
+            "v": 15,
+            "s": 31,
+            "translation": "so too is it done in the world90,"
+          },
+          {
+            "v": 15,
+            "s": 32,
+            "translation": "that the world is transformed into a Sanctuary and dwelling place for Him, blessed be He."
+          },
+          {
+            "v": 15,
+            "s": 33,
+            "translation": "However, the matter of Netzach (victory)"
+          },
+          {
+            "v": 15,
+            "s": 34,
+            "translation": "(that the more powerful the opponent is, the greater the victory,"
+          },
+          {
+            "v": 15,
+            "s": 35,
+            "translation": "as above)"
+          },
+          {
+            "v": 15,
+            "s": 36,
+            "translation": "is primarily through the service of subjugating the sitra achra while it is still in its strength and might91."
+          },
+          {
+            "v": 15,
+            "s": 37,
+            "translation": "And this is also what he concludes in the chapter: \"And because of this is the revelation of the Supernal Treasure,\""
+          },
+          {
+            "v": 15,
+            "s": 38,
+            "translation": "that the primary revelation of the treasure, and in a manner of disbursement, is specifically for the service of subjugation (itkafya)92."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "The service of subjugation (itkafya) is the level of the Beinoni, relevant to every Jew, and the willow branch (aravah) represents the lowest type of Jew who possesses the greatest power of victory.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "And one can connect this with what is explained in the maamar93,"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "that although the delivery of the treasure is specifically through officers and ministers,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "the inner intention is the \"men of valor,\""
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "because the difference between subjugation (itkafya) and transformation (it'hapcha) is,"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "as the Admor Maharash explains94,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "that transformation (it'hapcha) is that one abhors evil,"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "and likewise his service in the line of \"do good\" is as it is written95,"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "\"desires greatly,\""
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "meaning he desires the mitzvos with passion and will,"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "that this matter is only for the righteous"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "(officers and ministers),"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "but subjugation (itkafya) is,"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "that although he does not abhor evil,"
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "and also regarding \"do good\" he has no passion or desire for mitzvos,"
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "nevertheless, he forces himself to turn from evil and do good,"
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "in a manner of victory."
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "And this matter applies to every Jew"
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "(men of valor),"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "as it is brought in Tanya96,"
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "that subjugating the sitra achra while it is in its strength and might is the trait of the Beinonim,"
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "for the trait of the Beinoni is the trait of every person97."
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "that this is also the connection of \"Netzach Yisrael\" (the Victory of Israel) with the lulav and its species,"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "for the species of the lulav indicate the types of Israel98,"
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "and even the lowest type of Israel, likened to the willow which has neither taste nor fragrance, has within them the power of victory,"
+          },
+          {
+            "v": 16,
+            "s": 25,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 16,
+            "s": 26,
+            "translation": "specifically in the willow the power of victory is greatest"
+          },
+          {
+            "v": 16,
+            "s": 27,
+            "translation": "[as is known99,"
+          },
+          {
+            "v": 16,
+            "s": 28,
+            "translation": "that Netzach and Hod are the willow branches which have neither taste nor fragrance],"
+          },
+          {
+            "v": 16,
+            "s": 29,
+            "translation": "and through the willows arousing the power of victory"
+          },
+          {
+            "v": 16,
+            "s": 30,
+            "translation": "(to overcome the evil inclination while it is still in its strength and might),"
+          },
+          {
+            "v": 16,
+            "s": 31,
+            "translation": "they become connected with the hadasim and the lulav100,"
+          },
+          {
+            "v": 16,
+            "s": 32,
+            "translation": "and through them there is drawn into them also a semblance of101"
+          },
+          {
+            "v": 16,
+            "s": 33,
+            "translation": "the matter of transformation (it'hapcha)102,"
+          },
+          {
+            "v": 16,
+            "s": 34,
+            "translation": "and through this it is known that \"Israel are the victors\"103,"
+          },
+          {
+            "v": 16,
+            "s": 35,
+            "translation": "that the victory is revealed before all eyes."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "The superiority of the drawing down through the service of subjugation (itkafya) is explained by the principle that the advantage of light comes specifically from darkness, drawing a transcendent encompassing light (makif).",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "4)"
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "And the explanation of the superiority of the drawing down"
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "(the disbursement of the treasures)"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "that is specifically through the service of subjugation (itkafya), in more detail,"
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "will be understood based on what the Admor"
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "of blessed memory104 said"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "in explaining the maamar \"When the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated throughout all worlds,\""
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "that the reason for this, that through subjugation of the sitra achra such a lofty light is drawn, called \"elevated\" because it is an encompassing light \"that is removed from the aspect of internality\"105,"
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "is,"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "because the advantage of light comes specifically from darkness,"
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "for through the refinement of darkness, additional light is drawn,"
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "which is above the light drawn in the manner of a root that is measured and apportioned according to the value of the worlds."
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "And he explains there,"
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "that this is the reason why a person receives vitality from permitted foods,"
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "for through his acting upon himself not to be drawn after the physical pleasure in the food, but rather that his intention be for the sake of Heaven, that through the power of eating he will learn and pray"
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "[for in order for him to act upon himself so that his intention in eating will truly be for the sake of Heaven, he must first have the service of prayer with such contemplation that is also understood by the animal soul,"
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "that even the animal soul will understand and grasp that one must desire G-dliness and not the materiality of the world],"
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "through this he refines the food, separating the evil from it and elevating the good,"
+          },
+          {
+            "v": 17,
+            "s": 20,
+            "translation": "behold, through this refinement,"
+          },
+          {
+            "v": 17,
+            "s": 21,
+            "translation": "additional light is drawn to him,"
+          },
+          {
+            "v": 17,
+            "s": 22,
+            "translation": "the aspect of the encompassing light (makif)."
+          },
+          {
+            "v": 17,
+            "s": 23,
+            "translation": "And this is \"When the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated throughout all worlds,\""
+          },
+          {
+            "v": 17,
+            "s": 24,
+            "translation": "for the drawing down of the encompassing light is specifically through the refinement of darkness."
+          },
+          {
+            "v": 17,
+            "s": 25,
+            "translation": "And one may note,"
+          },
+          {
+            "v": 17,
+            "s": 26,
+            "translation": "that from what he explains there, that the meaning of \"when the sitra achra is subjugated\" is the refinement of darkness"
+          },
+          {
+            "v": 17,
+            "s": 27,
+            "translation": "[and particularly from the example of refining food by eating for the sake of Heaven,"
+          },
+          {
+            "v": 17,
+            "s": 28,
+            "translation": "which comes after the refinement of the animal soul through the service of prayer],"
+          },
+          {
+            "v": 17,
+            "s": 29,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 17,
+            "s": 30,
+            "translation": "that also in this maamar106,"
+          },
+          {
+            "v": 17,
+            "s": 31,
+            "translation": "he explains that the intention of \"when the sitra achra is subjugated\" is"
+          },
+          {
+            "v": 17,
+            "s": 32,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 17,
+            "s": 33,
+            "translation": "for the subjugation that leads to transformation (it'hapcha)."
+          }
+        ]
+      }
+    ]
+  }
+}

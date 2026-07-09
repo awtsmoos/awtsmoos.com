@@ -1,0 +1,579 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 107,
+    "returned": 107,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914855_theRebbe_522\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914855_theRebbe_522__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains the novelty that although teshuvah involves the makifim of Chayah and Yechidah, which are wondrous and distant from Nefesh-Ruach-Neshamah, through contemplation within NRN one can awaken these makifim and even the higher makifim of Arich and Atik.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And it needs to be understood,</t>\n    <t s=\"2\">what does the verse innovate in this, that this mitzvah</t>\n    <t s=\"3\">(teshuvah)</t>\n    <t s=\"4\">is not wondrous for you nor distant from you,</t>\n    <t s=\"5\">for seemingly,</t>\n    <t s=\"6\">since also in man,</t>\n    <t s=\"7\">the service of teshuvah is in the makifim of Chayah and Yechidah,</t>\n    <t s=\"8\">which are analogous to the makifim above</t>\n    <t s=\"9\">(Arich and Atik),</t>\n    <t s=\"10\">what is the innovation</t>\n    <t s=\"11\">(so much)</t>\n    <t s=\"12\">in this, that through service in the makifim of the soul, the makifim above are drawn down?</t>\n    <t s=\"13\">And it may be said,</t>\n    <t s=\"14\">that \"from you\" refers to Nefesh-Ruach-Neshamah, which are the essence of man43.</t>\n    <t s=\"15\">For although teshuvah is in the makifim of the soul,</t>\n    <t s=\"16\">nevertheless,</t>\n    <t s=\"17\">in order to arouse the makifim, there must be contemplation,</t>\n    <t s=\"18\">and the contemplation</t>\n    <t s=\"19\">(which is in NRN)</t>\n    <t s=\"20\">must be in a manner that through this the makifim that are above intellect will be aroused.</t>\n    <t s=\"21\">And this is the innovation in \"it is not wondrous for you etc.,\" that \"from you\" refers to NRN</t>\n    <t s=\"22\">(as above),</t>\n    <t s=\"23\">for although the makifim of Chayah and Yechidah are wondrous and distant from NRN,</t>\n    <t s=\"24\">nevertheless,</t>\n    <t s=\"25\">it is within the power of NRN to arouse</t>\n    <t s=\"26\">(through appropriate contemplation)</t>\n    <t s=\"27\">the makifim of Chayah and Yechidah44,</t>\n    <t s=\"28\">and through them also the makifim above,</t>\n    <t s=\"29\">Arich and Atik.</t>\n    <t s=\"30\">And the reason for this is</t>\n    <t s=\"31\">(as brought above</t>\n    <t s=\"32\">(end of section 4)</t>\n    <t s=\"33\">from the maamar)</t>\n    <t s=\"34\">because the souls of Yisrael</t>\n    <t s=\"35\">(that is, also the NRN)</t>\n    <t s=\"36\">have everything,</t>\n    <t s=\"37\">and also from above they are given everything.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the two terms \"wondrous\" and \"distant\" in the verse correspond to two aspects of mitzvos: the Divine will beyond reason (wondrous) and the reasons for mitzvos within Chochmah (distant).</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And this will be understood by prefacing that the precise explanation of the verse's wording \"it is not wondrous from you\"</t>\n    <t s=\"2\">(specifically \"from you\"),</t>\n    <t s=\"3\">is also according to the interpretation45</t>\n    <t s=\"4\">that \"this mitzvah\" refers to all the mitzvos in general.</t>\n    <t s=\"5\">For also according to this interpretation,</t>\n    <t s=\"6\">\"this mitzvah\" is in the category of wonder,</t>\n    <t s=\"7\">and as brought above</t>\n    <t s=\"8\">(section 4)</t>\n    <t s=\"9\">from the maamar,</t>\n    <t s=\"10\">that also all the mitzvos,</t>\n    <t s=\"11\">being the Supernal Will that is above reason,</t>\n    <t s=\"12\">are in the category of wonder and distance</t>\n    <t s=\"13\">(except that nevertheless it is not wondrous from you,</t>\n    <t s=\"14\">from Yisrael).</t>\n    <t s=\"15\">And it may be said,</t>\n    <t s=\"16\">that this which it says two terms,</t>\n    <t s=\"17\">\"wondrous\" and \"distant,\"</t>\n    <t s=\"18\">is,</t>\n    <t s=\"19\">because in mitzvos there are two matters.</t>\n    <t s=\"20\">This, that the mitzvos are His will,</t>\n    <t s=\"21\">a will that is above reason.</t>\n    <t s=\"22\">And this, that after the will becomes clothed in Chochmah</t>\n    <t s=\"23\">(of Torah),</t>\n    <t s=\"24\">a reason is also added for each mitzvah46.</t>\n    <t s=\"25\">And these are the two terms of wonder and distance,</t>\n    <t s=\"26\">for the will in the mitzvos,</t>\n    <t s=\"27\">being above reason,</t>\n    <t s=\"28\">is wonder.</t>\n    <t s=\"29\">And the reasons for the mitzvos as they are from the aspect of the Chochmah of Torah as it is above,</t>\n    <t s=\"30\">are in the category of distance.</t>\n    <t s=\"31\">For although also the reasons for the mitzvos</t>\n    <t s=\"32\">(as they are in His Chochmah)</t>\n    <t s=\"33\">are above the comprehension of human intellect47,</t>\n    <t s=\"34\">nevertheless,</t>\n    <t s=\"35\">the Chochmah above is the source for the Chochmah and intellect of created beings48,</t>\n    <t s=\"36\">and therefore it is not wondrous from the intellect of created beings, only distant from them49.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the terms \"wondrous\" and \"distant\" only apply after the Torah and mitzvos have descended into a relationship with the world, not in their essential state.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And it may be added,</t>\n    <t s=\"2\">that the mitzvos and Torah</t>\n    <t s=\"3\">(the reasons for the mitzvos)</t>\n    <t s=\"4\">as they are in their own essence,</t>\n    <t s=\"5\">it is not applicable to say of them even the description of wonder and distance.</t>\n    <t s=\"6\">For the term wonder</t>\n    <t s=\"7\">(and certainly the term distance)</t>\n    <t s=\"8\">indicates that the wondrous thing has some connection to the thing from which it is wondrous.</t>\n    <t s=\"9\">But regarding two matters that have no connection between them,</t>\n    <t s=\"10\">the term wonder does not apply.</t>\n    <t s=\"11\">Just as it is not applicable to say of a logical concept that it is wondrous from the sense of touch50.</t>\n    <t s=\"12\">And that the Torah and mitzvos are distant and wondrous is after they have descended to have some connection to the world.</t>\n    <t s=\"13\">For the beginning of the descent is that the Torah preceded the world.</t>\n    <t s=\"14\">For the Torah as it is in its own essence,</t>\n    <t s=\"15\">is not in the category of worlds at all, and it is not applicable to say of it that it preceded the world.</t>\n    <t s=\"16\">And that which our sages said51</t>\n    <t s=\"17\">\"Two thousand years the Torah preceded the world,\"</t>\n    <t s=\"18\">is in the level of Torah as it descended52</t>\n    <t s=\"19\">to be in the category of worlds.</t>\n    <t s=\"20\">For in this level it is applicable to say that it preceded the world,</t>\n    <t s=\"21\">and moreover,</t>\n    <t s=\"22\">there is a measure to its precedence,</t>\n    <t s=\"23\">two thousand years.</t>\n    <t s=\"24\">And after this it descended yet many more descents53,</t>\n    <t s=\"25\">until it was drawn down below.</t>\n    <t s=\"26\">And in this level of Torah,</t>\n    <t s=\"27\">as it is after its descent</t>\n    <t s=\"28\">[which is a general level,</t>\n    <t s=\"29\">including many particular levels,</t>\n    <t s=\"30\">from the level of Torah that preceded the world until the level of Torah that was drawn down below]</t>\n    <t s=\"31\">it is applicable to say that it is in the category of wonder and distance.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914855_theRebbe_522",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914855_theRebbe_522__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains the novelty that although teshuvah involves the makifim of Chayah and Yechidah, which are wondrous and distant from Nefesh-Ruach-Neshamah, through contemplation within NRN one can awaken these makifim and even the higher makifim of Arich and Atik.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "what does the verse innovate in this, that this mitzvah"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(teshuvah)"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "is not wondrous for you nor distant from you,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "since also in man,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "the service of teshuvah is in the makifim of Chayah and Yechidah,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "which are analogous to the makifim above"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "(Arich and Atik),"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "what is the innovation"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "(so much)"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "in this, that through service in the makifim of the soul, the makifim above are drawn down?"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "that \"from you\" refers to Nefesh-Ruach-Neshamah, which are the essence of man43."
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "For although teshuvah is in the makifim of the soul,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "in order to arouse the makifim, there must be contemplation,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "and the contemplation"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "(which is in NRN)"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "must be in a manner that through this the makifim that are above intellect will be aroused."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "And this is the innovation in \"it is not wondrous for you etc.,\" that \"from you\" refers to NRN"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "(as above),"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "for although the makifim of Chayah and Yechidah are wondrous and distant from NRN,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "it is within the power of NRN to arouse"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "(through appropriate contemplation)"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "the makifim of Chayah and Yechidah44,"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "and through them also the makifim above,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "Arich and Atik."
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "And the reason for this is"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "(as brought above"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "(end of section 4)"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "from the maamar)"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "because the souls of Yisrael"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "(that is, also the NRN)"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "have everything,"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "and also from above they are given everything."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the two terms \"wondrous\" and \"distant\" in the verse correspond to two aspects of mitzvos: the Divine will beyond reason (wondrous) and the reasons for mitzvos within Chochmah (distant).",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this will be understood by prefacing that the precise explanation of the verse's wording \"it is not wondrous from you\""
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "(specifically \"from you\"),"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "is also according to the interpretation45"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "that \"this mitzvah\" refers to all the mitzvos in general."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "For also according to this interpretation,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "\"this mitzvah\" is in the category of wonder,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "and as brought above"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "(section 4)"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "from the maamar,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "that also all the mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "being the Supernal Will that is above reason,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "are in the category of wonder and distance"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "(except that nevertheless it is not wondrous from you,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "from Yisrael)."
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that this which it says two terms,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "\"wondrous\" and \"distant,\""
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "is,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "because in mitzvos there are two matters."
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "This, that the mitzvos are His will,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "a will that is above reason."
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "And this, that after the will becomes clothed in Chochmah"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "(of Torah),"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "a reason is also added for each mitzvah46."
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "And these are the two terms of wonder and distance,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "for the will in the mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "being above reason,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "is wonder."
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "And the reasons for the mitzvos as they are from the aspect of the Chochmah of Torah as it is above,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "are in the category of distance."
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "For although also the reasons for the mitzvos"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "(as they are in His Chochmah)"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "are above the comprehension of human intellect47,"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "the Chochmah above is the source for the Chochmah and intellect of created beings48,"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "and therefore it is not wondrous from the intellect of created beings, only distant from them49."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that the terms \"wondrous\" and \"distant\" only apply after the Torah and mitzvos have descended into a relationship with the world, not in their essential state.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And it may be added,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that the mitzvos and Torah"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(the reasons for the mitzvos)"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "as they are in their own essence,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "it is not applicable to say of them even the description of wonder and distance."
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "For the term wonder"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "(and certainly the term distance)"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "indicates that the wondrous thing has some connection to the thing from which it is wondrous."
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "But regarding two matters that have no connection between them,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "the term wonder does not apply."
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "Just as it is not applicable to say of a logical concept that it is wondrous from the sense of touch50."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "And that the Torah and mitzvos are distant and wondrous is after they have descended to have some connection to the world."
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "For the beginning of the descent is that the Torah preceded the world."
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "For the Torah as it is in its own essence,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "is not in the category of worlds at all, and it is not applicable to say of it that it preceded the world."
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "And that which our sages said51"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "\"Two thousand years the Torah preceded the world,\""
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "is in the level of Torah as it descended52"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "to be in the category of worlds."
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "For in this level it is applicable to say that it preceded the world,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "there is a measure to its precedence,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "two thousand years."
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "And after this it descended yet many more descents53,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "until it was drawn down below."
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "And in this level of Torah,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "as it is after its descent"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "[which is a general level,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "including many particular levels,"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "from the level of Torah that preceded the world until the level of Torah that was drawn down below]"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "it is applicable to say that it is in the category of wonder and distance."
+          }
+        ]
+      }
+    ]
+  }
+}

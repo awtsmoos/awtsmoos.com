@@ -1,0 +1,136 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919961_theRebbe_975" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919961_theRebbe_975__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919961_theRebbe_975" title="מאמר ועתה ישראל תשל"ז" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919961_theRebbe_975__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">והנה מכיון שהכוונה בירידת הנשמה למטה היא לעשות את העולם דירה לו ית',</src>
+    <src s="2">הרי מובן,</src>
+    <src s="3">שענין זה</src>
+    <src s="4">(עשיית הדירה לו ית')</src>
+    <src s="5">הוא ענין עיקרי במעמדה ומצבה.</src>
+    <src s="6">דכאשר אינה ממלאה ח"ו את שליחותה ותפקידה,</src>
+    <src s="7">גם כשיש לה גילויים הכי נעלים,</src>
+    <src s="8">חסר העיקר,</src>
+    <src s="9">ולאידך,</src>
+    <src s="10">ע"י שמשלמת הכוונה דדירה בתחתונים,</src>
+    <src s="11">נעשה בה עלי' גדולה ונפלאה לאין קץ64.</src>
+    <src s="12">ועפ"ז יובן שהעבודה דמאה שעל ידה נעשה הגילוי דמ"ה היא מאה ברכות השייכים לבירור וזיכוך העולם</src>
+    <src s="13">(כדלקמן),</src>
+    <src s="14">אף שהגילוי יכול להיות לכאורה גם ע"י העבודה בפרטי הכחות דהנשמה,</src>
+    <src s="15">ללכת בכל דרכיו וגו',</src>
+    <src s="16">כי השלימות דהנשמה,</src>
+    <src s="17">גם המ"ה שבה,</src>
+    <src s="18">היא דוקא ע"י שממלאה את תפקידה ושליחותה.</src>
+    <src s="19">וזהו ועתה ישראל מה,</src>
+    <src s="20">דע"י שע"י המ"ה דהנשמה הוא עובד העבודה דישראל</src>
+    <src s="21">(אתכפיא סט"א ואתהפכא סט"א)</src>
+    <src s="22">עתה,</src>
+    <src s="23">שעי"ז הוא ממלא את הכוונה שבשבילה נברא,</src>
+    <src s="24">עי"ז דוקא,</src>
+    <src s="25">הוא תכלית העילוי</src>
+    <src s="26">(גם)</src>
+    <src s="27">של המ"ה שבו.</src>
+  </section>
+  <section v="10">
+    <src s="0">ט)</src>
+    <src s="1">וזהו חייב אדם לברך מאה ברכות בכל יום,</src>
+    <src s="2">דענין הברכות הוא שיהי' המשכת גילוי אלקות לא רק בישראל אלא שעל ידם יומשך גילוי אלקות בעולם.</src>
+    <src s="3">וכמו שאומרים בנוסח הברכות ברוך אתה הוי' אלקינו מלך העולם,</src>
+    <src s="4">שיומשך</src>
+    <src s="5">(ברוך)</src>
+    <src s="6">הגילוי דהוי' בישראל,</src>
+    <src s="7">אלקינו,</src>
+    <src s="8">ועי"ז יומשך הגילוי בעולם,</src>
+    <src s="9">מלך העולם65.</src>
+    <src s="10">ובעולמות גופא,</src>
+    <src s="11">ההמשכה שע"י הברכות היא</src>
+    <src s="12">(בעיקר)</src>
+    <src s="13">בעולמות התחתונים.</src>
+    <src s="14">וכמ"ש66</src>
+    <src s="15">ברוך הוי' אלקי ישראל מן העולם ועד העולם,</src>
+    <src s="16">שיומשך מעלמא דאתכסיא לעלמא דאתגליא67.</src>
+    <src s="17">דעלמא68</src>
+    <src s="18">דאתכסיא הם עולמות העליונים שהם בטלים לאלקות,</src>
+    <src s="19">כמו דגים שבים שמכוסים ובטלים להמים,</src>
+    <src s="20">ועלמא דאתגליא הם עולמות התחתונים,</src>
+    <src s="21">ובפרט עוה"ז הגשמי,</src>
+    <src s="22">שנראים ליש ודבר נפרד,</src>
+    <src s="23">וענין הברכה הוא שיומשך גילוי אלקות גם בעולמות התחתונים עד בעוה"ז הגשמי.</src>
+  </section>
+  <section v="11">
+    <src s="0">וכיון שכל מה שברא הקב"ה בעולמו לא ברא דבר אחד לבטלה69,</src>
+    <src s="1">וכל מה שברא הקב"ה בעולמו לא בראו אלא לכבודו70,</src>
+    <src s="2">צריך להמשיך גילוי אלקות בכל דבר שבעולם,</src>
+    <src s="3">שיהי' נרגש בו בגילוי שנברא לכבודו ית'.</src>
+    <src s="4">וזהו"ע מאה ברכות,</src>
+    <src s="5">דמאה הוא ריבוי הכי גדול</src>
+    <src s="6">[וכידוע71</src>
+    <src s="7">שכללות האותיות הם בג' הסוגים דיחידות עשיריות ומאות],</src>
+    <src s="8">דריבוי הו"ע הפרטים,</src>
+    <src s="9">וענין מאה ברכות הוא שיומשך גילוי אלקות בכל הפרטים שבעולם.</src>
+    <src s="10">ויש להוסיף בזה ע"פ הידוע72</src>
+    <src s="11">בענין המספרים יחידות עשיריות מאות,</src>
+    <src s="12">דלפעמים מבואר,</src>
+    <src s="13">שמספר המרובה הוא למעלה,</src>
+    <src s="14">וכל שנמשך למטה יותר,</src>
+    <src s="15">מתמעט המספר</src>
+    <src s="16">(מאות בכתר ויחידות במלכות).</src>
+    <src s="17">ולפעמים מבואר,</src>
+    <src s="18">שלמעלה הוא מספר יחידות,</src>
+    <src s="19">וכל שנמשך למטה יותר,</src>
+    <src s="20">מתרבה המספר</src>
+    <src s="21">(יחידות בכתר ומאות במלכות).</src>
+    <src s="22">וידוע הביאור בזה72,</src>
+    <src s="23">דשני אופנים אלו הם באורות וכלים.</src>
+    <src s="24">דבאורות,</src>
+    <src s="25">מספר המרובה הוא למעלה,</src>
+    <src s="26">ובכלים מספר המרובה הוא למטה.</src>
+    <src s="27">ועפ"ז יש להוסיף ביאור בהמספר מאה ברכות,</src>
+    <src s="28">כי מהחילוקים שבין עלמא דאתכסיא לעלמא דאתגליא הוא,</src>
+    <src s="29">שבעלמא דאתכסיא העיקר הוא האורות ובעלמא דאתגליא העיקר הוא הכלים,</src>
+    <src s="30">וכיון שענין הברכות היא ההמשכה מעלמא דאתכסיא לעלמא דאתגליא</src>
+    <src s="31">(כנ"ל),</src>
+    <src s="32">היינו שהענינים דעלמא דאתכסיא</src>
+    <src s="33">(אורות)</src>
+    <src s="34">יהיו בגילוי גם בעלמא דאתגליא</src>
+    <src s="35">(כלים),</src>
+    <src s="36">לכן צריך לברך מאה ברכות,</src>
+    <src s="37">להמשיך ריבוי האורות דעלמא דאתכסיא בהכלים דעלמא דאתגליא.</src>
+    <src s="38">ועד שיומשך זה בריבוי הנבראים שבעולם הזה הגשמי,</src>
+    <src s="39">דענין מה רבו מעשיך ה'73</src>
+    <src s="40">(ההתחלקות לריבוי פרטים)</src>
+    <src s="41">הוא בעיקר בעוה"ז הגשמי דוקא.</src>
+  </section>
+</awtsmoosMeluketSource>

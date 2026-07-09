@@ -1,0 +1,439 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 79,
+    "returned": 79,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915124_theRebbe_182\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that Yitzchak's sowing is the general service of Torah and mitzvos, which is the \"light sown for the righteous\" and brings blessing.</sectionSummaryBrief>\n    <t s=\"0\">And one can explain this,</t>\n    <t s=\"1\">based on what the Tzemach Tzedek said in his maamar beginning with the words \"Zeh\"6,</t>\n    <t s=\"2\">that it is brought in the Midrash7</t>\n    <t s=\"3\">\"Yitzchak came, he too shone, as it is said8</t>\n    <t s=\"4\">'Light is sown for the righteous,' and it is written 'And Yitzchak sowed.'\"</t>\n    <t s=\"5\">That is, the sowing that Yitzchak sowed is the \"light sown for the righteous.\"</t>\n    <t s=\"6\">And in Tanna D'vei Eliyahu9</t>\n    <t s=\"7\">it is brought on the verse \"And Yitzchak sowed\": \"There is no sowing except charity, as it is said10</t>\n    <t s=\"8\">'Sow for yourselves for charity.'\"</t>\n    <t s=\"9\">And it is explained in the maamar11,</t>\n    <t s=\"10\">that what is said in Tanna D'vei Eliyahu, that \"And Yitzchak sowed\" is charity, also applies to all the mitzvos, which are called by the name \"charity,\"</t>\n    <t s=\"11\">as it is said12</t>\n    <t s=\"12\">\"And it shall be charity for us13.\"</t>\n    <t s=\"13\">And also the Torah is called by the name \"sowing,\"</t>\n    <t s=\"14\">as it is said14</t>\n    <t s=\"15\">\"Six years you shall sow your field\" — these are the six orders of the Mishnah15.</t>\n    <t s=\"16\">And this is that \"And Yitzchak sowed\" is the \"light sown for the righteous,\"</t>\n    <t s=\"17\">which is the light of Torah and mitzvos that is sown</t>\n    <t s=\"18\">(clothed)</t>\n    <t s=\"19\">in the physical things of this world16.</t>\n    <t s=\"20\">And based on this, one can explain that through the service of \"vayizra\" (and he sowed), \"the man grew\"</t>\n    <t s=\"21\">(in his entirety),</t>\n    <t s=\"22\">for \"And Yitzchak sowed\" is a general service,</t>\n    <t s=\"23\">the service of Torah study and fulfillment of mitzvos.</t>\n    <t s=\"24\">And based on this, one can say,</t>\n    <t s=\"25\">that also the two matters in the verse \"And Yitzchak sowed etc.\"</t>\n    <t s=\"26\">(\"and he found a hundred measures,\"</t>\n    <t s=\"27\">\"and Hashem blessed him\")</t>\n    <t s=\"28\">are general matters.</t>\n    <t s=\"29\">For just as the service of \"vayizra Yitzchak\" is a general service</t>\n    <t s=\"30\">(as above),</t>\n    <t s=\"31\">so too the matters drawn from above through this service are general matters.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the term \"sowing\" for Torah and mitzvos refers to a descent for the sake of ascent, and that man's service also involves sowing the intellect and emotions of the Nefesh HaElokis into the Nefesh HaBahamis.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And it is explained in many places17,</t>\n    <t s=\"2\">that this — that Torah and mitzvos are called by the name \"sowing\" — refers to the descent of Torah and mitzvos to clothe in physical things,</t>\n    <t s=\"3\">the intention of which is for the sake of ascent,</t>\n    <t s=\"4\">similar to sowing in the earth, which is for the sake of growth in greater multiplicity than was initially.</t>\n    <t s=\"5\">And one must understand,</t>\n    <t s=\"6\">that according to this explanation,</t>\n    <t s=\"7\">the term \"sowing\" regarding Torah and mitzvos applies with respect to the Holy One, blessed be He,</t>\n    <t s=\"8\">who brought down the Torah and mitzvos below18,</t>\n    <t s=\"9\">and not with respect to man's fulfillment of Torah and mitzvos.</t>\n    <t s=\"10\">From what is said \"And Yitzchak sowed,\" it is understood that also man's fulfillment of Torah and mitzvos is a descent for the sake of ascent.</t>\n    <t s=\"11\">And one can explain this based on what is said in the maamar at its end11</t>\n    <t s=\"12\">[regarding] another explanation of \"light is sown for the righteous,\"</t>\n    <t s=\"13\">that the matter of sowing is to sow into the animal soul the drawing down of the intellect and emotions of the G-dly soul,</t>\n    <t s=\"14\">through which there is growth and ascent in the intellect and emotions of the G-dly soul.</t>\n    <t s=\"15\">For since the root of the animal soul is above the root of the G-dly soul,</t>\n    <t s=\"16\">the root of the G-dly soul being in Tikkun (rectification) and the root of the animal soul being in Tohu (chaos),</t>\n    <t s=\"17\">therefore,</t>\n    <t s=\"18\">through the sowing of the intellect and emotions of the G-dly soul into the animal soul, growth occurs</t>\n    <t s=\"19\">(ascent)</t>\n    <t s=\"20\">in the G-dly soul.</t>\n    <t s=\"21\">And to note,</t>\n    <t s=\"22\">in Likkutei Torah19</t>\n    <t s=\"23\">it is explained that \"light is sown for the righteous\" refers to the descent of the G-dly soul to clothe in the animal soul,</t>\n    <t s=\"24\">and from the language of the maamar — \"to sow into the animal soul the drawing down of the intellect and emotions of the G-dly soul\" —</t>\n    <t s=\"25\">it implies,</t>\n    <t s=\"26\">that man must sow the intellect and emotions of the G-dly soul into the animal soul.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the service of the soul involves two modes, and that to refine the animal soul, the intellect and emotions of the G-dly soul must descend and clothe themselves in those of the animal soul, which is the meaning of \"sowing\" in man's fulfillment of Torah and mitzvos.</sectionSummaryBrief>\n    <t s=\"0\">And the matter is,</t>\n    <t s=\"1\">that in the service of the soul</t>\n    <t s=\"2\">(even after its descent below)</t>\n    <t s=\"3\">there are two modes.</t>\n    <t s=\"4\">The service of the soul from its own side,</t>\n    <t s=\"5\">and its service to refine the animal soul20.</t>\n    <t s=\"6\">And this is the explanation of \"to sow the intellect and emotions of the G-dly soul into the animal soul,\"</t>\n    <t s=\"7\">for the intellect and emotions of the G-dly soul as they are from their own side</t>\n    <t s=\"8\">(even after the descent of the soul below)</t>\n    <t s=\"9\">cannot, through them, effect the refinement of the animal soul,</t>\n    <t s=\"10\">and in order for them to act upon the animal soul, it is through their descent and clothing in the intellect and emotions of the animal soul20,</t>\n    <t s=\"11\">[which is] sowing.</t>\n    <t s=\"12\">And one can say,</t>\n    <t s=\"13\">that similarly it is with the fulfillment of Torah and mitzvos,</t>\n    <t s=\"14\">that in order for there to be vitality in the Torah and mitzvos, it is when the fulfillment of Torah and mitzvos is with love and fear21,</t>\n    <t s=\"15\">and in order that through the love and fear of the soul there be vitality in the action of the mitzvos, through which they will be \"blossoming upward\"22,</t>\n    <t s=\"16\">it is through their descent and clothing in the action</t>\n    <t s=\"17\">(of the mitzvah)23.</t>\n    <t s=\"18\">And this is that man's fulfillment of Torah and mitzvos is called by the name \"sowing,\"</t>\n    <t s=\"19\">\"And Yitzchak sowed.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915124_theRebbe_182",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that Yitzchak's sowing is the general service of Torah and mitzvos, which is the \"light sown for the righteous\" and brings blessing.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And one can explain this,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "based on what the Tzemach Tzedek said in his maamar beginning with the words \"Zeh\"6,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that it is brought in the Midrash7"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "\"Yitzchak came, he too shone, as it is said8"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "'Light is sown for the righteous,' and it is written 'And Yitzchak sowed.'\""
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "That is, the sowing that Yitzchak sowed is the \"light sown for the righteous.\""
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "And in Tanna D'vei Eliyahu9"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "it is brought on the verse \"And Yitzchak sowed\": \"There is no sowing except charity, as it is said10"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "'Sow for yourselves for charity.'\""
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "And it is explained in the maamar11,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "that what is said in Tanna D'vei Eliyahu, that \"And Yitzchak sowed\" is charity, also applies to all the mitzvos, which are called by the name \"charity,\""
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "as it is said12"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "\"And it shall be charity for us13.\""
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "And also the Torah is called by the name \"sowing,\""
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "as it is said14"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "\"Six years you shall sow your field\" — these are the six orders of the Mishnah15."
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "And this is that \"And Yitzchak sowed\" is the \"light sown for the righteous,\""
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "which is the light of Torah and mitzvos that is sown"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "(clothed)"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "in the physical things of this world16."
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "And based on this, one can explain that through the service of \"vayizra\" (and he sowed), \"the man grew\""
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "(in his entirety),"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "for \"And Yitzchak sowed\" is a general service,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "the service of Torah study and fulfillment of mitzvos."
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "And based on this, one can say,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "that also the two matters in the verse \"And Yitzchak sowed etc.\""
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(\"and he found a hundred measures,\""
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "\"and Hashem blessed him\")"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "are general matters."
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "For just as the service of \"vayizra Yitzchak\" is a general service"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "(as above),"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "so too the matters drawn from above through this service are general matters."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the term \"sowing\" for Torah and mitzvos refers to a descent for the sake of ascent, and that man's service also involves sowing the intellect and emotions of the Nefesh HaElokis into the Nefesh HaBahamis.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And it is explained in many places17,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that this — that Torah and mitzvos are called by the name \"sowing\" — refers to the descent of Torah and mitzvos to clothe in physical things,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "the intention of which is for the sake of ascent,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "similar to sowing in the earth, which is for the sake of growth in greater multiplicity than was initially."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "And one must understand,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "that according to this explanation,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "the term \"sowing\" regarding Torah and mitzvos applies with respect to the Holy One, blessed be He,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "who brought down the Torah and mitzvos below18,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "and not with respect to man's fulfillment of Torah and mitzvos."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "From what is said \"And Yitzchak sowed,\" it is understood that also man's fulfillment of Torah and mitzvos is a descent for the sake of ascent."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "And one can explain this based on what is said in the maamar at its end11"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "[regarding] another explanation of \"light is sown for the righteous,\""
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "that the matter of sowing is to sow into the animal soul the drawing down of the intellect and emotions of the G-dly soul,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "through which there is growth and ascent in the intellect and emotions of the G-dly soul."
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "For since the root of the animal soul is above the root of the G-dly soul,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "the root of the G-dly soul being in Tikkun (rectification) and the root of the animal soul being in Tohu (chaos),"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "therefore,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "through the sowing of the intellect and emotions of the G-dly soul into the animal soul, growth occurs"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "(ascent)"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "in the G-dly soul."
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "And to note,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "in Likkutei Torah19"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "it is explained that \"light is sown for the righteous\" refers to the descent of the G-dly soul to clothe in the animal soul,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "and from the language of the maamar — \"to sow into the animal soul the drawing down of the intellect and emotions of the G-dly soul\" —"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "it implies,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "that man must sow the intellect and emotions of the G-dly soul into the animal soul."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the service of the soul involves two modes, and that to refine the animal soul, the intellect and emotions of the G-dly soul must descend and clothe themselves in those of the animal soul, which is the meaning of \"sowing\" in man's fulfillment of Torah and mitzvos.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And the matter is,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "that in the service of the soul"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(even after its descent below)"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "there are two modes."
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "The service of the soul from its own side,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "and its service to refine the animal soul20."
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "And this is the explanation of \"to sow the intellect and emotions of the G-dly soul into the animal soul,\""
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "for the intellect and emotions of the G-dly soul as they are from their own side"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "(even after the descent of the soul below)"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "cannot, through them, effect the refinement of the animal soul,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "and in order for them to act upon the animal soul, it is through their descent and clothing in the intellect and emotions of the animal soul20,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "[which is] sowing."
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "And one can say,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "that similarly it is with the fulfillment of Torah and mitzvos,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "that in order for there to be vitality in the Torah and mitzvos, it is when the fulfillment of Torah and mitzvos is with love and fear21,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "and in order that through the love and fear of the soul there be vitality in the action of the mitzvos, through which they will be \"blossoming upward\"22,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "it is through their descent and clothing in the action"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "(of the mitzvah)23."
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "And this is that man's fulfillment of Torah and mitzvos is called by the name \"sowing,\""
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "\"And Yitzchak sowed.\""
+          }
+        ]
+      }
+    ]
+  }
+}

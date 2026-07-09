@@ -1,0 +1,79 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914091_theRebbe_428" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914091_theRebbe_428__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914091_theRebbe_428" title="מאמר שובה ישראל תש"מ" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914091_theRebbe_428__p004">
+  <section v="9">
+    <src s="0">ט)</src>
+    <src s="1">וזהו מה שבעשרת ימי תשובה</src>
+    <src s="2">(עשרה ימים שבין ראש השנה ליום הכפורים)</src>
+    <src s="3">מפטירים שובה ישראל עד הוי' אלקיך,</src>
+    <src s="4">כי ימים אלו שבין ראש השנה ליום הכפורים הם בדוגמת ראש השנה ויום הכפורים.</src>
+    <src s="5">ולכן כמו שראש השנה הוא בחי' ראש שממנו נמשך החיות לכל ימי השנה וגם אח"כ ההנהגה בכל ימי השנה היא כפי אופן ההנהגה וההחלטה דראש השנה</src>
+    <src s="6">(כמבואר בארוכה בעטרת ראש בראשו),</src>
+    <src s="7">ועד"ז הוא גם יום הכפורים שנקרא ג"כ בשם ראש השנה75</src>
+    <src s="8">ולא עוד אלא שיום הכפורים הוא בחי' נשמה ופנימיות76,</src>
+    <src s="9">עד"ז גם בהז' ימים שבין ראש השנה ליום הכפורים שהם בחי' ראש שמהם נמשך על כל ימי השנה.</src>
+    <src s="10">וע"ד דאיתא בכתבי האריז"ל</src>
+    <src s="11">(כנ"ל ס"א),</src>
+    <src s="12">י"ל עד"ז77</src>
+    <src s="13">שמיום הראשון דשבוע שבז' ימים אלו נמשך על כל יום ראשון שבמשך השנה,</src>
+    <src s="14">ומיום שני דז' ימים אלו על כל יום שני וכו',</src>
+    <src s="15">ומשבת תשובה על כל שבתות השנה.</src>
+    <src s="16">ולכן בדוגמת שני הענינים דהעלאה והמשכה בשופר דראש השנה ובאמירת ז"פ הוי' הוא האלקים בנעילת יוכ"פ,</src>
+    <src s="17">עד"ז הוא בהתשובה בימי התשובה שביניהם</src>
+    <src s="18">[ובפרט בשבת תשובה,</src>
+    <src s="19">הראש דכל שבתות השנה,</src>
+    <src s="20">שבת אותיות תשב],</src>
+    <src s="21">שיש בה ב' ענינים אלו.</src>
+    <src s="22">ולכן אומרים אז שובה ישראל עד הוי' אלקיך,</src>
+    <src s="23">שכולל ב' הענינים,</src>
+    <src s="24">העלי' דבחי' ישראל</src>
+    <src s="25">(ז"א)</src>
+    <src s="26">ובחי' עד</src>
+    <src s="27">(מלכות)</src>
+    <src s="28">לבחי' הוי' אלקיך היינו לעצמות אוא"ס שלגבי' הוי' כאלקים יחשב,</src>
+    <src s="29">ואח"כ ההמשכה מעצמות אוא"ס לבחי' הוי' אלקיך היינו לבחי' הוי' כמו שנעשה אלקיך כחך וחיותך.</src>
+    <src s="30">וכל זה נעשה ע"י שובה סתם,</src>
+    <src s="31">התשובה שמצד עצם הנשמה,</src>
+    <src s="32">און דער קער פון יחידה</src>
+    <src s="33">[ומזה נמשך תשובה בבחי' ישראל ראש שבנשמה ועד רגל שבנשמה],</src>
+    <src s="34">ועי"ז נעשה הפדי' מהגלות,</src>
+    <src s="35">גאולה הפרטית78</src>
+    <src s="36">ואח"כ גם גאולה הכללית בביאת משיח צדקנו שאתא לאתבא צדיקייא בתיובתא79,</src>
+    <src s="37">שגם זה שייך לבחי' יחידה כידוע שמשיח הוא בחי' יחידה80,</src>
+    <src s="38">שיהי' פדה בשלום נפשי גו' פדאני לי ולבני מבין האומות81,</src>
+    <src s="39">בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="40">בקרוב ממש ובעגלא דידן.</src>
+  </section>
+</awtsmoosMeluketSource>

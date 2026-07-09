@@ -1,0 +1,237 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 41,
+    "returned": 41,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917370_theRebbe_643\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917370_theRebbe_643__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the Jews' acceptance of the Torah in the time of Mordechai and Esther was through self-sacrifice, and this is reenacted annually when these days are recalled, with the Baal Shem Tov's teaching that reading the Megillah backwards invalidates it, emphasizing that the Megillah's lesson applies to every person at all times, inspiring constant self-sacrifice that brings light, joy, honor, and the fulfillment of all Torah and blessings, culminating in the redemption from Purim to the final redemption.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And this is what is written, \"And the Jews accepted that which they had begun to do,\"</t>\n    <t s=\"2\">that through the self-sacrifice during the time of exile,</t>\n    <t s=\"3\">in the days of Mordechai and Esther,</t>\n    <t s=\"4\">they effected the permanence of the Torah of the Giving of the Torah,</t>\n    <t s=\"5\">and likewise, in every single year, when these days are recalled and observed,</t>\n    <t s=\"6\">all the matters are drawn down as they were in the first time.</t>\n    <t s=\"7\">And known is the teaching of the Baal Shem Tov</t>\n    <t s=\"8\">that one who reads the Megillah backwards has not fulfilled his obligation,</t>\n    <t s=\"9\">for when the reading of the Megillah is in a manner of backwards,</t>\n    <t s=\"10\">that is, a matter that was in the past,</t>\n    <t s=\"11\">behold, he has not fulfilled his obligation,</t>\n    <t s=\"12\">because the Megillah is a lesson in the service of man in every time and in every place and for every single individual,</t>\n    <t s=\"13\">including the lesson from the aforementioned,</t>\n    <t s=\"14\">that they stand in self-sacrifice,</t>\n    <t s=\"15\">and throughout the entire year</t>\n    <t s=\"16\">[with whatever changes there may be]</t>\n    <t s=\"17\">it is not relevant for a Jew that it should even enter his mind a foreign thought, G-d forbid,</t>\n    <t s=\"18\">and certainly not speech or deed.</t>\n    <t s=\"19\">And this self-sacrifice brings that for the Jews there was light and joy and gladness and honor,</t>\n    <t s=\"20\">literally,</t>\n    <t s=\"21\">founded and prefaced by \"light\" — this is Torah, and \"honor\" — these are tefillin,</t>\n    <t s=\"22\">which refers to the entirety of the matter of the mitzvos,</t>\n    <t s=\"23\">for the entire Torah is compared to tefillin,</t>\n    <t s=\"24\">and they also educate the young children in this,</t>\n    <t s=\"25\">as it is brought in the Midrash</t>\n    <t s=\"26\">that Mordechai asked three schoolchildren, \"Recite to me your verses,\"</t>\n    <t s=\"27\">and they answered, \"Do not fear sudden terror, nor the destruction of the wicked when it comes,\"</t>\n    <t s=\"28\">\"Take counsel and it will be foiled, speak a word and it will not stand, for G-d is with us,\"</t>\n    <t s=\"29\">\"And until old age I am He, and until hoary hair I will bear; I have made, and I will carry, and I will bear and deliver.\"</t>\n    <t s=\"30\">When Mordechai heard this, he laughed and was joyous with great joy, etc.</t>\n    <t s=\"31\">And so may it be for us,</t>\n    <t s=\"32\">that each and every one should serve his service with light and joy and gladness and honor, according to all the matters explained in this in the words of our sages,</t>\n    <t s=\"33\">which include the entire Torah,</t>\n    <t s=\"34\">and certainly the Holy One, blessed be He, will fulfill His promise, \"And I will give your rains in their time,\"</t>\n    <t s=\"35\">and all the blessings enumerated in the portion, until there will be light and joy and gladness and honor literally.</t>\n    <t s=\"36\">And adjacent redemption to redemption,</t>\n    <t s=\"37\">from the redemption of Purim to the true and complete redemption through our righteous Moshiach.</t>\n    <t s=\"38\">For although for a little while we are still servants of Achashverosh,</t>\n    <t s=\"39\">nevertheless, very soon and speedily in our days, our righteous Moshiach will come and redeem us and lead us upright to our land,</t>\n    <t s=\"40\">quickly, literally in our days.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917370_theRebbe_643",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917370_theRebbe_643__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the Jews' acceptance of the Torah in the time of Mordechai and Esther was through self-sacrifice, and this is reenacted annually when these days are recalled, with the Baal Shem Tov's teaching that reading the Megillah backwards invalidates it, emphasizing that the Megillah's lesson applies to every person at all times, inspiring constant self-sacrifice that brings light, joy, honor, and the fulfillment of all Torah and blessings, culminating in the redemption from Purim to the final redemption.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And this is what is written, \"And the Jews accepted that which they had begun to do,\""
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "that through the self-sacrifice during the time of exile,"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "in the days of Mordechai and Esther,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "they effected the permanence of the Torah of the Giving of the Torah,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "and likewise, in every single year, when these days are recalled and observed,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "all the matters are drawn down as they were in the first time."
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "And known is the teaching of the Baal Shem Tov"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "that one who reads the Megillah backwards has not fulfilled his obligation,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "for when the reading of the Megillah is in a manner of backwards,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "that is, a matter that was in the past,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "behold, he has not fulfilled his obligation,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "because the Megillah is a lesson in the service of man in every time and in every place and for every single individual,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "including the lesson from the aforementioned,"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "that they stand in self-sacrifice,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "and throughout the entire year"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "[with whatever changes there may be]"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "it is not relevant for a Jew that it should even enter his mind a foreign thought, G-d forbid,"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "and certainly not speech or deed."
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "And this self-sacrifice brings that for the Jews there was light and joy and gladness and honor,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "literally,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "founded and prefaced by \"light\" — this is Torah, and \"honor\" — these are tefillin,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "which refers to the entirety of the matter of the mitzvos,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "for the entire Torah is compared to tefillin,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "and they also educate the young children in this,"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "as it is brought in the Midrash"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "that Mordechai asked three schoolchildren, \"Recite to me your verses,\""
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "and they answered, \"Do not fear sudden terror, nor the destruction of the wicked when it comes,\""
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "\"Take counsel and it will be foiled, speak a word and it will not stand, for G-d is with us,\""
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "\"And until old age I am He, and until hoary hair I will bear; I have made, and I will carry, and I will bear and deliver.\""
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "When Mordechai heard this, he laughed and was joyous with great joy, etc."
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "And so may it be for us,"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "that each and every one should serve his service with light and joy and gladness and honor, according to all the matters explained in this in the words of our sages,"
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "which include the entire Torah,"
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "and certainly the Holy One, blessed be He, will fulfill His promise, \"And I will give your rains in their time,\""
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "and all the blessings enumerated in the portion, until there will be light and joy and gladness and honor literally."
+          },
+          {
+            "v": 12,
+            "s": 36,
+            "translation": "And adjacent redemption to redemption,"
+          },
+          {
+            "v": 12,
+            "s": 37,
+            "translation": "from the redemption of Purim to the true and complete redemption through our righteous Moshiach."
+          },
+          {
+            "v": 12,
+            "s": 38,
+            "translation": "For although for a little while we are still servants of Achashverosh,"
+          },
+          {
+            "v": 12,
+            "s": 39,
+            "translation": "nevertheless, very soon and speedily in our days, our righteous Moshiach will come and redeem us and lead us upright to our land,"
+          },
+          {
+            "v": 12,
+            "s": 40,
+            "translation": "quickly, literally in our days."
+          }
+        ]
+      }
+    ]
+  }
+}

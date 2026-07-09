@@ -1,0 +1,319 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 55,
+    "returned": 55,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916353_theRebbe_917\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>All future revelations depend on our service during the six thousand years, which involves the spiritual \"embittering of their lives\" through Torah study and prayer, thereby exchanging the sufferings of the final exile.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, all the revelations of the future depend on our actions and service during the six thousand years that the world exists.</t>\n    <t s=\"2\">And this is the concept of \"and they embittered their lives\" as it is in spirituality,</t>\n    <t s=\"3\">\"with hard labor\" — this refers to difficulty [in Torah study],</t>\n    <t s=\"4\">\"with mortar\" — this refers to kal vachomer [logical reasoning],</t>\n    <t s=\"5\">\"and with bricks\" — this refers to the clarification of halachah.</t>\n    <t s=\"6\">That one toils in the study of Torah to produce a clear halachah through much back-and-forth discussion,</t>\n    <t s=\"7\">And the state of \"He has placed me in darkness\"</t>\n    <t s=\"8\">this is the Babylonian Talmud,</t>\n    <t s=\"9\">until one clarifies</t>\n    <t s=\"10\">(he washes out)</t>\n    <t s=\"11\">the difficulties and contradictions, etc., until the halachah shines and radiates.</t>\n    <t s=\"12\">For this is the essential matter of Torah,</t>\n    <t s=\"13\">a decided and clear halachah,</t>\n    <t s=\"14\">for this is the virtue of the Mishnayos, which are a decided halachah, etc.</t>\n    <t s=\"15\">Therefore, our sages said,</t>\n    <t s=\"16\">\"The exiles are only gathered in the merit of the Mishnayos, as it is said,</t>\n    <t s=\"17\">'Though they give among the nations, now I will gather them.'\"</t>\n    <t s=\"18\">And likewise, the concept of clarification is also in the service of prayer,</t>\n    <t s=\"19\">as explained in Toras Chayim.</t>\n    <t s=\"20\">And through the concept of \"and they embittered,\" etc., in Torah and prayer as above,</t>\n    <t s=\"21\">they exchange</t>\n    <t s=\"22\">(they replace)</t>\n    <t s=\"23\">the sufferings of this final exile.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>The names of the Jewish people, which they did not change in Egypt, represent their steadfastness in Torah and mitzvos, and through this they bring about the redemption.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this is what is written, \"And these are the names of the children of Israel,\" etc.,</t>\n    <t s=\"2\">that through the concept of the names of the children of Israel, they effect the redemption that follows.</t>\n    <t s=\"3\">For the concept of the names of the children of Israel is,</t>\n    <t s=\"4\">as it is brought in the Midrash,</t>\n    <t s=\"5\">\"Reuven and Shimon went down, Reuven and Shimon came up,\"</t>\n    <t s=\"6\">that they did not change their names,</t>\n    <t s=\"7\">meaning not only that they stood firmly on the fundamentals of Torah and mitzvos,</t>\n    <t s=\"8\">and not even just on Torah and mitzvos in general,</t>\n    <t s=\"9\">but even on matters of stringency, etc., to the point that they did not even change their names.</t>\n    <t s=\"10\">And certainly, the matters of Torah and mitzvos themselves were as they should be with them.</t>\n    <t s=\"11\">And likewise now in this exile, they stand firmly even on simple matters, like not changing the name, etc.,</t>\n    <t s=\"12\">and certainly, etc.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>Torah, being the names of the Holy One, effects the drawing down of the aspect of \"these names,\" and the revelation of His great Name, which was already drawn down in a concealed way during Chanukah, will be fully revealed in the future.</sectionSummaryBrief>\n    <t s=\"0\">And so it is with Torah,</t>\n    <t s=\"1\">that its concept is also the concept of names,</t>\n    <t s=\"2\">for the entire Torah is the names of the Holy One, blessed be He,</t>\n    <t s=\"3\">they effect the drawing down of the aspect of \"and these names,\"</t>\n    <t s=\"4\">and as above, that the entire Torah is the names of the Holy One, blessed be He.</t>\n    <t s=\"5\">And there are 600,000 letters in the Torah,</t>\n    <t s=\"6\">names of the Holy One, blessed be He,</t>\n    <t s=\"7\">and among these combinations — the more holy are the seven names that cannot be erased,</t>\n    <t s=\"8\">and from them themselves — the aspect of His great Name,</t>\n    <t s=\"9\">and this is the aspect of the revelation of the future that is effected through the service of the present</t>\n    <t s=\"10\">(as above).</t>\n    <t s=\"11\">And the drawing down of the aspect of His great Name already occurred in the days of Chanukah, when it was said,</t>\n    <t s=\"12\">(in \"Al Hanissim\")</t>\n    <t s=\"13\">\"to give thanks and praise to Your great Name,\"</t>\n    <t s=\"14\">and in an eternal manner,</t>\n    <t s=\"15\">for \"these lights are never nullified,\"</t>\n    <t s=\"16\">but this drawing down is in concealment,</t>\n    <t s=\"17\">and the revelation of the aspect of His great Name will be in the future.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916353_theRebbe_917",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "All future revelations depend on our service during the six thousand years, which involves the spiritual \"embittering of their lives\" through Torah study and prayer, thereby exchanging the sufferings of the final exile.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, all the revelations of the future depend on our actions and service during the six thousand years that the world exists."
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "And this is the concept of \"and they embittered their lives\" as it is in spirituality,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "\"with hard labor\" — this refers to difficulty [in Torah study],"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "\"with mortar\" — this refers to kal vachomer [logical reasoning],"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "\"and with bricks\" — this refers to the clarification of halachah."
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "That one toils in the study of Torah to produce a clear halachah through much back-and-forth discussion,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "And the state of \"He has placed me in darkness\""
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "this is the Babylonian Talmud,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "until one clarifies"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "(he washes out)"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "the difficulties and contradictions, etc., until the halachah shines and radiates."
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "For this is the essential matter of Torah,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "a decided and clear halachah,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "for this is the virtue of the Mishnayos, which are a decided halachah, etc."
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "Therefore, our sages said,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "\"The exiles are only gathered in the merit of the Mishnayos, as it is said,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "'Though they give among the nations, now I will gather them.'\""
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "And likewise, the concept of clarification is also in the service of prayer,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "as explained in Toras Chayim."
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "And through the concept of \"and they embittered,\" etc., in Torah and prayer as above,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "they exchange"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "(they replace)"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "the sufferings of this final exile."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "The names of the Jewish people, which they did not change in Egypt, represent their steadfastness in Torah and mitzvos, and through this they bring about the redemption.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this is what is written, \"And these are the names of the children of Israel,\" etc.,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that through the concept of the names of the children of Israel, they effect the redemption that follows."
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "For the concept of the names of the children of Israel is,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "as it is brought in the Midrash,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "\"Reuven and Shimon went down, Reuven and Shimon came up,\""
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "that they did not change their names,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "meaning not only that they stood firmly on the fundamentals of Torah and mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "and not even just on Torah and mitzvos in general,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "but even on matters of stringency, etc., to the point that they did not even change their names."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "And certainly, the matters of Torah and mitzvos themselves were as they should be with them."
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "And likewise now in this exile, they stand firmly even on simple matters, like not changing the name, etc.,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "and certainly, etc."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "Torah, being the names of the Holy One, effects the drawing down of the aspect of \"these names,\" and the revelation of His great Name, which was already drawn down in a concealed way during Chanukah, will be fully revealed in the future.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And so it is with Torah,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "that its concept is also the concept of names,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "for the entire Torah is the names of the Holy One, blessed be He,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "they effect the drawing down of the aspect of \"and these names,\""
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "and as above, that the entire Torah is the names of the Holy One, blessed be He."
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "And there are 600,000 letters in the Torah,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "names of the Holy One, blessed be He,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "and among these combinations — the more holy are the seven names that cannot be erased,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "and from them themselves — the aspect of His great Name,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "and this is the aspect of the revelation of the future that is effected through the service of the present"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "(as above)."
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "And the drawing down of the aspect of His great Name already occurred in the days of Chanukah, when it was said,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "(in \"Al Hanissim\")"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "\"to give thanks and praise to Your great Name,\""
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "and in an eternal manner,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "for \"these lights are never nullified,\""
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "but this drawing down is in concealment,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "and the revelation of the aspect of His great Name will be in the future."
+          }
+        ]
+      }
+    ]
+  }
+}

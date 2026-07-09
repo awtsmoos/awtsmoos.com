@@ -1,0 +1,108 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918894_theRebbe_986" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918894_theRebbe_986__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918894_theRebbe_986" title="מאמר בהעלותך את הנרות תשל"ד" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918894_theRebbe_986__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דהנשמה גם כמו שהיא למעלה,</src>
+    <src s="3">היא דוגמת הבן</src>
+    <src s="4">(כמו)</src>
+    <src s="5">שנמשך ממוח האב21,</src>
+    <src s="6">אבל עצם הנשמה כמו שהיא מושרשת בעצמותו ית',</src>
+    <src s="7">בדוגמת הבן כמו שהוא במוח האב עצמו</src>
+    <src s="8">(טרם שנמשך),</src>
+    <src s="9">אינה בגדר המשכה וגילוי29.</src>
+    <src s="10">וע"י עבודת הנשמה בירידתה למטה,</src>
+    <src s="11">לעורר ולגלות את טבע הרצוא והעלי' שבה,</src>
+    <src s="12">שהוא דוגמת טבע הגעגועים דבן אל אביו30,</src>
+    <src s="13">עי"ז מתגלית עצם הנשמה כמו שהיא מושרשת בהעצמות.</src>
+    <src s="14">כי לגבי דרגת הנשמה שבדוגמת הבן שנמשך ממוח האב,</src>
+    <src s="15">הירידה לבי"ע</src>
+    <src s="16">(ומכ"ש הירידה למטה בעוה"ז הגשמי)</src>
+    <src s="17">מעלמת ומסתרת על זה</src>
+    <src s="18">[וכידוע31</src>
+    <src s="19">שרק נשמות דאצילות נק' בשם בנים],</src>
+    <src s="20">וזה שגם בירידתה למטה היא בבחינת בן בגילוי,</src>
+    <src s="21">שהרצוא והעלי' שלה הוא בגילוי כבן המתגעגע אל אביו,</src>
+    <src s="22">הוא ע"י גילוי עצם הנשמה כמו שהיא במוח האב</src>
+    <src s="23">(טרם שנמשך),</src>
+    <src s="24">שלגבי דרגא זו</src>
+    <src s="25">(עצם הנשמה כמו שמושרשת בהעצמות),</src>
+    <src s="26">אצילות ובי"ע הם בשוה.</src>
+  </section>
+  <section v="7">
+    <src s="0">ועפ"ז יש לבאר מ"ש בלקו"ת32</src>
+    <src s="1">עה"פ33</src>
+    <src s="2">ראיתי והנה מנורת זהב כולה גו' זה דבר ה' אל זרובבל,</src>
+    <src s="3">שהשייכות דמנורה לדבר ה' אל זרובבל היא,</src>
+    <src s="4">דדבר ה' הוא מקור נש"י,</src>
+    <src s="5">ומ"ש דבר ה' אל זרובבל הוא,</src>
+    <src s="6">כי ישראל אז</src>
+    <src s="7">(בזמן גלות בבל)</src>
+    <src s="8">נקראו בשם זרובבל על שם וזרעתי'34</src>
+    <src s="9">לי בארץ</src>
+    <src s="10">(זרובבל מלשון זרוע בבבל).</src>
+    <src s="11">וזוהי השייכות דמנורת זהב עם דבר ה' אל זרובבל,</src>
+    <src s="12">כי כללות נש"י נק' מנורה.</src>
+  </section>
+  <section v="8">
+    <src s="0">דלכאורה אינו מובן,</src>
+    <src s="1">מה נוגע לענין המנורה שישראל הם זרועים בבבל.</src>
+    <src s="2">וי"ל הביאור בזה,</src>
+    <src s="3">ע"פ הידוע35</src>
+    <src s="4">דזה שהירידה דהגלות נק' בשם זריעה הוא כי הכוונה בהירידה היא שהיא לצורך עלי',</src>
+    <src s="5">בדוגמת הזריעה בארץ שהיא בשביל הצמיחה</src>
+    <src s="6">(בריבוי,</src>
+    <src s="7">דכלום אדם זורע סאה אלא להכניס כמה כורין36).</src>
+    <src s="8">וזוהי השייכות דמנורת זהב עם זרובבל,</src>
+    <src s="9">כי הענין דבהעלותך את הנרות,</src>
+    <src s="10">שהוא הגילוי דעצם הנשמה</src>
+    <src s="11">(כנ"ל סעיף ב),</src>
+    <src s="12">הוא בעיקר ע"י העבודה בזמן הגלות</src>
+    <src s="13">[דזה שנת"ל שהגילוי דעצם הנשמה הוא ע"י עבודתה בירידתה למטה,</src>
+    <src s="14">הוא בכללות,</src>
+    <src s="15">ועיקר הגילוי הוא ע"י העבודה דישראל בירידתם בפרט בגלות],</src>
+    <src s="16">ולכן נק' ישראל כאן בשם זרובבל על שם שהיו זרועים בבבל</src>
+    <src s="17">(גלות הראשון דד' הגלויות37),</src>
+    <src s="18">בכדי לרמז,</src>
+    <src s="19">דלא רק שגם בזמן הגלות ישראל הם מנורה</src>
+    <src s="20">[דגם כאשר אני ישנה38</src>
+    <src s="21">בגלותא39</src>
+    <src s="22">לבי ער38],</src>
+    <src s="23">אלא יתירה מזו,</src>
+    <src s="24">שהירידה בגלות היא זריעה שעל ידה נעשה צמיחה בריבוי גדול יותר,</src>
+    <src s="25">בהעלותך את הנרות40.</src>
+  </section>
+</awtsmoosMeluketSource>

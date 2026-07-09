@@ -1,0 +1,172 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 28,
+    "returned": 28,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919688_theRebbe_695\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919688_theRebbe_695__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>Based on this, the two interpretations of \"and her captives with righteousness\" are reconciled, with one placing it below and the other above \"Zion shall be redeemed with justice,\" corresponding to the superiority of teshuvah over Torah, which will be fully revealed in the future.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">7)</t>\n    <t s=\"2\">And based on this, the two interpretations of \"and her captives with righteousness\" will be reconciled,</t>\n    <t s=\"3\">[in] that the interpretation that \"her captives with righteousness\" is below \"Zion shall be redeemed with justice\" is in the manner of \"Torah study is greater.\"</t>\n    <t s=\"4\">However, from the aspect that in the future there will be a great deed</t>\n    <t s=\"5\">[and this matter also exists now,</t>\n    <t s=\"6\">as above],</t>\n    <t s=\"7\">behold, from this aspect,</t>\n    <t s=\"8\">\"and her captives with righteousness\" is above \"Zion shall be redeemed with justice.\"</t>\n    <t s=\"9\">And as it is regarding the matter of charity,</t>\n    <t s=\"10\">that from the aspect of the matters of the future, it has an advantage over Torah, as above,</t>\n    <t s=\"11\">so too is it regarding the matter of teshuvah</t>\n    <t s=\"12\">(and \"her captives\"),</t>\n    <t s=\"13\">that it has an advantage over Torah,</t>\n    <t s=\"14\">and as our sages, of blessed memory, said,30</t>\n    <t s=\"15\">\"They asked the Torah... they asked the Holy One, blessed be He; He said: Let him do teshuvah and it will be atoned for him.\"</t>\n    <t s=\"16\">However, this advantage that is in teshuvah comes after the precedence of Torah,</t>\n    <t s=\"17\">therefore they first asked the Torah, etc.</t>\n    <t s=\"18\">[And so too is it regarding what they first asked Wisdom, etc., they asked Prophecy, etc.],</t>\n    <t s=\"19\">because first there must be the matter of</t>\n    <t s=\"20\">[Wisdom, Prophecy, and]</t>\n    <t s=\"21\">Torah,</t>\n    <t s=\"22\">and from this one comes to the advantage of teshuvah,</t>\n    <t s=\"23\">[for] the true essence of the advantage of teshuvah will be revealed in the future,</t>\n    <t s=\"24\">and \"Mashiach comes to bring the righteous back in teshuvah,\"</t>\n    <t s=\"25\">and our sages, of blessed memory, said that the future redemption will be specifically through teshuvah,</t>\n    <t s=\"26\">\"Israel does teshuvah and immediately they are redeemed,\"31</t>\n    <t s=\"27\">speedily, indeed.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919688_theRebbe_695",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919688_theRebbe_695__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "Based on this, the two interpretations of \"and her captives with righteousness\" are reconciled, with one placing it below and the other above \"Zion shall be redeemed with justice,\" corresponding to the superiority of teshuvah over Torah, which will be fully revealed in the future.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "7)"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "And based on this, the two interpretations of \"and her captives with righteousness\" will be reconciled,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "[in] that the interpretation that \"her captives with righteousness\" is below \"Zion shall be redeemed with justice\" is in the manner of \"Torah study is greater.\""
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "However, from the aspect that in the future there will be a great deed"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "[and this matter also exists now,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "as above],"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "behold, from this aspect,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "\"and her captives with righteousness\" is above \"Zion shall be redeemed with justice.\""
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "And as it is regarding the matter of charity,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "that from the aspect of the matters of the future, it has an advantage over Torah, as above,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "so too is it regarding the matter of teshuvah"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "(and \"her captives\"),"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "that it has an advantage over Torah,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "and as our sages, of blessed memory, said,30"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "\"They asked the Torah... they asked the Holy One, blessed be He; He said: Let him do teshuvah and it will be atoned for him.\""
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "However, this advantage that is in teshuvah comes after the precedence of Torah,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "therefore they first asked the Torah, etc."
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "[And so too is it regarding what they first asked Wisdom, etc., they asked Prophecy, etc.],"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "because first there must be the matter of"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "[Wisdom, Prophecy, and]"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "Torah,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "and from this one comes to the advantage of teshuvah,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "[for] the true essence of the advantage of teshuvah will be revealed in the future,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "and \"Mashiach comes to bring the righteous back in teshuvah,\""
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "and our sages, of blessed memory, said that the future redemption will be specifically through teshuvah,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "\"Israel does teshuvah and immediately they are redeemed,\"31"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "speedily, indeed."
+          }
+        ]
+      }
+    ]
+  }
+}

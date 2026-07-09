@@ -1,0 +1,339 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 59,
+    "returned": 59,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918574_theRebbe_925\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918574_theRebbe_925__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header with the date and Torah portion for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Emor,</t>\n    <t s=\"2\">the nineteenth of Iyar,</t>\n    <t s=\"3\">the year 5734*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>Rabbi Shimon bar Yochai declares that throughout his life he was bound to the Holy One, but on his day of passing he attained a higher level of unity, being absorbed in Him.</sectionSummaryBrief>\n    <t s=\"0\">Rabbi Shimon opened and said, \"I am for my Beloved and His desire is upon me.\"</t>\n    <t s=\"1\">\"All the days that I have been bound in this world, I have been bound in a single bond with the Holy One, blessed be He, and therefore now, 'His desire is upon me.'\"</t>\n    <t s=\"2\">And in the continuation of the topic there,</t>\n    <t s=\"3\">\"I would gaze every day upon this verse that is written,</t>\n    <t s=\"4\">'In G-d my soul shall praise itself...' and now the entire verse is fulfilled... for my soul is absorbed in Him, clings to Him, cleaves to Him...\"</t>\n    <t s=\"5\">That throughout all the days of his life</t>\n    <t s=\"6\">(all the days that I have been bound in this world)</t>\n    <t s=\"7\">Rabbi Shimon bar Yochai was bound to the Holy One, blessed be He,</t>\n    <t s=\"8\">(the word \"bound\" is an expression of connection,</t>\n    <t s=\"9\">as in \"and he bound it upon his hand as a sign,\"</t>\n    <t s=\"10\">and the Targum translates, \"and he bound upon his hand a crimson thread\"),</t>\n    <t s=\"11\">for connection is specifically between two separate things,</t>\n    <t s=\"12\">but now,</t>\n    <t s=\"13\">on the day of his passing,</t>\n    <t s=\"14\">he reached a more elevated level,</t>\n    <t s=\"15\">that he became one with the Holy One, blessed be He,</t>\n    <t s=\"16\">\"absorbed in Him.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>Although the level of being absorbed in Him was attained only on the day of passing, since he strove for it all his life, it applied to him in a general sense even during his life, with its revelation coming at the end.</sectionSummaryBrief>\n    <t s=\"0\">Now, even though the level of \"absorbed in Him\" was reached by Rabbi Shimon bar Yochai</t>\n    <t s=\"1\">(only)</t>\n    <t s=\"2\">on the day of his passing,</t>\n    <t s=\"3\">nevertheless, since all his days he strove to reach this level</t>\n    <t s=\"4\">(\"I would gaze every day upon this verse\"),</t>\n    <t s=\"5\">it is understood</t>\n    <t s=\"6\">that in a general sense it applies to him and he attained it</t>\n    <t s=\"7\">also during his lifetime,</t>\n    <t s=\"8\">except that the perfection of this</t>\n    <t s=\"9\">(the entire verse)</t>\n    <t s=\"10\">was fulfilled in him \"now,\"</t>\n    <t s=\"11\">on the day of his passing.</t>\n    <t s=\"12\">And this is also understood from what is explained in the continuation of 5666,</t>\n    <t s=\"13\">that the Torah study of Rabbi Shimon bar Yochai was in the manner of \"his Torah was his craft,\"</t>\n    <t s=\"14\">meaning that his Torah study was in the manner of drawing down the masculine waters,</t>\n    <t s=\"15\">(and unlike the other Tannaim, whose study was in the manner of raising the feminine waters),</t>\n    <t s=\"16\">this is the concept of</t>\n    <t s=\"17\">(\"absorbed in Him\")</t>\n    <t s=\"18\">\"clings to Him,\"</t>\n    <t s=\"19\">and this that Rabbi Shimon bar Yochai's Torah was his craft,</t>\n    <t s=\"20\">was throughout all the days of his life.</t>\n    <t s=\"21\">And one may add,</t>\n    <t s=\"22\">that in several discourses</t>\n    <t s=\"23\">the concept of \"my soul is absorbed in Him\" etc. is brought in continuation with \"in a single bond I am bound,\"</t>\n    <t s=\"24\">this is,</t>\n    <t s=\"25\">because even within the concept of \"in a single bond I am bound,\" there is inwardly \"absorbed in Him\" etc.,</t>\n    <t s=\"26\">except that throughout all the days of his life this was not</t>\n    <t s=\"27\">(\"absorbed in Him\" etc.)</t>\n    <t s=\"28\">in revelation,</t>\n    <t s=\"29\">and on the day of his passing,</t>\n    <t s=\"30\">when the inwardness is revealed</t>\n    <t s=\"31\">(the root and source)</t>\n    <t s=\"32\">of all matters of a person's service that he served throughout all the days of his life,</t>\n    <t s=\"33\">then the inwardness of \"in a single bond I am bound\" is revealed,</t>\n    <t s=\"34\">which is</t>\n    <t s=\"35\">(not only connection,</t>\n    <t s=\"36\">but also)</t>\n    <t s=\"37\">\"absorbed in Him.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918574_theRebbe_925",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918574_theRebbe_925__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header with the date and Torah portion for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Emor,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "the nineteenth of Iyar,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "the year 5734*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "Rabbi Shimon bar Yochai declares that throughout his life he was bound to the Holy One, but on his day of passing he attained a higher level of unity, being absorbed in Him.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "Rabbi Shimon opened and said, \"I am for my Beloved and His desire is upon me.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "\"All the days that I have been bound in this world, I have been bound in a single bond with the Holy One, blessed be He, and therefore now, 'His desire is upon me.'\""
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "And in the continuation of the topic there,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "\"I would gaze every day upon this verse that is written,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "'In G-d my soul shall praise itself...' and now the entire verse is fulfilled... for my soul is absorbed in Him, clings to Him, cleaves to Him...\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "That throughout all the days of his life"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "(all the days that I have been bound in this world)"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "Rabbi Shimon bar Yochai was bound to the Holy One, blessed be He,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(the word \"bound\" is an expression of connection,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "as in \"and he bound it upon his hand as a sign,\""
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "and the Targum translates, \"and he bound upon his hand a crimson thread\"),"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "for connection is specifically between two separate things,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "but now,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "on the day of his passing,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "he reached a more elevated level,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that he became one with the Holy One, blessed be He,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "\"absorbed in Him.\""
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "Although the level of being absorbed in Him was attained only on the day of passing, since he strove for it all his life, it applied to him in a general sense even during his life, with its revelation coming at the end.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "Now, even though the level of \"absorbed in Him\" was reached by Rabbi Shimon bar Yochai"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "(only)"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "on the day of his passing,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "nevertheless, since all his days he strove to reach this level"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "(\"I would gaze every day upon this verse\"),"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "it is understood"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "that in a general sense it applies to him and he attained it"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "also during his lifetime,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "except that the perfection of this"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "(the entire verse)"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "was fulfilled in him \"now,\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "on the day of his passing."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And this is also understood from what is explained in the continuation of 5666,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that the Torah study of Rabbi Shimon bar Yochai was in the manner of \"his Torah was his craft,\""
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "meaning that his Torah study was in the manner of drawing down the masculine waters,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(and unlike the other Tannaim, whose study was in the manner of raising the feminine waters),"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "this is the concept of"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "(\"absorbed in Him\")"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "\"clings to Him,\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "and this that Rabbi Shimon bar Yochai's Torah was his craft,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "was throughout all the days of his life."
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "that in several discourses"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "the concept of \"my soul is absorbed in Him\" etc. is brought in continuation with \"in a single bond I am bound,\""
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "this is,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "because even within the concept of \"in a single bond I am bound,\" there is inwardly \"absorbed in Him\" etc.,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "except that throughout all the days of his life this was not"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "(\"absorbed in Him\" etc.)"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "in revelation,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "and on the day of his passing,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "when the inwardness is revealed"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "(the root and source)"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "of all matters of a person's service that he served throughout all the days of his life,"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "then the inwardness of \"in a single bond I am bound\" is revealed,"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "which is"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "(not only connection,"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "but also)"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "\"absorbed in Him.\""
+          }
+        ]
+      }
+    ]
+  }
+}

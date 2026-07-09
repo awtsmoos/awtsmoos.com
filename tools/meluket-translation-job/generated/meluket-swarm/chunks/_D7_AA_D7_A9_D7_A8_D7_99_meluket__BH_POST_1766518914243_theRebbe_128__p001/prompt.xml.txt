@@ -1,0 +1,76 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914243_theRebbe_128" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914243_theRebbe_128" title="מאמר ולקחתם לכם תשל"ט" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצאי ש"פ האזינו,</src>
+    <src s="2">י"ג תשרי,</src>
+    <src s="3">הילולא דאדמו"ר מהר"ש נ"ע</src>
+  </section>
+  <section v="1">
+    <src s="0">אור לערב חג הסוכות ה'תשל"ט*</src>
+  </section>
+  <section v="2">
+    <src s="0">ולקחתם לכם ביום הראשון וגו'1,</src>
+    <src s="1">ואיתא במדרש2</src>
+    <src s="2">וכי ראשון הוא והלא ט"ו</src>
+    <src s="3">[יום3]</src>
+    <src s="4">הוא,</src>
+    <src s="5">אלא ראשון</src>
+    <src s="6">[הוא3]</src>
+    <src s="7">לחשבון עונות.</src>
+    <src s="8">דביום הכיפורים הקב"ה מוותר לישראל את הכל4,</src>
+    <src s="9">ומיום הכיפורים5</src>
+    <src s="10">עד החג כל ישראל עסוקין במצוות,</src>
+    <src s="11">זה עוסק בסוכתו וזה בלולבו,</src>
+    <src s="12">וביום הראשון של חג אומר להם הקב"ה מאן דאזל אזל ומן הכא ולהלאה6</src>
+    <src s="13">חושבנא.</src>
+    <src s="14">ומזה מובן7,</src>
+    <src s="15">דמצות נטילת ד' מינים בט"ו תשרי הוא מפני שהוא ראשון לחשבון.</src>
+    <src s="16">וצריך להבין השייכות דראשון לחשבון לנטילת ד' מינים.</src>
+    <src s="17">וביותר צריך ביאור ע"פ מה דאיתא במדרש8,</src>
+    <src s="18">ישראל ואוה"ע באין לפני הקב"ה בראש השנה ולית אנן ידעין מאן נצח,</src>
+    <src s="19">אלא במה שישראל יוצאין מלפני הקב"ה ולולביהן ואתרוגיהן בידן אנו יודעים דישראל אינון ניצוחייא,</src>
+    <src s="20">לפיכך משה מזהיר להם לישראל ואומר להם ולקחתם לכם כו'.</src>
+    <src s="21">היינו,</src>
+    <src s="22">דמצות נטילת ד' מינים בחג הסוכות באה בהמשך להדין דר"ה,</src>
+    <src s="23">ולמה אומר ולקחתם לכם ביום הראשון,</src>
+    <src s="24">שמצות נטילת ד' מינים ביום זה הוא</src>
+    <src s="25">(לא מפני שהוא יום הט"ו לר"ה,</src>
+    <src s="26">אלא)</src>
+    <src s="27">מפני שבו מתחיל ענין חדש,</src>
+    <src s="28">ראשון לחשבון.</src>
+  </section>
+</awtsmoosMeluketSource>

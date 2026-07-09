@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916159_theRebbe_933" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916159_theRebbe_933" title="מאמר ודוד עבדי תשל"ב" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">והנה מבואר בתו"א שם,</src>
+    <src s="2">דהטעם על זה שבארץ דוקא יש ענין הביטול</src>
+    <src s="3">[שהארץ היא מדרס תחת כפות רגלי הכל]</src>
+    <src s="4">הוא מפני שבמחשבה ארץ קדמה לשמים.</src>
+    <src s="5">ועד"ז הוא בנוגע להביטול שבדומם,</src>
+    <src s="6">דזה שדומם הוא בביטול</src>
+    <src s="7">[דענין הצומח הוא שהוא גדל בגובה והתנשאות,</src>
+    <src s="8">וענין הביטול הוא בדומם דוקא],</src>
+    <src s="9">הוא מפני ששורש הדומם הוא למעלה משורש הצומח.</src>
+    <src s="10">ועד"ז הוא בז"א ומלכות</src>
+    <src s="11">[שהם דוגמת שמים וארץ,</src>
+    <src s="12">דומם וצומח],</src>
+    <src s="13">דזה שהמלכות היא בביטול הוא מפני ששרשה הוא בכתר</src>
+    <src s="14">(למעלה מהשורש דז"א).</src>
+  </section>
+  <section v="7">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שהמשל על ספירת המלכות בכחות הנפש הוא כח הדיבור,</src>
+    <src s="2">הוא גם בנוגע להביטול דמלכות.</src>
+    <src s="3">ויש לומר,</src>
+    <src s="4">דבהביטול שבדיבור,</src>
+    <src s="5">שני ענינים.</src>
+    <src s="6">שהדיבור אינו ענין של מעלה.</src>
+    <src s="7">דענינם של כל הכחות הוא שהם מגלים את הנפש,</src>
+    <src s="8">ענין של מעלה ושלימות,</src>
+    <src s="9">וכח הדיבור שאינו גילוי הנפש,</src>
+    <src s="10">אינו ענין של מעלה.</src>
+    <src s="11">ועוד ענין בהביטול שבדיבור,</src>
+    <src s="12">דענין הדיבור הוא שהאדם המדבר יוצא ממציאותו</src>
+    <src s="13">(מבטל עצמו)</src>
+    <src s="14">בשביל הזולת.</src>
+    <src s="15">ועד"ז הוא בהביטול דמלכות,</src>
+    <src s="16">דנוסף לזה שהמלכות אינה ענין של גילוי,</src>
+    <src s="17">היא יורדת להחיות ולהוות את הנבראים26.</src>
+    <src s="18">ויש לומר,</src>
+    <src s="19">דביטול זה שבמלכות מרומז במ"ש בתו"א שיהודה</src>
+    <src s="20">(מלכות)</src>
+    <src s="21">הוא לשון הודאה וביטול,</src>
+    <src s="22">שהביטול דהודאה הוא שמבטל את עצמו לזה שהוא מודה אליו.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">והנה ידוע27,</src>
+    <src s="2">דע"י שאדם מביא את השכל</src>
+    <src s="3">(שהשיג במחשבתו)</src>
+    <src s="4">בדיבור,</src>
+    <src s="5">מיתוסף בהשכל יותר מכמו שהי' תחלה</src>
+    <src s="6">(במחשבה).</src>
+    <src s="7">וכן הוא במדות,</src>
+    <src s="8">דע"י שמדבר דברי אהבה מיתוסף בהאהבה שלו.</src>
+    <src s="9">וכן הוא בשאר המדות.</src>
+    <src s="10">והטעם לזה הוא,</src>
+    <src s="11">כי שורש הדיבור הוא בעצם הנפש,</src>
+    <src s="12">ולכן,</src>
+    <src s="13">ע"י המשכת והתלבשות השכל והמדות בדיבור,</src>
+    <src s="14">המשכתם מהנפש היא ממקום נעלה יותר.</src>
+    <src s="15">ויש לומר,</src>
+    <src s="16">שגם דרגת הנפש שמשם נמשכים השכל והמדות ע"י התלבשותם בדיבור היא למטה מדרגת הנפש שממנה נמשך הדיבור עצמו28.</src>
+    <src s="17">כי זה שהשכל והמדות</src>
+    <src s="18">(הגילויים דהנפש)</src>
+    <src s="19">נמשכים ומתלבשים בדיבור הוא ע"י שנמשך בהם ענין הבל"ג דנפש שביכלתה לירד למטה מטה.</src>
+    <src s="20">דהגם שגם ענין זה שבנפש הוא בדרגת הנפש שהיא למעלה משורש השכל והמדות</src>
+    <src s="21">[שלכן,</src>
+    <src s="22">ע"י המשכת דרגא זו,</src>
+    <src s="23">מיתוסף בהשכל והמדות],</src>
+    <src s="24">מ"מ,</src>
+    <src s="25">ענין זה שבנפש</src>
+    <src s="26">(שביכלתה לירד למטה מטה)</src>
+    <src s="27">הוא בחינת הגילוי שלה.</src>
+    <src s="28">אבל השורש דכח הדיבור עצמו</src>
+    <src s="29">(שאינו ענין הגילוי),</src>
+    <src s="30">שרשו הוא בעצם הנפש.</src>
+  </section>
+</awtsmoosMeluketSource>

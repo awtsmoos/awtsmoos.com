@@ -1,0 +1,759 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 143,
+    "returned": 143,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914519_theRebbe_363\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914519_theRebbe_363__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that repentance, especially when sins become merits, creates a new reality through a leap that transcends nature and the chain of spiritual descent, reaching the essence of the Infinite.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And likewise, this is also the case with simple repentance,</t>\n    <t s=\"2\">for when a person sins and blemishes and transgresses the path</t>\n    <t s=\"3\">(which is the opposite of human nature and the nature above)</t>\n    <t s=\"4\">and afterwards rectifies this through repentance,</t>\n    <t s=\"5\">and especially when the repentance is in a manner that intentional sins become for him like merits,</t>\n    <t s=\"6\">behold, through this a new matter is created that is above human nature and above the nature above</t>\n    <t s=\"7\">(the nature of good to bestow good),</t>\n    <t s=\"8\">and also above the root of souls as they are in the aspect of \"in whom He took counsel.\"</t>\n    <t s=\"9\">And the explanation is,</t>\n    <t s=\"10\">for the service of repentance is in a manner of a leap,</t>\n    <t s=\"11\">in that a person changes and is transformed</t>\n    <t s=\"12\">(not in order and gradation)</t>\n    <t s=\"13\">and becomes a new existence.</t>\n    <t s=\"14\">For this is that repentance is above time, therefore even as it is drawn down within time, it is in one hour and in one moment,</t>\n    <t s=\"15\">because</t>\n    <t s=\"16\">the service of repentance is not in gradation.</t>\n    <t s=\"17\">And this is also that regarding a penitent it is said, \"And it will be, before they call I will answer,\"</t>\n    <t s=\"18\">that this matter</t>\n    <t s=\"19\">(answering before the call)</t>\n    <t s=\"20\">is the opposite of nature and the chain of descent,</t>\n    <t s=\"21\">for through the leap</t>\n    <t s=\"22\">(of repentance)</t>\n    <t s=\"23\">which is not in the order of the chain of descent within man,</t>\n    <t s=\"24\">through this it is also caused above, not in the order of the chain of descent,</t>\n    <t s=\"25\">and in the manner of the verse,</t>\n    <t s=\"26\">\"From the depths I called You, O Lord,\"</t>\n    <t s=\"27\">\"From the depths\"</t>\n    <t s=\"28\">(plural)</t>\n    <t s=\"29\">means from depth to depth,</t>\n    <t s=\"30\">for through the service of repentance from the depth of the innermost point of the heart,</t>\n    <t s=\"31\">through this one calls and draws from the aspect of the depth and innerness of Ein Sof, blessed be He,</t>\n    <t s=\"32\">[to the extent that the matter of repentance reaches His very Essence,</t>\n    <t s=\"33\">as is known regarding the matter of \"they asked the Holy One, blessed be He... He said, 'Let him repent and he will be forgiven.'\"]</t>\n    <t s=\"34\">And through this drawing,</t>\n    <t s=\"35\">intentional sins become for him like merits.</t>\n    <t s=\"36\">For just as through repentance a new matter is made in man, in that he becomes a new existence as above,</t>\n    <t s=\"37\">so too, through this a new matter is made in the world,</t>\n    <t s=\"38\">that intentional sins are transformed into merits.</t>\n    <t s=\"39\">And these merits</t>\n    <t s=\"40\">(that come from transforming intentional sins),</t>\n    <t s=\"41\">since they are made through the leap of repentance,</t>\n    <t s=\"42\">they are more elevated</t>\n    <t s=\"43\">than the merits of the righteous.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the \"double\" in the later tablets refers not only to a numerical doubling of merits, but to an incomparably higher quality, especially regarding the future redemption and the revelation of the Torah's hidden wisdom.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And this is that regarding the later tablets</t>\n    <t s=\"2\">(which in terms of man's service is the matter of the service of repentance as above)</t>\n    <t s=\"3\">it is written, \"double for wisdom,\"</t>\n    <t s=\"4\">that the intention of \"double\" is not only a numerical doubling</t>\n    <t s=\"5\">but rather a greater multiplicity, to the point of being beyond comparison,</t>\n    <t s=\"6\">[as is also understood from the fact that in the later tablets many matters were added,</t>\n    <t s=\"7\">laws, midrashim, and aggadot],</t>\n    <t s=\"8\">for in addition to the fact that a penitent has two types of merits</t>\n    <t s=\"9\">(a numerical doubling)—</t>\n    <t s=\"10\">the merits of Torah and mitzvos</t>\n    <t s=\"11\">(as with the righteous)</t>\n    <t s=\"12\">and the merits made from the transformation of intentional sins—</t>\n    <t s=\"13\">behold, the merits made from the transformation of intentional sins are more elevated, to the point of being beyond comparison, than the merits of the righteous.</t>\n    <t s=\"14\">And furthermore,</t>\n    <t s=\"15\">even the Torah and mitzvos after repentance are more elevated,</t>\n    <t s=\"16\">with greater power.</t>\n    <t s=\"17\">And this is also from the explanations on this, that the future redemption will be specifically through the prior service of repentance,</t>\n    <t s=\"18\">for also the comprehension of Torah in the future will be \"double for wisdom.\"</t>\n    <t s=\"19\">And not only a numerical doubling—</t>\n    <t s=\"20\">the comprehension of all that one learned now in the revealed aspect of Torah and in the inner aspect of Torah</t>\n    <t s=\"21\">(and his study is in his hand)</t>\n    <t s=\"22\">and the comprehension of the Torah of Mashiach—</t>\n    <t s=\"23\">but also to a greater multiplicity, to the point of being without comparison,</t>\n    <t s=\"24\">for at the coming of Mashiach there will be \"Let him kiss me with the kisses of his mouth,\"</t>\n    <t s=\"25\">that the secret of its reasons and the hidden treasures of its secrets will be revealed</t>\n    <t s=\"26\">(the hidden things of wisdom).</t>\n    <t s=\"27\">And furthermore,</t>\n    <t s=\"28\">that through this, even the comprehension of the revealed Torah will be in a more elevated manner.</t>\n    <t s=\"29\">And likewise, through the service of Torah and mitzvos during the time of exile,</t>\n    <t s=\"30\">for the entirety of the service during the time of exile</t>\n    <t s=\"31\">(even the service of Torah and mitzvos)</t>\n    <t s=\"32\">is the service of repentance, and through repentance, \"double for wisdom.\"</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the difference between the Babylonian and Jerusalem Talmuds parallels the difference between the first and later tablets, with the Babylonian Talmud's dialectic revealing the hidden essence of the Torah and establishing a dwelling for the Essence in the lower world.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this will be understood based on the known principle</t>\n    <t s=\"2\">that the difference between the Babylonian Talmud and the Jerusalem Talmud is analogous to the difference between the first tablets and the later tablets.</t>\n    <t s=\"3\">For the Jerusalem</t>\n    <t s=\"4\">Talmud is in the manner of direct light</t>\n    <t s=\"5\">(analogous to the service of the righteous,</t>\n    <t s=\"6\">the first tablets),</t>\n    <t s=\"7\">and the Babylonian Talmud is the dialectic with many questions and concealments,</t>\n    <t s=\"8\">\"In darkness He placed me\"—</t>\n    <t s=\"9\">this is the Babylonian Talmud,</t>\n    <t s=\"10\">and nevertheless, the halachah is specifically like the Babylonian,</t>\n    <t s=\"11\">for through the toil in clarifying the questions, etc., one arrives at the true intent,</t>\n    <t s=\"12\">at the aspect of the hidden essence of the Torah,</t>\n    <t s=\"13\">the aspect of \"hidden things of wisdom\"</t>\n    <t s=\"14\">(analogous to the superiority of the merits of the penitent, which are made from intentional sins,</t>\n    <t s=\"15\">over the merits of the righteous).</t>\n    <t s=\"16\">And this is that specifically regarding the later tablets it is written, \"And He will tell you hidden things of wisdom, for double for wisdom,\"</t>\n    <t s=\"17\">\"hidden things of wisdom\" is</t>\n    <t s=\"18\">(up to)</t>\n    <t s=\"19\">the innerness of Chochmah,</t>\n    <t s=\"20\">and in its root it is the innerness and Essence of Ein Sof,</t>\n    <t s=\"21\">and this is revealed specifically through the dialectic, etc., of the Babylonian Talmud.</t>\n    <t s=\"22\">And this revelation will be primarily in the future,</t>\n    <t s=\"23\">and as it is brought in the Zohar</t>\n    <t s=\"24\">on the verse,</t>\n    <t s=\"25\">\"No eye has seen, O God, besides You, what He will do for one who waits for Him\"—\"Who waits for Him\"? These are those who press the word of wisdom and analyze it and wait for it to know the clarity of the matter, etc.,</t>\n    <t s=\"26\">that through much contemplation and toil in many questions, etc.,</t>\n    <t s=\"27\">there will be</t>\n    <t s=\"28\">(in the future)</t>\n    <t s=\"29\">the revelation of the aspect of Eden, about which it is said, \"No eye has seen,\"</t>\n    <t s=\"30\">the aspect of the hidden essence.</t>\n    <t s=\"31\">And through this, an elevation and perfection is also made in the Torah, in that it is connected with the Essence</t>\n    <t s=\"32\">(analogous to \"Dovid would connect the Torah above with the Holy One, blessed be He\"),</t>\n    <t s=\"33\">for the Torah in its own right</t>\n    <t s=\"34\">(as it was given at the Giving of the Torah,</t>\n    <t s=\"35\">in the first tablets)</t>\n    <t s=\"36\">is the aspect of Chochmah,</t>\n    <t s=\"37\">for \"the Torah emanates from Chochmah,\"</t>\n    <t s=\"38\">and although at the Giving of the Torah the Torah that will be revealed in the future was also given</t>\n    <t s=\"39\">(for the Giving of the Torah was only once),</t>\n    <t s=\"40\">behold, at the time of the Giving of the Torah this was given in an aspect of concealment,</t>\n    <t s=\"41\">\"hidden things of wisdom,\"</t>\n    <t s=\"42\">and in order to draw this into revelation</t>\n    <t s=\"43\">(in a manner of \"Torah is light\"),</t>\n    <t s=\"44\">this power was given specifically in the later tablets.</t>\n    <t s=\"45\">And this is that specifically through the engagement in Torah during the time of exile</t>\n    <t s=\"46\">(the Babylonian Talmud)</t>\n    <t s=\"47\">there will be the revelation of the future, when the intent of the dwelling</t>\n    <t s=\"48\">in the lower worlds will be completed,</t>\n    <t s=\"49\">for in the dwelling in the lower worlds there are two matters:</t>\n    <t s=\"50\">a dwelling for His Essence</t>\n    <t s=\"51\">and a dwelling in the lower worlds,</t>\n    <t s=\"52\">and these two matters are made</t>\n    <t s=\"53\">specifically through the engagement and toil in the Babylonian Talmud.</t>\n    <t s=\"54\">For through the toil in clarifying the questions, one arrives at the aspect of the hidden essence as above,</t>\n    <t s=\"55\">\"for His Essence,\"</t>\n    <t s=\"56\">and through this one also arrives at the true intent to rule halachah for practical application as above,</t>\n    <t s=\"57\">and through the actual deed</t>\n    <t s=\"58\">(according to the halachic ruling)</t>\n    <t s=\"59\">a dwelling is made for Him, blessed be He, in the lower worlds.</t>\n    <t s=\"60\">And this is \"In darkness He placed me\"</t>\n    <t s=\"61\">(this is the Babylonian Talmud),</t>\n    <t s=\"62\">that through \"in darkness\"</t>\n    <t s=\"63\">(the toil in many questions, etc.)</t>\n    <t s=\"64\">\"He placed me\" is made—</t>\n    <t s=\"65\">a dwelling for Him, blessed be He, in the lower worlds.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914519_theRebbe_363",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914519_theRebbe_363__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that repentance, especially when sins become merits, creates a new reality through a leap that transcends nature and the chain of spiritual descent, reaching the essence of the Infinite.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And likewise, this is also the case with simple repentance,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "for when a person sins and blemishes and transgresses the path"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(which is the opposite of human nature and the nature above)"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "and afterwards rectifies this through repentance,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "and especially when the repentance is in a manner that intentional sins become for him like merits,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "behold, through this a new matter is created that is above human nature and above the nature above"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "(the nature of good to bestow good),"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "and also above the root of souls as they are in the aspect of \"in whom He took counsel.\""
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "for the service of repentance is in a manner of a leap,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "in that a person changes and is transformed"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "(not in order and gradation)"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "and becomes a new existence."
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "For this is that repentance is above time, therefore even as it is drawn down within time, it is in one hour and in one moment,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "because"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "the service of repentance is not in gradation."
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "And this is also that regarding a penitent it is said, \"And it will be, before they call I will answer,\""
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "that this matter"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "(answering before the call)"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "is the opposite of nature and the chain of descent,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "for through the leap"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "(of repentance)"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "which is not in the order of the chain of descent within man,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "through this it is also caused above, not in the order of the chain of descent,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "and in the manner of the verse,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "\"From the depths I called You, O Lord,\""
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "\"From the depths\""
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "(plural)"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "means from depth to depth,"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "for through the service of repentance from the depth of the innermost point of the heart,"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "through this one calls and draws from the aspect of the depth and innerness of Ein Sof, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "[to the extent that the matter of repentance reaches His very Essence,"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "as is known regarding the matter of \"they asked the Holy One, blessed be He... He said, 'Let him repent and he will be forgiven.'\"]"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "And through this drawing,"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "intentional sins become for him like merits."
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "For just as through repentance a new matter is made in man, in that he becomes a new existence as above,"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "so too, through this a new matter is made in the world,"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "that intentional sins are transformed into merits."
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "And these merits"
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "(that come from transforming intentional sins),"
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "since they are made through the leap of repentance,"
+          },
+          {
+            "v": 6,
+            "s": 42,
+            "translation": "they are more elevated"
+          },
+          {
+            "v": 6,
+            "s": 43,
+            "translation": "than the merits of the righteous."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the \"double\" in the later tablets refers not only to a numerical doubling of merits, but to an incomparably higher quality, especially regarding the future redemption and the revelation of the Torah's hidden wisdom.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this is that regarding the later tablets"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "(which in terms of man's service is the matter of the service of repentance as above)"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "it is written, \"double for wisdom,\""
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "that the intention of \"double\" is not only a numerical doubling"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "but rather a greater multiplicity, to the point of being beyond comparison,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "[as is also understood from the fact that in the later tablets many matters were added,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "laws, midrashim, and aggadot],"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "for in addition to the fact that a penitent has two types of merits"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "(a numerical doubling)—"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "the merits of Torah and mitzvos"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(as with the righteous)"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "and the merits made from the transformation of intentional sins—"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "behold, the merits made from the transformation of intentional sins are more elevated, to the point of being beyond comparison, than the merits of the righteous."
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "even the Torah and mitzvos after repentance are more elevated,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "with greater power."
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "And this is also from the explanations on this, that the future redemption will be specifically through the prior service of repentance,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "for also the comprehension of Torah in the future will be \"double for wisdom.\""
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "And not only a numerical doubling—"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "the comprehension of all that one learned now in the revealed aspect of Torah and in the inner aspect of Torah"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "(and his study is in his hand)"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "and the comprehension of the Torah of Mashiach—"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "but also to a greater multiplicity, to the point of being without comparison,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "for at the coming of Mashiach there will be \"Let him kiss me with the kisses of his mouth,\""
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "that the secret of its reasons and the hidden treasures of its secrets will be revealed"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "(the hidden things of wisdom)."
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "that through this, even the comprehension of the revealed Torah will be in a more elevated manner."
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "And likewise, through the service of Torah and mitzvos during the time of exile,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "for the entirety of the service during the time of exile"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "(even the service of Torah and mitzvos)"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "is the service of repentance, and through repentance, \"double for wisdom.\""
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that the difference between the Babylonian and Jerusalem Talmuds parallels the difference between the first and later tablets, with the Babylonian Talmud's dialectic revealing the hidden essence of the Torah and establishing a dwelling for the Essence in the lower world.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And this will be understood based on the known principle"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that the difference between the Babylonian Talmud and the Jerusalem Talmud is analogous to the difference between the first tablets and the later tablets."
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "For the Jerusalem"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "Talmud is in the manner of direct light"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "(analogous to the service of the righteous,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "the first tablets),"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "and the Babylonian Talmud is the dialectic with many questions and concealments,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "\"In darkness He placed me\"—"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "this is the Babylonian Talmud,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "and nevertheless, the halachah is specifically like the Babylonian,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "for through the toil in clarifying the questions, etc., one arrives at the true intent,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "at the aspect of the hidden essence of the Torah,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "the aspect of \"hidden things of wisdom\""
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "(analogous to the superiority of the merits of the penitent, which are made from intentional sins,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "over the merits of the righteous)."
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "And this is that specifically regarding the later tablets it is written, \"And He will tell you hidden things of wisdom, for double for wisdom,\""
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "\"hidden things of wisdom\" is"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "(up to)"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "the innerness of Chochmah,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "and in its root it is the innerness and Essence of Ein Sof,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "and this is revealed specifically through the dialectic, etc., of the Babylonian Talmud."
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "And this revelation will be primarily in the future,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "and as it is brought in the Zohar"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "\"No eye has seen, O God, besides You, what He will do for one who waits for Him\"—\"Who waits for Him\"? These are those who press the word of wisdom and analyze it and wait for it to know the clarity of the matter, etc.,"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "that through much contemplation and toil in many questions, etc.,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "there will be"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "(in the future)"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "the revelation of the aspect of Eden, about which it is said, \"No eye has seen,\""
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "the aspect of the hidden essence."
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "And through this, an elevation and perfection is also made in the Torah, in that it is connected with the Essence"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "(analogous to \"Dovid would connect the Torah above with the Holy One, blessed be He\"),"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "for the Torah in its own right"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "(as it was given at the Giving of the Torah,"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "in the first tablets)"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "is the aspect of Chochmah,"
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "for \"the Torah emanates from Chochmah,\""
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "and although at the Giving of the Torah the Torah that will be revealed in the future was also given"
+          },
+          {
+            "v": 8,
+            "s": 39,
+            "translation": "(for the Giving of the Torah was only once),"
+          },
+          {
+            "v": 8,
+            "s": 40,
+            "translation": "behold, at the time of the Giving of the Torah this was given in an aspect of concealment,"
+          },
+          {
+            "v": 8,
+            "s": 41,
+            "translation": "\"hidden things of wisdom,\""
+          },
+          {
+            "v": 8,
+            "s": 42,
+            "translation": "and in order to draw this into revelation"
+          },
+          {
+            "v": 8,
+            "s": 43,
+            "translation": "(in a manner of \"Torah is light\"),"
+          },
+          {
+            "v": 8,
+            "s": 44,
+            "translation": "this power was given specifically in the later tablets."
+          },
+          {
+            "v": 8,
+            "s": 45,
+            "translation": "And this is that specifically through the engagement in Torah during the time of exile"
+          },
+          {
+            "v": 8,
+            "s": 46,
+            "translation": "(the Babylonian Talmud)"
+          },
+          {
+            "v": 8,
+            "s": 47,
+            "translation": "there will be the revelation of the future, when the intent of the dwelling"
+          },
+          {
+            "v": 8,
+            "s": 48,
+            "translation": "in the lower worlds will be completed,"
+          },
+          {
+            "v": 8,
+            "s": 49,
+            "translation": "for in the dwelling in the lower worlds there are two matters:"
+          },
+          {
+            "v": 8,
+            "s": 50,
+            "translation": "a dwelling for His Essence"
+          },
+          {
+            "v": 8,
+            "s": 51,
+            "translation": "and a dwelling in the lower worlds,"
+          },
+          {
+            "v": 8,
+            "s": 52,
+            "translation": "and these two matters are made"
+          },
+          {
+            "v": 8,
+            "s": 53,
+            "translation": "specifically through the engagement and toil in the Babylonian Talmud."
+          },
+          {
+            "v": 8,
+            "s": 54,
+            "translation": "For through the toil in clarifying the questions, one arrives at the aspect of the hidden essence as above,"
+          },
+          {
+            "v": 8,
+            "s": 55,
+            "translation": "\"for His Essence,\""
+          },
+          {
+            "v": 8,
+            "s": 56,
+            "translation": "and through this one also arrives at the true intent to rule halachah for practical application as above,"
+          },
+          {
+            "v": 8,
+            "s": 57,
+            "translation": "and through the actual deed"
+          },
+          {
+            "v": 8,
+            "s": 58,
+            "translation": "(according to the halachic ruling)"
+          },
+          {
+            "v": 8,
+            "s": 59,
+            "translation": "a dwelling is made for Him, blessed be He, in the lower worlds."
+          },
+          {
+            "v": 8,
+            "s": 60,
+            "translation": "And this is \"In darkness He placed me\""
+          },
+          {
+            "v": 8,
+            "s": 61,
+            "translation": "(this is the Babylonian Talmud),"
+          },
+          {
+            "v": 8,
+            "s": 62,
+            "translation": "that through \"in darkness\""
+          },
+          {
+            "v": 8,
+            "s": 63,
+            "translation": "(the toil in many questions, etc.)"
+          },
+          {
+            "v": 8,
+            "s": 64,
+            "translation": "\"He placed me\" is made—"
+          },
+          {
+            "v": 8,
+            "s": 65,
+            "translation": "a dwelling for Him, blessed be He, in the lower worlds."
+          }
+        ]
+      }
+    ]
+  }
+}

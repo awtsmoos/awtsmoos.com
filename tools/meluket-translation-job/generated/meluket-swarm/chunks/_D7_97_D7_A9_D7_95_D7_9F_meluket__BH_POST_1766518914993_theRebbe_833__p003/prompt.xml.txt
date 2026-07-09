@@ -1,0 +1,181 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914993_theRebbe_833" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914993_theRebbe_833" title="מאמר ויהיו חיי שרה תנש"א" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p003">
+  <section v="6">
+    <src s="0">ו)</src>
+    <src s="1">והנה,</src>
+    <src s="2">ע"י ההמשכה וההתלבשות דמאה שנה כללא דכולא בהמוחין השייכים אל המדות</src>
+    <src s="3">(עשרים שנה)</src>
+    <src s="4">ובהמדות</src>
+    <src s="5">(שבע שנים)</src>
+    <src s="6">עד לעבודה במעשה בפועל כדי שיהי' גילוי אלקות בעולם,</src>
+    <src s="7">אזי נעשה</src>
+    <src s="8">(נוסף על בירור וזיכוך המטה)</src>
+    <src s="9">גם עילוי גדול יותר בבחי' מאה שנה כללא דכולא,</src>
+    <src s="10">כידוע29</src>
+    <src s="11">שע"י הירידה דהעליון להשפיע להתחתון מקבל גם העליון מעלת התחתון</src>
+    <src s="12">(שלכן כל סדר ההשתלשלות הוא באופן דנעוץ תחילתן בסופן30,</src>
+    <src s="13">שהעליון צריך גם לקבל מהתחתון).</src>
+    <src s="14">ויתירה מזה,</src>
+    <src s="15">כיון שההמשכה למטה היא מפני שנתאווה הקב"ה להיות לו ית' דירה בתחתונים31,</src>
+    <src s="16">הרי,</src>
+    <src s="17">ע"י ההמשכה למטה נשלמת כוונת העצמות שלמעלה מכל תואר וגדר,</src>
+    <src s="18">שלכן,</src>
+    <src s="19">מעלה ומטה,</src>
+    <src s="20">בלי גבול וגבול,</src>
+    <src s="21">שוין ממש.</src>
+    <src s="22">והחילוק דב' אופנים אלו בעבודה,</src>
+    <src s="23">שבאופן הא' יש חילוק בין עליון</src>
+    <src s="24">(עבודה בעניני קדושה)</src>
+    <src s="25">לתחתון</src>
+    <src s="26">(עבודה בעניני העולם),</src>
+    <src s="27">והעבודה למטה הו"ע של ירידה,</src>
+    <src s="28">אלא שירידה זו היא צורך עלי'.</src>
+    <src s="29">ובאופן הב',</src>
+    <src s="30">כיון שכל ענינו אינו אלא למלא חפצו ורצונו של הקב"ה שנתאוה להיות לו ית' דירה בתחתונים,</src>
+    <src s="31">הרי,</src>
+    <src s="32">מצד כוונת העצמות אין חילוק בין עליון</src>
+    <src s="33">(עבודה בעניני קדושה)</src>
+    <src s="34">לתחתון</src>
+    <src s="35">(עבודה בעניני העולם),</src>
+    <src s="36">ובמילא,</src>
+    <src s="37">העבודה למטה אינה ענין של ירידה,</src>
+    <src s="38">כיון שנרגש בה הנקודה הכללית</src>
+    <src s="39">(כללא דכולא)</src>
+    <src s="40">שבכל עניני העבודה בשוה ממש,</src>
+    <src s="41">כוונת העצמות.</src>
+    <src s="42">וזהו גם רזא דמאה ברכות בכל יום,</src>
+    <src s="43">כפי שלמדו חז"ל ממש"נ מה ה' אלקיך שואל מעמך,</src>
+    <src s="44">א"ת מה אלא מאה,</src>
+    <src s="45">כמבואר בהדרושים32</src>
+    <src s="46">שמאה הוא מה בתוספת אל"ף,</src>
+    <src s="47">מה הו"ע הביטול</src>
+    <src s="48">(ונחנו מה33),</src>
+    <src s="49">וע"י הביטול דמה ממשיכים האל"ף,</src>
+    <src s="50">בחי' הכתר</src>
+    <src s="51">(מאה),</src>
+    <src s="52">שיומשך בגילוי למטה ע"י הברכות.</src>
+    <src s="53">דכיון שעבודתו היא מצד הביטול והקבלת עול שבה מתגלה עצם הנשמה,</src>
+    <src s="54">הרי כל ענינו אינו אלא למלא רצונו וחפצו של הקב"ה,</src>
+    <src s="55">שזוהי הנקודה הכללית דכל עניני העבודה,</src>
+    <src s="56">כוונת העצמות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ז)</src>
+    <src s="1">ועפ"ז יש לבאר מ"ש ויהיו חיי שרה מאה שנה ועשרים שנה ושבע שנים שני חיי שרה,</src>
+    <src s="2">ששני חיי שרה</src>
+    <src s="3">(אינו ענין בפ"ע שלמעלה מג' החלוקות דמאה שנה ועשרים שנה ושבע שנים,</src>
+    <src s="4">אלא)</src>
+    <src s="5">הם הקכ"ז שנה עצמם,</src>
+    <src s="6">שכולן שוין לטובה.</src>
+    <src s="7">כי,</src>
+    <src s="8">בתחילת הכתוב מבואר העילוי שנעשה במאה שנה ע"י ההמשכה למטה,</src>
+    <src s="9">שזהו"ע דבת ק' כבת כ' ובת כ' כבת ז',</src>
+    <src s="10">שבמאה נוסף גם העילוי דעשרים,</src>
+    <src s="11">ובעשרים נוסף גם העילוי דשבע.</src>
+    <src s="12">ולאח"ז מוסיף בכתוב שני חיי שרה,</src>
+    <src s="13">שכל סוגי העבודה דמאה שנה</src>
+    <src s="14">(כתר)</src>
+    <src s="15">עשרים שנה</src>
+    <src s="16">(מוחין)</src>
+    <src s="17">ושבע שנים</src>
+    <src s="18">(מדות)</src>
+    <src s="19">הם שוין לטובה,</src>
+    <src s="20">שכל ענינם הוא להשלים כוונת העצמות,</src>
+    <src s="21">שהיא בכל עניני העבודה בשוה34.</src>
+    <src s="22">ויש להוסיף בהביאור דכולן שוין לטובה,</src>
+    <src s="23">שטובה רומז על עצם ומקור הטוב וטבע הטוב להיטיב35</src>
+    <src s="24">כפי שנמשך ומתגלה בנשמתו של כאו"א מישראל שהיא "חלק אלקה ממעל ממש"36,</src>
+    <src s="25">חלק מן העצם שעל ידו תופסים בהעצם37,</src>
+    <src s="26">וכאשר העבודה היא מצד עצם הנשמה,</src>
+    <src s="27">שזהו"ע הביטול והקבלת עול,</src>
+    <src s="28">אזי כל עניני העבודה הם בשוה,</src>
+    <src s="29">וההשתוות היא לטובה,</src>
+    <src s="30">שכל עניני העבודה חדורים בהנקודה הכללית דהמשכת וגילוי עצם הטוב למטה,</src>
+    <src s="31">להיות לו ית' דירה בתחתונים.</src>
+  </section>
+  <section v="8">
+    <src s="0">ח)</src>
+    <src s="1">ויהי רצון,</src>
+    <src s="2">שכיון שבימינו אלה נשלמו כל מעשינו ועבודתינו בכל פרטי הענינים דמאה שנה ועשרים שנה ושבע שנים,</src>
+    <src s="3">ובאופן דשני חיי שרה שכולן שוין לטובה,</src>
+    <src s="4">כדברי כ"ק מו"ח אדמו"ר נשיא דורנו שכבר צחצחו את הכפתורים38,</src>
+    <src s="5">ועומדים מוכנים39</src>
+    <src s="6">לקבל פני משיח צדקנו,</src>
+    <src s="7">ובפרט שלאחרי זה עברו עוד עשיריות שנים שבהם צעקו בנ"י עד מתי</src>
+    <src s="8">(וואָס דאָס דאַרף דאָך אויך האָבן אַ שיעור),</src>
+    <src s="9">תבוא תיכף ומיד הגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="10">ואז יתגלה הענין דתולדות יצחק</src>
+    <src s="11">(כפי שמתחילין לקרוא בתורה במנחה),</src>
+    <src s="12">כמארז"ל40</src>
+    <src s="13">שלעתיד לבוא יאמרו ליצחק דוקא כי אתה אבינו41,</src>
+    <src s="14">כיון שהתענוג והצחוק</src>
+    <src s="15">(יצחק42)</src>
+    <src s="16">שנעשה ע"י מעשינו ועבודתינו כל משך זמן הגלות43</src>
+    <src s="17">יתגלה לעתיד לבוא,</src>
+    <src s="18">שאז44</src>
+    <src s="19">ימלא שחוק פינו45,</src>
+    <src s="20">ואז יהי' הענין דמאה שנה ועשרים שנה ושבע שנים באופן נעלה יותר46,</src>
+    <src s="21">הן הענין דמאה שנה,</src>
+    <src s="22">מאה ברכות,</src>
+    <src s="23">והן הענין דכ"ז שנה,</src>
+    <src s="24">שרומז</src>
+    <src s="25">(גם)</src>
+    <src s="26">לכ"ז47</src>
+    <src s="27">אותיות התורה48,</src>
+    <src s="28">כיון שכל עניני התומ"צ יהיו בתכלית השלימות,</src>
+    <src s="29">כמצות רצונך49,</src>
+    <src s="30">ותורה חדשה מאתי תצא50,</src>
+    <src s="31">טעמי תורה שיתגלו לעתיד לבוא בתורתו של משיח51,</src>
+    <src s="32">כולל גם התורה חדשה דרבותינו נשיאינו עד לבעל יום ההולדת דכ"ף מרחשון,</src>
+    <src s="33">ובנו יחידו ממלא מקומו כ"ק מו"ח אדמו"ר נשיא דורנו,</src>
+    <src s="34">שהקיצו ורננו שוכני עפר52,</src>
+    <src s="35">והם בראשם,</src>
+    <src s="36">ויאמרו תורה חדשה,</src>
+    <src s="37">חידוש גם לגבי הקב"ה,</src>
+    <src s="38">כביכול,</src>
+    <src s="39">ע"ד מארז"ל53</src>
+    <src s="40">נצחוני בני נצחוני,</src>
+    <src s="41">עד לתורה חדשה מאתי תצא,</src>
+    <src s="42">מאתי54</src>
+    <src s="43">דייקא,</src>
+    <src s="44">ובאופן שלא ילמדו עוד איש את רעהו גו' כי כולם ידעו אותי55,</src>
+    <src s="45">אותי54</src>
+    <src s="46">דייקא,</src>
+    <src s="47">ועוד והוא העיקר,</src>
+    <src s="48">שכל זה יהי' תיכף ומיד ממש,</src>
+    <src s="49">ממש ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

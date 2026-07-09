@@ -1,0 +1,132 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917817_theRebbe_541" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917817_theRebbe_541__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917817_theRebbe_541" title="מאמר כימי צאתך תשמ"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917817_theRebbe_541__p003">
+  <section v="6">
+    <src s="0">ו)</src>
+    <src s="1">והנה אף שבחינת אתהפכא היא,</src>
+    <src s="2">בכללות,</src>
+    <src s="3">נעלית הרבה יותר מבחינת אתכפיא,</src>
+    <src s="4">אעפ"כ יש גם מעלה בבחינת אתכפיא לגבי בחינת אתהפכא53.</src>
+    <src s="5">וכמובן ממ"ש בתניא54</src>
+    <src s="6">דענין עובד אלקים הוא דוקא כשהוא כופה ומשנה הטבע שלו,</src>
+    <src s="7">ומעלה זו אינה בצדיק גמור.</src>
+    <src s="8">וע"י העבודה דאתכפיא דוקא אסתלק יקרא דקוב"ה בכולהו עלמין55,</src>
+    <src s="9">המשכת וגילוי אור שבבחינת רוממות56,</src>
+    <src s="10">וכמבואר בארוכה בההמשך דיום ההילולא57</src>
+    <src s="11">משל על זה ממלך בו"ד שבשביל נצחון המלחמה הוא מבזבז את כל אוצרותיו,</src>
+    <src s="12">דבשנים כתיקונן הנה לא רק שאינו משתמש בהם לשום דבר אלא שהם כמוסים וחתומים מעין כל רואה,</src>
+    <src s="13">ודוקא בעת המלחמה הנה לא רק שהוא פותח את כל האוצרות,</src>
+    <src s="14">אלא יתירה מזו שהוא מבזבז אותם בלי שום מדידה והגבלה ונותן אותם לאנשי החיל בכדי לנצח את המלחמה.</src>
+    <src s="15">והדוגמא מזה למעלה,</src>
+    <src s="16">שיש בחינת אוצר שכמוס וחתום מעין כל רואה,</src>
+    <src s="17">עין לא ראתה אלקים זולתך58,</src>
+    <src s="18">ובכדי לנצח את המלחמה עם היצר,</src>
+    <src s="19">העבודה דאתכפיא,</src>
+    <src s="20">נותנים גם אוצר זה,</src>
+    <src s="21">ובאופן של בזבוז,</src>
+    <src s="22">ונתינת האוצר היא לאנשי החיל הפשוטים דוקא,</src>
+    <src s="23">דלהיות שעבודתם היא במס"נ למעלה ממדידת והגבלת השכל לכן גם נתינת האוצר להם היא באופן דבזבוז למעלה מכל מדידה והגבלה.</src>
+  </section>
+  <section v="7">
+    <src s="0">ועפ"ז יובן מה שיזכירו יצי"מ גם לע"ל,</src>
+    <src s="1">אף שהגילויים דלע"ל הם נעלים יותר</src>
+    <src s="2">(נפלאות)</src>
+    <src s="3">מהגילויים שהיו ביצי"מ,</src>
+    <src s="4">כי מכיון שהמשכת בחינת האוצר הוא דוקא בשביל נצחון המלחמה,</src>
+    <src s="5">ולע"ל לא תהי' שום מלחמה עם היצר שהרי ואת רוח הטומאה אעביר מן הארץ,</src>
+    <src s="6">לכן,</src>
+    <src s="7">יזכירו יצי"מ גם אז,</src>
+    <src s="8">בכדי שיהי' גם המעלה שבאתכפיא,</src>
+    <src s="9">המשכת בחינת האוצר.</src>
+    <src s="10">וגם המשכה זו תהי' אז בתכלית הגילוי</src>
+    <src s="11">(ככל הענינים דלעתיד),</src>
+    <src s="12">ולא יכנף עוד מוריך.</src>
+  </section>
+  <section v="8">
+    <src s="0">ז)</src>
+    <src s="1">וזהו כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="2">שבגאולה העתידה יהיו ב' המעלות,</src>
+    <src s="3">המעלה דאתכפיא,</src>
+    <src s="4">כימי צאתך מארץ מצרים,</src>
+    <src s="5">והמעלה דאתהפכא,</src>
+    <src s="6">אראנו נפלאות.</src>
+    <src s="7">דע"י מעשינו ועבודתינו בזמן הגלות59,</src>
+    <src s="8">שכללות העבודה דזמן הגלות היא באופן דמס"נ למעלה ממדוה"ג60,</src>
+    <src s="9">שהרי בזמן הגלות ובפרט בעקבתא דמשיחא יש מונעים ומעכבים וריבוי נסיונות,</src>
+    <src s="10">ועד להנסיון דלא יתבייש מפני בני אדם המלעיגים עליו61,</src>
+    <src s="11">ואעפ"כ אין מתחשבים עם כל המניעות,</src>
+    <src s="12">ולומדים תורה ומקיימים מצוות בלי כל חשבונות,</src>
+    <src s="13">ועד שאפילו ריקנים שבך מלאים מצוות כרימון62,</src>
+    <src s="14">דלא רק שהם מקיימים מצוות אלא שהם מלאים מצוות,</src>
+    <src s="15">הנה עי"ז יוצאים מהגלות ברכוש גדול של מצוות ורכוש גדול של תורה</src>
+    <src s="16">[דגם ת"ת היא מצוה,</src>
+    <src s="17">ואדרבא,</src>
+    <src s="18">היא שקולה כנגד כל המצוות63],</src>
+    <src s="19">ומכיון שזה</src>
+    <src s="20">(הרכוש גדול דתומ"צ)</src>
+    <src s="21">מוסיף בהזכות הרי זה מוסיף זירוז גם בהאחישנה64,</src>
+    <src s="22">ובאופן דוארו עם ענני שמיא65,</src>
+    <src s="23">שבקרוב ממש תהי' הגאולה האמיתית והשלימה,</src>
+    <src s="24">ובאופן דכימי צאתך מארץ מצרים אראנו נפלאות היינו שיהיו ב' המעלות.</src>
+    <src s="25">דמכיון שהגאולה היא ע"י מעשינו ועבודתינו בזמן הגלות,</src>
+    <src s="26">ובפרט בעקבתא דמשיחא,</src>
+    <src s="27">לכן תהי' כימי צאתך מארץ מצרים,</src>
+    <src s="28">המעלה דאתכפיא,</src>
+    <src s="29">ויחד עם זה יהי' גם אראנו נפלאות,</src>
+    <src s="30">נפלאות גם בערך הנפלאות</src>
+    <src s="31">(אותות ומופתים)</src>
+    <src s="32">שהיו ביצי"מ,</src>
+    <src s="33">כולל גם הנפלאות שהיו בעת קריעת ים סוף,</src>
+    <src s="34">דהגם שבקרי"ס היו גילויים נעלים ביותר,</src>
+    <src s="35">דכאו"א מראה באצבעו ואומר זה א-לי ואנוהו66,</src>
+    <src s="36">ועד שראתה שפחה על הים מה שלא ראו נביאים67,</src>
+    <src s="37">הנה כל זה הי' על הים,</src>
+    <src s="38">מלובש בבחינת מלכות68</src>
+    <src s="39">[ובדוגמת הגילוי דיצי"מ</src>
+    <src s="40">(לפני קרי"ס)</src>
+    <src s="41">שהי' על הפתח],</src>
+    <src s="42">וגם הגילוי דקרי"ס הי' רק לפי שעה,</src>
+    <src s="43">כי הגילוי אז הי' מצד מלמעלה והמטה לא הי' כלי לזה,</src>
+    <src s="44">דבכללות הוא ענין אתכפיא ולא אתהפכא</src>
+    <src s="45">[בדוגמת יצי"מ שהיתה באופן דכי ברח העם].</src>
+    <src s="46">מכיון שזה לא בא מצד עבודת המטה.</src>
+    <src s="47">אמנם לע"ל יהי' אראנו נפלאות,</src>
+    <src s="48">נפלאות גם בערך הנפלאות שהיו ביצי"מ וקרי"ס,</src>
+    <src s="49">שהגילוי יהי' בלי שום לבוש וגם מצד המטה,</src>
+    <src s="50">ויחד עם זה יהי' גם המעלה דכימי צאתך מארץ מצרים,</src>
+    <src s="51">במהרה בימינו ממש,</src>
+    <src s="52">בביאת משיח צדקנו.</src>
+  </section>
+</awtsmoosMeluketSource>

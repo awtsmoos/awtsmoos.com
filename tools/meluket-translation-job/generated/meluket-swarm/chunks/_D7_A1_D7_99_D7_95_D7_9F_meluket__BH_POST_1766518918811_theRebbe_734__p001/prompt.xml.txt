@@ -1,0 +1,108 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918811_theRebbe_734" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918811_theRebbe_734__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918811_theRebbe_734" title="מאמר ביום השני הקריב תשל"ב" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918811_theRebbe_734__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ נשא,</src>
+    <src s="2">י"ד סיון ה'תשל"ב</src>
+  </section>
+  <section v="1">
+    <src s="0">ביום השני הקריב נתנאל בן צוער נשיא יששכר הקריב את קרבנו גו'1,</src>
+    <src s="1">ופרש"י מהו הקריב הקריב ב' פעמים שבשביל שני דברים זכה להקריב שני לשבטים,</src>
+    <src s="2">אחת שהיו יודעים בתורה שנאמר2</src>
+    <src s="3">ומבני יששכר יודעי בינה לעתים ואחת שהם נתנו עצה לנשיאים להתנדב קרבנות הללו,</src>
+    <src s="4">וצריך להבין,</src>
+    <src s="5">דמצד שני טעמים אלו הי' ראוי לכאורה שיקריב ראשון לשבטים.</src>
+    <src s="6">וביותר אינו מובן,</src>
+    <src s="7">דאיתא במדרש3,</src>
+    <src s="8">למה נאמר בו הקריב כו' לפי שזכה בעצת נשיאים העלה עליו הכתוב כאילו הוא הקריב תחלה.</src>
+    <src s="9">ועפ"ז צריך להבין עוד יותר הטעם על זה שבפועל הקריב יהודה תחלה ויששכר הקריב ביום השני.</src>
+    <src s="10">גם צריך להבין מ"ש נתנאל בן צוער נשיא יששכר,</src>
+    <src s="11">שמקדים את שמו</src>
+    <src s="12">(נתנאל בן צוער)</src>
+    <src s="13">לפני שאומר שהי' נשיא יששכר,</src>
+    <src s="14">דלכאורה,</src>
+    <src s="15">מכיון דזה שהקריב את קרבנו הוא לפי שהי' נשיא יששכר,</src>
+    <src s="16">הי' צריך לומר נשיא יששכר</src>
+    <src s="17">(ואח"כ)</src>
+    <src s="18">נתנאל בן צוער,</src>
+    <src s="19">וכמ"ש גבי שאר הנשיאים שהקריבו לאחרי יום השני שבתחלה נאמר נשיא לבני גו' ואח"כ נאמר שמו של הנשיא4.</src>
+    <src s="20">וכן בהנשיא שהקריב ביום הראשון נאמר5</src>
+    <src s="21">נחשון בן עמינדב למטה יהודה,</src>
+    <src s="22">בתחלה נחשון בן עמינדב ואח"כ למטה יהודה6.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לבאר ע"פ מה שאיתא במדרש7</src>
+    <src s="2">עה"פ נחשון בן עמינדב למטה יהודה,</src>
+    <src s="3">למה נקרא שמו נחשון על שם שירד תחלה לנחשול שבים כו' מי שקידש את שמי בים הוא יקריב תחלה.</src>
+    <src s="4">ויש לומר,</src>
+    <src s="5">דזה שמדייק במדרש למה נקרא שמו נחשון</src>
+    <src s="6">(שאינו מדייק כן בשאר הנשיאים),</src>
+    <src s="7">הוא,</src>
+    <src s="8">כי מלשון הכתוב נחשון בן עמינדב למטה יהודה</src>
+    <src s="9">(ולא נשיא יהודה)</src>
+    <src s="10">משמע דזה שהוא הי' המקריב ביום הראשון הוא</src>
+    <src s="11">(לא רק מפני המעלה דשבט יהודה,</src>
+    <src s="12">אלא גם)</src>
+    <src s="13">מצד מעלת עצמו8,</src>
+    <src s="14">וכיון ששמו של אדם רומז על ענינו9</src>
+    <src s="15">(ומעלתו),</src>
+    <src s="16">לכן מדייק למה נקרא שמו נחשון.</src>
+    <src s="17">ומבאר דמעלתו של נחשון</src>
+    <src s="18">(המרומזת בשמו)</src>
+    <src s="19">היא שקידש את שמי</src>
+    <src s="20">(של הקב"ה)</src>
+    <src s="21">ולכן הקריב תחלה.</src>
+    <src s="22">ויש לומר עד"ז בנוגע נתנאל בן צוער נשיא יששכר,</src>
+    <src s="23">שהכתוב מקדים נתנאל בן צוער לפני נשיא יששכר,</src>
+    <src s="24">הוא,</src>
+    <src s="25">לרמז,</src>
+    <src s="26">דזה שהקריב ביום השני</src>
+    <src s="27">(מיד לאחרי יהודה),</src>
+    <src s="28">ויתירה מזה שהעלה עליו הכתוב כאילו הוא הקריב תחלה</src>
+    <src s="29">(לפני יהודה),</src>
+    <src s="30">הוא מפני המעלה שבו המרומזת בשמו.</src>
+    <src s="31">והגם שנאמר בו נשיא יששכר</src>
+    <src s="32">[דלא כנחשון שנאמר בו למטה יהודה]</src>
+    <src s="33">שמזה מוכח דזה שהקריב ביום השני</src>
+    <src s="34">[וגם זה שהעלה עליו הכתוב כאילו הוא הקריב תחלה]</src>
+    <src s="35">הוא מצד המעלה דשבט יששכר,</src>
+    <src s="36">מ"מ נאמר נתנאל בן צוער לפני נשיא יששכר,</src>
+    <src s="37">כי מעלה זו דשבט יששכר</src>
+    <src s="38">[שבשבילה הקריב ביום השני וכאילו הוא הקריב תחלה]</src>
+    <src s="39">מרומזת בהשם נתנאל בן צוער.</src>
+  </section>
+</awtsmoosMeluketSource>

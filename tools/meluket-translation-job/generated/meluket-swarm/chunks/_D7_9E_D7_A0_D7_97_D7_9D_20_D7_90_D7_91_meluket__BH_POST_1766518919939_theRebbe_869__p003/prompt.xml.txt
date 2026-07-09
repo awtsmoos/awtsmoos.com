@@ -1,0 +1,102 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919939_theRebbe_869" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919939_theRebbe_869__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919939_theRebbe_869" title="מאמר ועתה ישראל תשכ"ח" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919939_theRebbe_869__p003">
+  <section v="6">
+    <src s="0">ועד"ז הוא בעבודת האדם,</src>
+    <src s="1">שבכדי שיהי' חיבור דבחינת חי'</src>
+    <src s="2">(מקיף)</src>
+    <src s="3">עם בחינת נר"נ</src>
+    <src s="4">(פנימי),</src>
+    <src s="5">שהאהבה דבכל נפשך תהי' נרגשת גם בכחות הפנימיים</src>
+    <src s="6">[ועד"ז חיבור דמוחין ומדות26],</src>
+    <src s="7">הוא ע"י העבודה דמס"נ,</src>
+    <src s="8">שמצד בחינת יחידה27.</src>
+    <src s="9">ויש לומר מהביאורים בזה,</src>
+    <src s="10">דע"י שמוסר את עצמו לאלקות,</src>
+    <src s="11">ענינם של כל הכחות שלו הוא למלאות רצון הקב"ה.</src>
+    <src s="12">וכיון שהמקיף והפנימי</src>
+    <src s="13">[וכן המוחין והמדות]</src>
+    <src s="14">ענינם הוא לא המציאות שלהם אלא למלאות רצון הקב"ה,</src>
+    <src s="15">לכן אינם סותרים זל"ז ואדרבא מתחברים יחד.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">וזהו שהתקנה לברך מאה ברכות בכל יום היתה דוקא כשמתו בכל יום מאה נפשות,</src>
+    <src s="2">כי גילוי כח המס"נ הוא ע"י ההעלמות וההסתרים.</src>
+    <src s="3">[וע"פ הידוע28</src>
+    <src s="4">שבזמן הגלות,</src>
+    <src s="5">ובפרט בדרא דעקבתא דמשיחא,</src>
+    <src s="6">כח המס"נ הוא בגילוי יותר מבזמן הבית].</src>
+    <src s="7">ולכן,</src>
+    <src s="8">התקנה לברך מאה ברכות היתה דוקא לאחרי שמתו ק' נפשות בכל יום,</src>
+    <src s="9">כי זה שבכל יום מתו מאה נפשות</src>
+    <src s="10">(דמאה נפשות הוא שלימות המספר)</src>
+    <src s="11">הוא מפני שהיו אז במצב דהיפך החירות ממלאך המות29,</src>
+    <src s="12">הוא היצה"ר30,</src>
+    <src s="13">ועי"ז נתעורר אז כח המס"נ שלהם.</src>
+    <src s="14">ולכן תיקנו אז לברך מאה ברכות,</src>
+    <src s="15">שעל ידם נעשה החיבור דסובב וממלא,</src>
+    <src s="16">כי ע"י גילוי</src>
+    <src s="17">(כח המס"נ שמצד)</src>
+    <src s="18">היחידה נעשה המשכת עתיק,</src>
+    <src s="19">האל"ף דמאה,</src>
+    <src s="20">בחינת חד ולא בחושבן,</src>
+    <src s="21">ועי"ז נעשה החיבור דמה</src>
+    <src s="22">(ממלא)</src>
+    <src s="23">ומאה</src>
+    <src s="24">(סובב),</src>
+    <src s="25">אל תקרי מה אלא מאה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ועפ"ז יש לבאר גם מאמר המדרש31</src>
+    <src s="1">אין ועתה אלא לשון תשובה שנאמר ועתה ישראל מה ה' אלקיך שואל מעמך.</src>
+    <src s="2">וע"פ הידוע32</src>
+    <src s="3">שכל הפירושים שבאותו הפסוק שייכים זל"ז,</src>
+    <src s="4">מובן,</src>
+    <src s="5">דזה שה' אלקיך שואל מעמך מה,</src>
+    <src s="6">מאה ברכות,</src>
+    <src s="7">שייך לענין התשובה,</src>
+    <src s="8">ועתה.</src>
+    <src s="9">דכיון שהבעלי תשובה כובשים את יצרם יותר מהצדיקים33,</src>
+    <src s="10">ובכדי שהאדם יוכל לעמוד נגד יצרו הוא ע"י זכירת ענין המס"נ34,</src>
+    <src s="11">לכן,</src>
+    <src s="12">עיקר גילוי כח המס"נ הוא בבעלי תשובה.</src>
+    <src s="13">וזהו ועתה גו' מה ה' אלקיך שואל מעמך,</src>
+    <src s="14">דע"י גילוי המס"נ שע"י תשובה,</src>
+    <src s="15">ועתה,</src>
+    <src s="16">אפשר להיות הענין דמאה ברכות,</src>
+    <src s="17">מה ה' אלקיך שואל מעמך.</src>
+  </section>
+</awtsmoosMeluketSource>

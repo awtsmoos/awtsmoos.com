@@ -1,0 +1,98 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915834_theRebbe_708" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915834_theRebbe_708" title="מאמר שלום רב לאוהבי תורתך תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצאי ש"פ וישב,</src>
+    <src s="2">מבה"ח טבת – בחדרו – ה'תשל"ח*</src>
+  </section>
+  <section v="1">
+    <src s="0">שלום רב לאוהבי תורתך וגו'1,</src>
+    <src s="1">ומדייק כ"ק מו"ח אדמו"ר במאמרו ד"ה זו</src>
+    <src s="2">[דש"פ וישב תש"ד2,</src>
+    <src s="3">שבהמשך להמאמר ד"ה פדה בשלום די"ט כסלו תש"ד3],</src>
+    <src s="4">מהו"ע שלום רב,</src>
+    <src s="5">שמזה מובן שיש שלום סתם</src>
+    <src s="6">[ובלשון המאמר שם – שלום מעט4]</src>
+    <src s="7">ושלום רב.</src>
+    <src s="8">וגם מהו לאוהבי תורתך,</src>
+    <src s="9">הלא תורה היא חכמה ובינה</src>
+    <src s="10">[כמ"ש5</src>
+    <src s="11">כי היא חכמתכם ובינתכם]</src>
+    <src s="12">והי' מהראוי שישתמש בלשון של לימוד המיוחס לחכמה ובינה ולא בלשון אהבה.</src>
+    <src s="13">ומבאר שם6,</src>
+    <src s="14">שאוהבי תורתך הוא שאוהבים את התורה לא רק מצד התורה עצמה</src>
+    <src s="15">(מצד החכמה שבה)</src>
+    <src s="16">כ"א מצד נותן התורה</src>
+    <src s="17">(אוהבי תורתך7).</src>
+    <src s="18">וזהו שלום רב לאוהבי תורתך,</src>
+    <src s="19">שהשלום שנעשה ע"י לימוד התורה</src>
+    <src s="20">(סתם)</src>
+    <src s="21">הוא שלום סתם</src>
+    <src s="22">(שלום מעט),</src>
+    <src s="23">משא"כ לאוהבי תורתך,</src>
+    <src s="24">כאשר לימוד התורה הוא לא רק באהבת התורה אלא גם באהבת ה'</src>
+    <src s="25">[ומובן שגם באהבת ישראל,</src>
+    <src s="26">שהרי אהבת ישראל היא כלי לאהבת ה'8,</src>
+    <src s="27">ועד שהם כולא חד9],</src>
+    <src s="28">נמשך שלום רב</src>
+    <src s="29">(שלמעלה משלום סתם).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה ענין אוהבי תורתך</src>
+    <src s="2">(שהאהבה לתורה היא מצד נותן התורה)</src>
+    <src s="3">מבואר במאמר הנ"ל6,</src>
+    <src s="4">שזה נעשה על ידי הקדמת עבודת התפלה.</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">כי עיקר העבודה היא אהבת ה' כמאמר10</src>
+    <src s="7">לית פולחנא כפולחנא דרחימותא.</src>
+    <src s="8">וזה שייך גם לקו העבודה,</src>
+    <src s="9">כללות ענין העבודה ענין התפלה,</src>
+    <src s="10">כי העבודה והיגיעה דתפלה הוא11</src>
+    <src s="11">לבוא לאהבת ה'.</src>
+    <src s="12">וזהו שענין אוהבי תורתך הוא ע"י הקדמת עבודת התפלה,</src>
+    <src s="13">כי ע"י התפלה הוא בא לאהבת ה',</src>
+    <src s="14">ועי"ז נעשה "אוהבי תורתך",</src>
+    <src s="15">שאהבת התורה שלו היא מצד נותן התורה,</src>
+    <src s="16">כנ"ל.</src>
+    <src s="17">וזהו גם מה שמבואר בכ"מ12</src>
+    <src s="18">(בענין תפלת אבא בנימין שתהא תפלתי סמוכה למטתי13)</src>
+    <src s="19">שמעלת לימוד התורה הוא כשהוא בא לאחרי התפלה דוקא</src>
+    <src s="20">[הגם שעבודת התפלה היא קו בפ"ע ות"ת היא קו בפ"ע],</src>
+    <src s="21">כי ע"י הקדמת עבודת התפלה הלימוד הוא באופן נעלה יותר,</src>
+    <src s="22">ועד בבחי' אוהבי תורתך.</src>
+  </section>
+</awtsmoosMeluketSource>

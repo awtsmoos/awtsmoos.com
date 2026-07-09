@@ -1,0 +1,146 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917741_theRebbe_999" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917741_theRebbe_999__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917741_theRebbe_999" title="מאמר אשה כי תזריע תשכ"ה" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917741_theRebbe_999__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דהנה המעלה שבאתערותא דלעילא</src>
+    <src s="3">(שמצד עצמה)</src>
+    <src s="4">היא שההמשכה היא ממקום שאין אתערותא דלתתא מגעת לשם,</src>
+    <src s="5">וההמשכה היא מצד כי13</src>
+    <src s="6">חפץ חסד הוא14.</src>
+    <src s="7">וע"פ הידוע15</src>
+    <src s="8">בענין במי נמלך בנשמותיהן של צדיקים16</src>
+    <src s="9">(ועמך כולם צדיקים17),</src>
+    <src s="10">דזה שנתעורר כביכול להיות חפץ חסד הוא מצד זה שעלה במחשבה</src>
+    <src s="11">(מחשבה עצמית,</src>
+    <src s="12">שלמעלה מהגילוי דחפץ חסד)</src>
+    <src s="13">שעתידין ישראל לקיים תומ"צ ולעשות דירה לו ית' בתחתונים,</src>
+    <src s="14">מובן,</src>
+    <src s="15">שהשרש דעבודתם של ישראל הוא למעלה יותר גם מהענין דחפץ חסד.</src>
+    <src s="16">וע"י שהגילוי דחפץ חסד נתעורר ונמשך ע"י עבודת האדם,</src>
+    <src s="17">מיתוסף בו עילוי נעלה יותר</src>
+    <src s="18">(מכמו שהוא מצד עצמו,</src>
+    <src s="19">מצד למעלה),</src>
+    <src s="20">שנמשך בו מהמחשבה עצמית שלמעלה מגילוי.</src>
+    <src s="21">ועפ"ז יש לבאר,</src>
+    <src s="22">דזה שבחודש ניסן</src>
+    <src s="23">(שענינו הוא המשכה מלמעלה)</src>
+    <src s="24">קוראין אשה כי תזריע וילדה זכר</src>
+    <src s="25">(ההדגשה במעלת אתערותא דלתתא)</src>
+    <src s="26">הוא,</src>
+    <src s="27">כי עיקר העילוי בההמשכה מלמעלה</src>
+    <src s="28">(והגילוי דחפץ חסד)</src>
+    <src s="29">הוא כשהיא נמשכת ע"י עבודה.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">והנה ענין זה</src>
+    <src s="2">(שאשה מזרעת תחלה יולדת זכר מורה על המעלה שבאתערותא דלתתא)</src>
+    <src s="3">הוא גם להפירוש שלידת הזכר הוא מטיפת האיש הבאה באחרונה דעילאה גבר.</src>
+    <src s="4">אלא שלפירוש זה,</src>
+    <src s="5">המעלה באתערותא דלתתא</src>
+    <src s="6">(זרע האשה)</src>
+    <src s="7">הוא שהיא סיבה שהאתערותא דלעילא הנמשכת על ידה תהי' מבחי' נעלית יותר18</src>
+    <src s="8">(עילאה גבר),</src>
+    <src s="9">ולהפירוש שלידת הזכר הוא מזרע האשה,</src>
+    <src s="10">המעלה שבאתערותא דלתתא היא</src>
+    <src s="11">(גם)</src>
+    <src s="12">מצד עצמה.</src>
+    <src s="13">ועפ"ז יש לומר הרמז בהסדר דשני הפירושים,</src>
+    <src s="14">דזה שמקדים הפירוש שלידת הזכר הוא מזרע האיש,</src>
+    <src s="15">אף שהמסקנא היא שהוא מזרע האשה,</src>
+    <src s="16">כי בתחלת העבודה,</src>
+    <src s="17">מעלת האתערותא דלתתא היא שהאתערותא דלעילא הנמשכת על ידה היא נעלית יותר,</src>
+    <src s="18">ועי"ז מתגלית אח"כ המעלה שבאתערותא דלתתא גופא.</src>
+  </section>
+  <section v="5">
+    <src s="0">ויובן זה ע"פ המבואר בלקו"ת19</src>
+    <src s="1">שיש בחינה שלישית באתערותא דלעילא,</src>
+    <src s="2">שהיא בדרך מתנה.</src>
+    <src s="3">שגם אתערותא דלעילא זו נמשכת ממקום שאין אתערותא דלתתא מגעת שם כלל,</src>
+    <src s="4">אלא שבכדי שיהי' הגילוי של אתערותא דלעילא זו צ"ל תחלה השלימות דמעשה התחתונים,</src>
+    <src s="5">האתעדל"ת והאתעדל"ע שנמשכת על ידה.</src>
+    <src s="6">וצריך להבין,</src>
+    <src s="7">הרי הכוונה דנתאוה הקב"ה להיות לו ית' דירה בתחתונים20</src>
+    <src s="8">היא שעשיית הדירה תהי' ע"י עבודת האדם,</src>
+    <src s="9">דמזה מובן,</src>
+    <src s="10">שגם גילויים הכי נעלים,</src>
+    <src s="11">גם האור שלמעלה מהשייכות לנבראים</src>
+    <src s="12">(שאין בכח האתערותא דלתתא להגיע לשם),</src>
+    <src s="13">ועד לגילוי העצמות21,</src>
+    <src s="14">נמשכים הם ע"י עבודת האדם22,</src>
+    <src s="15">ואיך זה מתאים עם המובא לעיל מלקו"ת שע"י העבודה נמשך רק מבחינה שאתערותא דלתתא מגעת לשם,</src>
+    <src s="16">והמשכת הבחינות שלמעלה מזה היא בדרך מתנה מלמעלה.</src>
+    <src s="17">ויש לומר הביאור בזה,</src>
+    <src s="18">דזה שאתערותא דלתתא מגעת רק באור השייך לעולמות הוא מצד ענין הנבראים</src>
+    <src s="19">[אתערותא דלתתא כמו שהוא בבחינת "תתא",</src>
+    <src s="20">הנבדל מ"עילא"].</src>
+    <src s="21">אבל מצד כח העצמות שישנו בעבודתם של ישראל</src>
+    <src s="22">[וכמשנת"ל</src>
+    <src s="23">(סעיף ג)</src>
+    <src s="24">בענין במי נמלך בנשמותיהן של צדיקים,</src>
+    <src s="25">ששרש העבודה דישראל הוא במחשבה העצמית שבעצמותו ית',</src>
+    <src s="26">שלמעלה מכל הגילויים,</src>
+    <src s="27">גם מהגילויים הכי נעלים],</src>
+    <src s="28">אין שייך לחלק בין "תתא" ל"עילא",</src>
+    <src s="29">דישראל וקוב"ה כולא חד.</src>
+    <src s="30">אלא שגילוי ענין זה</src>
+    <src s="31">(השרש דעבודת ישראל כמו שהוא במחשבה העצמית)</src>
+    <src s="32">הוא דוקא לאחרי שנשלם כל השייך לעבודת האדם,</src>
+    <src s="33">העבודה עצמה</src>
+    <src s="34">(אתערותא דלתתא)</src>
+    <src s="35">וההמשכה מלמעלה</src>
+    <src s="36">(אתערותא דלעילא)</src>
+    <src s="37">שבאה על ידה.</src>
+    <src s="38">ולכן,</src>
+    <src s="39">תחלת ההמשכה הבאה ע"י העבודה</src>
+    <src s="40">(לפני שנתגלה כח העצמות שבה)</src>
+    <src s="41">היא רק מהאור השייך לעולמות,</src>
+    <src s="42">מקום שאתערותא דלתתא מגעת לשם,</src>
+    <src s="43">אבל לאחרי השלימות דעבודה</src>
+    <src s="44">(הן דהעבודה עצמה והן דההמשכה מלמעלה שעל ידה),</src>
+    <src s="45">שאז מתגלה ה"פנימיות" שלה,</src>
+    <src s="46">הנחת רוח והתענוג שלמעלה שבעבודת ישראל,</src>
+    <src s="47">נחת רוח לפני שאמרתי ונעשה רצוני23,</src>
+    <src s="48">דנחת רוח ותענוג זה</src>
+    <src s="49">(שנעשה רצוני,</src>
+    <src s="50">ע"י ישראל)</src>
+    <src s="51">הוא בעצמותו ית'</src>
+    <src s="52">(נחת רוח לפני)24,</src>
+    <src s="53">ע"י העבודה נמשך גם האור שלמעלה משייכות לעולמות25,</src>
+    <src s="54">ועד להמשכת העצמות.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,113 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914882_theRebbe_998" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914882_theRebbe_998" title="מאמר ויהיו חיי שרה תש"ל" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914882_theRebbe_998__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">והנה ידוע29</src>
+    <src s="2">ששני הענינים דממלא וסובב שרשם הוא באוא"ס שלפני הצמצום,</src>
+    <src s="3">דאור הגבול</src>
+    <src s="4">(שלפני הצמצום)</src>
+    <src s="5">הוא השרש דאור הממלא,</src>
+    <src s="6">ואור הבלי גבול הוא השרש דאור הסובב.</src>
+    <src s="7">והחילוק בין פעולת הצמצום באור הגבול</src>
+    <src s="8">(שרש הממלא)</src>
+    <src s="9">ופעולת הצמצום באור הבל"ג</src>
+    <src s="10">(שרש הסובב)</src>
+    <src s="11">הוא,</src>
+    <src s="12">דפעולת הצמצום באור הגבול היא בהאור עצמו,</src>
+    <src s="13">שע"י הצמצום בא במדה וגבול לפי ערך העולמות,</src>
+    <src s="14">ממלא כל עלמין.</src>
+    <src s="15">ופעולת הצמצום באור הבל"ג היא</src>
+    <src s="16">(לא בהאור עצמו,</src>
+    <src s="17">אלא)</src>
+    <src s="18">שלא יאיר במקום החלל.</src>
+    <src s="19">ומזה נעשה הענין דסובב,</src>
+    <src s="20">שהאור אינו מאיר</src>
+    <src s="21">(בעולמות,</src>
+    <src s="22">מקום החלל)</src>
+    <src s="23">בגילוי ובפנימיות אלא בבחינת מקיף והעלם.</src>
+    <src s="24">ועפ"ז יש לומר,</src>
+    <src s="25">שב' הענינים שבבחינת כל</src>
+    <src s="26">[שעל ידי היסוד הוא המשכת המדות והמוחין,</src>
+    <src s="27">ושע"י היסוד הוא המשכת הכתר]</src>
+    <src s="28">בשרשם באוא"ס שלפני הצמצום הם אור הגבול ואור הבל"ג,</src>
+    <src s="29">וע"י קיום המצוות נמשך30</src>
+    <src s="30">אור חדש שלא האיר גם קודם הצמצום.</src>
+  </section>
+  <section v="10">
+    <src s="0">וזהו שלע"ל יהיו שמים חדשים וארץ חדשה31,</src>
+    <src s="1">כי אז יתגלו כל הענינים שנמשכים ע"י מעשינו ועבודתינו עכשיו32,</src>
+    <src s="2">כולל האור חדש שנמשך ע"י קיום התומ"צ עכשיו,</src>
+    <src s="3">ועי"ז תהי' התחדשות גם בעולם,</src>
+    <src s="4">שמים חדשים וארץ חדשה.</src>
+    <src s="5">דזה שלע"ל יומשך בעולם גילוי אור הבל"ג שהאיר קודם הצמצום,</src>
+    <src s="6">אין זה חידוש אמיתי.</src>
+    <src s="7">דכיון שאור זה הי' כבר בגילוי במקום החלל אלא שע"י הצמצום נסתלק האור,</src>
+    <src s="8">לכן,</src>
+    <src s="9">כשהאור חוזר ונמשך,</src>
+    <src s="10">אין זה חידוש אמיתי.</src>
+    <src s="11">וזה שלע"ל יהיו שמים חדשים וארץ חדשה הוא,</src>
+    <src s="12">כי אז יהי' גילוי האור חדש</src>
+    <src s="13">(שנמשך ע"י קיום התומ"צ עכשיו)</src>
+    <src s="14">שלא הי' גם קודם הצמצום.</src>
+  </section>
+  <section v="11">
+    <src s="0">ח)</src>
+    <src s="1">והנה33 ידוע,</src>
+    <src s="2">דזה שהבריאה היא בשביל ישראל34,</src>
+    <src s="3">הכוונה בזה היא לא רק לבריאת העולם אלא גם לכל הגילויים,</src>
+    <src s="4">גם לגילויים הכי נעלים.</src>
+    <src s="5">ומזה מובן גם בנוגע לאור הנ"ל שלא האיר גם קודם הצמצום,</src>
+    <src s="6">דזה שנעשה</src>
+    <src s="7">(כביכול)</src>
+    <src s="8">אור זה</src>
+    <src s="9">(שלמעלה מגדר המשכה וגילוי)</src>
+    <src s="10">הוא בכדי שע"י עבודתם של ישראל יהי' אח"כ בהמשכה וגילוי,</src>
+    <src s="11">ושההמשכה והגילוי שלו יהיו בעולם</src>
+    <src s="12">[וכנ"ל שע"י האור חדש,</src>
+    <src s="13">השמים והארץ יהיו חדשים],</src>
+    <src s="14">ועי"ז תושלם הכוונה דדירה בתחתונים.</src>
+    <src s="15">ועפ"ז יש לקשר פירוש הזהר במלך לשדה נעבד</src>
+    <src s="16">(שנעבד קאי על שדה)</src>
+    <src s="17">עם הפירוש</src>
+    <src s="18">(הפשוט)</src>
+    <src s="19">שנעבד קאי על מלך,</src>
+    <src s="20">שגם עצם האור שלמעלה מגדר המשכה וגילוי</src>
+    <src s="21">(מלך עילאה)</src>
+    <src s="22">נעבד כביכול לעבודת השדה</src>
+    <src s="23">(שדה נעבד),</src>
+    <src s="24">קיום המצוות.</src>
+  </section>
+</awtsmoosMeluketSource>

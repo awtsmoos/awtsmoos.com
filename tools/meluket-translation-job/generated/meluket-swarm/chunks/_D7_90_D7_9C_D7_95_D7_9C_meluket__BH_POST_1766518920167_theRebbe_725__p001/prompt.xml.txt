@@ -1,0 +1,98 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920167_theRebbe_725" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920167_theRebbe_725__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920167_theRebbe_725" title="מאמר אני לדודי תשכ"ו" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920167_theRebbe_725__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ ראה,</src>
+    <src s="2">מבה"ח אלול,</src>
+    <src s="3">ה'תשכ"ו</src>
+  </section>
+  <section v="1">
+    <src s="0">אני לדודי ודודי לי1</src>
+    <src s="1">ר"ת אלול2,</src>
+    <src s="2">ומבואר בלקו"ת בהמאמר ד"ה זה3</src>
+    <src s="3">השייכות דאלול לאני לדודי ודודי לי4,</src>
+    <src s="4">כי באלול הוא אתערותא דלתתא,</src>
+    <src s="5">אני לדודי,</src>
+    <src s="6">ובראש השנה ויום הכיפורים היא ההמשכה מלמעלה למטה</src>
+    <src s="7">(אתערותא דלעילא),</src>
+    <src s="8">ודודי לי.</src>
+    <src s="9">וההמשכה שבר"ה ויוהכ"פ היא ע"י האתדל"ת שבאלול.</src>
+    <src s="10">וזהו שאלול הוא ר"ת אני לדודי ודודי לי</src>
+    <src s="11">[שגם ודודי לי נכלל בר"ת אלול],</src>
+    <src s="12">כי האתעדל"ת שבאלול</src>
+    <src s="13">(אני לדודי)</src>
+    <src s="14">היא</src>
+    <src s="15">(גם)</src>
+    <src s="16">הקדמה לההמשכה</src>
+    <src s="17">(ודודי לי)</src>
+    <src s="18">שבר"ה ויוהכ"פ5.</src>
+    <src s="19">וצריך ביאור,</src>
+    <src s="20">כי מזה שהאותיות ו' ל'</src>
+    <src s="21">(ר"ת ודודי לי)</src>
+    <src s="22">הם מתיבת אלול עצמה,</src>
+    <src s="23">משמע,</src>
+    <src s="24">שחודש אלול הוא לא רק הקדמה לודודי לי,</src>
+    <src s="25">אלא שבחודש אלול הוא גם הענין דודודי לי.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">שבאלול הוא זמן י"ג מדות הרחמים6.</src>
+    <src s="3">דהגם שבאלול הוא אני לדודי,</src>
+    <src s="4">אתערותא דלתתא,</src>
+    <src s="5">מ"מ,</src>
+    <src s="6">האתערותא דלתתא של האדם,</src>
+    <src s="7">ובפרט כשהוא רחוק מאלקות,</src>
+    <src s="8">הוא ע"י התעוררות ונתינת כח מלמעלה.</src>
+    <src s="9">וגילוי י"ג מדות הרחמים שבאלול,</src>
+    <src s="10">דגילוי זה הוא לכאו"א מישראל,</src>
+    <src s="11">גם להרחוקים ביותר7,</src>
+    <src s="12">הוא הנתינת כח מלמעלה על העבודה דאני לדודי.</src>
+    <src s="13">אלא שהגילוי שבאלול הוא</src>
+    <src s="14">(בעיקר)</src>
+    <src s="15">רק נתינת כח</src>
+    <src s="16">(ולא שהגילוי מעורר את האדם),</src>
+    <src s="17">והעבודה עצמה באה מהאדם,</src>
+    <src s="18">אני לדודי.</src>
+    <src s="19">וזוהי המעלה שבאלול לגבי עשי"ת,</src>
+    <src s="20">דבעשי"ת ובפרט בר"ה ויוהכ"פ,</src>
+    <src s="21">הגילוי הוא באופן שהגילוי מעורר את האדם ועבודת האדם היא כמו תוצאה מהגילוי מלמעלה.</src>
+    <src s="22">ועיקר הענין והמעלה דעבודת האדם</src>
+    <src s="23">(עבודה בכח עצמו)</src>
+    <src s="24">אני לדודי,</src>
+    <src s="25">הוא באלול.</src>
+  </section>
+</awtsmoosMeluketSource>

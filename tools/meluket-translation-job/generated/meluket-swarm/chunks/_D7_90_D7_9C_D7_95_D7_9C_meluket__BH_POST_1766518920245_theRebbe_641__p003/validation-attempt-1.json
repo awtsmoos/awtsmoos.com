@@ -1,0 +1,348 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 62,
+    "returned": 62,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920245_theRebbe_641\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920245_theRebbe_641__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains the two opposite aspects of Shabbat: that it receives from the six weekdays as Malchus, yet also blesses them after its ascent.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And it can be said that this is also the explanation of what is brought</t>\n    <t s=\"2\">(at the beginning of the maamar)</t>\n    <t s=\"3\">two extremes regarding the matter of Shabbat,</t>\n    <t s=\"4\">that Shabbat is called a queen, which is the Sefirah of Malchus that is lower than all the Sefiros and receives from them,</t>\n    <t s=\"5\">as per the statement</t>\n    <t s=\"6\">\"The moon has nothing of its own,\"</t>\n    <t s=\"7\">[and as per the statement of our sages, of blessed memory,</t>\n    <t s=\"8\">(regarding Shabbat)</t>\n    <t s=\"9\">\"Only one who toiled on Erev Shabbat will eat on Shabbat\"],</t>\n    <t s=\"10\">and on the other hand, \"all the days are blessed from Shabbat,\"</t>\n    <t s=\"11\">meaning that not only is Shabbat holy from all the days,</t>\n    <t s=\"12\">but moreover,</t>\n    <t s=\"13\">it influences them.</t>\n    <t s=\"14\">However, the explanation is,</t>\n    <t s=\"15\">that the seven days of the week are the seven days of construction,</t>\n    <t s=\"16\">for the six weekdays are in Zeir Anpin, as it is written,</t>\n    <t s=\"17\">\"Six days did Hashem make the heavens and the earth,\" and it is brought in the Zohar,</t>\n    <t s=\"18\">\"Each day does its work,\"</t>\n    <t s=\"19\">and Shabbat is Malchus</t>\n    <t s=\"20\">(as above).</t>\n    <t s=\"21\">Therefore,</t>\n    <t s=\"22\">from this aspect, that Malchus descended below,</t>\n    <t s=\"23\">and especially from the aspect of its descent into Biyah, \"her legs descend\" etc.,</t>\n    <t s=\"24\">Shabbat</t>\n    <t s=\"25\">(Malchus)</t>\n    <t s=\"26\">receives from the six weekdays</t>\n    <t s=\"27\">(Zeir Anpin),</t>\n    <t s=\"28\">which is the matter of the work of refinement</t>\n    <t s=\"29\">(the refinement of the Nefesh HaBahamis and all physical things)</t>\n    <t s=\"30\">of the six weekdays.</t>\n    <t s=\"31\">However, after</t>\n    <t s=\"32\">(and through)</t>\n    <t s=\"33\">this work, there is accomplished</t>\n    <t s=\"34\">(on Shabbat)</t>\n    <t s=\"35\">the ascent of Malchus from Biyah until its ascent to its source and origin,</t>\n    <t s=\"36\">and then it ascends above Zeir Anpin until it also influences all six weekdays</t>\n    <t s=\"37\">(Zeir Anpin),</t>\n    <t s=\"38\">for \"from it all the days are blessed.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains the verse \"Come my beloved to greet the bride,\" as the drawing down of Zeir Anpin into Malchus, which also elevates the receiver to become a crown for the giver.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this is \"Come my beloved to greet the bride; let us welcome the face of Shabbat,\"</t>\n    <t s=\"2\">which is the request of the Neshama of Yisrael that there be a drawing down of Zeir Anpin into Malchus.</t>\n    <t s=\"3\">For the beginning of the drawing down is \"Come my beloved to greet the bride,\"</t>\n    <t s=\"4\">a mere going,</t>\n    <t s=\"5\">and through this \"let us welcome the face of Shabbat,\"</t>\n    <t s=\"6\">which is the inner drawing down,</t>\n    <t s=\"7\">\"the face of Shabbat,\"</t>\n    <t s=\"8\">that reveals the aspect of the innerness of Malchus, even as it is rooted in Atik.</t>\n    <t s=\"9\">And therefore \"let us welcome\" is in the plural,</t>\n    <t s=\"10\">for Zeir Anpin also receives from</t>\n    <t s=\"11\">(the root of)</t>\n    <t s=\"12\">Malchus,</t>\n    <t s=\"13\">\"a woman of valor is the crown of her husband.\"</t>\n    <t s=\"14\">And just as it is above in Zeir Anpin and Malchus,</t>\n    <t s=\"15\">so too is it with every influencer and receiver,</t>\n    <t s=\"16\">that through the receiver, addition is brought to the influencer,</t>\n    <t s=\"17\">and \"from my students more than from all of them.\"</t>\n    <t s=\"18\">And especially with a groom and bride below,</t>\n    <t s=\"19\">that specifically through the inner drawing down,</t>\n    <t s=\"20\">behold \"a woman of valor is the crown of her husband,\"</t>\n    <t s=\"21\">and \"everything was from the dust.\"</t>\n    <t s=\"22\">For through this, the power of Ein Sof is drawn down, \"a generation of the upright shall be blessed,\" with sons and grandsons engaged in Torah and mitzvos.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920245_theRebbe_641",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920245_theRebbe_641__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains the two opposite aspects of Shabbat: that it receives from the six weekdays as Malchus, yet also blesses them after its ascent.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And it can be said that this is also the explanation of what is brought"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "(at the beginning of the maamar)"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "two extremes regarding the matter of Shabbat,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that Shabbat is called a queen, which is the Sefirah of Malchus that is lower than all the Sefiros and receives from them,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "as per the statement"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "\"The moon has nothing of its own,\""
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "[and as per the statement of our sages, of blessed memory,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(regarding Shabbat)"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "\"Only one who toiled on Erev Shabbat will eat on Shabbat\"],"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "and on the other hand, \"all the days are blessed from Shabbat,\""
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "meaning that not only is Shabbat holy from all the days,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "but moreover,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "it influences them."
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "However, the explanation is,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "that the seven days of the week are the seven days of construction,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "for the six weekdays are in Zeir Anpin, as it is written,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "\"Six days did Hashem make the heavens and the earth,\" and it is brought in the Zohar,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "\"Each day does its work,\""
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "and Shabbat is Malchus"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "(as above)."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "from this aspect, that Malchus descended below,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "and especially from the aspect of its descent into Biyah, \"her legs descend\" etc.,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "Shabbat"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "(Malchus)"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "receives from the six weekdays"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "(Zeir Anpin),"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "which is the matter of the work of refinement"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "(the refinement of the Nefesh HaBahamis and all physical things)"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "of the six weekdays."
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "However, after"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "(and through)"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "this work, there is accomplished"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "(on Shabbat)"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "the ascent of Malchus from Biyah until its ascent to its source and origin,"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "and then it ascends above Zeir Anpin until it also influences all six weekdays"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "(Zeir Anpin),"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "for \"from it all the days are blessed.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains the verse \"Come my beloved to greet the bride,\" as the drawing down of Zeir Anpin into Malchus, which also elevates the receiver to become a crown for the giver.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this is \"Come my beloved to greet the bride; let us welcome the face of Shabbat,\""
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "which is the request of the Neshama of Yisrael that there be a drawing down of Zeir Anpin into Malchus."
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "For the beginning of the drawing down is \"Come my beloved to greet the bride,\""
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "a mere going,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "and through this \"let us welcome the face of Shabbat,\""
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "which is the inner drawing down,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "\"the face of Shabbat,\""
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "that reveals the aspect of the innerness of Malchus, even as it is rooted in Atik."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And therefore \"let us welcome\" is in the plural,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "for Zeir Anpin also receives from"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(the root of)"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "Malchus,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "\"a woman of valor is the crown of her husband.\""
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "And just as it is above in Zeir Anpin and Malchus,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "so too is it with every influencer and receiver,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that through the receiver, addition is brought to the influencer,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "and \"from my students more than from all of them.\""
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "And especially with a groom and bride below,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "that specifically through the inner drawing down,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "behold \"a woman of valor is the crown of her husband,\""
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "and \"everything was from the dust.\""
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "For through this, the power of Ein Sof is drawn down, \"a generation of the upright shall be blessed,\" with sons and grandsons engaged in Torah and mitzvos."
+          }
+        ]
+      }
+    ]
+  }
+}

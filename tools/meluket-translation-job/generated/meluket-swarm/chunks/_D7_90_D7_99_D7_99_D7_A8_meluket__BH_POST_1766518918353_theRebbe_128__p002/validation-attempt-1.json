@@ -1,0 +1,364 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 64,
+    "returned": 64,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918353_theRebbe_128\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that \"a locked garden\" is like betrothal, where mitzvos create a surrounding separation from desires (like betrothal), preparing a vessel to receive the inner drawing of Torah (like marriage).</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And this will be understood based on what is said in the maamar,</t>\n    <t s=\"2\">that \"a locked garden\" is like the concept of betrothal.</t>\n    <t s=\"3\">And he explains this based on the known [teaching]</t>\n    <t s=\"4\">regarding the concept of \"Sanctify us with Your commandments and give our portion in Your Torah,\"</t>\n    <t s=\"5\">that \"Sanctify us with Your commandments\" is from the term betrothal,</t>\n    <t s=\"6\">for the concept of betrothal is designation,</t>\n    <t s=\"7\">that the woman who is betrothed is designated and set apart for her husband, and through this she is forbidden to all the world,</t>\n    <t s=\"8\">and \"give our portion in Your Torah\" is the concept of marriage,</t>\n    <t s=\"9\">a drawing down into the innerness,</t>\n    <t s=\"10\">to the point that the person absorbs the drawing down,</t>\n    <t s=\"11\">to the point that it becomes \"our portion\"</t>\n    <t s=\"12\">(of Israel).</t>\n    <t s=\"13\">And this is \"Sanctify us with Your commandments and give our portion in Your Torah,\"</t>\n    <t s=\"14\">that the drawing down through the mitzvos is in the aspect of surrounding [light],</t>\n    <t s=\"15\">and its effect upon the person who performs the mitzvah is</t>\n    <t s=\"16\">(primarily)</t>\n    <t s=\"17\">that he be separated from desires and from all evil attributes,</t>\n    <t s=\"18\">similar to betrothal,</t>\n    <t s=\"19\">for this that the woman is betrothed to her husband is</t>\n    <t s=\"20\">(primarily)</t>\n    <t s=\"21\">this that she is forbidden to all the world.</t>\n    <t s=\"22\">And through this he becomes a vessel to absorb the light of Torah,</t>\n    <t s=\"23\">\"and Your Torah within my innards,\"</t>\n    <t s=\"24\">marriage.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section adds that the analogy of mitzvos and Torah to betrothal and marriage is in two aspects: the manner of drawing down (surrounding vs. internal) and the quality of the drawing itself (Torah's drawing is more elevated and intrinsic).</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that the comparison of mitzvos and Torah to betrothal and marriage is in two matters.</t>\n    <t s=\"2\">In the manner of the drawing down,</t>\n    <t s=\"3\">that the drawing down of the mitzvos upon the person who performs the mitzvah is in the aspect of surrounding [light]</t>\n    <t s=\"4\">(betrothal)</t>\n    <t s=\"5\">and the drawing down of Torah upon the person who engages in Torah is in the innerness</t>\n    <t s=\"6\">(marriage)</t>\n    <t s=\"7\">as above.</t>\n    <t s=\"8\">And also in the drawing down itself.</t>\n    <t s=\"9\">For the drawing down of Torah is a more elevated and inner drawing down than the drawing down of mitzvos</t>\n    <t s=\"10\">[to the point that the drawing down of mitzvos is the aspect of hind-parts relative to the drawing down of Torah],</t>\n    <t s=\"11\">and therefore,</t>\n    <t s=\"12\">the drawing down of Torah is similar to the drawing down of the drop</t>\n    <t s=\"13\">(marriage)</t>\n    <t s=\"14\">which is an intrinsic drawing down.</t>\n    <t s=\"15\">And it may be said,</t>\n    <t s=\"16\">that also this concept is hinted at in \"and give our portion in Your Torah.\"</t>\n    <t s=\"17\">For in the language \"our portion\" there are two matters.</t>\n    <t s=\"18\">That the Torah becomes our portion of Israel</t>\n    <t s=\"19\">(as above),</t>\n    <t s=\"20\">and that it is a portion of the Holy One, blessed be He,</t>\n    <t s=\"21\">for when you grasp a part of the essence, you grasp all of it.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that \"Sanctify us with Your commandments\" is a preparation for \"give our portion in Your Torah,\" analogous to the mitzvos given before the Exodus and at Marah as preparations for the Giving of the Torah.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And one may add,</t>\n    <t s=\"2\">that this that \"Sanctify us with Your commandments\" is a preface to \"give our portion in Your Torah,\"</t>\n    <t s=\"3\">is one of the reasons that before the Exodus from Egypt the portion of HaChodesh was said,</t>\n    <t s=\"4\">which contains several mitzvos</t>\n    <t s=\"5\">[that are practiced for generations and are counted among the 613 mitzvos],</t>\n    <t s=\"6\">for with the Exodus from Egypt the concept of the Giving of the Torah began,</t>\n    <t s=\"7\">and therefore before the Exodus from Egypt they were commanded in several mitzvos,</t>\n    <t s=\"8\">which was a preface to the concept of the Giving of the Torah that began with the Exodus from Egypt.</t>\n    <t s=\"9\">And after this they were commanded ten mitzvos at Marah</t>\n    <t s=\"10\">which was a preparation for the actual Giving of the Torah.</t>\n    <t s=\"11\">And more generally it may be said,</t>\n    <t s=\"12\">that this that the Torah begins with Bereishis because of \"the strength</t>\n    <t s=\"13\">of His works He declared to His people, to give them the inheritance of the nations\"</t>\n    <t s=\"14\">is in the manner of the preface of the performance of mitzvos to Torah,</t>\n    <t s=\"15\">for most of the mitzvos are dependent on the Land</t>\n    <t s=\"16\">(the inheritance of the nations).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918353_theRebbe_128",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918353_theRebbe_128__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that \"a locked garden\" is like betrothal, where mitzvos create a surrounding separation from desires (like betrothal), preparing a vessel to receive the inner drawing of Torah (like marriage).",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And this will be understood based on what is said in the maamar,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that \"a locked garden\" is like the concept of betrothal."
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "And he explains this based on the known [teaching]"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "regarding the concept of \"Sanctify us with Your commandments and give our portion in Your Torah,\""
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "that \"Sanctify us with Your commandments\" is from the term betrothal,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "for the concept of betrothal is designation,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "that the woman who is betrothed is designated and set apart for her husband, and through this she is forbidden to all the world,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "and \"give our portion in Your Torah\" is the concept of marriage,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "a drawing down into the innerness,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "to the point that the person absorbs the drawing down,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "to the point that it becomes \"our portion\""
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(of Israel)."
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "And this is \"Sanctify us with Your commandments and give our portion in Your Torah,\""
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "that the drawing down through the mitzvos is in the aspect of surrounding [light],"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "and its effect upon the person who performs the mitzvah is"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "that he be separated from desires and from all evil attributes,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "similar to betrothal,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "for this that the woman is betrothed to her husband is"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "this that she is forbidden to all the world."
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "And through this he becomes a vessel to absorb the light of Torah,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "\"and Your Torah within my innards,\""
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "marriage."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section adds that the analogy of mitzvos and Torah to betrothal and marriage is in two aspects: the manner of drawing down (surrounding vs. internal) and the quality of the drawing itself (Torah's drawing is more elevated and intrinsic).",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "that the comparison of mitzvos and Torah to betrothal and marriage is in two matters."
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "In the manner of the drawing down,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "that the drawing down of the mitzvos upon the person who performs the mitzvah is in the aspect of surrounding [light]"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "(betrothal)"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "and the drawing down of Torah upon the person who engages in Torah is in the innerness"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(marriage)"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "as above."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And also in the drawing down itself."
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "For the drawing down of Torah is a more elevated and inner drawing down than the drawing down of mitzvos"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "[to the point that the drawing down of mitzvos is the aspect of hind-parts relative to the drawing down of Torah],"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "the drawing down of Torah is similar to the drawing down of the drop"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "(marriage)"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "which is an intrinsic drawing down."
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "that also this concept is hinted at in \"and give our portion in Your Torah.\""
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "For in the language \"our portion\" there are two matters."
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "That the Torah becomes our portion of Israel"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "(as above),"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "and that it is a portion of the Holy One, blessed be He,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "for when you grasp a part of the essence, you grasp all of it."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that \"Sanctify us with Your commandments\" is a preparation for \"give our portion in Your Torah,\" analogous to the mitzvos given before the Exodus and at Marah as preparations for the Giving of the Torah.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "that this that \"Sanctify us with Your commandments\" is a preface to \"give our portion in Your Torah,\""
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "is one of the reasons that before the Exodus from Egypt the portion of HaChodesh was said,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "which contains several mitzvos"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "[that are practiced for generations and are counted among the 613 mitzvos],"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "for with the Exodus from Egypt the concept of the Giving of the Torah began,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "and therefore before the Exodus from Egypt they were commanded in several mitzvos,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "which was a preface to the concept of the Giving of the Torah that began with the Exodus from Egypt."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And after this they were commanded ten mitzvos at Marah"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "which was a preparation for the actual Giving of the Torah."
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "And more generally it may be said,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "that this that the Torah begins with Bereishis because of \"the strength"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "of His works He declared to His people, to give them the inheritance of the nations\""
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "is in the manner of the preface of the performance of mitzvos to Torah,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "for most of the mitzvos are dependent on the Land"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "(the inheritance of the nations)."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,464 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 84,
+    "returned": 84,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915758_theRebbe_412\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This light above the chain of descent is drawn down through the self-sacrifice of Matisyahu and his sons, involving both an arousal from below and a drawing down from above, which explains the differences between the Chanukah lights and the Temple menorah.</sectionSummaryBrief>\n    <t s=\"0\">Now, this light</t>\n    <t s=\"1\">(which is above the chain of descent,</t>\n    <t s=\"2\">that shines during the days of Chanukah and particularly in the Chanukah lights)</t>\n    <t s=\"3\">is drawn down through the self-sacrifice of Matisyahu and his sons.</t>\n    <t s=\"4\">That is to say,</t>\n    <t s=\"5\">the connection of this light with the darkness that existed then</t>\n    <t s=\"6\">is in two matters,</t>\n    <t s=\"7\">from below to above and from above to below.</t>\n    <t s=\"8\">From below to above,</t>\n    <t s=\"9\">that due to the greatness of the darkness that existed then, the power of self-sacrifice that is above the chain of descent within man was aroused within them,</t>\n    <t s=\"10\">and through this they drew down from the Essence of the Ein Sof that is above the chain of descent.</t>\n    <t s=\"11\">And from above to below,</t>\n    <t s=\"12\">that through this light they also illuminate the darkness.</t>\n    <t s=\"13\">And this is the reason for all the distinctions mentioned above between the Chanukah lights and the Temple lights,</t>\n    <t s=\"14\">for the light that shone in the Temple</t>\n    <t s=\"15\">(since its drawing down was not through self-sacrifice)</t>\n    <t s=\"16\">was a revelation of the chain of descent,</t>\n    <t s=\"17\">seven lights.</t>\n    <t s=\"18\">And since the revelation of the chain of descent does not have the power to illuminate the darkness,</t>\n    <t s=\"19\">because the darkness is opposed to it,</t>\n    <t s=\"20\">therefore the place of the menorah was inside</t>\n    <t s=\"21\">(within the Sanctuary)</t>\n    <t s=\"22\">and on the right</t>\n    <t s=\"23\">(south),</t>\n    <t s=\"24\">and the time for lighting the lamps was during the period before sunset.</t>\n    <t s=\"25\">But the Chanukah lights</t>\n    <t s=\"26\">(which are after the self-sacrifice)</t>\n    <t s=\"27\">are eight lights,</t>\n    <t s=\"28\">a light that is above the chain of descent,</t>\n    <t s=\"29\">which illuminates even the darkness.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>The Rebbe explains why the Chanukah light is placed outside the door in the public domain, and questions why this was not instituted for Purim despite the self-sacrifice involved there as well.</sectionSummaryBrief>\n    <t s=\"0\">And my father-in-law, the Rebbe, explains in the aforementioned continuation,</t>\n    <t s=\"1\">that therefore they instituted that the Chanukah light should be at the entrance of his house on the outside,</t>\n    <t s=\"2\">in the public domain,</t>\n    <t s=\"3\">even though we do not find a commandment</t>\n    <t s=\"4\">(aside from the Red Heifer)</t>\n    <t s=\"5\">that must be in the public domain,</t>\n    <t s=\"6\">because the purpose of the Chanukah lights is to illuminate the darkness of the public domain,</t>\n    <t s=\"7\">as above.</t>\n    <t s=\"8\">And at first glance,</t>\n    <t s=\"9\">this explanation requires further explanation.</t>\n    <t s=\"10\">For since the light above the chain of descent that shines on Chanukah</t>\n    <t s=\"11\">[and this light illuminates the darkness of the public domain]</t>\n    <t s=\"12\">is drawn down through the self-sacrifice of Matisyahu and his sons,</t>\n    <t s=\"13\">it would seem necessary to say,</t>\n    <t s=\"14\">that also through the self-sacrifice of Purim this light is drawn down</t>\n    <t s=\"15\">[and particularly since the self-sacrifice of Chanukah was</t>\n    <t s=\"16\">(primarily)</t>\n    <t s=\"17\">only in Matisyahu and his sons,</t>\n    <t s=\"18\">while the self-sacrifice of Purim was in all of Israel],</t>\n    <t s=\"19\">and nevertheless they did not institute on Purim a commandment that must be in the public domain,</t>\n    <t s=\"20\">only on Chanukah.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>Although the light in the Temple was also a revelation from above the chain of descent, relative to the Chanukah light it is considered within the chain of descent, requiring an explanation of the distinction between them.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">Now, that the light that shone in the Temple was a revelation of the chain of descent,</t>\n    <t s=\"2\">for which darkness is opposed to it</t>\n    <t s=\"3\">(as brought above from the discourses),</t>\n    <t s=\"4\">is relative to the light of Chanukah,</t>\n    <t s=\"5\">but in general,</t>\n    <t s=\"6\">even the light that shone in the Temple was a revelation above the chain of descent,</t>\n    <t s=\"7\">for which darkness is not opposed to it.</t>\n    <t s=\"8\">And as explained above</t>\n    <t s=\"9\">(in the discourse beginning \"Padah b'Shalom\")</t>\n    <t s=\"10\">that the building of the Holy Temple was specifically by Shlomo</t>\n    <t s=\"11\">(even though the design of the Temple was done by Dovid)</t>\n    <t s=\"12\">is as it is written,</t>\n    <t s=\"13\">\"He</t>\n    <t s=\"14\">(Shlomo)</t>\n    <t s=\"15\">shall be a man of rest... and peace and quiet I will give to Israel in his days</t>\n    <t s=\"16\">(and therefore)</t>\n    <t s=\"17\">he shall build a house for My Name,\" etc.,</t>\n    <t s=\"18\">and that all the nations were subjugated to Shlomo</t>\n    <t s=\"19\">[which is why in his days there was peace and quiet]</t>\n    <t s=\"20\">is because Shlomo is the aspect of the King to whom peace belongs,</t>\n    <t s=\"21\">the Ein Sof that is above the chain of descent,</t>\n    <t s=\"22\">for in relation to this revelation</t>\n    <t s=\"23\">(which is above the chain of descent)</t>\n    <t s=\"24\">all opponents are nullified.</t>\n    <t s=\"25\">For this revelation</t>\n    <t s=\"26\">(that shone through Shlomo)</t>\n    <t s=\"27\">was also before the Holy Temple was built,</t>\n    <t s=\"28\">and in the Holy Temple this revelation shone even more.</t>\n    <t s=\"29\">Nevertheless,</t>\n    <t s=\"30\">relative to the revelation of Chanukah,</t>\n    <t s=\"31\">even the revelation that shone in the Holy Temple is included in the chain of descent.</t>\n    <t s=\"32\">And an explanation is needed regarding the distinction between the revelation of the Holy Temple and the revelation of Chanukah.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915758_theRebbe_412",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This light above the chain of descent is drawn down through the self-sacrifice of Matisyahu and his sons, involving both an arousal from below and a drawing down from above, which explains the differences between the Chanukah lights and the Temple menorah.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "Now, this light"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "(which is above the chain of descent,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that shines during the days of Chanukah and particularly in the Chanukah lights)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "is drawn down through the self-sacrifice of Matisyahu and his sons."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "the connection of this light with the darkness that existed then"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "is in two matters,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "from below to above and from above to below."
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "From below to above,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "that due to the greatness of the darkness that existed then, the power of self-sacrifice that is above the chain of descent within man was aroused within them,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and through this they drew down from the Essence of the Ein Sof that is above the chain of descent."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "And from above to below,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "that through this light they also illuminate the darkness."
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "And this is the reason for all the distinctions mentioned above between the Chanukah lights and the Temple lights,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "for the light that shone in the Temple"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "(since its drawing down was not through self-sacrifice)"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "was a revelation of the chain of descent,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "seven lights."
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "And since the revelation of the chain of descent does not have the power to illuminate the darkness,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "because the darkness is opposed to it,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "therefore the place of the menorah was inside"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "(within the Sanctuary)"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "and on the right"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "(south),"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "and the time for lighting the lamps was during the period before sunset."
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "But the Chanukah lights"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(which are after the self-sacrifice)"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "are eight lights,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "a light that is above the chain of descent,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "which illuminates even the darkness."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "The Rebbe explains why the Chanukah light is placed outside the door in the public domain, and questions why this was not instituted for Purim despite the self-sacrifice involved there as well.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And my father-in-law, the Rebbe, explains in the aforementioned continuation,"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "that therefore they instituted that the Chanukah light should be at the entrance of his house on the outside,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "in the public domain,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "even though we do not find a commandment"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "(aside from the Red Heifer)"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "that must be in the public domain,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "because the purpose of the Chanukah lights is to illuminate the darkness of the public domain,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "as above."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And at first glance,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "this explanation requires further explanation."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "For since the light above the chain of descent that shines on Chanukah"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "[and this light illuminates the darkness of the public domain]"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "is drawn down through the self-sacrifice of Matisyahu and his sons,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "it would seem necessary to say,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "that also through the self-sacrifice of Purim this light is drawn down"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "[and particularly since the self-sacrifice of Chanukah was"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "only in Matisyahu and his sons,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "while the self-sacrifice of Purim was in all of Israel],"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "and nevertheless they did not institute on Purim a commandment that must be in the public domain,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "only on Chanukah."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "Although the light in the Temple was also a revelation from above the chain of descent, relative to the Chanukah light it is considered within the chain of descent, requiring an explanation of the distinction between them.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "Now, that the light that shone in the Temple was a revelation of the chain of descent,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "for which darkness is opposed to it"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "(as brought above from the discourses),"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "is relative to the light of Chanukah,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "but in general,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "even the light that shone in the Temple was a revelation above the chain of descent,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "for which darkness is not opposed to it."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "And as explained above"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "(in the discourse beginning \"Padah b'Shalom\")"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "that the building of the Holy Temple was specifically by Shlomo"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "(even though the design of the Temple was done by Dovid)"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "is as it is written,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "\"He"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "(Shlomo)"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "shall be a man of rest... and peace and quiet I will give to Israel in his days"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "(and therefore)"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "he shall build a house for My Name,\" etc.,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "and that all the nations were subjugated to Shlomo"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "[which is why in his days there was peace and quiet]"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "is because Shlomo is the aspect of the King to whom peace belongs,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "the Ein Sof that is above the chain of descent,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "for in relation to this revelation"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "(which is above the chain of descent)"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "all opponents are nullified."
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "For this revelation"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "(that shone through Shlomo)"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "was also before the Holy Temple was built,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "and in the Holy Temple this revelation shone even more."
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "relative to the revelation of Chanukah,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "even the revelation that shone in the Holy Temple is included in the chain of descent."
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "And an explanation is needed regarding the distinction between the revelation of the Holy Temple and the revelation of Chanukah."
+          }
+        ]
+      }
+    ]
+  }
+}

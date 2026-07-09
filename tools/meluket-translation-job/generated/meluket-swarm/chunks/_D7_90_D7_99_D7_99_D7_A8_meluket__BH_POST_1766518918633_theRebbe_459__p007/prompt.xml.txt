@@ -1,0 +1,107 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918633_theRebbe_459" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918633_theRebbe_459" title="מאמר בחודש השלישי תשכ"ט" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p007">
+  <section v="18">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">ויש לומר,</src>
+    <src s="3">שזהו גם הקשר דביום הזה עם</src>
+    <src s="4">(מדבר)</src>
+    <src s="5">סיני,</src>
+    <src s="6">שירדה שנאה לאומות העולם שלא קיבלו בו את התורה63.</src>
+    <src s="7">דכמו64</src>
+    <src s="8">שישראל קיבלו התורה מפני שכפה הקב"ה עליהם הר כגיגית39</src>
+    <src s="9">התגלות האהבה לישראל65</src>
+    <src s="10">– ואוהב את יעקב66,</src>
+    <src s="11">כמו"כ הוא בנוגע לאוה"ע שלא קיבלו את התורה שזהו מפני שירדה שנאה לאוה"ע – ואת עשו שנאתי66.</src>
+    <src s="12">וזה שואוהב את יעקב ואת עשו שנאתי הוא לא מפני המעלה דישראל,</src>
+    <src s="13">כי זה גופא שהחזירה הקב"ה</src>
+    <src s="14">(לתורה)</src>
+    <src s="15">על כל אומה ולשון67</src>
+    <src s="16">מוכיח שנתינת התורה היא ממקום נעלה ביותר,</src>
+    <src s="17">שכל המעלות,</src>
+    <src s="18">כולל גם המעלה דבנים אתם לה' אלקיכם68,</src>
+    <src s="19">אינם תופסים מקום שם,</src>
+    <src s="20">ושניהם</src>
+    <src s="21">(ישראל ואוה"ע)</src>
+    <src s="22">שוים – הלא אח עשו ליעקב66,</src>
+    <src s="23">אלא שבבחירתו החפשית בחר להיות ואוהב את יעקב ואת עשו שנאתי.</src>
+    <src s="24">וזהו הקשר דביום הזה עם מדבר סיני,</src>
+    <src s="25">דזה שירדה שנאה לאוה"ע הוא לפי שכך בחר בבחירתו החפשית</src>
+    <src s="26">(כנ"ל),</src>
+    <src s="27">ואמיתית ענין הבחירה הוא רק בהעצמות,</src>
+    <src s="28">זה.</src>
+    <src s="29">ועד"ז הוא גם בנוגע להענין דסיני שירדה שנאה ליצה"ר</src>
+    <src s="30">(שבישראל),</src>
+    <src s="31">שעי"ז ניתן הכח לברר המדות דנפש הבהמית,</src>
+    <src s="32">שהוא ע"י גילוי כח העצמות.</src>
+    <src s="33">דזה שנפש האלקית בטילה לאלקות,</src>
+    <src s="34">כולל שגם ההתפשטות שלה</src>
+    <src s="35">(האהבה)</src>
+    <src s="36">היא בביטול,</src>
+    <src s="37">אינו חידוש כ"כ,</src>
+    <src s="38">ועיקר הענין דגילוי כח העצמות,</src>
+    <src s="39">יום הזה,</src>
+    <src s="40">הוא בזה שבאו מדבר סיני,</src>
+    <src s="41">בירור וזיכוך הגוף ונה"ב.</src>
+  </section>
+  <section v="19">
+    <src s="0">אלא שאעפ"כ עיקר הביאור</src>
+    <src s="1">(באריכות ובפרטיות)</src>
+    <src s="2">בהדרוש שבתו"א בהמעלה דר"ח סיון הוא בענין הביטול דבחינת מדבר,</src>
+    <src s="3">כי המעלה בזה שגם המציאות הוא בטל</src>
+    <src s="4">[בירור המדות דנה"ב,</src>
+    <src s="5">ועד"ז שהמציאות</src>
+    <src s="6">(אהבה)</src>
+    <src s="7">דנפש האלקית היא בביטול]</src>
+    <src s="8">היא שעי"ז מתגלה כח העצמות</src>
+    <src s="9">(כנ"ל),</src>
+    <src s="10">אבל בכדי לעורר ולהמשיך הענין דמתן תורה</src>
+    <src s="11">(המשכת העצמות)</src>
+    <src s="12">הוא ע"י הביטול הבא מעצם הנשמה,</src>
+    <src s="13">דביטול זה מגיע בהעצמות.</src>
+  </section>
+  <section v="20">
+    <src s="0">ויש לקשר זה עם שבר"ח סיון היו כל ישראל כאיש אחד בלב אחד69,</src>
+    <src s="1">ואמר הקב"ה הרי השעה שאתן להם את תורתי70,</src>
+    <src s="2">כי זה שהיו כאיש אחד בלב אחד הוא ע"י הגילוי דשרש הנשמה שלמעלה מהנשמה המלובשת בגוף,</src>
+    <src s="3">וכמבואר בתניא71</src>
+    <src s="4">שכל ישראל הם אחים ממש הוא</src>
+    <src s="5">(דוקא)</src>
+    <src s="6">מצד שרש נפשם,</src>
+    <src s="7">ולכן זה שהיו כאיש אחד72</src>
+    <src s="8">הגיע בהעצמות ונתעורר אצלו כביכול הרצון ליתן להם את תורתו.</src>
+  </section>
+</awtsmoosMeluketSource>

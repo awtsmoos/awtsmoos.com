@@ -1,0 +1,67 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916627_theRebbe_635" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916627_theRebbe_635__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916627_theRebbe_635" title="רשימה באתי לגני תשי"ג" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916627_theRebbe_635__p001">
+  <section v="0">
+    <src s="0">[בס"ד.</src>
+    <src s="1">יו"ד שבט,</src>
+    <src s="2">ה'תשי"ג*]</src>
+  </section>
+  <section v="1">
+    <src s="0">למע'</src>
+    <src s="1">(קדושה)</src>
+    <src s="2">או למטה</src>
+    <src s="3">(לעו"ז)</src>
+    <src s="4">נק' שטות1</src>
+    <src s="5">וכשי"ת2.</src>
+  </section>
+  <section v="2">
+    <src s="0">איך אפשר3,</src>
+    <src s="1">וכמאמר הזהר עה"פ ונפש כי תחטא,</src>
+    <src s="2">דהקב"ה ואורייתא תווהן איך אפשר כי תחטא,</src>
+    <src s="3">אף שקאי בנפש,</src>
+    <src s="4">שהיא המדר' היותר תחתונה דה' שמות דנשמה,</src>
+    <src s="5">וכמו שמדייק שם בזהר דנפש דוקא ובכ"ז תווהא.</src>
+    <src s="6">וכידוע פתגם אדה"ז אז אַ איד ניט ער וויל ניט ער קאן זיין אַ נפרד מאלקות,</src>
+    <src s="7">ורק מפני שאינו מרגיש שבדבר העברה נעשה נפרד,</src>
+    <src s="8">ונדמה שעודנו ביהדות,</src>
+    <src s="9">כי באמת,</src>
+    <src s="10">הרי שס"ה מל"ת וכל איסורי דרבנן,</src>
+    <src s="11">מאחר4</src>
+    <src s="12">(תניא פכ"ד כה)</src>
+    <src s="13">שאין מורדין,</src>
+    <src s="14">אלקא דאלקייא,</src>
+    <src s="15">שיש עוד מציאות5.</src>
+  </section>
+</awtsmoosMeluketSource>

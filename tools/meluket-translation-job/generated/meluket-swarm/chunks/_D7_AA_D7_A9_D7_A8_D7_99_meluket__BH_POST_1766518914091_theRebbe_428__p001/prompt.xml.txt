@@ -1,0 +1,108 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914091_theRebbe_428" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914091_theRebbe_428__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914091_theRebbe_428" title="מאמר שובה ישראל תש"מ" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914091_theRebbe_428__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ האזינו,</src>
+    <src s="2">שבת שובה ה'תש"מ*</src>
+  </section>
+  <section v="1">
+    <src s="0">שובה ישראל עד ה' אלקיך1,</src>
+    <src s="1">וידוע בזה דיוק רבותינו נשיאינו מהו אומרו עד הוי' אלקיך דלכאורה הול"ל להוי' אלקיך2.</src>
+    <src s="2">וגם מה שנקט ב' השמות הוי' ואלקיך3.</src>
+    <src s="3">ובפרט שאומר כאן שובה ישראל,</src>
+    <src s="4">דשם ישראל מתאר מדריגה הנעלית שבישראל,</src>
+    <src s="5">דבני ישראל נחלקים בכלל לב' מדריגות יעקב וישראל,</src>
+    <src s="6">ושם ישראל הוא ע"ש כי שרית עם אלקים ועם אנשים ותוכל4,</src>
+    <src s="7">שמזה מובן שמדבר כאן בענין שלימות התשובה5.</src>
+    <src s="8">וכמובן גם ממה שההפטורה דשבת תשובה היא שובה ישראל,</src>
+    <src s="9">שהתשובה דשבת תשובה היא דרגא נעלית בתשובה עילאה.</src>
+    <src s="10">דהנה שבת אותיות תשב היא בחי' תשובה עילאה6,</src>
+    <src s="11">ובתשובה עילאה גופא</src>
+    <src s="12">[שיש בה כמה דרגות]</src>
+    <src s="13">היא תשובה נעלית שהרי צ"ל כל ימיו</src>
+    <src s="14">(גם בימי החול)</src>
+    <src s="15">בתשובה עילאה7,</src>
+    <src s="16">שמזה מובן,</src>
+    <src s="17">ששבת היא דרגא נעלית בתשובה עילאה גופא.</src>
+    <src s="18">ובפרט בשבת תשובה שמתקן ומעלה את כל שבתות השנה</src>
+    <src s="19">[כמבואר בכתבי האריז"ל8</src>
+    <src s="20">בענין ז' הימים שבין ראש השנה ליום הכפורים שיש בהם כל ז' ימי השבוע,</src>
+    <src s="21">שביום הראשון בשבוע שבימים אלו מתקנים ומעלים את ימי ראשון דכל השנה,</src>
+    <src s="22">ועד"ז ביום ב' וכו',</src>
+    <src s="23">ובשבת תשובה מתקנים ומעלים את השבתות דכל השנה],</src>
+    <src s="24">כי התשובה דשבת תשובה היא נעלית גם מהתשובה דכל שבתות השנה,</src>
+    <src s="25">ותשובה זו היא בדוגמת יום הכפורים9</src>
+    <src s="26">דכתיב בי'10</src>
+    <src s="27">כי ביום הזה יכפר עליכם גו' לפני הוי' תטהרו,</src>
+    <src s="28">לפני הוי' דוקא למעלה משם הוי'11,</src>
+    <src s="29">ועוד יותר מזה אומר יכפר עליכם סתם מאן דלית לי' שם ידיעא ולא אתפס בשם כו'12,</src>
+    <src s="30">ולמה אומר כאן עד הוי' אלקיך.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וידוע הביאור בזה13,</src>
+    <src s="2">דמ"ש שובה ישראל עד הוי' אלקיך הוא ענין יחוד הוי' ואלקים כמ"ש14</src>
+    <src s="3">וידעת גו' הוי' הוא האלקים,</src>
+    <src s="4">שהיא ידיעה נעלית ביותר,</src>
+    <src s="5">כמבואר בזהר15.</src>
+    <src s="6">ולכן אומר שובה ישראל עד הוי' אלקיך כי ענין התשובה שייך לידיעה זו כמ"ש16</src>
+    <src s="7">(גבי ענין התשובה שהי' בהר הכרמל)</src>
+    <src s="8">ויאמרו הוי' הוא האלקים הוי' הוא האלקים.</src>
+    <src s="9">וכפל הוי' הוא האלקים הוי' הוא האלקים ב' פעמים לפי שע"י עבודת התשובה,</src>
+    <src s="10">שהיא למעלה מעבודת הצדיקים,</src>
+    <src s="11">נמשך ענין הוי' הוא האלקים ב' פעמים.</src>
+    <src s="12">וכדאיתא במדרש17</src>
+    <src s="13">נאמר בסיני18</src>
+    <src s="14">אנכי ה' אלקיך בכרמל יאמר כפול ה' הוא האלקים ה' הוא האלקים,</src>
+    <src s="15">ומבואר בלקו"ת19</src>
+    <src s="16">שבסיני היו ישראל בדרגת צדיקים,</src>
+    <src s="17">וע"י עבודת הצדיקים</src>
+    <src s="18">(תומ"צ)</src>
+    <src s="19">נמשך ענין הוי' הוא האלקים פעם אחת,</src>
+    <src s="20">משא"כ בהר הכרמל ע"י התשובה המשיכו הוי' הוא האלקים ב' פעמים.</src>
+    <src s="21">והוא ע"ד מה שבמ"ת כתיב אנכי ה' אלקיך,</src>
+    <src s="22">אנכי פעם אחת,</src>
+    <src s="23">משא"כ גבי תשובה כתיב20</src>
+    <src s="24">אנכי אנכי הוא גו' למעני גו',</src>
+    <src s="25">אנכי ב' פעמים,</src>
+    <src s="26">לפי שע"י העבודה דתומ"צ נמשך בחי' אנכי פעם אחת,</src>
+    <src s="27">משא"כ ההמשכה שע"י עבודת התשובה היא למעלה יותר מההמשכה שע"י העבודה דתומ"צ21.</src>
+    <src s="28">דזהו ג"כ מ"ש אנכי אנכי הוא גו' למעני ותרגם בדיל שמי,</src>
+    <src s="29">עד בחי' שמו הגדול22,</src>
+    <src s="30">ולמעלה יותר בחי' הי' הוא ושמו בלבד,</src>
+    <src s="31">לפני הצמצום.</src>
+  </section>
+</awtsmoosMeluketSource>

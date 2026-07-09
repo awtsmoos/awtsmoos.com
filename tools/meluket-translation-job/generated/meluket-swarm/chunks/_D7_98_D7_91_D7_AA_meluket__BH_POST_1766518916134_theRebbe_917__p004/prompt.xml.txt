@@ -1,0 +1,148 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" title="מאמר ויגש אליו יהודה תשכ"ה" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p004">
+  <section v="9">
+    <src s="0">ה)</src>
+    <src s="1">וביאור הענין בפרטיות יותר,</src>
+    <src s="2">יובן ע"פ מ"ש הצ"צ בהמאמר35</src>
+    <src s="3">ד"ה להבין הענין שארז"ל36</src>
+    <src s="4">שאור א"ס ב"ה הוא למעלה עד אין קץ ולמטה עד אין תכלית</src>
+    <src s="5">[שהביכל הזה</src>
+    <src s="6">(שבו נמצא מאמר הנ"ל)</src>
+    <src s="7">הי' משך כמה שנים בשבי',</src>
+    <src s="8">ובזמן האחרון37</src>
+    <src s="9">נפדה מהשבי' והגיע לכאן.</src>
+    <src s="10">ולהעיר,</src>
+    <src s="11">שבדרוש זה ישנם כמה ענינים שאינם בדרושים הנ"ל]</src>
+    <src s="12">בפירוש הכתוב38</src>
+    <src s="13">חנוך לנער על פי דרכו גם כי יזקין לא יסור ממנה,</src>
+    <src s="14">דלכאורה כשהאדם מזקין צריך להתעלות למדריגה נעלית יותר,</src>
+    <src s="15">ומהי39</src>
+    <src s="16">המעלה שגם כשיזקין לא יסור מהדרך שחינכו אותו כשהי' נער,</src>
+    <src s="17">ומבאר בהמאמר,</src>
+    <src s="18">דבשכל אנושי יש חילוק גדול ועצום בין השכל שהאדם משיג בנערותו להשכל שהוא משיג בגדלותו ומכש"כ בזקנותו.</src>
+    <src s="19">אבל בהתורה שהיא אלקות,</src>
+    <src s="20">החילוק שבין נערותו לזקנותו הוא רק בהשגת השכל של האדם שבה מלובשת התורה,</src>
+    <src s="21">אבל בהתורה עצמה,</src>
+    <src s="22">שהיא חכמתו של הקב"ה שלמעלה משכל הנבראים,</src>
+    <src s="23">אין חילוק בין שכל הנער לשכל הזקן,</src>
+    <src s="24">ולכן גם כשיזקין לא יסור מן הדרך שלמדוהו בהיותו נער.</src>
+    <src s="25">ומוסיף בהמאמר,</src>
+    <src s="26">דכתיב40</src>
+    <src s="27">נער הייתי גם זקנתי,</src>
+    <src s="28">נער הוא מט"ט שביצירה וגם זקנתי הוא עלייתו באצילות,</src>
+    <src s="29">דחכמת התורה שבאצילות היא נעלית הרבה יותר מחכמת התורה שביצירה.</src>
+    <src s="30">ואעפ"כ,</src>
+    <src s="31">גם כשיזקין ויתעלה באצילות לא יסור מהדרך שלמדוהו בהיותו נער ביצירה,</src>
+    <src s="32">כי עצם התורה היא תענוג העצמי דהעצמות</src>
+    <src s="33">(ואהי' אצלו גו' שעשועים41,</src>
+    <src s="34">אצלו דוקא),</src>
+    <src s="35">שלמעלה גם מחכמתו של הקב"ה,</src>
+    <src s="36">חכמה דאצילות.</src>
+    <src s="37">ובנוגע לענין זה שבתורה</src>
+    <src s="38">(שהוא עיקר התורה)</src>
+    <src s="39">אין חילוק בין ההשגה דיצירה</src>
+    <src s="40">(וגם ההשגה דשכל אנושי)</src>
+    <src s="41">לההשגה דאצילות.</src>
+  </section>
+  <section v="10">
+    <src s="0">ועפ"ז יובן עוד יותר היתרון בההמשכה דתורה לגבי ההמשכה שע"י תפלה.</src>
+    <src s="1">דההמשכה למטה שע"י תפלה היא</src>
+    <src s="2">(לא שהאלקות עצמו נמשך למטה,</src>
+    <src s="3">אלא)</src>
+    <src s="4">שע"י ההמשכה נעשה שינוי בעניני העולם.</src>
+    <src s="5">וההמשכה דתורה,</src>
+    <src s="6">היא המשכת אלקות,</src>
+    <src s="7">שגם לאחרי ירידתה למטה היא חכמתו של הקב"ה.</src>
+    <src s="8">ויתירה מזו,</src>
+    <src s="9">שהאלקות שבתורה שנמשכת למטה ומתלבשת בשכלו של האדם הלומד,</src>
+    <src s="10">אינה בגדר עלמין,</src>
+    <src s="11">שלכן,</src>
+    <src s="12">ההשגה דשכל אנושי וההשגה דאצילות הם בשוה ממש לגבה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ו)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דכמו שהיתרון בההמשכה דתורה לגבי ההמשכה דתפלה הוא בנוגע להמטה,</src>
+    <src s="3">שנמשך בו גילוי אלקות,</src>
+    <src s="4">עד"ז הוא בהיתרון שבההמשכה שע"י תפלה לגבי ההמשכה דתורה,</src>
+    <src s="5">דנוסף לזה ששרש ההמשכה שע"י תפלה הוא מלמעלה מהשתלשלות,</src>
+    <src s="6">היתרון בההמשכה שע"י תפלה הוא גם בנוגע להמטה,</src>
+    <src s="7">שע"י התפלה נעשה שינוי בהנבראים שלמטה,</src>
+    <src s="8">לרפאות החולים ולברך השנים42.</src>
+    <src s="9">ולהוסיף,</src>
+    <src s="10">דענין זה</src>
+    <src s="11">[שע"י תפלה נעשה שינוי למטה]</src>
+    <src s="12">הוא בכל תפלה.</src>
+    <src s="13">והענין הוא,</src>
+    <src s="14">דמבואר בדרוש הנ"ל דהצ"צ43,</src>
+    <src s="15">דזה שאיתא בגמרא44</src>
+    <src s="16">שבתפלת ציבור</src>
+    <src s="17">(דוקא)</src>
+    <src s="18">כתיב45</src>
+    <src s="19">הן א-ל כביר לא46</src>
+    <src s="20">ימאס,</src>
+    <src s="21">שהיא רצוי' ומקובלת לעולם47,</src>
+    <src s="22">הכוונה בזה היא,</src>
+    <src s="23">דזה שהקב"ה ממלא הבקשה דתפלת ציבור,</src>
+    <src s="24">הוא גם בגילוי.</src>
+    <src s="25">והיינו,</src>
+    <src s="26">שגם בתפלת יחיד,</src>
+    <src s="27">הקב"ה ממלא את בקשתו</src>
+    <src s="28">[וכדמוכח מזה שאנשי כנה"ג תיקנו להתפלל ג' פעמים בכל יום,</src>
+    <src s="29">ובודאי שלא תיקנו שתהי' ח"ו ברכה לבטלה].</src>
+    <src s="30">אלא שבתפלת יחיד,</src>
+    <src s="31">אפשר שההשפעה</src>
+    <src s="32">(מילוי הבקשה)</src>
+    <src s="33">תהי' בהעלם,</src>
+    <src s="34">והמעלה דתפלת ציבור היא שההשפעה היא בגילוי.</src>
+    <src s="35">ולהעיר,</src>
+    <src s="36">שבכמה דרושים48</src>
+    <src s="37">מבואר שבתפלת יחיד אפשר שההשפעה תישאר למעלה ולא תומשך למטה,</src>
+    <src s="38">ובדרוש הנ"ל דהצ"צ מבואר שההשפעה</src>
+    <src s="39">(גם בתפלת יחיד)</src>
+    <src s="40">נמשכת למטה,</src>
+    <src s="41">אלא שאפשר שתהי' בהעלם.</src>
+    <src s="42">ויש לומר,</src>
+    <src s="43">דכיון דהבקשה דתפלה היא שתושפע ההשפעה למטה</src>
+    <src s="44">(לרפאות החולים ולברך השנים),</src>
+    <src s="45">לכן,</src>
+    <src s="46">גם כשממשיכים לו ההשפעה שביקש אבל ההשפעה אינה נמשכת למטה,</src>
+    <src s="47">תפלתו היא ברכה לבטלה,</src>
+    <src s="48">ומזה מוכח,</src>
+    <src s="49">שבכל תפלה,</src>
+    <src s="50">גם בתפלת יחיד נמשכת ההשפעה למטה אלא שאפשר שתהי' בהעלם.</src>
+  </section>
+</awtsmoosMeluketSource>

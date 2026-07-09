@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919515_theRebbe_764" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919515_theRebbe_764" title="מאמר גדול יהי' תשכ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p002">
+  <section v="3">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דהטעם שבלקו"ת מדבר במעלת גאולה השלישית הוא,</src>
+    <src s="2">כי הגאולה השלישית היא נעלית יותר מהמעלה דביהמ"ק השלישי.</src>
+    <src s="3">כמובן מזה שהגאולה</src>
+    <src s="4">(קיבוץ גליות)</src>
+    <src s="5">תהי' לאחרי בנין ביהמ"ק11.</src>
+    <src s="6">אלא שגם מעלה זו באה ע"י ביהמ"ק השלישי</src>
+    <src s="7">(שלכן היא נלמדת</src>
+    <src s="8">(בלקו"ת)</src>
+    <src s="9">מהמעלה דביהמ"ק השלישי)</src>
+    <src s="10">כי בבנין ביהמ"ק השלישי יהיו כלולים כל הענינים והמעלות שיהיו לאח"ז.</src>
+    <src s="11">וע"פ מ"ש בזהר12</src>
+    <src s="12">בסדר הענינים שיהיו לע"ל דתחיית המתים הוא אחרון שבכולם,</src>
+    <src s="13">יש לומר,</src>
+    <src s="14">שגילוי המעלה שביהמ"ק השלישי</src>
+    <src s="15">[אמת שאין שייך בו הפסק ושינוי]</src>
+    <src s="16">יהי' בעיקר בתחה"מ,</src>
+    <src s="17">שאז יהיו חיים נצחיים.</src>
+    <src s="18">ויש לקשר זה עם מ"ש13</src>
+    <src s="19">יחיינו מיומיים ביום השלישי יקימנו ונחי' לפניו,</src>
+    <src s="20">דביום השלישי שני פירושים.</src>
+    <src s="21">שקאי על ביהמ"ק השלישי14</src>
+    <src s="22">ושקאי על תחה"מ15.</src>
+    <src s="23">והקשר דשני הפירושים16</src>
+    <src s="24">הוא,</src>
+    <src s="25">כי בתחה"מ תתגלה המעלה דביהמ"ק השלישי.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים מה שארז"ל17</src>
+    <src s="2">עלה ארי' במזל ארי' והחריב את אריאל כו' על מנת שיבוא ארי' במזל ארי' ויבנה אריאל.</src>
+    <src s="3">ומזה מובן,</src>
+    <src s="4">דמ"ש גדול יהי' כבוד הבית הזה האחרון יותר מן הראשון הוא גם באם ביהמ"ק הראשון לא הי' נחרב והי' לו קיום נצחי.</src>
+    <src s="5">ולכן עלה ארי' כו' והחריב את אריאל בכדי שיבוא ארי' ויבנה אריאל,</src>
+    <src s="6">שיהי' גדול יותר מן הראשון</src>
+    <src s="7">(גם באם הי' לו קיום נצחי)18.</src>
+    <src s="8">וע"ד המעלה דבעלי תשובה על צדיקים,</src>
+    <src s="9">דעבודת הצדיקים</src>
+    <src s="10">(גם צדיקים שאין להם יצר הרע19,</src>
+    <src s="11">שלכן אין שייך שיהי' אצלם חטא,</src>
+    <src s="12">ועבודתם היא באופן דקיום נצחי)</src>
+    <src s="13">מגעת בהשתלשלות,</src>
+    <src s="14">ועבודת הבעלי תשובה בלמעלה מהשתלשלות20.</src>
+    <src s="15">וזהו עלה ארי' והחריב את אריאל על מנת שיבוא ארי' ויבנה אריאל,</src>
+    <src s="16">וידוע21</src>
+    <src s="17">דיבוא ארי'</src>
+    <src s="18">[זה הקב"ה,</src>
+    <src s="19">דכתיב בי'22</src>
+    <src s="20">ארי' שאג מי לא יירא23]</src>
+    <src s="21">הוא התגלות הכתר שלמעלה מהשתלשלות.</src>
+    <src s="22">ויש להוסיף,</src>
+    <src s="23">שגם לפי מארז"ל24</src>
+    <src s="24">שכשעלו מבבל הי' ראוי להיות בנין זה</src>
+    <src s="25">(ביהמ"ק השלישי),</src>
+    <src s="26">מ"מ,</src>
+    <src s="27">בית שלישי שיהי' לע"ל</src>
+    <src s="28">(לאחרי בית שני)</src>
+    <src s="29">יהי' גדול יותר.</src>
+    <src s="30">דהגם שגם כשעלו מבבל</src>
+    <src s="31">(לאחרי חורבן בית ראשון והתיקון על זה)</src>
+    <src s="32">היו בדוגמת בעלי תשובה25,</src>
+    <src s="33">הרי בתשובה יש ריבוי דרגות.</src>
+    <src s="34">ולכן הי' גם חורבן בית שני בכדי שע"י העבודה בהגלות שלאחרי חורבן בית שני יגיעו לשלימות התשובה,</src>
+    <src s="35">ועי"ז יהי' גדול כבוד הבית הזה האחרון בתכלית השלימות.</src>
+  </section>
+  <section v="5">
+    <src s="0">ועפ"ז יש לבאר מה שאמרו רז"ל26</src>
+    <src s="1">עה"פ27</src>
+    <src s="2">שמעו דבר ה' בית יעקב,</src>
+    <src s="3">שמעו דברי תורה עד שלא תשמעו דברי נבואה,</src>
+    <src s="4">שמעו דברי נבואה עד שלא תשמעו דברי תוכחות וכו'</src>
+    <src s="5">(ומסיים)</src>
+    <src s="6">שמעו גופיכון עד שלא ישמעו גרמיכון,</src>
+    <src s="7">העצמות28</src>
+    <src s="8">היבשות שמעו דבר ה'.</src>
+    <src s="9">ולכאורה זה שאומר שמעו דברי תורה עד שלא תשמעו דברי נבואה,</src>
+    <src s="10">יש לומר,</src>
+    <src s="11">כי דברי נבואה הם לצוות על דברי התורה29,</src>
+    <src s="12">ולכן באם היו שומעים דברי תורה לא היו צריכים לדברי נבואה.</src>
+    <src s="13">ועד"ז בדברי נבואה עצמם,</src>
+    <src s="14">שבאם היו שומעים דברי נבואה דנביאים הראשונים המצַווים על דברי התורה שלא באופן דתוכחה לא היו צריכים לדברי תוכחה</src>
+    <src s="15">(ועד"ז הוא בנוגע הענינים שלאח"ז).</src>
+    <src s="16">אבל מה שמסיים עד שלא ישמעו גרמיכון כו' אינו מובן,</src>
+    <src s="17">איך שייך לומר שבאם היו שומעין דברי תורה או דברי תוכחות וכו' לא היו זוכים ח"ו לתחה"מ.</src>
+    <src s="18">ויש לומר הביאור בזה,</src>
+    <src s="19">דע"י הירידה שלא שמעו דברי תורה וכו' תהי' תחה"מ באופן נעלה יותר,</src>
+    <src s="20">בדוגמת ביהמ"ק השלישי שע"י שיהי' לאחרי הירידה דחורבן בית שני יהי' גדול יותר.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,1482 @@
+{
+  "B_H": true,
+  "wroteNothingToDatabase": true,
+  "outDir": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/tools/meluket-translation-job/generated/whole-post-test",
+  "source": {
+    "seriesId": "כסלו_meluket",
+    "postId": "BH_POST_1766518915244_theRebbe_950",
+    "title": "מאמר פדה בשלום תשכ\"ב",
+    "sections": 19,
+    "sourceSubsections": 570
+  },
+  "deepseekStatus": 200,
+  "validation": {
+    "ok": false,
+    "rootOk": true,
+    "hasPostSummaries": true,
+    "expectedTranslations": 570,
+    "returnedTranslations": 188,
+    "missing": [
+      "7:0",
+      "7:1",
+      "7:2",
+      "7:3",
+      "7:4",
+      "7:5",
+      "7:6",
+      "7:7",
+      "7:8",
+      "7:9",
+      "7:10",
+      "7:11",
+      "7:12",
+      "7:13",
+      "7:14",
+      "7:15",
+      "7:16",
+      "7:17",
+      "7:18",
+      "7:19",
+      "7:20",
+      "7:21",
+      "7:22",
+      "7:23",
+      "7:24",
+      "7:25",
+      "7:26",
+      "7:27",
+      "7:28",
+      "7:29",
+      "7:30",
+      "7:31",
+      "7:32",
+      "7:33",
+      "7:34",
+      "7:35",
+      "7:36",
+      "7:37",
+      "7:38",
+      "7:39",
+      "7:40",
+      "7:41",
+      "7:42",
+      "7:43",
+      "7:44",
+      "7:45",
+      "7:46",
+      "7:47",
+      "7:48",
+      "7:49",
+      "7:50",
+      "7:51",
+      "7:52",
+      "7:53",
+      "8:0",
+      "8:1",
+      "8:2",
+      "8:3",
+      "8:4",
+      "8:5",
+      "8:6",
+      "8:7",
+      "8:8",
+      "8:9",
+      "8:10",
+      "8:11",
+      "8:12",
+      "8:13",
+      "8:14",
+      "8:15",
+      "8:16",
+      "8:17",
+      "8:18",
+      "9:0",
+      "9:1",
+      "9:2",
+      "9:3",
+      "9:4",
+      "9:5",
+      "9:6",
+      "9:7",
+      "9:8",
+      "9:9",
+      "9:10",
+      "9:11",
+      "9:12",
+      "9:13",
+      "9:14",
+      "9:15",
+      "9:16",
+      "9:17",
+      "9:18",
+      "9:19",
+      "9:20",
+      "9:21",
+      "9:22",
+      "9:23",
+      "9:24",
+      "9:25",
+      "9:26",
+      "9:27",
+      "9:28",
+      "9:29",
+      "9:30",
+      "9:31",
+      "9:32",
+      "9:33",
+      "9:34",
+      "9:35",
+      "9:36",
+      "9:37",
+      "9:38",
+      "9:39",
+      "10:0",
+      "10:1",
+      "10:2",
+      "10:3",
+      "10:4",
+      "10:5",
+      "10:6",
+      "10:7",
+      "10:8",
+      "10:9",
+      "10:10",
+      "10:11",
+      "10:12",
+      "11:0",
+      "11:1",
+      "11:2",
+      "11:3",
+      "11:4",
+      "11:5",
+      "11:6",
+      "11:7",
+      "11:8",
+      "11:9",
+      "11:10",
+      "11:11",
+      "11:12",
+      "11:13",
+      "11:14",
+      "11:15",
+      "11:16",
+      "11:17",
+      "11:18",
+      "11:19",
+      "11:20",
+      "11:21",
+      "11:22",
+      "11:23",
+      "11:24",
+      "11:25",
+      "11:26",
+      "11:27",
+      "11:28",
+      "11:29",
+      "11:30",
+      "11:31",
+      "11:32",
+      "11:33",
+      "12:0",
+      "12:1",
+      "12:2",
+      "12:3",
+      "12:4",
+      "12:5",
+      "12:6",
+      "12:7",
+      "12:8",
+      "12:9",
+      "12:10",
+      "12:11",
+      "12:12",
+      "12:13",
+      "12:14",
+      "12:15",
+      "12:16",
+      "12:17",
+      "12:18",
+      "12:19",
+      "12:20",
+      "12:21",
+      "12:22",
+      "12:23",
+      "12:24",
+      "12:25",
+      "12:26",
+      "12:27",
+      "12:28",
+      "12:29",
+      "12:30",
+      "12:31",
+      "12:32",
+      "12:33",
+      "12:34",
+      "12:35",
+      "12:36",
+      "12:37",
+      "12:38",
+      "12:39",
+      "12:40",
+      "12:41",
+      "12:42",
+      "12:43",
+      "12:44",
+      "12:45",
+      "12:46",
+      "13:0",
+      "13:1",
+      "13:2",
+      "13:3",
+      "13:4",
+      "13:5",
+      "13:6",
+      "13:7",
+      "13:8",
+      "13:9",
+      "13:10",
+      "13:11",
+      "13:12",
+      "13:13",
+      "13:14",
+      "13:15",
+      "14:0",
+      "14:1",
+      "14:2",
+      "14:3",
+      "14:4",
+      "14:5",
+      "14:6",
+      "14:7",
+      "14:8",
+      "14:9",
+      "14:10",
+      "14:11",
+      "14:12",
+      "14:13",
+      "14:14",
+      "15:0",
+      "15:1",
+      "15:2",
+      "15:3",
+      "15:4",
+      "15:5",
+      "15:6",
+      "15:7",
+      "15:8",
+      "15:9",
+      "15:10",
+      "15:11",
+      "15:12",
+      "15:13",
+      "15:14",
+      "15:15",
+      "15:16",
+      "15:17",
+      "15:18",
+      "15:19",
+      "15:20",
+      "15:21",
+      "15:22",
+      "15:23",
+      "15:24",
+      "15:25",
+      "15:26",
+      "15:27",
+      "15:28",
+      "15:29",
+      "15:30",
+      "15:31",
+      "15:32",
+      "15:33",
+      "15:34",
+      "15:35",
+      "15:36",
+      "15:37",
+      "15:38",
+      "15:39",
+      "15:40",
+      "15:41",
+      "15:42",
+      "15:43",
+      "15:44",
+      "15:45",
+      "15:46",
+      "15:47",
+      "15:48",
+      "15:49",
+      "15:50",
+      "15:51",
+      "15:52",
+      "15:53",
+      "16:0",
+      "16:1",
+      "16:2",
+      "16:3",
+      "16:4",
+      "16:5",
+      "16:6",
+      "16:7",
+      "16:8",
+      "16:9",
+      "16:10",
+      "16:11",
+      "16:12",
+      "16:13",
+      "16:14",
+      "16:15",
+      "16:16",
+      "16:17",
+      "16:18",
+      "16:19",
+      "16:20",
+      "16:21",
+      "16:22",
+      "16:23",
+      "16:24",
+      "16:25",
+      "16:26",
+      "16:27",
+      "16:28",
+      "16:29",
+      "16:30",
+      "16:31",
+      "16:32",
+      "16:33",
+      "16:34",
+      "16:35",
+      "16:36",
+      "16:37",
+      "16:38",
+      "16:39",
+      "16:40",
+      "16:41",
+      "16:42",
+      "17:0",
+      "17:1",
+      "17:2",
+      "17:3",
+      "17:4",
+      "17:5",
+      "17:6",
+      "17:7",
+      "17:8",
+      "17:9",
+      "17:10",
+      "17:11",
+      "17:12",
+      "17:13",
+      "17:14",
+      "17:15",
+      "17:16",
+      "17:17",
+      "17:18",
+      "17:19",
+      "17:20",
+      "17:21",
+      "17:22",
+      "17:23",
+      "17:24",
+      "17:25",
+      "17:26",
+      "17:27",
+      "17:28",
+      "17:29",
+      "17:30",
+      "17:31",
+      "17:32",
+      "18:0",
+      "18:1",
+      "18:2",
+      "18:3",
+      "18:4",
+      "18:5",
+      "18:6",
+      "18:7",
+      "18:8",
+      "18:9",
+      "18:10",
+      "18:11",
+      "18:12",
+      "18:13"
+    ],
+    "extra": [],
+    "emptyTranslations": [],
+    "expectedSectionSummaries": 19,
+    "missingSummaries": [
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18"
+    ],
+    "markdownFencePresent": false
+  },
+  "postSummaryShort": "This maamar explains the verse “He redeemed my soul in peace from the battle that was against me, for many were with me,” exploring how the redemption of the G-dly soul from the animal soul can be achieved through peace rather than war, specifically through the revelation of the Yechidah, and how this relates to the two types of peace—from above to below and from below to above—in the service of refining sparks and unifying the Holy One and His Shechinah.",
+  "postSummaryEpicPreview": "In the vast and luminous expanse of Chassidic thought, where the soul’s journey is a battlefield and a bridal chamber, the Rebbe unfurls the deep meaning of Dovid Hamelech’s cry: “He redeemed my soul in peace from the battle that was against me, for many were with me.” The maamar begins by revealing the paradox of war—that it is called *krav*, from the root meaning closeness, for the warrior must draw near to his enemy to overcome him. So too, the G-dly soul, in its daily struggle with the animal soul, must clothe itself in the animal soul’s own garments of understanding to win it over. But there is a higher path, a path of peace, where the animal soul’s desires are not conquered but dissolved, annihilated by the revelation of a light so transcendent that no opposition can even arise. This is the redemption of the soul through the Yechidah, the singular essence of the soul that knows no adversary. Yet a question stirs: if the Yechidah leaves no room for conflict, why is redemption still needed? The answer unfolds like a tapestry of divine compassion—even for the one who dwells in the lowest depths, where the animal soul rages, a single thought of the Yechidah, a decision to align w",
+  "sampleTranslations": [
+    {
+      "v": 0,
+      "s": 0,
+      "translation": "B’Ezras Hashem."
+    },
+    {
+      "v": 0,
+      "s": 1,
+      "translation": "Shabbos Parshas Vayetzei,"
+    },
+    {
+      "v": 0,
+      "s": 2,
+      "translation": "Yud Kislev, Maamar 3,"
+    },
+    {
+      "v": 0,
+      "s": 3,
+      "translation": "5722*"
+    },
+    {
+      "v": 1,
+      "s": 0,
+      "translation": "He redeemed my soul in peace from the battle that was against me, for many were with me."
+    },
+    {
+      "v": 1,
+      "s": 1,
+      "translation": "And the Baal HaGeulah explains in his maamar beginning with this phrase"
+    },
+    {
+      "v": 1,
+      "s": 2,
+      "translation": "(printed in his book Shaarei Teshuvah),"
+    },
+    {
+      "v": 1,
+      "s": 3,
+      "translation": "that the reason war is called *krav*, from the word for closeness"
+    },
+    {
+      "v": 1,
+      "s": 4,
+      "translation": "(even though war is the opposite of closeness),"
+    },
+    {
+      "v": 1,
+      "s": 5,
+      "translation": "is"
+    },
+    {
+      "v": 1,
+      "s": 6,
+      "translation": "that the nature of war is that each of the two combatants wants to defeat the other and subdue him so that he will be included in him,"
+    },
+    {
+      "v": 1,
+      "s": 7,
+      "translation": "and in order to achieve this, to fight against him so that he will be included in him,"
+    }
+  ],
+  "parsed": {
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915244_theRebbe_950\" batchId=\"whole-post-1783580279423\">\n  <postSummaryShort>This maamar explains the verse “He redeemed my soul in peace from the battle that was against me, for many were with me,” exploring how the redemption of the G-dly soul from the animal soul can be achieved through peace rather than war, specifically through the revelation of the Yechidah, and how this relates to the two types of peace—from above to below and from below to above—in the service of refining sparks and unifying the Holy One and His Shechinah.</postSummaryShort>\n  <postSummaryEpic>In the vast and luminous expanse of Chassidic thought, where the soul’s journey is a battlefield and a bridal chamber, the Rebbe unfurls the deep meaning of Dovid Hamelech’s cry: “He redeemed my soul in peace from the battle that was against me, for many were with me.” The maamar begins by revealing the paradox of war—that it is called *krav*, from the root meaning closeness, for the warrior must draw near to his enemy to overcome him. So too, the G-dly soul, in its daily struggle with the animal soul, must clothe itself in the animal soul’s own garments of understanding to win it over. But there is a higher path, a path of peace, where the animal soul’s desires are not conquered but dissolved, annihilated by the revelation of a light so transcendent that no opposition can even arise. This is the redemption of the soul through the Yechidah, the singular essence of the soul that knows no adversary. Yet a question stirs: if the Yechidah leaves no room for conflict, why is redemption still needed? The answer unfolds like a tapestry of divine compassion—even for the one who dwells in the lowest depths, where the animal soul rages, a single thought of the Yechidah, a decision to align with its truth, brings a peace that is not merely the absence of war but a profound, twofold peace: the peace that descends from above, annihilating the opponent, and the peace that rises from below, transforming the opponent into a friend. This is the peace of Yaakov Avinu, who promised to return to his father’s house in peace, a peace that includes both the refinement of sparks from above and their elevation from below. The maamar then weaves in the teaching of the Tzemach Tzedek on the verse “And all your children shall be taught of Hashem, and great shall be the peace of your children,” explaining that true Torah study must be permeated with the awareness that it is the Torah of Hashem, a study born of self-nullification, which alone brings true peace. Without this, even in the holy precincts of the study hall, the ego expands and causes division. The story of the man who complained to the Tzemach Tzedek that others were trampling him in the beis midrash, and the Rebbe’s response that he himself was spreading his ego over the entire room, serves as a stark warning. The maamar concludes by revealing that the ultimate purpose of all divine service is the unification of the Holy One and His Shechinah, the encompassing and the filling lights, a union achieved through the two modes of refinement, each containing the virtue of the other, a perfection made possible by the revelation of the Yechidah, the boundless inheritance of Yaakov, which will be fully realized in the future redemption through Moshiach, the general Yechidah, who will break through all boundaries.</postSummaryEpic>\n  <section v=\"0\">\n    <sectionSummaryShort>This section provides the header information for the maamar, including the date and occasion.</sectionSummaryShort>\n    <sectionSummaryLong>The maamar begins with the standard heading, indicating it is for the Shabbos of Parshas Vayetzei, the 10th of Kislev, the third maamar of the year 5722 (1961-62).</sectionSummaryLong>\n    <t s=\"0\">B’Ezras Hashem.</t>\n    <t s=\"1\">Shabbos Parshas Vayetzei,</t>\n    <t s=\"2\">Yud Kislev, Maamar 3,</t>\n    <t s=\"3\">5722*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryShort>The maamar introduces the verse “He redeemed my soul in peace from the battle that was against me, for many were with me,” and explains the paradox of war being called *krav* (closeness), as the G-dly soul must draw close to the animal soul to influence it during prayer.</sectionSummaryShort>\n    <sectionSummaryLong>The maamar opens by quoting the verse “He redeemed my soul in peace from the battle that was against me, for many were with me.” The Baal HaGeulah, in his maamar on this verse (printed in his book Shaarei Teshuvah), explains why war is called *krav*, from the word for closeness. Even though war is the opposite of closeness, the nature of war is that each side wants to defeat the other and incorporate him into himself. To achieve this, one must draw close to the opponent—*krav* from the word *kiruv* (closeness). Similarly, in the war between the G-dly soul and the animal soul, the main battle is during prayer (the time of prayer is a time of war). For the service (prayer) of the G-dly soul to affect the animal soul so that it becomes included in the G-dly soul (meaning that the animal soul also has love for Hashem, “with all your heart, with both your inclinations”), it must be through the G-dly soul clothing itself in the animal soul. The contemplation of the G-dly soul must be in matters and in a manner that the animal soul can also grasp. However, when prayer stems from the soul itself, it does not affect the animal soul, as explained in the maamar.</sectionSummaryLong>\n    <t s=\"0\">He redeemed my soul in peace from the battle that was against me, for many were with me.</t>\n    <t s=\"1\">And the Baal HaGeulah explains in his maamar beginning with this phrase</t>\n    <t s=\"2\">(printed in his book Shaarei Teshuvah),</t>\n    <t s=\"3\">that the reason war is called *krav*, from the word for closeness</t>\n    <t s=\"4\">(even though war is the opposite of closeness),</t>\n    <t s=\"5\">is</t>\n    <t s=\"6\">that the nature of war is that each of the two combatants wants to defeat the other and subdue him so that he will be included in him,</t>\n    <t s=\"7\">and in order to achieve this, to fight against him so that he will be included in him,</t>\n    <t s=\"8\">it is specifically through the closeness that he draws near to him,</t>\n    <t s=\"9\">*krav* from the word *kiruv* (closeness).</t>\n    <t s=\"10\">And similarly, in the war between the G-dly soul and the animal soul,</t>\n    <t s=\"11\">the main war is during the time of prayer</t>\n    <t s=\"12\">(the time of prayer is a time of war),</t>\n    <t s=\"13\">so that the service</t>\n    <t s=\"14\">(prayer)</t>\n    <t s=\"15\">of the G-dly soul will affect the animal soul so that it becomes included in the G-dly soul</t>\n    <t s=\"16\">[meaning that the animal soul will also have love for Hashem,</t>\n    <t s=\"17\">“with all your heart, with both your inclinations”],</t>\n    <t s=\"18\">it is through the G-dly soul clothing itself in the animal soul,</t>\n    <t s=\"19\">that the contemplation of the G-dly soul is in such matters and in such a manner that the animal soul can also grasp.</t>\n    <t s=\"20\">However, when prayer stems from the soul itself,</t>\n    <t s=\"21\">it does not affect the animal soul,</t>\n    <t s=\"22\">as explained in the maamar.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryShort>This section contrasts the refinement of the animal soul through war (the G-dly soul clothing itself) with the redemption of the G-dly soul through peace, achieved by the revelation of a supernal light that nullifies the animal soul’s desires entirely.</sectionSummaryShort>\n    <sectionSummaryLong>The refinement of the animal soul through the G-dly soul clothing itself in it is a matter of war, as explained, because there is an opponent that must be fought. However, the concept of “He redeemed my soul in peace” is that the redemption of the G-dly soul from the exile of the animal soul is not through war. Rather, through the revelation of a supernal light, the desires of the animal soul are nullified, so there is no need for war at all. This is explained in many places, and also in the aforementioned maamar, regarding refinement through Torah study, which is not through war (meaning there is an opponent but one defeats him through war, but rather) that through the revelation of the light of Torah, evil is nullified in its very essence. Similarly, in prayer, through the love that is beyond reason and intellect, which stems from the levels of Chayah and Yechidah, the desires of the animal soul are nullified, and the redemption of the G-dly soul from the exile of the animal soul is in a manner of peace—“He redeemed my soul in peace.”</sectionSummaryLong>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">Now, the refinement of the animal soul through the G-dly soul clothing itself in the animal soul,</t>\n    <t s=\"2\">is a matter of war,</t>\n    <t s=\"3\">as above.</t>\n    <t s=\"4\">For the nature of war is</t>\n    <t s=\"5\">that there is an opponent and one must fight with him.</t>\n    <t s=\"6\">And the concept of “He redeemed my soul in peace” is that the redemption of the G-dly soul from the exile of the animal soul is not in a manner of war,</t>\n    <t s=\"7\">but rather,</t>\n    <t s=\"8\">that through the revelation of a supernal light, the desires of the animal soul are nullified,</t>\n    <t s=\"9\">therefore there is no need for war at all.</t>\n    <t s=\"10\">And as explained in many places,</t>\n    <t s=\"11\">and also in the aforementioned maamar,</t>\n    <t s=\"12\">regarding refinement through engaging in Torah,</t>\n    <t s=\"13\">which is not through the path of war</t>\n    <t s=\"14\">(meaning there is an opponent but one defeats him through war,</t>\n    <t s=\"15\">but rather)</t>\n    <t s=\"16\">that through the revelation of the light of Torah, evil is nullified in its very essence</t>\n    <t s=\"17\">.</t>\n    <t s=\"18\">And similarly in prayer,</t>\n    <t s=\"19\">that through the love that is beyond reason and intellect, which stems from the levels of Chayah and Yechidah, the desires of the animal soul are nullified,</t>\n    <t s=\"20\">and the redemption of the G-dly soul from the exile of the animal soul is in a manner of peace,</t>\n    <t s=\"21\">“He redeemed my soul in peace.”</t>\n  </section>\n  <section v=\"3\">\n    <sectionSummaryShort>The true essence of “He redeemed my soul in peace” is specifically through the revelation of the Yechidah, which, unlike the love of Chayah that only overcomes the animal soul, leaves no place for alien desires to exist at all.</sectionSummaryShort>\n    <sectionSummaryLong>The maamar explains that the true essence of “He redeemed my soul in peace” is specifically through the revelation of the Yechidah. The nullification of the animal soul’s desires through the love beyond reason and intellect, which comes from the encompassing light of Chayah, is only because the will of the G-dly soul (of the level of Chayah) overcomes the will of the animal soul. [In the service based on reason and intellect, from the levels of Nefesh, Ruach, Neshamah, the refinement of the animal soul is through the G-dly soul clothing itself in the animal soul and fighting with it. However, in the level of Chayah, through the power of the G-dly soul’s will (a will beyond reason), the desires of the animal soul are nullified automatically. Nevertheless, their nullification is only due to the G-dly soul’s overcoming, not that they are nullified in their very essence.] Therefore, this is not the true concept of peace. The true concept of “He redeemed my soul in peace” is through the revelation of the Yechidah. Since the level of Yechidah has no opposite, “not even a reflection of a reflection has any grasp there,” therefore, the nullification of the animal soul’s desires through the revelation of the Yechidah is (not that the revelation of the Yechidah causes the nullification of desires, but rather) that from the perspective of the Yechidah, there is no place for alien desires from the outset. This is “He redeemed my soul in peace… for many were with me.” “For many were with me” is the reason (because) for “He redeemed my soul in peace,” for the service of “many were with me” is the arousal and revelation of the Yechidah (as explained at length in the maamar), and through the revelation of the Yechidah, the redemption of the G-dly soul is in a manner of peace, “He redeemed my soul in peace.”</sectionSummaryLong>\n    <t s=\"0\">And it is explained there,</t>\n    <t s=\"1\">that the true essence of the concept of “He redeemed my soul in peace” is specifically through the revelation of the Yechidah.</t>\n    <t s=\"2\">For the nullification of the animal soul’s desires through the love beyond reason and intellect, which comes from the encompassing light of Chayah, is only because the will of the G-dly soul</t>\n    <t s=\"3\">(of the level of Chayah)</t>\n    <t s=\"4\">overcomes the will of the animal soul.</t>\n    <t s=\"5\">[But because of the power of the G-dly soul’s will, the desires of the animal soul are nullified automatically.</t>\n    <t s=\"6\">For in the service based on reason and intellect, from the level of Nefesh, Ruach, Neshamah,</t>\n    <t s=\"7\">the refinement of the animal soul is through the G-dly soul clothing itself in the animal soul and fighting with it,</t>\n    <t s=\"8\">but in the level of Chayah,</t>\n    <t s=\"9\">through the power of the G-dly soul’s will</t>\n    <t s=\"10\">(a will beyond reason),</t>\n    <t s=\"11\">they are nullified</t>\n    <t s=\"12\">(the desires of the animal soul)</t>\n    <t s=\"13\">automatically.</t>\n    <t s=\"14\">Nevertheless, their nullification is only due to the G-dly soul’s overcoming,</t>\n    <t s=\"15\">and not that they are nullified in their very essence].</t>\n    <t s=\"16\">Therefore, this is not the true concept of peace.</t>\n    <t s=\"17\">And the true concept of “He redeemed my soul in peace” is through the revelation of the Yechidah.</t>\n    <t s=\"18\">For since the level of Yechidah has no opposite,</t>\n    <t s=\"19\">“not even a reflection of a reflection has any grasp there,”</t>\n    <t s=\"20\">therefore,</t>\n    <t s=\"21\">the nullification of the animal soul’s desires through the revelation of the Yechidah is</t>\n    <t s=\"22\">(not that the revelation of the Yechidah causes the nullification of desires,</t>\n    <t s=\"23\">but rather)</t>\n    <t s=\"24\">that from the perspective of the Yechidah, there is no place for alien desires from the outset.</t>\n    <t s=\"25\">And this is “He redeemed my soul in peace… for many were with me,”</t>\n    <t s=\"26\">that “for many were with me” is the reason</t>\n    <t s=\"27\">(because)</t>\n    <t s=\"28\">for “He redeemed my soul in peace,”</t>\n    <t s=\"29\">for the service of “many were with me” is the arousal and revelation of the Yechidah</t>\n    <t s=\"30\">(as explained at length in the maamar),</t>\n    <t s=\"31\">and through the revelation of the Yechidah,</t>\n    <t s=\"32\">the redemption of the G-dly soul is in a manner of peace,</t>\n    <t s=\"33\">“He redeemed my soul in peace.”</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryShort>This section raises a question: if the Yechidah leaves no room for opposition, why is redemption still needed? The answer is that the verse hints that even one on a low level, whose G-dly soul is hidden, can, through contemplating the Yechidah, achieve a peaceful redemption from the wars of the animal soul.</sectionSummaryShort>\n    <sectionSummaryLong>A question is raised: since through the revelation of the Yechidah (the service of “many were with me”) there is no place for opponents, then there is no need for redemption. Yet the fact that “for many were with me” is the reason for “He redeemed my soul in peace” implies that even after the matter of “many were with me” (the revelation of the Yechidah), the G-dly soul still needs redemption (only that the redemption is in peace). Moreover, from the fact that “for many were with me” is the reason for “He redeemed my soul in peace from the battle that was against me,” it implies that in addition to the G-dly soul needing redemption even after “many were with me,” it also needs redemption from the wars that are against it. Seemingly, even when the animal soul is like one asleep (which can later awaken), it does not actively fight the G-dly soul, and certainly when the desires of the animal soul are nullified (by the will of the G-dly soul of the level of Chayah), how can it be that even after the revelation of the Yechidah (“many were with me”), when there is no place at all for the desires of the animal soul, the G-dly soul still needs redemption from the wars against it? The explanation is that the statement “for many were with me” (which implies that “He redeemed… from the battle that was against me” is after “many were with me”) is to hint that even one who is on a low level, whose G-dly soul (not only the level of Yechidah, but the G-dly soul in general) is hidden, to the point that the animal soul fights against his G-dly soul, nevertheless, through thought about the Yechidah [and the decision that his conduct will be in accordance with the level of Yechidah in his soul], “many were with me,” the redemption of his G-dly soul from the wars of the animal soul (“He redeemed my soul from the battle that was against me”) is in a manner of peace.</sectionSummaryLong>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And it must be understood,</t>\n    <t s=\"2\">that since through the revelation of the Yechidah</t>\n    <t s=\"3\">(the service of “many were with me”)</t>\n    <t s=\"4\">there is no place for opponents,</t>\n    <t s=\"5\">then there is no need for redemption,</t>\n    <t s=\"6\">and from the fact that “for many were with me” is the reason for “He redeemed my soul in peace”</t>\n    <t s=\"7\">[for a reason is the cause that precedes the thing that results from it],</t>\n    <t s=\"8\">it implies</t>\n    <t s=\"9\">that even after the matter of “many were with me”</t>\n    <t s=\"10\">(the revelation of the Yechidah)</t>\n    <t s=\"11\">the G-dly soul still needs redemption</t>\n    <t s=\"12\">(only that the redemption is in peace).</t>\n    <t s=\"13\">And moreover,</t>\n    <t s=\"14\">from the fact that “for many were with me” is the reason for “He redeemed my soul in peace from the battle that was against me,”</t>\n    <t s=\"15\">it implies</t>\n    <t s=\"16\">that in addition to the fact that even after the matter of “many were with me” the G-dly soul</t>\n    <t s=\"17\">(“my soul”)</t>\n    <t s=\"18\">needs redemption</t>\n    <t s=\"19\">(in general),</t>\n    <t s=\"20\">it also needs redemption from the wars that are against it.</t>\n    <t s=\"21\">Seemingly,</t>\n    <t s=\"22\">even when the animal soul is like one asleep</t>\n    <t s=\"23\">(which can later awaken)</t>\n    <t s=\"24\">it does not actively fight against the G-dly soul,</t>\n    <t s=\"25\">and certainly</t>\n    <t s=\"26\">when the desires of the animal soul are nullified</t>\n    <t s=\"27\">(by the will of the G-dly soul of the level of Chayah),</t>\n    <t s=\"28\">how can it be that even after the revelation of the Yechidah</t>\n    <t s=\"29\">(“many were with me”),</t>\n    <t s=\"30\">when there is no place at all for the desires of the animal soul,</t>\n    <t s=\"31\">the G-dly soul still needs redemption from the wars against it?</t>\n    <t s=\"32\">And the explanation is,</t>\n    <t s=\"33\">that this statement “for many were with me”</t>\n    <t s=\"34\">[from which it is implied</t>\n    <t s=\"35\">(as above)</t>\n    <t s=\"36\">that “He redeemed… from the battle that was against me” is after “many were with me”]</t>\n    <t s=\"37\">is to hint,</t>\n    <t s=\"38\">that even one who is on a low level,</t>\n    <t s=\"39\">whose G-dly soul</t>\n    <t s=\"40\">(not only the level of Yechidah,</t>\n    <t s=\"41\">but the G-dly soul in general)</t>\n    <t s=\"42\">is hidden,</t>\n    <t s=\"43\">to the point that the animal soul fights against his G-dly soul,</t>\n    <t s=\"44\">nevertheless,</t>\n    <t s=\"45\">through thought about the Yechidah</t>\n    <t s=\"46\">[and the decision that his conduct will be in accordance with the level of Yechidah in his soul],</t>\n    <t s=\"47\">“many were with me,”</t>\n    <t s=\"48\">the redemption of his G-dly soul from the wars of the animal soul</t>\n    <t s=\"49\">(“He redeemed my soul from the battle that was against me”)</t>\n    <t s=\"50\">is in a manner of peace.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryShort>This section connects the concept of peace to Yaakov’s vow “and I will return in peace to my father’s house,” explaining that “in peace” refers to two types of peace: from above to below and from below to above, which also applies to the verse “He redeemed my soul in peace.”</sectionSummaryShort>\n    <sectionSummaryLong>This is understood by prefacing what is said (in our parshah) “and I will return in peace to my father’s house.” The Baal HaGeulah explains that Yaakov’s journey to Charan was to refine the sparks that were there. This is what he meant by “and I will return in peace to my father’s house”—that the refinement of the sparks and their return (restoration) to their source (“to my father’s house”) would be in a manner of peace. The maamar adds that the meaning of “in peace” is two peaces: peace from above to below and peace from below to above. It can be said similarly regarding the word “in peace” in the verse “He redeemed my soul in peace,” that “in peace” means two peaces, from above to below and from below to above. This can be connected to the verse “And all your children shall be taught of Hashem, and great shall be the peace of your children.” It can be said that the concept of “great peace” (“and great peace”)—there is no “great” less than two—refers to two levels of peace: peace from above to below and peace from below to above.</sectionSummaryLong>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And this will be understood by prefacing what is said</t>\n    <t s=\"2\">(in our parshah)</t>\n    <t s=\"3\">“and I will return in peace to my father’s house,”</t>\n    <t s=\"4\">and the Baal HaGeulah explains,</t>\n    <t s=\"5\">that Yaakov’s journey to Charan was in order to refine the sparks that were there,</t>\n    <t s=\"6\">and this is what he meant by “and I will return in peace to my father’s house,”</t>\n    <t s=\"7\">that the refinement of the sparks and their return</t>\n    <t s=\"8\">(restoration)</t>\n    <t s=\"9\">to their source</t>\n    <t s=\"10\">(“to my father’s house”)</t>\n    <t s=\"11\">would be in a manner of peace.</t>\n    <t s=\"12\">And the maamar adds,</t>\n    <t s=\"13\">that the meaning of “in peace” is two peaces,</t>\n    <t s=\"14\">peace from above to below and peace from below to above.</t>\n    <t s=\"15\">And it can be said similarly regarding the word “in peace” in the verse “He redeemed my soul in peace,”</t>\n    <t s=\"16\">that “in peace” means two peaces,</t>\n    <t s=\"17\">from above to below and from below to above.</t>\n    <t s=\"18\">And this can be connected to the verse</t>\n    <t s=\"19\">“And all your children shall be taught of Hashem, and great shall be the peace of your children,”</t>\n    <t s=\"20\">it can be said,</t>\n    <t s=\"21\">that the concept of “great peace”</t>\n    <t s=\"22\">(“and great peace”),</t>\n    <t s=\"23\">there is no “great” less than two,</t>\n    <t s=\"24\">refers to two levels of peace,</t>\n    <t s=\"25\">peace from above to below and peace from below to above.</t>\n  </section>\n  <section v=\"6\">\n    <sectionSummaryShort>This section questions how refinement from below to above can be considered peace, since it is usually associated with war, and concludes that the verse implies both types of refinement are peaceful, each having its own advantage.</sectionSummaryShort>\n    <sectionSummaryLong>It must be said that the intention (in the maamar) of “from above to below” and “from below to above” is (also) for the two modes of refinement (the concept of “and I will return,” the return of the sparks to their source): refinement in the manner of from above to below and refinement in the manner of from below to above. This needs to be understood: it is explained in many places [and also in the aforementioned maamar (beginning “He redeemed in peace”) of the Baal HaGeulah, brought above in sections 1-2] that the concept of peace is in refinement in the manner of from above to below (refinement through the revelation of light), whereas refinement in the manner of from below to above (refinement through the path of clothing) is in a manner of war. From the fact that it says the meaning of “in peace” is two peaces, peace from above to below and peace from below to above, it implies that even refinement from below to above is in a manner of peace. Furthermore, from the fact that it says “and I will return in peace” two peaces (that both are needed), it implies that each one has an advantage.</sectionSummaryLong>\n    <t s=\"0\">And seemingly it must be said,</t>\n    <t s=\"1\">that the intention</t>\n    <t s=\"2\">(in the maamar)</t>\n    <t s=\"3\">of “from above to below” and “from below to above” is</t>\n    <t s=\"4\">(also)</t>\n    <t s=\"5\">for the two modes of refinement</t>\n    <t s=\"6\">(the concept of “and I will return,”</t>\n    <t s=\"7\">the return of the sparks to their source),</t>\n    <t s=\"8\">refinement in the manner of from above to below and refinement in the manner of from below to above.</t>\n    <t s=\"9\">And it must be understood,</t>\n    <t s=\"10\">it is explained in many places</t>\n    <t s=\"11\">[and also in the aforementioned maamar</t>\n    <t s=\"12\">(beginning “He redeemed in peace”)</t>\n    <t s=\"13\">of the Baal HaGeulah,</t>\n    <t s=\"14\">brought above in sections 1-2],</t>\n    <t s=\"15\">that the concept of peace is in refinement in the manner of from above to below</t>\n    <t s=\"16\">(refinement through the revelation of light),</t>\n    <t s=\"17\">whereas refinement in the manner of from below to above</t>\n    <t s=\"18\">(refinement through the path of clothing)</t>\n    <t s=\"19\">is in a manner of war,</t>\n    <t s=\"20\">and from the fact that it says the meaning of “in peace” is two peaces,</t>\n    <t s=\"21\">peace from above to below and peace from below to above,</t>\n    <t s=\"22\">it implies that even refinement from below to above is in a manner of peace.</t>\n    <t s=\"23\">And to add,</t>\n    <t s=\"24\">from the fact that it says “and I will return in peace” two peaces</t>\n    <t s=\"25\">(that both are needed),</t>\n    <t s=\"26\">it implies</t>\n    <t s=\"27\">that each one has an advantage.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryShort>This section explains the two types of peace: one where the opponent is nullified (primarily from above to below), and one where the opponent becomes a lover (primarily from below to above), detailing how in the latter, the animal soul’s essential opposition remains hidden.</sectionSummaryShort>\n    <sectionSummaryLong>The concept is that there are two modes of peace (achieved through refinement). One is that the opponent is nullified—this mode is (primarily) in refinement from above to below. In refinement from below to above, where the refiner clothes himself in the one being refined and engages with him so that he will want to be refined, it is not that the lower (the one being refined) is nullified, but rather he is refined because of his own will. And since even after being refined, he is still a lower existence (and lower and higher are opposites), therefore, even after being refined, it is possible for him to oppose the higher. In human service, this is the refinement of the animal soul through the G-dly soul clothing itself in the animal soul. The contemplation of the G-dly soul is in a manner that the animal soul will also understand and grasp the G-dly matter (being contemplated), through which it will come to love Hashem. That the animal soul loves Hashem (even though by nature it is drawn to physical matters) is (not through its existence being nullified, but on the contrary) through the intellect of the animal soul coming to an understanding that one must love Hashem. And since this love of the animal soul for Hashem (including the understanding and comprehension that one must love Hashem) is from the intellect of the G-dly soul (which has clothed itself in the intellect of the animal soul), but the animal soul in its own essence is drawn to physical matters [and as explained in many places, the refinement of the animal soul through contemplation is only in the manner of *itkafya* (subjugation)], therefore, even now (that the animal soul also has love for Hashem), the opposition of the animal soul to the G-dly soul remains hidden (only that its opposition does not come into actuality). In order for there to be a nullification of the opponent, it is through refinement in the manner of from above to below. Through the revelation in the lower of a light that is not in proportion to it, it is nullified from its existence. In human service, through the animal soul feeling the love of the G-dly soul that is beyond reason and intellect, which is (generally) a great love beyond the limitation of the vessel of the heart, through this the existence of the animal soul is nullified, and through this it is transformed to good, *it'hapcha* (transformation, which is above *itkafya*).</sectionSummaryLong>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the concept is,</t>\n    <t s=\"2\">that there are two modes of peace</t>\n    <t s=\"3\">(achieved through refinement).</t>\n    <t s=\"4\">One is that the opponent is nullified – and this mode is</t>\n    <t s=\"5\">(primarily)</t>\n    <t s=\"6\">in refinement from above to below.</t>\n    <t s=\"7\">For in refinement from below to above,</t>\n    <t s=\"8\">where the refiner clothes himself in the one being refined and engages with him so that he will want to be refined,</t>\n    <t s=\"9\">it is not that the lower</t>\n    <t s=\"10\">(the one being refined)</t>\n    <t s=\"11\">is nullified, but rather he is refined because of his own will.</t>\n    <t s=\"12\">And since even after being refined, he is still a lower existence</t>\n    <t s=\"13\">(and lower and higher are opposites),</t>\n    <t s=\"14\">therefore,</t>\n    <t s=\"15\">even after being refined,</t>\n    <t s=\"16\">it is possible for him to oppose the higher.</t>\n    <t s=\"17\">And in human service,</t>\n    <t s=\"18\">the refinement of the animal",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915244_theRebbe_950",
+      "batchId": "whole-post-1783580279423"
+    },
+    "postSummaryShort": "This maamar explains the verse “He redeemed my soul in peace from the battle that was against me, for many were with me,” exploring how the redemption of the G-dly soul from the animal soul can be achieved through peace rather than war, specifically through the revelation of the Yechidah, and how this relates to the two types of peace—from above to below and from below to above—in the service of refining sparks and unifying the Holy One and His Shechinah.",
+    "postSummaryEpic": "In the vast and luminous expanse of Chassidic thought, where the soul’s journey is a battlefield and a bridal chamber, the Rebbe unfurls the deep meaning of Dovid Hamelech’s cry: “He redeemed my soul in peace from the battle that was against me, for many were with me.” The maamar begins by revealing the paradox of war—that it is called *krav*, from the root meaning closeness, for the warrior must draw near to his enemy to overcome him. So too, the G-dly soul, in its daily struggle with the animal soul, must clothe itself in the animal soul’s own garments of understanding to win it over. But there is a higher path, a path of peace, where the animal soul’s desires are not conquered but dissolved, annihilated by the revelation of a light so transcendent that no opposition can even arise. This is the redemption of the soul through the Yechidah, the singular essence of the soul that knows no adversary. Yet a question stirs: if the Yechidah leaves no room for conflict, why is redemption still needed? The answer unfolds like a tapestry of divine compassion—even for the one who dwells in the lowest depths, where the animal soul rages, a single thought of the Yechidah, a decision to align with its truth, brings a peace that is not merely the absence of war but a profound, twofold peace: the peace that descends from above, annihilating the opponent, and the peace that rises from below, transforming the opponent into a friend. This is the peace of Yaakov Avinu, who promised to return to his father’s house in peace, a peace that includes both the refinement of sparks from above and their elevation from below. The maamar then weaves in the teaching of the Tzemach Tzedek on the verse “And all your children shall be taught of Hashem, and great shall be the peace of your children,” explaining that true Torah study must be permeated with the awareness that it is the Torah of Hashem, a study born of self-nullification, which alone brings true peace. Without this, even in the holy precincts of the study hall, the ego expands and causes division. The story of the man who complained to the Tzemach Tzedek that others were trampling him in the beis midrash, and the Rebbe’s response that he himself was spreading his ego over the entire room, serves as a stark warning. The maamar concludes by revealing that the ultimate purpose of all divine service is the unification of the Holy One and His Shechinah, the encompassing and the filling lights, a union achieved through the two modes of refinement, each containing the virtue of the other, a perfection made possible by the revelation of the Yechidah, the boundless inheritance of Yaakov, which will be fully realized in the future redemption through Moshiach, the general Yechidah, who will break through all boundaries.",
+    "returned": [
+      {
+        "v": 0,
+        "s": 0,
+        "translation": "B’Ezras Hashem."
+      },
+      {
+        "v": 0,
+        "s": 1,
+        "translation": "Shabbos Parshas Vayetzei,"
+      },
+      {
+        "v": 0,
+        "s": 2,
+        "translation": "Yud Kislev, Maamar 3,"
+      },
+      {
+        "v": 0,
+        "s": 3,
+        "translation": "5722*"
+      },
+      {
+        "v": 0,
+        "__summary": true,
+        "summaryShort": "This section provides the header information for the maamar, including the date and occasion.",
+        "summaryLong": "The maamar begins with the standard heading, indicating it is for the Shabbos of Parshas Vayetzei, the 10th of Kislev, the third maamar of the year 5722 (1961-62)."
+      },
+      {
+        "v": 1,
+        "s": 0,
+        "translation": "He redeemed my soul in peace from the battle that was against me, for many were with me."
+      },
+      {
+        "v": 1,
+        "s": 1,
+        "translation": "And the Baal HaGeulah explains in his maamar beginning with this phrase"
+      },
+      {
+        "v": 1,
+        "s": 2,
+        "translation": "(printed in his book Shaarei Teshuvah),"
+      },
+      {
+        "v": 1,
+        "s": 3,
+        "translation": "that the reason war is called *krav*, from the word for closeness"
+      },
+      {
+        "v": 1,
+        "s": 4,
+        "translation": "(even though war is the opposite of closeness),"
+      },
+      {
+        "v": 1,
+        "s": 5,
+        "translation": "is"
+      },
+      {
+        "v": 1,
+        "s": 6,
+        "translation": "that the nature of war is that each of the two combatants wants to defeat the other and subdue him so that he will be included in him,"
+      },
+      {
+        "v": 1,
+        "s": 7,
+        "translation": "and in order to achieve this, to fight against him so that he will be included in him,"
+      },
+      {
+        "v": 1,
+        "s": 8,
+        "translation": "it is specifically through the closeness that he draws near to him,"
+      },
+      {
+        "v": 1,
+        "s": 9,
+        "translation": "*krav* from the word *kiruv* (closeness)."
+      },
+      {
+        "v": 1,
+        "s": 10,
+        "translation": "And similarly, in the war between the G-dly soul and the animal soul,"
+      },
+      {
+        "v": 1,
+        "s": 11,
+        "translation": "the main war is during the time of prayer"
+      },
+      {
+        "v": 1,
+        "s": 12,
+        "translation": "(the time of prayer is a time of war),"
+      },
+      {
+        "v": 1,
+        "s": 13,
+        "translation": "so that the service"
+      },
+      {
+        "v": 1,
+        "s": 14,
+        "translation": "(prayer)"
+      },
+      {
+        "v": 1,
+        "s": 15,
+        "translation": "of the G-dly soul will affect the animal soul so that it becomes included in the G-dly soul"
+      },
+      {
+        "v": 1,
+        "s": 16,
+        "translation": "[meaning that the animal soul will also have love for Hashem,"
+      },
+      {
+        "v": 1,
+        "s": 17,
+        "translation": "“with all your heart, with both your inclinations”],"
+      },
+      {
+        "v": 1,
+        "s": 18,
+        "translation": "it is through the G-dly soul clothing itself in the animal soul,"
+      },
+      {
+        "v": 1,
+        "s": 19,
+        "translation": "that the contemplation of the G-dly soul is in such matters and in such a manner that the animal soul can also grasp."
+      },
+      {
+        "v": 1,
+        "s": 20,
+        "translation": "However, when prayer stems from the soul itself,"
+      },
+      {
+        "v": 1,
+        "s": 21,
+        "translation": "it does not affect the animal soul,"
+      },
+      {
+        "v": 1,
+        "s": 22,
+        "translation": "as explained in the maamar."
+      },
+      {
+        "v": 1,
+        "__summary": true,
+        "summaryShort": "The maamar introduces the verse “He redeemed my soul in peace from the battle that was against me, for many were with me,” and explains the paradox of war being called *krav* (closeness), as the G-dly soul must draw close to the animal soul to influence it during prayer.",
+        "summaryLong": "The maamar opens by quoting the verse “He redeemed my soul in peace from the battle that was against me, for many were with me.” The Baal HaGeulah, in his maamar on this verse (printed in his book Shaarei Teshuvah), explains why war is called *krav*, from the word for closeness. Even though war is the opposite of closeness, the nature of war is that each side wants to defeat the other and incorporate him into himself. To achieve this, one must draw close to the opponent—*krav* from the word *kiruv* (closeness). Similarly, in the war between the G-dly soul and the animal soul, the main battle is during prayer (the time of prayer is a time of war). For the service (prayer) of the G-dly soul to affect the animal soul so that it becomes included in the G-dly soul (meaning that the animal soul also has love for Hashem, “with all your heart, with both your inclinations”), it must be through the G-dly soul clothing itself in the animal soul. The contemplation of the G-dly soul must be in matters and in a manner that the animal soul can also grasp. However, when prayer stems from the soul itself, it does not affect the animal soul, as explained in the maamar."
+      },
+      {
+        "v": 2,
+        "s": 0,
+        "translation": "2)"
+      },
+      {
+        "v": 2,
+        "s": 1,
+        "translation": "Now, the refinement of the animal soul through the G-dly soul clothing itself in the animal soul,"
+      },
+      {
+        "v": 2,
+        "s": 2,
+        "translation": "is a matter of war,"
+      },
+      {
+        "v": 2,
+        "s": 3,
+        "translation": "as above."
+      },
+      {
+        "v": 2,
+        "s": 4,
+        "translation": "For the nature of war is"
+      },
+      {
+        "v": 2,
+        "s": 5,
+        "translation": "that there is an opponent and one must fight with him."
+      },
+      {
+        "v": 2,
+        "s": 6,
+        "translation": "And the concept of “He redeemed my soul in peace” is that the redemption of the G-dly soul from the exile of the animal soul is not in a manner of war,"
+      },
+      {
+        "v": 2,
+        "s": 7,
+        "translation": "but rather,"
+      },
+      {
+        "v": 2,
+        "s": 8,
+        "translation": "that through the revelation of a supernal light, the desires of the animal soul are nullified,"
+      },
+      {
+        "v": 2,
+        "s": 9,
+        "translation": "therefore there is no need for war at all."
+      },
+      {
+        "v": 2,
+        "s": 10,
+        "translation": "And as explained in many places,"
+      },
+      {
+        "v": 2,
+        "s": 11,
+        "translation": "and also in the aforementioned maamar,"
+      },
+      {
+        "v": 2,
+        "s": 12,
+        "translation": "regarding refinement through engaging in Torah,"
+      },
+      {
+        "v": 2,
+        "s": 13,
+        "translation": "which is not through the path of war"
+      },
+      {
+        "v": 2,
+        "s": 14,
+        "translation": "(meaning there is an opponent but one defeats him through war,"
+      },
+      {
+        "v": 2,
+        "s": 15,
+        "translation": "but rather)"
+      },
+      {
+        "v": 2,
+        "s": 16,
+        "translation": "that through the revelation of the light of Torah, evil is nullified in its very essence"
+      },
+      {
+        "v": 2,
+        "s": 17,
+        "translation": "."
+      },
+      {
+        "v": 2,
+        "s": 18,
+        "translation": "And similarly in prayer,"
+      },
+      {
+        "v": 2,
+        "s": 19,
+        "translation": "that through the love that is beyond reason and intellect, which stems from the levels of Chayah and Yechidah, the desires of the animal soul are nullified,"
+      },
+      {
+        "v": 2,
+        "s": 20,
+        "translation": "and the redemption of the G-dly soul from the exile of the animal soul is in a manner of peace,"
+      },
+      {
+        "v": 2,
+        "s": 21,
+        "translation": "“He redeemed my soul in peace.”"
+      },
+      {
+        "v": 2,
+        "__summary": true,
+        "summaryShort": "This section contrasts the refinement of the animal soul through war (the G-dly soul clothing itself) with the redemption of the G-dly soul through peace, achieved by the revelation of a supernal light that nullifies the animal soul’s desires entirely.",
+        "summaryLong": "The refinement of the animal soul through the G-dly soul clothing itself in it is a matter of war, as explained, because there is an opponent that must be fought. However, the concept of “He redeemed my soul in peace” is that the redemption of the G-dly soul from the exile of the animal soul is not through war. Rather, through the revelation of a supernal light, the desires of the animal soul are nullified, so there is no need for war at all. This is explained in many places, and also in the aforementioned maamar, regarding refinement through Torah study, which is not through war (meaning there is an opponent but one defeats him through war, but rather) that through the revelation of the light of Torah, evil is nullified in its very essence. Similarly, in prayer, through the love that is beyond reason and intellect, which stems from the levels of Chayah and Yechidah, the desires of the animal soul are nullified, and the redemption of the G-dly soul from the exile of the animal soul is in a manner of peace—“He redeemed my soul in peace.”"
+      },
+      {
+        "v": 3,
+        "s": 0,
+        "translation": "And it is explained there,"
+      },
+      {
+        "v": 3,
+        "s": 1,
+        "translation": "that the true essence of the concept of “He redeemed my soul in peace” is specifically through the revelation of the Yechidah."
+      },
+      {
+        "v": 3,
+        "s": 2,
+        "translation": "For the nullification of the animal soul’s desires through the love beyond reason and intellect, which comes from the encompassing light of Chayah, is only because the will of the G-dly soul"
+      },
+      {
+        "v": 3,
+        "s": 3,
+        "translation": "(of the level of Chayah)"
+      },
+      {
+        "v": 3,
+        "s": 4,
+        "translation": "overcomes the will of the animal soul."
+      },
+      {
+        "v": 3,
+        "s": 5,
+        "translation": "[But because of the power of the G-dly soul’s will, the desires of the animal soul are nullified automatically."
+      },
+      {
+        "v": 3,
+        "s": 6,
+        "translation": "For in the service based on reason and intellect, from the level of Nefesh, Ruach, Neshamah,"
+      },
+      {
+        "v": 3,
+        "s": 7,
+        "translation": "the refinement of the animal soul is through the G-dly soul clothing itself in the animal soul and fighting with it,"
+      },
+      {
+        "v": 3,
+        "s": 8,
+        "translation": "but in the level of Chayah,"
+      },
+      {
+        "v": 3,
+        "s": 9,
+        "translation": "through the power of the G-dly soul’s will"
+      },
+      {
+        "v": 3,
+        "s": 10,
+        "translation": "(a will beyond reason),"
+      },
+      {
+        "v": 3,
+        "s": 11,
+        "translation": "they are nullified"
+      },
+      {
+        "v": 3,
+        "s": 12,
+        "translation": "(the desires of the animal soul)"
+      },
+      {
+        "v": 3,
+        "s": 13,
+        "translation": "automatically."
+      },
+      {
+        "v": 3,
+        "s": 14,
+        "translation": "Nevertheless, their nullification is only due to the G-dly soul’s overcoming,"
+      },
+      {
+        "v": 3,
+        "s": 15,
+        "translation": "and not that they are nullified in their very essence]."
+      },
+      {
+        "v": 3,
+        "s": 16,
+        "translation": "Therefore, this is not the true concept of peace."
+      },
+      {
+        "v": 3,
+        "s": 17,
+        "translation": "And the true concept of “He redeemed my soul in peace” is through the revelation of the Yechidah."
+      },
+      {
+        "v": 3,
+        "s": 18,
+        "translation": "For since the level of Yechidah has no opposite,"
+      },
+      {
+        "v": 3,
+        "s": 19,
+        "translation": "“not even a reflection of a reflection has any grasp there,”"
+      },
+      {
+        "v": 3,
+        "s": 20,
+        "translation": "therefore,"
+      },
+      {
+        "v": 3,
+        "s": 21,
+        "translation": "the nullification of the animal soul’s desires through the revelation of the Yechidah is"
+      },
+      {
+        "v": 3,
+        "s": 22,
+        "translation": "(not that the revelation of the Yechidah causes the nullification of desires,"
+      },
+      {
+        "v": 3,
+        "s": 23,
+        "translation": "but rather)"
+      },
+      {
+        "v": 3,
+        "s": 24,
+        "translation": "that from the perspective of the Yechidah, there is no place for alien desires from the outset."
+      },
+      {
+        "v": 3,
+        "s": 25,
+        "translation": "And this is “He redeemed my soul in peace… for many were with me,”"
+      },
+      {
+        "v": 3,
+        "s": 26,
+        "translation": "that “for many were with me” is the reason"
+      },
+      {
+        "v": 3,
+        "s": 27,
+        "translation": "(because)"
+      },
+      {
+        "v": 3,
+        "s": 28,
+        "translation": "for “He redeemed my soul in peace,”"
+      },
+      {
+        "v": 3,
+        "s": 29,
+        "translation": "for the service of “many were with me” is the arousal and revelation of the Yechidah"
+      },
+      {
+        "v": 3,
+        "s": 30,
+        "translation": "(as explained at length in the maamar),"
+      },
+      {
+        "v": 3,
+        "s": 31,
+        "translation": "and through the revelation of the Yechidah,"
+      },
+      {
+        "v": 3,
+        "s": 32,
+        "translation": "the redemption of the G-dly soul is in a manner of peace,"
+      },
+      {
+        "v": 3,
+        "s": 33,
+        "translation": "“He redeemed my soul in peace.”"
+      },
+      {
+        "v": 3,
+        "__summary": true,
+        "summaryShort": "The true essence of “He redeemed my soul in peace” is specifically through the revelation of the Yechidah, which, unlike the love of Chayah that only overcomes the animal soul, leaves no place for alien desires to exist at all.",
+        "summaryLong": "The maamar explains that the true essence of “He redeemed my soul in peace” is specifically through the revelation of the Yechidah. The nullification of the animal soul’s desires through the love beyond reason and intellect, which comes from the encompassing light of Chayah, is only because the will of the G-dly soul (of the level of Chayah) overcomes the will of the animal soul. [In the service based on reason and intellect, from the levels of Nefesh, Ruach, Neshamah, the refinement of the animal soul is through the G-dly soul clothing itself in the animal soul and fighting with it. However, in the level of Chayah, through the power of the G-dly soul’s will (a will beyond reason), the desires of the animal soul are nullified automatically. Nevertheless, their nullification is only due to the G-dly soul’s overcoming, not that they are nullified in their very essence.] Therefore, this is not the true concept of peace. The true concept of “He redeemed my soul in peace” is through the revelation of the Yechidah. Since the level of Yechidah has no opposite, “not even a reflection of a reflection has any grasp there,” therefore, the nullification of the animal soul’s desires through the revelation of the Yechidah is (not that the revelation of the Yechidah causes the nullification of desires, but rather) that from the perspective of the Yechidah, there is no place for alien desires from the outset. This is “He redeemed my soul in peace… for many were with me.” “For many were with me” is the reason (because) for “He redeemed my soul in peace,” for the service of “many were with me” is the arousal and revelation of the Yechidah (as explained at length in the maamar), and through the revelation of the Yechidah, the redemption of the G-dly soul is in a manner of peace, “He redeemed my soul in peace.”"
+      },
+      {
+        "v": 4,
+        "s": 0,
+        "translation": "3)"
+      },
+      {
+        "v": 4,
+        "s": 1,
+        "translation": "And it must be understood,"
+      },
+      {
+        "v": 4,
+        "s": 2,
+        "translation": "that since through the revelation of the Yechidah"
+      },
+      {
+        "v": 4,
+        "s": 3,
+        "translation": "(the service of “many were with me”)"
+      },
+      {
+        "v": 4,
+        "s": 4,
+        "translation": "there is no place for opponents,"
+      },
+      {
+        "v": 4,
+        "s": 5,
+        "translation": "then there is no need for redemption,"
+      },
+      {
+        "v": 4,
+        "s": 6,
+        "translation": "and from the fact that “for many were with me” is the reason for “He redeemed my soul in peace”"
+      },
+      {
+        "v": 4,
+        "s": 7,
+        "translation": "[for a reason is the cause that precedes the thing that results from it],"
+      },
+      {
+        "v": 4,
+        "s": 8,
+        "translation": "it implies"
+      },
+      {
+        "v": 4,
+        "s": 9,
+        "translation": "that even after the matter of “many were with me”"
+      },
+      {
+        "v": 4,
+        "s": 10,
+        "translation": "(the revelation of the Yechidah)"
+      },
+      {
+        "v": 4,
+        "s": 11,
+        "translation": "the G-dly soul still needs redemption"
+      },
+      {
+        "v": 4,
+        "s": 12,
+        "translation": "(only that the redemption is in peace)."
+      },
+      {
+        "v": 4,
+        "s": 13,
+        "translation": "And moreover,"
+      },
+      {
+        "v": 4,
+        "s": 14,
+        "translation": "from the fact that “for many were with me” is the reason for “He redeemed my soul in peace from the battle that was against me,”"
+      },
+      {
+        "v": 4,
+        "s": 15,
+        "translation": "it implies"
+      },
+      {
+        "v": 4,
+        "s": 16,
+        "translation": "that in addition to the fact that even after the matter of “many were with me” the G-dly soul"
+      },
+      {
+        "v": 4,
+        "s": 17,
+        "translation": "(“my soul”)"
+      },
+      {
+        "v": 4,
+        "s": 18,
+        "translation": "needs redemption"
+      },
+      {
+        "v": 4,
+        "s": 19,
+        "translation": "(in general),"
+      },
+      {
+        "v": 4,
+        "s": 20,
+        "translation": "it also needs redemption from the wars that are against it."
+      },
+      {
+        "v": 4,
+        "s": 21,
+        "translation": "Seemingly,"
+      },
+      {
+        "v": 4,
+        "s": 22,
+        "translation": "even when the animal soul is like one asleep"
+      },
+      {
+        "v": 4,
+        "s": 23,
+        "translation": "(which can later awaken)"
+      },
+      {
+        "v": 4,
+        "s": 24,
+        "translation": "it does not actively fight against the G-dly soul,"
+      },
+      {
+        "v": 4,
+        "s": 25,
+        "translation": "and certainly"
+      },
+      {
+        "v": 4,
+        "s": 26,
+        "translation": "when the desires of the animal soul are nullified"
+      },
+      {
+        "v": 4,
+        "s": 27,
+        "translation": "(by the will of the G-dly soul of the level of Chayah),"
+      },
+      {
+        "v": 4,
+        "s": 28,
+        "translation": "how can it be that even after the revelation of the Yechidah"
+      },
+      {
+        "v": 4,
+        "s": 29,
+        "translation": "(“many were with me”),"
+      },
+      {
+        "v": 4,
+        "s": 30,
+        "translation": "when there is no place at all for the desires of the animal soul,"
+      },
+      {
+        "v": 4,
+        "s": 31,
+        "translation": "the G-dly soul still needs redemption from the wars against it?"
+      },
+      {
+        "v": 4,
+        "s": 32,
+        "translation": "And the explanation is,"
+      },
+      {
+        "v": 4,
+        "s": 33,
+        "translation": "that this statement “for many were with me”"
+      },
+      {
+        "v": 4,
+        "s": 34,
+        "translation": "[from which it is implied"
+      },
+      {
+        "v": 4,
+        "s": 35,
+        "translation": "(as above)"
+      },
+      {
+        "v": 4,
+        "s": 36,
+        "translation": "that “He redeemed… from the battle that was against me” is after “many were with me”]"
+      },
+      {
+        "v": 4,
+        "s": 37,
+        "translation": "is to hint,"
+      },
+      {
+        "v": 4,
+        "s": 38,
+        "translation": "that even one who is on a low level,"
+      },
+      {
+        "v": 4,
+        "s": 39,
+        "translation": "whose G-dly soul"
+      },
+      {
+        "v": 4,
+        "s": 40,
+        "translation": "(not only the level of Yechidah,"
+      },
+      {
+        "v": 4,
+        "s": 41,
+        "translation": "but the G-dly soul in general)"
+      },
+      {
+        "v": 4,
+        "s": 42,
+        "translation": "is hidden,"
+      },
+      {
+        "v": 4,
+        "s": 43,
+        "translation": "to the point that the animal soul fights against his G-dly soul,"
+      },
+      {
+        "v": 4,
+        "s": 44,
+        "translation": "nevertheless,"
+      },
+      {
+        "v": 4,
+        "s": 45,
+        "translation": "through thought about the Yechidah"
+      },
+      {
+        "v": 4,
+        "s": 46,
+        "translation": "[and the decision that his conduct will be in accordance with the level of Yechidah in his soul],"
+      },
+      {
+        "v": 4,
+        "s": 47,
+        "translation": "“many were with me,”"
+      },
+      {
+        "v": 4,
+        "s": 48,
+        "translation": "the redemption of his G-dly soul from the wars of the animal soul"
+      },
+      {
+        "v": 4,
+        "s": 49,
+        "translation": "(“He redeemed my soul from the battle that was against me”)"
+      },
+      {
+        "v": 4,
+        "s": 50,
+        "translation": "is in a manner of peace."
+      },
+      {
+        "v": 4,
+        "__summary": true,
+        "summaryShort": "This section raises a question: if the Yechidah leaves no room for opposition, why is redemption still needed? The answer is that the verse hints that even one on a low level, whose G-dly soul is hidden, can, through contemplating the Yechidah, achieve a peaceful redemption from the wars of the animal soul.",
+        "summaryLong": "A question is raised: since through the revelation of the Yechidah (the service of “many were with me”) there is no place for opponents, then there is no need for redemption. Yet the fact that “for many were with me” is the reason for “He redeemed my soul in peace” implies that even after the matter of “many were with me” (the revelation of the Yechidah), the G-dly soul still needs redemption (only that the redemption is in peace). Moreover, from the fact that “for many were with me” is the reason for “He redeemed my soul in peace from the battle that was against me,” it implies that in addition to the G-dly soul needing redemption even after “many were with me,” it also needs redemption from the wars that are against it. Seemingly, even when the animal soul is like one asleep (which can later awaken), it does not actively fight the G-dly soul, and certainly when the desires of the animal soul are nullified (by the will of the G-dly soul of the level of Chayah), how can it be that even after the revelation of the Yechidah (“many were with me”), when there is no place at all for the desires of the animal soul, the G-dly soul still needs redemption from the wars against it? The explanation is that the statement “for many were with me” (which implies that “He redeemed… from the battle that was against me” is after “many were with me”) is to hint that even one who is on a low level, whose G-dly soul (not only the level of Yechidah, but the G-dly soul in general) is hidden, to the point that the animal soul fights against his G-dly soul, nevertheless, through thought about the Yechidah [and the decision that his conduct will be in accordance with the level of Yechidah in his soul], “many were with me,” the redemption of his G-dly soul from the wars of the animal soul (“He redeemed my soul from the battle that was against me”) is in a manner of peace."
+      },
+      {
+        "v": 5,
+        "s": 0,
+        "translation": "4)"
+      },
+      {
+        "v": 5,
+        "s": 1,
+        "translation": "And this will be understood by prefacing what is said"
+      },
+      {
+        "v": 5,
+        "s": 2,
+        "translation": "(in our parshah)"
+      },
+      {
+        "v": 5,
+        "s": 3,
+        "translation": "“and I will return in peace to my father’s house,”"
+      },
+      {
+        "v": 5,
+        "s": 4,
+        "translation": "and the Baal HaGeulah explains,"
+      },
+      {
+        "v": 5,
+        "s": 5,
+        "translation": "that Yaakov’s journey to Charan was in order to refine the sparks that were there,"
+      },
+      {
+        "v": 5,
+        "s": 6,
+        "translation": "and this is what he meant by “and I will return in peace to my father’s house,”"
+      },
+      {
+        "v": 5,
+        "s": 7,
+        "translation": "that the refinement of the sparks and their return"
+      },
+      {
+        "v": 5,
+        "s": 8,
+        "translation": "(restoration)"
+      },
+      {
+        "v": 5,
+        "s": 9,
+        "translation": "to their source"
+      },
+      {
+        "v": 5,
+        "s": 10,
+        "translation": "(“to my father’s house”)"
+      },
+      {
+        "v": 5,
+        "s": 11,
+        "translation": "would be in a manner of peace."
+      },
+      {
+        "v": 5,
+        "s": 12,
+        "translation": "And the maamar adds,"
+      },
+      {
+        "v": 5,
+        "s": 13,
+        "translation": "that the meaning of “in peace” is two peaces,"
+      },
+      {
+        "v": 5,
+        "s": 14,
+        "translation": "peace from above to below and peace from below to above."
+      },
+      {
+        "v": 5,
+        "s": 15,
+        "translation": "And it can be said similarly regarding the word “in peace” in the verse “He redeemed my soul in peace,”"
+      },
+      {
+        "v": 5,
+        "s": 16,
+        "translation": "that “in peace” means two peaces,"
+      },
+      {
+        "v": 5,
+        "s": 17,
+        "translation": "from above to below and from below to above."
+      },
+      {
+        "v": 5,
+        "s": 18,
+        "translation": "And this can be connected to the verse"
+      },
+      {
+        "v": 5,
+        "s": 19,
+        "translation": "“And all your children shall be taught of Hashem, and great shall be the peace of your children,”"
+      },
+      {
+        "v": 5,
+        "s": 20,
+        "translation": "it can be said,"
+      },
+      {
+        "v": 5,
+        "s": 21,
+        "translation": "that the concept of “great peace”"
+      },
+      {
+        "v": 5,
+        "s": 22,
+        "translation": "(“and great peace”),"
+      },
+      {
+        "v": 5,
+        "s": 23,
+        "translation": "there is no “great” less than two,"
+      },
+      {
+        "v": 5,
+        "s": 24,
+        "translation": "refers to two levels of peace,"
+      },
+      {
+        "v": 5,
+        "s": 25,
+        "translation": "peace from above to below and peace from below to above."
+      },
+      {
+        "v": 5,
+        "__summary": true,
+        "summaryShort": "This section connects the concept of peace to Yaakov’s vow “and I will return in peace to my father’s house,” explaining that “in peace” refers to two types of peace: from above to below and from below to above, which also applies to the verse “He redeemed my soul in peace.”",
+        "summaryLong": "This is understood by prefacing what is said (in our parshah) “and I will return in peace to my father’s house.” The Baal HaGeulah explains that Yaakov’s journey to Charan was to refine the sparks that were there. This is what he meant by “and I will return in peace to my father’s house”—that the refinement of the sparks and their return (restoration) to their source (“to my father’s house”) would be in a manner of peace. The maamar adds that the meaning of “in peace” is two peaces: peace from above to below and peace from below to above. It can be said similarly regarding the word “in peace” in the verse “He redeemed my soul in peace,” that “in peace” means two peaces, from above to below and from below to above. This can be connected to the verse “And all your children shall be taught of Hashem, and great shall be the peace of your children.” It can be said that the concept of “great peace” (“and great peace”)—there is no “great” less than two—refers to two levels of peace: peace from above to below and peace from below to above."
+      },
+      {
+        "v": 6,
+        "s": 0,
+        "translation": "And seemingly it must be said,"
+      },
+      {
+        "v": 6,
+        "s": 1,
+        "translation": "that the intention"
+      },
+      {
+        "v": 6,
+        "s": 2,
+        "translation": "(in the maamar)"
+      },
+      {
+        "v": 6,
+        "s": 3,
+        "translation": "of “from above to below” and “from below to above” is"
+      },
+      {
+        "v": 6,
+        "s": 4,
+        "translation": "(also)"
+      },
+      {
+        "v": 6,
+        "s": 5,
+        "translation": "for the two modes of refinement"
+      },
+      {
+        "v": 6,
+        "s": 6,
+        "translation": "(the concept of “and I will return,”"
+      },
+      {
+        "v": 6,
+        "s": 7,
+        "translation": "the return of the sparks to their source),"
+      },
+      {
+        "v": 6,
+        "s": 8,
+        "translation": "refinement in the manner of from above to below and refinement in the manner of from below to above."
+      },
+      {
+        "v": 6,
+        "s": 9,
+        "translation": "And it must be understood,"
+      },
+      {
+        "v": 6,
+        "s": 10,
+        "translation": "it is explained in many places"
+      },
+      {
+        "v": 6,
+        "s": 11,
+        "translation": "[and also in the aforementioned maamar"
+      },
+      {
+        "v": 6,
+        "s": 12,
+        "translation": "(beginning “He redeemed in peace”)"
+      },
+      {
+        "v": 6,
+        "s": 13,
+        "translation": "of the Baal HaGeulah,"
+      },
+      {
+        "v": 6,
+        "s": 14,
+        "translation": "brought above in sections 1-2],"
+      },
+      {
+        "v": 6,
+        "s": 15,
+        "translation": "that the concept of peace is in refinement in the manner of from above to below"
+      },
+      {
+        "v": 6,
+        "s": 16,
+        "translation": "(refinement through the revelation of light),"
+      },
+      {
+        "v": 6,
+        "s": 17,
+        "translation": "whereas refinement in the manner of from below to above"
+      },
+      {
+        "v": 6,
+        "s": 18,
+        "translation": "(refinement through the path of clothing)"
+      },
+      {
+        "v": 6,
+        "s": 19,
+        "translation": "is in a manner of war,"
+      },
+      {
+        "v": 6,
+        "s": 20,
+        "translation": "and from the fact that it says the meaning of “in peace” is two peaces,"
+      },
+      {
+        "v": 6,
+        "s": 21,
+        "translation": "peace from above to below and peace from below to above,"
+      },
+      {
+        "v": 6,
+        "s": 22,
+        "translation": "it implies that even refinement from below to above is in a manner of peace."
+      },
+      {
+        "v": 6,
+        "s": 23,
+        "translation": "And to add,"
+      },
+      {
+        "v": 6,
+        "s": 24,
+        "translation": "from the fact that it says “and I will return in peace” two peaces"
+      },
+      {
+        "v": 6,
+        "s": 25,
+        "translation": "(that both are needed),"
+      },
+      {
+        "v": 6,
+        "s": 26,
+        "translation": "it implies"
+      },
+      {
+        "v": 6,
+        "s": 27,
+        "translation": "that each one has an advantage."
+      },
+      {
+        "v": 6,
+        "__summary": true,
+        "summaryShort": "This section questions how refinement from below to above can be considered peace, since it is usually associated with war, and concludes that the verse implies both types of refinement are peaceful, each having its own advantage.",
+        "summaryLong": "It must be said that the intention (in the maamar) of “from above to below” and “from below to above” is (also) for the two modes of refinement (the concept of “and I will return,” the return of the sparks to their source): refinement in the manner of from above to below and refinement in the manner of from below to above. This needs to be understood: it is explained in many places [and also in the aforementioned maamar (beginning “He redeemed in peace”) of the Baal HaGeulah, brought above in sections 1-2] that the concept of peace is in refinement in the manner of from above to below (refinement through the revelation of light), whereas refinement in the manner of from below to above (refinement through the path of clothing) is in a manner of war. From the fact that it says the meaning of “in peace” is two peaces, peace from above to below and peace from below to above, it implies that even refinement from below to above is in a manner of peace. Furthermore, from the fact that it says “and I will return in peace” two peaces (that both are needed), it implies that each one has an advantage."
+      }
+    ]
+  }
+}

@@ -2,11 +2,7 @@
 import { renderUnifiedFeedCard } from '../../feed/renderFeedCard.js';
 import { button, element, link, pill, textNode } from './dom.js';
 export function renderObjectCard(object, onInspect) {
-  const card = renderUnifiedFeedCard(object, { onInspect, onSave: onInspect, onShare: onInspect });
-  const row = element('footer', 'object-action-row');
-  row.append(link('Open', object.href), button('Inspect', () => onInspect(object)));
-  card.append(row);
-  return card;
+  return renderUnifiedFeedCard(object, { onInspect, onSave:onInspect, onShare:onInspect });
 }
 export function statusCard(title, message, tone = '') {
   const card = element('article', `home-post-card geelooy-feed-card ${tone}`.trim());
@@ -36,4 +32,3 @@ function compact(value) {
   return value ?? 0;
 }
 export function feedTypePill(type) { return pill(type || 'object'); }
-/** B"H: the home renderer now bows to the universal feed card. */

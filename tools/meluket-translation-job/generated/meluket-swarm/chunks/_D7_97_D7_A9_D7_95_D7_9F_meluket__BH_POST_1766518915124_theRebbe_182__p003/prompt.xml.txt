@@ -1,0 +1,81 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915124_theRebbe_182" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915124_theRebbe_182" title="מאמר ויזרע יצחק בארץ תשכ"ז" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה על פי הנ"ל שהעבודה דויזרע יצחק היא זריעת</src>
+    <src s="2">(ירידת והתלבשות)</src>
+    <src s="3">הכחות דנה"א בקיום המצוות ובבירור נה"ב,</src>
+    <src s="4">צריך לומר,</src>
+    <src s="5">שענין וימצא מאה שערים הוא</src>
+    <src s="6">(לא המשכה מלמעלה הבאה ע"י קיום התומ"צ מצ"ע,</src>
+    <src s="7">אלא)</src>
+    <src s="8">העלי' דנפש האלקית שע"י ירידת הכחות שלה במעשה המצוות ובבירור נה"ב,</src>
+    <src s="9">הצמיחה שע"י הזריעה.</src>
+  </section>
+  <section v="7">
+    <src s="0">והענין הוא,</src>
+    <src s="1">כמבואר בהמאמר24,</src>
+    <src s="2">דמאה שערים הם חמישים שערי בינה שתי פעמים.</src>
+    <src s="3">והענין הוא,</src>
+    <src s="4">דבבינה שתי מדריגות</src>
+    <src s="5">(בכללות).</src>
+    <src s="6">יובל וסטרא דיובלא25.</src>
+    <src s="7">יובל הוא הבינה עצמה,</src>
+    <src s="8">וסטרא דיובלא הוא לא הבינה עצמה ורק מה שנמשך ממנה26.</src>
+    <src s="9">וזהו חמישים שערי בינה שתי פעמים,</src>
+    <src s="10">חמישים שערים שמסטרא דיובלא וחמישים שערים דיובל27</src>
+    <src s="11">עצמו.</src>
+  </section>
+  <section v="8">
+    <src s="0">והנה מבואר במק"א28</src>
+    <src s="1">בפירוש נו"ן שערי בינה,</src>
+    <src s="2">דכמו ששער כפשוטו הוא בסוף החצר שעל ידו יוצאים לחוץ,</src>
+    <src s="3">עד"ז הוא בנוגע לנו"ן שערי בינה,</src>
+    <src s="4">שהם בדרגא תחתונה דבינה,</src>
+    <src s="5">שעל ידם נמשך השכל במדות</src>
+    <src s="6">(דהמשכת השכל במדות הוא יציאה לחוץ מהשכל).</src>
+    <src s="7">ועפ"ז יש לומר,</src>
+    <src s="8">שגם חמישים השערים ביובל עצמו הם במוחין השייכים למדות,</src>
+    <src s="9">אלא שבמוחין אלו עצמם שתי דרגות.</src>
+    <src s="10">השערים שמסטרא דיובלא שהם מקור ממש למדות</src>
+    <src s="11">[וכמו הטיית השכל,</src>
+    <src s="12">שכל המטה כלפי חסד ושכל המטה כלפי גבורה28],</src>
+    <src s="13">והשערים דיובל עצמו שהם בהשכל עצמו שלמעלה מהטי' למדות,</src>
+    <src s="14">וענין השערים שמורה על יציאה לחוץ הוא כי כללות שכל זה</src>
+    <src s="15">(גם לפני הטייתו למדות)</src>
+    <src s="16">הוא שכל ששייך למדות29.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,28 @@
+{
+  "id": "5b6560c3-1627-4ed0-88e2-a7e6297dffd5",
+  "object": "chat.completion",
+  "created": 1783582267,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916159_theRebbe_933\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916159_theRebbe_933__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains the connection between Yehudah approaching Yosef and the haftarah of Vayigash, where in the future Yehudah will be above Yosef.</sectionSummaryBrief>\n    <t s=\"0\">And this is the connection of “And Yehudah approached him” with the haftarah of Parshat Vayigash, whose content is that in the future to come, Yehudah will be above Yosef.</t>\n    <t s=\"1\">For also the approach of Yehudah to Yosef was in a manner that the superiority of Yehudah was placed [in awareness] by Yosef,</t>\n    <t s=\"2\">and moreover,</t>\n    <t s=\"3\">that afterwards it was</t>\n    <t s=\"4\">(like)</t>\n    <t s=\"5\">receiving from Yehudah,</t>\n    <t s=\"6\">for by his influencing Yehudah, the revelation of the innerness of the Keter was illuminated within him,</t>\n    <t s=\"7\">in the manner that will be in the future to come, that Zeir Anpin will receive from Malchut.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section explains that the reason Moshiach is called Dovid is due to humility and self-nullification, and that spreading Torah with humility hastens his coming.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">A)</t>\n    <t s=\"2\">And behold, the explanation is known from the Rebbe, my father-in-law, the Rebbe [Rayatz], in his maamar beginning “And My servant Dovid shall be king over them,” etc.49,</t>\n    <t s=\"3\">that the reason that King Moshiach is called by the name Dovid,</t>\n    <t s=\"4\">is,</t>\n    <t s=\"5\">that the essence of Dovid is humility and self-nullification.</t>\n    <t s=\"6\">For although he was a king,</t>\n    <t s=\"7\">nevertheless he called himself a poor and needy one50.</t>\n    <t s=\"8\">And so it is with King Moshiach,</t>\n    <t s=\"9\">for although he will be at the ultimate level of greatness,</t>\n    <t s=\"10\">as it is stated51</t>\n    <t s=\"11\">“And the spirit of Hashem shall rest upon him,” etc., and he will study Torah with the Patriarchs and Moshe Rabbeinu, peace be upon him,</t>\n    <t s=\"12\">nevertheless he will be at the ultimate level of humility and self-nullification, to also study with simple people.</t>\n    <t s=\"13\">And based on what is known52</t>\n    <t s=\"14\">that all the revelations of the future depend on our deeds and service now,</t>\n    <t s=\"15\">it is understood,</t>\n    <t s=\"16\">that among the matters that bring closer and hasten the coming of Moshiach is the study and dissemination of Torah,</t>\n    <t s=\"17\">the revealed aspect of Torah and the innerness of Torah,</t>\n    <t s=\"18\">to everyone,</t>\n    <t s=\"19\">even to simple people.</t>\n    <t s=\"20\">And that this will be in a manner of humility and self-nullification.</t>\n    <t s=\"21\">That is, the study and dissemination must be not for the sake of the elevation that occurs through this for the teacher and disseminator</t>\n    <t s=\"22\">(from my students more than from all of them53),</t>\n    <t s=\"23\">but rather for the sake of the recipients.</t>\n    <t s=\"24\">[And in the manner explained above regarding the matter of “Bi Adoni.”]</t>\n    <t s=\"25\">And through this, they bring closer and hasten even more the fulfillment of the prophecy “And My servant Dovid shall be king over them,” etc., and “Dovid My servant shall be their prince forever,”</t>\n    <t s=\"26\">with the coming of Moshiach Tzidkeinu, speedily and truly.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1515,
+    "completion_tokens": 1096,
+    "total_tokens": 2611,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 1131
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

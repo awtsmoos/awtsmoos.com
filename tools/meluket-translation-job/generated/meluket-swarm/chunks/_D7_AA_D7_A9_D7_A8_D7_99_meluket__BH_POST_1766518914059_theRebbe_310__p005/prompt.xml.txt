@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" title="מאמר שובה ישראל תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p005">
+  <section v="12">
+    <src s="0">ז)</src>
+    <src s="1">ויש להוסיף,</src>
+    <src s="2">שעיקר החידוש והמעלה שבבעלי תשובה הוא בהעבודה דתומ"צ שלאחרי התשובה,</src>
+    <src s="3">כי עבודת התשובה היא לדלג שור49</src>
+    <src s="4">שלא כסדר ודרך השתלשלות.</src>
+    <src s="5">ולכן,</src>
+    <src s="6">גילוי התקשרות העצמית דעצם הנשמה עם העצמות שע"י התשובה והכפרה,</src>
+    <src s="7">עם היות שהגילוי הוא בדרגות אלו שבהם הי' הפגם,</src>
+    <src s="8">שבכללות הוא הבחינות נר"נ,</src>
+    <src s="9">הרי זה כמו שהנר"נ הם באופן של העלאה למעלה</src>
+    <src s="10">(להדרגות חי' יחידה,</src>
+    <src s="11">ועד לעצם הנשמה).</src>
+    <src s="12">ועיקר החידוש והמעלה דתשובה הוא בזה שע"י התשובה,</src>
+    <src s="13">גם העבודה דתומ"צ היא בחילא יתיר50.</src>
+    <src s="14">שהעבודה בתומ"צ היא בסדר מסודר</src>
+    <src s="15">[ד</src>
+    <src s="16">(רוב)</src>
+    <src s="17">המצוות יש להן שיעור מצומצם כמבואר בתניא51,</src>
+    <src s="18">ועאכו"כ לימוד התורה שהוא בהבנה והשגה],</src>
+    <src s="19">וע"י שהעבודה דתומ"צ שלאחרי התשובה היא בחילא יתיר,</src>
+    <src s="20">הגילוי דחי' יחידה</src>
+    <src s="21">(וי"ל גם דעצם הנשמה)</src>
+    <src s="22">בנר"נ הוא כמו שהנר"נ הם למטה.</src>
+    <src s="23">ויתירה מזו,</src>
+    <src s="24">שע"י העבודה דתומ"צ נעשה גם העולם דירה לו ית',</src>
+    <src s="25">ועי"ז נשלמת הכוונה דדירה בתחתונים,</src>
+    <src s="26">וכידוע בענין במי נמלך בנשמותיהן של צדיקים52,</src>
+    <src s="27">דזה שאמרו בנשמותיהן של צדיקים</src>
+    <src s="28">(אף שבמקום שבעלי תשובה עומדין אין צדיקים גמורין יכולין לעמוד בו),</src>
+    <src s="29">כי תכלית כוונת הבריאה היא שיהי' דירה לו ית' בתחתונים,</src>
+    <src s="30">וזה נעשה ע"י עבודת הצדיקים,</src>
+    <src s="31">עבודה דתומ"צ.</src>
+    <src s="32">אלא שהשלימות בהעבודה דתומ"צ הוא כשהיא באה לאחרי קדימת התשובה שאז העבודה דתומ"צ היא בחילא יתיר,</src>
+    <src s="33">ועי"ז מיתוסף בהגילוי אלקות</src>
+    <src s="34">(שבאדם,</src>
+    <src s="35">ועי"ז)</src>
+    <src s="36">גם בעולם,</src>
+    <src s="37">ועי"ז נשלמת יותר הכוונה דדירה בתחתונים.</src>
+  </section>
+  <section v="13">
+    <src s="0">ח)</src>
+    <src s="1">וזהו שובה ישראל עד הוי' אלקיך גו' קחו עמכם דברים גו',</src>
+    <src s="2">דזה שמוסיף קחו עמכם דברים לאחרי שאומר שובה ישראל עד הוי' אלקיך,</src>
+    <src s="3">הוא,</src>
+    <src s="4">כי מצד גודל העילוי שבעבודת התשובה,</src>
+    <src s="5">ובפרט בהתשובה דשובה גו' עד הוי' אלקיך,</src>
+    <src s="6">שהתשובה היא בבחינת עד ולא עד בכלל,</src>
+    <src s="7">ויתירה מזו – הוי' אלקיך,</src>
+    <src s="8">שעי"ז מתגלית עצם הנשמה שקשורה עם העצמות</src>
+    <src s="9">(שלמעלה גם מבעל הרצון),</src>
+    <src s="10">ואע"פ שהוא נמצא בדרגא נעלית ביותר,</src>
+    <src s="11">ולכאורה אינו שייך לתיקון הפגמים</src>
+    <src s="12">[ובפרט שבכדי לתקן זה צריך לירד ממדריגתו],</src>
+    <src s="13">בכל זה אומר קחו עמכם דברים,</src>
+    <src s="14">שצריך להיות וידוי דברים,</src>
+    <src s="15">בכדי למחות את גוף הקליפות53.</src>
+  </section>
+  <section v="14">
+    <src s="0">ועוד פירוש בקחו עמכם דברים,</src>
+    <src s="1">שדברים הם תורה ומצוות54.</src>
+    <src s="2">שגם בענין דתיקון החטאים,</src>
+    <src s="3">אף שיש בזה היתרון שעי"ז נמשך הגילוי דעצם הנשמה</src>
+    <src s="4">(גם)</src>
+    <src s="5">בהדרגות התחתונות ששייך בהם פגם,</src>
+    <src s="6">מ"מ,</src>
+    <src s="7">גם זה אינו מספיק,</src>
+    <src s="8">וצ"ל קחו עמכם דברים,</src>
+    <src s="9">תורה ומצוות,</src>
+    <src s="10">שעי"ז יהי' העילוי גם בהדרגות דהנשמה כמו שהם למטה</src>
+    <src s="11">(ולא באופן דהעלאה),</src>
+    <src s="12">ויתירה מזו,</src>
+    <src s="13">שעי"ז נעשה גם בירור וזיכוך בהעולם,</src>
+    <src s="14">ונעשה דירה לו ית' בתחתונים.</src>
+  </section>
+</awtsmoosMeluketSource>

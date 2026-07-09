@@ -1,0 +1,489 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 89,
+    "returned": 89,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914993_theRebbe_833\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening heading for the maamar for Shabbos Chayei Sarah, 22 Marcheshvan 5751.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Chayei Sarah,</t>\n    <t s=\"2\">22 Marcheshvan 5751</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the well-known precise points in the discourses of our Nesi'im regarding the verse \"And the life of Sarah was one hundred years and twenty years and seven years,\" questioning the singular and plural forms of \"year\" and the repetition of \"the years of the life of Sarah.\"</sectionSummaryBrief>\n    <t s=\"0\">\"And the life of Sarah was one hundred years and twenty years and seven years, the years of the life of Sarah.\"</t>\n    <t s=\"1\">And the precise points in the discourses of our Nesi'im are well known,</t>\n    <t s=\"2\">[beginning with the discourses of our Rebbe, the Alter Rebbe,</t>\n    <t s=\"3\">and with the addition of glosses and explanations in the discourses of our Nesi'im that followed,</t>\n    <t s=\"4\">and also in the discourses of the Rebbe</t>\n    <t s=\"5\">(the Rebbe Rashab)</t>\n    <t s=\"6\">of blessed memory,</t>\n    <t s=\"7\">the one whose birthday is on 20 Marcheshvan],</t>\n    <t s=\"8\">that regarding the number one hundred and the number twenty, the verse uses \"year\"</t>\n    <t s=\"9\">(\"one hundred years and twenty years\")</t>\n    <t s=\"10\">in the singular form,</t>\n    <t s=\"11\">while regarding the number seven, it uses \"years\"</t>\n    <t s=\"12\">(\"seven years\")</t>\n    <t s=\"13\">in the plural form.</t>\n    <t s=\"14\">Also,</t>\n    <t s=\"15\">what is the meaning of its saying \"the years of the life of Sarah,\"</t>\n    <t s=\"16\">when it already said \"And the life of Sarah was\"</t>\n    <t s=\"17\">(and it specifies the number of 127 years),</t>\n    <t s=\"18\">why does it repeat \"the years of the life of Sarah\"?</t>\n    <t s=\"19\">Also, one must understand the lesson and instruction from \"the years of the life of Sarah\" in the service of every single Jew,</t>\n    <t s=\"20\">as is known that all matters of the Torah</t>\n    <t s=\"21\">(even the stories of the Torah)</t>\n    <t s=\"22\">are instructions for every single Jew,</t>\n    <t s=\"23\">and especially the deeds of the Forefathers</t>\n    <t s=\"24\">(and Foremothers)</t>\n    <t s=\"25\">are a sign</t>\n    <t s=\"26\">(and empowerment)</t>\n    <t s=\"27\">for the children.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the verse encompasses the entire order of Hishtalshelus, and based on the Zohar, it interprets \"one hundred years\" as Kesser, \"twenty years\" as Chochmah and Binah, and \"seven years\" as the seven emotional attributes, with the conclusion \"the years of the life of Sarah\" referring to a level beyond division.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And it is explained in the discourses,</t>\n    <t s=\"2\">that in this verse is included the entire order of Hishtalshelus</t>\n    <t s=\"3\">(above and also)</t>\n    <t s=\"4\">in the soul of man,</t>\n    <t s=\"5\">in every single Jew,</t>\n    <t s=\"6\">that his service must be in all the details of the matters of \"one hundred years and twenty years and seven years,\"</t>\n    <t s=\"7\">as in Sarah.</t>\n    <t s=\"8\">And the explanation of the matter:</t>\n    <t s=\"9\">It is stated in the Zohar,</t>\n    <t s=\"10\">\"And the life of Sarah was... one hundred years, the general principle of all, the Holy One Blessed be He, who is included from the supernal place, the hidden of all hidden, in one hundred, in the secret of one hundred blessings each day,</t>\n    <t s=\"11\">and likewise twenty years,</t>\n    <t s=\"12\">and therefore it is written 'year,' the secret of unity that thought and the Jubilee never separate,</t>\n    <t s=\"13\">seven years, these are separated and emerge from the general principle... in judgment and mercy, in many sides and paths... and therefore... it is written of them 'years' and not 'year,'</t>\n    <t s=\"14\">and all of them are called 'life'...\"</t>\n    <t s=\"15\">And the concept in this:</t>\n    <t s=\"16\">That \"one hundred years\" refers to Kesser</t>\n    <t s=\"17\">(for Kesser includes all ten Sefiros,</t>\n    <t s=\"18\">and each one of them is comprised of ten,</t>\n    <t s=\"19\">and ten times ten is one hundred),</t>\n    <t s=\"20\">whose concept in the soul of man is will</t>\n    <t s=\"21\">(the externality of Kesser)</t>\n    <t s=\"22\">and delight</t>\n    <t s=\"23\">(the internality of Kesser).</t>\n    <t s=\"24\">And \"twenty years\" refers to Chochmah and Binah</t>\n    <t s=\"25\">(for each of them is comprised of ten),</t>\n    <t s=\"26\">the aspect of the intellect</t>\n    <t s=\"27\">[And in several discourses</t>\n    <t s=\"28\">it is explained that also \"one hundred years\" is the aspect of the intellect</t>\n    <t s=\"29\">(as is known that units are in Malchus,</t>\n    <t s=\"30\">tens in Z'eir Anpin,</t>\n    <t s=\"31\">and hundreds in Abba and Imma</t>\n    <t s=\"32\">(Chochmah and Binah),</t>\n    <t s=\"33\">and thousands in Kesser),</t>\n    <t s=\"34\">and based on this it can be said,</t>\n    <t s=\"35\">that \"one hundred years\" is intellect in its essence,</t>\n    <t s=\"36\">and \"twenty years\" is intellect that relates to the emotions</t>\n    <t s=\"37\">(tens in Z'eir Anpin)].</t>\n    <t s=\"38\">And regarding both of them, the verse says \"year\"</t>\n    <t s=\"39\">(\"one hundred years and twenty years\")</t>\n    <t s=\"40\">in the singular form,</t>\n    <t s=\"41\">because,</t>\n    <t s=\"42\">in Kesser</t>\n    <t s=\"43\">(one hundred)</t>\n    <t s=\"44\">all the Sefiros are included together,</t>\n    <t s=\"45\">and also Chochmah and Binah</t>\n    <t s=\"46\">(twenty)</t>\n    <t s=\"47\">are \"two companions that never separate,\"</t>\n    <t s=\"48\">therefore they are included together.</t>\n    <t s=\"49\">And \"seven years\" refers to the seven emotional attributes,</t>\n    <t s=\"50\">and because they are in a manner of division, even into opposite lines of Chessed and Gevurah</t>\n    <t s=\"51\">(judgment and mercy),</t>\n    <t s=\"52\">of them it says \"seven years,\"</t>\n    <t s=\"53\">in the plural form.</t>\n    <t s=\"54\">And it adds and concludes \"the years of the life of Sarah,\"</t>\n    <t s=\"55\">that through the completeness of the service of \"one hundred years and twenty years and seven years,\" one comes to a more elevated level that is above division,</t>\n    <t s=\"56\">therefore no number is mentioned in this</t>\n    <t s=\"57\">(in the manner of \"before the One, what do you count\").</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914993_theRebbe_833",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening heading for the maamar for Shabbos Chayei Sarah, 22 Marcheshvan 5751.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Chayei Sarah,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "22 Marcheshvan 5751"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the well-known precise points in the discourses of our Nesi'im regarding the verse \"And the life of Sarah was one hundred years and twenty years and seven years,\" questioning the singular and plural forms of \"year\" and the repetition of \"the years of the life of Sarah.\"",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And the life of Sarah was one hundred years and twenty years and seven years, the years of the life of Sarah.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the precise points in the discourses of our Nesi'im are well known,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "[beginning with the discourses of our Rebbe, the Alter Rebbe,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "and with the addition of glosses and explanations in the discourses of our Nesi'im that followed,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "and also in the discourses of the Rebbe"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "of blessed memory,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "the one whose birthday is on 20 Marcheshvan],"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "that regarding the number one hundred and the number twenty, the verse uses \"year\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "(\"one hundred years and twenty years\")"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "in the singular form,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "while regarding the number seven, it uses \"years\""
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "(\"seven years\")"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "in the plural form."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "Also,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "what is the meaning of its saying \"the years of the life of Sarah,\""
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "when it already said \"And the life of Sarah was\""
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "(and it specifies the number of 127 years),"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "why does it repeat \"the years of the life of Sarah\"?"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "Also, one must understand the lesson and instruction from \"the years of the life of Sarah\" in the service of every single Jew,"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "as is known that all matters of the Torah"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "(even the stories of the Torah)"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "are instructions for every single Jew,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "and especially the deeds of the Forefathers"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "(and Foremothers)"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "are a sign"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "(and empowerment)"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "for the children."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the verse encompasses the entire order of Hishtalshelus, and based on the Zohar, it interprets \"one hundred years\" as Kesser, \"twenty years\" as Chochmah and Binah, and \"seven years\" as the seven emotional attributes, with the conclusion \"the years of the life of Sarah\" referring to a level beyond division.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And it is explained in the discourses,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that in this verse is included the entire order of Hishtalshelus"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(above and also)"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "in the soul of man,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "in every single Jew,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "that his service must be in all the details of the matters of \"one hundred years and twenty years and seven years,\""
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "as in Sarah."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And the explanation of the matter:"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "It is stated in the Zohar,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "\"And the life of Sarah was... one hundred years, the general principle of all, the Holy One Blessed be He, who is included from the supernal place, the hidden of all hidden, in one hundred, in the secret of one hundred blessings each day,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "and likewise twenty years,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and therefore it is written 'year,' the secret of unity that thought and the Jubilee never separate,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "seven years, these are separated and emerge from the general principle... in judgment and mercy, in many sides and paths... and therefore... it is written of them 'years' and not 'year,'"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and all of them are called 'life'...\""
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "And the concept in this:"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "That \"one hundred years\" refers to Kesser"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "(for Kesser includes all ten Sefiros,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "and each one of them is comprised of ten,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "and ten times ten is one hundred),"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "whose concept in the soul of man is will"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "(the externality of Kesser)"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "and delight"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(the internality of Kesser)."
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "And \"twenty years\" refers to Chochmah and Binah"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "(for each of them is comprised of ten),"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "the aspect of the intellect"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "[And in several discourses"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "it is explained that also \"one hundred years\" is the aspect of the intellect"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "(as is known that units are in Malchus,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "tens in Z'eir Anpin,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "and hundreds in Abba and Imma"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "(Chochmah and Binah),"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "and thousands in Kesser),"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "and based on this it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "that \"one hundred years\" is intellect in its essence,"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "and \"twenty years\" is intellect that relates to the emotions"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "(tens in Z'eir Anpin)]."
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "And regarding both of them, the verse says \"year\""
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "(\"one hundred years and twenty years\")"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "in the singular form,"
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "because,"
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "in Kesser"
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "(one hundred)"
+          },
+          {
+            "v": 2,
+            "s": 44,
+            "translation": "all the Sefiros are included together,"
+          },
+          {
+            "v": 2,
+            "s": 45,
+            "translation": "and also Chochmah and Binah"
+          },
+          {
+            "v": 2,
+            "s": 46,
+            "translation": "(twenty)"
+          },
+          {
+            "v": 2,
+            "s": 47,
+            "translation": "are \"two companions that never separate,\""
+          },
+          {
+            "v": 2,
+            "s": 48,
+            "translation": "therefore they are included together."
+          },
+          {
+            "v": 2,
+            "s": 49,
+            "translation": "And \"seven years\" refers to the seven emotional attributes,"
+          },
+          {
+            "v": 2,
+            "s": 50,
+            "translation": "and because they are in a manner of division, even into opposite lines of Chessed and Gevurah"
+          },
+          {
+            "v": 2,
+            "s": 51,
+            "translation": "(judgment and mercy),"
+          },
+          {
+            "v": 2,
+            "s": 52,
+            "translation": "of them it says \"seven years,\""
+          },
+          {
+            "v": 2,
+            "s": 53,
+            "translation": "in the plural form."
+          },
+          {
+            "v": 2,
+            "s": 54,
+            "translation": "And it adds and concludes \"the years of the life of Sarah,\""
+          },
+          {
+            "v": 2,
+            "s": 55,
+            "translation": "that through the completeness of the service of \"one hundred years and twenty years and seven years,\" one comes to a more elevated level that is above division,"
+          },
+          {
+            "v": 2,
+            "s": 56,
+            "translation": "therefore no number is mentioned in this"
+          },
+          {
+            "v": 2,
+            "s": 57,
+            "translation": "(in the manner of \"before the One, what do you count\")."
+          }
+        ]
+      }
+    ]
+  }
+}

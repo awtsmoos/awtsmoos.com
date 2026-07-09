@@ -1,0 +1,85 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917181_theRebbe_116" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917181_theRebbe_116__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917181_theRebbe_116" title="מאמר זה יתנו תש"מ" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917181_theRebbe_116__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">ובזה יובן מה שמסיים לכפר על נפשותיכם,</src>
+    <src s="2">שעי"ז פועל תיקון של החטאים עד לחטא העגל.</src>
+    <src s="3">כי מכיון שע"י הבירורים מתעלה למקום נעלה ביותר,</src>
+    <src s="4">בחי' התוהו שקדם אל התיקון,</src>
+    <src s="5">ולמעלה מזה,</src>
+    <src s="6">במקום שיעקב הוא הבכור</src>
+    <src s="7">(וכמשל השפופרת שהטיפה הנכנסת ראשונה תצא אחרונה28),</src>
+    <src s="8">עד למעלה מזה,</src>
+    <src s="9">במקום ששניהם שוים,</src>
+    <src s="10">הלא אח עשו ליעקב29,</src>
+    <src s="11">עד לבחי' אחדות הפשוטה,</src>
+    <src s="12">הרי פשוט הוא שמשם נמשך תיקון כל החסרונות והפגמים וכו'.</src>
+    <src s="13">וזהו ענין עשרים גרה הנ"ל,</src>
+    <src s="14">דאיתא בספר הבהיר30</src>
+    <src s="15">ע"ס מלמטלמ"ע לא ידענו מלמעלמ"ט ידענו,</src>
+    <src s="16">כי ע"י העבודה בבחי' ע"ס מלמטלמ"ע ממשיכים מבחי' לא ידענו,</src>
+    <src s="17">שלמעלה לגמרי מענין הידיעה וכו'.</src>
+  </section>
+  <section v="7">
+    <src s="0">וזהו גם מה שזה הי' התיקון לחטא העגל,</src>
+    <src s="1">דחטא העגל הי' כאשר בושש משה לרדת גו'31,</src>
+    <src s="2">וארז"ל32</src>
+    <src s="3">א"ת בושש אלא באו שש,</src>
+    <src s="4">שבאה שעה ששית,</src>
+    <src s="5">חצי היום,</src>
+    <src s="6">ולא בא,</src>
+    <src s="7">והתיקון לזה הוא ע"י העבודה דמחצית השקל דוקא33.</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">והנה כשם שע"י נתינת מחצית השקל הקריבו קרבנות בכל השנה,</src>
+    <src s="2">עד"ז בעבודה,</src>
+    <src s="3">שצ"ל העבודה הנ"ל בכל השנה,</src>
+    <src s="4">ובאופן של שמחה וטוב לבב,</src>
+    <src s="5">מרוב כל,</src>
+    <src s="6">היינו דתמורת זה שהי' חוסר כל יהי' מרוב כל,</src>
+    <src s="7">ולמעלה מזה,</src>
+    <src s="8">שהרי יפה שעה אחת בתשובה ומעשים טובים בעוה"ז מכל חיי העוה"ב34.</src>
+    <src s="9">אלא שמפני טעם הידוע ליוצרם הרי עכשיו אין הענינים בגלוי,</src>
+    <src s="10">ובקרוב ממש יהי' ונגלה כבוד הוי' וראו כל בשר יחדיו גו'35.</src>
+    <src s="11">ויה"ר שבקרוב נקיים מצות מחצית השקל בביהמ"ק השלישי,</src>
+    <src s="12">נשמות בגופים ומתוך בריאות הנכונה ובהרחבה,</src>
+    <src s="13">והקיצו ורננו שוכני עפר36</src>
+    <src s="14">ואהרן ומשה עמהם37,</src>
+    <src s="15">וקהל גדול ישובו הנה38,</src>
+    <src s="16">בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

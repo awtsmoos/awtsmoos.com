@@ -1,0 +1,120 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915911_theRebbe_364" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915911_theRebbe_364" title="מאמר ברוך שעשה נסים תשמ"ג" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה מבואר בכמה דרושים32,</src>
+    <src s="2">דזה שתורה נמשלה ליין ושמן33</src>
+    <src s="3">קאי על רזי תורה,</src>
+    <src s="4">שהם דוגמת היין והשמן שהם מכוסים ונעלמים בענבים וזיתים</src>
+    <src s="5">[והחילוק בין יין לשמן הוא,</src>
+    <src s="6">דיין הוא רזי תורה,</src>
+    <src s="7">ושמן הוא רזין דרזין34].</src>
+    <src s="8">ומזה מובן,</src>
+    <src s="9">דזה שתורה נמשלה למים35</src>
+    <src s="10">קאי על גליא דתורה36.</src>
+    <src s="11">וכמבואר בתניא37,</src>
+    <src s="12">דהטעם על זה שתורה נמשלה למים הוא כי כמו שמים יורדים ממקום גבוה למקום נמוך38</src>
+    <src s="13">כך התורה ירדה ממקומה שהיא רצונו וחכמתו ית' ומשם נסעה וירדה עד שנתלבשה בדברים גשמיים ועניני עוה"ז,</src>
+    <src s="14">דרוב הלכות התורה הם בדברים גשמיים.</src>
+    <src s="15">וצריך להבין,</src>
+    <src s="16">דביאור זה הוא לכאורה להיפך מהמבואר במאמר זה</src>
+    <src s="17">(ד"ה ברוך שעשה ניסים)</src>
+    <src s="18">ובהדרושים דחג הסוכות</src>
+    <src s="19">(בענין ניסוך היין והמים)</src>
+    <src s="20">שמים הם למעלה מיין.</src>
+  </section>
+  <section v="7">
+    <src s="0">ויש לומר הביאור בזה,</src>
+    <src s="1">ע"פ הכלל הידוע39</src>
+    <src s="2">דכל הגבוה ביותר יורד למטה יותר.</src>
+    <src s="3">דמזה מובן,</src>
+    <src s="4">דזה שמים מצד עצמם הם בטבע ההמשכה והגילוי,</src>
+    <src s="5">עד שיורדים</src>
+    <src s="6">(דוקא)</src>
+    <src s="7">למקום נמוך,</src>
+    <src s="8">דגם לאחרי שנמשכו למטה הם נמשכים בטבעם למקום נמוך יותר,</src>
+    <src s="9">הוא מפני ששרש המשכתם הוא ממקום גבוה ביותר.</src>
+    <src s="10">ועפ"ז יש לומר,</src>
+    <src s="11">דזה שמשמע בכמה דרושים דמים הם למטה מיין הוא מצד הטבע שלהם שבפועל.</src>
+    <src s="12">דמים הם בטבע ההמשכה והגילוי כנ"ל,</src>
+    <src s="13">משא"כ יין מצד עצמו,</src>
+    <src s="14">הוא מכוסה וטמון בענביו,</src>
+    <src s="15">ובכדי שיבוא מהעלם לגילוי הוא ע"י פעולה והשתדלות.</src>
+    <src s="16">[דזהו גם הטעם על זה שנכנס יין יצא סוד40,</src>
+    <src s="17">כי כמו שהיין עצמו הוא גילוי ההעלם</src>
+    <src s="18">(דזה שהי' תחלה בהעלם</src>
+    <src s="19">(טמון בענביו)</src>
+    <src s="20">יצא לגילוי),</src>
+    <src s="21">עד"ז הוא פועל גם בהאדם,</src>
+    <src s="22">שהוא "מוציא" את הסוד שבו,</src>
+    <src s="23">שיבוא בגילוי41].</src>
+    <src s="24">ומה שמבואר בדרושים אלו דמים הם למעלה מיין הוא מצד מעלת שרש המים,</src>
+    <src s="25">שניכר גם בהטבע שלהם</src>
+    <src s="26">(בפועל),</src>
+    <src s="27">דזה שיורדים למקום נמוך הוא,</src>
+    <src s="28">כנ"ל,</src>
+    <src s="29">מצד זה שבשרשם הם גבוהים יותר.</src>
+    <src s="30">וזהו גם מה שמים אין להם טעם,</src>
+    <src s="31">כי מכיון שגם בירידתם למטה ניכר בהם שבשרשם הם גבוהים יותר,</src>
+    <src s="32">לכן,</src>
+    <src s="33">גם בירידתם למטה הם למעלה מהטעם</src>
+    <src s="34">(כנ"ל סעיף ג).</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">והנה מבואר לעיל</src>
+    <src s="2">(סעיף א',</src>
+    <src s="3">מהמאמר ד"ה ברוך שעשה נסים),</src>
+    <src s="4">דזה ששמן צף על גבי כל המשקין הוא מפני ששמן הוא למעלה מהם.</src>
+    <src s="5">וע"פ המבואר לעיל</src>
+    <src s="6">(סעיף ד),</src>
+    <src s="7">דמעלת היין על המים היא שהיין מצד עצמו הוא בהעלם</src>
+    <src s="8">(טמון בענביו),</src>
+    <src s="9">ומעלת המים על היין היא מצד שרשם שזה ניכר בהם גם בזה שהם למעלה מהטעם,</src>
+    <src s="10">צריך לומר,</src>
+    <src s="11">דזה ששמן הוא למעלה הן מיין והן ממים הוא בשני הענינים,</src>
+    <src s="12">הן בענין ההעלם שבו,</src>
+    <src s="13">דההעלם דשמן</src>
+    <src s="14">(זה שהוא טמון בהזיתים)</src>
+    <src s="15">הוא העלם גדול יותר מההעלם דיין</src>
+    <src s="16">(שטמון בענביו),</src>
+    <src s="17">והן בזה שהוא למעלה מהטעם</src>
+    <src s="18">(הנאה)</src>
+    <src s="19">דהאדם,</src>
+    <src s="20">כדלקמן</src>
+    <src s="21">(סעיף ז).</src>
+  </section>
+</awtsmoosMeluketSource>

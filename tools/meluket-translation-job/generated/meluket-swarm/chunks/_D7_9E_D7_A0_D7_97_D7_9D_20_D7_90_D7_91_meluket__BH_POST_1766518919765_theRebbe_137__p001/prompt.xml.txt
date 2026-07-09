@@ -1,0 +1,94 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" title="מאמר קץ שם לחושך תשכ"ד" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ דברים,</src>
+    <src s="2">תשעה-באב נדחה,</src>
+    <src s="3">ה'תשכ"ד</src>
+  </section>
+  <section v="1">
+    <src s="0">קץ שם לחושך1,</src>
+    <src s="1">ואיתא במדרש2,</src>
+    <src s="2">זמן נתן לעולם כמה שנים יעשה באפילה.</src>
+    <src s="3">ומבאר הצמח צדק3</src>
+    <src s="4">שהוא ע"ד מ"ש בזהר4</src>
+    <src s="5">עה"פ5</src>
+    <src s="6">לכל זמן ועת לכל חפץ,</src>
+    <src s="7">שיש זמן קצוב לחושך הגלות.</src>
+    <src s="8">וצריך להבין,</src>
+    <src s="9">דכיון שכל הדברים שבעולם יש להם זמן קצוב,</src>
+    <src s="10">לכל זמן,</src>
+    <src s="11">מהו החידוש בקץ שם לחושך.</src>
+    <src s="12">וביותר אינו מובן,</src>
+    <src s="13">דמלשון הכתוב קץ שם לחושך משמע,</src>
+    <src s="14">שהחושך מצד עצמו אין לו קץ,</src>
+    <src s="15">אלא ששם לו קץ.</src>
+    <src s="16">ויש לומר הביאור בזה,</src>
+    <src s="17">דזה שהדברים הבלתי רצויים אינם נמצאים בי"ד העתים שנקצבו לטובה6</src>
+    <src s="18">הוא רק שלא ישנם אז בפועל,</src>
+    <src s="19">כי ע"י הענינים הטובים שישנם אז,</src>
+    <src s="20">הדברים שאינם רצויים הם מתבטלים.</src>
+    <src s="21">דכמו"כ הוא באור וחושך,</src>
+    <src s="22">שהאור דוחה את החושך</src>
+    <src s="23">[ועד שאפילו מעט אור דוחה הרבה חושך7].</src>
+    <src s="24">וענין קץ שם לחושך הוא,</src>
+    <src s="25">שלאחרי שיהי' הקץ שלו לא יהי' שייך כלל ענין החושך.</src>
+    <src s="26">דזה שהגאולה העתידה תהי' גאולה נצחית שאין אחרי' גלות8,</src>
+    <src s="27">הוא,</src>
+    <src s="28">שאז לא יהי' שייך חושך הגלות.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה החילוק באופן ביטול החושך – אם הוא רק נדחה מפני האור,</src>
+    <src s="2">או שאין שייך כלל מציאותו – תלוי בדרגת האור.</src>
+    <src s="3">שבכדי לדחות את החושך</src>
+    <src s="4">(אבל גם לאחרי שנדחה שייכת מציאותו)</src>
+    <src s="5">הוא גם ע"י אור מוגבל,</src>
+    <src s="6">ועד שאפילו מעט אור דוחה הרבה חושך7.</src>
+    <src s="7">ובכדי שהחושך יתבטל לגמרי הוא ע"י אור בלתי מוגבל.</src>
+    <src s="8">וכדאיתא במדרש9</src>
+    <src s="9">דזה שהגאולה דיציאת מצרים</src>
+    <src s="10">(וכן הגאולה מגלות בבל ושאר הגלויות עד להגאולה דלעתיד)</src>
+    <src s="11">היתה גאולה שיש אחרי' גלות,</src>
+    <src s="12">וגאולה העתידה תהי' גאולה נצחית שאין אחרי' גלות,</src>
+    <src s="13">הוא,</src>
+    <src s="14">כי הגאולה דיציאת מצרים היא דוגמת אור הנר ששייך בו כיבוי10,</src>
+    <src s="15">וגאולה העתידה היא דוגמת אור היום שאין שייך בו כיבוי.</src>
+    <src s="16">היינו,</src>
+    <src s="17">שהגילוי דגאולה העתידה יהי' גילוי אור בלתי מוגבל שאין שייך בו הפסק11,</src>
+    <src s="18">ולכן תהי' גאולה נצחית שאין אחרי' גלות12.</src>
+  </section>
+</awtsmoosMeluketSource>

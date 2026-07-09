@@ -1,0 +1,121 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917442_theRebbe_735" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917442_theRebbe_735" title="מאמר על כן קראו תשי"ג" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דלפי הנ"ל שע"י הפור הוא הגורל הוא המשכת אוא"ס בעל הרצון,</src>
+    <src s="3">שעי"ז נתכפרו כל הענינים הבלתי רצויים,</src>
+    <src s="4">מה היתה סברתו של המן הרשע</src>
+    <src s="5">(שקטרג על היהודים31)</src>
+    <src s="6">להפיל פור הוא הגורל.</src>
+    <src s="7">גם צריך להבין מ"ש על כן קראו לימים האלה פורים על שם ה.</src>
+    <src s="8">פור,</src>
+    <src s="9">דהפור</src>
+    <src s="10">(בה"א הידיעה)</src>
+    <src s="11">קאי על הפור שנאמר לפנ"ז היינו הפור שהפיל המן,</src>
+    <src s="12">והרי הפור שהפיל המן הי' ענין בלתי רצוי ולמה נקראים ימים האלה פורים על שם פור זה.</src>
+    <src s="13">ונקודת הביאור בזה,</src>
+    <src s="14">שמצד הדרגא דהשתלשלות,</src>
+    <src s="15">כיון שבדרגא זו מעשה התחתונים תופס מקום,</src>
+    <src s="16">עיקר ההשפעה היא לישראל,</src>
+    <src s="17">לפי שישראל הם מקיימים תומ"צ,</src>
+    <src s="18">ואפילו אלו שהם היפך צדיקים הם מלאים מצוות כרמון32.</src>
+    <src s="19">וכמ"ש33</src>
+    <src s="20">השקיפה ממעון קדשך מן השמים וברך את עמך את ישראל,</src>
+    <src s="21">שמצד בחינת שמים</src>
+    <src s="22">[שמים הוא שם מים34,</src>
+    <src s="23">ומים הוא חכמה ראשית ההשתלשלות],</src>
+    <src s="24">נשפעים הברכות לישראל35.</src>
+    <src s="25">וכיון שגם המן הרשע ידע שלאחרי כל הקטרוגים שקטרג על ישראל אין שום דמיון בינו ובין ישראל</src>
+    <src s="26">[שלכן,</src>
+    <src s="27">מצד הדרגא דהשתלשלות אין שייך שהמן הרשע ינצח ח"ו את ישראל שגם הפחותים שבהם מלאים מצוות כרמון],</src>
+    <src s="28">לכן הפיל פור הוא הגורל,</src>
+    <src s="29">דכיון שבהדרגא דלמעלה מהשתלשלות</src>
+    <src s="30">(גורל)</src>
+    <src s="31">אין מעשה התחתונים תופס מקום,</src>
+    <src s="32">והכל שוים שם,</src>
+    <src s="33">כחשיכה כאורה36,</src>
+    <src s="34">לכן חשב שמצד דרגת הגורל שלמעלה מהשתלשלות יש מקום שהוא ינצח ח"ו את ישראל.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">ויש לקשר זה עם המבואר במק"א37</src>
+    <src s="2">בענין אחשורוש,</src>
+    <src s="3">דאחשורוש הוא אחש ורוש38.</src>
+    <src s="4">חש הוא מלשון שתיקה</src>
+    <src s="5">[כדאיתא בגמרא39</src>
+    <src s="6">מאי חשמל כו' עתים חשות עתים ממללות],</src>
+    <src s="7">והשתיקה דחש היא למעלה מדיבור40,</src>
+    <src s="8">ע"ד מלה בסלע שתיקותא בתרי41.</src>
+    <src s="9">דשרש הדיבור הוא בחכמה42,</src>
+    <src s="10">ושתיקה היא בכתר שלמעלה מהחכמה,</src>
+    <src s="11">כמארז"ל43</src>
+    <src s="12">סיג לחכמה שתיקה44,</src>
+    <src s="13">דסיג לחכמה</src>
+    <src s="14">(סיג מלשון גדר ומקיף)</src>
+    <src s="15">הוא הכתר שלמעלה מהחכמה.</src>
+    <src s="16">ויש לקשר זה עם מה דאיתא במדרש45</src>
+    <src s="17">שאחשורוש זה הקב"ה שאחרית וראשית שלו46,</src>
+    <src s="18">כי כתר הוא</src>
+    <src s="19">(בכלל)</src>
+    <src s="20">אור הסובב שלמעלה מהשתלשלות,</src>
+    <src s="21">דאור הסובב כולל אחרית וראשית בשוה,</src>
+    <src s="22">אחרית וראשית שלו47.</src>
+  </section>
+  <section v="8">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">דבגמרא48</src>
+    <src s="2">איתא דאחשורוש הוא על שם שהושחרו פניהם של ישראל בימיו,</src>
+    <src s="3">ואיך זה מתאים עם הפירוש שאחשורוש הוא מי שאחרית וראשית שלו.</src>
+    <src s="4">והענין הוא,</src>
+    <src s="5">דהיא הנותנת.</src>
+    <src s="6">דכיון שמצד הסובב שלמעלה מהשתלשלות אור וחושך שוים לפניו</src>
+    <src s="7">(כנ"ל סעיף ה),</src>
+    <src s="8">לכן,</src>
+    <src s="9">מבחינת השתיקה</src>
+    <src s="10">(חש דאחשורוש)</src>
+    <src s="11">שלמעלה מדיבור נשתלשל</src>
+    <src s="12">(ע"י ריבוי צמצומים וכו')</src>
+    <src s="13">השתיקה שלמטה מדיבור49,</src>
+    <src s="14">שהאלקות הוא בהעלם</src>
+    <src s="15">(העלם כפשוטו שלמטה מגילוי),</src>
+    <src s="16">ועד להשתיקה דכרחל לפני גוזזי' נאלמה50,</src>
+    <src s="17">דלא רק שהאלקות אינו מאיר בגילוי אלא שגם הקליפה מסתרת על האלקות,</src>
+    <src s="18">קליפת נוגה שנקראת חש51,</src>
+    <src s="19">ועד שמתחברת עם גקה"ט,</src>
+    <src s="20">רוש52.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,144 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917894_theRebbe_634" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917894_theRebbe_634__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917894_theRebbe_634" title="מאמר כימי צאתך תשי"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917894_theRebbe_634__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">והנה ידוע הדיוק13</src>
+    <src s="2">מ"ש כימי צאתך מארץ מצרים,</src>
+    <src s="3">כימי לשון רבים,</src>
+    <src s="4">הרי יציאת מצרים היתה ביום אחד</src>
+    <src s="5">[ובזכירת יציאת מצרים כתיב זכור את היום הזה אשר יצאתם ממצרים14,</src>
+    <src s="6">למען תזכור את יום צאתך מארץ מצרים15],</src>
+    <src s="7">ולמה נאמר כימי לשון רבים.</src>
+    <src s="8">ויש לומר הביאור בזה,</src>
+    <src s="9">דביציאת מצרים נכלל גם קריעת ים סוף16.</src>
+    <src s="10">[וכ"ה במצות זכירת יציאת מצרים בכל יום,</src>
+    <src s="11">שנכלל בה גם זכירת קריעת ים סוף17.</src>
+    <src s="12">וכן במצות סיפור יציאת מצרים בליל הפסח,</src>
+    <src s="13">דכל המרבה לספר ביציאת מצרים הרי זה משובח18,</src>
+    <src s="14">שגם סיפור קריעת ים סוף נכלל בזה19].</src>
+    <src s="15">ולכן נאמר כימי צאתך מארץ מצרים,</src>
+    <src s="16">כימי לשון רבים.</src>
+    <src s="17">[ומ"ש במצות זכירת יציאת מצרים יום צאתך מארץ מצרים הוא,</src>
+    <src s="18">כי עיקר המצוה דזכירת יציאת מצרים היא זכירת יציאת מצרים עצמה וזכירת קריעת ים סוף אינה מעכבת20].</src>
+    <src s="19">ופירוש כימי צאתך מארץ מצרים אראנו נפלאות הוא,</src>
+    <src s="20">שבגאולה העתידה יהיו הנסים והנפלאות שהיו ביציאת מצרים עצמה וגם הנס והפלא דקריעת ים סוף.</src>
+    <src s="21">כמ"ש21</src>
+    <src s="22">והחרים הוי' את לשון ים מצרים גו' והיתה מסילה גו' כאשר היתה לישראל ביום עלותו מארץ מצרים.</src>
+    <src s="23">וצריך להבין השייכות דשני הענינים בכימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="24">שגם הנפלאות הנמשכים ממנו ית' לבדו יהיו באופן דאראנו</src>
+    <src s="25">(שיראו את הנס שבהם),</src>
+    <src s="26">ושבהנפלאות שיהיו בגאולה העתידה יהי' גם הפלא דקריעת ים סוף.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים,</src>
+    <src s="2">דזה ששרש הנסים המלובשים בטבע הוא ממקום נעלה יותר משרש הנסים שלמעלה מהטבע,</src>
+    <src s="3">הוא,</src>
+    <src s="4">כי בהנסים שלמעלה מהטבע,</src>
+    <src s="5">הגילוי דאוא"ס הבל"ג שלמעלה מעולמות</src>
+    <src s="6">(שממנו נמשכים הנסים)</src>
+    <src s="7">הוא באופן שהטבע בטל על ידי הגילוי,</src>
+    <src s="8">שידוד מערכות הטבע,</src>
+    <src s="9">ובמילא,</src>
+    <src s="10">אין נמשך הגילוי בעולם.</src>
+    <src s="11">ובהנסים המלובשים בטבע,</src>
+    <src s="12">הגילוי דאוא"ס הבל"ג שלמעלה מעולמות הוא בהעולם עצמו22.</src>
+    <src s="13">וכיון שהעולם עצמו הוא גבול,</src>
+    <src s="14">דגבול ובל"ג הם שני הפכים,</src>
+    <src s="15">לכן,</src>
+    <src s="16">בכדי שהגילוי דאוא"ס הבל"ג יהי' בהגבול דעולם,</src>
+    <src s="17">הוא ע"י שהמשכת הבל"ג היא מעצמות אוא"ס שנמצא בכל מקום גם בהגבול</src>
+    <src s="18">(וטבע)</src>
+    <src s="19">דעולם.</src>
+    <src s="20">ועוד ביאור במעלת הנסים המלובשים בטבע לגבי הנסים שלמעלה מהטבע,</src>
+    <src s="21">דענין הנסים הוא שעל ידם מתגלה שהוא ית' מושל ושולט על הטבע23.</src>
+    <src s="22">וענין זה מתגלה יותר בהנסים המלובשים בטבע.</src>
+    <src s="23">דגילוי ממשלתו ית' ע"י הנסים שלמעלה מהטבע הוא שבכחו ית' לבטל ולשדד את חוקי הטבע,</src>
+    <src s="24">ובהנסים שמלובשים בטבע מתגלה שאוא"ס מושל ושולט על הטבע עצמו24,</src>
+    <src s="25">שהטבע יהי' כפי רצונו25.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">וביאור החילוק בין שני הביאורים במעלת הנסים המלובשים בטבע,</src>
+    <src s="2">יובן בהקדים מ"ש בעקידה26</src>
+    <src s="3">שגם מהנהגת הטבע אפשר לידע גדלות הבורא.</src>
+    <src s="4">דנוסף לזה שע"י ההתבוננות בהנהגת הבריאה</src>
+    <src s="5">(הילוך המזלות וכו')</src>
+    <src s="6">באים להכרה שיש בעה"ב לבירה זו27,</src>
+    <src s="7">הנה ע"י ההתבוננות בזה שהנהגת הטבע היא תמידית בלי שינוי,</src>
+    <src s="8">ובלשון הכתוב28</src>
+    <src s="9">לא ישבותו,</src>
+    <src s="10">דהגם שזה כבר קרוב לששה אלפים שנים ואעפ"כ אין שום חלישות בההנהגה הטבעית,</src>
+    <src s="11">[וכן מזה שבמשך כל הזמן לא נעשה חלישות בכחם של הנבראים,</src>
+    <src s="12">דזה שצבא השמים קיימים באיש וצבא הארץ קיימים במין הוא באופן שהם חזקים כביום הבראם29],</src>
+    <src s="13">עי"ז יודעים גדלות הבורא,</src>
+    <src s="14">שכחו ית'</src>
+    <src s="15">(שממנו באה ההשפעה בעולם)</src>
+    <src s="16">הוא א"ס ובל"ג.</src>
+    <src s="17">דהגם שטבע הנבראים הוא מהחיות אלקי שמתלבש בהם,</src>
+    <src s="18">וזה שכל נברא יש לו טבע מיוחד הוא כפי אופן החיות שבו,</src>
+    <src s="19">דמזה מובן שהחיות שמלובש בהנבראים הוא חיות מוגבל30,</src>
+    <src s="20">הנה זהו בנוגע להטבע עצמו,</src>
+    <src s="21">אבל התמידיות שבהנהגת הטבע,</src>
+    <src s="22">שאין בה שינוי וחלישות,</src>
+    <src s="23">הוא בכח הא"ס הבל"ג שלמעלה מהתלבשות.</src>
+    <src s="24">אלא שבכדי לידע גדלות הבורא ע"י הנהגת הטבע,</src>
+    <src s="25">צריך להתבוננות.</src>
+    <src s="26">וכשרואים נס,</src>
+    <src s="27">שינוי הטבע,</src>
+    <src s="28">רואים מיד</src>
+    <src s="29">(גם בלי התבוננות)</src>
+    <src s="30">שזה בא מאוא"ס שאינו מוגבל בגדר העולם.</src>
+    <src s="31">ועוד מעלה בנסים לגבי הנהגת הטבע,</src>
+    <src s="32">שכח הא"ס הבל"ג שמתגלה ע"י התמידיות שבהנהגת הטבע</src>
+    <src s="33">(גם לאחרי ההתבוננות)</src>
+    <src s="34">הוא מלובש בענין הגבול,</src>
+    <src s="35">שהנהגת הטבע</src>
+    <src s="36">(גבול)</src>
+    <src s="37">אין לה שינוי והפסק,</src>
+    <src s="38">וע"י הנסים נמשך גילוי אוא"ס הבל"ג עצמו שלמעלה מהתלבשות בגבול.</src>
+    <src s="39">אלא שאעפ"כ,</src>
+    <src s="40">מטעם זה עצמו,</src>
+    <src s="41">יש מעלה בהגילוי דכח הא"ס שמתגלה ע"י התמידיות שבהנהגת הטבע לגבי גילוי הא"ס שע"י הנסים.</src>
+    <src s="42">דענין הבל"ג כמו שמתגלה ע"י הנסים,</src>
+    <src s="43">שידוד הטבע דעולם,</src>
+    <src s="44">אינו שייך להעולם,</src>
+    <src s="45">וע"י התמידיות שבהנהגת הטבע,</src>
+    <src s="46">מתגלה שגם חיות העולם</src>
+    <src s="47">(גבול)</src>
+    <src s="48">הוא קשור עם אוא"ס הבל"ג.</src>
+  </section>
+</awtsmoosMeluketSource>

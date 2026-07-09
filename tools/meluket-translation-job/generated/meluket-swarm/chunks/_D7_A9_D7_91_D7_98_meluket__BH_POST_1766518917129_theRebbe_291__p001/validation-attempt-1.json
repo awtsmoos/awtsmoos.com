@@ -1,0 +1,284 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 48,
+    "returned": 48,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917129_theRebbe_291\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917129_theRebbe_291__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header information for the maamar, including the Torah portion and date.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos of Parshas Mishpatim,</t>\n    <t s=\"2\">Parshas Shekalim,</t>\n    <t s=\"3\">Rosh Chodesh Adar 5731</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the verse \"Ki Sisa\" and the Gemara's question about how to raise the horn of Israel, explaining the apparent redundancy in the answer.</sectionSummaryBrief>\n    <t s=\"0\">\"When you lift up the head of the children of Israel according to their counts, and they shall give, each man, an atonement for his soul...\"</t>\n    <t s=\"1\">And it is brought in the Gemara,</t>\n    <t s=\"2\">Moshe said before the Holy One, Blessed be He,</t>\n    <t s=\"3\">\"Master of the Universe, with what will You raise the horn of Israel?\" He said to him, \"With 'Ki Sisa.'\"</t>\n    <t s=\"4\">And Rashi explained,</t>\n    <t s=\"5\">\"If you wish to lift their head in elevation, take from them an atonement for charity.\"</t>\n    <t s=\"6\">And at first glance,</t>\n    <t s=\"7\">the connection of \"Ki Sisa\" to the raising of the horn of Israel is,</t>\n    <t s=\"8\">that \"Ki Sisa\" is</t>\n    <t s=\"9\">(also)</t>\n    <t s=\"10\">an expression of elevation and raising.</t>\n    <t s=\"11\">And it needs to be understood,</t>\n    <t s=\"12\">that according to this,</t>\n    <t s=\"13\">when Moshe asked the Holy One, Blessed be He, \"With what will You raise the horn of Israel?\" it would seemingly have been appropriate to answer him \"with the giving of an atonement for charity,\"</t>\n    <t s=\"14\">and what is the meaning of the answer \"With 'Ki Sisa'\"</t>\n    <t s=\"15\">[that the raising of the horn of Israel is accomplished through \"Ki Sisa\"],</t>\n    <t s=\"16\">for the lifting of the head of the children of Israel and the raising of their horn are one and the same.</t>\n    <t s=\"17\">Also, it needs to be understood,</t>\n    <t s=\"18\">that in the verse it is stated \"and they shall give, each man, an atonement for his soul,\"</t>\n    <t s=\"19\">that the lifting</t>\n    <t s=\"20\">(elevation and raising)</t>\n    <t s=\"21\">of the head of Israel is through the giving of an atonement,</t>\n    <t s=\"22\">and in Rashi's explanation above, \"If you wish to lift their head in elevation, take from them an atonement for charity.\"</t>\n    <t s=\"23\">Also, it needs to be understood,</t>\n    <t s=\"24\">that the language of the verse is \"When you lift up the head of the children of Israel,\"</t>\n    <t s=\"25\">and the language in Moshe's question is \"With what will You raise the horn of Israel.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that \"head\" refers to the natural love above intellect, and that sins cause a concealment and lowering of this aspect, requiring its elevation.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">that it is explained in the discourses</t>\n    <t s=\"3\">(beginning with \"Ki Sisa es Rosh Bnei Yisrael\"),</t>\n    <t s=\"4\">that \"head\" is the natural love that is above intellect,</t>\n    <t s=\"5\">and it is written,</t>\n    <t s=\"6\">\"For my iniquities have passed over my head,\"</t>\n    <t s=\"7\">that the iniquities conceal the aspect of the \"head\" of the soul</t>\n    <t s=\"8\">(the natural love that is above intellect)</t>\n    <t s=\"9\">so that it does not shine in a revealed manner within the internal faculties.</t>\n    <t s=\"10\">And this is \"When you lift up the head,\"</t>\n    <t s=\"11\">for although in the aspect of the \"head\" there is no possibility of blemish,</t>\n    <t s=\"12\">nevertheless,</t>\n    <t s=\"13\">this very fact that the \"head\" of the soul cannot shine in a revealed manner in the internal faculties indicates that a descent and degradation has occurred to it</t>\n    <t s=\"14\">through the iniquities</t>\n    <t s=\"15\">(except that the descent and degradation is not with regard to itself, but only with regard to its revelation),</t>\n    <t s=\"16\">and therefore it is necessary to lift the head,</t>\n    <t s=\"17\">to elevate it from its lowliness.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917129_theRebbe_291",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917129_theRebbe_291__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header information for the maamar, including the Torah portion and date.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos of Parshas Mishpatim,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Parshas Shekalim,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "Rosh Chodesh Adar 5731"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the verse \"Ki Sisa\" and the Gemara's question about how to raise the horn of Israel, explaining the apparent redundancy in the answer.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"When you lift up the head of the children of Israel according to their counts, and they shall give, each man, an atonement for his soul...\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is brought in the Gemara,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "Moshe said before the Holy One, Blessed be He,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "\"Master of the Universe, with what will You raise the horn of Israel?\" He said to him, \"With 'Ki Sisa.'\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "And Rashi explained,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "\"If you wish to lift their head in elevation, take from them an atonement for charity.\""
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And at first glance,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "the connection of \"Ki Sisa\" to the raising of the horn of Israel is,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "that \"Ki Sisa\" is"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "(also)"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "an expression of elevation and raising."
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "that according to this,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "when Moshe asked the Holy One, Blessed be He, \"With what will You raise the horn of Israel?\" it would seemingly have been appropriate to answer him \"with the giving of an atonement for charity,\""
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "and what is the meaning of the answer \"With 'Ki Sisa'\""
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "[that the raising of the horn of Israel is accomplished through \"Ki Sisa\"],"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "for the lifting of the head of the children of Israel and the raising of their horn are one and the same."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "Also, it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "that in the verse it is stated \"and they shall give, each man, an atonement for his soul,\""
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "that the lifting"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "(elevation and raising)"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "of the head of Israel is through the giving of an atonement,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "and in Rashi's explanation above, \"If you wish to lift their head in elevation, take from them an atonement for charity.\""
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "Also, it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "that the language of the verse is \"When you lift up the head of the children of Israel,\""
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "and the language in Moshe's question is \"With what will You raise the horn of Israel.\""
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that \"head\" refers to the natural love above intellect, and that sins cause a concealment and lowering of this aspect, requiring its elevation.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that it is explained in the discourses"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(beginning with \"Ki Sisa es Rosh Bnei Yisrael\"),"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that \"head\" is the natural love that is above intellect,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and it is written,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "\"For my iniquities have passed over my head,\""
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "that the iniquities conceal the aspect of the \"head\" of the soul"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "(the natural love that is above intellect)"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "so that it does not shine in a revealed manner within the internal faculties."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And this is \"When you lift up the head,\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "for although in the aspect of the \"head\" there is no possibility of blemish,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "this very fact that the \"head\" of the soul cannot shine in a revealed manner in the internal faculties indicates that a descent and degradation has occurred to it"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "through the iniquities"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(except that the descent and degradation is not with regard to itself, but only with regard to its revelation),"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "and therefore it is necessary to lift the head,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "to elevate it from its lowliness."
+          }
+        ]
+      }
+    ]
+  }
+}

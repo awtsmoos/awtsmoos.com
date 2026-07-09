@@ -1,0 +1,105 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914707_theRebbe_174" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914707_theRebbe_174__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914707_theRebbe_174" title="מאמר להבין ענין שמח"ת תשמ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914707_theRebbe_174__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">וזהו מה שבשמע"צ דוקא נאמר עצרת תהי' לכם</src>
+    <src s="2">(אף שכל החגים ומועדים ניתנו לישראל דוקא),</src>
+    <src s="3">דמכיון שבשמע"צ היא הקליטה של כל ההמשכות דחודש תשרי,</src>
+    <src s="4">ר"ה יוהכ"פ וכו',</src>
+    <src s="5">ענין התשובה שמגיע</src>
+    <src s="6">(כנ"ל)</src>
+    <src s="7">בבחינת העלם שאינו במציאות,</src>
+    <src s="8">עד לבחינת העלם העצמי,</src>
+    <src s="9">הנה ענין זה הוא לכם דוקא יהיו לך לבדך ואין לזרים אתך62,</src>
+    <src s="10">ישראל ומלכא בלחודוהי63.</src>
+    <src s="11">וזהו גם הטעם לזה שקבעו שמח"ת בשמע"צ דוקא,</src>
+    <src s="12">כי בשמע"צ היא הקליטה של כל ההמשכות דחודש תשרי שנמשכים ע"י התשובה,</src>
+    <src s="13">כולל גם הענין דלוחות האחרונות שניתנו ביוהכ"פ,</src>
+    <src s="14">והשמחה דשמח"ת היא על לוחות השניות כנ"ל</src>
+    <src s="15">(סעיף ה).</src>
+  </section>
+  <section v="10">
+    <src s="0">וזהו שהשמחה דשמח"ת היא באותיות התורה</src>
+    <src s="1">[וכנ"ל</src>
+    <src s="2">(בתחלת המאמר),</src>
+    <src s="3">דאופן השמחה היא שמקיפים עם הס"ת את שולחן הקריאה אשר שם קוראים</src>
+    <src s="4">(בכל השנה)</src>
+    <src s="5">באותיות התורה],</src>
+    <src s="6">כי הגילוי שע"י אותיות התורה</src>
+    <src s="7">[אותיות מלשון אתא בוקר64]</src>
+    <src s="8">הוא למעלה מהבנה והשגה,</src>
+    <src s="9">וכמבואר במ"א בענין אנכי ר"ת אנא נפשי כתבית יהבית65,</src>
+    <src s="10">דזה שהקב"ה הכתיב ונתן את עצמותו ית'</src>
+    <src s="11">(אנא נפשי)</src>
+    <src s="12">בתורה66,</src>
+    <src s="13">הוא בעיקר באותיות התורה,</src>
+    <src s="14">ולהיות שבעצרת של חג היא הקליטה של הענינים שנמשכים ע"י התשובה,</src>
+    <src s="15">רחוק שנעשה קרוב,</src>
+    <src s="16">שעי"ז נמשך מבחינת מקום רחוק העלם שאינו במציאות עד להעלם העצמי דעצמותו ית',</src>
+    <src s="17">וההמשכה היא באופן שישראל נעשים חד עם עצמותו ית',</src>
+    <src s="18">ישראל ומלכא בלחודוהי,</src>
+    <src s="19">לכן השמחה אז היא דוקא באותיות התורה,</src>
+    <src s="20">כי המשכת העצמות היא בעיקר באותיות התורה</src>
+    <src s="21">(כנ"ל),</src>
+    <src s="22">ועל ידם נעשים ישראל חד עם העצמות.</src>
+    <src s="23">וכמבואר בהמאמר67,</src>
+    <src s="24">שכל אחד ואחד מישראל יש לו אות בתורה,</src>
+    <src s="25">דאות זו נותנת לו חיות,</src>
+    <src s="26">וגם היא מגינה עליו מכל הענינים הבלתי רצויים,</src>
+    <src s="27">והיא גם צנור וכלי לברכת הוי' בכל המצטרך לו,</src>
+    <src s="28">מתחיל מענין הקליטה</src>
+    <src s="29">(שבשמע"צ)</src>
+    <src s="30">דכל ההמשכות שנמשכו לו בחודש תשרי,</src>
+    <src s="31">אותיות רשית68,</src>
+    <src s="32">על כל השנה כולה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ומהשמחה דשמח"ת,</src>
+    <src s="1">נעבד כולן חד יו"ט ונחדי,</src>
+    <src s="2">נמשך נתינת כח על ההליכה דויעקב הלך לדרכו69,</src>
+    <src s="3">גם בההליכה דימי החורף שהיא הליכה קשה כנ"ל,</src>
+    <src s="4">שמקיימים בפועל כל ההחלטות שמחליטים בשמח"ת,</src>
+    <src s="5">דמכיון שההחלטות הן בשמחה הרי שמחה היא למעלה מכל מדוה"ג ופורצת כל הגדרים70,</src>
+    <src s="6">שאין מתחשבים עם שום מניעות ועיכובים ומקיימים כל ההחלטות בתוקף.</src>
+    <src s="7">וכיון שהשמחה היא באותיות התורה שהם הצנור וכלי לברכת הוי' בכל המצטרך</src>
+    <src s="8">(כנ"ל),</src>
+    <src s="9">הנה עי"ז נמשך תוספת ברכה והצלחה הכי גדולה בכל הענינים במשך כל השנה,</src>
+    <src s="10">ובפרט בענין העיקרי,</src>
+    <src s="11">שתהי' שנת גאולה,</src>
+    <src s="12">גאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="13">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

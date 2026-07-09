@@ -1,0 +1,274 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 46,
+    "returned": 46,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918005_theRebbe_76\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>Opening lines of the maamar for Acharon Shel Pesach 5738.</sectionSummaryBrief>\n    <t s=\"0\">B\"Sd.</t>\n    <t s=\"1\">Acharon Shel Pesach 5738*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>The verse \"As in the days of your exodus from Egypt I will show him wonders\" is analyzed, noting the plural \"days\" versus the singular exodus.</sectionSummaryBrief>\n    <t s=\"0\">\"As in the days of your exodus from the land of Egypt I will show him wonders\"1,</t>\n    <t s=\"1\">And the Rebbe, my father-in-law, the Rebbe, brings in his maamar beginning with the words \"Zeh\"</t>\n    <t s=\"2\">[which was said thirty years ago2]</t>\n    <t s=\"3\">the precise point of the Zohar3</t>\n    <t s=\"4\">regarding this, that it says \"kimei\" (as the days of) in the plural,</t>\n    <t s=\"5\">[when] the exodus from Egypt was in one day</t>\n    <t s=\"6\">(in one moment they left),</t>\n    <t s=\"7\">and likewise regarding the remembrance of the redemption from Egypt it is written4</t>\n    <t s=\"8\">\"in order that you remember the day of your exodus from the land of Egypt\"</t>\n    <t s=\"9\">(day, in the singular),</t>\n    <t s=\"10\">so why is it stated here \"kimei\" in the plural?</t>\n    <t s=\"11\">And he explains,</t>\n    <t s=\"12\">that all the days from the time of the exodus from Egypt until the future redemption are \"the days of your exodus from the land of Egypt\",</t>\n    <t s=\"13\">therefore it says \"kimei\" in the plural.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>The maamar connects the plural \"days\" to the Mishnah's teaching that the exodus from Egypt is remembered even in the days of Moshiach, because the exodus opened the channel for all future redemptions.</sectionSummaryBrief>\n    <t s=\"0\">And he continues in the maamar,</t>\n    <t s=\"1\">that to understand this we must preface that it is stated in the Mishnah5</t>\n    <t s=\"2\">on the verse4</t>\n    <t s=\"3\">\"in order that you remember the day of your exodus from the land of Egypt all the days of your life\",</t>\n    <t s=\"4\">\"the days of your life\" — this world; \"all the days of your life\" — to include the days of Moshiach.</t>\n    <t s=\"5\">And it needs to be understood,</t>\n    <t s=\"6\">[for] the future redemption will be much loftier than the redemption of the exodus from Egypt</t>\n    <t s=\"7\">[both regarding the redemption itself,</t>\n    <t s=\"8\">that the future redemption will be a complete redemption after which there is no exile, unlike the redemption of the exodus from Egypt6,</t>\n    <t s=\"9\">and regarding the revelations of the redemption,</t>\n    <t s=\"10\">that the revelations that will be in the future redemption will be much loftier than the revelations that were in the redemption of the exodus from Egypt7],</t>\n    <t s=\"11\">so why will they mention in the future the redemption of the exodus from Egypt?</t>\n    <t s=\"12\">And he explains8</t>\n    <t s=\"13\">that in the redemption of the exodus from Egypt a fundamental matter was innovated — the opening of the channel of all redemptions,</t>\n    <t s=\"14\">also of the future redemption.</t>\n    <t s=\"15\">Therefore,</t>\n    <t s=\"16\">all the days from the time of the exodus from Egypt until the future redemption are \"the days of your exodus from the land of Egypt\",</t>\n    <t s=\"17\">\"days\" in the plural.</t>\n    <t s=\"18\">And ostensibly it could be said,</t>\n    <t s=\"19\">that the connection of the two matters in the maamar</t>\n    <t s=\"20\">[the matter of \"days\" in the plural,</t>\n    <t s=\"21\">and that they will mention the exodus from Egypt also in the days of Moshiach],</t>\n    <t s=\"22\">is,</t>\n    <t s=\"23\">that the matter of \"days\" in the plural is because in the redemption of the exodus from Egypt the channel of all redemptions, also of the future redemption, was opened,</t>\n    <t s=\"24\">and therefore they will mention the exodus from Egypt also in the days of Moshiach.</t>\n    <t s=\"25\">And ostensibly this explanation requires additional clarification,</t>\n    <t s=\"26\">for the connection of the two matters is that both are from the same reason,</t>\n    <t s=\"27\">and from that which it says in the maamar that to understand the matter of \"days\" in the plural we must preface that they will mention the exodus from Egypt in the future,</t>\n    <t s=\"28\">it implies,</t>\n    <t s=\"29\">that through the matter of remembering the exodus from Egypt, additional explanation is added to the matter of \"days\" in the plural.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918005_theRebbe_76",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "Opening lines of the maamar for Acharon Shel Pesach 5738.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"Sd."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Acharon Shel Pesach 5738*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "The verse \"As in the days of your exodus from Egypt I will show him wonders\" is analyzed, noting the plural \"days\" versus the singular exodus.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"As in the days of your exodus from the land of Egypt I will show him wonders\"1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe, my father-in-law, the Rebbe, brings in his maamar beginning with the words \"Zeh\""
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "[which was said thirty years ago2]"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "the precise point of the Zohar3"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "regarding this, that it says \"kimei\" (as the days of) in the plural,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "[when] the exodus from Egypt was in one day"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "(in one moment they left),"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "and likewise regarding the remembrance of the redemption from Egypt it is written4"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "\"in order that you remember the day of your exodus from the land of Egypt\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "(day, in the singular),"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "so why is it stated here \"kimei\" in the plural?"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "that all the days from the time of the exodus from Egypt until the future redemption are \"the days of your exodus from the land of Egypt\","
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "therefore it says \"kimei\" in the plural."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "The maamar connects the plural \"days\" to the Mishnah's teaching that the exodus from Egypt is remembered even in the days of Moshiach, because the exodus opened the channel for all future redemptions.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And he continues in the maamar,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that to understand this we must preface that it is stated in the Mishnah5"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "on the verse4"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "\"in order that you remember the day of your exodus from the land of Egypt all the days of your life\","
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "\"the days of your life\" — this world; \"all the days of your life\" — to include the days of Moshiach."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "[for] the future redemption will be much loftier than the redemption of the exodus from Egypt"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "[both regarding the redemption itself,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that the future redemption will be a complete redemption after which there is no exile, unlike the redemption of the exodus from Egypt6,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "and regarding the revelations of the redemption,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "that the revelations that will be in the future redemption will be much loftier than the revelations that were in the redemption of the exodus from Egypt7],"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "so why will they mention in the future the redemption of the exodus from Egypt?"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And he explains8"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that in the redemption of the exodus from Egypt a fundamental matter was innovated — the opening of the channel of all redemptions,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "also of the future redemption."
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "all the days from the time of the exodus from Egypt until the future redemption are \"the days of your exodus from the land of Egypt\","
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "\"days\" in the plural."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And ostensibly it could be said,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that the connection of the two matters in the maamar"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "[the matter of \"days\" in the plural,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "and that they will mention the exodus from Egypt also in the days of Moshiach],"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "is,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "that the matter of \"days\" in the plural is because in the redemption of the exodus from Egypt the channel of all redemptions, also of the future redemption, was opened,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "and therefore they will mention the exodus from Egypt also in the days of Moshiach."
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "And ostensibly this explanation requires additional clarification,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "for the connection of the two matters is that both are from the same reason,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "and from that which it says in the maamar that to understand the matter of \"days\" in the plural we must preface that they will mention the exodus from Egypt in the future,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "it implies,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "that through the matter of remembering the exodus from Egypt, additional explanation is added to the matter of \"days\" in the plural."
+          }
+        ]
+      }
+    ]
+  }
+}

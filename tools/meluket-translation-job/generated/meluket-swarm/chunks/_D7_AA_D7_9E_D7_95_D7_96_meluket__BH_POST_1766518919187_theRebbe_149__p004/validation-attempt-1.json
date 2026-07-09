@@ -1,0 +1,624 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 116,
+    "returned": 116,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919187_theRebbe_149\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>The concept of a \"rich person\" is not merely one who lacks nothing, but one who receives an abundance of influence, and this is applied to Moshe's spiritual wealth.</sectionSummaryBrief>\n    <t s=\"0\">And it continues in the maamar,</t>\n    <t s=\"1\">that the concept of the rich person is not only that he lacks nothing, but that he is influenced with an abundance of influence.</t>\n    <t s=\"2\">And as the saying of our Rabbis, of blessed memory,</t>\n    <t s=\"3\">on the verse,</t>\n    <t s=\"4\">\"enough for his lack that he lacks,\"</t>\n    <t s=\"5\">\"enough for his lack\" — but you are not commanded to enrich him.</t>\n    <t s=\"6\">And since in \"enough for his lack that he lacks\" is also included the lack of a horse to ride upon and a servant to run before him,</t>\n    <t s=\"7\">and nevertheless they said \"you are not commanded to enrich him,\"</t>\n    <t s=\"8\">it is therefore understood,</t>\n    <t s=\"9\">that even when he has all his needs</t>\n    <t s=\"10\">(including also a horse to ride upon and a servant to run before him),</t>\n    <t s=\"11\">he is</t>\n    <t s=\"12\">(still)</t>\n    <t s=\"13\">not rich,</t>\n    <t s=\"14\">for the concept of the rich person is</t>\n    <t s=\"15\">(not only that he has all his needs,</t>\n    <t s=\"16\">but)</t>\n    <t s=\"17\">that he is influenced with an abundance of influence.</t>\n    <t s=\"18\">And based on what was said above, that this that Moshe was rich in physicality is because he was rich in spirituality,</t>\n    <t s=\"19\">it is understood,</t>\n    <t s=\"20\">that in addition to this, that in Moshe there was no lack, heaven forbid,</t>\n    <t s=\"21\">(even not a lack analogous to a horse to ride upon, etc.),</t>\n    <t s=\"22\">for there shone within him in revelation all the revelations relevant to the worlds,</t>\n    <t s=\"23\">which are included in the two concepts of Memaleh Kol Almin and Sovev Kol Almin,</t>\n    <t s=\"24\">that the revelation of these concepts is the filling of the lack</t>\n    <t s=\"25\">[For the light of Memaleh,</t>\n    <t s=\"26\">since it is the source for the worlds,</t>\n    <t s=\"27\">therefore,</t>\n    <t s=\"28\">when this light is not revealed in the world,</t>\n    <t s=\"29\">the world is truly lacking.</t>\n    <t s=\"30\">And the light of Sovev,</t>\n    <t s=\"31\">which is above being a source for the worlds and is only related to the worlds,</t>\n    <t s=\"32\">therefore,</t>\n    <t s=\"33\">when this light is not revealed in the world,</t>\n    <t s=\"34\">the lack of the world is analogous to the lack of a horse to ride upon and a servant to run before him.</t>\n    <t s=\"35\">And as the saying of our Rabbis, of blessed memory,</t>\n    <t s=\"36\">on the verse,</t>\n    <t s=\"37\">\"And Elokim completed on the seventh day\" — what was the world lacking? Rest. Shabbat came, rest came.</t>\n    <t s=\"38\">Rest is the aspect of Sovev, which is above the light that is enclothed in the world,</t>\n    <t s=\"39\">and nevertheless, when this revelation was not in the world,</t>\n    <t s=\"40\">the world was lacking,</t>\n    <t s=\"41\">except that this lack is not that it lacked some detail in the world itself,</t>\n    <t s=\"42\">for all the details of the world were brought into being through the work of creation</t>\n    <t s=\"43\">(the light that is enclothed in the world)</t>\n    <t s=\"44\">which was completed before Shabbat,</t>\n    <t s=\"45\">and this that the world lacked rest is analogous to the lack of a horse to ride upon</t>\n    <t s=\"46\">(which is not a necessary thing for the sustenance of its life),</t>\n    <t s=\"47\">and when Shabbat came and the light of Sovev was drawn down and revealed,</t>\n    <t s=\"48\">this lack was also filled.</t>\n    <t s=\"49\">And the concept of the wealth of Moshe is,</t>\n    <t s=\"50\">that in addition to this that there shone within him in revelation the revelations of Memaleh and Sovev],</t>\n    <t s=\"51\">there shone within him in revelation also the revelation of the Ein Sof, which is above relation to the worlds.</t>\n    <t s=\"52\">And as is explained in the maamar,</t>\n    <t s=\"53\">that this that Moshe is called rich is because Moshe is the aspect of Da'at Elyon.</t>\n    <t s=\"54\">And among the advantages of Da'at Elyon over Da'at Tachton is,</t>\n    <t s=\"55\">that Da'at Tachton receives from the externality of Keter,</t>\n    <t s=\"56\">Arich — Sovev,</t>\n    <t s=\"57\">and Da'at Elyon receives from the internality of Keter,</t>\n    <t s=\"58\">Atik — the Ein Sof that is above the category of worlds.</t>\n    <t s=\"59\">And based on this, one must understand even more the concept of \"Tefillah l'Moshe,\"</t>\n    <t s=\"60\">\"the prayer of a rich person,\"</t>\n    <t s=\"61\">for the concept of prayer is that the Holy One, blessed be He, will fill his lack,</t>\n    <t s=\"62\">and since Moshe was rich both in physicality and in spirituality,</t>\n    <t s=\"63\">then not only did he not lack</t>\n    <t s=\"64\">(in actuality)</t>\n    <t s=\"65\">anything, but the concept of lack was not applicable to him,</t>\n    <t s=\"66\">so what is the concept of his prayer?</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>The explanation is that the prayer of a rich person is not for himself but for the Congregation of Israel, as per the Midrashic parable.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And the point of the explanation of this</t>\n    <t s=\"2\">(in the maamar),</t>\n    <t s=\"3\">is that the prayer of a rich person is not for himself, but for the Congregation of Israel.</t>\n    <t s=\"4\">As it is brought in the Midrash</t>\n    <t s=\"5\">on the verse \"Tefillah l'Moshe,\"</t>\n    <t s=\"6\">A parable: To what is the matter comparable? To three who came to take [a gift] from the king... the third came,</t>\n    <t s=\"7\">the king said to him, \"What do you request?\"</t>\n    <t s=\"8\">He said to him,</t>\n    <t s=\"9\">\"I do not request anything for myself,</t>\n    <t s=\"10\">but a certain province is destroyed and it is yours,</t>\n    <t s=\"11\">decree that it be rebuilt, etc.\"</t>\n    <t s=\"12\">So too, Moshe did not request for himself, but for Israel.</t>\n    <t s=\"13\">And at first glance,</t>\n    <t s=\"14\">this explanation requires additional explanation.</t>\n    <t s=\"15\">For according to the above, the prayer that the rich person prays</t>\n    <t s=\"16\">(for others)</t>\n    <t s=\"17\">is not related to his wealth</t>\n    <t s=\"18\">[for this that he prays for others is because he desires their good],</t>\n    <t s=\"19\">and the meaning of \"prayer of a rich person\"</t>\n    <t s=\"20\">(simply)</t>\n    <t s=\"21\">is that his prayer is because he is rich.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>Moshe's prayer for the Congregation of Israel was to draw the revelation of the Essence of Ein Sof into Malchut, achieving an eternal building, which was possible because he was rich, receiving from Atik.</sectionSummaryBrief>\n    <t s=\"0\">And this will be understood based on what is explained in the maamar,</t>\n    <t s=\"1\">that the Congregation of Israel is the aspect of Malchut,</t>\n    <t s=\"2\">and Moshe's request for the Congregation of Israel was</t>\n    <t s=\"3\">(for Israel simply,</t>\n    <t s=\"4\">and also)</t>\n    <t s=\"5\">for the Sefirah of Malchut.</t>\n    <t s=\"6\">And therefore</t>\n    <t s=\"7\">the Midrash says that Moshe's request for the Congregation of Israel is like the request \"a certain province, etc.,\"</t>\n    <t s=\"8\">for \"province\" is Malchut,</t>\n    <t s=\"9\">and \"it is destroyed\" is the lack that occurred in Malchut</t>\n    <t s=\"10\">(the concept of the diminution of the moon),</t>\n    <t s=\"11\">and the request \"decree that it be rebuilt\" is that the revelation of the Essence of Ein Sof be drawn into Malchut, through which it will be built in an aspect of an eternal building.</t>\n    <t s=\"12\">For when the lack of Malchut is filled by drawing into it the revelation that is appropriate for Malchut,</t>\n    <t s=\"13\">at which time it is elevated to the level it was before the light was removed and lacking from it,</t>\n    <t s=\"14\">then it is possible that the light drawn into it will depart again,</t>\n    <t s=\"15\">and in order that its building be in an aspect of an eternal building</t>\n    <t s=\"16\">(in which it is not possible that it be destroyed, heaven forbid)</t>\n    <t s=\"17\">it is by drawing into it the revelation of the Essence of Ein Sof, which is above the light relevant to the worlds</t>\n    <t s=\"18\">(Malchut),</t>\n    <t s=\"19\">for in this light there is no concept of contraction or departure.</t>\n    <t s=\"20\">And this is that Moshe's prayer is called \"prayer of a rich person,\" for the meaning of \"prayer of a rich person\" is that his prayer is because he is rich</t>\n    <t s=\"21\">(as above),</t>\n    <t s=\"22\">for this that Moshe prayed that the revelation of the Essence of Ein Sof be drawn into Malchut</t>\n    <t s=\"23\">(through which specifically it will be built in an aspect of an eternal building)</t>\n    <t s=\"24\">is because he was rich,</t>\n    <t s=\"25\">the aspect of Da'at Elyon that receives from Atik,</t>\n    <t s=\"26\">the Essence of Ein Sof that is above the category of worlds.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919187_theRebbe_149",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "The concept of a \"rich person\" is not merely one who lacks nothing, but one who receives an abundance of influence, and this is applied to Moshe's spiritual wealth.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And it continues in the maamar,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that the concept of the rich person is not only that he lacks nothing, but that he is influenced with an abundance of influence."
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "And as the saying of our Rabbis, of blessed memory,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "\"enough for his lack that he lacks,\""
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "\"enough for his lack\" — but you are not commanded to enrich him."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "And since in \"enough for his lack that he lacks\" is also included the lack of a horse to ride upon and a servant to run before him,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "and nevertheless they said \"you are not commanded to enrich him,\""
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "it is therefore understood,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "that even when he has all his needs"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "(including also a horse to ride upon and a servant to run before him),"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "he is"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "(still)"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "not rich,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "for the concept of the rich person is"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "(not only that he has all his needs,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "but)"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "that he is influenced with an abundance of influence."
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "And based on what was said above, that this that Moshe was rich in physicality is because he was rich in spirituality,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "that in addition to this, that in Moshe there was no lack, heaven forbid,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "(even not a lack analogous to a horse to ride upon, etc.),"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "for there shone within him in revelation all the revelations relevant to the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "which are included in the two concepts of Memaleh Kol Almin and Sovev Kol Almin,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "that the revelation of these concepts is the filling of the lack"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "[For the light of Memaleh,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "since it is the source for the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "therefore,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "when this light is not revealed in the world,"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "the world is truly lacking."
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "And the light of Sovev,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "which is above being a source for the worlds and is only related to the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "therefore,"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "when this light is not revealed in the world,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "the lack of the world is analogous to the lack of a horse to ride upon and a servant to run before him."
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "And as the saying of our Rabbis, of blessed memory,"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "\"And Elokim completed on the seventh day\" — what was the world lacking? Rest. Shabbat came, rest came."
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "Rest is the aspect of Sovev, which is above the light that is enclothed in the world,"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "and nevertheless, when this revelation was not in the world,"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "the world was lacking,"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "except that this lack is not that it lacked some detail in the world itself,"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "for all the details of the world were brought into being through the work of creation"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "(the light that is enclothed in the world)"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "which was completed before Shabbat,"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "and this that the world lacked rest is analogous to the lack of a horse to ride upon"
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "(which is not a necessary thing for the sustenance of its life),"
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "and when Shabbat came and the light of Sovev was drawn down and revealed,"
+          },
+          {
+            "v": 9,
+            "s": 48,
+            "translation": "this lack was also filled."
+          },
+          {
+            "v": 9,
+            "s": 49,
+            "translation": "And the concept of the wealth of Moshe is,"
+          },
+          {
+            "v": 9,
+            "s": 50,
+            "translation": "that in addition to this that there shone within him in revelation the revelations of Memaleh and Sovev],"
+          },
+          {
+            "v": 9,
+            "s": 51,
+            "translation": "there shone within him in revelation also the revelation of the Ein Sof, which is above relation to the worlds."
+          },
+          {
+            "v": 9,
+            "s": 52,
+            "translation": "And as is explained in the maamar,"
+          },
+          {
+            "v": 9,
+            "s": 53,
+            "translation": "that this that Moshe is called rich is because Moshe is the aspect of Da'at Elyon."
+          },
+          {
+            "v": 9,
+            "s": 54,
+            "translation": "And among the advantages of Da'at Elyon over Da'at Tachton is,"
+          },
+          {
+            "v": 9,
+            "s": 55,
+            "translation": "that Da'at Tachton receives from the externality of Keter,"
+          },
+          {
+            "v": 9,
+            "s": 56,
+            "translation": "Arich — Sovev,"
+          },
+          {
+            "v": 9,
+            "s": 57,
+            "translation": "and Da'at Elyon receives from the internality of Keter,"
+          },
+          {
+            "v": 9,
+            "s": 58,
+            "translation": "Atik — the Ein Sof that is above the category of worlds."
+          },
+          {
+            "v": 9,
+            "s": 59,
+            "translation": "And based on this, one must understand even more the concept of \"Tefillah l'Moshe,\""
+          },
+          {
+            "v": 9,
+            "s": 60,
+            "translation": "\"the prayer of a rich person,\""
+          },
+          {
+            "v": 9,
+            "s": 61,
+            "translation": "for the concept of prayer is that the Holy One, blessed be He, will fill his lack,"
+          },
+          {
+            "v": 9,
+            "s": 62,
+            "translation": "and since Moshe was rich both in physicality and in spirituality,"
+          },
+          {
+            "v": 9,
+            "s": 63,
+            "translation": "then not only did he not lack"
+          },
+          {
+            "v": 9,
+            "s": 64,
+            "translation": "(in actuality)"
+          },
+          {
+            "v": 9,
+            "s": 65,
+            "translation": "anything, but the concept of lack was not applicable to him,"
+          },
+          {
+            "v": 9,
+            "s": 66,
+            "translation": "so what is the concept of his prayer?"
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "The explanation is that the prayer of a rich person is not for himself but for the Congregation of Israel, as per the Midrashic parable.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And the point of the explanation of this"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "(in the maamar),"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "is that the prayer of a rich person is not for himself, but for the Congregation of Israel."
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "As it is brought in the Midrash"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "on the verse \"Tefillah l'Moshe,\""
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "A parable: To what is the matter comparable? To three who came to take [a gift] from the king... the third came,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "the king said to him, \"What do you request?\""
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "He said to him,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "\"I do not request anything for myself,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "but a certain province is destroyed and it is yours,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "decree that it be rebuilt, etc.\""
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "So too, Moshe did not request for himself, but for Israel."
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "And at first glance,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "this explanation requires additional explanation."
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "For according to the above, the prayer that the rich person prays"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "(for others)"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "is not related to his wealth"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "[for this that he prays for others is because he desires their good],"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "and the meaning of \"prayer of a rich person\""
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "(simply)"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "is that his prayer is because he is rich."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "Moshe's prayer for the Congregation of Israel was to draw the revelation of the Essence of Ein Sof into Malchut, achieving an eternal building, which was possible because he was rich, receiving from Atik.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And this will be understood based on what is explained in the maamar,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that the Congregation of Israel is the aspect of Malchut,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "and Moshe's request for the Congregation of Israel was"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "(for Israel simply,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "and also)"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "for the Sefirah of Malchut."
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "And therefore"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "the Midrash says that Moshe's request for the Congregation of Israel is like the request \"a certain province, etc.,\""
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "for \"province\" is Malchut,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "and \"it is destroyed\" is the lack that occurred in Malchut"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "(the concept of the diminution of the moon),"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "and the request \"decree that it be rebuilt\" is that the revelation of the Essence of Ein Sof be drawn into Malchut, through which it will be built in an aspect of an eternal building."
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "For when the lack of Malchut is filled by drawing into it the revelation that is appropriate for Malchut,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "at which time it is elevated to the level it was before the light was removed and lacking from it,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "then it is possible that the light drawn into it will depart again,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "and in order that its building be in an aspect of an eternal building"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "(in which it is not possible that it be destroyed, heaven forbid)"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "it is by drawing into it the revelation of the Essence of Ein Sof, which is above the light relevant to the worlds"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "(Malchut),"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "for in this light there is no concept of contraction or departure."
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "And this is that Moshe's prayer is called \"prayer of a rich person,\" for the meaning of \"prayer of a rich person\" is that his prayer is because he is rich"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "(as above),"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "for this that Moshe prayed that the revelation of the Essence of Ein Sof be drawn into Malchut"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "(through which specifically it will be built in an aspect of an eternal building)"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "is because he was rich,"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "the aspect of Da'at Elyon that receives from Atik,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "the Essence of Ein Sof that is above the category of worlds."
+          }
+        ]
+      }
+    ]
+  }
+}

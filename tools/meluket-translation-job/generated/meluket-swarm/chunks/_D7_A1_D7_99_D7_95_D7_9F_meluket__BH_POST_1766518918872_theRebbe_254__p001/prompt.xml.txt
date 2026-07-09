@@ -1,0 +1,104 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918872_theRebbe_254" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918872_theRebbe_254" title="מאמר בהעלותך את הנרות תשכ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ בהעלותך,</src>
+    <src s="2">כ"א סיון,</src>
+    <src s="3">ה'תשכ"ט</src>
+  </section>
+  <section v="1">
+    <src s="0">בהעלותך את הנרות1,</src>
+    <src s="1">ואיתא בלקו"ת2</src>
+    <src s="2">דנרות הם הנשמות כמ"ש3</src>
+    <src s="3">נר הוי' נשמת אדם</src>
+    <src s="4">[וז' הנרות דהמנורה הם ז' סוגי בני ישראל בעבודת ה',</src>
+    <src s="5">יש עובד מאהבה משוך כמים</src>
+    <src s="6">(חסד)</src>
+    <src s="7">ויש מאהבה כרשפי אש</src>
+    <src s="8">(גבורה)</src>
+    <src s="9">וכו'].</src>
+    <src s="10">ומבאר אדמו"ר מהר"ש במאמרו ד"ה וידבר גו' בהעלותך את הנרות שנאמר לפני מאה שנה4,</src>
+    <src s="11">דזה שהנשמות נקראים נרות הוא כמאמר רז"ל5</src>
+    <src s="12">אמר הקב"ה לאדם נרי בידך ונרך בידי,</src>
+    <src s="13">נרי בידך זו התורה דכתיב6</src>
+    <src s="14">כי נר מצוה ותורה אור ונרך בידי זו הנפש דכתיב3</src>
+    <src s="15">נר הוי' נשמת אדם,</src>
+    <src s="16">אם שמרת את נרי אני משמר את נרך ואם כבית את נרי אני מכבה את נרך.</src>
+    <src s="17">וצריך להבין,</src>
+    <src s="18">הרי זה שהנשמות נק' נרות הוא מפורש בקרא</src>
+    <src s="19">(נר הוי' נשמת אדם),</src>
+    <src s="20">ולמה מביא בהמאמר את דברי המדרש נרי בידך ונרך בידי.</src>
+    <src s="21">גם צריך להבין,</src>
+    <src s="22">דבפסוק נאמר נר הוי' נשמת אדם,</src>
+    <src s="23">שהנשמה היא נר הוי',</src>
+    <src s="24">ובמדרש הנ"ל אומר שהנשמה היא נרך</src>
+    <src s="25">(דהאדם)</src>
+    <src s="26">והתורה היא נרי.</src>
+    <src s="27">(דהקב"ה).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לבאר זה בהקדים המבואר בכ"מ7</src>
+    <src s="2">דענין בהעלותך את הנרות הוא שאהרן מעורר את הנשמות שיהי' בהם הרצון לעלות למעלה,</src>
+    <src s="3">ועד ליכלל בעצמות אוא"ס.</src>
+    <src s="4">והגם דרצון זה הוא טבע דהנשמה,</src>
+    <src s="5">וכמבואר בתניא8,</src>
+    <src s="6">דהטעם שהנשמות נקראים בשם נרות,</src>
+    <src s="7">הוא,</src>
+    <src s="8">כי כמו שהנר טבעו לעלות למעלה ולידבק בשרשו</src>
+    <src s="9">(ביסוד האש הכללי שתחת9</src>
+    <src s="10">גלגל הירח)</src>
+    <src s="11">כן הנשמה היא בטבע הרצוא לעלות למעלה להכלל במקור חוצבה,</src>
+    <src s="12">מ"מ צריך שאהרן יעלה את הנרות</src>
+    <src s="13">(הנשמות),</src>
+    <src s="14">כי ע"י ירידת הנשמה למטה והתלבשותה בגוף מתעלם טבע הרצוא שבה.</src>
+    <src s="15">וכמבואר בארוכה בהדרושים7,</src>
+    <src s="16">דמהטעמים על זה שהנשמות דאצילות נקראים זרע אדם והנשמות דבי"ע נקראים זרע בהמה10,</src>
+    <src s="17">הוא,</src>
+    <src s="18">כי הנשמות דאצילות,</src>
+    <src s="19">גם בירידתם למטה,</src>
+    <src s="20">טבע הרצוא והעלי' שבהם הוא בגילוי,</src>
+    <src s="21">ולכן נקראים בשם אדם על שם רוח האדם העולה היא למעלה11,</src>
+    <src s="22">והנשמות דבי"ע</src>
+    <src s="23">(שהם רוב הנשמות12),</src>
+    <src s="24">כשהן יורדות למטה ומתלבשות בגוף,</src>
+    <src s="25">הן נמשכות אחר הגוף ועניני עוה"ז הגשמי,</src>
+    <src s="26">ולכן נקראים בשם בהמה על שם רוח הבהמה היורדת היא למטה11.</src>
+    <src s="27">ועבודתו של אהרן היא לעורר ולגלות את טבע הרצוא והעלי' שישנו גם בנשמות דבי"ע,</src>
+    <src s="28">בהעלותך את הנרות,</src>
+    <src s="29">שטבע העלי' שבהם יהי' בגילוי.</src>
+  </section>
+</awtsmoosMeluketSource>

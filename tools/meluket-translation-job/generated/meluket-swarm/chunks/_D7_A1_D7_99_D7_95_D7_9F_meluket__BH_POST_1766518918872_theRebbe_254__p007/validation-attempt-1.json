@@ -1,0 +1,142 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 22,
+    "returned": 22,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918872_theRebbe_254\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>Although the self-nullification in Torah and mitzvos is total, since Yisrael and the Holy One are completely one, this nullification does not negate their existence but rather constitutes it, as expressed in the teaching about guarding the lamp and Rashi's commentary that the flame rises on its own, meaning Torah and mitzvos are performed with nullification alongside vitality and joy, which breaks all boundaries and draws down all spiritual and physical matters without limitation.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">Now, although the self-nullification of Torah study and fulfillment of the mitzvos in the aforementioned manner is total self-nullification,</t>\n    <t s=\"2\">nevertheless, since Yisrael and the Holy One, blessed be He, are completely one,</t>\n    <t s=\"3\">therefore this self-nullification does not negate their existence; rather, on the contrary, this itself is their existence.</t>\n    <t s=\"4\">And this is [the meaning of] \"If you have guarded My lamp, I will guard your lamp,\"</t>\n    <t s=\"5\">for although the matter of \"I will guard your lamp\" is that a person comes to total self-nullification</t>\n    <t s=\"6\">(which is above even the self-nullification of the Merkavah),</t>\n    <t s=\"7\">nevertheless, this does not negate his existence; rather, on the contrary, \"I will guard your lamp.\"</t>\n    <t s=\"8\">And this is also [the meaning of] what Rashi explained on the verse \"When you raise up the lamps,\" that the flame should rise on its own,</t>\n    <t s=\"9\">for although the elevation of the souls</t>\n    <t s=\"10\">(\"When you raise up the lamps\")</t>\n    <t s=\"11\">is that they come to total self-nullification,</t>\n    <t s=\"12\">nevertheless,</t>\n    <t s=\"13\">it is in a manner that pertains to the lamps</t>\n    <t s=\"14\">(souls)</t>\n    <t s=\"15\">themselves,</t>\n    <t s=\"16\">[that] \"the flame rises on its own.\"</t>\n    <t s=\"17\">That is to say,</t>\n    <t s=\"18\">Torah study and fulfillment of the mitzvos are with self-nullification, and together with this also with vitality and joy.</t>\n    <t s=\"19\">And since joy breaks boundaries,</t>\n    <t s=\"20\">therefore,</t>\n    <t s=\"21\">through the joy of Torah and the joy of a mitzvah, all spiritual and physical matters are drawn down without limitations.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918872_theRebbe_254",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "Although the self-nullification in Torah and mitzvos is total, since Yisrael and the Holy One are completely one, this nullification does not negate their existence but rather constitutes it, as expressed in the teaching about guarding the lamp and Rashi's commentary that the flame rises on its own, meaning Torah and mitzvos are performed with nullification alongside vitality and joy, which breaks all boundaries and draws down all spiritual and physical matters without limitation.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "Now, although the self-nullification of Torah study and fulfillment of the mitzvos in the aforementioned manner is total self-nullification,"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "nevertheless, since Yisrael and the Holy One, blessed be He, are completely one,"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "therefore this self-nullification does not negate their existence; rather, on the contrary, this itself is their existence."
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "And this is [the meaning of] \"If you have guarded My lamp, I will guard your lamp,\""
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "for although the matter of \"I will guard your lamp\" is that a person comes to total self-nullification"
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "(which is above even the self-nullification of the Merkavah),"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "nevertheless, this does not negate his existence; rather, on the contrary, \"I will guard your lamp.\""
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "And this is also [the meaning of] what Rashi explained on the verse \"When you raise up the lamps,\" that the flame should rise on its own,"
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "for although the elevation of the souls"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "(\"When you raise up the lamps\")"
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "is that they come to total self-nullification,"
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "it is in a manner that pertains to the lamps"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "(souls)"
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "themselves,"
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "[that] \"the flame rises on its own.\""
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 18,
+            "s": 18,
+            "translation": "Torah study and fulfillment of the mitzvos are with self-nullification, and together with this also with vitality and joy."
+          },
+          {
+            "v": 18,
+            "s": 19,
+            "translation": "And since joy breaks boundaries,"
+          },
+          {
+            "v": 18,
+            "s": 20,
+            "translation": "therefore,"
+          },
+          {
+            "v": 18,
+            "s": 21,
+            "translation": "through the joy of Torah and the joy of a mitzvah, all spiritual and physical matters are drawn down without limitations."
+          }
+        ]
+      }
+    ]
+  }
+}

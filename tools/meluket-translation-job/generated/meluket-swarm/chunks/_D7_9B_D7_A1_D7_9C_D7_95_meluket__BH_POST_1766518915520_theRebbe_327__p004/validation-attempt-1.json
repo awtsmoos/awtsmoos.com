@@ -1,0 +1,229 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 37,
+    "returned": 37,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915520_theRebbe_327\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>These three matters correspond to wisdom, repentance, and good deeds, representing son, servant, and the will of Atzmus.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that these three matters are the three matters of wisdom, repentance, and good deeds.</t>\n    <t s=\"2\">Wisdom</t>\n    <t s=\"3\">(Torah)</t>\n    <t s=\"4\">is the matter of a son</t>\n    <t s=\"5\">(as above in section 5),</t>\n    <t s=\"6\">repentance, whose matter is that a person goes out and is nullified from his self-existence</t>\n    <t s=\"7\">(as above in section 2),</t>\n    <t s=\"8\">is analogous to the matter of accepting the yoke,</t>\n    <t s=\"9\">a servant,</t>\n    <t s=\"10\">and good deeds are the mitzvos themselves,</t>\n    <t s=\"11\">the will of Atzmus.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>Through repentance, deeds become good and luminous, for the drawing of Atzmus is primarily in mitzvos, requiring the nullification of repentance.</sectionSummaryBrief>\n    <t s=\"0\">And this can be connected with the well-known explanation34</t>\n    <t s=\"1\">of the phrase \"repentance and good deeds,\"</t>\n    <t s=\"2\">that through repentance the deeds</t>\n    <t s=\"3\">(the deeds of the mitzvos)</t>\n    <t s=\"4\">become good deeds and luminous35,</t>\n    <t s=\"5\">for the drawing of Atzmus is</t>\n    <t s=\"6\">(primarily)</t>\n    <t s=\"7\">in the fulfillment of the mitzvos</t>\n    <t s=\"8\">(deeds),</t>\n    <t s=\"9\">and not in the nullification of repentance</t>\n    <t s=\"10\">(and acceptance of the yoke).</t>\n    <t s=\"11\">But in order that the deeds be good deeds and luminous,</t>\n    <t s=\"12\">that the drawing of Atzmus within them be revealed,</t>\n    <t s=\"13\">this is through the nullification of repentance and acceptance of the yoke.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>Even in Torah study, the nullification of a servant is necessary, as one who reviews his chapter one hundred and one times differs from one who reviews it one hundred times.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">Now, although the matter of engaging in Torah is that a person's existence</t>\n    <t s=\"2\">(his understanding and comprehension)</t>\n    <t s=\"3\">be in accordance with the Torah,</t>\n    <t s=\"4\">nevertheless,</t>\n    <t s=\"5\">even in the study of Torah there must be the nullification of a servant,</t>\n    <t s=\"6\">the yoke of Torah36.</t>\n    <t s=\"7\">And this is what our sages, of blessed memory, said37</t>\n    <t s=\"8\">that one who reviews his chapter one hundred times is not comparable to one who reviews his chapter one hundred and one times,</t>\n    <t s=\"9\">because in this extra time he changes his nature and habit38,</t>\n    <t s=\"10\">for even in Torah there must be the nullification of a servant39.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915520_theRebbe_327",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "These three matters correspond to wisdom, repentance, and good deeds, representing son, servant, and the will of Atzmus.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that these three matters are the three matters of wisdom, repentance, and good deeds."
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "Wisdom"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "(Torah)"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "is the matter of a son"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "(as above in section 5),"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "repentance, whose matter is that a person goes out and is nullified from his self-existence"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(as above in section 2),"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "is analogous to the matter of accepting the yoke,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "a servant,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "and good deeds are the mitzvos themselves,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "the will of Atzmus."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "Through repentance, deeds become good and luminous, for the drawing of Atzmus is primarily in mitzvos, requiring the nullification of repentance.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And this can be connected with the well-known explanation34"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "of the phrase \"repentance and good deeds,\""
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "that through repentance the deeds"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "(the deeds of the mitzvos)"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "become good deeds and luminous35,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "for the drawing of Atzmus is"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "in the fulfillment of the mitzvos"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(deeds),"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "and not in the nullification of repentance"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "(and acceptance of the yoke)."
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "But in order that the deeds be good deeds and luminous,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "that the drawing of Atzmus within them be revealed,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "this is through the nullification of repentance and acceptance of the yoke."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "Even in Torah study, the nullification of a servant is necessary, as one who reviews his chapter one hundred and one times differs from one who reviews it one hundred times.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "Now, although the matter of engaging in Torah is that a person's existence"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "(his understanding and comprehension)"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "be in accordance with the Torah,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "even in the study of Torah there must be the nullification of a servant,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "the yoke of Torah36."
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "And this is what our sages, of blessed memory, said37"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "that one who reviews his chapter one hundred times is not comparable to one who reviews his chapter one hundred and one times,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "because in this extra time he changes his nature and habit38,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "for even in Torah there must be the nullification of a servant39."
+          }
+        ]
+      }
+    ]
+  }
+}

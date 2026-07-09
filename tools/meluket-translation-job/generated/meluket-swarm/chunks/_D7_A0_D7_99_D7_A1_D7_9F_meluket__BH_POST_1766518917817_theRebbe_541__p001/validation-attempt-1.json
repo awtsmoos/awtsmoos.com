@@ -1,0 +1,484 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 88,
+    "returned": 88,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917817_theRebbe_541\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917817_theRebbe_541__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">11 Nissan 5742*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the verse \"As in the days of your exodus from Egypt, I will show him wonders,\" and raises the difficulty of the plural \"days\" regarding the singular Exodus, questioning how the future redemption can be compared to the lesser redemption of Egypt.</sectionSummaryBrief>\n    <t s=\"0\">\"As in the days of your exodus from the land of Egypt, I will show him wonders,\"</t>\n    <t s=\"1\">and it is known the precise point of the Zohar</t>\n    <t s=\"2\">regarding this</t>\n    <t s=\"3\">[brought in the discourses of our Nesi'im]</t>\n    <t s=\"4\">in what is written \"as the days\" in the plural,</t>\n    <t s=\"5\">yet the Exodus from Egypt was on one day,</t>\n    <t s=\"6\">and likewise regarding the remembrance of the Exodus it is written</t>\n    <t s=\"7\">\"Remember this day on which you went out of Egypt,\"</t>\n    <t s=\"8\">\"in order that you remember the day of your exodus from the land of Egypt,\"</t>\n    <t s=\"9\">so why is it stated \"as the days\" in the plural?</t>\n    <t s=\"10\">And also one must understand the content of the verse \"As in the days of your exodus from the land of Egypt, I will show him wonders,\"</t>\n    <t s=\"11\">for the simple explanation of this is that the future redemption that will come speedily in our days, actually through our righteous Moshiach, will be in a manner of \"I will show him wonders\" like the redemption of the Exodus from Egypt was,</t>\n    <t s=\"12\">and it is not understood,</t>\n    <t s=\"13\">for it is explained in many verses and statements of our Sages of blessed memory</t>\n    <t s=\"14\">that specifically the future redemption will be a complete redemption after which there is no exile, unlike the redemption of the Exodus from Egypt,</t>\n    <t s=\"15\">so the future redemption is far more elevated than the redemption of the Exodus from Egypt,</t>\n    <t s=\"16\">therefore according to one opinion we do not mention the Exodus from Egypt in the days of Moshiach,</t>\n    <t s=\"17\">and even according to the opinion that we do mention the Exodus from Egypt in the days of Moshiach</t>\n    <t s=\"18\">it requires a special derivation,</t>\n    <t s=\"19\">and what does it mean when it says \"As in the days of your exodus from the land of Egypt, I will show him wonders,\"</t>\n    <t s=\"20\">that the superiority of the future redemption is that even then there will be \"I will show him wonders\" like there was in the Exodus from Egypt?</t>\n    <t s=\"21\">And furthermore,</t>\n    <t s=\"22\">from the language of the verse \"As in the days of your exodus from the land of Egypt, I will show him wonders\" it implies that the wonders that were in the days of your exodus from the land of Egypt are the beginning and the root also for the wonders that will be in the future redemption,</t>\n    <t s=\"23\">from which it is understood that there is an advantage in the redemption of the Exodus from Egypt over the future redemption.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains two interpretations of the verse, that the wonders of the future redemption will surpass those of the Exodus, drawing from the fifty gates of Binah and the levels of Atik, yet the verse compares them because the Exodus also contained the highest revelations, albeit clothed.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And the point of the explanation of this,</t>\n    <t s=\"2\">is that in this verse</t>\n    <t s=\"3\">(\"As in the days of your exodus from the land of Egypt, I will show him wonders\")</t>\n    <t s=\"4\">there are two interpretations.</t>\n    <t s=\"5\">Interpretation one,</t>\n    <t s=\"6\">that the future redemption will be like the redemption of the Exodus from Egypt,</t>\n    <t s=\"7\">that even then there will be \"I will show him wonders\" like there was in the redemption of the Exodus from Egypt.</t>\n    <t s=\"8\">And interpretation two,</t>\n    <t s=\"9\">that the wonders that will be in the future redemption will be wonders also relative to the wonders that were in the days of your exodus from the land of Egypt.</t>\n    <t s=\"10\">That is,</t>\n    <t s=\"11\">that although in general the wonders of the future redemption are similar to the wonders of the redemption of Egypt</t>\n    <t s=\"12\">(according to the simple interpretation),</t>\n    <t s=\"13\">nevertheless,</t>\n    <t s=\"14\">there will be an advantage in the wonders of the future,</t>\n    <t s=\"15\">to the extent that they will be wonders also relative to the wonders of the Exodus from Egypt.</t>\n    <t s=\"16\">And the explanation of the superiority of the wonders of the future over the wonders of the Exodus from Egypt in the language of Kabbalah,</t>\n    <t s=\"17\">it is known</t>\n    <t s=\"18\">that in the Exodus from Egypt it was necessary to take Israel out of the forty-nine gates of impurity.</t>\n    <t s=\"19\">For this is why immediately after the exodus from Egypt the days of the Counting of the Omer begin,</t>\n    <t s=\"20\">that on each day of the days of the counting they go out from one gate of impurity.</t>\n    <t s=\"21\">And this</t>\n    <t s=\"22\">(the exit from the gates of impurity)</t>\n    <t s=\"23\">was through the drawing down of the fifty gates of Binah.</t>\n    <t s=\"24\">Therefore the matter of the Exodus from Egypt is mentioned in the Torah fifty times, corresponding to the fifty gates of Binah.</t>\n    <t s=\"25\">And it is known that in the fifty gates of Binah there are several levels.</t>\n    <t s=\"26\">The fifty gates of Binah as they are drawn into Malchus,</t>\n    <t s=\"27\">and this is what comes from the side of Yovla</t>\n    <t s=\"28\">(Binah)</t>\n    <t s=\"29\">drawn into Malchus.</t>\n    <t s=\"30\">And on a higher level,</t>\n    <t s=\"31\">the fifty gates of Binah as they are in their place,</t>\n    <t s=\"32\">in Binah.</t>\n    <t s=\"33\">And on a higher level,</t>\n    <t s=\"34\">as they are included in the fiftieth gate,</t>\n    <t s=\"35\">in the aspect of Kesser</t>\n    <t s=\"36\">(and in Kesser itself—in the aspect of Atik).</t>\n    <t s=\"37\">And this is what the revelations of the future will be wonders also relative to the wonders of the Exodus from Egypt,</t>\n    <t s=\"38\">for the fifty gates of Binah that were drawn down in the Exodus from Egypt are the gates of the aspect of Binah</t>\n    <t s=\"39\">(and this itself,</t>\n    <t s=\"40\">as they are drawn through the aspect of Malchus),</t>\n    <t s=\"41\">but in the future there will be the drawing down of the fifty gates of Binah as they are in Kesser.</t>\n    <t s=\"42\">And moreover, in Kesser itself there will then be the drawing from the aspect of Atik,</t>\n    <t s=\"43\">and in Atik itself from the aspect of the innerness of Atik.</t>\n    <t s=\"44\">And as it is written regarding Moshiach</t>\n    <t s=\"45\">\"Behold, My servant shall prosper; he shall be exalted and lifted up and very high,\"</t>\n    <t s=\"46\">that \"very\"</t>\n    <t s=\"47\">(this which is written regarding Moshiach)</t>\n    <t s=\"48\">is the aspect of the innerness of Atik,</t>\n    <t s=\"49\">and in the language of the Pri Etz Chayim,</t>\n    <t s=\"50\">that all the drawings now are only from the aspect of the externality of Atik, but in the future there will be the drawing and revelation of the aspect of the innerness of Atik.</t>\n    <t s=\"51\">However, nevertheless the verse compares the wonders that will be in the future redemption to the wonders that were in the Exodus from Egypt,</t>\n    <t s=\"52\">and according to the simple interpretation of the verse that in the future redemption there will be \"I will show him wonders\" like there was in the days of your exodus from the land of Egypt,</t>\n    <t s=\"53\">for even in the Exodus from Egypt there were the most elevated revelations,</t>\n    <t s=\"54\">and as explained in the Hemshech of 5672</t>\n    <t s=\"55\">in the explanation \"the King of kings, the Holy One, blessed be He, revealed Himself to them in His glory and in His very essence,\"</t>\n    <t s=\"56\">that \"in His glory and in His very essence\" are the most elevated levels.</t>\n    <t s=\"57\">But in the Exodus from Egypt the revelation of this aspect was through enclothing in the aspect of Malchus,</t>\n    <t s=\"58\">\"and Pesach (Passover) Hashem on the door,\"</t>\n    <t s=\"59\">for \"door\" is the aspect of Malchus,</t>\n    <t s=\"60\">and in the future this will be in revelation without any garment, as it is written</t>\n    <t s=\"61\">\"and your Teacher will no longer be concealed.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917817_theRebbe_541",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917817_theRebbe_541__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "11 Nissan 5742*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the verse \"As in the days of your exodus from Egypt, I will show him wonders,\" and raises the difficulty of the plural \"days\" regarding the singular Exodus, questioning how the future redemption can be compared to the lesser redemption of Egypt.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"As in the days of your exodus from the land of Egypt, I will show him wonders,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and it is known the precise point of the Zohar"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "regarding this"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "[brought in the discourses of our Nesi'im]"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "in what is written \"as the days\" in the plural,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "yet the Exodus from Egypt was on one day,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "and likewise regarding the remembrance of the Exodus it is written"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "\"Remember this day on which you went out of Egypt,\""
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "\"in order that you remember the day of your exodus from the land of Egypt,\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "so why is it stated \"as the days\" in the plural?"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "And also one must understand the content of the verse \"As in the days of your exodus from the land of Egypt, I will show him wonders,\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "for the simple explanation of this is that the future redemption that will come speedily in our days, actually through our righteous Moshiach, will be in a manner of \"I will show him wonders\" like the redemption of the Exodus from Egypt was,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "and it is not understood,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "for it is explained in many verses and statements of our Sages of blessed memory"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "that specifically the future redemption will be a complete redemption after which there is no exile, unlike the redemption of the Exodus from Egypt,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "so the future redemption is far more elevated than the redemption of the Exodus from Egypt,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "therefore according to one opinion we do not mention the Exodus from Egypt in the days of Moshiach,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "and even according to the opinion that we do mention the Exodus from Egypt in the days of Moshiach"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "it requires a special derivation,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "and what does it mean when it says \"As in the days of your exodus from the land of Egypt, I will show him wonders,\""
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "that the superiority of the future redemption is that even then there will be \"I will show him wonders\" like there was in the Exodus from Egypt?"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "from the language of the verse \"As in the days of your exodus from the land of Egypt, I will show him wonders\" it implies that the wonders that were in the days of your exodus from the land of Egypt are the beginning and the root also for the wonders that will be in the future redemption,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "from which it is understood that there is an advantage in the redemption of the Exodus from Egypt over the future redemption."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains two interpretations of the verse, that the wonders of the future redemption will surpass those of the Exodus, drawing from the fifty gates of Binah and the levels of Atik, yet the verse compares them because the Exodus also contained the highest revelations, albeit clothed.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the point of the explanation of this,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "is that in this verse"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(\"As in the days of your exodus from the land of Egypt, I will show him wonders\")"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "there are two interpretations."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "Interpretation one,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "that the future redemption will be like the redemption of the Exodus from Egypt,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "that even then there will be \"I will show him wonders\" like there was in the redemption of the Exodus from Egypt."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And interpretation two,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "that the wonders that will be in the future redemption will be wonders also relative to the wonders that were in the days of your exodus from the land of Egypt."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "That is,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "that although in general the wonders of the future redemption are similar to the wonders of the redemption of Egypt"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "(according to the simple interpretation),"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "there will be an advantage in the wonders of the future,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "to the extent that they will be wonders also relative to the wonders of the Exodus from Egypt."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And the explanation of the superiority of the wonders of the future over the wonders of the Exodus from Egypt in the language of Kabbalah,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "it is known"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "that in the Exodus from Egypt it was necessary to take Israel out of the forty-nine gates of impurity."
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "For this is why immediately after the exodus from Egypt the days of the Counting of the Omer begin,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "that on each day of the days of the counting they go out from one gate of impurity."
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "And this"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "(the exit from the gates of impurity)"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "was through the drawing down of the fifty gates of Binah."
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "Therefore the matter of the Exodus from Egypt is mentioned in the Torah fifty times, corresponding to the fifty gates of Binah."
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "And it is known that in the fifty gates of Binah there are several levels."
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "The fifty gates of Binah as they are drawn into Malchus,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "and this is what comes from the side of Yovla"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "(Binah)"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "drawn into Malchus."
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "And on a higher level,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "the fifty gates of Binah as they are in their place,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "in Binah."
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "And on a higher level,"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "as they are included in the fiftieth gate,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "in the aspect of Kesser"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "(and in Kesser itself—in the aspect of Atik)."
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "And this is what the revelations of the future will be wonders also relative to the wonders of the Exodus from Egypt,"
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "for the fifty gates of Binah that were drawn down in the Exodus from Egypt are the gates of the aspect of Binah"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "(and this itself,"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "as they are drawn through the aspect of Malchus),"
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "but in the future there will be the drawing down of the fifty gates of Binah as they are in Kesser."
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "And moreover, in Kesser itself there will then be the drawing from the aspect of Atik,"
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "and in Atik itself from the aspect of the innerness of Atik."
+          },
+          {
+            "v": 2,
+            "s": 44,
+            "translation": "And as it is written regarding Moshiach"
+          },
+          {
+            "v": 2,
+            "s": 45,
+            "translation": "\"Behold, My servant shall prosper; he shall be exalted and lifted up and very high,\""
+          },
+          {
+            "v": 2,
+            "s": 46,
+            "translation": "that \"very\""
+          },
+          {
+            "v": 2,
+            "s": 47,
+            "translation": "(this which is written regarding Moshiach)"
+          },
+          {
+            "v": 2,
+            "s": 48,
+            "translation": "is the aspect of the innerness of Atik,"
+          },
+          {
+            "v": 2,
+            "s": 49,
+            "translation": "and in the language of the Pri Etz Chayim,"
+          },
+          {
+            "v": 2,
+            "s": 50,
+            "translation": "that all the drawings now are only from the aspect of the externality of Atik, but in the future there will be the drawing and revelation of the aspect of the innerness of Atik."
+          },
+          {
+            "v": 2,
+            "s": 51,
+            "translation": "However, nevertheless the verse compares the wonders that will be in the future redemption to the wonders that were in the Exodus from Egypt,"
+          },
+          {
+            "v": 2,
+            "s": 52,
+            "translation": "and according to the simple interpretation of the verse that in the future redemption there will be \"I will show him wonders\" like there was in the days of your exodus from the land of Egypt,"
+          },
+          {
+            "v": 2,
+            "s": 53,
+            "translation": "for even in the Exodus from Egypt there were the most elevated revelations,"
+          },
+          {
+            "v": 2,
+            "s": 54,
+            "translation": "and as explained in the Hemshech of 5672"
+          },
+          {
+            "v": 2,
+            "s": 55,
+            "translation": "in the explanation \"the King of kings, the Holy One, blessed be He, revealed Himself to them in His glory and in His very essence,\""
+          },
+          {
+            "v": 2,
+            "s": 56,
+            "translation": "that \"in His glory and in His very essence\" are the most elevated levels."
+          },
+          {
+            "v": 2,
+            "s": 57,
+            "translation": "But in the Exodus from Egypt the revelation of this aspect was through enclothing in the aspect of Malchus,"
+          },
+          {
+            "v": 2,
+            "s": 58,
+            "translation": "\"and Pesach (Passover) Hashem on the door,\""
+          },
+          {
+            "v": 2,
+            "s": 59,
+            "translation": "for \"door\" is the aspect of Malchus,"
+          },
+          {
+            "v": 2,
+            "s": 60,
+            "translation": "and in the future this will be in revelation without any garment, as it is written"
+          },
+          {
+            "v": 2,
+            "s": 61,
+            "translation": "\"and your Teacher will no longer be concealed.\""
+          }
+        ]
+      }
+    ]
+  }
+}

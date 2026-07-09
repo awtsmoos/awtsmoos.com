@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917980_theRebbe_758" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917980_theRebbe_758__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917980_theRebbe_758" title="מאמר ונחה עליו רוח ה' תשכ"ה" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917980_theRebbe_758__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אחרון של פסח,</src>
+    <src s="2">ה'תשכ"ה</src>
+  </section>
+  <section v="1">
+    <src s="0">ונחה עליו רוח הוי' גו' והריחו ביראת הוי' גו' וגר זאב עם כבש גו'1,</src>
+    <src s="1">ומבאר כ"ק מו"ח אדמו"ר במאמרו ד"ה זה2</src>
+    <src s="2">שבפסוקים אלו מתאר הנביא ביאת משיח צדקנו שיבוא לגאלנו בב"א,</src>
+    <src s="3">ואומר בזה כמה דברים בנוגע למלך המשיח והנהגתו.</src>
+    <src s="4">בתחילה מבאר מעלת מלך המשיח עצמו – ונחה עליו רוח הוי' וגו',</src>
+    <src s="5">ואח"כ מבאר את הנהגתו – והריחו ביראת הוי' וגו'</src>
+    <src s="6">[שגם והריחו הו"ע בהנהגתו,</src>
+    <src s="7">דמורח3</src>
+    <src s="8">ודאין4],</src>
+    <src s="9">ולאח"ז מוסיף וגר זאב עם כבש וגו',</src>
+    <src s="10">שהנהגת המשיח תהי' באופן כזה שיפעול5</src>
+    <src s="11">גילוי אלקות בכל העולם,</src>
+    <src s="12">לא רק בסוג המדבר אלא גם בסוג החי</src>
+    <src s="13">(זאב ונמר וכו')6</src>
+    <src s="14">ואפילו בסוג הדומם7,</src>
+    <src s="15">וכמו שממשיך בכתוב8</src>
+    <src s="16">כי מלאה הארץ דיעה את הוי',</src>
+    <src s="17">שגם הארץ הגשמית</src>
+    <src s="18">(דומם)</src>
+    <src s="19">תהי' מלאה דיעה את הוי'.</src>
+  </section>
+  <section v="2">
+    <src s="0">ומדייק בהמאמר,</src>
+    <src s="1">דצריך להבין,</src>
+    <src s="2">דמכיון שיהי' אז מלאה הארץ דיעה את הוי',</src>
+    <src s="3">למה יצטרכו למלך.</src>
+    <src s="4">ונקודת הביאור בזה9</src>
+    <src s="5">דמלוכה הו"ע ההתנשאות,</src>
+    <src s="6">מה שהמלך מובדל ומרומם מהעם.</src>
+    <src s="7">וגם הציוויים של המלך</src>
+    <src s="8">(אף שלכאורה הם תנועה דקירוב,</src>
+    <src s="9">שהמלך מתקרב אל העם להנהיגם כרצונו)</src>
+    <src s="10">הם10</src>
+    <src s="11">באופן דרוממות והבדלה,</src>
+    <src s="12">בדרך פקודה וגזירה.</src>
+    <src s="13">וכן הוא גם מצד העם,</src>
+    <src s="14">דמה שהם מקיימים ציווי המלך הוא לא מפני שהם יודעים ומשיגים את טעם הציווי,</src>
+    <src s="15">כי אם,</src>
+    <src s="16">מצד יראת ואימת המלך,</src>
+    <src s="17">שתהא אימתו עליך11.</src>
+    <src s="18">ונמצא,</src>
+    <src s="19">שגם ההשפעה מהמלך להעם הוא באופן דהתנשאות והבדלה.</src>
+    <src s="20">וזהו ההפרש שבין השפעה דרב להשפעה דמלך,</src>
+    <src s="21">דענין השפעה דרב הוא מה שהרב מתקרב להתלמיד</src>
+    <src s="22">(שמצמצם את שכלו לפי"ע כלי התלמיד)</src>
+    <src s="23">באופן שהתלמיד ישיג את השכל,</src>
+    <src s="24">משא"כ השפעה דמלך היא מובדלת מהעם,</src>
+    <src s="25">למעלה מהשכל שלהם.</src>
+    <src s="26">והשרש דב' ענינים אלו</src>
+    <src s="27">(השפעה דרב ודמלך)</src>
+    <src s="28">הוא12</src>
+    <src s="29">גם בתורה,</src>
+    <src s="30">דיש בה</src>
+    <src s="31">(דוגמת)</src>
+    <src s="32">שני ענינים אלו.</src>
+    <src s="33">דישנם ענינים בתורה שנתלבשו בשכל,</src>
+    <src s="34">אבל עצם התורה היא למעלה מהשכל13.</src>
+    <src s="35">ולעתיד לבוא,</src>
+    <src s="36">יתגלו שני הענינים.</src>
+    <src s="37">דזהו מה שמשיח נק' בשם רב ובשם מלך,</src>
+    <src s="38">היינו,</src>
+    <src s="39">דנוסף על זה שמשיח ילמד תורה לכל ישראל14</src>
+    <src s="40">וישפיע לכולם טוב טעם ודעת בסודות,</src>
+    <src s="41">בפנימיות התורה,</src>
+    <src s="42">שמצד השפעה זו נק' משיח בשם רב,</src>
+    <src s="43">הנה הוא בעצמו ישיג הרבה יותר לאין קץ ממה שישפיע בהשגה,</src>
+    <src s="44">וההשפעה דענינים אלו תהי' בבחי' מקיף,</src>
+    <src s="45">בדוגמת השפעה דמלך.</src>
+    <src s="46">ויש להוסיף לכאורה,</src>
+    <src s="47">דע"פ הידוע15</src>
+    <src s="48">שלימוד התורה דמשיח</src>
+    <src s="49">(מה שילמד את כל העם)</src>
+    <src s="50">יהי' באופן דראי' שלמעלה מהשגה,</src>
+    <src s="51">מובן מזה,</src>
+    <src s="52">דהענינים שישפיע באופן דמלך הם ענינים כאלו שאינם יכולים לבוא בגילוי אפילו בראי' שלמעלה מהשכל,</src>
+    <src s="53">ואעפ"כ,</src>
+    <src s="54">מצד זה שמשיח יהי'</src>
+    <src s="55">(גם)</src>
+    <src s="56">מלך,</src>
+    <src s="57">יגלה לישראל גם ענינים אלו,</src>
+    <src s="58">אלא שהגילוי דענינים אלו יהי' בדרך מקיף.</src>
+  </section>
+</awtsmoosMeluketSource>

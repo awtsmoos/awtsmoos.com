@@ -1,0 +1,131 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" title="מאמר תפלה למשה תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p007">
+  <section v="18">
+    <src s="0">וע"פ המבואר לעיל סעיף ד דשלילת העניות</src>
+    <src s="1">(חסרון)</src>
+    <src s="2">היא דוקא ע"י העשירות שלמעלה ממילוי החסרון,</src>
+    <src s="3">משא"כ כשהשפע הוא רק די מחסורו</src>
+    <src s="4">[כולל גם הענין דאשר יחסר לו.</src>
+    <src s="5">,</src>
+    <src s="6">אפילו סוס לרכוב עליו ועבד לרוץ לפניו]</src>
+    <src s="7">נשאר</src>
+    <src s="8">(בפנימיות)</src>
+    <src s="9">חסרון גם בנוגע לשפע המצומצם,</src>
+    <src s="10">צריך לומר,</src>
+    <src s="11">דגם כשהעבודה היא מצד הדעת,</src>
+    <src s="12">הכרה והרגשה,</src>
+    <src s="13">אבל רק דעת תחתון שמקבל מאריך,</src>
+    <src s="14">העבודה היא כמו דבר נוסף עליו,</src>
+    <src s="15">והאדם עצמו</src>
+    <src s="16">(בפנימיותו)</src>
+    <src s="17">חסר העבודה,</src>
+    <src s="18">היינו שנשאר מקום בהאדם ששם אין מאיר גילוי אלקות.</src>
+    <src s="19">דהגם שענין ההכרה וההרגשה</src>
+    <src s="20">(גם דדעת תחתון)</src>
+    <src s="21">הוא שהאדם עצמו מכיר ומרגיש</src>
+    <src s="22">(כנ"ל סעיף ג),</src>
+    <src s="23">מ"מ,</src>
+    <src s="24">כיון שענינו של האדם הוא מציאות</src>
+    <src s="25">(ולא שענינו הוא הרגשת אלקות),</src>
+    <src s="26">הרי ההכרה וההרגשה שלו באלקות היא כמו דבר נוסף עליו.</src>
+  </section>
+  <section v="19">
+    <src s="0">ובעומק יותר יש לומר,</src>
+    <src s="1">דזה שבהעבודה דדעת תחתון נשאר עדיין חסרון,</src>
+    <src s="2">הוא לא רק מפני שהאדם וההכרה שלו באלקות הם שני דברים,</src>
+    <src s="3">אלא שגם מצד ההכרה עצמה</src>
+    <src s="4">(ההכרה דדעת תחתון)</src>
+    <src s="5">יש נתינת מקום למציאות שמחוץ לאלקות93.</src>
+    <src s="6">דכיון שדעת תחתון מקבל מחיצוניות הכתר,</src>
+    <src s="7">אריך,</src>
+    <src s="8">דבכללות הוא בחינת סובב שהוא כמו מקור לעולמות,</src>
+    <src s="9">לכן,</src>
+    <src s="10">גם מצד הדעת עצמו יש נתינת מקום למציאות.</src>
+    <src s="11">וזה גופא הוא הסיבה לזה שע"י הגילוי דדרגא זו בהאדם נשאר הוא במציאותו,</src>
+    <src s="12">מציאות שמחוץ לאלקות.</src>
+    <src s="13">ובכדי שיתמלא החסרון לגמרי,</src>
+    <src s="14">היינו שלא יהי' שום מקום שאין מאיר בו גילוי אלקות,</src>
+    <src s="15">הוא ע"י העבודה דדעת עליון שמקבל מפנימיות הכתר,</src>
+    <src s="16">עתיק,</src>
+    <src s="17">דבכללות הוא עצמות אוא"ס.</src>
+    <src s="18">דלגבי עצמות אוא"ס אין שום מציאות שחוץ ממנו,</src>
+    <src s="19">ואדרבה,</src>
+    <src s="20">אמיתית המצאו ית' היא היא אמיתית המציאות של כל הנמצאים94.</src>
+    <src s="21">ולכן ע"י הגילוי דדעת עליון,</src>
+    <src s="22">הכרת האדם באלקות היא באופן שזה</src>
+    <src s="23">(הכרת אלקות)</src>
+    <src s="24">היא כל מציאותו.</src>
+  </section>
+  <section v="20">
+    <src s="0">ועפ"ז יש לבאר מה שתפלת משה למלאות החסרון דכנסת ישראל נקראת בשם תפלת עשיר,</src>
+    <src s="1">אף שהחסרון דכנס"י הי' בודאי נוגע לו במאד,</src>
+    <src s="2">כי משה הוא בחינת דעת עליון</src>
+    <src s="3">(כנ"ל),</src>
+    <src s="4">ומצד דעת עליון,</src>
+    <src s="5">ענין העשירות,</src>
+    <src s="6">אין שייך ענין החסרון.</src>
+    <src s="7">היינו,</src>
+    <src s="8">דנוסף לזה שבמשה עצמו אין שייך שום חסרון ח"ו,</src>
+    <src s="9">אלא שלגבי משה,</src>
+    <src s="10">גם החסרון דכנס"י שהתפלל עליהם אינו חסרון,</src>
+    <src s="11">כי דעת עליון מקבל מעתיק,</src>
+    <src s="12">ולכן נרגש בו שאמיתית המצאו ית' הוא אמיתית המציאות של כל הנמצאים ואינם חסרים מאומה.</src>
+    <src s="13">והגם שמשה התפלל עליהם,</src>
+    <src s="14">דענין התפלה הוא למלאות החסרון – יש לומר,</src>
+    <src s="15">שהתפלה שלו היתה שענין זה</src>
+    <src s="16">(שהאמת היא שאינם חסרים מאומה)</src>
+    <src s="17">יהי' נרגש בגילוי גם אצלם.</src>
+    <src s="18">אבל במשה הי' נרגש זה</src>
+    <src s="19">(שאינם חסרים מאומה)</src>
+    <src s="20">בגילוי גם כשהיו במצב שהוצרך להתפלל עליהם,</src>
+    <src s="21">ולכן,</src>
+    <src s="22">התפלה שלו היא תפלת עשיר.</src>
+    <src s="23">ולהוסיף,</src>
+    <src s="24">דזה שתפלת משה נקראת תפלת עשיר הוא לא רק מפני שגם אז</src>
+    <src s="25">(בעת התפלה)</src>
+    <src s="26">הי' עשיר,</src>
+    <src s="27">אלא יתירה מזה,</src>
+    <src s="28">שהתפלה שלו היתה מפני שהוא עשיר.</src>
+    <src s="29">כי תפלת משה שיתמלא החסרון דכנס"י</src>
+    <src s="30">[דכנס"י כפשוטו,</src>
+    <src s="31">ועי"ז – החסרון דמלכות,</src>
+    <src s="32">ודהעולם]</src>
+    <src s="33">הוא שיתמלא החסרון לגמרי,</src>
+    <src s="34">שלא יהי' שום מקום שאין מאיר בו גילוי אלקות,</src>
+    <src s="35">ובכדי שיתמלא החסרון לגמרי הוא דוקא ע"י הגילוי דדעת עליון,</src>
+    <src s="36">כנ"ל.</src>
+  </section>
+</awtsmoosMeluketSource>

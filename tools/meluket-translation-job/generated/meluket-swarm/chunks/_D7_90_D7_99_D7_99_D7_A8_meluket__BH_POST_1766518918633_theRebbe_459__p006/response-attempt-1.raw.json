@@ -1,0 +1,28 @@
+{
+  "id": "2943b3a0-ad88-47c8-8661-2a55ed707ff5",
+  "object": "chat.completion",
+  "created": 1783583769,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918633_theRebbe_459\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains that the superiority of the self-nullification of this day over that of the desert lies in two aspects, particularly that it extends into the reality of the person, completing the purpose of a dwelling place in the lower realms.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And 4)</t>\n    <t s=\"2\">And likewise is it regarding the two matters of Rosh Chodesh Sivan,</t>\n    <t s=\"3\">the self-nullification of this day and the self-nullification of the desert57,</t>\n    <t s=\"4\">that the superiority of the self-nullification of this day over the self-nullification of the desert is in two matters.</t>\n    <t s=\"5\">That the self-nullification of this day</t>\n    <t s=\"6\">(where the love is in a state of self-nullification)</t>\n    <t s=\"7\">is also within the reality of the person.</t>\n    <t s=\"8\">And that specifically through this the intention of a dwelling place in the lower realms is completed.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section states that the self-nullification of this day extending into the person's reality comes through the drawing down of Atzmus (Awtsmoos), which has the power to unite two opposites.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that this—that the self-nullification of this day is drawn also into the reality of the person</t>\n    <t s=\"2\">[and even after the self-nullification that is drawn into his reality, it is</t>\n    <t s=\"3\">(not a nullification of existence,</t>\n    <t s=\"4\">but rather)</t>\n    <t s=\"5\">a nullification within existence],</t>\n    <t s=\"6\">is through the drawing down of Atzmus (Awtsmoos),</t>\n    <t s=\"7\">for in the power of Atzmus (Awtsmoos) is to unite two opposites</t>\n    <t s=\"8\">(self-nullification and existence).</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains that the term \"this day\" alludes to the revelation of the power of Atzmus (Awtsmoos), as the true meaning of \"this\" applies only to Atzmus (Awtsmoos) itself.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said that this is also hinted at in the language of the verse \"on this day.\"</t>\n    <t s=\"1\">For it is explained in Likkutei Torah58,</t>\n    <t s=\"2\">that the term \"this,\"</t>\n    <t s=\"3\">which is a thing that one can point to with a finger and say \"this,\"</t>\n    <t s=\"4\">applies only to the Holy One, blessed be He,</t>\n    <t s=\"5\">as it is written59</t>\n    <t s=\"6\">\"This is my G-d and I will glorify Him,\"</t>\n    <t s=\"7\">for \"the whole earth is full of His glory\"60.</t>\n    <t s=\"8\">And it is explained elsewhere61</t>\n    <t s=\"9\">that the true concept of \"this\" applies only to Atzmus (Awtsmoos).</t>\n    <t s=\"10\">For the meaning of \"this\" is that the thing about which one says \"this\"</t>\n    <t s=\"11\">is the very existence of that thing,</t>\n    <t s=\"12\">and since all existing things,</t>\n    <t s=\"13\">including even the most sublime revelations,</t>\n    <t s=\"14\">their existence is not from themselves but is dependent upon the will of Atzmus (Awtsmoos)62,</t>\n    <t s=\"15\">one cannot say of them in a complete sense \"this thing,\"</t>\n    <t s=\"16\">and the true concept of \"this\" applies only to Atzmus (Awtsmoos).</t>\n    <t s=\"17\">And this is \"on this day,\"</t>\n    <t s=\"18\">that even the existence of the diffusion</t>\n    <t s=\"19\">(day)</t>\n    <t s=\"20\">is in a state of self-nullification</t>\n    <t s=\"21\">(this),</t>\n    <t s=\"22\">is through the revelation of the power of Atzmus (Awtsmoos),</t>\n    <t s=\"23\">day</t>\n    <t s=\"24\">(revelation)</t>\n    <t s=\"25\">this.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1540,
+    "completion_tokens": 1236,
+    "total_tokens": 2776,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1284
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

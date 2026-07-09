@@ -1,0 +1,154 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" title="מאמר באתי לגני תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p003">
+  <section v="6">
+    <src s="0">ויש לומר הביאור בזה,</src>
+    <src s="1">דבמאמר המדרש עיקר שכינה בתחתונים היתה,</src>
+    <src s="2">שני ענינים.</src>
+    <src s="3">המעלה דתחתונים</src>
+    <src s="4">(לגבי עליונים),</src>
+    <src s="5">שבהם דוקא היתה עיקר שכינה,</src>
+    <src s="6">ושדרגת השכינה שהיתה בתחתונים היא</src>
+    <src s="7">(לא שכינה סתם,</src>
+    <src s="8">אלא)</src>
+    <src s="9">עיקר שכינה.</src>
+    <src s="10">והענינים שבהמאמר</src>
+    <src s="11">(בפרק הראשון)</src>
+    <src s="12">הם ביאור על שני ענינים אלה.</src>
+    <src s="13">דזה שנתאוה שהגילוי אלקות למטה</src>
+    <src s="14">(דירה בתחתונים)</src>
+    <src s="15">יהי' ע"י עבודת האדם מדגיש מעלת התחתונים.</src>
+    <src s="16">דנוסף לזה שנתאוה שהדירה</src>
+    <src s="17">(גילוי אלקות)</src>
+    <src s="18">תהי' בתחתונים,</src>
+    <src s="19">נתאוה שגם עשיית הדירה תהי' ע"י עבודת התחתונים.</src>
+    <src s="20">דע"י שהגילוי אלקות בהתחתונים נמשך ע"י עבודתם,</src>
+    <src s="21">הם כלים להגילוי,</src>
+    <src s="22">ויתירה מזה,</src>
+    <src s="23">שהגילוי שנמשך בהם הוא מצד ענין התחתונים גופא.</src>
+    <src s="24">ומוסיף,</src>
+    <src s="25">שהעבודה שעל ידה נעשית הדירה היא העבודה דאתכפיא ואתהפכא,</src>
+    <src s="26">כי עי"ז מודגש עוד יותר שהגילוי שנמשך בהתחתונים הוא מצד ענינם.</src>
+    <src s="27">דנוסף לזה שהגילוי שנמשך בהם הוא ע"י עבודתם,</src>
+    <src s="28">גם העבודה</src>
+    <src s="29">(שעל ידה נמשך הגילוי)</src>
+    <src s="30">היא עבודה שמצד ענין התחתונים.</src>
+    <src s="31">וזה שההמשכה שע"י העבודה דאתכפיא ואתהפכא הוא המשכת האור שהוא בכולהו עלמין בשוה הוא ביאור על הלשון עיקר שכינה בתחתונים,</src>
+    <src s="32">וכמבואר במק"א21</src>
+    <src s="33">שעיקר שכינה הוא האור שלמעלה מעולמות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ג)</src>
+    <src s="1">ולהוסיף,</src>
+    <src s="2">דשני ענינים הנ"ל מובנים גם מלשון רז"ל16</src>
+    <src s="3">נתאוה כו' דירה בתחתונים,</src>
+    <src s="4">נתאוה דוקא.</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">דבזהר ובע"ח איתא,</src>
+    <src s="7">שישנם טעמים על בריאת העולמות</src>
+    <src s="8">[דבזהר22</src>
+    <src s="9">איתא שהטעם הוא בגין דישתמודעון לי' ובע"ח23</src>
+    <src s="10">איתא דהטעם הוא בכדי שיתגלו שלימות כחותיו ופעולותיו],</src>
+    <src s="11">ובמרז"ל הנ"ל איתא דבריאת העולמות היתה לפי שנתאוה הקב"ה להיות לו ית' דירה בתחתונים,</src>
+    <src s="12">דענין נתאוה הוא למעלה מטעם,</src>
+    <src s="13">ובלשון אדמו"ר הזקן24</src>
+    <src s="14">אויף אַ תאוה איז קיין קשיא,</src>
+    <src s="15">היינו שענין התאוה הוא במקום</src>
+    <src s="16">(דרגא)</src>
+    <src s="17">שאין שייך שם קושיא לפי שהוא למעלה מהשכל.</src>
+    <src s="18">וידוע הביאור בזה,</src>
+    <src s="19">דבזהר ובע"ח מדבר בענין בריאת העולמות כמו שהיא מצד בחינת הגילויים,</src>
+    <src s="20">וכיון שגילויים גם גילויים הכי נעלים הם מוגדרים באיזה גדר,</src>
+    <src s="21">הרצון לעשיית איזה דבר הוא מפני שאותו הדבר הוא בהתאם להגדר שלהם</src>
+    <src s="22">(טעם),</src>
+    <src s="23">ובמארז"ל הנ"ל מדבר בענין הבריאה שמצד העצמות,</src>
+    <src s="24">דכיון שאינו מוגדר בשום גדר,</src>
+    <src s="25">הרצון לבריאת העולמות שבהעצמות הוא לא מפני שיש איזה עילוי בהבריאה אלא שכך נתאוה,</src>
+    <src s="26">למעלה מטעם.</src>
+    <src s="27">וכמו שהענין דנתאוה הוא בהעצמות,</src>
+    <src s="28">גם הענין שהוא מתאוה אליו הוא שיהי' לו דירה בתחתונים,</src>
+    <src s="29">דענין דירה הוא25</src>
+    <src s="30">ע"ד דירת האדם שעצמות האדם דר בהדירה,</src>
+    <src s="31">היינו שבהתחתונים תהי' המשכת וגילוי העצמות.</src>
+  </section>
+  <section v="8">
+    <src s="0">והנה ידוע26</src>
+    <src s="1">דההוכחה על זה שהסיבה לבריאת העולמות היא לפי שנתאוה</src>
+    <src s="2">(למעלה מהטעם),</src>
+    <src s="3">היא,</src>
+    <src s="4">כי בכדי שיהי' הענין דישתמודעון לי'</src>
+    <src s="5">(ידיעת אלקות)</src>
+    <src s="6">הי' מספיק בהתהוות עולמות העליונים</src>
+    <src s="7">(עולם האצילות ועולמות הא"ס שלמעלה מאצילות)</src>
+    <src s="8">ולא הי' צריך להיות התהוות עולמות התחתונים.</src>
+    <src s="9">ואדרבא,</src>
+    <src s="10">עיקר הענין דישתמודעון לי' הוא דוקא בעולמות העליונים.</src>
+    <src s="11">דהידיעה וההשגה באלקות שבעולמות התחתונים</src>
+    <src s="12">(עולמות בי"ע הרוחניים)</src>
+    <src s="13">היא רק בהמציאות דאלקות ולא בהמהות.</src>
+    <src s="14">ומכש"כ בעולם העשי' הגשמי שאין נרגש בו גם המציאות דאלקות.</src>
+    <src s="15">ועד"ז הוא בהטעם דיתגלו שלימות כחותיו ופעולותיו,</src>
+    <src s="16">שבכדי שיתגלו שלימות כחותיו הי' מספיק בהתהוות עולמות העליונים,</src>
+    <src s="17">דכיון שגם עולמות העליונים הם מציאות והתהוותם היא בדרך התחדשות</src>
+    <src s="18">(יש מאין),</src>
+    <src s="19">לכן ע"י שאוא"ס מהווה אותם מתגלה הכח שבו27</src>
+    <src s="20">(שבכחו להוות דבר חדש)28.</src>
+    <src s="21">ויתירה מזו יש לומר,</src>
+    <src s="22">שעיקר גילוי שלימות כחותיו הוא דוקא בהתהוות עולמות העליונים.</src>
+    <src s="23">דכיון שהתהוות עולמות התחתונים</src>
+    <src s="24">(בי"ע)</src>
+    <src s="25">הוא ע"י שהכח האלקי שמהווה אותם הוא מתעלם מהם,</src>
+    <src s="26">הרי בפעולה זו דהכח</src>
+    <src s="27">(התהוות בי"ע),</src>
+    <src s="28">אין מתגלה הכח.</src>
+    <src s="29">ומכש"כ שאינו מתגלה בהתהוות עוה"ז התחתון,</src>
+    <src s="30">שההעלם דכח המהווה הוא עוד יותר.</src>
+    <src s="31">ומזה שנתהוו</src>
+    <src s="32">(גם)</src>
+    <src s="33">עולמות בי"ע הרוחניים,</src>
+    <src s="34">ומכש"כ מההתהוות דעוה"ז הגשמי,</src>
+    <src s="35">שאין בו</src>
+    <src s="36">(מצד עצמו)</src>
+    <src s="37">שום מעלה,</src>
+    <src s="38">ובלשון אדמו"ר הזקן29</src>
+    <src s="39">תחתון שאין תחתון למטה ממנו,</src>
+    <src s="40">מוכח,</src>
+    <src s="41">שתכלית כוונת הבריאה היא</src>
+    <src s="42">(לא מצד הטעם,</src>
+    <src s="43">אלא)</src>
+    <src s="44">לפי שכך נתאווה שעוה"ז התחתון יהי' דירה לו ית',</src>
+    <src s="45">לו לעצמותו.</src>
+  </section>
+</awtsmoosMeluketSource>

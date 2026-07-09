@@ -1,0 +1,258 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 44,
+    "returned": 44,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918549_theRebbe_741\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918549_theRebbe_741__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains the connection between the passing of Rashbi and the Omer counting, emphasizing that the work of refining the animal soul draws down a great abundance to the lowest levels.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And based on all the above, the connection of the passing of Rashbi with the counting of the Omer will also be understood,</t>\n    <t s=\"2\">to the extent that the day of his passing is called</t>\n    <t s=\"3\">(based on the custom of Israel, Torah it is92)</t>\n    <t s=\"4\">by the name Lag BaOmer93.</t>\n    <t s=\"5\">And the explanation is,</t>\n    <t s=\"6\">that the service of the counting of the Omer is the refinement of the midos of the Nefesh HaBahamis94,</t>\n    <t s=\"7\">and nevertheless</t>\n    <t s=\"8\">(and moreover,</t>\n    <t s=\"9\">because of this),</t>\n    <t s=\"10\">specifically regarding this mitzvah we say95</t>\n    <t s=\"11\">\"and through this a great abundance will be drawn forth in all the worlds,\"</t>\n    <t s=\"12\">for specifically the work of refinement reaches to the very highest level,</t>\n    <t s=\"13\">and draws down from there an abundance,</t>\n    <t s=\"14\">not a light that is merely an illumination, but an abundance that is the essence of the thing96,</t>\n    <t s=\"15\">and beyond this—a great abundance,</t>\n    <t s=\"16\">and because it is a great abundance, therefore97</t>\n    <t s=\"17\">(due to the multiplicity within it)</t>\n    <t s=\"18\">it is drawn and flows into all the worlds,</t>\n    <t s=\"19\">down to this lowest world,</t>\n    <t s=\"20\">and within this world itself, to the most lowly place, beneath which there is no lower.</t>\n    <t s=\"21\">And it can be said that this is the connection of the days of the counting</t>\n    <t s=\"22\">[and within them specifically,</t>\n    <t s=\"23\">the day of Lag BaOmer,</t>\n    <t s=\"24\">the end and completion of the service of the Omer counting in the primary midos98]</t>\n    <t s=\"25\">to the passing of Rashbi,</t>\n    <t s=\"26\">for the service of Rashbi was to heal and nullify the partitions between all matters,</t>\n    <t s=\"27\">and to draw down from the highest high to the lowest low,</t>\n    <t s=\"28\">from the aspect of \"Eisan\" to the aspect of \"Eretz.\"</t>\n    <t s=\"29\">And this matter stands revealed on the day of his passing, on Lag BaOmer,</t>\n    <t s=\"30\">as explained in Igeres HaKodesh of the Alter Rebbe99</t>\n    <t s=\"31\">that on the day of passing, all of a person's service which he served throughout the days of his life stands revealed as it is in its source and root,</t>\n    <t s=\"32\">and as explained at length in the discourses of Lag BaOmer in the Siddur of the Mitteler Rebbe100.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section describes how this matter extends down to simple joy, breaking the boundaries of exile and bringing the true redemption through Moshiach, connected to the spreading of the wellsprings.</sectionSummaryBrief>\n    <t s=\"0\">And this matter extends downward to the lowest level, to simple joy101.</t>\n    <t s=\"1\">And to the extent that from this is drawn a very great joy,</t>\n    <t s=\"2\">to a joy that breaks boundaries102,</t>\n    <t s=\"3\">eternal joy103,</t>\n    <t s=\"4\">which breaks the boundaries of exile,</t>\n    <t s=\"5\">and brings the true and complete redemption through Moshiach Tzidkeinu,</t>\n    <t s=\"6\">for Moshiach comes to bring the righteous back in repentance55.</t>\n    <t s=\"7\">And this is also connected with the matter of the spreading of the wellsprings,</t>\n    <t s=\"8\">\"When will the Master come? When your wellsprings spread forth outward\"104,</t>\n    <t s=\"9\">speedily in our days, literally,</t>\n    <t s=\"10\">and in our time, quickly105.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918549_theRebbe_741",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918549_theRebbe_741__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains the connection between the passing of Rashbi and the Omer counting, emphasizing that the work of refining the animal soul draws down a great abundance to the lowest levels.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And based on all the above, the connection of the passing of Rashbi with the counting of the Omer will also be understood,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "to the extent that the day of his passing is called"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(based on the custom of Israel, Torah it is92)"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "by the name Lag BaOmer93."
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "that the service of the counting of the Omer is the refinement of the midos of the Nefesh HaBahamis94,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "and nevertheless"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "(and moreover,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "because of this),"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "specifically regarding this mitzvah we say95"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "\"and through this a great abundance will be drawn forth in all the worlds,\""
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "for specifically the work of refinement reaches to the very highest level,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "and draws down from there an abundance,"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "not a light that is merely an illumination, but an abundance that is the essence of the thing96,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "and beyond this—a great abundance,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "and because it is a great abundance, therefore97"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "(due to the multiplicity within it)"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "it is drawn and flows into all the worlds,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "down to this lowest world,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "and within this world itself, to the most lowly place, beneath which there is no lower."
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "And it can be said that this is the connection of the days of the counting"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "[and within them specifically,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "the day of Lag BaOmer,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "the end and completion of the service of the Omer counting in the primary midos98]"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "to the passing of Rashbi,"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "for the service of Rashbi was to heal and nullify the partitions between all matters,"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "and to draw down from the highest high to the lowest low,"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "from the aspect of \"Eisan\" to the aspect of \"Eretz.\""
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "And this matter stands revealed on the day of his passing, on Lag BaOmer,"
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "as explained in Igeres HaKodesh of the Alter Rebbe99"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "that on the day of passing, all of a person's service which he served throughout the days of his life stands revealed as it is in its source and root,"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "and as explained at length in the discourses of Lag BaOmer in the Siddur of the Mitteler Rebbe100."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section describes how this matter extends down to simple joy, breaking the boundaries of exile and bringing the true redemption through Moshiach, connected to the spreading of the wellsprings.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And this matter extends downward to the lowest level, to simple joy101."
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And to the extent that from this is drawn a very great joy,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "to a joy that breaks boundaries102,"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "eternal joy103,"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "which breaks the boundaries of exile,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "and brings the true and complete redemption through Moshiach Tzidkeinu,"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "for Moshiach comes to bring the righteous back in repentance55."
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "And this is also connected with the matter of the spreading of the wellsprings,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "\"When will the Master come? When your wellsprings spread forth outward\"104,"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "speedily in our days, literally,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "and in our time, quickly105."
+          }
+        ]
+      }
+    ]
+  }
+}

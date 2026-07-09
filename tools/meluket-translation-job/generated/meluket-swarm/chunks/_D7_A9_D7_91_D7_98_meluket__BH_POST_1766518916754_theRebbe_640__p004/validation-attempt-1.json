@@ -1,0 +1,454 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 82,
+    "returned": 82,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916754_theRebbe_640\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the true essence of \"Adam\" is in the supernal Adam, and that even the \"Adam on the throne\" is only a likeness, with the ultimate level of Adam being in Atzilus and specifically in Arich.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that which is written \"for He is not a man,\"</t>\n    <t s=\"2\">[the term] \"man\" in the absolute sense</t>\n    <t s=\"3\">(even though the intent of the verse is that He is not within the category of the depiction of the supernal man),</t>\n    <t s=\"4\">is because the true and essential concept of \"man\" is in the supernal Man,</t>\n    <t s=\"5\">and that which the man below is called by the name \"man\" is</t>\n    <t s=\"6\">(on account of [being] \"earth from the supernal one\"49)</t>\n    <t s=\"7\">because he is similar to the supernal Man,</t>\n    <t s=\"8\">and \"upon the likeness of the throne, a likeness like the appearance of a man.\"50</t>\n    <t s=\"9\">And moreover,</t>\n    <t s=\"10\">that even the man upon the throne is only \"like the appearance of a man\"</t>\n    <t s=\"11\">(with the prefix of comparison \"like\"),</t>\n    <t s=\"12\">and not man himself,</t>\n    <t s=\"13\">for the true and essential concept of man is in Atzilus.</t>\n    <t s=\"14\">This is not the case regarding the man upon the throne which is in Beriah</t>\n    <t s=\"15\">(the Throne of Glory is in Beriah51),</t>\n    <t s=\"16\">which is only a likeness like the appearance of a man.52</t>\n    <t s=\"17\">And with more particularity,</t>\n    <t s=\"18\">even in Atzilus there are these two aspects.</t>\n    <t s=\"19\">\"Man\" is Zeir Anpin of Atzilus,</t>\n    <t s=\"20\">and Malchus of Atzilus is \"like the appearance of a man.\"53</t>\n    <t s=\"21\">And higher still,</t>\n    <t s=\"22\">even Zeir Anpin is only \"like the appearance of a man,\" and the actual Man is in Arich.54</t>\n    <t s=\"23\">And this is [the meaning of] \"for He is not a man to relent,\"</t>\n    <t s=\"24\">[the term] \"man\" in the absolute sense refers to the supernal Man</t>\n    <t s=\"25\">(up to the Man of Arich),</t>\n    <t s=\"26\">and \"He is not a man\" [refers to] Atik,</t>\n    <t s=\"27\">for in the level of Atik, consolation and regret are not applicable.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that the reason consolation applies to \"man\" is because man is intellect and emotions, and this also serves to highlight the great elevation of the level of \"not man.\"</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And behold, the reason for this, that in \"man\" consolation is applicable,</t>\n    <t s=\"2\">is explained in the maamar,</t>\n    <t s=\"3\">that \"man\" is intellect and emotions.</t>\n    <t s=\"4\">And it explains,</t>\n    <t s=\"5\">that this [statement] that \"man\" is intellect and emotions,</t>\n    <t s=\"6\">the intent in this is that the emotions</t>\n    <t s=\"7\">(within him)</t>\n    <t s=\"8\">are based on intellect, and the intellect</t>\n    <t s=\"9\">(within him)</t>\n    <t s=\"10\">is related to the emotions.</t>\n    <t s=\"11\">And it may be said,</t>\n    <t s=\"12\">that which is stated in the maamar, that \"man\" is intellect and emotions and that the intellect and emotions within him are related to each other,</t>\n    <t s=\"13\">is not only in order to explain the reason that in \"man\" consolation is applicable</t>\n    <t s=\"14\">(as will be explained),</t>\n    <t s=\"15\">but also in order to explain the greatness of the elevation of \"man\"</t>\n    <t s=\"16\">[for that \"man\" is intellect and emotions and that the intellect and emotions within him are related to each other is due to the greatness of his elevation,</t>\n    <t s=\"17\">as will be explained],</t>\n    <t s=\"18\">so that through this the greatness of the elevation of the level of \"not man\" will be better understood,</t>\n    <t s=\"19\">which is above even the elevation of \"man.\"</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that man's unique quality is being comprised of all levels, from the highest to the lowest, which is why he is intellect and emotions united, reflecting a point of perfection.</sectionSummaryBrief>\n    <t s=\"0\">And this will be understood based on the known principle55</t>\n    <t s=\"1\">that man is comprised of all levels.</t>\n    <t s=\"2\">For in addition to him being comprised of all the emotions,</t>\n    <t s=\"3\">as the Rambam states56</t>\n    <t s=\"4\">that animals and trees have only one action or two actions, but man performs many actions that differ from each other,</t>\n    <t s=\"5\">meaning that all created beings,</t>\n    <t s=\"6\">each one has a specific attribute</t>\n    <t s=\"7\">(the eagle is merciful and the raven is cruel57,</t>\n    <t s=\"8\">and likewise among the angels,</t>\n    <t s=\"9\">Michael [is] in love and Gavriel [is] in fear),</t>\n    <t s=\"10\">and man is comprised of all the emotions</t>\n    <t s=\"11\">[for this inclusion that is in man is that he is comprised of all matters in one level,</t>\n    <t s=\"12\">[the level of] emotions],</t>\n    <t s=\"13\">behold, in addition to this, he is also comprised of all the levels,</t>\n    <t s=\"14\">from the highest level to the lowest level,</t>\n    <t s=\"15\">as it is stated in the Midrash58</t>\n    <t s=\"16\">that man was created from the supernal ones and from the lower ones.</t>\n    <t s=\"17\">And this is that \"man\" is intellect and emotions,</t>\n    <t s=\"18\">for the nature of intellect is ascent upward and the nature of emotions is descent downward,</t>\n    <t s=\"19\">and since man is comprised of the supernal ones and the lower ones</t>\n    <t s=\"20\">(from both of them together),</t>\n    <t s=\"21\">therefore,</t>\n    <t s=\"22\">intellect by itself or emotions by themselves are not the concept of man,</t>\n    <t s=\"23\">and the concept of man is intellect and emotions.</t>\n    <t s=\"24\">And this is59</t>\n    <t s=\"25\">also the reason that the emotions of man are based on intellect and the intellect of man is related to the emotions</t>\n    <t s=\"26\">(even though intellect and emotions are two different and even opposite matters),</t>\n    <t s=\"27\">because every aspect within him,</t>\n    <t s=\"28\">both the intellect and the emotions,</t>\n    <t s=\"29\">is from the point of his perfection which includes both of them,</t>\n    <t s=\"30\">and therefore they are related to each other.</t>\n    <t s=\"31\">And this is what is stated in the maamar, that \"man\" is intellect and emotions, etc.,</t>\n    <t s=\"32\">for in this is recognized the greatness of the elevation of man,</t>\n    <t s=\"33\">the point of perfection of the supernal ones and the lower ones.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916754_theRebbe_640",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the true essence of \"Adam\" is in the supernal Adam, and that even the \"Adam on the throne\" is only a likeness, with the ultimate level of Adam being in Atzilus and specifically in Arich.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that which is written \"for He is not a man,\""
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "[the term] \"man\" in the absolute sense"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "(even though the intent of the verse is that He is not within the category of the depiction of the supernal man),"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "is because the true and essential concept of \"man\" is in the supernal Man,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and that which the man below is called by the name \"man\" is"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "(on account of [being] \"earth from the supernal one\"49)"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "because he is similar to the supernal Man,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "and \"upon the likeness of the throne, a likeness like the appearance of a man.\"50"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "that even the man upon the throne is only \"like the appearance of a man\""
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "(with the prefix of comparison \"like\"),"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "and not man himself,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "for the true and essential concept of man is in Atzilus."
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "This is not the case regarding the man upon the throne which is in Beriah"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "(the Throne of Glory is in Beriah51),"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "which is only a likeness like the appearance of a man.52"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "And with more particularity,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "even in Atzilus there are these two aspects."
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "\"Man\" is Zeir Anpin of Atzilus,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "and Malchus of Atzilus is \"like the appearance of a man.\"53"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "And higher still,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "even Zeir Anpin is only \"like the appearance of a man,\" and the actual Man is in Arich.54"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "And this is [the meaning of] \"for He is not a man to relent,\""
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "[the term] \"man\" in the absolute sense refers to the supernal Man"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "(up to the Man of Arich),"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "and \"He is not a man\" [refers to] Atik,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "for in the level of Atik, consolation and regret are not applicable."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that the reason consolation applies to \"man\" is because man is intellect and emotions, and this also serves to highlight the great elevation of the level of \"not man.\"",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And behold, the reason for this, that in \"man\" consolation is applicable,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "is explained in the maamar,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "that \"man\" is intellect and emotions."
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "And it explains,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "that this [statement] that \"man\" is intellect and emotions,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "the intent in this is that the emotions"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "(within him)"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "are based on intellect, and the intellect"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "(within him)"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "is related to the emotions."
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "that which is stated in the maamar, that \"man\" is intellect and emotions and that the intellect and emotions within him are related to each other,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "is not only in order to explain the reason that in \"man\" consolation is applicable"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "(as will be explained),"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "but also in order to explain the greatness of the elevation of \"man\""
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "[for that \"man\" is intellect and emotions and that the intellect and emotions within him are related to each other is due to the greatness of his elevation,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "as will be explained],"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "so that through this the greatness of the elevation of the level of \"not man\" will be better understood,"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "which is above even the elevation of \"man.\""
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that man's unique quality is being comprised of all levels, from the highest to the lowest, which is why he is intellect and emotions united, reflecting a point of perfection.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And this will be understood based on the known principle55"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that man is comprised of all levels."
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "For in addition to him being comprised of all the emotions,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "as the Rambam states56"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "that animals and trees have only one action or two actions, but man performs many actions that differ from each other,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "meaning that all created beings,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "each one has a specific attribute"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "(the eagle is merciful and the raven is cruel57,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "and likewise among the angels,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "Michael [is] in love and Gavriel [is] in fear),"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "and man is comprised of all the emotions"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "[for this inclusion that is in man is that he is comprised of all matters in one level,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "[the level of] emotions],"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "behold, in addition to this, he is also comprised of all the levels,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "from the highest level to the lowest level,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "as it is stated in the Midrash58"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "that man was created from the supernal ones and from the lower ones."
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "And this is that \"man\" is intellect and emotions,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "for the nature of intellect is ascent upward and the nature of emotions is descent downward,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "and since man is comprised of the supernal ones and the lower ones"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "(from both of them together),"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "therefore,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "intellect by itself or emotions by themselves are not the concept of man,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "and the concept of man is intellect and emotions."
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "And this is59"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "also the reason that the emotions of man are based on intellect and the intellect of man is related to the emotions"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "(even though intellect and emotions are two different and even opposite matters),"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "because every aspect within him,"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "both the intellect and the emotions,"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "is from the point of his perfection which includes both of them,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "and therefore they are related to each other."
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "And this is what is stated in the maamar, that \"man\" is intellect and emotions, etc.,"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "for in this is recognized the greatness of the elevation of man,"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "the point of perfection of the supernal ones and the lower ones."
+          }
+        ]
+      }
+    ]
+  }
+}

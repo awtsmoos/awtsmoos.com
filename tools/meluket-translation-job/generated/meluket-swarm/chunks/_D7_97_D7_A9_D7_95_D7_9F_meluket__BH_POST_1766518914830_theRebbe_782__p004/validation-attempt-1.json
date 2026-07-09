@@ -1,0 +1,443 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 81,
+    "returned": 81,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914830_theRebbe_782\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914830_theRebbe_782__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section connects the verse \"I shall walk before Hashem in the lands of life\" to the two lands of the concealed world and the revealed world, explaining them as Torah study and mitzvah observance, and their two interpretations regarding drawing down from above and elevating from below.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this can be connected to the verse</t>\n    <t s=\"2\">(in Tehillim, chapter 49</t>\n    <t s=\"3\">116,</t>\n    <t s=\"4\">the chapter of the birthday</t>\n    <t s=\"5\">of last year)</t>\n    <t s=\"6\">\"I shall walk before Hashem in the lands of life,\"</t>\n    <t s=\"7\">\"lands\" in the plural,</t>\n    <t s=\"8\">and it is explained in Torah Ohr</t>\n    <t s=\"9\">that they are</t>\n    <t s=\"10\">(in general)</t>\n    <t s=\"11\">two lands,</t>\n    <t s=\"12\">the concealed world and the revealed world,</t>\n    <t s=\"13\">for these two lands are a drawing down from above to below and an elevation from below to above.</t>\n    <t s=\"14\">And this can be explained in two ways.</t>\n    <t s=\"15\">One: that the concealed world is the matter of elevation from below to above</t>\n    <t s=\"16\">(for ascent upward is a matter of self-nullification)</t>\n    <t s=\"17\">and the revealed world</t>\n    <t s=\"18\">(the matter of revelation and descent)</t>\n    <t s=\"19\">is the matter of drawing down from above to below.</t>\n    <t s=\"20\">And according to what is explained in Torah Ohr there, that the concealed world is the aspect of Leah</t>\n    <t s=\"21\">(thought)</t>\n    <t s=\"22\">and the revealed world is the aspect of Rachel</t>\n    <t s=\"23\">(speech),</t>\n    <t s=\"24\">it can be said</t>\n    <t s=\"25\">that the concealed world in the service of man is the study of Torah,</t>\n    <t s=\"26\">whose primary matter is understanding and comprehension</t>\n    <t s=\"27\">(thought),</t>\n    <t s=\"28\">and the revealed world is the fulfillment of the commandments in speech and action.</t>\n    <t s=\"29\">And based on this,</t>\n    <t s=\"30\">the concealed world is a drawing down from above to below and the revealed world is an elevation from below to above,</t>\n    <t s=\"31\">as explained at length above, that Torah is a drawing down from above to below and commandments are an elevation from below to above.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that through the service of walking before Hashem in the lands of life, one reaches the chapter of this year's birthday, which involves the elevation of the world and the powerful drawing down of divine kindness, culminating in the ultimate praise of Halleluyah in the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And through the service of \"I shall walk before Hashem in the lands of life,\"</t>\n    <t s=\"2\">one comes to the content of the chapter of the birthday</t>\n    <t s=\"3\">of this year,</t>\n    <t s=\"4\">\"Praise Hashem, all nations, etc., for His kindness has prevailed over us, etc.,\"</t>\n    <t s=\"5\">for these two matters are also the matter of elevation and drawing down.</t>\n    <t s=\"6\">\"Praise... all nations, etc.\" is the matter of refining, purifying, and elevating the world,</t>\n    <t s=\"7\">until even the nations and peoples praise and extol Hashem.</t>\n    <t s=\"8\">And \"His kindness has prevailed over us, etc.\" is the matter of drawing down from above to below,</t>\n    <t s=\"9\">for in addition to the fact that kindness</t>\n    <t s=\"10\">(in general)</t>\n    <t s=\"11\">is a drawing down from above to below,</t>\n    <t s=\"12\">here the kindness</t>\n    <t s=\"13\">(the drawing down)</t>\n    <t s=\"14\">is with force and with overcoming,</t>\n    <t s=\"15\">\"prevailed... His kindness.\"</t>\n    <t s=\"16\">And this is,</t>\n    <t s=\"17\">that the drawing down is from the very highest above,</t>\n    <t s=\"18\">the most supreme extremity,</t>\n    <t s=\"19\">and together with this the drawing down comes to the lowest below,</t>\n    <t s=\"20\">to the lowest of which there is no lower beneath it,</t>\n    <t s=\"21\">and this is what the verse continues, \"and the truth of Hashem is forever,\"</t>\n    <t s=\"22\">for the truth of Hashem is a very exalted level</t>\n    <t s=\"23\">[and it can be said that this is the matter of what the Rambam stated,</t>\n    <t s=\"24\">that all existing things exist only from the truth of His existence,</t>\n    <t s=\"25\">for the truth of His existence pertains to the name Havayah,</t>\n    <t s=\"26\">which is why the Rambam brings</t>\n    <t s=\"27\">(in the continuation of the matter there)</t>\n    <t s=\"28\">the verse</t>\n    <t s=\"29\">\"and Hashem Elokim is truth\"],</t>\n    <t s=\"30\">and nevertheless it is drawn down to the world,</t>\n    <t s=\"31\">to this physical world,</t>\n    <t s=\"32\">and within this itself, also to the nations and peoples.</t>\n    <t s=\"33\">However, after all the elevation of this drawing down,</t>\n    <t s=\"34\">it is stated in the verse</t>\n    <t s=\"35\">(not as a matter in itself,</t>\n    <t s=\"36\">but rather)</t>\n    <t s=\"37\">as a reason</t>\n    <t s=\"38\">(because)</t>\n    <t s=\"39\">for \"Praise... all nations.\"</t>\n    <t s=\"40\">For the ultimate intention of the drawing down is that through it there will afterwards be a refinement and elevation of the lower,</t>\n    <t s=\"41\">that even the nations themselves will praise Hashem.</t>\n    <t s=\"42\">And this is analogous to the elevation of \"doing charity and justice\" that comes through the precedence of the way of Hashem.</t>\n    <t s=\"43\">And the conclusion and seal of the psalm is \"Halleluyah,\"</t>\n    <t s=\"44\">for the true praise will be in the tenth song</t>\n    <t s=\"45\">in the future,</t>\n    <t s=\"46\">for then the elevation of the lower,</t>\n    <t s=\"47\">the great deed,</t>\n    <t s=\"48\">will be revealed with the coming of Mashiach Tzidkeinu, speedily in our days, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914830_theRebbe_782",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914830_theRebbe_782__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section connects the verse \"I shall walk before Hashem in the lands of life\" to the two lands of the concealed world and the revealed world, explaining them as Torah study and mitzvah observance, and their two interpretations regarding drawing down from above and elevating from below.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And this can be connected to the verse"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(in Tehillim, chapter 49"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "116,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "the chapter of the birthday"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "of last year)"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "\"I shall walk before Hashem in the lands of life,\""
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "\"lands\" in the plural,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "and it is explained in Torah Ohr"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "that they are"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "(in general)"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "two lands,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "the concealed world and the revealed world,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "for these two lands are a drawing down from above to below and an elevation from below to above."
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "And this can be explained in two ways."
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "One: that the concealed world is the matter of elevation from below to above"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "(for ascent upward is a matter of self-nullification)"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "and the revealed world"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "(the matter of revelation and descent)"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "is the matter of drawing down from above to below."
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "And according to what is explained in Torah Ohr there, that the concealed world is the aspect of Leah"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "(thought)"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "and the revealed world is the aspect of Rachel"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "(speech),"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "it can be said"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "that the concealed world in the service of man is the study of Torah,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "whose primary matter is understanding and comprehension"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "(thought),"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "and the revealed world is the fulfillment of the commandments in speech and action."
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "And based on this,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "the concealed world is a drawing down from above to below and the revealed world is an elevation from below to above,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "as explained at length above, that Torah is a drawing down from above to below and commandments are an elevation from below to above."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that through the service of walking before Hashem in the lands of life, one reaches the chapter of this year's birthday, which involves the elevation of the world and the powerful drawing down of divine kindness, culminating in the ultimate praise of Halleluyah in the future redemption.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And through the service of \"I shall walk before Hashem in the lands of life,\""
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "one comes to the content of the chapter of the birthday"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "of this year,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "\"Praise Hashem, all nations, etc., for His kindness has prevailed over us, etc.,\""
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "for these two matters are also the matter of elevation and drawing down."
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "\"Praise... all nations, etc.\" is the matter of refining, purifying, and elevating the world,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "until even the nations and peoples praise and extol Hashem."
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "And \"His kindness has prevailed over us, etc.\" is the matter of drawing down from above to below,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "for in addition to the fact that kindness"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "(in general)"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "is a drawing down from above to below,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "here the kindness"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "(the drawing down)"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "is with force and with overcoming,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "\"prevailed... His kindness.\""
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "And this is,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "that the drawing down is from the very highest above,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "the most supreme extremity,"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "and together with this the drawing down comes to the lowest below,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "to the lowest of which there is no lower beneath it,"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "and this is what the verse continues, \"and the truth of Hashem is forever,\""
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "for the truth of Hashem is a very exalted level"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "[and it can be said that this is the matter of what the Rambam stated,"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "that all existing things exist only from the truth of His existence,"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "for the truth of His existence pertains to the name Havayah,"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "which is why the Rambam brings"
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "(in the continuation of the matter there)"
+          },
+          {
+            "v": 10,
+            "s": 28,
+            "translation": "the verse"
+          },
+          {
+            "v": 10,
+            "s": 29,
+            "translation": "\"and Hashem Elokim is truth\"],"
+          },
+          {
+            "v": 10,
+            "s": 30,
+            "translation": "and nevertheless it is drawn down to the world,"
+          },
+          {
+            "v": 10,
+            "s": 31,
+            "translation": "to this physical world,"
+          },
+          {
+            "v": 10,
+            "s": 32,
+            "translation": "and within this itself, also to the nations and peoples."
+          },
+          {
+            "v": 10,
+            "s": 33,
+            "translation": "However, after all the elevation of this drawing down,"
+          },
+          {
+            "v": 10,
+            "s": 34,
+            "translation": "it is stated in the verse"
+          },
+          {
+            "v": 10,
+            "s": 35,
+            "translation": "(not as a matter in itself,"
+          },
+          {
+            "v": 10,
+            "s": 36,
+            "translation": "but rather)"
+          },
+          {
+            "v": 10,
+            "s": 37,
+            "translation": "as a reason"
+          },
+          {
+            "v": 10,
+            "s": 38,
+            "translation": "(because)"
+          },
+          {
+            "v": 10,
+            "s": 39,
+            "translation": "for \"Praise... all nations.\""
+          },
+          {
+            "v": 10,
+            "s": 40,
+            "translation": "For the ultimate intention of the drawing down is that through it there will afterwards be a refinement and elevation of the lower,"
+          },
+          {
+            "v": 10,
+            "s": 41,
+            "translation": "that even the nations themselves will praise Hashem."
+          },
+          {
+            "v": 10,
+            "s": 42,
+            "translation": "And this is analogous to the elevation of \"doing charity and justice\" that comes through the precedence of the way of Hashem."
+          },
+          {
+            "v": 10,
+            "s": 43,
+            "translation": "And the conclusion and seal of the psalm is \"Halleluyah,\""
+          },
+          {
+            "v": 10,
+            "s": 44,
+            "translation": "for the true praise will be in the tenth song"
+          },
+          {
+            "v": 10,
+            "s": 45,
+            "translation": "in the future,"
+          },
+          {
+            "v": 10,
+            "s": 46,
+            "translation": "for then the elevation of the lower,"
+          },
+          {
+            "v": 10,
+            "s": 47,
+            "translation": "the great deed,"
+          },
+          {
+            "v": 10,
+            "s": 48,
+            "translation": "will be revealed with the coming of Mashiach Tzidkeinu, speedily in our days, literally."
+          }
+        ]
+      }
+    ]
+  }
+}

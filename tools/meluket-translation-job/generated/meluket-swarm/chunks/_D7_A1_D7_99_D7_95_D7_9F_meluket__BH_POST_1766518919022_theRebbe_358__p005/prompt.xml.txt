@@ -1,0 +1,151 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518919022_theRebbe_358" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518919022_theRebbe_358__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518919022_theRebbe_358" title="מאמר ואהי אצלו אמון תשכ"א" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518919022_theRebbe_358__p005">
+  <section v="12">
+    <src s="0">ז)</src>
+    <src s="1">והנה ההכנה למתן תורה הוא ענין ספירת העומר.</src>
+    <src s="2">דהנה,</src>
+    <src s="3">ספירת העומר הוא ענין הבירורים,</src>
+    <src s="4">ועז"נ וספרתם לכם ממחרת השבת,</src>
+    <src s="5">דמחרת השבת הוא למעלה מבחינת שבת,</src>
+    <src s="6">והיינו,</src>
+    <src s="7">ששבת</src>
+    <src s="8">(שנאמר כאן)</src>
+    <src s="9">הוא בחינת מנוחה שאחרי היגיעה,</src>
+    <src s="10">ומחרת השבת הוא בחינת מנוחה בעצם,</src>
+    <src s="11">שהוא בחינת עצם התענוג.</src>
+    <src s="12">ומבחינה זו נמשך הנתינת כח על עבודת הבירורים.</src>
+    <src s="13">וע"ד משנת"ל בענין עשיית מלאכה,</src>
+    <src s="14">שעשיית המלאכה היא מצד התענוג שיש לו בהדבר,</src>
+    <src s="15">שמשום זה הוא יורד בכח העשי' שלו ובשאר כחותיו לעשות המלאכה.</src>
+    <src s="16">ועד"ז יובן למעלה,</src>
+    <src s="17">שהכח על הירידה בעבודת הבירורים הוא מבחינת מחרת השבת,</src>
+    <src s="18">עצם התענוג.</src>
+    <src s="19">וזהו וספרתם לכם ממחרת השבת גו',</src>
+    <src s="20">שמבחינת מחרת השבת נמשך הנתינת כח על עבודת הבירורים דספירת העומר,</src>
+    <src s="21">דפירוש וספרתם הוא כפירוש כ"ק אדמו"ר הזקן72</src>
+    <src s="22">מלשון ספירות ובהירות,</src>
+    <src s="23">שצריך לברר את כל המדות ולעשותם שיהיו ספירות ובהירות.</src>
+    <src s="24">ועי"ז נמשך אח"כ בחג השבועות בחינת מקיף החוזר,</src>
+    <src s="25">שעז"נ עד ממחרת השבת השביעית תספרו חמישים יום,</src>
+    <src s="26">שהוא גילוי בחינת תענוג הבלתי מורגש.</src>
+    <src s="27">דעיקר גילוי זה יהי' לעתיד ביום שכולו שבת ומנוחה,</src>
+    <src s="28">ומעין זה מאיר גם בסעודה שלישית דשבת כנ"ל.</src>
+    <src s="29">וגם ביומא דשבתא ובמעלי שבתא מאיר מעין בחינה זו,</src>
+    <src s="30">שלכן אומרים אז מזמור שיר ליום השבת73,</src>
+    <src s="31">יום שכולו שבת ומנוחה74.</src>
+  </section>
+  <section v="13">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שיציאת מצרים היתה הכנה למתן תורה,</src>
+    <src s="2">דהכנה צריכה להיות מעין זה שמכינים,</src>
+    <src s="3">הוא מפני שגם ביציאת מצרים הי'</src>
+    <src s="4">(בהעלם)</src>
+    <src s="5">גם בחינת מנוחה בעצם,</src>
+    <src s="6">עצם האורה.</src>
+    <src s="7">וזהו מ"ש75</src>
+    <src s="8">בהוציאך את העם ממצרים תעבדון את האלקים על ההר הזה,</src>
+    <src s="9">כי גם ביציאת מצרים הי' הענין שהאיר במתן תורה,</src>
+    <src s="10">אלא שביציאת מצרים הי' זה בהעלם,</src>
+    <src s="11">ובמתן תורה נמשך בגילוי.</src>
+    <src s="12">וזהו וספרתם לכם ממחרת השבת,</src>
+    <src s="13">דזה שגם יציאת מצרים נקרא מחרת השבת,</src>
+    <src s="14">הוא לפי שביציאת מצרים הי' גם עצם האור,</src>
+    <src s="15">בחינת מנוחה בעצם,</src>
+    <src s="16">אלא שמה שנמשך אז בגילוי הי' בשביל מכת בכורות,</src>
+    <src s="17">מנוחה שאחרי המלחמה,</src>
+    <src s="18">אבל בהעלם הי' בזה גם בחינת מנוחה בעצם.</src>
+    <src s="19">ולהוסיף,</src>
+    <src s="20">דכיון שמהענין דמחרת השבת שביציאת מצרים נמשך הנתינת כח על ספירת העומר,</src>
+    <src s="21">וספרתם לכם ממחרת השבת,</src>
+    <src s="22">לכן,</src>
+    <src s="23">יש דוגמת ענין זה גם בספירת העומר.</src>
+    <src s="24">דהנה,</src>
+    <src s="25">בספירת העומר נאמר שבע שבתות תמימות תהיינה,</src>
+    <src s="26">שבכל ספירה צריכה להיות תמימות,</src>
+    <src s="27">שלכן אם החסיר לספור פעם אחת אזי חסר בכל ימי הספירה76,</src>
+    <src s="28">לפי שכל אחת צריכה להיות בתמימות,</src>
+    <src s="29">ויתירה מזה,</src>
+    <src s="30">שכל אחת צריכה להיות בשלימות</src>
+    <src s="31">[דאמיתית ענין התמימות הוא</src>
+    <src s="32">(לא רק שאין בו חסרון,</src>
+    <src s="33">אלא)</src>
+    <src s="34">גם ענין השלימות,</src>
+    <src s="35">כתורת הבעש"ט77</src>
+    <src s="36">עה"פ78</src>
+    <src s="37">תורת ה' תמימה – "והיא שלימה",</src>
+    <src s="38">כמשנת"ל79.</src>
+    <src s="39">ועפ"ז יש לומר,</src>
+    <src s="40">דזה שבכל ספירה צריכה להיות תמימות,</src>
+    <src s="41">הוא</src>
+    <src s="42">(לא רק שלא יהי' חסרון,</src>
+    <src s="43">אלא)</src>
+    <src s="44">שיהי' בה גם שלימות],</src>
+    <src s="45">וענין התמימות ושלימות הוא מנוחה בעצם.</src>
+    <src s="46">ועי"ז נמשך להיות אח"כ מחרת השבת השביעית,</src>
+    <src s="47">גילוי תענוג העצמי,</src>
+    <src s="48">בשעת מתן תורה.</src>
+  </section>
+  <section v="14">
+    <src s="0">ח)</src>
+    <src s="1">וזהו ואהי' אצלו אמון גו' שעשועים,</src>
+    <src s="2">שבמתן תורה הי' המשכת שעשועים העצמיים,</src>
+    <src s="3">דזהו אנכי הוי' אלקיך,</src>
+    <src s="4">אנכי מי שאנכי,</src>
+    <src s="5">דלא אתרמיז לא בשום אות ולא בשום קוץ,</src>
+    <src s="6">היינו,</src>
+    <src s="7">שבמ"ת הי' המשכת העצמות.</src>
+    <src s="8">אלא שבתחילה הוצרך להיות יציאת מצרים וספירת העומר,</src>
+    <src s="9">ואחרי הכנה זו הי' הגילוי דמתן תורה,</src>
+    <src s="10">תענוג הבלתי מורגש,</src>
+    <src s="11">בחינת מנוחה בעצם.</src>
+    <src s="12">וכמו"כ יהי' גם בגאולה העתידה,</src>
+    <src s="13">דמשיח הוא איש שלום,</src>
+    <src s="14">בחינת מנוחה בעצם.</src>
+    <src s="15">אך בהזמן דלעתיד גופא יהיו כמה מדריגות80,</src>
+    <src s="16">כמאמר רז"ל81</src>
+    <src s="17">אריסטון</src>
+    <src s="18">(סעודה)</src>
+    <src s="19">עתיד הקב"ה לעשות לעבדיו הצדיקים,</src>
+    <src s="20">שהוא דוגמת מנוחה שלאחרי מלחמה,</src>
+    <src s="21">תענוג המורגש,</src>
+    <src s="22">ואח"כ יהי' יום שכולו שבת ומנוחה,</src>
+    <src s="23">תענוג הבלתי מורגש.</src>
+    <src s="24">ואז תושלם כוונת הבריאה ותכלית הכוונה דמתן תורה,</src>
+    <src s="25">שיהי' ונגלה כבוד הוי' וראו כל בשר גו'82,</src>
+    <src s="26">שיהי' הוי' אחד ושמו אחד83,</src>
+    <src s="27">כמו שאני נכתב אני נקרא84.</src>
+  </section>
+</awtsmoosMeluketSource>

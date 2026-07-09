@@ -1,0 +1,424 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 76,
+    "returned": 76,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919765_theRebbe_137\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>Although the darkness of exile will be nullified by a new light beyond relation to worlds, the world itself will not remain in exile because the essential light will also illuminate the light that illuminates the worlds.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And it is necessary to understand,</t>\n    <t s=\"2\">for seemingly,</t>\n    <t s=\"3\">since from the perspective of the light that illuminates the worlds it is impossible for darkness to be nullified</t>\n    <t s=\"4\">(and it is only pushed aside by the light),</t>\n    <t s=\"5\">and that in the future redemption the darkness of exile will be nullified,</t>\n    <t s=\"6\">is because then there will be a revelation of a new light that is above relation to worlds,</t>\n    <t s=\"7\">then the world itself</t>\n    <t s=\"8\">(as it is from the perspective of its limitations,</t>\n    <t s=\"9\">including also the revelations that are related to the world)</t>\n    <t s=\"10\">would remain in exile, heaven forbid.</t>\n    <t s=\"11\">And the point of the explanation of this,</t>\n    <t s=\"12\">is from the reasons</t>\n    <t s=\"13\">for this, that creation was in such a manner that initially there is the light that is above relation to worlds, and specifically from it is drawn the light that illuminates the worlds</t>\n    <t s=\"14\">(even though seemingly there should have been from the outset a drawing down of light that is relevant to worlds),</t>\n    <t s=\"15\">is,</t>\n    <t s=\"16\">in order that the light that is relevant to worlds will contain within it</t>\n    <t s=\"17\">(in concealment, at least)</t>\n    <t s=\"18\">something of the light that is above relation to worlds.</t>\n    <t s=\"19\">And based on this it is understood,</t>\n    <t s=\"20\">that even though the nullification of the darkness of exile will be through the revelation of the essential light that is above the light that illuminates the worlds,</t>\n    <t s=\"21\">nevertheless the redemption will be</t>\n    <t s=\"22\">(also)</t>\n    <t s=\"23\">within the limitations of the world,</t>\n    <t s=\"24\">for the revelation of the essential light that will be in the future redemption will illuminate in revelation also within the light that illuminates the worlds,</t>\n    <t s=\"25\">and through this—within the world.</t>\n  </section>\n  <section v=\"19\">\n    <sectionSummaryBrief>The connection of the topics in the maamar to the nullification of the darkness of exile is that the explanation of the nature of ratzo and inclusion applies even to light clothed in vessels, so that the nullification will be within the world's limitations.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, one can explain the connection of the topics in the maamar to the nullification of the darkness of exile,</t>\n    <t s=\"1\">that this which the maamar elaborates on the matter of the inclusion of light in its source,</t>\n    <t s=\"2\">one can say,</t>\n    <t s=\"3\">is because the nullification of the darkness of exile is through the revelation of the included light</t>\n    <t s=\"4\">(as above, section 8).</t>\n    <t s=\"5\">And this which it explains that the nature of ratzo and inclusion is also in the light that is in the category of enclothing and also in the light that is clothed in vessels,</t>\n    <t s=\"6\">is,</t>\n    <t s=\"7\">because in order that the nullification of the darkness of exile</t>\n    <t s=\"8\">(which is from the revelation of the included light)</t>\n    <t s=\"9\">will be within the limitations of the world,</t>\n    <t s=\"10\">it is through the fact that the matter of the inclusion of light in its source is also in the light that is clothed in vessels.</t>\n  </section>\n  <section v=\"20\">\n    <sectionSummaryBrief>The verse \"He set a limit for darkness\" means that darkness has a place only in light that illuminates worlds, not in essential light, and by giving darkness a limit at its beginning, the future nullification of darkness will also be within the world.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And this is the explanation:)</t>\n    <t s=\"2\">And this is \"He set a limit for darkness,\"</t>\n    <t s=\"3\">for one can say,</t>\n    <t s=\"4\">that the meaning of the word \"limit\" in this verse is</t>\n    <t s=\"5\">(also)</t>\n    <t s=\"6\">a limit</t>\n    <t s=\"7\">(and boundary)</t>\n    <t s=\"8\">to its beginning.</t>\n    <t s=\"9\">That is,</t>\n    <t s=\"10\">that the matter of darkness has a place only in the light that illuminates the worlds,</t>\n    <t s=\"11\">and not in the essential light.</t>\n    <t s=\"12\">And it says \"He set a limit for darkness\"</t>\n    <t s=\"13\">(that this that there is a limit to darkness is because He set a limit for it,</t>\n    <t s=\"14\">but from its own perspective it has no limit),</t>\n    <t s=\"15\">for this that darkness has no place in the essential light that is not in the category of worlds,</t>\n    <t s=\"16\">is not relevant to the world.</t>\n    <t s=\"17\">And since from the perspective of the limitation of the world it has no limit at its beginning</t>\n    <t s=\"18\">(because it has a place in all the levels that are relevant to worlds),</t>\n    <t s=\"19\">then also the limit at its end,</t>\n    <t s=\"20\">that in the future the darkness will be nullified,</t>\n    <t s=\"21\">would not, heaven forbid, be within the limitations of the world.</t>\n    <t s=\"22\">Therefore \"He set a limit for darkness,\"</t>\n    <t s=\"23\">a limit at its beginning,</t>\n    <t s=\"24\">that the light that is not in the category of worlds,</t>\n    <t s=\"25\">where there is no place for darkness,</t>\n    <t s=\"26\">will be relevant to the world.</t>\n    <t s=\"27\">And through this,</t>\n    <t s=\"28\">also the limit at its end,</t>\n    <t s=\"29\">the nullification of darkness that will be in the future redemption,</t>\n    <t s=\"30\">will be within the world, in its innerness.</t>\n    <t s=\"31\">For even though the nullification of darkness that will be in the future is through the revelation of a new light that is above relation to worlds,</t>\n    <t s=\"32\">nevertheless,</t>\n    <t s=\"33\">the world will be a vessel also for this light,</t>\n    <t s=\"34\">and through this the intention of a dwelling place for Him, blessed be He, in the lower realms will be completed,</t>\n    <t s=\"35\">that the lower realm</t>\n    <t s=\"36\">(from the perspective of its limitations)</t>\n    <t s=\"37\">will be a dwelling place for Him, blessed be He,</t>\n    <t s=\"38\">for Him, for His very Essence.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919765_theRebbe_137",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "Although the darkness of exile will be nullified by a new light beyond relation to worlds, the world itself will not remain in exile because the essential light will also illuminate the light that illuminates the worlds.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "And it is necessary to understand,"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "since from the perspective of the light that illuminates the worlds it is impossible for darkness to be nullified"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "(and it is only pushed aside by the light),"
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "and that in the future redemption the darkness of exile will be nullified,"
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "is because then there will be a revelation of a new light that is above relation to worlds,"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "then the world itself"
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "(as it is from the perspective of its limitations,"
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "including also the revelations that are related to the world)"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "would remain in exile, heaven forbid."
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "And the point of the explanation of this,"
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "is from the reasons"
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "for this, that creation was in such a manner that initially there is the light that is above relation to worlds, and specifically from it is drawn the light that illuminates the worlds"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "(even though seemingly there should have been from the outset a drawing down of light that is relevant to worlds),"
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "is,"
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "in order that the light that is relevant to worlds will contain within it"
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "(in concealment, at least)"
+          },
+          {
+            "v": 18,
+            "s": 18,
+            "translation": "something of the light that is above relation to worlds."
+          },
+          {
+            "v": 18,
+            "s": 19,
+            "translation": "And based on this it is understood,"
+          },
+          {
+            "v": 18,
+            "s": 20,
+            "translation": "that even though the nullification of the darkness of exile will be through the revelation of the essential light that is above the light that illuminates the worlds,"
+          },
+          {
+            "v": 18,
+            "s": 21,
+            "translation": "nevertheless the redemption will be"
+          },
+          {
+            "v": 18,
+            "s": 22,
+            "translation": "(also)"
+          },
+          {
+            "v": 18,
+            "s": 23,
+            "translation": "within the limitations of the world,"
+          },
+          {
+            "v": 18,
+            "s": 24,
+            "translation": "for the revelation of the essential light that will be in the future redemption will illuminate in revelation also within the light that illuminates the worlds,"
+          },
+          {
+            "v": 18,
+            "s": 25,
+            "translation": "and through this—within the world."
+          }
+        ]
+      },
+      {
+        "v": 19,
+        "sectionSummaryBrief": "The connection of the topics in the maamar to the nullification of the darkness of exile is that the explanation of the nature of ratzo and inclusion applies even to light clothed in vessels, so that the nullification will be within the world's limitations.",
+        "translations": [
+          {
+            "v": 19,
+            "s": 0,
+            "translation": "And based on this, one can explain the connection of the topics in the maamar to the nullification of the darkness of exile,"
+          },
+          {
+            "v": 19,
+            "s": 1,
+            "translation": "that this which the maamar elaborates on the matter of the inclusion of light in its source,"
+          },
+          {
+            "v": 19,
+            "s": 2,
+            "translation": "one can say,"
+          },
+          {
+            "v": 19,
+            "s": 3,
+            "translation": "is because the nullification of the darkness of exile is through the revelation of the included light"
+          },
+          {
+            "v": 19,
+            "s": 4,
+            "translation": "(as above, section 8)."
+          },
+          {
+            "v": 19,
+            "s": 5,
+            "translation": "And this which it explains that the nature of ratzo and inclusion is also in the light that is in the category of enclothing and also in the light that is clothed in vessels,"
+          },
+          {
+            "v": 19,
+            "s": 6,
+            "translation": "is,"
+          },
+          {
+            "v": 19,
+            "s": 7,
+            "translation": "because in order that the nullification of the darkness of exile"
+          },
+          {
+            "v": 19,
+            "s": 8,
+            "translation": "(which is from the revelation of the included light)"
+          },
+          {
+            "v": 19,
+            "s": 9,
+            "translation": "will be within the limitations of the world,"
+          },
+          {
+            "v": 19,
+            "s": 10,
+            "translation": "it is through the fact that the matter of the inclusion of light in its source is also in the light that is clothed in vessels."
+          }
+        ]
+      },
+      {
+        "v": 20,
+        "sectionSummaryBrief": "The verse \"He set a limit for darkness\" means that darkness has a place only in light that illuminates worlds, not in essential light, and by giving darkness a limit at its beginning, the future nullification of darkness will also be within the world.",
+        "translations": [
+          {
+            "v": 20,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 20,
+            "s": 1,
+            "translation": "And this is the explanation:)"
+          },
+          {
+            "v": 20,
+            "s": 2,
+            "translation": "And this is \"He set a limit for darkness,\""
+          },
+          {
+            "v": 20,
+            "s": 3,
+            "translation": "for one can say,"
+          },
+          {
+            "v": 20,
+            "s": 4,
+            "translation": "that the meaning of the word \"limit\" in this verse is"
+          },
+          {
+            "v": 20,
+            "s": 5,
+            "translation": "(also)"
+          },
+          {
+            "v": 20,
+            "s": 6,
+            "translation": "a limit"
+          },
+          {
+            "v": 20,
+            "s": 7,
+            "translation": "(and boundary)"
+          },
+          {
+            "v": 20,
+            "s": 8,
+            "translation": "to its beginning."
+          },
+          {
+            "v": 20,
+            "s": 9,
+            "translation": "That is,"
+          },
+          {
+            "v": 20,
+            "s": 10,
+            "translation": "that the matter of darkness has a place only in the light that illuminates the worlds,"
+          },
+          {
+            "v": 20,
+            "s": 11,
+            "translation": "and not in the essential light."
+          },
+          {
+            "v": 20,
+            "s": 12,
+            "translation": "And it says \"He set a limit for darkness\""
+          },
+          {
+            "v": 20,
+            "s": 13,
+            "translation": "(that this that there is a limit to darkness is because He set a limit for it,"
+          },
+          {
+            "v": 20,
+            "s": 14,
+            "translation": "but from its own perspective it has no limit),"
+          },
+          {
+            "v": 20,
+            "s": 15,
+            "translation": "for this that darkness has no place in the essential light that is not in the category of worlds,"
+          },
+          {
+            "v": 20,
+            "s": 16,
+            "translation": "is not relevant to the world."
+          },
+          {
+            "v": 20,
+            "s": 17,
+            "translation": "And since from the perspective of the limitation of the world it has no limit at its beginning"
+          },
+          {
+            "v": 20,
+            "s": 18,
+            "translation": "(because it has a place in all the levels that are relevant to worlds),"
+          },
+          {
+            "v": 20,
+            "s": 19,
+            "translation": "then also the limit at its end,"
+          },
+          {
+            "v": 20,
+            "s": 20,
+            "translation": "that in the future the darkness will be nullified,"
+          },
+          {
+            "v": 20,
+            "s": 21,
+            "translation": "would not, heaven forbid, be within the limitations of the world."
+          },
+          {
+            "v": 20,
+            "s": 22,
+            "translation": "Therefore \"He set a limit for darkness,\""
+          },
+          {
+            "v": 20,
+            "s": 23,
+            "translation": "a limit at its beginning,"
+          },
+          {
+            "v": 20,
+            "s": 24,
+            "translation": "that the light that is not in the category of worlds,"
+          },
+          {
+            "v": 20,
+            "s": 25,
+            "translation": "where there is no place for darkness,"
+          },
+          {
+            "v": 20,
+            "s": 26,
+            "translation": "will be relevant to the world."
+          },
+          {
+            "v": 20,
+            "s": 27,
+            "translation": "And through this,"
+          },
+          {
+            "v": 20,
+            "s": 28,
+            "translation": "also the limit at its end,"
+          },
+          {
+            "v": 20,
+            "s": 29,
+            "translation": "the nullification of darkness that will be in the future redemption,"
+          },
+          {
+            "v": 20,
+            "s": 30,
+            "translation": "will be within the world, in its innerness."
+          },
+          {
+            "v": 20,
+            "s": 31,
+            "translation": "For even though the nullification of darkness that will be in the future is through the revelation of a new light that is above relation to worlds,"
+          },
+          {
+            "v": 20,
+            "s": 32,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 20,
+            "s": 33,
+            "translation": "the world will be a vessel also for this light,"
+          },
+          {
+            "v": 20,
+            "s": 34,
+            "translation": "and through this the intention of a dwelling place for Him, blessed be He, in the lower realms will be completed,"
+          },
+          {
+            "v": 20,
+            "s": 35,
+            "translation": "that the lower realm"
+          },
+          {
+            "v": 20,
+            "s": 36,
+            "translation": "(from the perspective of its limitations)"
+          },
+          {
+            "v": 20,
+            "s": 37,
+            "translation": "will be a dwelling place for Him, blessed be He,"
+          },
+          {
+            "v": 20,
+            "s": 38,
+            "translation": "for Him, for His very Essence."
+          }
+        ]
+      }
+    ]
+  }
+}

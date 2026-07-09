@@ -1,0 +1,174 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916846_theRebbe_939" title="מאמר באתי לגני תשל"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p006">
+  <section v="15">
+    <src s="0">וע"פ הנ"ל</src>
+    <src s="1">(סעיף ב)</src>
+    <src s="2">שבעיקר שכינה בתחתונים מודגשים שני ענינים – עיקר שכינה</src>
+    <src s="3">(שלמעלה מעולמות),</src>
+    <src s="4">ובתחתונים</src>
+    <src s="5">(דזה שעיקר בתחתונים הוא</src>
+    <src s="6">(גם)</src>
+    <src s="7">מצד ענינם דהתחתונים)</src>
+    <src s="8">– יש לומר,</src>
+    <src s="9">שהיתרון בהמשכת עיקר שכינה בתחתונים לאחרי שנסתלקה לגבי כמו שהיתה בתחלת הבריאה,</src>
+    <src s="10">הוא בשני הענינים.</src>
+    <src s="11">שהגילוי אלקות שנמשך ע"י עבודת האדם עכשיו הוא גילוי נעלה יותר מהגילוי שנמשך ע"י עבודת אדה"ר קודם החטא,</src>
+    <src s="12">ושהמשכת הגילוי בעולם</src>
+    <src s="13">(בתחתונים)</src>
+    <src s="14">עכשיו הוא בפנימיות יותר.</src>
+  </section>
+  <section v="16">
+    <src s="0">ו)</src>
+    <src s="1">ויובן זה בהקדים ביאור בהמובא לעיל דהגם שחטא</src>
+    <src s="2">(חטא עה"ד,</src>
+    <src s="3">וכן כל החטאים)</src>
+    <src s="4">הוא היפך רצון העליון,</src>
+    <src s="5">מ"מ הוא בכוונה.</src>
+    <src s="6">והענין הוא כמ"ש בעל ההילולא בהמאמרים דחג הגאולה42,</src>
+    <src s="7">דכמו שכל דבר שלמטה יש לו שרש ומקור למעלה,</src>
+    <src s="8">עד"ז הוא בנוגע לחטא ועון,</src>
+    <src s="9">שיש סיבה ונתינת מקום על זה למעלה.</src>
+    <src s="10">ומביא הוכחה על זה מחטא הראשון שהי' בעולם,</src>
+    <src s="11">הוא חטא עה"ד.</src>
+    <src s="12">דלכאורה יפלא,</src>
+    <src s="13">הרי אדה"ר הי' בתכלית העילוי הן מצד נפשו שחכמתו היתה גדולה יותר מחכמת שכלים הנבדלים43</src>
+    <src s="14">והן מצד גופו שגופו של אדה"ר הי' יציר כפיו של הקב"ה44</src>
+    <src s="15">ועקבו של אדה"ר הי' מכהה גלגל חמה45,</src>
+    <src s="16">ואיך שייך שחטא ועבר על ציווי ה'.</src>
+    <src s="17">ולהוסיף,</src>
+    <src s="18">שע"פ מאמר רז"ל46</src>
+    <src s="19">דהטעם שנברא האדם יחידי הוא ללמדנו שכל אחד מישראל הוא דוגמת אדה"ר,</src>
+    <src s="20">יש לומר,</src>
+    <src s="21">דהפלא איך שייך ענין החטא הוא גם בכאו"א מישראל47.</src>
+    <src s="22">דכיון שנפש השנית שבו היא חלק אלוקה ממעל ממש48,</src>
+    <src s="23">וגם בנוגע להגוף דישראל נאמר49</src>
+    <src s="24">ובנו בחרת מכל עם ולשון ואיתא בתניא50</src>
+    <src s="25">שזה קאי על הגוף החומרי שנדמה בחומריותו לגופי אומות העולם,</src>
+    <src s="26">וע"פ הידוע51</src>
+    <src s="27">שאמיתית ענין הבחירה הוא בהעצמות,</src>
+    <src s="28">מובן,</src>
+    <src s="29">שבהגוף דישראל יש יתרון גם לגבי הנשמה,</src>
+    <src s="30">שבו</src>
+    <src s="31">(בהגוף)</src>
+    <src s="32">דוקא הוא בחירת העצמות,</src>
+    <src s="33">איך שייך שיהי' בישראל חטא.</src>
+    <src s="34">והביאור בזה</src>
+    <src s="35">(במאמר הנ"ל דבעל ההילולא),</src>
+    <src s="36">שהסיבה והנתינת מקום לחטא</src>
+    <src s="37">(כפשוטו,</src>
+    <src s="38">למטה)</src>
+    <src s="39">בהענינים דלמעלה הוא מיעוט הירח52.</src>
+    <src s="40">ולמעלה יותר,</src>
+    <src s="41">הסיבה ונתינת מקום לחטא הוא – שבירת הכלים דתוהו.</src>
+    <src s="42">היינו דבריאת עולם התוהו,</src>
+    <src s="43">עולם שלא אהנייא לי'53</src>
+    <src s="44">(שלכן הי' בו השבירה),</src>
+    <src s="45">הוא</src>
+    <src s="46">(כמו)</src>
+    <src s="47">היפך הרצון.</src>
+    <src s="48">ולכן הוא סיבה ונתינת מקום לחטא.</src>
+    <src s="49">ולמעלה יותר,</src>
+    <src s="50">הסיבה ונתינת מקום לחטא הוא – צמצום הראשון שהי' בדרך סילוק.</src>
+    <src s="51">כי רצון העליון הוא שיהי' גילוי אור,</src>
+    <src s="52">וסילוק האור</src>
+    <src s="53">(צמצום הראשון)</src>
+    <src s="54">הוא</src>
+    <src s="55">(כמו)</src>
+    <src s="56">היפך הרצון</src>
+    <src s="57">[דהגם שכוונת הצמצום היא בשביל הגילוי,</src>
+    <src s="58">הרי הצמצום עצמו הוא היפך הרצון54].</src>
+    <src s="59">והענין דהיפך הרצון</src>
+    <src s="60">(כביכול)</src>
+    <src s="61">שבצמצום הראשון הוא סיבה ונתינת מקום</src>
+    <src s="62">(ע"י שבירת הכלים דתוהו ומיעוט הירח)</src>
+    <src s="63">לחטא,</src>
+    <src s="64">היפך הרצון כפשוטו.</src>
+  </section>
+  <section v="17">
+    <src s="0">ולהעיר,</src>
+    <src s="1">שההוכחה על זה שגם ענין דהיפך הרצון הוא בכוונה,</src>
+    <src s="2">הוא בעיקר מצמצום הראשון.</src>
+    <src s="3">כי מיעוט הירח,</src>
+    <src s="4">הגם שהקב"ה המעיט את הירח,</src>
+    <src s="5">הרי הסיבה לזה הי' קטרוג הלבנה55.</src>
+    <src s="6">וגם שבירת הכלים דתוהו,</src>
+    <src s="7">הגם שבריאת עולם התוהו מלכתחילה היתה באופן דבונה על מנת לסתור56,</src>
+    <src s="8">יש לומר,</src>
+    <src s="9">דע"י שהי' הצמצום,</src>
+    <src s="10">שהוא שרש התהוות העולמות,</src>
+    <src s="11">נקבע שהתהוות עולם התיקון תהי' לאחרי בנין וסתירת התוהו57,</src>
+    <src s="12">בונה על מנת לסתור וסותר על מנת לבנות56.</src>
+    <src s="13">ועיקר ההוכחה על זה שגם ענין דהיפך הרצון הוא שלא במקרה ח"ו אלא בכוונה הוא מצמצום הראשון.</src>
+    <src s="14">דבנוגע להצמצום א"א לומר שהי' הכרח כביכול בהצמצום בכדי שיוכל להיות התהוות העולמות,</src>
+    <src s="15">שהרי כל הענין דהתהוות העולמות</src>
+    <src s="16">(עולם לשון העלם58)</src>
+    <src s="17">הוא מצד הצמצום.</src>
+    <src s="18">דהרצון לעולמות באוא"ס שלפני הצמצום הוא שיהיו עולמות שבהם יהי' גילוי האור.</src>
+    <src s="19">דכיון שענין האור הוא גילוי,</src>
+    <src s="20">גם הרצון לעולמות שהי' בהאור הוא</src>
+    <src s="21">(לא להעולמות עצמם,</src>
+    <src s="22">אלא)</src>
+    <src s="23">להגילוי שיהי' בעולמות.</src>
+    <src s="24">ומזה מובן,</src>
+    <src s="25">דהכוונה בהצמצום</src>
+    <src s="26">[סילוק האור,</src>
+    <src s="27">בכדי שיתהוו עולמות שענינם הוא העלם]</src>
+    <src s="28">היא לא רק בכדי שעי"ז יושלם הרצון לעולמות שהי' תחלה בהאור שקודם הצמצום59,</src>
+    <src s="29">אלא שיש בזה עוד כוונה60,</src>
+    <src s="30">שהיא היפך הרצון שהי' תחלה61.</src>
+    <src s="31">והיינו,</src>
+    <src s="32">דכוונת הצמצום כמו שהיא בהאור</src>
+    <src s="33">(שאוא"ס צמצם עצמו)</src>
+    <src s="34">הוא שיהי' גילוי בהעולמות שיתהוו מהצמצום,</src>
+    <src s="35">וכוונת הצמצום כמו שהיא בהצמצום עצמו היא – שבו מתגלה ענין ההעלם שלמעלה מגילוי,</src>
+    <src s="36">והוא שהעצמות אינו מוכרח ח"ו בענין הגילוי וביכלתו להיות</src>
+    <src s="37">(גם)</src>
+    <src s="38">בהעלם.</src>
+    <src s="39">אלא שגילוי ענין ההעלם</src>
+    <src s="40">[שההעלם הוא מפני שהעצמות אינו מוכרח ח"ו בענין הגילוי]</src>
+    <src s="41">הוא ע"י הגילוי שנמשך אחרי הצמצום.</src>
+    <src s="42">דע"י הגילוי שנמשך בעולמות שנתהוו מהצמצום,</src>
+    <src s="43">יכולים הם להרגיש</src>
+    <src s="44">(נוסף על הרגש הגילוי)</src>
+    <src s="45">גם שרש וסיבת ההעלם שבהם,</src>
+    <src s="46">שהוא מצד יכולת העצמות.</src>
+    <src s="47">[ויש לקשר זה עם הענין דדירה בתחתונים,</src>
+    <src s="48">שעוה"ז התחתון נעשה דירה להעצמות,</src>
+    <src s="49">כי בעוה"ז הוא עיקר ההעלם,</src>
+    <src s="50">וע"י שמתגלה שההעלם שבו הוא מצד יכולת העצמות,</src>
+    <src s="51">הוא נעשה דירה להעצמות].</src>
+  </section>
+</awtsmoosMeluketSource>

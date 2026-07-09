@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918708_theRebbe_155" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918708_theRebbe_155__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918708_theRebbe_155" title="מאמר בשעה שעלה משה למרום תשכ"ה" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918708_theRebbe_155__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ליל א' דחג השבועות</src>
+    <src s="2">(לפנות בוקר),</src>
+    <src s="3">ה'תשכ"ה</src>
+  </section>
+  <section v="1">
+    <src s="0">בשעה1 שעלה משה למרום אמרו מלאכי השרת לפני הקב"ה,</src>
+    <src s="1">רבש"ע,</src>
+    <src s="2">מה לילוד אשה בינינו,</src>
+    <src s="3">אמר להן לקבל תורה בא,</src>
+    <src s="4">אמרו לפניו,</src>
+    <src s="5">חמדה2</src>
+    <src s="6">גנוזה כו' אתה מבקש ליתנה לבשר ודם כו' תנה הודך על השמים3,</src>
+    <src s="7">אמר לו הקב"ה למשה החזיר להן תשובה כו',</src>
+    <src s="8">אמר לפניו,</src>
+    <src s="9">רבש"ע,</src>
+    <src s="10">תורה שאתה נותן לי מה כתיב בה4</src>
+    <src s="11">אנכי ה' אלקיך אשר הוצאתיך מארץ מצרים כו',</src>
+    <src s="12">למצרים ירדתם כו' תורה למה תהא לכם,</src>
+    <src s="13">שוב מה כתיב בה5</src>
+    <src s="14">לא יהי' לך אלקים אחרים,</src>
+    <src s="15">בין עמים אתם שרויין שעובדין ע"ז,</src>
+    <src s="16">שוב מה כתיב בה6</src>
+    <src s="17">זכור את יום השבת לקדשו,</src>
+    <src s="18">כלום אתם עושים מלאכה שאתם צריכין שבות,</src>
+    <src s="19">שוב מה כתיב בה7</src>
+    <src s="20">לא תשא,</src>
+    <src s="21">משא ומתן יש ביניכם,</src>
+    <src s="22">שוב מה כתיב בה8</src>
+    <src s="23">כבד את אביך ואת אמך,</src>
+    <src s="24">אב ואם יש לכם,</src>
+    <src s="25">שוב מה כתיב בה9</src>
+    <src s="26">לא תרצח לא תנאף לא תגנוב,</src>
+    <src s="27">קנאה יש ביניכם יצה"ר יש ביניכם.</src>
+    <src s="28">[ויש לומר,</src>
+    <src s="29">שבהתשובה דמשה רבינו על טענת המלאכים,</src>
+    <src s="30">שני ענינים בכללות.</src>
+    <src s="31">למצרים ירדתם היא תשובה בנוגע לכללות התורה,</src>
+    <src s="32">דכיון שהטעם על כללות הענין דמתן תורה הוא אנכי ה' אלקיך אשר הוצאתיך מארץ מצרים,</src>
+    <src s="33">לכן,</src>
+    <src s="34">כיון שלמצרים ירדתם</src>
+    <src s="35">(בתמי')</src>
+    <src s="36">תורה למה תהא לכם,</src>
+    <src s="37">ולאח"ז מוסיף שוב מה כתיב בה,</src>
+    <src s="38">שגם הציוויים הפרטים שבתורה</src>
+    <src s="39">(לא יהי' לך,</src>
+    <src s="40">זכור את יום השבת,</src>
+    <src s="41">וכו')</src>
+    <src s="42">שייכים לישראל ולא למלאכים].</src>
+  </section>
+  <section v="2">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">דבקשת המלאכים תנה הודך על השמים היתה שתנתן להם תורה כמו שהיא ברוחניות,</src>
+    <src s="2">ומה השיב להם משה כלום אתם עושים מלאכה וכו'.</src>
+    <src s="3">גם צריך להבין מה שהשיב משה בנוגע להמצוות לא תרצח לא תנאף לא תגנוב קנאה יש ביניכם יצה"ר יש ביניכם,</src>
+    <src s="4">דכיון שהמלאכים אין קנאה ביניהם ואין להם יצה"ר לכן אין צריך לצוות ולהזהיר אותם על מצוות אלו,</src>
+    <src s="5">דלכאורה עדיפא הוה לי' למימר,</src>
+    <src s="6">שגם המצוות עצמם</src>
+    <src s="7">(כמו שהם בגשמיות)</src>
+    <src s="8">אינם שייכים למלאכים</src>
+    <src s="9">(כמו שאמר לפנ"ז בנוגע למצות שבת,</src>
+    <src s="10">לא תשא,</src>
+    <src s="11">וכיבוד אב ואם).</src>
+  </section>
+</awtsmoosMeluketSource>

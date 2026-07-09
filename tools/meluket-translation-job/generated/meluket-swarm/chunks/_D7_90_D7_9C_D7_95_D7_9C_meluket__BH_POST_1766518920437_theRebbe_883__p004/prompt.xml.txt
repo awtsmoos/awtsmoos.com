@@ -1,0 +1,50 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920437_theRebbe_883" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920437_theRebbe_883__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920437_theRebbe_883" title="מאמר אתם נצבים תשל"ט" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920437_theRebbe_883__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">ומהכריתת ברית בכללות נמשכות ההחלטות טובות בנוגע ללימוד התורה וקיום המצוות ועבודת התפלה,</src>
+    <src s="2">דעי"ז ישראל וקוב"ה כולא חד.</src>
+    <src s="3">ומזה באה כתיבה וחתימה טובה לשנה טובה ומתוקה,</src>
+    <src s="4">והתחלתה לפנ"ז בחודש ההכנה הוא חודש אלול שהוא ר"ת אני לדודי ודודי לי42,</src>
+    <src s="5">ובפרט מח"י אלול שהוא יום הולדת שני המאורות הגדולים43</src>
+    <src s="6">שאז מזלם גובר44,</src>
+    <src s="7">והרי תכליתם וכוונתם היתה שיהי' יפוצו מעינותיך חוצה,</src>
+    <src s="8">עד להחוצה שאין חוצה מחוץ הימנו.</src>
+    <src s="9">ועי"ז אתי מר45</src>
+    <src s="10">דא מלכא משיחא בקרוב ממש,</src>
+    <src s="11">ובעגלא דידן.</src>
+  </section>
+</awtsmoosMeluketSource>

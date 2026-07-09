@@ -1,0 +1,214 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 34,
+    "returned": 34,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914243_theRebbe_128\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section introduces the maamar given on Motzaei Shabbos Haazinu, 13 Tishrei, the yahrtzeit of the Rebbe Maharash.</sectionSummaryBrief>\n    <t s=\"0\">B'Siyata Dishmaya.</t>\n    <t s=\"1\">Motzaei Shabbos Parshas Haazinu,</t>\n    <t s=\"2\">13 Tishrei,</t>\n    <t s=\"3\">the yahrtzeit of the Admo\"r Maharash, his soul in Eden.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes the date as the eve of the holiday of Sukkos in the year 5739.</sectionSummaryBrief>\n    <t s=\"0\">The eve of the holiday of Sukkos, 5739*</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the Midrashic interpretation that the \"first day\" of Sukkos is called first because it is first for the reckoning of sins, and connects the mitzvah of the Four Species to this new beginning.</sectionSummaryBrief>\n    <t s=\"0\">\"And you shall take for yourselves on the first day...\"1,</t>\n    <t s=\"1\">and it is brought in the Midrash2</t>\n    <t s=\"2\">\"Is it the first? But it is the fifteenth</t>\n    <t s=\"3\">[day]3</t>\n    <t s=\"4\">of the month,</t>\n    <t s=\"5\">rather, it is the first</t>\n    <t s=\"6\">[it is]3</t>\n    <t s=\"7\">for the reckoning of sins.\"</t>\n    <t s=\"8\">For on Yom Kippur, the Holy One, blessed be He, forgives Israel for everything4,</t>\n    <t s=\"9\">and from Yom Kippur5</t>\n    <t s=\"10\">until the festival, all of Israel are occupied with mitzvos,</t>\n    <t s=\"11\">this one occupies himself with his sukkah and that one with his lulav,</t>\n    <t s=\"12\">and on the first day of the festival, the Holy One, blessed be He, says to them, \"Whoever went, went, and from here onward6</t>\n    <t s=\"13\">is the accounting.\"</t>\n    <t s=\"14\">And from this it is understood7,</t>\n    <t s=\"15\">that the mitzvah of taking the Four Species on 15 Tishrei is because it is the first for the accounting.</t>\n    <t s=\"16\">And one must understand the connection of \"first for the accounting\" to the taking of the Four Species.</t>\n    <t s=\"17\">And even more so, explanation is needed according to what is brought in the Midrash8,</t>\n    <t s=\"18\">\"Israel and the nations of the world come before the Holy One, blessed be He, on Rosh Hashanah, and we do not know who is victorious,</t>\n    <t s=\"19\">rather, by the fact that Israel go out from before the Holy One, blessed be He, with their lulavim and esrogim in their hands, we know that Israel are the victors,</t>\n    <t s=\"20\">therefore Moshe warns Israel and says to them, 'And you shall take for yourselves...'\"</t>\n    <t s=\"21\">That is to say,</t>\n    <t s=\"22\">that the mitzvah of taking the Four Species on Sukkos comes as a continuation of the judgment of Rosh Hashanah,</t>\n    <t s=\"23\">and why does it say \"And you shall take for yourselves on the first day,\"</t>\n    <t s=\"24\">that the mitzvah of taking the Four Species on this day is</t>\n    <t s=\"25\">(not because it is the fifteenth day from Rosh Hashanah,</t>\n    <t s=\"26\">but rather)</t>\n    <t s=\"27\">because on it a new matter begins,</t>\n    <t s=\"28\">\"first for the accounting.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914243_theRebbe_128",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section introduces the maamar given on Motzaei Shabbos Haazinu, 13 Tishrei, the yahrtzeit of the Rebbe Maharash.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B'Siyata Dishmaya."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Motzaei Shabbos Parshas Haazinu,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "13 Tishrei,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "the yahrtzeit of the Admo\"r Maharash, his soul in Eden."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section notes the date as the eve of the holiday of Sukkos in the year 5739.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "The eve of the holiday of Sukkos, 5739*"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the Midrashic interpretation that the \"first day\" of Sukkos is called first because it is first for the reckoning of sins, and connects the mitzvah of the Four Species to this new beginning.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"And you shall take for yourselves on the first day...\"1,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "and it is brought in the Midrash2"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "\"Is it the first? But it is the fifteenth"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "[day]3"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "of the month,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "rather, it is the first"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "[it is]3"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "for the reckoning of sins.\""
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "For on Yom Kippur, the Holy One, blessed be He, forgives Israel for everything4,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "and from Yom Kippur5"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "until the festival, all of Israel are occupied with mitzvos,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "this one occupies himself with his sukkah and that one with his lulav,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and on the first day of the festival, the Holy One, blessed be He, says to them, \"Whoever went, went, and from here onward6"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "is the accounting.\""
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And from this it is understood7,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "that the mitzvah of taking the Four Species on 15 Tishrei is because it is the first for the accounting."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And one must understand the connection of \"first for the accounting\" to the taking of the Four Species."
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "And even more so, explanation is needed according to what is brought in the Midrash8,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "\"Israel and the nations of the world come before the Holy One, blessed be He, on Rosh Hashanah, and we do not know who is victorious,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "rather, by the fact that Israel go out from before the Holy One, blessed be He, with their lulavim and esrogim in their hands, we know that Israel are the victors,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "therefore Moshe warns Israel and says to them, 'And you shall take for yourselves...'\""
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "that the mitzvah of taking the Four Species on Sukkos comes as a continuation of the judgment of Rosh Hashanah,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "and why does it say \"And you shall take for yourselves on the first day,\""
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "that the mitzvah of taking the Four Species on this day is"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "(not because it is the fifteenth day from Rosh Hashanah,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "but rather)"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "because on it a new matter begins,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "\"first for the accounting.\""
+          }
+        ]
+      }
+    ]
+  }
+}

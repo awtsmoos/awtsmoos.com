@@ -1,0 +1,224 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 36,
+    "returned": 36,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915808_theRebbe_726\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915808_theRebbe_726__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>Opening with the date of the maamar, 19 Kislev 5738.</sectionSummaryBrief>\n    <t s=\"0\">B'Siyata Dishmaya.</t>\n    <t s=\"1\">19 Kislev 5738*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>The redemption of 19 Kislev is connected to the verse \"He redeemed my soul in peace,\" as explained by the Alter Rebbe.</sectionSummaryBrief>\n    <t s=\"0\">\"He redeemed my soul in peace from the battle against me, for many were with me\"1,</t>\n    <t s=\"1\">And it is known what was said by the Rebbe, the Alter Rebbe, author of the redemption, in his holy letter2</t>\n    <t s=\"2\">(regarding the redemption of 19 Kislev),</t>\n    <t s=\"3\">When I read in the book of Tehillim the verse \"He redeemed my soul in peace,\"</t>\n    <t s=\"4\">before I began the verse after it,</t>\n    <t s=\"5\">I went out in peace from the One of peace,</t>\n    <t s=\"6\">that his redemption is connected to the matter of \"He redeemed my soul in peace.\"</t>\n    <t s=\"7\">And from this it is understood also regarding the redemption of his son and successor, the Rebbe, the Mitteler Rebbe</t>\n    <t s=\"8\">(on 10 Kislev),</t>\n    <t s=\"9\">that it is connected to the matter of \"He redeemed my soul in peace\"3,</t>\n    <t s=\"10\">for this verse is in the monthly portion of Tehillim for the tenth day of the month4.</t>\n    <t s=\"11\">[And one can connect this also with the length of the explanation etc. in his discourse beginning \"He redeemed my soul in peace\"5].</t>\n    <t s=\"12\">And also the redemption of 12 and 13 Tammuz of the Rebbe, my father-in-law, the Rebbe,</t>\n    <t s=\"13\">their successor</t>\n    <t s=\"14\">(of the Alter Rebbe and the Mitteler Rebbe),</t>\n    <t s=\"15\">is connected to the matter of \"He redeemed my soul in peace\"6,</t>\n    <t s=\"16\">as is also proven from the fact that several of the maamarim of 12 and 13 Tammuz7</t>\n    <t s=\"17\">begin with this verse.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>The connection of redemption to \"peace\" is also related to the fact that the redemptions occurred on a third day or in a third month, as peace is associated with the third.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this matter</t>\n    <t s=\"2\">[the connection of the redemption to \"He redeemed my soul in peace\"]</t>\n    <t s=\"3\">is also connected to the fact that the redemption of 19 Kislev was on the third day in which \"it was good\" was repeated8</t>\n    <t s=\"4\">[i.e., Tuesday]9</t>\n    <t s=\"5\">and in the third month</t>\n    <t s=\"6\">(of the winter months)10</t>\n    <t s=\"7\">[And also the redemption of 10 Kislev and of 12 Tammuz were on the third,</t>\n    <t s=\"8\">the redemption of 10 Kislev – in the third month,</t>\n    <t s=\"9\">and the redemption of 12 Tammuz – on the third day in which \"it was good\" was repeated],</t>\n    <t s=\"10\">for the main novelty in the verse \"He redeemed my soul in peace\" is</t>\n    <t s=\"11\">(not so much the matter of redemption,</t>\n    <t s=\"12\">but rather)</t>\n    <t s=\"13\">that the redemption is in peace11</t>\n    <t s=\"14\">and the third12</t>\n    <t s=\"15\">is the matter of peace13.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915808_theRebbe_726",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915808_theRebbe_726__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "Opening with the date of the maamar, 19 Kislev 5738.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B'Siyata Dishmaya."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "19 Kislev 5738*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "The redemption of 19 Kislev is connected to the verse \"He redeemed my soul in peace,\" as explained by the Alter Rebbe.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"He redeemed my soul in peace from the battle against me, for many were with me\"1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is known what was said by the Rebbe, the Alter Rebbe, author of the redemption, in his holy letter2"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(regarding the redemption of 19 Kislev),"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "When I read in the book of Tehillim the verse \"He redeemed my soul in peace,\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "before I began the verse after it,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "I went out in peace from the One of peace,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that his redemption is connected to the matter of \"He redeemed my soul in peace.\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "And from this it is understood also regarding the redemption of his son and successor, the Rebbe, the Mitteler Rebbe"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(on 10 Kislev),"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "that it is connected to the matter of \"He redeemed my soul in peace\"3,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "for this verse is in the monthly portion of Tehillim for the tenth day of the month4."
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "[And one can connect this also with the length of the explanation etc. in his discourse beginning \"He redeemed my soul in peace\"5]."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And also the redemption of 12 and 13 Tammuz of the Rebbe, my father-in-law, the Rebbe,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "their successor"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "(of the Alter Rebbe and the Mitteler Rebbe),"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "is connected to the matter of \"He redeemed my soul in peace\"6,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "as is also proven from the fact that several of the maamarim of 12 and 13 Tammuz7"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "begin with this verse."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "The connection of redemption to \"peace\" is also related to the fact that the redemptions occurred on a third day or in a third month, as peace is associated with the third.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that this matter"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "[the connection of the redemption to \"He redeemed my soul in peace\"]"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "is also connected to the fact that the redemption of 19 Kislev was on the third day in which \"it was good\" was repeated8"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "[i.e., Tuesday]9"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and in the third month"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "(of the winter months)10"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "[And also the redemption of 10 Kislev and of 12 Tammuz were on the third,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "the redemption of 10 Kislev – in the third month,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "and the redemption of 12 Tammuz – on the third day in which \"it was good\" was repeated],"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "for the main novelty in the verse \"He redeemed my soul in peace\" is"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(not so much the matter of redemption,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "but rather)"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that the redemption is in peace11"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and the third12"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "is the matter of peace13."
+          }
+        ]
+      }
+    ]
+  }
+}

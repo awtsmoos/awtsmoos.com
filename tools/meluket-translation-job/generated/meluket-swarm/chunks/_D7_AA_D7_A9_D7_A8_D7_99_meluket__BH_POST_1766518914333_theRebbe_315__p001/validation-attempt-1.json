@@ -1,0 +1,474 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 86,
+    "returned": 86,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914333_theRebbe_315\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header and date for the maamar, noting the eve of the 13th of Tishrei, the yahrtzeit of the Rebbe Maharash, in the year 5741.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">On the eve of the 13th of Tishrei,</t>\n    <t s=\"2\">the yahrtzeit of the Rebbe Maharash, of blessed memory,</t>\n    <t s=\"3\">the year 5741*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the mitzvah of Sukkah as a commemoration of the Clouds of Glory, linking the sukkah's shade to the incense cloud of Yom Kippur, and distinguishing between the \"sun\" (heat) of the sacrifices and the \"shade\" of the incense.</sectionSummaryBrief>\n    <t s=\"0\">\"You shall dwell in sukkot for seven days... so that your generations may know that I caused the children of Israel to dwell in sukkot when I brought them out of the land of Egypt.\"</t>\n    <t s=\"1\">Now, this verse is brought by our master, the Alter Rebbe, in the Shulchan Aruch at the beginning of the Laws of Sukkah,</t>\n    <t s=\"2\">and he emphasizes in his golden language</t>\n    <t s=\"3\">(that \"in sukkot I caused [them] to dwell...\")</t>\n    <t s=\"4\">they were the Clouds of His Glory that He surrounded them with for shade, etc.</t>\n    <t s=\"5\">And corresponding to this, He commanded us to make sukkot that are made for shade.</t>\n    <t s=\"6\">And the Rebbe Maharash, the master of the yahrtzeit, explains in the maamarim of the festival of Sukkot that were said one hundred years ago,</t>\n    <t s=\"7\">that the sechach (roof-covering) of the sukkah is made from the cloud of the incense of Yom Kippur,</t>\n    <t s=\"8\">for a cloud is like shade.</t>\n    <t s=\"9\">However, on Yom Kippur it is still in concealment</t>\n    <t s=\"10\">(in the Throne of Glory),</t>\n    <t s=\"11\">and it is revealed on the day of our festival,</t>\n    <t s=\"12\">on the festival of Sukkot.</t>\n    <t s=\"13\">Now, in a sukkah, its shade must be greater than its sunlight,</t>\n    <t s=\"14\">meaning that in the sukkah there is also its sunlight,</t>\n    <t s=\"15\">except that its shade must be greater than its sunlight.</t>\n    <t s=\"16\">And similarly, on Yom Kippur there is also the aspect of its sunlight,</t>\n    <t s=\"17\">but the primary service of Yom Kippur is the matter of shade.</t>\n    <t s=\"18\">For, behold, the two matters of sunlight and shade in the services in the Holy Temple,</t>\n    <t s=\"19\">and similarly in the prayers that were instituted in place of the sacrifices,</t>\n    <t s=\"20\">are the service of the sacrifices and the service of the incense.</t>\n    <t s=\"21\">For regarding sacrifices it is written,</t>\n    <t s=\"22\">\"My food for My fire-offerings,\"</t>\n    <t s=\"23\">and \"My fire-offerings\"</t>\n    <t s=\"24\">[refers to] the fire that comes from the common person and also the fire that descended from heaven,</t>\n    <t s=\"25\">this is the matter of heat,</t>\n    <t s=\"26\">sunlight.</t>\n    <t s=\"27\">And the service of the incense,</t>\n    <t s=\"28\">whose essence is the cloud,</t>\n    <t s=\"29\">is the matter of shade, as mentioned.</t>\n    <t s=\"30\">And this is why on Yom Kippur there is the matter of sunlight,</t>\n    <t s=\"31\">for even then there is the service of the sacrifices.</t>\n    <t s=\"32\">But the primary service of Yom Kippur is the service of the incense,</t>\n    <t s=\"33\">the aspect of shade,</t>\n    <t s=\"34\">and from this it is drawn down also into Sukkot,</t>\n    <t s=\"35\">on the day of our festival,</t>\n    <t s=\"36\">that its shade must be greater than its sunlight.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the difference between sacrifices (korbanot) and incense (ketoret), where korbanot represent closeness through intellect and emotion, while ketoret represents binding and attachment to the Ein Sof without any sense of self or feeling.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the explanation of the difference between sacrifices and incense,</t>\n    <t s=\"2\">will be understood from their names in the Holy Tongue</t>\n    <t s=\"3\">[according to the well-known teaching of the Baal Shem Tov].</t>\n    <t s=\"4\">Now, \"korban\" (sacrifice) is from the term \"kiruv\" (drawing near),</t>\n    <t s=\"5\">and as explained by His Holy Honored, my father-in-law, the Rebbe, in his discourses of his yahrtzeit,</t>\n    <t s=\"6\">that sacrifices are the matter of drawing near the powers and senses,</t>\n    <t s=\"7\">and the secret of the sacrifice ascends to the secret of the Ein Sof.</t>\n    <t s=\"8\">And \"ketoret\" (incense) is a term for binding</t>\n    <t s=\"9\">[for every \"binding\" in Scripture is translated as \"ketar\" in Aramaic],</t>\n    <t s=\"10\">meaning not only is he drawn near to G-dliness,</t>\n    <t s=\"11\">and drawn near to the ultimate nearness,</t>\n    <t s=\"12\">but he is also bound with G-dliness,</t>\n    <t s=\"13\">and bound to the ultimate degree.</t>\n    <t s=\"14\">And the difference between drawing near</t>\n    <t s=\"15\">(sacrifices)</t>\n    <t s=\"16\">and binding</t>\n    <t s=\"17\">(incense)</t>\n    <t s=\"18\">is,</t>\n    <t s=\"19\">that when he is drawn near to G-dliness, even when he is drawn near to the ultimate nearness,</t>\n    <t s=\"20\">he is still in a state of existence.</t>\n    <t s=\"21\">And this is why regarding sacrifices it is written \"My food for My fire-offerings\"</t>\n    <t s=\"22\">[and the service of sacrifices is the matter of sunlight,</t>\n    <t s=\"23\">as mentioned],</t>\n    <t s=\"24\">for the service of sacrifices is, in general, service according to reason and understanding,</t>\n    <t s=\"25\">and even that which is drawn down from above through this service,</t>\n    <t s=\"26\">\"a pleasing satisfaction before Me that I spoke and My will was done,\"</t>\n    <t s=\"27\">is related to reason and understanding,</t>\n    <t s=\"28\">and love that is based on reason and understanding is in the category of feeling,</t>\n    <t s=\"29\">and therefore the aspect of heat applies to it,</t>\n    <t s=\"30\">and the intensity of the flame</t>\n    <t s=\"31\">of love.</t>\n    <t s=\"32\">In contrast, the service of incense is, in general, the service with the desire of the heart that is above reason and understanding,</t>\n    <t s=\"33\">for in this aspect, the matter of feeling does not apply.</t>\n    <t s=\"34\">And this is why \"ketoret\" is a term for binding,</t>\n    <t s=\"35\">which is the attachment and cleaving to the Ein Sof, blessed be He, without any feeling,</t>\n    <t s=\"36\">where he has no existence of his own, and his entire existence is only that he is bound with Him,</t>\n    <t s=\"37\">until they become completely one.</t>\n    <t s=\"38\">And in the well-known phrase,</t>\n    <t s=\"39\">\"With a single bond I am bound to Him, in the Holy One, blessed be He, I am bound,\"</t>\n    <t s=\"40\">[for although he also draws down into the aspect of \"I am bound,\"</t>\n    <t s=\"41\">nevertheless, since \"I am bound\"</t>\n    <t s=\"42\">(that term)</t>\n    <t s=\"43\">is after \"I am bound,\" there is no feeling in this],</t>\n    <t s=\"44\">for the matter of \"I am bound\" is that he becomes truly one with the Ohr Ein Sof (the Infinite Light).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914333_theRebbe_315",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the opening header and date for the maamar, noting the eve of the 13th of Tishrei, the yahrtzeit of the Rebbe Maharash, in the year 5741.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "On the eve of the 13th of Tishrei,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "the yahrtzeit of the Rebbe Maharash, of blessed memory,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "the year 5741*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the mitzvah of Sukkah as a commemoration of the Clouds of Glory, linking the sukkah's shade to the incense cloud of Yom Kippur, and distinguishing between the \"sun\" (heat) of the sacrifices and the \"shade\" of the incense.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"You shall dwell in sukkot for seven days... so that your generations may know that I caused the children of Israel to dwell in sukkot when I brought them out of the land of Egypt.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "Now, this verse is brought by our master, the Alter Rebbe, in the Shulchan Aruch at the beginning of the Laws of Sukkah,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "and he emphasizes in his golden language"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "(that \"in sukkot I caused [them] to dwell...\")"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "they were the Clouds of His Glory that He surrounded them with for shade, etc."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And corresponding to this, He commanded us to make sukkot that are made for shade."
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And the Rebbe Maharash, the master of the yahrtzeit, explains in the maamarim of the festival of Sukkot that were said one hundred years ago,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "that the sechach (roof-covering) of the sukkah is made from the cloud of the incense of Yom Kippur,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "for a cloud is like shade."
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "However, on Yom Kippur it is still in concealment"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "(in the Throne of Glory),"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "and it is revealed on the day of our festival,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "on the festival of Sukkot."
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "Now, in a sukkah, its shade must be greater than its sunlight,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "meaning that in the sukkah there is also its sunlight,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "except that its shade must be greater than its sunlight."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And similarly, on Yom Kippur there is also the aspect of its sunlight,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "but the primary service of Yom Kippur is the matter of shade."
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "For, behold, the two matters of sunlight and shade in the services in the Holy Temple,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "and similarly in the prayers that were instituted in place of the sacrifices,"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "are the service of the sacrifices and the service of the incense."
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "For regarding sacrifices it is written,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "\"My food for My fire-offerings,\""
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "and \"My fire-offerings\""
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "[refers to] the fire that comes from the common person and also the fire that descended from heaven,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "this is the matter of heat,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "sunlight."
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "And the service of the incense,"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "whose essence is the cloud,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "is the matter of shade, as mentioned."
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "And this is why on Yom Kippur there is the matter of sunlight,"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "for even then there is the service of the sacrifices."
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "But the primary service of Yom Kippur is the service of the incense,"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "the aspect of shade,"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "and from this it is drawn down also into Sukkot,"
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "on the day of our festival,"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "that its shade must be greater than its sunlight."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the difference between sacrifices (korbanot) and incense (ketoret), where korbanot represent closeness through intellect and emotion, while ketoret represents binding and attachment to the Ein Sof without any sense of self or feeling.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the explanation of the difference between sacrifices and incense,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "will be understood from their names in the Holy Tongue"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "[according to the well-known teaching of the Baal Shem Tov]."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "Now, \"korban\" (sacrifice) is from the term \"kiruv\" (drawing near),"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and as explained by His Holy Honored, my father-in-law, the Rebbe, in his discourses of his yahrtzeit,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "that sacrifices are the matter of drawing near the powers and senses,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and the secret of the sacrifice ascends to the secret of the Ein Sof."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And \"ketoret\" (incense) is a term for binding"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "[for every \"binding\" in Scripture is translated as \"ketar\" in Aramaic],"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "meaning not only is he drawn near to G-dliness,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "and drawn near to the ultimate nearness,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "but he is also bound with G-dliness,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "and bound to the ultimate degree."
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "And the difference between drawing near"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(sacrifices)"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "and binding"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "(incense)"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "is,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that when he is drawn near to G-dliness, even when he is drawn near to the ultimate nearness,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "he is still in a state of existence."
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "And this is why regarding sacrifices it is written \"My food for My fire-offerings\""
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "[and the service of sacrifices is the matter of sunlight,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "as mentioned],"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "for the service of sacrifices is, in general, service according to reason and understanding,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "and even that which is drawn down from above through this service,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "\"a pleasing satisfaction before Me that I spoke and My will was done,\""
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "is related to reason and understanding,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "and love that is based on reason and understanding is in the category of feeling,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "and therefore the aspect of heat applies to it,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "and the intensity of the flame"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "of love."
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "In contrast, the service of incense is, in general, the service with the desire of the heart that is above reason and understanding,"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "for in this aspect, the matter of feeling does not apply."
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "And this is why \"ketoret\" is a term for binding,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "which is the attachment and cleaving to the Ein Sof, blessed be He, without any feeling,"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "where he has no existence of his own, and his entire existence is only that he is bound with Him,"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "until they become completely one."
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "And in the well-known phrase,"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "\"With a single bond I am bound to Him, in the Holy One, blessed be He, I am bound,\""
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "[for although he also draws down into the aspect of \"I am bound,\""
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "nevertheless, since \"I am bound\""
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "(that term)"
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "is after \"I am bound,\" there is no feeling in this],"
+          },
+          {
+            "v": 2,
+            "s": 44,
+            "translation": "for the matter of \"I am bound\" is that he becomes truly one with the Ohr Ein Sof (the Infinite Light)."
+          }
+        ]
+      }
+    ]
+  }
+}

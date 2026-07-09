@@ -1,0 +1,110 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918601_theRebbe_37" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918601_theRebbe_37__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918601_theRebbe_37" title="מאמר גל עיני ואביטה תשל"ז" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918601_theRebbe_37__p005">
+  <section v="12">
+    <src s="0">ח)</src>
+    <src s="1">וזהו הקשר דשני הפסוקים שבהם מרומז הענין דל"ג בעומר,</src>
+    <src s="2">גל עיני ואביטה נפלאות מתורתך ועד הגל הזה,</src>
+    <src s="3">כי הגל שבין לבן ליעקב הוא דוגמת הגזירה והמחיצה בין העליונים להתחתונים שהיתה קודם מתן תורה.</src>
+    <src s="4">ומבואר בסידור שער הל"ג בעומר42,</src>
+    <src s="5">דבהגל שבין לבן ליעקב,</src>
+    <src s="6">שני ענינים.</src>
+    <src s="7">הגל שבין לבן העליון</src>
+    <src s="8">(שלמעלה מיעקב)</src>
+    <src s="9">ליעקב,</src>
+    <src s="10">והוא הפרסא שבין עולמות הא"ס שלמעלה מאצילות ואצילות.</src>
+    <src s="11">והגל שבין יעקב ולבן התחתון,</src>
+    <src s="12">הפרסא שבין אצילות לבי"ע.</src>
+    <src s="13">והרמז דל"ג בעומר בפסוק זה הוא,</src>
+    <src s="14">שע"י רשב"י נתברר הגל והמחיצה43,</src>
+    <src s="15">המחיצה שבין לבן העליון ליעקב וגם המחיצה שבין יעקב ללבן התחתון.</src>
+    <src s="16">היינו,</src>
+    <src s="17">שגם בבי"ע ועד בעולם העשי' יהי' גילוי האצילות וגם גילוי האוא"ס שלמעלה מאצילות.</src>
+    <src s="18">וענין זה הוא גם התוכן דפסוק השני שמרמז על ל"ג בעומר,</src>
+    <src s="19">גל עיני ואביטה נפלאות מתורתך,</src>
+    <src s="20">שגם בענינים שבנגלה דתורה</src>
+    <src s="21">(בי"ע),</src>
+    <src s="22">וגם בלבושא דאורייתא,</src>
+    <src s="23">בהסיפורים דתורה</src>
+    <src s="24">(עשי'44),</src>
+    <src s="25">יהי' בגילוי הנפלאות דתורה,</src>
+    <src s="26">בחי' נשמתא דאורייתא</src>
+    <src s="27">(אצילות)</src>
+    <src s="28">וגם בחי' נשמתא דנשמתא</src>
+    <src s="29">(למעלה מאצילות).</src>
+  </section>
+  <section v="13">
+    <src s="0">ט)</src>
+    <src s="1">ולהוסיף,</src>
+    <src s="2">דע"פ הידוע שכל הענינים שבתורה הם בתכלית הדיוק,</src>
+    <src s="3">צריך לומר,</src>
+    <src s="4">דזה שהפסוק עד הגל הזה</src>
+    <src s="5">[שמדבר בענין הגל והמחיצה שבין לבן ליעקב]</src>
+    <src s="6">מרמז על ל"ג בעומר שענינו הוא בירור הגל והמחיצה,</src>
+    <src s="7">הוא,</src>
+    <src s="8">כי זה שהסימן והעדות על אני לא אעבור אליך גו' אתה לא תעבור אלי גו'4</src>
+    <src s="9">הי' שעשו גל,</src>
+    <src s="10">ולא שעשו חומה,</src>
+    <src s="11">הוא לרמז שעשיית המחיצה מלכתחילה היא באופן שיש נתינת מקום שיהי' אני אעבור אליך ואתה תעבור אלי45.</src>
+    <src s="12">והיינו,</src>
+    <src s="13">שהכוונה בעשיית המחיצה בין העליונים והתחתונים מלכתחילה היא בכדי שאח"כ יהי' החיבור דעליונים ותחתונים.</src>
+    <src s="14">וזה שבתחלה הי' צריך להיות המחיצה בין העליונים להתחתונים,</src>
+    <src s="15">הוא,</src>
+    <src s="16">כי הכוונה דדירה בתחתונים היא שהדירה תהי' בתחתון שאין תחתון למטה ממנו46,</src>
+    <src s="17">ולכן היתה התהוות התחתונים ע"י מחיצה,</src>
+    <src s="18">דלא רק שבפועל אין מאיר בהם הגילוי דהעליונים אלא שישנה מחיצה ביניהם שהוא סימן ועדות שיהי' לא אעבור אליך ולא תעבור אלי47,</src>
+    <src s="19">בכדי שע"י העבודה דישראל יהי' החיבור גם דתחתונים אלה</src>
+    <src s="20">[שיש גזירה48</src>
+    <src s="21">שלא יתחברו עם העליונים]</src>
+    <src s="22">עם העליונים.</src>
+    <src s="23">וזהו שהרמז דל"ג בעומר הוא בפסוק עד הגל הזה,</src>
+    <src s="24">כי זה שרשב"י בירר הגל והמחיצה הוא שעל ידו נתגלה ענין הפנימי דהצמצום עצמו49,</src>
+    <src s="25">שהכוונה בהצמצום</src>
+    <src s="26">[שהיא ענינו הפנימי]</src>
+    <src s="27">היא בשביל הגילוי.</src>
+  </section>
+  <section v="14">
+    <src s="0">וזהו שהרמז דל"ג בעומר בפסוק גל עיני ואביטה נפלאות מתורתך למדין מהרמז דל"ג בעומר שבפסוק עד הגל הזה,</src>
+    <src s="1">כי עיקר החידוש והעילוי דגל עיני ואביטה נפלאות מתורתך הוא שראיית הנפלאות דתורה תהי'</src>
+    <src s="2">(לא רק מפני שהנפלאות יהיו בגילוי,</src>
+    <src s="3">אלא)</src>
+    <src s="4">ע"י גל עיני,</src>
+    <src s="5">שהקב"ה יפקח את עיני האדם ויראה האדם את הנפלאות דתורה מצד ענינו של האדם</src>
+    <src s="6">(כנ"ל סעיף ד),</src>
+    <src s="7">ובכדי שהאדם התחתון יוכל לראות הנפלאות דתורה מצד ענינו,</src>
+    <src s="8">הוא ע"י הענין דל"ג בעומר המרומז בעד הגל הזה – גילוי ענינו הפנימי דהצמצום,</src>
+    <src s="9">שהצמצום הוא בשביל הגילוי.</src>
+  </section>
+</awtsmoosMeluketSource>

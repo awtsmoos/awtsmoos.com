@@ -1,0 +1,99 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915585_theRebbe_828" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915585_theRebbe_828" title="מאמר פתח אליהו תשט"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">ומבואר בהדרושים17,</src>
+    <src s="2">דשתי הדיעות הם אמת,</src>
+    <src s="3">דשתיהם יש להם שרש בעצמות אוא"ס,</src>
+    <src s="4">דבאוא"ס ישנם שני ענינים.</src>
+    <src s="5">שהוא למעלה מעלה עד אין קץ18</src>
+    <src s="6">ושהוא למטה מטה עד אין תכלית18.</src>
+    <src s="7">ושני ענינים אלה הם השרש דדעת תחתון ודעת עליון.</src>
+    <src s="8">שמצד הגילוי דאוא"ס,</src>
+    <src s="9">שהוא בגילוי בכל מקום למטה מטה עד אין תכלית,</src>
+    <src s="10">כולא קמי' כלא חשיב – דעת עליון שלמטה אין.</src>
+    <src s="11">ומצד ההעלם דאוא"ס,</src>
+    <src s="12">שהוא מתעלה בעצמותו למעלה מעלה עד אין קץ,</src>
+    <src s="13">הנבראים הם במציאות יש – דעת תחתון שלמטה יש.</src>
+  </section>
+  <section v="7">
+    <src s="0">וצריך להבין19,</src>
+    <src s="1">דכיון שגם דעת תחתון שרשו הוא בעצמות אוא"ס,</src>
+    <src s="2">הרי השלימות דדעת תחתון הוא לכאורה שיהי' בו בגילוי דזה שלמטה יש הוא</src>
+    <src s="3">(לא שהנבראים מצד עצמם הם מציאות יש,</src>
+    <src s="4">אלא)</src>
+    <src s="5">מפני שאוא"ס הוא למעלה מעלה עד אין קץ,</src>
+    <src s="6">ובהדרושים מבואר,</src>
+    <src s="7">שהשלימות דדעת תחתון הוא ע"י שמאיר בו הגילוי דדעת עליון.</src>
+    <src s="8">גם צריך להבין לאידך,</src>
+    <src s="9">במ"ש בהדרושים שגם דעת תחתון הוא אמת לפי שיש לו שרש בעצמות אוא"ס,</src>
+    <src s="10">דלכאורה,</src>
+    <src s="11">כיון שהענין דלמעלה מעלה עד אין קץ</src>
+    <src s="12">(השרש דדעת תחתון)</src>
+    <src s="13">הוא ההעלם דאוא"ס,</src>
+    <src s="14">הרי ההרגש דלמטה יש</src>
+    <src s="15">(כמו שנרגש בדעת תחתון)</src>
+    <src s="16">הוא לכאורה לא מצד אוא"ס אלא אדרבה,</src>
+    <src s="17">לפי שלא נרגש בו אוא"ס,</src>
+    <src s="18">ואעפ"כ אומרים,</src>
+    <src s="19">שהדיעה שלמטה יש</src>
+    <src s="20">(כמו שהוא בדעת תחתון)</src>
+    <src s="21">היא דיעה אמיתית.</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דמבואר בהדרושים20,</src>
+    <src s="3">דבטבע כמה פירושים.</src>
+    <src s="4">דבשו"ת חכם צבי21</src>
+    <src s="5">איתא,</src>
+    <src s="6">דשם טבע הוא שם חדש שחידשו חכמים האחרונים.</src>
+    <src s="7">דכיון שהכל</src>
+    <src s="8">(גם הטבע)</src>
+    <src s="9">הוא מאתו ית',</src>
+    <src s="10">הרי גם הטבע הוא נס.</src>
+    <src s="11">אלא שנסים אלו הם תמיד,</src>
+    <src s="12">נסים רצופים.</src>
+    <src s="13">ויש אומרים22</src>
+    <src s="14">שטבע הוא מלשון מטבע.</src>
+    <src s="15">דאיתא במשנה23,</src>
+    <src s="16">אדם טובע כמה מטבעות בחותם אחד וכולן דומין זה לזה,</src>
+    <src s="17">ומלך מלכי המלכים הקב"ה טבע כל אדם בחותמו של אדם הראשון ואין אחד מהן דומה לחבירו.</src>
+    <src s="18">ובתניא24</src>
+    <src s="19">איתא,</src>
+    <src s="20">דטבע הוא שם המושאל לכל דבר שאינו ע"פ טעם ודעת.</src>
+  </section>
+</awtsmoosMeluketSource>

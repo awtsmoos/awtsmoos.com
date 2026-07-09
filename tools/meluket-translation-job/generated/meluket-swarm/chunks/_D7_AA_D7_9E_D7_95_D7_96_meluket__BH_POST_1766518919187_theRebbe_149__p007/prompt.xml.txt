@@ -1,0 +1,132 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919187_theRebbe_149" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919187_theRebbe_149" title="מאמר וידבר זאת חוקת תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p007">
+  <section v="18">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">וצריך ביאור,</src>
+    <src s="3">דהעילוי שנעשה בהגילויים דלמעלה ע"י עבודת האדם הוא</src>
+    <src s="4">(בעיקר66)</src>
+    <src s="5">כשההמשכה והגילוי שלהם היא ע"י עבודת האדם,</src>
+    <src s="6">וכיון דזה שע"י תפלת משה היתה ההמשכה והגילוי הוא רק בנוגע כנסת ישראל</src>
+    <src s="7">(כנסת ישראל כפשוטו,</src>
+    <src s="8">וגם ספירת המלכות),</src>
+    <src s="9">אבל בנוגע למשה אין שייך לכאורה לומר שההמשכה והגילוי היתה ע"י תפלתו,</src>
+    <src s="10">שהרי משה הוא עשיר,</src>
+    <src s="11">דענין העשיר הוא שמאירים אצלו בגילוי כל הגילויים ואפילו הגילוי דעצמות אוא"ס שלמעלה משייכות לעולמות,</src>
+    <src s="12">ועפ"ז,</src>
+    <src s="13">העלי' וההוספה שנעשית בהאור ע"י תפלת משה היא לכאורה רק לגבי אחרים ולא לגבי משה עצמו.</src>
+    <src s="14">ויש לומר הביאור בזה,</src>
+    <src s="15">דכיון שמשה הוא רוען של ישראל,</src>
+    <src s="16">לכן,</src>
+    <src s="17">כשחסר איזה ענין בכנסת ישראל,</src>
+    <src s="18">הוא כמו שחסר הענין גם אצלו,</src>
+    <src s="19">דנוסף לזה שהצער שלו על זה שחסר לישראל הי' צער גדול ביותר כאילו שהוא עצמו הי' החסר,</src>
+    <src s="20">הנה גם החסרון דישראל הי' החסרון שלו67.</src>
+    <src s="21">כי משה וישראל הם חד,</src>
+    <src s="22">ובלשון רש"י68</src>
+    <src s="23">שמשה הוא ישראל וישראל הם משה.</src>
+    <src s="24">ולכן,</src>
+    <src s="25">הגם שמשה הי' עשיר והאירו בו כל הגילויים,</src>
+    <src s="26">מ"מ,</src>
+    <src s="27">כיון שישראל היו חסרים הגילוי,</src>
+    <src s="28">ורק ע"י עבודה</src>
+    <src s="29">(תפלתו של משה)</src>
+    <src s="30">נתחדש הגילוי לגבם – גם לגבי משה נתחדש הגילוי ע"י תפלתו.</src>
+    <src s="31">[ולהוסיף,</src>
+    <src s="32">דזה שמשה הוא רוען של ישראל,</src>
+    <src s="33">זהו ענינו העיקרי.</src>
+    <src s="34">וכל המעלות שלו,</src>
+    <src s="35">כולל זה שהי' עשיר גם ברוחניות,</src>
+    <src s="36">בחינת דעת עליון שמקבל מעתיק,</src>
+    <src s="37">הם טפלים,</src>
+    <src s="38">בחינת חיצוניות,</src>
+    <src s="39">לגבי זה שהי' רוען של ישראל69.</src>
+    <src s="40">ועפ"ז יובן יותר שגם לגבי משה נתחדש הגילוי ע"י תפלה,</src>
+    <src s="41">הגם שמצד העשירות שלו</src>
+    <src s="42">(בחינת דעת עליון)</src>
+    <src s="43">האירו אצלו גם לפנ"ז כל הגילויים,</src>
+    <src s="44">כי זה שהאירו אצלו כל הגילויים גם לפנ"ז מצד העשירות שלו הוא בחינת החיצוניות שבו.</src>
+    <src s="45">אבל בנוגע להפנימיות שלו,</src>
+    <src s="46">זה שהוא רוען של ישראל,</src>
+    <src s="47">נתחדש הגילוי ע"י תפלה].</src>
+    <src s="48">ולכן העילוי שנעשה בהגילויים דלמעלה ע"י שנמשכו ע"י עבודה</src>
+    <src s="49">(תפלה),</src>
+    <src s="50">הוא גם בנוגע משה.</src>
+  </section>
+  <section v="19">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וכמו כן הוא באתפשטותא דמשה שבכל דור,</src>
+    <src s="3">עד לכ"ק מו"ח אדמו"ר בעל הגאולה,</src>
+    <src s="4">שענינו העיקרי והפנימי הוא זה שהוא רוען של ישראל,</src>
+    <src s="5">והענינים דישראל הם ענינו דהנשיא.</src>
+    <src s="6">ועפ"ז יש לבאר העילוי שנתחדש בהגאולה די"ט כסלו ובהגאולה די"ב תמוז ע"י המאסר,</src>
+    <src s="7">שהוא כיתרון האור מן החושך,</src>
+    <src s="8">דלכאורה,</src>
+    <src s="9">כיון שבנוגע להנשיאים לא שייך לומר שבהיותם במאסר הי' לגבם איזה ענין של חושך,</src>
+    <src s="10">[וכמובן גם מהשיחה הידועה דבעל הגאולה70</src>
+    <src s="11">בנוגע להמאסר של אדמו"ר הזקן שהמאסר הי' בהסכמתו,</src>
+    <src s="12">דמזה מובן,</src>
+    <src s="13">שלגבם ההעלמות וההסתרים דהמאסר הם רק בחיצוניות],</src>
+    <src s="14">איך נעשה עי"ז יתרון האור.</src>
+    <src s="15">וי"ל מהביאורים בזה,</src>
+    <src s="16">דכיון שעיקר ענינם של הנשיאים הוא זה שהם רועי ישראל ונשיאי ישראל,</src>
+    <src s="17">לכן,</src>
+    <src s="18">ההעלם וההסתר דהמאסר שהי' בנוגע ישראל הוא העלם והסתר גם לגבי הנשיאים.</src>
+    <src s="19">ולכן,</src>
+    <src s="20">בהגאולה מהמאסר,</src>
+    <src s="21">כשהחושך נהפך לאור,</src>
+    <src s="22">נעשה יתרון האור.</src>
+  </section>
+  <section v="20">
+    <src s="0">י)</src>
+    <src s="1">ג)</src>
+    <src s="2">והנה נתבאר לעיל</src>
+    <src s="3">(סעיף ד)</src>
+    <src s="4">שהשייכות דהגאולה די"ט כסלו ודי"ב תמוז להמזמור תפלה למשה הוא</src>
+    <src s="5">(הן להענינים הפרטיים שנאמרו בהמזמור ומכש"כ)</src>
+    <src s="6">לענינו ותוכנו דכללות המזמור – תפלה למשה,</src>
+    <src s="7">תפלת עשיר.</src>
+    <src s="8">וע"פ המובא לעיל מהמאמר דענין העשירות הוא גילוי עצמות אוא"ס שלמעלה מסובב</src>
+    <src s="9">[והשייכות דתפלת עשיר</src>
+    <src s="10">(מדינה פלונית כו' גזור שתיבנה)</src>
+    <src s="11">לעשירות היא כי בכדי שבנין המלכות</src>
+    <src s="12">(המדינה)</src>
+    <src s="13">יהי' בבחינת בנין עדי עד הוא ע"י שנמשך בה גילוי עצמות אוא"ס],</src>
+    <src s="14">יש לומר,</src>
+    <src s="15">דיתרון האור שנעשה בהגאולה די"ט כסלו ודי"ב תמוז הוא המשכת גילוי עצמות אוא"ס שלמעלה מממלא וסובב.</src>
+  </section>
+</awtsmoosMeluketSource>

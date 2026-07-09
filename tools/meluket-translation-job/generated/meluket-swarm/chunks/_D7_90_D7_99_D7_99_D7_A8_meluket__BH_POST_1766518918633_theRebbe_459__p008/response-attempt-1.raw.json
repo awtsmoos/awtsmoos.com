@@ -1,0 +1,28 @@
+{
+  "id": "cf309009-70c9-4286-8197-af465b2d804f",
+  "object": "chat.completion",
+  "created": 1783582319,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918633_theRebbe_459\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>This section explains that the unique revelation of \"this day\" in the third month (Sivan) is the revelation of the Essence itself, unlike the first month (Nissan) which is Malchus and the second month (Iyar) which is only a radiance from Yesod.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">2)</t>\n    <t s=\"2\">And this is, \"In the third month... on this day...,\"</t>\n    <t s=\"3\">for although the concept of \"this day\" exists in every Rosh Chodesh,</t>\n    <t s=\"4\">the main concept of \"this day\" is in the</t>\n    <t s=\"5\">(first of the)</t>\n    <t s=\"6\">third month.</t>\n    <t s=\"7\">And the explanation is</t>\n    <t s=\"8\">(as explained in the discourses of the Tzemach Tzedek73),</t>\n    <t s=\"9\">that the first month is the aspect of the moon,</t>\n    <t s=\"10\">Malchus.</t>\n    <t s=\"11\">For although on Rosh Chodesh Nissan there is also the union of the sun and the moon</t>\n    <t s=\"12\">(Zeir Anpin and Malchus),</t>\n    <t s=\"13\">nevertheless,</t>\n    <t s=\"14\">on Rosh Chodesh Nissan,</t>\n    <t s=\"15\">the main thing is Malchus.</t>\n    <t s=\"16\">And the month of Iyar is called Ziv74,</t>\n    <t s=\"17\">it is the Yesod that illuminates Malchus75.</t>\n    <t s=\"18\">And this that Yesod is called Ziv is because it is only a radiance and illumination.</t>\n    <t s=\"19\">And in the third month, Malchus receives from Tiferes,</t>\n    <t s=\"20\">for in Tiferes is the revelation of Havayah, which is the Name of the Essence76.</t>\n    <t s=\"21\">That is, the revelation of the third month is not a radiance</t>\n    <t s=\"22\">(like the revelation of the month of Iyar),</t>\n    <t s=\"23\">but rather a revelation of the Essence.</t>\n    <t s=\"24\">Therefore,</t>\n    <t s=\"25\">the main concept of \"this day\" is on Rosh Chodesh Sivan,</t>\n    <t s=\"26\">in the third month.</t>\n  </section>\n  <section v=\"22\">\n    <sectionSummaryBrief>Through the preparation for receiving the Torah in the third month on this day—including refining the animal soul's traits and the nullification of the G-dly soul, especially through unity—one merits receiving the Torah with joy and inwardness, drawn into the entire year.</sectionSummaryBrief>\n    <t s=\"0\">And through the preparation for receiving the Torah in the third month on this day</t>\n    <t s=\"1\">(Rosh Chodesh Sivan)</t>\n    <t s=\"2\">— both in the refinement of the traits of the animal soul</t>\n    <t s=\"3\">(Sinai),</t>\n    <t s=\"4\">and in the nullification</t>\n    <t s=\"5\">(desert)</t>\n    <t s=\"6\">of the G-dly soul,</t>\n    <t s=\"7\">and particularly in the matter of \"as one man with one heart\"</t>\n    <t s=\"8\">[for this</t>\n    <t s=\"9\">(love of Israel)</t>\n    <t s=\"10\">is the entire Torah, and the rest is its explanation77]</t>\n    <t s=\"11\">— they merit receiving the Torah with joy and inwardness,</t>\n    <t s=\"12\">and draw this into the entire year.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1435,
+    "completion_tokens": 1034,
+    "total_tokens": 2469,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1179
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

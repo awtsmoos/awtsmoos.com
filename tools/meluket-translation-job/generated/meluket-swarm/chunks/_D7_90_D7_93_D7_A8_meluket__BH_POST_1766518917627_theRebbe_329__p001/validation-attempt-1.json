@@ -1,0 +1,286 @@
+{
+  "validation": {
+    "ok": false,
+    "rootOk": true,
+    "expected": 49,
+    "returned": 48,
+    "missing": [
+      "2:20"
+    ],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917627_theRebbe_329\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917627_theRebbe_329__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar delivered on Shabbat Parshat Vayakhel-Pekudei, Parshat HaChodesh, 25 Adar 5735.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbat Parshat Vayakhel-Pekudei,</t>\n    <t s=\"2\">Parshat HaChodesh,</t>\n    <t s=\"3\">25 Adar 5735*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that although the Torah begins with Bereishit, its true inner beginning is \"HaChodesh HaZeh Lachem,\" as stated in the Midrash and the maamar of the Rebbe Rashab.</sectionSummaryBrief>\n    <t s=\"0\">\"This month shall be for you the beginning of months...\"1</t>\n    <t s=\"1\">And it is brought in the Midrash2</t>\n    <t s=\"2\">(cited in Rashi's commentary at the beginning of Parshat Bereishit):</t>\n    <t s=\"3\">Rabbi Yitzchak said: The Torah should not have begun except from \"HaChodesh HaZeh Lachem\" etc. So why did it open with Bereishit? Because of \"He declared the strength of His works to His people, to give them the inheritance of the nations.\"3</t>\n    <t s=\"4\">And according to what is known4</t>\n    <t s=\"5\">— that even questions in the Torah are Torah,</t>\n    <t s=\"6\">Torah of truth—</t>\n    <t s=\"7\">it can be said</t>\n    <t s=\"8\">that this statement in the Midrash</t>\n    <t s=\"9\">(Torah of truth)</t>\n    <t s=\"10\">—that the beginning of the Torah should have been with \"HaChodesh HaZeh Lachem\"</t>\n    <t s=\"11\">[and especially since the language of the Midrash is \"the Torah should not have begun except from HaChodesh HaZeh Lachem,\"</t>\n    <t s=\"12\">for the expression \"not... except\" indicates that it is obligatory5]—</t>\n    <t s=\"13\">is also in accordance with the truth,</t>\n    <t s=\"14\">that the Torah does begin with \"HaChodesh HaZeh Lachem.\"6</t>\n    <t s=\"15\">And as the Rebbe</t>\n    <t s=\"16\">(the Rebbe Rashab)</t>\n    <t s=\"17\">of blessed memory wrote in his maamar beginning with the word \"Zeh\"7,</t>\n    <t s=\"18\">that Parshat HaChodesh is the essential beginning of the Torah.</t>\n    <t s=\"19\">However, this matter</t>\n    <t s=\"20\">(that the Torah begins with \"HaChodesh HaZeh Lachem\")</t>\n    <t s=\"21\">is in the innerness,</t>\n    <t s=\"22\">while in revelation,</t>\n    <t s=\"23\">the beginning of the Torah is \"Bereishit Bara.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section connects the two beginnings of the Torah to the two opinions regarding the time of creation, where the actual creation was in Tishrei (externality) and the thought of creation was in Nissan (innerness).</sectionSummaryBrief>\n    <t s=\"0\">And this can be connected according to what is known8</t>\n    <t s=\"1\">regarding the resolution of the two opinions on the time of creation9:</t>\n    <t s=\"2\">the opinion of Rabbi Eliezer that the world was created in Tishrei</t>\n    <t s=\"3\">(on the 25th of Elul10),</t>\n    <t s=\"4\">and the opinion of Rabbi Yehoshua that the world was created in Nissan</t>\n    <t s=\"5\">(on the 25th of Adar11).</t>\n    <t s=\"6\">[In truth,] the actual creation was in Tishrei,</t>\n    <t s=\"7\">and the thought to create the world was in Nissan.12</t>\n    <t s=\"8\">And according to the known principle that thought is the innerness</t>\n    <t s=\"9\">(the intention and purpose)</t>\n    <t s=\"10\">of the action that follows the thought,</t>\n    <t s=\"11\">it follows that the actual creation, which was in Tishrei, is the externality of creation,</t>\n    <t s=\"12\">and the innerness of creation was in Nissan.13</t>\n    <t s=\"13\">And similarly regarding the beginning of the Torah:</t>\n    <t s=\"14\">that the Torah beginning with \"Bereishit Bara\" etc.</t>\n    <t s=\"15\">(the actual creation, which was in Tishrei)</t>\n    <t s=\"16\">is in the externality,</t>\n    <t s=\"17\">but in the innerness,</t>\n    <t s=\"18\">the beginning of the Torah is \"HaChodesh HaZeh Lachem\"</t>\n    <t s=\"19\">(which refers to Rosh Chodesh Nissan).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917627_theRebbe_329",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917627_theRebbe_329__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar delivered on Shabbat Parshat Vayakhel-Pekudei, Parshat HaChodesh, 25 Adar 5735.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbat Parshat Vayakhel-Pekudei,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Parshat HaChodesh,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "25 Adar 5735*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that although the Torah begins with Bereishit, its true inner beginning is \"HaChodesh HaZeh Lachem,\" as stated in the Midrash and the maamar of the Rebbe Rashab.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"This month shall be for you the beginning of months...\"1"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is brought in the Midrash2"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(cited in Rashi's commentary at the beginning of Parshat Bereishit):"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "Rabbi Yitzchak said: The Torah should not have begun except from \"HaChodesh HaZeh Lachem\" etc. So why did it open with Bereishit? Because of \"He declared the strength of His works to His people, to give them the inheritance of the nations.\"3"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "And according to what is known4"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "— that even questions in the Torah are Torah,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "Torah of truth—"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "it can be said"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "that this statement in the Midrash"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "(Torah of truth)"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "—that the beginning of the Torah should have been with \"HaChodesh HaZeh Lachem\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "[and especially since the language of the Midrash is \"the Torah should not have begun except from HaChodesh HaZeh Lachem,\""
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "for the expression \"not... except\" indicates that it is obligatory5]—"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "is also in accordance with the truth,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "that the Torah does begin with \"HaChodesh HaZeh Lachem.\"6"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "And as the Rebbe"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "of blessed memory wrote in his maamar beginning with the word \"Zeh\"7,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "that Parshat HaChodesh is the essential beginning of the Torah."
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "However, this matter"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "(that the Torah begins with \"HaChodesh HaZeh Lachem\")"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "is in the innerness,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "while in revelation,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "the beginning of the Torah is \"Bereishit Bara.\""
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section connects the two beginnings of the Torah to the two opinions regarding the time of creation, where the actual creation was in Tishrei (externality) and the thought of creation was in Nissan (innerness).",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And this can be connected according to what is known8"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "regarding the resolution of the two opinions on the time of creation9:"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "the opinion of Rabbi Eliezer that the world was created in Tishrei"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(on the 25th of Elul10),"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "and the opinion of Rabbi Yehoshua that the world was created in Nissan"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(on the 25th of Adar11)."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "[In truth,] the actual creation was in Tishrei,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and the thought to create the world was in Nissan.12"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And according to the known principle that thought is the innerness"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "(the intention and purpose)"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "of the action that follows the thought,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "it follows that the actual creation, which was in Tishrei, is the externality of creation,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and the innerness of creation was in Nissan.13"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "And similarly regarding the beginning of the Torah:"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that the Torah beginning with \"Bereishit Bara\" etc."
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(the actual creation, which was in Tishrei)"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "is in the externality,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "but in the innerness,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "the beginning of the Torah is \"HaChodesh HaZeh Lachem\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(which refers to Rosh Chodesh Nissan)."
+          }
+        ]
+      }
+    ]
+  }
+}

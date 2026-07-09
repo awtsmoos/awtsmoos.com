@@ -1,0 +1,559 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 103,
+    "returned": 103,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920487_theRebbe_9\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the name Elokim allows for sustenance of external forces and even idolatry, while the revelation of the name Havayah and ultimately the Essence of Ein Sof eliminates any place for independent existence.</sectionSummaryBrief>\n    <t s=\"0\">And similarly, above,</t>\n    <t s=\"1\">with the name Elokim it is possible for there to be</t>\n    <t s=\"2\">(through many tzimtzumim)</t>\n    <t s=\"3\">nourishment for the external forces,</t>\n    <t s=\"4\">even to the point of \"other gods\".</t>\n    <t s=\"5\">And according to what is explained in many places</t>\n    <t s=\"6\">that the name Elokim is not only the shield and sheath that conceals and hides the light of the name Havayah,</t>\n    <t s=\"7\">but also the light of the name Havayah itself, as it is drawn and contracted through the name Elokim to become a source for creations,</t>\n    <t s=\"8\">which in general is the light that fills,</t>\n    <t s=\"9\">is called Elokim,</t>\n    <t s=\"10\">it can be said that this is the case regarding the light that fills.</t>\n    <t s=\"11\">For since the coming into being from the name Elokim</t>\n    <t s=\"12\">(the light that fills)</t>\n    <t s=\"13\">is in a manner of enclothing,</t>\n    <t s=\"14\">the creations that come into being from it occupy space,</t>\n    <t s=\"15\">and their nullification is only the nullification of the yesh,</t>\n    <t s=\"16\">therefore it is possible for actual existence to be drawn down from this,</t>\n    <t s=\"17\">even to the existence of idolatry</t>\n    <t s=\"18\">(other gods).</t>\n    <t s=\"19\">And in order that there should be no place given to existence and to idolatry,</t>\n    <t s=\"20\">it is specifically through the revelation of the name Havayah</t>\n    <t s=\"21\">(the encompassing light),</t>\n    <t s=\"22\">that the coming into being from it is in a manner of \"by the way\",</t>\n    <t s=\"23\">and the creations do not occupy space relative to it,</t>\n    <t s=\"24\">[but are] nullification in [true] existence.</t>\n    <t s=\"25\">And according to what was explained above</t>\n    <t s=\"26\">(section 5)</t>\n    <t s=\"27\">that even the name Havayah is a source for coming into being,</t>\n    <t s=\"28\">necessarily, even regarding the name Havayah there is some occupation of space by the creations,</t>\n    <t s=\"29\">and the true nullification is specifically regarding the Essence of the Ein Sof, which is above Havayah, that is not in the category of a source for worlds.</t>\n    <t s=\"30\">And based on this, it can be said that in order to completely negate that there be any place given to existence,</t>\n    <t s=\"31\">it is specifically through the revelation of the Essence of the Ein Sof, which is above Havayah.</t>\n    <t s=\"32\">And this is what is written,</t>\n    <t s=\"33\">\"You shall have no other gods before Me,\"</t>\n    <t s=\"34\">that in order that there be no place given to other gods, it is through \"before Me,\"</t>\n    <t s=\"35\">for the true meaning of \"before Me\" is the Essence of the Ein Sof, which is above Havayah.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that the two interpretations of \"Lekha\" and \"Bakeshu\" correspond to two levels of \"Panai\": the inner aspect of Havayah and the inner aspect of the Essence of Ein Sof.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that the two interpretations of \"Lekha amar libi bakeshu fanai\"</t>\n    <t s=\"3\">(\"Lekha\" meaning \"for You\" and \"on Your mission\",</t>\n    <t s=\"4\">and \"Lekha\" meaning \"in Your place\"),</t>\n    <t s=\"5\">and also the two interpretations</t>\n    <t s=\"6\">(in the maamar)</t>\n    <t s=\"7\">of \"Bakeshu\"</t>\n    <t s=\"8\">(request and supplication,</t>\n    <t s=\"9\">seeking and searching),</t>\n    <t s=\"10\">correspond to the two levels of \"Panai\".</t>\n    <t s=\"11\">For in the innerness of the name Havayah</t>\n    <t s=\"12\">(which is a level of innerness relative to the name Elokim),</t>\n    <t s=\"13\">whose parallel in man is the illumination of the point of the heart,</t>\n    <t s=\"14\">the interpretation of \"Lekha\" is \"for You\" and \"on Your mission\".</t>\n    <t s=\"15\">That is, the heart is an agent of the Holy One, blessed be He,</t>\n    <t s=\"16\">for the nature of an agent is that he is sent to do something.</t>\n    <t s=\"17\">And the mission of this level, in the innerness of the heart, is to illuminate the externality of the heart in order to vanquish the war with the animal soul,</t>\n    <t s=\"18\">for the main victory</t>\n    <t s=\"19\">(which is through the revelation of this level)</t>\n    <t s=\"20\">is in the garments of thought, speech, and action,</t>\n    <t s=\"21\">except that in order for thought, speech, and action to be complete, it is through the emotions of the heart,</t>\n    <t s=\"22\">service with the heart.</t>\n    <t s=\"23\">And accordingly, the interpretation of \"Bakeshu fanai\" is seeking and searching,</t>\n    <t s=\"24\">to search in all one's matters that they be in accordance with the level of \"Panai\"</t>\n    <t s=\"25\">(the \"Face of Havayah\").</t>\n    <t s=\"26\">And in the innerness of the Ein Sof, which is above Havayah,</t>\n    <t s=\"27\">whose parallel in man is the essence of the point of the heart,</t>\n    <t s=\"28\">the interpretation of \"Lekha\" is \"in Your place\",</t>\n    <t s=\"29\">as brought above</t>\n    <t s=\"30\">(end of section 2)</t>\n    <t s=\"31\">from the maamar, that it is the point of Judaism in every Jew that is connected to the Essence</t>\n    <t s=\"32\">(\"in Your place\").</t>\n    <t s=\"33\">For in this level, the matter of agency does not apply,</t>\n    <t s=\"34\">because the point of Judaism is not a means for another matter</t>\n    <t s=\"35\">(the fulfillment of the mission),</t>\n    <t s=\"36\">and the purpose is in itself.</t>\n    <t s=\"37\">And the service regarding this level is – service in the heart itself,</t>\n    <t s=\"38\">that it be revealed.</t>\n    <t s=\"39\">For the innerness of the heart, as it is in itself, is in concealment,</t>\n    <t s=\"40\">and the service in it is to arouse it so that it be revealed.</t>\n    <t s=\"41\">And accordingly, the interpretation of \"Bakeshu fanai\" is request and supplication,</t>\n    <t s=\"42\">for request and supplication is</t>\n    <t s=\"43\">(as the language in the maamar)</t>\n    <t s=\"44\">with great arousal.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section explains that the service of refining the body and animal soul through revealed love and fear in the external heart has an advantage over the service of revealing the point of Judaism.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And behold, it is explained elsewhere,</t>\n    <t s=\"2\">that in the ascent of the soul through its descent below,</t>\n    <t s=\"3\">there are two matters.</t>\n    <t s=\"4\">That through the fact that even while it is clothed in the body and animal soul it serves G-d,</t>\n    <t s=\"5\">the strength of its connection with the Holy One, blessed be He, is revealed,</t>\n    <t s=\"6\">that even the concealment and hiding of the body and animal soul cannot diminish its connection.</t>\n    <t s=\"7\">And that through its service below, a new thing is made,</t>\n    <t s=\"8\">the clarification and refinement of the body and animal soul and its portion in the world.</t>\n    <t s=\"9\">And since this matter</t>\n    <t s=\"10\">(the clarification and refinement of the body, etc.)</t>\n    <t s=\"11\">is a novelty</t>\n    <t s=\"12\">(and not a revelation of what was hidden),</t>\n    <t s=\"13\">it is more elevated than the revelation of the strength of the soul's connection.</t>\n    <t s=\"14\">And according to what is known</t>\n    <t s=\"15\">that the clarification and refinement of the body and animal soul</t>\n    <t s=\"16\">(for which the soul descended below)</t>\n    <t s=\"17\">is specifically through love and fear that are in the revealed heart,</t>\n    <t s=\"18\">the externality of the heart,</t>\n    <t s=\"19\">it can be said,</t>\n    <t s=\"20\">that there is an advantage to the mission of the illumination of the point of the heart to the externality of the heart,</t>\n    <t s=\"21\">over the service of revealing the point of Judaism.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920487_theRebbe_9",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the name Elokim allows for sustenance of external forces and even idolatry, while the revelation of the name Havayah and ultimately the Essence of Ein Sof eliminates any place for independent existence.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And similarly, above,"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "with the name Elokim it is possible for there to be"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "(through many tzimtzumim)"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "nourishment for the external forces,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "even to the point of \"other gods\"."
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "And according to what is explained in many places"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "that the name Elokim is not only the shield and sheath that conceals and hides the light of the name Havayah,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "but also the light of the name Havayah itself, as it is drawn and contracted through the name Elokim to become a source for creations,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "which in general is the light that fills,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "is called Elokim,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "it can be said that this is the case regarding the light that fills."
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "For since the coming into being from the name Elokim"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "(the light that fills)"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "is in a manner of enclothing,"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "the creations that come into being from it occupy space,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "and their nullification is only the nullification of the yesh,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "therefore it is possible for actual existence to be drawn down from this,"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "even to the existence of idolatry"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "(other gods)."
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "And in order that there should be no place given to existence and to idolatry,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "it is specifically through the revelation of the name Havayah"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "(the encompassing light),"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "that the coming into being from it is in a manner of \"by the way\","
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "and the creations do not occupy space relative to it,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "[but are] nullification in [true] existence."
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "And according to what was explained above"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "(section 5)"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "that even the name Havayah is a source for coming into being,"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "necessarily, even regarding the name Havayah there is some occupation of space by the creations,"
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "and the true nullification is specifically regarding the Essence of the Ein Sof, which is above Havayah, that is not in the category of a source for worlds."
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "And based on this, it can be said that in order to completely negate that there be any place given to existence,"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "it is specifically through the revelation of the Essence of the Ein Sof, which is above Havayah."
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "And this is what is written,"
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "\"You shall have no other gods before Me,\""
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "that in order that there be no place given to other gods, it is through \"before Me,\""
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "for the true meaning of \"before Me\" is the Essence of the Ein Sof, which is above Havayah."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that the two interpretations of \"Lekha\" and \"Bakeshu\" correspond to two levels of \"Panai\": the inner aspect of Havayah and the inner aspect of the Essence of Ein Sof.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "that the two interpretations of \"Lekha amar libi bakeshu fanai\""
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "(\"Lekha\" meaning \"for You\" and \"on Your mission\","
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "and \"Lekha\" meaning \"in Your place\"),"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "and also the two interpretations"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "(in the maamar)"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "of \"Bakeshu\""
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "(request and supplication,"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "seeking and searching),"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "correspond to the two levels of \"Panai\"."
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "For in the innerness of the name Havayah"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "(which is a level of innerness relative to the name Elokim),"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "whose parallel in man is the illumination of the point of the heart,"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "the interpretation of \"Lekha\" is \"for You\" and \"on Your mission\"."
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "That is, the heart is an agent of the Holy One, blessed be He,"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "for the nature of an agent is that he is sent to do something."
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "And the mission of this level, in the innerness of the heart, is to illuminate the externality of the heart in order to vanquish the war with the animal soul,"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "for the main victory"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "(which is through the revelation of this level)"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "is in the garments of thought, speech, and action,"
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "except that in order for thought, speech, and action to be complete, it is through the emotions of the heart,"
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "service with the heart."
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "And accordingly, the interpretation of \"Bakeshu fanai\" is seeking and searching,"
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "to search in all one's matters that they be in accordance with the level of \"Panai\""
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "(the \"Face of Havayah\")."
+          },
+          {
+            "v": 13,
+            "s": 26,
+            "translation": "And in the innerness of the Ein Sof, which is above Havayah,"
+          },
+          {
+            "v": 13,
+            "s": 27,
+            "translation": "whose parallel in man is the essence of the point of the heart,"
+          },
+          {
+            "v": 13,
+            "s": 28,
+            "translation": "the interpretation of \"Lekha\" is \"in Your place\","
+          },
+          {
+            "v": 13,
+            "s": 29,
+            "translation": "as brought above"
+          },
+          {
+            "v": 13,
+            "s": 30,
+            "translation": "(end of section 2)"
+          },
+          {
+            "v": 13,
+            "s": 31,
+            "translation": "from the maamar, that it is the point of Judaism in every Jew that is connected to the Essence"
+          },
+          {
+            "v": 13,
+            "s": 32,
+            "translation": "(\"in Your place\")."
+          },
+          {
+            "v": 13,
+            "s": 33,
+            "translation": "For in this level, the matter of agency does not apply,"
+          },
+          {
+            "v": 13,
+            "s": 34,
+            "translation": "because the point of Judaism is not a means for another matter"
+          },
+          {
+            "v": 13,
+            "s": 35,
+            "translation": "(the fulfillment of the mission),"
+          },
+          {
+            "v": 13,
+            "s": 36,
+            "translation": "and the purpose is in itself."
+          },
+          {
+            "v": 13,
+            "s": 37,
+            "translation": "And the service regarding this level is – service in the heart itself,"
+          },
+          {
+            "v": 13,
+            "s": 38,
+            "translation": "that it be revealed."
+          },
+          {
+            "v": 13,
+            "s": 39,
+            "translation": "For the innerness of the heart, as it is in itself, is in concealment,"
+          },
+          {
+            "v": 13,
+            "s": 40,
+            "translation": "and the service in it is to arouse it so that it be revealed."
+          },
+          {
+            "v": 13,
+            "s": 41,
+            "translation": "And accordingly, the interpretation of \"Bakeshu fanai\" is request and supplication,"
+          },
+          {
+            "v": 13,
+            "s": 42,
+            "translation": "for request and supplication is"
+          },
+          {
+            "v": 13,
+            "s": 43,
+            "translation": "(as the language in the maamar)"
+          },
+          {
+            "v": 13,
+            "s": 44,
+            "translation": "with great arousal."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section explains that the service of refining the body and animal soul through revealed love and fear in the external heart has an advantage over the service of revealing the point of Judaism.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And behold, it is explained elsewhere,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "that in the ascent of the soul through its descent below,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "there are two matters."
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "That through the fact that even while it is clothed in the body and animal soul it serves G-d,"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "the strength of its connection with the Holy One, blessed be He, is revealed,"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "that even the concealment and hiding of the body and animal soul cannot diminish its connection."
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "And that through its service below, a new thing is made,"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "the clarification and refinement of the body and animal soul and its portion in the world."
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "And since this matter"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "(the clarification and refinement of the body, etc.)"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "is a novelty"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "(and not a revelation of what was hidden),"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "it is more elevated than the revelation of the strength of the soul's connection."
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "And according to what is known"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "that the clarification and refinement of the body and animal soul"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "(for which the soul descended below)"
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "is specifically through love and fear that are in the revealed heart,"
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "the externality of the heart,"
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 14,
+            "s": 20,
+            "translation": "that there is an advantage to the mission of the illumination of the point of the heart to the externality of the heart,"
+          },
+          {
+            "v": 14,
+            "s": 21,
+            "translation": "over the service of revealing the point of Judaism."
+          }
+        ]
+      }
+    ]
+  }
+}

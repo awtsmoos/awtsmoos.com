@@ -1,0 +1,159 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917104_theRebbe_810" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917104_theRebbe_810__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917104_theRebbe_810" title="מאמר באתי לגני תשל"ו" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917104_theRebbe_810__p005">
+  <section v="12">
+    <src s="0">וביאור השייכות דבחינת יו"ד לא"י</src>
+    <src s="1">(מה שבא"י דוקא הוא רבי ביו"ד),</src>
+    <src s="2">יובן בהקדם תורת הרב המגיד78</src>
+    <src s="3">עה"פ79</src>
+    <src s="4">ארץ אשר ה"א גו' תמיד עיני ה"א גו',</src>
+    <src s="5">דבספר הזהר80</src>
+    <src s="6">הקשה כתיב81</src>
+    <src s="7">עין ה' אל יראיו לשון יחיד וכתיב82</src>
+    <src s="8">עיני ה' אל צדיקים לשון רבים.</src>
+    <src s="9">ולפי פשוטו י"ל כי הנה חכמים נקראו83</src>
+    <src s="10">עיני העדה.</src>
+    <src s="11">וכתיב84</src>
+    <src s="12">חכמות בחוץ תרונה ב' חכמות חכמה עילאה וחכמה תתאה85.</src>
+    <src s="13">והנה יש יראה פנימית ויראה חיצונית יראה חיצונית היא היראה שמחמת גדלות86,</src>
+    <src s="14">היינו שאינו מכיר פנימיותו ורק שרואה את גדלו ומחמת זה הוא ירא</src>
+    <src s="15">[וע"ד המבואר בתניא87,</src>
+    <src s="16">שגם כשלא ראה את המלך מעולם ואינו מכירו כלל ורק רואה ששרים רבים ונכבדים משתחווים לאיש אחד,</src>
+    <src s="17">תפול עליו אימה ופחד],</src>
+    <src s="18">ויראה פנימית היא שמכיר את פנימיותו וחשיבותו ומחמת זה הוא ירא ומתבייש מפניו.</src>
+    <src s="19">ויראה זו נקראת יראה בושת86.</src>
+    <src s="20">וב' בחינות אלו שביראה הן נגד חכמה עילאה וחכמה תתאה.</src>
+    <src s="21">דבחכמה תתאה,</src>
+    <src s="22">שהיא בחינת מלכות,</src>
+    <src s="23">שם היראה היא מחמת גדלות,</src>
+    <src s="24">ובחכמה עילאה</src>
+    <src s="25">(היינו בחינת חכמה)</src>
+    <src s="26">היראה היא מחמת פנימיות.</src>
+    <src s="27">והנה כדי להיות ירא בושת צריך להכיר ולהשיג את אלקותו ית',</src>
+    <src s="28">וזה א"א אלא ע"י צמצום שמצמצם את עצמו כביכול שיכולים להשיגו,</src>
+    <src s="29">וזה הצמצום בא ע"י שיקטין האדם את עצמו כי כמים הפנים לפנים.</src>
+    <src s="30">וזהו מ"ש גבי ארץ ישראל עיני ה"א בה,</src>
+    <src s="31">עיני לשון רבים,</src>
+    <src s="32">שבארץ ישראל יש ב' עיינין,</src>
+    <src s="33">יראה החיצונית ויראה הפנימית.</src>
+    <src s="34">דעם היות שארץ היא בחינת מלכות ח"ת,</src>
+    <src s="35">מ"מ מצד המעלה דאור חוזר יש בה גם התגלות יראה עליונה.</src>
+    <src s="36">ובדוגמת מה שבאויר הסמוך לארץ יש יותר חמימות מבאויר האמצעי,</src>
+    <src s="37">כי השמש שמכה על הארץ חוזרת ממנו הארה למעלה עד שליש החלל.</src>
+    <src s="38">וזהו ארץ אשר עיני ה"א בה,</src>
+    <src s="39">ארץ הוא א"י,</src>
+    <src s="40">ויש בה ב' עיינין חכמה עילאה וחכמה תתאה.</src>
+    <src s="41">מרשית השנה ועד אחרית שנה,</src>
+    <src s="42">ראשית הוא ח"ע</src>
+    <src s="43">[ורשית חסר כתיב,</src>
+    <src s="44">כי ח"ע המתגלית בח"ת</src>
+    <src s="45">(ארץ)</src>
+    <src s="46">אין בה אל"ף המורה עלי'].</src>
+    <src s="47">(ע"כ תוכן התורה של הה"מ).</src>
+    <src s="48">ועפ"ז יובן מה שאמרו כל רב מבבל וכל רבי מא"י</src>
+    <src s="49">[שבא"י הוא רב בתוס' יו"ד המורה על חכמה],</src>
+    <src s="50">דהגם שא"י היא בחינת מלכות ח"ת ויר"ת,</src>
+    <src s="51">מ"מ,</src>
+    <src s="52">מכיון שביראה התחתונה יש גם התגלות יראה עליונה,</src>
+    <src s="53">לכן בא"י הוא רבי ביו"ד.</src>
+    <src s="54">וזהו ג"כ מה שהיו"ד המתוסף ברבי</src>
+    <src s="55">(מא"י)</src>
+    <src s="56">הוא בחינת פנימיות החכמה כנ"ל,</src>
+    <src s="57">כי בחינת יראה בושת הבאה מהכרת הפנימיות היא בחינת פנימיות ח"ע,</src>
+    <src s="58">ולכן הי' ברבי</src>
+    <src s="59">(שמא"י)</src>
+    <src s="60">בחינת פנימיות החכמה,</src>
+    <src s="61">ועד לבחינת נביע מא"ס,</src>
+    <src s="62">כנ"ל מהבעש"ט.</src>
+  </section>
+  <section v="13">
+    <src s="0">ח)</src>
+    <src s="1">וזהו מ"ש כ"ק מו"ח אדמו"ר בהמאמר בענין היו"ד שבאחורי הד',</src>
+    <src s="2">שאות יו"ד מורה על הביטול ואזעירת גרמה והיינו מלכות דאצילות דלית לה מגרמה כלום,</src>
+    <src s="3">שהביטול דבחינת מלכות הוא</src>
+    <src s="4">[לא רק הביטול דאזעירת גרמה,</src>
+    <src s="5">כ"א]</src>
+    <src s="6">בחינת הביטול דלית לה מגרמה כלום,</src>
+    <src s="7">שהוא תכלית הביטול.</src>
+    <src s="8">וכנ"ל שדוקא במלכות,</src>
+    <src s="9">בחינת ח"ת,</src>
+    <src s="10">נתגלה בחינת ביטול הכי עליון.</src>
+    <src s="11">וממשיך בהמאמר,</src>
+    <src s="12">שביטול זה צ"ל בכל ג' הקוין דתורה עבודה וגמ"ח,</src>
+    <src s="13">שבלימוד התורה אינו מספיק ביטול סתם</src>
+    <src s="14">(השלילה דגסי הרוח)</src>
+    <src s="15">כ"א צ"ל "בבחינת ביטול במציאות לגמרי",</src>
+    <src s="16">וכן בקו העבודה</src>
+    <src s="17">(תפלה)</src>
+    <src s="18">צ"ל הביטול דעני ואביון אני שהוא בחינת הביטול דבחינת מלכות,</src>
+    <src s="19">וכן בקו הגמ"ח</src>
+    <src s="20">(קיום המצוות)</src>
+    <src s="21">מבאר בהמשל דהגבהת משא כבדה</src>
+    <src s="22">(שהוא משל על ענין דקיום המצוות,</src>
+    <src s="23">כנ"ל),</src>
+    <src s="24">שבכדי להגבי' משא כבדה ביותר</src>
+    <src s="25">(אינו מספיק שיצמצם עצמו קצת,</src>
+    <src s="26">כ"א)</src>
+    <src s="27">צריך לצמצם את עצמו ביותר.</src>
+    <src s="28">וע"י הביטול</src>
+    <src s="29">(בכל ג' קוין הנ"ל)</src>
+    <src s="30">הוא נעשה כלי ריקן ומחזיק,</src>
+    <src s="31">שמקבל את כל הגילויים והכחות שנותנים מלמעלה לעבוד את עבודתו בלימוד התורה וקיום המצוות ועבודת התפלה,</src>
+    <src s="32">ועד שעושה מקשר ושקר העולם שיתהפך לקרשי המשכן,</src>
+    <src s="33">שמהפך את השטות דלעו"ז לשטות דקדושה.</src>
+    <src s="34">דכל זה הוא ע"י הביטול דכלי ריקן,</src>
+    <src s="35">שאז הוא כלי לקבל הכחות שנותנים מלמעלה שיוכל לנצח את מלחמת היצר,</src>
+    <src s="36">וכמבואר בהמאמר88</src>
+    <src s="37">שבשביל נצוח המלחמה מבזבזים את האוצרות הכמוסים מדור דור</src>
+    <src s="38">(מה שאצר בעצמו וגם מה שאצרו אבותיו)</src>
+    <src s="39">ומוסרים אותם ע"י פקידי החיל,</src>
+    <src s="40">בשביל אנשי החיל שהם דוקא</src>
+    <src s="41">(אנשי החיל)</src>
+    <src s="42">מביאים את הנצחון בפועל,</src>
+    <src s="43">הצבאות הוי',</src>
+    <src s="44">בכל ג' הפירושים שבזה,</src>
+    <src s="45">כמבואר בהמאמר89.</src>
+    <src s="46">והנה התואר צבאות הוי' לישראל התחיל מזמן יצי"מ,</src>
+    <src s="47">וכמ"ש90</src>
+    <src s="48">בעצם היום הזהד</src>
+    <src s="49">יצאו כל צבאות הוי' מארץ מצרים,</src>
+    <src s="50">ומזה מובן גם בנוגע לגאולה העתידה,</src>
+    <src s="51">שתהי' בדוגמת הגאולה דיציאת מצרים וכמ"ש91</src>
+    <src s="52">כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="53">שעי"ז יהי' הגילוי דגאולה העתידה שאז יהיו נפלאות אפילו לגבי הענינים שהיו ביציאת מצרים92,</src>
+    <src s="54">ולאח"ז יהי' הקיצו ורננו שוכני עפר93</src>
+    <src s="55">והוא בתוכם.</src>
+  </section>
+</awtsmoosMeluketSource>

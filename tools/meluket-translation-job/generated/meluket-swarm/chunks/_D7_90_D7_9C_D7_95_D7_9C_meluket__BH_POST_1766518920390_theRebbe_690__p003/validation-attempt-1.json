@@ -1,0 +1,704 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 132,
+    "returned": 132,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920390_theRebbe_690\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920390_theRebbe_690__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section connects the verse \"You are holy, enthroned upon the praises of Israel\" to the Baal Shem Tov and Alter Rebbe's teachings, explaining that through Israel's praises, G-d draws down a light beyond the order of Hishtalshelus, even into the lower world.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this can be connected with the teaching of the Baal Shem Tov</t>\n    <t s=\"2\">and the teaching of the Alter Rebbe</t>\n    <t s=\"3\">[for whom Chai Elul is their birthday]</t>\n    <t s=\"4\">on the verse,</t>\n    <t s=\"5\">\"And You are holy, enthroned upon the praises of Israel.\"</t>\n    <t s=\"6\">That the Holy One, blessed be He, in His own essence, is holy and separate,</t>\n    <t s=\"7\">and through the praises of Israel,</t>\n    <t s=\"8\">that is, that Israel praises and extols Him, blessed be He,</t>\n    <t s=\"9\">He is enthroned and drawn down below.</t>\n    <t s=\"10\">And this is \"You have affirmed [the L-rd],\"</t>\n    <t s=\"11\">that through Israel praising Him, blessed be He,</t>\n    <t s=\"12\">(the praises of Israel),</t>\n    <t s=\"13\">by this it is brought about that the Holy One, blessed be He, lays Tefillin,</t>\n    <t s=\"14\">that a light is drawn down</t>\n    <t s=\"15\">(from above Atzilus into Atzilus,</t>\n    <t s=\"16\">and within Atzilus itself, from the Moachin into the Middos),</t>\n    <t s=\"17\">not according to the order of Hishtalshelus,</t>\n    <t s=\"18\">through which He is enthroned and drawn down also below.</t>\n    <t s=\"19\">For in a drawing down according to the order of Hishtalshelus,</t>\n    <t s=\"20\">when the light is drawn down and descends through the chain,</t>\n    <t s=\"21\">it is diminished and contracted,</t>\n    <t s=\"22\">until in this physical world,</t>\n    <t s=\"23\">it becomes completely hidden and concealed.</t>\n    <t s=\"24\">However, when the drawing down is not according to the order of Hishtalshelus</t>\n    <t s=\"25\">[for the source of this drawing down is from the pnimiyus and Atzmus of Ein Sof, which is above any relation to worlds,</t>\n    <t s=\"26\">and this drawing down is specifically through the service of Israel,</t>\n    <t s=\"27\">because the source of the souls of Israel is in the Atzmus of Ein Sof],</t>\n    <t s=\"28\">then the revelation is drawn down also below.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the drawing down of G-d laying Tefillin is primarily achieved through Israel's fulfillment of the mitzvah of Tefillin, which involves subjugating the heart and mind to G-d, thereby drawing down Ein Sof light into the upper Moachin and then into the heart.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And behold, this drawing down</t>\n    <t s=\"2\">(of the Holy One, blessed be He, laying Tefillin)</t>\n    <t s=\"3\">is</t>\n    <t s=\"4\">(primarily)</t>\n    <t s=\"5\">through the fulfillment of the mitzvah of Tefillin.</t>\n    <t s=\"6\">As the Sages, of blessed memory, said</t>\n    <t s=\"7\">on the verse,</t>\n    <t s=\"8\">\"He declares His words to Yaakov, His statutes and judgments to Israel,\"</t>\n    <t s=\"9\">that what He does, He tells Israel to do.</t>\n    <t s=\"10\">And the explanation of this is known,</t>\n    <t s=\"11\">that through Israel doing and fulfilling the mitzvos,</t>\n    <t s=\"12\">by this they cause the Holy One, blessed be He, to perform these mitzvos.</t>\n    <t s=\"13\">[And in the manner of the teaching of the Baal Shem Tov</t>\n    <t s=\"14\">on the verse,</t>\n    <t s=\"15\">\"The L-rd is your shadow,\"</t>\n    <t s=\"16\">that just as the shadow does what the person does, so too the Creator, blessed be He, as it were, does what the person does.]</t>\n    <t s=\"17\">From this it is understood also regarding the mitzvah of Tefillin,</t>\n    <t s=\"18\">and the entire Torah is equated</t>\n    <t s=\"19\">(the mitzvos)</t>\n    <t s=\"20\">to Tefillin,</t>\n    <t s=\"21\">that this [matter] of the Holy One, blessed be He, laying Tefillin,</t>\n    <t s=\"22\">is brought about through the laying of Tefillin by Israel.</t>\n    <t s=\"23\">And this will be understood based on the known [teaching]</t>\n    <t s=\"24\">that the intent of the mitzvah of Tefillin</t>\n    <t s=\"25\">[and this intent is part of the mitzvah]</t>\n    <t s=\"26\">is to subjugate the heart and the mind.</t>\n    <t s=\"27\">For the matter of subjugation,</t>\n    <t s=\"28\">that one subjugates himself to Elokus,</t>\n    <t s=\"29\">is similar to the mitzvah of Kriyas Shema, whose matter is the acceptance of the yoke of the kingdom of heaven</t>\n    <t s=\"30\">(the first portion)</t>\n    <t s=\"31\">and the acceptance of the yoke of mitzvos</t>\n    <t s=\"32\">(the second portion),</t>\n    <t s=\"33\">for the matter of subjugation and acceptance of the yoke is above intellect and comprehension,</t>\n    <t s=\"34\">and together with this,</t>\n    <t s=\"35\">the subjugation of Tefillin is in relation to the particular faculties</t>\n    <t s=\"36\">(in contrast to the acceptance of the yoke of Kriyas Shema, which is general),</t>\n    <t s=\"37\">that he subjugates his four Moachin</t>\n    <t s=\"38\">(Chochmah, Binah, and Daas, which is divided into Chessed and Gevurah)</t>\n    <t s=\"39\">of his,</t>\n    <t s=\"40\">and this is drawn down also into the middos of the heart,</t>\n    <t s=\"41\">the subjugation of the heart.</t>\n    <t s=\"42\">And it can be said that through his subjugating his Moachin in a manner of acceptance of the yoke,</t>\n    <t s=\"43\">which is a drawing down from the essence of the soul</t>\n    <t s=\"44\">(for the matter of acceptance of the yoke is from the aspect of the essence of the soul, which is above Hishtalshelus)</t>\n    <t s=\"45\">into his intellectual power,</t>\n    <t s=\"46\">by this is brought about the matter</t>\n    <t s=\"47\">(the explanation)</t>\n    <t s=\"48\">of the second [aspect] of the Holy One, blessed be He, laying Tefillin,</t>\n    <t s=\"49\">the drawing down of Ein Sof</t>\n    <t s=\"50\">into the upper Moachin,</t>\n    <t s=\"51\">and through this being drawn from the mind to the heart,</t>\n    <t s=\"52\">by this is brought about the matter</t>\n    <t s=\"53\">(the explanation)</t>\n    <t s=\"54\">of the first [aspect] of the Holy One, blessed be He, laying Tefillin,</t>\n    <t s=\"55\">the drawing down of Moachin into Zeir Anpin.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section adds that the drawing down of acceptance of the yoke into the mind and heart extends to all faculties, including the lower ones, and through the Tefillin straps reaching below the navel, it brings G-dly revelation even to the lowest aspects of the world and to those who are opposed to holiness.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And it should be added,</t>\n    <t s=\"2\">that through the drawing down of acceptance of the yoke</t>\n    <t s=\"3\">(which is above Hishtalshelus in man)</t>\n    <t s=\"4\">into the mind and the heart,</t>\n    <t s=\"5\">this is drawn into all the faculties,</t>\n    <t s=\"6\">also into the lower faculties.</t>\n    <t s=\"7\">For this is what [is indicated by] the straps of the Tefillin of the head needing to reach until</t>\n    <t s=\"8\">(below)</t>\n    <t s=\"9\">the navel,</t>\n    <t s=\"10\">that also the matters of man that are from his waist and downward</t>\n    <t s=\"11\">should be subjugated to Elokus.</t>\n    <t s=\"12\">And through this, he effects likewise in the world,</t>\n    <t s=\"13\">that also in the lower matters</t>\n    <t s=\"14\">(of \"from his waist and downward\")</t>\n    <t s=\"15\">there will be a revelation of Elokus.</t>\n    <t s=\"16\">For in addition to the fact that in Tefillin the revelation of \"Echad\" etc. is drawn down also into the physical parchment etc.,</t>\n    <t s=\"17\">for in Kriyas Shema the revelation of \"Havayah Echad\" is in the person reciting Shema, unlike in Tefillin,</t>\n    <t s=\"18\">the drawing down is also into the physical parchment etc.</t>\n    <t s=\"19\">[For this is why the entire Torah is equated to Tefillin,</t>\n    <t s=\"20\">because the matter of Torah and mitzvos is to draw down Elokus specifically below,</t>\n    <t s=\"21\">to make for Him a dwelling place in the lower realms],</t>\n    <t s=\"22\">behold, the revelation of Tefillin also affects those who, in their own essence, are opposed to holiness.</t>\n    <t s=\"23\">And as it is written,</t>\n    <t s=\"24\">\"And all the peoples of the earth shall see that the name of the L-rd is called upon you, and they shall fear you,\" and the Sages, of blessed memory, said,</t>\n    <t s=\"25\">\"These are the Tefillin of the head,\"</t>\n    <t s=\"26\">that the drawing down through the laying of Tefillin also affects those in whom it is necessary to instill \"and they shall fear you\"</t>\n    <t s=\"27\">(because they are opposed).</t>\n    <t s=\"28\">And moreover,</t>\n    <t s=\"29\">they shall see etc. \"that the name of the L-rd is called upon you.\"</t>\n    <t s=\"30\">For the nations of the world</t>\n    <t s=\"31\">(even those who acknowledge Elokus),</t>\n    <t s=\"32\">their knowledge is only of the name Elokim</t>\n    <t s=\"33\">(which has the numerical value of HaTeva [nature]),</t>\n    <t s=\"34\">but of the name Havayah</t>\n    <t s=\"35\">(which is above nature)</t>\n    <t s=\"36\">they do not know,</t>\n    <t s=\"37\">as Pharaoh said, \"I do not know Havayah.\"</t>\n    <t s=\"38\">And through Israel laying Tefillin,</t>\n    <t s=\"39\">the revelation of Havayah</t>\n    <t s=\"40\">(which is in the Israelite who lays Tefillin)</t>\n    <t s=\"41\">is in a manner that also the peoples of the earth</t>\n    <t s=\"42\">(and furthermore,</t>\n    <t s=\"43\">\"all the peoples of the earth\" includes those who, in their own essence, do not acknowledge Elokus,</t>\n    <t s=\"44\">not even the name Elokim)</t>\n    <t s=\"45\">see that the name of Havayah is called upon you,</t>\n    <t s=\"46\">and this seeing affects them [so that] \"they shall fear you.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920390_theRebbe_690",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920390_theRebbe_690__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section connects the verse \"You are holy, enthroned upon the praises of Israel\" to the Baal Shem Tov and Alter Rebbe's teachings, explaining that through Israel's praises, G-d draws down a light beyond the order of Hishtalshelus, even into the lower world.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And this can be connected with the teaching of the Baal Shem Tov"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "and the teaching of the Alter Rebbe"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "[for whom Chai Elul is their birthday]"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "\"And You are holy, enthroned upon the praises of Israel.\""
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "That the Holy One, blessed be He, in His own essence, is holy and separate,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "and through the praises of Israel,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "that is, that Israel praises and extols Him, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "He is enthroned and drawn down below."
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "And this is \"You have affirmed [the L-rd],\""
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "that through Israel praising Him, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "(the praises of Israel),"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "by this it is brought about that the Holy One, blessed be He, lays Tefillin,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "that a light is drawn down"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "(from above Atzilus into Atzilus,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "and within Atzilus itself, from the Moachin into the Middos),"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "not according to the order of Hishtalshelus,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "through which He is enthroned and drawn down also below."
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "For in a drawing down according to the order of Hishtalshelus,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "when the light is drawn down and descends through the chain,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "it is diminished and contracted,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "until in this physical world,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "it becomes completely hidden and concealed."
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "However, when the drawing down is not according to the order of Hishtalshelus"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "[for the source of this drawing down is from the pnimiyus and Atzmus of Ein Sof, which is above any relation to worlds,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "and this drawing down is specifically through the service of Israel,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "because the source of the souls of Israel is in the Atzmus of Ein Sof],"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "then the revelation is drawn down also below."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the drawing down of G-d laying Tefillin is primarily achieved through Israel's fulfillment of the mitzvah of Tefillin, which involves subjugating the heart and mind to G-d, thereby drawing down Ein Sof light into the upper Moachin and then into the heart.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And behold, this drawing down"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "(of the Holy One, blessed be He, laying Tefillin)"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "is"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "through the fulfillment of the mitzvah of Tefillin."
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "As the Sages, of blessed memory, said"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "\"He declares His words to Yaakov, His statutes and judgments to Israel,\""
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "that what He does, He tells Israel to do."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "And the explanation of this is known,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "that through Israel doing and fulfilling the mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "by this they cause the Holy One, blessed be He, to perform these mitzvos."
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "[And in the manner of the teaching of the Baal Shem Tov"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "\"The L-rd is your shadow,\""
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that just as the shadow does what the person does, so too the Creator, blessed be He, as it were, does what the person does.]"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "From this it is understood also regarding the mitzvah of Tefillin,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "and the entire Torah is equated"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(the mitzvos)"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "to Tefillin,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "that this [matter] of the Holy One, blessed be He, laying Tefillin,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "is brought about through the laying of Tefillin by Israel."
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "And this will be understood based on the known [teaching]"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "that the intent of the mitzvah of Tefillin"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "[and this intent is part of the mitzvah]"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "is to subjugate the heart and the mind."
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "For the matter of subjugation,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "that one subjugates himself to Elokus,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "is similar to the mitzvah of Kriyas Shema, whose matter is the acceptance of the yoke of the kingdom of heaven"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "(the first portion)"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "and the acceptance of the yoke of mitzvos"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "(the second portion),"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "for the matter of subjugation and acceptance of the yoke is above intellect and comprehension,"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "and together with this,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "the subjugation of Tefillin is in relation to the particular faculties"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "(in contrast to the acceptance of the yoke of Kriyas Shema, which is general),"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "that he subjugates his four Moachin"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "(Chochmah, Binah, and Daas, which is divided into Chessed and Gevurah)"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "of his,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "and this is drawn down also into the middos of the heart,"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "the subjugation of the heart."
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "And it can be said that through his subjugating his Moachin in a manner of acceptance of the yoke,"
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "which is a drawing down from the essence of the soul"
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "(for the matter of acceptance of the yoke is from the aspect of the essence of the soul, which is above Hishtalshelus)"
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "into his intellectual power,"
+          },
+          {
+            "v": 7,
+            "s": 46,
+            "translation": "by this is brought about the matter"
+          },
+          {
+            "v": 7,
+            "s": 47,
+            "translation": "(the explanation)"
+          },
+          {
+            "v": 7,
+            "s": 48,
+            "translation": "of the second [aspect] of the Holy One, blessed be He, laying Tefillin,"
+          },
+          {
+            "v": 7,
+            "s": 49,
+            "translation": "the drawing down of Ein Sof"
+          },
+          {
+            "v": 7,
+            "s": 50,
+            "translation": "into the upper Moachin,"
+          },
+          {
+            "v": 7,
+            "s": 51,
+            "translation": "and through this being drawn from the mind to the heart,"
+          },
+          {
+            "v": 7,
+            "s": 52,
+            "translation": "by this is brought about the matter"
+          },
+          {
+            "v": 7,
+            "s": 53,
+            "translation": "(the explanation)"
+          },
+          {
+            "v": 7,
+            "s": 54,
+            "translation": "of the first [aspect] of the Holy One, blessed be He, laying Tefillin,"
+          },
+          {
+            "v": 7,
+            "s": 55,
+            "translation": "the drawing down of Moachin into Zeir Anpin."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section adds that the drawing down of acceptance of the yoke into the mind and heart extends to all faculties, including the lower ones, and through the Tefillin straps reaching below the navel, it brings G-dly revelation even to the lowest aspects of the world and to those who are opposed to holiness.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And it should be added,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that through the drawing down of acceptance of the yoke"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(which is above Hishtalshelus in man)"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "into the mind and the heart,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "this is drawn into all the faculties,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "also into the lower faculties."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "For this is what [is indicated by] the straps of the Tefillin of the head needing to reach until"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(below)"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "the navel,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "that also the matters of man that are from his waist and downward"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "should be subjugated to Elokus."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "And through this, he effects likewise in the world,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "that also in the lower matters"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "(of \"from his waist and downward\")"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "there will be a revelation of Elokus."
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "For in addition to the fact that in Tefillin the revelation of \"Echad\" etc. is drawn down also into the physical parchment etc.,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "for in Kriyas Shema the revelation of \"Havayah Echad\" is in the person reciting Shema, unlike in Tefillin,"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "the drawing down is also into the physical parchment etc."
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "[For this is why the entire Torah is equated to Tefillin,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "because the matter of Torah and mitzvos is to draw down Elokus specifically below,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "to make for Him a dwelling place in the lower realms],"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "behold, the revelation of Tefillin also affects those who, in their own essence, are opposed to holiness."
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "And as it is written,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "\"And all the peoples of the earth shall see that the name of the L-rd is called upon you, and they shall fear you,\" and the Sages, of blessed memory, said,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "\"These are the Tefillin of the head,\""
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "that the drawing down through the laying of Tefillin also affects those in whom it is necessary to instill \"and they shall fear you\""
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "(because they are opposed)."
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "they shall see etc. \"that the name of the L-rd is called upon you.\""
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "For the nations of the world"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "(even those who acknowledge Elokus),"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "their knowledge is only of the name Elokim"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "(which has the numerical value of HaTeva [nature]),"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "but of the name Havayah"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "(which is above nature)"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "they do not know,"
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "as Pharaoh said, \"I do not know Havayah.\""
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "And through Israel laying Tefillin,"
+          },
+          {
+            "v": 8,
+            "s": 39,
+            "translation": "the revelation of Havayah"
+          },
+          {
+            "v": 8,
+            "s": 40,
+            "translation": "(which is in the Israelite who lays Tefillin)"
+          },
+          {
+            "v": 8,
+            "s": 41,
+            "translation": "is in a manner that also the peoples of the earth"
+          },
+          {
+            "v": 8,
+            "s": 42,
+            "translation": "(and furthermore,"
+          },
+          {
+            "v": 8,
+            "s": 43,
+            "translation": "\"all the peoples of the earth\" includes those who, in their own essence, do not acknowledge Elokus,"
+          },
+          {
+            "v": 8,
+            "s": 44,
+            "translation": "not even the name Elokim)"
+          },
+          {
+            "v": 8,
+            "s": 45,
+            "translation": "see that the name of Havayah is called upon you,"
+          },
+          {
+            "v": 8,
+            "s": 46,
+            "translation": "and this seeing affects them [so that] \"they shall fear you.\""
+          }
+        ]
+      }
+    ]
+  }
+}

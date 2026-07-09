@@ -1,0 +1,309 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 53,
+    "returned": 53,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918104_theRebbe_982\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the Torah is analogous to a human being, composed of a body and soul, corresponding to the commandments and the Torah itself, and that Torah study relates primarily to the soul while fulfilling commandments relates to the body.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And it is written,</t>\n    <t s=\"2\">\"This is the Torah, a man,\"</t>\n    <t s=\"3\">that the Torah is in the likeness of a man.</t>\n    <t s=\"4\">For just as a man is composed of a body and a soul,</t>\n    <t s=\"5\">so too is it in the Torah, which has a body and a soul.</t>\n    <t s=\"6\">And in general, this is the distinction between Torah and commandments.</t>\n    <t s=\"7\">For the 248 positive commandments are the 248 limbs of the King,</t>\n    <t s=\"8\">analogous to the limbs of the body,</t>\n    <t s=\"9\">and the Torah is the blood, which is the soul,</t>\n    <t s=\"10\">that draws vitality into the limbs of the commandments.</t>\n    <t s=\"11\">And this is that the commandments are in time and place, while the Torah is above time and place</t>\n    <t s=\"12\">[therefore, anyone who engages in the study of the burnt-offering is as if he offered a burnt-offering,</t>\n    <t s=\"13\">even when it is not the time or place of the offering],</t>\n    <t s=\"14\">for the body, which is physical, is bounded by time and place,</t>\n    <t s=\"15\">while the soul, which is spiritual, is above time and place.</t>\n    <t s=\"16\">And just as it is in the Torah and commandments themselves,</t>\n    <t s=\"17\">so too is it regarding the connection of the Torah and commandments to the person who studies and fulfills the commandments.</t>\n    <t s=\"18\">For the study of Torah relates primarily to the soul, and the fulfillment of commandments to the body.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that although in revelation the Torah is higher than the commandments, in their root the commandments are superior, being G-d's will which is above His wisdom, and the Torah serves as an explanation of the commandments.</sectionSummaryBrief>\n    <t s=\"0\">And it is known</t>\n    <t s=\"1\">that this—that the Torah is above the commandments—is as the Torah and commandments are drawn down in revelation,</t>\n    <t s=\"2\">but in their root,</t>\n    <t s=\"3\">the commandments are more elevated.</t>\n    <t s=\"4\">For the Torah is His wisdom, and the commandments are His will,</t>\n    <t s=\"5\">will which is above wisdom.</t>\n    <t s=\"6\">And moreover,</t>\n    <t s=\"7\">even after the Torah and commandments come into the chain of descent, the superiority of the commandments is evident,</t>\n    <t s=\"8\">for the Torah is the explanation and elucidation of the commandments.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that similarly, the root of the body is higher than the root of the soul, as G-d's love for Israel through their body stems from His essential free choice, which is above the natural love for their souls.</sectionSummaryBrief>\n    <t s=\"0\">From this it is understood,</t>\n    <t s=\"1\">that so too is it with the soul and body in man</t>\n    <t s=\"2\">[which are analogous to Torah and commandments],</t>\n    <t s=\"3\">that although the vitality of the body comes from the soul,</t>\n    <t s=\"4\">the root of the body is higher than the root of the soul</t>\n    <t s=\"5\">[and as explained elsewhere,</t>\n    <t s=\"6\">that the love and connection of the Holy One, blessed be He, to Israel by virtue of their soul,</t>\n    <t s=\"7\">\"You are children to the L-rd your G-d,\"</t>\n    <t s=\"8\">is like a natural love, so to speak,</t>\n    <t s=\"9\">analogous to the love of a father for his son.</t>\n    <t s=\"10\">That is,</t>\n    <t s=\"11\">the root of this love is from a level where there is a place for the beloved,</t>\n    <t s=\"12\">and it is not from His very Essence.</t>\n    <t s=\"13\">However, the love and connection of the Holy One, blessed be He, to Israel by virtue of their body,</t>\n    <t s=\"14\">is</t>\n    <t s=\"15\">(not due to the virtue of the body,</t>\n    <t s=\"16\">nor even the virtue of a son,</t>\n    <t s=\"17\">an intrinsic virtue,</t>\n    <t s=\"18\">but rather)</t>\n    <t s=\"19\">from the fact that the Holy One, blessed be He, chose the body of Israel,</t>\n    <t s=\"20\">with free choice,</t>\n    <t s=\"21\">and this choice is from His very Essence].</t>\n    <t s=\"22\">And this itself—that the soul is drawn to enliven the body—is because of the superiority of the body by virtue of its root</t>\n    <t s=\"23\">(in analogy to this, that the Torah explains and elucidates the commandments,</t>\n    <t s=\"24\">because the commandments are higher than the Torah).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918104_theRebbe_982",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the Torah is analogous to a human being, composed of a body and soul, corresponding to the commandments and the Torah itself, and that Torah study relates primarily to the soul while fulfilling commandments relates to the body.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And it is written,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "\"This is the Torah, a man,\""
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "that the Torah is in the likeness of a man."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "For just as a man is composed of a body and a soul,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "so too is it in the Torah, which has a body and a soul."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "And in general, this is the distinction between Torah and commandments."
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "For the 248 positive commandments are the 248 limbs of the King,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "analogous to the limbs of the body,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "and the Torah is the blood, which is the soul,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "that draws vitality into the limbs of the commandments."
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "And this is that the commandments are in time and place, while the Torah is above time and place"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "[therefore, anyone who engages in the study of the burnt-offering is as if he offered a burnt-offering,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "even when it is not the time or place of the offering],"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "for the body, which is physical, is bounded by time and place,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "while the soul, which is spiritual, is above time and place."
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "And just as it is in the Torah and commandments themselves,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "so too is it regarding the connection of the Torah and commandments to the person who studies and fulfills the commandments."
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "For the study of Torah relates primarily to the soul, and the fulfillment of commandments to the body."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that although in revelation the Torah is higher than the commandments, in their root the commandments are superior, being G-d's will which is above His wisdom, and the Torah serves as an explanation of the commandments.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And it is known"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "that this—that the Torah is above the commandments—is as the Torah and commandments are drawn down in revelation,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "but in their root,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "the commandments are more elevated."
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "For the Torah is His wisdom, and the commandments are His will,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "will which is above wisdom."
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "even after the Torah and commandments come into the chain of descent, the superiority of the commandments is evident,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "for the Torah is the explanation and elucidation of the commandments."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that similarly, the root of the body is higher than the root of the soul, as G-d's love for Israel through their body stems from His essential free choice, which is above the natural love for their souls.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "From this it is understood,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "that so too is it with the soul and body in man"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "[which are analogous to Torah and commandments],"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that although the vitality of the body comes from the soul,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "the root of the body is higher than the root of the soul"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "[and as explained elsewhere,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "that the love and connection of the Holy One, blessed be He, to Israel by virtue of their soul,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "\"You are children to the L-rd your G-d,\""
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "is like a natural love, so to speak,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "analogous to the love of a father for his son."
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "That is,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "the root of this love is from a level where there is a place for the beloved,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "and it is not from His very Essence."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "However, the love and connection of the Holy One, blessed be He, to Israel by virtue of their body,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "is"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "(not due to the virtue of the body,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "nor even the virtue of a son,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "an intrinsic virtue,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "but rather)"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "from the fact that the Holy One, blessed be He, chose the body of Israel,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "with free choice,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "and this choice is from His very Essence]."
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "And this itself—that the soul is drawn to enliven the body—is because of the superiority of the body by virtue of its root"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "(in analogy to this, that the Torah explains and elucidates the commandments,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "because the commandments are higher than the Torah)."
+          }
+        ]
+      }
+    ]
+  }
+}

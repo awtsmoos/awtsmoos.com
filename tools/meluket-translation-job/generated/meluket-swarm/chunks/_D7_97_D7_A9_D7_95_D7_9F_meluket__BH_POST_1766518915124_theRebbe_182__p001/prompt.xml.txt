@@ -1,0 +1,82 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915124_theRebbe_182" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915124_theRebbe_182" title="מאמר ויזרע יצחק בארץ תשכ"ז" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ תולדות,</src>
+    <src s="2">מבה"ח כסלו ה'תשכ"ז</src>
+  </section>
+  <section v="1">
+    <src s="0">ויזרע יצחק בארץ ההיא וימצא בשנה ההיא מאה שערים ויברכהו ה'1,</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דמזה שנאמר ויברכהו ה' לאחרי וימצא גו' מאה שערים,</src>
+    <src s="3">משמע שויברכהו ה' הוא ענין נוסף על זה שמצא מאה שערים,</src>
+    <src s="4">וצריך ביאור מה שאומר ויברכהו סתם ואינו מפרש במה ברכו.</src>
+    <src s="5">גם צריך להבין,</src>
+    <src s="6">הרי גם זה שמצא מאה שערים</src>
+    <src s="7">(מאה פעמים מכפי ששיערו)</src>
+    <src s="8">הוא לא ע"פ דרכי הטבע אלא ברכת ה',</src>
+    <src s="9">ולאידך,</src>
+    <src s="10">גם הברכה דויברכהו ה' שלאחרי מציאת המאה שערים היא שיצחק נתברך בברכה זו</src>
+    <src s="11">(ויברכהו ה'),</src>
+    <src s="12">ואעפ"כ מציאת המאה שערים מייחס הכתוב ליצחק</src>
+    <src s="13">(וימצא גו' מאה שערים),</src>
+    <src s="14">ובהברכה שנתברך יצחק לאחרי שמצא מאה שערים אומר ויברכהו ה'.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים מה שממשיך הכתוב2</src>
+    <src s="2">ויגדל האיש וילך הלוך וגדל עד כי גדל מאד,</src>
+    <src s="3">שע"י ויזרע יצחק גו' נעשה הגדלה ביצחק עצמו,</src>
+    <src s="4">ויגדל האיש גו'.</src>
+    <src s="5">דשני הענינים שבפסוק ויזרע יצחק גו',</src>
+    <src s="6">וימצא גו' מאה שערים וויברכהו ה',</src>
+    <src s="7">הם בנוגע להתבואה3,</src>
+    <src s="8">וימצא מאה שערים הוא ריבוי מופלג בהתבואה עצמה,</src>
+    <src s="9">ויברכהו ה' הוא שמכר תבואתו בדמים יקרים4.</src>
+    <src s="10">והגם שכל עניני האבות</src>
+    <src s="11">[ובפרט עניני האבות האמורים בתורה]</src>
+    <src s="12">הם ענינים רוחניים5,</src>
+    <src s="13">דמזה מובן שבהתבואה דיצחק הי'</src>
+    <src s="14">(גם)</src>
+    <src s="15">ענין רוחני,</src>
+    <src s="16">ושני הענינים דוימצא מאה שערים וויברכהו ה' הם גם בנוגע לענין הרוחני דתבואת יצחק,</src>
+    <src s="17">מ"מ,</src>
+    <src s="18">הם רק בנוגע לענין פרטי</src>
+    <src s="19">(תבואה).</src>
+    <src s="20">ובהפסוק שלאח"ז מוסיף שע"י העבודה דויזרע יצחק גו' נעשה הגדלה גם בכללות ענינו,</src>
+    <src s="21">ויגדל האיש גו'.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919434_theRebbe_712" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919434_theRebbe_712" title="מאמר וחזקת והיית לאיש תשכ"ח" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p004">
+  <section v="9">
+    <src s="0">ויובן זה ע"פ הידוע41</src>
+    <src s="1">דהטעם על זה שהמשכת הקו מסתיימת באצילות הוא כי הכוונה בהמשכת הקו היא שהאור יהי' בהתלבשות,</src>
+    <src s="2">והתלבשות האור יכולה להיות רק בהענינים</src>
+    <src s="3">(כלים ועולמות)</src>
+    <src s="4">שהם אלקות.</src>
+    <src s="5">ובכדי שתהי' המשכת וגילוי הקו בבי"ע הוא ע"י המשכת אור הסובב,</src>
+    <src s="6">שבכללות הוא האור שלפני הצמצום,</src>
+    <src s="7">ובהאור שלפני הצמצום גופא – אור הבל"ג</src>
+    <src s="8">(שלמעלה מהאור שלהאיר העולמות).</src>
+    <src s="9">וי"ל הביאור בזה,</src>
+    <src s="10">כי אור הבל"ג,</src>
+    <src s="11">מכיון שלגבי' אין הצמצום מסתיר,</src>
+    <src s="12">הוא מאיר בגילוי</src>
+    <src s="13">(גם לאחרי הצמצום)</src>
+    <src s="14">בכל מקום,</src>
+    <src s="15">גם בבי"ע,</src>
+    <src s="16">אלא שזהו רק בידיעתו ית' ובהעולמות אין זה נרגש</src>
+    <src s="17">(כנ"ל סעיף ג),</src>
+    <src s="18">וע"י שמאיר בהקו מהאור שלפני הצמצום,</src>
+    <src s="19">נעשה גם הקו באופן כזה,</src>
+    <src s="20">שהוא נמשך ומתגלה גם בבי"ע.</src>
+  </section>
+  <section v="10">
+    <src s="0">ועפ"ז יש לבאר ההפרש בין הבקיעה דיעקב אותיות יבקע</src>
+    <src s="1">(כמו שהוא מצד עצמו)</src>
+    <src s="2">להבקיעה דיעקב אותיות יבקע כמו שנתגלה ע"י יוסף,</src>
+    <src s="3">שהבקיעה דיעקב</src>
+    <src s="4">(מצד עצמו)</src>
+    <src s="5">היא פריצת42</src>
+    <src s="6">וביטול הגדרים דגילוי וצמצום</src>
+    <src s="7">[ע"י גילוי הפשיטות</src>
+    <src s="8">(ת"ת הנעלם)</src>
+    <src s="9">שאינו מוגדר בגדרים אלה],</src>
+    <src s="10">ועי"ז נמשך הגילוי</src>
+    <src s="11">(גם)</src>
+    <src s="12">בעולמות שנתהוו מהצמצום.</src>
+    <src s="13">אבל עדיין נשארו הגדרים שבענין הגילוי עצמו,</src>
+    <src s="14">החילוק בין הגילוי שבבחינת סובב והגילוי שבבחינת התלבשות,</src>
+    <src s="15">שהגילוי שבבחינת סובב הוא בכל מקום והגילוי שבבחינת התלבשות יש בו מדידה והגבלה43</src>
+    <src s="16">שהוא יכול להיות רק בענינים שהם כלים לגילוי.</src>
+    <src s="17">והבקיעה דיעקב אותיות יבקע כמו שנתגלתה ע"י יוסף היא פריצת וביטול גם דהגדרים שבענין הגילוי גופא,</src>
+    <src s="18">שגם הגילוי שבבחינת התלבשות יכול להיות בכל מקום.</src>
+  </section>
+  <section v="11">
+    <src s="0">ה)</src>
+    <src s="1">ועפ"ז יש לבאר גם מ"ש בהמאמר44</src>
+    <src s="2">דהטעם על זה שהגילוי בבי"ע הוא דוקא ע"י יוסף הוא כי יוסף הוא בחי' יסוד</src>
+    <src s="3">(גמר ההשפעה)</src>
+    <src s="4">ועיקר התענוג והשמחה הוא בגמר ההשפעה,</src>
+    <src s="5">כמבואר שם בארוכה.</src>
+    <src s="6">ולכן דוקא ע"י יוסף נמשך הגילוי בבי"ע.</src>
+    <src s="7">וצריך להבין מהי השייכות דענין הגילוי בבי"ע להתענוג והשמחה שבגמר ההשפעה,</src>
+    <src s="8">ולמה אינו מספיק</src>
+    <src s="9">(בשביל גילוי זה)</src>
+    <src s="10">התענוג והשמחה שבתחלת ואמצע דההשפעה.</src>
+    <src s="11">ויש לומר הביאור בזה,</src>
+    <src s="12">דמעלת התענוג והשמחה שבגמר ההשפעה</src>
+    <src s="13">[שהכוונה כאן בגמר ההשפעה היא לזה שהשפע נתקבל בכי טוב אצל המקבל45]</src>
+    <src s="14">הוא שהתענוג מגיע בהעצם שלמעלה משרש ההשפעה,</src>
+    <src s="15">וכידוע46</src>
+    <src s="16">בענין סוף מעשה במחשבה תחלה47,</src>
+    <src s="17">דסוף מעשה הוא קבלת ההשפעה,</src>
+    <src s="18">וזה מגיע במחשבה תחלה,</src>
+    <src s="19">היינו בהתחילה שלפני</src>
+    <src s="20">(ולמעלה מ)</src>
+    <src s="21">תחלת המחשבה,</src>
+    <src s="22">שרש ההשפעה.</src>
+    <src s="23">ולכן דוקא ע"י התענוג והשמחה שבגמר ההשפעה נעשה פריצת וביטול גדרי הגילוי</src>
+    <src s="24">(השפעה),</src>
+    <src s="25">ועי"ז,</src>
+    <src s="26">גם הגילוי שבבחינת התלבשות</src>
+    <src s="27">(גילוי הקו)</src>
+    <src s="28">מתגלה גם בבי"ע.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,369 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 65,
+    "returned": 65,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919889_theRebbe_263\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919889_theRebbe_263__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the first contraction (Tzimtzum) involves two aspects: enabling the revelation of Ein Sof in the worlds, and bringing about a new light from the essential concealment.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And it can be said that this is also, so to speak, the case regarding the descent of the first contraction</t>\n    <t s=\"2\">(the beginning of the descent that is in the entirety of the chain of descent),</t>\n    <t s=\"3\">that the intention of the contraction is for the sake of the revelation</t>\n    <t s=\"4\">[and from this it descends likewise in all descents, which are for the sake of ascent],</t>\n    <t s=\"5\">that there is in this an analogy of the two aforementioned matters56.</t>\n    <t s=\"6\">First,</t>\n    <t s=\"7\">that through the contraction it was innovated that the revelation of Ein Sof would also be in the worlds.</t>\n    <t s=\"8\">For before the contraction,</t>\n    <t s=\"9\">when \"Ein Sof filled the place of the void,</t>\n    <t s=\"10\">there was no place</t>\n    <t s=\"11\">(possibility)</t>\n    <t s=\"12\">for the existence of the worlds\"57,</t>\n    <t s=\"13\">and consequently there was no revelation in the worlds,</t>\n    <t s=\"14\">and through the contraction it was innovated that the revelation of Ein Sof would be in the worlds.</t>\n    <t s=\"15\">For the innovation in this matter is only relative to the worlds,</t>\n    <t s=\"16\">and not relative to the light,</t>\n    <t s=\"17\">since in the levels before the contraction, this light was already revealed previously.</t>\n    <t s=\"18\">And second,</t>\n    <t s=\"19\">that through the work of refinement there will be a revelation of a new light that did not shine before the contraction,</t>\n    <t s=\"20\">to the extent that this revelation is above not only the spreading of the light,</t>\n    <t s=\"21\">which is in the aspect of revelation,</t>\n    <t s=\"22\">but also above the essence of the light,</t>\n    <t s=\"23\">and even to the revelation of the essential concealment.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that these two revelations—the revealed Ein Sof light and the essential concealment—will occur in the future, first in the days of Mashiach and then in the World to Come.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And behold, it is known that these two matters,</t>\n    <t s=\"2\">the revelation of Ein Sof that also shone before the contraction,</t>\n    <t s=\"3\">and the revelation of the essential concealment,</t>\n    <t s=\"4\">will be in the future to come,</t>\n    <t s=\"5\">except that then there will be two periods.</t>\n    <t s=\"6\">And this is the explanation of the differing Midrashim regarding the future,</t>\n    <t s=\"7\">for they said58</t>\n    <t s=\"8\">that the Holy One, blessed be He, will in the future make a feast for the righteous, and they said59</t>\n    <t s=\"9\">that in the World to Come there is neither eating nor drinking,</t>\n    <t s=\"10\">and the explanation is known60,</t>\n    <t s=\"11\">that these two statements pertain to different times.</t>\n    <t s=\"12\">At first there will be the revelation of felt delight</t>\n    <t s=\"13\">(feast),</t>\n    <t s=\"14\">and it is the revelation of Ein Sof that also shone previously,</t>\n    <t s=\"15\">and afterwards there will be the revelation of unfelt delight,</t>\n    <t s=\"16\">and even the revelation of the essential concealment.</t>\n    <t s=\"17\">And in general, it is the distinction61</t>\n    <t s=\"18\">between the days of Mashiach and the resurrection of the dead62.</t>\n    <t s=\"19\">For our sages, of blessed memory, said63</t>\n    <t s=\"20\">that all the prophets prophesied only concerning the days of Mashiach, but regarding the World to Come, \"No eye has seen a God besides You\"64,</t>\n    <t s=\"21\">and it can be said that in the days of Mashiach there will be the revelation of Ein Sof that shone in revelation also before the contraction,</t>\n    <t s=\"22\">and in the World to Come</t>\n    <t s=\"23\">(at the resurrection of the dead)</t>\n    <t s=\"24\">there will be the revelation of the aspect of Eden, concerning which it is said \"No eye has seen,\"</t>\n    <t s=\"25\">the essential concealment65.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the revelation of the days of Mashiach depends on our actions, while the revelation of the resurrection depends on our service, each corresponding to the type of effort invested.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And based on this, it can be said that in particular, the revelation of the days of Mashiach depends on our actions, and the revelation of the resurrection of the dead depends on our service,</t>\n    <t s=\"2\">for since the cause of the reward of a mitzvah is the mitzvah itself66,</t>\n    <t s=\"3\">the mitzvah</t>\n    <t s=\"4\">(the service)</t>\n    <t s=\"5\">must be similar to the reward</t>\n    <t s=\"6\">(the drawing down that is accomplished through it).</t>\n    <t s=\"7\">Therefore,</t>\n    <t s=\"8\">the drawing down of the revelation of Ein Sof that also shone previously is accomplished through the effort to reveal the nature of the soul that also existed previously,</t>\n    <t s=\"9\">our actions.</t>\n    <t s=\"10\">And the drawing down of the revelation of the essential concealment,</t>\n    <t s=\"11\">a new light,</t>\n    <t s=\"12\">is accomplished through the effort that is above the nature even of the divine soul</t>\n    <t s=\"13\">(through which a new matter is brought about in him that did not exist even from the aspect of his soul),</t>\n    <t s=\"14\">our service.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919889_theRebbe_263",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919889_theRebbe_263__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the first contraction (Tzimtzum) involves two aspects: enabling the revelation of Ein Sof in the worlds, and bringing about a new light from the essential concealment.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And it can be said that this is also, so to speak, the case regarding the descent of the first contraction"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(the beginning of the descent that is in the entirety of the chain of descent),"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "that the intention of the contraction is for the sake of the revelation"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "[and from this it descends likewise in all descents, which are for the sake of ascent],"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "that there is in this an analogy of the two aforementioned matters56."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "First,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "that through the contraction it was innovated that the revelation of Ein Sof would also be in the worlds."
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "For before the contraction,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "when \"Ein Sof filled the place of the void,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "there was no place"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "(possibility)"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "for the existence of the worlds\"57,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "and consequently there was no revelation in the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "and through the contraction it was innovated that the revelation of Ein Sof would be in the worlds."
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "For the innovation in this matter is only relative to the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "and not relative to the light,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "since in the levels before the contraction, this light was already revealed previously."
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "And second,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "that through the work of refinement there will be a revelation of a new light that did not shine before the contraction,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "to the extent that this revelation is above not only the spreading of the light,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "which is in the aspect of revelation,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "but also above the essence of the light,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "and even to the revelation of the essential concealment."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that these two revelations—the revealed Ein Sof light and the essential concealment—will occur in the future, first in the days of Mashiach and then in the World to Come.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And behold, it is known that these two matters,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "the revelation of Ein Sof that also shone before the contraction,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "and the revelation of the essential concealment,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "will be in the future to come,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "except that then there will be two periods."
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "And this is the explanation of the differing Midrashim regarding the future,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "for they said58"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "that the Holy One, blessed be He, will in the future make a feast for the righteous, and they said59"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "that in the World to Come there is neither eating nor drinking,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "and the explanation is known60,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "that these two statements pertain to different times."
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "At first there will be the revelation of felt delight"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "(feast),"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "and it is the revelation of Ein Sof that also shone previously,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "and afterwards there will be the revelation of unfelt delight,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "and even the revelation of the essential concealment."
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "And in general, it is the distinction61"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "between the days of Mashiach and the resurrection of the dead62."
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "For our sages, of blessed memory, said63"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "that all the prophets prophesied only concerning the days of Mashiach, but regarding the World to Come, \"No eye has seen a God besides You\"64,"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "and it can be said that in the days of Mashiach there will be the revelation of Ein Sof that shone in revelation also before the contraction,"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "and in the World to Come"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "(at the resurrection of the dead)"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "there will be the revelation of the aspect of Eden, concerning which it is said \"No eye has seen,\""
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "the essential concealment65."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the revelation of the days of Mashiach depends on our actions, while the revelation of the resurrection depends on our service, each corresponding to the type of effort invested.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And based on this, it can be said that in particular, the revelation of the days of Mashiach depends on our actions, and the revelation of the resurrection of the dead depends on our service,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "for since the cause of the reward of a mitzvah is the mitzvah itself66,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "the mitzvah"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "(the service)"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "must be similar to the reward"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "(the drawing down that is accomplished through it)."
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "the drawing down of the revelation of Ein Sof that also shone previously is accomplished through the effort to reveal the nature of the soul that also existed previously,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "our actions."
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "And the drawing down of the revelation of the essential concealment,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "a new light,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "is accomplished through the effort that is above the nature even of the divine soul"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "(through which a new matter is brought about in him that did not exist even from the aspect of his soul),"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "our service."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,144 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913820_theRebbe_687" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913820_theRebbe_687__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913820_theRebbe_687" title="מאמר זה היום תחילת מעשיך תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913820_theRebbe_687__p002">
+  <section v="3">
+    <src s="0">והנה ביום הראשון דמע"ב</src>
+    <src s="1">(כ"ה באלול)</src>
+    <src s="2">נבראו השמים והארץ וכל צבאם מאין ליש כמ"ש12</src>
+    <src s="3">בראשית ברא אלקים את השמים ואת הארץ,</src>
+    <src s="4">שהשמים והארץ וכל צבאיהם</src>
+    <src s="5">(את השמים לרבות תולדותיהם ואת הארץ לרבות תולדותי'13)</src>
+    <src s="6">נבראו אז מאין ליש.</src>
+    <src s="7">דגם הנבראים שנתהוו בהימים דמע"ב שלאחרי היום הראשון הרי אז היתה התגלות שלהם,</src>
+    <src s="8">יצירה ועשי',</src>
+    <src s="9">אבל בריאתם מאין ליש היתה ביום הראשון14.</src>
+    <src s="10">וגם האדם,</src>
+    <src s="11">שהמעלה דראש השנה היא</src>
+    <src s="12">(כנ"ל)</src>
+    <src s="13">שביום זה נברא האדם,</src>
+    <src s="14">הרי כתיב בי' וייצר ה' אלקים את האדם עפר מן האדמה15,</src>
+    <src s="15">והעפר מן האדמה</src>
+    <src s="16">(שממנו נוצר גוף האדם)</src>
+    <src s="17">נתהווה ביום הראשון.</src>
+    <src s="18">ובמיוחד ע"פ הידוע16</src>
+    <src s="19">שהכתוב בראשית גו' מדבר בהתהוות השמים והארץ הגשמיים וגם בהתהוות האצילות,</src>
+    <src s="20">בראשית חכמה,</src>
+    <src s="21">אלקים בינה,</src>
+    <src s="22">את השמים ז"א ואת הארץ מלכות.</src>
+    <src s="23">וכל זה נתהווה ביום הראשון.</src>
+    <src s="24">וגם איתא במדרש עה"פ ויהי ערב ויהי בוקר יום אחד17,</src>
+    <src s="25">דמ"ש יום אחד</src>
+    <src s="26">(ולא יום ראשון)</src>
+    <src s="27">הוא לפי שבו הי' הקב"ה יחידי בעולמו.</src>
+    <src s="28">והיינו דההתהוות דיום הראשון היתה באופן שהי' אז נראה ונגלה שהוא ית' אחד בעולמו18.</src>
+    <src s="29">וענין זה</src>
+    <src s="30">(הקב"ה יחידי בעולמו)</src>
+    <src s="31">הי' אז מצד למעלה ומצד וכמו שנמשך למטה,</src>
+    <src s="32">והמאמר שנאמר ביום הראשון הי' ויאמר אלקים יהי אור19,</src>
+    <src s="33">שעל ידו יוכלו בנ"י</src>
+    <src s="34">(ע"י עבודתם)</src>
+    <src s="35">להאיר את העולם כולו ולגלות את הפנימיות שבו,</src>
+    <src s="36">אוא"ס שלפני הבריאה והצמצום,</src>
+    <src s="37">ועד לעצמות ומהות,</src>
+    <src s="38">שבהעולם כמו שהוא מצד עצמו</src>
+    <src s="39">(גם כמו שנברא ביום הראשון)</src>
+    <src s="40">הוא בהעלם.</src>
+    <src s="41">וי"ל דזהו שאמרו רז"ל20</src>
+    <src s="42">אור שנברא ביום ראשון לא הי' העולם כדאי להשתמש בו,</src>
+    <src s="43">והבדילו לעצמו21,</src>
+    <src s="44">כי אור זה הוא למעלה מהעולם,</src>
+    <src s="45">ובפרט ע"פ המבואר בכ"מ22</src>
+    <src s="46">הפירוש</src>
+    <src s="47">(וגודל העילוי)</src>
+    <src s="48">דהבדילו לעצמו.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה נוסף על כל העילויים הנ"ל שהיו ביום הראשון דמע"ב,</src>
+    <src s="2">הנה ידוע שבכל ו' ימי בראשית,</src>
+    <src s="3">גם ביום הששי דמע"ב</src>
+    <src s="4">(לפני חטא עה"ד),</src>
+    <src s="5">הי' כללות העולם בדרגת ג"ע23.</src>
+    <src s="6">דג"ע</src>
+    <src s="7">(גם כמו שהוא עכשיו)</src>
+    <src s="8">הוא דרגא הכי נעלית,</src>
+    <src s="9">ועאכו"כ כמו שהי' אז.</src>
+    <src s="10">ואעפ"כ,</src>
+    <src s="11">ע"י בריאת האדם בראש השנה נתוסף עילוי בהעולם</src>
+    <src s="12">[ועד שע"י עבודת אדם הראשון נתוסף עילוי גם בג"ע כמו שהי' אז,</src>
+    <src s="13">כמ"ש24</src>
+    <src s="14">ויניחהו בג"ע לעבדה גו',</src>
+    <src s="15">להמשיך אוא"ס בג"ע25].</src>
+    <src s="16">דהגם שעולם על מילואו נברא26</src>
+    <src s="17">וכמ"ש27</src>
+    <src s="18">אלה תולדות השמים והארץ בהבראם תולדות מלא28,</src>
+    <src s="19">הרי שלימות זו דעולם היא כמו שהעולם הוא מצד הבריאה,</src>
+    <src s="20">וכדיוק לשון הכתוב אלה תולדות</src>
+    <src s="21">(מלא)</src>
+    <src s="22">גו' בהבראם,</src>
+    <src s="23">וכן בלשון חז"ל עולם על מילואו נברא,</src>
+    <src s="24">והשלימות דעולם כמו שהוא מצד הבריאה</src>
+    <src s="25">(מלמעלה)</src>
+    <src s="26">הוא במדידה והגבלה.</src>
+    <src s="27">וע"י עבודת האדם נמשך אור שלמעלה ממדידת והגבלת העולם,</src>
+    <src s="28">אלה תולדות פרץ29</src>
+    <src s="29">תולדות מלא28,</src>
+    <src s="30">שפורצים30</src>
+    <src s="31">כל המדידות וההגבלות דעולם,</src>
+    <src s="32">גם המדידות וההגבלות דעולם כמו שהי' ביום הראשון דמע"ב,</src>
+    <src s="33">שבו הי' הקב"ה יחידי בעולמו.</src>
+  </section>
+  <section v="5">
+    <src s="0">וזהו מה שראש השנה הוא ביום ברוא אדם הראשון דוקא,</src>
+    <src s="1">כי ענין ראש השנה הוא המשכת בחי' זה</src>
+    <src s="2">(כנ"ל בפירוש זה היום),</src>
+    <src s="3">היינו31</src>
+    <src s="4">המשכת וגילוי עצמות אוא"ס שלמעלה מגדר שייכות לעולמות.</src>
+    <src s="5">וזה היום תחלת מעשיך,</src>
+    <src s="6">שהגילוי דבחי' זה נמשך גם במעשיך,</src>
+    <src s="7">דגם בהעולם שמצד עצמו הוא בבחי' כה יהי' בו גילוי בחי' זה</src>
+    <src s="8">(ועד שגם בחי' פעול</src>
+    <src s="9">(שבעשי')</src>
+    <src s="10">ידע כי אתה פעלתו,</src>
+    <src s="11">כנ"ל).</src>
+    <src s="12">ולכן ראש השנה הוא ביום ברוא אדם הראשון דוקא,</src>
+    <src s="13">כי כח זה</src>
+    <src s="14">(להמשיך גילוי עצמות אוא"ס שלמעלה מהעולמות,</src>
+    <src s="15">ושהמשכה זו תהי' בעולם)</src>
+    <src s="16">הוא בישראל דוקא,</src>
+    <src s="17">אתם קרויים אדם32,</src>
+    <src s="18">על שם אדם הראשון33.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,148 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914059_theRebbe_310" title="מאמר שובה ישראל תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914059_theRebbe_310__p004">
+  <section v="9">
+    <src s="0">ה)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">שגם ביום הכיפורים ישנם שני הענינים,</src>
+    <src s="3">הגילוי דעצם הנשמה שמקושרת עם העצמות,</src>
+    <src s="4">וזה שענין זה מתגלה בדרגות הפרטיות דהנשמה,</src>
+    <src s="5">עד לדרגת נפש שבה,</src>
+    <src s="6">שעי"ז מתגלית הכפרה</src>
+    <src s="7">(שבאופן הנ"ל)</src>
+    <src s="8">גם בהדרגות דהנשמה ששייך בהם פגם.</src>
+    <src s="9">וזהו שיום הכפורים הוא יום שנתחייב בה' תפלות32,</src>
+    <src s="10">ה' תפלות הם כנגד חמשה השמות דהנשמה,</src>
+    <src s="11">נפש רוח נשמה חי' ויחידה33,</src>
+    <src s="12">וענין יום שנתחייב בה' תפלות הוא שהגילוי דעצם הנשמה,</src>
+    <src s="13">שמצד עיצומו של יום,</src>
+    <src s="14">מתגלה בדרגות הפרטיות שלה.</src>
+    <src s="15">ויש לומר,</src>
+    <src s="16">שהחילוק בין ה' התפלות הוא לא רק בהמקום</src>
+    <src s="17">(הדרגא)</src>
+    <src s="18">שבו מתגלה עצם הנשמה,</src>
+    <src s="19">אלא גם בהגילוי.</src>
+    <src s="20">דבתפלת נעילה,</src>
+    <src s="21">בחינת יחידה,</src>
+    <src s="22">הגילוי הוא יותר מבד' התפלות שלפנ"ז.</src>
+    <src s="23">ועד"ז הוא בנוגע לד' התפלות עצמם,</src>
+    <src s="24">שהחילוק הוא גם באופן הגילוי.</src>
+    <src s="25">ועד"ז הוא בהבחינות שלמעלה,</src>
+    <src s="26">דזה שיום הכפורים הוא יום שנתחייב בה' תפלות הוא לפי שביום הכפורים הוא עליית המלכות בעתיק</src>
+    <src s="27">(כמבואר בסידור34),</src>
+    <src s="28">דענין זה הוא בכל היום,</src>
+    <src s="29">ואעפ"כ,</src>
+    <src s="30">יש בזה כו"כ דרגות,</src>
+    <src s="31">ועיקר העלי' הוא בנעילה</src>
+    <src s="32">(כמבואר בסידור35).</src>
+  </section>
+  <section v="10">
+    <src s="0">והנה הדרגות דיום הכפורים נחלקות לב' דרגות כלליות.</src>
+    <src s="1">שבת שבתון היא36</src>
+    <src s="2">(לשון נקבה)</src>
+    <src s="3">ושבת שבתון הוא37</src>
+    <src s="4">(לשון זכר).</src>
+    <src s="5">דב' הדרגות הם בעתיק,</src>
+    <src s="6">אלא שבעתיק שני פירושים.</src>
+    <src s="7">שבכללות,</src>
+    <src s="8">בחינה העליונה שבכתר</src>
+    <src s="9">(ובפרט התלת רישין שבה)</src>
+    <src s="10">נקראת בשם עתיק,</src>
+    <src s="11">אבל עיקר ענין דעתיקא הוא אוא"ס שבהתלת רישין38.</src>
+    <src s="12">והחילוק בין שתי דרגות הנ"ל הוא,</src>
+    <src s="13">דשבת שבתון היא</src>
+    <src s="14">(לשון נקבה)</src>
+    <src s="15">הוא בעתיק,</src>
+    <src s="16">בתלת רישין שבו</src>
+    <src s="17">(שבהם נכלל גם רדל"א),</src>
+    <src s="18">ושבת שבתון הוא</src>
+    <src s="19">(לשון זכר)</src>
+    <src s="20">הוא באוא"ס שברדל"א39.</src>
+    <src s="21">ועפ"ז יש לומר תוספת ביאור בזה שלאחרי שאומר שובה ישראל עד מוסיף הוי' אלקיך,</src>
+    <src s="22">כי עד ולא עד בכלל הוא בעתיק</src>
+    <src s="23">(כמובא לעיל ס"ג מלקו"ת),</src>
+    <src s="24">וזה שהוי' כאלקים יחשב לגבי אוא"ס שלמעלה מהוי' יש לומר שזהו לגבי אוא"ס שברדל"א.</src>
+  </section>
+  <section v="11">
+    <src s="0">ו)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דזה שאומרים שמעלתו של יום הכפורים הוא,</src>
+    <src s="3">שהוא יום שנתחייב בה' תפלות,</src>
+    <src s="4">אף שהיום עצמו</src>
+    <src s="5">(גילוי התקשרות העצמות דעצם הנשמה עם העצמות)</src>
+    <src s="6">הוא נעלה יותר מזה שנתחייב בה' תפלות</src>
+    <src s="7">(הגילוי בדרגות הפרטיות דהנשמה),</src>
+    <src s="8">הוא,</src>
+    <src s="9">כי זה שעצם הנשמה מתגלית בדרגות הפרטיות שלה,</src>
+    <src s="10">שעי"ז הכפרה בהמקום שבו הי' תחילה הפגם,</src>
+    <src s="11">יש בזה יתרון לגבי הדרגא דעצם הנשמה.</src>
+    <src s="12">דהגם שבהבחינות נר"נ ובפרט בחי' נפש</src>
+    <src s="13">(כמו שהם מצד עצמם)</src>
+    <src s="14">שייך פגמים אעפ"כ הם מתכפרים.</src>
+    <src s="15">[ויתירה מזו,</src>
+    <src s="16">שהכפרה שמצד עיצומו של יום היא באופן שמתגלה שבפנימיות לא הי' בהם פגם מלכתחילה,</src>
+    <src s="17">כנ"ל].</src>
+    <src s="18">ועד"ז הוא גם בענין הכפרה עצמו,</src>
+    <src s="19">שעיקר החידוש שבכפרה הוא בכפרה על חטאים כפשוטם.</src>
+    <src s="20">דהכפרה על החטאים שבצדיקים,</src>
+    <src s="21">הענין דיש מי שאוהב וכיו"ב שלגבי מדריגתם הוא כמו פריקת עול40,</src>
+    <src s="22">כיון שעל חטאים אלה אין שייך לומר שהם היפך רצון הקב"ה</src>
+    <src s="23">[שהרי ישות זו היא מפני הטבע שהטביע הקב"ה41],</src>
+    <src s="24">לכן,</src>
+    <src s="25">הכפרה שעל זה אינה חידוש כ"כ.</src>
+    <src s="26">ועיקר החידוש ו</src>
+    <src s="27">(במילא)</src>
+    <src s="28">המעלה היא בכפרה על חטאים כפשוטם,</src>
+    <src s="29">שבזה מתגלה תוקף הבלתי מוגבל של ההתקשרות דישראל וקוב"ה,</src>
+    <src s="30">שגם כשעשו היפך רצונו מ"מ</src>
+    <src s="31">(ע"י התשובה והכפרה)</src>
+    <src s="32">הם מרוצים לפניו ית' כמו שלא חטאו מעולם42.</src>
+    <src s="33">וזהו שארז"ל43</src>
+    <src s="34">במקום שבעלי תשובה עומדין אין צדיקים גמורין יכולים לעמוד בו,</src>
+    <src s="35">דיש לומר שאין מרז"ל זה יוצא מידי פשוטו44</src>
+    <src s="36">ועיקר המעלה דבעלי תשובה הוא בבעלי תשובה כפשוטם.</src>
+    <src s="37">ועפ"ז יובן מה שמביא הצ"צ45</src>
+    <src s="38">(מספר טעמי המצוות להרח"ו46),</src>
+    <src s="39">דזה שהאריז"ל הי' נוהג לומר פרטי הוידויים הוא,</src>
+    <src s="40">כי כל ישראל הם גוף אחד,</src>
+    <src s="41">דלכאורה הי' אפשר לומר שהוידויים של האריז"ל היו על ענינים שבתכלית הדקות ששייכים גם אצלו47</src>
+    <src s="42">[וע"ד שנת"ל בענין הישות דיש מי שאוהב],</src>
+    <src s="43">וזה שמבארים דהוידויים של האריז"ל היו</src>
+    <src s="44">(גם)</src>
+    <src s="45">על חטאים כפשוטם מפני שכל ישראל הם גוף אחד,</src>
+    <src s="46">יש לומר,</src>
+    <src s="47">כי ע"פ ביאור זה דוקא מובן שאצל האריז"ל היתה גם המעלה דבעלי תשובה כפשוטם48.</src>
+  </section>
+</awtsmoosMeluketSource>

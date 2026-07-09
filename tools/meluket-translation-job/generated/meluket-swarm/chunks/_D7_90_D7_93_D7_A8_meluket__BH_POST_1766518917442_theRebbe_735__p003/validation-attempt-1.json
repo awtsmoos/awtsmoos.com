@@ -1,0 +1,439 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 79,
+    "returned": 79,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917442_theRebbe_735\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section questions Haman's logic in using a lottery (pur) given that within the order of Hishtalshelus, even the least of Israel are full of mitzvos, and explains that Haman relied on the level of lottery which is above Hishtalshelus where all are equal.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And it must be understood,</t>\n    <t s=\"2\">that according to the above, that through the pur, the lottery, there is the drawing down of Ein Sof, the Master of Will,</t>\n    <t s=\"3\">through which all undesirable matters were atoned for,</t>\n    <t s=\"4\">what was the reasoning of the wicked Haman</t>\n    <t s=\"5\">(who slandered the Jews31)</t>\n    <t s=\"6\">to cast a pur, the lottery.</t>\n    <t s=\"7\">Also, it must be understood what is written: \"Therefore they called these days Purim, after the name of the</t>\n    <t s=\"8\">pur.\"</t>\n    <t s=\"9\">For \"the pur\"</t>\n    <t s=\"10\">(with the definite article)</t>\n    <t s=\"11\">refers to the pur mentioned previously, i.e., the pur that Haman cast,</t>\n    <t s=\"12\">and yet the pur that Haman cast was an undesirable matter, so why are these days called Purim after this pur?</t>\n    <t s=\"13\">And the point of the explanation is this:</t>\n    <t s=\"14\">that from the perspective of the level of Hishtalshelus (the chain of descent),</t>\n    <t s=\"15\">since in this level the actions of lower beings have a place,</t>\n    <t s=\"16\">the primary influence is for Israel,</t>\n    <t s=\"17\">because Israel fulfills Torah and mitzvos,</t>\n    <t s=\"18\">and even those who are the opposite of righteous are full of mitzvos like a pomegranate32.</t>\n    <t s=\"19\">And as it is written33,</t>\n    <t s=\"20\">\"Look down from Your holy dwelling, from the heavens, and bless Your people Israel,\"</t>\n    <t s=\"21\">that from the aspect of the level of \"heavens\"</t>\n    <t s=\"22\">[heavens is the name of fire and water34,</t>\n    <t s=\"23\">and water is Chochmah, the beginning of Hishtalshelus],</t>\n    <t s=\"24\">the blessings flow to Israel35.</t>\n    <t s=\"25\">And since the wicked Haman also knew that after all the slanders he slandered against Israel, there is no comparison between him and Israel</t>\n    <t s=\"26\">[therefore,</t>\n    <t s=\"27\">from the perspective of the level of Hishtalshelus, it is impossible that the wicked Haman would, heaven forbid, defeat Israel, for even the lowliest among them are full of mitzvos like a pomegranate],</t>\n    <t s=\"28\">therefore he cast a pur, the lottery,</t>\n    <t s=\"29\">for since in the level that is above Hishtalshelus</t>\n    <t s=\"30\">(lottery)</t>\n    <t s=\"31\">the actions of lower beings have no place,</t>\n    <t s=\"32\">and everything is equal there,</t>\n    <t s=\"33\">\"as darkness is like light\"36,</t>\n    <t s=\"34\">therefore he thought that from the level of the lottery, which is above Hishtalshelus, there is room for him to, heaven forbid, defeat Israel.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section connects the name Achashverosh to the concepts of silence (Chash) above speech, rooted in Kesser, which encompasses the end and the beginning equally.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And this can be connected with what is explained elsewhere37</t>\n    <t s=\"2\">regarding the matter of Achashverosh,</t>\n    <t s=\"3\">that Achashverosh is \"Achash\" and \"Rosh\"38.</t>\n    <t s=\"4\">\"Chash\" is an expression of silence</t>\n    <t s=\"5\">[as it is stated in the Gemara39,</t>\n    <t s=\"6\">\"What is 'Chashmal'? ... At times they are silent (chashot), at times they speak (memallelot)\"],</t>\n    <t s=\"7\">and the silence of \"Chash\" is above speech40,</t>\n    <t s=\"8\">like the saying: \"A word is worth a sela, silence is worth two\"41.</t>\n    <t s=\"9\">For the root of speech is in Chochmah42,</t>\n    <t s=\"10\">and silence is in Kesser, which is above Chochmah,</t>\n    <t s=\"11\">as our sages, of blessed memory, said43,</t>\n    <t s=\"12\">\"A fence for wisdom is silence\"44,</t>\n    <t s=\"13\">for \"a fence for wisdom\"</t>\n    <t s=\"14\">(fence meaning a boundary and an encompassing [light])</t>\n    <t s=\"15\">is Kesser, which is above Chochmah.</t>\n    <t s=\"16\">And this can be connected with what is stated in the Midrash45,</t>\n    <t s=\"17\">that \"Achashverosh\" is the Holy One, blessed be He, whose end and beginning are His46,</t>\n    <t s=\"18\">for Kesser is</t>\n    <t s=\"19\">(in general)</t>\n    <t s=\"20\">the Or HaSovev (Encompassing Light) that is above Hishtalshelus,</t>\n    <t s=\"21\">for the Or HaSovev includes end and beginning equally,</t>\n    <t s=\"22\">\"His end and His beginning\"47.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section reconciles the two interpretations of Achashverosh, explaining that from the level of the encompassing light where darkness and light are equal, the silence above speech descends into a lower silence of concealment and even into the husk of Nogah and the three completely impure husks.</sectionSummaryBrief>\n    <t s=\"0\">And it must be understood,</t>\n    <t s=\"1\">for in the Gemara48</t>\n    <t s=\"2\">it is stated that Achashverosh is named for the fact that the faces of Israel were blackened (hushcharu) in his days,</t>\n    <t s=\"3\">and how does this fit with the explanation that Achashverosh is He whose end and beginning are His?</t>\n    <t s=\"4\">And the matter is,</t>\n    <t s=\"5\">that this is precisely the reason.</t>\n    <t s=\"6\">For since from the perspective of the Sovev (Encompassing Light) that is above Hishtalshelus, light and darkness are equal before Him</t>\n    <t s=\"7\">(as above, section 5),</t>\n    <t s=\"8\">therefore,</t>\n    <t s=\"9\">from the aspect of the silence</t>\n    <t s=\"10\">(the \"Chash\" of Achashverosh)</t>\n    <t s=\"11\">which is above speech, there descends</t>\n    <t s=\"12\">(through numerous tzimtzumim, etc.)</t>\n    <t s=\"13\">the silence that is below speech49,</t>\n    <t s=\"14\">where the Elokus is in concealment</t>\n    <t s=\"15\">(concealment in its simple sense, which is below revelation),</t>\n    <t s=\"16\">and even to the silence of \"like a sheep before its shearers is silent\"50,</t>\n    <t s=\"17\">meaning that not only does the Elokus not shine in revelation, but also the kelipah conceals the Elokus,</t>\n    <t s=\"18\">the kelipah of Nogah, which is called \"Chash\"51,</t>\n    <t s=\"19\">and even to the point that it joins with the three completely impure kelipot,</t>\n    <t s=\"20\">\"Rosh\"52.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917442_theRebbe_735",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section questions Haman's logic in using a lottery (pur) given that within the order of Hishtalshelus, even the least of Israel are full of mitzvos, and explains that Haman relied on the level of lottery which is above Hishtalshelus where all are equal.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that according to the above, that through the pur, the lottery, there is the drawing down of Ein Sof, the Master of Will,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "through which all undesirable matters were atoned for,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "what was the reasoning of the wicked Haman"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "(who slandered the Jews31)"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "to cast a pur, the lottery."
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "Also, it must be understood what is written: \"Therefore they called these days Purim, after the name of the"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "pur.\""
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "For \"the pur\""
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "(with the definite article)"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "refers to the pur mentioned previously, i.e., the pur that Haman cast,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "and yet the pur that Haman cast was an undesirable matter, so why are these days called Purim after this pur?"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "And the point of the explanation is this:"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "that from the perspective of the level of Hishtalshelus (the chain of descent),"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "since in this level the actions of lower beings have a place,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "the primary influence is for Israel,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "because Israel fulfills Torah and mitzvos,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "and even those who are the opposite of righteous are full of mitzvos like a pomegranate32."
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "And as it is written33,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "\"Look down from Your holy dwelling, from the heavens, and bless Your people Israel,\""
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "that from the aspect of the level of \"heavens\""
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "[heavens is the name of fire and water34,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "and water is Chochmah, the beginning of Hishtalshelus],"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "the blessings flow to Israel35."
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "And since the wicked Haman also knew that after all the slanders he slandered against Israel, there is no comparison between him and Israel"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "[therefore,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "from the perspective of the level of Hishtalshelus, it is impossible that the wicked Haman would, heaven forbid, defeat Israel, for even the lowliest among them are full of mitzvos like a pomegranate],"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "therefore he cast a pur, the lottery,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "for since in the level that is above Hishtalshelus"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "(lottery)"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "the actions of lower beings have no place,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "and everything is equal there,"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "\"as darkness is like light\"36,"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "therefore he thought that from the level of the lottery, which is above Hishtalshelus, there is room for him to, heaven forbid, defeat Israel."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section connects the name Achashverosh to the concepts of silence (Chash) above speech, rooted in Kesser, which encompasses the end and the beginning equally.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this can be connected with what is explained elsewhere37"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "regarding the matter of Achashverosh,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "that Achashverosh is \"Achash\" and \"Rosh\"38."
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "\"Chash\" is an expression of silence"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "[as it is stated in the Gemara39,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "\"What is 'Chashmal'? ... At times they are silent (chashot), at times they speak (memallelot)\"],"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "and the silence of \"Chash\" is above speech40,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "like the saying: \"A word is worth a sela, silence is worth two\"41."
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "For the root of speech is in Chochmah42,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "and silence is in Kesser, which is above Chochmah,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "as our sages, of blessed memory, said43,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "\"A fence for wisdom is silence\"44,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "for \"a fence for wisdom\""
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "(fence meaning a boundary and an encompassing [light])"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "is Kesser, which is above Chochmah."
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "And this can be connected with what is stated in the Midrash45,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "that \"Achashverosh\" is the Holy One, blessed be He, whose end and beginning are His46,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "for Kesser is"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(in general)"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "the Or HaSovev (Encompassing Light) that is above Hishtalshelus,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "for the Or HaSovev includes end and beginning equally,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "\"His end and His beginning\"47."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section reconciles the two interpretations of Achashverosh, explaining that from the level of the encompassing light where darkness and light are equal, the silence above speech descends into a lower silence of concealment and even into the husk of Nogah and the three completely impure husks.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "for in the Gemara48"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "it is stated that Achashverosh is named for the fact that the faces of Israel were blackened (hushcharu) in his days,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "and how does this fit with the explanation that Achashverosh is He whose end and beginning are His?"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "And the matter is,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "that this is precisely the reason."
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "For since from the perspective of the Sovev (Encompassing Light) that is above Hishtalshelus, light and darkness are equal before Him"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "(as above, section 5),"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "therefore,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "from the aspect of the silence"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "(the \"Chash\" of Achashverosh)"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "which is above speech, there descends"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "(through numerous tzimtzumim, etc.)"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "the silence that is below speech49,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "where the Elokus is in concealment"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "(concealment in its simple sense, which is below revelation),"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "and even to the silence of \"like a sheep before its shearers is silent\"50,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "meaning that not only does the Elokus not shine in revelation, but also the kelipah conceals the Elokus,"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "the kelipah of Nogah, which is called \"Chash\"51,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "and even to the point that it joins with the three completely impure kelipot,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "\"Rosh\"52."
+          }
+        ]
+      }
+    ]
+  }
+}

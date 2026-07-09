@@ -1,0 +1,133 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914519_theRebbe_363" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914519_theRebbe_363__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914519_theRebbe_363" title="מאמר ביום השמיני עצרת תש"מ" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914519_theRebbe_363__p005">
+  <section v="12">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">וזהו ביום השמיני עצרת תהי' לכם,</src>
+    <src s="3">דזה שנקרא בשם שמיני עצרת שמורה ע"ז שבא בהמשך לז' ימי הסוכות דוקא,</src>
+    <src s="4">אף שבשמיני עצרת נעצרים ונקלטים גם הענינים דראש השנה ויום הכפורים,</src>
+    <src s="5">כי בראש השנה ויום הכפורים הוא ענין העלי' מלמטה למעלה,</src>
+    <src s="6">ומכיון שהכוונה היא לשבת יצרה,</src>
+    <src s="7">המשכה מלמעלה למטה,</src>
+    <src s="8">לכן נקרא בשם שמיני עצרת,</src>
+    <src s="9">שבו נעצרים ונקלטים כל הענינים שנמשכו מלמעלה למטה בז' ימי הסוכות,</src>
+    <src s="10">שלכן נקרא בשם שמיני דוקא</src>
+    <src s="11">[נוסף לזה ששמיני הוא מלשון שומן ודשן124].</src>
+    <src s="12">אלא שאעפ"כ שמיני עצרת הוא רגל בפ"ע,</src>
+    <src s="13">כי עי"ז גופא מה שבשמיני עצרת נעצרים ונקלטים הענינים דז' ימי הסוכות,</src>
+    <src s="14">נעשה בו ענין חדש,</src>
+    <src s="15">רגל בפ"ע.</src>
+    <src s="16">כי בז' ימי הסוכות נמשכים</src>
+    <src s="17">(בבחי' מקיף)</src>
+    <src s="18">הענינים דראש השנה ויום הכפורים ודכללות עשי"ת עד לשלימות התשובה דיום הכפורים,</src>
+    <src s="19">וע"י המשכת ענין זה בפנימיות ובקליטה בשמיני עצרת,</src>
+    <src s="20">ליום חגינו לשון יחיד,</src>
+    <src s="21">מתגלה</src>
+    <src s="22">(ובאופן דקליטה)</src>
+    <src s="23">ההתקשרות והתאחדות דבחי' יחידה שבנפש עם בחי' יחיד,</src>
+    <src s="24">שלשם מגיע ענין התשובה,</src>
+    <src s="25">פר אחד איל אחד125.</src>
+    <src s="26">וזהו ג"כ עצרת תהי' לכם ואיתא במדרש הה"ד יהיו לך לבדך ואין לזרים אתך,</src>
+    <src s="27">דזה שצריך לשלול ולומר אין לזרים אתך הוא לפי שבע"ת שסורו רע צריך לזהירות יתירה126,</src>
+    <src s="28">ולכן צריך לשלול הענין דזרים</src>
+    <src s="29">(ענינים הבלתי רצויים).</src>
+    <src s="30">אבל עי"ז גופא</src>
+    <src s="31">(הזהירות יתירה דהבע"ת)</src>
+    <src s="32">נעשה יהיו לך לבדך,</src>
+    <src s="33">כי עי"ז שהתשובה מגעת בעצמותו ית',</src>
+    <src s="34">הרי לא שייך שם שום נתינת מקום לזרים,</src>
+    <src s="35">ישראל ומלכא בלחודוהי.</src>
+    <src s="36">ואדרבה,</src>
+    <src s="37">מצד המשכת העצמות</src>
+    <src s="38">(ע"י עבודת התשובה)</src>
+    <src s="39">מתגלה פנימית ואמיתית הכוונה דעשיית הענינים הבלתי רצויים,</src>
+    <src s="40">שזה הי' בכוונה תחלה</src>
+    <src s="41">(כידוע127</src>
+    <src s="42">בענין נורא עלילה על בני אדם128)</src>
+    <src s="43">בכדי שיהי' אתהפכא חשוכא לנהורא,</src>
+    <src s="44">הפיכת הזדונות לזכיות.</src>
+  </section>
+  <section v="13">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וזהו ג"כ מה שקבעו שמחת תורה בשמיני עצרת על לוחות האחרונות דוקא</src>
+    <src s="3">[שהגלוי דלוחות האחרונות</src>
+    <src s="4">(ענין התשובה דיום הכפורים)</src>
+    <src s="5">בפנימיות ובקליטה הוא בשמיני עצרת,</src>
+    <src s="6">כנ"ל],</src>
+    <src s="7">כי השמחה דשמחת תורה היא</src>
+    <src s="8">(בעיקר)</src>
+    <src s="9">מצד זה שהתורה פועלת גם בענינים התחתונים שבעולם,</src>
+    <src s="10">דזהו מה שהשמחה דשמחת תורה היא בריקודים ברגלים ובהם גופא בהעקב שבהם,</src>
+    <src s="11">ולכן השמחה היא על לוחות האחרונות דוקא,</src>
+    <src s="12">ענין התשובה,</src>
+    <src s="13">כי עי"ז מתברר גם הכי תחתון שבעולם,</src>
+    <src s="14">עד שגם הזדונות נהפכים לזכיות.</src>
+    <src s="15">וכמו שבריקוד</src>
+    <src s="16">(בגשמיות),</src>
+    <src s="17">ע"י שהרגלים והעקביים מתנשאים</src>
+    <src s="18">(הויבן זיך)</src>
+    <src s="19">ומרקדים,</src>
+    <src s="20">הם מנשאים גם את הראש</src>
+    <src s="21">(וכח השכל שבו)</src>
+    <src s="22">שגם הוא מרקד בשמחה גדולה למעלה ממדידה והגבלה,</src>
+    <src s="23">עד"ז הוא גם ברוחניות הענינים,</src>
+    <src s="24">שע"י השמחה והריקודים דשמחת תורה נעשה עלי' והתנשאות גם בבחי' הראש דנשמה.</src>
+    <src s="25">ומכיון שאדם הוא אדמה לעליון129</src>
+    <src s="26">הנה עי"ז נעשה עלי' והתנשאות כביכול גם בחכמתו ית' שהיא התורה</src>
+    <src s="27">[וכמובן גם מזה שבהריקודים דהקפות גם התורה היא שמחה ורוקדת,</src>
+    <src s="28">כמאמר הידוע דרבינו נשיאינו],</src>
+    <src s="29">ושמחה פורצת גדר130,</src>
+    <src s="30">שהשמחה דשמחת תורה פורצת גם הגדר דתורה כביכול,</src>
+    <src s="31">דהתורה מצ"ע היא במדידה והגבלה וע"י השמחה והריקודים דשמחת תורה ממשיכים בה מעצמותו ית',</src>
+    <src s="32">וכנ"ל ע"ד מרז"ל דוד הי' מחבר תורה שלמעלה בהקב"ה.</src>
+    <src s="33">וכמו שהוא בתורה עד"ז הוא בנשמות ישראל,</src>
+    <src s="34">שע"י השמחה והריקודים דשמחת תורה נעשה עלי' והתנשאות בבחי' הראש דנשמה</src>
+    <src s="35">(כנ"ל),</src>
+    <src s="36">שמתקשרת ונעשית חד ממש עם העצמות,</src>
+    <src s="37">שאו את ראש גו' לגולגלותם131,</src>
+    <src s="38">שעיקר ענין זה יהי' במנין העשירי עוד תעבורנה הצאן ע"י מונה132.</src>
+    <src s="39">וכל זה נעשה</src>
+    <src s="40">(כנ"ל)</src>
+    <src s="41">ע"י מעשינו ועבודתנו בזמן הגלות,</src>
+    <src s="42">ובמיוחד לאחר גילוי תורת הרשב"י ובאופן דיתפרנסון133</src>
+    <src s="43">ע"י תורת הבעש"ט וע"י תורת חסידות חב"ד,</src>
+    <src s="44">ויפקון בי' מן גלותא ברחמי134,</src>
+    <src s="45">ושמחת עולם על ראשם135,</src>
+    <src s="46">בגאולה האמיתית והשלימה בקרוב ממש בביאת משיח צדקנו,</src>
+    <src s="47">דוד מלכא משיחא.</src>
+  </section>
+</awtsmoosMeluketSource>

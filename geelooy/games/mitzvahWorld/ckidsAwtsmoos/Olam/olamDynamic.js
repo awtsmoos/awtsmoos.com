@@ -1,3 +1,3 @@
 // B"H
-/** @file olamDynamic.js @description Compatibility gate to the freshly cache-busted Olam vessel. */
-export { default } from './core/OlamVessel.js?compact=true&v=production-vessel-refresh-20260702-bh1';
+/** Compatibility gate to active tested Olam vessel. */
+export { default } from './core/OlamVessel.js?compact=true&v=actual-tested-live-gates-20260709-bh5';

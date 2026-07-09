@@ -1,0 +1,129 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" title="מאמר פדה בשלום תשכ"ב" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">וזהו ושבתי ב.</src>
+    <src s="2">שלום,</src>
+    <src s="3">וכן פדה ב.</src>
+    <src s="4">שלום,</src>
+    <src s="5">שלום מלמעלה למטה ושלום מלמטה למעלה,</src>
+    <src s="6">שהבירור דנפש הבהמית</src>
+    <src s="7">(פדה בשלום נפשי)</src>
+    <src s="8">וכן בירור הנצוצות שבעולם</src>
+    <src s="9">(ושבתי בשלום אל בית אבי)</src>
+    <src s="10">צריך להיות בשני האופנים,</src>
+    <src s="11">בדרך מלמעלה למטה ובדרך מלמטה למעלה,</src>
+    <src s="12">שעי"ז ישנם שני הענינים</src>
+    <src s="13">(מעלות)</src>
+    <src s="14">דשלום.</src>
+    <src s="15">ולהוסיף,</src>
+    <src s="16">שהשלימות דשלום</src>
+    <src s="17">(שלום גם מלשון שלימות)</src>
+    <src s="18">הוא כשהשלום</src>
+    <src s="19">(שבכל אחד דשני האופנים)</src>
+    <src s="20">כולל שתי המעלות.</src>
+    <src s="21">שגם בהבירור שבדרך מלמטה למעלה יש</src>
+    <src s="22">(מעין)</src>
+    <src s="23">הענין דאתהפכא,</src>
+    <src s="24">ושגם בהבירור שבדרך מלמעלה למטה יש</src>
+    <src s="25">(מעין)</src>
+    <src s="26">המעלה שהבירור הוא מצד ענינו דהתחתון.</src>
+    <src s="27">וזהו פדה בשלום נפשי מקרב לי,</src>
+    <src s="28">שגם הענין דפדה בשלום,</src>
+    <src s="29">שהוא</src>
+    <src s="30">(בדרך כלל)</src>
+    <src s="31">הפדי' דנה"א מהגלות דנה"ב ע"י גילוי אור33,</src>
+    <src s="32">תהי' בו המעלה דמקרב לי</src>
+    <src s="33">(קרב מלשון קירוב)34,</src>
+    <src s="34">הבירור דנה"ב עצמה.</src>
+    <src s="35">ועד"ז לאידך,</src>
+    <src s="36">שגם הבירור שבדרך קרב</src>
+    <src s="37">(מלחמה)</src>
+    <src s="38">יהי' באופן דפדה בשלום,</src>
+    <src s="39">אתהפכא.</src>
+  </section>
+  <section v="10">
+    <src s="0">וממשיך הכתוב כי ברבים היו עמדי,</src>
+    <src s="1">ברבים היו עמדי הוא טעם</src>
+    <src s="2">(כי)</src>
+    <src s="3">על פדה בשלום נפשי מקרב לי,</src>
+    <src s="4">דע"י ההתבוננות בענין היחידה,</src>
+    <src s="5">שעי"ז מתעורר אצלו ענין הביטול35</src>
+    <src s="6">[היינו,</src>
+    <src s="7">שגם לפני העבודה דפדה בשלום נפשי מקרב לי וצריך עדיין לפדות נפשו האלקית מהמלחמות דנה"ב,</src>
+    <src s="8">הוא מתעורר בביטול כללי לאלקות,</src>
+    <src s="9">שבא מהיחידה שבו],</src>
+    <src s="10">עי"ז,</src>
+    <src s="11">הבירור דנה"ב הוא באופן דפדה בשלום נפשי מקרב לי,</src>
+    <src s="12">שבכל אחד דשני אופני הבירור ישנם שתי המעלות36.</src>
+  </section>
+  <section v="11">
+    <src s="0">ז)</src>
+    <src s="1">ויש לקשר ענין זה עם מה שמבאר כ"ק מו"ח אדמו"ר במאמרו ד"ה וכל37</src>
+    <src s="2">בניך לימודי הוי' ורב שלום בניך שאמרו בש"פ ויצא תרפ"ט</src>
+    <src s="3">(שבקונטרס דרושי חתונה38),</src>
+    <src s="4">דהתרגום עה"פ וכל בניך גו' הוא וכל בניך אלפין באורייתא דהוי' וסגי יהי שלם בנך.</src>
+    <src s="5">ומבאר39,</src>
+    <src s="6">דזה שמדייק דאלפין באורייתא דהוי'</src>
+    <src s="7">(אף שלכאורה אין זה חידוש,</src>
+    <src s="8">דכולם יודעים שהתורה היא תורת הוי'40)</src>
+    <src s="9">הוא,</src>
+    <src s="10">שלימוד התורה שלהם הוא באופן שנרגש אצלו שהתורה היא תורת הוי'.</src>
+    <src s="11">ומוסיף בהמאמר,</src>
+    <src s="12">דפירוש אלפין באורייתא דהוי' הוא,</src>
+    <src s="13">דהגם שלימוד התורה</src>
+    <src s="14">(אולפנא)</src>
+    <src s="15">הוא שמבין ומשיג התורה בשכלו</src>
+    <src s="16">(שכל אנושי),</src>
+    <src s="17">מ"מ,</src>
+    <src s="18">גם בהלימוד</src>
+    <src s="19">(שכל)</src>
+    <src s="20">שלו נרגש שהתורה היא תורת הוי',</src>
+    <src s="21">אלפין באורייתא דהוי'.</src>
+    <src s="22">וע"י הרגש זה,</src>
+    <src s="23">גם הלימוד</src>
+    <src s="24">(ההשגה)</src>
+    <src s="25">שלו הוא בביטול.</src>
+    <src s="26">ובכדי שלימוד התורה יהי' באופן זה,</src>
+    <src s="27">הוא ע"י הקדמת עבודת התפלה.</src>
+    <src s="28">כי ענין התפלה הוא ההתקשרות והביטול לאלקות.</src>
+    <src s="29">וע"י לימוד התורה באופן זה</src>
+    <src s="30">(דוקא)</src>
+    <src s="31">נעשה רב שלום בניך – ריבוי שלום להתלמידי חכמים העוסקים בתורה41,</src>
+    <src s="32">וגם ריבוי שלום בעולם כמו שלמדו רז"ל42</src>
+    <src s="33">מפסוק זה שתלמידי חכמים מרבים שלום בעולם.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p008">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" title="מאמר תפלה למשה תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p008">
+  <section v="21">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">ויש לומר,</src>
+    <src s="3">דע"י שדוד כתב המזמור תפלה למשה בספר תהלים שנאמר ע"י כל ישראל,</src>
+    <src s="4">גם ע"י אנשים פשוטים,</src>
+    <src s="5">ניתן הכח לכאו"א מישראל,</src>
+    <src s="6">לגלות בחינת העשירות שבו</src>
+    <src s="7">(מצד בחינת משה שבכ"א מישראל95),</src>
+    <src s="8">ועי"ז – למלאות החסרון דמלכות ודהעולם,</src>
+    <src s="9">מילוי החסרון לגמרי,</src>
+    <src s="10">שלא יהי' מקום בעולם שאין מאיר בו גילוי אלקות.</src>
+    <src s="11">ויש לקשר זה עם מאמר המדרש96</src>
+    <src s="12">בפירוש איש האלקים,</src>
+    <src s="13">בשעה שעלה לרקיע איש ובשעה שירד מן הרקיע אלקים,</src>
+    <src s="14">ומבאר כ"ק מו"ח אדמו"ר בשיחה הנ"ל</src>
+    <src s="15">(שהובאה בתחילת המאמר)97,</src>
+    <src s="16">דאדם</src>
+    <src s="17">(מוחין98)</src>
+    <src s="18">הוא למעלה מאיש</src>
+    <src s="19">(מדות98),</src>
+    <src s="20">ומ"ש במדרש בשעה שעלה לרקיע איש הוא להורות שגם בעת התפלה,</src>
+    <src s="21">כשמתבונן בדרגות הכי נעלות ומשיג אותם בטוב,</src>
+    <src s="22">עולה לרקיע,</src>
+    <src s="23">צריך לזכור שהוא איש,</src>
+    <src s="24">שיש לו מדות שצריך לבררם ולזככם,</src>
+    <src s="25">ועי"ז,</src>
+    <src s="26">בשעה שיורד מן הרקיע</src>
+    <src s="27">(לאחרי התפלה)</src>
+    <src s="28">הוא אלקים,</src>
+    <src s="29">אלקים מלשון דין99</src>
+    <src s="30">ואלקים מלשון כח וגבורה100,</src>
+    <src s="31">שהוא בעל כח וגבורה לעשות דין בעצמו שהנהגתו בפועל תהי' כדבעי.</src>
+  </section>
+  <section v="22">
+    <src s="0">וע"פ המבואר דענינו של משה</src>
+    <src s="1">(המודגש בתפלה למשה)</src>
+    <src s="2">הוא זה שמשה הי' עשיר,</src>
+    <src s="3">צריך לומר,</src>
+    <src s="4">שהעבודה דאיש האלקים שייכת לענין העשירות.</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">דג' הענינים שלמעלה</src>
+    <src s="7">(ממלא,</src>
+    <src s="8">סובב ואוא"ס שלמעלה מסובב)</src>
+    <src s="9">יש דוגמתם באדם.</src>
+    <src s="10">שהגילויים דהנשמה הם דוגמת הגילויים דממלא וסובב,</src>
+    <src s="11">ועצם הנשמה היא דוגמת עצמות אוא"ס.</src>
+    <src s="12">וכמו שלמעלה,</src>
+    <src s="13">מצד הגילויים דממלא וסובב יש נתינת מקום למציאות שמחוץ לאלקות וזה שאמיתית המציאות של כל הנמצאים הוא אלקות הוא דוקא מצד עצמות אוא"ס</src>
+    <src s="14">(כנ"ל סעיף ט),</src>
+    <src s="15">עד"ז הוא בעבודת האדם,</src>
+    <src s="16">שבכדי שההתבוננות שבתפלה תהי' באופן שתפעול על הנהגתו במשך כל היום,</src>
+    <src s="17">איש האלקים,</src>
+    <src s="18">הוא ע"י שהתפלה שלו קשורה עם עצם הנשמה,</src>
+    <src s="19">משה,</src>
+    <src s="20">עשירות.</src>
+  </section>
+  <section v="23">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">ולהוסיף,</src>
+    <src s="3">דמבואר בהמאמר101,</src>
+    <src s="4">שבתפלת משה על כנס"י,</src>
+    <src s="5">היא ספירת המלכות,</src>
+    <src s="6">שני ענינים.</src>
+    <src s="7">המשכת הארה מעצמות אוא"ס שעי"ז אפשר להיות עליית המלכות</src>
+    <src s="8">(מלמטה למעלה)</src>
+    <src s="9">בעצמות אוא"ס,</src>
+    <src s="10">ועי"ז נעשה אח"כ המשכת העצמות במלכות</src>
+    <src s="11">(מלמעלה למטה).</src>
+    <src s="12">ויש לומר,</src>
+    <src s="13">דשני ענינים אלה</src>
+    <src s="14">(במלכות)</src>
+    <src s="15">הם ע"י שני הענינים באיש האלקים</src>
+    <src s="16">[בשעה שעלה לרקיע איש ובשעה שירד מן הרקיע אלקים]</src>
+    <src s="17">שבעבודת האדם.</src>
+    <src s="18">דע"י העבודה דבשעה שעלה לרקיע איש,</src>
+    <src s="19">שגם בההתבוננות דתפלה הוא זוכר שיש לו מדות שצריך לבררם ולזככם,</src>
+    <src s="20">דזה שהתפלה שלו היא באופן זה הוא ע"י שהתפלה שלו קשורה עם עצם הנשמה</src>
+    <src s="21">(כנ"ל סעיף יו"ד),</src>
+    <src s="22">הוא המשכת הארה מעצם הנשמה</src>
+    <src s="23">(מלמעלמ"ט)</src>
+    <src s="24">שעי"ז מתעלים ענינים התחתונים שבו להתפלה – עי"ז נמשך הארה מעצמות אוא"ס לרומם ולהעלות את המלכות לשרשה בהעצמות.</src>
+    <src s="25">וע"י העבודה דבשעה שירד מן הרקיע אלקים,</src>
+    <src s="26">דע"י שהתפלה קשורה עם עצם הנשמה היא פועלת על הנהגתו במשך כל היום,</src>
+    <src s="27">הוא המשכת וגילוי עצם הנשמה בענינים התחתונים שבו – עי"ז הוא המשכת וגילוי העצמות במלכות,</src>
+    <src s="28">גזור שתיבנה בבחינת בנין עדי עד.</src>
+  </section>
+</awtsmoosMeluketSource>

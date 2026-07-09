@@ -1,0 +1,172 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" title="מאמר פדה בשלום תשכ"ב" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p006">
+  <section v="15">
+    <src s="0">ח)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דכיון שהכוונה בירידת ונפילת הנצוצות היא בכדי שיתבררו ויחזרו למקורם</src>
+    <src s="3">[שעי"ז יתעלו למעלה יותר מכמו שהיו קודם ירידתם],</src>
+    <src s="4">הרי אין שייך שיהי' איזה מניעה ועיכוב</src>
+    <src s="5">(מצד הנצוצות)</src>
+    <src s="6">להבירור שלהם.</src>
+    <src s="7">דזה שאפשר להיות מניעה ועיכוב הוא רק מצד האדם</src>
+    <src s="8">(המברר),</src>
+    <src s="9">שיש לו בחירה חפשית,</src>
+    <src s="10">אבל מצד הנצוצות – מוכרח שיתבררו.</src>
+    <src s="11">[וזהו מ"ש ואדונירם על המס53,</src>
+    <src s="12">אדונירם הוא אדוני רם,</src>
+    <src s="13">אדוני הוא ע"ד שם אד'</src>
+    <src s="14">(בחינת שכינתי')</src>
+    <src s="15">ורם מלשון רוממות הוא אור א"ס שלמעלה מעולמות</src>
+    <src s="16">(קוב"ה).</src>
+    <src s="17">וע"פ המבואר לקמן</src>
+    <src s="18">(סעיף יו"ד)</src>
+    <src s="19">דענין הבירורים הוא ליחדא קוב"ה ושכינתי',</src>
+    <src s="20">יש לומר,</src>
+    <src s="21">דמס הו"ע הבירורים.</src>
+    <src s="22">ונק' בשם מס,</src>
+    <src s="23">שמס הוא דבר שמוכרח לשלם.</src>
+    <src s="24">ובחינת אדונירם הוא המכריח גביית המס,</src>
+    <src s="25">בירור הנצוצות].</src>
+    <src s="26">ויתירה מזה,</src>
+    <src s="27">שהנצוצות רוצים ומשתוקקים להתברר.</src>
+    <src s="28">וזהו ברבים היו עמדי,</src>
+    <src s="29">שהנצוצות הנמצאים בבחינת רבים</src>
+    <src s="30">(רשות הרבים,</src>
+    <src s="31">טורי דפרודא54)</src>
+    <src s="32">משתוקקים שיבררו אותם</src>
+    <src s="33">[בדוגמת ענין ברבים היו עמדי בפשטות,</src>
+    <src s="34">שאנשי אבשלום התפללו לנצחונו של דוד55].</src>
+    <src s="35">אלא דכיון שהנצוצות הם בגלות בבחינת רבים,</src>
+    <src s="36">אין זה בגילוי.</src>
+    <src s="37">ועד שלפעמים נדמה להאדם שעניני העולם</src>
+    <src s="38">(לא רק שאינם מסייעים,</src>
+    <src s="39">אלא)</src>
+    <src s="40">מונעים אותו מעבודת ה',</src>
+    <src s="41">כי ההעלם דהנצוצות הוא העלם בתכלית,</src>
+    <src s="42">ע"ד העלם שאינו במציאות.</src>
+    <src s="43">וע"י העבודה דברבים היו עמדי,</src>
+    <src s="44">התעוררות היחידה,</src>
+    <src s="45">עצם הנשמה שלמעלה מהתפשטות</src>
+    <src s="46">(מציאות),</src>
+    <src s="47">מתעורר ומתגלה ההעלם שאינו במציאות דהנצוצות,</src>
+    <src s="48">והתשוקה שלהם להתברר,</src>
+    <src s="49">ענין ברבים היו עמדי,</src>
+    <src s="50">ואזי רואים בגילוי שעניני העולם</src>
+    <src s="51">(לא רק שאינם מונעים,</src>
+    <src s="52">אלא)</src>
+    <src s="53">מסייעים לעבודת ה'.</src>
+  </section>
+  <section v="16">
+    <src s="0">ט)</src>
+    <src s="1">וזהו פדה בשלום נפשי מקרב לי כי ברבים היו עמדי,</src>
+    <src s="2">דהשלום של הבירור שע"י העבודה דברבים היו עמדי</src>
+    <src s="3">(התעוררות היחידה)</src>
+    <src s="4">הוא בשלימות,</src>
+    <src s="5">שכולל שתי המעלות</src>
+    <src s="6">(כנ"ל סעיף ו),</src>
+    <src s="7">כי ע"י העבודה דברבים היו עמדי,</src>
+    <src s="8">התעוררות היחידה,</src>
+    <src s="9">מתגלה שהנצוצות שנמצאים בגלות ב</src>
+    <src s="10">(רשות ה)</src>
+    <src s="11">רבים היו עמדי</src>
+    <src s="12">(הרצון והתשוקה שלהם להתברר),</src>
+    <src s="13">ולכן גם הבירור בדרך מלמעלה למטה יש בו מעין המעלה שהבירור הוא מצד התחתון,</src>
+    <src s="14">כי גם בירור זה הוא שהתחתון רוצה להתברר</src>
+    <src s="15">(אלא שהבירור בפועל הוא ע"י גילוי אור שלמעלה ממנו).</src>
+    <src s="16">ועד"ז לאידך,</src>
+    <src s="17">שגם הבירור שבדרך מלמטה למעלה הוא באופן שמתבטל ההתנגדות של התחתון.</src>
+    <src s="18">דזה שנתבאר לעיל</src>
+    <src s="19">(סעיף ה)</src>
+    <src s="20">שגם לאחרי הבירור דהתחתון</src>
+    <src s="21">(בירור בדרך מלמטה למעלה)</src>
+    <src s="22">נשאר עדיין בהעלם ההתנגדות שלו,</src>
+    <src s="23">הוא,</src>
+    <src s="24">מפני שבירור התחתון הוא ענין שנתוסף בו</src>
+    <src s="25">(ע"י המברר שנתלבש בו),</src>
+    <src s="26">היפך הטבע דהתחתון.</src>
+    <src s="27">וכמו נפש הבהמית שבטבעה נמשכת לענינים גשמיים,</src>
+    <src s="28">והאהבה לאלקות</src>
+    <src s="29">[שנעשה אצלה ע"י נפש האלקית שנתלבש בה]</src>
+    <src s="30">הוא היפך טבעה.</src>
+    <src s="31">ומזה מובן,</src>
+    <src s="32">דכשהתחתון הוא באופן שעוד לפני ההתלבשות של המברר בו</src>
+    <src s="33">(עבודת הבירור)</src>
+    <src s="34">הוא רוצה ומשתוקק</src>
+    <src s="35">(בגילוי)</src>
+    <src s="36">להתברר,</src>
+    <src s="37">אזי,</src>
+    <src s="38">הבירור אינו דבר נוסף עליו,</src>
+    <src s="39">ומכש"כ שאינו היפך טבעו,</src>
+    <src s="40">ולכן הבירור שלו</src>
+    <src s="41">(גם הבירור שבדרך התלבשות)</src>
+    <src s="42">הוא ע"ד הענין דאתהפכא.</src>
+  </section>
+  <section v="17">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">והנה ידוע56</src>
+    <src s="3">דכללות ענין העבודה הוא ליחדא קוב"ה ושכינתי'.</src>
+    <src s="4">והו"ע יחוד סובב וממלא,</src>
+    <src s="5">כי קוב"ה הוא בחינת סוכ"ע ושכינתי' הוא בחינת ממכ"ע57.</src>
+    <src s="6">וזהו שאמר יעקב ושבתי בשלום אל בית אבי והי' הוי' לי לאלקים,</src>
+    <src s="7">שע"י עבודת הבירורים</src>
+    <src s="8">(ושבתי בשלום אל בית אבי,</src>
+    <src s="9">החזרת הנצוצות למקורם)</src>
+    <src s="10">[דעיקר העבודה שבשבילה ירדה הנשמה למטה היא עבודת הבירורים58]</src>
+    <src s="11">יהי' והי' הוי' לי לאלקים,</src>
+    <src s="12">יחוד הוי'</src>
+    <src s="13">(סובב)</src>
+    <src s="14">ואלקים</src>
+    <src s="15">(ממלא).</src>
+    <src s="16">ויש לומר,</src>
+    <src s="17">דע"י עבודת הבירורים בשני האופנים</src>
+    <src s="18">(בדרך מלמעלה למטה ובדרך מלמטה למעלה),</src>
+    <src s="19">ובאופן שכל אחד מהם כלול משניהם,</src>
+    <src s="20">עי"ז,</src>
+    <src s="21">היחוד דסובב וממלא הוא בשני האופנים,</src>
+    <src s="22">המשכת סובב בממלא והעלאת ממלא בסובב,</src>
+    <src s="23">ובאופן שכל אחד מהם כלול משניהם.</src>
+    <src s="24">ועפ"ז יש לבאר השייכות דענין זה ליעקב דוקא,</src>
+    <src s="25">כי ההתכללות דשני האופנים שבעבודת הבירורים שבכל אחד מהם ישנם שתי המעלות,</src>
+    <src s="26">הוא ע"י גילוי בחינת היחידה,</src>
+    <src s="27">למעלה מהגבלה,</src>
+    <src s="28">וזה שביעקב נאמר59</src>
+    <src s="29">ופרצת ימה וקדמה וצפונה ונגבה,</src>
+    <src s="30">נחלה בלי מצרים60,</src>
+    <src s="31">הוא לפי שהי' בו גילוי היחידה</src>
+    <src s="32">(כמו שנתבאר לעיל61).</src>
+  </section>
+</awtsmoosMeluketSource>

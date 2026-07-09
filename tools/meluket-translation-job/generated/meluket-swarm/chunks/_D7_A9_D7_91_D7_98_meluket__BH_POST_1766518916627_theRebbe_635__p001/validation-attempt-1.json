@@ -1,0 +1,169 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 25,
+    "returned": 25,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916627_theRebbe_635\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916627_theRebbe_635__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header with the date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">[B’S”D.</t>\n    <t s=\"1\">10 Shevat,</t>\n    <t s=\"2\">5713*]</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that turning to holiness above or to the opposite below is called foolishness and heresy.</sectionSummaryBrief>\n    <t s=\"0\">Above</t>\n    <t s=\"1\">(holiness)</t>\n    <t s=\"2\">or below</t>\n    <t s=\"3\">(to the other side)</t>\n    <t s=\"4\">is called foolishness1</t>\n    <t s=\"5\">and heresy.2</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section discusses the Zohar's wonder at how a soul could sin, and the Alter Rebbe's teaching that a Jew cannot truly be separate from G‑dliness.</sectionSummaryBrief>\n    <t s=\"0\">How is it possible?3</t>\n    <t s=\"1\">And as the Zohar says on the verse “And when a soul will sin,”</t>\n    <t s=\"2\">that the Holy One, blessed be He, and the Torah wonder: how is it possible that “it will sin”?</t>\n    <t s=\"3\">Even though it refers to Nefesh,</t>\n    <t s=\"4\">which is the lowest level of the five names of the soul,</t>\n    <t s=\"5\">and as the Zohar there specifically emphasizes “Nefesh,” and nevertheless it is wondrous.</t>\n    <t s=\"6\">And known is the saying of the Alter Rebbe: “A Jew—whether he wants to or not—cannot be a separate entity from G‑dliness.”</t>\n    <t s=\"7\">And only because he does not feel that through a transgression he becomes separate,</t>\n    <t s=\"8\">and it seems to him that he is still within Judaism,</t>\n    <t s=\"9\">for in truth,</t>\n    <t s=\"10\">the 365 negative commandments and all Rabbinic prohibitions,</t>\n    <t s=\"11\">since4</t>\n    <t s=\"12\">(Tanya ch. 24-25)</t>\n    <t s=\"13\">they do not rebel,</t>\n    <t s=\"14\">[against] the G‑d of gods,</t>\n    <t s=\"15\">that there is another existence.5</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916627_theRebbe_635",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916627_theRebbe_635__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header with the date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "[B’S”D."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "10 Shevat,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "5713*]"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that turning to holiness above or to the opposite below is called foolishness and heresy.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "Above"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "(holiness)"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "or below"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "(to the other side)"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "is called foolishness1"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "and heresy.2"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section discusses the Zohar's wonder at how a soul could sin, and the Alter Rebbe's teaching that a Jew cannot truly be separate from G‑dliness.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "How is it possible?3"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And as the Zohar says on the verse “And when a soul will sin,”"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the Holy One, blessed be He, and the Torah wonder: how is it possible that “it will sin”?"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "Even though it refers to Nefesh,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "which is the lowest level of the five names of the soul,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and as the Zohar there specifically emphasizes “Nefesh,” and nevertheless it is wondrous."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And known is the saying of the Alter Rebbe: “A Jew—whether he wants to or not—cannot be a separate entity from G‑dliness.”"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "And only because he does not feel that through a transgression he becomes separate,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "and it seems to him that he is still within Judaism,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "for in truth,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "the 365 negative commandments and all Rabbinic prohibitions,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "since4"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "(Tanya ch. 24-25)"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "they do not rebel,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "[against] the G‑d of gods,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "that there is another existence.5"
+          }
+        ]
+      }
+    ]
+  }
+}

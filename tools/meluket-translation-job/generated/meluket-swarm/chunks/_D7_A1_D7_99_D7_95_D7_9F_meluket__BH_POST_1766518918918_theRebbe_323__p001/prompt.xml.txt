@@ -1,0 +1,110 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918918_theRebbe_323" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918918_theRebbe_323__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918918_theRebbe_323" title="מאמר ועתה יגדל נא תשי"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918918_theRebbe_323__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ שלח,</src>
+    <src s="2">כ"ח סיון,</src>
+    <src s="3">מבה"ח תמוז ה'תשי"ט</src>
+  </section>
+  <section v="1">
+    <src s="0">ועתה יגדל נא כח אד' כאשר דברת לאמר1,</src>
+    <src s="1">ופירש רש"י2</src>
+    <src s="2">ומהו הדיבור ה'3</src>
+    <src s="3">ארך אפים.</src>
+    <src s="4">דמשמעות לשון הכתוב בפשטות היא,</src>
+    <src s="5">שהדיבור דהקב"ה</src>
+    <src s="6">(כאשר דברת)</src>
+    <src s="7">הוא יגדל כח אד',</src>
+    <src s="8">ולכן הוצרך רש"י לפרש שע"פ דרך הפשט הפירוש הוא ה' ארך אפים.</src>
+    <src s="9">אבל מזה שהפסוק נאמר בלשון זה שהמשמעות שלו היא שהדיבור הוא שיגדל כח אד',</src>
+    <src s="10">משמע שכוונת הכתוב היא גם לענין זה.</src>
+    <src s="11">וכדאיתא בגמרא4</src>
+    <src s="12">בשעה שעלה משה למרום כו' אמר לו</src>
+    <src s="13">(הקב"ה למשה)</src>
+    <src s="14">הי' לך לעזרני</src>
+    <src s="15">(לומר תצלח מלאכתך5),</src>
+    <src s="16">מיד אמר לו ועתה יגדל נא כח אד' כאשר דברת.</src>
+    <src s="17">היינו דכאשר דברת קאי על האמירה הי' לך לעזרני,</src>
+    <src s="18">דענין לעזרני</src>
+    <src s="19">[שיהי' עזר</src>
+    <src s="20">(הוספה)</src>
+    <src s="21">בהכח של מעלה]</src>
+    <src s="22">הוא יגדל כח אד'.</src>
+    <src s="23">ויש להוסיף,</src>
+    <src s="24">דמשמעות לשון הכתוב כאשר דברת לאמר הוא שהדיבור</src>
+    <src s="25">(דהקב"ה)</src>
+    <src s="26">הוא לאמר</src>
+    <src s="27">(שמשה יאמר).</src>
+    <src s="28">וכמובן גם ממרז"ל הנ"ל דכאשר דברת קאי על מה שאמר הקב"ה למשה הי' לך לעזרני,</src>
+    <src s="29">שמשה יאמר6</src>
+    <src s="30">תצלח מלאכתך.</src>
+    <src s="31">וע"פ הידוע7</src>
+    <src s="32">שכל הפירושים שבאותו הפסוק שייכים זה לזה,</src>
+    <src s="33">מובן,</src>
+    <src s="34">דג' פירושים אלה בכאשר דברת</src>
+    <src s="35">[שקאי על יגדל כח אד',</src>
+    <src s="36">על לאמר,</src>
+    <src s="37">ועל ה' ארך אפים]</src>
+    <src s="38">שייכים זה לזה.</src>
+    <src s="39">וצריך להבין השייכות דג' פירושים אלה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לומר נקודת הביאור בזה,</src>
+    <src s="2">דבקשת משה ועתה יגדל נא כח אד' גו' ה' ארך אפים גו' היא</src>
+    <src s="3">(כמו שממשיך בכתוב8)</src>
+    <src s="4">סלח נא לעון העם הזה גו',</src>
+    <src s="5">מחילה סליחה וכפרה על חטא המרגלים.</src>
+    <src s="6">והנה בסליחה שני ענינים9.</src>
+    <src s="7">דשרש הסליחה הוא מבחינה שלמעלה מהשתלשלות,</src>
+    <src s="8">כי בכדי למלאות הפגם צ"ל המשכה ממקום נעלה ביותר שאין שייך בו פגם,</src>
+    <src s="9">אבל בכדי שתהי' הסליחה</src>
+    <src s="10">(מילוי הפגם)</src>
+    <src s="11">בפועל,</src>
+    <src s="12">צריכה להיות ההמשכה למטה,</src>
+    <src s="13">בהמקום שבו הי' הפגם.</src>
+    <src s="14">וזהו ועתה יגדל נא כח אד' גו' ה' ארך אפים גו',</src>
+    <src s="15">דשרש הסליחה היא מבחינת ה' ארך אפים גו',</src>
+    <src s="16">י"ג מדות הרחמים10</src>
+    <src s="17">שלמעלה מהשתלשלות11,</src>
+    <src s="18">ויגדל כח אד' הוא שתהי' ההמשכה למטה באד',</src>
+    <src s="19">בכדי לתקן הפגם.</src>
+    <src s="20">דשם אד' הוא במלכות12,</src>
+    <src s="21">והפגם דחטא המרגלים שלא רצו במצוות מעשיות13</src>
+    <src s="22">הוא במלכות14,</src>
+    <src s="23">וע"י ההגדלה דכח אד' נתקן ונתמלא הפגם.</src>
+  </section>
+</awtsmoosMeluketSource>

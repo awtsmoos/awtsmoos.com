@@ -1,0 +1,13 @@
+B"H
+Return ONLY raw XML. No markdown fences.
+Translate only the listed missing Meluket subsection(s). Preserve exact v and s. Do not add, omit, split, or merge.
+Use Yaakov not Jacob. Use Awtsmoos for Atzmus/עצמות. Preserve Chassidic terms faithfully.
+
+<awtsmoosMeluketRepair heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915834_theRebbe_708" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p003">
+  <missing v="7" s="18">דוקא.</missing>
+</awtsmoosMeluketRepair>
+
+Respond as:
+<awtsmoosMeluketRepair heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915834_theRebbe_708" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p003">
+  <t v="7" s="18">English translation</t>
+</awtsmoosMeluketRepair>

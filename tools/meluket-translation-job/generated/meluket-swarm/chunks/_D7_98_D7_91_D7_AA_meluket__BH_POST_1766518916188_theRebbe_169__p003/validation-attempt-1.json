@@ -1,0 +1,384 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 68,
+    "returned": 68,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916188_theRebbe_169\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the two concepts of the drawing down of Mah and the refinement of Ban correspond to study and action, and that study is greater because it leads to action, which brings about the revelation and drawing down of Atzmus.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, it is explained in the discourses,</t>\n    <t s=\"2\">that these two matters—the drawing down of Mah and the refinement of Ban—are analogous to study and action.</t>\n    <t s=\"3\">And the concept is,</t>\n    <t s=\"4\">that the reason for the dispute</t>\n    <t s=\"5\">whether study is greater or action is greater,</t>\n    <t s=\"6\">is,</t>\n    <t s=\"7\">that in each one there is an advantage.</t>\n    <t s=\"8\">For the advantage of study is in the matter of revelations, and the advantage of action is that specifically through the fulfillment of the commandments is the drawing down of the Awtsmoos.</t>\n    <t s=\"9\">And they counted and concluded that study is greater, because study leads to action,</t>\n    <t s=\"10\">so that even the advantage of action comes through study.</t>\n    <t s=\"11\">And there are two aspects in this.</t>\n    <t s=\"12\">That through the study of Torah, the drawing down of the Awtsmoos that is in the action of the commandments is revealed,</t>\n    <t s=\"13\">for the revelation of every matter is through Torah,</t>\n    <t s=\"14\">“Torah is light.”</t>\n    <t s=\"15\">And moreover,</t>\n    <t s=\"16\">even the drawing down itself of the action of the commandments is through study.</t>\n    <t s=\"17\">For that which through the action of the commandments there is a drawing down of the Awtsmoos is when the action is in a state of self-nullification,</t>\n    <t s=\"18\">and this is accomplished through the study of Torah, which is called “Tushiyah,”</t>\n    <t s=\"19\">which weakens the power of the animal soul and effects in it self-nullification.</t>\n    <t s=\"20\">For this is the meaning of “study is great, for it leads to action”—that the action itself comes about through study.</t>\n    <t s=\"21\">And similarly,</t>\n    <t s=\"22\">this is the case regarding the drawing down of Mah and the refinement of Ban,</t>\n    <t s=\"23\">that the drawing down of the Awtsmoos is through the refinement of Ban,</t>\n    <t s=\"24\">and as mentioned above, that specifically through the refinement of Ban is the intention of a dwelling place in the lower worlds completed,</t>\n    <t s=\"25\">except that in order to come to this,</t>\n    <t s=\"26\">it is through the drawing down of Mah.</t>\n    <t s=\"27\">And this is like the concept of study leading to action.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section notes that based on the above, the precise point that even now prayer is higher than redemption is even more pronounced, since in the matter of study and action, now study is greater but in the future action will be greater.</sectionSummaryBrief>\n    <t s=\"0\">And it must be understood,</t>\n    <t s=\"1\">that according to this,</t>\n    <t s=\"2\">the aforementioned precision</t>\n    <t s=\"3\">[that the matter of juxtaposing redemption to prayer is that even now prayer is higher than redemption]</t>\n    <t s=\"4\">is even more so,</t>\n    <t s=\"5\">for regarding the matter of study and action,</t>\n    <t s=\"6\">now study is greater, and only in the future will action be greater,</t>\n    <t s=\"7\">but regarding the matter of redemption and prayer, even now prayer is higher than redemption.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the reason study is greater now is because it leads to action, indicating that action is the ultimate purpose, and this allows for the superiority of prayer over redemption to be revealed even now, analogous to Yehudah's approach to Yosef.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the explanation of this can be said,</t>\n    <t s=\"2\">that the reason why now study is greater is because study leads to action,</t>\n    <t s=\"3\">which proves that action is the main thing,</t>\n    <t s=\"4\">and this results from the fact that in the future action will be greater.</t>\n    <t s=\"5\">But now,</t>\n    <t s=\"6\">when the main advantage is in revelations,</t>\n    <t s=\"7\">even the greatness of action</t>\n    <t s=\"8\">(that specifically through it is the drawing down of the Awtsmoos)</t>\n    <t s=\"9\">as it is felt now is only as it relates to revelations,</t>\n    <t s=\"10\">and since the revelation of the drawing down of the Awtsmoos in the action of the commandments is through the study of Torah,</t>\n    <t s=\"11\">therefore now study is greater because it leads to action.</t>\n    <t s=\"12\">And based on this, it can be said,</t>\n    <t s=\"13\">that what is stated in the discourses—that the drawing down of Mah to arouse the raising of the Mayin Nukvin of Ban is like the concept of study leading to action—</t>\n    <t s=\"14\">is</t>\n    <t s=\"15\">(also)</t>\n    <t s=\"16\">an explanation for this, that the matter of juxtaposing redemption to prayer, which indicates the superiority of prayer, is analogous to how in the future Yehudah will be higher than Yosef.</t>\n    <t s=\"17\">For although that Yehudah is higher than Yosef will be primarily in the future,</t>\n    <t s=\"18\">nevertheless,</t>\n    <t s=\"19\">since even now there shines</t>\n    <t s=\"20\">(somewhat)</t>\n    <t s=\"21\">the advantage of Malchus</t>\n    <t s=\"22\">[for the reason that study is greater now is because it leads to action],</t>\n    <t s=\"23\">therefore it is possible that in several matters,</t>\n    <t s=\"24\">the advantage of Malchus itself will be revealed,</t>\n    <t s=\"25\">the advantage of prayer over redemption.</t>\n    <t s=\"26\">And based on this, it is also possible to explain what is stated in the Zohar, that Yehudah's approach to Yosef is the matter of juxtaposing redemption to prayer,</t>\n    <t s=\"27\">even though Yehudah's approach to Yosef indicates</t>\n    <t s=\"28\">(generally)</t>\n    <t s=\"29\">the advantage of Zeir Anpin,</t>\n    <t s=\"30\">for there are aspects in Yehudah's approach to Yosef in which the advantage of Malchus is emphasized,</t>\n    <t s=\"31\">as will be explained below.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916188_theRebbe_169",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the two concepts of the drawing down of Mah and the refinement of Ban correspond to study and action, and that study is greater because it leads to action, which brings about the revelation and drawing down of Atzmus.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, it is explained in the discourses,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that these two matters—the drawing down of Mah and the refinement of Ban—are analogous to study and action."
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "And the concept is,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that the reason for the dispute"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "whether study is greater or action is greater,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "is,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that in each one there is an advantage."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "For the advantage of study is in the matter of revelations, and the advantage of action is that specifically through the fulfillment of the commandments is the drawing down of the Awtsmoos."
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "And they counted and concluded that study is greater, because study leads to action,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "so that even the advantage of action comes through study."
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "And there are two aspects in this."
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "That through the study of Torah, the drawing down of the Awtsmoos that is in the action of the commandments is revealed,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "for the revelation of every matter is through Torah,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "“Torah is light.”"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "even the drawing down itself of the action of the commandments is through study."
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "For that which through the action of the commandments there is a drawing down of the Awtsmoos is when the action is in a state of self-nullification,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "and this is accomplished through the study of Torah, which is called “Tushiyah,”"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "which weakens the power of the animal soul and effects in it self-nullification."
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "For this is the meaning of “study is great, for it leads to action”—that the action itself comes about through study."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "And similarly,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "this is the case regarding the drawing down of Mah and the refinement of Ban,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "that the drawing down of the Awtsmoos is through the refinement of Ban,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "and as mentioned above, that specifically through the refinement of Ban is the intention of a dwelling place in the lower worlds completed,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "except that in order to come to this,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "it is through the drawing down of Mah."
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "And this is like the concept of study leading to action."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section notes that based on the above, the precise point that even now prayer is higher than redemption is even more pronounced, since in the matter of study and action, now study is greater but in the future action will be greater.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "that according to this,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "the aforementioned precision"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "[that the matter of juxtaposing redemption to prayer is that even now prayer is higher than redemption]"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "is even more so,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "for regarding the matter of study and action,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "now study is greater, and only in the future will action be greater,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "but regarding the matter of redemption and prayer, even now prayer is higher than redemption."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that the reason study is greater now is because it leads to action, indicating that action is the ultimate purpose, and this allows for the superiority of prayer over redemption to be revealed even now, analogous to Yehudah's approach to Yosef.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And the explanation of this can be said,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that the reason why now study is greater is because study leads to action,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "which proves that action is the main thing,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "and this results from the fact that in the future action will be greater."
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "But now,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "when the main advantage is in revelations,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "even the greatness of action"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(that specifically through it is the drawing down of the Awtsmoos)"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "as it is felt now is only as it relates to revelations,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "and since the revelation of the drawing down of the Awtsmoos in the action of the commandments is through the study of Torah,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "therefore now study is greater because it leads to action."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "that what is stated in the discourses—that the drawing down of Mah to arouse the raising of the Mayin Nukvin of Ban is like the concept of study leading to action—"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "is"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "(also)"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "an explanation for this, that the matter of juxtaposing redemption to prayer, which indicates the superiority of prayer, is analogous to how in the future Yehudah will be higher than Yosef."
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "For although that Yehudah is higher than Yosef will be primarily in the future,"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "since even now there shines"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "(somewhat)"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "the advantage of Malchus"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "[for the reason that study is greater now is because it leads to action],"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "therefore it is possible that in several matters,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "the advantage of Malchus itself will be revealed,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "the advantage of prayer over redemption."
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "And based on this, it is also possible to explain what is stated in the Zohar, that Yehudah's approach to Yosef is the matter of juxtaposing redemption to prayer,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "even though Yehudah's approach to Yosef indicates"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "(generally)"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "the advantage of Zeir Anpin,"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "for there are aspects in Yehudah's approach to Yosef in which the advantage of Malchus is emphasized,"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "as will be explained below."
+          }
+        ]
+      }
+    ]
+  }
+}

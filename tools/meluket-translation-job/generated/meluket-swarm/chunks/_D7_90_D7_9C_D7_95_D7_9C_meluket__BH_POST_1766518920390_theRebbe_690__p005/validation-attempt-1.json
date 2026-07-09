@@ -1,0 +1,162 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 26,
+    "returned": 26,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920390_theRebbe_690\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920390_theRebbe_690__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section connects the theme of Israel's greatness and love for Israel to Chai Elul, the start of the new year's service, culminating in the coronation of Hashem and the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">a)</t>\n    <t s=\"2\">And one should connect</t>\n    <t s=\"3\">(also)</t>\n    <t s=\"4\">this matter with Chai Elul,</t>\n    <t s=\"5\">for in addition to the fact that</t>\n    <t s=\"6\">(also)</t>\n    <t s=\"7\">this matter</t>\n    <t s=\"8\">(the greatness of the elevation of Yisrael and the love of Yisrael)</t>\n    <t s=\"9\">is among the primary matters of the teachings of Chassidus93,</t>\n    <t s=\"10\">behold, Chai Elul is the day of the beginning of the service of the coming year94,</t>\n    <t s=\"11\">beginning from Rosh HaShanah, when Yisrael coronate the Holy One, blessed be He, as King95,</t>\n    <t s=\"12\">for the power that Yisrael have to coronate Him as King is because they are bound and unified with His very Essence (Atzmus)</t>\n    <t s=\"13\">(which is above the aspect of King)96,</t>\n    <t s=\"14\">and the Holy One, blessed be He, accepts the coronation and becomes King of Yisrael97,</t>\n    <t s=\"15\">and through this and through them –</t>\n    <t s=\"16\">(also)</t>\n    <t s=\"17\">King over all the earth98,</t>\n    <t s=\"18\">\"Hashem, Elokim of Yisrael, is King, and His kingship rules over all\"99,</t>\n    <t s=\"19\">and it is drawn down in revelation that He will be the King of Yisrael and its Redeemer97,</t>\n    <t s=\"20\">through Moshiach Tzidkeinu,</t>\n    <t s=\"21\">who will wage the wars of Hashem and be victorious, and build the Temple in its place, and gather the dispersed of Yisrael100,</t>\n    <t s=\"22\">and \"the earth will be filled with knowledge of Hashem\" etc.101</t>\n    <t s=\"23\">the entire world102,</t>\n    <t s=\"24\">in the true and complete redemption,</t>\n    <t s=\"25\">speedily, indeed.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920390_theRebbe_690",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920390_theRebbe_690__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section connects the theme of Israel's greatness and love for Israel to Chai Elul, the start of the new year's service, culminating in the coronation of Hashem and the future redemption.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "a)"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "And one should connect"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(also)"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "this matter with Chai Elul,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "for in addition to the fact that"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "(also)"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "this matter"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "(the greatness of the elevation of Yisrael and the love of Yisrael)"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "is among the primary matters of the teachings of Chassidus93,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "behold, Chai Elul is the day of the beginning of the service of the coming year94,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "beginning from Rosh HaShanah, when Yisrael coronate the Holy One, blessed be He, as King95,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "for the power that Yisrael have to coronate Him as King is because they are bound and unified with His very Essence (Atzmus)"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "(which is above the aspect of King)96,"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "and the Holy One, blessed be He, accepts the coronation and becomes King of Yisrael97,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "and through this and through them –"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "(also)"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "King over all the earth98,"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "\"Hashem, Elokim of Yisrael, is King, and His kingship rules over all\"99,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "and it is drawn down in revelation that He will be the King of Yisrael and its Redeemer97,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "through Moshiach Tzidkeinu,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "who will wage the wars of Hashem and be victorious, and build the Temple in its place, and gather the dispersed of Yisrael100,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "and \"the earth will be filled with knowledge of Hashem\" etc.101"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "the entire world102,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "in the true and complete redemption,"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "speedily, indeed."
+          }
+        ]
+      }
+    ]
+  }
+}

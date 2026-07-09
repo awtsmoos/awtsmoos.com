@@ -1,0 +1,389 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 69,
+    "returned": 69,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915124_theRebbe_182\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the two sets of fifty gates of understanding correspond to the two modes of the sefiros: from below upward and from above downward, as hinted by the words \"Lecha\" and \"Kol.\"</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the maamar continues</t>\n    <t s=\"2\">with a further explanation of the fifty gates of understanding, two times,</t>\n    <t s=\"3\">which are in the two modes of from below upward and from above downward.</t>\n    <t s=\"4\">And as it is written,</t>\n    <t s=\"5\">\"To You, Hashem, are the greatness, the might, the splendor, the victory, and the majesty, for all that is in heaven and on earth,\"</t>\n    <t s=\"6\">\"Lecha\" (to You) has the numerical value of fifty, and \"Kol\" (all) has the numerical value of fifty,</t>\n    <t s=\"7\">and it refers to the five sefiros</t>\n    <t s=\"8\">[Chesed, Gevurah, Tiferes, Netzach, and Hod, which are the primary sefiros],</t>\n    <t s=\"9\">each of which is comprised of ten,</t>\n    <t s=\"10\">except that \"Lecha\" is from below upward and \"Kol\" is from above downward.</t>\n    <t s=\"11\">For in the ascent of the sefiros to their source,</t>\n    <t s=\"12\">they are in a state of nullification,</t>\n    <t s=\"13\">not occupying any place,</t>\n    <t s=\"14\">[this is] \"Lecha.\"</t>\n    <t s=\"15\">And when they are drawn from above downward</t>\n    <t s=\"16\">[until they are drawn into the sefirah of Yesod,</t>\n    <t s=\"17\">for \"all that is in heaven and on earth,\"</t>\n    <t s=\"18\">through which they are subsequently drawn into Malchus,</t>\n    <t s=\"19\">\"To You, Hashem, is the kingdom,\" etc.]</t>\n    <t s=\"20\">they are in a state of existence,</t>\n    <t s=\"21\">and moreover,</t>\n    <t s=\"22\">they are felt as existing in completeness,</t>\n    <t s=\"23\">similar to \"I have everything.\"</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that just as with the intellect (Binah) the two sets of fifty represent two levels, so too regarding the sefiros, the two sets of fifty represent both the two modes (ascent and descent) and two distinct levels of the sefiros themselves.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that just as in the intellect</t>\n    <t s=\"2\">(Binah),</t>\n    <t s=\"3\">the matter of two times fifty is two levels,</t>\n    <t s=\"4\">the intellect as it relates to the sefiros</t>\n    <t s=\"5\">(from the side of the Jubilee),</t>\n    <t s=\"6\">and the intellect in its own right,</t>\n    <t s=\"7\">so too is it regarding the two times fifty of the sefiros,</t>\n    <t s=\"8\">that in addition to the explanation that they are two modes, from below upward and from above downward,</t>\n    <t s=\"9\">it can be said,</t>\n    <t s=\"10\">that they are also two levels.</t>\n    <t s=\"11\">The sefiros as they are in their own right,</t>\n    <t s=\"12\">and as they are drawn through the intellect.</t>\n    <t s=\"13\">And in the two expressions \"Lecha\" and \"Kol,\" the two modes of the sefiros are hinted at,</t>\n    <t s=\"14\">the elevation from below upward and the drawing down from above downward</t>\n    <t s=\"15\">(as above),</t>\n    <t s=\"16\">and also the two levels within the sefiros.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the root of the sefiros is in the essence of the soul above the root of the intellect, yet their drawing down is through the intellect, and this applies to both intellectual and natural emotions.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation is,</t>\n    <t s=\"1\">that the root of the sefiros is in the essence of the soul, above the root of the intellect,</t>\n    <t s=\"2\">except that their drawing down is through the intellect.</t>\n    <t s=\"3\">And these two matters—that the root of the sefiros is above the root of the intellect,</t>\n    <t s=\"4\">and that the drawing down of the sefiros is through the intellect—apply to all the sefiros.</t>\n    <t s=\"5\">That is,</t>\n    <t s=\"6\">even the intellectual sefiros,</t>\n    <t s=\"7\">their root is in the essence of the soul.</t>\n    <t s=\"8\">Therefore,</t>\n    <t s=\"9\">even the sefiros born from the intellect</t>\n    <t s=\"10\">can be in a force much greater than the intellect that gives birth to them.</t>\n    <t s=\"11\">And likewise, conversely,</t>\n    <t s=\"12\">even the natural sefiros in a person</t>\n    <t s=\"13\">are aroused through the intellect.</t>\n    <t s=\"14\">And the proof of this is known</t>\n    <t s=\"15\">from what is written,</t>\n    <t s=\"16\">\"Let not your heart be faint, do not fear,\" etc.,</t>\n    <t s=\"17\">for at first glance,</t>\n    <t s=\"18\">fear in war is a natural thing, and how can there be a command about this, \"do not fear\"?</t>\n    <t s=\"19\">And the explanation of this is,</t>\n    <t s=\"20\">that since the arousal of the natural sefiros is through the intellect,</t>\n    <t s=\"21\">therefore,</t>\n    <t s=\"22\">when one places his mind and thought on this,</t>\n    <t s=\"23\">his heart will not be faint, and he will not fear or be afraid at all.</t>\n    <t s=\"24\">And as the Rambam wrote,</t>\n    <t s=\"25\">\"Anyone who begins to think and contemplate in war and frightens himself transgresses a negative commandment,</t>\n    <t s=\"26\">as it is said, 'Let not your heart be faint, do not fear,' etc.,\"</t>\n    <t s=\"27\">for even natural fear is aroused and acts when one thinks and contemplates it.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915124_theRebbe_182",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the two sets of fifty gates of understanding correspond to the two modes of the sefiros: from below upward and from above downward, as hinted by the words \"Lecha\" and \"Kol.\"",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And the maamar continues"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "with a further explanation of the fifty gates of understanding, two times,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "which are in the two modes of from below upward and from above downward."
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "And as it is written,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "\"To You, Hashem, are the greatness, the might, the splendor, the victory, and the majesty, for all that is in heaven and on earth,\""
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "\"Lecha\" (to You) has the numerical value of fifty, and \"Kol\" (all) has the numerical value of fifty,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "and it refers to the five sefiros"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "[Chesed, Gevurah, Tiferes, Netzach, and Hod, which are the primary sefiros],"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "each of which is comprised of ten,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "except that \"Lecha\" is from below upward and \"Kol\" is from above downward."
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "For in the ascent of the sefiros to their source,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "they are in a state of nullification,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "not occupying any place,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "[this is] \"Lecha.\""
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "And when they are drawn from above downward"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "[until they are drawn into the sefirah of Yesod,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "for \"all that is in heaven and on earth,\""
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "through which they are subsequently drawn into Malchus,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "\"To You, Hashem, is the kingdom,\" etc.]"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "they are in a state of existence,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "they are felt as existing in completeness,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "similar to \"I have everything.\""
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that just as with the intellect (Binah) the two sets of fifty represent two levels, so too regarding the sefiros, the two sets of fifty represent both the two modes (ascent and descent) and two distinct levels of the sefiros themselves.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "that just as in the intellect"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "(Binah),"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "the matter of two times fifty is two levels,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "the intellect as it relates to the sefiros"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "(from the side of the Jubilee),"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "and the intellect in its own right,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "so too is it regarding the two times fifty of the sefiros,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "that in addition to the explanation that they are two modes, from below upward and from above downward,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "that they are also two levels."
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "The sefiros as they are in their own right,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "and as they are drawn through the intellect."
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "And in the two expressions \"Lecha\" and \"Kol,\" the two modes of the sefiros are hinted at,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "the elevation from below upward and the drawing down from above downward"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "(as above),"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "and also the two levels within the sefiros."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the root of the sefiros is in the essence of the soul above the root of the intellect, yet their drawing down is through the intellect, and this applies to both intellectual and natural emotions.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that the root of the sefiros is in the essence of the soul, above the root of the intellect,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "except that their drawing down is through the intellect."
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "And these two matters—that the root of the sefiros is above the root of the intellect,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "and that the drawing down of the sefiros is through the intellect—apply to all the sefiros."
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "That is,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "even the intellectual sefiros,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "their root is in the essence of the soul."
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "even the sefiros born from the intellect"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "can be in a force much greater than the intellect that gives birth to them."
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "And likewise, conversely,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "even the natural sefiros in a person"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "are aroused through the intellect."
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "And the proof of this is known"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "from what is written,"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "\"Let not your heart be faint, do not fear,\" etc.,"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "for at first glance,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "fear in war is a natural thing, and how can there be a command about this, \"do not fear\"?"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "And the explanation of this is,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "that since the arousal of the natural sefiros is through the intellect,"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "therefore,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "when one places his mind and thought on this,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "his heart will not be faint, and he will not fear or be afraid at all."
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "And as the Rambam wrote,"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "\"Anyone who begins to think and contemplate in war and frightens himself transgresses a negative commandment,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "as it is said, 'Let not your heart be faint, do not fear,' etc.,\""
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "for even natural fear is aroused and acts when one thinks and contemplates it."
+          }
+        ]
+      }
+    ]
+  }
+}

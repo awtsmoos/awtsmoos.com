@@ -1,0 +1,374 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 66,
+    "returned": 66,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913974_theRebbe_325\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913974_theRebbe_325__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the Torah reveals even the response of the Holy One, blessed be He, which is above the Torah, because the Torah's root is in the Essence of Ein Sof, beyond the lines, though it is later drawn down in the central line.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that this—that even the response of the Holy One, blessed be He, which is above the Torah, is revealed through the Torah—is</t>\n    <t s=\"3\">because that the Torah is in the central line is because its root is in the Essence of Ein Sof, which is above the lines,</t>\n    <t s=\"4\">except that afterward it was drawn down in the central line.</t>\n    <t s=\"5\">Therefore,</t>\n    <t s=\"6\">in addition to having within it the light that is above the chain of descent, as it is drawn down in the central line</t>\n    <t s=\"7\">(which is why, also from the aspect of the response of the Torah, repentance is effective so that intentional sins become like unintentional ones),</t>\n    <t s=\"8\">through it is also revealed the Essence of Ein Sof, which is above the lines,</t>\n    <t s=\"9\">the response of the Holy One, blessed be He: \"He shall repent and it shall be forgiven him.\"</t>\n    <t s=\"10\">That is,</t>\n    <t s=\"11\">that this which the Torah said, \"He shall bring a guilt-offering and it shall be forgiven him\"</t>\n    <t s=\"12\">(that through repentance intentional sins become only like unintentional ones)</t>\n    <t s=\"13\">is in the level of the Torah as it is drawn down in the central line,</t>\n    <t s=\"14\">and this—that also the response of the Holy One, blessed be He, \"He shall repent and it shall be forgiven him\"—is a part of the Torah</t>\n    <t s=\"15\">(the Oral [Law])</t>\n    <t s=\"16\">is from the aspect of the root of the Torah in the Essence of Ein Sof, which is above the lines45.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains the Sages' statement that \"good\" refers to Moshe, the Torah, the Holy One, and Israel, clarifying why the verse \"Hashem is good to all\" is used for the giving of the Torah rather than \"Hashem is good to those who wait for Him.\"</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we can explain what our Sages, of blessed memory, said46:</t>\n    <t s=\"1\">\"Let the good one, this is Moshe, come... and receive the good, this is the Torah... from the Good One, this is the Holy One, blessed be He, as it is written47,</t>\n    <t s=\"2\">'Hashem is good to all,'</t>\n    <t s=\"3\">for the good ones, these are Israel, as it is written48,</t>\n    <t s=\"4\">'Do good, Hashem, to the good ones.'\"</t>\n    <t s=\"5\">And it needs to be understood,</t>\n    <t s=\"6\">for it is stated in the Gemara in Sanhedrin49:</t>\n    <t s=\"7\">\"It is written47,</t>\n    <t s=\"8\">'Hashem is good to all,' and it is written50,</t>\n    <t s=\"9\">'Hashem is good to those who wait for Him'—a parable: to a person who has an orchard; when he waters, he waters all of it; when he weeds, he weeds only the best among them.\"</t>\n    <t s=\"10\">And since the giving of the Torah is</t>\n    <t s=\"11\">(only)</t>\n    <t s=\"12\">to the good ones, these are Israel,</t>\n    <t s=\"13\">it would seemingly have been necessary to bring the verse \"Hashem is good to those who wait for Him.\"</t>\n    <t s=\"14\">[And according to the known explanation51,</t>\n    <t s=\"15\">that \"Hashem is good to all\" is an external influence, and \"Hashem is good to those who wait for Him\" is an internal influence,</t>\n    <t s=\"16\">further explanation is needed regarding why, in the matter of the giving of the Torah, which is an internal influence, the verse \"Hashem is good to all\" is brought, and not \"Hashem is good to those who wait for Him.\"]</t>\n    <t s=\"17\">And the explanation of this can be said52,</t>\n    <t s=\"18\">that this which is written regarding repentance, \"Good and upright is Hashem,\"</t>\n    <t s=\"19\">the intention is to the aspect of \"Hashem is good to all\"53,</t>\n    <t s=\"20\">for repentance atones even for intentional sins.</t>\n    <t s=\"21\">And therefore it says, \"Let him receive the good, this is the Torah... from the Good One, this is the Holy One, blessed be He, as it is written, 'Hashem is good to all,'\"</t>\n    <t s=\"22\">because the good of the Torah, from the aspect of its root, is the aspect of \"Good and upright is Hashem\"54,</t>\n    <t s=\"23\">\"Hashem is good to all.\"</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that repentance's atonement is not a waiver but an internal correction of the penitent's flaws, achieved through the drawing down of the aspect of \"good and upright,\" which is the Essence of Ein Sof beyond the chain of descent, operating in a manner of kindness.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And behold, although that repentance atones is because the response through repentance is from above the chain of descent,</t>\n    <t s=\"2\">the atonement through repentance is</t>\n    <t s=\"3\">(not in a manner of waiver,</t>\n    <t s=\"4\">that one waives the sins,</t>\n    <t s=\"5\">but rather)</t>\n    <t s=\"6\">an internal action in the penitent person,</t>\n    <t s=\"7\">that his flaws are corrected.</t>\n    <t s=\"8\">And this is \"Good and upright is Hashem; therefore He instructs sinners in the way,\"</t>\n    <t s=\"9\">for \"good\" is that He influences to all.</t>\n    <t s=\"10\">And as explained elsewhere55</t>\n    <t s=\"11\">the difference between \"good\" and \"kindness,\"</t>\n    <t s=\"12\">that \"kindness\" relates to the recipient, and therefore the influence of kindness is specifically to one who is worthy</t>\n    <t s=\"13\">[except that from the aspect of the attribute of kindness, it does not scrutinize,</t>\n    <t s=\"14\">and when the recipient has some merit, he is already worthy that they should influence him],</t>\n    <t s=\"15\">and \"good\" is from the aspect of the influencer, and therefore the influence is to all</t>\n    <t s=\"16\">(even to those who are not worthy).</t>\n    <t s=\"17\">And \"upright\" is that below is like above56.</t>\n    <t s=\"18\">And this is that the drawing down through repentance is from the aspect of \"good and upright,\"</t>\n    <t s=\"19\">for that repentance atones for intentional sins is not because the person is worthy of this, but rather because of the good of the Holy One, blessed be He,</t>\n    <t s=\"20\">the drawing down of Ein Sof which is above the chain of descent.</t>\n    <t s=\"21\">And that through this drawing down his flaws are corrected,</t>\n    <t s=\"22\">and the correction is in the inwardness,</t>\n    <t s=\"23\">is because the drawing down of the good is in a manner of kindness,</t>\n    <t s=\"24\">that the penitent person is like a vessel for the drawing down.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913974_theRebbe_325",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913974_theRebbe_325__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the Torah reveals even the response of the Holy One, blessed be He, which is above the Torah, because the Torah's root is in the Essence of Ein Sof, beyond the lines, though it is later drawn down in the central line.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that this—that even the response of the Holy One, blessed be He, which is above the Torah, is revealed through the Torah—is"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "because that the Torah is in the central line is because its root is in the Essence of Ein Sof, which is above the lines,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "except that afterward it was drawn down in the central line."
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "in addition to having within it the light that is above the chain of descent, as it is drawn down in the central line"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(which is why, also from the aspect of the response of the Torah, repentance is effective so that intentional sins become like unintentional ones),"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "through it is also revealed the Essence of Ein Sof, which is above the lines,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "the response of the Holy One, blessed be He: \"He shall repent and it shall be forgiven him.\""
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "That is,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "that this which the Torah said, \"He shall bring a guilt-offering and it shall be forgiven him\""
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "(that through repentance intentional sins become only like unintentional ones)"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "is in the level of the Torah as it is drawn down in the central line,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "and this—that also the response of the Holy One, blessed be He, \"He shall repent and it shall be forgiven him\"—is a part of the Torah"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "(the Oral [Law])"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "is from the aspect of the root of the Torah in the Essence of Ein Sof, which is above the lines45."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains the Sages' statement that \"good\" refers to Moshe, the Torah, the Holy One, and Israel, clarifying why the verse \"Hashem is good to all\" is used for the giving of the Torah rather than \"Hashem is good to those who wait for Him.\"",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And based on this, we can explain what our Sages, of blessed memory, said46:"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "\"Let the good one, this is Moshe, come... and receive the good, this is the Torah... from the Good One, this is the Holy One, blessed be He, as it is written47,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "'Hashem is good to all,'"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "for the good ones, these are Israel, as it is written48,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "'Do good, Hashem, to the good ones.'\""
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "for it is stated in the Gemara in Sanhedrin49:"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "\"It is written47,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "'Hashem is good to all,' and it is written50,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "'Hashem is good to those who wait for Him'—a parable: to a person who has an orchard; when he waters, he waters all of it; when he weeds, he weeds only the best among them.\""
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "And since the giving of the Torah is"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "(only)"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "to the good ones, these are Israel,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "it would seemingly have been necessary to bring the verse \"Hashem is good to those who wait for Him.\""
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "[And according to the known explanation51,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "that \"Hashem is good to all\" is an external influence, and \"Hashem is good to those who wait for Him\" is an internal influence,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "further explanation is needed regarding why, in the matter of the giving of the Torah, which is an internal influence, the verse \"Hashem is good to all\" is brought, and not \"Hashem is good to those who wait for Him.\"]"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "And the explanation of this can be said52,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "that this which is written regarding repentance, \"Good and upright is Hashem,\""
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "the intention is to the aspect of \"Hashem is good to all\"53,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "for repentance atones even for intentional sins."
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "And therefore it says, \"Let him receive the good, this is the Torah... from the Good One, this is the Holy One, blessed be He, as it is written, 'Hashem is good to all,'\""
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "because the good of the Torah, from the aspect of its root, is the aspect of \"Good and upright is Hashem\"54,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "\"Hashem is good to all.\""
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that repentance's atonement is not a waiver but an internal correction of the penitent's flaws, achieved through the drawing down of the aspect of \"good and upright,\" which is the Essence of Ein Sof beyond the chain of descent, operating in a manner of kindness.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And behold, although that repentance atones is because the response through repentance is from above the chain of descent,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "the atonement through repentance is"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "(not in a manner of waiver,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "that one waives the sins,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "but rather)"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "an internal action in the penitent person,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "that his flaws are corrected."
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "And this is \"Good and upright is Hashem; therefore He instructs sinners in the way,\""
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "for \"good\" is that He influences to all."
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "And as explained elsewhere55"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "the difference between \"good\" and \"kindness,\""
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "that \"kindness\" relates to the recipient, and therefore the influence of kindness is specifically to one who is worthy"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "[except that from the aspect of the attribute of kindness, it does not scrutinize,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "and when the recipient has some merit, he is already worthy that they should influence him],"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "and \"good\" is from the aspect of the influencer, and therefore the influence is to all"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "(even to those who are not worthy)."
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "And \"upright\" is that below is like above56."
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "And this is that the drawing down through repentance is from the aspect of \"good and upright,\""
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "for that repentance atones for intentional sins is not because the person is worthy of this, but rather because of the good of the Holy One, blessed be He,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "the drawing down of Ein Sof which is above the chain of descent."
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "And that through this drawing down his flaws are corrected,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "and the correction is in the inwardness,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "is because the drawing down of the good is in a manner of kindness,"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "that the penitent person is like a vessel for the drawing down."
+          }
+        ]
+      }
+    ]
+  }
+}

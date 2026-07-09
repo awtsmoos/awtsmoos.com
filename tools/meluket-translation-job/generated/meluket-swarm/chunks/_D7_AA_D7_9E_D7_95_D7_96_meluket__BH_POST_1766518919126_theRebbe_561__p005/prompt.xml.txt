@@ -1,0 +1,85 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919126_theRebbe_561" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919126_theRebbe_561" title="מאמר יהי ה' אלוקינו עמנו תשכ"ד" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p005">
+  <section v="12">
+    <src s="0">ו)</src>
+    <src s="1">ועפ"ז יש לבאר מה שאמר בעל הגאולה "מיר זאיינען דאָך ניט גלייך צו אבותינו,</src>
+    <src s="2">וועלכע זיינען געווען בעלי מס"נ בפועל",</src>
+    <src s="3">שכלל גם עצמו בזה,</src>
+    <src s="4">כי אמיתית הענין דמס"נ הוא כשהמס"נ הוא מצד הביטול</src>
+    <src s="5">(כנ"ל סעיף ד),</src>
+    <src s="6">וכיון שבביטול יש כו"כ דרגות</src>
+    <src s="7">(כנ"ל סעיף ה),</src>
+    <src s="8">לכן,</src>
+    <src s="9">שייך שיאמר על עצמו</src>
+    <src s="10">(מצד ענוה)</src>
+    <src s="11">שחסר לו בענין המס"נ.</src>
+    <src s="12">ועפ"ז יש לבאר גם מה שאומר בהשיחה שבהבקשה יהי הוי' אלקינו עמנו נכלל גם הפירוש דיהי לשון הבטחה</src>
+    <src s="13">(וועט זיין מיט אונז),</src>
+    <src s="14">כי זה שתפלה</src>
+    <src s="15">(בקשה)</src>
+    <src s="16">והבטחה הם שני ענינים שונים הוא כי תפלה היא בקשת האדם והבטחה היא מלמעלה,</src>
+    <src s="17">וגם בצדיקים,</src>
+    <src s="18">כאשר הם מציאות</src>
+    <src s="19">(בדקות עכ"פ),</src>
+    <src s="20">תפלה והבטחה הם שני ענינים.</src>
+    <src s="21">דהבטחת הצדיק היא בשליחותו של הקב"ה,</src>
+    <src s="22">ותפלת הצדיק היא בקשת הצדיק עצמו.</src>
+    <src s="23">משא"כ כשהצדיק הוא באופן שגם העבודה שלו בכח עצמו</src>
+    <src s="24">(שהיא לכאורה "מציאות")</src>
+    <src s="25">היא בתכלית הביטול,</src>
+    <src s="26">אזי גם בהתפלה</src>
+    <src s="27">(בקשה)</src>
+    <src s="28">שלו יש גם ענין ההבטחה.</src>
+  </section>
+  <section v="13">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דמעין זה</src>
+    <src s="2">(שגם המציאות היא בביטול)</src>
+    <src s="3">המשיך גם בהמקושרים ושייכים אליו.</src>
+    <src s="4">ע"י שהשריש בהם מס"נ גם על ענינים שע"פ דין</src>
+    <src s="5">(ציווי דלמעלה)</src>
+    <src s="6">אין מחוייב למסור נפשו עליהם</src>
+    <src s="7">(מס"נ מצד האדם)</src>
+    <src s="8">ושגם המס"נ על ענינים אלו תהי' באופן שאין שייך כלל באופן אחר</src>
+    <src s="9">(מס"נ מצד האלקות).</src>
+    <src s="10">ולכן זה שבהבקשה דבעל הגאולה כלול גם ענין ההבטחה הוא גם מצד המקבלים.</src>
+  </section>
+  <section v="14">
+    <src s="0">ותקויים ההבטחה יהי הוי' אלקינו עמנו כאשר הי' עם אבותינו אל יעזבנו ואל יטשנו,</src>
+    <src s="1">ולכל בני ישראל יהי' אור31</src>
+    <src s="2">ברוחניות ובגשמיות32.</src>
+  </section>
+</awtsmoosMeluketSource>

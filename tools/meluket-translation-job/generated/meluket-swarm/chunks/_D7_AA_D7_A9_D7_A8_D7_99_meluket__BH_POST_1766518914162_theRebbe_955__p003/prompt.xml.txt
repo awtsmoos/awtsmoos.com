@@ -1,0 +1,72 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914162_theRebbe_955" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914162_theRebbe_955__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914162_theRebbe_955" title="מאמר כנשר יאיר קנו תשכ"ט" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914162_theRebbe_955__p003">
+  <section v="6">
+    <src s="0">וזהו כנשר יעיר קנו גו',</src>
+    <src s="1">שקאי אדלעיל מיני' כי חלק הוי' עמו יעקב חבל נחלתו ימצאהו בארץ מדבר גו' יצרנהו כאישון עינו39.</src>
+    <src s="2">יעקב הוא בחי' קו האמצעי כנ"ל,</src>
+    <src s="3">שלכן הוא בשוה מראשיתו ועד סופו.</src>
+    <src s="4">דזהו יעקב חבל נחלתו שהוא דוגמת החבל שראשו אחד למעלה וראשו השני למטה,</src>
+    <src s="5">הנה כשמנענעים בקצהו התחתון מתנענע גם קצהו העליון כמבואר באגרת התשובה40,</src>
+    <src s="6">דלהיות שיעקב הוא קו האמצעי לכן הוא חבל נחלתו כו'.</src>
+    <src s="7">ימצאהו בארץ מדבר,</src>
+    <src s="8">מדבר הוא אשר לא ישב אדם שם41,</src>
+    <src s="9">שבחי' אדם העליון שנמשך ע"י התומ"צ לא ישב שם42.</src>
+    <src s="10">ואעפ"כ הנה מצד התשובה</src>
+    <src s="11">(קו האמצעי)</src>
+    <src s="12">ימצאהו בארץ מדבר ובתהו יליל ישימון,</src>
+    <src s="13">שגם בזה ימצאהו,</src>
+    <src s="14">כמבואר בלקו"ת43</src>
+    <src s="15">בענין ובקשתם משם44.</src>
+    <src s="16">יצרנהו כאישון עינו45</src>
+    <src s="17">הוא השחור שבעין שהמאור יוצא הימנו כדפירש"י,</src>
+    <src s="18">והו"ע46</src>
+    <src s="19">אתהפכא חשוכא לנהורא47,</src>
+    <src s="20">דכאשר מהפכים את החשוכא לנהורא הנה אז הוא יתרון האור,</src>
+    <src s="21">כידוע48</src>
+    <src s="22">בענין יתרון האור מן החשך49.</src>
+    <src s="23">וע"ז ממשיך אח"כ כנשר יעיר קנו גו' ישאהו על אברתו שמצד בחי' כנשר הוא בחי' עתיק כנ"ל</src>
+    <src s="24">(שלשם מגיע קו האמצעי?)</src>
+    <src s="25">ישאהו על אברתו,</src>
+    <src s="26">למעלה מתורה ומצוות,</src>
+    <src s="27">שגם מי שהחסיר בעבודתו וגם למי שחטא ופגם ועבר את הדרך,</src>
+    <src s="28">נמשך לו מחילה סליחה וכפרה,</src>
+    <src s="29">ועד שנמשך לו מבחי' שלמעלה מתורה ומצוות,</src>
+    <src s="30">על אברתו,</src>
+    <src s="31">ומסיים הוי' בדד ינחנו ואין עמו א-ל נכר50,</src>
+    <src s="32">שאין לזרים אתך ויהיו לך לבדך51,</src>
+    <src s="33">ישראל ומלכא בלחודוהי52.</src>
+  </section>
+</awtsmoosMeluketSource>

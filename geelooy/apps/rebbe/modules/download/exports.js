@@ -5,30 +5,34 @@ import { blobForTrack, entryName, saveBlob } from './files.js';
 
 /**
  * B"H
- * The export river now has many channels. Each ZIP is forged in its own task
- * card, so many requests may descend at once without one erasing another.
+ * The ZIP river now flows from newest to oldest. The latest spark receives the
+ * first garment, `001`, so the device that opens the vessel sees revelation in
+ * the order the seeker expects.
  * @param {Array<object>} rows Audio or metadata rows.
  * @param {string} filename ZIP file name.
  * @param {string} title Progress card title.
  * @returns {Promise<void>}
  */
-export async function downloadRowsAsZip(rows = [], filename = 'rebbe-export.zip', title = 'Exporting audio') {
+export async function downloadRowsAsZip(rows = [], filename = 'rebbe-files.zip', title = 'Zipping files newest-first') {
   const task = createDownloadTask(title);
+  const zipRows = orderedZipRows(rows);
   const files = [];
   const skipped = [];
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-    task.step(i, rows.length, row.meta ? 'Adding metadata' : `Fetching ${i + 1} of ${rows.length}`, row.name || row.track?.title || 'audio');
+
+  for (let i = 0; i < zipRows.length; i++) {
+    const row = zipRows[i];
+    task.step(i, zipRows.length, row.meta ? 'Adding metadata' : `Fetching ${i + 1} of ${zipRows.length}`, statusName(row));
     try {
       files.push(row.meta ? metaFile(row) : { name: entryName(row), blob: await blobForTrack(row.track) });
     } catch (error) {
       skipped.push(`${entryName(row)} — ${error.message || 'failed'}`);
     }
   }
-  if (!files.length) return task.fail('Export failed', ['Every file failed or was blocked.']);
-  task.step(rows.length, rows.length, 'Building ZIP vessel', `${files.length} files · ${skipped.length} skipped`);
+
+  if (!files.length) return task.fail('Download failed', ['Every file failed or was blocked.']);
+  task.step(zipRows.length, zipRows.length, 'Building ZIP vessel', `${files.length} files · ${skipped.length} skipped`);
   saveBlob(await makeZip(files), filename);
-  task.done('ZIP ready', [`${files.length} files exported`, `${skipped.length} skipped`, ...skipped.slice(0, 8)]);
+  task.done('ZIP ready', [`${files.length} files zipped newest-first`, `${skipped.length} skipped`, ...skipped.slice(0, 8)]);
 }
 
 export async function playlistExportRows(playlist = {}, expandEvent) {
@@ -55,8 +59,18 @@ export function playlistZipName(playlist = {}) {
   return `${safeName(playlist.title || 'playlist')}.zip`;
 }
 
+function orderedZipRows(rows = []) {
+  const audioRows = rows.filter(row => !row?.meta).slice().reverse();
+  const metaRows = rows.filter(row => row?.meta);
+  return [...audioRows.map((row, index) => ({ ...row, zipIndex: index + 1 })), ...metaRows];
+}
+
 function metaFile(row) {
   return { name: safeName(row.name || 'metadata.txt'), blob: new Blob([row.text || ''], { type: row.type || 'text/plain' }) };
+}
+
+function statusName(row) {
+  return row.name || row.track?.title || row.track?.name || row.item?.title || 'audio';
 }
 
 function trackFromPlaylistItem(item) {

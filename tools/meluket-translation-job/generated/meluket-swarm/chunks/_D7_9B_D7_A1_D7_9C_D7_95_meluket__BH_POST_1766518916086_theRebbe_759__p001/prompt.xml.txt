@@ -1,0 +1,139 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518916086_theRebbe_759" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916086_theRebbe_759__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518916086_theRebbe_759" title="מאמר אמר ר' אלכסנדרי תשל"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916086_theRebbe_759__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ וישב,</src>
+    <src s="2">כ"א כסלו,</src>
+    <src s="3">ה'תשל"א</src>
+  </section>
+  <section v="1">
+    <src s="0">(הנחה בלתי מוגה)</src>
+  </section>
+  <section v="2">
+    <src s="0">אמר ר' אלכסנדרי כל העוסק בתורה לשמה משים שלום בפמליא של מעלה ובפמליא של מטה1.</src>
+    <src s="1">והנה במאמר ד"ה זה שנאמר לפני שלשים שנה</src>
+    <src s="2">(כ"א כסלו תש"א)2</src>
+    <src s="3">מביא גם ג' הדיעות</src>
+    <src s="4">(בענין פעולת עסק התורה לשמה)</src>
+    <src s="5">שלאח"ז1</src>
+    <src s="6">: כאילו בנה פלטרין של מעלה ושל מטה,</src>
+    <src s="7">אף מגין על כל העולם כולו,</src>
+    <src s="8">אף מקרב את הגאולה.</src>
+    <src s="9">ומבאר בהמאמר שם,</src>
+    <src s="10">ששלום הו"ע ההתחברות</src>
+    <src s="11">(והיינו שישנם ב' ענינים נפרדים ומחולקים זמ"ז,</src>
+    <src s="12">וישנו שלישי העושה שלום ביניהם),</src>
+    <src s="13">ופמליא ענינו חיילות,</src>
+    <src s="14">ובעבודה הו"ע המדות,</src>
+    <src s="15">וזהו כל העוסק בתורה לשמה משים שלום בפמליא כו',</src>
+    <src s="16">שע"י עסק התורה לשמה עושה התחברות בהמדות.</src>
+    <src s="17">ומוסיף בהמאמר שם: והיינו המדות שבלב הנולדות מהמדות שבשכל</src>
+    <src s="18">(שהכוונה בזה לבאר ב' הענינים שבפמליא,</src>
+    <src s="19">פמליא של מעלה ופמליא של מטה,</src>
+    <src s="20">דפמליא של מעלה הו"ע המדות שבשכל,</src>
+    <src s="21">ופמליא של מטה הו"ע המדות שבלב.</src>
+    <src s="22">דהנה,</src>
+    <src s="23">המדות הם שרש ומקור הנבראים,</src>
+    <src s="24">שבעת ימי הבנין,</src>
+    <src s="25">והמוחין הם למעלה מעולמות,</src>
+    <src s="26">כמאמר3</src>
+    <src s="27">אלפיים שנה קדמה תורה לעולם,</src>
+    <src s="28">שלכן בכללות המדות הם בחי' מטה והמוחין הם בחי' מעלה,</src>
+    <src s="29">אמנם בענין המדות</src>
+    <src s="30">(פמליא)</src>
+    <src s="31">גופא,</src>
+    <src s="32">הנה המדות שבלב הן פמליא של מטה והמדות שבשכל הן פמליא של מעלה).</src>
+    <src s="33">וכ"ז היא פעולה הא' שבעסק התורה לשמה.</src>
+    <src s="34">ופעולה הב' כאילו בנה פלטרין כו' הוא</src>
+    <src s="35">(כמו שמבאר בהמאמר שם)</src>
+    <src s="36">ענין המוחין,</src>
+    <src s="37">וגם בזה ישנם ב' בחינות,</src>
+    <src s="38">פלטרין של מעלה ופלטרין של מטה,</src>
+    <src s="39">פלטרין של מעלה הו"ע השכל שבמוח,</src>
+    <src s="40">ופלטרין של מטה הו"ע השכל שבמדות,</src>
+    <src s="41">כמבואר בהמאמר שם.</src>
+    <src s="42">וזהו ג"כ מה שבפעולה הא' אמרו משים שלום בפמליא כו'</src>
+    <src s="43">(והיינו שהפמליא ישנו כבר גם לפנ"ז ורק שמשים שלום בה),</src>
+    <src s="44">ובפעולה הב' אמרו בנה פלטרין שבונה דבר חדש,</src>
+    <src s="45">כי המדות,</src>
+    <src s="46">מכיון שהם שרש ומקור הנבראים,</src>
+    <src s="47">הרי ישנם הם בעולמות מצד עצמם</src>
+    <src s="48">(והפעולה שנעשה בהם ע"י עסק התורה לשמה הוא ענין השלום),</src>
+    <src s="49">משא"כ המוחין שהם למעלה מעולמות,</src>
+    <src s="50">הרי המשכת המוחין שע"י עסק התורה לשמה הו"ע בנין חדש.</src>
+    <src s="51">והנה ידוע4</src>
+    <src s="52">שבריאת העולמות היתה בשביל ישראל ובשביל התורה,</src>
+    <src s="53">דישראל הו"ע ז"א,</src>
+    <src s="54">המדות</src>
+    <src s="55">(וכידוע5</src>
+    <src s="56">שישראל הוא ר"ת יש ששים רבוא אותיות לתורה,</src>
+    <src s="57">וידוע6</src>
+    <src s="58">שהמספר ששים רבוא הוא מצד בחי' המדות,</src>
+    <src s="59">וא"ו כלול מיו"ד ויו"ד מיו"ד כו')</src>
+    <src s="60">ותורה הו"ע המוחין,</src>
+    <src s="61">ומזה מובן שע"י ב' פעולות הנ"ל הנעשים ע"י עסק התורה לשמה</src>
+    <src s="62">[משים שלום בפמליא כו',</src>
+    <src s="63">בחי' מדות</src>
+    <src s="64">(ישראל),</src>
+    <src s="65">ובנה פלטרין כו',</src>
+    <src s="66">בחי' מוחין</src>
+    <src s="67">(תורה)],</src>
+    <src s="68">בא אח"כ גם בהעולם שנברא בשביל ישראל ובשביל התורה.</src>
+    <src s="69">וזהו"ע הג'1</src>
+    <src s="70">אף מגין על כל העולם כולו,</src>
+    <src s="71">וכמ"ש בהמאמר: שהמוחין ומדות מגינים על העולם שהם הפעולות הנעשות ע"י השגת המוח והמדות שבלב.</src>
+    <src s="72">אמנם פעולה זו שנעשית בהעולם,</src>
+    <src s="73">זה שהמוחין והמדות</src>
+    <src s="74">(בחי' תורה וישראל)</src>
+    <src s="75">מגינים עליו,</src>
+    <src s="76">הוא השלימות דעולם כמו שהוא מצד הבריאה,</src>
+    <src s="77">שהרי תחילת בריאת העולם היתה בשביל ישראל ובשביל התורה כנ"ל,</src>
+    <src s="78">אמנם פעולה הד' שבעסק התורה לשמה,</src>
+    <src s="79">אף מקרב את הגאולה,</src>
+    <src s="80">הוא ענין השלימות שלמעלה מענין הבריאה,</src>
+    <src s="81">וכמ"ש בהמאמר: שנשתנה בעצם מהותו כו'.</src>
+    <src s="82">וכידוע7</src>
+    <src s="83">בפירוש מחז"ל8</src>
+    <src s="84">כל תולדות שבמקרא חסרים חוץ משנים אלה תולדות השמים והארץ9</src>
+    <src s="85">ואלה תולדות פרץ10,</src>
+    <src s="86">דהגם ששניהם הם מלאים,</src>
+    <src s="87">מ"מ יש הפרש גדול ביניהם,</src>
+    <src s="88">שאלה תולדות השמים והארץ הו"ע בחי' השלימות כמו שהיא מצד הבריאה,</src>
+    <src s="89">משא"כ ואלה תולדות פרץ,</src>
+    <src s="90">ענין הגאולה,</src>
+    <src s="91">הוא בחי' שלימות שלמעלה מענין הבריאה.</src>
+  </section>
+</awtsmoosMeluketSource>

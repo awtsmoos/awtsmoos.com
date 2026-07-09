@@ -1,0 +1,121 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917024_theRebbe_166" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917024_theRebbe_166__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917024_theRebbe_166" title="מאמר בחודש השלישי תשל"ד" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917024_theRebbe_166__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ה' פ' יתרו,</src>
+    <src s="2">חמשה-עשר בשבט ה'תשל"ד*</src>
+  </section>
+  <section v="1">
+    <src s="0">בחודש השלישי לצאת בני ישראל מארץ מצרים ביום הזה באו מדבר סיני1,</src>
+    <src s="1">ואיתא בגמרא2</src>
+    <src s="2">כתיב הכא ביום הזה באו מדבר סיני וכתיב התם3</src>
+    <src s="3">החודש הזה לכם ראש חדשים,</src>
+    <src s="4">מה להלן ר"ח אף כאן ר"ח.</src>
+    <src s="5">וידוע הדיוק4</src>
+    <src s="6">מה שנאמר ביום הזה סתם</src>
+    <src s="7">(וצריך ללמוד מגז"ש שהוא ר"ח5)</src>
+    <src s="8">ולא נאמר באחד לחודש.</src>
+    <src s="9">והנה ברש"י מפרש דמה שכתוב ביום הזה6</src>
+    <src s="10">הוא שיהיו דברי תורה חדשים עליך כאילו היום ניתנו.</src>
+    <src s="11">וצריך להבין,</src>
+    <src s="12">דפירוש ביום הזה כפשוטו הוא שביום הזה קאי על ר"ח סיון,</src>
+    <src s="13">ולהפירוש שיהיו דברי תורה חדשים עליך כו' ביום הזה קאי על כל יום דכל ימות השנה.</src>
+    <src s="14">גם צריך להבין</src>
+    <src s="15">(כהדיוק בכמה דרושים7),</src>
+    <src s="16">איך אפשר שיהיו דברי תורה בכל יום כחדשים ועאכו"כ חדשים אחר שכבר ניתנה התורה יותר מג' אלפים שנה.</src>
+    <src s="17">ולכאורה אפשר לבאר זה ע"פ המבואר בהדרושים ד"ה זה8</src>
+    <src s="18">בפירוש הכתוב9</src>
+    <src s="19">וידבר אלקים את כל הדברים האלה לאמר,</src>
+    <src s="20">דתיבת לאמר בפסוק זה פירושה הוא שלימוד התורה</src>
+    <src s="21">(כל הדברים האלה)</src>
+    <src s="22">יהי' באופן דלאמר,</src>
+    <src s="23">לחזור הדברים שהקב"ה אומר עכשיו,</src>
+    <src s="24">כמ"ש10</src>
+    <src s="25">תען לשוני אמרתך,</src>
+    <src s="26">שהתורה היא אמרתך אלא שלשוני תען כעונה אחר האומר.</src>
+    <src s="27">ולכן מה להלן באימה וביראה כו' אף כאן כו'11,</src>
+    <src s="28">כי בלימודו התורה עכשיו הקב"ה אומר הדברים האלה עכשיו,</src>
+    <src s="29">באותו האופן ממש כבשעת מתן תורה.</src>
+    <src s="30">וג"ז צריך ביאור,</src>
+    <src s="31">דכיון שדבריו של הקב"ה חיים וקיימים לעד בלי שום שינוי12,</src>
+    <src s="32">מה מיתוסף ומתחדש בזה שאומרם עכשיו</src>
+    <src s="33">(בעת לימוד האדם)</src>
+    <src s="34">עוד פעם13.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים דאיתא במדרש14,</src>
+    <src s="2">משל למלך שגזר ואמר בני רומי לא ירדו לסוריא ובני סוריא לא יעלו לרומי,</src>
+    <src s="3">כך כשברא הקב"ה את העולם גזר ואמר השמים שמים לה' והארץ נתן לבני אדם15,</src>
+    <src s="4">כשביקש ליתן התורה ביטל הגזירה ואמר התחתונים יעלו לעליונים והעליונים ירדו לתחתונים,</src>
+    <src s="5">ואני המתחיל,</src>
+    <src s="6">שנאמר16</src>
+    <src s="7">וירד הוי' על הר סיני וכתיב17</src>
+    <src s="8">ואל משה אמר עלה אל הוי'.</src>
+    <src s="9">והנה ידוע שהגילוי אלקות בעולם שהי' בשעת מתן תורה</src>
+    <src s="10">(ירידת העליונים לתחתונים,</src>
+    <src s="11">וירד הוי' על הר סיני)</src>
+    <src s="12">הי' בדרך מלמעלה למטה,</src>
+    <src s="13">היינו שהגילוי הי' מצד ההמשכה מלמעלה והמטה לא הי' כלי לזה18,</src>
+    <src s="14">וענין התחתונים יעלו לעליונים הוא19</src>
+    <src s="15">שבמתן תורה ניתן הכח שהעבודה דתומ"צ שלאחרי מ"ת תפעול בהעולם שיהי' כלי לאלקות.</src>
+    <src s="16">וכמבואר במק"א20,</src>
+    <src s="17">דזה שע"י קיום המצוות נעשה בירור וזיכוך בהדברים שבעולם שבהם נעשית המצוה,</src>
+    <src s="18">ועד שבכמה ענינים נעשים הם</src>
+    <src s="19">(הדברים שבעולם)</src>
+    <src s="20">חפצא של מצוה,</src>
+    <src s="21">הוא ע"י נתינת כח מיוחדת שניתנה במ"ת.</src>
+    <src s="22">דכיון שהמצוות</src>
+    <src s="23">(רצונו של הקב"ה)</src>
+    <src s="24">והדברים שבעולם</src>
+    <src s="25">(שבהם נעשים המצוות)</src>
+    <src s="26">הם באין ערוך לגמרי,</src>
+    <src s="27">לכן,</src>
+    <src s="28">בכדי שהמצוות יפעלו שינוי בהדברים שבעולם הוא דוקא ע"י ביטול הגזירה והמחיצה שבין העליונים</src>
+    <src s="29">(מצוות)</src>
+    <src s="30">והתחתונים</src>
+    <src s="31">(הדברים שבעולם).</src>
+    <src s="32">ועד"ז הוא בנוגע ללימוד התורה,</src>
+    <src s="33">דזה שע"י לימוד התורה נעשה שינוי</src>
+    <src s="34">(רוממות21)</src>
+    <src s="35">בהאדם הלומדה,</src>
+    <src s="36">ועד שהוא מתאחד עם חכמתו של הקב"ה22,</src>
+    <src s="37">הוא ע"י שבמ"ת נעשה ביטול הגזירה והמחיצה שבין חכמתו של הקב"ה</src>
+    <src s="38">(עליונים)</src>
+    <src s="39">ושכל האדם</src>
+    <src s="40">(תחתונים).</src>
+  </section>
+</awtsmoosMeluketSource>

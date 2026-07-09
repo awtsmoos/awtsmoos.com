@@ -1,0 +1,105 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913771_theRebbe_98" title="מאמר יו"ט של ר"ה תשל"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">כ"ט אלול ה'תשל"ב,</src>
+    <src s="2">ליל ערב ראש השנה ה'תשל"ג</src>
+  </section>
+  <section v="1">
+    <src s="0">יום טוב של ראש השנה שחל להיות בשבת במקדש היו תוקעין אבל לא במדינה1,</src>
+    <src s="1">ומפרש בגמרא2</src>
+    <src s="2">דרבנן הוא דגזור בי',</src>
+    <src s="3">דהכל חייבין בתקיעת שופר ואין הכל בקיאין בתקיעת שופר,</src>
+    <src s="4">גזירה שמא יטלנו בידו וילך אצל הבקי ללמוד ויעבירנו ד' אמות ברשות הרבים.</src>
+    <src s="5">וידוע הדיוק בזה3,</src>
+    <src s="6">מה ראו חז"ל לדחות מ"ע דאורייתא,</src>
+    <src s="7">ובפרט מצות שופר שהיא מצוה רמה ונישאה מאד4,</src>
+    <src s="8">משום גזירה בעלמא</src>
+    <src s="9">[ובפרט עכשיו,</src>
+    <src s="10">שאין מצוי שיהי' רה"ר מה"ת5,</src>
+    <src s="11">והגזירה שמא יעבירנו הוא רק שלא יבוא לאיסור דרבנן].</src>
+    <src s="12">וגם6,</src>
+    <src s="13">הרי החשש הוא להדיוטים וקלי הדעת7,</src>
+    <src s="14">ואיך מנעו בשביל זה המצוה מכמה צדיקים גדולים וטובים.</src>
+    <src s="15">וידוע הביאור בזה8,</src>
+    <src s="16">דזה שבראש השנה צריך לתקוע בשופר הוא בכדי לעורר עי"ז למעלה התענוג בבריאת העולמות,</src>
+    <src s="17">וכיון שבשבת מצד עצמו ישנו התענוג,</src>
+    <src s="18">לכן,</src>
+    <src s="19">בראש השנה שחל להיות בשבת המצוה דתקיעת שופר אינה בתוקף כ"כ</src>
+    <src s="20">(עם כל השטורעם)</src>
+    <src s="21">כמו בראש השנה שחל בימות השבוע9,</src>
+    <src s="22">ולכן היא נדחית מפני החשש שמא יעבירנו ד' אמות ברשות הרבים.</src>
+    <src s="23">וזה שבמקדש היו תוקעין גם בראש השנה שחל בשבת,</src>
+    <src s="24">הוא,</src>
+    <src s="25">כי בתענוג כמה מדריגות,</src>
+    <src s="26">ודרגת התענוג שהמשיכו ע"י תקיעת שופר במקדש היא נעלית יותר מדרגת התענוג דשבת.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">הרי ידוע10</src>
+    <src s="3">דזה שבראש השנה צריך לעורר התענוג ע"י עבודת האדם</src>
+    <src s="4">(תקיעת שופר),</src>
+    <src s="5">אף שבתחלת הבריאה היתה ההמשכה מעצמה,</src>
+    <src s="6">הוא,</src>
+    <src s="7">כי ע"י שהתעוררות התענוג דלמעלה</src>
+    <src s="8">(עכשיו)</src>
+    <src s="9">היא ע"י עבודתם של ישראל,</src>
+    <src s="10">שהשרש דישראל הוא בהעצמות,</src>
+    <src s="11">התענוג שנמשך עכשיו הוא נעלה יותר מהתענוג שנמשך מצד עצמו</src>
+    <src s="12">(בתחלת הבריאה).</src>
+    <src s="13">ועפ"ז,</src>
+    <src s="14">בראש השנה שחל להיות בשבת,</src>
+    <src s="15">שהתענוג הוא מצד הזמן דשבת</src>
+    <src s="16">(שבת מיקדשא וקיימא11),</src>
+    <src s="17">חסר לכאורה מעלת התענוג שמתעורר ע"י עבודת האדם.</src>
+    <src s="18">ואף שגם בראש השנה שחל להיות בשבת ישנה העבודה דאמירת פסוקי שופרות,</src>
+    <src s="19">הרי אמירת הפסוקים היא בכדי שההמשכה תהי' בגילוי.</src>
+    <src s="20">וכמבואר בהמשך יום טוב של ראש השנה תרס"ו12,</src>
+    <src s="21">דההמשכה שע"י המצוות אינה בגילוי כ"כ,</src>
+    <src s="22">והגילוי הוא ע"י התורה,</src>
+    <src s="23">תורה אור13.</src>
+    <src s="24">ולכן,</src>
+    <src s="25">בכדי שהמשכת התענוג שע"י קיום מצות תקיעת שופר תהי' בגילוי הוא ע"י אמירת פסוקי שופרות.</src>
+    <src s="26">וזהו הטעם שגם בראש השנה שחל להיות בשבת אומרים פסוקי שופרות,</src>
+    <src s="27">אף שהמשכת התענוג אז הוא מצד עצמו,</src>
+    <src s="28">כי ההמשכה שמצד השבת עצמו היא למעלה,</src>
+    <src s="29">ובכדי שיהי' הגילוי למטה הוא ע"י אמירת פסוקי שופרות.</src>
+    <src s="30">וכיון שע"י אמירת הפסוקים הוא רק גילוי ההמשכה,</src>
+    <src s="31">וההמשכה עצמה היא מצד השבת עצמו,</src>
+    <src s="32">הרי בראש השנה שחל להיות בשבת חסר לכאורה העילוי שנעשה ע"י עבודה.</src>
+  </section>
+</awtsmoosMeluketSource>

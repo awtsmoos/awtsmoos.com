@@ -1,0 +1,28 @@
+{
+  "id": "76f474cb-dda5-419c-b4eb-d2f455698a3c",
+  "object": "chat.completion",
+  "created": 1783582336,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918130_theRebbe_126\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918130_theRebbe_126__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Acharei,</t>\n    <t s=\"2\">Rosh Chodesh Iyar 5746*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that all Israel have a portion in the World to Come, which refers to the World of Resurrection, unlike Gan Eden which requires specific conditions.</sectionSummaryBrief>\n    <t s=\"0\">To understand the concept of Techiyas HaMeisim (the resurrection of the dead),</t>\n    <t s=\"1\">it is stated in the Mishnah:1</t>\n    <t s=\"2\">\"All Israel have a portion in the World to Come,\"</t>\n    <t s=\"3\">and it is known2</t>\n    <t s=\"4\">that the meaning of \"World to Come\" in this Mishnah is the World of Resurrection,</t>\n    <t s=\"5\">as is evident from the continuation of the Mishnah: \"And these have no portion in the World to Come: one who says there is no resurrection of the dead from the Torah,\"</t>\n    <t s=\"6\">for the reason for this is as stated in the Gemara:3</t>\n    <t s=\"7\">\"He denied the resurrection of the dead, therefore he will not have a portion in the resurrection of the dead... measure for measure.\"</t>\n    <t s=\"8\">And this is [the meaning of] \"All Israel have a portion in the World to Come,\"</t>\n    <t s=\"9\">for regarding Gan Eden</t>\n    <t s=\"10\">[which is sometimes also called by the name \"World to Come\",4</t>\n    <t s=\"11\">even though it also exists now,5</t>\n    <t s=\"12\">because it comes to a person after his service in this world6]</t>\n    <t s=\"13\">it is written:7</t>\n    <t s=\"14\">\"Who may ascend the mountain of Hashem... one with clean hands and a pure heart...,\"</t>\n    <t s=\"15\">indicating that there are several conditions required to merit Gan Eden,8</t>\n    <t s=\"16\">but not so regarding the World of Resurrection</t>\n    <t s=\"17\">(which is the primary referent of the term \"World to Come\")</t>\n    <t s=\"18\">—they said: \"All Israel have a portion in the World to Come.\"9</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section questions why the revelation of Techiyas HaMeisim, which is far greater than that of Gan Eden, is granted to all Israel without conditions.</sectionSummaryBrief>\n    <t s=\"0\">And it must be understood:</t>\n    <t s=\"1\">Behold, it is known that the revelation that will be in the World of Resurrection is vastly superior to the revelation of Gan Eden,</t>\n    <t s=\"2\">as is also understood from the fact that Gan Eden exists even now, whereas the revelation of the World of Resurrection will only be in the future,</t>\n    <t s=\"3\">and moreover, the revelation of the World of Resurrection will be</t>\n    <t s=\"4\">(also)</t>\n    <t s=\"5\">after the days of Moshiach,</t>\n    <t s=\"6\">from which it is understood that the revelation that will be then is above even the revelation that will be in the days of Moshiach</t>\n    <t s=\"7\">[for this is what is said:10</t>\n    <t s=\"8\">\"There is no comparison to You... in this world, and there is none besides You... for the life of the World to Come, there is nothing but You... for the days of Moshiach, and there is none like... for the resurrection of the dead,\"</t>\n    <t s=\"9\">for these four matters are in an ascending order from below to above,</t>\n    <t s=\"10\">[such that] the revelation of the World to Come</t>\n    <t s=\"11\">(where the intent of \"World to Come\" here is Gan Eden11)</t>\n    <t s=\"12\">is higher than the revelation that can be in this world,</t>\n    <t s=\"13\">and higher still is the revelation of the days of Moshiach,</t>\n    <t s=\"14\">and after that is the revelation of the resurrection of the dead, which is higher even than the revelation of the days of Moshiach],</t>\n    <t s=\"15\">and nevertheless, to merit the revelation of Gan Eden several conditions are required,</t>\n    <t s=\"16\">yet the revelation of the resurrection of the dead, which is higher than the revelation of Gan Eden, will be for all Israel.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1695,
+    "completion_tokens": 1254,
+    "total_tokens": 2949,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1439
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

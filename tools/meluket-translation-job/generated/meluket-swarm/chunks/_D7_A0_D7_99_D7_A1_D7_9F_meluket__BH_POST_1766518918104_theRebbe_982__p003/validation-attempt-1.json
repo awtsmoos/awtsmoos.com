@@ -1,0 +1,269 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 45,
+    "returned": 45,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918104_theRebbe_982\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that while all Jews are equal in the obligation of mitzvos, there are different levels in the obligation of Torah study, because mitzvos are the supernal will which is beyond division, while Torah is His wisdom which contains division.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And it is known,</t>\n    <t s=\"2\">that in the obligation of fulfilling the mitzvos, all Jews are equal, but in the obligation of studying Torah there are various levels,</t>\n    <t s=\"3\">for regarding those who dwell in tents [of Torah] who have leisure time, the obligation of \"and you shall meditate\"</t>\n    <t s=\"4\">in it day and night is literal,</t>\n    <t s=\"5\">while businessmen fulfill their obligation with one chapter in the morning and one chapter in the evening,</t>\n    <t s=\"6\">This is,</t>\n    <t s=\"7\">because the mitzvos are the supernal will</t>\n    <t s=\"8\">(as above),</t>\n    <t s=\"9\">and will is above division,</t>\n    <t s=\"10\">while the Torah is His wisdom,</t>\n    <t s=\"11\">and in wisdom there is division.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the difference between mitzvos and Torah study applies to actual practice, because mitzvos are the supernal will and relate to the body where the choice of Atzmus lies, so even Jewish sinners are full of mitzvos, unlike Torah study.</sectionSummaryBrief>\n    <t s=\"0\">And it may be said,</t>\n    <t s=\"1\">that the same applies regarding Torah study and the actual fulfillment of mitzvos,</t>\n    <t s=\"2\">that the fulfillment of mitzvos is found in all Jews,</t>\n    <t s=\"3\">for even the sinners of Israel are full of mitzvos like a pomegranate,</t>\n    <t s=\"4\">but this is not so regarding Torah study,</t>\n    <t s=\"5\">This is,</t>\n    <t s=\"6\">because a deficiency in Israel can only exist in the revelations,</t>\n    <t s=\"7\">and since the mitzvos are the supernal will and relate to the body in which is the choice of the Awtsmoos,</t>\n    <t s=\"8\">therefore this matter</t>\n    <t s=\"9\">(of fulfilling mitzvos)</t>\n    <t s=\"10\">is found in all Jews.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that all Jews have a share in the World to Come because the revelation of the era of Resurrection comes from mitzvos which all Jews fulfill, and this revelation is specifically to souls in bodies, as study that leads to action elevates the study itself.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this is [the meaning of] \"All Israel have a share in the World to Come,\"</t>\n    <t s=\"2\">for although the revelation of the World to Come</t>\n    <t s=\"3\">(the world of Resurrection)</t>\n    <t s=\"4\">is more elevated than the revelation of the Garden of Eden, nevertheless this revelation will be for all Israel,</t>\n    <t s=\"5\">because in the Garden of Eden is the revelation of the Torah that one studies in this world,</t>\n    <t s=\"6\">while in the future, in the era of Resurrection, will be the revelation of the mitzvos that one fulfills now.</t>\n    <t s=\"7\">And since the fulfillment of mitzvos is found in all Israel, as above,</t>\n    <t s=\"8\">therefore,</t>\n    <t s=\"9\">all Israel have a share in the World to Come.</t>\n    <t s=\"10\">And this is why the revelation of the era of Resurrection will be specifically to souls in bodies,</t>\n    <t s=\"11\">because the fulfillment of mitzvos relates primarily to the body,</t>\n    <t s=\"12\">as above.</t>\n    <t s=\"13\">And it may be said,</t>\n    <t s=\"14\">that this—that the revelation of the era of Resurrection will also be for the souls</t>\n    <t s=\"15\">(which will then be clothed in the body)—</t>\n    <t s=\"16\">is analogous to the statement of our sages, of blessed memory,</t>\n    <t s=\"17\">\"Great is study that brings to action,\"</t>\n    <t s=\"18\">for through the fact that study brings to action, greatness is achieved in the study.</t>\n    <t s=\"19\">[And analogous to what is explained in the continuation of 5666,</t>\n    <t s=\"20\">that when the study pertains to an actual practical ruling,</t>\n    <t s=\"21\">then one exerts oneself more and arrives at greater depth in the matter.]</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918104_theRebbe_982",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that while all Jews are equal in the obligation of mitzvos, there are different levels in the obligation of Torah study, because mitzvos are the supernal will which is beyond division, while Torah is His wisdom which contains division.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And it is known,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that in the obligation of fulfilling the mitzvos, all Jews are equal, but in the obligation of studying Torah there are various levels,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "for regarding those who dwell in tents [of Torah] who have leisure time, the obligation of \"and you shall meditate\""
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "in it day and night is literal,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "while businessmen fulfill their obligation with one chapter in the morning and one chapter in the evening,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "This is,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "because the mitzvos are the supernal will"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(as above),"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "and will is above division,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "while the Torah is His wisdom,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "and in wisdom there is division."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the difference between mitzvos and Torah study applies to actual practice, because mitzvos are the supernal will and relate to the body where the choice of Atzmus lies, so even Jewish sinners are full of mitzvos, unlike Torah study.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "that the same applies regarding Torah study and the actual fulfillment of mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that the fulfillment of mitzvos is found in all Jews,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "for even the sinners of Israel are full of mitzvos like a pomegranate,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "but this is not so regarding Torah study,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "This is,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "because a deficiency in Israel can only exist in the revelations,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "and since the mitzvos are the supernal will and relate to the body in which is the choice of the Awtsmoos,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "therefore this matter"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "(of fulfilling mitzvos)"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "is found in all Jews."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that all Jews have a share in the World to Come because the revelation of the era of Resurrection comes from mitzvos which all Jews fulfill, and this revelation is specifically to souls in bodies, as study that leads to action elevates the study itself.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And this is [the meaning of] \"All Israel have a share in the World to Come,\""
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "for although the revelation of the World to Come"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(the world of Resurrection)"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "is more elevated than the revelation of the Garden of Eden, nevertheless this revelation will be for all Israel,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "because in the Garden of Eden is the revelation of the Torah that one studies in this world,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "while in the future, in the era of Resurrection, will be the revelation of the mitzvos that one fulfills now."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "And since the fulfillment of mitzvos is found in all Israel, as above,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "therefore,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "all Israel have a share in the World to Come."
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "And this is why the revelation of the era of Resurrection will be specifically to souls in bodies,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "because the fulfillment of mitzvos relates primarily to the body,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "as above."
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "that this—that the revelation of the era of Resurrection will also be for the souls"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "(which will then be clothed in the body)—"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "is analogous to the statement of our sages, of blessed memory,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "\"Great is study that brings to action,\""
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "for through the fact that study brings to action, greatness is achieved in the study."
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "[And analogous to what is explained in the continuation of 5666,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "that when the study pertains to an actual practical ruling,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "then one exerts oneself more and arrives at greater depth in the matter.]"
+          }
+        ]
+      }
+    ]
+  }
+}

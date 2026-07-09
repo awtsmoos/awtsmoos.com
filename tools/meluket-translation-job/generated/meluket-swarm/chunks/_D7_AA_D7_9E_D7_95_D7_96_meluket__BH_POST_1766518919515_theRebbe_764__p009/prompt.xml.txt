@@ -1,0 +1,104 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919515_theRebbe_764" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p009">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919515_theRebbe_764" title="מאמר גדול יהי' תשכ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p009">
+  <section v="24">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">וע"י הגילוי דיחוד הוי' ואלקים</src>
+    <src s="3">(באופן הנ"ל)</src>
+    <src s="4">שיהי' בביהמ"ק</src>
+    <src s="5">(השלישי)</src>
+    <src s="6">שגם המקום</src>
+    <src s="7">(שנתהווה משם אלקים)</src>
+    <src s="8">הוא כלי להגילוי דהוי' שלמעלה מהמקום,</src>
+    <src s="9">יומשך מעין גילוי זה גם בכל העולם.</src>
+    <src s="10">וגילוי זה יהי' בעיקר בהגאולה שלאחרי בנין ביהמ"ק.</src>
+    <src s="11">דהטעם על זה שגאולה העתידה תהי' גאולה נצחית שאין שייך אחרי' גלות הוא לפי שהעולם יהי' כלי להגאולה.</src>
+    <src s="12">וכמבואר בלקו"ת69</src>
+    <src s="13">שגאולה השלישית היא בזכות יעקב שמדתו מדת אמת שאין שייך בו שינוי,</src>
+    <src s="14">דאמיתית ענין הבל"ג</src>
+    <src s="15">(מדת האמת)</src>
+    <src s="16">הוא שהמטה הוא כלי לזה.</src>
+    <src s="17">ועד"ז הוא בהענין דקיבוץ גלויות</src>
+    <src s="18">(דהגאולה),</src>
+    <src s="19">שיהי' בכל ששה הקצוות</src>
+    <src s="20">(דמקום),</src>
+    <src s="21">ממזרח אביא זרעך וממערב אקבצך אמר לצפון תני ולתימן אל תכלאי הביאי בני מרחוק ובנותי מקצה הארץ70,</src>
+    <src s="22">דיש לומר שרחוק וקצה הם כנגד ב' הקצוות מעלה ומטה.</src>
+    <src s="23">ויש לומר,</src>
+    <src s="24">שקיבוץ הגליות מכל הששה קצוות תהי' באופן שהששה קצוות יסייעו לזה71.</src>
+  </section>
+  <section v="25">
+    <src s="0">והנה אף שהגילוי שיומשך בעולם יהי' רק מעין הגילוי שבביהמ"ק עצמו,</src>
+    <src s="1">מ"מ יש יתרון בההמשכה בעולם.</src>
+    <src s="2">כי היחוד דהוי' ואלקים שבביהמ"ק עצמו,</src>
+    <src s="3">כיון שלית דין אתר הדיוט,</src>
+    <src s="4">אין ניכר בזה כ"כ שהיחוד דהוי' ואלקים הוא גם מצד שם אלקים,</src>
+    <src s="5">והגילוי דענין זה</src>
+    <src s="6">(שהיחוד הוא גם מצד שם אלקים)</src>
+    <src s="7">הוא בעיקר ע"י שנמשך מעין הגילוי דביהמ"ק בעולם,</src>
+    <src s="8">אתר הדיוט.</src>
+    <src s="9">ועפ"ז יש לבאר היתרון דהגאולה לגבי ביהמ"ק</src>
+    <src s="10">[שלכן תהי' הגאולה לאחרי בנין ביהמ"ק,</src>
+    <src s="11">כנ"ל סעיף ב],</src>
+    <src s="12">כי המשכת הגילוי דביהמ"ק בעולם תהי'</src>
+    <src s="13">(בעיקר)</src>
+    <src s="14">בהגאולה,</src>
+    <src s="15">כנ"ל.</src>
+  </section>
+  <section v="26">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">ועיקר הגילוי דיחוד הוי' ואלקים</src>
+    <src s="3">(שהיחוד הוא גם מצד אלקים)</src>
+    <src s="4">יהי' בתחיית המתים שלאחרי קיבוץ גלויות,</src>
+    <src s="5">אחרון שבכולם.</src>
+    <src s="6">דהגילוי שיהי' בעולם</src>
+    <src s="7">(גאולה מגלות וקיבוץ גלויות)</src>
+    <src s="8">הוא גילוי מוגבל</src>
+    <src s="9">(בערך הגילויים שיהיו לע"ל),</src>
+    <src s="10">וכנ"ל שהוא רק מעין הגילוי דביהמ"ק,</src>
+    <src s="11">ובתחה"מ,</src>
+    <src s="12">שאז יהי' חיות הגוף מהסובב72</src>
+    <src s="13">[נעלה יותר מהחיות דהנשמה,</src>
+    <src s="14">שלכן,</src>
+    <src s="15">הנשמה תהי' ניזונית מהגוף72],</src>
+    <src s="16">יהיו שתי המעלות.</src>
+    <src s="17">גילוי בל"ג</src>
+    <src s="18">(סובב),</src>
+    <src s="19">וגילוי זה יהי' בהגוף ששרשו הוא73</src>
+    <src s="20">משם אלקים.</src>
+  </section>
+</awtsmoosMeluketSource>

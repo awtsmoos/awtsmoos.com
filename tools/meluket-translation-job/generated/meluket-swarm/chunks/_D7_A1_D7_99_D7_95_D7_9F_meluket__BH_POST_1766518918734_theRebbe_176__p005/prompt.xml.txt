@@ -1,0 +1,99 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918734_theRebbe_176" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918734_theRebbe_176" title="מאמר וידבר אלוקים את כל הדברים האלה תשכ"ח" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918734_theRebbe_176__p005">
+  <section v="12">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דשורש הפרט הוא למעלה מהכלל40.</src>
+    <src s="2">וכמו חכמה ובינה,</src>
+    <src s="3">דהגם שחכמה היא הכלל שממנה נמשכים כל הפרטים דבינה,</src>
+    <src s="4">מ"מ מצד זה גופא,</src>
+    <src s="5">שורש הבינה הוא למעלה משורש החכמה.</src>
+    <src s="6">שלכן,</src>
+    <src s="7">על ידי העיון בהפרטים דבינה ניתוספים</src>
+    <src s="8">(לפעמים)</src>
+    <src s="9">ענינים חדשים שלא היו בנקודת החכמה.</src>
+    <src s="10">ועד"ז הוא בדיבור,</src>
+    <src s="11">דכשנמשך השכל בדיבור נעשים בו ריבוי פרטים יותר גם מהפרטים דבינה</src>
+    <src s="12">(אפילו לאחרי שהבינה מתלבשת במחשבה,</src>
+    <src s="13">דמה שחושבים במחשבה אחת הנה בדיבור הוא משך זמן),</src>
+    <src s="14">דשורש הדיבור הוא למעלה יותר גם מהשורש דבינה,</src>
+    <src s="15">שלכן כשלומד את השכל בדיבור,</src>
+    <src s="16">מתחדשים אצלו ענינים שלא היו תחילה במחשבה,</src>
+    <src s="17">גם בההשגה דבינה.</src>
+    <src s="18">ועד"ז הוא בהשפעת שכל מרב לתלמיד,</src>
+    <src s="19">דעל ידי שהשכל מתפרט לריבוי פרטים</src>
+    <src s="20">[ובפרט על ידי ההשפעה לתלמיד קטן,</src>
+    <src s="21">דכל מה שההשפעה היא לתלמיד קטן יותר,</src>
+    <src s="22">צריך לפרט את השכל בריבוי פרטים יותר41],</src>
+    <src s="23">הנה עי"ז מיתוסף אצל הרב עומק חדש שלא הי' אצלו לפני ההשפעה,</src>
+    <src s="24">כמאמר42</src>
+    <src s="25">ומתלמידי יותר מכולן.</src>
+    <src s="26">ובפרט כשהתלמיד מקשה קושיות על השכל,</src>
+    <src s="27">שבכדי לתרץ ולהסיר את הקושיא,</src>
+    <src s="28">מתעורר אצלו עומק חדש.</src>
+  </section>
+  <section v="13">
+    <src s="0">והנמשל מזה יובן למעלה בענין העשרה מאמרות,</src>
+    <src s="1">דהגם שהעשרה מאמרות הם הפרטים דהמאמר אחד,</src>
+    <src s="2">מ"מ,</src>
+    <src s="3">מצד זה גופא,</src>
+    <src s="4">מכיון ששורש הפרט הוא למעלה מהכלל,</src>
+    <src s="5">לכן על ידי העבודה בהעולם שנברא בעשרה מאמרות</src>
+    <src s="6">[ובפרט שמצד זה שהעולם נברא בעשרה מאמרות יש אפשרות לבחור גם בהיפך</src>
+    <src s="7">(כנ"ל סעיף ו),</src>
+    <src s="8">בדוגמת הקושיות שסותרים את השכל],</src>
+    <src s="9">מגיעים למעלה יותר מבחינת הכלל דעולם דמאמר אחד,</src>
+    <src s="10">ויתירה מזו,</src>
+    <src s="11">שמגיעים גם לעצם האור,</src>
+    <src s="12">שלמעלה גם מהאור</src>
+    <src s="13">(התפשטות האור)</src>
+    <src s="14">שבו הי' העלאת הרצון לעולמות.</src>
+  </section>
+  <section v="14">
+    <src s="0">ט)</src>
+    <src s="1">והנה עד"ז הוא גם בההמשכה דתורה,</src>
+    <src s="2">דע"י שנמשכה תחילה בבחינת כלל ואח"כ נפרטה לפרטים,</src>
+    <src s="3">הנה גם הפרטים הם</src>
+    <src s="4">(לא ענין בפני עצמו,</src>
+    <src s="5">כי אם)</src>
+    <src s="6">פרטים שנובעים מהכלל,</src>
+    <src s="7">ועי"ז ישנו הכח שגם בהפרטים דתורה שבעל פה,</src>
+    <src s="8">ועד לכל מה שתלמיד ותיק עתיד לחדש,</src>
+    <src s="9">יהי' בגילוי האור דהכלל דתורה שבכתב,</src>
+    <src s="10">ועד להכלל דעשרת הדברות</src>
+    <src s="11">(שלימוד כל פרט שבתורה יהי' באימה וביראה וברתת ובזיע כמו שהי' בעת אמירת עשרת הדברות43),</src>
+    <src s="12">ועד להכלל דדיבור אחד שבו נכללו כל עשרת הדברות.</src>
+  </section>
+</awtsmoosMeluketSource>

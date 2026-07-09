@@ -1,0 +1,329 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 57,
+    "returned": 57,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919515_theRebbe_764\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>The revelation of \"there is no place empty of Him\" will be in the Third Temple, which corresponds to Keter, above the First and Second Temples that correspond to the lower Sefiros.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that the revelation of this concept of \"there is no place empty of Him\" will be in the Third Temple.</t>\n    <t s=\"3\">And the explanation is,</t>\n    <t s=\"4\">that the First and Second Temples correspond to the four letters of the Name Havayah, which allude to the ten Sefiros</t>\n    <t s=\"5\">[The First Temple is the letter Hei Elyonah</t>\n    <t s=\"6\">(Binah)</t>\n    <t s=\"7\">through which there is the revelation of the Yud</t>\n    <t s=\"8\">(Chochmah),</t>\n    <t s=\"9\">and the Second Temple is the Hei Tata'ah</t>\n    <t s=\"10\">(Malchus)</t>\n    <t s=\"11\">through which there is the revelation of the Vav</t>\n    <t s=\"12\">(Zeir Anpin)]67,</t>\n    <t s=\"13\">and the Third Temple is Keter, as brought above</t>\n    <t s=\"14\">(section 3)</t>\n    <t s=\"15\">that \"Aryeh will come\" is the revelation of Keter, which is above the chain of descent.</t>\n  </section>\n  <section v=\"22\">\n    <sectionSummaryBrief>In the ten Sefiros, revelation and concealment are two distinct matters, but in the hidden Sefiros of Keter they are unified, and this unity will be revealed in the Third Temple.</sectionSummaryBrief>\n    <t s=\"0\">Now, in the ten Sefiros, the revelation and concealment within them</t>\n    <t s=\"1\">(lights and vessels)</t>\n    <t s=\"2\">are two matters,</t>\n    <t s=\"3\">and that these two matters of revelation and concealment are names of the Holy One, blessed be He, and that which is above both of them is through the revelation of Keter, which is above the chain of descent.</t>\n    <t s=\"4\">For just as the matter of the division of the Sefiros</t>\n    <t s=\"5\">(Chochmah,</t>\n    <t s=\"6\">Binah, etc.)</t>\n    <t s=\"7\">is</t>\n    <t s=\"8\">(primarily)</t>\n    <t s=\"9\">in the revealed Sefiros of Atzilus, unlike the hidden Sefiros in Keter which are included as one,</t>\n    <t s=\"10\">so too is it regarding the matter of the division of lights and vessels</t>\n    <t s=\"11\">(revelation and concealment),</t>\n    <t s=\"12\">that in the hidden Sefiros they</t>\n    <t s=\"13\">(the lights and vessels)</t>\n    <t s=\"14\">are in unity.</t>\n    <t s=\"15\">And based on this it can be said,</t>\n    <t s=\"16\">that the true essence of the concept of \"there is no place empty of Him,\" that even the place itself will be like a vessel for the revelation of that which is above place, will be revealed in the Third Temple.</t>\n    <t s=\"17\">For then there will be drawn down in revelation also within the names Havayah and Elokim as they are in the chain of descent</t>\n    <t s=\"18\">[And through this,</t>\n    <t s=\"19\">also in the two matters of above place and place,</t>\n    <t s=\"20\">even as they are below in this physical world]</t>\n    <t s=\"21\">that both of them are names of the Holy One, blessed be He, and that which is above both of them,</t>\n    <t s=\"22\">and all is one.</t>\n  </section>\n  <section v=\"23\">\n    <sectionSummaryBrief>The eternal existence of the Third Temple is not merely from above time, but that time itself becomes a vessel for eternity, which is a unique quality.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, what is said in many places will be understood</t>\n    <t s=\"1\">(brought above in section 1)</t>\n    <t s=\"2\">that the virtue of the Third Temple is that it will endure with eternal existence,</t>\n    <t s=\"3\">for seemingly,</t>\n    <t s=\"4\">since the matter of eternality could have been also in the First Temple</t>\n    <t s=\"5\">(as brought above in section 3)</t>\n    <t s=\"6\">how can it be said that this is the virtue of the Third Temple.</t>\n    <t s=\"7\">And the explanation can be said,</t>\n    <t s=\"8\">that the eternality that could have been in the First Temple is</t>\n    <t s=\"9\">(primarily)</t>\n    <t s=\"10\">from the aspect of the revelation that is above time,</t>\n    <t s=\"11\">and the innovation in the eternality that will be in the Third Temple is that even time will be a vessel for this68.</t>\n    <t s=\"12\">And this is that the virtue of the Third Temple is that it will endure with eternal existence,</t>\n    <t s=\"13\">for the true essence of the matter of boundlessness</t>\n    <t s=\"14\">(eternality)</t>\n    <t s=\"15\">is,</t>\n    <t s=\"16\">that the eternality is not only from the aspect of the drawing down from above, but that the lower is a vessel for this,</t>\n    <t s=\"17\">and this \"eternality\" is only in the Third Temple.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919515_theRebbe_764",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p008"
+    },
+    "sections": [
+      {
+        "v": 21,
+        "sectionSummaryBrief": "The revelation of \"there is no place empty of Him\" will be in the Third Temple, which corresponds to Keter, above the First and Second Temples that correspond to the lower Sefiros.",
+        "translations": [
+          {
+            "v": 21,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 21,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 21,
+            "s": 2,
+            "translation": "that the revelation of this concept of \"there is no place empty of Him\" will be in the Third Temple."
+          },
+          {
+            "v": 21,
+            "s": 3,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 21,
+            "s": 4,
+            "translation": "that the First and Second Temples correspond to the four letters of the Name Havayah, which allude to the ten Sefiros"
+          },
+          {
+            "v": 21,
+            "s": 5,
+            "translation": "[The First Temple is the letter Hei Elyonah"
+          },
+          {
+            "v": 21,
+            "s": 6,
+            "translation": "(Binah)"
+          },
+          {
+            "v": 21,
+            "s": 7,
+            "translation": "through which there is the revelation of the Yud"
+          },
+          {
+            "v": 21,
+            "s": 8,
+            "translation": "(Chochmah),"
+          },
+          {
+            "v": 21,
+            "s": 9,
+            "translation": "and the Second Temple is the Hei Tata'ah"
+          },
+          {
+            "v": 21,
+            "s": 10,
+            "translation": "(Malchus)"
+          },
+          {
+            "v": 21,
+            "s": 11,
+            "translation": "through which there is the revelation of the Vav"
+          },
+          {
+            "v": 21,
+            "s": 12,
+            "translation": "(Zeir Anpin)]67,"
+          },
+          {
+            "v": 21,
+            "s": 13,
+            "translation": "and the Third Temple is Keter, as brought above"
+          },
+          {
+            "v": 21,
+            "s": 14,
+            "translation": "(section 3)"
+          },
+          {
+            "v": 21,
+            "s": 15,
+            "translation": "that \"Aryeh will come\" is the revelation of Keter, which is above the chain of descent."
+          }
+        ]
+      },
+      {
+        "v": 22,
+        "sectionSummaryBrief": "In the ten Sefiros, revelation and concealment are two distinct matters, but in the hidden Sefiros of Keter they are unified, and this unity will be revealed in the Third Temple.",
+        "translations": [
+          {
+            "v": 22,
+            "s": 0,
+            "translation": "Now, in the ten Sefiros, the revelation and concealment within them"
+          },
+          {
+            "v": 22,
+            "s": 1,
+            "translation": "(lights and vessels)"
+          },
+          {
+            "v": 22,
+            "s": 2,
+            "translation": "are two matters,"
+          },
+          {
+            "v": 22,
+            "s": 3,
+            "translation": "and that these two matters of revelation and concealment are names of the Holy One, blessed be He, and that which is above both of them is through the revelation of Keter, which is above the chain of descent."
+          },
+          {
+            "v": 22,
+            "s": 4,
+            "translation": "For just as the matter of the division of the Sefiros"
+          },
+          {
+            "v": 22,
+            "s": 5,
+            "translation": "(Chochmah,"
+          },
+          {
+            "v": 22,
+            "s": 6,
+            "translation": "Binah, etc.)"
+          },
+          {
+            "v": 22,
+            "s": 7,
+            "translation": "is"
+          },
+          {
+            "v": 22,
+            "s": 8,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 22,
+            "s": 9,
+            "translation": "in the revealed Sefiros of Atzilus, unlike the hidden Sefiros in Keter which are included as one,"
+          },
+          {
+            "v": 22,
+            "s": 10,
+            "translation": "so too is it regarding the matter of the division of lights and vessels"
+          },
+          {
+            "v": 22,
+            "s": 11,
+            "translation": "(revelation and concealment),"
+          },
+          {
+            "v": 22,
+            "s": 12,
+            "translation": "that in the hidden Sefiros they"
+          },
+          {
+            "v": 22,
+            "s": 13,
+            "translation": "(the lights and vessels)"
+          },
+          {
+            "v": 22,
+            "s": 14,
+            "translation": "are in unity."
+          },
+          {
+            "v": 22,
+            "s": 15,
+            "translation": "And based on this it can be said,"
+          },
+          {
+            "v": 22,
+            "s": 16,
+            "translation": "that the true essence of the concept of \"there is no place empty of Him,\" that even the place itself will be like a vessel for the revelation of that which is above place, will be revealed in the Third Temple."
+          },
+          {
+            "v": 22,
+            "s": 17,
+            "translation": "For then there will be drawn down in revelation also within the names Havayah and Elokim as they are in the chain of descent"
+          },
+          {
+            "v": 22,
+            "s": 18,
+            "translation": "[And through this,"
+          },
+          {
+            "v": 22,
+            "s": 19,
+            "translation": "also in the two matters of above place and place,"
+          },
+          {
+            "v": 22,
+            "s": 20,
+            "translation": "even as they are below in this physical world]"
+          },
+          {
+            "v": 22,
+            "s": 21,
+            "translation": "that both of them are names of the Holy One, blessed be He, and that which is above both of them,"
+          },
+          {
+            "v": 22,
+            "s": 22,
+            "translation": "and all is one."
+          }
+        ]
+      },
+      {
+        "v": 23,
+        "sectionSummaryBrief": "The eternal existence of the Third Temple is not merely from above time, but that time itself becomes a vessel for eternity, which is a unique quality.",
+        "translations": [
+          {
+            "v": 23,
+            "s": 0,
+            "translation": "And based on this, what is said in many places will be understood"
+          },
+          {
+            "v": 23,
+            "s": 1,
+            "translation": "(brought above in section 1)"
+          },
+          {
+            "v": 23,
+            "s": 2,
+            "translation": "that the virtue of the Third Temple is that it will endure with eternal existence,"
+          },
+          {
+            "v": 23,
+            "s": 3,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 23,
+            "s": 4,
+            "translation": "since the matter of eternality could have been also in the First Temple"
+          },
+          {
+            "v": 23,
+            "s": 5,
+            "translation": "(as brought above in section 3)"
+          },
+          {
+            "v": 23,
+            "s": 6,
+            "translation": "how can it be said that this is the virtue of the Third Temple."
+          },
+          {
+            "v": 23,
+            "s": 7,
+            "translation": "And the explanation can be said,"
+          },
+          {
+            "v": 23,
+            "s": 8,
+            "translation": "that the eternality that could have been in the First Temple is"
+          },
+          {
+            "v": 23,
+            "s": 9,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 23,
+            "s": 10,
+            "translation": "from the aspect of the revelation that is above time,"
+          },
+          {
+            "v": 23,
+            "s": 11,
+            "translation": "and the innovation in the eternality that will be in the Third Temple is that even time will be a vessel for this68."
+          },
+          {
+            "v": 23,
+            "s": 12,
+            "translation": "And this is that the virtue of the Third Temple is that it will endure with eternal existence,"
+          },
+          {
+            "v": 23,
+            "s": 13,
+            "translation": "for the true essence of the matter of boundlessness"
+          },
+          {
+            "v": 23,
+            "s": 14,
+            "translation": "(eternality)"
+          },
+          {
+            "v": 23,
+            "s": 15,
+            "translation": "is,"
+          },
+          {
+            "v": 23,
+            "s": 16,
+            "translation": "that the eternality is not only from the aspect of the drawing down from above, but that the lower is a vessel for this,"
+          },
+          {
+            "v": 23,
+            "s": 17,
+            "translation": "and this \"eternality\" is only in the Third Temple."
+          }
+        ]
+      }
+    ]
+  }
+}

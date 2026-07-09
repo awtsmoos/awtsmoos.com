@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p010">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" title="מאמר באתי לגני תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p010">
+  <section v="27">
+    <src s="0">י)</src>
+    <src s="1">ז)</src>
+    <src s="2">וממשיך בהמאמר,</src>
+    <src s="3">שהעצה ליפטר מהמחשבות שנופלים לו בשעת התורה והתפלה הוא לעורר מדת הנצח שבנפשו.</src>
+    <src s="4">דלהיות שמדת הנצחון הוא נטוע בעצם הנפש שלמעלה מכחות הגלויים,</src>
+    <src s="5">לכן,</src>
+    <src s="6">ע"י מדת הנצח יכול להתגבר ולדחות כל הטרדות והבלבולים.</src>
+    <src s="7">ולכאורה הי' אפשר לומר,</src>
+    <src s="8">דזה שאומר בהמאמר שהעצה היא לעורר את מדת הנצח דוקא,</src>
+    <src s="9">הוא,</src>
+    <src s="10">כי העצה שמובאת לעיל</src>
+    <src s="11">(סעיף טז)</src>
+    <src s="12">מקונטרס התפלה היא רק בנוגע למחשבות זרות שנופלים בשעת התפלה מצד הטרדות שלו,</src>
+    <src s="13">אבל כשהמחשבות נופלים לו דוקא בשעת התפלה,</src>
+    <src s="14">בכדי לבלבלו</src>
+    <src s="15">(דבהמאמר מדבר בענין מחשבות אלו),</src>
+    <src s="16">העצה היא לעורר את מדת הנצח.</src>
+    <src s="17">וצריך להבין,</src>
+    <src s="18">דלכאורה,</src>
+    <src s="19">גם בנוגע למחשבות אלו,</src>
+    <src s="20">אפשר ליפטר מהם ע"י שיתבונן דזה שהם נופלים לו בשעת העבודה דוקא הוא כי כל ענינם הוא לבלבלו מתורה ועבודה.</src>
+    <src s="21">ובהמאמר אומר שהעצה ליפטר ממחשבות אלו היא לא ע"י התבוננות אלא דוקא בדרך נצחון.</src>
+  </section>
+  <section v="28">
+    <src s="0">י)</src>
+    <src s="1">ח)</src>
+    <src s="2">והנה מבואר בתניא117,</src>
+    <src s="3">שהמחשבות זרות שנופלים לאדם בעת התפלה בכדי לבלבלו הוא כמשל אדם המתפלל בכוונה ועומד לנגדו ערל118</src>
+    <src s="4">רשע ומשיח ומדבר עמו כדי לבלבלו.</src>
+    <src s="5">וידועה תורת הבעש"ט119,</src>
+    <src s="6">דכשאדם אחר</src>
+    <src s="7">(ומכ"ש נכרי או קטן120)</src>
+    <src s="8">מדבר ומבלבלו בתפלתו,</src>
+    <src s="9">צריך להתבונן דכיון שהכל הוא בהשגחה פרטית,</src>
+    <src s="10">הרי מובן,</src>
+    <src s="11">שזהו ירידת השכינה כביכול שירדה פלאים להתלבש ניצוץ מהארתה בפיו של אדם זה המבלבל,</src>
+    <src s="12">וזה שירדה השכינה למטה כ"כ הוא בכדי שאחזק עצמי בעבודת התפלה.</src>
+    <src s="13">וע"י התבוננות זו הוא מתעורר להתפלל יותר בכוונה מעומקא דלבא עד שלא ישמע דיבורו של המבלבל.</src>
+  </section>
+  <section v="29">
+    <src s="0">ויש לקשר זה עם תורת הרב המגיד121</src>
+    <src s="1">בתחלת פרשתנו</src>
+    <src s="2">(פ' בא)</src>
+    <src s="3">עה"פ122</src>
+    <src s="4">למען שתי אותותי אלה בקרבו,</src>
+    <src s="5">דזה שהקב"ה הכביד את לב פרעה והביא עליו עוד ג' מכות הוא בכדי לברר את הניצוצות שהיו במצרים שלא נתבררו מקודם.</src>
+    <src s="6">וזהו למען שתי אותותי,</src>
+    <src s="7">אותותי מלשון אותיות,</src>
+    <src s="8">שהניצוצות שנפלו בהקליפות הוא מהאותיות שנשברו</src>
+    <src s="9">[וכידוע בענין שבה"כ דתהו123,</src>
+    <src s="10">דשבירת הכלים הוא שבירת האותיות,</src>
+    <src s="11">וזה גרם שאח"כ נפלו ניצוצות מהם לתוך הקליפות].</src>
+    <src s="12">ועיקר הבירור שלהם הוא על ידי שמכניסים אותם</src>
+    <src s="13">(לאחרי שמשנים את הצירוף)</src>
+    <src s="14">בתורה.</src>
+    <src s="15">והבירור דהאותיות שנשברו ונפלו בהקליפות במצרים שלא נתבררו מקודם הוא ע"י שהקב"ה הכניסם בהסיפורים דתחלת הפרשה.</src>
+    <src s="16">וזהו למען שתי אותותי גו',</src>
+    <src s="17">דזה שהקב"ה הכביד את לב פרעה הוא למען שתי אותותי,</src>
+    <src s="18">בכדי לברר אותיות אלו שנפלו בהשבירה ע"י שהכניסם בסיפורים שבתורה.</src>
+    <src s="19">[אלא שאעפ"כ,</src>
+    <src s="20">מכיון שנשארו עדיין במצרים ניצוצות שלא נתבררו הי' הציווי124</src>
+    <src s="21">וישאלו איש מאת רעהו גו' כלי כסף וכלי זהב,</src>
+    <src s="22">בכדי לברר כל הניצוצות שהיו במצרים].</src>
+  </section>
+</awtsmoosMeluketSource>

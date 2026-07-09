@@ -1,0 +1,339 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 59,
+    "returned": 59,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916846_theRebbe_939\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p012\">\n  <section v=\"33\">\n    <sectionSummaryBrief>This section explains that the drawing down of the Divine Presence after the sin is loftier than at the beginning of creation, analogous to repentance, with an advantage in both the revelation from above and the work of the lower beings.</sectionSummaryBrief>\n    <t s=\"0\">And this is that the main drawing down of the Shechinah below after the withdrawal is more elevated than it was at the beginning of creation,</t>\n    <t s=\"1\">for the drawing down after the withdrawal caused by the sin of the Tree of Knowledge and the sins that followed it is analogous to the matter of repentance.</t>\n    <t s=\"2\">And the advantage that is renewed in the drawing down after the withdrawal is in two matters</t>\n    <t s=\"3\">(as above at the end of section 5),</t>\n    <t s=\"4\">both in the drawing down of the revelation from above — for the drawing down of the revelation now is through the service of subjugation</t>\n    <t s=\"5\">[and transformation],</t>\n    <t s=\"6\">and in regard to the lower beings — for the service now is service with one's own power</t>\n    <t s=\"7\">[for this, that through the contraction the matter of service with one's own power was renewed, is primarily after the sin of the Tree of Knowledge],</t>\n    <t s=\"8\">and through service with one's own power, which is analogous to the matter of transformation,</t>\n    <t s=\"9\">and especially through the service of actual transformation,</t>\n    <t s=\"10\">the world becomes a vessel for the revelation.</t>\n  </section>\n  <section v=\"34\">\n    <sectionSummaryBrief>This section explains that through our deeds and service, especially in exile, we rectify the descent from the sin of the Tree of Knowledge, transforming darkness into light, culminating in the physical world becoming a vessel for Divine revelation.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">4)</t>\n    <t s=\"2\">And through our deeds and our service120</t>\n    <t s=\"3\">[for \"our deeds\" is the fulfillment of Torah and mitzvos according to nature,</t>\n    <t s=\"4\">and \"our service\" is the exertion in Torah and mitzvos against nature</t>\n    <t s=\"5\">(subjugation)121.</t>\n    <t s=\"6\">And it can be said,</t>\n    <t s=\"7\">that in \"our deeds\" is also included that through exertion this becomes his nature</t>\n    <t s=\"8\">(transformation)],</t>\n    <t s=\"9\">and especially in the time of exile120,</t>\n    <t s=\"10\">we rectify the descent that occurred through the sin of the Tree of Knowledge,</t>\n    <t s=\"11\">to the point that it will be felt in revelation that the descent is only for the sake of the ascent,</t>\n    <t s=\"12\">and likewise regarding all sins</t>\n    <t s=\"13\">[that descended from the sin of the Tree of Knowledge],</t>\n    <t s=\"14\">that through repentance they are transformed into merits.</t>\n    <t s=\"15\">And it can be said that likewise regarding death that came through the sin of the Tree of Knowledge,</t>\n    <t s=\"16\">that in the future it will be transformed into life.</t>\n    <t s=\"17\">And as explained in many places122</t>\n    <t s=\"18\">that the matter of the resurrection of the dead is that the dead will be alive.</t>\n    <t s=\"19\">And likewise regarding the rectification of the diminution of the moon and the breaking of the vessels and even the first contraction,</t>\n    <t s=\"20\">that the contraction will not conceal,</t>\n    <t s=\"21\">and moreover,</t>\n    <t s=\"22\">that the contraction itself will shine.</t>\n    <t s=\"23\">And through this the physical world will become a vessel for the revelation of G‑dliness,</t>\n    <t s=\"24\">as it is written123</t>\n    <t s=\"25\">\"And the glory of the L‑rd shall be revealed, and all flesh together shall see that the mouth of the L‑rd has spoken,\"</t>\n    <t s=\"26\">that even physical flesh will be a vessel for the revelation,</t>\n    <t s=\"27\">both for the revelation of the glory of the L‑rd</t>\n    <t s=\"28\">(encompassing)</t>\n    <t s=\"29\">and for the revelation of the mouth of the L‑rd</t>\n    <t s=\"30\">(internal)124.</t>\n    <t s=\"31\">And this is what our sages said125</t>\n    <t s=\"32\">\"In the World to Come there is no eating nor drinking,\"</t>\n    <t s=\"33\">for although the World to Come refers to the time of the resurrection when souls will be in bodies126</t>\n    <t s=\"34\">nevertheless they will not need eating and drinking,</t>\n    <t s=\"35\">for the physical body will be nourished from the radiance of the Shechinah127.</t>\n    <t s=\"36\">And moreover,</t>\n    <t s=\"37\">that in the future the body will be even higher than the soul,</t>\n    <t s=\"38\">therefore the soul will be nourished from the body128.</t>\n  </section>\n  <section v=\"35\">\n    <sectionSummaryBrief>This section concludes that all this is accomplished through our deeds and service now, especially repentance, leading to the true and complete redemption through Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">And all this is accomplished through our deeds and our service now</t>\n    <t s=\"1\">(as above),</t>\n    <t s=\"2\">and especially through the service of repentance,</t>\n    <t s=\"3\">and the Torah promised that ultimately Israel will repent at the end of their exile and immediately they are redeemed129,</t>\n    <t s=\"4\">with the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"5\">for among the matters that will be renewed with the coming of Moshiach is that \"Moshiach comes to bring the righteous to repentance\"130,</t>\n    <t s=\"6\">and \"they shall awaken and sing, you who dwell in the dust\"131</t>\n    <t s=\"7\">and the master of the hillula among them,</t>\n    <t s=\"8\">and He will lead us upright to our land very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916846_theRebbe_939",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p012"
+    },
+    "sections": [
+      {
+        "v": 33,
+        "sectionSummaryBrief": "This section explains that the drawing down of the Divine Presence after the sin is loftier than at the beginning of creation, analogous to repentance, with an advantage in both the revelation from above and the work of the lower beings.",
+        "translations": [
+          {
+            "v": 33,
+            "s": 0,
+            "translation": "And this is that the main drawing down of the Shechinah below after the withdrawal is more elevated than it was at the beginning of creation,"
+          },
+          {
+            "v": 33,
+            "s": 1,
+            "translation": "for the drawing down after the withdrawal caused by the sin of the Tree of Knowledge and the sins that followed it is analogous to the matter of repentance."
+          },
+          {
+            "v": 33,
+            "s": 2,
+            "translation": "And the advantage that is renewed in the drawing down after the withdrawal is in two matters"
+          },
+          {
+            "v": 33,
+            "s": 3,
+            "translation": "(as above at the end of section 5),"
+          },
+          {
+            "v": 33,
+            "s": 4,
+            "translation": "both in the drawing down of the revelation from above — for the drawing down of the revelation now is through the service of subjugation"
+          },
+          {
+            "v": 33,
+            "s": 5,
+            "translation": "[and transformation],"
+          },
+          {
+            "v": 33,
+            "s": 6,
+            "translation": "and in regard to the lower beings — for the service now is service with one's own power"
+          },
+          {
+            "v": 33,
+            "s": 7,
+            "translation": "[for this, that through the contraction the matter of service with one's own power was renewed, is primarily after the sin of the Tree of Knowledge],"
+          },
+          {
+            "v": 33,
+            "s": 8,
+            "translation": "and through service with one's own power, which is analogous to the matter of transformation,"
+          },
+          {
+            "v": 33,
+            "s": 9,
+            "translation": "and especially through the service of actual transformation,"
+          },
+          {
+            "v": 33,
+            "s": 10,
+            "translation": "the world becomes a vessel for the revelation."
+          }
+        ]
+      },
+      {
+        "v": 34,
+        "sectionSummaryBrief": "This section explains that through our deeds and service, especially in exile, we rectify the descent from the sin of the Tree of Knowledge, transforming darkness into light, culminating in the physical world becoming a vessel for Divine revelation.",
+        "translations": [
+          {
+            "v": 34,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 34,
+            "s": 1,
+            "translation": "4)"
+          },
+          {
+            "v": 34,
+            "s": 2,
+            "translation": "And through our deeds and our service120"
+          },
+          {
+            "v": 34,
+            "s": 3,
+            "translation": "[for \"our deeds\" is the fulfillment of Torah and mitzvos according to nature,"
+          },
+          {
+            "v": 34,
+            "s": 4,
+            "translation": "and \"our service\" is the exertion in Torah and mitzvos against nature"
+          },
+          {
+            "v": 34,
+            "s": 5,
+            "translation": "(subjugation)121."
+          },
+          {
+            "v": 34,
+            "s": 6,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 34,
+            "s": 7,
+            "translation": "that in \"our deeds\" is also included that through exertion this becomes his nature"
+          },
+          {
+            "v": 34,
+            "s": 8,
+            "translation": "(transformation)],"
+          },
+          {
+            "v": 34,
+            "s": 9,
+            "translation": "and especially in the time of exile120,"
+          },
+          {
+            "v": 34,
+            "s": 10,
+            "translation": "we rectify the descent that occurred through the sin of the Tree of Knowledge,"
+          },
+          {
+            "v": 34,
+            "s": 11,
+            "translation": "to the point that it will be felt in revelation that the descent is only for the sake of the ascent,"
+          },
+          {
+            "v": 34,
+            "s": 12,
+            "translation": "and likewise regarding all sins"
+          },
+          {
+            "v": 34,
+            "s": 13,
+            "translation": "[that descended from the sin of the Tree of Knowledge],"
+          },
+          {
+            "v": 34,
+            "s": 14,
+            "translation": "that through repentance they are transformed into merits."
+          },
+          {
+            "v": 34,
+            "s": 15,
+            "translation": "And it can be said that likewise regarding death that came through the sin of the Tree of Knowledge,"
+          },
+          {
+            "v": 34,
+            "s": 16,
+            "translation": "that in the future it will be transformed into life."
+          },
+          {
+            "v": 34,
+            "s": 17,
+            "translation": "And as explained in many places122"
+          },
+          {
+            "v": 34,
+            "s": 18,
+            "translation": "that the matter of the resurrection of the dead is that the dead will be alive."
+          },
+          {
+            "v": 34,
+            "s": 19,
+            "translation": "And likewise regarding the rectification of the diminution of the moon and the breaking of the vessels and even the first contraction,"
+          },
+          {
+            "v": 34,
+            "s": 20,
+            "translation": "that the contraction will not conceal,"
+          },
+          {
+            "v": 34,
+            "s": 21,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 34,
+            "s": 22,
+            "translation": "that the contraction itself will shine."
+          },
+          {
+            "v": 34,
+            "s": 23,
+            "translation": "And through this the physical world will become a vessel for the revelation of G‑dliness,"
+          },
+          {
+            "v": 34,
+            "s": 24,
+            "translation": "as it is written123"
+          },
+          {
+            "v": 34,
+            "s": 25,
+            "translation": "\"And the glory of the L‑rd shall be revealed, and all flesh together shall see that the mouth of the L‑rd has spoken,\""
+          },
+          {
+            "v": 34,
+            "s": 26,
+            "translation": "that even physical flesh will be a vessel for the revelation,"
+          },
+          {
+            "v": 34,
+            "s": 27,
+            "translation": "both for the revelation of the glory of the L‑rd"
+          },
+          {
+            "v": 34,
+            "s": 28,
+            "translation": "(encompassing)"
+          },
+          {
+            "v": 34,
+            "s": 29,
+            "translation": "and for the revelation of the mouth of the L‑rd"
+          },
+          {
+            "v": 34,
+            "s": 30,
+            "translation": "(internal)124."
+          },
+          {
+            "v": 34,
+            "s": 31,
+            "translation": "And this is what our sages said125"
+          },
+          {
+            "v": 34,
+            "s": 32,
+            "translation": "\"In the World to Come there is no eating nor drinking,\""
+          },
+          {
+            "v": 34,
+            "s": 33,
+            "translation": "for although the World to Come refers to the time of the resurrection when souls will be in bodies126"
+          },
+          {
+            "v": 34,
+            "s": 34,
+            "translation": "nevertheless they will not need eating and drinking,"
+          },
+          {
+            "v": 34,
+            "s": 35,
+            "translation": "for the physical body will be nourished from the radiance of the Shechinah127."
+          },
+          {
+            "v": 34,
+            "s": 36,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 34,
+            "s": 37,
+            "translation": "that in the future the body will be even higher than the soul,"
+          },
+          {
+            "v": 34,
+            "s": 38,
+            "translation": "therefore the soul will be nourished from the body128."
+          }
+        ]
+      },
+      {
+        "v": 35,
+        "sectionSummaryBrief": "This section concludes that all this is accomplished through our deeds and service now, especially repentance, leading to the true and complete redemption through Moshiach.",
+        "translations": [
+          {
+            "v": 35,
+            "s": 0,
+            "translation": "And all this is accomplished through our deeds and our service now"
+          },
+          {
+            "v": 35,
+            "s": 1,
+            "translation": "(as above),"
+          },
+          {
+            "v": 35,
+            "s": 2,
+            "translation": "and especially through the service of repentance,"
+          },
+          {
+            "v": 35,
+            "s": 3,
+            "translation": "and the Torah promised that ultimately Israel will repent at the end of their exile and immediately they are redeemed129,"
+          },
+          {
+            "v": 35,
+            "s": 4,
+            "translation": "with the true and complete redemption through our righteous Moshiach,"
+          },
+          {
+            "v": 35,
+            "s": 5,
+            "translation": "for among the matters that will be renewed with the coming of Moshiach is that \"Moshiach comes to bring the righteous to repentance\"130,"
+          },
+          {
+            "v": 35,
+            "s": 6,
+            "translation": "and \"they shall awaken and sing, you who dwell in the dust\"131"
+          },
+          {
+            "v": 35,
+            "s": 7,
+            "translation": "and the master of the hillula among them,"
+          },
+          {
+            "v": 35,
+            "s": 8,
+            "translation": "and He will lead us upright to our land very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

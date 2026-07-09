@@ -1,0 +1,122 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918005_theRebbe_76" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918005_theRebbe_76" title="מאמר כימי צאתך תשל"ח" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918005_theRebbe_76__p005">
+  <section v="12">
+    <src s="0">ז)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דבהתלבשות הנפלאות בטבע שיהי' לע"ל,</src>
+    <src s="3">שני ענינים.</src>
+    <src s="4">דזה שהנפלאות שלמעלה מטבע יתלבשו בטבע הוא כי אז גם ההעלם שלמעלה מגילוי יומשך בגילוי.</src>
+    <src s="5">וזה שהטבע לא יסתיר על הנפלאות הוא לפי שאז תהי' עליית הטבע,</src>
+    <src s="6">שגם הטבע יהי' כלי להנפלאות שלמעלה מהטבע.</src>
+    <src s="7">ועפ"ז יש לבאר הקשר דשני הפירושים באראנו נפלאות – פירוש אדמו"ר האמצעי שגם הנפלאות שלמעלה מהטבע יראו אז בגילוי</src>
+    <src s="8">(ולא כמו עכשיו שהנפלאות שלמעלה מהטבע יודעים רק מציאותם),</src>
+    <src s="9">ופירוש הצ"צ שגם בהנסים המלובשים בטבע</src>
+    <src s="10">(נפלאות גדולות הנמשכים מבחינת לבדו)</src>
+    <src s="11">יהי' נראה בגילוי הנס שבהם</src>
+    <src s="12">(כנ"ל סעיף ג)</src>
+    <src s="13">– כי התוכן דשני הפירושים הוא שלע"ל יהי' הטבע כלי ללמעלה מהטבע,</src>
+    <src s="14">שלכן לא יסתיר הטבע על הנסים המלובשים בו.</src>
+    <src s="15">אלא שלפירוש הצ"צ,</src>
+    <src s="16">ענין אראנו נפלאות הוא שהטבע לא יסתיר על הנסים השייכים לטבע</src>
+    <src s="17">(היינו,</src>
+    <src s="18">הנסים הנמשכים מזה שאוא"ס הוא למטה מטה כו',</src>
+    <src s="19">ענין הגילוי דאוא"ס).</src>
+    <src s="20">דהטבע כמו שהוא עכשיו מסתיר גם על נסים אלה.</src>
+    <src s="21">כי שורש הנסים המלובשים בטבע הוא בהגילוי דאוא"ס,</src>
+    <src s="22">דבכללות הוא שם הוי' שלמעלה מהטבע,</src>
+    <src s="23">ושורש הטבע הוא משם אלקים</src>
+    <src s="24">(אלקים בגימטריא הטבע37)</src>
+    <src s="25">שמעלים ומסתיר על שם הוי'.</src>
+    <src s="26">ולע"ל יהי' שם אלקים כלי להגילוי דהוי'.</src>
+    <src s="27">ולפירוש אדמו"ר האמצעי,</src>
+    <src s="28">ענין אראנו נפלאות הוא שהטבע הנמשך משם אלקים יהי' כלי</src>
+    <src s="29">(גם)</src>
+    <src s="30">להנפלאות שלמעלה מהטבע הנמשכים מזה שאוא"ס הוא למעלה מעלה כו',</src>
+    <src s="31">העלם שלמעלה מגילוי</src>
+    <src s="32">(למעלה מהוי').</src>
+  </section>
+  <section v="13">
+    <src s="0">ח)</src>
+    <src s="1">וע"פ המובא לעיל</src>
+    <src s="2">(מהמאמר)</src>
+    <src s="3">שבהגאולה דיציאת מצרים נפתח הצנור גם דגאולה העתידה,</src>
+    <src s="4">יש לומר,</src>
+    <src s="5">שבהגאולה דיציאת מצרים נמשך גם הנתינת כח על הענין דאראנו נפלאות שיהי' בגאולה העתידה.</src>
+    <src s="6">והענין הוא,</src>
+    <src s="7">דזה שלע"ל יהי' הטבע כלי ללמעלה מהטבע</src>
+    <src s="8">[ענין אראנו נפלאות]</src>
+    <src s="9">הוא ע"י הבירורים,</src>
+    <src s="10">שעי"ז מזדכך העולם ומתעלה ונעשה כלי ללמעלה מהטבע.</src>
+    <src s="11">דהתחלת ענין הבירורים היתה ביציאת מצרים.</src>
+    <src s="12">דע"י שעבדים היינו לפרעה במצרים38</src>
+    <src s="13">[לפרעה – מלך קשה,</src>
+    <src s="14">במצרים – מדינה קשה,</src>
+    <src s="15">שאין39</src>
+    <src s="16">עבד יכול לברוח משם40]</src>
+    <src s="17">ואעפ"כ עמדו בנסיון,</src>
+    <src s="18">עי"ז ביררו הניצוצות שהיו במצרים.</src>
+    <src s="19">ועד שוינצלו את מצרים41,</src>
+    <src s="20">שעשאוה כמצולה שאין בה דגים וכמצודה שאין בה דגן42,</src>
+    <src s="21">ועי"ז ניתן הכח על עבודת הבירורים בכל הימים שלאחרי יציאת מצרים</src>
+    <src s="22">(ימי לשון רבים),</src>
+    <src s="23">כולל גם הימים שבזמן הגלות.</src>
+  </section>
+  <section v="14">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דמהטעמים על זה שמזכירין יציאת מצרים בכל יום הוא כי עי"ז מיתוסף בהנתינת כח שנמשך מיציאת מצרים על עבודת הבירורים בכל יום.</src>
+    <src s="2">וע"י שבכל יום ויום מבררים עוד ניצוצות ועוד ניצוצות,</src>
+    <src s="3">מתקרבים יותר לביאת המשיח,</src>
+    <src s="4">כי ע"י כל ניצוץ שנתברר,</src>
+    <src s="5">נעשה העולם יותר מזוכך,</src>
+    <src s="6">ועד שבגמר הבירורים יהי' העולם כלי לגילוי אלקות שלמעלה מעולמות,</src>
+    <src s="7">דבכללות הוא שהטבע דעולם יהי' כלי ללמעלה מהטבע,</src>
+    <src s="8">אראנו נפלאות.</src>
+    <src s="9">ולכן יזכירו יציאת מצרים גם בימות המשיח,</src>
+    <src s="10">כי זה שאז יהי' העולם כלי לגילוי אלקות שלמעלה מעולמות הוא ע"י הגאולה דיציאת מצרים.</src>
+    <src s="11">וזהו כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="12">דזה שאומר שאראנו נפלאות</src>
+    <src s="13">(לע"ל)</src>
+    <src s="14">יהי' כימי צאתך מארץ מצרים הוא,</src>
+    <src s="15">כי הנתינת כח על הענין דאראנו נפלאות שיהי' לע"ל היא מיציאת מצרים.</src>
+    <src s="16">ומדייק כימי צאתך,</src>
+    <src s="17">כימי לשון רבים,</src>
+    <src s="18">כי ביציאת מצרים היתה רק הנתינת כח על הענין דאראנו נפלאות,</src>
+    <src s="19">ובכדי שהענין דאראנו נפלאות יומשך בפועל הוא ע"י עבודת הבירורים בהימים שבין יציאת מצרים וגאולה העתידה,</src>
+    <src s="20">שהם ימי צאתך מארץ מצרים</src>
+    <src s="21">(כנ"ל סעיף א מהמאמר),</src>
+    <src s="22">ימי לשון רבים.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,100 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915043_theRebbe_419" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915043_theRebbe_419__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915043_theRebbe_419" title="מאמר ואברהם זקן תשל"ח" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915043_theRebbe_419__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצאי ש"פ חיי שרה,</src>
+    <src s="2">מבה"ח כסלו – בחדרו – ה'תשל"ח</src>
+  </section>
+  <section v="1">
+    <src s="0">ואברהם זקן בא בימים גו'1,</src>
+    <src s="1">ומביא רבינו הזקן בתו"א בפרשתנו ד"ה2</src>
+    <src s="2">להבין ענין מה שאמרו רז"ל3</src>
+    <src s="3">יפה שעה אחת בתשובה ומעשים טובים בעולם הזה מכל חיי עולם הבא</src>
+    <src s="4">(ולפני הדרוש – שהוא "שייך לפסוק ואברהם זקן בא בימים")</src>
+    <src s="5">מאמר הזהר4</src>
+    <src s="6">על הפסוק באינון יומין עילאין כו',</src>
+    <src s="7">שהם הלבושים דתורה ומצוות5</src>
+    <src s="8">(תשובה ומעשים טובים)</src>
+    <src s="9">שעל ידם תוכל הנשמה ליהנות מזיו השכינה בעוה"ב.</src>
+    <src s="10">וענין זה שייך גם לימים כפשוטם6,</src>
+    <src s="11">שצריכים להיות כל הימים שלמים,</src>
+    <src s="12">היינו שכל יום יהי' מלא בעשיית מצוה</src>
+    <src s="13">(יומין עילאין).</src>
+    <src s="14">וידוע מאמר הבעל שם טוב7</src>
+    <src s="15">"לא יניח שום יום מעשיית מצוה כו'".</src>
+    <src s="16">וזהו בא בימים,</src>
+    <src s="17">שאברהם אבינו עבד את עבודתו בכל יום ויום8,</src>
+    <src s="18">שכל ימיו היו יומין שלימין</src>
+    <src s="19">(ולא חסרין ח"ו),</src>
+    <src s="20">ועי"ז "בא בימים – באינון יומין עילאין"9.</src>
+    <src s="21">וידוע הדיוק בזה10,</src>
+    <src s="22">הרי העיקר הוא לבושי המצוות</src>
+    <src s="23">(יומין עילאין),</src>
+    <src s="24">ומה נוגע בזה ענין הימים</src>
+    <src s="25">(כפשוטם)</src>
+    <src s="26">שלא יניח שום יום מעשיית מצוה כו',</src>
+    <src s="27">הלא יוכל לעשות למחר שתי מצוות.</src>
+    <src s="28">דלכאורה גם כשעושה כמה מצוות במשך יום אחד יש לו אותו מספר המצוות כמו כשהי' מקיימם במשך כמה ימים11,</src>
+    <src s="29">וא"כ,</src>
+    <src s="30">מה נוגע שיקיים מצוה בכל יום דוקא,</src>
+    <src s="31">ועד שכאשר חסר לו יום אחד חסר לו לבוש12.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה מזה שמעלה זו דאברהם</src>
+    <src s="2">(בא בימים)</src>
+    <src s="3">בא בקרא לאחרי כו"כ מעלות שלו שבפסוקים שלפנ"ז,</src>
+    <src s="4">ועד שבכתוב זה גופא בתחילה הוא אומר ואברהם זקן ואח"כ מוסיף בא בימים,</src>
+    <src s="5">מובן שענין בא בימים הוא מעלה גדולה יותר גם מהמעלה דזקן.</src>
+    <src s="6">דהגם שואברהם זקן פי' שהי' בעילוי נפלא ביותר,</src>
+    <src s="7">וכמרז"ל13</src>
+    <src s="8">שאמר לו הקב"ה לאברהם בא לבוש לבושי</src>
+    <src s="9">(דהקב"ה שנקרא14</src>
+    <src s="10">עתיק יומין15)</src>
+    <src s="11">שנאמר ואברהם זקן,</src>
+    <src s="12">היינו שואברהם זקן היא מעלת אברהם מה שלובש לבוש הקב"ה כמו שהקב"ה הוא בבחי' עתיק יומין,</src>
+    <src s="13">הנה בא בימים נעלה עוד יותר.</src>
+    <src s="14">וצריך להבין מהו גודל העילוי דבא בימים,</src>
+    <src s="15">לבושי המצוות</src>
+    <src s="16">[ובפרט בהענין דעשיית מצוה בכל יום דוקא,</src>
+    <src s="17">הגם שאינו מתוסף עי"ז במספר המצוות],</src>
+    <src s="18">ועד שזה נעלה יותר מענין</src>
+    <src s="19">(ואברהם)</src>
+    <src s="20">זקן שהוא בחי'</src>
+    <src s="21">(הלבוש ד)</src>
+    <src s="22">עתיק יומין16.</src>
+  </section>
+</awtsmoosMeluketSource>

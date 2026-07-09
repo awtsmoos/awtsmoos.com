@@ -1,0 +1,76 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917230_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917230_theRebbe_81__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917230_theRebbe_81" title="רשימת מאמר כי תשא תשי"א" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917230_theRebbe_81__p002">
+  <section v="3">
+    <src s="0">וכללות הענין בזה בעבודה הוא,</src>
+    <src s="1">דבכדי להקריב את הקרבנות ע"ג המזבח,</src>
+    <src s="2">שהיו מקריבים אותם ואש שלמעלה אכיל קרבנין ומחמת זה גם נה"ב שבכאו"א מישראל הי' נתמעט ונכלל בקדושה עד שכאו"א הי' מקשר דעתו ובינתו לגדולת ה' להבטל אליו,</src>
+    <src s="3">ועתה נעשה זה ע"י התפלה שכנגד קרבנות תקנום,</src>
+    <src s="4">הנה צ"ל מתחילה נתינת כח וסיוע ע"ז מלמעלה.</src>
+    <src s="5">וזהו"ע שמשה רועה את האמונה ע"י תורה וגמ"ח,</src>
+    <src s="6">ועי"ז נעשה הנשיאות והגבהת ראש בנ"י,</src>
+    <src s="7">ההעלאה מלמטלמ"ע ע"י הקרבנות והתפלה.</src>
+  </section>
+  <section v="4">
+    <src s="0">ולהבין שייכות ענין זה למשה רעיא מהימנא דוקא,</src>
+    <src s="1">אשר לו נאמר,</src>
+    <src s="2">כי תשא את ראש,</src>
+    <src s="3">זה יתנו גו' מחה"ש,</src>
+    <src s="4">הנה נק' הוא רע"מ ע"ש שרועה את האמונה זן ומפרנס אותה.</src>
+    <src s="5">כי אמונה מצ"ע יכולה להיות בדרך מקיף,</src>
+    <src s="6">וגנבא אפום מחתרתא ר"ק1,</src>
+    <src s="7">ובדקות אפשר למצוא בכאו"א בבעלי עסק שאף שמאמין שהוא הנותן לך כח גו',</src>
+    <src s="8">בכ"ז מתעמק בתחבולות שהם מבלבלים אותו מתו"ע2</src>
+    <src s="9">ושיעורים הקבועים גם לב"ע3,</src>
+    <src s="10">שה"ז דבר והיפוכו.</src>
+    <src s="11">וכן ביושבי אוהל שמאמין שזהו חכ' ורצונו של הק',</src>
+    <src s="12">וכשמצליח בלימודו ועושה חיל ה"ז מתפאר בזה ואצ"ל כשלומד ע"מ זה,</src>
+    <src s="13">ובמילא לפעמים יטה את הענין ובלבד שידו תהי' על העליונה.</src>
+    <src s="14">ולכן צריך להמשיך את האמונה בפנימיות בכחות נפשו שיתנהגו בפועל מתאים לאמונתו.</src>
+    <src s="15">וזהו נעשה דוקא ע"י התבוננתו אליבא דנפשא ויתקע מח' בחוזק כדי שהתולדה מזה לא יהיו דמיונות שוא.</src>
+  </section>
+  <section v="5">
+    <src s="0">ובמה היא ההתבוננות,</src>
+    <src s="1">הנה ידוע החילוק באמונה הבאה ע"י חכ' החקירה והיא אמונת חסידי או"ה,</src>
+    <src s="2">ואמונת בנ"י.</src>
+    <src s="3">ממכ"ע וסוכ"ע.</src>
+    <src s="4">חיות המתלבש ונפרט לפרטים,</src>
+    <src s="5">ובמילא העולם מציאות אלא שבטל הוא להחיות המתלבש בתוכו,</src>
+    <src s="6">שם אלקים.</src>
+    <src s="7">סוכ"ע מקיף כללי למעל' מהטו"ד ומהתחלקות,</src>
+    <src s="8">אמונת בנ"י.</src>
+    <src s="9">וזהו ג"כ הטעם שלא נזהרו על השתוף.</src>
+  </section>
+</awtsmoosMeluketSource>

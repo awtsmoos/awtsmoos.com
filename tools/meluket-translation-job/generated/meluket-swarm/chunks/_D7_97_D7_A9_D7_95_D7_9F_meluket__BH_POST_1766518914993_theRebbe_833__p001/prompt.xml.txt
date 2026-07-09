@@ -1,0 +1,131 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914993_theRebbe_833" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914993_theRebbe_833" title="מאמר ויהיו חיי שרה תנש"א" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914993_theRebbe_833__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ חיי שרה,</src>
+    <src s="2">כ"ב מרחשון ה'תנש"א</src>
+  </section>
+  <section v="1">
+    <src s="0">ויהיו חיי שרה מאה שנה ועשרים שנה ושבע שנים שני חיי שרה1,</src>
+    <src s="1">וידועים הדיוקים בדרושי רבותינו נשיאינו</src>
+    <src s="2">[החל מדרושי רבינו הזקן2,</src>
+    <src s="3">ובתוספת הגהות וביאורים בדרושי רבותינו נשיאינו שלאח"ז3,</src>
+    <src s="4">וגם בדרושי אדמו"ר</src>
+    <src s="5">(מהורש"ב)</src>
+    <src s="6">נ"ע4,</src>
+    <src s="7">בעל יום ההולדת דכ"ף מרחשון5],</src>
+    <src s="8">שבמספר מאה ובמספר עשרים נקט שנה</src>
+    <src s="9">(מאה שנה ועשרים שנה)</src>
+    <src s="10">לשון יחיד,</src>
+    <src s="11">ובמספר שבע נקט שנים</src>
+    <src s="12">(שבע שנים)</src>
+    <src s="13">לשון רבים.</src>
+    <src s="14">גם,</src>
+    <src s="15">מהו אומרו שני חיי שרה,</src>
+    <src s="16">הרי כבר נאמר ויהיו חיי שרה</src>
+    <src s="17">(ומפרט המספר דקכ"ז שנה),</src>
+    <src s="18">ולמה כופל שני חיי שרה.</src>
+    <src s="19">גם צריך להבין הלימוד וההוראה משני חיי שרה בעבודת כאו"א מישראל,</src>
+    <src s="20">כידוע שכל עניני התורה</src>
+    <src s="21">(גם סיפורי התורה6)</src>
+    <src s="22">הם הוראות לכאו"א מישראל,</src>
+    <src s="23">ובפרט מעשה אבות</src>
+    <src s="24">(ואמהות)</src>
+    <src s="25">שהם סימן</src>
+    <src s="26">(ונתינת-כח)</src>
+    <src s="27">לבנים7.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ומבואר בהדרושים,</src>
+    <src s="2">שבפסוק זה נכלל כל סדר ההשתלשלות</src>
+    <src s="3">(למעלה וגם)</src>
+    <src s="4">בנפש האדם,</src>
+    <src s="5">בכאו"א מישראל,</src>
+    <src s="6">שעבודתו צריכה להיות בכל פרטי הענינים דמאה שנה ועשרים שנה ושבע שנים,</src>
+    <src s="7">כמו בשרה8.</src>
+    <src s="8">וביאור הענין,</src>
+    <src s="9">דאיתא בזהר9</src>
+    <src s="10">ויהיו חיי שרה כו' מאה שנה כללא דכולא קוב"ה דאתכליל מאתר עילאה סתימא דכל סתימין במאה ברזא דמאה ברכאן בכל יומא,</src>
+    <src s="11">וכן עשרים שנה,</src>
+    <src s="12">ובגין כך כתיב שנה רזא דיחודא דלא אתפרש מחשבה ויובלא לעלמין,</src>
+    <src s="13">שבע שנים אלין אתפרשן ונפקאן מכללא כו' בדינא ורחמי בכמה סטרין ואורחין כו' ובגין כך כו' כתיב בהו שנים ולא שנה,</src>
+    <src s="14">וכולהו אקרון חיים כו'.</src>
+    <src s="15">והענין בזה,</src>
+    <src s="16">שמאה שנה קאי על הכתר</src>
+    <src s="17">(כי כתר כולל כל היו"ד ספירות,</src>
+    <src s="18">וכל א' מהם כלול מיו"ד,</src>
+    <src s="19">ויו"ד פעמים יו"ד הם מאה),</src>
+    <src s="20">שענינו בנפש האדם הוא רצון</src>
+    <src s="21">(חיצוניות הכתר)</src>
+    <src s="22">ותענוג</src>
+    <src s="23">(פנימיות הכתר).</src>
+    <src s="24">ועשרים שנה קאי על חכמה ובינה</src>
+    <src s="25">(שכל א' מהם כלול מיו"ד),</src>
+    <src s="26">בחי' המוחין</src>
+    <src s="27">[ובכמה דרושים10</src>
+    <src s="28">מבואר שגם מאה שנה הוא בחי' המוחין</src>
+    <src s="29">(כידוע שיחידות במלכות,</src>
+    <src s="30">עשיריות בז"א,</src>
+    <src s="31">ומאות באו"א</src>
+    <src s="32">(חו"ב),</src>
+    <src s="33">ואלפים בכתר),</src>
+    <src s="34">ועפ"ז י"ל,</src>
+    <src s="35">שמאה שנה הוא מוחין בעצם,</src>
+    <src s="36">ועשרים שנה הוא מוחין השייכים להמדות</src>
+    <src s="37">(עשיריות בז"א)].</src>
+    <src s="38">ובשניהם נאמר שנה</src>
+    <src s="39">(מאה שנה ועשרים שנה)</src>
+    <src s="40">לשון יחיד,</src>
+    <src s="41">כי,</src>
+    <src s="42">בכתר</src>
+    <src s="43">(מאה)</src>
+    <src s="44">כלולים כל הספירות יחד,</src>
+    <src s="45">וגם חכמה ובינה</src>
+    <src s="46">(עשרים)</src>
+    <src s="47">הם תרין ריעין דלא מתפרשין11,</src>
+    <src s="48">ולכן נכללים יחד.</src>
+    <src s="49">ושבע שנים קאי על שבע המדות,</src>
+    <src s="50">ולהיותם באופן של התחלקות עד לקוין הפכיים דחסד וגבורה</src>
+    <src s="51">(דינא ורחמי),</src>
+    <src s="52">נאמר בהם שבע שנים,</src>
+    <src s="53">לשון רבים.</src>
+    <src s="54">ומוסיף ומסיים שני חיי שרה,</src>
+    <src s="55">שע"י שלימות העבודה דמאה שנה ועשרים שנה ושבע שנים באים לדרגא נעלית יותר שלמעלה מהתחלקות,</src>
+    <src s="56">שלכן לא נזכר בזה מספר</src>
+    <src s="57">(ע"ד לפני אחד מה אתה סופר12).</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,6 +1,6 @@
 // B"H
-/** Nature exports: real terrain, cheap grass, real gameplay first. */
-export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?compact=true&v=real-terrain-octree-visual-20260708-bh1";
+/** Nature exports: square repeated grass terrain and real village props. */
+export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?compact=true&v=square-grass-repeat-20260709-bh3";
 export { default as ProceduralSky } from "../dvarim/nature/ProceduralSky.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as Forest } from "../dvarim/nature/forest.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPlane.js?compact=true&v=real-gameplay-solid-grass-20260708-bh2";

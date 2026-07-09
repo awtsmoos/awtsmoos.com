@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919434_theRebbe_712" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919434_theRebbe_712" title="מאמר וחזקת והיית לאיש תשכ"ח" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p005">
+  <section v="12">
+    <src s="0">ו)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">דזהו מ"ש בשל"ה48</src>
+    <src s="3">דיעקב הוא תפילין של ראש ויוסף הוא תפילין של יד,</src>
+    <src s="4">כי ע"י תפילין של ראש נעשה החיבור</src>
+    <src s="5">(תפילין מלשון התחברות)</src>
+    <src s="6">דאוא"ס המאציל עם הנאצלים,</src>
+    <src s="7">שממשיך תוספות אור באו"א ובז"א דאצילות,</src>
+    <src s="8">וע"י תפילין של יד שהוא במלכות</src>
+    <src s="9">[כמ"ש49</src>
+    <src s="10">וקשרתם לאות על ידכה,</src>
+    <src s="11">יד כהה50,</src>
+    <src s="12">דיד כהה היא המלכות]</src>
+    <src s="13">נעשה החיבור דאוא"ס</src>
+    <src s="14">(גם)</src>
+    <src s="15">עם הנבראים.</src>
+    <src s="16">[דזהו מה שתש"ר נק' בשם פאר51,</src>
+    <src s="17">כמו תכשיט שהאדם מתקשט בו52,</src>
+    <src s="18">ותפילין של יד53</src>
+    <src s="19">הם רק לבוש,</src>
+    <src s="20">כי בי"ע הם לבושים וע"ס דאצילות נק' בשם תיקונין54,</src>
+    <src s="21">דתיקונין הוא כמו תכשיטים55].</src>
+    <src s="22">וזהו שיעקב הוא תש"ר ויוסף תש"י,</src>
+    <src s="23">כי יעקב הוא בריח התיכון שמבריח ומחבר אוא"ס עם הנאצלים,</src>
+    <src s="24">ויוסף הוא מחבר</src>
+    <src s="25">[בן פורת יוסף56,</src>
+    <src s="26">פורת אותיות תופר57,</src>
+    <src s="27">תופר ומחבר]</src>
+    <src s="28">אוא"ס עם הנבראים.</src>
+  </section>
+  <section v="13">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">דכיון שבכדי שתהי' המשכה בבי"ע צ"ל תחלה ההמשכה באצילות,</src>
+    <src s="2">למה מקדימין הנחת תש"י לתש"ר.</src>
+    <src s="3">ויש לומר הביאור בזה ע"פ הידוע58</src>
+    <src s="4">שהמצוות דהקב"ה שנעשים ע"י שישראל מקיימים את המצוות הם נעלים יותר מהמצוות דהקב"ה כמו שהם מצד עצמם.</src>
+    <src s="5">ויש להוסיף,</src>
+    <src s="6">דבמצות תפילין,</src>
+    <src s="7">ענין זה הוא ביותר.</src>
+    <src s="8">דמכיון שתפילין דמארי59</src>
+    <src s="9">עלמא מה כתיב בהו כו' ומי60</src>
+    <src s="10">כעמך ישראל גוי אחד בארץ61,</src>
+    <src s="11">דקוב"ה משתבח בשבחייהו דישראל61</src>
+    <src s="12">– הרי בזה נוגע עוד יותר העבודה דישראל,</src>
+    <src s="13">הנחת תפילין דישראל.</src>
+    <src s="14">ולכן מקדימין הנחת תש"י לתש"ר,</src>
+    <src s="15">כי המעלה דעבודה היא בעיקר בהעבודה דיחודא תתאה</src>
+    <src s="16">(בי"ע)62,</src>
+    <src s="17">ולכן העבודה דיחו"ת מגעת למעלה יותר מהעבודה דיחו"ע</src>
+    <src s="18">(אצילות),</src>
+    <src s="19">וההוספה שנעשית בתפילין דמארי עלמא</src>
+    <src s="20">[המשכת אוא"ס באצילות</src>
+    <src s="21">(תש"ר)</src>
+    <src s="22">ובי"ע</src>
+    <src s="23">(תש"י)]</src>
+    <src s="24">ע"י הנחת תפילין דישראל,</src>
+    <src s="25">היא בעיקר ע"י הנחת תש"י63.</src>
+  </section>
+  <section v="14">
+    <src s="0">והנה זה שע"י קיום המצוות דישראל מיתוסף עילוי בהמצוות דהקב"ה הוא64,</src>
+    <src s="1">כי ישראל עלו במחשבה65,</src>
+    <src s="2">מחשבה עצמית שלמעלה מכל הגילויים</src>
+    <src s="3">(גם מהגילוי דחפץ חסד66</src>
+    <src s="4">שהוא השרש והסיבה לכל הגילויים),</src>
+    <src s="5">ולכן ע"י העבודה</src>
+    <src s="6">(קיום המצוות)</src>
+    <src s="7">דישראל מיתוסף עילוי בהמצוות דהקב"ה.</src>
+    <src s="8">ועפ"ז יש לומר עוד טעם על זה שההוספה בתפילין דמארי עלמא היא בעיקר ע"י הנחת תש"י,</src>
+    <src s="9">כי ההמשכה בבי"ע</src>
+    <src s="10">(תש"י)</src>
+    <src s="11">מגעת בהעצם שלמעלה משרש ההשפעה והגילוי</src>
+    <src s="12">(כנ"ל סעיף ה),</src>
+    <src s="13">שבכללות הוא בחינת מחשבה עצמית הנ"ל.</src>
+  </section>
+</awtsmoosMeluketSource>

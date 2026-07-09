@@ -1,0 +1,459 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 83,
+    "returned": 83,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אייר_meluket\" postId=\"BH_POST_1766518918408_theRebbe_266\" batchId=\"meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918408_theRebbe_266__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the Tzemach Tzedek's question about how a created being can be like G-d is resolved through teshuvah, which reaches the level of Atzmus Ein Sof beyond intellect.</sectionSummaryBrief>\n    <t s=\"0\">And one can explain the elucidation of this,</t>\n    <t s=\"1\">that what the Tzemach Tzedek said, that this is perplexing,</t>\n    <t s=\"2\">the intention in this is,</t>\n    <t s=\"3\">that there is no place for this in intellect,</t>\n    <t s=\"4\">nor even in the wisdom above.</t>\n    <t s=\"5\">For since according to the order of the chain of descent</t>\n    <t s=\"6\">[which is established as His wisdom, blessed be He, decreed]</t>\n    <t s=\"7\">the created being is created as having no comparison to the Creator,</t>\n    <t s=\"8\">it is not relevant even to entertain the thought that they could be like Me.</t>\n    <t s=\"9\">But regarding the Atzmus of Ein Sof, no limitations apply,</t>\n    <t s=\"10\">for \"who can say to Him, what have You done?\"</t>\n    <t s=\"11\">And since through teshuvah one reaches the Atzmus of Ein Sof which is above wisdom</t>\n    <t s=\"12\">[as is known regarding the matter: they asked the Torah... they asked the Holy One, blessed be He... He said, let him do teshuvah and it will be atoned for him,</t>\n    <t s=\"13\">for the answer \"let him do teshuvah\" comes specifically from the Holy One, blessed be He, who is above the wisdom of Torah],</t>\n    <t s=\"14\">therefore,</t>\n    <t s=\"15\">through teshuvah,</t>\n    <t s=\"16\">\"like Me\" is possible.</t>\n    <t s=\"17\">And based on this, what is implied by the simple language of the verse \"You shall be holy, for I am holy\"</t>\n    <t s=\"18\">(for \"I am holy\" is the reason and explanation for \"You shall be holy\")</t>\n    <t s=\"19\">is sweetened, implying that the command \"You shall be holy\" is that the holiness of Israel must be similar to His holiness, blessed be He,</t>\n    <t s=\"20\">for through the service of teshuvah one reaches this holiness.</t>\n    <t s=\"21\">And to note from the interpretation</t>\n    <t s=\"22\">regarding \"like Me\" – \"like Me\" [is read] with a tone of certainty.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the two interpretations of \"like Me\" correspond to two types of holiness, one being the crown taken for Himself and the other the crowns given to His children.</sectionSummaryBrief>\n    <t s=\"0\">E)</t>\n    <t s=\"1\">And one can say,</t>\n    <t s=\"2\">that the two explanations regarding the verses in which the two crowns that He placed on the heads of His children are alluded to</t>\n    <t s=\"3\">(whether the verse \"You shall be holy\" is included in this)</t>\n    <t s=\"4\">and the two interpretations of \"like Me,\"</t>\n    <t s=\"5\">are dependent on each other.</t>\n    <t s=\"6\">For according to the interpretation that \"like Me\" is in the form of a question – the holiness of \"You shall be holy\" is included in your holiness which is lower than My holiness,</t>\n    <t s=\"7\">and therefore,</t>\n    <t s=\"8\">\"You shall be holy\" is among the crowns that He placed on the heads of His children,</t>\n    <t s=\"9\">and according to the interpretation of \"like Me\" with certainty – the holiness of \"You shall be holy\" is the holiness of \"I am holy\"</t>\n    <t s=\"10\">(which is the crown that He took for Himself),</t>\n    <t s=\"11\">and the two crowns that He placed on the heads of His children are \"and you shall sanctify yourselves and you shall be holy.\"</t>\n    <t s=\"12\">And what the Midrash says, that the holiness of \"I am holy\" is the crown that He took for Himself,</t>\n    <t s=\"13\">even though this holiness is also drawn down to Israel,</t>\n    <t s=\"14\">one can say,</t>\n    <t s=\"15\">that the drawing down of the holiness of \"I am holy\" to baalei teshuvah is</t>\n    <t s=\"16\">(not from the aspect of their existence</t>\n    <t s=\"17\">but rather)</t>\n    <t s=\"18\">because through teshuvah the root of the soul, which is one with the Atzmus, is revealed,</t>\n    <t s=\"19\">and it is found,</t>\n    <t s=\"20\">that even after the crown exists within Israel,</t>\n    <t s=\"21\">it is on the head of the King</t>\n    <t s=\"22\">(and was not given to another,</t>\n    <t s=\"23\">not even to His children).</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the explicit discussion of drawing down G-d's higher holiness in the discourses of Parshat Nitzavim, versus its hint in the discourses of Parshat Emor, relates to the different spiritual times of teshuvah and Sefiras HaOmer.</sectionSummaryBrief>\n    <t s=\"0\">Vav)</t>\n    <t s=\"1\">And one can say,</t>\n    <t s=\"2\">that this matter of the drawing down of \"My holiness\" which is above \"your holiness\" is explained explicitly in the discourses of Parshat Nitzavim, whereas in the discourses of our Parsha this matter comes only as a hint</t>\n    <t s=\"3\">(and what is stated explicitly in these discourses is that the revelation of the first \"holy\" in a person is in a manner of elevation from below to above,</t>\n    <t s=\"4\">that he desires to go out of his existence and be included in the Holy One),</t>\n    <t s=\"5\">it is,</t>\n    <t s=\"6\">because in Parshat \"Atem Nitzavim Hayom,\"</t>\n    <t s=\"7\">which is read before Rosh Hashanah,</t>\n    <t s=\"8\">it is the time of teshuvah.</t>\n    <t s=\"9\">And particularly according to what is explained in Likkutei Torah</t>\n    <t s=\"10\">that the teshuvah of \"Atem Nitzavim Hayom, all of you before Hashem...\" is that all souls ascend above to their source.</t>\n    <t s=\"11\">Therefore, in the discourses of Parshat Nitzavim, the drawing down of \"My holiness\" which is above \"your holiness\" is explained explicitly,</t>\n    <t s=\"12\">for by the souls of Israel ascending to their source, the crown that He took for Himself is also drawn down to them</t>\n    <t s=\"13\">(as above, section E).</t>\n    <t s=\"14\">And in the discourses of the parshiyot that are read during the days of Sefiras HaOmer,</t>\n    <t s=\"15\">where the service of Sefiras HaOmer is</t>\n    <t s=\"16\">(not in a manner of skipping</t>\n    <t s=\"17\">(teshuvah)</t>\n    <t s=\"18\">but rather on the contrary)</t>\n    <t s=\"19\">in order and gradation</t>\n    <t s=\"20\">(one day,</t>\n    <t s=\"21\">two days,</t>\n    <t s=\"22\">etc.),</t>\n    <t s=\"23\">this matter of the drawing down of \"My holiness\" which is above \"your holiness\" comes only as a hint.</t>\n    <t s=\"24\">And one can say,</t>\n    <t s=\"25\">that this matter being brought in these discourses as a hint, at least,</t>\n    <t s=\"26\">is,</t>\n    <t s=\"27\">because Sefiras HaOmer is a matter of refining the animal soul,</t>\n    <t s=\"28\">and the refinement of the animal soul is like the matter of teshuvah.</t>\n    <t s=\"29\">And one may add,</t>\n    <t s=\"30\">that Parshat Emor is read in most years on the Shabbos adjacent to Pesach Sheni,</t>\n    <t s=\"31\">and Pesach Sheni is a matter of teshuvah.</t>\n    <t s=\"32\">And as is explained at length elsewhere</t>\n    <t s=\"33\">that Pesach Rishon is a matter of the service of the righteous and Pesach Sheni is a matter of the service of teshuvah.</t>\n    <t s=\"34\">Therefore, also in the discourses of Parshat Emor, the matter of the drawing down of \"My holiness\" which is above \"your holiness\" is hinted at,</t>\n    <t s=\"35\">\"like Me\" with certainty.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אייר_meluket",
+      "postId": "BH_POST_1766518918408_theRebbe_266",
+      "batchId": "meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918408_theRebbe_266__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the Tzemach Tzedek's question about how a created being can be like G-d is resolved through teshuvah, which reaches the level of Atzmus Ein Sof beyond intellect.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And one can explain the elucidation of this,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that what the Tzemach Tzedek said, that this is perplexing,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "the intention in this is,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "that there is no place for this in intellect,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "nor even in the wisdom above."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "For since according to the order of the chain of descent"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "[which is established as His wisdom, blessed be He, decreed]"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "the created being is created as having no comparison to the Creator,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "it is not relevant even to entertain the thought that they could be like Me."
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "But regarding the Atzmus of Ein Sof, no limitations apply,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "for \"who can say to Him, what have You done?\""
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "And since through teshuvah one reaches the Atzmus of Ein Sof which is above wisdom"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "[as is known regarding the matter: they asked the Torah... they asked the Holy One, blessed be He... He said, let him do teshuvah and it will be atoned for him,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "for the answer \"let him do teshuvah\" comes specifically from the Holy One, blessed be He, who is above the wisdom of Torah],"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "therefore,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "through teshuvah,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "\"like Me\" is possible."
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "And based on this, what is implied by the simple language of the verse \"You shall be holy, for I am holy\""
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "(for \"I am holy\" is the reason and explanation for \"You shall be holy\")"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "is sweetened, implying that the command \"You shall be holy\" is that the holiness of Israel must be similar to His holiness, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "for through the service of teshuvah one reaches this holiness."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "And to note from the interpretation"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "regarding \"like Me\" – \"like Me\" [is read] with a tone of certainty."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the two interpretations of \"like Me\" correspond to two types of holiness, one being the crown taken for Himself and the other the crowns given to His children.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "E)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And one can say,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that the two explanations regarding the verses in which the two crowns that He placed on the heads of His children are alluded to"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(whether the verse \"You shall be holy\" is included in this)"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "and the two interpretations of \"like Me,\""
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "are dependent on each other."
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "For according to the interpretation that \"like Me\" is in the form of a question – the holiness of \"You shall be holy\" is included in your holiness which is lower than My holiness,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "\"You shall be holy\" is among the crowns that He placed on the heads of His children,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "and according to the interpretation of \"like Me\" with certainty – the holiness of \"You shall be holy\" is the holiness of \"I am holy\""
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "(which is the crown that He took for Himself),"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "and the two crowns that He placed on the heads of His children are \"and you shall sanctify yourselves and you shall be holy.\""
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "And what the Midrash says, that the holiness of \"I am holy\" is the crown that He took for Himself,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "even though this holiness is also drawn down to Israel,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "one can say,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "that the drawing down of the holiness of \"I am holy\" to baalei teshuvah is"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "(not from the aspect of their existence"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "but rather)"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "because through teshuvah the root of the soul, which is one with the Atzmus, is revealed,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "and it is found,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "that even after the crown exists within Israel,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "it is on the head of the King"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "(and was not given to another,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "not even to His children)."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that the explicit discussion of drawing down G-d's higher holiness in the discourses of Parshat Nitzavim, versus its hint in the discourses of Parshat Emor, relates to the different spiritual times of teshuvah and Sefiras HaOmer.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "Vav)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And one can say,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that this matter of the drawing down of \"My holiness\" which is above \"your holiness\" is explained explicitly in the discourses of Parshat Nitzavim, whereas in the discourses of our Parsha this matter comes only as a hint"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(and what is stated explicitly in these discourses is that the revelation of the first \"holy\" in a person is in a manner of elevation from below to above,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "that he desires to go out of his existence and be included in the Holy One),"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "it is,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "because in Parshat \"Atem Nitzavim Hayom,\""
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "which is read before Rosh Hashanah,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "it is the time of teshuvah."
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "And particularly according to what is explained in Likkutei Torah"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "that the teshuvah of \"Atem Nitzavim Hayom, all of you before Hashem...\" is that all souls ascend above to their source."
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "Therefore, in the discourses of Parshat Nitzavim, the drawing down of \"My holiness\" which is above \"your holiness\" is explained explicitly,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "for by the souls of Israel ascending to their source, the crown that He took for Himself is also drawn down to them"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "(as above, section E)."
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "And in the discourses of the parshiyot that are read during the days of Sefiras HaOmer,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "where the service of Sefiras HaOmer is"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "(not in a manner of skipping"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "(teshuvah)"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "but rather on the contrary)"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "in order and gradation"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "(one day,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "two days,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "etc.),"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "this matter of the drawing down of \"My holiness\" which is above \"your holiness\" comes only as a hint."
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "And one can say,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "that this matter being brought in these discourses as a hint, at least,"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "is,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "because Sefiras HaOmer is a matter of refining the animal soul,"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "and the refinement of the animal soul is like the matter of teshuvah."
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "that Parshat Emor is read in most years on the Shabbos adjacent to Pesach Sheni,"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "and Pesach Sheni is a matter of teshuvah."
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "And as is explained at length elsewhere"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "that Pesach Rishon is a matter of the service of the righteous and Pesach Sheni is a matter of the service of teshuvah."
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "Therefore, also in the discourses of Parshat Emor, the matter of the drawing down of \"My holiness\" which is above \"your holiness\" is hinted at,"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "\"like Me\" with certainty."
+          }
+        ]
+      }
+    ]
+  }
+}

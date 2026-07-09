@@ -1,0 +1,664 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 124,
+    "returned": 124,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918788_theRebbe_204\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918788_theRebbe_204__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>Nevertheless, this matter of the future revelation already exists now, having been given at the Giving of the Torah, as the Alter Rebbe explains in Tanya that at Matan Torah there was a foretaste of Techiyas HaMeisim, drawn into the boundaries of time and space, so there is no need for a second Matan Torah.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">Nevertheless,</t>\n    <t s=\"2\">it is necessary to say, and it is understood and self-evident</t>\n    <t s=\"3\">(and it is a pleasure to say),</t>\n    <t s=\"4\">that this matter already exists now,</t>\n    <t s=\"5\">and as is known, everything was given at the Giving of the Torah.</t>\n    <t s=\"6\">And the explanation is,</t>\n    <t s=\"7\">that in Tanya</t>\n    <t s=\"8\">(ibid.)</t>\n    <t s=\"9\">our master, the Alter Rebbe, explains</t>\n    <t s=\"10\">(regarding the revelation of G-dliness that will be in the future, and particularly at the Resurrection of the Dead)</t>\n    <t s=\"11\">that there already was something similar in the world at the time of the Giving of the Torah, as it is written, \"You have been shown to know...\"</t>\n    <t s=\"12\">That is,</t>\n    <t s=\"13\">that this matter</t>\n    <t s=\"14\">(the revelation of the Resurrection of the Dead)</t>\n    <t s=\"15\">was already drawn down at the Giving of the Torah,</t>\n    <t s=\"16\">and moreover, he precisely phrases it as \"there already was in the worlds\" specifically.</t>\n    <t s=\"17\">And one can explain the intention in this,</t>\n    <t s=\"18\">that it was drawn into the boundaries of the world,</t>\n    <t s=\"19\">which includes the boundaries of time and the boundaries of place,</t>\n    <t s=\"20\">like the two interpretations of the word \"olam\"</t>\n    <t s=\"21\">(worlds),</t>\n    <t s=\"22\">which is the name by which it is called in the Holy Tongue,</t>\n    <t s=\"23\">He who brings into being, enlivens, and sustains it.</t>\n    <t s=\"24\">And it can be said that this is the explanation of the well-known saying that Matan Torah will not occur a second time,</t>\n    <t s=\"25\">for since everything was already given at the time of Matan Torah,</t>\n    <t s=\"26\">therefore there is no need</t>\n    <t s=\"27\">(one does not need)</t>\n    <t s=\"28\">for it to be drawn down again,</t>\n    <t s=\"29\">and since there is no need for the matter, it is understood that there will not be a second Matan Torah.</t>\n    <t s=\"30\">And analogous to what is explained in many places,</t>\n    <t s=\"31\">that the entire Torah is included in the Ten Commandments given at Matan Torah,</t>\n    <t s=\"32\">so too in our matter,</t>\n    <t s=\"33\">that all the levels of the Torah,</t>\n    <t s=\"34\">including the aspect of the \"dew of Torah\" of the future,</t>\n    <t s=\"35\">were all given at the Giving of the Torah.</t>\n    <t s=\"36\">And this matter was given to all of Israel,</t>\n    <t s=\"37\">as it is brought in the Midrash</t>\n    <t s=\"38\">that the Torah was given to each one according to his capacity,</t>\n    <t s=\"39\">including even infants and pregnant women, etc.</t>\n    <t s=\"40\">(meaning that even fetuses in their mothers' wombs were</t>\n    <t s=\"41\">(and received)</t>\n    <t s=\"42\">at the receiving of the Torah),</t>\n    <t s=\"43\">and not only that, but</t>\n    <t s=\"44\">also all the souls that had not yet descended into the world at that time,</t>\n    <t s=\"45\">or the souls that had already descended and ascended before that,</t>\n    <t s=\"46\">all of them were at the time of Matan Torah.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>There are two ways regarding the \"dew of Torah\" being given at Matan Torah: either as a hidden treasure, which still elevates Israel, or as an internal and revealed matter, which is the true innovation of Matan Torah.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And in this very matter</t>\n    <t s=\"2\">(that the aspect of the \"dew of Torah\" was already given at Matan Torah)</t>\n    <t s=\"3\">there are two ways.</t>\n    <t s=\"4\">For it is possible that this matter is hidden and concealed, like a treasure of precious wealth, hidden and sealed from the eye of every beholder,</t>\n    <t s=\"5\">and like the Torah in general was a hidden treasure</t>\n    <t s=\"6\">before the Giving of the Torah.</t>\n    <t s=\"7\">For even this matter effects an elevation in Israel,</t>\n    <t s=\"8\">as in the simple sense,</t>\n    <t s=\"9\">that one who owns a great treasure,</t>\n    <t s=\"10\">even though he does not use it for whatever reason,</t>\n    <t s=\"11\">nevertheless he has greater worth,</t>\n    <t s=\"12\">being considered a great wealthy person.</t>\n    <t s=\"13\">And so it is in halachah, in the laws of valuations, as it is written,</t>\n    <t s=\"14\">\"According to what his hand can attain, the kohen shall value him,\"</t>\n    <t s=\"15\">which depends on his financial capacity,</t>\n    <t s=\"16\">and if he has a great treasure</t>\n    <t s=\"17\">(even if he did not use it)</t>\n    <t s=\"18\">he is valued as wealthy,</t>\n    <t s=\"19\">and this is even understood simply by the merchants of Lud,</t>\n    <t s=\"20\">and in the custom of the land,</t>\n    <t s=\"21\">and even in the diaspora and among the seventy nations of the world.</t>\n    <t s=\"22\">And likewise it will be understood in the analogy,</t>\n    <t s=\"23\">when the aspect of the \"dew of Torah\" is in a manner of a hidden treasure in the possession of Israel</t>\n    <t s=\"24\">(from the time of Matan Torah),</t>\n    <t s=\"25\">it causes them to be valued in a most elevated manner by the kohen,</t>\n    <t s=\"26\">\"your G-d is a kohen,\"</t>\n    <t s=\"27\">and this matter even affects the seventy nations.</t>\n    <t s=\"28\">But nevertheless, this is not the true innovation of the Giving of the Torah,</t>\n    <t s=\"29\">for even before the Giving of the Torah, the Torah was in the aspect of a hidden treasure,</t>\n    <t s=\"30\">and the innovation of Matan Torah is that the Torah be drawn into Israel internally, revealedly, and simply.</t>\n    <t s=\"31\">And so too regarding the aspect of the \"dew of Torah,\"</t>\n    <t s=\"32\">it is not sufficient that this matter was already given</t>\n    <t s=\"33\">(in concealment)</t>\n    <t s=\"34\">at the time of Matan Torah,</t>\n    <t s=\"35\">but rather it must also act internally,</t>\n    <t s=\"36\">and as it is written,</t>\n    <t s=\"37\">\"For it is your wisdom and understanding,\" etc.,</t>\n    <t s=\"38\">for the main point of the Torah is that it is in the aspect of wisdom and understanding,</t>\n    <t s=\"39\">the aspect of study with comprehension and grasp.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>The innovation of Chassidus is that the \"dew of Torah,\" the inner dimension of Torah, is now studied with comprehension and grasp by all of Israel, as a foretaste of the future revelation.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">that it is stated in the Mishnah,</t>\n    <t s=\"3\">\"One does not expound upon the Workings of the Chariot with an individual, unless he was wise and understands from his own knowledge.\"</t>\n    <t s=\"4\">One can say,</t>\n    <t s=\"5\">that through the study of this individual in the Workings of the Chariot</t>\n    <t s=\"6\">(i.e., the inner dimension of the Torah),</t>\n    <t s=\"7\">he thereby extracts</t>\n    <t s=\"8\">all his students and all of Israel into comprehension and grasp of the inner dimension of the Torah.</t>\n    <t s=\"9\">But according to what was said, that the revelation of Matan Torah was for all of Israel,</t>\n    <t s=\"10\">it must be said,</t>\n    <t s=\"11\">that even this matter</t>\n    <t s=\"12\">(the comprehension and grasp of the aspect of the \"dew of Torah\")</t>\n    <t s=\"13\">must be in all of Israel.</t>\n    <t s=\"14\">And one can say,</t>\n    <t s=\"15\">that this is the innovation of the Torah of Chassidus,</t>\n    <t s=\"16\">that there be study of the inner dimension of the Torah</t>\n    <t s=\"17\">(the aspect of \"the dew of the bedolach,\"</t>\n    <t s=\"18\">\"the dew that drips from Atik\")</t>\n    <t s=\"19\">in a manner of comprehension and grasp,</t>\n    <t s=\"20\">and in a manner that \"they will be sustained from it.\"</t>\n    <t s=\"21\">For although in previous generations there was the restriction of \"one does not expound upon the Workings of the Chariot with an individual,\" etc.,</t>\n    <t s=\"22\">nevertheless in this time,</t>\n    <t s=\"23\">on Erev Shabbos,</t>\n    <t s=\"24\">the ruling in the Shulchan Aruch is</t>\n    <t s=\"25\">that on Erev Shabbos one must taste</t>\n    <t s=\"26\">from every dish of Shabbos,</t>\n    <t s=\"27\">\"those who taste it merit life,\"</t>\n    <t s=\"28\">and therefore there must now be a tasting of the revelation of the aspect of the \"dew of Torah\" that will be revealed in the future,</t>\n    <t s=\"29\">namely, the comprehension and grasp of the inner dimension of the Torah.</t>\n    <t s=\"30\">And with this will be understood what is written, \"You will rain a generous rain, O G-d,\" etc.,</t>\n    <t s=\"31\">that the \"dew of Torah\" of Matan Torah is specifically called \"rain\"</t>\n    <t s=\"32\">(generous)</t>\n    <t s=\"33\">specifically,</t>\n    <t s=\"34\">for the purpose of this aspect of dew is that it also have the quality of rain,</t>\n    <t s=\"35\">to the point that it be drawn into comprehension and grasp, like the aspect of rain,</t>\n    <t s=\"36\">the revealed dimension of Torah.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918788_theRebbe_204",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918788_theRebbe_204__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "Nevertheless, this matter of the future revelation already exists now, having been given at the Giving of the Torah, as the Alter Rebbe explains in Tanya that at Matan Torah there was a foretaste of Techiyas HaMeisim, drawn into the boundaries of time and space, so there is no need for a second Matan Torah.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "it is necessary to say, and it is understood and self-evident"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(and it is a pleasure to say),"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that this matter already exists now,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "and as is known, everything was given at the Giving of the Torah."
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that in Tanya"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(ibid.)"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "our master, the Alter Rebbe, explains"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "(regarding the revelation of G-dliness that will be in the future, and particularly at the Resurrection of the Dead)"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "that there already was something similar in the world at the time of the Giving of the Torah, as it is written, \"You have been shown to know...\""
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "That is,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "that this matter"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "(the revelation of the Resurrection of the Dead)"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "was already drawn down at the Giving of the Torah,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "and moreover, he precisely phrases it as \"there already was in the worlds\" specifically."
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "And one can explain the intention in this,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "that it was drawn into the boundaries of the world,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "which includes the boundaries of time and the boundaries of place,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "like the two interpretations of the word \"olam\""
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "(worlds),"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "which is the name by which it is called in the Holy Tongue,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "He who brings into being, enlivens, and sustains it."
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "And it can be said that this is the explanation of the well-known saying that Matan Torah will not occur a second time,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "for since everything was already given at the time of Matan Torah,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "therefore there is no need"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "(one does not need)"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "for it to be drawn down again,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "and since there is no need for the matter, it is understood that there will not be a second Matan Torah."
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "And analogous to what is explained in many places,"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "that the entire Torah is included in the Ten Commandments given at Matan Torah,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "so too in our matter,"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "that all the levels of the Torah,"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "including the aspect of the \"dew of Torah\" of the future,"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "were all given at the Giving of the Torah."
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "And this matter was given to all of Israel,"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "as it is brought in the Midrash"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "that the Torah was given to each one according to his capacity,"
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "including even infants and pregnant women, etc."
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "(meaning that even fetuses in their mothers' wombs were"
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "(and received)"
+          },
+          {
+            "v": 6,
+            "s": 42,
+            "translation": "at the receiving of the Torah),"
+          },
+          {
+            "v": 6,
+            "s": 43,
+            "translation": "and not only that, but"
+          },
+          {
+            "v": 6,
+            "s": 44,
+            "translation": "also all the souls that had not yet descended into the world at that time,"
+          },
+          {
+            "v": 6,
+            "s": 45,
+            "translation": "or the souls that had already descended and ascended before that,"
+          },
+          {
+            "v": 6,
+            "s": 46,
+            "translation": "all of them were at the time of Matan Torah."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "There are two ways regarding the \"dew of Torah\" being given at Matan Torah: either as a hidden treasure, which still elevates Israel, or as an internal and revealed matter, which is the true innovation of Matan Torah.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And in this very matter"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "(that the aspect of the \"dew of Torah\" was already given at Matan Torah)"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "there are two ways."
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "For it is possible that this matter is hidden and concealed, like a treasure of precious wealth, hidden and sealed from the eye of every beholder,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "and like the Torah in general was a hidden treasure"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "before the Giving of the Torah."
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "For even this matter effects an elevation in Israel,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "as in the simple sense,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "that one who owns a great treasure,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "even though he does not use it for whatever reason,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "nevertheless he has greater worth,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "being considered a great wealthy person."
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "And so it is in halachah, in the laws of valuations, as it is written,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "\"According to what his hand can attain, the kohen shall value him,\""
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "which depends on his financial capacity,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "and if he has a great treasure"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "(even if he did not use it)"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "he is valued as wealthy,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "and this is even understood simply by the merchants of Lud,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "and in the custom of the land,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "and even in the diaspora and among the seventy nations of the world."
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "And likewise it will be understood in the analogy,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "when the aspect of the \"dew of Torah\" is in a manner of a hidden treasure in the possession of Israel"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "(from the time of Matan Torah),"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "it causes them to be valued in a most elevated manner by the kohen,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "\"your G-d is a kohen,\""
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "and this matter even affects the seventy nations."
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "But nevertheless, this is not the true innovation of the Giving of the Torah,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "for even before the Giving of the Torah, the Torah was in the aspect of a hidden treasure,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and the innovation of Matan Torah is that the Torah be drawn into Israel internally, revealedly, and simply."
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "And so too regarding the aspect of the \"dew of Torah,\""
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "it is not sufficient that this matter was already given"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "(in concealment)"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "at the time of Matan Torah,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "but rather it must also act internally,"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "and as it is written,"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "\"For it is your wisdom and understanding,\" etc.,"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "for the main point of the Torah is that it is in the aspect of wisdom and understanding,"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "the aspect of study with comprehension and grasp."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "The innovation of Chassidus is that the \"dew of Torah,\" the inner dimension of Torah, is now studied with comprehension and grasp by all of Israel, as a foretaste of the future revelation.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that it is stated in the Mishnah,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "\"One does not expound upon the Workings of the Chariot with an individual, unless he was wise and understands from his own knowledge.\""
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "One can say,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "that through the study of this individual in the Workings of the Chariot"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "(i.e., the inner dimension of the Torah),"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "he thereby extracts"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "all his students and all of Israel into comprehension and grasp of the inner dimension of the Torah."
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "But according to what was said, that the revelation of Matan Torah was for all of Israel,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "it must be said,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "that even this matter"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "(the comprehension and grasp of the aspect of the \"dew of Torah\")"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "must be in all of Israel."
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "And one can say,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "that this is the innovation of the Torah of Chassidus,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "that there be study of the inner dimension of the Torah"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "(the aspect of \"the dew of the bedolach,\""
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "\"the dew that drips from Atik\")"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "in a manner of comprehension and grasp,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "and in a manner that \"they will be sustained from it.\""
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "For although in previous generations there was the restriction of \"one does not expound upon the Workings of the Chariot with an individual,\" etc.,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "nevertheless in this time,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "on Erev Shabbos,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "the ruling in the Shulchan Aruch is"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "that on Erev Shabbos one must taste"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "from every dish of Shabbos,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "\"those who taste it merit life,\""
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "and therefore there must now be a tasting of the revelation of the aspect of the \"dew of Torah\" that will be revealed in the future,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "namely, the comprehension and grasp of the inner dimension of the Torah."
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "And with this will be understood what is written, \"You will rain a generous rain, O G-d,\" etc.,"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "that the \"dew of Torah\" of Matan Torah is specifically called \"rain\""
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "(generous)"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "specifically,"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "for the purpose of this aspect of dew is that it also have the quality of rain,"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "to the point that it be drawn into comprehension and grasp, like the aspect of rain,"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "the revealed dimension of Torah."
+          }
+        ]
+      }
+    ]
+  }
+}

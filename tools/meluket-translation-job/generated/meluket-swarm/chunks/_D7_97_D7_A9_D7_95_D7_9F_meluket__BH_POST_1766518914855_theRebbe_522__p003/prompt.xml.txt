@@ -1,0 +1,149 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914855_theRebbe_522" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914855_theRebbe_522__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914855_theRebbe_522" title="מאמר ואשה אחת תשמ"ו" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914855_theRebbe_522__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">מה מחדש הכתוב בזה שהמצוה הזאת</src>
+    <src s="3">(תשובה)</src>
+    <src s="4">לא נפלאת היא ממך ולא רחוקה היא,</src>
+    <src s="5">דלכאורה,</src>
+    <src s="6">מכיון שגם באדם,</src>
+    <src s="7">עבודת התשובה היא בהמקיפים חי' יחידה,</src>
+    <src s="8">שהם בדוגמת המקיפים שלמעלה</src>
+    <src s="9">(אריך ועתיק),</src>
+    <src s="10">מהו החידוש</src>
+    <src s="11">(כ"כ)</src>
+    <src s="12">בזה שע"י העבודה בהמקיפים דהנשמה נמשכים המקיפים דלמעלה.</src>
+    <src s="13">ויש לומר,</src>
+    <src s="14">דממך קאי על נר"נ שהם עיקר האדם43.</src>
+    <src s="15">דהגם שתשובה היא בהמקיפים דנשמה,</src>
+    <src s="16">מ"מ,</src>
+    <src s="17">בכדי לעורר המקיפים צריכה להיות התבוננות,</src>
+    <src s="18">וההתבוננות</src>
+    <src s="19">(שבנר"נ)</src>
+    <src s="20">צריכה להיות באופן שעי"ז יתעוררו המקיפים שלמעלה מהשכל.</src>
+    <src s="21">וזהו החידוש בלא נפלאת היא ממך גו' שממך קאי על נר"נ</src>
+    <src s="22">(כנ"ל),</src>
+    <src s="23">דהגם שהמקיפים חי' יחידה הם נפלאים ורחוקים מנר"נ,</src>
+    <src s="24">מ"מ,</src>
+    <src s="25">בכח הנר"נ לעורר</src>
+    <src s="26">(ע"י התבוננות המתאימה)</src>
+    <src s="27">את המקיפים חי' יחידה44,</src>
+    <src s="28">ועל ידם גם המקיפים שלמעלה,</src>
+    <src s="29">אריך ועתיק.</src>
+    <src s="30">והטעם על זה הוא</src>
+    <src s="31">(כמובא לעיל</src>
+    <src s="32">(סוף סעיף ד)</src>
+    <src s="33">מהמאמר)</src>
+    <src s="34">כי נש"י</src>
+    <src s="35">(היינו גם הנר"נ)</src>
+    <src s="36">יש להם הכל,</src>
+    <src s="37">וגם מלמעלה נותנים להם הכל.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">ויובן זה בהקדים שהביאור בדיוק לשון הכתוב לא נפלאת היא ממך</src>
+    <src s="2">(ממך דוקא),</src>
+    <src s="3">הוא גם להפירוש45</src>
+    <src s="4">שהמצוה הזאת קאי על כללות המצוות.</src>
+    <src s="5">דגם לפירוש זה,</src>
+    <src s="6">המצוה הזאת היא בבחינת פלא,</src>
+    <src s="7">וכמובא לעיל</src>
+    <src s="8">(סעיף ד)</src>
+    <src s="9">מהמאמר,</src>
+    <src s="10">שגם כל המצוות,</src>
+    <src s="11">להיותם רצון העליון שלמעלה מהטעם,</src>
+    <src s="12">הם בבחינת פלא וריחוק</src>
+    <src s="13">(אלא שאעפ"כ לא נפלאת היא ממך,</src>
+    <src s="14">מישראל).</src>
+    <src s="15">ויש לומר,</src>
+    <src s="16">דזה שאומר ב' לשונות,</src>
+    <src s="17">נפלאת ורחוקה,</src>
+    <src s="18">הוא,</src>
+    <src s="19">כי במצוות יש שני ענינים.</src>
+    <src s="20">זה שהמצוות הם רצונו ית',</src>
+    <src s="21">רצון שלמעלה מטעם.</src>
+    <src s="22">וזה שלאחרי שהרצון נתלבש בחכמה</src>
+    <src s="23">(דתורה),</src>
+    <src s="24">ניתוסף גם טעם לכל מצוה46.</src>
+    <src s="25">וזהו שני הלשונות דפלא וריחוק,</src>
+    <src s="26">דהרצון שבמצוות,</src>
+    <src s="27">להיותו למעלה מטעם,</src>
+    <src s="28">הוא פלא.</src>
+    <src s="29">וטעמי המצוות כמו שהם מצד החכמה דתורה כמו שהיא למעלה,</src>
+    <src s="30">הם בבחינת ריחוק.</src>
+    <src s="31">דהגם שגם טעמי המצוות</src>
+    <src s="32">(כמו שהם בחכמתו ית')</src>
+    <src s="33">הם למעלה מההבנה דשכל אנושי47,</src>
+    <src s="34">מ"מ,</src>
+    <src s="35">החכמה דלמעלה היא מקור לחכמת ושכל הנבראים48,</src>
+    <src s="36">ולכן היא לא נפלאת משכל הנבראים ורק רחוקה מהם49.</src>
+  </section>
+  <section v="8">
+    <src s="0">ז)</src>
+    <src s="1">ויש להוסיף,</src>
+    <src s="2">דהמצוות והתורה</src>
+    <src s="3">(טעמי המצוות)</src>
+    <src s="4">כמו שהם מצד עצמם,</src>
+    <src s="5">אין שייך לומר עליהם גם התואר דפלא וריחוק.</src>
+    <src s="6">כי לשון פלא</src>
+    <src s="7">(ומכ"ש לשון ריחוק)</src>
+    <src s="8">מורה שהדבר המופלא יש לו איזו שייכות להדבר שמופלא ממנו.</src>
+    <src s="9">משא"כ בשני ענינים שאין שום שייכות ביניהם,</src>
+    <src s="10">אין נופל הלשון פלא.</src>
+    <src s="11">וכמו שאין שייך לומר על סברא שכלית שהיא נפלאת מחוש המישוש50.</src>
+    <src s="12">וזה שהתומ"צ הם ריחוק ופלא הוא לאחרי שירדו להיות להם איזו שייכות לעולם.</src>
+    <src s="13">דהתחלת הירידה היא זה שהתורה קדמה לעולם.</src>
+    <src s="14">דהתורה כמו שהיא מצד עצמה,</src>
+    <src s="15">אינה בגדר עלמין כלל ואין שייך לומר עלי' שקדמה לעולם.</src>
+    <src s="16">וזה שארז"ל51</src>
+    <src s="17">אלפיים שנה קדמה תורה לעולם,</src>
+    <src s="18">הוא בהדרגא דתורה כמו שירדה52</src>
+    <src s="19">להיות בגדר עלמין.</src>
+    <src s="20">דבדרגא זו שייך לומר שקדמה לעולם,</src>
+    <src s="21">ויתירה מזו,</src>
+    <src s="22">שיש שיעור בהקדימה,</src>
+    <src s="23">אלפיים שנה.</src>
+    <src s="24">ולאחרי זה ירדה עוד כו"כ ירידות53,</src>
+    <src s="25">עד שנמשכה למטה.</src>
+    <src s="26">ובדרגא זו דתורה,</src>
+    <src s="27">כמו שהיא לאחרי ירידתה</src>
+    <src s="28">[שהיא דרגא כללית,</src>
+    <src s="29">הכוללת כו"כ דרגות פרטיות,</src>
+    <src s="30">מהדרגא דתורה שקדמה לעולם ועד להדרגא דתורה שנמשכה למטה]</src>
+    <src s="31">שייך לומר שהיא בבחינת פלא וריחוק.</src>
+  </section>
+</awtsmoosMeluketSource>

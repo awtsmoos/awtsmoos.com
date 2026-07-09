@@ -1,0 +1,99 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919413_theRebbe_617" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919413_theRebbe_617__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919413_theRebbe_617" title="מאמר אך בגורל תשל"ה" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919413_theRebbe_617__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ד' פ' פינחס,</src>
+    <src s="2">ט"ז תמוז,</src>
+    <src s="3">תשל"ה*.</src>
+  </section>
+  <section v="1">
+    <src s="0">אך בגורל יחלק את הארץ1,</src>
+    <src s="1">חלוקת ארה"ק,</src>
+    <src s="2">שכבשו את ארץ כנען2</src>
+    <src s="3">ועשו אותה ארץ ישראל,</src>
+    <src s="4">ועד שעוד בהיות בנ"י במדבר</src>
+    <src s="5">(טרם שבאו לא"י)</src>
+    <src s="6">נאמר עלי' ארץ אשר גו' עיני ה"א בה מרשית השנה ועד אחרית שנה3,</src>
+    <src s="7">הנה מבאר אשר חלוקת ארה"ק הייתה ע"פ הגורל.</src>
+    <src s="8">והוספה בזה על פי ה'4</src>
+    <src s="9">ומפרש רש"י5</src>
+    <src s="10">ברוח הקודש.</src>
+    <src s="11">ועוד ענין הי' בחלוקת הארץ לרב תרבה נחלתו ולמעט תמעיט נחלתו6,</src>
+    <src s="12">שהו"ע עפ"י שכל.</src>
+    <src s="13">שהרי פירוש הפשוט בלרב תרבה גו' הוא כמו שמפרש רש"י</src>
+    <src s="14">[אשר פירוש רש"י עה"ת הוא פשוטו של מקרא7]</src>
+    <src s="15">לשבט שהי' מרובה באוכלוסין נתנו חלק רב שלא היו החלקים שוים כו',</src>
+    <src s="16">דחלוקה זו היא ע"פ שכל.</src>
+    <src s="17">[והגם דהרמב"ן פליג ע"ז וכן יש פירושים אחרים ברש"י8,</src>
+    <src s="18">הרי הרמב"ן מפרש כוונת רש"י כפשוטה.</src>
+    <src s="19">ואפילו להרמב"ן וכן לפי מפרשים אלו שמפרשים את דברי רש"י כדעת הרמב"ן,</src>
+    <src s="20">הנה מזה גופא שלפי פירושם הוצרך הכתוב לשלול החלוקה ע"פ שכל מוכח שיש לחלוקה זו שייכות לשכל.</src>
+    <src s="21">אבל עיקר המדובר כאן הוא פשטות הכתוב ופשטות פירוש רש"י והספרי9.</src>
+    <src s="22">שהחלוקה הייתה לפי מספר האנשים,</src>
+    <src s="23">שהיא חלוקה ע"פ שכל].</src>
+    <src s="24">נמצא שבחלוקת הארץ היו ג' ענינים.</src>
+    <src s="25">ע"פ גורל,</src>
+    <src s="26">ע"פ רוה"ק,</src>
+    <src s="27">וע"פ שכל המובן גם בנפש השכלית.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה הענין דחלוקת הארץ ע"פ גורל מבאר כ"ק אדמו"ר הצ"צ10,</src>
+    <src s="2">מיוסד על מאמר כ"ק אדמו"ר הזקן11</src>
+    <src s="3">במה שאמר ריב"ז איני יודע באיזו דרך מוליכים אותי12,</src>
+    <src s="4">דלכאורה תמוה,</src>
+    <src s="5">והרי ריב"ז לא הלך ד"א בלא תורה ובלא תפילין13,</src>
+    <src s="6">ופ' שנה למד ולימד תורה14</src>
+    <src s="7">וכו',</src>
+    <src s="8">ומה מקום לספק באיזו דרך מוליכין אותו,</src>
+    <src s="9">ומבאר בזה כ"ק אדה"ז שזהו מצד עצם הנפש,</src>
+    <src s="10">היינו מצד בחי' הנפש שלמעלה מטו"ד.</src>
+    <src s="11">ולכן אמר ריב"ז איני יודע כו',</src>
+    <src s="12">אע"פ שעסק בתורה וכו',</src>
+    <src s="13">כי זה שעסק בתורה הו"ע השייך לטו"ד ואין מזה ראי' להבחי' שלמעלה מטו"ד.</src>
+    <src s="14">והנה גם בחינה זו,</src>
+    <src s="15">מכיון שיש בזה הענין דשכר ועונש</src>
+    <src s="16">(כמובן מזה גופא שאמר ריב"ז איני יודע באיזו דרך מוליכין אותי),</src>
+    <src s="17">מוכח מזה,</src>
+    <src s="18">שיש אפשריות ויכולת ורשות לכל אדם נתונה15</src>
+    <src s="19">גם בנוגע לבחינה זו שבנפש.</src>
+    <src s="20">והיינו שיש עבודה כזו שפועלת גם בעצם הנפש ושעל ידה תהי' כדבעי16.</src>
+    <src s="21">ובחינה זו שבנפש,</src>
+    <src s="22">וכן העבודה השייכת לבחינה זו,</src>
+    <src s="23">נקראת בשם גורל17.</src>
+    <src s="24">ועפ"ז מבאר הצ"צ הענין דחלוקת הארץ שע"פ גורל.</src>
+  </section>
+</awtsmoosMeluketSource>

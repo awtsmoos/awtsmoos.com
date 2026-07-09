@@ -1,0 +1,79 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915689_theRebbe_467" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915689_theRebbe_467__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915689_theRebbe_467" title="הוספה משיחות ש"פ וישב-מקץ תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915689_theRebbe_467__p004">
+  <section v="9">
+    <src s="0">אך עדיין צ"ל,</src>
+    <src s="1">שהרי התורה היא נצחית.</src>
+    <src s="2">דמזה מוכרח אשר הסדר בג' ענינים אלו שבמאמר זה,</src>
+    <src s="3">מתאים הוא גם עכשיו.</src>
+    <src s="4">וי"ל עפ"י המבואר במ"א11</src>
+    <src s="5">שבהעלאה יכול להגיע למעלה יותר מאשר בהמשכה.</src>
+    <src s="6">ולפי"ז,</src>
+    <src s="7">תפלה שהיא העלאה מלמטלמ"ע,</src>
+    <src s="8">גדלה מעלתה על תורה וגמ"ח.</src>
+    <src s="9">ועפי"ז יובן סדרן של ג' ענינים אלו גם עכשיו,</src>
+    <src s="10">שסדר זה הוא מלמטלמ"ע: בתחילה – תורה,</src>
+    <src s="11">אח"כ גמ"ח,</src>
+    <src s="12">אשר</src>
+    <src s="13">(עכשיו)</src>
+    <src s="14">היא למעלה מתורה,</src>
+    <src s="15">ואח"כ תפלה,</src>
+    <src s="16">שגדלה מעלתה על ההמשכה דתורה וגמ"ח,</src>
+    <src s="17">כנ"ל.</src>
+  </section>
+  <section v="10">
+    <src s="0">ב.</src>
+    <src s="1">ולהבין מה שאומר כל העוסק כו',</src>
+    <src s="2">שמדבר ע"ד אדם העוסק ולא בענין התורה גמ"ח ותפלה בצבור עצמם,</src>
+    <src s="3">הנה בעסק התורה גמ"ח ותפלה בצבור,</src>
+    <src s="4">שהם כללות ג' הקוין,</src>
+    <src s="5">ישנם ב' ענינים: א' מה שנוגע להעולם,</src>
+    <src s="6">אַז אין וועלט זאָל זיך אויפטאָן די ענינים של ג' הקוין,</src>
+    <src s="7">שעי"ז יהי' דירה לו ית' בתחתונים.</src>
+    <src s="8">והב' מה שנוגע להאדם העובד,</src>
+    <src s="9">אַז ער דאַרף טאָן אין די ג' ענינים.</src>
+  </section>
+  <section v="11">
+    <src s="0">(ובדוגמת מה שבאכילת קדשים ישנם ב' ענינים: א' מצוה לאכול הזבח,</src>
+    <src s="1">שמצוה זו היא על האדם האוכל,</src>
+    <src s="2">ויש בה כמה תנאים</src>
+    <src s="3">(למשחה,</src>
+    <src s="4">לגדולה12,</src>
+    <src s="5">אינו חי13).</src>
+    <src s="6">ב' בנוגע להקדשים,</src>
+    <src s="7">שלא יבואו לידי נותר14</src>
+    <src s="8">(ובענין זה אין נוגע התנאים דלמשחה וכו'15)).</src>
+  </section>
+</awtsmoosMeluketSource>

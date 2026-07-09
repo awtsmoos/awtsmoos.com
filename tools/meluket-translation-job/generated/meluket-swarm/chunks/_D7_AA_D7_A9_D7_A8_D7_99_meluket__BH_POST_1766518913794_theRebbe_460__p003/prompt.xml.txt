@@ -1,0 +1,91 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913794_theRebbe_460" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913794_theRebbe_460__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913794_theRebbe_460" title="מאמר וביום שמחתכם תש"מ" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913794_theRebbe_460__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">וזהו וביום שמחתכם גו' ותקעתם בחצוצרות גו' אני ה' אלקיכם,</src>
+    <src s="2">ותקעתם הו"ע תקיעת שופר,</src>
+    <src s="3">דמצות היום</src>
+    <src s="4">(דר"ה)</src>
+    <src s="5">הוא בשופר,</src>
+    <src s="6">וכדאיתא במשנה12</src>
+    <src s="7">שופר מאריך וחצוצרות מקצרות שמצות היום בשופר.</src>
+    <src s="8">ועי"ז נמשך ונתגלה גם הענין דחצוצרות48</src>
+    <src s="9">שהקב"ה וישראל הם ב' חצאי צורות,</src>
+    <src s="10">היינו מה שישראל הם מושרשים בעצמותו ית' והם המחליטים את הרצון</src>
+    <src s="11">(כנ"ל בענין במי נמלך בנשמותיהן של צדיקים),</src>
+    <src s="12">ומרצון המוחלט נמשך לרצון הגלוי וכו' עד שנמשך למטה בעוה"ז,</src>
+    <src s="13">שזהו העיקר.</src>
+    <src s="14">והיינו שההמשכה בכל הדרגות,</src>
+    <src s="15">עונג רצון מוחין מדות ומלכות וכו' הוא ממוצע שעי"ז יומשך אח"כ בעוה"ז.</src>
+    <src s="16">וכמבואר בתניא קדישא49</src>
+    <src s="17">שבכל סדר ההשתלשלות הוא ירידה מאור פניו ית',</src>
+    <src s="18">ותכלית הכוונה הוא עוה"ז התחתון שאין תחתון למטה ממנו,</src>
+    <src s="19">בירא עמיקתא,</src>
+    <src s="20">שבו דוקא</src>
+    <src s="21">(בעוה"ז התחתון)</src>
+    <src s="22">נברא האדם וניתנה בו הנשמה חלק אלוקה ממעל ממש,</src>
+    <src s="23">וע"י עבודתו בתומ"צ</src>
+    <src s="24">(לעבדה ולשמרה50)</src>
+    <src s="25">נשלמה הכוונה דדירה בתחתונים,</src>
+    <src s="26">דירה לעצמותו ומהותו51,</src>
+    <src s="27">שיהי' אלה תולדות פרץ תולדות מלא52,</src>
+    <src s="28">שהוא למעלה יותר גם מכמו שהי' בתחלת הבריאה דעולם על מילואו נברא53,</src>
+    <src s="29">פרץ הוליד גו' את דוד54,</src>
+    <src s="30">דוד מלכא משיחא,</src>
+    <src s="31">שיבנה ביהמ"ק55</src>
+    <src s="32">ויהי' ותקעתם בחצוצרות גו' לפני אלקיכם,</src>
+    <src s="33">בחצוצרות וקול שופר הריעו לפני המלך ה',</src>
+    <src s="34">כפשוטו</src>
+    <src s="35">(בביהמ"ק)</src>
+    <src s="36">למטה מעשרה טפחים.</src>
+    <src s="37">כי ע"י העבודה שבמשך זמן הגלות דתקעו בחודש שופר,</src>
+    <src s="38">שפרו מעשיכם56,</src>
+    <src s="39">ובאופן של חידוש כדיוק הכתוב תקעו בחודש שופר</src>
+    <src s="40">(ולא תקעו שופר בחודש)</src>
+    <src s="41">כידוע פירוש הבעש"ט57</src>
+    <src s="42">בזה,</src>
+    <src s="43">עי"ז נעשה הענין דעשה לך שתי חצוצרות גו' למקרא העדה ולמסע את המחנות31</src>
+    <src s="44">לאסף את כל ישראל יחד ולמסע ולהליכה מחיל אל חיל,</src>
+    <src s="45">מבירא עמיקתא עד לאיגרא רמה,</src>
+    <src s="46">והענין דכי58</src>
+    <src s="47">תבואו מלחמה מלחמה עם נה"ב59</src>
+    <src s="48">ונושעתם ע"י אתכפיא ואתהפכא,</src>
+    <src s="49">ועי"ז יהי' ותקעתם בחצוצרות לפני אלקיכם בביהמ"ק השלישי שיבנה בקרוב ממש ע"י משיח צדקנו,</src>
+    <src s="50">וכל זה באופן דוביום שמחתכם,</src>
+    <src s="51">ושמחת עולם על ראשם60,</src>
+    <src s="52">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

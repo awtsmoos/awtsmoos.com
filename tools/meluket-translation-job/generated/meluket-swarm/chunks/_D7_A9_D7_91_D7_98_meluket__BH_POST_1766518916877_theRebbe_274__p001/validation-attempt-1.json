@@ -1,0 +1,374 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 66,
+    "returned": 66,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916877_theRebbe_274\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">10th of Shevat,</t>\n    <t s=\"2\">5732 (1972)</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the Midrash on \"I have come to My garden,\" that the Shechinah was originally in the lower realms, ascended due to sin, and was brought down by the seven righteous ones from Avraham to Moshe, primarily into the Mishkan and Beis HaMikdash.</sectionSummaryBrief>\n    <t s=\"0\">\"I have come to My garden, My sister, My bride,\"</t>\n    <t s=\"1\">and the Rebbe, my father-in-law, the Nasi, the Baal HaHilula, brings in the maamar of the day of his histalkus and his hillula,</t>\n    <t s=\"2\">that it is stated in Midrash Rabbah</t>\n    <t s=\"3\">(in its place)</t>\n    <t s=\"4\">\"to My garden\" means \"to My palace,\"</t>\n    <t s=\"5\">to the place which was My primary [dwelling] initially,</t>\n    <t s=\"6\">for the primary dwelling of the Shechinah was in the lower realms,</t>\n    <t s=\"7\">but through undesirable matters</t>\n    <t s=\"8\">(beginning with the sin of the Tree of Knowledge)</t>\n    <t s=\"9\">the Shechinah departed from below upward until the seventh heaven,</t>\n    <t s=\"10\">and afterwards righteous ones arose</t>\n    <t s=\"11\">(beginning with Avraham Avinu,</t>\n    <t s=\"12\">\"One was Avraham\")</t>\n    <t s=\"13\">and brought down the Shechinah from above downward,</t>\n    <t s=\"14\">until Moshe, who is the seventh, came,</t>\n    <t s=\"15\">and all sevenths are beloved,</t>\n    <t s=\"16\">and brought it down below to earth.</t>\n    <t s=\"17\">And this matter</t>\n    <t s=\"18\">(the drawing down and descent of the Shechinah below to earth,</t>\n    <t s=\"19\">which was through Moshe)</t>\n    <t s=\"20\">was primarily</t>\n    <t s=\"21\">in the Beis HaMikdash,</t>\n    <t s=\"22\">as it is written,</t>\n    <t s=\"23\">\"And they shall make Me a Sanctuary, and I will dwell in their midst.\"</t>\n    <t s=\"24\">And one should note,</t>\n    <t s=\"25\">that in the Midrash there it speaks regarding the time when the drawing down of the Shechinah below occurred,</t>\n    <t s=\"26\">that the primary indwelling of the Shechinah in the land was on the day the Mishkan was erected,</t>\n    <t s=\"27\">and in the maamar it speaks regarding the place to which the Shechinah was drawn,</t>\n    <t s=\"28\">that the primary drawing down is in the Mishkan and Mikdash,</t>\n    <t s=\"29\">and through this, the revelation of Elokus is drawn also into the entire world.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the precise wording \"in their midst\" to mean within each Jew, and that the verse \"Tzaddikim will inherit the land\" refers to every Jew drawing down the Shechinah.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And he continues in the maamar [with] the precise wording of the verse \"and I will dwell in their midst\" —</t>\n    <t s=\"2\">\"in its midst\" is not said, but rather \"in their midst,\"</t>\n    <t s=\"3\">within each and every one of Yisrael.</t>\n    <t s=\"4\">And this is [the meaning of] \"Tzaddikim will inherit the land and dwell forever upon it,\"</t>\n    <t s=\"5\">that tzaddikim cause to dwell</t>\n    <t s=\"6\">(draw down)</t>\n    <t s=\"7\">the Shechinah, which is called \"Ad\" (eternity),</t>\n    <t s=\"8\">\"He Who dwells forever, exalted and holy,\"</t>\n    <t s=\"9\">so that it will be revealed below.</t>\n    <t s=\"10\">And it can be said,</t>\n    <t s=\"11\">that this which he brings in the maamar [as] the explanation of the verse \"Tzaddikim will inherit the land etc.\" after he explains that the primary drawing down was in the Mishkan,</t>\n    <t s=\"12\">and after he explains that \"in their midst\" is plural, [meaning] within each and every one of Yisrael,</t>\n    <t s=\"13\">it is to hint,</t>\n    <t s=\"14\">that this [matter] that tzaddikim draw down the Shechinah below</t>\n    <t s=\"15\">(\"and dwell forever upon it\"),</t>\n    <t s=\"16\">the intention in this is not only for the seven tzaddikim from Avraham until Moshe,</t>\n    <t s=\"17\">but for each and every one of Yisrael,</t>\n    <t s=\"18\">\"and all your people are tzaddikim.\"</t>\n    <t s=\"19\">That is,</t>\n    <t s=\"20\">that in this that it is said \"and I will dwell in their midst\"</t>\n    <t s=\"21\">(plural)</t>\n    <t s=\"22\">which refers</t>\n    <t s=\"23\">(also)</t>\n    <t s=\"24\">to each and every one of Yisrael,</t>\n    <t s=\"25\">[there are] two matters.</t>\n    <t s=\"26\">That it is in the power of each and every one of Yisrael to be a Mishkan and Mikdash for Him, blessed be He,</t>\n    <t s=\"27\">so that the primary Shechinah will dwell within him</t>\n    <t s=\"28\">[in that same manner exactly as it was in the Beis HaMikdash]</t>\n    <t s=\"29\">— \"and I will dwell in their midst.\"</t>\n    <t s=\"30\">And also,</t>\n    <t s=\"31\">that through this, the revelation of Elokus will be drawn into the world — \"and dwell forever upon it\"</t>\n    <t s=\"32\">(upon the land).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916877_theRebbe_274",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the opening header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "10th of Shevat,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "5732 (1972)"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the Midrash on \"I have come to My garden,\" that the Shechinah was originally in the lower realms, ascended due to sin, and was brought down by the seven righteous ones from Avraham to Moshe, primarily into the Mishkan and Beis HaMikdash.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"I have come to My garden, My sister, My bride,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and the Rebbe, my father-in-law, the Nasi, the Baal HaHilula, brings in the maamar of the day of his histalkus and his hillula,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that it is stated in Midrash Rabbah"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "(in its place)"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "\"to My garden\" means \"to My palace,\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "to the place which was My primary [dwelling] initially,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "for the primary dwelling of the Shechinah was in the lower realms,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "but through undesirable matters"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(beginning with the sin of the Tree of Knowledge)"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "the Shechinah departed from below upward until the seventh heaven,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "and afterwards righteous ones arose"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "(beginning with Avraham Avinu,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "\"One was Avraham\")"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and brought down the Shechinah from above downward,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "until Moshe, who is the seventh, came,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "and all sevenths are beloved,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "and brought it down below to earth."
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "And this matter"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "(the drawing down and descent of the Shechinah below to earth,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "which was through Moshe)"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "was primarily"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "in the Beis HaMikdash,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "\"And they shall make Me a Sanctuary, and I will dwell in their midst.\""
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "And one should note,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "that in the Midrash there it speaks regarding the time when the drawing down of the Shechinah below occurred,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "that the primary indwelling of the Shechinah in the land was on the day the Mishkan was erected,"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "and in the maamar it speaks regarding the place to which the Shechinah was drawn,"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "that the primary drawing down is in the Mishkan and Mikdash,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "and through this, the revelation of Elokus is drawn also into the entire world."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the precise wording \"in their midst\" to mean within each Jew, and that the verse \"Tzaddikim will inherit the land\" refers to every Jew drawing down the Shechinah.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And he continues in the maamar [with] the precise wording of the verse \"and I will dwell in their midst\" —"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "\"in its midst\" is not said, but rather \"in their midst,\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "within each and every one of Yisrael."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "And this is [the meaning of] \"Tzaddikim will inherit the land and dwell forever upon it,\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "that tzaddikim cause to dwell"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "(draw down)"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "the Shechinah, which is called \"Ad\" (eternity),"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "\"He Who dwells forever, exalted and holy,\""
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "so that it will be revealed below."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "that this which he brings in the maamar [as] the explanation of the verse \"Tzaddikim will inherit the land etc.\" after he explains that the primary drawing down was in the Mishkan,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and after he explains that \"in their midst\" is plural, [meaning] within each and every one of Yisrael,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "it is to hint,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that this [matter] that tzaddikim draw down the Shechinah below"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(\"and dwell forever upon it\"),"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "the intention in this is not only for the seven tzaddikim from Avraham until Moshe,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "but for each and every one of Yisrael,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "\"and all your people are tzaddikim.\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "That is,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "that in this that it is said \"and I will dwell in their midst\""
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "(plural)"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "which refers"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(also)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "to each and every one of Yisrael,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "[there are] two matters."
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "That it is in the power of each and every one of Yisrael to be a Mishkan and Mikdash for Him, blessed be He,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "so that the primary Shechinah will dwell within him"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "[in that same manner exactly as it was in the Beis HaMikdash]"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "— \"and I will dwell in their midst.\""
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "And also,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "that through this, the revelation of Elokus will be drawn into the world — \"and dwell forever upon it\""
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "(upon the land)."
+          }
+        ]
+      }
+    ]
+  }
+}

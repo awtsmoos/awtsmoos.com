@@ -1,0 +1,99 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918872_theRebbe_254" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918872_theRebbe_254" title="מאמר בהעלותך את הנרות תשכ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918872_theRebbe_254__p005">
+  <section v="12">
+    <src s="0">ויש לומר דלהטעם שהוויות דאביי ורבא נק' דבר קטן מפני שהתורה נתלבשה בדברים קטנים,</src>
+    <src s="1">התואר דבר קטן הוא מצד הלבושים דתורה.</src>
+    <src s="2">ולכן מוסיף שהתורה דעכשיו היא דבר קטן לגבי פנימיות התורה שתתגלה לע"ל</src>
+    <src s="3">[וגם שהיא דבר קטן לגבי אוא"ס המלובש בה],</src>
+    <src s="4">דע"פ טעם זה,</src>
+    <src s="5">התואר דבר קטן הוא</src>
+    <src s="6">(גם)</src>
+    <src s="7">בנוגע להתורה עצמה.</src>
+    <src s="8">[ומה שמביא גם טעם הראשון שהתורה נתלבשה בדברים קטנים,</src>
+    <src s="9">יש לומר,</src>
+    <src s="10">כי בטעם זה מודגש שהחילוק בין הוויות דאביי ורבא למעשה מרכבה הוא חילוק מן הקצה אל הקצה,</src>
+    <src s="11">כנ"ל].</src>
+  </section>
+  <section v="13">
+    <src s="0">ז)</src>
+    <src s="1">וממשיך בהמאמר עוד ביאור בזה שהתורה נק' דבר קטן,</src>
+    <src s="2">שהוא על שם עוצם ביטול ההלכה לגבי אוא"ס המלובש בה.</src>
+    <src s="3">דכמו שלימוד התורה דהאדם צ"ל בביטול,</src>
+    <src s="4">תען לשוני אמרתך50,</src>
+    <src s="5">כעונה אחר הקורא51,</src>
+    <src s="6">עד"ז הוא בנוגע להלכות התורה עצמם שהם בביטול לאוא"ס המלובש בהם,</src>
+    <src s="7">כדלקמן.</src>
+    <src s="8">[ויש לומר,</src>
+    <src s="9">דלהפירוש קטן כפשוטו,</src>
+    <src s="10">התואר דבר קטן הוא ביחס לענינים אחרים.</src>
+    <src s="11">ולהפירוש קטן על שם הביטול</src>
+    <src s="12">[ע"ד קטונתי מכל החסדים52],</src>
+    <src s="13">הקטנות</src>
+    <src s="14">(ביטול)</src>
+    <src s="15">הוא בו עצמו].</src>
+    <src s="16">וצריך להבין</src>
+    <src s="17">(להפירוש ש"קטן" הוא על שם הביטול),</src>
+    <src s="18">הרי גם מרכבה היא בביטול להרוכב,</src>
+    <src s="19">ואעפ"כ נק' דבר גדול.</src>
+  </section>
+  <section v="14">
+    <src s="0">ונקודת הביאור בזה יש לומר,</src>
+    <src s="1">דהביטול שנק' בשם דבר קטן</src>
+    <src s="2">(קטונתי),</src>
+    <src s="3">הוא,</src>
+    <src s="4">שהוא בטל לגמרי ואין בו שום מעלה.</src>
+    <src s="5">וכמ"ש באגה"ק ד"ה קטונתי53,</src>
+    <src s="6">שמשים עצמו כשיריים ומותרות ממש שאין בו שום צורך.</src>
+    <src s="7">וכיון שהמרכבה היא מציאות,</src>
+    <src s="8">ועד שיש בה יתרון לגבי הרוכב</src>
+    <src s="9">[וכנ"ל שע"י המרכבה יכול הרוכב להגיע למקום שאינו יכול להגיע לשם מצד עצמו],</src>
+    <src s="10">לכן אינה דבר קטן.</src>
+    <src s="11">[ואדרבה מצד העילוי שבה,</src>
+    <src s="12">שעל ידו היא העלי' לבחינת גדול</src>
+    <src s="13">(אריך),</src>
+    <src s="14">נק' גם המרכבה בשם דבר גדול].</src>
+    <src s="15">והלכות התורה שנתלבשו בדברים גשמיים</src>
+    <src s="16">[פירוש הראשון בדבר קטן],</src>
+    <src s="17">כיון שדברים גשמיים אין להם ערך54</src>
+    <src s="18">לחכמתו ורצונו ית' המלובשים בהם,</src>
+    <src s="19">הרי הם בתכלית הביטול,</src>
+    <src s="20">דבר קטן.</src>
+    <src s="21">וע"י הביטול שבהלכות התורה עצמם,</src>
+    <src s="22">נמשך הביטול גם בהאדם העוסק בתורה,</src>
+    <src s="23">שלימוד התורה שלו יהי' באופן דתען לשוני אמרתך,</src>
+    <src s="24">כעונה אחר הקורא.</src>
+  </section>
+</awtsmoosMeluketSource>

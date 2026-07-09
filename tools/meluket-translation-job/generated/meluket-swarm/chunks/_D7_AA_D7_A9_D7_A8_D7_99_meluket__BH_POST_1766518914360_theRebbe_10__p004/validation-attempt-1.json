@@ -1,0 +1,532 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 100,
+    "returned": 100,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914360_theRebbe_10\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914360_theRebbe_10__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the gathering of the harvest corresponds to gathering all aspects of Torah—its four levels of interpretation—and unifying them, which is a foretaste of the future redemption, yet is also accessible now.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And this is “and the Festival of the Harvest… when you gather in your labors from the field,”</t>\n    <t s=\"2\">which is the gathering of all matters together.</t>\n    <t s=\"3\">And the beginning of this is that one gathers all the matters of Torah</t>\n    <t s=\"4\">(like all the divine services,</t>\n    <t s=\"5\">whose beginning is in their essence as it is in Torah,</t>\n    <t s=\"6\">since “He looked into the Torah and created the world”).</t>\n    <t s=\"7\">For behold, every matter in Torah has six hundred thousand explanations according to the plain meaning,</t>\n    <t s=\"8\">six hundred thousand explanations according to the allegorical meaning,</t>\n    <t s=\"9\">and likewise according to the homiletical meaning and according to the secret meaning.</t>\n    <t s=\"10\">And one must gather and include all the explanations of the part of the plain meaning,</t>\n    <t s=\"11\">and likewise all the explanations of the part of the allegorical meaning,</t>\n    <t s=\"12\">of the part of the homiletical meaning and of the part of the secret meaning,</t>\n    <t s=\"13\">and after this to gather and include all four parts together.</t>\n    <t s=\"14\">And this is “and you shall gather your grain, your wine, and your oil,”</t>\n    <t s=\"15\">grain</t>\n    <t s=\"16\">(bread)</t>\n    <t s=\"17\">is the revealed aspect of Torah,</t>\n    <t s=\"18\">wine</t>\n    <t s=\"19\">(wine)</t>\n    <t s=\"20\">is the secrets of Torah,</t>\n    <t s=\"21\">and oil</t>\n    <t s=\"22\">(oil)</t>\n    <t s=\"23\">is the secrets of secrets,</t>\n    <t s=\"24\">and the service of “and you shall gather your grain, your wine, and your oil” is twofold.</t>\n    <t s=\"25\">The gathering and inclusion of the multitude of matters of each category</t>\n    <t s=\"26\">(revealed,</t>\n    <t s=\"27\">secrets, and secrets of secrets)</t>\n    <t s=\"28\">itself,</t>\n    <t s=\"29\">and also the gathering and inclusion of all the categories together,</t>\n    <t s=\"30\">and to elevate them to a level above division,</t>\n    <t s=\"31\">until the aspect of “the place that includes everything”</t>\n    <t s=\"32\">and higher.</t>\n    <t s=\"33\">And although the main point of this matter</t>\n    <t s=\"34\">(the unification of all matters of Torah)</t>\n    <t s=\"35\">will be at the coming of Moshiach,</t>\n    <t s=\"36\">who will teach the entire people</t>\n    <t s=\"37\">the entire Torah,</t>\n    <t s=\"38\">also the secrets of Torah and the secrets of secrets,</t>\n    <t s=\"39\">and as it is written,</t>\n    <t s=\"40\">“Let him kiss me with the kisses of his mouth,” and Rashi explains that in the future the secret of its reasons</t>\n    <t s=\"41\">(of Torah)</t>\n    <t s=\"42\">and the hidden mysteries will be revealed,</t>\n    <t s=\"43\">and all this will be then in a manner of sight,</t>\n    <t s=\"44\">nevertheless,</t>\n    <t s=\"45\">since “those who taste it merit life,”</t>\n    <t s=\"46\">behold, a foretaste of this in a manner of tasting at least can be and must be now.</t>\n    <t s=\"47\">And from this</t>\n    <t s=\"48\">(from the matter of “and you shall gather your grain, your wine, and your oil” as it is in Torah)</t>\n    <t s=\"49\">it is drawn down that there should be “and you shall gather your grain, your wine, and your oil” in all matters of man’s service in spirituality,</t>\n    <t s=\"50\">and even that this is drawn down also in “and you shall gather your grain, your wine, and your oil” literally,</t>\n    <t s=\"51\">in physical grain, wine, and oil.</t>\n    <t s=\"52\">And likewise is it also regarding the matter of the unity of dwelling in the sukkah</t>\n    <t s=\"53\">(after the service of gathering),</t>\n    <t s=\"54\">that in this there are</t>\n    <t s=\"55\">(as above)</t>\n    <t s=\"56\">two levels,</t>\n    <t s=\"57\">“In sukkot you shall dwell for seven days,” which is the matter of unity as it still pertains to seven days</t>\n    <t s=\"58\">(division)</t>\n    <t s=\"59\">and “all the native-born in Israel shall dwell in sukkot”</t>\n    <t s=\"60\">(simply,</t>\n    <t s=\"61\">above the matter of seven days),</t>\n    <t s=\"62\">that the main point of this matter will be in the future,</t>\n    <t s=\"63\">as is known</t>\n    <t s=\"64\">that the explanation of “native-born” (ezrach) is that which is destined to shine (lehazriach) in the future,</t>\n    <t s=\"65\">except that nevertheless there is an illumination of this also now.</t>\n    <t s=\"66\">As the explanation of the Baal HaHilula</t>\n    <t s=\"67\">(based on this),</t>\n    <t s=\"68\">that that which is destined to shine in the future within Israel and in their innerness,</t>\n    <t s=\"69\">behold also now “they shall dwell in sukkot,”</t>\n    <t s=\"70\">that this is revealed upon them</t>\n    <t s=\"71\">(now)</t>\n    <t s=\"72\">in the aspect of sukkah and encompassing light.</t>\n    <t s=\"73\">And likewise is it also regarding the matter of the four species</t>\n    <t s=\"74\">(for the taking of the four species is</t>\n    <t s=\"75\">(as above)</t>\n    <t s=\"76\">after the dwelling in the sukkah),</t>\n    <t s=\"77\">that each of the four species is “this is the Holy One, blessed be He,”</t>\n    <t s=\"78\">that this matter is also now,</t>\n    <t s=\"79\">except that now it is in concealment,</t>\n    <t s=\"80\">and the revelation of this will be in the future, when “the glory of the Lord shall be revealed, and all flesh shall see,” etc.</t>\n    <t s=\"81\">And then there will also be “the gathering of your grain, your wine, and your oil” in a different manner,</t>\n    <t s=\"82\">that it will not need to be “and you shall gather”</t>\n    <t s=\"83\">(that Israel will need to gather)</t>\n    <t s=\"84\">but rather “and strangers shall stand and shepherd your flocks, and foreigners shall be your plowmen,” etc.,</t>\n    <t s=\"85\">and also the dwelling in the sukkah will be in a more elevated manner,</t>\n    <t s=\"86\">“they shall dwell in the sukkah of the skin of the Leviathan,”</t>\n    <t s=\"87\">and also this matter of “this is the Holy One, blessed be He”</t>\n    <t s=\"88\">(that is in the four species)</t>\n    <t s=\"89\">will then be revealed,</t>\n    <t s=\"90\">as “as I am written, so I am read,”</t>\n    <t s=\"91\">except that a foretaste of this</t>\n    <t s=\"92\">(of all these matters)</t>\n    <t s=\"93\">exists also now,</t>\n    <t s=\"94\">and as above in the explanation of “all the native-born in Israel shall dwell in sukkot,”</t>\n    <t s=\"95\">and all the more so in the time of the end of the exile</t>\n    <t s=\"96\">(the footsteps of Moshiach)</t>\n    <t s=\"97\">that only a few moments remain,</t>\n    <t s=\"98\">and the Torah promised that Israel will ultimately repent at the end of their exile and immediately they are redeemed,</t>\n    <t s=\"99\">with joy and a good heart.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914360_theRebbe_10",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914360_theRebbe_10__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the gathering of the harvest corresponds to gathering all aspects of Torah—its four levels of interpretation—and unifying them, which is a foretaste of the future redemption, yet is also accessible now.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And this is “and the Festival of the Harvest… when you gather in your labors from the field,”"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "which is the gathering of all matters together."
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "And the beginning of this is that one gathers all the matters of Torah"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "(like all the divine services,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "whose beginning is in their essence as it is in Torah,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "since “He looked into the Torah and created the world”)."
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "For behold, every matter in Torah has six hundred thousand explanations according to the plain meaning,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "six hundred thousand explanations according to the allegorical meaning,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "and likewise according to the homiletical meaning and according to the secret meaning."
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "And one must gather and include all the explanations of the part of the plain meaning,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "and likewise all the explanations of the part of the allegorical meaning,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "of the part of the homiletical meaning and of the part of the secret meaning,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "and after this to gather and include all four parts together."
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "And this is “and you shall gather your grain, your wine, and your oil,”"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "grain"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "(bread)"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "is the revealed aspect of Torah,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "wine"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "(wine)"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "is the secrets of Torah,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "and oil"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "(oil)"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "is the secrets of secrets,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "and the service of “and you shall gather your grain, your wine, and your oil” is twofold."
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "The gathering and inclusion of the multitude of matters of each category"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "(revealed,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "secrets, and secrets of secrets)"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "itself,"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "and also the gathering and inclusion of all the categories together,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "and to elevate them to a level above division,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "until the aspect of “the place that includes everything”"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "and higher."
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "And although the main point of this matter"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "(the unification of all matters of Torah)"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "will be at the coming of Moshiach,"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "who will teach the entire people"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "the entire Torah,"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "also the secrets of Torah and the secrets of secrets,"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "and as it is written,"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "“Let him kiss me with the kisses of his mouth,” and Rashi explains that in the future the secret of its reasons"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "(of Torah)"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "and the hidden mysteries will be revealed,"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "and all this will be then in a manner of sight,"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "since “those who taste it merit life,”"
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "behold, a foretaste of this in a manner of tasting at least can be and must be now."
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "And from this"
+          },
+          {
+            "v": 9,
+            "s": 48,
+            "translation": "(from the matter of “and you shall gather your grain, your wine, and your oil” as it is in Torah)"
+          },
+          {
+            "v": 9,
+            "s": 49,
+            "translation": "it is drawn down that there should be “and you shall gather your grain, your wine, and your oil” in all matters of man’s service in spirituality,"
+          },
+          {
+            "v": 9,
+            "s": 50,
+            "translation": "and even that this is drawn down also in “and you shall gather your grain, your wine, and your oil” literally,"
+          },
+          {
+            "v": 9,
+            "s": 51,
+            "translation": "in physical grain, wine, and oil."
+          },
+          {
+            "v": 9,
+            "s": 52,
+            "translation": "And likewise is it also regarding the matter of the unity of dwelling in the sukkah"
+          },
+          {
+            "v": 9,
+            "s": 53,
+            "translation": "(after the service of gathering),"
+          },
+          {
+            "v": 9,
+            "s": 54,
+            "translation": "that in this there are"
+          },
+          {
+            "v": 9,
+            "s": 55,
+            "translation": "(as above)"
+          },
+          {
+            "v": 9,
+            "s": 56,
+            "translation": "two levels,"
+          },
+          {
+            "v": 9,
+            "s": 57,
+            "translation": "“In sukkot you shall dwell for seven days,” which is the matter of unity as it still pertains to seven days"
+          },
+          {
+            "v": 9,
+            "s": 58,
+            "translation": "(division)"
+          },
+          {
+            "v": 9,
+            "s": 59,
+            "translation": "and “all the native-born in Israel shall dwell in sukkot”"
+          },
+          {
+            "v": 9,
+            "s": 60,
+            "translation": "(simply,"
+          },
+          {
+            "v": 9,
+            "s": 61,
+            "translation": "above the matter of seven days),"
+          },
+          {
+            "v": 9,
+            "s": 62,
+            "translation": "that the main point of this matter will be in the future,"
+          },
+          {
+            "v": 9,
+            "s": 63,
+            "translation": "as is known"
+          },
+          {
+            "v": 9,
+            "s": 64,
+            "translation": "that the explanation of “native-born” (ezrach) is that which is destined to shine (lehazriach) in the future,"
+          },
+          {
+            "v": 9,
+            "s": 65,
+            "translation": "except that nevertheless there is an illumination of this also now."
+          },
+          {
+            "v": 9,
+            "s": 66,
+            "translation": "As the explanation of the Baal HaHilula"
+          },
+          {
+            "v": 9,
+            "s": 67,
+            "translation": "(based on this),"
+          },
+          {
+            "v": 9,
+            "s": 68,
+            "translation": "that that which is destined to shine in the future within Israel and in their innerness,"
+          },
+          {
+            "v": 9,
+            "s": 69,
+            "translation": "behold also now “they shall dwell in sukkot,”"
+          },
+          {
+            "v": 9,
+            "s": 70,
+            "translation": "that this is revealed upon them"
+          },
+          {
+            "v": 9,
+            "s": 71,
+            "translation": "(now)"
+          },
+          {
+            "v": 9,
+            "s": 72,
+            "translation": "in the aspect of sukkah and encompassing light."
+          },
+          {
+            "v": 9,
+            "s": 73,
+            "translation": "And likewise is it also regarding the matter of the four species"
+          },
+          {
+            "v": 9,
+            "s": 74,
+            "translation": "(for the taking of the four species is"
+          },
+          {
+            "v": 9,
+            "s": 75,
+            "translation": "(as above)"
+          },
+          {
+            "v": 9,
+            "s": 76,
+            "translation": "after the dwelling in the sukkah),"
+          },
+          {
+            "v": 9,
+            "s": 77,
+            "translation": "that each of the four species is “this is the Holy One, blessed be He,”"
+          },
+          {
+            "v": 9,
+            "s": 78,
+            "translation": "that this matter is also now,"
+          },
+          {
+            "v": 9,
+            "s": 79,
+            "translation": "except that now it is in concealment,"
+          },
+          {
+            "v": 9,
+            "s": 80,
+            "translation": "and the revelation of this will be in the future, when “the glory of the Lord shall be revealed, and all flesh shall see,” etc."
+          },
+          {
+            "v": 9,
+            "s": 81,
+            "translation": "And then there will also be “the gathering of your grain, your wine, and your oil” in a different manner,"
+          },
+          {
+            "v": 9,
+            "s": 82,
+            "translation": "that it will not need to be “and you shall gather”"
+          },
+          {
+            "v": 9,
+            "s": 83,
+            "translation": "(that Israel will need to gather)"
+          },
+          {
+            "v": 9,
+            "s": 84,
+            "translation": "but rather “and strangers shall stand and shepherd your flocks, and foreigners shall be your plowmen,” etc.,"
+          },
+          {
+            "v": 9,
+            "s": 85,
+            "translation": "and also the dwelling in the sukkah will be in a more elevated manner,"
+          },
+          {
+            "v": 9,
+            "s": 86,
+            "translation": "“they shall dwell in the sukkah of the skin of the Leviathan,”"
+          },
+          {
+            "v": 9,
+            "s": 87,
+            "translation": "and also this matter of “this is the Holy One, blessed be He”"
+          },
+          {
+            "v": 9,
+            "s": 88,
+            "translation": "(that is in the four species)"
+          },
+          {
+            "v": 9,
+            "s": 89,
+            "translation": "will then be revealed,"
+          },
+          {
+            "v": 9,
+            "s": 90,
+            "translation": "as “as I am written, so I am read,”"
+          },
+          {
+            "v": 9,
+            "s": 91,
+            "translation": "except that a foretaste of this"
+          },
+          {
+            "v": 9,
+            "s": 92,
+            "translation": "(of all these matters)"
+          },
+          {
+            "v": 9,
+            "s": 93,
+            "translation": "exists also now,"
+          },
+          {
+            "v": 9,
+            "s": 94,
+            "translation": "and as above in the explanation of “all the native-born in Israel shall dwell in sukkot,”"
+          },
+          {
+            "v": 9,
+            "s": 95,
+            "translation": "and all the more so in the time of the end of the exile"
+          },
+          {
+            "v": 9,
+            "s": 96,
+            "translation": "(the footsteps of Moshiach)"
+          },
+          {
+            "v": 9,
+            "s": 97,
+            "translation": "that only a few moments remain,"
+          },
+          {
+            "v": 9,
+            "s": 98,
+            "translation": "and the Torah promised that Israel will ultimately repent at the end of their exile and immediately they are redeemed,"
+          },
+          {
+            "v": 9,
+            "s": 99,
+            "translation": "with joy and a good heart."
+          }
+        ]
+      }
+    ]
+  }
+}

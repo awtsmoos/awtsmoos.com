@@ -1,0 +1,143 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917471_theRebbe_230" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917471_theRebbe_230__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917471_theRebbe_230" title="מאמר בלילה ההוא תשכ"ה" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917471_theRebbe_230__p003">
+  <section v="6">
+    <src s="0">[ולהעיר,</src>
+    <src s="1">דבהדרושים הנ"ל מבואר הענין דלילה הזה ולילה ההוא באופן אחר.</src>
+    <src s="2">דענין יום הוא שישנה ראי' באלקות או עכ"פ השגה באלקות32,</src>
+    <src s="3">משא"כ כשישנה רק אמונה נק' בשם לילה.</src>
+    <src s="4">וענין לילה הזה הוא שהאמונה היא בתוקף גדול ובתכלית ההתאמתות,</src>
+    <src s="5">בדוגמת ההתאמתות דראי'.</src>
+    <src s="6">וזהו שכתוב33</src>
+    <src s="7">ליל שימורים גו' הוא הלילה הזה,</src>
+    <src s="8">דהגילוי שהי' אז</src>
+    <src s="9">(זה)</src>
+    <src s="10">לא הי' באופן שנתבטל חושך הלילה,</src>
+    <src s="11">שהרי עדיין היו בגלות34,</src>
+    <src s="12">אלא שהאמונה שלהם אז היתה בוודאות גמורה,</src>
+    <src s="13">כהוודאי דראי'.</src>
+    <src s="14">[ומבואר שם,</src>
+    <src s="15">דזה שהגיעו לבחינת לילה הזה הוא ע"י עבודתם במצרים בחומר ובלבנים.</src>
+    <src s="16">ועד"ז הוא עכשיו,</src>
+    <src s="17">שבכדי שיהי' לילה הזה,</src>
+    <src s="18">שגם בזמן הגלות יהי' בחינת זה,</src>
+    <src s="19">הוא ע"י העמל והיגיעה בעסק התורה,</src>
+    <src s="20">בחומר דא קל וחומר ובלבנים דא ליבון הלכתא35,</src>
+    <src s="21">ועד"ז ע"י העמל והיגיעה בטרדות הפרנסה בזיעת אפיך תאכל לחם36,</src>
+    <src s="22">וכמו לילה הזה דיציאת מצרים שהגיעו לזה ע"י עבודתם בחומר ובלבנים,</src>
+    <src s="23">חומר ולבנים כפשוטם.</src>
+    <src s="24">וזהו שאמרו37</src>
+    <src s="25">כל המקבל עליו עול תורה מעבירין ממנו עול דרך ארץ38</src>
+    <src s="26">וכל הפורק ממנו עול תורה נותנין עליו עול דרך ארץ,</src>
+    <src s="27">כי גם ע"י עול דרך ארץ מגיעים לבחינת לילה הזה].</src>
+    <src s="28">וע"פ פירוש זה</src>
+    <src s="29">(שבהדרושים)</src>
+    <src s="30">בלילה הזה,</src>
+    <src s="31">צריך לומר,</src>
+    <src s="32">דלילה ההוא הוא שחסר גם בוודאות האמונה.</src>
+    <src s="33">ויש לומר עוד פירוש בלילה הזה ולילה ההוא,</src>
+    <src s="34">שהלשון זה והוא קאי על הלילה.</src>
+    <src s="35">אם הלילה הוא בגילוי</src>
+    <src s="36">(זה)</src>
+    <src s="37">שנרגש שהוא לילה,</src>
+    <src s="38">או שהלילה הוא בהסתר</src>
+    <src s="39">(הוא)</src>
+    <src s="40">שאין נרגש שהוא לילה].</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ויובן זה ע"פ המבואר בכ"מ39</src>
+    <src s="2">בפירוש המאמר40</src>
+    <src s="3">אוא"ס למעלה מעלה עד אין קץ ולמטה מטה עד אין תכלית,</src>
+    <src s="4">דלמטה מטה כו' הו"ע ההתפשטות והגילוי דאוא"ס,</src>
+    <src s="5">שהוא מתפשט ומתגלה עד למטה מטה,</src>
+    <src s="6">ולמעלה מעלה כו' הו"ע ההתעלמות והעלי' שבאוא"ס,</src>
+    <src s="7">שהוא מתעלה ומתעלם בהעלם אחר העלם ובעילוי אחר עילוי,</src>
+    <src s="8">למעלה מעלה.</src>
+    <src s="9">והנה גם הענין דלמטה מטה כו' כמו שהוא באוא"ס הוא בחי' העלם.</src>
+    <src s="10">שהרי כללות האור שלפני הצמצום הוא אור הכלול בעצמותו41,</src>
+    <src s="11">ואור הכלול במאור הוא למעלה מגילוי42.</src>
+    <src s="12">וזה שהוא מתפשט ומתגלה עד למטה מטה,</src>
+    <src s="13">הרי הגילוי שנמשך ממנו לאחרי הצמצום</src>
+    <src s="14">(אור הקו,</src>
+    <src s="15">ואפילו אור הסובב)</src>
+    <src s="16">הוא רק הארה מהאור שלפני הצמצום.</src>
+    <src s="17">אבל מ"מ,</src>
+    <src s="18">כיון דזה שאוא"ס הוא למטה מטה כו' הוא כח ההתפשטות והגילוי דאוא"ס,</src>
+    <src s="19">הרי גם כמו שהוא בשרשו,</src>
+    <src s="20">הו"ע הגילוי.</src>
+    <src s="21">וכמבואר בהמשך ההילולא43,</src>
+    <src s="22">שבעצמותו גופא הוא בבחינת גילוי.</src>
+    <src s="23">משא"כ זה שאוא"ס הוא למעלה מעלה כו' הוא שגם בעצמותו אינו בגדר גילוי.</src>
+    <src s="24">ויש לומר,</src>
+    <src s="25">שהשרש דשני הענינים דיום,</src>
+    <src s="26">יום ההוא ויום הזה,</src>
+    <src s="27">הוא בהענין דלמטה מטה כו'.</src>
+    <src s="28">שהגילוי בפועל</src>
+    <src s="29">(לאחרי הצמצום)</src>
+    <src s="30">הוא השרש דיום הזה,</src>
+    <src s="31">וכח הגילוי דאוא"ס</src>
+    <src s="32">(לפני הצמצום)</src>
+    <src s="33">הוא השרש דיום ההוא.</src>
+    <src s="34">והשרש דלילה</src>
+    <src s="35">(שלמעלה גם מיום ההוא)</src>
+    <src s="36">הוא בהענין דלמעלה מעלה כו'.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">והנה ידוע דבצמצום שני ענינים.</src>
+    <src s="2">זה שהצמצום הוא בשביל הגילוי</src>
+    <src s="3">[ובזה גופא שני ענינים.</src>
+    <src s="4">זה שע"י הצמצום דוקא יהי' לע"ל הגילוי דאוא"ס גם בעולמות,</src>
+    <src s="5">וזה שע"י הצמצום יהי' הגילוי דפנימיות ועצמות אוא"ס שלמעלה גם מהאור שהאיר לפני הצמצום]44,</src>
+    <src s="6">וזה שבהצמצום עצמו מתגלה השלימות דאוא"ס שאינו מוגבל ח"ו בענין הגילוי ויש לו גם כח ההעלם.</src>
+    <src s="7">ויש לומר,</src>
+    <src s="8">דזה שבצמצום ישנם שני ענינים,</src>
+    <src s="9">הוא,</src>
+    <src s="10">כי בכח ההעלם דאוא"ס,</src>
+    <src s="11">שרש הצמצום,</src>
+    <src s="12">שתי מדריגות.</src>
+    <src s="13">כח ההעלם כמו ששייך לענין הגילוי</src>
+    <src s="14">[שגם דרגא זו בכח ההעלם דאוא"ס היא למעלה מכח הגילוי,</src>
+    <src s="15">אבל מ"מ היא שייכת לגילוי],</src>
+    <src s="16">דהצמצום שנמשך מדרגא זו הוא בשביל הגילוי.</src>
+    <src s="17">ועצם כח ההעלם</src>
+    <src s="18">(שלמעלה מגילוי),</src>
+    <src s="19">דהצמצום שנמשך מדרגא זו הוא</src>
+    <src s="20">(לא בשביל הגילוי,</src>
+    <src s="21">אלא)</src>
+    <src s="22">זה שבהצמצום עצמו מתגלה כח ההעלם.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,172 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914464_theRebbe_108" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914464_theRebbe_108" title="מאמר אתה הראת לדעת תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p003">
+  <section v="6">
+    <src s="0">וזהו אתה הראת לדעת כי הוי' הוא האלקים,</src>
+    <src s="1">כי בע"ס דאצילות</src>
+    <src s="2">(גם בחב"ד דאצילות)</src>
+    <src s="3">יש אורות וכלים.</src>
+    <src s="4">דשרש האורות הוא מהוי' ושרש הכלים הוא מאלקים.</src>
+    <src s="5">וע"י הידיעה שהוי' הוא האלקים,</src>
+    <src s="6">דהוי' ואלקים כולא חד39,</src>
+    <src s="7">באים להידיעה שאין עוד מלבדו.</src>
+    <src s="8">כי שני השמות הוי' ואלקים כמו שהם מצד עצמם,</src>
+    <src s="9">הם שני ענינים שונים,</src>
+    <src s="10">ויתירה מזו שהם שני ענינים הפכיים,</src>
+    <src s="11">דהוי' הוא גילוי ואלקים הוא צמצום והעלם.</src>
+    <src s="12">וזה שהוי' ואלקים כולא חד הוא מפני ששניהם הם שמותיו של הקב"ה שלמעלה משניהם40,</src>
+    <src s="13">אלא שכך עלה ברצונו ית' שהגילוי שלו יהי' בשני הקוין דבל"ג וגבול</src>
+    <src s="14">(גילוי וצמצום),</src>
+    <src s="15">ולכן,</src>
+    <src s="16">גם לאחרי שנמשכו בגילוי בענין השמות,</src>
+    <src s="17">שאז הם שני ענינים הפכיים,</src>
+    <src s="18">הם מתכללים זמ"ז,</src>
+    <src s="19">ועד שהוי' ואלקים כולא חד.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">והנה זה שהאורות והכלים</src>
+    <src s="2">(הוי' ואלקים)</src>
+    <src s="3">בשרשם הם כולא חד,</src>
+    <src s="4">כמה מדריגות בזה.</src>
+    <src s="5">דבכללות הו"ע עשר ספירות הגנוזות.</src>
+    <src s="6">שגם בע"ס הגנוזות יש</src>
+    <src s="7">(דוגמת)</src>
+    <src s="8">אורות וכלים41,</src>
+    <src s="9">והם השרש של האורות וכלים שבע"ס הגלויות,</src>
+    <src s="10">אלא שבע"ס הגנוזות הם כולא חד.</src>
+    <src s="11">דכמו שענין ההתחלקות דהספירות</src>
+    <src s="12">(חכמה,</src>
+    <src s="13">בינה וכו')</src>
+    <src s="14">הוא בספירות הגלויות משא"כ ע"ס הגנוזות הם כלולים כולם כאחד בבחינת התערבות והתאחדות42,</src>
+    <src s="15">עד"ז הוא גם בענין ההתחלקות דאורות וכלים,</src>
+    <src s="16">שבע"ס הגנוזות הם</src>
+    <src s="17">(האורות והכלים)</src>
+    <src s="18">בהתאחדות.</src>
+    <src s="19">אבל בפרטיות,</src>
+    <src s="20">גם בע"ס הגנוזות,</src>
+    <src s="21">אורות וכלים הם שני ענינים.</src>
+    <src s="22">וזה שהוי' ואלקים כולא חד הוא בכללות האור שלפני הצמצום.</src>
+    <src s="23">דהנה ידוע43</src>
+    <src s="24">שבהאור שלפני הצמצום יש שתי מדריגות בכללות.</src>
+    <src s="25">שהאור מצד עצמו הוא אין סוף</src>
+    <src s="26">[והספירות שמצד האור עצמו הם ספירות אין קץ],</src>
+    <src s="27">והוא השרש דאור הסובב,</src>
+    <src s="28">ומצד זה שעלה ברצונו להאציל כו' יש בו גם השרש דעשר ספירות</src>
+    <src s="29">(ע"ס הגנוזות),</src>
+    <src s="30">והוא השרש דאור הממלא.</src>
+    <src s="31">וזהו ששמו הגדול שלפני הצמצום הוא דוגמת הוי' בניקוד אלקים,</src>
+    <src s="32">שמצד עצמו הוא א"ס,</src>
+    <src s="33">הוי',</src>
+    <src s="34">אלא שאעפ"כ כלול בו גם השרש דאור הגבול</src>
+    <src s="35">(ממלא),</src>
+    <src s="36">אלקים.</src>
+    <src s="37">וכיון דזה שכלול בו השרש דאור הגבול הוא מפני שעלה ברצונו</src>
+    <src s="38">(דאוא"ס הבל"ג)</src>
+    <src s="39">שיהיו עשר ספירות,</src>
+    <src s="40">דאמיתית ענין הרצון הוא שגם לאחרי שרוצה באיזה דבר ענינו של הדבר שרוצה בו הוא</src>
+    <src s="41">(לא הדבר מצד עצמו,</src>
+    <src s="42">אלא)</src>
+    <src s="43">להשלים זה שהוא רוצה44,</src>
+    <src s="44">לכן,</src>
+    <src s="45">השרש דאור הגבול כמו שהוא לפני הצמצום,</src>
+    <src s="46">הוא</src>
+    <src s="47">(לא ענין בפני עצמו,</src>
+    <src s="48">אלא)</src>
+    <src s="49">חד עם</src>
+    <src s="50">(הרצון של)</src>
+    <src s="51">אוא"ס הבל"ג.</src>
+    <src s="52">וכמובן גם מזה שמובא לעיל דשמו הגדול שלפני הצמצום הוא דוגמת הוי' בניקוד אלקים,</src>
+    <src s="53">היינו שהוא שם אחד שכולל שני הענינים דהוי' ואלקים.</src>
+    <src s="54">אמנם בפרטיות יותר,</src>
+    <src s="55">מכיון שגם ברצון יש תפיסת מקום להדבר שרוצים בו</src>
+    <src s="56">(שע"י דבר זה דוקא נשלם הרצון),</src>
+    <src s="57">לכן,</src>
+    <src s="58">זה שבהאור שלפני הצמצום יש שרש לאור הסובב</src>
+    <src s="59">(בל"ג,</src>
+    <src s="60">הוי')</src>
+    <src s="61">ושרש לאור הממלא</src>
+    <src s="62">(גבול,</src>
+    <src s="63">אלקים),</src>
+    <src s="64">הם כמו שני ענינים.</src>
+    <src s="65">ואמיתית הענין דהוי' ואלקים כולא חד הוא בבחינת היכולת</src>
+    <src s="66">(שלמעלה מענין הספירות,</src>
+    <src s="67">שאין שייך בו גם ספירות אין קץ),</src>
+    <src s="68">דזה שביכלתו להאיר</src>
+    <src s="69">(השרש דהוי')</src>
+    <src s="70">ושביכלתו שלא להאיר</src>
+    <src s="71">(השרש דאלקים)</src>
+    <src s="72">הוא חד ממש.</src>
+    <src s="73">וע"ד המבואר במק"א45,</src>
+    <src s="74">דבהאור שלפני הצמצום,</src>
+    <src s="75">גם בהאור שקודם עלות הרצון,</src>
+    <src s="76">הגילוי וההעלם הם שני ענינים.</src>
+    <src s="77">ולכן,</src>
+    <src s="78">העבודה כמו שהיא מצד האור שלפני הצמצום היא להמשיך ריבוי אור</src>
+    <src s="79">(ע"ד שקודם הצמצום הי' התגברות כח הגילוי על כח ההעלם).</src>
+    <src s="80">ובכדי שיהי' אתהפכא חשוכא לנהורא,</src>
+    <src s="81">שהחושך עצמו יהפך לאור,</src>
+    <src s="82">הוא דוקא מצד ענין היכולת.</src>
+    <src s="83">דכיון שהיכולת להאיר</src>
+    <src s="84">(שרש האור)</src>
+    <src s="85">והיכולת שלא להאיר</src>
+    <src s="86">(שרש החושך)</src>
+    <src s="87">הם חד ממש,</src>
+    <src s="88">לכן,</src>
+    <src s="89">ע"י שמגיעים בבחינת היכולת,</src>
+    <src s="90">גם החושך נהפך לאור.</src>
+  </section>
+  <section v="8">
+    <src s="0">וזהו הקשר דהוי' הוא האלקים עם אין עוד מלבדו,</src>
+    <src s="1">שע"י הידיעה דהוי' הוא האלקים באים להידיעה שאין עוד מלבדו</src>
+    <src s="2">(כנ"ל סעיף ה),</src>
+    <src s="3">דמזה שרואים שהוי' ואלקים הם מאוחדים כאחד ממש,</src>
+    <src s="4">שבעבודת האדם הוא ואהבת את הוי' אלקיך בכל לבבך בשני יצריך46,</src>
+    <src s="5">שגם היצה"ר</src>
+    <src s="6">(ששרשו מההעלם דאלקים)</src>
+    <src s="7">אוהב את הוי'</src>
+    <src s="8">(כמו היצ"ט ששרשו מהגילוי דהוי'),</src>
+    <src s="9">מזה יודעים שאין עוד מלבדו,</src>
+    <src s="10">שהשרש דשני הענינים</src>
+    <src s="11">(של הגילוי דהוי' וההעלם דאלקים)</src>
+    <src s="12">הוא זה שביכלתו להאיר וביכלתו שלא להאיר,</src>
+    <src s="13">דענין היכולת אינו דבר כלל זולת העצמות והוא רק שהעצמות הוא יכול,</src>
+    <src s="14">אין עוד מלבדו.</src>
+    <src s="15">וזהו גם מה שאומר בתחלת הכתוב אתה הראת לדעת,</src>
+    <src s="16">דו האָסט זיך באַוויזן אַז מען זאָל דיך וויסן,</src>
+    <src s="17">כי כיון שענין היכולת הוא זה שהעצמות הוא יכול,</src>
+    <src s="18">הידיעה בענין היכולת היא ידיעת העצמות47.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,88 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918081_theRebbe_229" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918081_theRebbe_229__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918081_theRebbe_229" title="מאמר והחרים ה' תשמ"ט" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918081_theRebbe_229__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אחרון של פסח ה'תשמ"ט*</src>
+  </section>
+  <section v="1">
+    <src s="0">והחרים הוי' את לשון ים מצרים והניף ידו על הנהר בעים רוחו וגו'1,</src>
+    <src s="1">ומבאר בזה אדמו"ר מהר"ש</src>
+    <src s="2">(מלכתחילה אַריבער)</src>
+    <src s="3">בארוכה בהמשך והחרים,</src>
+    <src s="4">דנוסף שלע"ל יהי' והחרים גו' את לשון ים מצרים דוגמת קריעת ים סוף שהיתה ביציאת מצרים,</src>
+    <src s="5">יהי' גם והניף ידו על הנהר גו',</src>
+    <src s="6">דבקיעת הנהר היא למעלה יותר מבקיעת הים,</src>
+    <src s="7">כמבואר שם בארוכה2.</src>
+    <src s="8">ועיקר החידוש דלע"ל הוא שאז יהי' בקיעת הנהר.</src>
+    <src s="9">וכמ"ש3</src>
+    <src s="10">הפך ים ליבשה בנהר יעברו ברגל,</src>
+    <src s="11">הפך ים ליבשה לשון עבר דקאי על קי"ס שהיתה בהגאולה דיציאת מצרים,</src>
+    <src s="12">בנהר יעברו ברגל לשון עתיד דקאי על בקיעת הנהר שתהי' בגאולה העתידה4,</src>
+    <src s="13">ובנהר יעברו ברגל זהו עיקר החידוש שיהי' בגאולה העתידה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">דזה שוהחרים גו' ים מצרים ממשיך לזה ותיכף והניף ידו על הנהר גו' הוא להורות שמקי"ס וענינו שהיו בהגאולה דיציאת מצרים אפשר לבוא מיד</src>
+    <src s="3">(בלי שום הפסק)</src>
+    <src s="4">לוהניף ידו על הנהר גו' שיהי' לע"ל.</src>
+    <src s="5">ובפרט באחרון של פסח,</src>
+    <src s="6">שבו אומרים ההפטרה בענין גאולה העתידה,</src>
+    <src s="7">ואוכלים סעודת משיח,</src>
+    <src s="8">וזה בא בהמשך לשביעי של פסח5,</src>
+    <src s="9">קי"ס,</src>
+    <src s="10">שעי"ז נעשה עוד יותר החיבור דקי"ס עם הגילוי דגאולה העתידה.</src>
+    <src s="11">ומכיון שסמיכות זו היא חלק מתורה שהיא ירושה לכאו"א מישראל כמ"ש6</src>
+    <src s="12">תורה צוה לנו משה מורשה קהלת יעקב,</src>
+    <src s="13">ישנו הכח לכאו"א מישראל,</src>
+    <src s="14">אנשים נשים וטף,</src>
+    <src s="15">לבוא מקי"ס,</src>
+    <src s="16">תיכף ומיד ממש לגאולה העתידה,</src>
+    <src s="17">ללא עיכוב אפילו כהרף עין7.</src>
+    <src s="18">וזה שבכחו של כאו"א מישראל לבוא תיכף להגילוי דגאולה העתידה מודגש גם במ"ש</src>
+    <src s="19">(בההפטרה דאחרון של פסח)</src>
+    <src s="20">ונחה עליו רוח הוי' וגו'8,</src>
+    <src s="21">דעליו קאי על משיח</src>
+    <src s="22">(ויצא חוטר מגזע ישי גו'9),</src>
+    <src s="23">ואעפ"כ תקנו שכל אחד מישראל יאמר ביו"ט</src>
+    <src s="24">(בהתפלה שאומרים בעת פתיחת הארון)</src>
+    <src s="25">ויתקיים בנו מקרא שכתוב ונחה עליו רוח הוי' וגו',</src>
+    <src s="26">היינו שבכ"א מישראל</src>
+    <src s="27">(בתור פרט)</src>
+    <src s="28">יהי' הגילוי ובאופן דונחה עליו רוח הוי' וגו' עם כל הפרטים שבכתובים אלה,</src>
+    <src s="29">כולל גם והניף ידו על הנהר וגו'.</src>
+  </section>
+</awtsmoosMeluketSource>

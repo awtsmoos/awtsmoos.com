@@ -1,0 +1,424 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 76,
+    "returned": 76,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919126_theRebbe_561\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains the difference between the Hebrew words \"im\" and \"es,\" showing that \"im\" emphasizes similarity between two things while \"es\" emphasizes the subordinate nature of one, and applies this to the phrase \"Hashem our G-d be with us\" to indicate a similarity in the dynamic of primary and secondary.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, the term \"with\" (עם) applies when there is a similarity between two things.</t>\n    <t s=\"2\">As per the exposition of our Rabbis, of blessed memory,</t>\n    <t s=\"3\">on the verse,</t>\n    <t s=\"4\">\"and station themselves there with you,\"</t>\n    <t s=\"5\">\"with you\" (עמך) — those who are similar to you.</t>\n    <t s=\"6\">For although the term \"with\" (עם) indicates something secondary</t>\n    <t s=\"7\">(as mentioned above in section 2),</t>\n    <t s=\"8\">nevertheless,</t>\n    <t s=\"9\">it has a similarity to the primary.</t>\n    <t s=\"10\">And likewise with the term \"es\" (את),</t>\n    <t s=\"11\">which indicates something secondary, as per the exposition of our Rabbis, of blessed memory,</t>\n    <t s=\"12\">on the verse,</t>\n    <t s=\"13\">\"the flesh of\" (את בשרו) — that which is secondary to his flesh,</t>\n    <t s=\"14\">and nevertheless it is similar to the primary,</t>\n    <t s=\"15\">as per the exposition of our Rabbis, of blessed memory,</t>\n    <t s=\"16\">on the verse,</t>\n    <t s=\"17\">\"and they shall carry with you\" (אתך),</t>\n    <t s=\"18\">\"with you\" (אתך) — those who are similar to you.</t>\n    <t s=\"19\">And it is explained in grammar books,</t>\n    <t s=\"20\">that the secondary element hinted at by the term \"es\" is more secondary than the secondary element in the term \"with\" (עם).</t>\n    <t s=\"21\">And based on this,</t>\n    <t s=\"22\">with the term \"es\" the main emphasis is that the thing</t>\n    <t s=\"23\">(about which \"es\" is said)</t>\n    <t s=\"24\">is only secondary,</t>\n    <t s=\"25\">while with the term \"with\" (עם) the main emphasis is on the similarity of the two things.</t>\n    <t s=\"26\">From this it is understood,</t>\n    <t s=\"27\">that the main emphasis in \"May Hashem our G-d be with us\" is not that Hashem our G-d is, as it were, secondary to man,</t>\n    <t s=\"28\">but rather the similarity, as it were, between them.</t>\n    <t s=\"29\">And it can be said,</t>\n    <t s=\"30\">that the similarity between them is in the matter of primary and secondary.</t>\n    <t s=\"31\">For just as the perfection of man's service is when his service is with his own power,</t>\n    <t s=\"32\">therefore Hashem our G-d is, as it were, secondary to man</t>\n    <t s=\"33\">(as mentioned above in section 2),</t>\n    <t s=\"34\">so too, conversely,</t>\n    <t s=\"35\">the perfection of man's service is when his service</t>\n    <t s=\"36\">[both the service with his own power,</t>\n    <t s=\"37\">and also the service of self-sacrifice (mesiras nefesh),</t>\n    <t s=\"38\">including even self-sacrifice for matters for which, according to law, one is not obligated to give his life]</t>\n    <t s=\"39\">is not because he wants to serve G-d, but because he is nullified to G-dliness.</t>\n    <t s=\"40\">For since his self-nullification to the Holy One, blessed be He, is absolute self-nullification,</t>\n    <t s=\"41\">therefore,</t>\n    <t s=\"42\">every single mitzvah</t>\n    <t s=\"43\">(even when, according to law, one is not obligated to give his life for it)</t>\n    <t s=\"44\">is for him in a manner that it is entirely impossible not to fulfill it,</t>\n    <t s=\"45\">even when its fulfillment requires self-sacrifice.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that through self-nullification to G-dliness, an additional dimension is added to self-sacrifice, making it absolute without any possibility of being otherwise.</sectionSummaryBrief>\n    <t s=\"0\">And it can be added,</t>\n    <t s=\"1\">that through self-nullification to G-dliness,</t>\n    <t s=\"2\">there is an addition also in the self-sacrifice (mesiras nefesh).</t>\n    <t s=\"3\">For when his self-sacrifice is because he wants and has decided to fulfill the command of the Holy One, blessed be He, even when it requires self-sacrifice,</t>\n    <t s=\"4\">behold, there is for him a possibility that it could be otherwise,</t>\n    <t s=\"5\">and that which in practice he stands in self-sacrifice is only because he decided so.</t>\n    <t s=\"6\">But when his self-sacrifice is because of his self-nullification to the Holy One, blessed be He,</t>\n    <t s=\"7\">so that every mitzvah that the Holy One, blessed be He, commanded is for him in a manner that it is entirely impossible not to fulfill it,</t>\n    <t s=\"8\">then there is no possibility at all that it could be otherwise.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the request \"May Hashem our G-d be with us as He was with our forefathers\" refers to achieving the absolute self-nullification of a chariot to its rider, as exemplified by the Patriarchs who served G-d with their own power yet were in total self-nullification.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this is \"May Hashem our G-d be with us as He was with our forefathers,\"</t>\n    <t s=\"2\">for in the service of the Patriarchs, the two aforementioned matters are emphasized.</t>\n    <t s=\"3\">They fulfilled the entire Torah before it was given,</t>\n    <t s=\"4\">in which it is emphasized that their service was</t>\n    <t s=\"5\">(not because of a command from Above,</t>\n    <t s=\"6\">but rather)</t>\n    <t s=\"7\">with their own power.</t>\n    <t s=\"8\">And nevertheless they were in absolute self-nullification,</t>\n    <t s=\"9\">for the Patriarchs themselves are the Chariot.</t>\n    <t s=\"10\">And the self-nullification of the chariot to the rider is absolute self-nullification.</t>\n    <t s=\"11\">For the self-nullification of the chariot to the rider is not from the aspect of the will of the chariot</t>\n    <t s=\"12\">(that it wants to be nullified to the rider and be a chariot for him),</t>\n    <t s=\"13\">but rather from the aspect of the rider.</t>\n    <t s=\"14\">And since there are various levels in self-nullification,</t>\n    <t s=\"15\">therefore,</t>\n    <t s=\"16\">we ask \"May Hashem our G-d be with us as He was with our forefathers,\"</t>\n    <t s=\"17\">that the matter of \"May Hashem our G-d be with us,\"</t>\n    <t s=\"18\">our self-nullification to G-dliness,</t>\n    <t s=\"19\">should be as it was with our forefathers,</t>\n    <t s=\"20\">the self-nullification of a chariot.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919126_theRebbe_561",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains the difference between the Hebrew words \"im\" and \"es,\" showing that \"im\" emphasizes similarity between two things while \"es\" emphasizes the subordinate nature of one, and applies this to the phrase \"Hashem our G-d be with us\" to indicate a similarity in the dynamic of primary and secondary.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "Now, the term \"with\" (עם) applies when there is a similarity between two things."
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "As per the exposition of our Rabbis, of blessed memory,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "\"and station themselves there with you,\""
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "\"with you\" (עמך) — those who are similar to you."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "For although the term \"with\" (עם) indicates something secondary"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(as mentioned above in section 2),"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "it has a similarity to the primary."
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "And likewise with the term \"es\" (את),"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "which indicates something secondary, as per the exposition of our Rabbis, of blessed memory,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "\"the flesh of\" (את בשרו) — that which is secondary to his flesh,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "and nevertheless it is similar to the primary,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "as per the exposition of our Rabbis, of blessed memory,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "\"and they shall carry with you\" (אתך),"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "\"with you\" (אתך) — those who are similar to you."
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "And it is explained in grammar books,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "that the secondary element hinted at by the term \"es\" is more secondary than the secondary element in the term \"with\" (עם)."
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "And based on this,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "with the term \"es\" the main emphasis is that the thing"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "(about which \"es\" is said)"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "is only secondary,"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "while with the term \"with\" (עם) the main emphasis is on the similarity of the two things."
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "From this it is understood,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "that the main emphasis in \"May Hashem our G-d be with us\" is not that Hashem our G-d is, as it were, secondary to man,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "but rather the similarity, as it were, between them."
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "that the similarity between them is in the matter of primary and secondary."
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "For just as the perfection of man's service is when his service is with his own power,"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "therefore Hashem our G-d is, as it were, secondary to man"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "(as mentioned above in section 2),"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "so too, conversely,"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "the perfection of man's service is when his service"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "[both the service with his own power,"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "and also the service of self-sacrifice (mesiras nefesh),"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "including even self-sacrifice for matters for which, according to law, one is not obligated to give his life]"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "is not because he wants to serve G-d, but because he is nullified to G-dliness."
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "For since his self-nullification to the Holy One, blessed be He, is absolute self-nullification,"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "therefore,"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "every single mitzvah"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "(even when, according to law, one is not obligated to give his life for it)"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "is for him in a manner that it is entirely impossible not to fulfill it,"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "even when its fulfillment requires self-sacrifice."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that through self-nullification to G-dliness, an additional dimension is added to self-sacrifice, making it absolute without any possibility of being otherwise.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And it can be added,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "that through self-nullification to G-dliness,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "there is an addition also in the self-sacrifice (mesiras nefesh)."
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "For when his self-sacrifice is because he wants and has decided to fulfill the command of the Holy One, blessed be He, even when it requires self-sacrifice,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "behold, there is for him a possibility that it could be otherwise,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "and that which in practice he stands in self-sacrifice is only because he decided so."
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "But when his self-sacrifice is because of his self-nullification to the Holy One, blessed be He,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "so that every mitzvah that the Holy One, blessed be He, commanded is for him in a manner that it is entirely impossible not to fulfill it,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "then there is no possibility at all that it could be otherwise."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the request \"May Hashem our G-d be with us as He was with our forefathers\" refers to achieving the absolute self-nullification of a chariot to its rider, as exemplified by the Patriarchs who served G-d with their own power yet were in total self-nullification.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And this is \"May Hashem our G-d be with us as He was with our forefathers,\""
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "for in the service of the Patriarchs, the two aforementioned matters are emphasized."
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "They fulfilled the entire Torah before it was given,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "in which it is emphasized that their service was"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "(not because of a command from Above,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "but rather)"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "with their own power."
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "And nevertheless they were in absolute self-nullification,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "for the Patriarchs themselves are the Chariot."
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "And the self-nullification of the chariot to the rider is absolute self-nullification."
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "For the self-nullification of the chariot to the rider is not from the aspect of the will of the chariot"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "(that it wants to be nullified to the rider and be a chariot for him),"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "but rather from the aspect of the rider."
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "And since there are various levels in self-nullification,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "therefore,"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "we ask \"May Hashem our G-d be with us as He was with our forefathers,\""
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "that the matter of \"May Hashem our G-d be with us,\""
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "our self-nullification to G-dliness,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "should be as it was with our forefathers,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "the self-nullification of a chariot."
+          }
+        ]
+      }
+    ]
+  }
+}

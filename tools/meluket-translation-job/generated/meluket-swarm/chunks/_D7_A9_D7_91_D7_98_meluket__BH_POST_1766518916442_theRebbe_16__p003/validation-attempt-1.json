@@ -1,0 +1,124 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 16,
+    "returned": 16,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916442_theRebbe_16\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916442_theRebbe_16__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>The Rebbe spoke during a Yom Tov meal about the birth pangs of Mashiach and his intention to write a Sefer Torah to greet Mashiach Tzidkeinu.</sectionSummaryBrief>\n    <t s=\"0\">\"When we were seated at the Yom Tov meal during the festival days,</t>\n    <t s=\"1\">in the presence of our friends, Anash, may they live,</t>\n    <t s=\"2\">we spoke about the birth pangs of Mashiach and the coming of Mashiach Tzidkeinu very soon,</t>\n    <t s=\"3\">and within the words I said that it is my intention, with G-d's help, to write a Sefer Torah...</t>\n    <t s=\"4\">specifically in order to greet Mashiach Tzidkeinu very soon,</t>\n    <t s=\"5\">and because of love of Israel, anyone who desires to participate in writing letters has permission to do so.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>The start of writing was originally scheduled for the 20th of MarCheshvan, the birthday of the Rebbe Rashab, but was postponed to the 2nd of Iyar.</sectionSummaryBrief>\n    <t s=\"0\">The beginning of the writing was scheduled for the 20th of MarCheshvan,</t>\n    <t s=\"1\">the birthday of His Holiness, the Rebbe, the Rebbe Rashab, of blessed memory,</t>\n    <t s=\"2\">as was conveyed in \"HaKriah VeHaKedushah\"4,</t>\n    <t s=\"3\">and in a general letter from the secretariat of our Rebbe.</t>\n    <t s=\"4\">And then the beginning of the writing was supposed to be publicized,</t>\n    <t s=\"5\">therefore the start date was publicized.</t>\n    <t s=\"6\">But in practice it was postponed to the 2nd of Iyar,</t>\n    <t s=\"7\">as written in the letter of the 2nd of Iyar mentioned above.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>Due to various reasons the writing was delayed, and on the 2nd of Iyar, the birthday of the Rebbe Maharash, the lot fell to begin writing the Sefer Torah for the merit of all Israel.</sectionSummaryBrief>\n    <t s=\"0\">\"Due to various reasons, the possibility to begin, with G-d's help, the writing of the Sefer Torah was delayed,</t>\n    <t s=\"1\">and today, on the second of the month of Iyar — Tiferes shebeTiferes — the birthday of His Holiness, our master, father, and Rebbe, the holy Rebbe Maharash, of blessed memory, may his merit protect us, may his soul be in Eden, here the lot fell to begin writing the Sefer Torah for the merit of all of Israel in material and spiritual matters.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916442_theRebbe_16",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916442_theRebbe_16__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "The Rebbe spoke during a Yom Tov meal about the birth pangs of Mashiach and his intention to write a Sefer Torah to greet Mashiach Tzidkeinu.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "\"When we were seated at the Yom Tov meal during the festival days,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "in the presence of our friends, Anash, may they live,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "we spoke about the birth pangs of Mashiach and the coming of Mashiach Tzidkeinu very soon,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "and within the words I said that it is my intention, with G-d's help, to write a Sefer Torah..."
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "specifically in order to greet Mashiach Tzidkeinu very soon,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "and because of love of Israel, anyone who desires to participate in writing letters has permission to do so.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "The start of writing was originally scheduled for the 20th of MarCheshvan, the birthday of the Rebbe Rashab, but was postponed to the 2nd of Iyar.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "The beginning of the writing was scheduled for the 20th of MarCheshvan,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "the birthday of His Holiness, the Rebbe, the Rebbe Rashab, of blessed memory,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "as was conveyed in \"HaKriah VeHaKedushah\"4,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "and in a general letter from the secretariat of our Rebbe."
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "And then the beginning of the writing was supposed to be publicized,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "therefore the start date was publicized."
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "But in practice it was postponed to the 2nd of Iyar,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "as written in the letter of the 2nd of Iyar mentioned above."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "Due to various reasons the writing was delayed, and on the 2nd of Iyar, the birthday of the Rebbe Maharash, the lot fell to begin writing the Sefer Torah for the merit of all Israel.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "\"Due to various reasons, the possibility to begin, with G-d's help, the writing of the Sefer Torah was delayed,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "and today, on the second of the month of Iyar — Tiferes shebeTiferes — the birthday of His Holiness, our master, father, and Rebbe, the holy Rebbe Maharash, of blessed memory, may his merit protect us, may his soul be in Eden, here the lot fell to begin writing the Sefer Torah for the merit of all of Israel in material and spiritual matters.\""
+          }
+        ]
+      }
+    ]
+  }
+}

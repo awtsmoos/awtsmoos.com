@@ -1,0 +1,679 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 127,
+    "returned": 127,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915935_theRebbe_175\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915935_theRebbe_175__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains the differences between the seven-branched Menorah in the Temple and the eight Chanukah lights, relating them to the spiritual war against the Greeks and the drawing down of a light above the chain of descent through self-sacrifice.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And the discourse continues,</t>\n    <t s=\"2\">that although the Chanukah lights were instituted because of the miracle that occurred with the lights of the Temple,</t>\n    <t s=\"3\">and whatever the Sages instituted, they instituted in a manner similar to that which is Torah law,</t>\n    <t s=\"4\">nevertheless, they differ in several matters.</t>\n    <t s=\"5\">For in the Menorah</t>\n    <t s=\"6\">(that was in the Temple)</t>\n    <t s=\"7\">there were seven lights and its place was in the south</t>\n    <t s=\"8\">(right),</t>\n    <t s=\"9\">whereas the Chanukah lights are eight and their place is on the left.</t>\n    <t s=\"10\">And the explanation is</t>\n    <t s=\"11\">(as explained in the discourse),</t>\n    <t s=\"12\">that the war of the Greeks was a spiritual war, to cause them to forget Your Torah and to make them transgress the statutes of Your will,</t>\n    <t s=\"13\">and through this, the darkness of the side of impurity became strengthened,</t>\n    <t s=\"14\">whose primary sustenance is from the left line,</t>\n    <t s=\"15\">and therefore, when the Hasmonean kingdom prevailed and they defeated the Greeks, they instituted the Chanukah lights,</t>\n    <t s=\"16\">in order to illuminate the darkness.</t>\n    <t s=\"17\">And therefore they instituted eight lights,</t>\n    <t s=\"18\">for eight is above the chain of descent</t>\n    <t s=\"19\">(as above),</t>\n    <t s=\"20\">because to illuminate the darkness is specifically through the light that is above the chain of descent,</t>\n    <t s=\"21\">and \"it will be\"</t>\n    <t s=\"22\">(with the addition of a vav)</t>\n    <t s=\"23\">\"my darkness will shine.\"</t>\n    <t s=\"24\">And this light</t>\n    <t s=\"25\">(which is above the chain of descent)</t>\n    <t s=\"26\">was drawn down through the self-sacrifice of Matisyahu and his sons.</t>\n    <t s=\"27\">And this means,</t>\n    <t s=\"28\">that the connection of this light with the darkness that existed then is in two matters,</t>\n    <t s=\"29\">from below to above and from above to below.</t>\n    <t s=\"30\">From below to above,</t>\n    <t s=\"31\">that because of the greatness of the darkness that existed then, the power of self-sacrifice, which is above the chain of descent within man, was aroused within them, and through this they drew down from the Essence of the Ein Sof, which is above the chain of descent,</t>\n    <t s=\"32\">and from above to below,</t>\n    <t s=\"33\">that through this light they also illuminate the darkness,</t>\n    <t s=\"34\">and \"it will be, my darkness will shine.\"</t>\n    <t s=\"35\">And this is that at the dedication of the Temple there were seven lights and its place was in the south,</t>\n    <t s=\"36\">for the light that shone in the Temple</t>\n    <t s=\"37\">(since its drawing down was not through self-sacrifice)</t>\n    <t s=\"38\">was a revelation of the chain of descent,</t>\n    <t s=\"39\">seven lights,</t>\n    <t s=\"40\">and therefore the place of the Menorah was in the south</t>\n    <t s=\"41\">(right),</t>\n    <t s=\"42\">for if its standing were in the north</t>\n    <t s=\"43\">(left)</t>\n    <t s=\"44\">it would be possible for the external forces to draw sustenance,</t>\n    <t s=\"45\">whereas the Chanukah lights</t>\n    <t s=\"46\">(which came after the self-sacrifice)</t>\n    <t s=\"47\">are eight lights,</t>\n    <t s=\"48\">a light above the chain of descent,</t>\n    <t s=\"49\">which also rectifies the left line.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the root of the miracle of military victory also stems from the transcendent level of Havayah, though it is clothed in garments of the chain of descent.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And based on what is explained in the discourse, that through the self-sacrifice of Matisyahu and his sons they drew down the light that is above the chain of descent</t>\n    <t s=\"2\">(the supernal Havayah),</t>\n    <t s=\"3\">it can be said,</t>\n    <t s=\"4\">that also the root of the miracle of victory in war is in the supernal Havayah, which is above the chain of descent.</t>\n    <t s=\"5\">For the self-sacrifice of Matisyahu and his sons was that although they were weak and few, nevertheless they fought against the mighty and the many,</t>\n    <t s=\"6\">and since through their self-sacrifice</t>\n    <t s=\"7\">(which is above the chain of descent within man)</t>\n    <t s=\"8\">they drew down the light that is above the chain of descent,</t>\n    <t s=\"9\">it is understood,</t>\n    <t s=\"10\">that the miracle of delivering the mighty into the hands of the weak and the many into the hands of the few, which was drawn down through their self-sacrifice,</t>\n    <t s=\"11\">is from the supernal Havayah.</t>\n    <t s=\"12\">And this is what is explained in the discourse</t>\n    <t s=\"13\">(brought above in section 3)</t>\n    <t s=\"14\">that only the miracle of the oil lasting for eight days was drawn from the supernal Havayah,</t>\n    <t s=\"15\">but not so the miracle of victory in war and also the miracle of finding the flask of oil, which are from the level of the chain of descent,</t>\n    <t s=\"16\">it can be said,</t>\n    <t s=\"17\">that in these miracles,</t>\n    <t s=\"18\">the drawing down was within garments of the chain of descent</t>\n    <t s=\"19\">(as will be explained in section 6),</t>\n    <t s=\"20\">but their root is from the supernal Havayah.</t>\n    <t s=\"21\">And it can be said,</t>\n    <t s=\"22\">that this is also one of the reasons why in this discourse it follows the opinion that the festival of Chanukah was established also for the miracle of victory in war,</t>\n    <t s=\"23\">in order to hint,</t>\n    <t s=\"24\">that also the miracle of victory in war is connected to the supernal Havayah.</t>\n    <t s=\"25\">For the fact that the festival of Chanukah is for eight days</t>\n    <t s=\"26\">(the days of Chanukah are eight)</t>\n    <t s=\"27\">is because this number indicates</t>\n    <t s=\"28\">(as above, section 3)</t>\n    <t s=\"29\">a light that is above the chain of descent,</t>\n    <t s=\"30\">and the fact that the festival of Chanukah was established also for the miracle of victory in war is because also the root of this miracle is in the light that is above the chain of descent.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains the three levels of miracles in the Chanukah story—victory, finding the flask, and the oil lasting eight days—as corresponding to different levels of divine light and self-sacrifice.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">that the self-sacrifice of Matisyahu and his sons was that they fought against the Greeks.</t>\n    <t s=\"3\">And it can be said,</t>\n    <t s=\"4\">that the fact that even after the self-sacrifice</t>\n    <t s=\"5\">(which comes through the revelation of the Yechidah)</t>\n    <t s=\"6\">they still felt that there was an adversary against whom they needed to fight is because the revelation of the Yechidah was in a manner that relates to the revealed powers of the soul.</t>\n    <t s=\"7\">For when the revelation of the Yechidah is as it is in its place,</t>\n    <t s=\"8\">since the level of Yechidah has no opposing counterpart,</t>\n    <t s=\"9\">the self-sacrifice is in a manner that one does not think at all about the adversary,</t>\n    <t s=\"10\">and the fact that the self-sacrifice of Matisyahu and his sons was in a manner that they fought against the adversaries</t>\n    <t s=\"11\">is because the revelation of the Yechidah was in a manner that relates to the revealed powers.</t>\n    <t s=\"12\">And therefore, also the light above the chain of descent that was drawn down through their self-sacrifice,</t>\n    <t s=\"13\">the miracle of delivering the mighty into the hands of the weak and the many into the hands of the few,</t>\n    <t s=\"14\">was clothed in nature,</t>\n    <t s=\"15\">and moreover—in the nature of this lowly world, where the husks prevail,</t>\n    <t s=\"16\">where the adversaries are mighty and many</t>\n    <t s=\"17\">(and one must fight against them).</t>\n    <t s=\"18\">And it can be said,</t>\n    <t s=\"19\">that this is what is stated in the discourse, that the miracle of victory in war is a lower unity,</t>\n    <t s=\"20\">even though this miracle was also drawn from the light above the chain of descent,</t>\n    <t s=\"21\">for the light above the chain of descent that was drawn down in this miracle was in a garment that gives place to existence and substance,</t>\n    <t s=\"22\">a lower unity</t>\n    <t s=\"23\">(and analogous to the self-sacrifice of Chanukah,</t>\n    <t s=\"24\">where the revelation of the Yechidah was in a garment of the revealed powers).</t>\n    <t s=\"25\">And afterwards, the light was drawn down in a more elevated manner,</t>\n    <t s=\"26\">that they found one flask sealed with the seal of the High Priest,</t>\n    <t s=\"27\">which does not give place to an adversary,</t>\n    <t s=\"28\">for when the flask is sealed with a seal, they cannot touch the oil within it and defile it.</t>\n    <t s=\"29\">And certainly the matter of being sealed with the seal of the High Priest, in the inner aspect of matters, is a light such that the external forces cannot touch there at all.</t>\n    <t s=\"30\">But even this miracle was within garments of nature,</t>\n    <t s=\"31\">for the fact that they found the flask,</t>\n    <t s=\"32\">this is not a miracle that transcends the natural order.</t>\n    <t s=\"33\">And it can be said,</t>\n    <t s=\"34\">that this is what is stated in the discourse, that the miracle of finding the flask of oil is a higher unity,</t>\n    <t s=\"35\">the Havayah of the lower realm,</t>\n    <t s=\"36\">for with respect to the Name Havayah,</t>\n    <t s=\"37\">there is no place given to an adversary,</t>\n    <t s=\"38\">but nevertheless,</t>\n    <t s=\"39\">also the Name Havayah</t>\n    <t s=\"40\">(of the lower realm)</t>\n    <t s=\"41\">is a source for existence.</t>\n    <t s=\"42\">And after this, the light was drawn down in a more elevated manner,</t>\n    <t s=\"43\">that they lit from it for eight days,</t>\n    <t s=\"44\">for this miracle is not clothed in nature,</t>\n    <t s=\"45\">a revelation of the supernal Havayah as it is, above any garment.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915935_theRebbe_175",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915935_theRebbe_175__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains the differences between the seven-branched Menorah in the Temple and the eight Chanukah lights, relating them to the spiritual war against the Greeks and the drawing down of a light above the chain of descent through self-sacrifice.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And the discourse continues,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that although the Chanukah lights were instituted because of the miracle that occurred with the lights of the Temple,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "and whatever the Sages instituted, they instituted in a manner similar to that which is Torah law,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "nevertheless, they differ in several matters."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "For in the Menorah"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "(that was in the Temple)"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "there were seven lights and its place was in the south"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(right),"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "whereas the Chanukah lights are eight and their place is on the left."
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "And the explanation is"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "(as explained in the discourse),"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that the war of the Greeks was a spiritual war, to cause them to forget Your Torah and to make them transgress the statutes of Your will,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "and through this, the darkness of the side of impurity became strengthened,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "whose primary sustenance is from the left line,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "and therefore, when the Hasmonean kingdom prevailed and they defeated the Greeks, they instituted the Chanukah lights,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "in order to illuminate the darkness."
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "And therefore they instituted eight lights,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "for eight is above the chain of descent"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "(as above),"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "because to illuminate the darkness is specifically through the light that is above the chain of descent,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "and \"it will be\""
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "(with the addition of a vav)"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "\"my darkness will shine.\""
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "And this light"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "(which is above the chain of descent)"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "was drawn down through the self-sacrifice of Matisyahu and his sons."
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "And this means,"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "that the connection of this light with the darkness that existed then is in two matters,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "from below to above and from above to below."
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "From below to above,"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "that because of the greatness of the darkness that existed then, the power of self-sacrifice, which is above the chain of descent within man, was aroused within them, and through this they drew down from the Essence of the Ein Sof, which is above the chain of descent,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "and from above to below,"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "that through this light they also illuminate the darkness,"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "and \"it will be, my darkness will shine.\""
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "And this is that at the dedication of the Temple there were seven lights and its place was in the south,"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "for the light that shone in the Temple"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "(since its drawing down was not through self-sacrifice)"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "was a revelation of the chain of descent,"
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "seven lights,"
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "and therefore the place of the Menorah was in the south"
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "(right),"
+          },
+          {
+            "v": 6,
+            "s": 42,
+            "translation": "for if its standing were in the north"
+          },
+          {
+            "v": 6,
+            "s": 43,
+            "translation": "(left)"
+          },
+          {
+            "v": 6,
+            "s": 44,
+            "translation": "it would be possible for the external forces to draw sustenance,"
+          },
+          {
+            "v": 6,
+            "s": 45,
+            "translation": "whereas the Chanukah lights"
+          },
+          {
+            "v": 6,
+            "s": 46,
+            "translation": "(which came after the self-sacrifice)"
+          },
+          {
+            "v": 6,
+            "s": 47,
+            "translation": "are eight lights,"
+          },
+          {
+            "v": 6,
+            "s": 48,
+            "translation": "a light above the chain of descent,"
+          },
+          {
+            "v": 6,
+            "s": 49,
+            "translation": "which also rectifies the left line."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the root of the miracle of military victory also stems from the transcendent level of Havayah, though it is clothed in garments of the chain of descent.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And based on what is explained in the discourse, that through the self-sacrifice of Matisyahu and his sons they drew down the light that is above the chain of descent"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "(the supernal Havayah),"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "that also the root of the miracle of victory in war is in the supernal Havayah, which is above the chain of descent."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "For the self-sacrifice of Matisyahu and his sons was that although they were weak and few, nevertheless they fought against the mighty and the many,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "and since through their self-sacrifice"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "(which is above the chain of descent within man)"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "they drew down the light that is above the chain of descent,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "that the miracle of delivering the mighty into the hands of the weak and the many into the hands of the few, which was drawn down through their self-sacrifice,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "is from the supernal Havayah."
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "And this is what is explained in the discourse"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "(brought above in section 3)"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "that only the miracle of the oil lasting for eight days was drawn from the supernal Havayah,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "but not so the miracle of victory in war and also the miracle of finding the flask of oil, which are from the level of the chain of descent,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "that in these miracles,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "the drawing down was within garments of the chain of descent"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "(as will be explained in section 6),"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "but their root is from the supernal Havayah."
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "that this is also one of the reasons why in this discourse it follows the opinion that the festival of Chanukah was established also for the miracle of victory in war,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "in order to hint,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "that also the miracle of victory in war is connected to the supernal Havayah."
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "For the fact that the festival of Chanukah is for eight days"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "(the days of Chanukah are eight)"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "is because this number indicates"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "(as above, section 3)"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "a light that is above the chain of descent,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and the fact that the festival of Chanukah was established also for the miracle of victory in war is because also the root of this miracle is in the light that is above the chain of descent."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains the three levels of miracles in the Chanukah story—victory, finding the flask, and the oil lasting eight days—as corresponding to different levels of divine light and self-sacrifice.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that the self-sacrifice of Matisyahu and his sons was that they fought against the Greeks."
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "that the fact that even after the self-sacrifice"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "(which comes through the revelation of the Yechidah)"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "they still felt that there was an adversary against whom they needed to fight is because the revelation of the Yechidah was in a manner that relates to the revealed powers of the soul."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "For when the revelation of the Yechidah is as it is in its place,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "since the level of Yechidah has no opposing counterpart,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "the self-sacrifice is in a manner that one does not think at all about the adversary,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "and the fact that the self-sacrifice of Matisyahu and his sons was in a manner that they fought against the adversaries"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "is because the revelation of the Yechidah was in a manner that relates to the revealed powers."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "And therefore, also the light above the chain of descent that was drawn down through their self-sacrifice,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "the miracle of delivering the mighty into the hands of the weak and the many into the hands of the few,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "was clothed in nature,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "and moreover—in the nature of this lowly world, where the husks prevail,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "where the adversaries are mighty and many"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "(and one must fight against them)."
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "that this is what is stated in the discourse, that the miracle of victory in war is a lower unity,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "even though this miracle was also drawn from the light above the chain of descent,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "for the light above the chain of descent that was drawn down in this miracle was in a garment that gives place to existence and substance,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "a lower unity"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "(and analogous to the self-sacrifice of Chanukah,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "where the revelation of the Yechidah was in a garment of the revealed powers)."
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "And afterwards, the light was drawn down in a more elevated manner,"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "that they found one flask sealed with the seal of the High Priest,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "which does not give place to an adversary,"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "for when the flask is sealed with a seal, they cannot touch the oil within it and defile it."
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "And certainly the matter of being sealed with the seal of the High Priest, in the inner aspect of matters, is a light such that the external forces cannot touch there at all."
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "But even this miracle was within garments of nature,"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "for the fact that they found the flask,"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "this is not a miracle that transcends the natural order."
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "that this is what is stated in the discourse, that the miracle of finding the flask of oil is a higher unity,"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "the Havayah of the lower realm,"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "for with respect to the Name Havayah,"
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "there is no place given to an adversary,"
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "but nevertheless,"
+          },
+          {
+            "v": 8,
+            "s": 39,
+            "translation": "also the Name Havayah"
+          },
+          {
+            "v": 8,
+            "s": 40,
+            "translation": "(of the lower realm)"
+          },
+          {
+            "v": 8,
+            "s": 41,
+            "translation": "is a source for existence."
+          },
+          {
+            "v": 8,
+            "s": 42,
+            "translation": "And after this, the light was drawn down in a more elevated manner,"
+          },
+          {
+            "v": 8,
+            "s": 43,
+            "translation": "that they lit from it for eight days,"
+          },
+          {
+            "v": 8,
+            "s": 44,
+            "translation": "for this miracle is not clothed in nature,"
+          },
+          {
+            "v": 8,
+            "s": 45,
+            "translation": "a revelation of the supernal Havayah as it is, above any garment."
+          }
+        ]
+      }
+    ]
+  }
+}

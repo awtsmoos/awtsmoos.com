@@ -1,0 +1,127 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919688_theRebbe_695" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919688_theRebbe_695__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919688_theRebbe_695" title="מאמר ציון במשפט תפדה תשל"ה" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919688_theRebbe_695__p002">
+  <section v="3">
+    <src s="0">י)</src>
+    <src s="1">ג)</src>
+    <src s="2">והנה פירוש זה שבחי' ושבי' בצדקה היא למעלה מבחי' ציון במשפט תפדה הוא בהתאם עם הפירוש שבלקו"ת ובס' הליקוטים להאריז"ל13</src>
+    <src s="3">עה"פ ציון במשפט תפדה</src>
+    <src s="4">[אלא ששם מבאר ב' הבחינות בדרגא תחתונה],</src>
+    <src s="5">דציון היא נקודת ציון יסוד שבנוקבא ולפי שהוא חלול והאורות מתגלים שם שם הוא אחיזת החיצונים ולכן אמר שבמשפט כו' גורמין שתפדה ודוחין משם החיצונים,</src>
+    <src s="6">אבל עדיין אין כ"ז רק כדי שלא יתאחזו בה לבד ותהי' ניכרת שם במקומה ולא תעלה עדיין למקומה הראשון ותצא מביניהם מכל וכל.</src>
+    <src s="7">אבל כדי להוציא' מביניהם ולהעלותה ולהושיבה למקומה הראשון צריך שיעשו כו' צדקה כו' וזהו ושבי' בצדקה להשיבה למקומה צריך צדקה ובזכות הצדקה תשוב למקומה הראשון.</src>
+    <src s="8">הרי שושבי' בצדקה הוא למעלה מציון במשפט תפדה.</src>
+    <src s="9">וכן מובן גם בפשטות,</src>
+    <src s="10">כמש"כ שם,</src>
+    <src s="11">דמשפט</src>
+    <src s="12">(הגם דמשפט איהו רחמי14)</src>
+    <src s="13">ענינו הוא כפי שורת הדין,</src>
+    <src s="14">משא"כ צדקה הוא לפנים משורת הדין.</src>
+  </section>
+  <section v="4">
+    <src s="0">י)</src>
+    <src s="1">ד)</src>
+    <src s="2">והנה מבואר במ"א15</src>
+    <src s="3">שפירושים שהם בכתוב אחד שייכים זל"ז,</src>
+    <src s="4">ומזה מובן,</src>
+    <src s="5">אשר הפירוש דושבי' בצדקה הוא למטה מציון במשפט תפדה יש לו שייכות עם הפירוש שושבי' בצדקה הוא למעלה מציון במשפט תפדה</src>
+    <src s="6">(והוא ע"ד הידוע16</src>
+    <src s="7">בענין חותם המתהפך).</src>
+    <src s="8">והענין הוא,</src>
+    <src s="9">הנה ידוע17</src>
+    <src s="10">שמרז"ל18</src>
+    <src s="11">תלמוד גדול הוא עכשיו,</src>
+    <src s="12">אבל בימות המשיח יהי' מעשה גדול.</src>
+    <src s="13">והנה תלמוד ומעשה הם בדוגמת צומח ודומם,</src>
+    <src s="14">ולעתיד יהי' מעשה גדול,</src>
+    <src s="15">כי אז תתגלה מעלת הדומם.</src>
+    <src s="16">והוא ע"ד המבואר19</src>
+    <src s="17">ע"פ ויגש אליו יהודה בענין ההפרש בין משכן לביהמ"ק</src>
+    <src s="18">[שענין זה יש לו שייכות מיוחדת לשבת חזון,</src>
+    <src s="19">וכמ"ש הרר"ה מפּאַריטש20</src>
+    <src s="20">: ויתבאר עומק ענין זה</src>
+    <src s="21">(שבשבת חזון מראין לכאו"א המקדש דלעתיד)</src>
+    <src s="22">עם המבואר במ"א בענין ויגש אליו יהודה,</src>
+    <src s="23">קורות בתינו כו'].</src>
+    <src s="24">שהמשכן הי' עצי שטים,</src>
+    <src s="25">ארזים,</src>
+    <src s="26">צומח,</src>
+    <src s="27">משא"כ ביהמ"ק הי' מאבנים ועפר דוקא</src>
+    <src s="28">(ואסור לעשות בו עץ בולט כו' כמ"ש21</src>
+    <src s="29">לא תטע לך אשרה כל עץ).</src>
+    <src s="30">לפי שבביהמ"ק הי' גילוי מעלת הדומם.</src>
+    <src s="31">ועיקר גילוי מעלת הדומם יהי' לע"ל</src>
+    <src s="32">(בביהמ"ק השלישי),</src>
+    <src s="33">שאז יתעלה יהודה</src>
+    <src s="34">(בחי' דומם)</src>
+    <src s="35">להיות למעלה מיוסף</src>
+    <src s="36">(בחי' צומח),</src>
+    <src s="37">וכמ"ש22</src>
+    <src s="38">הנה אני לוקח את עץ יוסף גו' ונתתי אותם עליו את עץ יהודה גו' ועבדי דוד מלך עליהם גו' ודוד עבדי נשיא להם לעולם23.</src>
+    <src s="39">דזהו ג"כ מה שלע"ל יהי' מעשה גדול,</src>
+    <src s="40">כי ענינו של דוד הוא מעשה24,</src>
+    <src s="41">וכמבואר במ"א25</src>
+    <src s="42">בענין ההפרש שבין דוד ליהונתן</src>
+    <src s="43">(מל' ויסוד ע"ד יודא ויוסף)</src>
+    <src s="44">בן שאול,</src>
+    <src s="45">דיהונתן בן שאול הו"ע תלמוד</src>
+    <src s="46">(עבודתו ע"פ טו"ד משא"כ שמוע מזבח טוב</src>
+    <src s="47">(קב"ע דדוד)</src>
+    <src s="48">ונאמר שאול מרחובות הנהר,</src>
+    <src s="49">דרחובות הנהר הו"ע הבנה והשגה,</src>
+    <src s="50">תלמוד)</src>
+    <src s="51">ודוד הוא בחי' מעשה.</src>
+    <src s="52">ונאמר עד דוד הגדיל.</src>
+  </section>
+  <section v="5">
+    <src s="0">ט)</src>
+    <src s="1">ו)</src>
+    <src s="2">והנה הגם שעכשיו תלמוד גדול,</src>
+    <src s="3">מ"מ יש כמה ענינים</src>
+    <src s="4">(גם עכשיו)</src>
+    <src s="5">שבהם מעלה למעשה על התלמוד.</src>
+    <src s="6">וכמו מה שמבטלין ת"ת מפני מצוה שא"א לעשותה ע"י אחרים26.</src>
+    <src s="7">ותוכן אגה"ק ד"ה איהו וחיוהי</src>
+    <src s="8">[שכתבה כ"ק אדמו"ר הזקן בכפר פּייענא בימים שלפני הסתלקותו27]</src>
+    <src s="9">ה"ה בהמעלה דמצוות מעשיות.</src>
+    <src s="10">וטעם הדבר שגם עכשיו מדגישים מעלת המעשה י"ל שהוא לפי שכל הגילויים דלעתיד תלויים במעשינו ועבודתנו כל משך זמן הגלות28,</src>
+    <src s="11">ומכיון שלעתיד יהי' מעשה גדול,</src>
+    <src s="12">לכן גם עכשיו מדגישים מעלת המעשה,</src>
+    <src s="13">כי עי"ז יהי' הגילוי דלעתיד שאז יהי' מעשה גדול.</src>
+    <src s="14">וע"ד המבואר באגה"ק29</src>
+    <src s="15">שלא אמרו רז"ל ת"ת שקול כנגד גמ"ח אלא בימיהם משא"כ בעתים הללו בעקבות משיחא,</src>
+    <src s="16">עיקר עבודת ה' היא עבודת הצדקה.</src>
+  </section>
+</awtsmoosMeluketSource>

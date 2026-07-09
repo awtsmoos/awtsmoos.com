@@ -1,0 +1,167 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" title="מאמר ושבתי בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים מ"ש בדרושי רבותינו נשיאינו16</src>
+    <src s="2">(מיוסד על מ"ש בזהר17)</src>
+    <src s="3">עה"פ ויצא יעקב מבאר שבע גו',</src>
+    <src s="4">שיש בזה ב' פירושים,</src>
+    <src s="5">פירוש א',</src>
+    <src s="6">שבאר שבע הוא באר שבע דאברהם</src>
+    <src s="7">(שקרא למקום ההוא באר שבע כי שם נשבעו שניהם18),</src>
+    <src s="8">ופירוש ב',</src>
+    <src s="9">שבאר שבע הוא באר שבע דיצחק</src>
+    <src s="10">(שקרא אותה שבעה,</src>
+    <src s="11">ע"ש הבאר השביעית19).</src>
+    <src s="12">וכ"ה גם בפשטות,</src>
+    <src s="13">שהרי ויצא יעקב מבאר שבע הי' בזמנו של יצחק</src>
+    <src s="14">(כו"כ שנים לאחרי הסתלקות אברהם).</src>
+    <src s="15">וההפרש בין ב' הענינים הוא,</src>
+    <src s="16">דבאר שבע דאברהם הוא בינה</src>
+    <src s="17">(יסוד אימא).</src>
+    <src s="18">שהרי אברהם הוא חכמה</src>
+    <src s="19">[אלא שמתחילה נקרא אברם,</src>
+    <src s="20">אב רם,</src>
+    <src s="21">שהחכמה</src>
+    <src s="22">(אב)</src>
+    <src s="23">שבו היתה בבחי' שכל הנעלם מכל רעיון20,</src>
+    <src s="24">ואח"כ נקרא אברהם שנעשה אב המון גוים21,</src>
+    <src s="25">שהחכמה</src>
+    <src s="26">(אב)</src>
+    <src s="27">שבו נמשכה בגילוי גם למטה עד לבחי' המון גוים22],</src>
+    <src s="28">ובאר שבע דאברהם</src>
+    <src s="29">[המקום דאברהם,</src>
+    <src s="30">המקבל שלו,</src>
+    <src s="31">בחי' שרה23]</src>
+    <src s="32">הוא בינה,</src>
+    <src s="33">ונקראת באר שבע לפי שהיא המקור המשפיע לשבע מדות.</src>
+    <src s="34">ולפי זה,</src>
+    <src s="35">פירוש ויצא יעקב מבאר שבע וילך חרנה הוא שיצא ונמשך מבחי' בינה למלכות.</src>
+    <src s="36">ובאר שבע דיצחק הוא מלכות.</src>
+    <src s="37">כי יצחק הוא בינה24,</src>
+    <src s="38">והמקבל דבינה היא מלכות25,</src>
+    <src s="39">ונקראת באר שבע על שם שהיא מקבלת משבע מדות</src>
+    <src s="40">[וכידוע שהמלכות נקראת כנסת ישראל,</src>
+    <src s="41">לפי שהיא כונסת לתוכה בחי' המדות26].</src>
+    <src s="42">ולפי זה,</src>
+    <src s="43">פירוש ויצא יעקב מבאר שבע וילך חרנה קאי על היציאה וההמשכה לעולמות בי"ע,</src>
+    <src s="44">ומשם יפרד27.</src>
+    <src s="45">וכ"ה גם בפשטות ענין היציאה,</src>
+    <src s="46">שהרי ויצא יעקב הי' בכדי לברר הניצוצות שהיו אצל לבן</src>
+    <src s="47">(כמסופר בפרשת ויצא)</src>
+    <src s="48">[ולאח"ז גם הניצוצות שהיו אצל עשו</src>
+    <src s="49">(כמסופר בפרשת וישלח)],</src>
+    <src s="50">ובירור הניצוצות הוא בעולמות בי"ע.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">וזהו גם ששם הסדרה</src>
+    <src s="2">[המורה על ענינה ותוכנה28]</src>
+    <src s="3">הוא ויצא,</src>
+    <src s="4">כי כל ענין הבירורים שבירר יעקב אצל לבן המבואר בהסדרה</src>
+    <src s="5">[וגם מה שבירר אצל עשו המבואר בפרשת וישלח,</src>
+    <src s="6">שבא לאחרי ובהמשך להבירורים שבירר אצל לבן29]</src>
+    <src s="7">הותחל מיציאתו מבאר שבע – ענין ויצא.</src>
+    <src s="8">וזה שיציאתו היתה באופן כזה שיברר הניצוצות שבחרן,</src>
+    <src s="9">ותהי' מטתו שלימה,</src>
+    <src s="10">לא כאברהם שיצא ממנו ישמעאל ולא כיצחק שיצא ממנו עשו30,</src>
+    <src s="11">הענין הוא,</src>
+    <src s="12">דהנה כתיב31</src>
+    <src s="13">וידו אוחזת בעקב עשו</src>
+    <src s="14">(ולכן)</src>
+    <src s="15">ויקרא שמו יעקב.</src>
+    <src s="16">שבשם יעקב יש ב' חלקים.</src>
+    <src s="17">יו"ד</src>
+    <src s="18">(ידו אותיות יו"ד32)</src>
+    <src s="19">ועקב.</src>
+    <src s="20">וכמבואר בתו"א ריש פרשתנו,</src>
+    <src s="21">שיעקב הוא בחי' יו"ד עקב33,</src>
+    <src s="22">היינו המשכת בחי' חכמה עילאה</src>
+    <src s="23">[היו"ד דשם הוי'34]</src>
+    <src s="24">בבחי' עקביים.</src>
+    <src s="25">וע"י המשכת היו"ד בהעקב דיעקב</src>
+    <src s="26">[ועד אשר היו"ד היא ההתחלה והראש דתיבת יעקב,</src>
+    <src s="27">היינו שהיו"ד היא מנהיגה את העקב35],</src>
+    <src s="28">הנה עי"ז הי' אפ"ל ויצא יעקב גו' וילך חרנה,</src>
+    <src s="29">להמשיך היו"ד גם בבחי' העקב דעולמות,</src>
+    <src s="30">עד בעוה"ז התחתון שאין תחתון למטה ממנו,</src>
+    <src s="31">שיהי' דירה לו ית'.</src>
+    <src s="32">[כי מכיון שהיו"ד דיעקב היא</src>
+    <src s="33">(כנ"ל)</src>
+    <src s="34">היו"ד דשם הוי' שהוא הי' הוה ויהי' כאחד36</src>
+    <src s="35">(היינו שהכל הוא בשוה לגבי'),</src>
+    <src s="36">לכן גם כמו שהיו"ד נמשכת בבחי' העקב דעולמות,</src>
+    <src s="37">היא בתקפה.</src>
+    <src s="38">ונוסף לזה,</src>
+    <src s="39">מכיון שהוי' הוא מלשון מהווה37,</src>
+    <src s="40">והיו"ד שבו מורה על תמידות ההתהוות38,</src>
+    <src s="41">הרי היו"ד היא המושלת ושולטת בכל העולמות עד בהעקב שבהם,</src>
+    <src s="42">מכיון שכל מציאותם הוא הדבר הוי' המהווה אותם תמיד מאין ליש].</src>
+    <src s="43">וזהו ויצא יעקב מבאר שבע וילך חרנה,</src>
+    <src s="44">שיעקב ממשיך היו"ד דשם הוי' גם בבחי' חרן,</src>
+    <src s="45">שקאי</src>
+    <src s="46">[כנ"ל</src>
+    <src s="47">(סעיף ג)</src>
+    <src s="48">בפירוש הב']</src>
+    <src s="49">על עולמות בי"ע,</src>
+    <src s="50">ובבי"ע גופא חרון אף של עולם39,</src>
+    <src s="51">עוה"ז התחתון שאין תחתון למטה ממנו,</src>
+    <src s="52">שיהי' דירה לו ית' בתחתונים.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">והנה ירידה זו</src>
+    <src s="2">(ויצא יעקב מבאר שבע וילך חרנה)</src>
+    <src s="3">היא צורך עלי'.</src>
+    <src s="4">ונוסף להעלי' שנעשה בו לאחרי וע"י עבודתו בחרן</src>
+    <src s="5">[שע"י שבירר הניצוצות דלבן ועשו הגיע למדריגה נעלית יותר מכמו שהי' לפנ"ז,</src>
+    <src s="6">ושבתי בשלום אל בית אבי וגו',</src>
+    <src s="7">כמשי"ת לקמן],</src>
+    <src s="8">הנה גם לפנ"ז,</src>
+    <src s="9">בכדי שיוכל להמשיך</src>
+    <src s="10">(היו"ד)</src>
+    <src s="11">בבחי' חרן ולברר הניצוצות,</src>
+    <src s="12">נמשך בו כח נעלה יותר,</src>
+    <src s="13">שלא הי' לו תחילה</src>
+    <src s="14">(בגילוי).</src>
+    <src s="15">[וע"ד הידוע40</src>
+    <src s="16">(גבי אברהם שהי' גדול בענקים41</src>
+    <src s="17">וראש לאבות42),</src>
+    <src s="18">שבכדי שיהי' אב המון גוים להעלות הניצוצות שבגוים</src>
+    <src s="19">(הגרים),</src>
+    <src s="20">נתוסף לו ה' שלא הי' לו תחילה].</src>
+  </section>
+</awtsmoosMeluketSource>

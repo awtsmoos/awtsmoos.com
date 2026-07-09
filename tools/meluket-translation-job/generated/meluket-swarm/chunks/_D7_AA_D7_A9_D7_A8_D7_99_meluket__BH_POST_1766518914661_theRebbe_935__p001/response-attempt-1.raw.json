@@ -1,0 +1,28 @@
+{
+  "id": "b2e03cfd-a05a-4778-831a-e221da4985a6",
+  "object": "chat.completion",
+  "created": 1783582161,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914661_theRebbe_935\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914661_theRebbe_935__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header of the maamar for Shabbos Haazinu, 13 Tishrei 5722.</sectionSummaryBrief>\n    <t s=\"0\">B'Siyata Dishmaya.</t>\n    <t s=\"1\">Shabbos Parshas Haazinu,</t>\n    <t s=\"2\">13 Tishrei*,</t>\n    <t s=\"3\">5722</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that the maamar is an uncorrected draft.</sectionSummaryBrief>\n    <t s=\"0\">(Uncorrected draft)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the verse \"Like an eagle stirring its nest...\", linking it to guarding Israel as the pupil of God's eye, and the superiority of Israel over angels.</sectionSummaryBrief>\n    <t s=\"0\">\"Like an eagle stirring its nest, hovering over its young, He spreads His wings, takes it, bears it on His pinions. God alone leads him...\"</t>\n    <t s=\"1\">And this refers to what is stated earlier,</t>\n    <t s=\"2\">\"He guards him as the pupil of His eye.\"</t>\n    <t s=\"3\">That through this—that He guards him as the pupil of His eye—through this, \"like an eagle stirring its nest,\"</t>\n    <t s=\"4\">and therefore, \"He spreads His wings, takes it, bears it on His pinions. God alone leads him.\"</t>\n    <t s=\"5\">And the explanation of \"He guards him as the pupil of His eye\":</t>\n    <t s=\"6\">It is known</t>\n    <t s=\"7\">that there are Sefiros and angels that are called by the name \"eyes,\"</t>\n    <t s=\"8\">and as explained in Torah Ohr</t>\n    <t s=\"9\">regarding the matter of \"the eyes of God roaming and roving,\" which are two types among the angels.</t>\n    <t s=\"10\">However, Israel, who are innermost relative to the ministering angels, are the aspect of the \"pupil of His eye.\"</t>\n    <t s=\"11\">For the eye, although it is a vessel for the power of sight,</t>\n    <t s=\"12\">nevertheless, the essence of sight is from the pupil within the eye.</t>\n    <t s=\"13\">And this is the superiority of Israel over the angels:</t>\n    <t s=\"14\">that the angels are called by the name \"eyes\" in general,</t>\n    <t s=\"15\">and Israel are the aspect of the \"pupil of His eye.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1137,
+    "completion_tokens": 748,
+    "total_tokens": 1885,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 881
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

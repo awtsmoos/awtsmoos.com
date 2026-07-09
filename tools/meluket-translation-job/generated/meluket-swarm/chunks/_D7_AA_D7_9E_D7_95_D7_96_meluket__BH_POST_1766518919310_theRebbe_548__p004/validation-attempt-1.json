@@ -1,0 +1,609 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 113,
+    "returned": 113,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919310_theRebbe_548\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains the doubt about whether to rejoice in the \"day\" (the elevation of nature through the miracle) or in the Holy One, blessed be He (the miracle itself), detailing the superiority of each aspect.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And this is the meaning of the statement, \"We do not know in what to rejoice—whether in the day or in the Holy One, blessed be He,\"</t>\n    <t s=\"2\">for in every miracle there are these two aspects: the day and the Holy One, blessed be He.</t>\n    <t s=\"3\">For the elevation of nature that occurs through the miracle is the \"day.\"</t>\n    <t s=\"4\">And as explained above</t>\n    <t s=\"5\">(sections 2 and 3)</t>\n    <t s=\"6\">that through the miracle, an elevation and ascent is made in the time</t>\n    <t s=\"7\">(the \"day\")</t>\n    <t s=\"8\">in which the miracle occurred.</t>\n    <t s=\"9\">And the miracle itself,</t>\n    <t s=\"10\">whose essence is that which is above nature,</t>\n    <t s=\"11\">the source of its drawing down is from Ein Sof, which is above the worlds</t>\n    <t s=\"12\">(the Or HaSovev, the Surrounding Light)</t>\n    <t s=\"13\">as it illuminates and is revealed in the world</t>\n    <t s=\"14\">in a manner of Sovev and Makif (surrounding and encompassing),</t>\n    <t s=\"15\">is the Holy One, blessed be He.</t>\n    <t s=\"16\">And as explained in many places</t>\n    <t s=\"17\">that this calling of Him, blessed be He, by the name \"Holy One, blessed be He,\"</t>\n    <t s=\"18\">refers to the Essence of Ein Sof, which is holy and separate from the worlds, as it is drawn down</t>\n    <t s=\"19\">(\"blessed\" [Baruch] from the term \"hamshachah\" [drawing down])</t>\n    <t s=\"20\">into the worlds in a manner of Sovev and Makif.</t>\n    <t s=\"21\">And we do not know in what to rejoice—whether in the day or in the Holy One, blessed be He—</t>\n    <t s=\"22\">for in each of them there is an advantage that is not in the other.</t>\n    <t s=\"23\">For in the level of the light,</t>\n    <t s=\"24\">the miracle itself</t>\n    <t s=\"25\">(the matter of the overturning of nature)</t>\n    <t s=\"26\">is far superior to the elevation of nature that occurs through the miracle.</t>\n    <t s=\"27\">For the miracle itself</t>\n    <t s=\"28\">(the overturning of nature)</t>\n    <t s=\"29\">is the revelation of the Or HaSovev, which is above the worlds,</t>\n    <t s=\"30\">whereas the elevation of nature through the miracle is the revelation of the Or HaSovev as it becomes enclothed within the worlds.</t>\n    <t s=\"31\">But in terms of revelation,</t>\n    <t s=\"32\">the matter of the elevation of nature is superior.</t>\n    <t s=\"33\">For in the miracle itself,</t>\n    <t s=\"34\">the revelation of the Or HaSovev,</t>\n    <t s=\"35\">a person has no comprehension of this.</t>\n    <t s=\"36\">Therefore, miracles are called \"Nifla'ot\" (wondrous things),</t>\n    <t s=\"37\">for \"Pele\" (wonder) is that which cannot be grasped by intellect.</t>\n    <t s=\"38\">And furthermore,</t>\n    <t s=\"39\">when a person sees a wondrous thing, he is astonished by it,</t>\n    <t s=\"40\">and astonishment is a matter of bittul (self-nullification).</t>\n    <t s=\"41\">And as explained in many places</t>\n    <t s=\"42\">regarding the matter of the four who are required to give thanks,</t>\n    <t s=\"43\">that \"hoda'ah\" (thanksgiving)</t>\n    <t s=\"44\">(for the miracle)</t>\n    <t s=\"45\">is a matter of bittul.</t>\n    <t s=\"46\">For just as in the world,</t>\n    <t s=\"47\">the essence of a miracle is that nature becomes nullified</t>\n    <t s=\"48\">[for since the miracle comes from the revelation of the Essence of Ein Sof, which is above the worlds,</t>\n    <t s=\"49\">which the world cannot receive,</t>\n    <t s=\"50\">through this the nature of the world is nullified],</t>\n    <t s=\"51\">so too is it regarding the person,</t>\n    <t s=\"52\">that through the miracle he comes to hoda'ah and bittul.</t>\n    <t s=\"53\">However, regarding the matter of the elevation of nature,</t>\n    <t s=\"54\">where the revelation of the Name Havayah, which is above nature, becomes enclothed within nature itself,</t>\n    <t s=\"55\">about this it is written,</t>\n    <t s=\"56\">\"Know that Havayah, He is Elokim\"—</t>\n    <t s=\"57\">knowledge and comprehension.</t>\n    <t s=\"58\">And since joy is specifically in Binah (understanding),</t>\n    <t s=\"59\">whereas in Chochmah (wisdom), which is beyond comprehension, joy does not apply,</t>\n    <t s=\"60\">[for even though Chochmah is also intellect,</t>\n    <t s=\"61\">it is a general point and is not settled,</t>\n    <t s=\"62\">and from this it is understood a fortiori regarding Pele (wonder), which is above intellect],</t>\n    <t s=\"63\">therefore there is a possibility (safek) to rejoice in the day.</t>\n    <t s=\"64\">And one may add,</t>\n    <t s=\"65\">that \"day\" is light and revelation</t>\n    <t s=\"66\">(as explained at length in the maamar of the Baal HaGeulah at its beginning).</t>\n    <t s=\"67\">And this is \"to rejoice in the day\"—</t>\n    <t s=\"68\">for the reason for the possibility to rejoice in the day in which the miracle occurred</t>\n    <t s=\"69\">(the matter of the elevation of nature)</t>\n    <t s=\"70\">is,</t>\n    <t s=\"71\">because this matter is a \"day\"—</t>\n    <t s=\"72\">light and revelation</t>\n    <t s=\"73\">(which comes with knowledge and comprehension).</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>Shlomo explains that the rejoicing should be \"in You\" (the Holy One, blessed be He), referring to the Essence itself, which is the source of miracles and unites opposites.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And Shlomo came and explained: \"We will exult and rejoice in You\"—in the Holy One, blessed be He; \"in You\" means in Your fear, etc.</t>\n    <t s=\"2\">For the interpretation of \"in You\" as referring to the Holy One, blessed be He</t>\n    <t s=\"3\">(which Shlomo explained)</t>\n    <t s=\"4\">is in the Holy One, blessed be He Himself, who is above even the Sovev (Surrounding Light).</t>\n    <t s=\"5\">And as explained in many places,</t>\n    <t s=\"6\">the interpretation of \"in You\" is \"in Your very Essence.\"</t>\n    <t s=\"7\">For the innovation of Shlomo</t>\n    <t s=\"8\">(the wisest of all men)</t>\n    <t s=\"9\">is that the source of miracles is from the Essence (Atzmus).</t>\n    <t s=\"10\">For this—that the revelation of the Name Havayah, which is above nature, becomes enclothed in the Name Elokim, which equals nature in gematria</t>\n    <t s=\"11\">(and this matter applies to all miracles,</t>\n    <t s=\"12\">even to miracles that are above nature,</t>\n    <t s=\"13\">as explained above in section 6),</t>\n    <t s=\"14\">and even after its enclothing in nature, it is recognizable in revelation</t>\n    <t s=\"15\">(even in miracles that are clothed in nature,</t>\n    <t s=\"16\">such as the miracles of Chanukah and Purim)</t>\n    <t s=\"17\">that it is a miracle</t>\n    <t s=\"18\">(the revelation of the Name Havayah)</t>\n    <t s=\"19\">that is above nature—</t>\n    <t s=\"20\">this is through the power of the Essence (Atzmus), which connects and unites two opposites.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section connects the two interpretations of \"in You\" (the Holy One and the Essence), explaining that the Essence unites the aspects of Kadosh and Baruch (Sovev and Memaleh), and Shlomo's innovation is that joy must be in the Essence that unites them.</sectionSummaryBrief>\n    <t s=\"0\">And this is the connection between the two interpretations of \"We will exult and rejoice in You\"—</t>\n    <t s=\"1\">\"in You\" meaning in the Holy One, blessed be He</t>\n    <t s=\"2\">(according to the Midrash's interpretation)</t>\n    <t s=\"3\">and \"in You\" meaning in Your Essence—</t>\n    <t s=\"4\">for the connection and unification of Kadosh (Holy) and Baruch (Blessed)</t>\n    <t s=\"5\">(Sovev and Memaleh)</t>\n    <t s=\"6\">is through the power of the Essence (Atzmus).</t>\n    <t s=\"7\">And since the verse \"We will exult and rejoice in You\" is brought in the Midrash in continuation of the two rationales</t>\n    <t s=\"8\">(regarding the matter of joy in miracles)—</t>\n    <t s=\"9\">whether to rejoice in the Holy One, blessed be He</t>\n    <t s=\"10\">(in the miracle itself, which is drawn from the Or HaSovev)</t>\n    <t s=\"11\">or to rejoice in the day</t>\n    <t s=\"12\">(from the enclothing of the Sovev within the Memaleh,</t>\n    <t s=\"13\">through which the miracle becomes clothed in nature)—</t>\n    <t s=\"14\">and the innovation of Shlomo is that the joy must be \"in You,\" in Your Essence, which unites the two matters,</t>\n    <t s=\"15\">therefore it says \"in You\" meaning in the Holy One, blessed be He</t>\n    <t s=\"16\">(and not \"in You\" meaning in Your Essence),</t>\n    <t s=\"17\">for the power of the Essence that is revealed in miracles is in that it unites the two aspects of Kadosh and Baruch.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919310_theRebbe_548",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains the doubt about whether to rejoice in the \"day\" (the elevation of nature through the miracle) or in the Holy One, blessed be He (the miracle itself), detailing the superiority of each aspect.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And this is the meaning of the statement, \"We do not know in what to rejoice—whether in the day or in the Holy One, blessed be He,\""
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "for in every miracle there are these two aspects: the day and the Holy One, blessed be He."
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "For the elevation of nature that occurs through the miracle is the \"day.\""
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "And as explained above"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "(sections 2 and 3)"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "that through the miracle, an elevation and ascent is made in the time"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(the \"day\")"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "in which the miracle occurred."
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "And the miracle itself,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "whose essence is that which is above nature,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "the source of its drawing down is from Ein Sof, which is above the worlds"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "(the Or HaSovev, the Surrounding Light)"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "as it illuminates and is revealed in the world"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "in a manner of Sovev and Makif (surrounding and encompassing),"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "is the Holy One, blessed be He."
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "And as explained in many places"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "that this calling of Him, blessed be He, by the name \"Holy One, blessed be He,\""
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "refers to the Essence of Ein Sof, which is holy and separate from the worlds, as it is drawn down"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "(\"blessed\" [Baruch] from the term \"hamshachah\" [drawing down])"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "into the worlds in a manner of Sovev and Makif."
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "And we do not know in what to rejoice—whether in the day or in the Holy One, blessed be He—"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "for in each of them there is an advantage that is not in the other."
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "For in the level of the light,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "the miracle itself"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "(the matter of the overturning of nature)"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "is far superior to the elevation of nature that occurs through the miracle."
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "For the miracle itself"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "(the overturning of nature)"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "is the revelation of the Or HaSovev, which is above the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "whereas the elevation of nature through the miracle is the revelation of the Or HaSovev as it becomes enclothed within the worlds."
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "But in terms of revelation,"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "the matter of the elevation of nature is superior."
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "For in the miracle itself,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "the revelation of the Or HaSovev,"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "a person has no comprehension of this."
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "Therefore, miracles are called \"Nifla'ot\" (wondrous things),"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "for \"Pele\" (wonder) is that which cannot be grasped by intellect."
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "when a person sees a wondrous thing, he is astonished by it,"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "and astonishment is a matter of bittul (self-nullification)."
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "And as explained in many places"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "regarding the matter of the four who are required to give thanks,"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "that \"hoda'ah\" (thanksgiving)"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "(for the miracle)"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "is a matter of bittul."
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "For just as in the world,"
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "the essence of a miracle is that nature becomes nullified"
+          },
+          {
+            "v": 9,
+            "s": 48,
+            "translation": "[for since the miracle comes from the revelation of the Essence of Ein Sof, which is above the worlds,"
+          },
+          {
+            "v": 9,
+            "s": 49,
+            "translation": "which the world cannot receive,"
+          },
+          {
+            "v": 9,
+            "s": 50,
+            "translation": "through this the nature of the world is nullified],"
+          },
+          {
+            "v": 9,
+            "s": 51,
+            "translation": "so too is it regarding the person,"
+          },
+          {
+            "v": 9,
+            "s": 52,
+            "translation": "that through the miracle he comes to hoda'ah and bittul."
+          },
+          {
+            "v": 9,
+            "s": 53,
+            "translation": "However, regarding the matter of the elevation of nature,"
+          },
+          {
+            "v": 9,
+            "s": 54,
+            "translation": "where the revelation of the Name Havayah, which is above nature, becomes enclothed within nature itself,"
+          },
+          {
+            "v": 9,
+            "s": 55,
+            "translation": "about this it is written,"
+          },
+          {
+            "v": 9,
+            "s": 56,
+            "translation": "\"Know that Havayah, He is Elokim\"—"
+          },
+          {
+            "v": 9,
+            "s": 57,
+            "translation": "knowledge and comprehension."
+          },
+          {
+            "v": 9,
+            "s": 58,
+            "translation": "And since joy is specifically in Binah (understanding),"
+          },
+          {
+            "v": 9,
+            "s": 59,
+            "translation": "whereas in Chochmah (wisdom), which is beyond comprehension, joy does not apply,"
+          },
+          {
+            "v": 9,
+            "s": 60,
+            "translation": "[for even though Chochmah is also intellect,"
+          },
+          {
+            "v": 9,
+            "s": 61,
+            "translation": "it is a general point and is not settled,"
+          },
+          {
+            "v": 9,
+            "s": 62,
+            "translation": "and from this it is understood a fortiori regarding Pele (wonder), which is above intellect],"
+          },
+          {
+            "v": 9,
+            "s": 63,
+            "translation": "therefore there is a possibility (safek) to rejoice in the day."
+          },
+          {
+            "v": 9,
+            "s": 64,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 9,
+            "s": 65,
+            "translation": "that \"day\" is light and revelation"
+          },
+          {
+            "v": 9,
+            "s": 66,
+            "translation": "(as explained at length in the maamar of the Baal HaGeulah at its beginning)."
+          },
+          {
+            "v": 9,
+            "s": 67,
+            "translation": "And this is \"to rejoice in the day\"—"
+          },
+          {
+            "v": 9,
+            "s": 68,
+            "translation": "for the reason for the possibility to rejoice in the day in which the miracle occurred"
+          },
+          {
+            "v": 9,
+            "s": 69,
+            "translation": "(the matter of the elevation of nature)"
+          },
+          {
+            "v": 9,
+            "s": 70,
+            "translation": "is,"
+          },
+          {
+            "v": 9,
+            "s": 71,
+            "translation": "because this matter is a \"day\"—"
+          },
+          {
+            "v": 9,
+            "s": 72,
+            "translation": "light and revelation"
+          },
+          {
+            "v": 9,
+            "s": 73,
+            "translation": "(which comes with knowledge and comprehension)."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "Shlomo explains that the rejoicing should be \"in You\" (the Holy One, blessed be He), referring to the Essence itself, which is the source of miracles and unites opposites.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And Shlomo came and explained: \"We will exult and rejoice in You\"—in the Holy One, blessed be He; \"in You\" means in Your fear, etc."
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "For the interpretation of \"in You\" as referring to the Holy One, blessed be He"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "(which Shlomo explained)"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "is in the Holy One, blessed be He Himself, who is above even the Sovev (Surrounding Light)."
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "And as explained in many places,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "the interpretation of \"in You\" is \"in Your very Essence.\""
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "For the innovation of Shlomo"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(the wisest of all men)"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "is that the source of miracles is from the Essence (Atzmus)."
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "For this—that the revelation of the Name Havayah, which is above nature, becomes enclothed in the Name Elokim, which equals nature in gematria"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "(and this matter applies to all miracles,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "even to miracles that are above nature,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "as explained above in section 6),"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "and even after its enclothing in nature, it is recognizable in revelation"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "(even in miracles that are clothed in nature,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "such as the miracles of Chanukah and Purim)"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "that it is a miracle"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "(the revelation of the Name Havayah)"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "that is above nature—"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "this is through the power of the Essence (Atzmus), which connects and unites two opposites."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section connects the two interpretations of \"in You\" (the Holy One and the Essence), explaining that the Essence unites the aspects of Kadosh and Baruch (Sovev and Memaleh), and Shlomo's innovation is that joy must be in the Essence that unites them.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And this is the connection between the two interpretations of \"We will exult and rejoice in You\"—"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "\"in You\" meaning in the Holy One, blessed be He"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "(according to the Midrash's interpretation)"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "and \"in You\" meaning in Your Essence—"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "for the connection and unification of Kadosh (Holy) and Baruch (Blessed)"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "(Sovev and Memaleh)"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "is through the power of the Essence (Atzmus)."
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "And since the verse \"We will exult and rejoice in You\" is brought in the Midrash in continuation of the two rationales"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "(regarding the matter of joy in miracles)—"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "whether to rejoice in the Holy One, blessed be He"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "(in the miracle itself, which is drawn from the Or HaSovev)"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "or to rejoice in the day"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "(from the enclothing of the Sovev within the Memaleh,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "through which the miracle becomes clothed in nature)—"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "and the innovation of Shlomo is that the joy must be \"in You,\" in Your Essence, which unites the two matters,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "therefore it says \"in You\" meaning in the Holy One, blessed be He"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "(and not \"in You\" meaning in Your Essence),"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "for the power of the Essence that is revealed in miracles is in that it unites the two aspects of Kadosh and Baruch."
+          }
+        ]
+      }
+    ]
+  }
+}

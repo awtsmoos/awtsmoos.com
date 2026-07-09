@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914033_theRebbe_108" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914033_theRebbe_108__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914033_theRebbe_108" title="מאמר שובה ישראל תשל"ז" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914033_theRebbe_108__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">ועוד פירוש בשובה ישראל עד הוי' אלקיך,</src>
+    <src s="2">שהתשובה צריכה להיות עד שהוי' יהי' רק בחי' אלקים וצמצום לגבי אוא"ס שלמעלה מהוי'51.</src>
+    <src s="3">והחילוק בין שני הפירושים הוא,</src>
+    <src s="4">דלהפירוש בעד הוי' אלקיך שהוי' יהי' אלקיך כחך וחיותך,</src>
+    <src s="5">מה שנמשך בגילוי הוא השמות הוי' ואלקים אלא שהחיבור דב' השמות הוא ע"י המשכה מאוא"ס שלמעלה מהוי' ואלקים.</src>
+    <src s="6">ולהפירוש בעד הוי' אלקיך שהוי' יהי' רק בחי' אלקים וצמצום לגבי אוא"ס שלמעלה מהוי',</src>
+    <src s="7">האור עצמו</src>
+    <src s="8">(שלמעלה מהוי')</src>
+    <src s="9">נמשך בגילוי.</src>
+    <src s="10">דזה שהוי' נעשה בחי' אלקים וצמצום לגבי אוא"ס שלמעלה מהוי' הוא דוקא כשאור זה מאיר בגילוי.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דהחילוק בין שני הפירושים הוא ע"ד החילוק שבין תקיעת שופר לאמירת פסוקי שופרות.</src>
+    <src s="2">דהנה מבואר בהמשך תרס"ו54,</src>
+    <src s="3">שמלכיות וזכרונות הם באור הממלא ואור הסובב,</src>
+    <src s="4">וההמשכה שע"י שופר היא מאוא"ס שלמעלה מממלא וסובב,</src>
+    <src s="5">ועד לההמשכה מהעלם העצמי,</src>
+    <src s="6">שע"י המשכה זו נעשה היחוד דסובב וממלא.</src>
+    <src s="7">וההמשכה55</src>
+    <src s="8">שע"י אמירת פסוקי שופרות היא למעלה יותר גם מההמשכה שע"י תקיעת שופר.</src>
+    <src s="9">דההמשכה שע"י תקיעת שופר היא רק אור הסובב ואור הממלא,</src>
+    <src s="10">אלא שע"י שההמשכה היא מאוא"ס</src>
+    <src s="11">[ולמעלה יותר מהעלם העצמי],</src>
+    <src s="12">הם מתחברים ומתאחדים.</src>
+    <src s="13">וע"י אמירת פסוקי שופרות נמשך העלם העצמי עצמו,</src>
+    <src s="14">בדוגמת הגילוי שיהי' לעתיד.</src>
+    <src s="15">וזהו56</src>
+    <src s="16">מה שבפסוקי שופרות אומרים פסוקי שופרות דמ"ת ומסיימים בענין השופר דלעתיד,</src>
+    <src s="17">כי לע"ל יהי' הגילוי דהעלם העצמי.</src>
+    <src s="18">ועד"ז הי' הגילוי דמ"ת.</src>
+  </section>
+  <section v="11">
+    <src s="0">ח)</src>
+    <src s="1">והנה השופר דלעתיד הוא נעלה יותר מהשופר דמ"ת,</src>
+    <src s="2">כדאיתא בפרקי דר"א57</src>
+    <src s="3">בענין ב' קרניו של אילו של יצחק,</src>
+    <src s="4">דקרן הימין גדול מהשמאל,</src>
+    <src s="5">בשל שמאל תקע בו הקב"ה על הר סיני ובשל ימין עתיד לתקוע בו לעתיד לבוא.</src>
+    <src s="6">וגם בשופר דלעתיד עצמו ישנם כמה דרגות,</src>
+    <src s="7">ואד' הוי' בשופר יתקע,</src>
+    <src s="8">ויתקע בשופר גדול58.</src>
+    <src s="9">דאד' הוי' הם שמות,</src>
+    <src s="10">אלא ששמות אלה</src>
+    <src s="11">(אד' הוי' בניקוד אלקים)</src>
+    <src s="12">הם נעלים ביותר,</src>
+    <src s="13">כמבואר בארוכה בלקו"ת59.</src>
+    <src s="14">דגילוי זה יהי' בהתחלת הגאולה.</src>
+    <src s="15">ולאח"ז יתקע בשופר גדול,</src>
+    <src s="16">יתקע סתם ולא נאמר מי הוא התוקע,</src>
+    <src s="17">כי תקיעה זו היא המשכה וגילוי מבחינת סתימא דכל סתימין60.</src>
+    <src s="18">ויש לומר,</src>
+    <src s="19">דזה שבפסוקי שופרות דראש השנה אומרים גם הפסוק יתקע בשופר גדול,</src>
+    <src s="20">הוא,</src>
+    <src s="21">כי ע"י העבודה דר"ה ממשיכים גם ענין זה.</src>
+    <src s="22">ועפ"ז יש לומר,</src>
+    <src s="23">דזה שאומרים בההפטורה דשבת תשובה שובה ישראל עד הוי' אלקיך,</src>
+    <src s="24">שבהוי' זה נכלל גם הענין דהוי' אד' בניקוד אלקים שהוא דרגא נעלית ביותר,</src>
+    <src s="25">ואעפ"כ אומרים שהתשובה צריכה להיות עד שהוי' יהי' רק בחינת אלקים וצמצום לגבי אוא"ס שלמעלה מהוי',</src>
+    <src s="26">כי ע"י העבודה דר"ה ממשיכים גם ענין יתקע בשופר גדול,</src>
+    <src s="27">ולגבי דרגא זו,</src>
+    <src s="28">גם השם הוי' אד' כאלקים יחשב.</src>
+  </section>
+</awtsmoosMeluketSource>

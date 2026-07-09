@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913852_theRebbe_463" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913852_theRebbe_463__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913852_theRebbe_463" title="מאמר זה היום תחילת מעשיך תשמ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913852_theRebbe_463__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ליל ערב ראש השנה ה'תשמ"ב*</src>
+  </section>
+  <section v="1">
+    <src s="0">זה היום תחלת מעשיך זכרון ליום ראשון1,</src>
+    <src s="1">ומדייק אדמו"ר הצ"צ2</src>
+    <src s="2">[בעל יום ההולדת דערב ראש השנה3],</src>
+    <src s="3">דלכאורה יש כאן סתירה מרישא לסיפא,</src>
+    <src s="4">דפירוש זה היום תחלת מעשיך</src>
+    <src s="5">(תחלה ממש)</src>
+    <src s="6">הוא שבראש השנה</src>
+    <src s="7">(זה היום)</src>
+    <src s="8">הוא התחלת התהוות כל העולמות,</src>
+    <src s="9">היינו שבכל ראש השנה מתהווים כל העולמות מחדש4</src>
+    <src s="10">כמו שהי' בפעם הראשונה,</src>
+    <src s="11">ופירוש זכרון ליום ראשון הוא שראש השנה הוא רק זכרון ליום ראשון.</src>
+    <src s="12">ומבאר בזה,</src>
+    <src s="13">דבראש השנה ישנם שני הענינים,</src>
+    <src s="14">שהוא תחלת מעשיך ושהוא זכרון ליום ראשון.</src>
+    <src s="15">ומזה שבתחלה אומרים שראש השנה הוא תחלת מעשיך ואח"כ מוסיפים שהוא זכרון ליום ראשון,</src>
+    <src s="16">מוכח,</src>
+    <src s="17">דזה שראש השנה הוא זכרון ליום ראשון הוא נעלה יותר5</src>
+    <src s="18">מזה שהוא תחלת מעשיך.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה בהקדים הביאור בזה שאומרים על היום דראש השנה זה היום תחלת מעשיך,</src>
+    <src s="2">דידועה השאלה בזה6,</src>
+    <src s="3">הרי בכ"ה באלול נברא העולם7,</src>
+    <src s="4">וראש השנה הוא יום ברוא אדם הראשון שהוא יום וא"ו למע"ב שבו הי' סוף וגמר הבריאה,</src>
+    <src s="5">ואיך אומרים על יום זה שהוא תחלת מעשיך.</src>
+    <src s="6">והביאור בזה,</src>
+    <src s="7">דתכלית הכוונה דבריאת העולם הוא שיהי' בו גילוי אלקות.</src>
+    <src s="8">ועד שע"י כל פרט ופרט שבהבריאה יתגלה כבודו של הקב"ה,</src>
+    <src s="9">כמארז"ל</src>
+    <src s="10">(בסיום וחותם דמס' אבות8)</src>
+    <src s="11">כל מה שברא הקב"ה בעולמו לא בראו אלא לכבודו.</src>
+    <src s="12">וגילוי זה נעשה ע"י עבודת האדם.</src>
+    <src s="13">ולכן אומרים על היום דראש השנה זה היום תחלת מעשיך,</src>
+    <src s="14">כי ענין זה</src>
+    <src s="15">(שיהי' גילוי אלקות בעולם),</src>
+    <src s="16">שהוא המכוון דמעשיך,</src>
+    <src s="17">הותחל ביום ברוא האדם9.</src>
+    <src s="18">דנוסף לזה שאז דוקא נעשית האפשרות שיהי' גילוי אלקות בעולם,</src>
+    <src s="19">נעשה אז כן גם בפועל,</src>
+    <src s="20">כמארז"ל10</src>
+    <src s="21">שאדם הראשון</src>
+    <src s="22">(ביום שנברא)</src>
+    <src s="23">הכריז לכל הברואים בואו11</src>
+    <src s="24">נשתחוה ונכרעה נברכה לפני ה' עושינו,</src>
+    <src s="25">וכולם ענו ואמרו ה'12</src>
+    <src s="26">מלך גאות לבש.</src>
+    <src s="27">ויש לומר,</src>
+    <src s="28">דזה שאומרים זה היום תחלת מעשיך</src>
+    <src s="29">(הגם שראש השנה הוא לכאורה רק התחלת המכוון דמעשיך),</src>
+    <src s="30">הוא,</src>
+    <src s="31">כי מעשה מורה על השלימות,</src>
+    <src s="32">דכמו שבאדם השלימות דכל ענין הוא כשבא בפועל דוקא,</src>
+    <src s="33">עד"ז הוא גם למעלה</src>
+    <src s="34">[ואדרבא,</src>
+    <src s="35">מזה נשתלשל כן גם באדם התחתון13,</src>
+    <src s="36">אדם אדמה לעליון14],</src>
+    <src s="37">שהשלימות דכל סדר ההשתלשלות היא בעשי' דוקא.</src>
+    <src s="38">וזהו זה היום תחלת מעשיך,</src>
+    <src s="39">דמעשה מורה על השלימות,</src>
+    <src s="40">שהיום דראש השנה יום ברוא אדם הראשון,</src>
+    <src s="41">הוא התחלת שלימות הבריאה.</src>
+    <src s="42">ויש לומר דזהו גם הטעם על זה שראש השנה נקרא כאן</src>
+    <src s="43">(בהמשך לתחלת מעשיך)</src>
+    <src s="44">בשם זה היום,</src>
+    <src s="45">דזה היום הוא גילוי בתכלית</src>
+    <src s="46">[זה מורה על גילוי15</src>
+    <src s="47">כמו מראה באצבעו ואומר זה16,</src>
+    <src s="48">ויום מורה על גילוי17</src>
+    <src s="49">כמ"ש18</src>
+    <src s="50">ויקרא אלקים לאור יום,</src>
+    <src s="51">וזה היום</src>
+    <src s="52">(ב' לשונות של גילוי)</src>
+    <src s="53">הוא תכלית הגילוי],</src>
+    <src s="54">וזהו זה היום תחלת מעשיך,</src>
+    <src s="55">דזה שראש השנה הוא תחלת מעשיך,</src>
+    <src s="56">התחלת שלימות הבריאה,</src>
+    <src s="57">הוא שאז התחיל ענין הגילוי</src>
+    <src s="58">(דע"י עבודתו של אדם הראשון נעשה גילוי אלקות בעולם,</src>
+    <src s="59">כנ"ל),</src>
+    <src s="60">ענין זה היום19.</src>
+  </section>
+</awtsmoosMeluketSource>

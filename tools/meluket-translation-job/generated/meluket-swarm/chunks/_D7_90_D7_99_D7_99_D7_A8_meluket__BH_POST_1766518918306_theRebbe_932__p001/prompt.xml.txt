@@ -1,0 +1,97 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918306_theRebbe_932" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918306_theRebbe_932" title="מאמר השמים כסאי תשל"ו" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ קדושים,</src>
+    <src s="2">ב' דר"ח אייר ה'תשל"ו*</src>
+  </section>
+  <section v="1">
+    <src s="0">השמים כסאי והארץ הדום רגלי,</src>
+    <src s="1">אי זה בית אשר תבנו לי גו' ואל זה אביט אל עני ונכה רוח גו'1,</src>
+    <src s="2">וידוע הדיוק בזה2,</src>
+    <src s="3">הרי אין לו דמות הגוף3</src>
+    <src s="4">ואיך שייך לומר כסאי והדום רגלי.</src>
+    <src s="5">וגם צ"ל מ"ש איזה בית אשר תבנו לי גו' ואל זה אביט אל עני ונכה רוח גו',</src>
+    <src s="6">מהי המעלה דעני ונכה רוח,</src>
+    <src s="7">דהגם שאיזה בית אשר תבנו לי,</src>
+    <src s="8">מ"מ אל זה</src>
+    <src s="9">(לעני ונכה רוח)</src>
+    <src s="10">אביט.</src>
+    <src s="11">ונקודת הביאור בזה,</src>
+    <src s="12">דשמים וארץ הם תורה ומצוות</src>
+    <src s="13">(כמבואר בארוכה בתו"א4),</src>
+    <src s="14">שבכללות היא העבודה דנר"נ5.</src>
+    <src s="15">ובית היא העבודה דבכל מאדך6</src>
+    <src s="16">שלמעלה מהגבלה7,</src>
+    <src s="17">שמצד חי' יחידה5.</src>
+    <src s="18">ופירוש איזה בית אשר תבנו לי הוא8,</src>
+    <src s="19">שגם העבודה שמצד המקיפים חי' יחידה,</src>
+    <src s="20">שעל ידה נמשכים המקיפים שלמעלה,</src>
+    <src s="21">אין זה בית אשר תבנו לי</src>
+    <src s="22">(לי לעצמותי),</src>
+    <src s="23">כי גם המקיפים הכי עליונים הם הארה בלבד.</src>
+    <src s="24">אל זה אביט אל עני ונכה רוח9,</src>
+    <src s="25">דע"י הביטול</src>
+    <src s="26">(עני ונכה רוח)</src>
+    <src s="27">הוא המשכת העצמות</src>
+    <src s="28">(אל זה אביט).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">שזהו גם הקשר והשייכות דההפטורה השמים כסאי לשבת ר"ח,</src>
+    <src s="3">כי בר"ח הוא מולד הלבנה,</src>
+    <src s="4">שאז</src>
+    <src s="5">(בעת המולד)</src>
+    <src s="6">היא נקודה בלבד,</src>
+    <src s="7">שזה מורה על הביטול שלה10,</src>
+    <src s="8">שלית לה מגרמה כלום11.</src>
+    <src s="9">ויתירה מזו,</src>
+    <src s="10">שברגע שלפני מולד הלבנה היא בביטול לגמרי,</src>
+    <src s="11">שאינה אפילו כנקודה,</src>
+    <src s="12">ועי"ז דוקא נעשה המולד שלה12.</src>
+    <src s="13">וע"י הביטול שלה,</src>
+    <src s="14">היא מקבלת אור חדש מהשמש,</src>
+    <src s="15">דשרש המשכת אור זה הוא לא מהשמש עצמו</src>
+    <src s="16">(שהרי אין כל חדש תחת השמש13)</src>
+    <src s="17">אלא מלעילא14</src>
+    <src s="18">מן שמשא15.</src>
+    <src s="19">וזהו שבשבת ר"ח מפטירין השמים כסאי גו' ואל זה אביט אל עני ונכה רוח גו',</src>
+    <src s="20">דההמשכה שע"י הביטול16</src>
+    <src s="21">היא המשכה נעלית ביותר,</src>
+    <src s="22">כנ"ל.</src>
+  </section>
+</awtsmoosMeluketSource>

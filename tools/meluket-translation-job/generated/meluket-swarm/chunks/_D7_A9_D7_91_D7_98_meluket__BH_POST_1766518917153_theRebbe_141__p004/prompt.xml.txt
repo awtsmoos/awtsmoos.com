@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917153_theRebbe_141" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917153_theRebbe_141__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917153_theRebbe_141" title="מאמר ואלה המשפטים תשל"ח" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917153_theRebbe_141__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">ויש לקשר זה עם ענין המשכן המבואר בפ' תרומה</src>
+    <src s="2">[פרשת שבוע הבא שקראו בשבת בזמן המנחה,</src>
+    <src s="3">כי אז הוא כבר התחלת השייכות למוצאי שבת],</src>
+    <src s="4">שענינו הוא להיות על ידו ושכנתי בתוכם69.</src>
+    <src s="5">ובעיקר היתה השראה זו ע"י הארון</src>
+    <src s="6">[שלכן הקדים ציווי עשיית הארון לכל שאר עניני המשכן,</src>
+    <src s="7">כי פנימיות ותכלית כוונת כל המשכן הי'</src>
+    <src s="8">(השראת השכינה שב)</src>
+    <src s="9">הארון כמבואר בארוכה ברמב"ן עה"ת70.</src>
+    <src s="10">וזהו ע"ד פירוש המדרש שהובא לעיל דמה שהתחיל ואלה המשפטים בדין עבד עברי דוקא הוא כי במצוה זו מרומזת הנקודה הפנימית שבעבודתם של ישראל – דאני נבראתי לשמש את קוני71,</src>
+    <src s="11">וכמבואר במדרש שם דאני קניתי אתכם במצרים כו'.</src>
+    <src s="12">ועד"ז גם בעבודה בפועל שמקדים תחלה תכלית העבודה,</src>
+    <src s="13">שהיא המשכת השכינה ע"י הארון]</src>
+    <src s="14">שע"י נמשך לעשות לו ית' דירה בתחתונים.</src>
+    <src s="15">דע"י שתחלה הוא ושכנתי בתוכם72,</src>
+    <src s="16">בתוך כאו"א73,</src>
+    <src s="17">הנה אח"כ נמשך להיות ושכנתי בתוכם כפשוטו בהמשכן ובביהמ"ק ועד לכל העולם כולו</src>
+    <src s="18">(וזה יהי' בשלימות בשביעית,</src>
+    <src s="19">באלף השביעי74).</src>
+    <src s="20">והעבודה לפעול המשכת השכינה היא עשיית הארון שהו"ע התורה,</src>
+    <src s="21">שעי"ז נמשכת אח"כ השכינה גם בעולם,</src>
+    <src s="22">כי נר מצוה ותורה אור75,</src>
+    <src s="23">שהתורה מאירה76</src>
+    <src s="24">ומראה דרכו של כאו"א מישראל לדעת את המעשה אשר יעשון77</src>
+    <src s="25">ואלה אשר לא תעשינה78.</src>
+    <src s="26">ותחלה ממשיכים השראת השכינה בזהב וכסף ונחושת וגו'79</src>
+    <src s="27">של המשכן,</src>
+    <src s="28">ומהמשכן ומקדש הנה אורה יוצאה לעולם80,</src>
+    <src s="29">עד שהעולם מתמלא מאור זה באופן גלוי,</src>
+    <src s="30">וכמאמר81</src>
+    <src s="31">עתידה ירושלים שתתפשט בכל ארץ ישראל ועתידה ארץ ישראל שתתפשט בכל הארצות בגאולה האמיתית והשלימה.</src>
+    <src s="32">דגאולה זו תלוי' במעשינו ועבודתינו בהשיתא אלפי שני דהוה עלמא82,</src>
+    <src s="33">ובפרט בהעבודה שבזמן הגלות83,</src>
+    <src s="34">ובמיוחד בהעבודה שבסיום וחותם זמן הגלות בעקבתא דמשיחא</src>
+    <src s="35">[והכל הולך אחר החיתום84],</src>
+    <src s="36">שעי"ז מביאים הגאולה שאז יבנה ביהמ"ק במקומו בגלוי וכפשוטו,</src>
+    <src s="37">ובהעילוי שיהי' בביהמ"ק השלישי דמקדש אד' כוננו ידיך85</src>
+    <src s="38">שזהו למעלה גם מביהמ"ק הראשון והשני86</src>
+    <src s="39">וגם למעלה מהעילוי שהי' במשכן.</src>
+    <src s="40">דאף שהמשכן הי' מעשה ידי משה ומעשי ידי משה הם נצחיים כדאיתא בגמרא87</src>
+    <src s="41">ומשו"ז גם המשכן הוא נצחי,</src>
+    <src s="42">מ"מ ע"י עבודת ישראל בזמן הגלות יהי'</src>
+    <src s="43">(בביהמ"ק השלישי)</src>
+    <src s="44">עילוי שלמעלה גם ממעלת המשכן</src>
+    <src s="45">[בדוגמת העילוי שבמשיח על משה רבינו88],</src>
+    <src s="46">שיהי' העילוי דעבודת התשובה,</src>
+    <src s="47">שמהעלם והסתר העולם גופא עושים דירה לו ית' בתחתונים,</src>
+    <src s="48">וכידוע דענינו של משיח הו"ע התשובה89,</src>
+    <src s="49">כמאמר90</src>
+    <src s="50">משיח אתא לאתבא צדיקיא בתיובתא.</src>
+    <src s="51">ויצא חוטר מגזע ישי ונצר משרשיו יפרה91</src>
+    <src s="52">עד שומלאה הארץ דעה את הוי' כמים לים מכסים92,</src>
+    <src s="53">בגאולה האמיתית והשלימה.</src>
+  </section>
+  <section v="10">
+    <src s="0">וע"י עבודה הנ"ל הנה ממהרים,</src>
+    <src s="1">מזרזים ומחישים עוד יותר את ביאתה,</src>
+    <src s="2">שבאה בהקדם הכי גדול בימינו ממש למטה מעשרה טפחים.</src>
+    <src s="3">ויהי' נראה בגלוי דוהלכו גוים לאורך93,</src>
+    <src s="4">והיו מלכים אומניך ושרותיהם מניקותיך94,</src>
+    <src s="5">וכן תהי' לנו עוד בימים האחרונים שבימי הגלות,</src>
+    <src s="6">דהגם דאכתי עבדי אחשורוש אנן95</src>
+    <src s="7">מ"מ גם אז נפל פחד היהודים עליהם96</src>
+    <src s="8">ועד אשר אחשורוש עצמו בעט זיך און גיט את בית המן לאסתר המלכה97,</src>
+    <src s="9">וזהו הכנה קרובה לקיום היעוד98</src>
+    <src s="10">דאז אהפוך אל עמים שפה ברורה וגו',</src>
+    <src s="11">בגאולה האמיתית והשלימה ע"י משיח צדקנו.</src>
+  </section>
+</awtsmoosMeluketSource>

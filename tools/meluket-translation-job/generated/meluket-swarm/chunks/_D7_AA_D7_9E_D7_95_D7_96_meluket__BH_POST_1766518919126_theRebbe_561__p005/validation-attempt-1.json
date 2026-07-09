@@ -1,0 +1,259 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 43,
+    "returned": 43,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919126_theRebbe_561\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>Based on the levels of self-nullification, the master of the redemption's statement that he is not equal to the forefathers in actual mesirus nefesh is explained, and this also clarifies how in his prayer the aspect of a promise is included.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And based on this, we can explain what the master of the redemption said: \"We are indeed not equal to our forefathers,</t>\n    <t s=\"2\">who were actual practitioners of mesirus nefesh,\"</t>\n    <t s=\"3\">in that he included himself in this,</t>\n    <t s=\"4\">for the true essence of mesirus nefesh is when the mesirus nefesh stems from self-nullification</t>\n    <t s=\"5\">(as above in section 4),</t>\n    <t s=\"6\">and since in self-nullification there are various levels</t>\n    <t s=\"7\">(as above in section 5),</t>\n    <t s=\"8\">therefore,</t>\n    <t s=\"9\">it is possible for him to say about himself</t>\n    <t s=\"10\">(out of humility)</t>\n    <t s=\"11\">that he is lacking in the matter of mesirus nefesh.</t>\n    <t s=\"12\">And based on this, we can also explain what is said in the sicha, that in the request \"May Hashem our G-d be with us,\" the interpretation of \"yehi\" as a language of promise is also included</t>\n    <t s=\"13\">(He will be with us),</t>\n    <t s=\"14\">for the fact that prayer</t>\n    <t s=\"15\">(a request)</t>\n    <t s=\"16\">and a promise are two different matters is because prayer is a person's request and a promise is from Above,</t>\n    <t s=\"17\">and even among tzaddikim,</t>\n    <t s=\"18\">when they have a sense of existence</t>\n    <t s=\"19\">(at least in a refined way),</t>\n    <t s=\"20\">prayer and promise are two separate matters.</t>\n    <t s=\"21\">For the promise of a tzaddik is through his agency as an emissary of the Holy One, blessed be He,</t>\n    <t s=\"22\">and the prayer of a tzaddik is the request of the tzaddik himself.</t>\n    <t s=\"23\">However, when the tzaddik is in a state where even his service through his own power</t>\n    <t s=\"24\">(which ostensibly is \"existence\")</t>\n    <t s=\"25\">is in ultimate self-nullification,</t>\n    <t s=\"26\">then even in his prayer</t>\n    <t s=\"27\">(request)</t>\n    <t s=\"28\">there is also the aspect of a promise.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>He also imbued this quality in those connected to him, instilling in them mesirus nefesh even for matters not required by law, so that the promise aspect in the master's request also applies to the recipients.</sectionSummaryBrief>\n    <t s=\"0\">And we may add,</t>\n    <t s=\"1\">that something similar to this</t>\n    <t s=\"2\">(that even existence is in a state of self-nullification)</t>\n    <t s=\"3\">he also drew down upon those who are connected and attached to him.</t>\n    <t s=\"4\">By implanting in them mesirus nefesh even for matters that, according to law</t>\n    <t s=\"5\">(a command from Above)</t>\n    <t s=\"6\">one is not obligated to give his life for them</t>\n    <t s=\"7\">(mesirus nefesh from the side of the person),</t>\n    <t s=\"8\">and that even the mesirus nefesh for these matters should be in a manner that is not possible in any other way</t>\n    <t s=\"9\">(mesirus nefesh from the side of G-dliness).</t>\n    <t s=\"10\">And therefore, that in the request of the master of the redemption the aspect of a promise is also included, is also from the side of the recipients.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>The promise that Hashem our G-d will be with us as He was with our forefathers will be fulfilled, bringing light to all of Israel in spirituality and physicality.</sectionSummaryBrief>\n    <t s=\"0\">And the promise \"May Hashem our G-d be with us as He was with our forefathers, may He not forsake us nor abandon us\" will be fulfilled,</t>\n    <t s=\"1\">and for all the children of Israel there will be light</t>\n    <t s=\"2\">in spirituality and in physicality.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919126_theRebbe_561",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "Based on the levels of self-nullification, the master of the redemption's statement that he is not equal to the forefathers in actual mesirus nefesh is explained, and this also clarifies how in his prayer the aspect of a promise is included.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And based on this, we can explain what the master of the redemption said: \"We are indeed not equal to our forefathers,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "who were actual practitioners of mesirus nefesh,\""
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "in that he included himself in this,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "for the true essence of mesirus nefesh is when the mesirus nefesh stems from self-nullification"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "(as above in section 4),"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "and since in self-nullification there are various levels"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "(as above in section 5),"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "therefore,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "it is possible for him to say about himself"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "(out of humility)"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "that he is lacking in the matter of mesirus nefesh."
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "And based on this, we can also explain what is said in the sicha, that in the request \"May Hashem our G-d be with us,\" the interpretation of \"yehi\" as a language of promise is also included"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "(He will be with us),"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "for the fact that prayer"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "(a request)"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "and a promise are two different matters is because prayer is a person's request and a promise is from Above,"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "and even among tzaddikim,"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "when they have a sense of existence"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "(at least in a refined way),"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "prayer and promise are two separate matters."
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "For the promise of a tzaddik is through his agency as an emissary of the Holy One, blessed be He,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "and the prayer of a tzaddik is the request of the tzaddik himself."
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "However, when the tzaddik is in a state where even his service through his own power"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "(which ostensibly is \"existence\")"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "is in ultimate self-nullification,"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "then even in his prayer"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "(request)"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "there is also the aspect of a promise."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "He also imbued this quality in those connected to him, instilling in them mesirus nefesh even for matters not required by law, so that the promise aspect in the master's request also applies to the recipients.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And we may add,"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "that something similar to this"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "(that even existence is in a state of self-nullification)"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "he also drew down upon those who are connected and attached to him."
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "By implanting in them mesirus nefesh even for matters that, according to law"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "(a command from Above)"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "one is not obligated to give his life for them"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "(mesirus nefesh from the side of the person),"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "and that even the mesirus nefesh for these matters should be in a manner that is not possible in any other way"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "(mesirus nefesh from the side of G-dliness)."
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "And therefore, that in the request of the master of the redemption the aspect of a promise is also included, is also from the side of the recipients."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "The promise that Hashem our G-d will be with us as He was with our forefathers will be fulfilled, bringing light to all of Israel in spirituality and physicality.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "And the promise \"May Hashem our G-d be with us as He was with our forefathers, may He not forsake us nor abandon us\" will be fulfilled,"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "and for all the children of Israel there will be light"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "in spirituality and in physicality."
+          }
+        ]
+      }
+    ]
+  }
+}

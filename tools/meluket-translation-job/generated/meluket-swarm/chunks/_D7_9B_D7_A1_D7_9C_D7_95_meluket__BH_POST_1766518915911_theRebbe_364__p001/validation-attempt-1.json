@@ -1,0 +1,274 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 46,
+    "returned": 46,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915911_theRebbe_364\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbat Parshat Miketz,</t>\n    <t s=\"2\">Zot Chanukah 5743*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the blessing \"Baruch she'asah nissim\" refers specifically to the miracle of the cruse of oil, not the military victory.</sectionSummaryBrief>\n    <t s=\"0\">\"Blessed is He who performed miracles for our forefathers in those days at this time,\"</t>\n    <t s=\"1\">Now, this blessing applies</t>\n    <t s=\"2\">(not to the miracle of the victory of the war,</t>\n    <t s=\"3\">\"delivering the mighty into the hands of the weak, etc.\"1,</t>\n    <t s=\"4\">but rather)</t>\n    <t s=\"5\">to the miracle that occurred with the cruse of oil.</t>\n    <t s=\"6\">And therefore we recite it when lighting the Chanukah candles</t>\n    <t s=\"7\">(or when seeing the candles)2</t>\n    <t s=\"8\">which they instituted as a remembrance of the miracle that occurred with the cruse of oil.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that oil's property of floating above other liquids reflects the spiritual superiority of the level of \"concealed wisdom\" over wisdom and understanding, and that the anointing oil for the altar and the oil for the Chanukah lights represent different levels of this concept.</sectionSummaryBrief>\n    <t s=\"0\">And it is explained in the discourse \"Baruch she'asah nissim\" of the Alter Rebbe</t>\n    <t s=\"1\">(with glosses and notes, etc., of the Tzemach Tzedek3)4,</t>\n    <t s=\"2\">that in order to understand why the miracle of Chanukah was established with lights,</t>\n    <t s=\"3\">one must first preface an explanation of the concept of oil.</t>\n    <t s=\"4\">And he explains there at length,</t>\n    <t s=\"5\">that the fact that oil floats on top of</t>\n    <t s=\"6\">(wine and water)</t>\n    <t s=\"7\">all other liquids5</t>\n    <t s=\"8\">is</t>\n    <t s=\"9\">[like all physical matters which are derived from their spiritual counterpart6]</t>\n    <t s=\"10\">because oil is higher than wine and water.</t>\n    <t s=\"11\">For wine and water are Binah and Chochmah</t>\n    <t s=\"12\">(wine is Binah and water is Chochmah),</t>\n    <t s=\"13\">and oil is Chochmah S'tima'ah,</t>\n    <t s=\"14\">the wisdom that is in Keter.</t>\n    <t s=\"15\">And based on this, he explains there that the inauguration of the altar was accomplished by anointing it with the anointing oil7.</t>\n    <t s=\"16\">For the inauguration of the altar</t>\n    <t s=\"17\">(inauguration from the term \"chinuch\" [education/initiation])</t>\n    <t s=\"18\">was through drawing down supernal lights that are above the draw-downs that come through the sacrifices, etc., which were offered afterward.</t>\n    <t s=\"19\">[And as explained elsewhere8,</t>\n    <t s=\"20\">that the fact that the princes donated many gifts for the inauguration of the altar,</t>\n    <t s=\"21\">and also offered incense upon the outer altar9,</t>\n    <t s=\"22\">is</t>\n    <t s=\"23\">because in order to inaugurate the altar so that it would be fit to offer sacrifices upon it,</t>\n    <t s=\"24\">it was necessary to draw down into it most exalted draw-downs,</t>\n    <t s=\"25\">which are above the draw-downs that come through the sacrifices, etc., which were offered afterward].</t>\n    <t s=\"26\">And therefore the inauguration of the altar was by anointing it with oil,</t>\n    <t s=\"27\">the aspect of Chochmah S'tima'ah,</t>\n    <t s=\"28\">which is above the draw-downs that were drawn down afterward through the sacrifices and libations.</t>\n    <t s=\"29\">And after he explains the concept of the anointing oil,</t>\n    <t s=\"30\">he explains10,</t>\n    <t s=\"31\">that \"oil for illumination\"</t>\n    <t s=\"32\">[with which the miracle of Chanukah occurred]</t>\n    <t s=\"33\">is even more exalted than the anointing oil11.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915911_theRebbe_364",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbat Parshat Miketz,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Zot Chanukah 5743*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that the blessing \"Baruch she'asah nissim\" refers specifically to the miracle of the cruse of oil, not the military victory.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"Blessed is He who performed miracles for our forefathers in those days at this time,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "Now, this blessing applies"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(not to the miracle of the victory of the war,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "\"delivering the mighty into the hands of the weak, etc.\"1,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "but rather)"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "to the miracle that occurred with the cruse of oil."
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And therefore we recite it when lighting the Chanukah candles"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "(or when seeing the candles)2"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "which they instituted as a remembrance of the miracle that occurred with the cruse of oil."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that oil's property of floating above other liquids reflects the spiritual superiority of the level of \"concealed wisdom\" over wisdom and understanding, and that the anointing oil for the altar and the oil for the Chanukah lights represent different levels of this concept.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And it is explained in the discourse \"Baruch she'asah nissim\" of the Alter Rebbe"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "(with glosses and notes, etc., of the Tzemach Tzedek3)4,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that in order to understand why the miracle of Chanukah was established with lights,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "one must first preface an explanation of the concept of oil."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "And he explains there at length,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "that the fact that oil floats on top of"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "(wine and water)"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "all other liquids5"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "is"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "[like all physical matters which are derived from their spiritual counterpart6]"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "because oil is higher than wine and water."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "For wine and water are Binah and Chochmah"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "(wine is Binah and water is Chochmah),"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "and oil is Chochmah S'tima'ah,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "the wisdom that is in Keter."
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "And based on this, he explains there that the inauguration of the altar was accomplished by anointing it with the anointing oil7."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "For the inauguration of the altar"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "(inauguration from the term \"chinuch\" [education/initiation])"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "was through drawing down supernal lights that are above the draw-downs that come through the sacrifices, etc., which were offered afterward."
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "[And as explained elsewhere8,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "that the fact that the princes donated many gifts for the inauguration of the altar,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "and also offered incense upon the outer altar9,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "is"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "because in order to inaugurate the altar so that it would be fit to offer sacrifices upon it,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "it was necessary to draw down into it most exalted draw-downs,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "which are above the draw-downs that come through the sacrifices, etc., which were offered afterward]."
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "And therefore the inauguration of the altar was by anointing it with oil,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "the aspect of Chochmah S'tima'ah,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "which is above the draw-downs that were drawn down afterward through the sacrifices and libations."
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "And after he explains the concept of the anointing oil,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "he explains10,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "that \"oil for illumination\""
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "[with which the miracle of Chanukah occurred]"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "is even more exalted than the anointing oil11."
+          }
+        ]
+      }
+    ]
+  }
+}

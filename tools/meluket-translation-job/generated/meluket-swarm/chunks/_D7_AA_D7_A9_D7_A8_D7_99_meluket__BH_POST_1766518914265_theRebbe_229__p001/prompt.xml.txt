@@ -1,0 +1,85 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914265_theRebbe_229" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914265_theRebbe_229__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914265_theRebbe_229" title="מאמר כנשר יעיר קנו תשמ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914265_theRebbe_229__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ האזינו,</src>
+    <src s="2">י"ב תשרי ה'תשמ"ב</src>
+  </section>
+  <section v="1">
+    <src s="0">(הנחה)</src>
+  </section>
+  <section v="2">
+    <src s="0">כנשר יעיר קנו על גוזליו ירחף גו'1,</src>
+    <src s="1">הנה מה כתיב לעיל מיני'2</src>
+    <src s="2">ימצאהו בארץ מדבר,</src>
+    <src s="3">ואח"ז מסיים3</src>
+    <src s="4">הוי' בדד ינחנו.</src>
+    <src s="5">הנה הפירוש הפשוט בזה הוא,</src>
+    <src s="6">שהקב"ה נוהג עם בני ישראל ברחמים כמו הנשר המרחף על גוזליו</src>
+    <src s="7">(וכפרש"י),</src>
+    <src s="8">כלומר,</src>
+    <src s="9">שיש רחמי נשר כפשוטם,</src>
+    <src s="10">ויש רחמים שהם כמו נשר ולמעלה הימנו.</src>
+    <src s="11">והנה כל הענינים שבתורה ישנם בכל העולמות עד למעלה מעלה,</src>
+    <src s="12">ומזה מובן,</src>
+    <src s="13">דכשם שיש ב' בחינות אלו בעוה"ז הגשמי</src>
+    <src s="14">(נשר וכמו נשר),</src>
+    <src s="15">כך הוא בעולמות שלמעלה ממנו,</src>
+    <src s="16">עולמות בי"ע,</src>
+    <src s="17">עד לעולם האצילות,</src>
+    <src s="18">דאף שיש בו ע"ס הרי הוא עולם האחדות,</src>
+    <src s="19">ומ"מ גם בו יש בחי' נשר והיא מדת הרחמים דאצי',</src>
+    <src s="20">ויש בו בחי' כנשר,</src>
+    <src s="21">היינו רחמים שלמעלה ממדת הרחמים4.</src>
+    <src s="22">אמנם אעפ"כ הרי עיקר התורה היא למטה כמאמר5</src>
+    <src s="23">תורה לא בשמים היא,</src>
+    <src s="24">וכתורת הרב המגיד6</src>
+    <src s="25">על מארז"ל7</src>
+    <src s="26">דע מה למעלה ממך,</src>
+    <src s="27">שכל הענינים שלמעלה תלויים בך,</src>
+    <src s="28">בעבודת האדם הנמצא למטה,</src>
+    <src s="29">ובפרט אחרי מ"ת שאז ניתנה התורה למטה ולא בשמים היא</src>
+    <src s="30">(כנ"ל).</src>
+    <src s="31">ועוד זאת,</src>
+    <src s="32">דכל הגבוה יותר יורד למטה יותר8,</src>
+    <src s="33">היינו דהענין הכי נעלה</src>
+    <src s="34">(שבתורה)</src>
+    <src s="35">נמצא דוקא למטה,</src>
+    <src s="36">ומזה מובן גם בענין הנשר,</src>
+    <src s="37">שפסוק זה כולל את ב' הקצוות,</src>
+    <src s="38">דהרחמים הכי עליונים נמשכים דוקא למטה במקום שבו רחמי נשר כפשוטו.</src>
+  </section>
+</awtsmoosMeluketSource>

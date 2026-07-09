@@ -1,0 +1,132 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918633_theRebbe_459" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918633_theRebbe_459" title="מאמר בחודש השלישי תשכ"ט" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">ויובן זה ע"פ מה שאמרו רז"ל39</src>
+    <src s="2">בשעה שהקדימו ישראל נעשה לנשמע באו מלאכי השרת וקשרו לכל אחד מישראל שני כתרים אחד כנגד נעשה ואחד כנגד נשמע.</src>
+    <src s="3">וידוע הדיוק בזה40,</src>
+    <src s="4">דבתחלת המאמר בשעה שהקדימו כו' משמע דזה שקשרו להם שני כתרים הוא מפני שהקדימו נעשה לנשמע,</src>
+    <src s="5">ובסיום המאמר אומר אחד כנגד נעשה ואחד כנגד נשמע,</src>
+    <src s="6">דשני הכתרים הם עבור נעשה ונשמע עצמם.</src>
+    <src s="7">ומבאר אדמו"ר מהר"ש במאמרו ד"ה בשעה שהקדימו שנאמר בש"פ במדבר לפני מאה שנה41,</src>
+    <src s="8">דנעשה הוא קבלת עול מלכות שמים ונשמע הוא קבלת עול מצוות.</src>
+    <src s="9">וענין הקדמת נעשה לנשמע הוא כמאמר רז"ל42</src>
+    <src s="10">למה קדמה פרשת שמע לוהי' אם שמוע כדי שיקבל עליו עול מלכות שמים תחלה ואח"כ יקבל עליו עול מצוות.</src>
+    <src s="11">ומבאר שם,</src>
+    <src s="12">דפרשה ראשונה היא רצוא ומסירת נפש ופרשה שני' היא שוב.</src>
+    <src s="13">וכמו שברצוא ושוב,</src>
+    <src s="14">בתחלה צ"ל רצוא ואח"כ שוב,</src>
+    <src s="15">עד"ז הוא בקבלת עומ"ש וקבלת עול מצוות,</src>
+    <src s="16">שלפני קבלת עול מצוות צ"ל קבלת עומ"ש.</src>
+    <src s="17">ועפ"ז מבאר שם43</src>
+    <src s="18">מה שארז"ל בשעה שהקדימו כו',</src>
+    <src s="19">אף ששני הכתרים הם כנגד נעשה ונשמע עצמם</src>
+    <src s="20">[אחד כנגד נעשה ואחד כנגד נשמע],</src>
+    <src s="21">כי בכדי שיהי' השוב</src>
+    <src s="22">(נשמע)</src>
+    <src s="23">צ"ל קדימת הרצוא</src>
+    <src s="24">(נעשה).</src>
+    <src s="25">וממשיך בהמאמר שם,</src>
+    <src s="26">דזה שקשרו להם שני כתרים</src>
+    <src s="27">(כתרים דוקא),</src>
+    <src s="28">הוא,</src>
+    <src s="29">כי כתר הוא מקיף,</src>
+    <src s="30">סובב,</src>
+    <src s="31">ויש בזה ב' ענינים,</src>
+    <src s="32">עליית ממלא בסובב והמשכת סובב בממלא.</src>
+    <src s="33">ולכאורה הכוונה,</src>
+    <src s="34">דכתר שכנגד נעשה</src>
+    <src s="35">(רצוא)</src>
+    <src s="36">הוא עליית ממלא בסובב וכתר שכנגד נשמע</src>
+    <src s="37">(שוב)</src>
+    <src s="38">הוא המשכת סובב בממלא.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שמוסיף בהמאמר שזה שקשרו להם שני כתרים הוא כי כתר הוא מקיף,</src>
+    <src s="2">הוא,</src>
+    <src s="3">כי מלשון רז"ל בשעה שהקדימו כו' קשרו להם שני כתרים משמע שהדיוק דהקדימו נעשה לנשמע שייך לשני הכתרים שכנגד נעשה ונשמע</src>
+    <src s="4">(ולא לנעשה ונשמע עצמם),</src>
+    <src s="5">ולכן מבאר דכתר הוא מקיף וסובב ושני הכתרים הם שני ענינים בסובב,</src>
+    <src s="6">כי זהו ביאור על זה שקשירת שני הכתרים היתה דוקא ע"י שהקדימו נעשה לנשמע</src>
+    <src s="7">(כדלקמן).</src>
+    <src s="8">וזה שמבאר לפנ"ז דזה שצריך להקדים נעשה לנשמע הוא כי נעשה ונשמע הם כמו רצוא ושוב,</src>
+    <src s="9">הוא ביאור על זה שהכתר שכנגד נשמע</src>
+    <src s="10">(מקיף וסובב)</src>
+    <src s="11">הוא דוקא כשהנשמע הוא לאחרי הקדימה דנעשה.</src>
+    <src s="12">כי מקיף וסובב הוא למעלה משייכות לעולמות,</src>
+    <src s="13">וכיון שנשמע הוא שוב והמשכה למטה,</src>
+    <src s="14">לכן,</src>
+    <src s="15">זה שקשרו כתר</src>
+    <src s="16">(מקיף וסובב שלמעלה מעולם)</src>
+    <src s="17">כנגד נשמע</src>
+    <src s="18">(המשכה למטה)</src>
+    <src s="19">הוא דוקא מפני שהנשמע הי' לאחרי ההקדמה דנעשה44,</src>
+    <src s="20">רצוא ועלי' למעלה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ח)</src>
+    <src s="1">וצריך ביאור,</src>
+    <src s="2">הרי כללות הענין דקבלת עול,</src>
+    <src s="3">גם קבלת עול מצוות</src>
+    <src s="4">(נשמע),</src>
+    <src s="5">הוא ביטול,</src>
+    <src s="6">דענין הביטול הוא שהאדם יוצא ממציאותו,</src>
+    <src s="7">וקשירת הכתר שכנגד נשמע הוא דוקא כשהנשמע הוא לאחרי הקדימה דנעשה.</src>
+    <src s="8">וי"ל הביאור בזה ע"פ הידוע45</src>
+    <src s="9">שהמקיף דכתר הוא אמיתית המקיף שלמעלה מהמקיף השייך לפנימי.</src>
+    <src s="10">דזהו החילוק בין כתר לגלגלתא,</src>
+    <src s="11">דגלגלתא הוא מקיף השייך לפנימי,</src>
+    <src s="12">בדוגמת הגולגולת שבאדם שמקיף את המוח אבל שייך אליו,</src>
+    <src s="13">שהרי הגולגולת היא מגופו כמו המוח.</src>
+    <src s="14">והמקיף דכתר הוא מקיף שלמעלה משייכות לפנימי,</src>
+    <src s="15">בדוגמת כתר כפשוטו שהוא עטרה על המוח והגולגולת ואין לו קשר אליהם</src>
+    <src s="16">(שהרי הכתר הוא מאבנים טובות ולא מגוף האדם).</src>
+    <src s="17">והגם שגם גלגלתא נק' בשם כתר,</src>
+    <src s="18">זהו בכללות,</src>
+    <src s="19">אבל עיקר הכתר הוא המקיף שאינו שייך לפנימי</src>
+    <src s="20">(שלמעלה מהמקיף דגלגלתא).</src>
+    <src s="21">וע"ד הרצון שבאדם,</src>
+    <src s="22">דרצון הוא מקיף על כל הכחות והאברים,</src>
+    <src s="23">שיש בו שתי מדריגות46.</src>
+    <src s="24">הרצון לעשות איזה דבר ע"י הכחות שלו,</src>
+    <src s="25">דרצון זה עם היותו שולט על כל הכחות לפי שהוא מקיף עליהם,</src>
+    <src s="26">מ"מ,</src>
+    <src s="27">זה עצמו שהוא רוצה בפעולת הכחות,</src>
+    <src s="28">הוא הוכחה שיש לו שייכות אליהם – מקיף דגלגלתא.</src>
+    <src s="29">והוא ירידה לגבי הרצון עצמו כמו שהוא למעלה מהרצון לעשות – מקיף דכתר.</src>
+  </section>
+</awtsmoosMeluketSource>

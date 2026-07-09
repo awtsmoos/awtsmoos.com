@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920318_theRebbe_459" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920318_theRebbe_459__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920318_theRebbe_459" title="מאמר שמח תשמח תשמ"א" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920318_theRebbe_459__p004">
+  <section v="9">
+    <src s="0">ח)</src>
+    <src s="1">וכמו שהי' ביום חתונתו זה מ"ת57</src>
+    <src s="2">שאז היתה המשכת השמחה העצמית כו'</src>
+    <src s="3">(וכמבואר בהמאמר58,</src>
+    <src s="4">דעיקר השמחה שפורצת כל הגדרים הוא שמחת נשואין),</src>
+    <src s="5">וההמשכה אז היתה ע"י עבודה,</src>
+    <src s="6">שהרי ביום חתונתו זה מ"ת קאי על לוחות השניות59</src>
+    <src s="7">וענין לוחות השניות הוא מה שניתנו ע"י עבודה דוקא.</src>
+    <src s="8">ועד"ז הוא בקיום כל מצוה,</src>
+    <src s="9">דע"י כל מצוה צ"ל לשם יחוד קוב"ה ושכינתי' כדאיתא בפע"ח60,</src>
+    <src s="10">ומה שאנו אומרים לשם יחוד רק פעם אחת קודם התפלה הוא לפי שאמירה זו היא פעולה נמשכת על כל היום61.</src>
+    <src s="11">ומכיון שכל אחד מישראל הוא בנו יחידו של הקב"ה כתורת הבעש"ט הידועה62,</src>
+    <src s="12">וכתיב63</src>
+    <src s="13">בני בכורי ישראל לשון יחיד,</src>
+    <src s="14">וגם במ"ת נאמר לכאו"א מישראל אנכי64</src>
+    <src s="15">הוי' אלקיך לשון יחיד65,</src>
+    <src s="16">הרי,</src>
+    <src s="17">שהשמחה שלמעלה שבקיום כל מצוה דכאו"א מישראל היא שמחת הקב"ה בחתונת בנו יחידו,</src>
+    <src s="18">דשמחה זו פורצת כל הגדרים.</src>
+  </section>
+  <section v="10">
+    <src s="0">ט)</src>
+    <src s="1">ובפרט בחודש אלול,</src>
+    <src s="2">כשהמלך נמצא בשדה עם כאו"א מישראל,</src>
+    <src s="3">ומקבל את כאו"א בסבר פנים יפות ומראה לו פנים שוחקות66,</src>
+    <src s="4">ואלול הוא ר"ת אני לדודי ודודי לי67,</src>
+    <src s="5">דאפילו דודים שקאי על זו"ן שזיווגם הוא רק לפרקים13,</src>
+    <src s="6">הנה בחודש אלול הם מתייחדים בתיבה אחת.</src>
+    <src s="7">ומזה מובן,</src>
+    <src s="8">דנוסף על הענין דשמחת נשואין</src>
+    <src s="9">(יחוד קוב"ה ושכינתי')</src>
+    <src s="10">שבמשך כל השנה מצד קיום המצוות,</src>
+    <src s="11">הנה בחודש אלול הוא ביתר שאת.</src>
+    <src s="12">ובפרט בהשבתות בחודש אלול.</src>
+    <src s="13">דהנה בחודש אלול תוקעין בשופר כדי להזהיר ישראל שיעשו תשובה שנאמר68</src>
+    <src s="14">אם יתקע שופר בעיר ועם לא יחרדו69.</src>
+    <src s="15">הרי שבאלול יש גם ענין היראה וחרדה.</src>
+    <src s="16">אמנם זהו רק בימי החול,</src>
+    <src s="17">משא"כ בהשבתות שבחודש אלול,</src>
+    <src s="18">הרי ענין היראה והחרדה דאלול לכאורה</src>
+    <src s="19">(בגילוי)</src>
+    <src s="20">אינם בשבת,</src>
+    <src s="21">שהרי בשבת אין תוקעין ובשבת אין עצב בה70,</src>
+    <src s="22">ועיקר פעולת אלול בימי השבתות הוא הענין דאני לדודי ודודי לי,</src>
+    <src s="23">שמחת נשואין דהקב"ה וכנס"י.</src>
+    <src s="24">ומזה מובן,</src>
+    <src s="25">שכל הוספה בתומ"צ,</src>
+    <src s="26">ובפרט בחודש אלול,</src>
+    <src s="27">פורצת כל הגדרים,</src>
+    <src s="28">כולל גם גדרי הגלות,</src>
+    <src s="29">דכל הוספה בתומ"צ</src>
+    <src s="30">(שענינם היפך הגלות)</src>
+    <src s="31">ממהרת את הגאולה העתידה,</src>
+    <src s="32">ביום ההוא יהי' גו'71,</src>
+    <src s="33">ב"פ י"ה72,</src>
+    <src s="34">היינו שגם ו"ה יהי' כמו י"ה,</src>
+    <src s="35">וכמו שי"ה זיווגייהו תדיר,</src>
+    <src s="36">כמו"כ בחי' ו"ה יהי' זיווגייהו תדיר73,</src>
+    <src s="37">בגאולה העתידה,</src>
+    <src s="38">שאז יהי' ענין הנשואין,</src>
+    <src s="39">כדאיתא בשמו"ר74</src>
+    <src s="40">שעכשיו הו"ע האירוסין ולע"ל יהיו הנשואין,</src>
+    <src s="41">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

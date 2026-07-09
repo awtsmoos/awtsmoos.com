@@ -1,0 +1,419 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 75,
+    "returned": 75,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916949_theRebbe_558\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916949_theRebbe_558__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains the difference between the terms \"Tzivos Hashem\" (armies of G-d) and \"Tzivos\" (armies) as a construct versus an independent term.</sectionSummaryBrief>\n    <t s=\"0\">And behold, in addition to Israel being called by the name \"Tzivos Hashem,\" they are also called \"Tzivos\"</t>\n    <t s=\"1\">(as the maamar brings the verses:</t>\n    <t s=\"2\">\"And it came to pass on that very day, Hashem brought the children of Israel out of the land of Egypt by their armies,\"</t>\n    <t s=\"3\">\"For on that very day I brought your armies out of the land of Egypt\").</t>\n    <t s=\"4\">And the difference between \"Tzivos Hashem\" and \"Tzivos\" is,</t>\n    <t s=\"5\">that \"Tzivos Hashem\"</t>\n    <t s=\"6\">(Tzivos with a chirik)</t>\n    <t s=\"7\">is a construct form,</t>\n    <t s=\"8\">meaning the armies are attached to Hashem,</t>\n    <t s=\"9\">whereas \"Tzvos\"</t>\n    <t s=\"10\">(Tzivos with a sh'va)</t>\n    <t s=\"11\">is an independent entity.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section discusses the name \"Tzivos\" as one of the seven ineffable names, revealed specifically through the prophets, and its superiority over Torah matters in certain aspects.</sectionSummaryBrief>\n    <t s=\"0\">d)</t>\n    <t s=\"1\">And it is known that Israel being called \"Adam\" is because they are \"like the One above.\"</t>\n    <t s=\"2\">From this it is understood</t>\n    <t s=\"3\">that Israel being called</t>\n    <t s=\"4\">(also)</t>\n    <t s=\"5\">by the name \"Tzivos\" relates to the name \"Tzivos,\"</t>\n    <t s=\"6\">which is one of the seven names that may not be erased.</t>\n    <t s=\"7\">And this will be understood based on what the Alter Rebbe said,</t>\n    <t s=\"8\">that the name \"Tzivos\" was revealed through the prophets,</t>\n    <t s=\"9\">as it is stated:</t>\n    <t s=\"10\">\"From the day the Holy One, blessed be He, created His world, no one called the Holy One, blessed be He, 'Tzivos' until Channah came and called Him 'Tzivos,' and the Holy One, blessed be He, said:</t>\n    <t s=\"11\">'Your son is destined to open prophecy with this name.'\"</t>\n    <t s=\"12\">And the main prophecy with this name was in the later prophets, who were at the end of the First Temple period and the beginning of the exile,</t>\n    <t s=\"13\">most of their prophecy being with this name.</t>\n    <t s=\"14\">And behold, although the words of the prophets,</t>\n    <t s=\"15\">words of tradition,</t>\n    <t s=\"16\">are lower in level than the words of the Torah</t>\n    <t s=\"17\">[and even regarding the prophecy of Moshe it is written:</t>\n    <t s=\"18\">\"And no prophet arose again in Israel like Moshe,\"</t>\n    <t s=\"19\">and certainly they are lower than the words of the Torah],</t>\n    <t s=\"20\">nevertheless, the name \"Tzivos\" is not mentioned in the Torah, only specifically in the Prophets,</t>\n    <t s=\"21\">and there is an advantage in the words of a prophet over the words of the Torah.</t>\n    <t s=\"22\">And as we find that one who transgresses the words of a prophet has a more severe punishment than one who transgresses many words of the Torah,</t>\n    <t s=\"23\">and from this it is understood that this is also the case regarding the defect.</t>\n    <t s=\"24\">And based on this, the Mitteler Rebbe explains at length,</t>\n    <t s=\"25\">that the punishment and defect of one who transgresses the words of a prophet is more severe than one who transgresses</t>\n    <t s=\"26\">(many)</t>\n    <t s=\"27\">words of the Torah, which relates to the fact that the name \"Tzivos\" is drawn down specifically through the prophets.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains the meaning of the name \"Tzivos\" as G-dliness as it is drawn into and enclothed within created beings, specifically in the worlds of Beriah, Yetzirah, and Asiyah.</sectionSummaryBrief>\n    <t s=\"0\">e)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">behold, the meaning of the name \"Tzivos\" is \"a sign is in His army,\"</t>\n    <t s=\"3\">meaning that \"Tzava\" is a multitude of creations,</t>\n    <t s=\"4\">and the name \"Tzivos,\"</t>\n    <t s=\"5\">\"a sign is in His army,\"</t>\n    <t s=\"6\">is the aspect of G-dliness as it is drawn into the creations.</t>\n    <t s=\"7\">And as explained in Torah Ohr</t>\n    <t s=\"8\">regarding the matter of the name \"Tzivos,\"</t>\n    <t s=\"9\">that \"Tzivos\" is a term for armies, and they are legions of souls and angels of Beriah which</t>\n    <t s=\"10\">(in themselves)</t>\n    <t s=\"11\">are not G-dliness at all.</t>\n    <t s=\"12\">And this is the difference between the name \"Tzivos\" and the other names that may not be erased,</t>\n    <t s=\"13\">for all the names indicate Ein Sof as it is in Atzilus, which is the world of unity,</t>\n    <t s=\"14\">\"He and His life are one, He and His limbs are one,\"</t>\n    <t s=\"15\">unlike the name \"Tzivos,\" which indicates Ein Sof as it is drawn down and enclothed in Beriah, Yetzirah, and Asiyah,</t>\n    <t s=\"16\">which are worlds of separation,</t>\n    <t s=\"17\">separate creations, as it is written:</t>\n    <t s=\"18\">\"And from there it was divided.\"</t>\n    <t s=\"19\">Therefore, there is an opinion in the Gemara</t>\n    <t s=\"20\">(and not just a logical assumption)</t>\n    <t s=\"21\">that \"Tzivos\" is not a holy name,</t>\n    <t s=\"22\">for it is called \"Tzivos\" only on account of Israel.</t>\n    <t s=\"23\">And even according to the halachic conclusion</t>\n    <t s=\"24\">that \"Tzivos\" is among the names that may not be erased,</t>\n    <t s=\"25\">behold, this name refers to Ein Sof as it is drawn down and enclothed in creations.</t>\n    <t s=\"26\">And one can explain this based on what is stated in the Zohar, Tikkunei Zohar, and the writings of the Arizal,</t>\n    <t s=\"27\">that the name \"Tzivos\" is in Netzach and Hod,</t>\n    <t s=\"28\">for Netzach and Hod are outside the body,</t>\n    <t s=\"29\">meaning their purpose is</t>\n    <t s=\"30\">(not for Atzilus itself,</t>\n    <t s=\"31\">but rather)</t>\n    <t s=\"32\">in order to draw down into the worlds of Beriah, Yetzirah, and Asiyah, which are below Atzilus,</t>\n    <t s=\"33\">and analogous to the known concept</t>\n    <t s=\"34\">that Netzach and Hod are the kidneys that advise, in order to influence the son and the student.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916949_theRebbe_558",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916949_theRebbe_558__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains the difference between the terms \"Tzivos Hashem\" (armies of G-d) and \"Tzivos\" (armies) as a construct versus an independent term.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And behold, in addition to Israel being called by the name \"Tzivos Hashem,\" they are also called \"Tzivos\""
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "(as the maamar brings the verses:"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "\"And it came to pass on that very day, Hashem brought the children of Israel out of the land of Egypt by their armies,\""
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "\"For on that very day I brought your armies out of the land of Egypt\")."
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "And the difference between \"Tzivos Hashem\" and \"Tzivos\" is,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "that \"Tzivos Hashem\""
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "(Tzivos with a chirik)"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "is a construct form,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "meaning the armies are attached to Hashem,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "whereas \"Tzvos\""
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "(Tzivos with a sh'va)"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "is an independent entity."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section discusses the name \"Tzivos\" as one of the seven ineffable names, revealed specifically through the prophets, and its superiority over Torah matters in certain aspects.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "d)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And it is known that Israel being called \"Adam\" is because they are \"like the One above.\""
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "From this it is understood"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "that Israel being called"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "(also)"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "by the name \"Tzivos\" relates to the name \"Tzivos,\""
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "which is one of the seven names that may not be erased."
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "And this will be understood based on what the Alter Rebbe said,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "that the name \"Tzivos\" was revealed through the prophets,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "as it is stated:"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "\"From the day the Holy One, blessed be He, created His world, no one called the Holy One, blessed be He, 'Tzivos' until Channah came and called Him 'Tzivos,' and the Holy One, blessed be He, said:"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "'Your son is destined to open prophecy with this name.'\""
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "And the main prophecy with this name was in the later prophets, who were at the end of the First Temple period and the beginning of the exile,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "most of their prophecy being with this name."
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "And behold, although the words of the prophets,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "words of tradition,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "are lower in level than the words of the Torah"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "[and even regarding the prophecy of Moshe it is written:"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "\"And no prophet arose again in Israel like Moshe,\""
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "and certainly they are lower than the words of the Torah],"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "nevertheless, the name \"Tzivos\" is not mentioned in the Torah, only specifically in the Prophets,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "and there is an advantage in the words of a prophet over the words of the Torah."
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "And as we find that one who transgresses the words of a prophet has a more severe punishment than one who transgresses many words of the Torah,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "and from this it is understood that this is also the case regarding the defect."
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "And based on this, the Mitteler Rebbe explains at length,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "that the punishment and defect of one who transgresses the words of a prophet is more severe than one who transgresses"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "(many)"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "words of the Torah, which relates to the fact that the name \"Tzivos\" is drawn down specifically through the prophets."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains the meaning of the name \"Tzivos\" as G-dliness as it is drawn into and enclothed within created beings, specifically in the worlds of Beriah, Yetzirah, and Asiyah.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "e)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "behold, the meaning of the name \"Tzivos\" is \"a sign is in His army,\""
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "meaning that \"Tzava\" is a multitude of creations,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "and the name \"Tzivos,\""
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "\"a sign is in His army,\""
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "is the aspect of G-dliness as it is drawn into the creations."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "And as explained in Torah Ohr"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "regarding the matter of the name \"Tzivos,\""
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "that \"Tzivos\" is a term for armies, and they are legions of souls and angels of Beriah which"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "(in themselves)"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "are not G-dliness at all."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "And this is the difference between the name \"Tzivos\" and the other names that may not be erased,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "for all the names indicate Ein Sof as it is in Atzilus, which is the world of unity,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "\"He and His life are one, He and His limbs are one,\""
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "unlike the name \"Tzivos,\" which indicates Ein Sof as it is drawn down and enclothed in Beriah, Yetzirah, and Asiyah,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "which are worlds of separation,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "separate creations, as it is written:"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "\"And from there it was divided.\""
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "Therefore, there is an opinion in the Gemara"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "(and not just a logical assumption)"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "that \"Tzivos\" is not a holy name,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "for it is called \"Tzivos\" only on account of Israel."
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "And even according to the halachic conclusion"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "that \"Tzivos\" is among the names that may not be erased,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "behold, this name refers to Ein Sof as it is drawn down and enclothed in creations."
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "And one can explain this based on what is stated in the Zohar, Tikkunei Zohar, and the writings of the Arizal,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "that the name \"Tzivos\" is in Netzach and Hod,"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "for Netzach and Hod are outside the body,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "meaning their purpose is"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "(not for Atzilus itself,"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "but rather)"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "in order to draw down into the worlds of Beriah, Yetzirah, and Asiyah, which are below Atzilus,"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "and analogous to the known concept"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "that Netzach and Hod are the kidneys that advise, in order to influence the son and the student."
+          }
+        ]
+      }
+    ]
+  }
+}

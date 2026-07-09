@@ -1,0 +1,129 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916754_theRebbe_640" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916754_theRebbe_640" title="מאמר באתי לגני תשכ"ח" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p003">
+  <section v="6">
+    <src s="0">וממשיך בהמאמר39,</src>
+    <src s="1">דכמו שבמלחמה בגשמיות,</src>
+    <src s="2">בכדי לנצח את המלחמה מבזבזים כל האוצרות40,</src>
+    <src s="3">דהגם שע"ד הרגיל הנה לא רק שאין משתמשים בהם</src>
+    <src s="4">(אפילו לצורך גדול)</src>
+    <src s="5">אלא יתירה מזו שהם כמוסים וחתומים מעין כל רואה,</src>
+    <src s="6">ומ"מ בכדי לנצח את המנגד מבזבזים כל האוצרות41,</src>
+    <src s="7">דלא רק שמשתמשים בהאוצרות אלא שגם מבזבזים אותם,</src>
+    <src s="8">דבזבוז הוא למעלה מחשבון מדידה והגבלה,</src>
+    <src s="9">והטעם לזה הוא כי הנצח מושרש בעצם הנפש דשם</src>
+    <src s="10">(בעצם הנפש)</src>
+    <src s="11">אין שייך שום חשבונות,</src>
+    <src s="12">עד"ז הוא גם למעלה,</src>
+    <src s="13">דשרש הנצח הוא בפנימיות הכתר,</src>
+    <src s="14">ולכן,</src>
+    <src s="15">בכדי שהצבאות ה' ינצחו את המלחמה,</src>
+    <src s="16">נותנים להם,</src>
+    <src s="17">ובאופן דבזבוז,</src>
+    <src s="18">בחי' האוצר שלמעלה</src>
+    <src s="19">(שלמעלה מאור וגילוי),</src>
+    <src s="20">שעליו נאמר עין לא ראתה42</src>
+    <src s="21">בכדי לנצח את המלחמה ולעשות את העולם דירה לו ית'.</src>
+  </section>
+  <section v="7">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שמבאר בהמאמר שהטעם על זה הוא לפי דשרש הנצח הוא בפנימיות הכתר,</src>
+    <src s="2">הוא בעיקר על זה שנתינת האוצר היא באופן דבזבוז.</src>
+    <src s="3">דזה שנותנים האוצר בכדי לעשות את העולם לדירה לו ית',</src>
+    <src s="4">יש לומר,</src>
+    <src s="5">שזהו מפני שהכוונה דדירה בתחתונים היא בעצמותו ית',</src>
+    <src s="6">כמאמר רבינו הזקן43</src>
+    <src s="7">בדיוק לשון רז"ל30</src>
+    <src s="8">נתאוה כו' דירה בתחתונים,</src>
+    <src s="9">דענין "נתאוה" הוא למעלה מהטעם,</src>
+    <src s="10">לכן,</src>
+    <src s="11">הנתינת כח להשלים כוונה זו היא מעצמותו ית',</src>
+    <src s="12">בחי' אוצר שלמעלה מאור וגילוי.</src>
+    <src s="13">והטעם דשרש הנצח הוא בפנימיות הכתר,</src>
+    <src s="14">הוא</src>
+    <src s="15">(בעיקר)</src>
+    <src s="16">על זה שנתינת האוצר הוא באופן דבזבוז.</src>
+    <src s="17">ויש להוסיף,</src>
+    <src s="18">דנתינת האוצר באופן של בזבוז להצבאות הוי' לנצח את המלחמה הוא לא רק מצד מלמעלה</src>
+    <src s="19">(לפי דשרש הנצח הוא בפנימיות הכתר),</src>
+    <src s="20">אלא שזה שייך גם להצבאות הוי'.</src>
+    <src s="21">דמכיון שעבודה שלהם היא באופן דבזבוז</src>
+    <src s="22">(למעלה מחשבונות),</src>
+    <src s="23">שטות דקדושה שלמעלה מטו"ד,</src>
+    <src s="24">לכן הם מתאימים וכלים שיומשך להם האוצר שלמעלה באופן דבזבוז.</src>
+  </section>
+  <section v="8">
+    <src s="0">ד)</src>
+    <src s="1">וממשיך בהמאמר בפרק ח"י</src>
+    <src s="2">(הפרק השייך לשנה זו44),</src>
+    <src s="3">דביאור הענין</src>
+    <src s="4">(ששרש הנצח הוא בפנימיות הכתר)</src>
+    <src s="5">יובן ע"פ מ"ש45</src>
+    <src s="6">וגם נצח ישראל לא ישקר ולא ינחם כי לא אדם הוא להנחם.</src>
+    <src s="7">דזה שנצח ישראל לא ינחם הוא לפי ששרש הנצח הוא בבחינת לא אדם</src>
+    <src s="8">(פנימיות הכתר),</src>
+    <src s="9">ובבחינת לא אדם אין שייך ניחומין וחרטה.</src>
+    <src s="10">והענין הוא,</src>
+    <src s="11">דפסוק זה</src>
+    <src s="12">(וגם נצח ישראל גו' לא ינחם גו')</src>
+    <src s="13">הוא מענה שמואל לשאול על בקשתו שתחזור לו המלוכה,</src>
+    <src s="14">דלאחרי שהקב"ה נתן את המלוכה לדוד</src>
+    <src s="15">("ונתנה לרעך הטוב ממך"46)</src>
+    <src s="16">אין שייך דיחזור בו ויטול ממנו המלוכה,</src>
+    <src s="17">כי לא אדם הוא להנחם.</src>
+    <src s="18">ומדייק בזה אדמו"ר הזקן בתורה אור47,</src>
+    <src s="19">הרי מזה גופא שבתחילה ניתנה המלוכה לשאול,</src>
+    <src s="20">וכשחטא ניטלה ממנו המלוכה,</src>
+    <src s="21">מוכח,</src>
+    <src s="22">שגם למעלה שייך נחמה,</src>
+    <src s="23">וכמפורש בקרא48</src>
+    <src s="24">נחמתי כי המלכתי את שאול למלך גו',</src>
+    <src s="25">ומהו אומרו</src>
+    <src s="26">(בנוגע למלכות דוד)</src>
+    <src s="27">כי לא אדם הוא להנחם.</src>
+    <src s="28">ונקודת הביאור בזה,</src>
+    <src s="29">דכוונת הכתוב בכי לא אדם הוא גו' היא לא רק שהקב"ה אינו כמו אדם התחתון להבדיל,</src>
+    <src s="30">כי אם,</src>
+    <src s="31">בעיקר,</src>
+    <src s="32">שאינו גם בגדר ציור אדם העליון.</src>
+    <src s="33">וזהו שבמלכות שאול כתיב48</src>
+    <src s="34">נחמתי כי המלכתי את שאול למלך גו' ובנוגע למלכות דוד כתיב כי לא אדם הוא להנחם,</src>
+    <src s="35">כי המלוכה דשאול היתה מבחי' אדם,</src>
+    <src s="36">דבבחינה זו שייך נחמה,</src>
+    <src s="37">משא"כ המלוכה דדוד היא מבחי' לא אדם,</src>
+    <src s="38">דבבחינה זו אין שייך נחמה ושינוי,</src>
+    <src s="39">כמבואר בתו"א.</src>
+  </section>
+</awtsmoosMeluketSource>

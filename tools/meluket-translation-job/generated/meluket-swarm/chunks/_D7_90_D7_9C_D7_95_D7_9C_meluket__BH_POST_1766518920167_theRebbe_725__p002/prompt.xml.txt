@@ -1,0 +1,134 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920167_theRebbe_725" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920167_theRebbe_725__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920167_theRebbe_725" title="מאמר אני לדודי תשכ"ו" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920167_theRebbe_725__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ובכדי לבאר שני ענינים הנ"ל בהגילוי דיגמה"ר שבאלול – שהגילוי דאלול הוא לכאו"א גם להרחוקים ביותר,</src>
+    <src s="2">ושאעפ"כ הגילוי אינו מעורר את האדם והוא רק נתינת כח – ממשיך בהמאמר,</src>
+    <src s="3">שהגילוי דיגמה"ר באלול הוא דוגמת מלך בשדה.</src>
+    <src s="4">דמהחילוקים בין מלך בשדה ומלך בהיכלו הם שני הענינים8.</src>
+    <src s="5">בנוגע לדרגת הגילוי,</src>
+    <src s="6">עיקר הגילוי דמלך ביפיו</src>
+    <src s="7">(תחזינה עיניך)9</src>
+    <src s="8">הוא בהיכל מלכותו,</src>
+    <src s="9">כשהוא בלבושי מלכות ובכתר מלכות,</src>
+    <src s="10">משא"כ כשהוא בשדה10.</src>
+    <src s="11">אבל הגילוי עצמו הוא בעיקר כשהוא בשדה.</src>
+    <src s="12">דבהיותו בהיכל מלכותו אין נכנסים אליו אלא ברשות ורק המובחרים שבעם ויחידי סגולה,</src>
+    <src s="13">ובהיותו בשדה,</src>
+    <src s="14">רשאים</src>
+    <src s="15">[ויכולים11]</src>
+    <src s="16">להקביל פניו כל מי שרוצה,</src>
+    <src s="17">והמלך מקבל את כולם בסבר פנים יפות ומראה פנים שוחקות לכולם.</src>
+    <src s="18">ועד"ז הוא בהנמשל,</src>
+    <src s="19">שהגילוי דר"ה ויוהכ"פ ועד"ז בעשי"ת בכלל שהוא בדוגמת מלך בהיכלו הוא באופן שהגילוי מעורר את האדם,</src>
+    <src s="20">בדוגמת מלך בהיכלו</src>
+    <src s="21">(בלבושי מלכות ובכתר מלכות),</src>
+    <src s="22">שהוא מטיל אימה ופחד.</src>
+    <src s="23">אבל בכדי שהאדם ירגיש הגילוי דר"ה ויוהכ"פ,</src>
+    <src s="24">הוא</src>
+    <src s="25">(בעיקר)</src>
+    <src s="26">לאחרי קדימת העבודה בחודש אלול,</src>
+    <src s="27">שעי"ז הוא נעשה מהמובחרים שבעם והיחידי סגולה שנכנסים להיכל המלך.</src>
+    <src s="28">והגילוי דאלול שהוא דוגמת מלך בשדה,</src>
+    <src s="29">הוא באופן שהגילוי אינו מעורר את האדם והוא רק נתינת כח לעבודה,</src>
+    <src s="30">אבל הנתינת כח לעבודה שע"י גילוי זה הוא לכאו"א גם להרחוקים ביותר.</src>
+    <src s="31">בדוגמת מלך בשדה,</src>
+    <src s="32">דכשהמלך הוא במצב זה אינו מטיל אימה ופחד.</src>
+    <src s="33">ובפרט על אלו הנמצאים בשדה,</src>
+    <src s="34">שהם בדרגא נמוכה.</src>
+    <src s="35">ויתירה מזו,</src>
+    <src s="36">דכשהמלך הוא במצב זה,</src>
+    <src s="37">אינו מעורר אפילו תשוקה להקביל את פניו12.</src>
+    <src s="38">וזהו שמדייק בהמאמר כל מי שרוצה לצאת להקביל פניו,</src>
+    <src s="39">דזה שהם יוצאים להקביל את פני המלך הוא מצד הרצון שלהם13.</src>
+    <src s="40">אלא שהנתינת כח להקביל את פני המלך הוא ע"י שהמלך בשדה.</src>
+    <src s="41">שאז</src>
+    <src s="42">(בהיותו בשדה)</src>
+    <src s="43">ישנו הרשות והיכולת לכאו"א להקביל את פני המלך.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דלכאורה בכדי לבאר שהגילוי דאלול</src>
+    <src s="3">(והנתינת כח שע"י הגילוי)</src>
+    <src s="4">הוא לכאו"א,</src>
+    <src s="5">נוגע רק שכשהמלך בשדה רשאים ויכולים כל מי שרוצה להקביל פניו,</src>
+    <src s="6">ולמה מוסיף שהמלך מקבל את כולם בסבר פנים יפות ומראה פנים שוחקות לכולם.</src>
+    <src s="7">ובפרט דזה שהמלך מקבל את כולם בסבר פנים יפות ומראה להם פנים שוחקות הוא ההמשכה והגילוי מלמעלה שלאחרי העבודה14,</src>
+    <src s="8">ואינו מובן,</src>
+    <src s="9">דההמשכה והגילוי שלאחרי העבודה</src>
+    <src s="10">(ודודי לי)</src>
+    <src s="11">היא בעשי"ת,</src>
+    <src s="12">והמשל דמלך בשדה הוא ביאור על הגילוי דאלול שהוא</src>
+    <src s="13">(נתינת כח ו)</src>
+    <src s="14">לפני העבודה.</src>
+    <src s="15">גם צריך להבין שני הענינים שהוא מקבלם בסבר פנים יפות ושמראה להם פנים שוחקות.</src>
+    <src s="16">וגם,</src>
+    <src s="17">שבנוגע למקבלם אומר בסבר פנים יפות ובנוגע למראה להם אומר פנים שוחקות.</src>
+  </section>
+  <section v="5">
+    <src s="0">ויש לומר הביאור בזה בהקדים שהחידוש בהגילוי דיגמה"ר באלול לגבי הגילוי בר"ה ויוהכ"פ הוא בשני ענינים.</src>
+    <src s="1">שבכדי לקבל הגילוי דר"ה ויוהכ"פ הוא ע"י עבודה נעלית</src>
+    <src s="2">(מובחרים שבעם ויחידי סגולה)</src>
+    <src s="3">ובכדי לקבל הגילוי דאלול צריכה להיות רק הקבלת פני המלך,</src>
+    <src s="4">דבנמשל הוא התעוררות הקבלת עול מלכות שמים15.</src>
+    <src s="5">ועוד חידוש בהגילוי דאלול שהגילוי הוא גם לאלה הנמצאים במדבר16</src>
+    <src s="6">דלעו"ז17.</src>
+    <src s="7">וכמובן גם מזה שעיקר הגילוי דיגמה"ר שבאלול הוא נתינת כח על תשובה18,</src>
+    <src s="8">דתשובה כפשוטה היא על ענינים בלתי רצויים</src>
+    <src s="9">(בחינת מדבר),</src>
+    <src s="10">ועיקר התשובה הוא על פריקת עול19,</src>
+    <src s="11">דמזה מובן,</src>
+    <src s="12">שהגילוי דאלול הוא גם לאלה שהם בתכלית הריחוק.</src>
+    <src s="13">ומ"ש בהמאמר שהגילוי דאלול הוא בשדה</src>
+    <src s="14">(ולא במדבר),</src>
+    <src s="15">הוא,</src>
+    <src s="16">כי הגילוי דיגמה"ר הוא</src>
+    <src s="17">(לא בהמדבר עצמו,</src>
+    <src s="18">דבענינים שהם היפך רצון ה'17,</src>
+    <src s="19">אין שייך שיהי' בהם גילוי אלקות,</src>
+    <src s="20">אלא)</src>
+    <src s="21">בישראל הנמצאים במדבר,</src>
+    <src s="22">והגילוי בהם הוא הנתינת כח לצאת ממדבר לשדה לקבל פני המלך.</src>
+    <src s="23">ועפ"ז יש לומר,</src>
+    <src s="24">דמ"ש בהמאמר שהמלך מקבל את כולם בסבר פנים יפות,</src>
+    <src s="25">הכוונה בזה שמדגיש את כולם היא,</src>
+    <src s="26">שגם אלה שהם רק רוצים להקביל את פני המלך אלא שהם שבויים בידי יצרם וגם כשמתעורר אצלם רצון לעשות תשובה ולקבל עליהם עול מלכות שמים אין זה בא בפועל,</src>
+    <src s="27">גם אותם הוא מקבל בסבר פנים יפות,</src>
+    <src s="28">וזה מעורר אצלם רצון חזק ותקיף להקביל את פני המלך,</src>
+    <src s="29">וע"י רצון זה הם מתגברים על המניעות והעיכובים.</src>
+  </section>
+</awtsmoosMeluketSource>

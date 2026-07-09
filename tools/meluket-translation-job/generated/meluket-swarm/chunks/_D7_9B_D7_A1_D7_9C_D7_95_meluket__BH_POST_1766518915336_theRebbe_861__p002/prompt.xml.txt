@@ -1,0 +1,165 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915336_theRebbe_861" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915336_theRebbe_861__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915336_theRebbe_861" title="מאמר פדה בשלום תשל"ט" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915336_theRebbe_861__p002">
+  <section v="3">
+    <src s="0">ועד"ז הוא לאידך,</src>
+    <src s="1">שגם השלום שבפסוק זה הוא</src>
+    <src s="2">(לא שלום סתם,</src>
+    <src s="3">אלא)</src>
+    <src s="4">תכלית השלימות שבשלום.</src>
+    <src s="5">וכמו שמבאר בעל הגאולה בהמאמר11</src>
+    <src s="6">דאמיתית הענין דפדה בשלום נפשי הוא שאלו שהיו מקודם שונאים ומנגדים הם "נעשים אוהבים גמורים",</src>
+    <src s="7">דענין זה הוא למעלה גם מהשלום שהי' בימי שלמה12,</src>
+    <src s="8">דהשלום שהי' בימי שלמה הוא שכולם נתבטלו מצד הגילוי אור</src>
+    <src s="9">(אבל לא נהפכו לקדושה)13,</src>
+    <src s="10">ואמיתית ענין השלום</src>
+    <src s="11">(שגם המנגד נהפך לקדושה)</src>
+    <src s="12">יהי' לע"ל,</src>
+    <src s="13">כמ"ש14</src>
+    <src s="14">אז אהפוך אל עמים שפה ברורה גו' לעבדו שכם אחד,</src>
+    <src s="15">ועד"ז בנוגע לבעלי חיים – וגר זאב עם כבש וגו'15,</src>
+    <src s="16">ועד שגם הנחש</src>
+    <src s="17">(פתן וצפעוני16)</src>
+    <src s="18">יהפך לטוב,</src>
+    <src s="19">כמ"ש17</src>
+    <src s="20">גם אויביו ישלים אתו זה הנחש,</src>
+    <src s="21">וכמו שהי' בתחלת הבריאה</src>
+    <src s="22">(לפני חטא עה"ד)</src>
+    <src s="23">שהי' שמש גדול18.</src>
+    <src s="24">ויתירה מזו יש לומר,</src>
+    <src s="25">דכיון שכל ירידה היא צורך עלי',</src>
+    <src s="26">בהכרח לומר,</src>
+    <src s="27">שבירור ועליית הנחש לעתיד לבוא תהי' למעלה יותר גם מהדרגא ד"שמש גדול" שהי' לפני הירידה19.</src>
+    <src s="28">ועפ"ז צריך להבין עוד יותר מ"ש פדה בשלום גו' מקרב לי,</src>
+    <src s="29">והרי הקרב והשלום שבפסוק זה הם שני הפכים מן הקצה אל הקצה,</src>
+    <src s="30">ואיך זה פדה בשלום גו' מקרב לי.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים המבואר בהמאמר דבעל הגאולה20,</src>
+    <src s="2">ששני הענינים דקרב ושלום ישנם בעבודת התפלה.</src>
+    <src s="3">ולהעיר,</src>
+    <src s="4">דבכ"מ21</src>
+    <src s="5">מבואר שהבירור דתפלה הוא בדרך מלחמה,</src>
+    <src s="6">שעת צלותא שעת קרבא22,</src>
+    <src s="7">והבירור בדרך מנוחה</src>
+    <src s="8">(שלום)</src>
+    <src s="9">הוא ע"י עסק התורה23.</src>
+    <src s="10">אבל בדרוש זה דבעל הגאולה מבואר,</src>
+    <src s="11">שגם בעבודת התפלה ישנם שני הענינים.</src>
+    <src s="12">האהבה24</src>
+    <src s="13">דבכל לבבך,</src>
+    <src s="14">שמצד בחינת נר"נ,</src>
+    <src s="15">עם היות שגם ע"י אהבה זו הוא פועל שגם נה"ב יהי' לה אהבת ה',</src>
+    <src s="16">בכל לבבך בשני יצריך25,</src>
+    <src s="17">מ"מ,</src>
+    <src s="18">מכיון שהאהבה דבכל לבבך היא מצד ההבנה וההשגה</src>
+    <src s="19">(שאלקות הוא טוב),</src>
+    <src s="20">ומכיון ששכל הוא בחינת פנימי</src>
+    <src s="21">(שמתלבש בהדבר שפועל בו),</src>
+    <src s="22">הרי מובן דפעולת נה"א בנה"ב שתאהוב את הוי' הוא ע"י שנה"א מתלבשת בנה"ב,</src>
+    <src s="23">שההתבוננות של נה"א צריכה להיות בענינים כאלו ובאופן שגם נה"ב יכולה להשיג26,</src>
+    <src s="24">הרי התלבשות זו</src>
+    <src s="25">(שנה"א מתלבשת בנה"ב)</src>
+    <src s="26">הו"ע של מלחמה27.</src>
+    <src s="27">וגם האהבה דבכל נפשך,</src>
+    <src s="28">שמצד בחינת חי',</src>
+    <src s="29">הגם שחי' היא בחינת מקיף,</src>
+    <src s="30">והבירור דנה"ב שע"י אהבה זו הוא</src>
+    <src s="31">(לא בדרך התלבשות,</src>
+    <src s="32">אלא)</src>
+    <src s="33">שמצד תוקף הרצון דנה"א</src>
+    <src s="34">(רצון שלמעלה מטעם)</src>
+    <src s="35">מתבטלים ממילא הרצונות דנה"ב,</src>
+    <src s="36">אעפ"כ,</src>
+    <src s="37">מכיון שביטול הרצונות דנה"ב הוא רק מצד התגברות הרצון דנה"א,</src>
+    <src s="38">היינו שגם עכשיו יש לנה"ב בהעלם רצונות זרים אלא שמצד התגברות הרצון דנה"א אינם באים בפועל,</src>
+    <src s="39">לכן נכלל זה בהעבודה דבירור שבדרך מלחמה.</src>
+    <src s="40">וענין פדה בשלום נפשי הוא בהאהבה דבכל מאדך,</src>
+    <src s="41">שמצד בחינת יחידה.</src>
+    <src s="42">כי כיון שבחינת היחידה אין כנגדה לעומת זה,</src>
+    <src s="43">בבואה דבבואה לית להו28,</src>
+    <src s="44">לכן,</src>
+    <src s="45">כשמתגלית בחינת היחידה,</src>
+    <src s="46">מתבטל הלעו"ז.</src>
+    <src s="47">דבחינת חי',</src>
+    <src s="48">כיון שיש כנגדה לעו"ז,</src>
+    <src s="49">לכן הגילוי דבחינת חי' אינו שולל ומבטל הרצונות זרים דנה"ב,</src>
+    <src s="50">והוא רק בדרך התגברות,</src>
+    <src s="51">שהרצון לאלקות</src>
+    <src s="52">(שמבחינת חי')</src>
+    <src s="53">מתגבר על הרצונות דנה"ב,</src>
+    <src s="54">ובכדי שיהי' ביטול הרצונות דנה"ב הוא ע"י גילוי היחידה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">ויש לקשר זה עם הידוע29</src>
+    <src s="2">בענין כח המס"נ שבכאו"א מישראל</src>
+    <src s="3">(דכח המס"נ הוא מצד יחידה30),</src>
+    <src s="4">דזה שהוא מוסר נפשו שלא להפרד ח"ו מאחדותו ית' הוא לא מצד הרצון שלו</src>
+    <src s="5">(היינו שאפשר להיות באופן אחר אלא שרוצה באופן זה),</src>
+    <src s="6">אלא מפני שאינו יכול להפרד ח"ו מאחדותו ית'.</src>
+    <src s="7">ועפ"ז יש לבאר מה שמבואר בכ"מ31</src>
+    <src s="8">שהאהבה דבכל מאדך הו"ע המס"נ.</src>
+    <src s="9">דלכאורה אינו מובן,</src>
+    <src s="10">והרי גם האהבה דבכל לבבך ובכל נפשך מחייבת לכאורה ענין המס"נ,</src>
+    <src s="11">דכשאוהב את הוי' בכל לבבו ועאכו"כ כשאהבתו את הוי' היא בכל נפשו הרי בודאי ימסור נפשו עבורו32,</src>
+    <src s="12">ומהו העילוי והחידוש בהאהבה דבכל מאדך.</src>
+    <src s="13">והביאור בזה,</src>
+    <src s="14">שהמס"נ שמצד האהבה דבכל לבבך ובכל נפשך היא באופן שרוצה למסור נפשו עבור הוי'</src>
+    <src s="15">(באהבה דבכל לבבך,</src>
+    <src s="16">נר"נ – רצון שע"פ טו"ד,</src>
+    <src s="17">ובאהבה דבכל נפשך,</src>
+    <src s="18">חי' – רצון שלמעלה מטעם),</src>
+    <src s="19">משא"כ המס"נ שמצד האהבה דבכל מאדך,</src>
+    <src s="20">יחידה,</src>
+    <src s="21">היא באופן שאינו יכול להיות נפרד ח"ו.</src>
+    <src s="22">וזהו שענין המס"נ הוא בהאהבה דבכל מאדך,</src>
+    <src s="23">כי מס"נ הו"ע הביטול,</src>
+    <src s="24">ואמיתית ענין הביטול הוא כשהמס"נ היא לא מצד הרצון</src>
+    <src s="25">(מציאות)</src>
+    <src s="26">שלו אלא מצד האלקות.</src>
+    <src s="27">ויש לומר,</src>
+    <src s="28">שזהו גם מהביאורים בזה שביטול הרצונות זרים דנה"ב הוא דוקא בהאהבה דבכל מאדך,</src>
+    <src s="29">כי האהבה דבכל לבבך ובכל נפשך,</src>
+    <src s="30">מכיון שמצד אהבה זו יש אפשרות שלא למסור נפשו</src>
+    <src s="31">(וזה שמוסר נפשו הוא רק מצד הרצון),</src>
+    <src s="32">הרי זה מוכיח שנשאר עדיין מציאות הלעו"ז.</src>
+    <src s="33">והביטול דלעו"ז</src>
+    <src s="34">(ביטול לגמרי)</src>
+    <src s="35">הוא ע"י האהבה דבכל מאדך,</src>
+    <src s="36">שמצד אהבה זו אי אפשר להיות באופן אחר ח"ו.</src>
+  </section>
+</awtsmoosMeluketSource>

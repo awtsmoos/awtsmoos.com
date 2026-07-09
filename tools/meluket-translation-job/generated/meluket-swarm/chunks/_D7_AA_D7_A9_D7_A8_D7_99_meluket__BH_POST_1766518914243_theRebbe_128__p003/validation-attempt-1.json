@@ -1,0 +1,529 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 97,
+    "returned": 97,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914243_theRebbe_128\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>Since the purpose of man is to make a dwelling for G-d below, each Jew is given power from above for this, especially in the final generations, and this explains why the Rebbe Maharash would travel daily among simple folk who bowed to him, as he said \"Blessed shall you be from all the nations.\"</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">Now, since the purpose of the creation of man is to make for Him a dwelling place in the lower realms,</t>\n    <t s=\"2\">which is accomplished through his service of G-d being in such a manner that even gentiles etc. recognize his virtue and even bless him,</t>\n    <t s=\"3\">it is understood</t>\n    <t s=\"4\">that each and every Jew is given power from above for this.</t>\n    <t s=\"5\">And especially in the last generations before the redemption,</t>\n    <t s=\"6\">when the making of the dwelling must be finished and completed,</t>\n    <t s=\"7\">the empowerment for this is even greater.</t>\n    <t s=\"8\">And it can be said</t>\n    <t s=\"9\">that this is also one of the reasons for that which my father-in-law, the Rebbe, related,</t>\n    <t s=\"10\">that the Rebbe Maharash</t>\n    <t s=\"11\">(the baal hahilula)</t>\n    <t s=\"12\">would travel every weekday for a stroll,</t>\n    <t s=\"13\">and once</t>\n    <t s=\"14\">(for some reason)</t>\n    <t s=\"15\">he traveled by a different route,</t>\n    <t s=\"16\">and all the simple folk who were there,</t>\n    <t s=\"17\">when they saw him, they bowed and prostrated themselves before him.</t>\n    <t s=\"18\">And when they later asked the Rebbe Maharash about this,</t>\n    <t s=\"19\">he answered: \"Upon whom then does 'Blessed shall you be from all the nations' stand?\"</t>\n    <t s=\"20\">The reason that my father-in-law, the Rebbe, related this event and commanded to publicize it,</t>\n    <t s=\"21\">can be said to be in order to increase the empowerment for this for each and every Jew.</t>\n    <t s=\"22\">For in addition to the empowerment that comes through the event itself,</t>\n    <t s=\"23\">since this event occurred with a Nasi,</t>\n    <t s=\"24\">and the Nasi is the totality,</t>\n    <t s=\"25\">it is an empowerment for each and every Jew,</t>\n    <t s=\"26\">now through its being revealed and publicized by a Nasi,</t>\n    <t s=\"27\">this adds even more to the empowerment.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>The empowerment for this service is primarily drawn from Sukkos, when the nations acknowledge Israel's victory, and this teaches that even obstacles are meant to elevate one to a higher level, ultimately turning opponents into helpers.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And it can be said</t>\n    <t s=\"2\">that the empowerment from above for this service is</t>\n    <t s=\"3\">(primarily)</t>\n    <t s=\"4\">on the festival of Sukkos.</t>\n    <t s=\"5\">For through the fact that on Sukkos everyone knows</t>\n    <t s=\"6\">(even the gentiles etc.)</t>\n    <t s=\"7\">that Israel are the victors,</t>\n    <t s=\"8\">and in addition that they know this, they agree to it, and even praise etc. Hashem that His kindness has prevailed over us</t>\n    <t s=\"9\">(as above in section 3),</t>\n    <t s=\"10\">from this is drawn empowerment for the service of \"Blessed shall you be from all the nations\" throughout the entire year.</t>\n    <t s=\"11\">And it may be added,</t>\n    <t s=\"12\">that the matter of victory</t>\n    <t s=\"13\">(Israel are the victors)</t>\n    <t s=\"14\">is that they overcome the opponent.</t>\n    <t s=\"15\">From this it is understood</t>\n    <t s=\"16\">that this revelation of victory on Sukkos is in a manner that even the gentiles etc. praise etc.,</t>\n    <t s=\"17\">it is</t>\n    <t s=\"18\">that even those who were initially opponents,</t>\n    <t s=\"19\">they too are transformed into lovers,</t>\n    <t s=\"20\">and praise etc. Hashem that His kindness has prevailed over us.</t>\n    <t s=\"21\">Therefore,</t>\n    <t s=\"22\">the empowerment that is drawn from Sukkos for the service of \"Blessed shall you be from all the nations\" throughout the year is also regarding those who were opponents,</t>\n    <t s=\"23\">\"Blessed shall you be from all the nations.\"</t>\n    <t s=\"24\">And from this there is a lesson for each and every Jew,</t>\n    <t s=\"25\">that even when there are sometimes those who prevent and hinder him from his service,</t>\n    <t s=\"26\">this should not cause weakness, G-d forbid, in his service</t>\n    <t s=\"27\">(and certainly there is no place for thoughts of despair, G-d forbid),</t>\n    <t s=\"28\">and when he resolves to fulfill his mission without regard for any hindrances or obstacles,</t>\n    <t s=\"29\">then he will see a revelation in the flesh that all the hindrances have no substance,</t>\n    <t s=\"30\">and on the contrary,</t>\n    <t s=\"31\">the intention in his having obstacles is to elevate him to a higher level,</t>\n    <t s=\"32\">so that he will have the service of clarifications and also the service of trials</t>\n    <t s=\"33\">(for without the obstacles he would not reach this service,</t>\n    <t s=\"34\">since we ask and are commanded to ask \"Do not bring us to trial\"),</t>\n    <t s=\"35\">through which he will reach a higher level,</t>\n    <t s=\"36\">until finally,</t>\n    <t s=\"37\">even those who hindered etc. will become helpers and blessers,</t>\n    <t s=\"38\">\"Blessed shall you be from all the nations,\"</t>\n    <t s=\"39\">and through this the intention that the Holy One, blessed be He, desired to have a dwelling place in the lower realms will be completed,</t>\n    <t s=\"40\">in the lowest realm beneath which there is no lower.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>The refinement of the nations, especially opponents, is achieved through awakening the Yechidah of the soul, and the transformation of opponents into helpers is a greater novelty than the revelation of the Yechidah itself, completing the dwelling in the lowest place.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">Now, in order to effect the refinement of the nations of the world,</t>\n    <t s=\"2\">and especially of those who oppose,</t>\n    <t s=\"3\">it is through the arousal and revelation of the aspect of Yechidah in the soul.</t>\n    <t s=\"4\">For since the sparks within them are in the utmost concealment and hiding,</t>\n    <t s=\"5\">therefore,</t>\n    <t s=\"6\">the refinement of these sparks is through the arousal of the point of the soul that is above expansion and revelation,</t>\n    <t s=\"7\">the Yechidah of the soul.</t>\n    <t s=\"8\">And simply,</t>\n    <t s=\"9\">through arousing the aspect of Yechidah within him, he stands with powerful strength,</t>\n    <t s=\"10\">so that in order for him to have powerful strength to perform his service</t>\n    <t s=\"11\">(without regard for the opponents)</t>\n    <t s=\"12\">it is through the arousal of his Yechidah,</t>\n    <t s=\"13\">and through this strength he ultimately affects even the opponents, that they become helpers etc.</t>\n    <t s=\"14\">(as above in section 6).</t>\n    <t s=\"15\">And even though this matter</t>\n    <t s=\"16\">(that the opponents become helpers etc.)</t>\n    <t s=\"17\">is a result</t>\n    <t s=\"18\">(seemingly)</t>\n    <t s=\"19\">of the revelation of his Yechidah,</t>\n    <t s=\"20\">nevertheless,</t>\n    <t s=\"21\">there is in this an elevation relative to the matter of the revelation of the Yechidah.</t>\n    <t s=\"22\">For in the revelation of the Yechidah, nothing new is created,</t>\n    <t s=\"23\">but that the opponent becomes a helper</t>\n    <t s=\"24\">(the opposite of his nature)</t>\n    <t s=\"25\">is a novelty,</t>\n    <t s=\"26\">in addition that specifically through this the intention of a dwelling in the lower realms is completed,</t>\n    <t s=\"27\">in the lowest realm beneath which there is no lower.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914243_theRebbe_128",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "Since the purpose of man is to make a dwelling for G-d below, each Jew is given power from above for this, especially in the final generations, and this explains why the Rebbe Maharash would travel daily among simple folk who bowed to him, as he said \"Blessed shall you be from all the nations.\"",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, since the purpose of the creation of man is to make for Him a dwelling place in the lower realms,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "which is accomplished through his service of G-d being in such a manner that even gentiles etc. recognize his virtue and even bless him,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "it is understood"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that each and every Jew is given power from above for this."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "And especially in the last generations before the redemption,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "when the making of the dwelling must be finished and completed,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "the empowerment for this is even greater."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "that this is also one of the reasons for that which my father-in-law, the Rebbe, related,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "that the Rebbe Maharash"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "(the baal hahilula)"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "would travel every weekday for a stroll,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "and once"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "(for some reason)"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "he traveled by a different route,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "and all the simple folk who were there,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "when they saw him, they bowed and prostrated themselves before him."
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "And when they later asked the Rebbe Maharash about this,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "he answered: \"Upon whom then does 'Blessed shall you be from all the nations' stand?\""
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "The reason that my father-in-law, the Rebbe, related this event and commanded to publicize it,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "can be said to be in order to increase the empowerment for this for each and every Jew."
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "For in addition to the empowerment that comes through the event itself,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "since this event occurred with a Nasi,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "and the Nasi is the totality,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "it is an empowerment for each and every Jew,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "now through its being revealed and publicized by a Nasi,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "this adds even more to the empowerment."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "The empowerment for this service is primarily drawn from Sukkos, when the nations acknowledge Israel's victory, and this teaches that even obstacles are meant to elevate one to a higher level, ultimately turning opponents into helpers.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that the empowerment from above for this service is"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "on the festival of Sukkos."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "For through the fact that on Sukkos everyone knows"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "(even the gentiles etc.)"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "that Israel are the victors,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "and in addition that they know this, they agree to it, and even praise etc. Hashem that His kindness has prevailed over us"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "(as above in section 3),"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "from this is drawn empowerment for the service of \"Blessed shall you be from all the nations\" throughout the entire year."
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "And it may be added,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "that the matter of victory"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "(Israel are the victors)"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "is that they overcome the opponent."
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "From this it is understood"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that this revelation of victory on Sukkos is in a manner that even the gentiles etc. praise etc.,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "it is"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "that even those who were initially opponents,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "they too are transformed into lovers,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "and praise etc. Hashem that His kindness has prevailed over us."
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "the empowerment that is drawn from Sukkos for the service of \"Blessed shall you be from all the nations\" throughout the year is also regarding those who were opponents,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "\"Blessed shall you be from all the nations.\""
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "And from this there is a lesson for each and every Jew,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "that even when there are sometimes those who prevent and hinder him from his service,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "this should not cause weakness, G-d forbid, in his service"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "(and certainly there is no place for thoughts of despair, G-d forbid),"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "and when he resolves to fulfill his mission without regard for any hindrances or obstacles,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "then he will see a revelation in the flesh that all the hindrances have no substance,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "the intention in his having obstacles is to elevate him to a higher level,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "so that he will have the service of clarifications and also the service of trials"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "(for without the obstacles he would not reach this service,"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "since we ask and are commanded to ask \"Do not bring us to trial\"),"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "through which he will reach a higher level,"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "until finally,"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "even those who hindered etc. will become helpers and blessers,"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "\"Blessed shall you be from all the nations,\""
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "and through this the intention that the Holy One, blessed be He, desired to have a dwelling place in the lower realms will be completed,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "in the lowest realm beneath which there is no lower."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "The refinement of the nations, especially opponents, is achieved through awakening the Yechidah of the soul, and the transformation of opponents into helpers is a greater novelty than the revelation of the Yechidah itself, completing the dwelling in the lowest place.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "Now, in order to effect the refinement of the nations of the world,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "and especially of those who oppose,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "it is through the arousal and revelation of the aspect of Yechidah in the soul."
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "For since the sparks within them are in the utmost concealment and hiding,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "therefore,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "the refinement of these sparks is through the arousal of the point of the soul that is above expansion and revelation,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "the Yechidah of the soul."
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "And simply,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "through arousing the aspect of Yechidah within him, he stands with powerful strength,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "so that in order for him to have powerful strength to perform his service"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "(without regard for the opponents)"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "it is through the arousal of his Yechidah,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "and through this strength he ultimately affects even the opponents, that they become helpers etc."
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "(as above in section 6)."
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "And even though this matter"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "(that the opponents become helpers etc.)"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "is a result"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "(seemingly)"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "of the revelation of his Yechidah,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "there is in this an elevation relative to the matter of the revelation of the Yechidah."
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "For in the revelation of the Yechidah, nothing new is created,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "but that the opponent becomes a helper"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "(the opposite of his nature)"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "is a novelty,"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "in addition that specifically through this the intention of a dwelling in the lower realms is completed,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "in the lowest realm beneath which there is no lower."
+          }
+        ]
+      }
+    ]
+  }
+}

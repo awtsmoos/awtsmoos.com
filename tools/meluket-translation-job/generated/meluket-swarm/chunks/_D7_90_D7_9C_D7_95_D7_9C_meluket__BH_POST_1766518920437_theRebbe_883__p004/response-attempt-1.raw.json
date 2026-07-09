@@ -1,0 +1,28 @@
+{
+  "id": "c4806f35-8ad7-4bbe-8ba4-edf97f80be01",
+  "object": "chat.completion",
+  "created": 1783583872,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920437_theRebbe_883\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920437_theRebbe_883__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>From the overall covenant come good decrees for Torah, mitzvos, and prayer, uniting Israel and the Holy One, leading to a good inscription and sealing, beginning in Elul, especially from the 18th of Elul, the birthday of the two great luminaries, whose purpose was to spread their wellsprings outward until the outermost, thereby bringing Mashiach speedily.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And from the covenant-making in general, there are drawn good decrees regarding the study of Torah, the fulfillment of the mitzvos, and the service of prayer,</t>\n    <t s=\"2\">for through this, Yisrael and the Holy One, blessed be He, are entirely one.</t>\n    <t s=\"3\">And from this comes a writing and sealing for a good and sweet year,</t>\n    <t s=\"4\">and its beginning beforehand in the month of preparation, which is the month of Elul, which is the acronym of \"I am to my beloved and my beloved is to me\"42,</t>\n    <t s=\"5\">and particularly from the 18th of Elul, which is the birthday of the two great luminaries43,</t>\n    <t s=\"6\">for then their mazal prevails44,</t>\n    <t s=\"7\">and behold, their purpose and intention was that \"your wellsprings spread forth outward\",</t>\n    <t s=\"8\">until the outermost, beyond which there is no outside.</t>\n    <t s=\"9\">And through this, \"the donkey comes\"45,</t>\n    <t s=\"10\">that is, King Mashiach, very soon,</t>\n    <t s=\"11\">and speedily in our days.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 939,
+    "completion_tokens": 523,
+    "total_tokens": 1462,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 683
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

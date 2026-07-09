@@ -1,0 +1,109 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914548_theRebbe_632" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914548_theRebbe_632__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914548_theRebbe_632" title="מאמר ביום השמיני תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914548_theRebbe_632__p004">
+  <section v="9">
+    <src s="0">ה)</src>
+    <src s="1">והנה ג' ענינים הנ"ל הם גם בהתשובה דהשבת הניצוצות</src>
+    <src s="2">(שבדברים הגשמיים)</src>
+    <src s="3">למקורם,</src>
+    <src s="4">שגם בתשובה זו יש דוגמת ג' ענינים הנ"ל.</src>
+    <src s="5">א',</src>
+    <src s="6">הצמאון והתשוקה דהניצוצות</src>
+    <src s="7">(מצד שרשם)</src>
+    <src s="8">לעלות מירידתן ולחזור לשרשם,</src>
+    <src s="9">וע"ד מים תחתונים בוכין אנן בעינן למהוי קדם מלכא47.</src>
+    <src s="10">ב',</src>
+    <src s="11">גודל השמחה שנעשה מהעלאת הניצוצות וחזרתם למקורם לאחרי שנתרחקו48.</src>
+    <src s="12">וג',</src>
+    <src s="13">מכיון שהניצוצות שנפלו בקליפות,</src>
+    <src s="14">גם בקליפת נוגה49,</src>
+    <src s="15">נכבה אורם50,</src>
+    <src s="16">הרי מצד מצבם אין שייך שיתבררו ויתעלו לשרשן,</src>
+    <src s="17">וכשמתבררים ועולים לשרשם</src>
+    <src s="18">(ע"י עבודת האדם),</src>
+    <src s="19">הוא חידוש51.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דהחידוש שבתשובה דהשבת הניצוצות הוא חידוש גדול יותר מהחידוש שבתשובה כפשוטה.</src>
+    <src s="2">דבתשובה כפשוטה,</src>
+    <src s="3">אף שלפני התשובה הי' במצב כזה שלא עשה רצון הקב"ה כנ"ל,</src>
+    <src s="4">הרי זהו רק כמו שהוא בחיצוניות,</src>
+    <src s="5">אבל רצונו האמיתי</src>
+    <src s="6">(גם אז52)</src>
+    <src s="7">הי' למלאות רצון קונו</src>
+    <src s="8">(כפס"ד הידוע53),</src>
+    <src s="9">אלא שרצון זה הי' בתכלית ההעלם,</src>
+    <src s="10">ועד שהגילוי שלו הוא כמו חידוש54.</src>
+    <src s="11">משא"כ התשובה דהחזרת הניצוצות למקורם,</src>
+    <src s="12">מכיון שהניצוצות שנפלו בהקליפות</src>
+    <src s="13">(גם בק"נ)</src>
+    <src s="14">נחשך אורם,</src>
+    <src s="15">ועד שאינם בבחי' אור כלל,</src>
+    <src s="16">הרי הבירור וההעלאה שלהם הוא חידוש ממש.</src>
+  </section>
+  <section v="11">
+    <src s="0">ו)</src>
+    <src s="1">אמנם,</src>
+    <src s="2">ענין זה</src>
+    <src s="3">(העילוי בהתשובה דהחזרת הניצוצות)</src>
+    <src s="4">הוא במעלת החידוש שבתשובה.</src>
+    <src s="5">משא"כ המעלה דצמאון שע"י הריחוק היא בעיקר בהתשובה דנשמה</src>
+    <src s="6">(הן בתשובה דצדיקים והן בתשובה כפשוטה).</src>
+    <src s="7">דמכיון שההתקשרות דנשמות עם אלקות היא התקשרות עצמית,</src>
+    <src s="8">כמו התקשרות בן עם האב</src>
+    <src s="9">(בנים אתם להוי' אלקיכם55)</src>
+    <src s="10">שהיא התקשרות עצמית56,</src>
+    <src s="11">הרי כשהנשמה מרגישה שהיא מרוחקת מאלקות</src>
+    <src s="12">(הריחוק שע"י ירידתה למטה,</src>
+    <src s="13">ומכ"ש הריחוק שע"י עבירות),</src>
+    <src s="14">זה נוגע לעצמותה,</src>
+    <src s="15">ובמילא,</src>
+    <src s="16">גם הצמאון שע"י הרגש הריחוק נוגע לעצמותה.</src>
+    <src s="17">ועד"ז הוא גם בהתענוג מהקירוב שבא לאחרי הריחוק,</src>
+    <src s="18">דמכיון שהנשמות הם בנים,</src>
+    <src s="19">דהבן הוא מעצמיות האב57,</src>
+    <src s="20">הרי תענוג האב מזה שנתקרב בנו</src>
+    <src s="21">(לאחרי שנתרחק),</src>
+    <src s="22">ועאכו"כ בנו יחידו58,</src>
+    <src s="23">הוא תענוג עצמי59.</src>
+    <src s="24">משא"כ התענוג מקירוב הניצוצות לאחרי שנתרחקו הוא דוגמת שני אוהבים60</src>
+    <src s="25">שלא ראו זה את זה משך זמן רב ולאחרי שמתקרבים ורואים זה את זה,</src>
+    <src s="26">הם מתענגים ושמחים במאד61,</src>
+    <src s="27">שתענוג זה</src>
+    <src s="28">(עם היותו תענוג גדול)</src>
+    <src s="29">הוא כמו שאר התענוגים שהם מדבר שחוץ ממנו62.</src>
+  </section>
+</awtsmoosMeluketSource>

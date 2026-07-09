@@ -1,0 +1,140 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920245_theRebbe_641" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920245_theRebbe_641__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920245_theRebbe_641" title="מאמר לכה דודי תשי"ד" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920245_theRebbe_641__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ תצא,</src>
+    <src s="2">י"ג אלול,</src>
+    <src s="3">ה'תשי"ד*.</src>
+  </section>
+  <section v="1">
+    <src s="0">לכה דודי לקראת כלה פני שבת נקבלה,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר במאמרו לכה דודי</src>
+    <src s="2">(מדרושי החתונה1)</src>
+    <src s="3">(מפדר"א2)</src>
+    <src s="4">שחתן דומה למלך והכלה למלכה.</src>
+    <src s="5">חתן זה הקב"ה וכלה היא כנס"י,</src>
+    <src s="6">ובספירות הו"ע ז"א ומלכות,</src>
+    <src s="7">דחתן הוא בחי' ז"א וכלה היא בחי' מלכות.</src>
+    <src s="8">וזהו לכה דודי לקראת כלה פני שבת נקבלה,</src>
+    <src s="9">שהו"ע המשכת ז"א למלכות,</src>
+    <src s="10">וסדר ההמשכה הוא,</src>
+    <src s="11">אשר תחילה צ"ל ההמשכה חיצונית</src>
+    <src s="12">(מז"א למלכות)</src>
+    <src s="13">שהיא רק בבחי' מקיף,</src>
+    <src s="14">ואח"כ היא ההמשכה פנימית.</src>
+    <src s="15">דכן הוא הסדר בכל השפעה ממשפיע למקבל,</src>
+    <src s="16">דתחילה צ"ל המשכת המשפיע מבחי' חיצוניות שלו לבחי' חיצוניות המקבל,</src>
+    <src s="17">שעי"ז מתעלה המקבל להיות קרוב למדרי' המשפיע,</src>
+    <src s="18">ואח"כ יוכל לקבל המשכה הפנימית מהמשפיע.</src>
+    <src s="19">ומביא ע"ז3</src>
+    <src s="20">ב' משלים</src>
+    <src s="21">[מהשפעת רב לתלמיד,</src>
+    <src s="22">ואב המשתעשע עם בנו הקטן].</src>
+    <src s="23">ויש לומר,</src>
+    <src s="24">שכוונתו במשלים אלה היא לא רק להביא דוגמאות לסדר ההמשכה</src>
+    <src s="25">(שההשפעה חיצונית היא הקדמה לההשפעה פנימית),</src>
+    <src s="26">אלא</src>
+    <src s="27">(גם)</src>
+    <src s="28">לבאר גודל העילוי שבב' השפעות אלו,</src>
+    <src s="29">דגם ההשפעה חיצונית היא דרגא נעלית ביותר,</src>
+    <src s="30">ועד שיש בה עילוי לגבי ההשפעה פנימית.</src>
+    <src s="31">כי ההשפעה חיצונית,</src>
+    <src s="32">שהיא בחי' מקיף,</src>
+    <src s="33">היא למעלה מכלי המקבל</src>
+    <src s="34">(משא"כ ההשפעה פנימית שמתקבלת בכלי המקבל).</src>
+    <src s="35">ומ"מ היא רק הקדמה לההשפעה פנימית,</src>
+    <src s="36">כי דוקא ע"י השפעה הפנימית מגיעים לעילוי נעלה יותר</src>
+    <src s="37">(שלמעלה מבחי' המקיף).</src>
+    <src s="38">וזהו על כל כבוד חופה4</src>
+    <src s="39">שהם ב' בחי' כבוד,</src>
+    <src s="40">כבוד חתן וכבוד כלה,</src>
+    <src s="41">ולמעלה יותר5</src>
+    <src s="42">כבוד דאבא וכבוד דאימא.</src>
+    <src s="43">ועי"ז הוא יחוד או"א ויחוד זו"ן.</src>
+    <src s="44">דעם היות ששניהם</src>
+    <src s="45">(כבוד</src>
+    <src s="46">(וחופה)</src>
+    <src s="47">דאו"א,</src>
+    <src s="48">וכבוד</src>
+    <src s="49">(וחופה)</src>
+    <src s="50">דזו"ן)</src>
+    <src s="51">הם בחי' מקיף,</src>
+    <src s="52">מ"מ ידוע6</src>
+    <src s="53">שדוקא ביחוד זו"ן</src>
+    <src s="54">(שהוא יחוד פנימי)</src>
+    <src s="55">נמשך העצם.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה המשל הראשון הוא מהשפעת רב לתלמיד,</src>
+    <src s="2">וסדר ההשפעה הוא כמו שארז"ל7</src>
+    <src s="3">דמקמי דפתח להו לרבנן אמר מילתא דבדיחותא ובדחו רבנן ולבסוף יתיב באימתא ופתח בשמעתא,</src>
+    <src s="4">דהמילתא דבדיחותא שקודם הלימוד</src>
+    <src s="5">[שהו"ע שיחת חולין של ת"ח שצריכה לימוד8]</src>
+    <src s="6">היא חיצונית בלבד,</src>
+    <src s="7">אמנם השפעה זו היא הקדמה לההשפעה פנימית</src>
+    <src s="8">(דפתח בשמעתא)</src>
+    <src s="9">כי דוקא עי"ז נעשה פתיחת הלב והמוח של התלמיד שיהי' כלי לקבלה לההשפעה פנימית.</src>
+    <src s="10">והנה מקור משל זה הוא מאדמו"ר האמצעי בתורת חיים9</src>
+    <src s="11">[אלא שבתו"ח לא הובא זה כמשל להענין דלכה דודי.</src>
+    <src s="12">ובד"ה סמוכים לעד פר"ת10</src>
+    <src s="13">(המאמר שאמר כ"ק אדמו"ר מהורש"ב נ"ע ביום הולדתו</src>
+    <src s="14">(כ' מ"ח)</src>
+    <src s="15">האחרון בעלמא דין)</src>
+    <src s="16">מקשר בדרך אפשר</src>
+    <src s="17">("ואפשר שז"ע כו'")</src>
+    <src s="18">הענין דמילתא דבדיחותא להענין דלכה דודי.</src>
+    <src s="19">ובד"ה לכה דודי השמיט כ"ק מו"ח אדמו"ר תיבת "ואפשר" וכותב זה בפשטות11],</src>
+    <src s="20">ובתו"ח שם</src>
+    <src s="21">(לאח"ז12)</src>
+    <src s="22">מבאר,</src>
+    <src s="23">דשרש ענין השחוק הוא מתענוג הפשוט שבלתי מורכב כלל.</src>
+    <src s="24">ומזה מובן,</src>
+    <src s="25">דשרש של מילתא דבדיחותא</src>
+    <src s="26">(שהוא תענוג הפשוט)</src>
+    <src s="27">הוא למעלה מהשפעת השכל שלאח"ז</src>
+    <src s="28">(שהרי התענוג שבשכל הוא תענוג מורכב).</src>
+    <src s="29">אמנם מ"מ ה"ז רק בחי' חיצונית,</src>
+    <src s="30">וע"י ההשפעה פנימית מגיעים לעילוי נעלה יותר.</src>
+    <src s="31">והענין הוא דבתענוג הפשוט גופא יש ב' דרגות13,</src>
+    <src s="32">תענוג הפשוט המורגש ותענוג העצמי הבלתי מורגש.</src>
+    <src s="33">ודוקא ע"י ההשפעה פנימית,</src>
+    <src s="34">שהתלמיד מקבל בפנימיותו,</src>
+    <src s="35">מגיעים לתענוג העצמי הבלתי מורגש.</src>
+    <src s="36">ולכן ארז"ל14</src>
+    <src s="37">ומתלמידי יותר מכולן.</src>
+  </section>
+</awtsmoosMeluketSource>

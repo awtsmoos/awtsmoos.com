@@ -1,0 +1,81 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" title="מאמר באתי לגני תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצש"ק פ' בא,</src>
+    <src s="2">יו"ד שבט ה'תש"ל</src>
+  </section>
+  <section v="1">
+    <src s="0">באתי לגני אחותי כלה1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר בעל ההילולא בהמאמר דיום ההסתלקות ויום ההילולא שלו2,</src>
+    <src s="2">דאיתא במדרש רבה</src>
+    <src s="3">(במקומו)</src>
+    <src s="4">לגני לגנוני,</src>
+    <src s="5">למקום שהי' עיקרי בתחלה,</src>
+    <src s="6">דעיקר שכינה בתחתונים היתה,</src>
+    <src s="7">אלא שע"י הענינים הבלתי רצויים</src>
+    <src s="8">(מתחיל מחטא עץ הדעת)</src>
+    <src s="9">נסתלקה השכינה מלמטה למעלה עד לרקיע השביעי,</src>
+    <src s="10">ואח"כ עמדו צדיקים</src>
+    <src s="11">(מתחיל מאברהם אבינו,</src>
+    <src s="12">אחד הי' אברהם3)</src>
+    <src s="13">והורידו את השכינה מלמעלה למטה,</src>
+    <src s="14">עד שבא משה שהוא השביעי,</src>
+    <src s="15">וכל השביעין חביבין4,</src>
+    <src s="16">והורידה למטה בארץ.</src>
+    <src s="17">דענין זה</src>
+    <src s="18">(המשכת וירידת השכינה למטה בארץ)</src>
+    <src s="19">נעשה בעיקר5</src>
+    <src s="20">ע"י המשכן שעשה משה כמ"ש6</src>
+    <src s="21">ועשו לי מקדש ושכנתי בתוכם.</src>
+    <src s="22">ומבאר בהמאמר,</src>
+    <src s="23">דזה שעיקר שכינה בתחתונים היתה,</src>
+    <src s="24">הוא,</src>
+    <src s="25">כי תכלית הכוונה בבריאת והתהוות העולמות הוא שנתאוה הקב"ה להיות לו ית' דירה בתחתונים7.</src>
+  </section>
+  <section v="2">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דכמו שהירידה</src>
+    <src s="2">(וההשתלשלות)</src>
+    <src s="3">בכללות העולמות היא לצורך עלי',</src>
+    <src s="4">שירידת האור האלקי להוות ולהחיות הנבראים דבי"ע ועד להנבראים דעוה"ז התחתון הוא בשביל העלי' שנעשית עי"ז8,</src>
+    <src s="5">עד"ז הוא בנוגע להירידה שבעוה"ז עצמו,</src>
+    <src s="6">שהירידה שנעשתה בו ע"י חטא עה"ד והענינים הבלתי רצויים שלאח"ז הוא צורך עלי'9,</src>
+    <src s="7">בכדי שהמשכת עיקר שכינה למטה עכשיו</src>
+    <src s="8">(לאחרי שנסתלקה)</src>
+    <src s="9">תהי' נעלית יותר מהמשכת עיקר שכינה בתחתונים שהיתה בתחלת הבריאה.</src>
+  </section>
+</awtsmoosMeluketSource>

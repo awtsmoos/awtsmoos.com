@@ -1,0 +1,115 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917669_theRebbe_390" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917669_theRebbe_390__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917669_theRebbe_390" title="מאמר החודש הזה לכם תשמ"ז" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917669_theRebbe_390__p003">
+  <section v="6">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דמ"ש בהמאמר</src>
+    <src s="2">(בתחלתו24)</src>
+    <src s="3">דהכוונה בנתינת התורה היא להמשיך אוא"ס שלפני הצמצום,</src>
+    <src s="4">הגם שהעילוי דתורה הוא שגם באוא"ס שלפני הצמצום גופא נמשך הגילוי דעצמות אוא"ס שלמעלה מהאור השייך לעולמות,</src>
+    <src s="5">הוא,</src>
+    <src s="6">כי גם המשכת האור השייך לעולמות</src>
+    <src s="7">(שלפני הצמצום)</src>
+    <src s="8">היא ע"י צמצום.</src>
+    <src s="9">דהגם שהצמצום שהי' באור זה</src>
+    <src s="10">(השייך לעולמות)</src>
+    <src s="11">נק' בשם צמצום הראשון,</src>
+    <src s="12">הרי מבואר במק"א25</src>
+    <src s="13">שגם לפני צמצום הראשון היו כו"כ צמצומים.</src>
+    <src s="14">דנוסף לזה שהמשכת אור השייך לעולמות מהאור שלמעלה משייכות לעולמות היא ע"י צמצום כנ"ל,</src>
+    <src s="15">הנה גם המשכת האור שלמעלה משייכות לעולמות היא ע"י צמצום.</src>
+    <src s="16">דמכיון שגם אור זה</src>
+    <src s="17">(שלמעלה משייכות לעולמות)</src>
+    <src s="18">הוא בבחי' המשכה וגילוי,</src>
+    <src s="19">ולפני זה הי' כלול בעצמות המאור ממש26</src>
+    <src s="20">[ובפרט שיש לומר שפירוש זה שהי' כלול בעצמות המאור ממש הוא שהי' כלול בהעצמות שלמעלה27</src>
+    <src s="21">מתואר מאור28],</src>
+    <src s="22">הרי מובן29,</src>
+    <src s="23">דהמשכת האור שבבחי' גילוי מהאור הכלול בעצמות המאור היא ע"י צמצום עצום.</src>
+    <src s="24">ועפ"ז יש לומר דמ"ש בהמאמר שהכוונה בנתינת התורה היא להמשיך האור שלפני הצמצום – הכוונה בזה היא</src>
+    <src s="25">(לא רק להאור שלפני צמצום הראשון אלא)</src>
+    <src s="26">גם להאור שלפני כל הצמצומים.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">ועפ"ז יש לבאר גם מ"ש בהמאמר30</src>
+    <src s="2">שפרשת החודש נאמרה מיד אחרי יצי"מ,</src>
+    <src s="3">דלכאורה תמוה,</src>
+    <src s="4">הרי מפורש בקרא31</src>
+    <src s="5">שפרשת החודש נאמר בארץ מצרים,</src>
+    <src s="6">ויש לומר,</src>
+    <src s="7">דמ"ש בהמאמר שפרשת החודש נאמרה לאחרי יצי"מ הכוונה היא לאחרי אמירת וסיפור יצי"מ</src>
+    <src s="8">(יצי"מ כמו שהוא בתורה).</src>
+    <src s="9">דלאחרי שנאמרו כל הציווים</src>
+    <src s="10">(שבתורה)</src>
+    <src s="11">לפרעה שישלח את ישראל ממצרים,</src>
+    <src s="12">עד לההתראה האחרונה דמכת בכורות שלאח"ז אמר פרעה צא אתה וכל העם גו'32,</src>
+    <src s="13">הנה מיד לאחרי אמירת יצי"מ נאמרה פרשת החודש.</src>
+    <src s="14">והענין הוא,</src>
+    <src s="15">דמעלת הגילוי דתורה על הגילוי דעולמות</src>
+    <src s="16">(המבוארת במאמר זה)</src>
+    <src s="17">היא גם על הגילוי דעולמות כמו שהוא בתורה.</src>
+    <src s="18">דזהו מה שמביא בהמאמר מ"ש רש"י לא הי' צריך להתחיל את התורה אלא מהחודש הזה לכם ומה טעם פתח בבראשית,</src>
+    <src s="19">שגם הענין דבראשית ברא</src>
+    <src s="20">(ועד"ז הסיפור דהאבות וכו'33)</src>
+    <src s="21">כמו שהוא בתורה הוא רק</src>
+    <src s="22">(כמו)</src>
+    <src s="23">הקדמה לפרשת החודש,</src>
+    <src s="24">דפרשה זו היא עיקר התחלת התורה.</src>
+    <src s="25">ולכן גם בנוגע להענין דיצי"מ שהוא הכנה למ"ת,</src>
+    <src s="26">מדובר בהמאמר ע"ד הענין דיצי"מ כמו שהוא בתורה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ויש לקשר ענין זה</src>
+    <src s="1">[שהגילוי דתורה הוא למעלה יותר גם מהגילוי דעולמות כמו שהוא בתורה]</src>
+    <src s="2">עם משנת"ל</src>
+    <src s="3">(סעיף ד)</src>
+    <src s="4">שהגילוי דתורה הוא עצמות אוא"ס שלמעלה מכל הצמצומים</src>
+    <src s="5">(גם מהצמצומים שלפני צמצום הראשון),</src>
+    <src s="6">ע"פ הידוע דכללות כל התורה</src>
+    <src s="7">(גם סיפורי התורה שלפני פרשת החודש)</src>
+    <src s="8">קדמה לעולם34,</src>
+    <src s="9">ומכיון דהתחלת ענין עולם הוא מצמצום הראשון35,</src>
+    <src s="10">התורה שקדמה לעולם היא באוא"ס שלפני הצמצום.</src>
+    <src s="11">ויתירה מזו יש לומר,</src>
+    <src s="12">דמכיון שגם בהאור שלפני הצמצום יש כבר התחלת שרש המדידה דעולמות,</src>
+    <src s="13">התורה שקדמה לעולם היא בהאור שבבחי' גילוי לעצמו שלמעלה משייכות לעולמות.</src>
+    <src s="14">דזהו גם בסיפורי התורה שלפני פרשת החודש.</src>
+    <src s="15">והעילוי דפרשת החודש,</src>
+    <src s="16">עיקר התחלת התורה,</src>
+    <src s="17">הוא,</src>
+    <src s="18">הגילוי דעצמות אוא"ס שלפני כל הצמצומים.</src>
+  </section>
+</awtsmoosMeluketSource>

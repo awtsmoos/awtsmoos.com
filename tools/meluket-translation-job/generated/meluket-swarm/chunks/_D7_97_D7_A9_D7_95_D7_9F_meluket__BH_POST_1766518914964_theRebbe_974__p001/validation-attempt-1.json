@@ -1,0 +1,324 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 56,
+    "returned": 56,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518914964_theRebbe_974\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914964_theRebbe_974__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">On the eve of the fifth day of the week, Parshat Chayei Sarah,</t>\n    <t s=\"2\">the 20th of MarCheshvan, 5745.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section discusses the Rebbe Rashab's question on the double expression \"the years of the life of Sarah\" and the Zohar's explanation that Sarah merited supernal life, which became her own.</sectionSummaryBrief>\n    <t s=\"0\">\"And the life of Sarah was one hundred years and twenty years and seven years, the years of the life of Sarah.\"</t>\n    <t s=\"1\">And the Rebbe</t>\n    <t s=\"2\">(the Rebbe Rashab)</t>\n    <t s=\"3\">of blessed memory, whose birthday is in this maamar, in his maamar beginning with the words \"Vayihyu\" from the year 5658,</t>\n    <t s=\"4\">notes: it already says \"And the life of Sarah was\"</t>\n    <t s=\"5\">[and it details her years in hundreds, tens, and ones],</t>\n    <t s=\"6\">so what does \"the years of the life of Sarah\" add?</t>\n    <t s=\"7\">And he explains this based on what is brought in the Zohar,</t>\n    <t s=\"8\">that the reason that specifically regarding Sarah it says \"the years of the life of her life\" — which is not said regarding the other Matriarchs —</t>\n    <t s=\"9\">is</t>\n    <t s=\"10\">that Sarah descended</t>\n    <t s=\"11\">(to Egypt)</t>\n    <t s=\"12\">and ascended, as it is stated,</t>\n    <t s=\"13\">\"And Avram went up from Egypt, he and his wife,\"</t>\n    <t s=\"14\">and therefore she merited supernal life.</t>\n    <t s=\"15\">And it concludes</t>\n    <t s=\"16\">(in the Zohar there)</t>\n    <t s=\"17\">\"And therefore, the life was hers.\"</t>\n    <t s=\"18\">And based on this, the maamar explains</t>\n    <t s=\"19\">the repetition of the phrase \"the years of the life of Sarah,\"</t>\n    <t s=\"20\">that \"And the life of Sarah was\" refers to her having merited supernal life,</t>\n    <t s=\"21\">and \"the years of the life of Sarah\" means that the life became hers,</t>\n    <t s=\"22\">\"it was hers\"</t>\n    <t s=\"23\">[as explained in the maamar</t>\n    <t s=\"24\">the distinction between these two concepts].</t>\n    <t s=\"25\">And one must understand the connection and relevance of the maamar's interpretation — that \"the years of the life of Sarah\" means that the life became hers —</t>\n    <t s=\"26\">with Rashi's commentary</t>\n    <t s=\"27\">on the verse, that \"the years of the life of Sarah\" means that they were all equally good.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the Torah's narratives, especially the deeds of the Patriarchs, serve as instructions and a source of strength for every Jew, raising the question of how one can be instructed that all his years, including past ones, should be equally good.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And this will be understood by prefacing that all the narratives in the Torah</t>\n    <t s=\"2\">(from the word meaning \"instruction\")</t>\n    <t s=\"3\">are instructions for every single Jew.</t>\n    <t s=\"4\">And especially the deeds of the Patriarchs</t>\n    <t s=\"5\">[and Matriarchs]</t>\n    <t s=\"6\">are a sign and a bestowal of strength for the children.</t>\n    <t s=\"7\">For since they are the Patriarchs</t>\n    <t s=\"8\">[and Matriarchs]</t>\n    <t s=\"9\">of every Jew,</t>\n    <t s=\"10\">therefore, the concepts and their divine service are inherited by every Jew.</t>\n    <t s=\"11\">And based on this,</t>\n    <t s=\"12\">the fact that the Torah relates that all the years of the life of Sarah were equally good is an instruction and a bestowal of strength for every Jew that all his years should be equally good.</t>\n    <t s=\"13\">And explanation is needed,</t>\n    <t s=\"14\">for an instruction to a person applies</t>\n    <t s=\"15\">(seemingly)</t>\n    <t s=\"16\">regarding the present and the future, and not regarding the past,</t>\n    <t s=\"17\">and since a person knows his own standing and situation in the past,</t>\n    <t s=\"18\">and \"what can be done about the evening\"</t>\n    <t s=\"19\">and about the previous days</t>\n    <t s=\"20\">[and even matters done unintentionally,</t>\n    <t s=\"21\">they stem from the dominance of the animal soul],</t>\n    <t s=\"22\">how can one be told an instruction that all his years</t>\n    <t s=\"23\">(also his past years)</t>\n    <t s=\"24\">should be equally good?</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518914964_theRebbe_974",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914964_theRebbe_974__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the opening header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "On the eve of the fifth day of the week, Parshat Chayei Sarah,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "the 20th of MarCheshvan, 5745."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section discusses the Rebbe Rashab's question on the double expression \"the years of the life of Sarah\" and the Zohar's explanation that Sarah merited supernal life, which became her own.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And the life of Sarah was one hundred years and twenty years and seven years, the years of the life of Sarah.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "of blessed memory, whose birthday is in this maamar, in his maamar beginning with the words \"Vayihyu\" from the year 5658,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "notes: it already says \"And the life of Sarah was\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "[and it details her years in hundreds, tens, and ones],"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "so what does \"the years of the life of Sarah\" add?"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "And he explains this based on what is brought in the Zohar,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "that the reason that specifically regarding Sarah it says \"the years of the life of her life\" — which is not said regarding the other Matriarchs —"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "is"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "that Sarah descended"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "(to Egypt)"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "and ascended, as it is stated,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "\"And Avram went up from Egypt, he and his wife,\""
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "and therefore she merited supernal life."
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "And it concludes"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "(in the Zohar there)"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "\"And therefore, the life was hers.\""
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "And based on this, the maamar explains"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "the repetition of the phrase \"the years of the life of Sarah,\""
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "that \"And the life of Sarah was\" refers to her having merited supernal life,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "and \"the years of the life of Sarah\" means that the life became hers,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "\"it was hers\""
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "[as explained in the maamar"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "the distinction between these two concepts]."
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "And one must understand the connection and relevance of the maamar's interpretation — that \"the years of the life of Sarah\" means that the life became hers —"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "with Rashi's commentary"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "on the verse, that \"the years of the life of Sarah\" means that they were all equally good."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the Torah's narratives, especially the deeds of the Patriarchs, serve as instructions and a source of strength for every Jew, raising the question of how one can be instructed that all his years, including past ones, should be equally good.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And this will be understood by prefacing that all the narratives in the Torah"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "(from the word meaning \"instruction\")"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "are instructions for every single Jew."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "And especially the deeds of the Patriarchs"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "[and Matriarchs]"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "are a sign and a bestowal of strength for the children."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "For since they are the Patriarchs"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "[and Matriarchs]"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "of every Jew,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "therefore, the concepts and their divine service are inherited by every Jew."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "And based on this,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "the fact that the Torah relates that all the years of the life of Sarah were equally good is an instruction and a bestowal of strength for every Jew that all his years should be equally good."
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "And explanation is needed,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "for an instruction to a person applies"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(seemingly)"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "regarding the present and the future, and not regarding the past,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "and since a person knows his own standing and situation in the past,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "and \"what can be done about the evening\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "and about the previous days"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "[and even matters done unintentionally,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "they stem from the dominance of the animal soul],"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "how can one be told an instruction that all his years"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(also his past years)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "should be equally good?"
+          }
+        ]
+      }
+    ]
+  }
+}

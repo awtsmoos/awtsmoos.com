@@ -1,0 +1,137 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915996_theRebbe_995" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915996_theRebbe_995__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915996_theRebbe_995" title="מאמר אתה אחד תשל"ב" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915996_theRebbe_995__p003">
+  <section v="6">
+    <src s="0">ועפ"ז מובנת גם השייכות דפדה בשלום נפשי למ"ש והאבן הזאת גו',</src>
+    <src s="1">כי זה שמאבני המקום לשון רבים נעשית אבן אחת הוא כענין ברבים היו עמדי.</src>
+    <src s="2">ועד"ז הוא גם הענין דאתה אחד כו' ומי כעמך כישראל גוי אחד בארץ,</src>
+    <src s="3">כי החידוש דגוי אחד בארץ הוא כמ"ש אדמו"ר הזקן25</src>
+    <src s="4">שישראל ממשיכים בחי' אחד גם בעניני ארץ.</src>
+    <src s="5">דאף שעניני ארץ הם בחי' רבים,</src>
+    <src s="6">ועד אפילו בבריאת אדה"ר אמרז"ל26</src>
+    <src s="7">עה"פ27</src>
+    <src s="8">נעשה</src>
+    <src s="9">(לשון רבים)</src>
+    <src s="10">אדם,</src>
+    <src s="11">מה אתה נותן פתחון פה כו' והרוצה לטעות כו',</src>
+    <src s="12">והיינו שהוא העלם כזה שאפילו משה רבינו חכמה דקדושה אמר מה אתה נותן כו',</src>
+    <src s="13">הנה גם בבחי' ריבוי זה נעשה בחי' אחד.</src>
+  </section>
+  <section v="7">
+    <src s="0">ד)</src>
+    <src s="1">ויובן כל זה בהקדים המאמר</src>
+    <src s="2">(נמצא בביכל שנגאל לאחרונה מהשבי')</src>
+    <src s="3">של בעל ההילולא ד"ה אתם נצבים28,</src>
+    <src s="4">שמבאר29</src>
+    <src s="5">שם שמנין הסוגים שבישראל נחלק לב' מדריגות</src>
+    <src s="6">(כדלקמן).</src>
+    <src s="7">ובהקדמה,</src>
+    <src s="8">שבתחלה נאמר בפסוק30</src>
+    <src s="9">ראשיכם שבטיכם גו' כל איש ישראל,</src>
+    <src s="10">ואח"כ נאמר בפסוק בפ"ע31</src>
+    <src s="11">טפכם נשיכם גו',</src>
+    <src s="12">והרי חלוקת הפסוקים מורה גם על חלוקת הענינים32,</src>
+    <src s="13">ולכאורה צריך להבין,</src>
+    <src s="14">למה מחלקם לב' פסוקים נפרדים.</src>
+    <src s="15">גם צריך להבין,</src>
+    <src s="16">דכיון שנאמר אתם נצבים היום כולכם,</src>
+    <src s="17">למה מונה את כל עשר הדרגות והסוגים שבישראל,</src>
+    <src s="18">ואינו מסתפק במ"ש כולכם.</src>
+    <src s="19">גם צריך ביאור במ"ש וגרך אשר בקרב מחניך,</src>
+    <src s="20">למה מוסיף בגר דוקא שהוא בקרב מחניך.</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">ומבאר שם,</src>
+    <src s="2">שעשר הסוגים שבישראל הם כנגד ע"ס דאצילות,</src>
+    <src s="3">ולכן מחלקם לב' מדריגות כלליות,</src>
+    <src s="4">כשם שבספירות יש ב' מדריגות כלליות,</src>
+    <src s="5">הספירות הראשונות שבבחינת הגדלות,</src>
+    <src s="6">והספירות האחרונות שבבחינת הקטנות.</src>
+    <src s="7">ויש להוסיף,</src>
+    <src s="8">שעפ"ז יל"פ מה שמדריגה הראשונה שבחלוקה הראשונה היא ראשיכם,</src>
+    <src s="9">והמדריגה הראשונה בחלוקה השני' היא טפכם,</src>
+    <src s="10">כי,</src>
+    <src s="11">מדריגה הראשונה שבכל חלוקה מורה על כללות כל הבחינות שבחלוקה זו</src>
+    <src s="12">(וע"ד האות הראשונה שבתיבה שהיא כוללת כל האותיות של התיבה,</src>
+    <src s="13">כמבואר בשער היחוד והאמונה33),</src>
+    <src s="14">והרי ראשיכם הוא כללות ענין הגדלות,</src>
+    <src s="15">וטפכם הוא כללות ענין הקטנות</src>
+    <src s="16">(כדלקמן).</src>
+    <src s="17">ומבאר שם,</src>
+    <src s="18">שראשיכם הוא בחי' כתר שבכתר,</src>
+    <src s="19">שכולל כל הראשים הפרטיים,</src>
+    <src s="20">והוא בחינת רצון הפשוט ועצמי שבכנסת ישראל בכלל ובכל ניצוץ אלקי בפרט,</src>
+    <src s="21">שאין טעם כלל לרצון,</src>
+    <src s="22">אפילו טעם כמוס כו',</src>
+    <src s="23">כמו במ"ת דכתיב34</src>
+    <src s="24">ויחן שם ישראל גו'.</src>
+    <src s="25">[ויש להוסיף,</src>
+    <src s="26">שגם ענין המשכת בחי' הרצון העליון בכל ישראל,</src>
+    <src s="27">מובן ע"פ מ"ש במתן תורה אנכי הוי' אלקיך35,</src>
+    <src s="28">כמבואר בכ"מ36</src>
+    <src s="29">שאז נעשה בחי' אנכי הוי' כוחו וחיותו של כאו"א מישראל].</src>
+    <src s="30">ואח"כ אמר שבטיכם,</src>
+    <src s="31">שנקראו שבטי י"ה,</src>
+    <src s="32">כמ"ש37</src>
+    <src s="33">ששם עלו שבטים שבטי י"ה,</src>
+    <src s="34">והוא בחי' אור הכתר שמתפשט בחו"ב שבכתר עצמו ונק' חו"ב שבכתר כו',</src>
+    <src s="35">והוא גילוי הרצון העצמי המאיר בהעלם השכל שנקרא טעם כמוס לרצון.</src>
+    <src s="36">[ולהעיר,</src>
+    <src s="37">שהמבואר כאן הוא דלא כמבואר במ"א38</src>
+    <src s="38">דמ"ש ששם עלו שבטים שבטי י"ה קאי על חו"ב כפי שהם במקומם].</src>
+    <src s="39">ואח"כ אמר זקניכם,</src>
+    <src s="40">זקן שקנה חכמה39</src>
+    <src s="41">ממקורה להביאה מן ההעלם כו' לבוא בהתפשטות בבינה,</src>
+    <src s="42">והן הסנהדרין שהן השופטים ודיינים כו'.</src>
+    <src s="43">ואח"כ אמר שוטריכם,</src>
+    <src s="44">שהוא בחי' נצח והוד דחו"ב</src>
+    <src s="45">(שזהו"ע כליות40</src>
+    <src s="46">יועצות41),</src>
+    <src s="47">שהן תוקף וחוזק אור השכל להיות המוח שליט על הלב42</src>
+    <src s="48">כו',</src>
+    <src s="49">והן כמו שלוחי הדיינין שרודים את העם במקל להכניעם שלא יטו ממשפט התורה ימין ושמאל,</src>
+    <src s="50">כמ"ש43</src>
+    <src s="51">שופטים ושוטרים כו'.</src>
+    <src s="52">ואח"כ אמר כל איש ישראל,</src>
+    <src s="53">שהוא בחי' הדעת המתפשט במדות שמתחלק לס"ר דעות,</src>
+    <src s="54">וכידוע בענין ברכת חכם הרזים על ס"ר מישראל שאין דעתם דומה זה לזה44,</src>
+    <src s="55">ועד שהדעת מתפשט במדות חג"ת,</src>
+    <src s="56">כמבואר בתניא45</src>
+    <src s="57">שע"י ענין הדעת באים לאהבה וענפי' ויראה וענפי',</src>
+    <src s="58">שהאהבה היא שורש כל רמ"ח מ"ע,</src>
+    <src s="59">והיראה היא שורש כל שס"ה מל"ת46.</src>
+  </section>
+</awtsmoosMeluketSource>

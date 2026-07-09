@@ -1,0 +1,90 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916328_theRebbe_715" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916328_theRebbe_715" title="מאמר וארא אל אברהם תשל"ה" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p005">
+  <section v="12">
+    <src s="0">ז)</src>
+    <src s="1">וזהו החילוק בין שם שדי ושם הוי',</src>
+    <src s="2">דשם שדי שייך לעולמות כנ"ל,</src>
+    <src s="3">ושם הוי' הוא למעלה משייכות לעולמות.</src>
+    <src s="4">וכמארז"ל28</src>
+    <src s="5">עד שלא נברא העולם הי' הוא ושמו בלבד,</src>
+    <src s="6">דזה ששמו</src>
+    <src s="7">[שם הוי'29]</src>
+    <src s="8">הי' עד שלא נברא העולם הוא לפי שהוא למעלה משייכות לעולמות.</src>
+    <src s="9">ולכן,</src>
+    <src s="10">גם לאחרי שנברא העולם,</src>
+    <src s="11">כשמאיר בעולם גילוי שם הוי',</src>
+    <src s="12">אופן הגילוי שלו הוא</src>
+    <src s="13">(לא לפי אופן העולם,</src>
+    <src s="14">אלא)</src>
+    <src s="15">שהאור עצמו הוא מתגלה.</src>
+    <src s="16">ועפ"ז יש לבאר הטעם על זה שהנסים הנמשכים משם שדי הם מלובשים בטבע והנסים הנמשכים משם הוי' הם למעלה מהטבע</src>
+    <src s="17">(כנ"ל סעיף ד),</src>
+    <src s="18">כי האור השייך לעולמות,</src>
+    <src s="19">אופן הגילוי שלו הוא שהוא מאיר ופועל בההארה שנעשית מקור להוות הנבראים,</src>
+    <src s="20">ולכן הנסים הנמשכים משם שדי על שם שדי באלקותי לכל ברי' הם מלובשים בטבע.</src>
+    <src s="21">והאור שלמעלה משייכות לעולמות</src>
+    <src s="22">(הוי'),</src>
+    <src s="23">אופן הגילוי שלו הוא שמתגלה האור עצמו.</src>
+    <src s="24">ולכן הנסים הנמשכים משם הוי' הם למעלה מהטבע.</src>
+  </section>
+  <section v="13">
+    <src s="0">ועפ"ז יש לבאר הטעם על זה שהגילוי אלקות שעל ידי הנסים שלמעלה מהטבע הוא למעלה מדי מחסורו</src>
+    <src s="1">(ראה לעיל סעיף ד),</src>
+    <src s="2">כי באור השייך לעולמות שייך לומר דכאשר האור אינו מאיר בהעולם,</src>
+    <src s="3">העולם הוא חסר,</src>
+    <src s="4">וכשמאיר בגילוי נעשה מילוי החסרון.</src>
+    <src s="5">אבל זה שאינו מאיר בעולם האור שלמעלה משייכות לעולמות,</src>
+    <src s="6">אין זה חסרון בהעולם מכיון שאור זה אינו שייך אליו</src>
+    <src s="7">[והמשכת אור זה הוא לא מילוי החסרון אלא עשירות].</src>
+    <src s="8">וכיון שהנסים שלמעלה מהטבע נמשכים מהאור שלמעלה משייכות לעולמות,</src>
+    <src s="9">לכן,</src>
+    <src s="10">הגילוי דנסים אלו הוא לא מילוי חסרון אלא עשירות.</src>
+  </section>
+  <section v="14">
+    <src s="0">ח)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">דע"פ הנ"ל שהגילוי דא-ל שדי להאבות הוא למעלה משם שדי שהי' בהבריאה,</src>
+    <src s="3">דשם שדי שהי' בהבריאה הוא על שם שאמרתי לעולמי די ושם שדי שנתגלה להאבות הוא על שם שדי באלקותי לכל ברי',</src>
+    <src s="4">דמשם זה נמשכים נסים מלמעלה מהטבע</src>
+    <src s="5">(אלא שהם מלובשים בטבע),</src>
+    <src s="6">צריך להבין עוד יותר הדיוק</src>
+    <src s="7">(שבתחילת המאמר)</src>
+    <src s="8">שדוקא שם הוי' הוא מדת אמיתית,</src>
+    <src s="9">איך שייך לומר שהאור שלמעלה מעולמות</src>
+    <src s="10">(ורק שייך לעולמות)</src>
+    <src s="11">אינו אמת ח"ו.</src>
+  </section>
+</awtsmoosMeluketSource>

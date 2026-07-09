@@ -1,0 +1,259 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 43,
+    "returned": 43,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917181_theRebbe_116\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917181_theRebbe_116__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains how the atonement for sins, including the sin of the Golden Calf, is achieved through the elevation of the clarifications to the highest levels of Tohu and beyond, up to simple unity.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And with this will be understood that which concludes \"to atone for your souls,\"</t>\n    <t s=\"2\">that through this one effects a rectification of the sins, up to the sin of the [Golden] Calf.</t>\n    <t s=\"3\">For since through the clarifications one ascends to a most exalted place,</t>\n    <t s=\"4\">the aspect of Tohu that preceded Tikkun,</t>\n    <t s=\"5\">and beyond this,</t>\n    <t s=\"6\">to the place where Yaakov is the firstborn</t>\n    <t s=\"7\">(as per the analogy of the tube, where the drop that enters first emerges last28),</t>\n    <t s=\"8\">and beyond this,</t>\n    <t s=\"9\">to the place where both are equal,</t>\n    <t s=\"10\">\"Behold, Esav is a brother to Yaakov\"29,</t>\n    <t s=\"11\">until the aspect of simple unity,</t>\n    <t s=\"12\">it is simple that from there is drawn the rectification of all lacks and blemishes, etc.</t>\n    <t s=\"13\">And this is the matter of the twenty gerah mentioned above,</t>\n    <t s=\"14\">as it is stated in the Book of Bahir30</t>\n    <t s=\"15\">\"Regarding the ten Sefiros from below upward we do not know; from above downward we know,\"</t>\n    <t s=\"16\">for through the service in the aspect of \"from below upward\" one draws from the aspect of \"we do not know,\"</t>\n    <t s=\"17\">which is entirely above the concept of knowledge, etc.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the rectification for the sin of the Golden Calf, which occurred when Moshe was delayed, is specifically through the service of the half-shekel.</sectionSummaryBrief>\n    <t s=\"0\">And this is also why this was the rectification for the sin of the [Golden] Calf,</t>\n    <t s=\"1\">for the sin of the Calf occurred when \"Moshe delayed in descending\"31,</t>\n    <t s=\"2\">and our sages, of blessed memory, said32</t>\n    <t s=\"3\">\"Do not read 'bosheish' (delayed) but 'ba'u sheish' (came six),</t>\n    <t s=\"4\">that the sixth hour came,</t>\n    <t s=\"5\">midday,</t>\n    <t s=\"6\">and he did not come,</t>\n    <t s=\"7\">and the rectification for this is specifically through the service of the half-shekel33.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section concludes that just as the half-shekel funded the offerings for the entire year, so too must this service be performed all year with joy, leading to the revelation of the Third Beis HaMikdash and the resurrection of the dead.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And behold, just as through the giving of the half-shekel they offered sacrifices throughout the year,</t>\n    <t s=\"2\">so too in [divine] service,</t>\n    <t s=\"3\">that the aforementioned service must be [performed] throughout the year,</t>\n    <t s=\"4\">and in a manner of joy and goodness of heart,</t>\n    <t s=\"5\">from an abundance of everything,</t>\n    <t s=\"6\">meaning that in place of the lack of everything, there will be an abundance of everything,</t>\n    <t s=\"7\">and beyond this,</t>\n    <t s=\"8\">for \"one hour of repentance and good deeds in this world is more beautiful than all the life of the World to Come\"34.</t>\n    <t s=\"9\">However, for a reason known to their Maker, the matters are not now revealed,</t>\n    <t s=\"10\">and very soon \"the glory of Hashem will be revealed and all flesh together will see\"35.</t>\n    <t s=\"11\">And may it be His will that soon we will fulfill the commandment of the half-shekel in the Third Beis HaMikdash,</t>\n    <t s=\"12\">souls in bodies, from proper health and with expansiveness,</t>\n    <t s=\"13\">and \"they will awaken and sing, dwellers of the dust\"36</t>\n    <t s=\"14\">and Aharon and Moshe with them37,</t>\n    <t s=\"15\">and \"a great congregation will return here\"38,</t>\n    <t s=\"16\">very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917181_theRebbe_116",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917181_theRebbe_116__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains how the atonement for sins, including the sin of the Golden Calf, is achieved through the elevation of the clarifications to the highest levels of Tohu and beyond, up to simple unity.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And with this will be understood that which concludes \"to atone for your souls,\""
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that through this one effects a rectification of the sins, up to the sin of the [Golden] Calf."
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "For since through the clarifications one ascends to a most exalted place,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "the aspect of Tohu that preceded Tikkun,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "and beyond this,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "to the place where Yaakov is the firstborn"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "(as per the analogy of the tube, where the drop that enters first emerges last28),"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "and beyond this,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "to the place where both are equal,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "\"Behold, Esav is a brother to Yaakov\"29,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "until the aspect of simple unity,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "it is simple that from there is drawn the rectification of all lacks and blemishes, etc."
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "And this is the matter of the twenty gerah mentioned above,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "as it is stated in the Book of Bahir30"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "\"Regarding the ten Sefiros from below upward we do not know; from above downward we know,\""
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "for through the service in the aspect of \"from below upward\" one draws from the aspect of \"we do not know,\""
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "which is entirely above the concept of knowledge, etc."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the rectification for the sin of the Golden Calf, which occurred when Moshe was delayed, is specifically through the service of the half-shekel.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And this is also why this was the rectification for the sin of the [Golden] Calf,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "for the sin of the Calf occurred when \"Moshe delayed in descending\"31,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "and our sages, of blessed memory, said32"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "\"Do not read 'bosheish' (delayed) but 'ba'u sheish' (came six),"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "that the sixth hour came,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "midday,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "and he did not come,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "and the rectification for this is specifically through the service of the half-shekel33."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section concludes that just as the half-shekel funded the offerings for the entire year, so too must this service be performed all year with joy, leading to the revelation of the Third Beis HaMikdash and the resurrection of the dead.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And behold, just as through the giving of the half-shekel they offered sacrifices throughout the year,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "so too in [divine] service,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "that the aforementioned service must be [performed] throughout the year,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "and in a manner of joy and goodness of heart,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "from an abundance of everything,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "meaning that in place of the lack of everything, there will be an abundance of everything,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "and beyond this,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "for \"one hour of repentance and good deeds in this world is more beautiful than all the life of the World to Come\"34."
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "However, for a reason known to their Maker, the matters are not now revealed,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "and very soon \"the glory of Hashem will be revealed and all flesh together will see\"35."
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "And may it be His will that soon we will fulfill the commandment of the half-shekel in the Third Beis HaMikdash,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "souls in bodies, from proper health and with expansiveness,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "and \"they will awaken and sing, dwellers of the dust\"36"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "and Aharon and Moshe with them37,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "and \"a great congregation will return here\"38,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

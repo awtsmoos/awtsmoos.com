@@ -1,0 +1,539 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 99,
+    "returned": 99,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915857_theRebbe_394\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915857_theRebbe_394__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>The Greeks' spiritual war aimed to make Israel forget that the Torah is G-d's Torah and to nullify the G-dliness in the mitzvos, targeting specifically the chukim and the aspect of Divine will.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of the matter in the service of man will be understood by prefacing what is explained in the discourses of my revered father-in-law, the Rebbe,</t>\n    <t s=\"2\">that the fact that the Greeks defiled the oils in the Heichal is because their entire war was a spiritual war,</t>\n    <t s=\"3\">they did not want to harm the bodies of Israel,</t>\n    <t s=\"4\">rather their main desire was to cause them to forget Your Torah and to cause them to transgress the statutes of Your will.</t>\n    <t s=\"5\">And even within this itself,</t>\n    <t s=\"6\">(in that they fought against Torah and mitzvos),</t>\n    <t s=\"7\">their main war was against the spirituality</t>\n    <t s=\"8\">(and G-dliness)</t>\n    <t s=\"9\">of Torah and mitzvos.</t>\n    <t s=\"10\">For this is \"to cause them to forget Your Torah\"</t>\n    <t s=\"11\">(specifically Your Torah),</t>\n    <t s=\"12\">for the Greeks did not care</t>\n    <t s=\"13\">(so much)</t>\n    <t s=\"14\">that Israel should study Torah,</t>\n    <t s=\"15\">rather they wanted that the study of Torah be only from the aspect of the intellect within the Torah,</t>\n    <t s=\"16\">for it is \"your wisdom and understanding in the eyes of the nations\",</t>\n    <t s=\"17\">and their entire war was that they sought to cause them to forget Your Torah,</t>\n    <t s=\"18\">to cause Israel to forget, G-d forbid, that the Torah is the Torah of Havayah.</t>\n    <t s=\"19\">And similarly regarding mitzvos,</t>\n    <t s=\"20\">the war of the Greeks was against the G-dliness within the mitzvos,</t>\n    <t s=\"21\">that the mitzvos are His will, for this is \"to cause them to transgress the statutes of Your will\"</t>\n    <t s=\"22\">(specifically statutes and specifically Your will),</t>\n    <t s=\"23\">and there are two explanations of this.</t>\n    <t s=\"24\">Regarding the mitzvos of testimonies and judgments,</t>\n    <t s=\"25\">since they are rational mitzvos,</t>\n    <t s=\"26\">the Greeks also agreed to them,</t>\n    <t s=\"27\">and their entire war was against the mitzvos of chukim,</t>\n    <t s=\"28\">since the manner of their fulfillment is only because they are the will of Havayah.</t>\n    <t s=\"29\">And a second explanation</t>\n    <t s=\"30\">(more deeply),</t>\n    <t s=\"31\">that this that they sought to cause them to transgress the statutes of Your will applies to all mitzvos,</t>\n    <t s=\"32\">even to the mitzvos of testimonies and judgments.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>Even rational mitzvos must be fulfilled primarily because they are G-d's will, above human intellect, and the Greeks sought to uproot the awareness of this G-dly aspect in all mitzvos.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And this will be understood based on what is known,</t>\n    <t s=\"2\">that even the mitzvos of testimonies and judgments must be fulfilled</t>\n    <t s=\"3\">(primarily)</t>\n    <t s=\"4\">because they are the will of G-d,</t>\n    <t s=\"5\">like the chukim.</t>\n    <t s=\"6\">And this matter</t>\n    <t s=\"7\">(that even mitzvos for which there is a reason must be fulfilled because they are the will of G-d)</t>\n    <t s=\"8\">is not only from the perspective of the person fulfilling them,</t>\n    <t s=\"9\">that his fulfillment of mitzvos must be in the manner of the service of a servant,</t>\n    <t s=\"10\">which is specifically when he fulfills the mitzvos</t>\n    <t s=\"11\">(not because of the reason and intellect,</t>\n    <t s=\"12\">but rather)</t>\n    <t s=\"13\">because of the command of the Master,</t>\n    <t s=\"14\">but also from the perspective of the mitzvos themselves,</t>\n    <t s=\"15\">for all mitzvos</t>\n    <t s=\"16\">(even mitzvos for which there is a reason)</t>\n    <t s=\"17\">are His will,</t>\n    <t s=\"18\">a will that is above reason,</t>\n    <t s=\"19\">and only that the Holy One, blessed be He, decreed that the will of these mitzvos should also be clothed in reason.</t>\n    <t s=\"20\">Moreover,</t>\n    <t s=\"21\">even the reasons for the mitzvos</t>\n    <t s=\"22\">(as they are in their truth)</t>\n    <t s=\"23\">are above the comprehension of human intellect,</t>\n    <t s=\"24\">for the true reasons for the mitzvos are as they are in His wisdom,</t>\n    <t s=\"25\">and since His wisdom is also infinite</t>\n    <t s=\"26\">(and especially that He and His wisdom are one),</t>\n    <t s=\"27\">therefore it is impossible that the limited intellect of creatures can grasp the true reason of the mitzvos,</t>\n    <t s=\"28\">as it is written in Igeres HaKodesh</t>\n    <t s=\"29\">that the reasons for the mitzvos were not revealed and they are above intellect and understanding,</t>\n    <t s=\"30\">and also in \"Eizehu Mekoman\" where some reason that is understandable to us was revealed and explained,</t>\n    <t s=\"31\">behold, this reason that is understandable to us is not the ultimate reason, etc.</t>\n    <t s=\"32\">And this matter</t>\n    <t s=\"33\">(that the reason understandable to us is not the ultimate reason)</t>\n    <t s=\"34\">is also understood by human intellect.</t>\n    <t s=\"35\">For even human intellect understands simply,</t>\n    <t s=\"36\">that a limited intellect is incapable of grasping His unlimited wisdom.</t>\n    <t s=\"37\">And on the contrary,</t>\n    <t s=\"38\">this that in \"Eizehu Mekoman\" some reason understandable to us was revealed and explained is a great wonder,</t>\n    <t s=\"39\">and it is only a kindness of G-d that even the human intellect should have some comprehension of this.</t>\n    <t s=\"40\">And even after, through the kindness of G-d, a reason understandable to us was revealed and explained,</t>\n    <t s=\"41\">behold it is known</t>\n    <t s=\"42\">that the reason is only for the mitzvah in general and not for its details.</t>\n    <t s=\"43\">From all this it is understood,</t>\n    <t s=\"44\">that even the mitzvos of testimonies and judgments are</t>\n    <t s=\"45\">(like)</t>\n    <t s=\"46\">chukim relative to us</t>\n    <t s=\"47\">(since even the reasons for the mitzvos from the perspective of His wisdom are above the intellect of creatures),</t>\n    <t s=\"48\">and furthermore, they are \"Your will\"</t>\n    <t s=\"49\">(His will which is above even His wisdom).</t>\n    <t s=\"50\">And this is that what the Greeks sought, \"to cause them to transgress the statutes of Your will,\" applies also to the mitzvos of testimonies and judgments,</t>\n    <t s=\"51\">for the Greeks sought to uproot, G-d forbid, from Israel the G-dly feeling within the mitzvos,</t>\n    <t s=\"52\">that all mitzvos are His wisdom which is above human intellect</t>\n    <t s=\"53\">(\"to cause them to transgress the statutes\"),</t>\n    <t s=\"54\">and they sought to uproot, G-d forbid, the feeling that the mitzvos are His will</t>\n    <t s=\"55\">(\"Your will\").</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>The Greeks entered the Heichal (Binah) and defiled all the oils (Chochmah) to ensure Torah study and mitzvah observance would be only from intellect, not from the aspect of G-dliness.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And with this the language of the Gemara will be understood: \"When the Greeks entered the Heichal, they defiled all the oils that were in the Heichal,\"</t>\n    <t s=\"2\">for the implication of the language is,</t>\n    <t s=\"3\">that when they entered the Heichal, they endeavored and exerted themselves to defile the oils</t>\n    <t s=\"4\">(in order to defeat Israel, G-d forbid),</t>\n    <t s=\"5\">for Heichal is Binah and oil is Chochmah, which is above the intellect of Binah</t>\n    <t s=\"6\">(as above in section 2, that oil is the aspect of holiness),</t>\n    <t s=\"7\">and therefore they defiled all the oils that were in the Heichal of Binah,</t>\n    <t s=\"8\">in order to achieve, G-d forbid, their evil design to cause them to forget Your Torah and to cause them to transgress the statutes of Your will,</t>\n    <t s=\"9\">so that the study of Torah and fulfillment of mitzvos would be only from the aspect of intellect.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915857_theRebbe_394",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915857_theRebbe_394__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "The Greeks' spiritual war aimed to make Israel forget that the Torah is G-d's Torah and to nullify the G-dliness in the mitzvos, targeting specifically the chukim and the aspect of Divine will.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the explanation of the matter in the service of man will be understood by prefacing what is explained in the discourses of my revered father-in-law, the Rebbe,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that the fact that the Greeks defiled the oils in the Heichal is because their entire war was a spiritual war,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "they did not want to harm the bodies of Israel,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "rather their main desire was to cause them to forget Your Torah and to cause them to transgress the statutes of Your will."
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "And even within this itself,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(in that they fought against Torah and mitzvos),"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "their main war was against the spirituality"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "(and G-dliness)"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "of Torah and mitzvos."
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "For this is \"to cause them to forget Your Torah\""
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "(specifically Your Torah),"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "for the Greeks did not care"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(so much)"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "that Israel should study Torah,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "rather they wanted that the study of Torah be only from the aspect of the intellect within the Torah,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "for it is \"your wisdom and understanding in the eyes of the nations\","
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "and their entire war was that they sought to cause them to forget Your Torah,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "to cause Israel to forget, G-d forbid, that the Torah is the Torah of Havayah."
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "And similarly regarding mitzvos,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "the war of the Greeks was against the G-dliness within the mitzvos,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "that the mitzvos are His will, for this is \"to cause them to transgress the statutes of Your will\""
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "(specifically statutes and specifically Your will),"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "and there are two explanations of this."
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "Regarding the mitzvos of testimonies and judgments,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "since they are rational mitzvos,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "the Greeks also agreed to them,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "and their entire war was against the mitzvos of chukim,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "since the manner of their fulfillment is only because they are the will of Havayah."
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "And a second explanation"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "(more deeply),"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "that this that they sought to cause them to transgress the statutes of Your will applies to all mitzvos,"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "even to the mitzvos of testimonies and judgments."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "Even rational mitzvos must be fulfilled primarily because they are G-d's will, above human intellect, and the Greeks sought to uproot the awareness of this G-dly aspect in all mitzvos.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And this will be understood based on what is known,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "that even the mitzvos of testimonies and judgments must be fulfilled"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "because they are the will of G-d,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "like the chukim."
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "And this matter"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "(that even mitzvos for which there is a reason must be fulfilled because they are the will of G-d)"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "is not only from the perspective of the person fulfilling them,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "that his fulfillment of mitzvos must be in the manner of the service of a servant,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "which is specifically when he fulfills the mitzvos"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "(not because of the reason and intellect,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "but rather)"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "because of the command of the Master,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "but also from the perspective of the mitzvos themselves,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "for all mitzvos"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "(even mitzvos for which there is a reason)"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "are His will,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "a will that is above reason,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "and only that the Holy One, blessed be He, decreed that the will of these mitzvos should also be clothed in reason."
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "Moreover,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "even the reasons for the mitzvos"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "(as they are in their truth)"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "are above the comprehension of human intellect,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "for the true reasons for the mitzvos are as they are in His wisdom,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "and since His wisdom is also infinite"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "(and especially that He and His wisdom are one),"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "therefore it is impossible that the limited intellect of creatures can grasp the true reason of the mitzvos,"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "as it is written in Igeres HaKodesh"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "that the reasons for the mitzvos were not revealed and they are above intellect and understanding,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "and also in \"Eizehu Mekoman\" where some reason that is understandable to us was revealed and explained,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "behold, this reason that is understandable to us is not the ultimate reason, etc."
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "And this matter"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "(that the reason understandable to us is not the ultimate reason)"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "is also understood by human intellect."
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "For even human intellect understands simply,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "that a limited intellect is incapable of grasping His unlimited wisdom."
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "And on the contrary,"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "this that in \"Eizehu Mekoman\" some reason understandable to us was revealed and explained is a great wonder,"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "and it is only a kindness of G-d that even the human intellect should have some comprehension of this."
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "And even after, through the kindness of G-d, a reason understandable to us was revealed and explained,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "behold it is known"
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "that the reason is only for the mitzvah in general and not for its details."
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "From all this it is understood,"
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "that even the mitzvos of testimonies and judgments are"
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "(like)"
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "chukim relative to us"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "(since even the reasons for the mitzvos from the perspective of His wisdom are above the intellect of creatures),"
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "and furthermore, they are \"Your will\""
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "(His will which is above even His wisdom)."
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "And this is that what the Greeks sought, \"to cause them to transgress the statutes of Your will,\" applies also to the mitzvos of testimonies and judgments,"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "for the Greeks sought to uproot, G-d forbid, from Israel the G-dly feeling within the mitzvos,"
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "that all mitzvos are His wisdom which is above human intellect"
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "(\"to cause them to transgress the statutes\"),"
+          },
+          {
+            "v": 4,
+            "s": 54,
+            "translation": "and they sought to uproot, G-d forbid, the feeling that the mitzvos are His will"
+          },
+          {
+            "v": 4,
+            "s": 55,
+            "translation": "(\"Your will\")."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "The Greeks entered the Heichal (Binah) and defiled all the oils (Chochmah) to ensure Torah study and mitzvah observance would be only from intellect, not from the aspect of G-dliness.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And with this the language of the Gemara will be understood: \"When the Greeks entered the Heichal, they defiled all the oils that were in the Heichal,\""
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "for the implication of the language is,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that when they entered the Heichal, they endeavored and exerted themselves to defile the oils"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "(in order to defeat Israel, G-d forbid),"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "for Heichal is Binah and oil is Chochmah, which is above the intellect of Binah"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "(as above in section 2, that oil is the aspect of holiness),"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "and therefore they defiled all the oils that were in the Heichal of Binah,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "in order to achieve, G-d forbid, their evil design to cause them to forget Your Torah and to cause them to transgress the statutes of Your will,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "so that the study of Torah and fulfillment of mitzvos would be only from the aspect of intellect."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,115 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918964_theRebbe_845" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918964_theRebbe_845__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918964_theRebbe_845" title="מאמר והנה פרח מטה אהרן תשל"ג" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918964_theRebbe_845__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והנה עיקר הדין ומשפט באיזה ענין יומשך החסד הוא כשהחסד שנקצב לו בר"ה וביוהכ"פ הוא חסד מצומצם ביותר,</src>
+    <src s="2">שאינו מספיק שיומשכו ממנו כל ג' הענינים דבני חיי ומזוני אלא רק שנים מהם או אחד מהם,</src>
+    <src s="3">שאז יש דין ומשפט אם השפעת החסד תהי' בבני או בחיי או במזוני.</src>
+    <src s="4">ותפלת הצדיק מועלת להחליף מענין לענין14.</src>
+    <src s="5">[וכהסיפור ע"ד הבעש"ט,</src>
+    <src s="6">שבאו אליו חשוכי בנים לבקשו שיתפלל לה' שיהי' להם בנים,</src>
+    <src s="7">והאיש ההוא הי' עשיר גדול,</src>
+    <src s="8">ואמר הבעש"ט שבאם הם מסכימים שיהיו עניים יהי' להם בנים.</src>
+    <src s="9">וכשקיבלו עליהם,</src>
+    <src s="10">נולדו להם בנים ונעשו עניים.</src>
+    <src s="11">והיינו שהבעש"ט ראה שהחסד שנקצב להם לא יספיק על בנים ועושר יחד,</src>
+    <src s="12">וע"י תפלתו פעל להחליף השפעת החסד מעשירות לבנים14].</src>
+    <src s="13">ויש לומר,</src>
+    <src s="14">שאז</src>
+    <src s="15">[כשהחסד הוא מצומצם שאינו מספיק על כל הענינים דבני חיי ומזוני],</src>
+    <src s="16">הדין ומשפט הוא ביותר.</src>
+    <src s="17">ובכדי שיוחלף החסד מענין לענין הוא דוקא ע"י תפלת צדיק.</src>
+    <src s="18">אבל בכללות גם כשהחסד מספיק לכל ג' הענינים דבני חיי ומזוני,</src>
+    <src s="19">יש דין ומשפט בכל יום בנוגע לכל השפעה פרטית,</src>
+    <src s="20">ולכן מתפללים בכל יום י"ב ברכות אמצעיות שיש בהן שאלת כל הדברים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">הרי הדין שבר"ה ויוהכ"פ הוא על האדם כמו שהוא למטה</src>
+    <src s="3">(נשמה בגוף)</src>
+    <src s="4">[ובפרט לפי המובא בלקו"ת15</src>
+    <src s="5">מהגהות מיימוני16</src>
+    <src s="6">שאדם נידון בר"ה בעניני עוה"ז],</src>
+    <src s="7">והדין ומשפט הוא</src>
+    <src s="8">(לא רק בנוגע להשפעת החסד בכלל,</src>
+    <src s="9">אלא גם)</src>
+    <src s="10">בנוגע להפרטים17</src>
+    <src s="11">[וכדמוכח גם מזה שבהתפלות דר"ה ויוהכ"פ מבקשים גם על ענינים פרטיים],</src>
+    <src s="12">ואעפ"כ אדם נידון בכל יום באיזה ענין יומשך לו החסד שנקצב עליו בר"ה ויוהכ"פ,</src>
+    <src s="13">ויתירה מזו,</src>
+    <src s="14">שהוא נידון אם ההשפעה שנקצבה לו תומשך בעוה"ז או שיוסיפו לו תענוג וכו' למעלה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">ויובן זה ע"פ מ"ש בסידור18</src>
+    <src s="2">עה"פ19</src>
+    <src s="3">יום ליום יביע אומר,</src>
+    <src s="4">שבימי החול ישנם כמה עיכובים בהמשכת ההשפעה למטה,</src>
+    <src s="5">וביום השבת,</src>
+    <src s="6">המשכת ההשפעה היא במהירות,</src>
+    <src s="7">יביע אומר,</src>
+    <src s="8">יביע לשון מהירות20.</src>
+    <src s="9">ומבואר שם21,</src>
+    <src s="10">דזה שבימי החול אפשר שההשפעה תתעכב ולא תומשך למטה,</src>
+    <src s="11">הוא כמשל אדם שדן בשכלו על איזה דבר אם ראוי לעשותו אם לאו ובא למסקנא והחלטה שראוי לעשותו,</src>
+    <src s="12">ואעפ"כ אפשר להיות שזה ישאר בשכלו ולא יבוא במעשה בפועל.</src>
+    <src s="13">ויתירה מזו,</src>
+    <src s="14">שכאשר הדבר נוגע למעשה בפועל הוא שוקל בדעתו עוד פעם אם לעשות בפועל כפי שהחליט בשכלו.</src>
+    <src s="15">דהגם שההחלטה בשכל היתה שראוי לעשות הדבר,</src>
+    <src s="16">מ"מ,</src>
+    <src s="17">כיון שהעשי' שנרגשה אצלו בהחלטת שכלו היא עשי' כמו שכלולה בשכל,</src>
+    <src s="18">לכן,</src>
+    <src s="19">כשבא הדבר לידי מעשה בפועל,</src>
+    <src s="20">מעשה כמו שהוא בפ"ע</src>
+    <src s="21">(נפרד מהשכל),</src>
+    <src s="22">צריך להתייעץ ולדון בשכלו עוד פעם אם לעשות כן בפועל.</src>
+    <src s="23">ובפרטיות,</src>
+    <src s="24">שני ענינים בזה22.</src>
+    <src s="25">שהחלטת השכל</src>
+    <src s="26">(שראוי לעשות הדבר)</src>
+    <src s="27">אינה מחייבת את המעשה,</src>
+    <src s="28">דכיון שהמעשה הכלול בשכל והמעשה בפועל</src>
+    <src s="29">(כמו שהוא בפ"ע נפרד מהשכל)</src>
+    <src s="30">הם שני ענינים,</src>
+    <src s="31">לכן אפשר שההחלטה השכלית לא תביא אותו למעשה,</src>
+    <src s="32">היינו שלא יחשוב אפילו בנוגע למעשה בפועל.</src>
+    <src s="33">ויתירה מזו,</src>
+    <src s="34">שגם כשיחשוב עד"ז,</src>
+    <src s="35">אפשר להיות אצלו סברא שלא לעשות,</src>
+    <src s="36">וצריך לדון עוד פעם.</src>
+  </section>
+</awtsmoosMeluketSource>

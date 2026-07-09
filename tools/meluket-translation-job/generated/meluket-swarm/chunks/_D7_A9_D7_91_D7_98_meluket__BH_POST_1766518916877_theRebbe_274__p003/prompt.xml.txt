@@ -1,0 +1,145 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916877_theRebbe_274" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916877_theRebbe_274" title="מאמר באתי לגני תשל"ב" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916877_theRebbe_274__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">דעבודת הקרבנות היא עבודה רוחנית שבנפש.</src>
+    <src s="3">ומביא ראי' על זה מענין השתתפות הכהנים והלוים בעבודתם ושירם וזמרם בעת הבאת הקרבן,</src>
+    <src s="4">שהם ענינים רוחניים.</src>
+    <src s="5">[וכמבואר בכ"מ23,</src>
+    <src s="6">דההמשכה שבקרבנות היתה ע"י עבודת הכהנים,</src>
+    <src s="7">וההעלאה דהקרבנות היתה ע"י השירה והזמרה דהלוים24].</src>
+    <src s="8">וזהו מ"ש25</src>
+    <src s="9">אדם כי יקריב מכם גו',</src>
+    <src s="10">אף שלכאורה הי' צריך לומר אדם מכם כי יקריב,</src>
+    <src s="11">שבזה מרמז,</src>
+    <src s="12">שהקרבן צריך להיות לא רק מן הבהמה כפשוטה אלא גם מכם</src>
+    <src s="13">(פון אייך אַליין),</src>
+    <src s="14">מן הבהמה שבלבו של אדם.</src>
+    <src s="15">ויש לומר,</src>
+    <src s="16">דמ"ש בהמאמר שעבודת הקרבנות היא</src>
+    <src s="17">(גם)</src>
+    <src s="18">עבודה רוחנית בנפש האדם</src>
+    <src s="19">[אף דזה שעבודת הקרבנות היא העבודה דאתהפכא הוא גם בקרבנות כפשוטם,</src>
+    <src s="20">דכשלוקחים בהמה שחיותה היא מקליפת נוגה26</src>
+    <src s="21">ועושים אותה קרבן להוי',</src>
+    <src s="22">הו"ע אתהפכא חשוכא לנהורא],</src>
+    <src s="23">שייך למ"ש בתחלת המאמר,</src>
+    <src s="24">דפירוש ועשו לי מקדש ושכנתי בתוכם</src>
+    <src s="25">(לשון רבים)</src>
+    <src s="26">הוא בתוך כל אחד ואחד מישראל.</src>
+    <src s="27">דמזה מובן,</src>
+    <src s="28">דכמו שבמשכן ומקדש,</src>
+    <src s="29">היתה עיקר ההמשכה ע"י עבודת הקרבנות27</src>
+    <src s="30">[דהגם שההמשכה שנמשכה בו ע"י עשיית המקדש היא המשכה נעלית ביותר</src>
+    <src s="31">(שע"י ועשו לי מקדש נעשה ושכנתי בתוכם,</src>
+    <src s="32">ושכנתי אני בעצמי),</src>
+    <src s="33">מ"מ,</src>
+    <src s="34">ההמשכה שנמשכה בו ע"י עבודת הקרבנות היא נעלית עוד יותר],</src>
+    <src s="35">עד"ז הוא בנוגע להמקדש שבכ"א מישראל,</src>
+    <src s="36">שגם לאחרי העבודה דועשו לי מקדש</src>
+    <src s="37">(שהאדם עושה את עצמו למקדש לו ית'),</src>
+    <src s="38">שעי"ז נעשה ושכנתי בתוכם,</src>
+    <src s="39">צריכה להיות העבודה דאדם כי יקריב מכם,</src>
+    <src s="40">שעי"ז תומשך בו המשכה נעלית עוד יותר,</src>
+    <src s="41">עיקר הענין דושכנתי בתוכם28.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">ויובן זה בהקדים מ"ש בהמאמר</src>
+    <src s="2">(בתחילת הפרק),</src>
+    <src s="3">שהעבודה שהיתה במשכן ומקדש היא העבודה דאתכפיא המביאה לאתהפכא.</src>
+    <src s="4">דבתחלת המאמר אומר,</src>
+    <src s="5">שהעבודה שעל ידה הוא המשכת עיקר שכינה למטה היא העבודה דאתכפיא ואתהפכא</src>
+    <src s="6">[דהגם שמביא שם את המאמר כד אתכפיא סט"א אסתלק יקרא דקוב"ה בכולהו עלמין,</src>
+    <src s="7">מ"מ מדבר בשני הענינים,</src>
+    <src s="8">אתכפיא ואתהפכא.</src>
+    <src s="9">ואדרבא,</src>
+    <src s="10">עיקר הביאור</src>
+    <src s="11">(בתחילת המאמר)</src>
+    <src s="12">הוא בהמעלה דאתהפכא,</src>
+    <src s="13">דע"י שהחושך נהפך לאור נעשה יתרון האור],</src>
+    <src s="14">ובפרק זה</src>
+    <src s="15">(פרק שני),</src>
+    <src s="16">כשמדבר בהעבודה שהיתה במשכן ומקדש</src>
+    <src s="17">(לאחרי עשייתם),</src>
+    <src s="18">אומר,</src>
+    <src s="19">שהעבודה במשכן ומקדש היא העבודה דאתכפיא המביאה לאתהפכא29.</src>
+    <src s="20">ויש לומר,</src>
+    <src s="21">דמהביאורים על זה שההמשכה שע"י עבודת הקרבנות היא המשכה נעלית יותר מההמשכה שע"י עשיית המקדש</src>
+    <src s="22">(כנ"ל סעיף ה),</src>
+    <src s="23">הוא,</src>
+    <src s="24">כי ההדגשה בהעבודה דעשיית המקדש הוא הענין דאתהפכא30</src>
+    <src s="25">[שהאדם והעולם נהפכים להיות מקדש לו ית'],</src>
+    <src s="26">והחידוש שבעבודת הקרבנות הוא שבה מודגש</src>
+    <src s="27">(גם)</src>
+    <src s="28">הענין דאתכפיא</src>
+    <src s="29">(כדלקמן),</src>
+    <src s="30">וההמשכה שע"י העבודה דאתכפיא היא נעלית יותר מההמשכה שע"י העבודה דאתהפכא31.</src>
+    <src s="31">ועפ"ז יש להוסיף ביאור בזה שמבאר</src>
+    <src s="32">(ובארוכה)</src>
+    <src s="33">הענין דעבודת הקרבנות כמו שהוא בעבודת האדם,</src>
+    <src s="34">כי בקרבנות כפשוטם,</src>
+    <src s="35">ניכר בגילוי רק הענין דאתהפכא</src>
+    <src s="36">[שהבהמה שחיותה מקליפת נוגה נהפכה להיות קרבן להוי'],</src>
+    <src s="37">והענין דאתכפיא שבעבודת הקרבנות ניכר יותר בעבודת הקרבנות שבנפש האדם.</src>
+  </section>
+  <section v="8">
+    <src s="0">וביאור הענין דאתכפיא שבעבודת הקרבנות,</src>
+    <src s="1">יובן בהקדים,</src>
+    <src s="2">שהמעלה שבאתכפיא על אתהפכא היא,</src>
+    <src s="3">דענין אתהפכא הוא שהדבר נשאר במציאותו אלא שמציאותו היא מציאות דקדושה,</src>
+    <src s="4">ואתכפיא הו"ע הביטול,</src>
+    <src s="5">יציאה ממציאותו31.</src>
+    <src s="6">וזהו הטעם על זה שההמשכה שע"י העבודה דאתכפיא היא נעלית יותר מההמשכה שע"י העבודה דאתהפכא,</src>
+    <src s="7">כי ע"י שהאדם יוצא מהמציאות שלו ונעשה בחינת אין,</src>
+    <src s="8">הוא מעורר וממשיך בחינת אין האמיתי</src>
+    <src s="9">(שלמעלה ממציאות)31.</src>
+    <src s="10">ועפ"ז יש לבאר השייכות דעבודת הקרבנות</src>
+    <src s="11">(גם דקרבנות כפשוטם)</src>
+    <src s="12">לאתכפיא,</src>
+    <src s="13">כי ענין הקרבנות הוא העלאה מלמטה למעלה</src>
+    <src s="14">(כדלקמן ס"ח ואילך),</src>
+    <src s="15">דענין ההעלאה מלמטלמ"ע הוא שהתחתון מתבטל ממציאותו ונכלל בהעליון</src>
+    <src s="16">[ובפשטות הוא,</src>
+    <src s="17">שהבהמה היתה נשרפת</src>
+    <src s="18">(מתבטלת ממציאותה)</src>
+    <src s="19">ונכללת באש שלמעלה],</src>
+    <src s="20">וענין זה</src>
+    <src s="21">[שהיש בטל ונעשה בחינת אין]</src>
+    <src s="22">הוא תוכן הענין דאתכפיא.</src>
+  </section>
+</awtsmoosMeluketSource>

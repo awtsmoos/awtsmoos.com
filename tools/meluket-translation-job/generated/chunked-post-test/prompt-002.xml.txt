@@ -1,0 +1,153 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" batchId="chunked-post-1783581047769-part-002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" title="מאמר פדה בשלום תשכ"ב" batchId="chunked-post-1783581047769-part-002">
+  <section v="3">
+    <src s="0">ומבאר שם11,</src>
+    <src s="1">דאמיתית הענין דפדה בשלום נפשי הוא ע"י גילוי היחידה דוקא.</src>
+    <src s="2">דביטול הרצונות דנה"ב שע"י האהבה שלמעלה מטו"ד שמצד המקיף דחי' הוא רק מפני שהרצון דנה"א</src>
+    <src s="3">(דבחי' חי')</src>
+    <src s="4">מתגבר על הרצון דנה"ב.</src>
+    <src s="5">[אלא שמצד תוקף הרצון דנה"א מתבטלים ממילא הרצונות דנה"ב.</src>
+    <src s="6">דבהעבודה שע"פ טעם ודעת שמצד בחינת נר"נ,</src>
+    <src s="7">הבירור דנה"ב הוא ע"י שנפש האלקית מתלבשת בנה"ב ולוחמת עמה,</src>
+    <src s="8">משא"כ בבחי' חי',</src>
+    <src s="9">ע"י תוקף הרצון דנה"א</src>
+    <src s="10">(רצון שלמעלה מטעם),</src>
+    <src s="11">מתבטלים הם</src>
+    <src s="12">(הרצונות דנה"ב)</src>
+    <src s="13">ממילא.</src>
+    <src s="14">אבל מ"מ הביטול שלהם הוא רק מצד התגברות נה"א,</src>
+    <src s="15">ולא שהם בטלים בעצם].</src>
+    <src s="16">ולכן אין זה אמיתית ענין השלום.</src>
+    <src s="17">ואמיתית הענין דפדה בשלום נפשי הוא ע"י גילוי היחידה.</src>
+    <src s="18">דכיון שבחינת היחידה אין כנגדה לעו"ז,</src>
+    <src s="19">בבואה דבבואה לית להו12,</src>
+    <src s="20">לכן,</src>
+    <src s="21">ביטול הרצונות דנה"ב ע"י גילוי היחידה הוא</src>
+    <src s="22">(לא שע"י גילוי היחידה נעשה ביטול הרצונות,</src>
+    <src s="23">כי אם)</src>
+    <src s="24">שמצד היחידה אין מקום מלכתחילה לרצונות זרים.</src>
+    <src s="25">וזהו פדה בשלום נפשי גו' כי ברבים היו עמדי,</src>
+    <src s="26">דברבים היו עמדי הוא טעם</src>
+    <src s="27">(כי)</src>
+    <src s="28">על פדה בשלום נפשי,</src>
+    <src s="29">כי העבודה דברבים היו עמדי היא התעוררות וגילוי היחידה</src>
+    <src s="30">(כמבואר בארוכה בהמאמר13),</src>
+    <src s="31">וע"י גילוי היחידה,</src>
+    <src s="32">הפדי' דנה"א היא באופן דשלום,</src>
+    <src s="33">פדה בשלום נפשי.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דכיון שע"י גילוי היחידה</src>
+    <src s="3">(העבודה דברבים היו עמדי)</src>
+    <src s="4">אין מקום למנגדים,</src>
+    <src s="5">הרי אין צריך אז לפדי',</src>
+    <src s="6">ומזה שברבים היו עמדי הוא טעם על פדה בשלום נפשי</src>
+    <src s="7">[דטעם הוא הסיבה שלפני הענין שמסובב ממנו],</src>
+    <src s="8">משמע,</src>
+    <src s="9">שגם לאחרי הענין דברבים היו עמדי</src>
+    <src s="10">(גילוי היחידה)</src>
+    <src s="11">צריכה נה"א לפדי'</src>
+    <src s="12">(אלא שהפדי' היא בשלום).</src>
+    <src s="13">וביותר א"מ,</src>
+    <src s="14">דמזה שברבים היו עמדי הוא טעם על פדה בשלום נפשי מקרב לי,</src>
+    <src s="15">משמע,</src>
+    <src s="16">דנוסף לזה שגם לאחרי הענין דברבים היו עמדי צריכה נפש האלקית</src>
+    <src s="17">(נפשי)</src>
+    <src s="18">לפדי'</src>
+    <src s="19">(סתם),</src>
+    <src s="20">היא צריכה גם לפדי' מהמלחמות שכנגדה.</src>
+    <src s="21">ולכאורה,</src>
+    <src s="22">הרי גם כשנה"ב הוא כישן</src>
+    <src s="23">(שאח"כ יכול להיות חוזר וניעור14)</src>
+    <src s="24">אינו לוחם בשעת מעשה כנגד נה"א,</src>
+    <src s="25">ומכש"כ15</src>
+    <src s="26">כשמתבטלים הרצונות דנה"ב</src>
+    <src s="27">(ע"י הרצון דנה"א דבחי' חי'),</src>
+    <src s="28">והאיך שייך שגם לאחרי גילוי היחידה</src>
+    <src s="29">(ברבים היו עמדי),</src>
+    <src s="30">שאז אין מקום כלל להרצונות דנה"ב,</src>
+    <src s="31">צריכה נה"א לפדי' ממלחמות שכנגדה.</src>
+    <src s="32">וי"ל הביאור,</src>
+    <src s="33">דזה שנאמר כי ברבים היו עמדי</src>
+    <src s="34">[דמזה משמע</src>
+    <src s="35">(כנ"ל)</src>
+    <src s="36">שפדה גו' מקרב לי הוא לאחרי ברבים היו עמדי]</src>
+    <src s="37">הוא בכדי לרמז,</src>
+    <src s="38">שגם מי שהוא בדרגא נמוכה,</src>
+    <src s="39">שנפש האלקית</src>
+    <src s="40">(לא רק הדרגא דיחידה,</src>
+    <src s="41">אלא נה"א בכלל)</src>
+    <src s="42">אצלו היא בהעלם,</src>
+    <src s="43">ועד שנפש הבהמית לוחמת כנגד נפשו האלקית,</src>
+    <src s="44">מ"מ,</src>
+    <src s="45">ע"י המחשבה בענין היחידה</src>
+    <src s="46">[וההחלטה שההנהגה שלו תהי' בהתאם לבחי' היחידה שבנפשו]16,</src>
+    <src s="47">ברבים היו עמדי,</src>
+    <src s="48">פדיית נפשו האלקית מהמלחמות דנה"ב</src>
+    <src s="49">(פדה נפשי מקרב לי)</src>
+    <src s="50">היא באופן דשלום.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">ויובן זה בהקדים מ"ש</src>
+    <src s="2">(בפרשתנו17)</src>
+    <src s="3">ושבתי בשלום אל בית אבי,</src>
+    <src s="4">ומבאר בעל הגאולה18,</src>
+    <src s="5">דהליכת יעקב לחרן היתה בכדי לברר את הניצוצות שהיו שם,</src>
+    <src s="6">וזהו שאמר ושבתי בשלום אל בית אבי,</src>
+    <src s="7">שבירור הניצוצות והשבתם</src>
+    <src s="8">(החזרתם)</src>
+    <src s="9">לשרשם</src>
+    <src s="10">(אל בית אבי)</src>
+    <src s="11">יהי' באופן דשלום.</src>
+    <src s="12">ומוסיף בהמאמר19,</src>
+    <src s="13">דפירוש בשלום הוא ב' שלום,</src>
+    <src s="14">שלום מלמעלה למטה ושלום מלמטה למעלה.</src>
+    <src s="15">ויש לומר עד"ז בנוגע לתיבת בשלום שבפסוק פדה בשלום נפשי,</src>
+    <src s="16">דבשלום הוא ב' שלום20,</src>
+    <src s="17">מלמעלה למטה ומלמטה למעלה.</src>
+    <src s="18">ויש לקשר זה עם הפסוק21</src>
+    <src s="19">וכל בניך לימודי הוי' ורב שלום בניך,</src>
+    <src s="20">דיש לומר,</src>
+    <src s="21">שענין ריבוי שלום</src>
+    <src s="22">(ורב שלום),</src>
+    <src s="23">אין ריבוי פחות משנים,</src>
+    <src s="24">הוא ב' בחינות דשלום,</src>
+    <src s="25">שלום מלמעלה למטה ושלום מלמטה למעלה.</src>
+  </section>
+</awtsmoosMeluketSource>

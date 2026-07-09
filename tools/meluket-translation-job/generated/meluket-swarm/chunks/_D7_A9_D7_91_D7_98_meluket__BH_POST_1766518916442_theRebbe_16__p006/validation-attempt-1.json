@@ -1,0 +1,89 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 9,
+    "returned": 9,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916442_theRebbe_16\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916442_theRebbe_16__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>The Rebbe Rayatz requests that the hides for the Torah scroll be from slaughtered and kosher animals, with careful supervision, for the sake of greeting Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">\"With this I am coming to fill his hand to deal with the matter of the hides needed for processing the parchment for the Torah scroll that is being written, with G-d's help, specifically for the reception of our righteous Moshiach, speedily and in our days,</t>\n    <t s=\"1\">that they should be from slaughtered and kosher [animals], and they should please supervise this precisely,</t>\n    <t s=\"2\">and the Almighty will grant us the merit to receive our righteous Moshiach, speedily and in our days, with kindness and mercy.\"</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>All expenses for the parchment and scribe were paid personally by the Rebbe Rayatz, and donations were given to educational and camp funds.</sectionSummaryBrief>\n    <t s=\"0\">All the expenses for the acquisition of the parchment and the scribe's wages</t>\n    <t s=\"1\">(the chassid Shmaryahu Factor, of blessed memory),</t>\n    <t s=\"2\">everything was on the personal account of the Rebbe, the Admore\"r HaRayatz,</t>\n    <t s=\"3\">and the donations that were donated for this he gave to the fund of the \"Merkaz L'Inyanei Chinuch\" and the fund of \"Machaneh Yisrael\"13.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>The Torah scroll was begun at that time, but its completion was delayed for many years.</sectionSummaryBrief>\n    <t s=\"0\">The Torah scroll was begun and written then,</t>\n    <t s=\"1\">but its completion was delayed for many years.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916442_theRebbe_16",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916442_theRebbe_16__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "The Rebbe Rayatz requests that the hides for the Torah scroll be from slaughtered and kosher animals, with careful supervision, for the sake of greeting Moshiach.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "\"With this I am coming to fill his hand to deal with the matter of the hides needed for processing the parchment for the Torah scroll that is being written, with G-d's help, specifically for the reception of our righteous Moshiach, speedily and in our days,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "that they should be from slaughtered and kosher [animals], and they should please supervise this precisely,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "and the Almighty will grant us the merit to receive our righteous Moshiach, speedily and in our days, with kindness and mercy.\""
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "All expenses for the parchment and scribe were paid personally by the Rebbe Rayatz, and donations were given to educational and camp funds.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "All the expenses for the acquisition of the parchment and the scribe's wages"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "(the chassid Shmaryahu Factor, of blessed memory),"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "everything was on the personal account of the Rebbe, the Admore\"r HaRayatz,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "and the donations that were donated for this he gave to the fund of the \"Merkaz L'Inyanei Chinuch\" and the fund of \"Machaneh Yisrael\"13."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "The Torah scroll was begun at that time, but its completion was delayed for many years.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "The Torah scroll was begun and written then,"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "but its completion was delayed for many years."
+          }
+        ]
+      }
+    ]
+  }
+}

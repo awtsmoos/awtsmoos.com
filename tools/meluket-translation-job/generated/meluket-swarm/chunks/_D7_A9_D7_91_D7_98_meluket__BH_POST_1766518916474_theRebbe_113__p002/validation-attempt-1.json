@@ -1,0 +1,509 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 93,
+    "returned": 93,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916474_theRebbe_113\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916474_theRebbe_113__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the primary dwelling of the Shechinah was in the physical world, and that the main withdrawal occurred specifically through the sin of the Tree of Knowledge, which removed it from earth to heaven.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And behold, that the main dwelling of the Shechinah was in the lower realms</t>\n    <t s=\"2\">is explained from the Midrash, that \"lower realms\" refers to this physical world,</t>\n    <t s=\"3\">and as it explains that through the sin of the Tree of Knowledge the Shechinah withdrew from earth to heaven,</t>\n    <t s=\"4\">and through the giving of the Torah on Mount Sinai, \"I came to My garden, to My bower.\"</t>\n    <t s=\"5\">And the main withdrawal that occurred through the sin is specifically in the sin of the Tree of Knowledge.</t>\n    <t s=\"6\">And as in the matter of the sin,</t>\n    <t s=\"7\">the main of the sins was the sin of the Tree of Knowledge,</t>\n    <t s=\"8\">for through the sin of the Tree of Knowledge a place was given to the other sins,</t>\n    <t s=\"9\">and the sin of the Tree of Knowledge was the cause and factor for the sins of Kayin and Enosh etc.,</t>\n    <t s=\"10\">so too is it in the effect of the sin,</t>\n    <t s=\"11\">that the withdrawal that occurred through the sin—the main withdrawal is what withdrew through the sin of the Tree of Knowledge specifically from this lower physical world, for just as the main dwelling of the Shechinah in the lower realms is specifically in this world,</t>\n    <t s=\"12\">so too is it regarding the withdrawal: the main withdrawal is what withdrew from the earth specifically,</t>\n    <t s=\"13\">which was done through the sin of the Tree of Knowledge,</t>\n    <t s=\"14\">through which the Shechinah withdrew from earth to heaven,</t>\n    <t s=\"15\">and this is also the reason that it does not combine</t>\n    <t s=\"16\">(in the maamar)</t>\n    <t s=\"17\">the sin of the Tree of Knowledge with the sins of Kayin and Enosh, and considers it on its own,</t>\n    <t s=\"18\">because through the sins of Kayin and Enosh the Shechinah withdrew from one heaven to another heaven,</t>\n    <t s=\"19\">but not so with the sin of the Tree of Knowledge, through which it withdrew from earth to heaven,</t>\n    <t s=\"20\">so that besides the fact that the withdrawal from the earth</t>\n    <t s=\"21\">is primarily relevant to us,</t>\n    <t s=\"22\">this is also the main aspect of the withdrawal.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section describes how seven tzaddikim brought the Shechinah down, with Moshe being the seventh who brought it down to earth, emphasizing that the main drawing down is specifically through Moshe.</sectionSummaryBrief>\n    <t s=\"0\">(And the maamar continues)</t>\n    <t s=\"1\">And afterwards seven tzaddikim arose and brought the Shechinah down below,</t>\n    <t s=\"2\">Avraham merited and brought the Shechinah down from the seventh heaven to the sixth etc.</t>\n    <t s=\"3\">(And it abbreviates this and concludes)</t>\n    <t s=\"4\">until Moshe, who is the seventh</t>\n    <t s=\"5\">(and all sevenths are beloved)</t>\n    <t s=\"6\">brought it down below to earth.</t>\n    <t s=\"7\">For the main aspect of the drawing down is through Moshe,</t>\n    <t s=\"8\">for specifically Moshe brought it down below to earth,</t>\n    <t s=\"9\">for just as regarding the withdrawal from below upward the main thing is in the sin of the Tree of Knowledge, which withdrew from the earth as above,</t>\n    <t s=\"10\">so too is it regarding the drawing down from above to below,</t>\n    <t s=\"11\">the main aspect of the drawing down is specifically below to earth,</t>\n    <t s=\"12\">for besides the fact that the drawing down below is primarily relevant to us,</t>\n    <t s=\"13\">this is also the main aspect of the drawing down.</t>\n    <t s=\"14\">And this was done specifically through Moshe.</t>\n    <t s=\"15\">And the reason for this is explained in the maamar in parentheses,</t>\n    <t s=\"16\">because all sevenths are beloved.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the belovedness of the seventh is due to being seventh to the first, highlighting Avraham's self-sacrifice as the first, and that every Jew can aspire to the level of the Patriarchs while recognizing the unique station of the great.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And from the language of our Sages, \"and all sevenths are beloved,\" and not \"all beloved are sevenths,\"</t>\n    <t s=\"2\">it is proven from this that the main virtue is that he is seventh,</t>\n    <t s=\"3\">and because he is seventh, from this aspect is his belovedness,</t>\n    <t s=\"4\">meaning that his belovedness is not from an aspect dependent on his choice, will, and service,</t>\n    <t s=\"5\">but rather in that he is seventh,</t>\n    <t s=\"6\">which comes from the aspect of lineage,</t>\n    <t s=\"7\">and nevertheless, all sevenths are beloved.</t>\n    <t s=\"8\">Therefore Moshe merited that the Torah was given through him.</t>\n    <t s=\"9\">And behold, the Rebbe, my father-in-law, explained</t>\n    <t s=\"10\">(at the beginning of his arrival in America)</t>\n    <t s=\"11\">that also in the matter of \"the sevenths are beloved,\" the virtue of the first is recognizable,</t>\n    <t s=\"12\">for the entire matter of seventh is that he is seventh to the first.</t>\n    <t s=\"13\">And he then explained the virtue of the first, which is Avraham Avinu,</t>\n    <t s=\"14\">because of his service,</t>\n    <t s=\"15\">and that his service was with self-sacrifice.</t>\n    <t s=\"16\">And he is not satisfied with this yet,</t>\n    <t s=\"17\">and adds further</t>\n    <t s=\"18\">(even though seemingly it is not relevant there to the essence of the matter)</t>\n    <t s=\"19\">that the manner of his self-sacrifice was that he did not seek self-sacrifice,</t>\n    <t s=\"20\">this being the difference between the self-sacrifice of Avraham Avinu and the self-sacrifice of Rabbi Akiva,</t>\n    <t s=\"21\">that the self-sacrifice of Rabbi Akiva was that he sought self-sacrifice,</t>\n    <t s=\"22\">\"When will it come to my hand that I may fulfill it,\"</t>\n    <t s=\"23\">but not so with Avraham, his self-sacrifice was incidental.</t>\n    <t s=\"24\">For Avraham knew that the main service is as it is written,</t>\n    <t s=\"25\">\"And he called there in the name of Havayah, God of the world,\"</t>\n    <t s=\"26\">\"Do not read 'vayikra' (and he called) but 'vayakri' (and he caused others to call),\"</t>\n    <t s=\"27\">that that one should also call out,</t>\n    <t s=\"28\">and if this requires incidentally self-sacrifice,</t>\n    <t s=\"29\">then this too is present.</t>\n    <t s=\"30\">And so great is the virtue of his service and his self-sacrifice,</t>\n    <t s=\"31\">until even Moshe, what he merited that the Torah was given through him, is because \"the sevenths are beloved,\"</t>\n    <t s=\"32\">that he is seventh to the first.</t>\n    <t s=\"33\">And the Holy One, blessed be He, said to him</t>\n    <t s=\"34\">(to Moshe)</t>\n    <t s=\"35\">\"In the place of the great ones</t>\n    <t s=\"36\">(Avraham)</t>\n    <t s=\"37\">do not stand.\"</t>\n    <t s=\"38\">And behold, even though the belovedness of the seventh is great and it does not come through choice nor through service,</t>\n    <t s=\"39\">but rather a particularity from the aspect of lineage,</t>\n    <t s=\"40\">nevertheless, there is no limitation in this to say that it is wondrous,</t>\n    <t s=\"41\">and pertains only to unique individuals,</t>\n    <t s=\"42\">but rather in the manner explained in Tanna D'vei Eliyahu</t>\n    <t s=\"43\">(ch. 9 and ch. 25)</t>\n    <t s=\"44\">and brought in Chassidic discourse, that all of Israel, even a servant and even a maidservant,</t>\n    <t s=\"45\">can attain the resting of the Holy Spirit,</t>\n    <t s=\"46\">and every single Jew is obligated to say, \"When will my deeds reach the deeds of my forefathers Avraham, Yitzchak, and Yaakov.\"</t>\n    <t s=\"47\">But nevertheless, one must not be deceived about oneself,</t>\n    <t s=\"48\">and one must know that \"in the place of the great ones do not stand.\"</t>\n    <t s=\"49\">And all the virtue of the seventh is that he is seventh to the first, that he can carry out the service and mission of the first, \"Do not read 'vayikra' but 'vayakri'.\"</t>\n    <t s=\"50\">And this is the belovedness of the seventh, who draws down the Shechinah,</t>\n    <t s=\"51\">and moreover, he draws down the main aspect of the Shechinah.</t>\n    <t s=\"52\">And even more, he draws it down in the lower realms.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916474_theRebbe_113",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916474_theRebbe_113__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the primary dwelling of the Shechinah was in the physical world, and that the main withdrawal occurred specifically through the sin of the Tree of Knowledge, which removed it from earth to heaven.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And behold, that the main dwelling of the Shechinah was in the lower realms"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "is explained from the Midrash, that \"lower realms\" refers to this physical world,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "and as it explains that through the sin of the Tree of Knowledge the Shechinah withdrew from earth to heaven,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "and through the giving of the Torah on Mount Sinai, \"I came to My garden, to My bower.\""
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "And the main withdrawal that occurred through the sin is specifically in the sin of the Tree of Knowledge."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "And as in the matter of the sin,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "the main of the sins was the sin of the Tree of Knowledge,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "for through the sin of the Tree of Knowledge a place was given to the other sins,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "and the sin of the Tree of Knowledge was the cause and factor for the sins of Kayin and Enosh etc.,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "so too is it in the effect of the sin,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "that the withdrawal that occurred through the sin—the main withdrawal is what withdrew through the sin of the Tree of Knowledge specifically from this lower physical world, for just as the main dwelling of the Shechinah in the lower realms is specifically in this world,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "so too is it regarding the withdrawal: the main withdrawal is what withdrew from the earth specifically,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "which was done through the sin of the Tree of Knowledge,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "through which the Shechinah withdrew from earth to heaven,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "and this is also the reason that it does not combine"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "(in the maamar)"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "the sin of the Tree of Knowledge with the sins of Kayin and Enosh, and considers it on its own,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "because through the sins of Kayin and Enosh the Shechinah withdrew from one heaven to another heaven,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "but not so with the sin of the Tree of Knowledge, through which it withdrew from earth to heaven,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "so that besides the fact that the withdrawal from the earth"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "is primarily relevant to us,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "this is also the main aspect of the withdrawal."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section describes how seven tzaddikim brought the Shechinah down, with Moshe being the seventh who brought it down to earth, emphasizing that the main drawing down is specifically through Moshe.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "(And the maamar continues)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And afterwards seven tzaddikim arose and brought the Shechinah down below,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "Avraham merited and brought the Shechinah down from the seventh heaven to the sixth etc."
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(And it abbreviates this and concludes)"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "until Moshe, who is the seventh"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "(and all sevenths are beloved)"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "brought it down below to earth."
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "For the main aspect of the drawing down is through Moshe,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "for specifically Moshe brought it down below to earth,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "for just as regarding the withdrawal from below upward the main thing is in the sin of the Tree of Knowledge, which withdrew from the earth as above,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "so too is it regarding the drawing down from above to below,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "the main aspect of the drawing down is specifically below to earth,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "for besides the fact that the drawing down below is primarily relevant to us,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "this is also the main aspect of the drawing down."
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "And this was done specifically through Moshe."
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "And the reason for this is explained in the maamar in parentheses,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "because all sevenths are beloved."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the belovedness of the seventh is due to being seventh to the first, highlighting Avraham's self-sacrifice as the first, and that every Jew can aspire to the level of the Patriarchs while recognizing the unique station of the great.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And from the language of our Sages, \"and all sevenths are beloved,\" and not \"all beloved are sevenths,\""
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "it is proven from this that the main virtue is that he is seventh,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "and because he is seventh, from this aspect is his belovedness,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "meaning that his belovedness is not from an aspect dependent on his choice, will, and service,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "but rather in that he is seventh,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "which comes from the aspect of lineage,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "and nevertheless, all sevenths are beloved."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "Therefore Moshe merited that the Torah was given through him."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And behold, the Rebbe, my father-in-law, explained"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "(at the beginning of his arrival in America)"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "that also in the matter of \"the sevenths are beloved,\" the virtue of the first is recognizable,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "for the entire matter of seventh is that he is seventh to the first."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "And he then explained the virtue of the first, which is Avraham Avinu,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "because of his service,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "and that his service was with self-sacrifice."
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "And he is not satisfied with this yet,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "and adds further"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "(even though seemingly it is not relevant there to the essence of the matter)"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "that the manner of his self-sacrifice was that he did not seek self-sacrifice,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "this being the difference between the self-sacrifice of Avraham Avinu and the self-sacrifice of Rabbi Akiva,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "that the self-sacrifice of Rabbi Akiva was that he sought self-sacrifice,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "\"When will it come to my hand that I may fulfill it,\""
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "but not so with Avraham, his self-sacrifice was incidental."
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "For Avraham knew that the main service is as it is written,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "\"And he called there in the name of Havayah, God of the world,\""
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "\"Do not read 'vayikra' (and he called) but 'vayakri' (and he caused others to call),\""
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "that that one should also call out,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "and if this requires incidentally self-sacrifice,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "then this too is present."
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "And so great is the virtue of his service and his self-sacrifice,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "until even Moshe, what he merited that the Torah was given through him, is because \"the sevenths are beloved,\""
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "that he is seventh to the first."
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "And the Holy One, blessed be He, said to him"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "(to Moshe)"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "\"In the place of the great ones"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "(Avraham)"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "do not stand.\""
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "And behold, even though the belovedness of the seventh is great and it does not come through choice nor through service,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "but rather a particularity from the aspect of lineage,"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "nevertheless, there is no limitation in this to say that it is wondrous,"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "and pertains only to unique individuals,"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "but rather in the manner explained in Tanna D'vei Eliyahu"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "(ch. 9 and ch. 25)"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "and brought in Chassidic discourse, that all of Israel, even a servant and even a maidservant,"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "can attain the resting of the Holy Spirit,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "and every single Jew is obligated to say, \"When will my deeds reach the deeds of my forefathers Avraham, Yitzchak, and Yaakov.\""
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "But nevertheless, one must not be deceived about oneself,"
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "and one must know that \"in the place of the great ones do not stand.\""
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "And all the virtue of the seventh is that he is seventh to the first, that he can carry out the service and mission of the first, \"Do not read 'vayikra' but 'vayakri'.\""
+          },
+          {
+            "v": 5,
+            "s": 50,
+            "translation": "And this is the belovedness of the seventh, who draws down the Shechinah,"
+          },
+          {
+            "v": 5,
+            "s": 51,
+            "translation": "and moreover, he draws down the main aspect of the Shechinah."
+          },
+          {
+            "v": 5,
+            "s": 52,
+            "translation": "And even more, he draws it down in the lower realms."
+          }
+        ]
+      }
+    ]
+  }
+}

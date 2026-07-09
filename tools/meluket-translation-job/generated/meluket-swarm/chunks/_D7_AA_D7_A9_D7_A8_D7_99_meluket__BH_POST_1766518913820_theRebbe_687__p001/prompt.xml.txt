@@ -1,0 +1,91 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913820_theRebbe_687" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913820_theRebbe_687__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913820_theRebbe_687" title="מאמר זה היום תחילת מעשיך תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913820_theRebbe_687__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ב' דראש השנה ה'תשמ"א*</src>
+  </section>
+  <section v="1">
+    <src s="0">זה היום תחלת מעשיך זכרון ליום ראשון1,</src>
+    <src s="1">וידוע דהיום</src>
+    <src s="2">(סתם)</src>
+    <src s="3">קאי על ראש השנה2,</src>
+    <src s="4">ופירוש זה היום הוא שבהיום דראש השנה נמשכת בחי' זה3,</src>
+    <src s="5">דבראש השנה מכתירים בני ישראל את הקב"ה למלך4</src>
+    <src s="6">ופועלים ועושים גילוי מלכותו ית' בכל העולם,</src>
+    <src s="7">עד אשר וידע כל פעול כי אתה פעלתו5,</src>
+    <src s="8">שגם בחי' פעול שבעשי'6</src>
+    <src s="9">(ומכ"ש דיצירה ודבריאה)</src>
+    <src s="10">ידע כי אתה פעלתו.</src>
+    <src s="11">וזהו זה היום,</src>
+    <src s="12">דבראש השנה נמשך אלקות בגילוי ממש,</src>
+    <src s="13">ועד ד"זה",</src>
+    <src s="14">כאו"א מראה באצבעו ואומר זה7.</src>
+    <src s="15">וי"ל דזהו גם הביאור שאומרים על היום דראש השנה זה היום תחלת מעשיך,</src>
+    <src s="16">דידוע הדיוק בזה מכ"ק אדמו"ר הזקן וכ"ק אדמו"ר האמצעי וכ"ק אדמו"ר הצ"צ וכ"ק אדמו"ר מהר"ש וכ"ק אדמו"ר</src>
+    <src s="17">(מהורש"ב)</src>
+    <src s="18">נ"ע וכ"ק מו"ח אדמו"ר נשיא דורנו,</src>
+    <src s="19">שהרי בכ"ה באלול נברא העולם8</src>
+    <src s="20">וראש השנה הוא יום ברוא אדם הראשון שהוא יום וא"ו למע"ב9,</src>
+    <src s="21">ואיך אומרים על יום זה שהוא תחלת מעשיך.</src>
+    <src s="22">וגם למה ראש השנה הוא באחד בתשרי ולא בכ"ה באלול.</src>
+    <src s="23">ועוד שבראש השנה כל באי עולם יעברון לפניך כבני מרון10,</src>
+    <src s="24">לא רק סוג המדבר אלא גם הנבראים דסוג החי,</src>
+    <src s="25">דסוג הצומח ודסוג הדומם,</src>
+    <src s="26">ולמה ראש השנה הוא ביום ברוא האדם דוקא.</src>
+    <src s="27">והביאור בזה,</src>
+    <src s="28">דתכלית הכוונה בבריאת העולם הוא שהאדם ע"י עבודתו ימשיך גילוי אלקות בעולם,</src>
+    <src s="29">גילוי עד ד"זה"</src>
+    <src s="30">(כאו"א מראה באצבעו ואומר זה),</src>
+    <src s="31">וענין זה נתחדש ונעשה ביום ברוא האדם,</src>
+    <src s="32">דבריאת העולם בכ"ה באלול היתה בבחי' כה,</src>
+    <src s="33">וביום ברוא אדם הראשון</src>
+    <src s="34">(ע"י עבודתו)</src>
+    <src s="35">נתחדש ונעשה גילוי אלקות,</src>
+    <src s="36">בבחי' זה11.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וביאור ענין העילוי שנתחדש ונעשה ביום ברוא אדם הראשון יובן בהקדים מעלת דרגת העולם כמו שנברא ביום הראשון דמעשה בראשית</src>
+    <src s="2">(בכ"ה באלול),</src>
+    <src s="3">שאז הי' העולם בדרגא נעלית</src>
+    <src s="4">(כדלקמן),</src>
+    <src s="5">שמזה יובן גודל העילוי שנתחדש ונעשה בהעולם ביום ברוא אדם הראשון.</src>
+    <src s="6">וי"ל שזהו הטעם שבכו"כ דרושי רבותינו נשיאינו דראש השנה</src>
+    <src s="7">(שמבואר בהם הטעם על זה שראש השנה הוא בא' בתשרי)</src>
+    <src s="8">מבוארת בהם המעלה דכ"ה באלול,</src>
+    <src s="9">כי ע"י הביאור במעלת כ"ה באלול מובן יותר גודל העילוי דראש השנה.</src>
+  </section>
+</awtsmoosMeluketSource>

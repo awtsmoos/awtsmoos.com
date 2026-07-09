@@ -1,0 +1,102 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 14,
+    "returned": 14,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915244_theRebbe_950\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>The Shechinah includes all Jewish souls, and the unification of the Holy One and His Shechinah also includes the unification of the Holy One and Israel, which will be fully revealed in the future through Mashiach.</sectionSummaryBrief>\n    <t s=\"0\">And it is known that the Shechinah is the aspect of Malchus,</t>\n    <t s=\"1\">which includes all the souls of Israel,</t>\n    <t s=\"2\">as our sages, of blessed memory, said,</t>\n    <t s=\"3\">\"All Israelites are the children of kings.\"</t>\n    <t s=\"4\">And based on this, it can be said</t>\n    <t s=\"5\">that in the unification of the Holy One, blessed be He, and His Shechinah, there is also included the unification of the Holy One, blessed be He, and Israel.</t>\n    <t s=\"6\">For the perfection of the unification is when it is in two modes,</t>\n    <t s=\"7\">drawing down and elevation.</t>\n    <t s=\"8\">And it can be said</t>\n    <t s=\"9\">that one of the reasons for this is that the matter of the marriage of the Holy One, blessed be He, and Israel will be in the future to come,</t>\n    <t s=\"10\">for then there will be the revelation of the Yechidah through Mashiach, who is the aspect of the general Yechidah,</t>\n    <t s=\"11\">the essence of the matter of \"and he will break through,\"</t>\n    <t s=\"12\">through \"the breaker will go up before us,\"</t>\n    <t s=\"13\">very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915244_theRebbe_950",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "The Shechinah includes all Jewish souls, and the unification of the Holy One and His Shechinah also includes the unification of the Holy One and Israel, which will be fully revealed in the future through Mashiach.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "And it is known that the Shechinah is the aspect of Malchus,"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "which includes all the souls of Israel,"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "as our sages, of blessed memory, said,"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "\"All Israelites are the children of kings.\""
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "And based on this, it can be said"
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "that in the unification of the Holy One, blessed be He, and His Shechinah, there is also included the unification of the Holy One, blessed be He, and Israel."
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "For the perfection of the unification is when it is in two modes,"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "drawing down and elevation."
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "that one of the reasons for this is that the matter of the marriage of the Holy One, blessed be He, and Israel will be in the future to come,"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "for then there will be the revelation of the Yechidah through Mashiach, who is the aspect of the general Yechidah,"
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "the essence of the matter of \"and he will break through,\""
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "through \"the breaker will go up before us,\""
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

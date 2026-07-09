@@ -1,0 +1,150 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917418_theRebbe_694" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917418_theRebbe_694__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917418_theRebbe_694" title="מאמר וקבל היהודים תשי"א" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917418_theRebbe_694__p006">
+  <section v="15">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">והנה ע"פ המבואר לעיל</src>
+    <src s="3">(סעיף ד)</src>
+    <src s="4">שבחיבור עליון ותחתון יש ג' ענינים – העליון,</src>
+    <src s="5">התחתון והביטול שלהם – מובן,</src>
+    <src s="6">שבכדי לזכות להגמר והשלימות דקבלת התורה אין מספיק הביטול דהנשמה ודהגוף,</src>
+    <src s="7">אלא צריך שתהי' גם המציאות שלהם,</src>
+    <src s="8">וכמו שהם בתכלית השלימות,</src>
+    <src s="9">ושהמציאות שלהם תהי' קשורה ומחוברת עם התורה.</src>
+    <src s="10">וע"ד שנת"ל</src>
+    <src s="11">(ס"ו וס"ח)</src>
+    <src s="12">שהמעלה דלימוד התורה לשמה היא לא רק בענין הביטול</src>
+    <src s="13">(שהלימוד שלו הוא לא בשביל השלימות שלו,</src>
+    <src s="14">גם לא בשביל השלימות דהנשמה)</src>
+    <src s="15">אלא גם זה שמציאותו של האדם הלומד</src>
+    <src s="16">(הנשמה והגוף)</src>
+    <src s="17">מתחברת עם התורה שעי"ז הוא יוצא מהגבלותיו ומתעלה להבל"ג דתורה.</src>
+    <src s="18">ויש לומר,</src>
+    <src s="19">דזהו שמביא בהמאמר שהתעוררות המס"נ דישראל היתה ע"י מרדכי,</src>
+    <src s="20">משה שבדורו,</src>
+    <src s="21">דלימוד התורה של מרדכי הי' בתכלית העילוי,</src>
+    <src s="22">וע"י שעורר את ישראל ללמוד תורה במס"נ</src>
+    <src s="23">[ובפרט שמרדכי הי' ראש הדור</src>
+    <src s="24">(ע"ד משה)</src>
+    <src s="25">שממנו נמשך לכל האברים],</src>
+    <src s="26">המשיך בהם</src>
+    <src s="27">(לא רק ענין הביטול,</src>
+    <src s="28">אלא)</src>
+    <src s="29">גם העילוי דלימוד התורה כמו שהיא מצד השלימות דהאדם,</src>
+    <src s="30">השלימות דהנשמה ודהגוף.</src>
+  </section>
+  <section v="16">
+    <src s="0">ועפ"ז יש לבאר גם מה שמביא בהמאמר שמרדכי קיבץ כ"ב אלף תינוקות של בית רבן,</src>
+    <src s="1">כי מעלה זו בלימוד התורה</src>
+    <src s="2">(שהיא מצד השלימות דהנשמה ודהגוף)</src>
+    <src s="3">היא בעיקר בתינוקות של בית רבן.</src>
+    <src s="4">ויובן זה ע"פ מה שארז"ל82</src>
+    <src s="5">אין העולם מתקיים אלא בשביל הבל תינוקות של בית רבן,</src>
+    <src s="6">אמר לי' רב פפא לאביי דידי ודידך מאי,</src>
+    <src s="7">א"ל אינו דומה הבל שיש בו חטא להבל שאין בו חטא.</src>
+    <src s="8">דהגם שלימוד התורה של ר"פ ואביי הי'</src>
+    <src s="9">(בודאי)</src>
+    <src s="10">לשמה בדרגות הכי נעלות ולימוד התורה דתינוקות של בית רבן הוא מצד יראת הרצועה83,</src>
+    <src s="11">אעפ"כ,</src>
+    <src s="12">יש יתרון בהבל תינוקות של בית רבן,</src>
+    <src s="13">שעל הבל זה דוקא העולם מתקיים.</src>
+    <src s="14">וידוע הביאור בזה84,</src>
+    <src s="15">דהמעלה בהבל תשב"ר הוא הן מצד נשמתם,</src>
+    <src s="16">שהיא קרובה יותר לאלקות מפני שזה מקרוב באה מעולם הרוחני,</src>
+    <src s="17">והן מצד הגוף שלהם שלא נתגשם כ"כ באכו"ש ובתאוות,</src>
+    <src s="18">כמבואר במק"א בארוכה.</src>
+    <src s="19">ועפ"ז יש לומר,</src>
+    <src s="20">דזה שמביא בהמאמר שבזמן הגזירה קיבץ מרדכי כ"ב אלף תינוקות של בית רבן,</src>
+    <src s="21">הוא,</src>
+    <src s="22">בכדי לבאר שבלימוד התורה שהי' אז,</src>
+    <src s="23">הי'</src>
+    <src s="24">(לא רק הביטול דהנשמה ודהגוף,</src>
+    <src s="25">אלא)</src>
+    <src s="26">גם השלימות דהנשמה ודהגוף.</src>
+    <src s="27">[אלא שמעלת הנשמה דתינוקות של בית רבן אינה שייכת</src>
+    <src s="28">(כ"כ)</src>
+    <src s="29">ללימוד התורה שלהם,</src>
+    <src s="30">מכיון שהלימוד שלהם הוא מפני יראת הרצועה</src>
+    <src s="31">(טבע הגוף)</src>
+    <src s="32">ולא מצד הנשמה,</src>
+    <src s="33">וגם אין בזה הביטול דמס"נ,</src>
+    <src s="34">ולכן מביא בהמאמר שהלימוד דתינוקות של בית רבן הי' ע"י מרדכי,</src>
+    <src s="35">שעי"ז הי' גם לימוד התורה שלהם במס"נ כמבואר בהמאמר].</src>
+    <src s="36">ויש להוסיף,</src>
+    <src s="37">דע"י שמרדכי קיבץ כ"ב אלף תינוקות של בית רבן נתוסף אצלו העילוי דהבל תינוקות של בית רבן85,</src>
+    <src s="38">ועי"ז86</src>
+    <src s="39">המשיך ענין זה גם בכל היהודים שבדורו.</src>
+  </section>
+  <section v="17">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">ועפ"ז יש לבאר גם מה שחייב אינש לבסומי בפוריא עד דלא ידע87,</src>
+    <src s="3">כי בימי הפורים בכל שנה ושנה חוזר וניעור הענין דוקבל היהודים כמו שהי' בפעם הראשונה,</src>
+    <src s="4">ואדרבא – באופן דמעלין בקודש88.</src>
+    <src s="5">[ויש להוסיף,</src>
+    <src s="6">שהחידוש בימי הפורים לגבי מתן תורה הוא בשני ענינים.</src>
+    <src s="7">שבימי הפורים הי' הגמר והשלימות דקבלת התורה</src>
+    <src s="8">(וקבל היהודים),</src>
+    <src s="9">כנ"ל בארוכה,</src>
+    <src s="10">וגם קיום התורה,</src>
+    <src s="11">כדאיתא בגמרא89</src>
+    <src s="12">עה"פ90</src>
+    <src s="13">קיימו וקבלו היהודים קיימו מה שקבלו כבר,</src>
+    <src s="14">דזה שקבלו במתן תורה לא הי' באופן דקיום נצחי,</src>
+    <src s="15">דלאחרי שחטאו בעגל התנצלו את עדים91,</src>
+    <src s="16">ובימי הפורים כתיב92</src>
+    <src s="17">וימי הפורים האלה לא יעברו גו' וזכרם לא יסוף מזרעם,</src>
+    <src s="18">דזה שקבלו בפורים קיים בקיום נצחי93.</src>
+    <src s="19">ועד"ז הוא בימי הפורים בכל שנה ושנה,</src>
+    <src s="20">שיש בזה שני ענינים אלה.</src>
+    <src s="21">שבכל שנה ניתוסף בהשלימות דקבלת התורה</src>
+    <src s="22">(כנ"ל),</src>
+    <src s="23">ושגם הוספה זו יש לה קיום נצחי].</src>
+    <src s="24">ולכן בפורים צ"ל העבודה דלא ידע,</src>
+    <src s="25">אַרויסגיין פון זיך,</src>
+    <src s="26">כי השלימות דקבלת התורה באה ע"י הביטול.</src>
+    <src s="27">וזהו גם שהיציאה ממציאותו</src>
+    <src s="28">(עד דלא ידע)</src>
+    <src s="29">צריכה להיות ע"י לבסומי ביין94</src>
+    <src s="30">(גשמי),</src>
+    <src s="31">כי הביטול</src>
+    <src s="32">(דפורים)</src>
+    <src s="33">צריך להיות גם מצד הגוף,</src>
+    <src s="34">כנ"ל בארוכה.</src>
+    <src s="35">ומזה נמשך הנתינת כח על כל השנה,</src>
+    <src s="36">שעניני הגוף לא יתפסו מקום אצלו ובמילא לא תהי' מניעה מצד הגוף ללימוד התורה.</src>
+  </section>
+</awtsmoosMeluketSource>

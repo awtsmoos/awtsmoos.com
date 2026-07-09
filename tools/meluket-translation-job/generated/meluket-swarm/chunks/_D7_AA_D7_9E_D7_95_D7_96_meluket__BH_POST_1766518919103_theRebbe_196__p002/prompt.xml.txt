@@ -1,0 +1,168 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919103_theRebbe_196" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919103_theRebbe_196__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919103_theRebbe_196" title="מאמר השם נפשנו בחיים תשח"י" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919103_theRebbe_196__p002">
+  <section v="3">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דשני ענינים אלו שבואתפלג קרח</src>
+    <src s="2">(מחלוקת,</src>
+    <src s="3">וזה שחלק על אהרן)</src>
+    <src s="4">שייכים זה לזה.</src>
+    <src s="5">דהנה זה שבריאת המחלוקת</src>
+    <src s="6">(רקיע המבדיל)</src>
+    <src s="7">היתה ביום השני דוקא הוא,</src>
+    <src s="8">כי יום הראשון הוא מדת החסד</src>
+    <src s="9">(ימין)</src>
+    <src s="10">ויום השני הוא מדת הגבורה</src>
+    <src s="11">(שמאל),</src>
+    <src s="12">ומצד הגבורה יש נתינת מקום למחלוקת12.</src>
+    <src s="13">וכדאיתא בזהר שם ימינא איהו שלימא דכולא כו' בי' תליא כל שלימו,</src>
+    <src s="14">כד אתער שמאלא אתער מחלוקת.</src>
+    <src s="15">ועפ"ז יש לומר,</src>
+    <src s="16">שעיקר ענינו של קרח הוא מחלוקת</src>
+    <src s="17">[כמובן גם מזה שארז"ל13</src>
+    <src s="18">כל המחזיק במחלוקת עובר בלאו14</src>
+    <src s="19">שנאמר15</src>
+    <src s="20">ולא יהי' כקרח וכעדתו,</src>
+    <src s="21">דמזה שהמחזיק במחלוקת</src>
+    <src s="22">(איזו מחלוקת שתהי')</src>
+    <src s="23">הוא כקרח ועדתו,</src>
+    <src s="24">מוכח,</src>
+    <src s="25">שעיקר ענינו של קרח הוא מחלוקת],</src>
+    <src s="26">וזה שחלק על אהרן</src>
+    <src s="27">(חסד)</src>
+    <src s="28">ורצה לעשות הגבורות עיקר16,</src>
+    <src s="29">הוא שעי"ז יהי' חיזוק למחלוקת.</src>
+    <src s="30">וצריך להבין,</src>
+    <src s="31">הרי קרח פיקח הי'17,</src>
+    <src s="32">ומסתבר לומר שהמחלוקת שלו על כהונת אהרן היתה מפני שטעה בדרכי העבודה18,</src>
+    <src s="33">ואינו מובן,</src>
+    <src s="34">למה רצה במחלוקת.</src>
+    <src s="35">דזה שחלק על אהרן,</src>
+    <src s="36">אפשר לבאר,</src>
+    <src s="37">שקרח סבר שעבודת ה' צריכה להיות בקו הגבורה,</src>
+    <src s="38">ולכן חלק על אהרן שהיתה עבודתו בקו החסד.</src>
+    <src s="39">אבל לפי הנ"ל דזה שקרח רצה לעשות הגבורות עיקר הוא בכדי שיהי' חיזוק למחלוקת,</src>
+    <src s="40">אינו מובן,</src>
+    <src s="41">האיך חשב קרח שמחלוקת הוא דרך בעבודת ה'.</src>
+    <src s="42">וגם צריך להבין מה שמתרגם ואתפלג קרח,</src>
+    <src s="43">דואתפלג הוא ע"ד רקיע המבדיל,</src>
+    <src s="44">דלכאורה,</src>
+    <src s="45">הרי גם שמו של קרח עצמו רומז על רקיע המבדיל19,</src>
+    <src s="46">כמ"ש הצ"צ עה"פ ויקח קרח8</src>
+    <src s="47">שקרח רומז על רקיע המבדיל כמ"ש20</src>
+    <src s="48">רקיע כעין הקרח,</src>
+    <src s="49">ומהי ההוספה דואתפלג קרח.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים הידוע בענין רקיע המבדיל בין מים למים21,</src>
+    <src s="2">דמים הם תענוג,</src>
+    <src s="3">דזה שהמים מצמיחים כל מיני תענוג22</src>
+    <src s="4">הוא לפי שבהם יש ענין התענוג23.</src>
+    <src s="5">והרקיע המבדיל בין מים עליונים למים תחתונים היא הפרסא שעל ידה נעשית ההבדלה בין התענוגים בענינים הרוחניים</src>
+    <src s="6">(מים עליונים)</src>
+    <src s="7">ותענוגי עוה"ז</src>
+    <src s="8">(מים תחתונים).</src>
+    <src s="9">והכוונה ברקיע המבדיל בין מים עליונים למים תחתונים היא בכדי שעי"ז יתעלו מים התחתונים למעלה יותר מכמו שהיו קודם ירידתם.</src>
+    <src s="10">דע"י ירידתם למטה,</src>
+    <src s="11">נעשה בהם התשוקה והצמאון לעלות למעלה,</src>
+    <src s="12">מים תחתונים בוכין אנן בעינן למהוי קמי' מלכא24,</src>
+    <src s="13">ועי"ז הם מתעלים למעלה יותר מכמו שהיו קודם ירידתם,</src>
+    <src s="14">ולמעלה יותר גם ממים העליונים.</src>
+    <src s="15">וזהו מה שארז"ל25</src>
+    <src s="16">דזה שביום השלישי נאמר שני פעמים כי טוב הוא אחד למלאכת המים ואחד למלאכתו של יום,</src>
+    <src s="17">דלכאורה,</src>
+    <src s="18">הרי מלאכת המים הו"ע של מחלוקת ואיך נאמר על זה כי טוב.</src>
+    <src s="19">והביאור בזה,</src>
+    <src s="20">שע"י עבודת האדם נעשה הבירור והעלי' דמים התחתונים26,</src>
+    <src s="21">ולכן,</src>
+    <src s="22">ביום השלישי כשהי' יקוו המים מתחת השמים אל מקום אחד ותראה היבשה27,</src>
+    <src s="23">דיבשה היא מקומו של האדם,</src>
+    <src s="24">נשלמה הכוונה דמלאכת המים,</src>
+    <src s="25">שע"י הבדלת מים התחתונים ממים העליונים וירידתם למטה הם מתעלים למעלה יותר מכמו שהיו קודם ירידתם,</src>
+    <src s="26">ואז</src>
+    <src s="27">(לאחרי שנעשית האפשריות דעלי' זו),</src>
+    <src s="28">גם מלאכת המים היא טוב.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">ועפ"ז יובן מה שקרח רצה במחלוקת,</src>
+    <src s="2">כי קרח חשב שהכוונה בזה שמים התחתונים נבדלו ממים העליונים וירדו למטה הוא בשביל המעלה שישנה בהתענוגים הגשמיים עצמם,</src>
+    <src s="3">דשרש הגשמיות הוא למעלה יותר משרש הרוחניות.</src>
+    <src s="4">[וע"ד המבואר בתו"א28</src>
+    <src s="5">דבעולמות העליונים נאמר29</src>
+    <src s="6">מה גדלו מעשיך,</src>
+    <src s="7">וענין מה רבו מעשיך30</src>
+    <src s="8">הוא בעולמות התחתונים דוקא,</src>
+    <src s="9">וענין הריבוי מורה על השלימות דא"ס,</src>
+    <src s="10">שעם היותו יחיד,</src>
+    <src s="11">הוא נושא גם ריבוי פרטים31].</src>
+    <src s="12">ולכן רצה שהגבורות יהיו העיקר,</src>
+    <src s="13">כי זה שמים התחתונים בוכין אנן בעינן למהוי קמי' מלכא הוא מפני שנרגש בהם העילוי דענין הגילויים</src>
+    <src s="14">(חסד,</src>
+    <src s="15">ימין),</src>
+    <src s="16">וכיון שהגילויים הם בעיקר בעולמות העליונים,</src>
+    <src s="17">לכן מים התחתונים</src>
+    <src s="18">(שאין בהם גילויים)</src>
+    <src s="19">רוצים לצאת ממציאותם ולעלות למעלה.</src>
+    <src s="20">אבל לפי טעותו של קרח שהכוונה היא בתענוגים הגשמיים עצמם,</src>
+    <src s="21">שיתגלה בהם שרש הגשמיות,</src>
+    <src s="22">הרי אדרבא,</src>
+    <src s="23">עיקר המעלה היא בהצמצומים והגבורות,</src>
+    <src s="24">שמהם מתהוים הדברים הגשמיים32.</src>
+    <src s="25">אבל קרח טעה בזה,</src>
+    <src s="26">כי גילוי השרש דמים התחתונים</src>
+    <src s="27">(גשמיים)</src>
+    <src s="28">עצמם יהי' לע"ל,</src>
+    <src s="29">ובכדי שיהי' גילוי השרש דמים התחתונים עצמם,</src>
+    <src s="30">צריך להיות בהם תחלה ההרגש דמעלת הגילויים,</src>
+    <src s="31">שע"י הרגש זה יש בהם הצמאון והתשוקה לעלות למעלה,</src>
+    <src s="32">ועי"ז יהי' גילוי השרש דמים התחתונים עצמם33.</src>
+    <src s="33">וזהו שלא נאמר כי טוב במלאכת המים עד ליום השלישי,</src>
+    <src s="34">אף שישנה מעלה גם במלאכת המים כמו שהיתה ביום השני,</src>
+    <src s="35">בזה שנבדלו מים התחתונים ממים העליונים וירדו למטה,</src>
+    <src s="36">כי הגילוי דמעלה זו יהי' רק לע"ל,</src>
+    <src s="37">ועכשיו,</src>
+    <src s="38">הכוונה בירידת המים למטה היא בכדי שיעלו למעלה</src>
+    <src s="39">(כנ"ל),</src>
+    <src s="40">דענין זה נעשה ביום השלישי דוקא.</src>
+    <src s="41">ועד"ז הוא בכללות הענין דגילוי</src>
+    <src s="42">(שרש החסד)</src>
+    <src s="43">וצמצום</src>
+    <src s="44">(שרש הגבורה),</src>
+    <src s="45">דהמעלה שבהצמצום עצמו יתגלה רק לע"ל,</src>
+    <src s="46">והכוונה בהצמצום כמו שהוא עכשיו הוא בשביל הגילוי34.</src>
+  </section>
+</awtsmoosMeluketSource>

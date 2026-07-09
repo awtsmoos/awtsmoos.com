@@ -1,0 +1,119 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915124_theRebbe_182" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915124_theRebbe_182" title="מאמר ויזרע יצחק בארץ תשכ"ז" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915124_theRebbe_182__p005">
+  <section v="12">
+    <src s="0">והטעם לזה</src>
+    <src s="1">(שגם התעוררות מדות הטבעיות הוא דוקא ע"י השכל)</src>
+    <src s="2">הוא,</src>
+    <src s="3">כי שרש האדם הוא בתיקון</src>
+    <src s="4">[דשרש הבע"ח הוא בתוהו ושרש האדם הוא בתיקון],</src>
+    <src s="5">ובעולם התיקון העיקר הוא המוחין,</src>
+    <src s="6">וגם המדות דתיקון הם ע"פ המוחין.</src>
+    <src s="7">דהגם שגם בתיקון שרש המדות הוא למעלה משרש המוחין,</src>
+    <src s="8">דאו"א במזלא אתכלילו וז"א בעתיקא אחיד ותליא39,</src>
+    <src s="9">מ"מ,</src>
+    <src s="10">המשכתן הוא ע"י המוחין.</src>
+    <src s="11">דמהחילוקים בין מדות דתהו למדות דתיקון הוא,</src>
+    <src s="12">שבתוהו נתגלו המדות כמו שהן מצד שרשן בכתר</src>
+    <src s="13">[דזהו אחד הביאורים בזה שהספירות דתוהו היו בבחינת כתרים40],</src>
+    <src s="14">ומדות דתיקון הם ע"פ המוחין41.</src>
+    <src s="15">ומזה נשתלשל גם באדם ששרשו הוא בתיקון,</src>
+    <src s="16">שהמדות שלו</src>
+    <src s="17">(גם מדות הטבעיות)</src>
+    <src s="18">הם ע"פ השכל.</src>
+    <src s="19">והחילוק בין מדות טבעיות למדות שכליות הוא,</src>
+    <src s="20">שבמדות שכליות</src>
+    <src s="21">(הגם ששרשן הוא בעצם הנפש למעלה מהשכל)</src>
+    <src s="22">נרגש בעיקר שהם מדות של אדם</src>
+    <src s="23">(מדות דתיקון)</src>
+    <src s="24">שעיקרו הוא מוחין,</src>
+    <src s="25">ובמדות טבעיות</src>
+    <src s="26">(הגם שהתעוררותן הוא ע"י השכל)</src>
+    <src s="27">נרגש בעיקר השרש שלהם בעצם הנפש שלמעלה משכל.</src>
+  </section>
+  <section v="13">
+    <src s="0">ויש לומר,</src>
+    <src s="1">שבב' הלשונות לך וכל מרומזים גם שני הסוגים שבמדות</src>
+    <src s="2">(מדות טבעיות ומדות שכליות).</src>
+    <src s="3">והענין הוא,</src>
+    <src s="4">דזה שנתבאר לעיל שהמדות כמו שהן בשרשן הן בביטול,</src>
+    <src s="5">לך,</src>
+    <src s="6">הכוונה היא</src>
+    <src s="7">(בעיקר)</src>
+    <src s="8">לזה ששרש המדות הוא בכתר</src>
+    <src s="9">(ועד"ז באדם,</src>
+    <src s="10">זה ששרש המדות הוא בעצם הנפש),</src>
+    <src s="11">דכיון שהכתר הוא מובדל מכל הספירות,</src>
+    <src s="12">לכן,</src>
+    <src s="13">כשהספירות</src>
+    <src s="14">(המדות והמוחין)</src>
+    <src s="15">כלולות בכתר,</src>
+    <src s="16">הן בהעדר המציאות.</src>
+    <src s="17">משא"כ בנוגע לזה שהמדות נמשכות מהשכל,</src>
+    <src s="18">כיון שהשכל הוא עילה למדות,</src>
+    <src s="19">לכן גם כשהמדות כלולות בשכל,</src>
+    <src s="20">הן בבחינת מציאות.</src>
+    <src s="21">ועפ"ז יש לומר,</src>
+    <src s="22">שמדות הטבעיות,</src>
+    <src s="23">שנרגש בהם ששרשן הוא בעצם הנפש,</src>
+    <src s="24">שייכים ללך,</src>
+    <src s="25">ומדות השכליות שייכים לכל42.</src>
+  </section>
+  <section v="14">
+    <src s="0">ו)</src>
+    <src s="1">וזהו הקשר והשייכות דוימצא מאה שערים לויזרע יצחק,</src>
+    <src s="2">זריעת הכחות דנפש האלקית בנה"ב</src>
+    <src s="3">(ועד"ז בעשיית המצוות),</src>
+    <src s="4">כי המדות דנפש האלקית ששרשה בתיקון הם במדידה והגבלה לפי השכל,</src>
+    <src s="5">והמדות דנפש הבהמית ששרשה בתוהו הם בתוקף בלתי מוגבל,</src>
+    <src s="6">וע"י זריעת המדות דנה"א במדות דנה"ב נמשכים מאה שערים,</src>
+    <src s="7">שתי פעמים חמישים,</src>
+    <src s="8">מדות דתיקון ומדות דתוהו.</src>
+    <src s="9">ויש לומר,</src>
+    <src s="10">דמ"ש וימצא מאה שערים,</src>
+    <src s="11">דמציאה היא שלא לפי ערך העבודה,</src>
+    <src s="12">הוא,</src>
+    <src s="13">כי המדות דהנשמה הם באין ערוך לגבי שרשם43,</src>
+    <src s="14">המדות דתיקון,</src>
+    <src s="15">ומכ"ש המדות דנה"ב</src>
+    <src s="16">(שהמדות שלה הם בתאוות עוה"ז)</src>
+    <src s="17">שהם באין ערוך לגבי שרשם במדות דתוהו.</src>
+    <src s="18">ולכן,</src>
+    <src s="19">המשכת המאה שערים,</src>
+    <src s="20">מדות דתיקון ומדות דתוהו,</src>
+    <src s="21">ע"י שהמדות דנפש האלקית מבררים המדות דנפש הבהמית,</src>
+    <src s="22">הוא מציאה שלא לפי ערך העבודה44.</src>
+  </section>
+</awtsmoosMeluketSource>

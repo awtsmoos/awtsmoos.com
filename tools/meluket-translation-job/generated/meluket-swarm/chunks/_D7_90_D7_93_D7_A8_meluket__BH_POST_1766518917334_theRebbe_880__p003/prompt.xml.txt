@@ -1,0 +1,100 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917334_theRebbe_880" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917334_theRebbe_880" title="מאמר ואתה תצוה תשמ"א" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">ויש לבאר זה ע"פ הידוע31</src>
+    <src s="2">דזה שישראל מאמינים באלקות באמונה פשוטה ואין צריכים ראיות על זה הוא מצד שני טעמים.</src>
+    <src s="3">לפי שמזלייהו חזי32.</src>
+    <src s="4">דהנשמה שלמעלה רואה אלקות</src>
+    <src s="5">(ראי' שלמעלה משכל),</src>
+    <src s="6">וזה פועל בהנשמה שבגוף האמונה באלקות.</src>
+    <src s="7">ועוד ביאור,</src>
+    <src s="8">דשורש האמונה הוא מעצם הנשמה</src>
+    <src s="9">(שלמעלה ממזלי' חזי).</src>
+    <src s="10">דזה שעצם הנשמה מקושרת באלקות היא התקשרות עצמית</src>
+    <src s="11">(שאינה תלוי' בסיבה,</src>
+    <src s="12">גם לא בענין הראי' שלמעלה משכל).</src>
+    <src s="13">ויש לומר,</src>
+    <src s="14">דמהחילוקים שבין שני הביאורים</src>
+    <src s="15">(הענינים)</src>
+    <src s="16">הוא,</src>
+    <src s="17">דהאמונה בהנשמה המלובשת בגוף הבאה מראיית הנשמה שלמעלה היא בבחינת מקיף.</src>
+    <src s="18">דכיון שהנשמה שלמעלה היא למעלה מהתלבשות לכן פעולתה בהנשמה המלובשת בגוף היא בבחינת מקיף.</src>
+    <src s="19">ובכדי שהאמונה</src>
+    <src s="20">(בהנשמה המלובשת בגוף)</src>
+    <src s="21">תהי' בפנימיות,</src>
+    <src s="22">הוא ע"י גילוי ההתקשרות עצמית דעצם הנשמה.</src>
+    <src s="23">כי עצם הנשמה היא העצם של הנשמה המלובשת בהגוף,</src>
+    <src s="24">ולכן,</src>
+    <src s="25">האמונה דהנשמה המלובשת בהגוף שמצד עצם הנשמה היא בפנימיותה.</src>
+  </section>
+  <section v="7">
+    <src s="0">ועפ"ז יש לבאר קשר הענינים שבהמאמר,</src>
+    <src s="1">שהענין ד</src>
+    <src s="2">(כתית)</src>
+    <src s="3">למאור בא בהמשך לביאור הענין דרעיא מהימנא,</src>
+    <src s="4">כי זה שמשה זן ומפרנס את האמונה שתהי' בפנימיות הוא ע"י שהוא מגלה את עצם הנשמה</src>
+    <src s="5">(שלמעלה ממזלי' חזי),</src>
+    <src s="6">מָאור שלמעלה מאור.</src>
+    <src s="7">ומ"ש כתית למאור,</src>
+    <src s="8">ומבאר בהמאמר שבכדי להגיע להמאור הוא ע"י הענין דכתית שבזמן הגלות,</src>
+    <src s="9">הוא,</src>
+    <src s="10">כי עיקר הגילוי דעצם הנשמה</src>
+    <src s="11">(מאור)</src>
+    <src s="12">הוא בענין המס"נ</src>
+    <src s="13">(שעיקרו הוא בזמן הגלות),</src>
+    <src s="14">כדלקמן.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">והענין הוא,</src>
+    <src s="2">דזה שהאמונה דישראל היא באופן שהוא מוסר נפשו על זה,</src>
+    <src s="3">הוא</src>
+    <src s="4">(בעיקר)</src>
+    <src s="5">בהאמונה שמצד עצם הנשמה.</src>
+    <src s="6">דהאמונה מצד זה שהוא רואה</src>
+    <src s="7">(מזלי' חזי),</src>
+    <src s="8">הגם שהיא בתוקף גדול</src>
+    <src s="9">[כידוע דההתאמתות שמצד הראי' היא התאמתות גדולה ביותר33],</src>
+    <src s="10">מ"מ,</src>
+    <src s="11">כיון שהאמונה שלו היא מצד סיבה</src>
+    <src s="12">(מצד זה שרואה)</src>
+    <src s="13">ואינה קשורה עם עצם מציאותו,</src>
+    <src s="14">אינו מוכרח שימסור נפשו על זה,</src>
+    <src s="15">וזה שהאמונה דישראל היא באופן שהוא מוסר נפשו על זה הוא מפני שהאמונה באלקות היא העצם שלו,</src>
+    <src s="16">ולכן אי אפשר כלל שיכפור ח"ו.</src>
+  </section>
+</awtsmoosMeluketSource>

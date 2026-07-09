@@ -1,0 +1,150 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919787_theRebbe_472" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919787_theRebbe_472__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919787_theRebbe_472" title="מאמר איכה ישבה בדד תשל"א" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919787_theRebbe_472__p003">
+  <section v="6">
+    <src s="0">ו)</src>
+    <src s="1">וזהו איכה ישבה בדד העיר רבתי עם גו',</src>
+    <src s="2">איכה בתמי' – דישראל שהיו בדרגת עם,</src>
+    <src s="3">גחלים עוממות כו'52,</src>
+    <src s="4">ורבתי עם</src>
+    <src s="5">(כפשוטו)</src>
+    <src s="6">ריבוי ההתחלקות כו' ורבתי בדיעות53</src>
+    <src s="7">ריבוי הדיעות,</src>
+    <src s="8">ד"ע וד"ת54.</src>
+    <src s="9">דהנה כתיב55</src>
+    <src s="10">כי א-ל דיעות הוי'</src>
+    <src s="11">(דיעות לשון רבים56),</src>
+    <src s="12">וידוע תורת אדמו"ר הזקן57</src>
+    <src s="13">שצ"ל מתאחדים יחד ולמעלה מזה – שמעלה ומטה שווין,</src>
+    <src s="14">א-ל דיעות הוי' – שכולל ב' הדיעות יחד,</src>
+    <src s="15">הנה היא רבתי בדיעות,</src>
+    <src s="16">ד"ע וד"ת ובכמה אופנים.</src>
+    <src s="17">היתה כאלמנה – שבעלה הלך למדינת הים58,</src>
+    <src s="18">ענין בעלה – באתכסיא,</src>
+    <src s="19">רבתי בגוים הו"ע ההתלבשות בעניני ע' אומות כו',</src>
+    <src s="20">שרתי במדינות – גם כח ההתנשאות והתוקף הוא – במדינות59</src>
+    <src s="21">הייתה למס.</src>
+    <src s="22">אבל כ"ז הוא לעילוי': שרתי אותיות תשרי,</src>
+    <src s="23">שאז בנין המלכות להיות שרתי במדינות60,</src>
+    <src s="24">היתה למס הוא הביטול דקב"ע,</src>
+    <src s="25">שדוקא בזמן ההעלם וההסתר,</src>
+    <src s="26">כשהיא רבתי עם גו' שרתי במדינות,</src>
+    <src s="27">הנה אז דוקא הוא הביטול דקב"ע,</src>
+    <src s="28">שהיתה למס,</src>
+    <src s="29">אשר אינו מציאות לעצמו והוא רק למס.</src>
+    <src s="30">וכידוע שהעבודה בזה"ג ובפרט בעקבתי' דמשיחא הוא לא בבחי' המוחין ולא בבחי' המדות כ"א העבודה דקב"ע</src>
+    <src s="31">(וכנ"ל בפי' האיש משה עניו).</src>
+    <src s="32">ועי"ז דוקא נעשה ישבה בדד,</src>
+    <src s="33">גילוי בחי' בדד שלמעלה מהשתלשלות,</src>
+    <src s="34">יחיד,</src>
+    <src s="35">שלמעלה גם מע"ס הגנוזות – באופן דישבה.</src>
+    <src s="36">וכביאור כ"ק אדמו"ר האמצעי61</src>
+    <src s="37">בפירוש אנת הוא חד ולא בחושבן,</src>
+    <src s="38">שהוא למעלה גם מע"ס הגנוזות.</src>
+    <src s="39">ובזה יובן תיווך ב' הפירושים באיכה ישבה בדד,</src>
+    <src s="40">פירוש הפשוט ופירוש הצ"צ שקאי על העילוי והגילוי דבחי' בדד,</src>
+    <src s="41">כי הגילוי דבחי' בדד שלמעלה מהשתלשלות הוא ע"י העבודה דקב"ע שבזמן הגלות דוקא,</src>
+    <src s="42">כנ"ל.</src>
+    <src s="43">וזהו איכה ישבה בדד גו' איכה לשון תמי' ופליאה,</src>
+    <src s="44">שיבוא מרבתי עם,</src>
+    <src s="45">עוממות ורבתי בזה וכו' לבדד שלמעלה מהשתלשלות ובאופן דישבה הו"ע של פליאה.</src>
+    <src s="46">(ועוד י"ל שהגילוי והתיישבות דבחי' בדד שלמעלה מהשתלשלות,</src>
+    <src s="47">ה"ז שלא ע"פ השתלשלות,</src>
+    <src s="48">למעלה מטו"ד62.</src>
+    <src s="49">ולכן גם העבודה שעי"ז יומשך הגילוי דבחי' בדד,</src>
+    <src s="50">הו"ע עבודת התשובה63,</src>
+    <src s="51">שענין התשובה הוא העבודה שלמעלה מהשתלשלות בנפש האדם).</src>
+  </section>
+  <section v="7">
+    <src s="0">ז)</src>
+    <src s="1">והנה השייכות דבחי' בדד,</src>
+    <src s="2">בחי' יחיד,</src>
+    <src s="3">ליעקב דוקא</src>
+    <src s="4">(כמ"ש בטח בדד עין יעקב)</src>
+    <src s="5">הוא,</src>
+    <src s="6">כי הנה נת"ל שבדד הוא בחי' עתיק,</src>
+    <src s="7">שלמעלה מב' הקוין ימין ושמאל,</src>
+    <src s="8">וכמאמר64</src>
+    <src s="9">ולית שמאלא בהאי עתיקא,</src>
+    <src s="10">ולכן גילוי בחי' זו הוא ע"י העבודה בקו השלישי דוקא.</src>
+    <src s="11">וכמ"ש ציון במשפט תפדה ומפרש כ"ק אדמו"ר הצמח צדק65</src>
+    <src s="12">שהמשפט הוא דוקא בשלשה66</src>
+    <src s="13">כו' דהיינו חג"ת.</src>
+    <src s="14">והיינו שעשיית הדירה לו ית' ובאופן של שלימות הוא ע"י העבודה בכל ג' הקוין דוקא,</src>
+    <src s="15">וכביאור כ"ק מו"ח אדמו"ר במשנה על שלשה דברים העולם עומד67,</src>
+    <src s="16">שע"י העבודה בג' הקוין,</src>
+    <src s="17">תורה עבודה וגמ"ח,</src>
+    <src s="18">העולם עומד,</src>
+    <src s="19">שנשלמה הכוונה דבריאת העולם.</src>
+    <src s="20">וזהו ג"כ ענינו של בית השלישי,</src>
+    <src s="21">קו השלישי,</src>
+    <src s="22">בחי' נחלה בלי מצרים דיעקב,</src>
+    <src s="23">שבו תהי'</src>
+    <src s="24">(גם)</src>
+    <src s="25">ההתכללות דבית ראשון ובית שני68.</src>
+    <src s="26">וזה יהי' למעלה גם מכמו שהי' בג"ע מקדם,</src>
+    <src s="27">היינו גם מכמו שהי' בג"ע קודם החטא69,</src>
+    <src s="28">וכידוע בענין אדם ומשיח,</src>
+    <src s="29">שאדם הוא ר"ת אדם דוד משיח70,</src>
+    <src s="30">והצירוף הוא בסדר אד"ם – שמורה על סדר וכו' משא"כ במשיח כתיב71</src>
+    <src s="31">הנה ישכיל עבדי ירום ונשא וגבה מאד,</src>
+    <src s="32">מאד אותיות אדם,</src>
+    <src s="33">אבל בצירוף המורה על בל"ג,</src>
+    <src s="34">היפך ענין הציור דאדם.</src>
+  </section>
+  <section v="8">
+    <src s="0">ח)</src>
+    <src s="1">והנה כאמור לעיל הגילוי דלעתיד ממשיכים ע"י העבודה עכשיו דוקא.</src>
+    <src s="2">שמזה מובן שישנה מעלה בהעבודה דעכשיו גם על הגילוי דלעתיד,</src>
+    <src s="3">וכמו שמבאר כ"ק אדמו"ר מהר"ש בפירוש המשנה72</src>
+    <src s="4">יפה שעה אחת בתשובה ומע"ט בעוה"ז מכל חיי עוה"ב,</src>
+    <src s="5">דמאחר שהעבודה בתשובה ומע"ט בעוה"ז הוא הגורם לחיי עוה"ב</src>
+    <src s="6">(כולל גם הגילויים דלעתיד)</src>
+    <src s="7">הרי בהכרח שיש מעלה בהעבודה דעוה"ז על הגילויים דלעתיד,</src>
+    <src s="8">כי דבר הגורם הוא חזק יותר מהדבר שנעשה על ידו.</src>
+    <src s="9">וגם בענין התענוג,</src>
+    <src s="10">שבחי' נחלה בלי מצרים דיעקב הוא בהזמן דרעוא דרעוין</src>
+    <src s="11">(ענין התענוג),</src>
+    <src s="12">יש מעלה בהעבודה דעכשיו דוקא,</src>
+    <src s="13">וכמו שמבאר שם לפני זה73</src>
+    <src s="14">שהתענוג דלעתיד הוא</src>
+    <src s="15">(בכללות)</src>
+    <src s="16">נח"ר דהנברא והתענוג דתשובה ומע"ט בעוה"ז הוא</src>
+    <src s="17">(בכללות)</src>
+    <src s="18">נח"ר דהבורא,</src>
+    <src s="19">נח"ר לפני74</src>
+    <src s="20">שאמרתי ונעשה רצוני.</src>
+  </section>
+</awtsmoosMeluketSource>

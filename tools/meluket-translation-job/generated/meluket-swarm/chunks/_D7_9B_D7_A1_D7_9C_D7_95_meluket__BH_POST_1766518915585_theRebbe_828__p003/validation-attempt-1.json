@@ -1,0 +1,329 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 57,
+    "returned": 57,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915585_theRebbe_828\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>Both opinions are true because they have their root in the Awtsmoos of Ein Sof, which contains two aspects: being infinitely above and infinitely below.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And it is explained in the discourses,</t>\n    <t s=\"2\">that both opinions are true,</t>\n    <t s=\"3\">for both have their root in the Awtsmoos of Ein Sof,</t>\n    <t s=\"4\">for in Ein Sof there are two matters.</t>\n    <t s=\"5\">That He is above, above, without end,</t>\n    <t s=\"6\">and that He is below, below, without limit.</t>\n    <t s=\"7\">And these two matters are the root of the lower knowledge and the higher knowledge.</t>\n    <t s=\"8\">For from the aspect of the revelation of Ein Sof,</t>\n    <t s=\"9\">which is revealed in every place below, below without limit,</t>\n    <t s=\"10\">everything before Him is considered as nothing — this is the higher knowledge that \"below there is nothing.\"</t>\n    <t s=\"11\">And from the aspect of the concealment of Ein Sof,</t>\n    <t s=\"12\">which is elevated in His Awtsmoos above, above without end,</t>\n    <t s=\"13\">the creations exist as a tangible entity — this is the lower knowledge that \"below there is something.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>It must be understood how the lower knowledge, rooted in the concealment of Ein Sof, is perfected by the revelation of the higher knowledge, and why it is still considered true.</sectionSummaryBrief>\n    <t s=\"0\">And one must understand,</t>\n    <t s=\"1\">that since even the lower knowledge has its root in the Awtsmoos of Ein Sof,</t>\n    <t s=\"2\">the perfection of the lower knowledge would seemingly be that within it there should be a revelation that \"below there is something\"</t>\n    <t s=\"3\">(not that the creations are a tangible entity from their own perspective,</t>\n    <t s=\"4\">but rather)</t>\n    <t s=\"5\">because Ein Sof is above, above without end,</t>\n    <t s=\"6\">and in the discourses it is explained,</t>\n    <t s=\"7\">that the perfection of the lower knowledge comes about through the revelation of the higher knowledge shining within it.</t>\n    <t s=\"8\">Also, one must understand on the other hand,</t>\n    <t s=\"9\">regarding what is said in the discourses that even the lower knowledge is true because it has a root in the Awtsmoos of Ein Sof,</t>\n    <t s=\"10\">for seemingly,</t>\n    <t s=\"11\">since the matter of \"above, above without end\"</t>\n    <t s=\"12\">(the root of the lower knowledge)</t>\n    <t s=\"13\">is the concealment of Ein Sof,</t>\n    <t s=\"14\">the perception that \"below there is something\"</t>\n    <t s=\"15\">(as is perceived in the lower knowledge)</t>\n    <t s=\"16\">is seemingly not from the aspect of Ein Sof, but rather on the contrary,</t>\n    <t s=\"17\">because Ein Sof is not perceived within it,</t>\n    <t s=\"18\">and nevertheless they say,</t>\n    <t s=\"19\">that the opinion that \"below there is something\"</t>\n    <t s=\"20\">(as it is in the lower knowledge)</t>\n    <t s=\"21\">is a true opinion.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>The explanation of the term \"nature\" is discussed, with several interpretations: that it is a new name for constant miracles, that it derives from the word for a coin stamp, or that it refers to something without reason or intellect.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">that it is explained in the discourses,</t>\n    <t s=\"3\">that the term \"nature\" has several interpretations.</t>\n    <t s=\"4\">For in the Responsa of the Chacham Tzvi</t>\n    <t s=\"5\">it is stated,</t>\n    <t s=\"6\">that the name \"nature\" is a new term coined by the later sages.</t>\n    <t s=\"7\">For since everything</t>\n    <t s=\"8\">(even nature)</t>\n    <t s=\"9\">is from Him, blessed be He,</t>\n    <t s=\"10\">therefore even nature is a miracle.</t>\n    <t s=\"11\">Except that these miracles are constant,</t>\n    <t s=\"12\">continuous miracles.</t>\n    <t s=\"13\">And there are those who say</t>\n    <t s=\"14\">that \"nature\" (teva) is from the word \"coin\" (matbea).</t>\n    <t s=\"15\">For it is stated in the Mishnah,</t>\n    <t s=\"16\">A person strikes many coins with one seal, and they all resemble one another,</t>\n    <t s=\"17\">but the King of kings, the Holy One, blessed be He, stamped every person with the seal of Adam the first man, yet not one of them resembles another.</t>\n    <t s=\"18\">And in the Tanya</t>\n    <t s=\"19\">it is stated,</t>\n    <t s=\"20\">that \"nature\" is a borrowed term for anything that is not according to reason and intellect.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915585_theRebbe_828",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "Both opinions are true because they have their root in the Awtsmoos of Ein Sof, which contains two aspects: being infinitely above and infinitely below.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And it is explained in the discourses,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that both opinions are true,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "for both have their root in the Awtsmoos of Ein Sof,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "for in Ein Sof there are two matters."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "That He is above, above, without end,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "and that He is below, below, without limit."
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "And these two matters are the root of the lower knowledge and the higher knowledge."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "For from the aspect of the revelation of Ein Sof,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "which is revealed in every place below, below without limit,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "everything before Him is considered as nothing — this is the higher knowledge that \"below there is nothing.\""
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "And from the aspect of the concealment of Ein Sof,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "which is elevated in His Awtsmoos above, above without end,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "the creations exist as a tangible entity — this is the lower knowledge that \"below there is something.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "It must be understood how the lower knowledge, rooted in the concealment of Ein Sof, is perfected by the revelation of the higher knowledge, and why it is still considered true.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And one must understand,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "that since even the lower knowledge has its root in the Awtsmoos of Ein Sof,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "the perfection of the lower knowledge would seemingly be that within it there should be a revelation that \"below there is something\""
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "(not that the creations are a tangible entity from their own perspective,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "but rather)"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "because Ein Sof is above, above without end,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "and in the discourses it is explained,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "that the perfection of the lower knowledge comes about through the revelation of the higher knowledge shining within it."
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "Also, one must understand on the other hand,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "regarding what is said in the discourses that even the lower knowledge is true because it has a root in the Awtsmoos of Ein Sof,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "since the matter of \"above, above without end\""
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "(the root of the lower knowledge)"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "is the concealment of Ein Sof,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "the perception that \"below there is something\""
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "(as is perceived in the lower knowledge)"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "is seemingly not from the aspect of Ein Sof, but rather on the contrary,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "because Ein Sof is not perceived within it,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "and nevertheless they say,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "that the opinion that \"below there is something\""
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "(as it is in the lower knowledge)"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "is a true opinion."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "The explanation of the term \"nature\" is discussed, with several interpretations: that it is a new name for constant miracles, that it derives from the word for a coin stamp, or that it refers to something without reason or intellect.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that it is explained in the discourses,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "that the term \"nature\" has several interpretations."
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "For in the Responsa of the Chacham Tzvi"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "it is stated,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "that the name \"nature\" is a new term coined by the later sages."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "For since everything"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(even nature)"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "is from Him, blessed be He,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "therefore even nature is a miracle."
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "Except that these miracles are constant,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "continuous miracles."
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "And there are those who say"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "that \"nature\" (teva) is from the word \"coin\" (matbea)."
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "For it is stated in the Mishnah,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "A person strikes many coins with one seal, and they all resemble one another,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "but the King of kings, the Holy One, blessed be He, stamped every person with the seal of Adam the first man, yet not one of them resembles another."
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "And in the Tanya"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "it is stated,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "that \"nature\" is a borrowed term for anything that is not according to reason and intellect."
+          }
+        ]
+      }
+    ]
+  }
+}

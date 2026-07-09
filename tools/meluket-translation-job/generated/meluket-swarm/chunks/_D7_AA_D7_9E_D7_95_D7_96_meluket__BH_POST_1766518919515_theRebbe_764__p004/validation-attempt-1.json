@@ -1,0 +1,624 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 116,
+    "returned": 116,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919515_theRebbe_764\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that in spontaneous causation the source is felt in the effect, whereas in enclothed causation the effect is distant and the source is not felt, analogous to the relationship between a spiritual power and its physical action.</sectionSummaryBrief>\n    <t s=\"0\">And the reason for this is,</t>\n    <t s=\"1\">that in a spontaneous manner of coming-into-being, the main emphasis is the revelation of the source.</t>\n    <t s=\"2\">Therefore,</t>\n    <t s=\"3\">even though also in cause and caused</t>\n    <t s=\"4\">(where the coming-into-being of the caused from the cause is in a spontaneous manner),</t>\n    <t s=\"5\">the caused is not a revelation of the cause but rather an essence unto itself,</t>\n    <t s=\"6\">nevertheless,</t>\n    <t s=\"7\">the cause is felt within it.</t>\n    <t s=\"8\">And it is like intellect and emotions,</t>\n    <t s=\"9\">where in the emotions the intellect is felt.</t>\n    <t s=\"10\">But in order for something to come into being that is distant from its source,</t>\n    <t s=\"11\">it is specifically through the manner of enclothing.</t>\n    <t s=\"12\">For the concept of enclothing is</t>\n    <t s=\"13\">(not that the source is revealed,</t>\n    <t s=\"14\">but rather on the contrary)</t>\n    <t s=\"15\">it enclothes itself</t>\n    <t s=\"16\">(and occupies itself)</t>\n    <t s=\"17\">to bring into being a new thing,</t>\n    <t s=\"18\">and therefore,</t>\n    <t s=\"19\">the thing that comes into being through enclothing is distant from its source,</t>\n    <t s=\"20\">in a manner that its source is not felt within it.</t>\n    <t s=\"21\">And it can be said that this is analogous to the concept of power and action,</t>\n    <t s=\"22\">for the reason that the drawing forth of action from power is not in a spontaneous manner but rather through enclothing</t>\n    <t s=\"23\">(that the power performs the action),</t>\n    <t s=\"24\">is because the action is distant from the power.</t>\n    <t s=\"25\">For it is known</t>\n    <t s=\"26\">that the action is a novelty relative to the power.</t>\n    <t s=\"27\">For since the power is spiritual and the action is physical,</t>\n    <t s=\"28\">the drawing forth of the action from the power is</t>\n    <t s=\"29\">(like)</t>\n    <t s=\"30\">a new coming-into-being</t>\n    <t s=\"31\">(and analogous to yesh me'ayin).</t>\n    <t s=\"32\">And the concept of power is that it has the capacity to effect a new thing.</t>\n    <t s=\"33\">And from this it is understood,</t>\n    <t s=\"34\">that this [fact] that from the action one knows the power,</t>\n    <t s=\"35\">is that through the action one knows the power.</t>\n    <t s=\"36\">But in the action itself the power is not felt.</t>\n    <t s=\"37\">For since the power is spiritual and the action is physical,</t>\n    <t s=\"38\">the spiritual power is not revealed in the physical action.</t>\n    <t s=\"39\">And one may add,</t>\n    <t s=\"40\">that this [fact] that the power is not felt in the action is not only from the perspective of the action</t>\n    <t s=\"41\">(which is incomparable to the power)</t>\n    <t s=\"42\">but also from the perspective of the power.</t>\n    <t s=\"43\">For since the operation of the power is that it makes a new thing that is not of its own value</t>\n    <t s=\"44\">(as above),</t>\n    <t s=\"45\">therefore the drawing forth of the power to act is a concealed drawing forth</t>\n    <t s=\"46\">[because effecting a new thing that is not of the value of its source is through the concealment of the source.</t>\n    <t s=\"47\">For after the revelation of the source ceases,</t>\n    <t s=\"48\">then specifically it is possible that there be a thing that is not of its value],</t>\n    <t s=\"49\">and therefore,</t>\n    <t s=\"50\">the action that comes from the power is in a manner that the power is not felt within it].</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section contrasts creation through the Name Elokim (enclothed, where the power is not felt in creatures, resulting in bitul hayesh) with creation through the Name Havayah (spontaneous, where the power is revealed in creatures, resulting in bitul bimetzi'us).</sectionSummaryBrief>\n    <t s=\"0\">And analogously above,</t>\n    <t s=\"1\">the coming-into-being from the Name Elokim, which is through the manner of enclothing,</t>\n    <t s=\"2\">is in a manner that the constituting power is not felt in the creations,</t>\n    <t s=\"3\">and therefore the creations that came into being from the Name Elokim are a [separate] existence and their nullification is</t>\n    <t s=\"4\">only bitul hayesh.</t>\n    <t s=\"5\">And the coming-into-being from the Name Havayah, which is in a spontaneous manner,</t>\n    <t s=\"6\">is in a manner that it is revealed in the creations,</t>\n    <t s=\"7\">and therefore the nullification of the creations that came into being from the Name Havayah is</t>\n    <t s=\"8\">bitul bimetzi'us.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains why two analogies (cause-and-caused and light-and-luminary) are brought for spontaneous creation, clarifying that the caused is incomparable to the source yet still close to it, and that the analogy of light-and-luminary better illustrates this closeness despite incomparability.</sectionSummaryBrief>\n    <t s=\"0\">e)</t>\n    <t s=\"1\">And it is known that when two analogies</t>\n    <t s=\"2\">(or more)</t>\n    <t s=\"3\">are brought in Chassidic discourses for some matter,</t>\n    <t s=\"4\">it is</t>\n    <t s=\"5\">because the analogy does not correspond to the analogue in all details,</t>\n    <t s=\"6\">and therefore they bring two analogies</t>\n    <t s=\"7\">(or more),</t>\n    <t s=\"8\">each of which explains some details of the analogue.</t>\n    <t s=\"9\">And so it is in our matter,</t>\n    <t s=\"10\">that the reason they bring two analogies for this [point] that in spontaneous coming-into-being the thing that comes into being is close to the one that brings it into being,</t>\n    <t s=\"11\">the analogy of cause and caused and the analogy of light and luminary,</t>\n    <t s=\"12\">is</t>\n    <t s=\"13\">because in the analogue,</t>\n    <t s=\"14\">even in spontaneous coming-into-being,</t>\n    <t s=\"15\">a new thing comes into being that is not of the value of the constituting source.</t>\n    <t s=\"16\">And it is also understood from this that even in the coming-into-being from the Name Havayah it is written \"for He commanded and they were created,\"</t>\n    <t s=\"17\">for the term \"creation\" indicates a coming-into-being of yesh me'ayin,</t>\n    <t s=\"18\">for yesh me'ayin is incomparable.</t>\n    <t s=\"19\">And this [fact] that the coming-into-being from the Name Havayah is in a manner that it is revealed in the creations that came into being from it</t>\n    <t s=\"20\">(as above in section d),</t>\n    <t s=\"21\">the intention in this is that it is felt within them that they are not an existence unto themselves and their entire existence is that the Divine light brings them into being from ayin to yesh,</t>\n    <t s=\"22\">for through this feeling they are nullified to their source.</t>\n    <t s=\"23\">But it is not that it is revealed in the creations themselves</t>\n    <t s=\"24\">(their essence and level).</t>\n    <t s=\"25\">For since the creations are incomparable relative to Him,</t>\n    <t s=\"26\">it is impossible that a light that is entirely not of their value be revealed within them,</t>\n    <t s=\"27\">analogous to how it is impossible that in a physical action there be the revelation of the spiritual power</t>\n    <t s=\"28\">(as above there).</t>\n    <t s=\"29\">[And to add,</t>\n    <t s=\"30\">in power and action,</t>\n    <t s=\"31\">since the concept of power is to act and its operation is through the manner of enclothing,</t>\n    <t s=\"32\">therefore,</t>\n    <t s=\"33\">in this [fact] that the power performs the action, the power is revealed</t>\n    <t s=\"34\">(only that it is not revealed in the action itself).</t>\n    <t s=\"35\">But not so in the coming-into-being from the Name Havayah,</t>\n    <t s=\"36\">since the coming-into-being from the Name Havayah is in a spontaneous manner,</t>\n    <t s=\"37\">which indicates that it is wondrously beyond the concept of coming-into-being,</t>\n    <t s=\"38\">it is not revealed even through the coming-into-being of the creations,</t>\n    <t s=\"39\">since it is wondrously beyond the concept of coming-into-being].</t>\n    <t s=\"40\">And therefore the analogy of cause and caused does not correspond to the analogue,</t>\n    <t s=\"41\">for in cause and caused,</t>\n    <t s=\"42\">the closeness of the caused to the cause is that the caused is of the value of the cause,</t>\n    <t s=\"43\">and the revelation of the cause is in the caused itself.</t>\n    <t s=\"44\">[And like intellect and emotions, which are cause and caused,</t>\n    <t s=\"45\">where in the emotion itself the intellect that generated it is discernible.</t>\n    <t s=\"46\">For when one is aroused in love for something because he understood and grasped in his intellect that the thing is good for him, it is felt in the love itself that his love for the thing is because of the good in it.</t>\n    <t s=\"47\">And the manner of the love is like the manner of the good of the thing.]</t>\n    <t s=\"48\">And in order to explain that even when the thing that comes into being is incomparable to the constituting source, nevertheless it is close to its source,</t>\n    <t s=\"49\">it is through the analogy of light and luminary.</t>\n    <t s=\"50\">For even though the light is merely a radiation that is incomparable to the luminary</t>\n    <t s=\"51\">[therefore the luminary is not revealed in the light,</t>\n    <t s=\"52\">for through the light one knows only the existence of the luminary and not its essence],</t>\n    <t s=\"53\">nevertheless,</t>\n    <t s=\"54\">it is close to the luminary,</t>\n    <t s=\"55\">for its source is felt within it and it is nullified to it.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919515_theRebbe_764",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that in spontaneous causation the source is felt in the effect, whereas in enclothed causation the effect is distant and the source is not felt, analogous to the relationship between a spiritual power and its physical action.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And the reason for this is,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that in a spontaneous manner of coming-into-being, the main emphasis is the revelation of the source."
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "even though also in cause and caused"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "(where the coming-into-being of the caused from the cause is in a spontaneous manner),"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "the caused is not a revelation of the cause but rather an essence unto itself,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "the cause is felt within it."
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "And it is like intellect and emotions,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "where in the emotions the intellect is felt."
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "But in order for something to come into being that is distant from its source,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "it is specifically through the manner of enclothing."
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "For the concept of enclothing is"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "(not that the source is revealed,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "but rather on the contrary)"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "it enclothes itself"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "(and occupies itself)"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "to bring into being a new thing,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "the thing that comes into being through enclothing is distant from its source,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "in a manner that its source is not felt within it."
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "And it can be said that this is analogous to the concept of power and action,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "for the reason that the drawing forth of action from power is not in a spontaneous manner but rather through enclothing"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "(that the power performs the action),"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "is because the action is distant from the power."
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "For it is known"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "that the action is a novelty relative to the power."
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "For since the power is spiritual and the action is physical,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "the drawing forth of the action from the power is"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "(like)"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "a new coming-into-being"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "(and analogous to yesh me'ayin)."
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "And the concept of power is that it has the capacity to effect a new thing."
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "that this [fact] that from the action one knows the power,"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "is that through the action one knows the power."
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "But in the action itself the power is not felt."
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "For since the power is spiritual and the action is physical,"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "the spiritual power is not revealed in the physical action."
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "that this [fact] that the power is not felt in the action is not only from the perspective of the action"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "(which is incomparable to the power)"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "but also from the perspective of the power."
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "For since the operation of the power is that it makes a new thing that is not of its own value"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "(as above),"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "therefore the drawing forth of the power to act is a concealed drawing forth"
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "[because effecting a new thing that is not of the value of its source is through the concealment of the source."
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "For after the revelation of the source ceases,"
+          },
+          {
+            "v": 9,
+            "s": 48,
+            "translation": "then specifically it is possible that there be a thing that is not of its value],"
+          },
+          {
+            "v": 9,
+            "s": 49,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 9,
+            "s": 50,
+            "translation": "the action that comes from the power is in a manner that the power is not felt within it]."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section contrasts creation through the Name Elokim (enclothed, where the power is not felt in creatures, resulting in bitul hayesh) with creation through the Name Havayah (spontaneous, where the power is revealed in creatures, resulting in bitul bimetzi'us).",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And analogously above,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "the coming-into-being from the Name Elokim, which is through the manner of enclothing,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "is in a manner that the constituting power is not felt in the creations,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "and therefore the creations that came into being from the Name Elokim are a [separate] existence and their nullification is"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "only bitul hayesh."
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "And the coming-into-being from the Name Havayah, which is in a spontaneous manner,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "is in a manner that it is revealed in the creations,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "and therefore the nullification of the creations that came into being from the Name Havayah is"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "bitul bimetzi'us."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains why two analogies (cause-and-caused and light-and-luminary) are brought for spontaneous creation, clarifying that the caused is incomparable to the source yet still close to it, and that the analogy of light-and-luminary better illustrates this closeness despite incomparability.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "e)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And it is known that when two analogies"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "(or more)"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "are brought in Chassidic discourses for some matter,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "it is"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "because the analogy does not correspond to the analogue in all details,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "and therefore they bring two analogies"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "(or more),"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "each of which explains some details of the analogue."
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "And so it is in our matter,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "that the reason they bring two analogies for this [point] that in spontaneous coming-into-being the thing that comes into being is close to the one that brings it into being,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "the analogy of cause and caused and the analogy of light and luminary,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "is"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "because in the analogue,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "even in spontaneous coming-into-being,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "a new thing comes into being that is not of the value of the constituting source."
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "And it is also understood from this that even in the coming-into-being from the Name Havayah it is written \"for He commanded and they were created,\""
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "for the term \"creation\" indicates a coming-into-being of yesh me'ayin,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "for yesh me'ayin is incomparable."
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "And this [fact] that the coming-into-being from the Name Havayah is in a manner that it is revealed in the creations that came into being from it"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "(as above in section d),"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "the intention in this is that it is felt within them that they are not an existence unto themselves and their entire existence is that the Divine light brings them into being from ayin to yesh,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "for through this feeling they are nullified to their source."
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "But it is not that it is revealed in the creations themselves"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "(their essence and level)."
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "For since the creations are incomparable relative to Him,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "it is impossible that a light that is entirely not of their value be revealed within them,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "analogous to how it is impossible that in a physical action there be the revelation of the spiritual power"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "(as above there)."
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "[And to add,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "in power and action,"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "since the concept of power is to act and its operation is through the manner of enclothing,"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "therefore,"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "in this [fact] that the power performs the action, the power is revealed"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "(only that it is not revealed in the action itself)."
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "But not so in the coming-into-being from the Name Havayah,"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "since the coming-into-being from the Name Havayah is in a spontaneous manner,"
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "which indicates that it is wondrously beyond the concept of coming-into-being,"
+          },
+          {
+            "v": 11,
+            "s": 38,
+            "translation": "it is not revealed even through the coming-into-being of the creations,"
+          },
+          {
+            "v": 11,
+            "s": 39,
+            "translation": "since it is wondrously beyond the concept of coming-into-being]."
+          },
+          {
+            "v": 11,
+            "s": 40,
+            "translation": "And therefore the analogy of cause and caused does not correspond to the analogue,"
+          },
+          {
+            "v": 11,
+            "s": 41,
+            "translation": "for in cause and caused,"
+          },
+          {
+            "v": 11,
+            "s": 42,
+            "translation": "the closeness of the caused to the cause is that the caused is of the value of the cause,"
+          },
+          {
+            "v": 11,
+            "s": 43,
+            "translation": "and the revelation of the cause is in the caused itself."
+          },
+          {
+            "v": 11,
+            "s": 44,
+            "translation": "[And like intellect and emotions, which are cause and caused,"
+          },
+          {
+            "v": 11,
+            "s": 45,
+            "translation": "where in the emotion itself the intellect that generated it is discernible."
+          },
+          {
+            "v": 11,
+            "s": 46,
+            "translation": "For when one is aroused in love for something because he understood and grasped in his intellect that the thing is good for him, it is felt in the love itself that his love for the thing is because of the good in it."
+          },
+          {
+            "v": 11,
+            "s": 47,
+            "translation": "And the manner of the love is like the manner of the good of the thing.]"
+          },
+          {
+            "v": 11,
+            "s": 48,
+            "translation": "And in order to explain that even when the thing that comes into being is incomparable to the constituting source, nevertheless it is close to its source,"
+          },
+          {
+            "v": 11,
+            "s": 49,
+            "translation": "it is through the analogy of light and luminary."
+          },
+          {
+            "v": 11,
+            "s": 50,
+            "translation": "For even though the light is merely a radiation that is incomparable to the luminary"
+          },
+          {
+            "v": 11,
+            "s": 51,
+            "translation": "[therefore the luminary is not revealed in the light,"
+          },
+          {
+            "v": 11,
+            "s": 52,
+            "translation": "for through the light one knows only the existence of the luminary and not its essence],"
+          },
+          {
+            "v": 11,
+            "s": 53,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 11,
+            "s": 54,
+            "translation": "it is close to the luminary,"
+          },
+          {
+            "v": 11,
+            "s": 55,
+            "translation": "for its source is felt within it and it is nullified to it."
+          }
+        ]
+      }
+    ]
+  }
+}

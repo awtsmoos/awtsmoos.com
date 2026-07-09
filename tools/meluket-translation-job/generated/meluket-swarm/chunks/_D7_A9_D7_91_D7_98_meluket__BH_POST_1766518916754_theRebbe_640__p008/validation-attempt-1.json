@@ -1,0 +1,519 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 95,
+    "returned": 95,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916754_theRebbe_640\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>This section explains that the two types of will (with and without reason) are presented in two ways in the discourses of the Rebbe Rashab, and clarifies that a will with reason indicates a specific desire for Israel or the righteous.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">3)</t>\n    <t s=\"2\">And the explanation of the matter</t>\n    <t s=\"3\">(that the root of the eternity of Israel is in a will that is above even a concealed reason)</t>\n    <t s=\"4\">in more detail,</t>\n    <t s=\"5\">one must preface what is explained in the discourses of the Admo\"r</t>\n    <t s=\"6\">(the Rebbe Rashab)</t>\n    <t s=\"7\">of blessed memory, the concept of these two wills</t>\n    <t s=\"8\">(a will that has reason and a will that has no reason)</t>\n    <t s=\"9\">in two ways.</t>\n    <t s=\"10\">For sometimes</t>\n    <t s=\"11\">it is explained</t>\n    <t s=\"12\">that a will that has no concealed reason is above a will that has reason</t>\n    <t s=\"13\">(as in the maamar of the yahrtzeit),</t>\n    <t s=\"14\">and sometimes</t>\n    <t s=\"15\">it is explained</t>\n    <t s=\"16\">that a will that has no reason is the externality of the encompassing [light],</t>\n    <t s=\"17\">and the will that has reason is the innerness of the encompassing [light]</t>\n    <t s=\"18\">(the innerness of the will).</t>\n    <t s=\"19\">And the point of the explanation in this,</t>\n    <t s=\"20\">that when it is sometimes explained that a will that has reason is above a will that has no reason,</t>\n    <t s=\"21\">the intent of \"reason\" is that which is felt within it of the innerness of the intention,</t>\n    <t s=\"22\">that the will is specifically for Israel.</t>\n    <t s=\"23\">For in a will that has no reason,</t>\n    <t s=\"24\">all are equal,</t>\n    <t s=\"25\">I do not know in which of them He desires,</t>\n    <t s=\"26\">and a will that has reason is that which is felt within it of the innerness of the intention,</t>\n    <t s=\"27\">that He desires specifically the deeds of the righteous.</t>\n  </section>\n  <section v=\"22\">\n    <sectionSummaryBrief>This section explains that the pleasure of both God and Israel from their bond is called \"tefillin,\" which is above reason, and that the will in mitzvos is an essential will above even the concealed reason of wisdom.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">4)</t>\n    <t s=\"2\">And this will be understood according to the teaching of the Maggid</t>\n    <t s=\"3\">on the statement of our sages of blessed memory,</t>\n    <t s=\"4\">\"The tefillin of the Master</t>\n    <t s=\"5\">of the world, what is written in them? ... 'And who</t>\n    <t s=\"6\">is like Your people Israel, one nation in the land,'\"</t>\n    <t s=\"7\">for it is stated in the writings of the AriZal</t>\n    <t s=\"8\">that tefillin are called \"mochin\" (brains/intellect),</t>\n    <t s=\"9\">for the explanation of \"mochin\"</t>\n    <t s=\"10\">(here)</t>\n    <t s=\"11\">is pleasure.</t>\n    <t s=\"12\">For the pleasure of Israel from this that we are attached to Him, blessed be He,</t>\n    <t s=\"13\">and even to the extent that \"all the peoples of the earth will see that the name of Havayah is called upon you,\"</t>\n    <t s=\"14\">is called \"our tefillin.\"</t>\n    <t s=\"15\">And His pleasure, blessed be He, from this that we are attached to Him, blessed be He,</t>\n    <t s=\"16\">and \"who is like Your people Israel, one nation in the land,\"</t>\n    <t s=\"17\">is called \"His tefillin.\"</t>\n    <t s=\"18\">And behold, this pleasure</t>\n    <t s=\"19\">(both the pleasure of the Holy One, blessed be He, and the pleasure of Israel)</t>\n    <t s=\"20\">from this that we are attached to Him, blessed be He,</t>\n    <t s=\"21\">is above reason.</t>\n    <t s=\"22\">And as is understood from this that this pleasure is called by the name \"tefillin,\"</t>\n    <t s=\"23\">for all the mitzvos are compared to tefillin,</t>\n    <t s=\"24\">for the will in the mitzvos is an essential will that is above reason.</t>\n    <t s=\"25\">[For in addition to this, that even the reasons for the mitzvos</t>\n    <t s=\"26\">(as they are in their truth)</t>\n    <t s=\"27\">are above the comprehension of human intellect,</t>\n    <t s=\"28\">and as it is written in Igeres HaKodesh</t>\n    <t s=\"29\">that the reasons for the mitzvos were not revealed and they are above intellect and comprehension,</t>\n    <t s=\"30\">and even in \"Eizehu Mekoman\" where some reason that is understandable to us superficially was revealed and explained,</t>\n    <t s=\"31\">this is not the ultimate reason,</t>\n    <t s=\"32\">rather within it is clothed the innerness and hidden mysteries of wisdom that are above intellect and comprehension,</t>\n    <t s=\"33\">nevertheless, the will of the mitzvos is an essential will that is above reason,</t>\n    <t s=\"34\">above even the reason of the innerness and hidden mysteries of wisdom.</t>\n    <t s=\"35\">For this is why in the fulfillment of mitzvos one must have two intentions,</t>\n    <t s=\"36\">a general intention and a specific intention,</t>\n    <t s=\"37\">for from the aspect of the reasons for the mitzvos one must have the specific intention relevant to that mitzvah,</t>\n    <t s=\"38\">and from the aspect of the will</t>\n    <t s=\"39\">(which is above reason)</t>\n    <t s=\"40\">one must have the general intention to fulfill the will of Havayah].</t>\n    <t s=\"41\">And specifically in the mitzvah of tefillin, even after the will is clothed in reason,</t>\n    <t s=\"42\">and even to the extent of a reason understandable in human intellect,</t>\n    <t s=\"43\">it is recognizable in it that in its root it is above reason.</t>\n    <t s=\"44\">For the specific intention of the mitzvah of tefillin is to subjugate the heart and the mind,</t>\n    <t s=\"45\">behold, from this very thing it is proven that it is above mind and heart,</t>\n    <t s=\"46\">for therefore it has the ability to subjugate the mind and the heart.</t>\n    <t s=\"47\">And according to what was brought above from the maamar, that even in the will</t>\n    <t s=\"48\">(the externality of the will)</t>\n    <t s=\"49\">there is the reason</t>\n    <t s=\"50\">(concealed)</t>\n    <t s=\"51\">within it and the emotions within it,</t>\n    <t s=\"52\">one must say</t>\n    <t s=\"53\">that tefillin are above even the concept of \"mind and heart\" within the will.</t>\n  </section>\n  <section v=\"23\">\n    <sectionSummaryBrief>This section clarifies that the pleasure called \"tefillin\" is an essential pleasure above all reason, including concealed reason, and its \"mochin\" aspect is that the innermost intention is felt within it.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">6)</t>\n    <t s=\"2\">And based on this it is understood</t>\n    <t s=\"3\">that this that tefillin are called \"mochin,\" [meaning] \"the explanation of 'mochin' is called pleasure,\"</t>\n    <t s=\"4\">the intent is not that this pleasure</t>\n    <t s=\"5\">(of the Holy One, blessed be He, and of Israel)</t>\n    <t s=\"6\">that is called by the name \"tefillin\"</t>\n    <t s=\"7\">is composed of reason,</t>\n    <t s=\"8\">but rather,</t>\n    <t s=\"9\">that this pleasure is an essential pleasure that is above reason,</t>\n    <t s=\"10\">and above even concealed reason,</t>\n    <t s=\"11\">and the concept of the \"mochin\" within it is that the inner intention is felt in it,</t>\n    <t s=\"12\">that the pleasure is specifically for Israel.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916754_theRebbe_640",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p008"
+    },
+    "sections": [
+      {
+        "v": 21,
+        "sectionSummaryBrief": "This section explains that the two types of will (with and without reason) are presented in two ways in the discourses of the Rebbe Rashab, and clarifies that a will with reason indicates a specific desire for Israel or the righteous.",
+        "translations": [
+          {
+            "v": 21,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 21,
+            "s": 1,
+            "translation": "3)"
+          },
+          {
+            "v": 21,
+            "s": 2,
+            "translation": "And the explanation of the matter"
+          },
+          {
+            "v": 21,
+            "s": 3,
+            "translation": "(that the root of the eternity of Israel is in a will that is above even a concealed reason)"
+          },
+          {
+            "v": 21,
+            "s": 4,
+            "translation": "in more detail,"
+          },
+          {
+            "v": 21,
+            "s": 5,
+            "translation": "one must preface what is explained in the discourses of the Admo\"r"
+          },
+          {
+            "v": 21,
+            "s": 6,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 21,
+            "s": 7,
+            "translation": "of blessed memory, the concept of these two wills"
+          },
+          {
+            "v": 21,
+            "s": 8,
+            "translation": "(a will that has reason and a will that has no reason)"
+          },
+          {
+            "v": 21,
+            "s": 9,
+            "translation": "in two ways."
+          },
+          {
+            "v": 21,
+            "s": 10,
+            "translation": "For sometimes"
+          },
+          {
+            "v": 21,
+            "s": 11,
+            "translation": "it is explained"
+          },
+          {
+            "v": 21,
+            "s": 12,
+            "translation": "that a will that has no concealed reason is above a will that has reason"
+          },
+          {
+            "v": 21,
+            "s": 13,
+            "translation": "(as in the maamar of the yahrtzeit),"
+          },
+          {
+            "v": 21,
+            "s": 14,
+            "translation": "and sometimes"
+          },
+          {
+            "v": 21,
+            "s": 15,
+            "translation": "it is explained"
+          },
+          {
+            "v": 21,
+            "s": 16,
+            "translation": "that a will that has no reason is the externality of the encompassing [light],"
+          },
+          {
+            "v": 21,
+            "s": 17,
+            "translation": "and the will that has reason is the innerness of the encompassing [light]"
+          },
+          {
+            "v": 21,
+            "s": 18,
+            "translation": "(the innerness of the will)."
+          },
+          {
+            "v": 21,
+            "s": 19,
+            "translation": "And the point of the explanation in this,"
+          },
+          {
+            "v": 21,
+            "s": 20,
+            "translation": "that when it is sometimes explained that a will that has reason is above a will that has no reason,"
+          },
+          {
+            "v": 21,
+            "s": 21,
+            "translation": "the intent of \"reason\" is that which is felt within it of the innerness of the intention,"
+          },
+          {
+            "v": 21,
+            "s": 22,
+            "translation": "that the will is specifically for Israel."
+          },
+          {
+            "v": 21,
+            "s": 23,
+            "translation": "For in a will that has no reason,"
+          },
+          {
+            "v": 21,
+            "s": 24,
+            "translation": "all are equal,"
+          },
+          {
+            "v": 21,
+            "s": 25,
+            "translation": "I do not know in which of them He desires,"
+          },
+          {
+            "v": 21,
+            "s": 26,
+            "translation": "and a will that has reason is that which is felt within it of the innerness of the intention,"
+          },
+          {
+            "v": 21,
+            "s": 27,
+            "translation": "that He desires specifically the deeds of the righteous."
+          }
+        ]
+      },
+      {
+        "v": 22,
+        "sectionSummaryBrief": "This section explains that the pleasure of both God and Israel from their bond is called \"tefillin,\" which is above reason, and that the will in mitzvos is an essential will above even the concealed reason of wisdom.",
+        "translations": [
+          {
+            "v": 22,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 22,
+            "s": 1,
+            "translation": "4)"
+          },
+          {
+            "v": 22,
+            "s": 2,
+            "translation": "And this will be understood according to the teaching of the Maggid"
+          },
+          {
+            "v": 22,
+            "s": 3,
+            "translation": "on the statement of our sages of blessed memory,"
+          },
+          {
+            "v": 22,
+            "s": 4,
+            "translation": "\"The tefillin of the Master"
+          },
+          {
+            "v": 22,
+            "s": 5,
+            "translation": "of the world, what is written in them? ... 'And who"
+          },
+          {
+            "v": 22,
+            "s": 6,
+            "translation": "is like Your people Israel, one nation in the land,'\""
+          },
+          {
+            "v": 22,
+            "s": 7,
+            "translation": "for it is stated in the writings of the AriZal"
+          },
+          {
+            "v": 22,
+            "s": 8,
+            "translation": "that tefillin are called \"mochin\" (brains/intellect),"
+          },
+          {
+            "v": 22,
+            "s": 9,
+            "translation": "for the explanation of \"mochin\""
+          },
+          {
+            "v": 22,
+            "s": 10,
+            "translation": "(here)"
+          },
+          {
+            "v": 22,
+            "s": 11,
+            "translation": "is pleasure."
+          },
+          {
+            "v": 22,
+            "s": 12,
+            "translation": "For the pleasure of Israel from this that we are attached to Him, blessed be He,"
+          },
+          {
+            "v": 22,
+            "s": 13,
+            "translation": "and even to the extent that \"all the peoples of the earth will see that the name of Havayah is called upon you,\""
+          },
+          {
+            "v": 22,
+            "s": 14,
+            "translation": "is called \"our tefillin.\""
+          },
+          {
+            "v": 22,
+            "s": 15,
+            "translation": "And His pleasure, blessed be He, from this that we are attached to Him, blessed be He,"
+          },
+          {
+            "v": 22,
+            "s": 16,
+            "translation": "and \"who is like Your people Israel, one nation in the land,\""
+          },
+          {
+            "v": 22,
+            "s": 17,
+            "translation": "is called \"His tefillin.\""
+          },
+          {
+            "v": 22,
+            "s": 18,
+            "translation": "And behold, this pleasure"
+          },
+          {
+            "v": 22,
+            "s": 19,
+            "translation": "(both the pleasure of the Holy One, blessed be He, and the pleasure of Israel)"
+          },
+          {
+            "v": 22,
+            "s": 20,
+            "translation": "from this that we are attached to Him, blessed be He,"
+          },
+          {
+            "v": 22,
+            "s": 21,
+            "translation": "is above reason."
+          },
+          {
+            "v": 22,
+            "s": 22,
+            "translation": "And as is understood from this that this pleasure is called by the name \"tefillin,\""
+          },
+          {
+            "v": 22,
+            "s": 23,
+            "translation": "for all the mitzvos are compared to tefillin,"
+          },
+          {
+            "v": 22,
+            "s": 24,
+            "translation": "for the will in the mitzvos is an essential will that is above reason."
+          },
+          {
+            "v": 22,
+            "s": 25,
+            "translation": "[For in addition to this, that even the reasons for the mitzvos"
+          },
+          {
+            "v": 22,
+            "s": 26,
+            "translation": "(as they are in their truth)"
+          },
+          {
+            "v": 22,
+            "s": 27,
+            "translation": "are above the comprehension of human intellect,"
+          },
+          {
+            "v": 22,
+            "s": 28,
+            "translation": "and as it is written in Igeres HaKodesh"
+          },
+          {
+            "v": 22,
+            "s": 29,
+            "translation": "that the reasons for the mitzvos were not revealed and they are above intellect and comprehension,"
+          },
+          {
+            "v": 22,
+            "s": 30,
+            "translation": "and even in \"Eizehu Mekoman\" where some reason that is understandable to us superficially was revealed and explained,"
+          },
+          {
+            "v": 22,
+            "s": 31,
+            "translation": "this is not the ultimate reason,"
+          },
+          {
+            "v": 22,
+            "s": 32,
+            "translation": "rather within it is clothed the innerness and hidden mysteries of wisdom that are above intellect and comprehension,"
+          },
+          {
+            "v": 22,
+            "s": 33,
+            "translation": "nevertheless, the will of the mitzvos is an essential will that is above reason,"
+          },
+          {
+            "v": 22,
+            "s": 34,
+            "translation": "above even the reason of the innerness and hidden mysteries of wisdom."
+          },
+          {
+            "v": 22,
+            "s": 35,
+            "translation": "For this is why in the fulfillment of mitzvos one must have two intentions,"
+          },
+          {
+            "v": 22,
+            "s": 36,
+            "translation": "a general intention and a specific intention,"
+          },
+          {
+            "v": 22,
+            "s": 37,
+            "translation": "for from the aspect of the reasons for the mitzvos one must have the specific intention relevant to that mitzvah,"
+          },
+          {
+            "v": 22,
+            "s": 38,
+            "translation": "and from the aspect of the will"
+          },
+          {
+            "v": 22,
+            "s": 39,
+            "translation": "(which is above reason)"
+          },
+          {
+            "v": 22,
+            "s": 40,
+            "translation": "one must have the general intention to fulfill the will of Havayah]."
+          },
+          {
+            "v": 22,
+            "s": 41,
+            "translation": "And specifically in the mitzvah of tefillin, even after the will is clothed in reason,"
+          },
+          {
+            "v": 22,
+            "s": 42,
+            "translation": "and even to the extent of a reason understandable in human intellect,"
+          },
+          {
+            "v": 22,
+            "s": 43,
+            "translation": "it is recognizable in it that in its root it is above reason."
+          },
+          {
+            "v": 22,
+            "s": 44,
+            "translation": "For the specific intention of the mitzvah of tefillin is to subjugate the heart and the mind,"
+          },
+          {
+            "v": 22,
+            "s": 45,
+            "translation": "behold, from this very thing it is proven that it is above mind and heart,"
+          },
+          {
+            "v": 22,
+            "s": 46,
+            "translation": "for therefore it has the ability to subjugate the mind and the heart."
+          },
+          {
+            "v": 22,
+            "s": 47,
+            "translation": "And according to what was brought above from the maamar, that even in the will"
+          },
+          {
+            "v": 22,
+            "s": 48,
+            "translation": "(the externality of the will)"
+          },
+          {
+            "v": 22,
+            "s": 49,
+            "translation": "there is the reason"
+          },
+          {
+            "v": 22,
+            "s": 50,
+            "translation": "(concealed)"
+          },
+          {
+            "v": 22,
+            "s": 51,
+            "translation": "within it and the emotions within it,"
+          },
+          {
+            "v": 22,
+            "s": 52,
+            "translation": "one must say"
+          },
+          {
+            "v": 22,
+            "s": 53,
+            "translation": "that tefillin are above even the concept of \"mind and heart\" within the will."
+          }
+        ]
+      },
+      {
+        "v": 23,
+        "sectionSummaryBrief": "This section clarifies that the pleasure called \"tefillin\" is an essential pleasure above all reason, including concealed reason, and its \"mochin\" aspect is that the innermost intention is felt within it.",
+        "translations": [
+          {
+            "v": 23,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 23,
+            "s": 1,
+            "translation": "6)"
+          },
+          {
+            "v": 23,
+            "s": 2,
+            "translation": "And based on this it is understood"
+          },
+          {
+            "v": 23,
+            "s": 3,
+            "translation": "that this that tefillin are called \"mochin,\" [meaning] \"the explanation of 'mochin' is called pleasure,\""
+          },
+          {
+            "v": 23,
+            "s": 4,
+            "translation": "the intent is not that this pleasure"
+          },
+          {
+            "v": 23,
+            "s": 5,
+            "translation": "(of the Holy One, blessed be He, and of Israel)"
+          },
+          {
+            "v": 23,
+            "s": 6,
+            "translation": "that is called by the name \"tefillin\""
+          },
+          {
+            "v": 23,
+            "s": 7,
+            "translation": "is composed of reason,"
+          },
+          {
+            "v": 23,
+            "s": 8,
+            "translation": "but rather,"
+          },
+          {
+            "v": 23,
+            "s": 9,
+            "translation": "that this pleasure is an essential pleasure that is above reason,"
+          },
+          {
+            "v": 23,
+            "s": 10,
+            "translation": "and above even concealed reason,"
+          },
+          {
+            "v": 23,
+            "s": 11,
+            "translation": "and the concept of the \"mochin\" within it is that the inner intention is felt in it,"
+          },
+          {
+            "v": 23,
+            "s": 12,
+            "translation": "that the pleasure is specifically for Israel."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,131 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919187_theRebbe_149" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919187_theRebbe_149" title="מאמר וידבר זאת חוקת תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p002">
+  <section v="3">
+    <src s="0">ויש לבאר זה ע"פ מ"ש בתניא12</src>
+    <src s="1">דהטעם על זה שציוה משה רבינו לדור שנכנסו לארץ לקרות ק"ש פעמיים בכל יום לקבל מלכות שמים במס"נ</src>
+    <src s="2">(אף שהבטיח להם פחדכם ומוראכם יתן ה' וגו'13)</src>
+    <src s="3">הוא מפני שקיום התומ"צ תלוי בזכירת ענין המס"נ.</src>
+    <src s="4">ויש לומר,</src>
+    <src s="5">דזה שמשה דוקא ציוה זה לדור שנכנסו לארץ הוא,</src>
+    <src s="6">כי מס"נ הו"ע הביטול,</src>
+    <src s="7">וכיון שהאדם הוא מציאות</src>
+    <src s="8">(היפך ענין הביטול),</src>
+    <src s="9">לכן,</src>
+    <src s="10">בכדי שענין המס"נ יהי' אצלו בגילוי</src>
+    <src s="11">[ובאופן שיהי' קבוע בלבו תמיד ממש יומם ולילה לא ימיש מזכרונו14],</src>
+    <src s="12">צריך לזה נתינת כח מיוחדת.</src>
+    <src s="13">והנתינת כח הוא ע"י משה,</src>
+    <src s="14">כי משה הו"ע הביטול,</src>
+    <src s="15">ונחנו מה15.</src>
+    <src s="16">ולכן ע"י שמשה ציוה16</src>
+    <src s="17">לדור שנכנסו לארץ לקבל עליהם</src>
+    <src s="18">(פעמיים בכל יום)</src>
+    <src s="19">מלכות שמים במס"נ,</src>
+    <src s="20">עי"ז ניתן להם הכח לזכור תמיד ענין המס"נ שלהם.</src>
+    <src s="21">וזהו לעולם היא נקראת על שמך,</src>
+    <src s="22">כי קיום התורה ומצוותי'</src>
+    <src s="23">[דפרה אדומה היא כללות התומ"צ]</src>
+    <src s="24">תלוי בזכירת ענין המס"נ,</src>
+    <src s="25">והכח לזכור תמיד ענין המס"נ הוא ע"י משה,</src>
+    <src s="26">וע"י האתפשטותא דמשה שבכל דור17,</src>
+    <src s="27">עד לכ"ק מו"ח אדמו"ר נשיא דורנו בעל השמחה והגאולה.</src>
+    <src s="28">ויש לומר,</src>
+    <src s="29">דע"י שעבודתו של נשיא דורנו בכל משך שלושים שנות נשיאותו18</src>
+    <src s="30">היתה במס"נ בגילוי,</src>
+    <src s="31">לכן הנתינת כח על זכירת המס"נ מאתפשטותא דמשה שבדורנו הוא בגילוי עוד יותר.</src>
+  </section>
+  <section v="4">
+    <src s="0">ולהוסיף,</src>
+    <src s="1">דמהביאורים בזה שמצות פרה אדומה היא כללות כל התורה</src>
+    <src s="2">[שלכן נאמר בה זאת חוקת התורה],</src>
+    <src s="3">הוא19,</src>
+    <src s="4">כי היסוד דכל המצוות הוא שהם חוקה.</src>
+    <src s="5">היינו שהמצוות הם רצון העליון שלמעלה מהשכל,</src>
+    <src s="6">ולכן,</src>
+    <src s="7">גם קיומם צריך להיות בדרך קבלת עול,</src>
+    <src s="8">חוקה20</src>
+    <src s="9">חקקתי גזירה גזרתי.</src>
+    <src s="10">ועפ"ז יובן עוד יותר21</src>
+    <src s="11">זה שפרה אדומה נקראת על שמו של משה,</src>
+    <src s="12">כי בכדי שקיום כל המצוות</src>
+    <src s="13">(הגם שיש עליהם טעם22)</src>
+    <src s="14">יהי' באופן דזאת חוקת התורה הוא ע"י שהתורה</src>
+    <src s="15">(ומצותי'),</src>
+    <src s="16">גם לאחרי שנתלבשה בחכמה ושכל,</src>
+    <src s="17">נקראת על שמו של משה,</src>
+    <src s="18">שענינו הוא ביטול,</src>
+    <src s="19">תורת משה עבדי,</src>
+    <src s="20">ועי"ז ישנה הנתינת כח לכל אחד מישראל</src>
+    <src s="21">(ע"י בחינת משה שבו23)</src>
+    <src s="22">שקיום המצוות שלו יהי' בביטול דקבלת עול,</src>
+    <src s="23">כקיום מצות פרה אדומה,</src>
+    <src s="24">זאת חוקת התורה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">והנה איתא במדרש24</src>
+    <src s="2">עה"פ ויקחו אליך פרה אדומה,</src>
+    <src s="3">א"ל הקב"ה למשה,</src>
+    <src s="4">לך אני מגלה טעם פרה אבל לאחר חוקה.</src>
+    <src s="5">וצריך להבין דכיון שמשה השיג הטעם דכל המצוות,</src>
+    <src s="6">גם הטעם דמצות פרה אדומה,</src>
+    <src s="7">איך נמשך על ידו הנתינת כח לקיום המצוות באופן דחוקה חקקתי גזירה גזרתי.</src>
+    <src s="8">ולכאורה הי' אפשר לבאר ע"פ מ"ש במק"א25,</src>
+    <src s="9">שבכל מצוה ישנם שני הענינים דחוקים ומשפטים.</src>
+    <src s="10">כי כל המצוות</src>
+    <src s="11">(גם המצוות דעדות ומשפטים שיש עליהם טעם)</src>
+    <src s="12">הם רצונו ית',</src>
+    <src s="13">ורצון הוא למעלה מטעם,</src>
+    <src s="14">למעלה גם מהטעמים שבחכמתו ית',</src>
+    <src s="15">ולאחרי שהרצון דמצוות</src>
+    <src s="16">(גם המצוות דחוקים,</src>
+    <src s="17">ואפילו מצות פרה אדומה)</src>
+    <src s="18">נמשך ונתלבש בחכמה</src>
+    <src s="19">(דתורה),</src>
+    <src s="20">ניתוסף בהם טעם.</src>
+    <src s="21">והחילוק שבין המצוות דעדות ומשפטים להמצוות דחוקים הוא,</src>
+    <src s="22">שבהמצוות דעדות ומשפטים,</src>
+    <src s="23">הטעמים שבחכמתו ית' נמשכו ונתלבשו בשכל הנבראים ועד בשכל אנושי,</src>
+    <src s="24">ובהמצוות דחוקים,</src>
+    <src s="25">הטעמים שלהם לא נתלבשו</src>
+    <src s="26">(כ"כ)</src>
+    <src s="27">בשכל הנבראים.</src>
+    <src s="28">והטעם דמצות פרה אדומה הוא בחכמתו ית'</src>
+    <src s="29">(חכמה דאצילות)</src>
+    <src s="30">ולא נמשך כלל בשכל הנבראים.</src>
+    <src s="31">[וזה שמשה השיג טעם פרה הוא לפי שגם בהיותו למטה הי' בחינת חכמה דאצילות בגילוי26].</src>
+  </section>
+</awtsmoosMeluketSource>

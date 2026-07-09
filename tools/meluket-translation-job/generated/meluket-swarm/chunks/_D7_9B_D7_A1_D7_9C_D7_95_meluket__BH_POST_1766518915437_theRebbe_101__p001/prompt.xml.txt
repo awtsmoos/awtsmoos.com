@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915437_theRebbe_101" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915437_theRebbe_101__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915437_theRebbe_101" title="מאמר אשר ברא תשל"ט" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915437_theRebbe_101__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אור לי"ד כסלו ה'תשל"ט*</src>
+  </section>
+  <section v="1">
+    <src s="0">אשר ברא ששון ושמחה חתן וכלה גילה רינה דיצה וחדוה אהבה ואחוה שלום וריעות1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר במאמרו ד"ה זה2</src>
+    <src s="2">(שבקונטרס דרושי חתונה תרפ"ט3)</src>
+    <src s="3">את מאמר הזהר בפרשת תרומה4</src>
+    <src s="4">שמבאר שם כל השבע ברכות בפרטיות,</src>
+    <src s="5">ואומר שם בנוגע לברכה השביעית</src>
+    <src s="6">[שהיא כוללת את כל הברכות],</src>
+    <src s="7">שביעאה איהו מקיים כולא,</src>
+    <src s="8">ומהאי שביעאה מתברכאן כולא ודאי כללא דעשר אמירן,</src>
+    <src s="9">בגין דדא כליל עילא ותתא ועל דא כליל בהאי י' זיני דחדוה כו'.</src>
+    <src s="10">ומבאר בהמאמר,</src>
+    <src s="11">שכללא דעשר אמירן כולל עשרת הדברות</src>
+    <src s="12">(עילא)</src>
+    <src s="13">ועשרה מאמרות</src>
+    <src s="14">(תתא),</src>
+    <src s="15">ולהיות שברכה זו היא כללא דעשר אמירן לכן יש בה עשרה לשונות של שמחה</src>
+    <src s="16">(מלבד התיבות חתן וכלה)</src>
+    <src s="17">שהו"ע השמחה בכל ספירה בפרט</src>
+    <src s="18">[שעי"ז דוקא הספירות הן בשלימותן,</src>
+    <src s="19">כמובן מהמבואר בכ"מ5</src>
+    <src s="20">עה"פ6</src>
+    <src s="21">אם הבנים שמחה].</src>
+    <src s="22">וממשיך בזהר שם</src>
+    <src s="23">(הובא בהמאמר שם)</src>
+    <src s="24">בענין ברכה השביעית,</src>
+    <src s="25">זכאין אינון ישראל דאינון זכו לתתא כגוונא דלעילא.</src>
+    <src s="26">והיינו7</src>
+    <src s="27">שברכה זו היא</src>
+    <src s="28">(גם)</src>
+    <src s="29">שבח והודאה להקב"ה על זה שישראל ע"י עבודתם מבררים ומזככים את המטה</src>
+    <src s="30">(לתתא)</src>
+    <src s="31">שיהי' כגוונא דלעילא,</src>
+    <src s="32">ועי"ז ממשיכים גילוי אוא"ס ב"ה גם בעולמות העליונים</src>
+    <src s="33">(לעילא).</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וביאור הענין</src>
+    <src s="2">(וגם השייכות דענין זכו לתתא כגוונא דלעילא לענין חתן וכלה),</src>
+    <src s="3">הוא,</src>
+    <src s="4">דכל הענינים שלמטה משתלשלים מענינם למעלה,</src>
+    <src s="5">ובלשון התניא8</src>
+    <src s="6">שנשתלשלו מהן,</src>
+    <src s="7">וכן הוא בחתן וכלה</src>
+    <src s="8">(שלמטה),</src>
+    <src s="9">שהם משתלשלים מחתן וכלה שלמעלה9,</src>
+    <src s="10">הקב"ה וכנסת ישראל.</src>
+    <src s="11">וכמבואר במדרשי חז"ל שחתן וכלה האמורים בשה"ש קאי על הקב"ה וכנסת ישראל.</src>
+    <src s="12">וכמרז"ל10</src>
+    <src s="13">ביום חתונתו11</src>
+    <src s="14">זה מתן תורה,</src>
+    <src s="15">דמתן תורה הו"ע הנישואין דהקב"ה וכנסת ישראל.</src>
+    <src s="16">וי"ל שזהו"ע וטוב לב משתה תמיד12,</src>
+    <src s="17">כי בכל יום ויום יש הענין דמתן תורה,</src>
+    <src s="18">כמו שאומרים בברכת התורה</src>
+    <src s="19">(שמברכים בכל יום)</src>
+    <src s="20">נותן התורה לשון הוה13,</src>
+    <src s="21">ועד שבכל יום כל הקורא ושונה הקב"ה קורא ושונה כנגדו14,</src>
+    <src s="22">ומבאר אדמו"ר הזקן15</src>
+    <src s="23">דזה שהקב"ה קורא ושונה כנגדו הוא ממש כמו שהי' בשעת מתן תורה בפעם הראשונה.</src>
+    <src s="24">שלכן אמרו16</src>
+    <src s="25">(בנוגע להלכה בפועל)</src>
+    <src s="26">מה להלן באימה וביראה וברתת ובזיע אף כאן באימה וביראה וברתת ובזיע.</src>
+    <src s="27">ובפרט לפי המבואר17</src>
+    <src s="28">שד' לשונות אלו</src>
+    <src s="29">(אימה יראה רתת וזיע)</src>
+    <src s="30">הם כנגד ד' האותיות דשם הוי',</src>
+    <src s="31">שבמתן תורה הי' הגילוי דשם הוי' לכ"א מישראל18,</src>
+    <src s="32">וגילוי זה הוא גם בעסק התורה עכשיו.</src>
+  </section>
+</awtsmoosMeluketSource>

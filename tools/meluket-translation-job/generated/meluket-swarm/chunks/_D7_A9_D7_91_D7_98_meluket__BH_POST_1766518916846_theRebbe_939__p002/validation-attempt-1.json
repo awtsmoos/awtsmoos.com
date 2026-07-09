@@ -1,0 +1,349 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 61,
+    "returned": 61,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916846_theRebbe_939\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that just as the drawing down of the Shechinah through the Mishkan involved all of Israel but was primarily accomplished by Moshe, so too in the present era, the higher drawing down of the Shechinah is enabled by the righteous leaders of each generation, who are the extension of Moshe.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that just as the drawing down of the Shechinah below, which was through the making of the Mishkan, was through all of Israel</t>\n    <t s=\"2\">[as it is written,</t>\n    <t s=\"3\">\"Speak to the children of Israel... and they shall make Me a Sanctuary, and I will dwell in their midst,\"</t>\n    <t s=\"4\">for the command to make a Sanctuary and to draw down the essential Shechinah below is for all of Israel],</t>\n    <t s=\"5\">and what the Midrash says, that Moshe drew down the Shechinah below,</t>\n    <t s=\"6\">is because the essential making of the Mishkan and the drawing down that came through it was through Moshe,</t>\n    <t s=\"7\">and also through him was drawn down the empowerment to Israel, that through \"they shall make Me a Sanctuary\" there will be \"and I will dwell in their midst,\"</t>\n    <t s=\"8\">so too is it regarding the drawing down of the Shechinah at present,</t>\n    <t s=\"9\">which is a drawing down more elevated even than the drawing down through the making of the Mishkan,</t>\n    <t s=\"10\">that the power in each individual of Israel to draw down this drawing down is through the righteous ones, the heads of the thousands of Israel in every generation,</t>\n    <t s=\"11\">the extension of Moshe in every generation,</t>\n    <t s=\"12\">up to my revered father-in-law, the Rebbe, the Baal HaHilula, the Nasi of our generation.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section details how the maamar first explains the Midrash briefly, then elaborates on the concept that the essential Shechinah is in the lower worlds because G-d desired a dwelling place in the lower worlds, achieved through the service of subjugation and transformation, which draws down a light that is equal in all worlds, transcending their particularity.</sectionSummaryBrief>\n    <t s=\"0\">b)</t>\n    <t s=\"1\">And now, after the maamar explains</t>\n    <t s=\"2\">(in brief)</t>\n    <t s=\"3\">the statement of the Midrash in its entirety,</t>\n    <t s=\"4\">it explains in more detail and in greater depth the particulars of the matters.</t>\n    <t s=\"5\">In the first chapter of the maamar</t>\n    <t s=\"6\">(the chapter relevant to this year)</t>\n    <t s=\"7\">it explains the matter of the essential Shechinah being in the lower worlds,</t>\n    <t s=\"8\">and in the chapters after it, the service of \"and they shall make Me a Sanctuary\"</t>\n    <t s=\"9\">(and also the service in the Mishkan and Temple after its making)</t>\n    <t s=\"10\">through which is achieved \"and I will dwell in their midst,\"</t>\n    <t s=\"11\">the drawing down of the essential Shechinah into the lower worlds.</t>\n    <t s=\"12\">And it explains in the first chapter,</t>\n    <t s=\"13\">that the reason for this, that the essential Shechinah was in the lower worlds, is because</t>\n    <t s=\"14\">the ultimate intent in the creation and coming-into-being of the worlds is that the Holy One, blessed be He, desired to have a dwelling place for Himself in the lower worlds.</t>\n    <t s=\"15\">And it explains,</t>\n    <t s=\"16\">that this desire of the Holy One, blessed be He, to have a dwelling place for Himself in the lower worlds, is that there should be a revelation of G-dliness below</t>\n    <t s=\"17\">(not through a drawing down from above, but rather)</t>\n    <t s=\"18\">through the service of man,</t>\n    <t s=\"19\">and that the service through which the revelation of G-dliness in the world is effected is the service of subjugation and transformation,</t>\n    <t s=\"20\">as the statement,</t>\n    <t s=\"21\">\"When the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated in all worlds.\"</t>\n    <t s=\"22\">And it explains,</t>\n    <t s=\"23\">that the meaning of \"in all worlds\" is a light that is in all worlds equally.</t>\n    <t s=\"24\">And it is the light that is above relation to worlds.</t>\n    <t s=\"25\">For in the light that is invested in worlds, there is a distinction between higher worlds and lower worlds,</t>\n    <t s=\"26\">as the statement of our sages,</t>\n    <t s=\"27\">\"He stretched out His right hand and created the heavens, He stretched out His left hand and created the earth,\"</t>\n    <t s=\"28\">that the drawing down into the heavens</t>\n    <t s=\"29\">(the higher worlds)</t>\n    <t s=\"30\">is from the aspect of the right,</t>\n    <t s=\"31\">and the drawing down into the earth</t>\n    <t s=\"32\">(the lower worlds)</t>\n    <t s=\"33\">is from the aspect of the left.</t>\n    <t s=\"34\">And the aspect of \"in all worlds,\"</t>\n    <t s=\"35\">the light that is in all worlds equally,</t>\n    <t s=\"36\">is the light that is above relation to worlds.</t>\n    <t s=\"37\">And this is \"when the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated in all worlds,\"</t>\n    <t s=\"38\">that through the service of subjugation and transformation</t>\n    <t s=\"39\">there is drawn down</t>\n    <t s=\"40\">the light that is in all worlds equally,</t>\n    <t s=\"41\">a light that is above relation to worlds.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section raises a question: since the reason the essential Shechinah is in the lower worlds is G-d's desire for a dwelling place, why is it necessary to explain that the dwelling is made through man's service of subjugation and transformation, which draws down a transcendent light?</sectionSummaryBrief>\n    <t s=\"0\">And it must be understood,</t>\n    <t s=\"1\">for seemingly,</t>\n    <t s=\"2\">the reason for this, that the essential Shechinah was in the lower worlds, is because the Holy One, blessed be He, desired to have a dwelling place for Himself in the lower worlds,</t>\n    <t s=\"3\">and what relevance is there here to explain that the making of the dwelling must be through the service of man,</t>\n    <t s=\"4\">and that the service through which the dwelling is made is the service of subjugation and transformation,</t>\n    <t s=\"5\">and that through this service there is a drawing down of the light that is above relation to worlds?</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916846_theRebbe_939",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916846_theRebbe_939__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that just as the drawing down of the Shechinah through the Mishkan involved all of Israel but was primarily accomplished by Moshe, so too in the present era, the higher drawing down of the Shechinah is enabled by the righteous leaders of each generation, who are the extension of Moshe.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that just as the drawing down of the Shechinah below, which was through the making of the Mishkan, was through all of Israel"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "[as it is written,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "\"Speak to the children of Israel... and they shall make Me a Sanctuary, and I will dwell in their midst,\""
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "for the command to make a Sanctuary and to draw down the essential Shechinah below is for all of Israel],"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "and what the Midrash says, that Moshe drew down the Shechinah below,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "is because the essential making of the Mishkan and the drawing down that came through it was through Moshe,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "and also through him was drawn down the empowerment to Israel, that through \"they shall make Me a Sanctuary\" there will be \"and I will dwell in their midst,\""
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "so too is it regarding the drawing down of the Shechinah at present,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "which is a drawing down more elevated even than the drawing down through the making of the Mishkan,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "that the power in each individual of Israel to draw down this drawing down is through the righteous ones, the heads of the thousands of Israel in every generation,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "the extension of Moshe in every generation,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "up to my revered father-in-law, the Rebbe, the Baal HaHilula, the Nasi of our generation."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section details how the maamar first explains the Midrash briefly, then elaborates on the concept that the essential Shechinah is in the lower worlds because G-d desired a dwelling place in the lower worlds, achieved through the service of subjugation and transformation, which draws down a light that is equal in all worlds, transcending their particularity.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "b)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And now, after the maamar explains"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(in brief)"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "the statement of the Midrash in its entirety,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "it explains in more detail and in greater depth the particulars of the matters."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "In the first chapter of the maamar"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(the chapter relevant to this year)"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "it explains the matter of the essential Shechinah being in the lower worlds,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and in the chapters after it, the service of \"and they shall make Me a Sanctuary\""
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(and also the service in the Mishkan and Temple after its making)"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "through which is achieved \"and I will dwell in their midst,\""
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "the drawing down of the essential Shechinah into the lower worlds."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And it explains in the first chapter,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "that the reason for this, that the essential Shechinah was in the lower worlds, is because"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "the ultimate intent in the creation and coming-into-being of the worlds is that the Holy One, blessed be He, desired to have a dwelling place for Himself in the lower worlds."
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "And it explains,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "that this desire of the Holy One, blessed be He, to have a dwelling place for Himself in the lower worlds, is that there should be a revelation of G-dliness below"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "(not through a drawing down from above, but rather)"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "through the service of man,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "and that the service through which the revelation of G-dliness in the world is effected is the service of subjugation and transformation,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "as the statement,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "\"When the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated in all worlds.\""
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "And it explains,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "that the meaning of \"in all worlds\" is a light that is in all worlds equally."
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "And it is the light that is above relation to worlds."
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "For in the light that is invested in worlds, there is a distinction between higher worlds and lower worlds,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "as the statement of our sages,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "\"He stretched out His right hand and created the heavens, He stretched out His left hand and created the earth,\""
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "that the drawing down into the heavens"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "(the higher worlds)"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "is from the aspect of the right,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "and the drawing down into the earth"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "(the lower worlds)"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "is from the aspect of the left."
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "And the aspect of \"in all worlds,\""
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "the light that is in all worlds equally,"
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "is the light that is above relation to worlds."
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "And this is \"when the sitra achra is subjugated, the glory of the Holy One, blessed be He, is elevated in all worlds,\""
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "that through the service of subjugation and transformation"
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "there is drawn down"
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "the light that is in all worlds equally,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "a light that is above relation to worlds."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section raises a question: since the reason the essential Shechinah is in the lower worlds is G-d's desire for a dwelling place, why is it necessary to explain that the dwelling is made through man's service of subjugation and transformation, which draws down a transcendent light?",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "for seemingly,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "the reason for this, that the essential Shechinah was in the lower worlds, is because the Holy One, blessed be He, desired to have a dwelling place for Himself in the lower worlds,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "and what relevance is there here to explain that the making of the dwelling must be through the service of man,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "and that the service through which the dwelling is made is the service of subjugation and transformation,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "and that through this service there is a drawing down of the light that is above relation to worlds?"
+          }
+        ]
+      }
+    ]
+  }
+}

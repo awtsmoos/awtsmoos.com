@@ -1,0 +1,132 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917370_theRebbe_643" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917370_theRebbe_643__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917370_theRebbe_643" title="מאמר וקבל היהודים תשל"ח" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917370_theRebbe_643__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ג',</src>
+    <src s="2">פורים קטן ה'תשל"ח*.</src>
+  </section>
+  <section v="1">
+    <src s="0">וקבל היהודים את אשר החלו לעשות1,</src>
+    <src s="1">ומבאר בזה כ"ק מו"ח אדמו"ר נשיא דורנו במאמרו הידוע2</src>
+    <src s="2">שאמרו בפורים קטן</src>
+    <src s="3">(תרפ"ז)</src>
+    <src s="4">במוסקבא</src>
+    <src s="5">[אשר שנה זו היא התחלת יובל3</src>
+    <src s="6">השני4</src>
+    <src s="7">לאמירתו]</src>
+    <src s="8">דעתה בזמן הגלות הם קבלו מה שהחלו כבר בזמן דמתן תורה.</src>
+    <src s="9">וכמאמרם ז"ל5</src>
+    <src s="10">על פסוק6</src>
+    <src s="11">קיימו וקבלו היהודים וכו',</src>
+    <src s="12">דקיימו עתה</src>
+    <src s="13">(בימי אחשורוש)</src>
+    <src s="14">מה שקבלו כבר בזמן דמ"ת.</src>
+    <src s="15">ומדייק בזה בהמאמר,</src>
+    <src s="16">דלכאורה הוא דבר נפלא</src>
+    <src s="17">[ומדייק בשאלתו שזהו ענין "נפלא"</src>
+    <src s="18">(ולא כלשון הרגיל ברוב המאמרים – "צלה"ב")</src>
+    <src s="19">כי הענין</src>
+    <src s="20">(דקבלו בזמן הגלות מה שהחלו בזמן מ"ת)</src>
+    <src s="21">הוא בבחי' נפלא.</src>
+    <src s="22">וכמבואר7</src>
+    <src s="23">בענין לא נפלאת גו' ולא רחוקה8,</src>
+    <src s="24">דריחוק וקירוב הוא בערך זל"ז,</src>
+    <src s="25">אבל נפלא מורה על ענין של הפלאה והבדלה ועד שהוא בבחי' פלא לגבי',</src>
+    <src s="26">והיינו שהוא ענין שבאין ערוך לגמרי.</src>
+    <src s="27">וכידוע9</src>
+    <src s="28">(בענין הספירות)</src>
+    <src s="29">שבחי' פלא הוא בחי' הכתר,</src>
+    <src s="30">ובפרטיות בחי' פנימיות הכתר,</src>
+    <src s="31">שזהו באי"ע לגמרי לכל סדר ההשתלשלות.</src>
+    <src s="32">ומזה יובן גם בנוגע לענין הנפלא המובא בהמאמר],</src>
+    <src s="33">דבמתן תורה</src>
+    <src s="34">(כאשר החלו לעשות)</src>
+    <src s="35">היו ישראל בתכלית העילוי ובמעמד ומצב משובח,</src>
+    <src s="36">והי' אז לאחרי קריעת ים סוף ויציאת מצרים,</src>
+    <src s="37">שהם ענינים וואָס האָבן אַוועקגעשטעלט את כאו"א מישראל ואת כללות עם ישראל במעמד נעלה ביותר,</src>
+    <src s="38">דביצי"מ נגלה עליהם ממה"מ הקב"ה בכבודו ובעצמו וגאלם,</src>
+    <src s="39">ובשעת קרי"ס</src>
+    <src s="40">[שהוא הסיום וחותם דיצי"מ10]</src>
+    <src s="41">ראתה שפחה על הים מה שלא ראו נביאים11,</src>
+    <src s="42">ועאכו"כ תכלית העילוי דבנ"י בזמן מ"ת,</src>
+    <src s="43">דמ"ת הי' רק פעם אחת וכידוע12</src>
+    <src s="44">שמ"ת לא יהי' עוד הפעם,</src>
+    <src s="45">וגם מבואר בתניא13</src>
+    <src s="46">שבשעת מ"ת כבר הי' מעין תכלית שלימות העולם שיהי' לע"ל,</src>
+    <src s="47">שהי' גילוי אלקות בראי' חושיית,</src>
+    <src s="48">שמצד גילויים אלו היו ישראל בתכלית המעלה.</src>
+    <src s="49">משא"כ בזמן הגלות הוא ההיפך מזה ממש,</src>
+    <src s="50">שישראל הם בתחתית הירידה.</src>
+    <src s="51">ובפרט בזמן המן</src>
+    <src s="52">(כאשר הי' וקבל היהודים גו' קיימו גו')</src>
+    <src s="53">שבקש ח"ו להשמיד להרוג ולאבד את כל היהודים מנער ועד זקן טף ונשים ביום אחד גו'14,</src>
+    <src s="54">דגזירה זו היתה קשה ביותר שהרי היתה בבת אחת על כל היהודים שבכל העולם,</src>
+    <src s="55">כי אחשורוש מושל בכיפה הי' כדאיתא במדרש15,</src>
+    <src s="56">ולא הי' ביכולת להמלט למקום שכבר הי' אחר הגזירה כיון שהיתה ביום אחד</src>
+    <src s="57">(בכל העולם),</src>
+    <src s="58">שזהו</src>
+    <src s="59">(בגלות גופא)</src>
+    <src s="60">גלות הכי נורא.</src>
+  </section>
+  <section v="2">
+    <src s="0">ומבאר בהמאמר שם שתוקף</src>
+    <src s="1">(הגזירה ו)</src>
+    <src s="2">הגלות ברוחניות הי' הגזירה על ענין החינוך.</src>
+    <src s="3">וכדאיתא במדרש16</src>
+    <src s="4">אמר</src>
+    <src s="5">(המן)</src>
+    <src s="6">אין אני שולח ידי תחלה אלא באלו התינוקות.</src>
+    <src s="7">והיינו דבכדי להפיק ח"ו זממו ומחשבתו הרעה אשר חשב על היהודים רח"ל לאבדם17,</src>
+    <src s="8">הנה ההתחלה היא מאלו התינוקות של בית רבן.</src>
+    <src s="9">דהכוונה בזה היא הגזירה על כללות ענין החינוך,</src>
+    <src s="10">וי"ל שאף שבהנ"ל תשב"ר קאי על תינוק בשנים אבל מעין זה הוא גם בתינוק בעניני יהדות,</src>
+    <src s="11">הגם שהוא איש גדול בשנים ובלשון כ"ק מו"ח אדמו"ר ער האָט שוין ווייסע האָר,</src>
+    <src s="12">מ"מ במצבו בעניני תומ"צ הוא בבחי' תינוק.</src>
+    <src s="13">[ומזה גופא</src>
+    <src s="14">(שבהחינוך תלוי קיומו של עם ישראל)</src>
+    <src s="15">מובן גודל המס"נ שצ"ל על חינוך בנ"י.</src>
+    <src s="16">שצריך למסור נפשו בכדי שיהי' אל תגעו במשיחי18</src>
+    <src s="17">אלו תינוקות של בית רבן כדאיתא במסכת שבת19,</src>
+    <src s="18">אשר זה נעשה ע"י שמכניסים את התינוקות אל מקומם הראוי,</src>
+    <src s="19">אל בית רבן,</src>
+    <src s="20">ושם גופא אופן החינוך הוא באופן של "בית</src>
+    <src s="21">(רבן)</src>
+    <src s="22">" וקבע,</src>
+    <src s="23">היינו שהתינוקות יקבלו מרבן היסוד</src>
+    <src s="24">(דעם גאַנצן שטעל)</src>
+    <src s="25">על כל ימי חייהם].</src>
+  </section>
+</awtsmoosMeluketSource>

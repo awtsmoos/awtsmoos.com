@@ -1,0 +1,107 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914491_theRebbe_55" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914491_theRebbe_55__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914491_theRebbe_55" title="מאמר להבין ענין שמח"ת תשל"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914491_theRebbe_55__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">והנה ההתעוררות דבחי' אחת שבנפש שלמעלה מהתחלקות צריך להמשיכה בהדרגות דנפש שבבחינת התחלקות</src>
+    <src s="2">[ובדוגמת מה שהתעוררות זו צריכה להיות קשורה בעשי' גשמית,</src>
+    <src s="3">וכמו בהעשי' דישיבה בסוכה,</src>
+    <src s="4">נטילת ד' מינים,</src>
+    <src s="5">ריקוד ברגלים].</src>
+    <src s="6">דזהו מה שלאחרי שנאמר אתם נצבים גו' כולכם גו' שכל ישראל הם באופן ד"כולכם"27</src>
+    <src s="7">מצד בחינת אחת שבהם,</src>
+    <src s="8">מונה אח"כ כל העשר סוגים בפרטיות,</src>
+    <src s="9">מראשיכם שבטיכם עד חוטב עציך ושואב מימיך,</src>
+    <src s="10">היינו שהענין דכולכם</src>
+    <src s="11">(בחינת אחת)</src>
+    <src s="12">דישראל צריך להיות ניכר בהם גם כמו שהם בבחינת התחלקות.</src>
+    <src s="13">וכמו שהוא בנפש עד"ז הוא גם בשנה,</src>
+    <src s="14">שבחינת יום אחד דיום הכפורים ודשמחת תורה פועלת און פירט אָן מיט אַלע ימי השנה</src>
+    <src s="15">(מתחיל מאסרו חג),</src>
+    <src s="16">שבכל פרטי עשיותיו</src>
+    <src s="17">(בכל מעשיך ובכל דרכיך),</src>
+    <src s="18">ניכר אַז ער איז אָט ערשט געקומען מיום אחד דיום הכפורים ודשמחת תורה.</src>
+    <src s="19">וענין זה הוא במשך כל השנה כולה,</src>
+    <src s="20">דאף שכבר עברו כמה וכמה ימים שבועות וחדשים מיום הכפורים ושמחת תורה,</src>
+    <src s="21">אעפ"כ ההתעוררות דיום אחד אינה נחלשת כלל ובתקפה עומדת,</src>
+    <src s="22">מכיון שבאה מבחינה שלמעלה מענין ההתחלקות והשינויים,</src>
+    <src s="23">בחינת אני28</src>
+    <src s="24">הוי' לא שניתי.</src>
+    <src s="25">ועל ידי שהבחינה דיום אחד שלמעלה מהתחלקות נמשכת בכל ימי השנה שבבחינת התחלקות ושינויים,</src>
+    <src s="26">עי"ז נעשה עילוי גם בהבחינה דיום אחד,</src>
+    <src s="27">ע"ד מה שנת"ל בענין פרי עץ הדר אשר לא רק שהוא סובל כל שינויי האוירים אלא שהוא גדל מהם.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">ויהי רצון,</src>
+    <src s="2">שכל הנ"ל יתקיים בכל אחד ואחת בתוככי כלל ישראל,</src>
+    <src s="3">שתהי' שנה טובה ומבורכת בטוב הנראה והנגלה למטה מעשרה טפחים,</src>
+    <src s="4">בבני חיי ומזוני ובכולם רויחי,</src>
+    <src s="5">הן בבני חיי ומזוני כפשוטם והן בבני חיי ומזוני ברוחניות29</src>
+    <src s="6">(שמהם משתלשלים הענינים כפשוטם30),</src>
+    <src s="7">אשר מתוך שמחה וטוב לבב תהי' מיד לאחרי שמחת תורה העבודה דויעקב הלך לדרכו31</src>
+    <src s="8">גם בהנוגע לעניני הרשות</src>
+    <src s="9">[שענין ויעקב הלך לדרכו שאחרי יום הכפורים32</src>
+    <src s="10">הוא ב"דרכו" בענין המצוות,</src>
+    <src s="11">שהרי בד' הימים שבין יום הכפורים לסוכות כל ישראל עסוקים במצוות33.</src>
+    <src s="12">משא"כ ענין ויעקב הלך לדרכו שלאחרי שמחת תורה הוא ב"דרכו" גם בעניני הרשות],</src>
+    <src s="13">שבכל יום ויום,</src>
+    <src s="14">הן בימי החול ועאכו"כ בשבת ויו"ט</src>
+    <src s="15">(כולל גם ראש השנה ויום הכפורים),</src>
+    <src s="16">זיינען דורכגענומען כל עניניו,</src>
+    <src s="17">הן ענינים הכללים הן ענינים הפרטים,</src>
+    <src s="18">בנקודה העיקרית והפנימית דפנימיות ועצמות הנשמה,</src>
+    <src s="19">שהיא קשורה בפנימיות ועצמות א"ס ב"ה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ז)</src>
+    <src s="1">ומכיון שזה בא משמחת תורה,</src>
+    <src s="2">ששמחה פורצת כל הגדרים,</src>
+    <src s="3">למעלה ממדידה והגבלה34,</src>
+    <src s="4">הרי זה פורץ ומבטל כל הגדרים וההגבלות דגלות הפנימי,</src>
+    <src s="5">וכן הגדרים וההגבלות דגלות כפשוטו,</src>
+    <src s="6">וזוכים שבקרוב ממש יהי' ותחזינה עינינו בשובך לציון ברחמים,</src>
+    <src s="7">בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="8">יבוא ויוליכנו קוממיות לארצנו במהרה בימינו ממש,</src>
+    <src s="9">ויבנה35</src>
+    <src s="10">בית המקדש במקומו ויקבץ נדחי ישראל וכו'</src>
+    <src s="11">(ועד אשר)</src>
+    <src s="12">אז36</src>
+    <src s="13">אהפוך אל עמים שפה ברורה וגו' ולעבדו37</src>
+    <src s="14">שכם אחד,</src>
+    <src s="15">והיתה38</src>
+    <src s="16">לה' המלוכה.</src>
+  </section>
+</awtsmoosMeluketSource>

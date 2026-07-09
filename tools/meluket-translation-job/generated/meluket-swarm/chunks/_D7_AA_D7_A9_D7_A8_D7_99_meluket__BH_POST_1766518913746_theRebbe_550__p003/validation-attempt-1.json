@@ -1,0 +1,434 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 78,
+    "returned": 78,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913746_theRebbe_550\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913746_theRebbe_550__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the future great shofar blast is related to the Rosh Hashanah shofar, yet it will be a divine act without any arousal from below, raising the question of its relevance to human service.</sectionSummaryBrief>\n    <t s=\"0\">Now, it is explained in the maamar</t>\n    <t s=\"1\">that this [verse] \"on that day a great shofar will be blown\" is in the manner of the shofar of Rosh Hashanah now,</t>\n    <t s=\"2\">for the mitzvos are not nullified in the future,</t>\n    <t s=\"3\">[except that then the shofar will be on a more elevated level,</t>\n    <t s=\"4\">a great shofar].</t>\n    <t s=\"5\">And it can be said,</t>\n    <t s=\"6\">that the source for this</t>\n    <t s=\"7\">(that \"a great shofar will be blown\" is related to the shofar blast of Rosh Hashanah)</t>\n    <t s=\"8\">is what is stated in the Gemara,</t>\n    <t s=\"9\">that the reason of the one who says that in Tishrei they are destined to be redeemed is a gezeirah shavah of \"shofar\" from \"shofar,\"</t>\n    <t s=\"10\">it is written</t>\n    <t s=\"11\">here: \"Blow the shofar at the new moon,\" and there it is written: \"On that day a great shofar will be blown.\"</t>\n    <t s=\"12\">And based on this, one must understand even more what was brought above from the discourses,</t>\n    <t s=\"13\">that the explanation of \"yitaka\"</t>\n    <t s=\"14\">(with a kamatz under the tav)</t>\n    <t s=\"15\">\"in a great shofar\" is that He Himself will blow, without any arousal from below at all,</t>\n    <t s=\"16\">[yet] behold, one of the essential matters of Rosh Hashanah is the service of man,</t>\n    <t s=\"17\">[and as explained in many places</t>\n    <t s=\"18\">that the reason that Rosh Hashanah is on the first of Tishrei,</t>\n    <t s=\"19\">even though on the twenty-fifth of Elul the world was created,</t>\n    <t s=\"20\">and the first of Tishrei is the sixth day of the act of creation,</t>\n    <t s=\"21\">is</t>\n    <t s=\"22\">because on this day man was created],</t>\n    <t s=\"23\">and since the matter of \"a great shofar will be blown\" is in the manner of \"Blow the shofar at the new moon\" of Rosh Hashanah</t>\n    <t s=\"24\">(Tishrei),</t>\n    <t s=\"25\">it would seemingly be fitting that the drawing down of this matter should be through the service of man,</t>\n    <t s=\"26\">and nevertheless it is explained in the discourses,</t>\n    <t s=\"27\">that the explanation of \"yitaka\" is that He will blow of Himself, without any arousal from below at all.</t>\n    <t s=\"28\">Also, one must understand,</t>\n    <t s=\"29\">that all the matters in the Torah</t>\n    <t s=\"30\">(from the word \"hora'ah\" - instruction),</t>\n    <t s=\"31\">are instruction in the service of man,</t>\n    <t s=\"32\">and since that \"a great shofar will be blown\" will be from Above without arousal from below,</t>\n    <t s=\"33\">what is the instruction from this in the service of man?</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains the concept of the shofar's narrow and wide ends as a metaphor for crying out from constriction leading to expansiveness, and the superiority of the prayer of the poor person.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this will be understood based on what is explained in the discourses of the Admo\"r Maharash,</t>\n    <t s=\"2\">that the fact that the shofar is narrow on one side and wide on the other is an allusion to \"From the straits I called upon Kah, He answered me with expansiveness, Kah.\"</t>\n    <t s=\"3\">For just as the sound of the shofar,</t>\n    <t s=\"4\">by going out from the narrowness of its short side, specifically through this it is in expansiveness and diffusion on its wide side,</t>\n    <t s=\"5\">so too is it in spirituality,</t>\n    <t s=\"6\">that through the cry from the straits and the pressure,</t>\n    <t s=\"7\">\"From the straits I called upon Kah,\"</t>\n    <t s=\"8\">specifically through this, \"He answered me with expansiveness, Kah.\"</t>\n    <t s=\"9\">And it is explained there,</t>\n    <t s=\"10\">that this is what our Rabbis, of blessed memory, said,</t>\n    <t s=\"11\">\"Any year that begins poor ends up rich,\"</t>\n    <t s=\"12\">\"poor at its beginning\"</t>\n    <t s=\"13\">[that Israel make themselves poor on Rosh Hashanah for matters of supplication and prayer, as it is stated,</t>\n    <t s=\"14\">\"A poor man speaks supplications\"]</t>\n    <t s=\"15\">is the call from the straits,</t>\n    <t s=\"16\">and through this it becomes rich – \"He answered me with expansiveness.\"</t>\n    <t s=\"17\">And as explained in the aforementioned maamar of the Admo\"r Maharash,</t>\n    <t s=\"18\">the superiority of the prayer of a poor person over the prayer of a rich person.</t>\n    <t s=\"19\">And it can be said,</t>\n    <t s=\"20\">that the superiority in the prayer of a poor person is in two matters.</t>\n    <t s=\"21\">In the prayer itself,</t>\n    <t s=\"22\">according to the teaching of the Baal Shem Tov</t>\n    <t s=\"23\">on the verse,</t>\n    <t s=\"24\">\"A prayer of a poor person when he wraps himself [in anguish] and pours out his speech before Hashem,\"</t>\n    <t s=\"25\">that the prayer of the poor person is that he pours out his speech before Hashem,</t>\n    <t s=\"26\">and also that the prayer of the poor person is more accepted.</t>\n    <t s=\"27\">And another matter,</t>\n    <t s=\"28\">that also the delight of the person from the influence drawn to him through his prayer,</t>\n    <t s=\"29\">the delight of the poor person is a greater delight,</t>\n    <t s=\"30\">according to the teaching of the Hama\"k brought in the aforementioned maamar.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains the connection between the future great shofar and Rosh Hashanah, showing that the lost and dispersed are in extreme constriction, which draws down the great shofar from the ultimate expansiveness, paralleling Rosh Hashanah's dynamic of beginning poor to become rich.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, one can explain the connection of \"a great shofar will be blown\" to Rosh Hashanah,</t>\n    <t s=\"1\">for that in the future a great shofar will be blown in order to awaken the lost and the dispersed,</t>\n    <t s=\"2\">is,</t>\n    <t s=\"3\">because the lost and the dispersed are in the ultimate constriction,</t>\n    <t s=\"4\">and this awakens and draws down the blast of the great shofar</t>\n    <t s=\"5\">(the drawing down from the aspect of the Hidden of All Hidden),</t>\n    <t s=\"6\">the ultimate expansiveness.</t>\n    <t s=\"7\">And this is the connection of \"a great shofar will be blown\" to Rosh Hashanah</t>\n    <t s=\"8\">(\"Blow the shofar at the new moon\"),</t>\n    <t s=\"9\">for the matter of Rosh Hashanah is that through it being \"poor at its beginning\"</t>\n    <t s=\"10\">(from \"reishit hashanah\" - beginning of the year,</t>\n    <t s=\"11\">\"reishit\" spelled deficiently),</t>\n    <t s=\"12\">it becomes rich.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913746_theRebbe_550",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913746_theRebbe_550__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the future great shofar blast is related to the Rosh Hashanah shofar, yet it will be a divine act without any arousal from below, raising the question of its relevance to human service.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "Now, it is explained in the maamar"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that this [verse] \"on that day a great shofar will be blown\" is in the manner of the shofar of Rosh Hashanah now,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "for the mitzvos are not nullified in the future,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "[except that then the shofar will be on a more elevated level,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "a great shofar]."
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "that the source for this"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "(that \"a great shofar will be blown\" is related to the shofar blast of Rosh Hashanah)"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "is what is stated in the Gemara,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "that the reason of the one who says that in Tishrei they are destined to be redeemed is a gezeirah shavah of \"shofar\" from \"shofar,\""
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "it is written"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "here: \"Blow the shofar at the new moon,\" and there it is written: \"On that day a great shofar will be blown.\""
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "And based on this, one must understand even more what was brought above from the discourses,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "that the explanation of \"yitaka\""
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "(with a kamatz under the tav)"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "\"in a great shofar\" is that He Himself will blow, without any arousal from below at all,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "[yet] behold, one of the essential matters of Rosh Hashanah is the service of man,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "[and as explained in many places"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "that the reason that Rosh Hashanah is on the first of Tishrei,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "even though on the twenty-fifth of Elul the world was created,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "and the first of Tishrei is the sixth day of the act of creation,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "is"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "because on this day man was created],"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "and since the matter of \"a great shofar will be blown\" is in the manner of \"Blow the shofar at the new moon\" of Rosh Hashanah"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "(Tishrei),"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "it would seemingly be fitting that the drawing down of this matter should be through the service of man,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "and nevertheless it is explained in the discourses,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "that the explanation of \"yitaka\" is that He will blow of Himself, without any arousal from below at all."
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "Also, one must understand,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "that all the matters in the Torah"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "(from the word \"hora'ah\" - instruction),"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "are instruction in the service of man,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "and since that \"a great shofar will be blown\" will be from Above without arousal from below,"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "what is the instruction from this in the service of man?"
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains the concept of the shofar's narrow and wide ends as a metaphor for crying out from constriction leading to expansiveness, and the superiority of the prayer of the poor person.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this will be understood based on what is explained in the discourses of the Admo\"r Maharash,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that the fact that the shofar is narrow on one side and wide on the other is an allusion to \"From the straits I called upon Kah, He answered me with expansiveness, Kah.\""
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "For just as the sound of the shofar,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "by going out from the narrowness of its short side, specifically through this it is in expansiveness and diffusion on its wide side,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "so too is it in spirituality,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "that through the cry from the straits and the pressure,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "\"From the straits I called upon Kah,\""
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "specifically through this, \"He answered me with expansiveness, Kah.\""
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And it is explained there,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "that this is what our Rabbis, of blessed memory, said,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "\"Any year that begins poor ends up rich,\""
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "\"poor at its beginning\""
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "[that Israel make themselves poor on Rosh Hashanah for matters of supplication and prayer, as it is stated,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "\"A poor man speaks supplications\"]"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "is the call from the straits,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "and through this it becomes rich – \"He answered me with expansiveness.\""
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "And as explained in the aforementioned maamar of the Admo\"r Maharash,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "the superiority of the prayer of a poor person over the prayer of a rich person."
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "that the superiority in the prayer of a poor person is in two matters."
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "In the prayer itself,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "according to the teaching of the Baal Shem Tov"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "\"A prayer of a poor person when he wraps himself [in anguish] and pours out his speech before Hashem,\""
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "that the prayer of the poor person is that he pours out his speech before Hashem,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "and also that the prayer of the poor person is more accepted."
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "And another matter,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "that also the delight of the person from the influence drawn to him through his prayer,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "the delight of the poor person is a greater delight,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "according to the teaching of the Hama\"k brought in the aforementioned maamar."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains the connection between the future great shofar and Rosh Hashanah, showing that the lost and dispersed are in extreme constriction, which draws down the great shofar from the ultimate expansiveness, paralleling Rosh Hashanah's dynamic of beginning poor to become rich.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And based on this, one can explain the connection of \"a great shofar will be blown\" to Rosh Hashanah,"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "for that in the future a great shofar will be blown in order to awaken the lost and the dispersed,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "is,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "because the lost and the dispersed are in the ultimate constriction,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "and this awakens and draws down the blast of the great shofar"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "(the drawing down from the aspect of the Hidden of All Hidden),"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "the ultimate expansiveness."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "And this is the connection of \"a great shofar will be blown\" to Rosh Hashanah"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(\"Blow the shofar at the new moon\"),"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "for the matter of Rosh Hashanah is that through it being \"poor at its beginning\""
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "(from \"reishit hashanah\" - beginning of the year,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "\"reishit\" spelled deficiently),"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "it becomes rich."
+          }
+        ]
+      }
+    ]
+  }
+}

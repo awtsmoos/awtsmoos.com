@@ -1,0 +1,91 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915585_theRebbe_828" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p008">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915585_theRebbe_828" title="מאמר פתח אליהו תשט"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p008">
+  <section v="21">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">וזהו שגם דעת תחתון הוא אמת ואעפ"כ צריך להיות החיבור דדעת תחתון עם דעת עליון</src>
+    <src s="3">(ראה לעיל סעיף ד),</src>
+    <src s="4">כי ענין האמת דדעת תחתון הוא מפני שענינו</src>
+    <src s="5">(בפנימיות)</src>
+    <src s="6">הוא הגילוי דלמעלה עד אין קץ,</src>
+    <src s="7">וענין זה שבו מתגלה ע"י החיבור שלו עם דעת עליון.</src>
+  </section>
+  <section v="22">
+    <src s="0">ועד"ז הוא בענין הנהגת הטבע,</src>
+    <src s="1">דהגם שגם הנהגת הטבע הוא זה שאנת הוא דאפיקת עשר תיקונין כו' לאנהגא בהון עלמין,</src>
+    <src s="2">מ"מ השלימות דהנהגת הטבע הוא כשנמשך בו הגילוי שלמעלה מהטבע,</src>
+    <src s="3">כי עי"ז דוקא מתגלה שהענין דלאנהגא בהון עלמין שרשו הוא מבחינת אנת.</src>
+  </section>
+  <section v="23">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">והנה זה שנתבאר לעיל</src>
+    <src s="3">(סעיף יו"ד)</src>
+    <src s="4">דכשנרגש בב' הדיעות</src>
+    <src s="5">(דדעת עליון ודעת תחתון)</src>
+    <src s="6">שענינם הוא לגלות הענינים שבאוא"ס</src>
+    <src s="7">(שהוא למעלה עד אין קץ ולמטה עד אין תכלית)</src>
+    <src s="8">שתי הדיעות הם ענין אחד,</src>
+    <src s="9">הוא בכללות.</src>
+    <src s="10">אבל בפרטיות,</src>
+    <src s="11">גם הענינים דלמעלה עד אין קץ ולמטה עד אין תכלית</src>
+    <src s="12">(כמו שהם באוא"ס46)</src>
+    <src s="13">הם שני ענינים.</src>
+    <src s="14">ועפ"ז,</src>
+    <src s="15">בכדי שיהי' החיבור דדעת תחתון עם דעת עליון,</src>
+    <src s="16">ועד"ז החיבור דטבע עם למעלה מהטבע,</src>
+    <src s="17">הוא ע"י גילוי העצם שלמעלה משניהם.</src>
+    <src s="18">ויש לומר,</src>
+    <src s="19">דזהו מ"ש בהמאמר47</src>
+    <src s="20">שהמשכת הגילוי שלמעלה מהטבע בטבע הוא ע"י ההמשכה מבחינת אנת הוא חד,</src>
+    <src s="21">אף שהגילוי דלמעלה מהטבע הוא גם ע"י המשכת בחינת אנת הוא עילאה,</src>
+    <src s="22">כי הענין דלמעלה מהטבע שמצד אנת הוא עילאה,</src>
+    <src s="23">למעלה מהשתלשלות,</src>
+    <src s="24">אינו נמשך בהטבע</src>
+    <src s="25">(השתלשלות),</src>
+    <src s="26">והמשכת הגילוי דלמעלה מהטבע בהטבע הוא ע"י המשכת בחינת אנת הוא חד.</src>
+    <src s="27">וזהו גם הטעם על זה שצריך להיות החיבור דשני הענינים דטבע ולמעלה מהטבע,</src>
+    <src s="28">כי כל אחד משני הענינים שרשו הוא באור א"ס,</src>
+    <src s="29">וע"י החיבור דשני הענינים הוא המשכת העצמות.</src>
+    <src s="30">היינו,</src>
+    <src s="31">שעי"ז יש האפשרות</src>
+    <src s="32">(גם מצד העולם)</src>
+    <src s="33">שע"י עבודה תהי' בעולם המשכת גילוי העצמות,</src>
+    <src s="34">ועי"ז נשלמת הכוונה דבריאת העולם</src>
+    <src s="35">(הטבע)</src>
+    <src s="36">דנתאוה הקב"ה להיות לו ית' דירה בתחתונים48.</src>
+  </section>
+</awtsmoosMeluketSource>

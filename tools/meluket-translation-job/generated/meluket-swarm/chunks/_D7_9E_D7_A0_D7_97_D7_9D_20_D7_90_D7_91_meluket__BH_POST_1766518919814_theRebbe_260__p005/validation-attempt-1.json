@@ -1,0 +1,519 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 95,
+    "returned": 95,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919814_theRebbe_260\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>The explanation is based on the known concept that the service of tzaddikim is in the manner of direct light from above to below, while refinement and ascent of the lower itself is accomplished primarily through the service of teshuvah.</sectionSummaryBrief>\n    <t s=\"0\">And one can explain this based on the known concept</t>\n    <t s=\"1\">that the service of the tzaddikim</t>\n    <t s=\"2\">(including also the drawing down that comes through the service)</t>\n    <t s=\"3\">is in the aspect of direct light,</t>\n    <t s=\"4\">from above to below,</t>\n    <t s=\"5\">meaning that the revelation that shines in the world through the service of the tzaddikim is</t>\n    <t s=\"6\">(primarily)</t>\n    <t s=\"7\">from the side of the upper,</t>\n    <t s=\"8\">and in order for there to be refinement and ascent also in the lower itself,</t>\n    <t s=\"9\">this is accomplished</t>\n    <t s=\"10\">(primarily)</t>\n    <t s=\"11\">through the service of teshuvah.</t>\n    <t s=\"12\">And based on this, one will understand that the drawing down of the Keter</t>\n    <t s=\"13\">(the Supreme King)</t>\n    <t s=\"14\">that existed before the descent of the exile,</t>\n    <t s=\"15\">in relation to the drawing down after the descent, is within the order of Hishtalshelus,</t>\n    <t s=\"16\">for the true essence of the matter of that which is above Hishtalshelus is that it has no limitation or division of above and below,</t>\n    <t s=\"17\">and since the service in the time of the Beis HaMikdash is</t>\n    <t s=\"18\">(generally)</t>\n    <t s=\"19\">the service of the tzaddikim,</t>\n    <t s=\"20\">and the drawing down through this service is</t>\n    <t s=\"21\">(primarily)</t>\n    <t s=\"22\">from the side of the upper,</t>\n    <t s=\"23\">meaning that even after the drawing down there is a distinction between the upper and the lower,</t>\n    <t s=\"24\">it follows that this drawing down is within the category of Hishtalshelus.</t>\n    <t s=\"25\">[However, within the aspects of Hishtalshelus itself,</t>\n    <t s=\"26\">the drawing down through the service of Torah and Mitzvos is from the light of the levush ha’or,</t>\n    <t s=\"27\">which is in every place equally.</t>\n    <t s=\"28\">Therefore,</t>\n    <t s=\"29\">the light that was drawn down in the Beis HaMikdash through the service,</t>\n    <t s=\"30\">exists also during the time of exile</t>\n    <t s=\"31\">(as above in section 5).</t>\n    <t s=\"32\">But nevertheless,</t>\n    <t s=\"33\">since</t>\n    <t s=\"34\">that the light is in every place is because the light is Ein Sof,</t>\n    <t s=\"35\">therefore,</t>\n    <t s=\"36\">in order for the light to be felt in the world,</t>\n    <t s=\"37\">it is specifically when the world is in a manner that has a connection to the light.</t>\n    <t s=\"38\">And since during the time of exile a descent occurred in the world,</t>\n    <t s=\"39\">therefore,</t>\n    <t s=\"40\">during the time of exile the revelation does not shine in the world].</t>\n    <t s=\"41\">And through the service during the time of exile,</t>\n    <t s=\"42\">which is</t>\n    <t s=\"43\">(generally)</t>\n    <t s=\"44\">the service of teshuvah,</t>\n    <t s=\"45\">the drawing down is from a place where there is no distinction of above and below,</t>\n    <t s=\"46\">the true essence of the matter of that which is above the order of Hishtalshelus,</t>\n    <t s=\"47\">for through this drawing down,</t>\n    <t s=\"48\">refinement and ascent are effected also in the lower itself.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This is explained more deeply: the revelation drawn by tzaddikim, even a new light, is not a true novelty compared to the original intent of creation, whereas teshuvah effects a novelty beyond that intent, because the root of souls is in Atzmus, above the aspect of \"in whom He consulted.\"</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And one can explain this more deeply based on what is explained elsewhere</t>\n    <t s=\"2\">that the revelation drawn into the world through the service of the tzaddikim,</t>\n    <t s=\"3\">since the original intent of creation was that the tzaddikim</t>\n    <t s=\"4\">(and Your people are all tzaddikim)</t>\n    <t s=\"5\">through their service would add revelation of G‑dliness in the world,</t>\n    <t s=\"6\">\"in whom did He consult? In the souls of the tzaddikim,\"</t>\n    <t s=\"7\">therefore,</t>\n    <t s=\"8\">the revelation drawn into the world through the service of the tzaddikim,</t>\n    <t s=\"9\">even the revelation that is above Hishtalshelus,</t>\n    <t s=\"10\">including also that which through the service of Torah and Mitzvos a new light is drawn that did not shine even before the tzimtzum,</t>\n    <t s=\"11\">this is not a true novelty.</t>\n    <t s=\"12\">However, through the service of teshuvah,</t>\n    <t s=\"13\">when a person sinned and blemished and perverted the way</t>\n    <t s=\"14\">(the opposite of the intent of the creation of man, which was in the manner of \"G‑d made man upright\")</t>\n    <t s=\"15\">and afterwards rectifies this through teshuvah,</t>\n    <t s=\"16\">through this a novelty is effected even in relation to the intent of creation as it is in the level of \"in whom He consulted.\"</t>\n    <t s=\"17\">And that it is in the power of man to effect this novelty is because the root of the souls is in the Atzmus,</t>\n    <t s=\"18\">which is above their root in the matter of \"in whom He consulted.\"</t>\n    <t s=\"19\">For although the consultation is above all revelations,</t>\n    <t s=\"20\">even above the revelation of \"He desires kindness,\"</t>\n    <t s=\"21\">since the consultation is whether to be desirous of kindness or not,</t>\n    <t s=\"22\">nevertheless,</t>\n    <t s=\"23\">the consultation pertains to revelations</t>\n    <t s=\"24\">(whether there will be revelations or not),</t>\n    <t s=\"25\">and the root of the souls is in the Atzmus.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>The perfection of the world in the future, through the service of teshuvah, will be beyond all measure and limitation, like \"Paretz\" that breaks all boundaries, even those of the original intent of creation.</sectionSummaryBrief>\n    <t s=\"0\">And this is that the perfection of the world that will be in the future,</t>\n    <t s=\"1\">\"These are the generations of Peretz\"</t>\n    <t s=\"2\">\"generations\" is written plene,</t>\n    <t s=\"3\">will be more elevated than the perfection that was at the beginning of creation,</t>\n    <t s=\"4\">\"These are the generations of the heavens and the earth when they were created\"</t>\n    <t s=\"5\">\"generations\" is written plene,</t>\n    <t s=\"6\">\"the world was created in its fullness,\"</t>\n    <t s=\"7\">for the perfection of the world as it is from the side of creation,</t>\n    <t s=\"8\">including also the perfection from the side of the intent of creation</t>\n    <t s=\"9\">(the matter of \"in whom He consulted\"),</t>\n    <t s=\"10\">is within measure and limitation,</t>\n    <t s=\"11\">and the perfection of the world that will be in the future through the service of teshuvah</t>\n    <t s=\"12\">[for the revelation of the future will be primarily through the service of teshuvah]</t>\n    <t s=\"13\">will be above measure and limitation,</t>\n    <t s=\"14\">\"These are the generations of Peretz,\"</t>\n    <t s=\"15\">for the matter of Peretz</t>\n    <t s=\"16\">[who was so named because \"you have broken through [Paretz] upon me\"]</t>\n    <t s=\"17\">is that he breaks through all measures and limitations,</t>\n    <t s=\"18\">including also the measure and limitation from the side of the intent of creation as it is in the aspect of the consultation,</t>\n    <t s=\"19\">meaning \"new heavens and a new earth.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919814_theRebbe_260",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "The explanation is based on the known concept that the service of tzaddikim is in the manner of direct light from above to below, while refinement and ascent of the lower itself is accomplished primarily through the service of teshuvah.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And one can explain this based on the known concept"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "that the service of the tzaddikim"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "(including also the drawing down that comes through the service)"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "is in the aspect of direct light,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "from above to below,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "meaning that the revelation that shines in the world through the service of the tzaddikim is"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "from the side of the upper,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "and in order for there to be refinement and ascent also in the lower itself,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "this is accomplished"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "through the service of teshuvah."
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "And based on this, one will understand that the drawing down of the Keter"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "(the Supreme King)"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "that existed before the descent of the exile,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "in relation to the drawing down after the descent, is within the order of Hishtalshelus,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "for the true essence of the matter of that which is above Hishtalshelus is that it has no limitation or division of above and below,"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "and since the service in the time of the Beis HaMikdash is"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "(generally)"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "the service of the tzaddikim,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "and the drawing down through this service is"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "from the side of the upper,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "meaning that even after the drawing down there is a distinction between the upper and the lower,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "it follows that this drawing down is within the category of Hishtalshelus."
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "[However, within the aspects of Hishtalshelus itself,"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "the drawing down through the service of Torah and Mitzvos is from the light of the levush ha’or,"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "which is in every place equally."
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "the light that was drawn down in the Beis HaMikdash through the service,"
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "exists also during the time of exile"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "(as above in section 5)."
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "But nevertheless,"
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "since"
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "that the light is in every place is because the light is Ein Sof,"
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "therefore,"
+          },
+          {
+            "v": 12,
+            "s": 36,
+            "translation": "in order for the light to be felt in the world,"
+          },
+          {
+            "v": 12,
+            "s": 37,
+            "translation": "it is specifically when the world is in a manner that has a connection to the light."
+          },
+          {
+            "v": 12,
+            "s": 38,
+            "translation": "And since during the time of exile a descent occurred in the world,"
+          },
+          {
+            "v": 12,
+            "s": 39,
+            "translation": "therefore,"
+          },
+          {
+            "v": 12,
+            "s": 40,
+            "translation": "during the time of exile the revelation does not shine in the world]."
+          },
+          {
+            "v": 12,
+            "s": 41,
+            "translation": "And through the service during the time of exile,"
+          },
+          {
+            "v": 12,
+            "s": 42,
+            "translation": "which is"
+          },
+          {
+            "v": 12,
+            "s": 43,
+            "translation": "(generally)"
+          },
+          {
+            "v": 12,
+            "s": 44,
+            "translation": "the service of teshuvah,"
+          },
+          {
+            "v": 12,
+            "s": 45,
+            "translation": "the drawing down is from a place where there is no distinction of above and below,"
+          },
+          {
+            "v": 12,
+            "s": 46,
+            "translation": "the true essence of the matter of that which is above the order of Hishtalshelus,"
+          },
+          {
+            "v": 12,
+            "s": 47,
+            "translation": "for through this drawing down,"
+          },
+          {
+            "v": 12,
+            "s": 48,
+            "translation": "refinement and ascent are effected also in the lower itself."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This is explained more deeply: the revelation drawn by tzaddikim, even a new light, is not a true novelty compared to the original intent of creation, whereas teshuvah effects a novelty beyond that intent, because the root of souls is in Atzmus, above the aspect of \"in whom He consulted.\"",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And one can explain this more deeply based on what is explained elsewhere"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "that the revelation drawn into the world through the service of the tzaddikim,"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "since the original intent of creation was that the tzaddikim"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "(and Your people are all tzaddikim)"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "through their service would add revelation of G‑dliness in the world,"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "\"in whom did He consult? In the souls of the tzaddikim,\""
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "therefore,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "the revelation drawn into the world through the service of the tzaddikim,"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "even the revelation that is above Hishtalshelus,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "including also that which through the service of Torah and Mitzvos a new light is drawn that did not shine even before the tzimtzum,"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "this is not a true novelty."
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "However, through the service of teshuvah,"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "when a person sinned and blemished and perverted the way"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "(the opposite of the intent of the creation of man, which was in the manner of \"G‑d made man upright\")"
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "and afterwards rectifies this through teshuvah,"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "through this a novelty is effected even in relation to the intent of creation as it is in the level of \"in whom He consulted.\""
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "And that it is in the power of man to effect this novelty is because the root of the souls is in the Atzmus,"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "which is above their root in the matter of \"in whom He consulted.\""
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "For although the consultation is above all revelations,"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "even above the revelation of \"He desires kindness,\""
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "since the consultation is whether to be desirous of kindness or not,"
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "the consultation pertains to revelations"
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "(whether there will be revelations or not),"
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "and the root of the souls is in the Atzmus."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "The perfection of the world in the future, through the service of teshuvah, will be beyond all measure and limitation, like \"Paretz\" that breaks all boundaries, even those of the original intent of creation.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "And this is that the perfection of the world that will be in the future,"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "\"These are the generations of Peretz\""
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "\"generations\" is written plene,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "will be more elevated than the perfection that was at the beginning of creation,"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "\"These are the generations of the heavens and the earth when they were created\""
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "\"generations\" is written plene,"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "\"the world was created in its fullness,\""
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "for the perfection of the world as it is from the side of creation,"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "including also the perfection from the side of the intent of creation"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "(the matter of \"in whom He consulted\"),"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "is within measure and limitation,"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "and the perfection of the world that will be in the future through the service of teshuvah"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "[for the revelation of the future will be primarily through the service of teshuvah]"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "will be above measure and limitation,"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "\"These are the generations of Peretz,\""
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "for the matter of Peretz"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "[who was so named because \"you have broken through [Paretz] upon me\"]"
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "is that he breaks through all measures and limitations,"
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "including also the measure and limitation from the side of the intent of creation as it is in the aspect of the consultation,"
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "meaning \"new heavens and a new earth.\""
+          }
+        ]
+      }
+    ]
+  }
+}

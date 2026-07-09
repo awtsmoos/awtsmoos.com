@@ -1,0 +1,354 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 62,
+    "returned": 62,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916754_theRebbe_640\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the drawing down of the Shechinah through the service of the offerings is even more sublime than its initial drawing down through the establishment of the Mishkan by Moshe, and that this is also alluded to in the verse about the righteous inheriting the land, indicating that after the drawing down by the seven righteous ones, every Jew has the power to draw down even more, completing the purpose of a dwelling place for His very Essence.</sectionSummaryBrief>\n    <t s=\"0\">And it may be said,</t>\n    <t s=\"1\">that this which is explained in the maamar</t>\n    <t s=\"2\">(and at length)</t>\n    <t s=\"3\">regarding the matter of the offerings,</t>\n    <t s=\"4\">[is that] even though through the making of the Mishkan there was already achieved</t>\n    <t s=\"5\">(seemingly)</t>\n    <t s=\"6\">\"And I will dwell in their midst,\"</t>\n    <t s=\"7\">it is,</t>\n    <t s=\"8\">because the main drawing down of the Shechinah below is primarily through the service in the Mishkan after its establishment.</t>\n    <t s=\"9\">For although the drawing down that took place at the time the Mishkan was erected by Moshe is a most sublime drawing down,</t>\n    <t s=\"10\">nevertheless,</t>\n    <t s=\"11\">the drawing down that comes through the service of the offerings</t>\n    <t s=\"12\">(of Israel)</t>\n    <t s=\"13\">is even more sublime.</t>\n    <t s=\"14\">And it may be said,</t>\n    <t s=\"15\">that this is also what is brought at the beginning of the maamar, the verse</t>\n    <t s=\"16\">\"The righteous shall inherit the land and dwell forever upon it,\"</t>\n    <t s=\"17\">and it explains that the righteous cause to dwell</t>\n    <t s=\"18\">(draw down)</t>\n    <t s=\"19\">the aspect of \"He Who dwells forever\"</t>\n    <t s=\"20\">\"on high and holy\"</t>\n    <t s=\"21\">so that it will be revealed below,</t>\n    <t s=\"22\">hinting thereby,</t>\n    <t s=\"23\">that the drawing down of the Shechinah below is not only through the seven righteous ones from Avraham until Moshe,</t>\n    <t s=\"24\">but also through ordinary righteous ones,</t>\n    <t s=\"25\">in which are included each and every one of Israel,</t>\n    <t s=\"26\">\"and Your people are all righteous.\"</t>\n    <t s=\"27\">For after the drawing down through the seven righteous ones,</t>\n    <t s=\"28\">and particularly through Moshe, through whom the Shechinah was drawn down below into the land,</t>\n    <t s=\"29\">behold, through this the power is given to each and every one of Israel to draw down even more,</t>\n    <t s=\"30\">and specifically through this the intention of a dwelling place for Him, blessed be He, in the lower realms is completed,</t>\n    <t s=\"31\">that this lowest world, below which there is no lower</t>\n    <t s=\"32\">becomes a dwelling place for Him, blessed be He,</t>\n    <t s=\"33\">for Him, for His very Essence.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that Israel are called the hosts of Hashem, and the term \"host\" also implies beauty, for the beauty of Israel lies in their diverse types, from Torah scholars to simple people, each one being a soldier in the army of Hashem going out to conquer the world and make it a dwelling place for Him.</sectionSummaryBrief>\n    <t s=\"0\">And this is what the maamar continues</t>\n    <t s=\"1\">that Israel are called by the name \"the hosts of Hashem,\"</t>\n    <t s=\"2\">and it explains that \"host\" is</t>\n    <t s=\"3\">(also)</t>\n    <t s=\"4\">from the term \"beauty,\"</t>\n    <t s=\"5\">for the matter of the beauty</t>\n    <t s=\"6\">(splendor)</t>\n    <t s=\"7\">of Israel is that they have different types,</t>\n    <t s=\"8\">masters of Torah, etc.</t>\n    <t s=\"9\">until simple people</t>\n    <t s=\"10\">[including also those about whom they said</t>\n    <t s=\"11\">that they are full of mitzvos like a pomegranate],</t>\n    <t s=\"12\">for each and every one of Israel is a soldier in the hosts of Hashem</t>\n    <t s=\"13\">(host from the term army),</t>\n    <t s=\"14\">who goes out to war,</t>\n    <t s=\"15\">to conquer the world and make it a dwelling place for Him, blessed be He.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that this spiritual war requires self-sacrifice beyond intellect, similar to physical war, and connects this to the service of the offerings where one considers that their life is forfeit and the animal is a substitute for their own soul.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And behold, just as a physical war is connected with self-sacrifice,</t>\n    <t s=\"2\">so too is it with this war,</t>\n    <t s=\"3\">that in order to fight against the folly of the other side, the service must be above measure and limitation,</t>\n    <t s=\"4\">the folly of holiness that is above reason and intellect,</t>\n    <t s=\"5\">which in general terms is the matter of self-sacrifice that is above intellect.</t>\n    <t s=\"6\">[And one can connect this also with the service of the offerings in its simple sense,</t>\n    <t s=\"7\">according to what the Ramban wrote,</t>\n    <t s=\"8\">that at the time of offering the sacrifice, the owner of the sacrifice must think that he sinned against his God with his body and soul, and it would be fitting for his blood to be spilled and his body burned, were it not for the kindness of the Creator who took from him a substitute... his blood</t>\n    <t s=\"9\">(of the offering)</t>\n    <t s=\"10\">in place of his blood, a soul in place of a soul, etc.,</t>\n    <t s=\"11\">which is the matter of self-sacrifice].</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916754_theRebbe_640",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916754_theRebbe_640__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the drawing down of the Shechinah through the service of the offerings is even more sublime than its initial drawing down through the establishment of the Mishkan by Moshe, and that this is also alluded to in the verse about the righteous inheriting the land, indicating that after the drawing down by the seven righteous ones, every Jew has the power to draw down even more, completing the purpose of a dwelling place for His very Essence.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that this which is explained in the maamar"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(and at length)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "regarding the matter of the offerings,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "[is that] even though through the making of the Mishkan there was already achieved"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "(seemingly)"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "\"And I will dwell in their midst,\""
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "it is,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "because the main drawing down of the Shechinah below is primarily through the service in the Mishkan after its establishment."
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "For although the drawing down that took place at the time the Mishkan was erected by Moshe is a most sublime drawing down,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "the drawing down that comes through the service of the offerings"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(of Israel)"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "is even more sublime."
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "that this is also what is brought at the beginning of the maamar, the verse"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "\"The righteous shall inherit the land and dwell forever upon it,\""
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "and it explains that the righteous cause to dwell"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "(draw down)"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "the aspect of \"He Who dwells forever\""
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "\"on high and holy\""
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "so that it will be revealed below,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "hinting thereby,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "that the drawing down of the Shechinah below is not only through the seven righteous ones from Avraham until Moshe,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "but also through ordinary righteous ones,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "in which are included each and every one of Israel,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "\"and Your people are all righteous.\""
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "For after the drawing down through the seven righteous ones,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "and particularly through Moshe, through whom the Shechinah was drawn down below into the land,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "behold, through this the power is given to each and every one of Israel to draw down even more,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "and specifically through this the intention of a dwelling place for Him, blessed be He, in the lower realms is completed,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "that this lowest world, below which there is no lower"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "becomes a dwelling place for Him, blessed be He,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "for Him, for His very Essence."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that Israel are called the hosts of Hashem, and the term \"host\" also implies beauty, for the beauty of Israel lies in their diverse types, from Torah scholars to simple people, each one being a soldier in the army of Hashem going out to conquer the world and make it a dwelling place for Him.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And this is what the maamar continues"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "that Israel are called by the name \"the hosts of Hashem,\""
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "and it explains that \"host\" is"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(also)"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "from the term \"beauty,\""
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "for the matter of the beauty"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(splendor)"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "of Israel is that they have different types,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "masters of Torah, etc."
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "until simple people"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "[including also those about whom they said"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "that they are full of mitzvos like a pomegranate],"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "for each and every one of Israel is a soldier in the hosts of Hashem"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "(host from the term army),"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "who goes out to war,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "to conquer the world and make it a dwelling place for Him, blessed be He."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that this spiritual war requires self-sacrifice beyond intellect, similar to physical war, and connects this to the service of the offerings where one considers that their life is forfeit and the animal is a substitute for their own soul.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And behold, just as a physical war is connected with self-sacrifice,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "so too is it with this war,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that in order to fight against the folly of the other side, the service must be above measure and limitation,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "the folly of holiness that is above reason and intellect,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "which in general terms is the matter of self-sacrifice that is above intellect."
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "[And one can connect this also with the service of the offerings in its simple sense,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "according to what the Ramban wrote,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "that at the time of offering the sacrifice, the owner of the sacrifice must think that he sinned against his God with his body and soul, and it would be fitting for his blood to be spilled and his body burned, were it not for the kindness of the Creator who took from him a substitute... his blood"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "(of the offering)"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "in place of his blood, a soul in place of a soul, etc.,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "which is the matter of self-sacrifice]."
+          }
+        ]
+      }
+    ]
+  }
+}

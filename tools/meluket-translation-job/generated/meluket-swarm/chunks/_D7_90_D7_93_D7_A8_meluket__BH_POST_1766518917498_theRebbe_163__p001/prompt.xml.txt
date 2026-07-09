@@ -1,0 +1,95 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917498_theRebbe_163" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917498_theRebbe_163__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917498_theRebbe_163" title="מאמר בלילה ההוא תשד"מ" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917498_theRebbe_163__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">פורים ה'תשד"מ*</src>
+  </section>
+  <section v="1">
+    <src s="0">בלילה ההוא נדדה שנת המלך1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר במאמרו ד"ה זה2,</src>
+    <src s="2">דאיתא במנהגי מהרי"ל3</src>
+    <src s="3">דמבלילה ההוא צריכים להגבי' את קולו בקריאתו לפי שזהו עיקר הנס</src>
+    <src s="4">[דמבלילה ההוא הוא התחלת תוקפו של נס4].</src>
+    <src s="5">ומדייק בזה,</src>
+    <src s="6">דלכאורה עיקר הנס הוא בקשת אסתר ותחנוני' כי נמכרנו אני ועמי גו'5</src>
+    <src s="7">[וכן ההכנות שעשתה לפנ"ז,</src>
+    <src s="8">לך כנוס את כל היהודים גו' וצומו עלי גו'6],</src>
+    <src s="9">וכאן אומר דעיקר ותוקף הנס הוא מה שנדדה שנת המלך.</src>
+    <src s="10">ומביא על זה,</src>
+    <src s="11">דאיתא בילקוט7,</src>
+    <src s="12">בלילה ההוא נדדה שנת המלך זה מלכו של עולם,</src>
+    <src s="13">וכי שינה יש לפניו,</src>
+    <src s="14">אלא כשישראל חוטאין עושה עצמו כישן8</src>
+    <src s="15">וכשעושים רצונו לא9</src>
+    <src s="16">ינום ולא יישן.</src>
+  </section>
+  <section v="2">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דהנה אדם הוא אדמה לעליון10,</src>
+    <src s="2">ולכן כל הענינים שלמעלה הם באותו האופן כפי שהם באדם</src>
+    <src s="3">(אתם קרויים אדם11),</src>
+    <src s="4">לעילא כגוונא דלתתא12,</src>
+    <src s="5">ובלשון הכתוב13</src>
+    <src s="6">כמים הפנים לפנים כן לב האדם לאדם,</src>
+    <src s="7">ולכן,</src>
+    <src s="8">כאשר ישראל הם במצב של שינה,</src>
+    <src s="9">היינו שהענינים דתומ"צ</src>
+    <src s="10">(שעי"ז הם אדמה לעליון)</src>
+    <src s="11">הם אצלם במצב של שינה,</src>
+    <src s="12">עי"ז נעשה שינה כביכול גם במלכו של עולם.</src>
+    <src s="13">וכמ"ש14</src>
+    <src s="14">אני ישנה ואיתא בזהר15</src>
+    <src s="15">בגלותא,</src>
+    <src s="16">שמצד השינה דישראל בזמן הגלות,</src>
+    <src s="17">נעשה עי"ז שינה כביכול גם למעלה.</src>
+    <src s="18">וזהו שבלילה ההוא נדדה שנת המלך הוא תוקפו של נס,</src>
+    <src s="19">כי ע"פ סדר ההשתלשלות,</src>
+    <src s="20">זמן הגלות הוא זמן של שינה</src>
+    <src s="21">(למעלה),</src>
+    <src s="22">וזה שבלילה ההוא</src>
+    <src s="23">(גלות16)</src>
+    <src s="24">נדדה שנת המלך מלכו של עולם הוא תוקפו של נס17.</src>
+    <src s="25">וזהו גם דיוק הלשון נדדה שנת המלך</src>
+    <src s="26">(נדדה דייקא),</src>
+    <src s="27">דלשון נדדה שנת המלך</src>
+    <src s="28">(שהשינה נדדה מהמלך)</src>
+    <src s="29">מורה שהי' ראוי שהשינה תהי' בהמלך</src>
+    <src s="30">[בדוגמת שאומרים על אדם שנדד ממקומו],</src>
+    <src s="31">כי זמן הגלות הוא זמן של שינה</src>
+    <src s="32">(כנ"ל),</src>
+    <src s="33">אלא שהי' נס שהשינה נדדה ממנו.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,116 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915360_theRebbe_171" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915360_theRebbe_171__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915360_theRebbe_171" title="מאמר פדה בשלום תשמ"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915360_theRebbe_171__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והנה בהבירור דתורה יש חילוק בין הבירור שע"י גליא דתורה להבירור שע"י פנימיות התורה21.</src>
+    <src s="2">דבהבירור שע"י לימוד גליא דתורה צריך להיות הלימוד בענינים אלו שצריכים לבררם,</src>
+    <src s="3">ומהטעמים על זה שהתורה נתלבשה בדברים גשמיים וגם בדברים האסורים ועד לטענות של שקר22,</src>
+    <src s="4">הוא,</src>
+    <src s="5">בכדי לפעול הבירור גם בענינים אלו23.</src>
+    <src s="6">וזה שגם הבירור שע"י גליא דתורה נק' בשם בירור בדרך מנוחה24</src>
+    <src s="7">הוא מפני שגם ענינים אלו</src>
+    <src s="8">(דברים האסורים וגם טענות של שקר)</src>
+    <src s="9">כמו שהם בתורה25,</src>
+    <src s="10">הם תורה,</src>
+    <src s="11">תורת אמת,</src>
+    <src s="12">ומכיון שגם דברים אלה שבתורה הם דבר ה'26,</src>
+    <src s="13">הלא כה דברי כאש27</src>
+    <src s="14">מה אש כו' אף דברי תורה אינן מקבלין טומאה28,</src>
+    <src s="15">הרי שהתורה היא תמיד במקומה ומדריגתה</src>
+    <src s="16">(דבר ה'),</src>
+    <src s="17">והבירור הוא בדרך ממילא.</src>
+    <src s="18">אלא שאעפ"כ אין זה דומה להבירור שע"י פנימיות התורה,</src>
+    <src s="19">דבהבירור שע"י גליא דתורה הרי זה גופא שהתורה מדברת בנוגע לדברים גשמיים וכו',</src>
+    <src s="20">הרי זה ענין של ירידה29</src>
+    <src s="21">כביכול,</src>
+    <src s="22">אלא שגם לאחרי ירידתה והמשכתה למטה היא תורה,</src>
+    <src s="23">דבר ה'</src>
+    <src s="24">(ולא שיורדת ומתלבשת בענין אחר).</src>
+    <src s="25">משא"כ הבירור שע"י פנימיות התורה,</src>
+    <src s="26">מכיון שפנימיות התורה היא אילנא דחיי</src>
+    <src s="27">(שאינה מלובשת בטו"ר)30,</src>
+    <src s="28">הרי הבירור שנעשה עי"ז הוא שלא בדרך התלבשות כלל.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">ואולי יש להוסיף בהחילוק שבין גליא דתורה לפנימיות התורה,</src>
+    <src s="2">דאמיתית הענין דמנוחה ושלום הוא דוקא בפנימיות התורה,</src>
+    <src s="3">הוא לא רק בענין הבירורים שע"י לימוד התורה,</src>
+    <src s="4">אלא גם בלימוד התורה גופא.</src>
+    <src s="5">דהלימוד בנגלה דתורה הוא באופן דקושיות ותירוצים,</src>
+    <src s="6">שבתחלה קס"ד שהסברא היא כך וכך,</src>
+    <src s="7">ואח"כ מגיעים להבנה עמוקה יותר ושוללים את הסברא הקודמת,</src>
+    <src s="8">ועד שאומרים עלי' בדותא היא31.</src>
+    <src s="9">דשלילת סברא הקודמת הו"ע "דם לרוב שפכת"</src>
+    <src s="10">(שנאמר גבי דוד32)</src>
+    <src s="11">כמו שהוא בעולם השכל.</src>
+    <src s="12">ואמיתית ענין השלום הוא דוקא בפנימיות התורה,</src>
+    <src s="13">דלית תמן לא קושיא ולא מחלוקת33.</src>
+    <src s="14">ויש לומר,</src>
+    <src s="15">דחילוק זה שבין גליא דתורה לפנימיות התורה שבאופן הלימוד גופא,</src>
+    <src s="16">היא הסיבה להחילוק שביניהם בענין הבירור שעל ידם,</src>
+    <src s="17">דכל פועל פועל בדוגמתו,</src>
+    <src s="18">ולכן,</src>
+    <src s="19">דוקא פנימיות התורה,</src>
+    <src s="20">שבה עצמה לית תמן לא קושיא ולא מחלוקת,</src>
+    <src s="21">גם הבירור שעל ידה הוא בדרך שלום ומנוחה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">והנה גם בפנימיות התורה גופא יש שני אופנים בכללות.</src>
+    <src s="2">כמו שנתלבשה בהבנת והשגת השכל,</src>
+    <src s="3">דבחינה זו שבפנימיות התורה ישנה גם עכשיו,</src>
+    <src s="4">וכמו שהיא בבחינת ראי'</src>
+    <src s="5">(למעלה מהבנה והשגה),</src>
+    <src s="6">שבחינה זו תהי' לע"ל,</src>
+    <src s="7">כידוע34</src>
+    <src s="8">שמשיח ילמד</src>
+    <src s="9">(פנימיות)</src>
+    <src s="10">התורה לכל ישראל באופן דראי'.</src>
+    <src s="11">וההפרש שבין השגה לראי' הוא,</src>
+    <src s="12">דבהשגה,</src>
+    <src s="13">גם כשהיא בהתאמתות,</src>
+    <src s="14">אפשר שע"י קושיא יהי' אצלו שינוי או חלישות עכ"פ.</src>
+    <src s="15">משא"כ בראי',</src>
+    <src s="16">גם כשיקשו לו קושיות הכי חזקות,</src>
+    <src s="17">לא יהי' אצלו שום ספק במה שראה.</src>
+    <src s="18">והטעם לזה הוא,</src>
+    <src s="19">כי כשאדם משיג בשכלו איזה דבר,</src>
+    <src s="20">הרי זהו דבר נוסף עליו,</src>
+    <src s="21">משא"כ כשהוא רואה איזה דבר,</src>
+    <src s="22">הדבר נחקק בפנימיותו וכאילו שנעשה חלק מעצמותו ולכן אין שייך בזה שינוי.</src>
+  </section>
+</awtsmoosMeluketSource>

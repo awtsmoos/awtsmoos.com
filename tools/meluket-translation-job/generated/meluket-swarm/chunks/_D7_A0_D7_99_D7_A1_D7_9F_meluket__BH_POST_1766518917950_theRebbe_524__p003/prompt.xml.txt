@@ -1,0 +1,171 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917950_theRebbe_524" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917950_theRebbe_524" title="מאמר על שלושה דברים תשי"ד" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917950_theRebbe_524__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה כמו שהענין דלמעלה עד אין קץ הוא גם בעולמות התחתונים,</src>
+    <src s="2">כמו שנתבאר לעיל</src>
+    <src s="3">(סעיף ב)</src>
+    <src s="4">שגם בהנבראים דבי"ע ואפילו בהנבראים שבעוה"ז מאיר בהם הרוממות דאוא"ס,</src>
+    <src s="5">שכל העולמות הם באין ערוך וכלא חשיב לגבי' ית',</src>
+    <src s="6">ועי"ז נעשה בהם רצוא לאלקות,</src>
+    <src s="7">שרוצים לצאת ממציאותם,</src>
+    <src s="8">עד"ז הוא גם בההעלאה דתפלה</src>
+    <src s="9">(שהיא דוגמת הענין דלמעלה עד אין קץ),</src>
+    <src s="10">דגם כשהאדם הוא למטה מטה עד אין תכלית,</src>
+    <src s="11">הנה ע"י התפלה הוא מתעלה</src>
+    <src s="12">(היינו שהוא ברצוא ותשוקה לעלות)</src>
+    <src s="13">למעלה מעלה עד אין קץ.</src>
+    <src s="14">וכמ"ש20</src>
+    <src s="15">סולם מוצב ארצה וראשו מגיע השמימה ואיתא בזהר21</src>
+    <src s="16">סולם דא צלותא,</src>
+    <src s="17">דגם כשהאדם הוא בדרגא הכי תחתונה</src>
+    <src s="18">(ארצה22),</src>
+    <src s="19">ע"י הסולם דתפלה הוא מגיע ועולה השמימה.</src>
+    <src s="20">אלא,</src>
+    <src s="21">שלהיותו בשפל המצב,</src>
+    <src s="22">בכדי שיתעורר ברצוא ותשוקה לעלות למעלה,</src>
+    <src s="23">צריך הוא להתבונן</src>
+    <src s="24">(לא רק בהענינים דגדולת ה' המבוארים בתפלה,</src>
+    <src s="25">אלא גם)</src>
+    <src s="26">בענין זה עצמו,</src>
+    <src s="27">שהוא בשפל המצב.</src>
+    <src s="28">הן בנוגע למחשבה דיבור ומעשה,</src>
+    <src s="29">שלפעמים הוא נכשל</src>
+    <src s="30">(ער פאַלט דורך)</src>
+    <src s="31">אפילו במעשה בפועל ומכ"ש בדיבור ועאכו"כ במחשבה,</src>
+    <src s="32">והן בנוגע לשכלו ומדותיו.</src>
+    <src s="33">דהגם שעיקר עבודת האדם הוא סור מרע ועשה טוב בפועל ממש במחשבה דיבור ומעשה,</src>
+    <src s="34">הרי ענין זה</src>
+    <src s="35">(שהעיקר הוא הפועל ממש)</src>
+    <src s="36">הוא בנוגע להכוונה דלמעלה,</src>
+    <src s="37">אבל בנוגע למצב האדם23,</src>
+    <src s="38">כיון שהשכל והמדות הם מיוחדים עם הנפש,</src>
+    <src s="39">והמחשבה דיבור ומעשה הם רק לבושים</src>
+    <src s="40">(כמשנ"ת בארוכה במאמר הקודם24),</src>
+    <src s="41">ציור השכל והמדות שלו</src>
+    <src s="42">(אם הם בקדושה או להיפך)</src>
+    <src s="43">נוגע יותר מהמחשבה דיבור ומעשה שלו.</src>
+    <src s="44">ומכ"ש כשמתבונן בנוגע לעצם נפשו,</src>
+    <src s="45">שגם כשהמחשבה דיבור ומעשה וגם המדות והשכל הם בקדושה אפשר שעצם נפשו היא בעמקי הקליפות,</src>
+    <src s="46">וכידוע25</src>
+    <src s="47">בענין מה שאמר ריב"ז26</src>
+    <src s="48">איני יודע באיזו דרך מוליכין אותי,</src>
+    <src s="49">הנה ע"י שמתבונן בכל זה ומרגיש שהוא בשפל המצב,</src>
+    <src s="50">הוא מתעורר ברצוא לצאת ממציאותו ולעלות למעלה.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">והנה נתבאר לעיל</src>
+    <src s="2">(במאמר הקודם27)</src>
+    <src s="3">דשני הענינים שבאוא"ס</src>
+    <src s="4">(למעלה מעלה עד אין קץ ולמטה מטה עד אין תכלית)</src>
+    <src s="5">בשרשם הראשון</src>
+    <src s="6">(בהאור כמו שכלול בהעצמות,</src>
+    <src s="7">שהו"ע היכולת)</src>
+    <src s="8">הוא זה שביכלתו להאיר וביכלתו שלא להאיר.</src>
+    <src s="9">וכיון שבבחינת היכולת שניהם</src>
+    <src s="10">(היכולת להאיר והיכולת שלא להאיר)</src>
+    <src s="11">הם ענין אחד,</src>
+    <src s="12">לכן,</src>
+    <src s="13">גם כשהם נמשכים בגילוי ועי"ז הם נעשים שני ענינים,</src>
+    <src s="14">למעלה מעלה ולמטה מטה,</src>
+    <src s="15">הם כלולים זה מזה.</src>
+    <src s="16">ועד"ז הוא בתורה ותפלה,</src>
+    <src s="17">שהם כלולים זה מזה.</src>
+    <src s="18">דגם בתורה שהיא המשכה מלמעלה למטה יש בה ענין ההעלאה מלמטה למעלה,</src>
+    <src s="19">וכמו"כ הוא בתפלה,</src>
+    <src s="20">שהיא העלאה מלמטה למעלה,</src>
+    <src s="21">שיש בה גם ענין ההמשכה מלמעלה למטה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ויובן זה ע"פ מה שאמרו רז"ל28</src>
+    <src s="1">ג' שעות ראשונות הקב"ה יושב ועוסק בתורה,</src>
+    <src s="2">וידוע הדיוק בזה29,</src>
+    <src s="3">הרי כל הקורא ושונה הקב"ה קורא ושונה כנגדו30,</src>
+    <src s="4">וכיון שישראל עוסקים בתורה במשך כל היום</src>
+    <src s="5">(זה לומד בשעה זו וזה לומד בשעה זו),</src>
+    <src s="6">הרי גם הקב"ה עוסק בתורה במשך כל היום,</src>
+    <src s="7">ואעפ"כ אמרו שבג' שעות ראשונות</src>
+    <src s="8">(דוקא)</src>
+    <src s="9">הקב"ה יושב ועוסק בתורה.</src>
+    <src s="10">ונקודת הביאור בזה31,</src>
+    <src s="11">דזה שכל הקורא ושונה הקב"ה קורא ושונה כנגדו היא המשכה מלמעלה שע"י אתערותא דלתתא</src>
+    <src s="12">(עסק התורה דהאדם),</src>
+    <src s="13">ולכן,</src>
+    <src s="14">ההמשכה היא לפי ערך האתערותא דלתתא.</src>
+    <src s="15">דזהו שאמרו כל הקורא ושונה הקב"ה קורא ושונה כנגדו,</src>
+    <src s="16">דזה שהקב"ה קורא ושונה הוא כנגדו,</src>
+    <src s="17">לפי הלימוד דהאדם.</src>
+    <src s="18">וזה שבג' שעות ראשונות הקב"ה יושב ועוסק בתורה היא המשכה מלמעלה מצד עצמה,</src>
+    <src s="19">ממקום שאין אתעדל"ת מגעת לשם.</src>
+    <src s="20">והמשכה זו היא נתינת כח לאדם שיוכל לעסוק בתורה ושע"י עסק התורה שלו יהי' הקב"ה קורא ושונה כנגדו.</src>
+    <src s="21">וזהו יערוף כמטר לקחי תזל כטל אמרתי32,</src>
+    <src s="22">דהחילוק בין טל ומטר הוא,</src>
+    <src s="23">דירידת מטר תלוי בעבודת האדם</src>
+    <src s="24">(כמ"ש33</src>
+    <src s="25">והי' אם שמוע גו'</src>
+    <src s="26">(ואז דוקא34)</src>
+    <src s="27">ונתתי מטר ארצכם גו'),</src>
+    <src s="28">וטל אינו תלוי בעבודת האדם</src>
+    <src s="29">(כמארז"ל35</src>
+    <src s="30">טל לא מיעצר),</src>
+    <src s="31">דכמו"כ הוא ברוחניות,</src>
+    <src s="32">דמטר היא ההמשכה שע"י אתעדל"ת וטל היא ההמשכה מלמעלה מצד עצמה.</src>
+    <src s="33">והטעם שהתורה נמשלה לטל ולמטר הוא,</src>
+    <src s="34">כי בתורה שני הענינים36.</src>
+    <src s="35">הדרגא דתורה שנמשכת ע"י עסק התורה דהאדם – יערוף כמטר לקחי,</src>
+    <src s="36">והדרגא דתורה שהמשכתה היא מלמעלה</src>
+    <src s="37">(בדרך אתעדל"ע מצד עצמה)</src>
+    <src s="38">– תזל כטל אמרתי.</src>
+    <src s="39">וזוהי השייכות דהקב"ה יושב ועוסק בתורה לג' שעות ראשונות כי שורש הגשם</src>
+    <src s="40">(מטר)</src>
+    <src s="41">הוא בז' תחתונות דעתיק</src>
+    <src s="42">[כידוע בענין שבעתים כאור שבעת הימים37,</src>
+    <src s="43">דשבעתים הוא ארבעים ותשע,</src>
+    <src s="44">ושבעתים כאור שבעת הימים,</src>
+    <src s="45">מ"ט פעמים ז',</src>
+    <src s="46">בגימטריא גשם38.</src>
+    <src s="47">דמזה מובן,</src>
+    <src s="48">שגשם שייך לשבעת הימים שהם ז' תחתונות דעתיק],</src>
+    <src s="49">ושורש הטל הוא בג' ראשונות דעתיק.</src>
+    <src s="50">וזוהי השייכות דהקב"ה יושב ועוסק בתורה</src>
+    <src s="51">(טל דתורה)</src>
+    <src s="52">לג' שעות ראשונות,</src>
+    <src s="53">כי ג'</src>
+    <src s="54">[שעות]</src>
+    <src s="55">ראשונות הם ג' ראשונות דעתיק.</src>
+  </section>
+</awtsmoosMeluketSource>

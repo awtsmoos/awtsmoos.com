@@ -1,0 +1,112 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920487_theRebbe_9" title="מאמר לך אמר לבי תש"כ" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ליל ג' דסליחות,</src>
+    <src s="2">ה'תש"כ*</src>
+  </section>
+  <section v="1">
+    <src s="0">לך אמר לבי בקשו פני גו'1,</src>
+    <src s="1">ומביא כ"ק מו"ח אדמו"ר במאמרו ד"ה זה2</src>
+    <src s="2">פירוש רש"י עה"פ,</src>
+    <src s="3">דבלך שני פירושים.</src>
+    <src s="4">בשבילך בשליחותך ובמקומך.</src>
+    <src s="5">וממשיך בהמאמר,</src>
+    <src s="6">שגם בבקשו פני שני פירושים.</src>
+    <src s="7">שבקשו הוא בקשה ותחינה,</src>
+    <src s="8">ושבקשו הוא בקשה וחיפוש.</src>
+    <src s="9">ומבאר,</src>
+    <src s="10">דשני ענינים אלה</src>
+    <src s="11">(בקשה ותחינה,</src>
+    <src s="12">בקשה וחיפוש)</src>
+    <src s="13">הם בתפלה.</src>
+    <src s="14">דתפלה היא בקשה ותחינה,</src>
+    <src s="15">והבקשה היא שיצליח בעבודתו לחפש ולמצוא דרכי התיקון בכל עניניו.</src>
+    <src s="16">וזהו מ"ש לך אמר לבי בקשו פני</src>
+    <src s="17">(לבי דוקא),</src>
+    <src s="18">כי שני הענינים דבקשו פני הם בתפלה</src>
+    <src s="19">(כנ"ל),</src>
+    <src s="20">ותפלה היא עבודה שבלב3.</src>
+    <src s="21">ומוסיף בהמאמר,</src>
+    <src s="22">דבעבודה שבלב שני ענינים.</src>
+    <src s="23">בתוך הלב ועם הלב.</src>
+    <src s="24">ויש לומר,</src>
+    <src s="25">דשני ענינים אלה הם בהתאם לשני הפירושים</src>
+    <src s="26">(דלעיל)</src>
+    <src s="27">בבקשו פני.</src>
+    <src s="28">דהבקשה ותחינה שבתפלה באה ע"י העבודה בתוך הלב,</src>
+    <src s="29">שבכדי שהבקשה והתחינה שלו תהי' באמת,</src>
+    <src s="30">הוא ע"י שמעורר את לבו,</src>
+    <src s="31">עבודה בהלב עצמו.</src>
+    <src s="32">והחיפוש שבתפלה</src>
+    <src s="33">(איך לתקן כל עניניו)</src>
+    <src s="34">הוא עבודה עם הלב.</src>
+    <src s="35">היינו,</src>
+    <src s="36">שהעבודה היא</src>
+    <src s="37">(לא בהלב,</src>
+    <src s="38">אלא)</src>
+    <src s="39">בכל עניניו,</src>
+    <src s="40">אלא שעבודה זו היא ע"י הלב4.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ולבאר זה,</src>
+    <src s="2">מקדים בהמאמר מ"ש5</src>
+    <src s="3">ומבשרי אחזה אלוקה,</src>
+    <src s="4">דצריך להבין הרי העיקר הוא הנפש ולמה אומר ומבשרי אחזה.</src>
+    <src s="5">ומבאר,</src>
+    <src s="6">דבראי' ישנם שני אופנים,</src>
+    <src s="7">ראי' שכלית וראי' מוחשית.</src>
+    <src s="8">דראי' שכלית מתייחסת יותר אל הנפש,</src>
+    <src s="9">וראי' מוחשית מתייחסת יותר אל הגוף.</src>
+    <src s="10">וחילוק זה הוא גם בנוגע להדבר הנראה.</src>
+    <src s="11">דבכל דבר יש גוף ונפש.</src>
+    <src s="12">שגם בדברים גשמיים יש הנפש שבהם6,</src>
+    <src s="13">וגם בדברים רוחניים יש הגוף שבהם.</src>
+    <src s="14">ולכן אומר ומבשרי אחזה אלוקה,</src>
+    <src s="15">כי הכוונה באחזה אלוקה היא לראי' מוחשית באלקות,</src>
+    <src s="16">דישנם עניני אלקות,</src>
+    <src s="17">כמו השגחה פרטית,</src>
+    <src s="18">שאפשר לראותם במוחש.</src>
+    <src s="19">וממשיך בהמאמר7</src>
+    <src s="20">בפירוש הכתוב ומבשרי אחזה אלוקה,</src>
+    <src s="21">דכחות נפש האדם משתלשלות מהספירות שלמעלה8</src>
+    <src s="22">כמ"ש9</src>
+    <src s="23">נעשה אדם בצלמנו כדמותנו,</src>
+    <src s="24">ולכן,</src>
+    <src s="25">מכחות נפש האדם אפשר להבין הספירות שלמעלה.</src>
+  </section>
+</awtsmoosMeluketSource>

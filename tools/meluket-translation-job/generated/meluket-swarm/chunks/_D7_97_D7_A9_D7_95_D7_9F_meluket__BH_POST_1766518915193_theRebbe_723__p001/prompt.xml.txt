@@ -1,0 +1,103 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915193_theRebbe_723" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915193_theRebbe_723" title="מאמר ויאמר לו יהונתן תשמ"ה" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ תולדות,</src>
+    <src s="2">מבה"ח וער"ח כסלו ה'תשמ"ה</src>
+  </section>
+  <section v="1">
+    <src s="0">ויאמר לו יהונתן מחר חודש ונפקדת כי יפקד מושבך1,</src>
+    <src s="1">ומבאר הצ"צ במאמרו ד"ה זה2,</src>
+    <src s="2">שדוד3</src>
+    <src s="3">הוא בחינת מלכות,</src>
+    <src s="4">הכוללת את כל נשמות ישראל,</src>
+    <src s="5">דכל ישראל בני מלכים הם4.</src>
+    <src s="6">וענין ונפקדת כי יפקד מושבך הוא,</src>
+    <src s="7">דע"י שיפקד</src>
+    <src s="8">(יחסר5)</src>
+    <src s="9">מקום מושבך,</src>
+    <src s="10">ביטול,</src>
+    <src s="11">עי"ז יהי' ונפקדת,</src>
+    <src s="12">המשכת הזכרון5</src>
+    <src s="13">דלמעלה.</src>
+    <src s="14">דזכרון הוא בחינה נעלית ביותר</src>
+    <src s="15">(כדלקמן).</src>
+    <src s="16">וזהו הקשר דונפקדת כי יפקד מושבך עם מחר חודש,</src>
+    <src s="17">כי בערב ר"ח הוא העלם והסתר הלבנה,</src>
+    <src s="18">ועד שברגע שלפני המולד לא נשאר ממנה גם נקודה,</src>
+    <src s="19">ועי"ז נעשה אח"כ</src>
+    <src s="20">(מחר)</src>
+    <src s="21">חודש,</src>
+    <src s="22">מולד הלבנה מחדש,</src>
+    <src s="23">המשכת אור חדש מהשמש ללבנה6,</src>
+    <src s="24">שלא האיר בה מקודם.</src>
+    <src s="25">וכמו"כ הוא בישראל שדומין ללבנה7,</src>
+    <src s="26">דע"י הביטול שלהם,</src>
+    <src s="27">נמשך בהם אור נעלה ביותר,</src>
+    <src s="28">אור חדש.</src>
+  </section>
+  <section v="2">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שהמשכת האור חדש נק' ונפקדת,</src>
+    <src s="2">זכרון8,</src>
+    <src s="3">הוא,</src>
+    <src s="4">כי המשכת האור השייך לעולמות</src>
+    <src s="5">(גם האור שלמעלה מעולמות אבל שייך לעולמות)</src>
+    <src s="6">אינו חידוש אמיתי,</src>
+    <src s="7">ואור חדש הוא אור א"ס שלמעלה משייכות לעולמות9.</src>
+    <src s="8">וזהו שהמשכת אור זה נק' ונפקדת,</src>
+    <src s="9">כי הזכרון הוא באוא"ס שלמעלה משייכות לעולמות.</src>
+    <src s="10">וכמבואר במק"א10,</src>
+    <src s="11">דכמו שבאדם ענין הזכרון אינו שייך אלא בדבר שאינו נחשב בעיניו</src>
+    <src s="12">(ועד שבנקל לשכוח עליו),</src>
+    <src s="13">עד"ז הוא למעלה,</src>
+    <src s="14">דענין הזכרון הוא באוא"ס שלמעלה משייכות לעולמות,</src>
+    <src s="15">דכולא קמי' כלא חשיב.</src>
+    <src s="16">וזהו ונפקדת כי יפקד מושבך,</src>
+    <src s="17">דהמשכת האור שלמעלה משייכות לעולמות</src>
+    <src s="18">(ונפקדת)</src>
+    <src s="19">היא דוקא ע"י הביטול</src>
+    <src s="20">(יפקד מושבך).</src>
+    <src s="21">דכשעבודת האדם קשורה עם המציאות שלו</src>
+    <src s="22">(מציאות דקדושה),</src>
+    <src s="23">ההמשכה שנמשכת ע"י העבודה היא מבחינת אור השייך לעולמות</src>
+    <src s="24">(מציאות),</src>
+    <src s="25">ובכדי שתהי' המשכת האור שלמעלה משייכות לעולמות,</src>
+    <src s="26">דכולא קמי' כלא חשיב,</src>
+    <src s="27">הוא ע"י הביטול,</src>
+    <src s="28">יפקד מושבך.</src>
+  </section>
+</awtsmoosMeluketSource>

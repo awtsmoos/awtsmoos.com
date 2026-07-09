@@ -1,0 +1,222 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 38,
+    "returned": 38,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917575_theRebbe_481\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917575_theRebbe_481__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the proof from the obligation for a husband to visit his wife before a journey shows that the unification (Pekidah) occurred even during the time of the Temple's pledging, as seen in the cherubim embracing during the destruction.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And one may add,</t>\n    <t s=\"2\">that this which [the Alter Rebbe] brings in Likkutei Torah as a proof that the unification is called \"Pekidah\" from that which our sages of blessed memory said, \"A man is obligated to visit his wife,\"</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">because this statement of our sages of blessed memory speaks of the obligation to visit his wife at the time when he is going out on a journey,</t>\n    <t s=\"5\">and in this it hints,</t>\n    <t s=\"6\">that in addition to the matter of the \"Pekudei HaMishkan\" (the accountings of the Tabernacle),</t>\n    <t s=\"7\">that the intention in this—that the Sanctuary was pledged—is in order that through repentance there will be afterward</t>\n    <t s=\"8\">(in the future to come)</t>\n    <t s=\"9\">the unification</t>\n    <t s=\"10\">(Pekidah)</t>\n    <t s=\"11\">in a more elevated manner,</t>\n    <t s=\"12\">even during this very time itself</t>\n    <t s=\"13\">(when the Sanctuary was pledged)</t>\n    <t s=\"14\">there was the unification.</t>\n    <t s=\"15\">And as is explained elsewhere,</t>\n    <t s=\"16\">what our sages of blessed memory said,</t>\n    <t s=\"17\">\"At the time when the gentiles entered the Sanctuary, they saw the cherubim intertwined with each other,\"</t>\n    <t s=\"18\">for this is seemingly perplexing,</t>\n    <t s=\"19\">for cherubim intertwined with each other indicates the greatness of the affection of the Holy One, blessed be He, and Israel, like the affection of a man and a woman,</t>\n    <t s=\"20\">and at the time when the gentiles entered the Sanctuary, it was seemingly the opposite of affection.</t>\n    <t s=\"21\">And the explanation of this is,</t>\n    <t s=\"22\">that since during the time of exile the Congregation of Israel is like a woman whose husband has gone to a country overseas,</t>\n    <t s=\"23\">therefore,</t>\n    <t s=\"24\">before the departure of the husband</t>\n    <t s=\"25\">(the Holy One, blessed be He)</t>\n    <t s=\"26\">on the journey,</t>\n    <t s=\"27\">there was the \"Pekidah\" (visitation/unification),</t>\n    <t s=\"28\">and therefore the cherubim were then like the embracing</t>\n    <t s=\"29\">of a man and his wife.</t>\n    <t s=\"30\">However, the Pekidah that took place then was in concealment,</t>\n    <t s=\"31\">and in revelation there was the destruction and the exile,</t>\n    <t s=\"32\">and the intention in this is that through the service during the time of exile,</t>\n    <t s=\"33\">and particularly through the service of repentance,</t>\n    <t s=\"34\">the Pekidah will be revealed in the building of the Third Holy Temple,</t>\n    <t s=\"35\">and then the pledge will also be returned,</t>\n    <t s=\"36\">the Mishkan and the Mishkan of Testimony,</t>\n    <t s=\"37\">with the coming of Mashiach Tzidkeinu, speedily and truly.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917575_theRebbe_481",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917575_theRebbe_481__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the proof from the obligation for a husband to visit his wife before a journey shows that the unification (Pekidah) occurred even during the time of the Temple's pledging, as seen in the cherubim embracing during the destruction.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "that this which [the Alter Rebbe] brings in Likkutei Torah as a proof that the unification is called \"Pekidah\" from that which our sages of blessed memory said, \"A man is obligated to visit his wife,\""
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "is,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "because this statement of our sages of blessed memory speaks of the obligation to visit his wife at the time when he is going out on a journey,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "and in this it hints,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "that in addition to the matter of the \"Pekudei HaMishkan\" (the accountings of the Tabernacle),"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "that the intention in this—that the Sanctuary was pledged—is in order that through repentance there will be afterward"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "(in the future to come)"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "the unification"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "(Pekidah)"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "in a more elevated manner,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "even during this very time itself"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "(when the Sanctuary was pledged)"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "there was the unification."
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "And as is explained elsewhere,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "what our sages of blessed memory said,"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "\"At the time when the gentiles entered the Sanctuary, they saw the cherubim intertwined with each other,\""
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "for this is seemingly perplexing,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "for cherubim intertwined with each other indicates the greatness of the affection of the Holy One, blessed be He, and Israel, like the affection of a man and a woman,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "and at the time when the gentiles entered the Sanctuary, it was seemingly the opposite of affection."
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "And the explanation of this is,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "that since during the time of exile the Congregation of Israel is like a woman whose husband has gone to a country overseas,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "therefore,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "before the departure of the husband"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "(the Holy One, blessed be He)"
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "on the journey,"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "there was the \"Pekidah\" (visitation/unification),"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "and therefore the cherubim were then like the embracing"
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "of a man and his wife."
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "However, the Pekidah that took place then was in concealment,"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "and in revelation there was the destruction and the exile,"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "and the intention in this is that through the service during the time of exile,"
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "and particularly through the service of repentance,"
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "the Pekidah will be revealed in the building of the Third Holy Temple,"
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "and then the pledge will also be returned,"
+          },
+          {
+            "v": 12,
+            "s": 36,
+            "translation": "the Mishkan and the Mishkan of Testimony,"
+          },
+          {
+            "v": 12,
+            "s": 37,
+            "translation": "with the coming of Mashiach Tzidkeinu, speedily and truly."
+          }
+        ]
+      }
+    ]
+  }
+}

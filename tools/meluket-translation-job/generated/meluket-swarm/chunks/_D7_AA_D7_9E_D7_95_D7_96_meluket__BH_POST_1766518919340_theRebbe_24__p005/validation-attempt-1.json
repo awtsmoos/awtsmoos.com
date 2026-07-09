@@ -1,0 +1,414 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 74,
+    "returned": 74,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919340_theRebbe_24\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the two levels of drawing down through the work of many correspond to the two levels of the thirteen attributes.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that the two matters in the drawing down that comes through the work</t>\n    <t s=\"2\">(prayer or study of Torah)</t>\n    <t s=\"3\">of many,</t>\n    <t s=\"4\">that the drawing down is without gradation</t>\n    <t s=\"5\">(above the chain of descent),</t>\n    <t s=\"6\">and that through their work there is also drawn from a place where an arousal from below cannot</t>\n    <t s=\"7\">(even an arousal from below of many)</t>\n    <t s=\"8\">arouse there,</t>\n    <t s=\"9\">corresponds to the two levels mentioned above.</t>\n    <t s=\"10\">For in the level of thirteen,</t>\n    <t s=\"11\">where the one is drawn into the twelve,</t>\n    <t s=\"12\">since twelve is a boundary,</t>\n    <t s=\"13\">the drawing down from there is through an arousal from below.</t>\n    <t s=\"14\">But through the one that is drawn into the twelve,</t>\n    <t s=\"15\">the drawing down is without gradation</t>\n    <t s=\"16\">(analogous to \"I toiled and I found\").</t>\n    <t s=\"17\">And in the level of thirteen,</t>\n    <t s=\"18\">where the twelve are included in the one and all thirteen are in the thirty-three,</t>\n    <t s=\"19\">the drawing down from there is analogous to an arousal from above that comes from its own essence.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section connects the concepts of twelve and thirteen to the liberation festival of 12-13 Tammuz, explaining the nature of the redemption.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And one can connect this with the festival of liberation, 12-13 Tammuz,</t>\n    <t s=\"2\">that on 12 Tammuz</t>\n    <t s=\"3\">[the birthday of the one who was liberated]</t>\n    <t s=\"4\">they informed him that an order for his release had arrived,</t>\n    <t s=\"5\">and the actual release was on 13 Tammuz43.</t>\n    <t s=\"6\">And it can be said,</t>\n    <t s=\"7\">that this, that on the twelfth</t>\n    <t s=\"8\">(of Tammuz)</t>\n    <t s=\"9\">they informed him about the release,</t>\n    <t s=\"10\">is the matter of twelve, as the one is drawn into it44.</t>\n    <t s=\"11\">And since twelve, as it is in its place,</t>\n    <t s=\"12\">even when the one is drawn into it,</t>\n    <t s=\"13\">is a boundary,</t>\n    <t s=\"14\">therefore on the twelfth it was still before the actual redemption.</t>\n    <t s=\"15\">For the matter of redemption is above measure and limitation</t>\n    <t s=\"16\">[and particularly according to what is explained in the letter of the one who was liberated</t>\n    <t s=\"17\">[that came as an introduction to the maamar beginning \"Ten who sit\"]</t>\n    <t s=\"18\">that the Holy One, blessed be He, redeemed not only him but also all of Israel,</t>\n    <t s=\"19\">including even those who are called by the name Israel</t>\n    <t s=\"20\">(only45)</t>\n    <t s=\"21\">are designated46.</t>\n    <t s=\"22\">And to add,</t>\n    <t s=\"23\">that in this are also included the generations that follow,</t>\n    <t s=\"24\">for the redemption of 12-13 Tammuz is a continuous action,</t>\n    <t s=\"25\">that draws redemption for all of Israel throughout all the generations,</t>\n    <t s=\"26\">redemption regarding their study of Torah and fulfillment of mitzvos, and also redemption regarding their physical matters,</t>\n    <t s=\"27\">children, life, and sustenance,</t>\n    <t s=\"28\">that they should all be \"at ease,\"</t>\n    <t s=\"29\">above measure and limitation.</t>\n    <t s=\"30\">And moreover,</t>\n    <t s=\"31\">that it</t>\n    <t s=\"32\">(the redemption of 12-13 Tammuz)</t>\n    <t s=\"33\">is also an introduction and preparation for the true and complete redemption through our righteous Moshiach47,</t>\n    <t s=\"34\">when there will be the true matter of being above measure and limitation],</t>\n    <t s=\"35\">and the actual redemption was on the thirteenth, which numerically equals one,</t>\n    <t s=\"36\">when the twelve are elevated into the one,</t>\n    <t s=\"37\">above limitation.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section discusses that although Torah is a drawing down from above, it still requires work and effort, with two aspects of that effort.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And the maamar continues33,</t>\n    <t s=\"2\">that although Torah is a drawing down from above to below, nevertheless even in Torah there must be work and toil,</t>\n    <t s=\"3\">and there are two matters in this.</t>\n    <t s=\"4\">That in order for the study of Torah to be proper, it is through</t>\n    <t s=\"5\">[the introduction of48]</t>\n    <t s=\"6\">the work of prayer,</t>\n    <t s=\"7\">for \"anyone who says, 'I have nothing but Torah,' does not even have Torah\"49.</t>\n    <t s=\"8\">And also, the study of Torah itself must be with work and toil.</t>\n    <t s=\"9\">And in this there are two matters.</t>\n    <t s=\"10\">The toil in understanding the Torah,</t>\n    <t s=\"11\">\"I toiled and I found.\"</t>\n    <t s=\"12\">And the toil in Torah to change one's nature and habit,</t>\n    <t s=\"13\">as the Sages said50,</t>\n    <t s=\"14\">\"One who reviews his chapter one hundred times is not comparable to one who reviews his chapter one hundred and one times\"51,</t>\n    <t s=\"15\">for then specifically is he called a servant of God.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919340_theRebbe_24",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919340_theRebbe_24__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the two levels of drawing down through the work of many correspond to the two levels of the thirteen attributes.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "that the two matters in the drawing down that comes through the work"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "(prayer or study of Torah)"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "of many,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "that the drawing down is without gradation"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "(above the chain of descent),"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "and that through their work there is also drawn from a place where an arousal from below cannot"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "(even an arousal from below of many)"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "arouse there,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "corresponds to the two levels mentioned above."
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "For in the level of thirteen,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "where the one is drawn into the twelve,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "since twelve is a boundary,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "the drawing down from there is through an arousal from below."
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "But through the one that is drawn into the twelve,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "the drawing down is without gradation"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "(analogous to \"I toiled and I found\")."
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "And in the level of thirteen,"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "where the twelve are included in the one and all thirteen are in the thirty-three,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "the drawing down from there is analogous to an arousal from above that comes from its own essence."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section connects the concepts of twelve and thirteen to the liberation festival of 12-13 Tammuz, explaining the nature of the redemption.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And one can connect this with the festival of liberation, 12-13 Tammuz,"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "that on 12 Tammuz"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "[the birthday of the one who was liberated]"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "they informed him that an order for his release had arrived,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "and the actual release was on 13 Tammuz43."
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "that this, that on the twelfth"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "(of Tammuz)"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "they informed him about the release,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "is the matter of twelve, as the one is drawn into it44."
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "And since twelve, as it is in its place,"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "even when the one is drawn into it,"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "is a boundary,"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "therefore on the twelfth it was still before the actual redemption."
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "For the matter of redemption is above measure and limitation"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "[and particularly according to what is explained in the letter of the one who was liberated"
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "[that came as an introduction to the maamar beginning \"Ten who sit\"]"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "that the Holy One, blessed be He, redeemed not only him but also all of Israel,"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "including even those who are called by the name Israel"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "(only45)"
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "are designated46."
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "And to add,"
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "that in this are also included the generations that follow,"
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "for the redemption of 12-13 Tammuz is a continuous action,"
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "that draws redemption for all of Israel throughout all the generations,"
+          },
+          {
+            "v": 13,
+            "s": 26,
+            "translation": "redemption regarding their study of Torah and fulfillment of mitzvos, and also redemption regarding their physical matters,"
+          },
+          {
+            "v": 13,
+            "s": 27,
+            "translation": "children, life, and sustenance,"
+          },
+          {
+            "v": 13,
+            "s": 28,
+            "translation": "that they should all be \"at ease,\""
+          },
+          {
+            "v": 13,
+            "s": 29,
+            "translation": "above measure and limitation."
+          },
+          {
+            "v": 13,
+            "s": 30,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 13,
+            "s": 31,
+            "translation": "that it"
+          },
+          {
+            "v": 13,
+            "s": 32,
+            "translation": "(the redemption of 12-13 Tammuz)"
+          },
+          {
+            "v": 13,
+            "s": 33,
+            "translation": "is also an introduction and preparation for the true and complete redemption through our righteous Moshiach47,"
+          },
+          {
+            "v": 13,
+            "s": 34,
+            "translation": "when there will be the true matter of being above measure and limitation],"
+          },
+          {
+            "v": 13,
+            "s": 35,
+            "translation": "and the actual redemption was on the thirteenth, which numerically equals one,"
+          },
+          {
+            "v": 13,
+            "s": 36,
+            "translation": "when the twelve are elevated into the one,"
+          },
+          {
+            "v": 13,
+            "s": 37,
+            "translation": "above limitation."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section discusses that although Torah is a drawing down from above, it still requires work and effort, with two aspects of that effort.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And the maamar continues33,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "that although Torah is a drawing down from above to below, nevertheless even in Torah there must be work and toil,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "and there are two matters in this."
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "That in order for the study of Torah to be proper, it is through"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "[the introduction of48]"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "the work of prayer,"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "for \"anyone who says, 'I have nothing but Torah,' does not even have Torah\"49."
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "And also, the study of Torah itself must be with work and toil."
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "And in this there are two matters."
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "The toil in understanding the Torah,"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "\"I toiled and I found.\""
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "And the toil in Torah to change one's nature and habit,"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "as the Sages said50,"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "\"One who reviews his chapter one hundred times is not comparable to one who reviews his chapter one hundred and one times\"51,"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "for then specifically is he called a servant of God."
+          }
+        ]
+      }
+    ]
+  }
+}

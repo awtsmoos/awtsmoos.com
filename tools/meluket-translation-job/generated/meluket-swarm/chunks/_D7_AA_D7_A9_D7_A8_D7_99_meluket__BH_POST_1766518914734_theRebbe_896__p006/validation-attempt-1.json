@@ -1,0 +1,102 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 14,
+    "returned": 14,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914734_theRebbe_896\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>Through toil in all the above, success comes in the manner of a find, leading to the ultimate find of Dovid, referring to Moshiach who comes through mental distraction, which is not contradictory to demanding his coming but is the true distraction that hastens his arrival.</sectionSummaryBrief>\n    <t s=\"0\">And through the toil in all the above,</t>\n    <t s=\"1\">the success will be in the manner of a find,</t>\n    <t s=\"2\">\"I toiled and I found\"</t>\n    <t s=\"3\">until they come to the essential find,</t>\n    <t s=\"4\">\"I have found Dovid My servant\"</t>\n    <t s=\"5\">which refers to Moshiach our Righteous One, who comes through mental distraction.</t>\n    <t s=\"6\">And explained by the Rebbe, my father-in-law, the Nasi of our generation,</t>\n    <t s=\"7\">that this is not a contradiction to the need to demand the coming of Moshiach our Righteous One,</t>\n    <t s=\"8\">to speak about the matter of the coming of Moshiach, to write about this matter, and to raise a clamor about it,</t>\n    <t s=\"9\">and on the contrary,</t>\n    <t s=\"10\">this is the true mental distraction</t>\n    <t s=\"11\">that brings the coming of Moshiach closer to below ten handbreadths,</t>\n    <t s=\"12\">and in a manner that does not delay it even for the blink of an eye,</t>\n    <t s=\"13\">immediately and truly at once.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914734_theRebbe_896",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "Through toil in all the above, success comes in the manner of a find, leading to the ultimate find of Dovid, referring to Moshiach who comes through mental distraction, which is not contradictory to demanding his coming but is the true distraction that hastens his arrival.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "And through the toil in all the above,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "the success will be in the manner of a find,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "\"I toiled and I found\""
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "until they come to the essential find,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "\"I have found Dovid My servant\""
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "which refers to Moshiach our Righteous One, who comes through mental distraction."
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "And explained by the Rebbe, my father-in-law, the Nasi of our generation,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "that this is not a contradiction to the need to demand the coming of Moshiach our Righteous One,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "to speak about the matter of the coming of Moshiach, to write about this matter, and to raise a clamor about it,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "this is the true mental distraction"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "that brings the coming of Moshiach closer to below ten handbreadths,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "and in a manner that does not delay it even for the blink of an eye,"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "immediately and truly at once."
+          }
+        ]
+      }
+    ]
+  }
+}

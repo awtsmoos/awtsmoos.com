@@ -1,0 +1,133 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919735_theRebbe_388" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919735_theRebbe_388__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919735_theRebbe_388" title="מאמר ציון במשפט תפדה תשמ"א" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919735_theRebbe_388__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ דברים,</src>
+    <src s="2">שבת חזון,</src>
+    <src s="3">ערב תשעה באב ה'תשמ"א*</src>
+  </section>
+  <section v="1">
+    <src s="0">ציון במשפט תפדה ושבי' בצדקה1,</src>
+    <src s="1">ומדייק אדמו"ר</src>
+    <src s="2">(מהורש"ב)</src>
+    <src s="3">נ"ע במאמרו ד"ה זה דשנת עדר"ת2,</src>
+    <src s="4">הרי הכוונה בציון כאן היא לא על עיר ציון3</src>
+    <src s="5">[בפרט4]</src>
+    <src s="6">אלא על</src>
+    <src s="7">[כללות4]</src>
+    <src s="8">ישראל,</src>
+    <src s="9">ולמה אומר ציון.</src>
+    <src s="10">וגם מדייק מ"ש ושבי' גו',</src>
+    <src s="11">מי הם שבי'.</src>
+    <src s="12">[ויש לומר,</src>
+    <src s="13">שגם דיוק זה</src>
+    <src s="14">(מי הם שבי')</src>
+    <src s="15">הוא ע"פ מה שאומר לפנ"ז שהכוונה בציון כאן היא על כללות ישראל.</src>
+    <src s="16">דיש מפרשים5</src>
+    <src s="17">שציון קאי על עיר ציון ושבי' קאי על ישראל.</src>
+    <src s="18">אבל להפירוש</src>
+    <src s="19">(שבהמאמר)</src>
+    <src s="20">שציון קאי על ישראל,</src>
+    <src s="21">מה הם שני הסוגים דציון ושבי'].</src>
+    <src s="22">וגם מהו"ע שפדיית ציון תהי' במשפט והפדי' של שבי' בצדקה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ונקודת הביאור</src>
+    <src s="2">(ע"פ המבואר ברשימות הצ"צ עה"פ6</src>
+    <src s="3">ובמאמר הנ"ל7),</src>
+    <src s="4">דציון קאי על ישראל העוסקים בתורה ומצוות,</src>
+    <src s="5">ונק' בשם ציון לפי שהם מצויינים בתומ"צ.</src>
+    <src s="6">[וכדאיתא בירושלמי8</src>
+    <src s="7">עה"פ9</src>
+    <src s="8">ואשים דברי בפיך ובצל ידי כסיתיך לנטוע שמים וליסוד ארץ ולאמר לציון עמי אתה,</src>
+    <src s="9">חזרנו על כל המקרא ולא מצאנו שנקראו ישראל ציון אלא זה</src>
+    <src s="10">(שנאמר)</src>
+    <src s="11">ולאמר לציון עמי אתה.</src>
+    <src s="12">וידוע הביאור בזה10,</src>
+    <src s="13">דבפסוק זה מדבר בג' הדברים שעליהם העולם עומד,</src>
+    <src s="14">תורה עבודה וגמ"ח11.</src>
+    <src s="15">ואשים דברי בפיך זו תורה,</src>
+    <src s="16">ובצל ידי כסיתיך זו גמ"ח,</src>
+    <src s="17">לנטוע שמים וליסוד ארץ אלו הקרבנות</src>
+    <src s="18">(כדאיתא בירושלמי שם).</src>
+    <src s="19">וזהו לא מצאנו שנקראו ישראל ציון אלא זה,</src>
+    <src s="20">כי זה שישראל נק' בשם ציון הוא ע"י שעוסקים בתורה עבודה וגמ"ח,</src>
+    <src s="21">שהם כללות כל התומ"צ].</src>
+    <src s="22">ושבי' הם אלו שאינם עוסקים בתורה12,</src>
+    <src s="23">שהם בשבי' ממש</src>
+    <src s="24">[ושבי' מלשון שבי'13]</src>
+    <src s="25">בהגוף ונה"ב.</src>
+    <src s="26">וזהו ציון במשפט תפדה ושבי' בצדקה,</src>
+    <src s="27">שהפדי' של העוסקים בתורה היא במשפט,</src>
+    <src s="28">ע"פ שורת הדין,</src>
+    <src s="29">משא"כ הפדי' של שבי' היא בתורת צדקה.</src>
+    <src s="30">והגם שגם פדייתם של אלו שהם בשבי' בהגוף ונה"ב תהי' ע"י התשובה,</src>
+    <src s="31">דאין ישראל נגאלין אלא בתשובה14</src>
+    <src s="32">והבטיחה תורה שסוף ישראל לעשות תשובה בסוף גלותן ו</src>
+    <src s="33">(עי"ז)</src>
+    <src s="34">מיד הן נגאלין15</src>
+    <src s="35">[ויש לומר,</src>
+    <src s="36">דזהו הקשר של הפירוש ושבי' מלשון שבי' עם הפירוש דושבי' הוא עושי תשובה</src>
+    <src s="37">(ושבי' מלשון תשובה16),</src>
+    <src s="38">כי פדיית שבי' מלשון שבי' הוא ע"י שיעשו תשובה],</src>
+    <src s="39">הרי זה שתשובה מכפרת אינו ע"פ משפט,</src>
+    <src s="40">אלא חסד וצדקה דהקב"ה17.</src>
+    <src s="41">אלא שאעפ"כ,</src>
+    <src s="42">הפדי' דשבי' היא למעלה מהפדי' דציון,</src>
+    <src s="43">כי ענין המשפט הוא מדידה והגבלה,</src>
+    <src s="44">משא"כ צדקה היא למעלה מהגבלה.</src>
+    <src s="45">וכמבואר בהמאמר7,</src>
+    <src s="46">שמשפט הוא האור שבגדר הכלים,</src>
+    <src s="47">וצדקה הוא האור שבהבדלה שבא רק באופן של צדקה.</src>
+    <src s="48">ולכן,</src>
+    <src s="49">האור שנמשך לצדיקים שפדייתם היא במשפט,</src>
+    <src s="50">הוא האור שבגדר הכלים.</src>
+    <src s="51">[והיינו דזה מה שפדייתם היא במשפט,</src>
+    <src s="52">יש בזה שני ענינים.</src>
+    <src s="53">א',</src>
+    <src s="54">שאין זקוקים לצדקה,</src>
+    <src s="55">כיון שמגיע להם ע"פ דין.</src>
+    <src s="56">ב',</src>
+    <src s="57">שענין המשפט שולל צדקה,</src>
+    <src s="58">כמ"ש18</src>
+    <src s="59">לא תכירו פנים במשפט,</src>
+    <src s="60">ופירש"י19</src>
+    <src s="61">שלא תאמר זה עני הוא כו' ומצוה לפרנסו].</src>
+    <src s="62">והאור שנמשך לבע"ת שפדייתם היא בצדקה,</src>
+    <src s="63">הוא האור שבהבדלה.</src>
+  </section>
+</awtsmoosMeluketSource>

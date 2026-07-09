@@ -1,0 +1,23 @@
+{
+  "B_H": true,
+  "dryRun": false,
+  "outDir": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/tools/meluket-translation-job/generated/meluket-swarm",
+  "model": "deepseek-chat",
+  "workerCount": 10,
+  "sectionsPerRequest": 3,
+  "totalJobs": 1129,
+  "totalExpectedTranslations": 88043,
+  "postsDbFile": "/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/socialPacked/social.heichel.ikar.posts.fs.awtsdb",
+  "owners": {
+    "0": 113,
+    "1": 113,
+    "2": 113,
+    "3": 113,
+    "4": 113,
+    "5": 113,
+    "6": 113,
+    "7": 113,
+    "8": 113,
+    "9": 112
+  }
+}

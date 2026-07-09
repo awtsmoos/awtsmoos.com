@@ -1,0 +1,259 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 43,
+    "returned": 43,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916188_theRebbe_169\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header and date for the maamar for Shabbos Parshas Vayigash 5736.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Vayigash 5736*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that Yehudah's approach to Yosef corresponds to the connection of Geulah (redemption) to Tefillah (prayer), where Geulah is associated with Yosef and the Sefirah of Yesod, and Tefillah with Yehudah and Malchus.</sectionSummaryBrief>\n    <t s=\"0\">\"And Yehudah approached him\" etc.1,</t>\n    <t s=\"1\">And it is stated in the Zohar2</t>\n    <t s=\"2\">that Yehudah's approach to Yosef is the matter of connecting Geulah (redemption) to Tefillah (prayer).</t>\n    <t s=\"3\">And it is explained in the discourses of our Nesi'im3,</t>\n    <t s=\"4\">that Geulah is the aspect of Yesod, as it is said4</t>\n    <t s=\"5\">\"If he will redeem you, the good one will redeem,\" and \"good\" is the aspect of Yesod,</t>\n    <t s=\"6\">and Tefillah is the aspect of Malchus.</t>\n    <t s=\"7\">And this is the connection of Geulah and Tefillah to Yosef and Yehudah,</t>\n    <t s=\"8\">for Yosef was seventeen years old5</t>\n    <t s=\"9\">[which] in gematria is \"good,\" [and] he is Yesod,</t>\n    <t s=\"10\">and Yehudah is Malchus.</t>\n    <t s=\"11\">And the precise point in this is known3,</t>\n    <t s=\"12\">that Yehudah's approach to Yosef [means] that Yosef was in his place and Yehudah approached Yosef,</t>\n    <t s=\"13\">and the connection of Geulah to Tefillah is that Tefillah is in its place and Geulah is connected</t>\n    <t s=\"14\">(approaches)</t>\n    <t s=\"15\">to Tefillah.</t>\n    <t s=\"16\">And moreover,</t>\n    <t s=\"17\">in Yehudah's approach to Yosef it is emphasized that Yosef was more elevated than Yehudah, therefore Yehudah needed to approach him,</t>\n    <t s=\"18\">and in the connection of Geulah to Tefillah the main thing is6</t>\n    <t s=\"19\">the Tefillah.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains, based on Torah Or, that the sparks refined by the tribes required a second refinement through Yosef, which is a refinement from above downward (of Mah) elicited by the elevation of Mayin Nukvin from the aspect of Ban.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And the point of the explanation in this, in the discourses,</t>\n    <t s=\"2\">based on what is explained in Torah Or, the discourse \"And behold, we were binding sheaves\"7,</t>\n    <t s=\"3\">that the sparks that were refined by the tribes needed to undergo a second refinement through Yosef,</t>\n    <t s=\"4\">for the refinement by the tribes is a refinement in the manner of from below upward</t>\n    <t s=\"5\">(refinement of Ban),</t>\n    <t s=\"6\">for this refinement is only the nullification of the yesh (existence),</t>\n    <t s=\"7\">and therefore they needed to be refined a second time through Yosef,</t>\n    <t s=\"8\">a refinement in the manner of from above downward</t>\n    <t s=\"9\">(refinement of Mah),</t>\n    <t s=\"10\">and through this they</t>\n    <t s=\"11\">(the sparks)</t>\n    <t s=\"12\">become included in Elokus.</t>\n    <t s=\"13\">And it is explained in Torah Or there8,</t>\n    <t s=\"14\">that in order for there to be a drawing down of the name Mah,</t>\n    <t s=\"15\">it is through the elevation of Mayin Nukvin of the name Ban.</t>\n    <t s=\"16\">And this is what is said9</t>\n    <t s=\"17\">\"and prostrated themselves to my sheaf,\"</t>\n    <t s=\"18\">the elevation of Mayin Nukvin of the tribes in the aspect of nullification</t>\n    <t s=\"19\">(prostration),</t>\n    <t s=\"20\">through which they aroused the drawing down of the name Mah to be a second refinement.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916188_theRebbe_169",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916188_theRebbe_169__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the opening header and date for the maamar for Shabbos Parshas Vayigash 5736.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Vayigash 5736*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that Yehudah's approach to Yosef corresponds to the connection of Geulah (redemption) to Tefillah (prayer), where Geulah is associated with Yosef and the Sefirah of Yesod, and Tefillah with Yehudah and Malchus.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And Yehudah approached him\" etc.1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is stated in the Zohar2"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "that Yehudah's approach to Yosef is the matter of connecting Geulah (redemption) to Tefillah (prayer)."
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "And it is explained in the discourses of our Nesi'im3,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "that Geulah is the aspect of Yesod, as it is said4"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "\"If he will redeem you, the good one will redeem,\" and \"good\" is the aspect of Yesod,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "and Tefillah is the aspect of Malchus."
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "And this is the connection of Geulah and Tefillah to Yosef and Yehudah,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "for Yosef was seventeen years old5"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "[which] in gematria is \"good,\" [and] he is Yesod,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "and Yehudah is Malchus."
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "And the precise point in this is known3,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "that Yehudah's approach to Yosef [means] that Yosef was in his place and Yehudah approached Yosef,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and the connection of Geulah to Tefillah is that Tefillah is in its place and Geulah is connected"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "(approaches)"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "to Tefillah."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "in Yehudah's approach to Yosef it is emphasized that Yosef was more elevated than Yehudah, therefore Yehudah needed to approach him,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "and in the connection of Geulah to Tefillah the main thing is6"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "the Tefillah."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains, based on Torah Or, that the sparks refined by the tribes required a second refinement through Yosef, which is a refinement from above downward (of Mah) elicited by the elevation of Mayin Nukvin from the aspect of Ban.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the point of the explanation in this, in the discourses,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "based on what is explained in Torah Or, the discourse \"And behold, we were binding sheaves\"7,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "that the sparks that were refined by the tribes needed to undergo a second refinement through Yosef,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "for the refinement by the tribes is a refinement in the manner of from below upward"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(refinement of Ban),"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "for this refinement is only the nullification of the yesh (existence),"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "and therefore they needed to be refined a second time through Yosef,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "a refinement in the manner of from above downward"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "(refinement of Mah),"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "and through this they"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(the sparks)"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "become included in Elokus."
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "And it is explained in Torah Or there8,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that in order for there to be a drawing down of the name Mah,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "it is through the elevation of Mayin Nukvin of the name Ban."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "And this is what is said9"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "\"and prostrated themselves to my sheaf,\""
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "the elevation of Mayin Nukvin of the tribes in the aspect of nullification"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(prostration),"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "through which they aroused the drawing down of the name Mah to be a second refinement."
+          }
+        ]
+      }
+    ]
+  }
+}

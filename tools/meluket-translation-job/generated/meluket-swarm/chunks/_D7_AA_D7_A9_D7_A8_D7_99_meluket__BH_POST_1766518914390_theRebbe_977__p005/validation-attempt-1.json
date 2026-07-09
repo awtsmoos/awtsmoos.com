@@ -1,0 +1,449 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 81,
+    "returned": 81,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914390_theRebbe_977\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914390_theRebbe_977__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section distinguishes between two aspects of the revelation of the essence of the soul: one where sin creates separation that is overcome by revealing the soul's root in the Essence of Ein Sof, and another where the essential connection is never impaired, akin to the atonement of Yom Kippur's essence.</sectionSummaryBrief>\n    <t s=\"0\">And the distinction between the two matters is,</t>\n    <t s=\"1\">that the revelation of the essence of the soul in that even after sins it returns to Hashem,</t>\n    <t s=\"2\">is that through sins one becomes separated from G-dliness</t>\n    <t s=\"3\">(therefore one must do teshuvah for them),</t>\n    <t s=\"4\">except that since the root of the soul is in the Essence of Ein Sof, which is above the matter of \"with whom He consulted,\"</t>\n    <t s=\"5\">the separation caused by sins is only in externality,</t>\n    <t s=\"6\">and therefore it is within his power to do teshuvah</t>\n    <t s=\"7\">(through the revelation of the internality).</t>\n    <t s=\"8\">And the revelation of the essence of the soul in the cause that brings him to return in teshuvah,</t>\n    <t s=\"9\">is,</t>\n    <t s=\"10\">that through sins no deficiency is caused, heaven forbid, from the outset in the essential connection of the essence of the soul with G-dliness,</t>\n    <t s=\"11\">and even at the time of sin it is in faith with Him, blessed be He.</t>\n    <t s=\"12\">And it is in the manner explained above</t>\n    <t s=\"13\">(in the maamar beginning \"And every man shall not be\"26),</t>\n    <t s=\"14\">that the atonement through the drawing down from the Essence of Ein Sof, the Master of Will, is in a manner that through sins a blemish is caused,</t>\n    <t s=\"15\">and through the drawing down from the Essence of Ein Sof, the Master of Will, Who is not compelled in will,</t>\n    <t s=\"16\">the blemishes are atoned.</t>\n    <t s=\"17\">And the atonement from the aspect of the essence of the day of Yom Kippur is</t>\n    <t s=\"18\">(not in a manner of action,</t>\n    <t s=\"19\">but rather)</t>\n    <t s=\"20\">that on this day the connection of the essence of the soul with the Essence</t>\n    <t s=\"21\">(which is above the Master of Will) is revealed,</t>\n    <t s=\"22\">[for] in this level there is no blemish from the outset.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that the essence of Yom Kippur atones specifically for those who repent, because the revelation of the essential connection requires some human action, and through teshuvah the matter of the essence of the day is drawn down.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we may add explanation27</t>\n    <t s=\"1\">regarding that the essence of Yom Kippur atones</t>\n    <t s=\"2\">(specifically)</t>\n    <t s=\"3\">for those who repent28,</t>\n    <t s=\"4\">for in order for there to be a drawing down of the matter of the essence of the day,</t>\n    <t s=\"5\">the revelation of the essential connection of the essence of the soul with the Essence,</t>\n    <t s=\"6\">there must be some action on the part of the person</t>\n    <t s=\"7\">[and in the manner of the revelation of the essence of the soul on Rosh Hashanah,</t>\n    <t s=\"8\">which is through the service of \"Make Me king over you\"29],</t>\n    <t s=\"9\">and since the cause that brings one to do teshuvah is the essential connection,</t>\n    <t s=\"10\">therefore,</t>\n    <t s=\"11\">through teshuvah there is a drawing down of the matter of the essence of the day.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section elaborates on the three aspects of the shofar blowing on Rosh Hashanah—fulfillment of the commandment, teshuvah, and inner nullification—and explains that during the Ten Days of Repentance there must also be service from the essence of the soul, drawing from the depths of the hidden will and the absolute will in His Essence.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And the explanation of the matter in more detail,</t>\n    <t s=\"2\">will be understood by prefacing what was explained above</t>\n    <t s=\"3\">(in the maamar beginning \"He will choose for us\"30),</t>\n    <t s=\"4\">that in the shofar blowing of Rosh Hashanah, through which \"Make Me king over you\" is effected,</t>\n    <t s=\"5\">[there are] three matters.</t>\n    <t s=\"6\">The fulfillment of the commandment of shofar blowing,</t>\n    <t s=\"7\">which is the arousal from below that awakens the revealed will.</t>\n    <t s=\"8\">And the teshuvah of shofar blowing,</t>\n    <t s=\"9\">through which the determination in the hidden will is drawn down</t>\n    <t s=\"10\">(thought and the absolute will)</t>\n    <t s=\"11\">and higher still, to the absolute will in its Essence, that through the arousal from below the revealed will will be awakened.</t>\n    <t s=\"12\">And the inner nullification from the aspect of the essence of the soul,</t>\n    <t s=\"13\">through which the absolute will itself is drawn down.</t>\n    <t s=\"14\">And according to the known31</t>\n    <t s=\"15\">that the matter of the building of Malchus is throughout the entire Ten Days of Repentance,</t>\n    <t s=\"16\">it may be said,</t>\n    <t s=\"17\">that also during the Ten Days of Repentance there must be</t>\n    <t s=\"18\">(in addition to the service of teshuvah)</t>\n    <t s=\"19\">also service from the aspect of the essence of the soul32.</t>\n    <t s=\"20\">And this is that during the Ten Days of Repentance we say \"A Song of Ascents, from the depths\"33,</t>\n    <t s=\"21\">and it is stated in the Zohar34</t>\n    <t s=\"22\">\"And that depth of depths\"</t>\n    <t s=\"23\">(depths, in the plural)</t>\n    <t s=\"24\">\"is called teshuvah.\"</t>\n    <t s=\"25\">And the Rebbe, my father-in-law, explains in the above-mentioned continuation35</t>\n    <t s=\"26\">that they are the two depths of the hidden will and the absolute will in His Essence.</t>\n    <t s=\"27\">For the drawing down from the depth of the hidden will is through the cry of the voice that comes from the encompassing [light] of Chayah,</t>\n    <t s=\"28\">and the drawing down from the depth of the absolute will is through the cry of the heart that comes from the encompassing [light] of Yechidah.</t>\n    <t s=\"29\">And in another place it is stated in the Zohar36</t>\n    <t s=\"30\">\"A Song of Ascents\" is stated simply and it does not specify who said it,</t>\n    <t s=\"31\">rather, \"A Song of Ascents\" that all the people of the world are destined to say.</t>\n    <t s=\"32\">And in the continuation of the matter there: \"And did Dovid say thus? But is it not written37</t>\n    <t s=\"33\">'With all my heart I have sought You'... what does he need 'from the depths'? Rather, thus it was taught: Every person... from the root of all roots.\"</t>\n    <t s=\"34\">And it is explained in Chassidus38,</t>\n    <t s=\"35\">that the precise point in the Zohar \"And did Dovid say thus...\" is,</t>\n    <t s=\"36\">that since he already said \"With all my heart I have sought You,\"</t>\n    <t s=\"37\">[and] \"with all my heart\" is the innerness of the heart,</t>\n    <t s=\"38\">what need is there to say \"from the depths\"?</t>\n    <t s=\"39\">And it explains,</t>\n    <t s=\"40\">that one must draw down from the root of all roots,</t>\n    <t s=\"41\">from the innerness and Essence of Ein Sof,</t>\n    <t s=\"42\">and in order to draw down from there it is through the service from the innerness and essence of the soul,</t>\n    <t s=\"43\">\"from the depths,\"</t>\n    <t s=\"44\">which is above the service of the innerness of the heart</t>\n    <t s=\"45\">(\"with all my heart\").</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914390_theRebbe_977",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914390_theRebbe_977__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section distinguishes between two aspects of the revelation of the essence of the soul: one where sin creates separation that is overcome by revealing the soul's root in the Essence of Ein Sof, and another where the essential connection is never impaired, akin to the atonement of Yom Kippur's essence.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And the distinction between the two matters is,"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "that the revelation of the essence of the soul in that even after sins it returns to Hashem,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "is that through sins one becomes separated from G-dliness"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(therefore one must do teshuvah for them),"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "except that since the root of the soul is in the Essence of Ein Sof, which is above the matter of \"with whom He consulted,\""
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "the separation caused by sins is only in externality,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "and therefore it is within his power to do teshuvah"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "(through the revelation of the internality)."
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "And the revelation of the essence of the soul in the cause that brings him to return in teshuvah,"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "is,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "that through sins no deficiency is caused, heaven forbid, from the outset in the essential connection of the essence of the soul with G-dliness,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "and even at the time of sin it is in faith with Him, blessed be He."
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "And it is in the manner explained above"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "(in the maamar beginning \"And every man shall not be\"26),"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "that the atonement through the drawing down from the Essence of Ein Sof, the Master of Will, is in a manner that through sins a blemish is caused,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "and through the drawing down from the Essence of Ein Sof, the Master of Will, Who is not compelled in will,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "the blemishes are atoned."
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "And the atonement from the aspect of the essence of the day of Yom Kippur is"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "(not in a manner of action,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "but rather)"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "that on this day the connection of the essence of the soul with the Essence"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "(which is above the Master of Will) is revealed,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "[for] in this level there is no blemish from the outset."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that the essence of Yom Kippur atones specifically for those who repent, because the revelation of the essential connection requires some human action, and through teshuvah the matter of the essence of the day is drawn down.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "And based on this, we may add explanation27"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "regarding that the essence of Yom Kippur atones"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "for those who repent28,"
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "for in order for there to be a drawing down of the matter of the essence of the day,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "the revelation of the essential connection of the essence of the soul with the Essence,"
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "there must be some action on the part of the person"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "[and in the manner of the revelation of the essence of the soul on Rosh Hashanah,"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "which is through the service of \"Make Me king over you\"29],"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "and since the cause that brings one to do teshuvah is the essential connection,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "therefore,"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "through teshuvah there is a drawing down of the matter of the essence of the day."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section elaborates on the three aspects of the shofar blowing on Rosh Hashanah—fulfillment of the commandment, teshuvah, and inner nullification—and explains that during the Ten Days of Repentance there must also be service from the essence of the soul, drawing from the depths of the hidden will and the absolute will in His Essence.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And the explanation of the matter in more detail,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "will be understood by prefacing what was explained above"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "(in the maamar beginning \"He will choose for us\"30),"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "that in the shofar blowing of Rosh Hashanah, through which \"Make Me king over you\" is effected,"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "[there are] three matters."
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "The fulfillment of the commandment of shofar blowing,"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "which is the arousal from below that awakens the revealed will."
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "And the teshuvah of shofar blowing,"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "through which the determination in the hidden will is drawn down"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "(thought and the absolute will)"
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "and higher still, to the absolute will in its Essence, that through the arousal from below the revealed will will be awakened."
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "And the inner nullification from the aspect of the essence of the soul,"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "through which the absolute will itself is drawn down."
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "And according to the known31"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "that the matter of the building of Malchus is throughout the entire Ten Days of Repentance,"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "it may be said,"
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "that also during the Ten Days of Repentance there must be"
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "(in addition to the service of teshuvah)"
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "also service from the aspect of the essence of the soul32."
+          },
+          {
+            "v": 14,
+            "s": 20,
+            "translation": "And this is that during the Ten Days of Repentance we say \"A Song of Ascents, from the depths\"33,"
+          },
+          {
+            "v": 14,
+            "s": 21,
+            "translation": "and it is stated in the Zohar34"
+          },
+          {
+            "v": 14,
+            "s": 22,
+            "translation": "\"And that depth of depths\""
+          },
+          {
+            "v": 14,
+            "s": 23,
+            "translation": "(depths, in the plural)"
+          },
+          {
+            "v": 14,
+            "s": 24,
+            "translation": "\"is called teshuvah.\""
+          },
+          {
+            "v": 14,
+            "s": 25,
+            "translation": "And the Rebbe, my father-in-law, explains in the above-mentioned continuation35"
+          },
+          {
+            "v": 14,
+            "s": 26,
+            "translation": "that they are the two depths of the hidden will and the absolute will in His Essence."
+          },
+          {
+            "v": 14,
+            "s": 27,
+            "translation": "For the drawing down from the depth of the hidden will is through the cry of the voice that comes from the encompassing [light] of Chayah,"
+          },
+          {
+            "v": 14,
+            "s": 28,
+            "translation": "and the drawing down from the depth of the absolute will is through the cry of the heart that comes from the encompassing [light] of Yechidah."
+          },
+          {
+            "v": 14,
+            "s": 29,
+            "translation": "And in another place it is stated in the Zohar36"
+          },
+          {
+            "v": 14,
+            "s": 30,
+            "translation": "\"A Song of Ascents\" is stated simply and it does not specify who said it,"
+          },
+          {
+            "v": 14,
+            "s": 31,
+            "translation": "rather, \"A Song of Ascents\" that all the people of the world are destined to say."
+          },
+          {
+            "v": 14,
+            "s": 32,
+            "translation": "And in the continuation of the matter there: \"And did Dovid say thus? But is it not written37"
+          },
+          {
+            "v": 14,
+            "s": 33,
+            "translation": "'With all my heart I have sought You'... what does he need 'from the depths'? Rather, thus it was taught: Every person... from the root of all roots.\""
+          },
+          {
+            "v": 14,
+            "s": 34,
+            "translation": "And it is explained in Chassidus38,"
+          },
+          {
+            "v": 14,
+            "s": 35,
+            "translation": "that the precise point in the Zohar \"And did Dovid say thus...\" is,"
+          },
+          {
+            "v": 14,
+            "s": 36,
+            "translation": "that since he already said \"With all my heart I have sought You,\""
+          },
+          {
+            "v": 14,
+            "s": 37,
+            "translation": "[and] \"with all my heart\" is the innerness of the heart,"
+          },
+          {
+            "v": 14,
+            "s": 38,
+            "translation": "what need is there to say \"from the depths\"?"
+          },
+          {
+            "v": 14,
+            "s": 39,
+            "translation": "And it explains,"
+          },
+          {
+            "v": 14,
+            "s": 40,
+            "translation": "that one must draw down from the root of all roots,"
+          },
+          {
+            "v": 14,
+            "s": 41,
+            "translation": "from the innerness and Essence of Ein Sof,"
+          },
+          {
+            "v": 14,
+            "s": 42,
+            "translation": "and in order to draw down from there it is through the service from the innerness and essence of the soul,"
+          },
+          {
+            "v": 14,
+            "s": 43,
+            "translation": "\"from the depths,\""
+          },
+          {
+            "v": 14,
+            "s": 44,
+            "translation": "which is above the service of the innerness of the heart"
+          },
+          {
+            "v": 14,
+            "s": 45,
+            "translation": "(\"with all my heart\")."
+          }
+        ]
+      }
+    ]
+  }
+}

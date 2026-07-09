@@ -1,0 +1,88 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914138_theRebbe_689" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914138_theRebbe_689__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914138_theRebbe_689" title="מאמר שיר המעלות ממעמקים תשמ"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914138_theRebbe_689__p002">
+  <section v="3">
+    <src s="0">ולהבין זה,</src>
+    <src s="1">איך על ידי עבודת התשובה ממשיכים מבחינת העומק לפנים מעומק שלמעלה,</src>
+    <src s="2">יש להקדים תחילה מה שמבואר בהמשך ראש השנה תרח"ץ7</src>
+    <src s="3">(לפני חמישים שנה),</src>
+    <src s="4">שיש שתי מדריגות בתשובה,</src>
+    <src s="5">ענין התשובה ומהות התשובה.</src>
+    <src s="6">דענין התשובה היא התשובה על ענינים פרטיים או אפילו על ענינים כלליים,</src>
+    <src s="7">אבל אף שהתשובה אינה על חטא ועון8</src>
+    <src s="8">ופשע מ"מ ענינה הוא שעולה בעבודתו בטוב עצמו9,</src>
+    <src s="9">שהולך ומוסיף בשלימות עבודתו עד שעבודה פרטית זו היא כדבעי וכדרוש,</src>
+    <src s="10">ועד שע"י שמשלים כל הענינים הפרטיים הרי כללות עבודתו היא כדרוש.</src>
+    <src s="11">אמנם מהות התשובה הוא שממקום שהוא עומד בו במעמדו ומצבו הרוחני הוא עולה</src>
+    <src s="12">(ער שטעלט זיך איבער)</src>
+    <src s="13">למקום נעלה יותר,</src>
+    <src s="14">שהוא מעמד ומצב חדש ועד שאינו בערך כלל למצבו לפנ"ז.</src>
+    <src s="15">והיינו שעולה למצב עליון שלא בערך כלל עד שאין לומר עליו לשון וגדר עליון ותחתון,</src>
+    <src s="16">דלשון עליון מורה שישנו תחתון והוא העליון בערכו,</src>
+    <src s="17">משא"כ מהות התשובה היא בדרגא כזו שאינה בגדר וערך דעליון ותחתון,</src>
+    <src s="18">שאינו שייך כלל להמצב שלפנ"ז</src>
+    <src s="19">(למעליותא)10,</src>
+    <src s="20">עד שנעשה מציאות חדשה שנעשית מאין ואפס ממש.</src>
+    <src s="21">וע"י שעומד במעמד ומצב שאינו בערך כלל,</src>
+    <src s="22">ה"ז פועל על כל פרטי העבודות וכל הפרטי פרטים,</src>
+    <src s="23">שהכל יהי' נתקן כדבעי.</src>
+    <src s="24">היינו שמכיון שהוא במעמד ומצב חדש באופן שכל המעשים שעושה הם טובים,</src>
+    <src s="25">וכלשון רז"ל11</src>
+    <src s="26">ודיוק הסדר בזה: תשובה ומעשים טובים,</src>
+    <src s="27">שע"י התשובה תהי' תכלית השלימות בהמעשים12</src>
+    <src s="28">ותכלית השלימות בהטוב ותכלית השלימות בישראל עושי המעשים טובים.</src>
+  </section>
+  <section v="4">
+    <src s="0">וזהו13 שיר המעלות ממעמקים קראתיך הוי',</src>
+    <src s="1">דע"י תשובה מעומקא דליבא,</src>
+    <src s="2">עומק לפנים מעומק,</src>
+    <src s="3">שהיא מהות התשובה,</src>
+    <src s="4">עי"ז קוראים וממשיכים מלמעלה מבחי' עמיקא דעמיקתא,</src>
+    <src s="5">ועד לעומק כזה שאינו בגדר דרגות כלל.</src>
+    <src s="6">ועי"ז מתקיימים בפשטות כל התפלות שבמזמור זה,</src>
+    <src s="7">שנמשך בחי' העומק העליון שלמעלה,</src>
+    <src s="8">בחי' העומק שלמעלה ממעמקים לשון רבים,</src>
+    <src s="9">עד שהוא למעלה מכל גדר עומק,</src>
+    <src s="10">ויורד עד למטה מטה ובגלוי ממש,</src>
+    <src s="11">ממש גם בזמן,</src>
+    <src s="12">תיכף ומיד,</src>
+    <src s="13">ויהי' ביטול כל ההגבלות וגילוי א"ס האמיתי למטה,</src>
+    <src s="14">ויתירה מזו,</src>
+    <src s="15">שהרי לא שייך בו ית' גדר מעלה ומטה אלא הכל אחד,</src>
+    <src s="16">וזה מיוסד ונעשה ע"י שהעומק דישראל והעומק שלמעלה נעשים דבר אחד,</src>
+    <src s="17">ממעמקים קראתיך14</src>
+    <src s="18">שיהי' ישראל וקוב"ה כולא חד15.</src>
+  </section>
+</awtsmoosMeluketSource>

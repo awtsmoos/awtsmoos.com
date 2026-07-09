@@ -1,0 +1,135 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917741_theRebbe_999" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917741_theRebbe_999__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917741_theRebbe_999" title="מאמר אשה כי תזריע תשכ"ה" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917741_theRebbe_999__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ תזריע,</src>
+    <src s="2">ראש חודש ניסן,</src>
+    <src s="3">ה'תשכ"ה</src>
+  </section>
+  <section v="1">
+    <src s="0">אשה כי תזריע וילדה זכר1,</src>
+    <src s="1">וארז"ל2</src>
+    <src s="2">אשה מזרעת תחלה יולדת זכר איש מזריע תחלה יולדת נקבה,</src>
+    <src s="3">ומביא אדמו"ר הזקן</src>
+    <src s="4">(בלקו"ת ד"ה זה3)</src>
+    <src s="5">דהפלסופים פירשו,</src>
+    <src s="6">דהטעם על זה שאשה מזרעת תחלה יולדת זכר הוא כי כשאשה מזרעת תחלה טיפת האיש באה באחרונה ועילאה גבר.</src>
+    <src s="7">ואומר אדמו"ר הזקן שפירושם הוא דוחק גדול.</src>
+    <src s="8">ומפרש כדמוכח מפשטות הלשון שלידת הזכר בא מזרע האשה</src>
+    <src s="9">(ולא מזה שזרע האיש בא לבסוף).</src>
+    <src s="10">ויש לומר,</src>
+    <src s="11">דזה שמביא בלקו"ת גם הפירוש דלידת הזכר הוא מטיפת האיש</src>
+    <src s="12">(הבאה באחרונה,</src>
+    <src s="13">כי עילאה גבר),</src>
+    <src s="14">ויתירה מזו,</src>
+    <src s="15">שמקדים פירוש זה להפירוש שלידת הזכר הוא מזרע האשה,</src>
+    <src s="16">הוא4</src>
+    <src s="17">כי איש ואשה</src>
+    <src s="18">(ברוחניות)</src>
+    <src s="19">הם הקב"ה וכנסת ישראל,</src>
+    <src s="20">דהקב"ה נקרא בשם איש וכנסת ישראל בשם אשה5.</src>
+    <src s="21">וידוע בענין אתערותא דלעילא ואתערותא דלתתא6,</src>
+    <src s="22">שבכל אחד מהם יש מעלה.</src>
+    <src s="23">דהמעלה באתערותא דלתתא היא שההמשכה הבאה על ידה היא מפנימיות האור7,</src>
+    <src s="24">והמעלה באתערותא דלעילא מצד עצמה היא שההמשכה היא ממקום נעלה יותר שאין אתערותא דלתתא מגעת לשם</src>
+    <src s="25">(אלא שההמשכה משם היא מבחינת חיצוניות).</src>
+    <src s="26">ויש לומר,</src>
+    <src s="27">שמזה משתלשלים שני הפירושים באשה כי תזריע וילדה זכר כפשוטו.</src>
+    <src s="28">דהפירוש שלידת הזכר הוא מזרע האיש דעילאה גבר,</src>
+    <src s="29">משתלשל מהמעלה שבאתערותא דלעילא8,</src>
+    <src s="30">והפירוש שלידת הזכר הוא מזרע האשה משתלשל מהמעלה שבאתערותא דלתתא.</src>
+    <src s="31">ולכן מביא גם הפירוש שלידת הזכר הוא מזרע האיש</src>
+    <src s="32">(אף שבגשמיות,</src>
+    <src s="33">פירוש זה הוא דלא כהמסקנא),</src>
+    <src s="34">בכדי לרמז שיש גם מעלה באתערותא דלעילא.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויש להוסיף,</src>
+    <src s="2">דפרשת תזריע קוראין</src>
+    <src s="3">(בכמה שנים)</src>
+    <src s="4">בחודש ניסן9,</src>
+    <src s="5">שענינו הוא אתערותא דלעילא10,</src>
+    <src s="6">ולכן מביא פירוש זה</src>
+    <src s="7">(שלידת הזכר הוא מזרע האיש)</src>
+    <src s="8">לפני הפירוש שלידת הזכר הוא מזרע האשה,</src>
+    <src s="9">כי בחודש ניסן,</src>
+    <src s="10">ההדגשה היא בהמעלה שבאתערותא דלעילא.</src>
+    <src s="11">וזה שהמסקנא היא שלידת הזכר הוא מזרע האשה,</src>
+    <src s="12">כי לאחרי מתן תורה,</src>
+    <src s="13">גם בחודש ניסן,</src>
+    <src s="14">ההדגשה היא במעלת עבודת האדם</src>
+    <src s="15">(אתערותא דלתתא).</src>
+    <src s="16">וכמובן גם מהמאמר ד"ה החודש של אדמו"ר</src>
+    <src s="17">(מהורש"ב)</src>
+    <src s="18">נ"ע11</src>
+    <src s="19">בעל ההילולא דב' ניסן,</src>
+    <src s="20">שמדייק שם</src>
+    <src s="21">(בתחלת המאמר12)</src>
+    <src s="22">"למה צריכים עבודה בכח עצמו דוקא ומהו המעלה בזה והלא האהוי"ר הבאים מלמעלה הם גבוהים הרבה יותר",</src>
+    <src s="23">דזה שמדייק</src>
+    <src s="24">(מהי המעלה בעבודה בכח עצמו),</src>
+    <src s="25">אף שבכו"כ דרושים מבואר</src>
+    <src s="26">(כנ"ל)</src>
+    <src s="27">המעלה שבאתערותא דלתתא</src>
+    <src s="28">(עבודה בכח עצמו),</src>
+    <src s="29">יש לומר,</src>
+    <src s="30">כי במאמר ד"ה החודש מודגשת המעלה שבאתערותא דלעילא,</src>
+    <src s="31">ולכן יש מקום לשאלה מהי המעלה בעבודה.</src>
+    <src s="32">אבל מזה שענין זה</src>
+    <src s="33">(מהי המעלה בעבודה)</src>
+    <src s="34">הוא רק שאלה,</src>
+    <src s="35">מובן,</src>
+    <src s="36">שגם בחודש ניסן</src>
+    <src s="37">(ד"ה החודש),</src>
+    <src s="38">שבו מודגשת מעלת ההמשכה הבאה מלמעלה,</src>
+    <src s="39">המסקנא היא שיש</src>
+    <src s="40">(גם)</src>
+    <src s="41">מעלה בעבודה בכח עצמו</src>
+    <src s="42">(אתערותא דלתתא)</src>
+    <src s="43">לגבי האהוי"ר הבאים מלמעלה</src>
+    <src s="44">(אתערותא דלעילא).</src>
+    <src s="45">ויתירה מזו,</src>
+    <src s="46">דענין זה</src>
+    <src s="47">(המעלה שבאתערותא דלתתא)</src>
+    <src s="48">הוא עיקר המעלה,</src>
+    <src s="49">שלכן,</src>
+    <src s="50">המסקנא</src>
+    <src s="51">(בלקו"ת)</src>
+    <src s="52">היא שלידת הזכר הוא מזרע האשה,</src>
+    <src s="53">המעלה שבאתערותא דלתתא.</src>
+  </section>
+</awtsmoosMeluketSource>

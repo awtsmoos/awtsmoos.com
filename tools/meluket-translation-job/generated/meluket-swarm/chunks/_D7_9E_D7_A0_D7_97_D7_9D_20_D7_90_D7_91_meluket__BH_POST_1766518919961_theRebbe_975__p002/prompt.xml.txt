@@ -1,0 +1,171 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919961_theRebbe_975" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919961_theRebbe_975__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919961_theRebbe_975" title="מאמר ועתה ישראל תשל"ז" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919961_theRebbe_975__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים מה דאיתא במדרש תהלים עה"פ13</src>
+    <src s="2">אחת שאלתי מאת ה' וגו',</src>
+    <src s="3">אמר הקב"ה לדוד,</src>
+    <src s="4">בתחלה אתה אומר אחת שאלתי</src>
+    <src s="5">(גו')</src>
+    <src s="6">שבתי בבית ה' ואח"כ אתה שואל כמה שאלות לחזות בנועם ה' ולבקר בהיכלו וכו',</src>
+    <src s="7">והשיב דוד ממך למדתי,</src>
+    <src s="8">בתחלה לא באת עלי14</src>
+    <src s="9">אלא באחת שנאמר ועתה ישראל מה ה' אלקיך שואל מעמך כי אם ליראה ואח"כ פתחת עלינו במצוות הרבה שנאמר ללכת בכל דרכיו ולדבקה בו וגו'.</src>
+    <src s="10">וצריך להבין,</src>
+    <src s="11">דלכאורה תשובת דוד ממך למדתי אינה מתרצת זה שאמר אחת שאלתי,</src>
+    <src s="12">אלא שאומרת שהשאלה היא על הקב"ה,</src>
+    <src s="13">שבתחלה אומר כי אם ליראה ואח"כ פתח במצוות הרבה.</src>
+    <src s="14">ופירש הרב המגיד15,</src>
+    <src s="15">שדוד ביקש רק דבר אחד לבד,</src>
+    <src s="16">כי הדברים המפורטים</src>
+    <src s="17">(לחזות בנועם ה' וגו')</src>
+    <src s="18">הם מסתעפים משבתי בבית ה'.</src>
+    <src s="19">ועד"ז הוא במה ה' אלקיך שואל מעמך כי אם ליראה,</src>
+    <src s="20">שהדברים המפורטים</src>
+    <src s="21">(ללכת בכל דרכיו וגו')</src>
+    <src s="22">הם מסתעפים מליראה את ה' אלקיך.</src>
+    <src s="23">אבל,</src>
+    <src s="24">עפ"ז צריך להבין לאידך גיסא,</src>
+    <src s="25">הרי דבר זה</src>
+    <src s="26">(שישנם ענינים כלליים שמסתעפים מהם הרבה פרטים)</src>
+    <src s="27">הוא מובן בפשטות,</src>
+    <src s="28">ולמה צריך ללמוד זה מהקב"ה.</src>
+    <src s="29">ונקודת הביאור בזה,</src>
+    <src s="30">דהכוונה כאן בדבר אחד לבד היא לנקודה עצמית שלמעלה מכלל לפרטים.</src>
+    <src s="31">דזהו מ"ש דוד אחת שאלתי,</src>
+    <src s="32">אחת היא יחידה16,</src>
+    <src s="33">יחיד בעצם,</src>
+    <src s="34">שאינו בגדר התחלקות פרטים</src>
+    <src s="35">(כידוע החילוק בין יחיד לאחד17).</src>
+    <src s="36">ועד"ז הוא ליראה את הוי',</src>
+    <src s="37">דפירוש ליראה את הוי'</src>
+    <src s="38">(דלשון את מורה על דבר שאינו אלא טפל18)</src>
+    <src s="39">הוא שאינו מציאות לעצמו כלל,</src>
+    <src s="40">וכל ענינו הוא רק זה שהוא טפל ובטל להוי'19.</src>
+    <src s="41">וגם להמבואר בתניא20</src>
+    <src s="42">דמה ה' אלקיך שואל מעמך כ"א ליראה את ה' אלקיך קאי על יראה תתאה,</src>
+    <src s="43">הרי ידוע21,</src>
+    <src s="44">דכל הדרגות שביראה שייכות זל"ז.</src>
+    <src s="45">וגם הביטול דיר"ת הוא מצד עצם הנשמה.</src>
+    <src s="46">וכידוע החילוק בין יראה לאהבה22,</src>
+    <src s="47">דאהבה להיותה מציאות היא מצד הגילויים דהנשמה,</src>
+    <src s="48">ויראה להיותה ביטול היא מצד עצם הנשמה.</src>
+    <src s="49">וזהו ממך למדתי,</src>
+    <src s="50">כי בכדי לקשר הפרטים עם הנקודה העצמית שלמעלה מכלל לפרטים,</src>
+    <src s="51">צריך על זה לימוד ונתינת כח מהקב"ה.</src>
+    <src s="52">והקשר דנקודה העצמית עם הפרטים הוא בשני אופנים.</src>
+    <src s="53">א',</src>
+    <src s="54">באופן דמלמטה למעלה,</src>
+    <src s="55">שע"י הפרטים מגיעים להנקודה.</src>
+    <src s="56">וכמ"ש23</src>
+    <src s="57">ויצונו ה' לעשות את כל החוקים האלה ליראה את הוי',</src>
+    <src s="58">שע"י קיום המצוות</src>
+    <src s="59">(תרי"ג מצוות פרטיות)</src>
+    <src s="60">באים ליראה את הוי'.</src>
+    <src s="61">וב',</src>
+    <src s="62">באופן דמלמעלה למטה,</src>
+    <src s="63">שמהנקודה נמשכים ומסתעפים פרטים,</src>
+    <src s="64">ובאופן שגם לאחרי שנמשכו הפרטים,</src>
+    <src s="65">מאירה בהם הנקודה העצמית שלמעלה ממקור לפרטים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">ועפ"ז יש לבאר מה שאמרו אל תקרי מה אלא מאה,</src>
+    <src s="2">מה הוא ביטול כמו ונחנו מה24</src>
+    <src s="3">[ויש לומר,</src>
+    <src s="4">דזהו שלשון מה מורה על קטנות הדבר</src>
+    <src s="5">(כנ"ל סעיף ב),</src>
+    <src s="6">שהוא ע"ד מ"ש אתם המעט מכל העמים שממעטים את עצמם25],</src>
+    <src s="7">והוא הביטול עצמי שמצד עצם הנשמה.</src>
+    <src s="8">ופירוש מה ה' אלקיך שואל מעמך הוא שה' אלקיך שואל מעמך הביטול דמה26.</src>
+    <src s="9">ומביטול זה מסתעפים אח"כ כל הפרטים שנמנים בהמשך הכתוב,</src>
+    <src s="10">כולל גם ליראה את הוי'27.</src>
+    <src s="11">דעם היות שגם הביטול דיראה הוא מצד עצם הנשמה,</src>
+    <src s="12">וביטול זה הוא הנקודה העצמית שממנה מסתעפים הפרטים שלאח"ז</src>
+    <src s="13">(ללכת בכל דרכיו וגו'),</src>
+    <src s="14">מ"מ,</src>
+    <src s="15">מכיון שהביטול הוא בציור דיראה,</src>
+    <src s="16">שענינה הוא</src>
+    <src s="17">(ככל המדות)</src>
+    <src s="18">ההרגש שהוא ירא,</src>
+    <src s="19">הוא בכלל הגילויים דהנשמה,</src>
+    <src s="20">משא"כ הביטול דמ"ה הוא ביטול בעצם.</src>
+    <src s="21">כהביטול דמס"נ28</src>
+    <src s="22">שבכאו"א מישראל29,</src>
+    <src s="23">מצד המ"ה שבו,</src>
+    <src s="24">שהוא למעלה מכל הכחות כולל גם כח הרצון,</src>
+    <src s="25">שהרי זה שהוא מוסר נפשו הוא לא מצד הרצון שלו אלא מפני שאינו יכול להפרד ח"ו מאחדותו ית'30.</src>
+    <src s="26">וזהו מה הוי' אלקיך,</src>
+    <src s="27">שהביטול דמ"ה הוא מפני שהוי'</src>
+    <src s="28">(הוא)</src>
+    <src s="29">אלקיך כחך וחיותך.</src>
+    <src s="30">דמכיון שאלקות הוא החיות שלו,</src>
+    <src s="31">אין שייך כלל שיהי' נפרד ח"ו מאלקות.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">אבל,</src>
+    <src s="2">הביטול דמ"ה שישנו בכאו"א מישראל הוא בהעלם.</src>
+    <src s="3">והעלם זה הוא לא רק מפני נפש הבהמית שמעלמת ומסתרת על זה,</src>
+    <src s="4">אלא שגם מצד עצמו הוא נעלם,</src>
+    <src s="5">להיותו למעלה מגילוי31.</src>
+    <src s="6">ובכדי שיהי' בגילוי,</src>
+    <src s="7">על זה אמרו אל תקרי מה אלא מאה.</src>
+    <src s="8">דמה ומאה הם ב' קצוות.</src>
+    <src s="9">מה הוא נקודה עצמית שלמעלה מגדר פרטים,</src>
+    <src s="10">ומאה הוא ריבוי פרטים עד לריבוי הכי גדול32.</src>
+    <src s="11">ובנפש האדם הוא עשר הכחות כמו שכל אחד מהם כלול מעשר.</src>
+    <src s="12">וע"י העבודה בפרטי הכחות</src>
+    <src s="13">(מאה),</src>
+    <src s="14">מתעורר ומתגלה הנקודה דמ"ה33.</src>
+    <src s="15">וזהו אל תקרי מה אלא מאה,</src>
+    <src s="16">דמה מצד עצמו הוא למעלה מגילוי – אל תקרי</src>
+    <src s="17">(קרי הוא גילוי34),</src>
+    <src s="18">והתגלותו היא ע"י העבודה דמאה.</src>
+    <src s="19">ויתירה מזו,</src>
+    <src s="20">שהגילוי דמ"ה</src>
+    <src s="21">(שנעשה ע"י העבודה דמאה)</src>
+    <src s="22">הוא באופן כללי וגם נרגש בכחות הפרטיים35.</src>
+    <src s="23">ויש לומר שגם זה מרומז באל תקרי מה אלא מאה,</src>
+    <src s="24">כי כאשר הגילוי דמ"ה הוא רק בכללות,</src>
+    <src s="25">אזי,</src>
+    <src s="26">הגילוי הוא רק בנוגע למ"ה</src>
+    <src s="27">(שבתחלה הי' בהעלם ואח"כ נתגלה מהעלמו),</src>
+    <src s="28">וזהו אל תקרי מה אלא מאה,</src>
+    <src s="29">שהקריאה והגילוי דמ"ה צריך להיות לא רק בנוגע להמ"ה אלא גם בכחות הפרטיים,</src>
+    <src s="30">מאה.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,28 @@
+{
+  "id": "1dbfccae-3017-463c-9546-6633a1f5a5c8",
+  "object": "chat.completion",
+  "created": 1783584554,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketRepair heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919556_theRebbe_605\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919556_theRebbe_605__p001\">\n  <t v=\"2\" s=\"17\">And therefore, this narrative pertains to all times and all places.</t>\n</awtsmoosMeluketRepair>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 346,
+    "completion_tokens": 136,
+    "total_tokens": 482,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 346
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

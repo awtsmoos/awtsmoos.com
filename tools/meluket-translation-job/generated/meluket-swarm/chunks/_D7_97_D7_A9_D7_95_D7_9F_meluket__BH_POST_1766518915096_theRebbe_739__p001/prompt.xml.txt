@@ -1,0 +1,113 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915096_theRebbe_739" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915096_theRebbe_739__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915096_theRebbe_739" title="מאמר מים רבים תשי"ז" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915096_theRebbe_739__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ תולדות,</src>
+    <src s="2">מבה"ח כסלו,</src>
+    <src s="3">תשי"ז</src>
+  </section>
+  <section v="1">
+    <src s="0">מים רבים*1</src>
+    <src s="1">לא יוכלו לכבות את האהבה ונהרות לא ישטפוה אם יתן איש את כל הון ביתו באהבה בוז יבוזו לו.</src>
+    <src s="2">ומפרש בתרגום</src>
+    <src s="3">(ובמדרש רבה*2</src>
+    <src s="4">ורש"י),</src>
+    <src s="5">אמר הקב"ה לבני ישראל,</src>
+    <src s="6">אם יתכנסו כל אומות העולם,</src>
+    <src s="7">המון עמים רבים כשאון מים רבים,</src>
+    <src s="8">לא יוכלו לכבות</src>
+    <src s="9">(ח"ו)</src>
+    <src s="10">את האהבה שביני לבין ישראל.</src>
+    <src s="11">ואם יתאספו כל מלכי ארץ ושריהם,</src>
+    <src s="12">מי הנהר העצומים והרבים,</src>
+    <src s="13">לא יוכלו למחות</src>
+    <src s="14">(ח"ו)</src>
+    <src s="15">אותך מן העולם.</src>
+    <src s="16">אם יתן איש את כל הון ביתו לקנות את התורה בגלות,</src>
+    <src s="17">אשלם לו כפלים בעולם הבא וכל הביזה ושלל מחנה גוג לו יהי'.</src>
+    <src s="18">אחות לנו קטנה גו' בעת ההיא ידיינו מלאכי שמיא אומה אחת זו ישראל יש בארץ וקטנה היא בזכיות,</src>
+    <src s="19">מה נעשה לאחותינו ביום שידובר בה מן האומות לעלות עלי' למלחמה.</src>
+    <src s="20">ויענה מיכאל שרם של ישראל,</src>
+    <src s="21">אם חומה היא גו',</src>
+    <src s="22">אם עומדת אומה זו כחומה בין העמים שלא תתחתן בם,</src>
+    <src s="23">כי אם תחזיק באמונתה וביראתה לקנות יחוד שמו יתברך נהי' לה למבצר ואין יכולת לעמים לשלוט בה,</src>
+    <src s="24">ואם דלת היא גו' ואפי' אם דלה היא מן המצות נבקש עלי' רחמים מלפני ה' ויזכור לה זכות התורה של תינוקות של בית רבן הכתובה על לוח לבותם.</src>
+    <src s="25">ובמדרש מסיים,</src>
+    <src s="26">אומות העולם אומרים אנו חוטאים וישראל אינם חוטאים</src>
+    <src s="27">(בתמי'),</src>
+    <src s="28">אחות לנו קטנה אמר להם הקב"ה כשם שהתינוקת הזו כשהיא קטנה והיא חוטאה על אבותי' אין אבותי' מתרעמין עלי' למה שהיא קטנה,</src>
+    <src s="29">כך הם ישראל,</src>
+    <src s="30">ומסיים אלא בעל כרחכם תהיו עמי וכן הוא אומר היו לא תהי' אשר אתם אומרים נהי' כגוים גו' אלא מה אני עושה ביד חזקה גו' אמלוך עליכם,</src>
+    <src s="31">הא למדת חיבתן של ישראל לפני המקום.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וצריך להבין איך יתאים פירוש זה עם פירוש רבנו בפרשה זו עה"פ מים רבים,</src>
+    <src s="2">ומיוסד ע"פ מש"כ בזהר,</src>
+    <src s="3">דמים רבים היא ההתבוננות שמתבונן בגדולת ה' שהוא ממלא כל עלמין וסובב כל עלמין וכולא קמי' כלא חשיב,</src>
+    <src s="4">שהיא ההתבוננות דשמע ישראל וברוך שם,</src>
+    <src s="5">שמזה נמשך ואהבת בכל לבבך גו' עד שיבוא לבחי' בכל מאדך בלי גבול ולא יוכל להשקיט ולכבות צמאון האהבה זו ע"י המים רבים עצמן שהיא ההתבוננות והידיעה ואפילו לא ע"י ההשגות שבג"ע,</src>
+    <src s="6">ונהרות לא ישטפוה,</src>
+    <src s="7">דנהרות הוא הגילוי שבג"ע כמ"ש ונהר יוצא*3</src>
+    <src s="8">מעדן להשקות את הגן,</src>
+    <src s="9">דהגם שהגילוי שבג"ע הוא גילוי אור נעלה ביותר וכמה מיני מדריגות בו לאין קץ,</src>
+    <src s="10">דאף שבכללות נזכר בספרים רק געה"ת וגעה"ע הרי אמרז"ל*4</src>
+    <src s="11">ת"ח אין להם מנוחה כו' שנאמר ילכו מחיל אל חיל גו' ומ"מ ונהרות לא ישטפוה,</src>
+    <src s="12">שכל הגילוי אור שבג"ע לא יוכל לרוות את הצמאון,</src>
+    <src s="13">כ"א בתומ"צ דוקא,</src>
+    <src s="14">שעל זה הוא אומר,</src>
+    <src s="15">אם יתן איש את כל הון ביתו באהבה,</src>
+    <src s="16">איש זה הקב"ה,</src>
+    <src s="17">כאשר יתן את כל הון ביתו,</src>
+    <src s="18">הוא התומ"צ,</src>
+    <src s="19">הנה בוז יבוזו לו לשון ביזה ושלל,</src>
+    <src s="20">כמו ביזת אוצרות יקרים שבוזז וחוטף לגודל תשוקתו לזה,</src>
+    <src s="21">וכמרז"ל*5</src>
+    <src s="22">דבהאי עלמא דאזלינן מיני' חטוף ואכול חטוף ואשתי,</src>
+    <src s="23">שבתומ"צ דוקא יוכל לרוות את הצמאון,</src>
+    <src s="24">שהם למעלה מבחי' נהר,</src>
+    <src s="25">כ"א בחי' מעין,</src>
+    <src s="26">ותרד העינה ותמלא כדה כ"ד ספרין דאורייתא,</src>
+    <src s="27">שיתגלה לעתיד כמ"ש ומעין מבית הוי' יצא גו',</src>
+    <src s="28">אך הגם שאין זה בגלוי נמשך הוא ממש בחי' זו עכשיו ע"י תורה ומצות מעשיות,</src>
+    <src s="29">ולכן בזה דוקא ירוה את הצמאון.</src>
+    <src s="30">דלפי פירוש זה הכתוב מבאר מדריגתן של ישראל שהם במדריגה עליונה ביותר ואהבתם לאלקות הוא בתוקף כל כך עד אשר גם הגילויים היותר נעלים לא יוכלו לרוות את צמאונם,</src>
+    <src s="31">ולפי פירוש התרגום והמדרש הכתוב מדבר כאשר ישראל הם בשפל המצב ביותר,</src>
+    <src s="32">דאחות לנו קטנה,</src>
+    <src s="33">קטנה בזכיות והם חוטאים עד אשר אומות העולם רוצים להשתוות לישראל.</src>
+    <src s="34">ובאמת הנה ב' הפירושים הנה לא זו בלבד שאין סותרים זה לזה אלא עוד מסייעים ומבארים זא"ז.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917050_theRebbe_195" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917050_theRebbe_195__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917050_theRebbe_195" title="מאמר הנני ממטיר לכם תשל"ז" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917050_theRebbe_195__p005">
+  <section v="12">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">ובזה יובן הנצחיות שבענין המן</src>
+    <src s="3">(דהתורה היא נצחית),</src>
+    <src s="4">דהיינו שבכל מקום ובכל זמן ובכל מעמד ומצב שיהודי נמצא,</src>
+    <src s="5">צריך לדעת שזה שיש לו הלחם מן הארץ,</src>
+    <src s="6">היינו כל הענינים שמקבל ע"י שעושה כלי בדרך הטבע,</src>
+    <src s="7">בכל מלאכתך אשר תעשה75,</src>
+    <src s="8">הנה לא על הלחם לבדו יחי' האדם כי על כל מוצא פי הוי' יחי' האדם.</src>
+    <src s="9">כי בהענין שמקבל בדרך הטבע ישנו שם המוצא פי הוי' שהוא השרש ומקור דכל הענינים כפי שהוא באלקות,</src>
+    <src s="10">עד למקור כל המקורות ושרש כל השרשים,</src>
+    <src s="11">שזה בא בהעשי' דכל מלאכתך אשר תעשה בעולם הזה התחתון בזמן הגלות ובחושך כפול ומכופל.</src>
+    <src s="12">ועד"ז הוא גם בעבודתו,</src>
+    <src s="13">דאע"פ שעבודתו היא באופן דאחרי ה"א תלכו76,</src>
+    <src s="14">באופן דיחו"ת ובאופן דאתכפיא,</src>
+    <src s="15">מ"מ יש לו הנתינת כח מענין המן,</src>
+    <src s="16">ועד שזה בא בגלוי.</src>
+    <src s="17">וכמובן מהמבואר77</src>
+    <src s="18">בענין דלגבי משה מילתא זוטרתא היא78,</src>
+    <src s="19">שלכן היא מילתא זוטרתא גם אצל כאו"א מישראל,</src>
+    <src s="20">הנה עד"ז הוא בעניננו דהנני ממטיר לכם לחם מן השמים שהוא בזכות משה79,</src>
+    <src s="21">ומשה תקן ברכת הזן,</src>
+    <src s="22">שלכן ישנו זה אצל כאו"א מישראל בכל מקום ובכל זמן ובכל מעמד ומצב שיהי'.</src>
+    <src s="23">וכמו שהוא בעבודה בכלל,</src>
+    <src s="24">כן הוא גם בלימוד התורה,</src>
+    <src s="25">דבאיזו דרגא בלימוד התורה שיהי',</src>
+    <src s="26">אפי' כשהתינוק שמתחיל לדבר שמלמדים אותו תורה,</src>
+    <src s="27">הנה אומרים תורה צוה לנו משה80,</src>
+    <src s="28">שבלימוד ודיבור זה יש לו כבר הענין דמשה,</src>
+    <src s="29">וכמבואר לעיל שענין המן שייך להכרה וידיעה שזהו"ע התורה,</src>
+    <src s="30">וממשיך ענין זה למטה עד שנעשה דם ובשר כבשרו ברוחניות,</src>
+    <src s="31">ועד שנעשה דם ובשר כבשרו גם בגשמיות כפשוטו32.</src>
+  </section>
+  <section v="13">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">והנה גילוי ענין זה הוא ע"י הפצת המעיינות דפנימיות התורה חוצה,</src>
+    <src s="3">שבא בגלוי עכ"פ בידיעה,</src>
+    <src s="4">עכ"פ באופן של עומר,</src>
+    <src s="5">במדידה והגבלה,</src>
+    <src s="6">שלכן כתיב לשון ממטיר</src>
+    <src s="7">(ולא טל כבכל המקומות).</src>
+    <src s="8">וזה פועל שכמו שהי' בענין המן בפעם הראשונה,</src>
+    <src s="9">שהי' עומר לגולגולת</src>
+    <src s="10">(כמשנת"ל)</src>
+    <src s="11">ואח"כ אכלו אותו ונהי' דם ובשר כבשרו גם בעקב שברגלים,</src>
+    <src s="12">הנה כן גם עתה מתגלה ענין הגולגולת הנ"ל.</src>
+    <src s="13">וכמשנת"ל דבכל מקום ובכל זמן ובכל מעמד ומצב שיהי',</src>
+    <src s="14">הרי החל מהענין בעבודה,</src>
+    <src s="15">הנה אף שבגלוי ישנו אצלו הענין דועד,</src>
+    <src s="16">מ"מ יודע שכשם שאין בלבך אלא אחד כך אין בלבנו אלא אחד,</src>
+    <src s="17">כי בלבבו פנימה ישנו הענין דאחד ממש,</src>
+    <src s="18">דלא כבחיצוניות שיש אצלו הענין דחילופי אתוון אחד,</src>
+    <src s="19">ועד"ז הוא גם בתורה,</src>
+    <src s="20">דמשהתינוק מתחיל לדבר כו' מלמדו תורה צוה לנו משה,</src>
+    <src s="21">ועאכו"כ כשכבר גדל בלימוד התורה ויש לו הענין דפנימיות התורה,</src>
+    <src s="22">הנה זה מגלה אח"כ הפנימיות דעולם.</src>
+    <src s="23">וזה נעשה ההכנה קרובה ומביא אח"כ את הגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="24">שאז יהיו הענינים דפנימיות עתיק בגלוי,</src>
+    <src s="25">ועד שיהי' אז ולא יכנף עוד מוריך81,</src>
+    <src s="26">ויהי' הגילוי פנים בפנים כמבואר בתניא פל"ו.</src>
+    <src s="27">וכבר הי' מעין זה בעת מתן תורה,</src>
+    <src s="28">שאז הי' בפעם הא' הענין דלמען אנסנו,</src>
+    <src s="29">הגבהה באופן שיהי' הליכה בתורה ילך בתורתי,</src>
+    <src s="30">וכמו שהי' מעין זה בשעת מתן תורה יהי' זה בגלוי ממש ובקרוב ממש בימות המשיח</src>
+    <src s="31">[אע"פ שעיקר קבלת השכר הוא באלף השביעי,</src>
+    <src s="32">כמבואר בתניא שם בהגה"ה],</src>
+    <src s="33">בגאולה האמיתית והשלימה ע"י משיח צדקנו.</src>
+  </section>
+</awtsmoosMeluketSource>

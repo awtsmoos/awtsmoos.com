@@ -1,0 +1,514 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 94,
+    "returned": 94,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914360_theRebbe_10\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914360_theRebbe_10__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that each of the Four Species represents Hashem through the aspect of unity, using the esrog as a primary example of how it unifies all seasonal changes.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And to understand this</t>\n    <t s=\"2\">(the connection of the sukkah and the taking of the Four Species to the gathering of the harvest)</t>\n    <t s=\"3\">we must preface what our sages, of blessed memory, said:18</t>\n    <t s=\"4\">\"A fruit of a beautiful tree\" — this is the Holy One, blessed be He; \"branches of date palms\" — this is the Holy One, blessed be He; \"a branch of a leafy tree\" — this is the Holy One, blessed be He; \"and willows of the brook\" — this is the Holy One, blessed be He.</t>\n    <t s=\"5\">(And they bring proofs from verses for this.)</t>\n    <t s=\"6\">And the Baal HaHilula19 explains,</t>\n    <t s=\"7\">that the fact that each of the four species indicates the Holy One, blessed be He, is from the aspect of the unity within them.</t>\n    <t s=\"8\">For the fruit20</t>\n    <t s=\"9\">of a beautiful tree is the esrog, which dwells on its tree from year to year,21</t>\n    <t s=\"10\">for during the year there are many changes from one extreme to the other, which is why it is called \"shanah\" (year), from the word \"shinui\" (change),22</t>\n    <t s=\"11\">because it contains all the changes of the climates of all six seasons mentioned in Scripture,23</t>\n    <t s=\"12\">and the esrog</t>\n    <t s=\"13\">(which dwells on its tree from year to year)</t>\n    <t s=\"14\">bears all the changes.</t>\n    <t s=\"15\">And moreover,</t>\n    <t s=\"16\">not only does it bear all the climates,</t>\n    <t s=\"17\">but it grows from them.</t>\n    <t s=\"18\">That is,</t>\n    <t s=\"19\">not only do the changes of climate not cause it any deficiency,</t>\n    <t s=\"20\">but it receives from them additional growth.24</t>\n    <t s=\"21\">For this is</t>\n    <t s=\"22\">(the true)</t>\n    <t s=\"23\">aspect of unity in the esrog,</t>\n    <t s=\"24\">that it unifies all the changes of the climates,</t>\n    <t s=\"25\">so that from all of them one thing is made</t>\n    <t s=\"26\">(the existence of the esrog).</t>\n    <t s=\"27\">And likewise with the lulav,</t>\n    <t s=\"28\">\"branches of date palms\"</t>\n    <t s=\"29\">(\"kafot\" —</t>\n    <t s=\"30\">spelled deficiently)</t>\n    <t s=\"31\">and our sages, of blessed memory, expounded that it must be \"kafot\" (bound),</t>\n    <t s=\"32\">that the leaves must be in a manner that they are fit to be bound and tied together with the spine as one thing.25</t>\n    <t s=\"33\">For although there are other trees whose branches are close to the tree,</t>\n    <t s=\"34\">it is not in the manner of \"kafot\"</t>\n    <t s=\"35\">(unity)</t>\n    <t s=\"36\">as in the lulav.26</t>\n    <t s=\"37\">And so too with the hadasim,</t>\n    <t s=\"38\">\"a branch of a leafy tree,\"</t>\n    <t s=\"39\">specifically \"avot\" (intertwined),</t>\n    <t s=\"40\">three in one cluster.27</t>\n    <t s=\"41\">For although they are three separate leaves</t>\n    <t s=\"42\">[a multiplicity of division,</t>\n    <t s=\"43\">for even two are many,</t>\n    <t s=\"44\">since the minimum of \"many\" is two,28</t>\n    <t s=\"45\">and all the more so three],</t>\n    <t s=\"46\">nevertheless they are \"avot\"</t>\n    <t s=\"47\">(like a braid29),</t>\n    <t s=\"48\">in one cluster.</t>\n    <t s=\"49\">And so too with the aravah</t>\n    <t s=\"50\">(willows of the brook)</t>\n    <t s=\"51\">which is called in the Gemara \"achvana,\"30</t>\n    <t s=\"52\">because they grow in brotherhood.31</t>\n    <t s=\"53\">For although they are \"arvei nachal\" (willows of the brook),</t>\n    <t s=\"54\">\"arvei\" being plural,</t>\n    <t s=\"55\">they are in brotherhood and unity,</t>\n    <t s=\"56\">and such is their manner of growth</t>\n    <t s=\"57\">(that they grow in brotherhood).</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the unity in the Four Species is specifically that from multiplicity, unity is achieved, as demonstrated by each species.</sectionSummaryBrief>\n    <t s=\"0\">Now, the aspect of unity in these four species is in a manner that from multiplicity, unity is made.</t>\n    <t s=\"1\">And as with the esrog,</t>\n    <t s=\"2\">the climates of the six seasons of the year are different from each other</t>\n    <t s=\"3\">(to the point that they are opposites),</t>\n    <t s=\"4\">and nevertheless they are later unified and become one thing</t>\n    <t s=\"5\">(the existence of the esrog).</t>\n    <t s=\"6\">And so too with the lulav,</t>\n    <t s=\"7\">for from the very fact that they say it must be \"kafot\" (bound), it is understood that it has separate leaves that need to be bound together.32</t>\n    <t s=\"8\">And so too with the hadas, that it must have three separate leaves and that nevertheless they become unified with each other</t>\n    <t s=\"9\">(in one cluster).</t>\n    <t s=\"10\">And so too with the willows of the brook,</t>\n    <t s=\"11\">that they are a multiplicity of willows</t>\n    <t s=\"12\">(\"arvei\" being plural33)</t>\n    <t s=\"13\">and nevertheless they are unified and grow in brotherhood.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section connects the mitzvah of the Four Species to the holiday of Sukkos, explaining that the essence of the sukkah is peace, meaning that from multiplicity, unity is achieved.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And this is the connection of the mitzvah of taking the Four Species with the holiday of Sukkos,</t>\n    <t s=\"2\">for the essence of the sukkah is peace,34</t>\n    <t s=\"3\">that is, that from multiplicity, unity is made.</t>\n    <t s=\"4\">From this it is also understood regarding the holiday of Sukkos,</t>\n    <t s=\"5\">that it is</t>\n    <t s=\"6\">(as above at the beginning of the maamar)</t>\n    <t s=\"7\">called by the name \"in sukkot you shall dwell,\"</t>\n    <t s=\"8\">whose essence is that from multiplicity, unity is made.</t>\n    <t s=\"9\">For this is the holiday of Sukkos, seven days,35</t>\n    <t s=\"10\">\"seven days\" being the matter of division,</t>\n    <t s=\"11\">for each day is different from its fellow.</t>\n    <t s=\"12\">To the point that they include the division of all the duration of time.</t>\n    <t s=\"13\">For the seven days of the week are the seven days of the cycle.36</t>\n    <t s=\"14\">For this is what we say each week, \"today is day one,\"</t>\n    <t s=\"15\">\"today is day two,\" etc.,</t>\n    <t s=\"16\">for seemingly, from the creation of the world until now there have already been thousands and myriads of days, so why do we count day one, day two, day three, etc.?</t>\n    <t s=\"17\">And the explanation of this is known,37</t>\n    <t s=\"18\">that this is because they are the days of the cycle that revolve in a circuit.</t>\n    <t s=\"19\">And the essence of the holiday of Sukkos, seven days, is,</t>\n    <t s=\"20\">that all seven days become one thing,</t>\n    <t s=\"21\">the holiday of Sukkos.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914360_theRebbe_10",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914360_theRebbe_10__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that each of the Four Species represents Hashem through the aspect of unity, using the esrog as a primary example of how it unifies all seasonal changes.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And to understand this"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(the connection of the sukkah and the taking of the Four Species to the gathering of the harvest)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "we must preface what our sages, of blessed memory, said:18"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "\"A fruit of a beautiful tree\" — this is the Holy One, blessed be He; \"branches of date palms\" — this is the Holy One, blessed be He; \"a branch of a leafy tree\" — this is the Holy One, blessed be He; \"and willows of the brook\" — this is the Holy One, blessed be He."
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "(And they bring proofs from verses for this.)"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "And the Baal HaHilula19 explains,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "that the fact that each of the four species indicates the Holy One, blessed be He, is from the aspect of the unity within them."
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "For the fruit20"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "of a beautiful tree is the esrog, which dwells on its tree from year to year,21"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "for during the year there are many changes from one extreme to the other, which is why it is called \"shanah\" (year), from the word \"shinui\" (change),22"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "because it contains all the changes of the climates of all six seasons mentioned in Scripture,23"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "and the esrog"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(which dwells on its tree from year to year)"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "bears all the changes."
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "not only does it bear all the climates,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "but it grows from them."
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "That is,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "not only do the changes of climate not cause it any deficiency,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "but it receives from them additional growth.24"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "For this is"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "(the true)"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "aspect of unity in the esrog,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "that it unifies all the changes of the climates,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "so that from all of them one thing is made"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(the existence of the esrog)."
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "And likewise with the lulav,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "\"branches of date palms\""
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "(\"kafot\" —"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "spelled deficiently)"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "and our sages, of blessed memory, expounded that it must be \"kafot\" (bound),"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "that the leaves must be in a manner that they are fit to be bound and tied together with the spine as one thing.25"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "For although there are other trees whose branches are close to the tree,"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "it is not in the manner of \"kafot\""
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "(unity)"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "as in the lulav.26"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "And so too with the hadasim,"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "\"a branch of a leafy tree,\""
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "specifically \"avot\" (intertwined),"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "three in one cluster.27"
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "For although they are three separate leaves"
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "[a multiplicity of division,"
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "for even two are many,"
+          },
+          {
+            "v": 3,
+            "s": 44,
+            "translation": "since the minimum of \"many\" is two,28"
+          },
+          {
+            "v": 3,
+            "s": 45,
+            "translation": "and all the more so three],"
+          },
+          {
+            "v": 3,
+            "s": 46,
+            "translation": "nevertheless they are \"avot\""
+          },
+          {
+            "v": 3,
+            "s": 47,
+            "translation": "(like a braid29),"
+          },
+          {
+            "v": 3,
+            "s": 48,
+            "translation": "in one cluster."
+          },
+          {
+            "v": 3,
+            "s": 49,
+            "translation": "And so too with the aravah"
+          },
+          {
+            "v": 3,
+            "s": 50,
+            "translation": "(willows of the brook)"
+          },
+          {
+            "v": 3,
+            "s": 51,
+            "translation": "which is called in the Gemara \"achvana,\"30"
+          },
+          {
+            "v": 3,
+            "s": 52,
+            "translation": "because they grow in brotherhood.31"
+          },
+          {
+            "v": 3,
+            "s": 53,
+            "translation": "For although they are \"arvei nachal\" (willows of the brook),"
+          },
+          {
+            "v": 3,
+            "s": 54,
+            "translation": "\"arvei\" being plural,"
+          },
+          {
+            "v": 3,
+            "s": 55,
+            "translation": "they are in brotherhood and unity,"
+          },
+          {
+            "v": 3,
+            "s": 56,
+            "translation": "and such is their manner of growth"
+          },
+          {
+            "v": 3,
+            "s": 57,
+            "translation": "(that they grow in brotherhood)."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the unity in the Four Species is specifically that from multiplicity, unity is achieved, as demonstrated by each species.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "Now, the aspect of unity in these four species is in a manner that from multiplicity, unity is made."
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And as with the esrog,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "the climates of the six seasons of the year are different from each other"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(to the point that they are opposites),"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "and nevertheless they are later unified and become one thing"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "(the existence of the esrog)."
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "And so too with the lulav,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "for from the very fact that they say it must be \"kafot\" (bound), it is understood that it has separate leaves that need to be bound together.32"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And so too with the hadas, that it must have three separate leaves and that nevertheless they become unified with each other"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "(in one cluster)."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "And so too with the willows of the brook,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "that they are a multiplicity of willows"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "(\"arvei\" being plural33)"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and nevertheless they are unified and grow in brotherhood."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section connects the mitzvah of the Four Species to the holiday of Sukkos, explaining that the essence of the sukkah is peace, meaning that from multiplicity, unity is achieved.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And this is the connection of the mitzvah of taking the Four Species with the holiday of Sukkos,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "for the essence of the sukkah is peace,34"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "that is, that from multiplicity, unity is made."
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "From this it is also understood regarding the holiday of Sukkos,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "that it is"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "(as above at the beginning of the maamar)"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "called by the name \"in sukkot you shall dwell,\""
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "whose essence is that from multiplicity, unity is made."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "For this is the holiday of Sukkos, seven days,35"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "\"seven days\" being the matter of division,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "for each day is different from its fellow."
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "To the point that they include the division of all the duration of time."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "For the seven days of the week are the seven days of the cycle.36"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "For this is what we say each week, \"today is day one,\""
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "\"today is day two,\" etc.,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "for seemingly, from the creation of the world until now there have already been thousands and myriads of days, so why do we count day one, day two, day three, etc.?"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "And the explanation of this is known,37"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "that this is because they are the days of the cycle that revolve in a circuit."
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "And the essence of the holiday of Sukkos, seven days, is,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "that all seven days become one thing,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "the holiday of Sukkos."
+          }
+        ]
+      }
+    ]
+  }
+}

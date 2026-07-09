@@ -1,0 +1,128 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914333_theRebbe_315" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914333_theRebbe_315" title="מאמר בסוכות תשבו תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אור לי"ג תשרי,</src>
+    <src s="2">הילולא דאדמו"ר מהר"ש נ"ע,</src>
+    <src s="3">ה'תשמ"א*</src>
+  </section>
+  <section v="1">
+    <src s="0">בסוכות תשבו שבעת ימים גו' למען ידעו דורותיכם כי בסוכות הושבתי את בני ישראל בהוציאי אותם מארץ מצרים1.</src>
+    <src s="1">הנה פסוק זה מביא רבינו הזקן בשו"ע ריש הלכות סוכה2</src>
+    <src s="2">ומדייק בלשונו הזהב</src>
+    <src s="3">(דבסוכות הושבתי גו')</src>
+    <src s="4">הם היו ענני כבודו שהקיפם בהם לצל כו'3</src>
+    <src s="5">ודוגמא לזה צונו לעשות סוכות העשויות לצל.</src>
+    <src s="6">ומבאר אדמו"ר מהר"ש בעל ההילולא בהמאמרים דחג הסוכות שנאמרו לפני מאה שנה4,</src>
+    <src s="7">דסכך הסוכה נעשה מענן הקטורת דיוהכ"פ5,</src>
+    <src s="8">דענן הוא כמו צל.</src>
+    <src s="9">אלא שביום הכפורים הוא בהעלם עדיין</src>
+    <src s="10">(בכסא6),</src>
+    <src s="11">ובא בגילוי ליום חגינו6,</src>
+    <src s="12">בחג הסוכות7.</src>
+    <src s="13">והנה בסוכה צ"ל צלתה מרובה מחמתה8,</src>
+    <src s="14">היינו שבסוכה יש גם חמתה9,</src>
+    <src s="15">אלא שצלתה צ"ל מרובה מחמתה.</src>
+    <src s="16">ועד"ז ביוהכ"פ יש גם הענין דחמתה,</src>
+    <src s="17">אלא שעיקר העבודה דיוהכ"פ הוא ענין הצל.</src>
+    <src s="18">דהנה ב' הענינים דחמתה וצלתה בהעבודות בביהמ"ק,</src>
+    <src s="19">ועד"ז בתפלות שבמקום קרבנות תקנום10,</src>
+    <src s="20">הם עבודת הקרבנות ועבודת הקטורת11.</src>
+    <src s="21">דבקרבנות כתיב12</src>
+    <src s="22">לחמי לאשי גו',</src>
+    <src s="23">ואשי,</src>
+    <src s="24">אש שבאה מן ההדיוט וגם אש שירד מן השמים13,</src>
+    <src s="25">הו"ע החום,</src>
+    <src s="26">חמתה.</src>
+    <src s="27">ועבודת הקטורת,</src>
+    <src s="28">שעיקרה הוא הענן,</src>
+    <src s="29">הו"ע צלתה כנ"ל.</src>
+    <src s="30">וזהו מה שביוהכ"פ יש הענין דחמתה,</src>
+    <src s="31">שהרי גם אז יש עבודת הקרבנות.</src>
+    <src s="32">אלא שעיקר העבודה דיוהכ"פ היא העבודה דקטורת,</src>
+    <src s="33">בחי' צל,</src>
+    <src s="34">ומזה נמשך גם בסוכות,</src>
+    <src s="35">ליום חגינו,</src>
+    <src s="36">שצ"ל צלתה מרובה מחמתה.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וביאור ההפרש בין קרבנות לקטורת,</src>
+    <src s="2">יובן משמם אשר יקראו להם בלשון הקודש</src>
+    <src s="3">[כתורת הבעש"ט הידועה14].</src>
+    <src s="4">הנה קרבן הוא מלשון קירוב15,</src>
+    <src s="5">וכמו שמבאר כ"ק מו"ח אדמו"ר בדרושי ההילולא שלו16</src>
+    <src s="6">שקרבנות הו"ע קירוב הכחות והחושים,</src>
+    <src s="7">ורזא דקורבנא עולה עד רזא דא"ס17.</src>
+    <src s="8">וקטורת הוא לשון קשר</src>
+    <src s="9">[כי כל קשר שבפסוק מתורגם בלשון קטר18],</src>
+    <src s="10">דלא רק שהוא מקורב לאלקות,</src>
+    <src s="11">ומקורב בתכלית הקירוב,</src>
+    <src s="12">אלא שהוא גם מקושר עם אלקות,</src>
+    <src s="13">ומקושר בתכלית.</src>
+    <src s="14">וההפרש בין קירוב</src>
+    <src s="15">(קרבנות)</src>
+    <src s="16">והתקשרות</src>
+    <src s="17">(קטורת)</src>
+    <src s="18">הוא,</src>
+    <src s="19">דכאשר הוא מקורב לאלקות גם כשהוא מקורב בתכלית הקירוב,</src>
+    <src s="20">הוא בבחי' מציאות עדיין.</src>
+    <src s="21">וזהו שבקרבנות כתיב לחמי לאשי</src>
+    <src s="22">[והעבודה דקרבנות הו"ע חמתה,</src>
+    <src s="23">כנ"ל],</src>
+    <src s="24">כי העבודה דקרבנות היא בדרך כלל עבודה שע"פ טעם ודעת19,</src>
+    <src s="25">וגם זה שנמשך מלמעלה ע"י עבודה זו,</src>
+    <src s="26">נחת רוח לפני שאמרתי ונעשה רצוני20,</src>
+    <src s="27">שייך לטעם ודעת,</src>
+    <src s="28">והאהבה שע"פ טעם ודעת היא בבחי' מורגש21,</src>
+    <src s="29">ולכן שייך בה בחי' חום,</src>
+    <src s="30">ותוקפו שלהובא22</src>
+    <src s="31">דרחימותא11.</src>
+    <src s="32">משא"כ העבודה דקטורת היא בדרך כלל העבודה ברעותא דלבא שלמעלה מטעם ודעת23,</src>
+    <src s="33">שבבחי' זו אין שייך ענין המורגש.</src>
+    <src s="34">וזהו שקטורת הוא לשון קשר,</src>
+    <src s="35">שהוא ההתקשרות והדביקות באוא"ס ב"ה בלי שום הרגש11,</src>
+    <src s="36">שאינו שום מציאות לעצמו וכל מציאותו הוא רק מה שהוא מקושר עמו,</src>
+    <src s="37">עד שנעשים כולא חד.</src>
+    <src s="38">ובלשון הידוע24</src>
+    <src s="39">בחד קטירא אתקטרנא בי' בקוב"ה בי' אחידא</src>
+    <src s="40">[דהגם שממשיך גם בי' להיטא,</src>
+    <src s="41">הרי מכיון שבי' להיטא</src>
+    <src s="42">(שם)</src>
+    <src s="43">הוא לאחרי בי' אחידא אין בזה הרגש],</src>
+    <src s="44">דענין בי' אחידא הוא שנעשה חד ממש עם אור אין סוף.</src>
+  </section>
+</awtsmoosMeluketSource>

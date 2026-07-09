@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914734_theRebbe_896" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914734_theRebbe_896" title="מאמר בורא ניב שפתיים תשמ"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">אור לי"ג תשרי,</src>
+    <src s="2">הילולא דכ"ק אדמו"ר מהר"ש,</src>
+    <src s="3">ה'תשמ"ח</src>
+  </section>
+  <section v="1">
+    <src s="0">בורא ניב שפתים שלום שלום לרחוק ולקרוב אמר הוי' ורפאתיו1,</src>
+    <src s="1">ומדייק כ"ק מו"ח אדמו"ר במאמרו ד"ה זה שנאמר בי"ג תשרי לפני חמישים שנה2,</src>
+    <src s="2">דניב שפתים הוא דיבור הבא ממילא</src>
+    <src s="3">[דמשמעות הלשון ניב שפתים הוא שהניב</src>
+    <src s="4">(דיבור3)</src>
+    <src s="5">בא מהשפתים עצמם,</src>
+    <src s="6">היינו שהדיבור הוא לא ע"י מחשבה וכוונה אלא שבא מעצמו],</src>
+    <src s="7">ומהי המעלה בדיבור הבא ממילא.</src>
+    <src s="8">ולהוסיף,</src>
+    <src s="9">דלשון הכתוב הוא בורא ניב שפתים,</src>
+    <src s="10">דפירוש בריאה הוא חידוש,</src>
+    <src s="11">שנעשה דבר חדש שלא הי' מקודם,</src>
+    <src s="12">בדוגמת החידוש דיש מאין4.</src>
+    <src s="13">[דהגם שלשון בריאה שייך גם בהתהוות יש מיש,</src>
+    <src s="14">וכמובן גם מזה שכל מה שנתהווה בששת ימי בראשית</src>
+    <src s="15">(גם נבראים הפרטים שנתהוו לאחרי יום הראשון דמע"ב,</src>
+    <src s="16">הגם שנתהוו מהשמים והארץ שנבראו ביום הראשון דמע"ב5)</src>
+    <src s="17">נקרא בשם בריאה6,</src>
+    <src s="18">וכמ"ש7</src>
+    <src s="19">ויברא אלקים את האדם גו',</src>
+    <src s="20">אף שגוף האדם נוצר מעפר8,</src>
+    <src s="21">וגם בנשמת האדם כתיב8</src>
+    <src s="22">ויפח באפיו נשמת חיים,</src>
+    <src s="23">דנפיחה היא לא בריאה יש מאין אלא המשכת ההבל שהי' גם מקודם,</src>
+    <src s="24">יש מיש,</src>
+    <src s="25">[ולהעיר,</src>
+    <src s="26">דהיש שממנו נתהווה הנשמה הוא אמיתית היש,</src>
+    <src s="27">שהרי מאן דנפח מתוכי' נפח9,</src>
+    <src s="28">ותוכי'</src>
+    <src s="29">(תוכיותו ופנימיותו10)</src>
+    <src s="30">הוא אמיתית היש],</src>
+    <src s="31">הרי זה שלשון בריאה הוא בהתהוות יש מיש הוא דוקא בהתהוות שהיא באופן של חידוש ועד להחידוש שבדוגמת החידוש דיש מאין].</src>
+    <src s="32">ומזה שנאמר בורא ניב שפתים,</src>
+    <src s="33">שניב שפתים הוא חידוש11,</src>
+    <src s="34">מוכח,</src>
+    <src s="35">שהעילוי דניב שפתים,</src>
+    <src s="36">דיבור הבא ממילא,</src>
+    <src s="37">לגבי דיבור שע"י מחשבה וכוונה,</src>
+    <src s="38">הוא עילוי שבאין ערוך</src>
+    <src s="39">(חידוש).</src>
+    <src s="40">וצריך להבין,</src>
+    <src s="41">הרי דיבור שע"י מחשבה וכוונה הוא</src>
+    <src s="42">(בפשטות)</src>
+    <src s="43">נעלה יותר מדיבור שבא ממילא,</src>
+    <src s="44">וממ"ש בורא ניב שפתים מוכח שדיבור שבא ממילא הוא נעלה יותר ועד לעילוי שבאין ערוך.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">וממשיך בהמאמר,</src>
+    <src s="2">דבפירוש הרד"ק עה"פ ישנם שני פירושים בלרחוק ולקרוב.</src>
+    <src s="3">הרד"ק עצמו מפרש לרחוק מירושלים ולקרוב לה,</src>
+    <src s="4">ולאח"ז מביא שרז"ל פירשו דלרחוק הם בעלי תשובה ולקרוב הם צדיקים.</src>
+    <src s="5">וכדאיתא בגמרא12,</src>
+    <src s="6">מקום שבעלי תשובה עומדין צדיקים גמורים אין עומדין,</src>
+    <src s="7">שנאמר שלום שלום לרחוק ולקרוב,</src>
+    <src s="8">לרחוק ברישא והדר לקרוב.</src>
+    <src s="9">וצריך להבין,</src>
+    <src s="10">דמזה שמקדים בהמאמר פירוש הרד"ק לפני פירוש הגמרא משמע שלהענין המבואר בהמאמר נוגע יותר פירוש הרד"ק,</src>
+    <src s="11">וצריך ביאור,</src>
+    <src s="12">דבהמאמר מדבר בענין מעלת הבע"ת על צדיקים</src>
+    <src s="13">(כדלקמן),</src>
+    <src s="14">ולמה מקדים פירוש הרד"ק שלרחוק הוא רחוק מירושלים לפני פירוש הגמרא שלרחוק הוא בעלי תשובה.</src>
+  </section>
+</awtsmoosMeluketSource>

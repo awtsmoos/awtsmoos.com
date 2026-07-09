@@ -1,0 +1,28 @@
+{
+  "id": "060c35e9-f120-48e4-aed2-63d99d7f5227",
+  "object": "chat.completion",
+  "created": 1783582291,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917075_theRebbe_40\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917075_theRebbe_40__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar, noting it was given on the fifteenth of Shevat.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Monday, Parshas Yisro,</t>\n    <t s=\"2\">the fifteenth of Shevat,</t>\n    <t s=\"3\">the year 5738*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the phrase \"I have come to My garden\" refers to the drawing down of the Divine Presence into the lower world, which was primarily accomplished through the establishment of the Tabernacle.</sectionSummaryBrief>\n    <t s=\"0\">\"I have come to My garden, My sister, My bride\"1,</t>\n    <t s=\"1\">and the Rebbe, my father-in-law, the Rebbe</t>\n    <t s=\"2\">[whose yahrzeit is on the tenth of Shevat,</t>\n    <t s=\"3\">and the completion of all the days of the month is on the fifteenth day,</t>\n    <t s=\"4\">on which the moon stands in its fullness2]</t>\n    <t s=\"5\">in his well-known maamar beginning with the words \"Zeh\"3,</t>\n    <t s=\"6\">it is brought in the Midrash4</t>\n    <t s=\"7\">that the explanation of \"I have come to My garden\" is the drawing down and descent of the essential Divine Presence below, to earth.</t>\n    <t s=\"8\">And this primary drawing down occurred when the Tabernacle was erected,</t>\n    <t s=\"9\">as it is brought in the Midrash there: \"And when did the Shechinah dwell upon it</t>\n    <t s=\"10\">(on earth)?</t>\n    <t s=\"11\">On the day the Tabernacle was erected.\"</t>\n    <t s=\"12\">And as it is stated5,</t>\n    <t s=\"13\">\"And they shall make for Me a Sanctuary\"</t>\n    <t s=\"14\">(and then)</t>\n    <t s=\"15\">\"and I will dwell in their midst.\"</t>\n    <t s=\"16\">And although also at the Giving of the Torah there was a drawing down and descent of the Shechinah below to earth, as it is stated6,</t>\n    <t s=\"17\">\"And the L-rd descended upon Mount Sinai,\"</t>\n    <t s=\"18\">one can say7,</t>\n    <t s=\"19\">that the essential concept of the drawing down and descent of the Shechinah below to earth is when the drawing down below is in an internal manner</t>\n    <t s=\"20\">(in a way that the lower is refined and elevated through this8),</t>\n    <t s=\"21\">and this is specifically when the drawing down is through the service of the lower being,</t>\n    <t s=\"22\">and therefore it says that the primary drawing down of the Shechinah on earth was when the Tabernacle was erected,</t>\n    <t s=\"23\">because the drawing down that was at the Giving of the Torah was from the aspect of Above,</t>\n    <t s=\"24\">and therefore the revelation was only temporary,</t>\n    <t s=\"25\">and the superiority of the drawing down of the Shechinah in the Tabernacle is that the drawing down</t>\n    <t s=\"26\">(\"and I will dwell in their midst\")</t>\n    <t s=\"27\">is through service and action,</t>\n    <t s=\"28\">\"And they shall make for Me a Sanctuary.\"</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section adds that the superiority of the drawing down in the Tabernacle and Temple is not only because it comes through service, but specifically through the service of subjugation and transformation of evil.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that the superiority of the drawing down in the Tabernacle and Temple</t>\n    <t s=\"2\">(over the drawing down that was at the Giving of the Torah)</t>\n    <t s=\"3\">is not only from the aspect that the drawing down is through service</t>\n    <t s=\"4\">(in general),</t>\n    <t s=\"5\">but also from the aspect that the service of \"And they shall make for Me a Sanctuary\" is the service of subjugation and transformation</t>\n    <t s=\"6\">(the transformation of the folly of idolatry into the folly of holiness)9.</t>\n    <t s=\"7\">For even regarding a drawing down that comes through service,</t>\n    <t s=\"8\">the drawing down that comes through the service of subjugation and transformation is more elevated than the drawing down that comes through service in matters of holiness10,</t>\n    <t s=\"9\">because the advantage of light comes specifically from darkness,</t>\n    <t s=\"10\">for through the darkness being transformed into light, an advantage is produced in the light,</t>\n    <t s=\"11\">as is explained at length in the maamar11.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1737,
+    "completion_tokens": 1313,
+    "total_tokens": 3050,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 1353
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

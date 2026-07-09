@@ -1,0 +1,384 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 68,
+    "returned": 68,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918762_theRebbe_940\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section introduces the maamar with the date and occasion of the second day of Shavuos 5729.</sectionSummaryBrief>\n    <t s=\"0\">B”H.</t>\n    <t s=\"1\">The second day of the festival of Shavuos,</t>\n    <t s=\"2\">the year 5729 (1969).</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the apparent redundancy of the word \"leimor\" in the verse, and introduces two interpretations regarding the innovation of the Giving of the Torah.</sectionSummaryBrief>\n    <t s=\"0\">“And Elokim spoke all these words, saying,”</t>\n    <t s=\"1\">And the precise point is known</t>\n    <t s=\"2\">regarding what is written “saying,”</t>\n    <t s=\"3\">that since all of Israel</t>\n    <t s=\"4\">(the souls of all generations)</t>\n    <t s=\"5\">were present at Mount Sinai and heard the Ten Commandments from the Holy One, blessed be He, Himself,</t>\n    <t s=\"6\">what is the meaning of “saying”?</t>\n    <t s=\"7\">It means “to say to others.”</t>\n    <t s=\"8\">And the point of the explanation in this is,</t>\n    <t s=\"9\">that through this the verse explains the innovation of the Giving of the Torah.</t>\n    <t s=\"10\">For seemingly, even before the Giving of the Torah they studied the entire Torah</t>\n    <t s=\"11\">[as is also understood from the fact that Avraham Avinu fulfilled the entire Torah before it was given,</t>\n    <t s=\"12\">for in order to fulfill the Torah one must study it,</t>\n    <t s=\"13\">and certainly</t>\n    <t s=\"14\">Avraham taught the entire Torah to his son Yitzchak, and Yitzchak taught it to Yaakov and his sons],</t>\n    <t s=\"15\">and what is the innovation of the Giving of the Torah?</t>\n    <t s=\"16\">And the verse explains,</t>\n    <t s=\"17\">that the innovation of “And Elokim spoke all these words” at the Giving of the Torah is,</t>\n    <t s=\"18\">that through this the power was given to each and every Jew of all generations,</t>\n    <t s=\"19\">that his study of Torah should be in a manner of “saying.”</t>\n    <t s=\"20\">And there are two explanations in this.</t>\n    <t s=\"21\">That through his study of Torah he causes the Holy One, blessed be He, to speak these words,</t>\n    <t s=\"22\">for whoever reads and reviews, the Holy One, blessed be He, reads and reviews opposite him,</t>\n    <t s=\"23\">according to which the explanation of “saying”</t>\n    <t s=\"24\">(“to say to others”)</t>\n    <t s=\"25\">is,</t>\n    <t s=\"26\">that the person who studies Torah says to the Holy One, blessed be He,</t>\n    <t s=\"27\">as it were, that He should repeat his words.</t>\n    <t s=\"28\">And furthermore,</t>\n    <t s=\"29\">that a person’s study of Torah should be in a manner of “saying,”</t>\n    <t s=\"30\">to repeat the words that the Holy One, blessed be He, says,</t>\n    <t s=\"31\">as it is written,</t>\n    <t s=\"32\">“May my tongue answer Your word,”</t>\n    <t s=\"33\">that the words of Torah that a person says are “Your word,” and “my tongue answers” like one who answers after the reader.</t>\n    <t s=\"34\">And there is another explanation of “And [He] spoke… saying,”</t>\n    <t s=\"35\">that “And Elokim spoke all these words,”</t>\n    <t s=\"36\">the Ten Commandments which are the general principles of the entire Torah,</t>\n    <t s=\"37\">is “saying,”</t>\n    <t s=\"38\">that the Ten Commandments</t>\n    <t s=\"39\">(Torah that is above the world)</t>\n    <t s=\"40\">should be drawn down into the Ten Utterances through which</t>\n    <t s=\"41\">the world was created.</t>\n    <t s=\"42\">And likewise is it in a person’s study of Torah,</t>\n    <t s=\"43\">that it is in a manner of “And [He] spoke… saying,”</t>\n    <t s=\"44\">that from his Torah speech an “utterance” is made,</t>\n    <t s=\"45\">the drawing down of influence below.</t>\n    <t s=\"46\">And one must understand the connection and relevance of all the above matters in “saying.”</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section cites the Mitteler Rebbe's maamar and the Midrash, explaining that the voice at Sinai was tailored to each individual's capacity, including the physical body.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">Now, in the maamar of the Mitteler Rebbe beginning with this verse, which was said one hundred years ago,</t>\n    <t s=\"2\">(after the precise point that the word “leimor” seems superfluous),</t>\n    <t s=\"3\">he brings what is stated in the Yalkut,</t>\n    <t s=\"4\">“When the Holy One, blessed be He, was speaking, each Jew would say, ‘The speech speaks with me,’ as it is stated,</t>\n    <t s=\"5\">‘I am the L‑rd your G‑d’ in the singular.”</t>\n    <t s=\"6\">And he explains,</t>\n    <t s=\"7\">that this is what is stated in the Midrash</t>\n    <t s=\"8\">on the verse “I am the L‑rd your G‑d,”</t>\n    <t s=\"9\">that the voice they heard at the Ten Commandments was according to the capacity of each individual,</t>\n    <t s=\"10\">the youths according to their capacity, the elders according to their capacity, and the children according to their capacity.</t>\n    <t s=\"11\">And it can be said,</t>\n    <t s=\"12\">that from the reasons for this that he also brings from the statement of the Midrash,</t>\n    <t s=\"13\">it is,</t>\n    <t s=\"14\">that through this it is understood that the matter of “the speech speaks with me”</t>\n    <t s=\"15\">(to each one individually)</t>\n    <t s=\"16\">is not only in regard to the soul but also in regard to the body,</t>\n    <t s=\"17\">for the distinction of youths, elders, and children is from the aspect of the body.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918762_theRebbe_940",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section introduces the maamar with the date and occasion of the second day of Shavuos 5729.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B”H."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "The second day of the festival of Shavuos,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "the year 5729 (1969)."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the apparent redundancy of the word \"leimor\" in the verse, and introduces two interpretations regarding the innovation of the Giving of the Torah.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "“And Elokim spoke all these words, saying,”"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the precise point is known"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "regarding what is written “saying,”"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "that since all of Israel"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "(the souls of all generations)"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "were present at Mount Sinai and heard the Ten Commandments from the Holy One, blessed be He, Himself,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "what is the meaning of “saying”?"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "It means “to say to others.”"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "And the point of the explanation in this is,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "that through this the verse explains the innovation of the Giving of the Torah."
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "For seemingly, even before the Giving of the Torah they studied the entire Torah"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "[as is also understood from the fact that Avraham Avinu fulfilled the entire Torah before it was given,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "for in order to fulfill the Torah one must study it,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "and certainly"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "Avraham taught the entire Torah to his son Yitzchak, and Yitzchak taught it to Yaakov and his sons],"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "and what is the innovation of the Giving of the Torah?"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And the verse explains,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "that the innovation of “And Elokim spoke all these words” at the Giving of the Torah is,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "that through this the power was given to each and every Jew of all generations,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "that his study of Torah should be in a manner of “saying.”"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "And there are two explanations in this."
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "That through his study of Torah he causes the Holy One, blessed be He, to speak these words,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "for whoever reads and reviews, the Holy One, blessed be He, reads and reviews opposite him,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "according to which the explanation of “saying”"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "(“to say to others”)"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "is,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "that the person who studies Torah says to the Holy One, blessed be He,"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "as it were, that He should repeat his words."
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "that a person’s study of Torah should be in a manner of “saying,”"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "to repeat the words that the Holy One, blessed be He, says,"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "“May my tongue answer Your word,”"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "that the words of Torah that a person says are “Your word,” and “my tongue answers” like one who answers after the reader."
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "And there is another explanation of “And [He] spoke… saying,”"
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "that “And Elokim spoke all these words,”"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "the Ten Commandments which are the general principles of the entire Torah,"
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "is “saying,”"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "that the Ten Commandments"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "(Torah that is above the world)"
+          },
+          {
+            "v": 1,
+            "s": 40,
+            "translation": "should be drawn down into the Ten Utterances through which"
+          },
+          {
+            "v": 1,
+            "s": 41,
+            "translation": "the world was created."
+          },
+          {
+            "v": 1,
+            "s": 42,
+            "translation": "And likewise is it in a person’s study of Torah,"
+          },
+          {
+            "v": 1,
+            "s": 43,
+            "translation": "that it is in a manner of “And [He] spoke… saying,”"
+          },
+          {
+            "v": 1,
+            "s": 44,
+            "translation": "that from his Torah speech an “utterance” is made,"
+          },
+          {
+            "v": 1,
+            "s": 45,
+            "translation": "the drawing down of influence below."
+          },
+          {
+            "v": 1,
+            "s": 46,
+            "translation": "And one must understand the connection and relevance of all the above matters in “saying.”"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section cites the Mitteler Rebbe's maamar and the Midrash, explaining that the voice at Sinai was tailored to each individual's capacity, including the physical body.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "Now, in the maamar of the Mitteler Rebbe beginning with this verse, which was said one hundred years ago,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "(after the precise point that the word “leimor” seems superfluous),"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "he brings what is stated in the Yalkut,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "“When the Holy One, blessed be He, was speaking, each Jew would say, ‘The speech speaks with me,’ as it is stated,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "‘I am the L‑rd your G‑d’ in the singular.”"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And he explains,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "that this is what is stated in the Midrash"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "on the verse “I am the L‑rd your G‑d,”"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "that the voice they heard at the Ten Commandments was according to the capacity of each individual,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "the youths according to their capacity, the elders according to their capacity, and the children according to their capacity."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "that from the reasons for this that he also brings from the statement of the Midrash,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "it is,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "that through this it is understood that the matter of “the speech speaks with me”"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(to each one individually)"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "is not only in regard to the soul but also in regard to the body,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "for the distinction of youths, elders, and children is from the aspect of the body."
+          }
+        ]
+      }
+    ]
+  }
+}

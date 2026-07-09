@@ -1,0 +1,89 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" title="מאמר ויגש אליו יהודה תשכ"ה" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p006">
+  <section v="15">
+    <src s="0">ויש לומר הביאור בזה,</src>
+    <src s="1">שע"י שרבי העמיד אותם לפני התיבה ועשה אותם לשלוחי ציבור דכל ישראל,</src>
+    <src s="2">פעל זה על כל ישראל</src>
+    <src s="3">(גם על אלו שלא ידעו כלל מכל הענין)52</src>
+    <src s="4">שיהיו נגררים אחרי הציבור שהיו בשעת תפלת ר"ח ובניו,</src>
+    <src s="5">ומכש"כ אחרי ר"ח ובניו עצמם</src>
+    <src s="6">(השלוחי ציבור),</src>
+    <src s="7">ולכן,</src>
+    <src s="8">ההתעוררות דהציבור שהיו בשעת התפלה,</src>
+    <src s="9">ותפלתם של ר"ח ובניו,</src>
+    <src s="10">פעלו בפנימיות על כל ישראל,</src>
+    <src s="11">ועי"ז בטלו המסכים.</src>
+  </section>
+  <section v="16">
+    <src s="0">ט)</src>
+    <src s="1">והנה זה שנתבאר לעיל</src>
+    <src s="2">(סעיף ד)</src>
+    <src s="3">דהמשכת האור שלמעלה מהשתלשלות שע"י תפלה היא שעל ידו נעשה שינוי בעניני העולם</src>
+    <src s="4">(ולא שהאור עצמו נמשך למטה),</src>
+    <src s="5">הוא בתפלה כמו שהיא מצד עצמה.</src>
+    <src s="6">אבל כשהתפלה היא באופן שיש בה גם ענין התורה,</src>
+    <src s="7">יש לומר,</src>
+    <src s="8">שבההמשכה שע"י תפלה זו,</src>
+    <src s="9">ישנם שתי המעלות.</src>
+    <src s="10">ששרש ההמשכה הוא למעלה מעלה עד אין קץ,</src>
+    <src s="11">ושהאור עצמו נמשך למטה.</src>
+    <src s="12">היינו,</src>
+    <src s="13">דבהשינוי שנעשה בהעולם</src>
+    <src s="14">(שהחולה מתרפא וכיו"ב)</src>
+    <src s="15">נרגש בגילוי לא רק השינוי בעולם</src>
+    <src s="16">(התוצאה מההמשכה)</src>
+    <src s="17">אלא גם האור האלקי שעל ידו נעשה השינוי.</src>
+  </section>
+  <section v="17">
+    <src s="0">ויש לקשר זה עם המבואר לעיל</src>
+    <src s="1">(סעיף ג)</src>
+    <src s="2">שהבקשה אד' שפתי תפתח ופי יגיד תהלתך שבתחלת תפלת שמו"ע היא שתפלת האדם תהי' באופן שעל ידה תומשך תהלתך,</src>
+    <src s="3">תפלתו של הקב"ה,</src>
+    <src s="4">דכשהתפלה היא באופן זה ישנם בה שתי המעלות.</src>
+    <src s="5">המעלה דתפלה – עבודת המטה</src>
+    <src s="6">[שמגעת למעלה מעלה עד אין קץ,</src>
+    <src s="7">למעשה ידיך תכסוף],</src>
+    <src s="8">והמעלה דתורה – המשכה מלמעלה.</src>
+    <src s="9">וע"י החיבור דשני הענינים בעבודת התפלה,</src>
+    <src s="10">שגם בקשת האדם היא באופן דפי יגיד תהלתך,</src>
+    <src s="11">עי"ז,</src>
+    <src s="12">גם בההמשכה שע"י התפלה ישנם</src>
+    <src s="13">(דוגמת)</src>
+    <src s="14">שני הענינים.</src>
+    <src s="15">שעל ידה נעשה שינוי בהמטה,</src>
+    <src s="16">ושהשינוי בהמטה הוא באופן שנרגש בו האור האלקי שעל ידו נעשה השינוי.</src>
+  </section>
+</awtsmoosMeluketSource>

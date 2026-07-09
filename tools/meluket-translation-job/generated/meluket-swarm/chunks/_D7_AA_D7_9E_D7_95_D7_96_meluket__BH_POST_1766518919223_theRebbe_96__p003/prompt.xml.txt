@@ -1,0 +1,157 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919223_theRebbe_96" title="מאמר תפלה למשה תשכ"ט" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">ויובן זה בהקדים,</src>
+    <src s="2">דענין העשירות בפשטות הוא,</src>
+    <src s="3">כמובא לעיל</src>
+    <src s="4">(סעיף ג)</src>
+    <src s="5">מהמאמר,</src>
+    <src s="6">שהעשיר יש לו לא רק די צרכיו אלא שהוא מושפע בריבוי השפע.</src>
+    <src s="7">ועפ"ז,</src>
+    <src s="8">החילוק בין עני גם כשיש לו די מחסורו לעשיר הוא בשני ענינים.</src>
+    <src s="9">שגם באותם הדברים שישנם גם להעני,</src>
+    <src s="10">אינו דומה להעשיר.</src>
+    <src s="11">דהעני מצד עצמו הוא חסר גם דברים אלה</src>
+    <src s="12">(כנ"ל שם),</src>
+    <src s="13">ורק שבפועל ישנם לו דברים אלה.</src>
+    <src s="14">ושהעשיר הוא מושפע בריבוי השפע – ריבוי שפע שלא ישנו כלל לעני.</src>
+    <src s="15">ולכאורה צריך לומר,</src>
+    <src s="16">דברוחניות,</src>
+    <src s="17">שני הענינים תלויים זה בזה.</src>
+    <src s="18">שבכדי שהענינים שהוא מוכרח בהם</src>
+    <src s="19">(די מחסורו)</src>
+    <src s="20">יהיו אצלו לא באופן שמקבל אותם משל אחרים אלא מצד עצמו,</src>
+    <src s="21">הוא דוקא ע"י ריבוי השפע שלמעלה ממילוי החסרון.</src>
+    <src s="22">והענין בעבודה הוא,</src>
+    <src s="23">דכשהעבודה של האדם היא רק כפי השגת השכל שלו,</src>
+    <src s="24">אזי,</src>
+    <src s="25">נוסף לזה שהעבודה היא במדידה והגבלה</src>
+    <src s="26">(די מחסורו),</src>
+    <src s="27">הוא חסר</src>
+    <src s="28">(בפנימיות)</src>
+    <src s="29">גם עבודה זו,</src>
+    <src s="30">כיון שמצד ההשגה יש נתינת מקום לההיפך.</src>
+    <src s="31">ובכדי שתהי' עבודתו את ה' באופן שלא ישאר בו שום נתינת מקום לההיפך הוא דוקא ע"י העבודה שלמעלה ממדידה והגבלה – עשירות.</src>
+  </section>
+  <section v="7">
+    <src s="0">ובכדי לבאר ענין העשירות שלמעלה ממילוי החסרון,</src>
+    <src s="1">מקדים בהמאמר46,</src>
+    <src s="2">שגם במילוי החסרון יש שני ענינים,</src>
+    <src s="3">כמ"ש די מחסורו אשר יחסר לו ואמרו רז"ל אשר יחסר לו אפילו סוס לרכוב עליו ועבד לרוץ לפניו.</src>
+    <src s="4">והיינו שדי מחסורו הוא שצריך לספק לו כל הדברים הנצרכים לכל אחד,</src>
+    <src s="5">ולאח"ז מוסיף אשר יחסר לו,</src>
+    <src s="6">שצריך לספק לו גם זה אשר יחסר לו.</src>
+    <src s="7">(סוס לרכוב עליו ועבד לרוץ לפניו)</src>
+    <src s="8">מצד זה שדרכו בכך47.</src>
+    <src s="9">ועשירות הוא ריבוי שפע,</src>
+    <src s="10">למעלה גם מאשר יחסר לו.</src>
+    <src s="11">ומבאר,</src>
+    <src s="12">דג' ענינים אלה</src>
+    <src s="13">[שני הענינים שבמילוי החסרון ועשירות]</src>
+    <src s="14">ישנם גם למעלה</src>
+    <src s="15">[וכידוע48</src>
+    <src s="16">שכל הענינים שלמטה משתלשלים מענינם למעלה].</src>
+    <src s="17">והענין הוא,</src>
+    <src s="18">דבהגילויים שלמעלה יש ג' מדריגות בכללות.</src>
+    <src s="19">ממלא כל עלמין,</src>
+    <src s="20">סובב כל עלמין ועצמות אוא"ס שלמעלה מממלא וסובב.</src>
+    <src s="21">ממכ"ע הוא האור המתלבש בעולמות ובהנבראים להחיות אותם לפי ערכם.</src>
+    <src s="22">וכמרז"ל49</src>
+    <src s="23">מה הנפש ממלאה את הגוף כך הקב"ה ממלא את העולם,</src>
+    <src s="24">דכמו שחיות הנפש המתלבש בהגוף הוא לפי אופן אברי הגוף,</src>
+    <src s="25">דבכל אבר החיות הוא לפי ערכו,</src>
+    <src s="26">עד"ז הוא בהחיות דממלא כל עלמין,</src>
+    <src s="27">שהוא מחי' כל עולם וכל נברא לפי ערכו50.</src>
+    <src s="28">וסוכ"ע הוא האור שלמעלה מהתלבשות בעולמות,</src>
+    <src s="29">שלכן הוא סובב ומקיף את העולמות בשוה,</src>
+    <src s="30">אבל שייך לעולמות</src>
+    <src s="31">(שלכן נקרא בשם סובב כל עלמין).</src>
+    <src s="32">והוא ע"ד חיות הנפש עצמה,</src>
+    <src s="33">מה שהנפש היא חי בעצם,</src>
+    <src s="34">דהגם שהוא למעלה באין ערוך מהחיות המתפשט ומתלבש בגוף,</src>
+    <src s="35">מ"מ הוא כמו מקור שממנו נמשך החיות המתפשט ומתלבש בהגוף.</src>
+    <src s="36">ובחינה זו נקראת בשם חַי עולמים</src>
+    <src s="37">(חַי בפתח).</src>
+    <src s="38">דהחילוק בין חַי</src>
+    <src s="39">(בפתח)</src>
+    <src s="40">לחֵי</src>
+    <src s="41">(בצירי)</src>
+    <src s="42">הוא,</src>
+    <src s="43">דבחֵי עולמים בצירי,</src>
+    <src s="44">תיבת חֵי דבוקה לעולמים,</src>
+    <src s="45">היינו החיות של העולמות – ממלא,</src>
+    <src s="46">ובחַי עולמים בפתח,</src>
+    <src s="47">תיבת חַי אינה דבוקה לעולמים,</src>
+    <src s="48">היינו בחינת חי בעצם – סובב.</src>
+    <src s="49">ויש לומר,</src>
+    <src s="50">דזה שגם בחינת חי בעצם</src>
+    <src s="51">(סובב)</src>
+    <src s="52">נק' חי עולמים הוא לפי שהוא כמו מקור שממנו נמשך החיות דהעולמות.</src>
+    <src s="53">ומוסיף בהמאמר51,</src>
+    <src s="54">דבחינת הסובב נק' גם בשם חיי החיים.</src>
+    <src s="55">דחיים הוא החיות המתפשט ומתלבש בעולמות</src>
+    <src s="56">(ממלא),</src>
+    <src s="57">ובחינת הסובב שממנו נמשך החיות דהעולמות נק' חיי החיים.</src>
+    <src s="58">וזהו שארז"ל52</src>
+    <src s="59">מחי' חיים יתן לך חיים,</src>
+    <src s="60">דמחי' חיים</src>
+    <src s="61">(בחינת חיי החיים)</src>
+    <src s="62">הוא המקור שמשם נמשכים חיים.</src>
+  </section>
+  <section v="8">
+    <src s="0">וזהו שארז"ל53</src>
+    <src s="1">ע"פ54</src>
+    <src s="2">מזמור שיר ליום השבת,</src>
+    <src s="3">מזמור שיר לעתיד לבוא ליום שכולו שבת ומנוחה לחי העולמים,</src>
+    <src s="4">חַי העולמים בפתח55</src>
+    <src s="5">הוא בחינת הסובב,</src>
+    <src s="6">ולע"ל תהי' שביתה ומנוחה גם מבחינת חי העולמים,</src>
+    <src s="7">כי אז יהי' גילוי עצמות אוא"ס שלמעלה משייכות לעולמות</src>
+    <src s="8">(למעלה גם מסובב).</src>
+    <src s="9">וכמ"ש56</src>
+    <src s="10">יחיינו מיומיים ביום השלישי יקימנו ונחי' לפניו,</src>
+    <src s="11">ואיתא בלקו"ת57</src>
+    <src s="12">דיומיים הם שני הגילויים דממכ"ע וסוכ"ע ויום השלישי הוא גילוי עצמות אוא"ס שלמעלה משייכות לעולמות.</src>
+    <src s="13">דזהו ביום השלישי יקימנו ונחי' לפניו – פנימיות ועצמות א"ס.</src>
+    <src s="14">[ולהעיר,</src>
+    <src s="15">דפירוש הפשוט ביומיים ויום השלישי הוא שהם ג' זמנים.</src>
+    <src s="16">יומיים הם עולם הזה וגן עדן או עולם הזה וימות המשיח ויום השלישי הוא תחיית המתים58.</src>
+    <src s="17">והקשר דשני הפירושים הוא59,</src>
+    <src s="18">שבשני הזמנים דיומיים הם הגילויים דממלא וסובב,</src>
+    <src s="19">ובתחה"מ יהי' גילוי העצמות].</src>
+  </section>
+</awtsmoosMeluketSource>

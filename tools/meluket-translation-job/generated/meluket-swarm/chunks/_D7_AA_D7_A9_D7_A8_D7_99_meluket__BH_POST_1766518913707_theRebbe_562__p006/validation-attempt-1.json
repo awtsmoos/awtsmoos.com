@@ -1,0 +1,359 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 63,
+    "returned": 63,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913707_theRebbe_562\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains that the connection of souls to Malchus, rooted in the Essential Thought, is analogous to Malchus itself, which relates to another, and clarifies why the revelation of the soul's essence through the shofar builds Malchus.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that the connection of souls to Malchus as they are in their source in the Essential Thought,</t>\n    <t s=\"2\">is,</t>\n    <t s=\"3\">that this—that the Essence thinks, so to speak, about something other than itself—is analogous to Malchus,</t>\n    <t s=\"4\">for the concept of Malchus is specifically about another,</t>\n    <t s=\"5\">there is no king without a nation.</t>\n    <t s=\"6\">And based on this, we can explain the reason for this, that through the revelation of the essence of the soul</t>\n    <t s=\"7\">(which is through the sounding of the shofar)</t>\n    <t s=\"8\">the building of Malchus is effected,</t>\n    <t s=\"9\">for through the revelation of the root of the soul as it is in the Essential Thought,</t>\n    <t s=\"10\">thereby the drawing down of Malchus from its true source, as it is in the Essential Thought, is effected.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section questions how the concept of \"make Me king over you\" applies to the mitzvah of shofar, given that the shofar reveals the soul's root above mitzvos.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And it must be understood,</t>\n    <t s=\"2\">that according to the above, that through the sounding of the shofar the concept of \"make Me king over you\" is effected, is because through the sounding of the shofar the root of the soul is revealed as it is rooted in the Essence, which is above the matter of mitzvos,</t>\n    <t s=\"3\">and from this that the sounding of the shofar is a mitzvah,</t>\n    <t s=\"4\">it is understood,</t>\n    <t s=\"5\">that the concept of \"make Me king over you\" also pertains to the mitzvah of sounding the shofar.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains, based on the Rebbe's discourse, the three levels of will in \"I will reign\"—revealed will, hidden will, and absolute will in His Essence—and how the revealed will is aroused by an arousal from below, as established in the hidden and absolute will.</sectionSummaryBrief>\n    <t s=\"0\">And this will be understood based on what is explained by my father-in-law, the Rebbe, in the aforementioned continuation for Rosh HaShanah,</t>\n    <t s=\"1\">that in the desire of \"I will reign,\"</t>\n    <t s=\"2\">there are three levels.</t>\n    <t s=\"3\">Revealed will,</t>\n    <t s=\"4\">hidden will, and the absolute will in His Essence.</t>\n    <t s=\"5\">And these three levels are divided into two categories.</t>\n    <t s=\"6\">For the revealed and hidden will,</t>\n    <t s=\"7\">both of them are in revelation in themselves,</t>\n    <t s=\"8\">and the difference between them is regarding the effect,</t>\n    <t s=\"9\">for the revealed will is an arousal that pertains to the effect,</t>\n    <t s=\"10\">and the hidden will is only an agreement that does not pertain to the effect</t>\n    <t s=\"11\">(and therefore it is called \"hidden,\"</t>\n    <t s=\"12\">because it is hidden and distant from the effect).</t>\n    <t s=\"13\">And the absolute will in His Essence is completely hidden,</t>\n    <t s=\"14\">meaning it is hidden even relative to itself.</t>\n    <t s=\"15\">[And analogous to the desire for a house,</t>\n    <t s=\"16\">for every person has</t>\n    <t s=\"17\">(from the essence of his soul,</t>\n    <t s=\"18\">even when he does not know of it)</t>\n    <t s=\"19\">a desire for a house,</t>\n    <t s=\"20\">because it pertains to the essence of his existence].</t>\n    <t s=\"21\">And there is another difference between the revealed will and the hidden will,</t>\n    <t s=\"22\">that the arousal of the revealed will is through an arousal from below,</t>\n    <t s=\"23\">through Israel accepting upon themselves the yoke of His kingship and requesting that He reign over the entire world in His glory.</t>\n    <t s=\"24\">And this matter</t>\n    <t s=\"25\">(that the arousal of the revealed will is through an arousal from below)</t>\n    <t s=\"26\">also existed at the beginning of creation,</t>\n    <t s=\"27\">except that the arousal of the will then was through the elevation of the female waters from Him and within Him.</t>\n    <t s=\"28\">As the statement, \"Whom did He consult? The souls of the righteous,\"</t>\n    <t s=\"29\">for through the pleasure that would be taken in the service of the righteous rising before Him,</t>\n    <t s=\"30\">and \"Your people are all righteous,\"</t>\n    <t s=\"31\">through this the revealed will for kingship was aroused.</t>\n    <t s=\"32\">[Analogous to a human king,</t>\n    <t s=\"33\">whose desire</t>\n    <t s=\"34\">(the revealed one)</t>\n    <t s=\"35\">for kingship is aroused by the coronation of the people].</t>\n    <t s=\"36\">And the arousal of the hidden will is not through an arousal from below, but rather it is aroused by itself.</t>\n    <t s=\"37\">And it is explained there,</t>\n    <t s=\"38\">that this—that through an arousal from below the revealed will is aroused—</t>\n    <t s=\"39\">is not because of the virtue of the arousal from below in itself,</t>\n    <t s=\"40\">for it is a created thing, incomparable to the Creator</t>\n    <t s=\"41\">(even relative to the level of the revealed will,</t>\n    <t s=\"42\">and especially since even the revealed will is in the Ein Sof that precedes the tzimtzum),</t>\n    <t s=\"43\">but rather because it so arose in His will, in the hidden will,</t>\n    <t s=\"44\">and on a higher level, because it was so determined in the absolute will in His Essence,</t>\n    <t s=\"45\">that an arousal from below should arouse the revealed will.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913707_theRebbe_562",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains that the connection of souls to Malchus, rooted in the Essential Thought, is analogous to Malchus itself, which relates to another, and clarifies why the revelation of the soul's essence through the shofar builds Malchus.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "that the connection of souls to Malchus as they are in their source in the Essential Thought,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "is,"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "that this—that the Essence thinks, so to speak, about something other than itself—is analogous to Malchus,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "for the concept of Malchus is specifically about another,"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "there is no king without a nation."
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "And based on this, we can explain the reason for this, that through the revelation of the essence of the soul"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "(which is through the sounding of the shofar)"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "the building of Malchus is effected,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "for through the revelation of the root of the soul as it is in the Essential Thought,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "thereby the drawing down of Malchus from its true source, as it is in the Essential Thought, is effected."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section questions how the concept of \"make Me king over you\" applies to the mitzvah of shofar, given that the shofar reveals the soul's root above mitzvos.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "that according to the above, that through the sounding of the shofar the concept of \"make Me king over you\" is effected, is because through the sounding of the shofar the root of the soul is revealed as it is rooted in the Essence, which is above the matter of mitzvos,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "and from this that the sounding of the shofar is a mitzvah,"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "that the concept of \"make Me king over you\" also pertains to the mitzvah of sounding the shofar."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section explains, based on the Rebbe's discourse, the three levels of will in \"I will reign\"—revealed will, hidden will, and absolute will in His Essence—and how the revealed will is aroused by an arousal from below, as established in the hidden and absolute will.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "And this will be understood based on what is explained by my father-in-law, the Rebbe, in the aforementioned continuation for Rosh HaShanah,"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "that in the desire of \"I will reign,\""
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "there are three levels."
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "Revealed will,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "hidden will, and the absolute will in His Essence."
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "And these three levels are divided into two categories."
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "For the revealed and hidden will,"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "both of them are in revelation in themselves,"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "and the difference between them is regarding the effect,"
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "for the revealed will is an arousal that pertains to the effect,"
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "and the hidden will is only an agreement that does not pertain to the effect"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "(and therefore it is called \"hidden,\""
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "because it is hidden and distant from the effect)."
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "And the absolute will in His Essence is completely hidden,"
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "meaning it is hidden even relative to itself."
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "[And analogous to the desire for a house,"
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "for every person has"
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "(from the essence of his soul,"
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "even when he does not know of it)"
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "a desire for a house,"
+          },
+          {
+            "v": 17,
+            "s": 20,
+            "translation": "because it pertains to the essence of his existence]."
+          },
+          {
+            "v": 17,
+            "s": 21,
+            "translation": "And there is another difference between the revealed will and the hidden will,"
+          },
+          {
+            "v": 17,
+            "s": 22,
+            "translation": "that the arousal of the revealed will is through an arousal from below,"
+          },
+          {
+            "v": 17,
+            "s": 23,
+            "translation": "through Israel accepting upon themselves the yoke of His kingship and requesting that He reign over the entire world in His glory."
+          },
+          {
+            "v": 17,
+            "s": 24,
+            "translation": "And this matter"
+          },
+          {
+            "v": 17,
+            "s": 25,
+            "translation": "(that the arousal of the revealed will is through an arousal from below)"
+          },
+          {
+            "v": 17,
+            "s": 26,
+            "translation": "also existed at the beginning of creation,"
+          },
+          {
+            "v": 17,
+            "s": 27,
+            "translation": "except that the arousal of the will then was through the elevation of the female waters from Him and within Him."
+          },
+          {
+            "v": 17,
+            "s": 28,
+            "translation": "As the statement, \"Whom did He consult? The souls of the righteous,\""
+          },
+          {
+            "v": 17,
+            "s": 29,
+            "translation": "for through the pleasure that would be taken in the service of the righteous rising before Him,"
+          },
+          {
+            "v": 17,
+            "s": 30,
+            "translation": "and \"Your people are all righteous,\""
+          },
+          {
+            "v": 17,
+            "s": 31,
+            "translation": "through this the revealed will for kingship was aroused."
+          },
+          {
+            "v": 17,
+            "s": 32,
+            "translation": "[Analogous to a human king,"
+          },
+          {
+            "v": 17,
+            "s": 33,
+            "translation": "whose desire"
+          },
+          {
+            "v": 17,
+            "s": 34,
+            "translation": "(the revealed one)"
+          },
+          {
+            "v": 17,
+            "s": 35,
+            "translation": "for kingship is aroused by the coronation of the people]."
+          },
+          {
+            "v": 17,
+            "s": 36,
+            "translation": "And the arousal of the hidden will is not through an arousal from below, but rather it is aroused by itself."
+          },
+          {
+            "v": 17,
+            "s": 37,
+            "translation": "And it is explained there,"
+          },
+          {
+            "v": 17,
+            "s": 38,
+            "translation": "that this—that through an arousal from below the revealed will is aroused—"
+          },
+          {
+            "v": 17,
+            "s": 39,
+            "translation": "is not because of the virtue of the arousal from below in itself,"
+          },
+          {
+            "v": 17,
+            "s": 40,
+            "translation": "for it is a created thing, incomparable to the Creator"
+          },
+          {
+            "v": 17,
+            "s": 41,
+            "translation": "(even relative to the level of the revealed will,"
+          },
+          {
+            "v": 17,
+            "s": 42,
+            "translation": "and especially since even the revealed will is in the Ein Sof that precedes the tzimtzum),"
+          },
+          {
+            "v": 17,
+            "s": 43,
+            "translation": "but rather because it so arose in His will, in the hidden will,"
+          },
+          {
+            "v": 17,
+            "s": 44,
+            "translation": "and on a higher level, because it was so determined in the absolute will in His Essence,"
+          },
+          {
+            "v": 17,
+            "s": 45,
+            "translation": "that an arousal from below should arouse the revealed will."
+          }
+        ]
+      }
+    ]
+  }
+}

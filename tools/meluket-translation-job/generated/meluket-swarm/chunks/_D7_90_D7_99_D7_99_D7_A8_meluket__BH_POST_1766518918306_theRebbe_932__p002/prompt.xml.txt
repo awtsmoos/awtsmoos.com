@@ -1,0 +1,113 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918306_theRebbe_932" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918306_theRebbe_932" title="מאמר השמים כסאי תשל"ו" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918306_theRebbe_932__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ויש להוסיף בפירוש הכתוב ואל זה אביט אל עני גו',</src>
+    <src s="2">דהכוונה בעני היא לא רק לענין הביטול,</src>
+    <src s="3">אלא גם לעני כפשוטו</src>
+    <src s="4">(עני בדעת17),</src>
+    <src s="5">שאין לו ידיעה והשגה באלקות ועבודתו היא רק מצד האמונה18</src>
+    <src s="6">שלמטה19</src>
+    <src s="7">מטעם ודעת,</src>
+    <src s="8">מ"מ,</src>
+    <src s="9">מכיון שבעניות זו</src>
+    <src s="10">(דאמונה שלמטה מטעם ודעת)</src>
+    <src s="11">יש גם ענין העניות למעליותא,</src>
+    <src s="12">ביטול20,</src>
+    <src s="13">לכן,</src>
+    <src s="14">אל זה אביט.</src>
+    <src s="15">ובדוגמת הלבנה,</src>
+    <src s="16">דהגם שזה שבעת המולד היא נקודה בלבד</src>
+    <src s="17">(ומכש"כ זה שברגע שלפני המולד היא מתעלמת ומסתתרת לגמרי)</src>
+    <src s="18">הוא שאינה מאירה,</src>
+    <src s="19">ואעפ"כ,</src>
+    <src s="20">מכיון שזה קשור גם עם הביטול שלה,</src>
+    <src s="21">נמשך בה אז אור חדש מלעילא מן שמשא.</src>
+  </section>
+  <section v="4">
+    <src s="0">ויש לקשר זה עם הביאור של אדמו"ר מהר"ש21</src>
+    <src s="1">(בעל יום ההולדת דב' אייר)</src>
+    <src s="2">עה"פ22</src>
+    <src s="3">ובראשי חדשיכם,</src>
+    <src s="4">דמ"ש ובראשי חדשיכם,</src>
+    <src s="5">ראשי לשון רבים23,</src>
+    <src s="6">הוא,</src>
+    <src s="7">כי חודש היא מדת המלכות,</src>
+    <src s="8">שהיא בחינת האמונה,</src>
+    <src s="9">שיש בה ב' נקודות.</src>
+    <src s="10">דבסגול נקודה האמצעית היא תחת שתי הנקודות,</src>
+    <src s="11">ובסגולתא נקודה האמצעית היא למעלה משתי הנקודות,</src>
+    <src s="12">ובאמונה יש ב' הנקודות.</src>
+    <src s="13">שבגילוי היא נקודה התחתונה שבסגול,</src>
+    <src s="14">ויש בה גם נקודה העליונה שבסגולתא24,</src>
+    <src s="15">כי נעוץ25</src>
+    <src s="16">תחלתן בסופן.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">ועפ"ז נמצא,</src>
+    <src s="2">שהעבודה דעני ונכה רוח</src>
+    <src s="3">(אמונה)</src>
+    <src s="4">צריכה להיות גם לפני העבודה דהשמים כסאי והארץ הדום רגלי</src>
+    <src s="5">(תורה ומצוות),</src>
+    <src s="6">ומכש"כ לפני העבודה דאיזה בית אשר תבנו לי</src>
+    <src s="7">(בכל מאדך),</src>
+    <src s="8">שהרי אמונה וביטול הם היסוד של כל הענינים.</src>
+    <src s="9">אלא שבתחילה,</src>
+    <src s="10">העניות שלו היא כפשוטה26,</src>
+    <src s="11">דזה שצריך לאמונה באלקות</src>
+    <src s="12">(אף שכמה ענינים מוכרחים מצד השכל)</src>
+    <src s="13">הוא מפני שהוא עני בדעת,</src>
+    <src s="14">ולאחרי העבודה בכחות הפנימיים</src>
+    <src s="15">(השמים כסאי והארץ הדום רגלי)</src>
+    <src s="16">ובכחות המקיפים</src>
+    <src s="17">(בית),</src>
+    <src s="18">העניות שלו היא26</src>
+    <src s="19">ע"ד מרז"ל27</src>
+    <src s="20">פתי יאמין לכל דבר28</src>
+    <src s="21">זה משה רבינו,</src>
+    <src s="22">דהגם שמשה הי' בעל השגה גדולה בתכלית השלימות,</src>
+    <src s="23">מ"מ היו אצלו כל הענינים</src>
+    <src s="24">(דאלקות)29</src>
+    <src s="25">באופן של אמונה,</src>
+    <src s="26">כי מכיון שלגבי הקב"ה דלית מחשבה תפיסא בי' כלל30</src>
+    <src s="27">הכל כפתיים אצלו ית'31,</src>
+    <src s="28">לכן כל הענינים צריכים להיות באופן של אמונה.</src>
+    <src s="29">ובכללות הוא,</src>
+    <src s="30">דהעניות שבתחילת העבודה היא ביטול דקבלת עול שלמטה מטעם ודעת,</src>
+    <src s="31">והעניות שלאח"ז היא ביטול במציאות שלמעלה מטעם ודעת.</src>
+  </section>
+</awtsmoosMeluketSource>

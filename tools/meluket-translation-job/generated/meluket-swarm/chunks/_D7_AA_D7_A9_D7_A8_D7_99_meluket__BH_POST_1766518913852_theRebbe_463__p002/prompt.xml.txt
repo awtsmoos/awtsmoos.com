@@ -1,0 +1,84 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913852_theRebbe_463" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913852_theRebbe_463__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913852_theRebbe_463" title="מאמר זה היום תחילת מעשיך תשמ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913852_theRebbe_463__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">וביאור הענין</src>
+    <src s="2">(שראש השנה,</src>
+    <src s="3">יום ברוא אדם הראשון,</src>
+    <src s="4">הוא תחלת מעשיך)</src>
+    <src s="5">בעומק יותר,</src>
+    <src s="6">הנה ידוע שעבודת האדם בכחה לשנות גם את העבר20.</src>
+    <src s="7">ומזה מובן</src>
+    <src s="8">(במכ"ש)</src>
+    <src s="9">בנוגע לעבודתו של אדם הראשון שהי' יציר כפיו של הקב"ה21,</src>
+    <src s="10">שהעילוי שפעל בכל הנבראים ע"י הכרזתו בואו נשתחוה גו' לפני ה' עושינו הוא גם בנוגע למציאותם שלפני עבודתו.</src>
+    <src s="11">דכיון22</src>
+    <src s="12">שכוונת הבריאה מלכתחילה היא שהאדם ע"י עבודתו ימשיך גילוי אלקות בעולם23,</src>
+    <src s="13">לכן,</src>
+    <src s="14">לאחרי שנמשך בעולם גילוי אלקות נעשה עי"ז עילוי גם במציאות העולם שהי' לפנ"ז,</src>
+    <src s="15">ובפרט שענינו הוא הכנה להגילוי שנמשך ע"י עבודת האדם.</src>
+  </section>
+  <section v="4">
+    <src s="0">וזהו מה שהיום דראש השנה,</src>
+    <src s="1">יום ברוא אדם הראשון,</src>
+    <src s="2">הוא תחלת מעשיך,</src>
+    <src s="3">דפירוש הפשוט</src>
+    <src s="4">(ואין ענין יוצא מידי פשוטו)</src>
+    <src s="5">דתחלת מעשיך הוא התחלת כל המעשים,</src>
+    <src s="6">גם המעשים שהיו בה' ימים הראשונים דמע"ב</src>
+    <src s="7">(כולל גם הזמן דימים אלו24),</src>
+    <src s="8">כי ע"י עבודתו של אדם הראשון נעשה עילוי וחידוש גם בהמציאות דעולם שהי' לפני זה,</src>
+    <src s="9">ולכן זה היום הוא תחלת מעשיך,</src>
+    <src s="10">ההתחלה של כל הבריאה.</src>
+  </section>
+  <section v="5">
+    <src s="0">וכמו שבראש השנה בפעם הראשונה,</src>
+    <src s="1">ביום ברוא אדם הראשון,</src>
+    <src s="2">נעשה שלימות הבריאה</src>
+    <src s="3">(מעשיך),</src>
+    <src s="4">ובאופן של חידוש</src>
+    <src s="5">(תחלת מעשיך),</src>
+    <src s="6">עד"ז הוא בראש השנה שבכל שנה ושנה,</src>
+    <src s="7">דע"י שישראל מכתירים את הקב"ה שיהי' מלך עליהם ועל כל העולם,</src>
+    <src s="8">נעשה שלימות וחידוש בכל הבריאה,</src>
+    <src s="9">ועד שעי"ז נעשה שלימות וחידוש גם למעלה,</src>
+    <src s="10">כתורת הה"מ25</src>
+    <src s="11">ואדמו"ר הזקן26</src>
+    <src s="12">על מאמר המשנה27</src>
+    <src s="13">דע מה למעלה ממך,</src>
+    <src s="14">דכל הענינים שלמעלה הם ממך.</src>
+  </section>
+</awtsmoosMeluketSource>

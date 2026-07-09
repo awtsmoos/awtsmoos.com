@@ -1,0 +1,439 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 79,
+    "returned": 79,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915545_theRebbe_780\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915545_theRebbe_780__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that redemption can be from a distance or closeness, and clarifies that this redemption is from close by, based on the Alter Rebbe's explanation of the teaching that one must pray with eyes downward and heart upward, and similarly Torah study must lead to action and practical law.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And behold, redemption can be in a manner of distance or closeness as above,</t>\n    <t s=\"2\">and he explains and innovates that this redemption is \"from close to Me,\"</t>\n    <t s=\"3\">in a manner of closeness.</t>\n    <t s=\"4\">And this will be understood through the explanation of the Alter Rebbe21</t>\n    <t s=\"5\">in the teaching of our Sages, of blessed memory:22</t>\n    <t s=\"6\">\"One who prays must place his eyes downward and his heart upward,\"</t>\n    <t s=\"7\">that he must be connected and also see the lower,</t>\n    <t s=\"8\">meaning that even when his heart is upward,</t>\n    <t s=\"9\">connected upward,</t>\n    <t s=\"10\">he must see the lower,</t>\n    <t s=\"11\">the world and its matters.</t>\n    <t s=\"12\">And similarly it will be understood regarding the study of Torah,</t>\n    <t s=\"13\">that the study of Torah must be in such a manner that it leads to action,</t>\n    <t s=\"14\">as our Sages, of blessed memory, said:23</t>\n    <t s=\"15\">\"Great is study that leads to action.\"</t>\n    <t s=\"16\">And furthermore,</t>\n    <t s=\"17\">his study is to raise the discussion according to the halachah,</t>\n    <t s=\"18\">the conclusion for practical law in worldly matters,</t>\n    <t s=\"19\">for specifically then</t>\n    <t s=\"20\">(through study in such a manner)</t>\n    <t s=\"21\">does he come to the true understanding of the study and the intent</t>\n    <t s=\"22\">(as explained at length in the Hemshech of 5666).24</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section discusses the verse \"for many are with me,\" explaining the first interpretation that this is achieved through communal prayer, and the second interpretation that it includes all of Israel through the acceptance of the commandment to love one's fellow as oneself before prayer.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And he continues with the verse, \"For many are with me.\"</t>\n    <t s=\"2\">The first explanation of this,</t>\n    <t s=\"3\">that all this is done through the prayer of the many,</t>\n    <t s=\"4\">for even when a person of Israel is at the ultimate perfection in his service,</t>\n    <t s=\"5\">nevertheless, even then there is an advantage to his prayer</t>\n    <t s=\"6\">(and beyond all comparison)</t>\n    <t s=\"7\">when he prays with the congregation,</t>\n    <t s=\"8\">the prayer of the many.25</t>\n    <t s=\"9\">And as is also understood from the prayer of the Ten Days of Repentance, about which our Sages, of blessed memory, said:26</t>\n    <t s=\"10\">\"There, by an individual; here, by the community,\"</t>\n    <t s=\"11\">that the prayer of an individual during the Ten Days of Repentance is like the prayer of the many during the rest of the year,</t>\n    <t s=\"12\">yet still the prayer of an individual during the Ten Days of Repentance is not comparable to the prayer of the many during the Ten Days of Repentance.</t>\n    <t s=\"13\">And the second explanation of this verse,</t>\n    <t s=\"14\">that it includes the many, all of Israel stood,</t>\n    <t s=\"15\">is understood based on what the Baal HaGeulah brings in his Siddur27</t>\n    <t s=\"16\">(from the Arizal28),</t>\n    <t s=\"17\">that it is proper to say before prayer: \"I hereby accept upon myself the positive commandment of 'Love your fellow as yourself.'\"</t>\n    <t s=\"18\">For this statement is before \"Mah Tovu,\" etc.,</t>\n    <t s=\"19\">and continues through all the levels and stages of prayer,</t>\n    <t s=\"20\">\"Mah Tovu,\"</t>\n    <t s=\"21\">\"Hodu LaShem,\" etc.,</t>\n    <t s=\"22\">the silent prayer (Amidah),</t>\n    <t s=\"23\">and until the prayer of \"Aleinu Leshabe'ach,\" etc., \"and therefore we hope,\" etc.,</t>\n    <t s=\"24\">which Yehoshua bin Nun said29</t>\n    <t s=\"25\">when he conquered the Land of Israel for the first time and in a manner of an eternal inheritance.</t>\n    <t s=\"26\">For all these details and levels in prayer are in their perfection through the acceptance of the positive commandment of love of Israel.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section expresses the wish that everyone do their part to fulfill the request of the Baal HaGeulah to spread the wellsprings outward, explaining that this mission began after his imprisonment, and emphasizes the great merit of engaging in spreading the wellsprings to all Jews, including women and children.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And may it be His will that each and every one do all that depends on him to fulfill the request and empowerment of the Baal HaGeulah,</t>\n    <t s=\"2\">to spread the wellsprings outward.</t>\n    <t s=\"3\">For it is known30</t>\n    <t s=\"4\">that the main matter of \"May your wellsprings spread outward\" began after Petersburg,</t>\n    <t s=\"5\">and it can be said that this is not only after</t>\n    <t s=\"6\">(and caused by)</t>\n    <t s=\"7\">the redemption from Petersburg,</t>\n    <t s=\"8\">but also caused by the imprisonment,</t>\n    <t s=\"9\">for \"this olive, when it is crushed, it produces its oil.\"31</t>\n    <t s=\"10\">And it can be said</t>\n    <t s=\"11\">(in a possible explanation)</t>\n    <t s=\"12\">even more than this,</t>\n    <t s=\"13\">that therefore our Rebbe, the Alter Rebbe, was imprisoned for fifty-three</t>\n    <t s=\"14\">(53)</t>\n    <t s=\"15\">days,32</t>\n    <t s=\"16\">so that afterward there would be the matter of spreading the wellsprings in the garden of the Holy One, blessed be He,</t>\n    <t s=\"17\">this world.33</t>\n    <t s=\"18\">And from this is understood the great merit of engaging in spreading the wellsprings,</t>\n    <t s=\"19\">to spread them throughout all the dispersions of Israel,</t>\n    <t s=\"20\">the men and the women</t>\n    <t s=\"21\">[and as stated by my father-in-law, the Rebbe,34</t>\n    <t s=\"22\">that women are also obligated in the study of the Torah of Chassidus,</t>\n    <t s=\"23\">for this Torah leads to the fulfillment of the commandments of love and fear of G-d and the like,</t>\n    <t s=\"24\">which women are also obligated in</t>\n    <t s=\"25\">(and their obligation is constant,</t>\n    <t s=\"26\">as brought in the introduction to Sefer HaChinuch)]</t>\n    <t s=\"27\">and the children,</t>\n    <t s=\"28\">\"so that they may hear and so that they may learn... and observe to do all the words of this Torah.\"35</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915545_theRebbe_780",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915545_theRebbe_780__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that redemption can be from a distance or closeness, and clarifies that this redemption is from close by, based on the Alter Rebbe's explanation of the teaching that one must pray with eyes downward and heart upward, and similarly Torah study must lead to action and practical law.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And behold, redemption can be in a manner of distance or closeness as above,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "and he explains and innovates that this redemption is \"from close to Me,\""
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "in a manner of closeness."
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "And this will be understood through the explanation of the Alter Rebbe21"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "in the teaching of our Sages, of blessed memory:22"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "\"One who prays must place his eyes downward and his heart upward,\""
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that he must be connected and also see the lower,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "meaning that even when his heart is upward,"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "connected upward,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "he must see the lower,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "the world and its matters."
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "And similarly it will be understood regarding the study of Torah,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "that the study of Torah must be in such a manner that it leads to action,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "as our Sages, of blessed memory, said:23"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "\"Great is study that leads to action.\""
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "his study is to raise the discussion according to the halachah,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "the conclusion for practical law in worldly matters,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "for specifically then"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "(through study in such a manner)"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "does he come to the true understanding of the study and the intent"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "(as explained at length in the Hemshech of 5666).24"
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section discusses the verse \"for many are with me,\" explaining the first interpretation that this is achieved through communal prayer, and the second interpretation that it includes all of Israel through the acceptance of the commandment to love one's fellow as oneself before prayer.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And he continues with the verse, \"For many are with me.\""
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "The first explanation of this,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "that all this is done through the prayer of the many,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "for even when a person of Israel is at the ultimate perfection in his service,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "nevertheless, even then there is an advantage to his prayer"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "(and beyond all comparison)"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "when he prays with the congregation,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "the prayer of the many.25"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "And as is also understood from the prayer of the Ten Days of Repentance, about which our Sages, of blessed memory, said:26"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "\"There, by an individual; here, by the community,\""
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "that the prayer of an individual during the Ten Days of Repentance is like the prayer of the many during the rest of the year,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "yet still the prayer of an individual during the Ten Days of Repentance is not comparable to the prayer of the many during the Ten Days of Repentance."
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "And the second explanation of this verse,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "that it includes the many, all of Israel stood,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "is understood based on what the Baal HaGeulah brings in his Siddur27"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "(from the Arizal28),"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "that it is proper to say before prayer: \"I hereby accept upon myself the positive commandment of 'Love your fellow as yourself.'\""
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "For this statement is before \"Mah Tovu,\" etc.,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "and continues through all the levels and stages of prayer,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "\"Mah Tovu,\""
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "\"Hodu LaShem,\" etc.,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "the silent prayer (Amidah),"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "and until the prayer of \"Aleinu Leshabe'ach,\" etc., \"and therefore we hope,\" etc.,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "which Yehoshua bin Nun said29"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "when he conquered the Land of Israel for the first time and in a manner of an eternal inheritance."
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "For all these details and levels in prayer are in their perfection through the acceptance of the positive commandment of love of Israel."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section expresses the wish that everyone do their part to fulfill the request of the Baal HaGeulah to spread the wellsprings outward, explaining that this mission began after his imprisonment, and emphasizes the great merit of engaging in spreading the wellsprings to all Jews, including women and children.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And may it be His will that each and every one do all that depends on him to fulfill the request and empowerment of the Baal HaGeulah,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "to spread the wellsprings outward."
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "For it is known30"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "that the main matter of \"May your wellsprings spread outward\" began after Petersburg,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "and it can be said that this is not only after"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "(and caused by)"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "the redemption from Petersburg,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "but also caused by the imprisonment,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "for \"this olive, when it is crushed, it produces its oil.\"31"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "(in a possible explanation)"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "even more than this,"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "that therefore our Rebbe, the Alter Rebbe, was imprisoned for fifty-three"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "(53)"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "days,32"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "so that afterward there would be the matter of spreading the wellsprings in the garden of the Holy One, blessed be He,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "this world.33"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "And from this is understood the great merit of engaging in spreading the wellsprings,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "to spread them throughout all the dispersions of Israel,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "the men and the women"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "[and as stated by my father-in-law, the Rebbe,34"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "that women are also obligated in the study of the Torah of Chassidus,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "for this Torah leads to the fulfillment of the commandments of love and fear of G-d and the like,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "which women are also obligated in"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "(and their obligation is constant,"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "as brought in the introduction to Sefer HaChinuch)]"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "and the children,"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "\"so that they may hear and so that they may learn... and observe to do all the words of this Torah.\"35"
+          }
+        ]
+      }
+    ]
+  }
+}

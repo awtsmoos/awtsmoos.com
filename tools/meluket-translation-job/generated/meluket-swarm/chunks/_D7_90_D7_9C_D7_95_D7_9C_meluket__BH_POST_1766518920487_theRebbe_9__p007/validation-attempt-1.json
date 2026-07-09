@@ -1,0 +1,409 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 73,
+    "returned": 73,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920487_theRebbe_9\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>This section explains that the king's descent to the field (Elul) creates a new elevation, as even the most distant come to greet him, yet the service must lead from the field to the king's palace, connecting the two interpretations of \"To You my heart said, 'Seek My face.'\"</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this is the case regarding the king in the field</t>\n    <t s=\"2\">(Elul),</t>\n    <t s=\"3\">that although this is a descent relative to how he is in his palace of royalty</t>\n    <t s=\"4\">(Rosh HaShanah and Yom HaKippurim),</t>\n    <t s=\"5\">for when he is in his palace of royalty he is in the crown of royalty and royal garments, unlike when he is in the field,</t>\n    <t s=\"6\">nevertheless, through this there is an elevation, so to speak, in the King,</t>\n    <t s=\"7\">for through His descent to the field a new matter is created,</t>\n    <t s=\"8\">that even the most distant come to greet His face.</t>\n    <t s=\"9\">However, nonetheless,</t>\n    <t s=\"10\">since regarding the matter of revelations,</t>\n    <t s=\"11\">that which is in the field is a descent relative to how He is in His palace of royalty,</t>\n    <t s=\"12\">the service in the field must be in a manner of \"going\"</t>\n    <t s=\"13\">(afterwards)</t>\n    <t s=\"14\">after the King to His palace of royalty,</t>\n    <t s=\"15\">and as it is explained in the maamar</t>\n    <t s=\"16\">that the service of Elul is a preparation for the service of Rosh HaShanah and Yom HaKippurim.</t>\n    <t s=\"17\">And this is also the connection of the two interpretations</t>\n    <t s=\"18\">of \"To You my heart said, 'Seek My face,'\"</t>\n    <t s=\"19\">that the service of \"To You my heart said\" according to the interpretation \"To You is for Your sake, in Your mission,\"</t>\n    <t s=\"20\">to fulfill His will to make the lower [realm] a dwelling place for Him,</t>\n    <t s=\"21\">must be in a manner that through this they will reach the interpretation \"To You is in Your place,\"</t>\n    <t s=\"22\">the revelation of the point of Judaism that is connected to the Awtsmoos.</t>\n  </section>\n  <section v=\"19\">\n    <sectionSummaryBrief>This section explains that through the awakening of the point of the heart, a pure vessel is made to receive abundant blessing, which comes from the Awtsmoos beyond the name Havayah, transcending both prosecution and limitations.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">b)</t>\n    <t s=\"2\">And it continues in the maamar</t>\n    <t s=\"3\">(at the conclusion and seal of the maamar),</t>\n    <t s=\"4\">that through the awakening of the point of the heart, a pure vessel is made to receive the flow of blessing for the entire year.</t>\n    <t s=\"5\">And it can be said,</t>\n    <t s=\"6\">that in this there are two advantages,</t>\n    <t s=\"7\">the advantage of \"To You in Your mission\" and the advantage of \"To You in Your place.\"</t>\n    <t s=\"8\">For when the drawing down of influence is according to the order of Hishtalshelus,</t>\n    <t s=\"9\">they examine his judgment [to see] if he is worthy of this,</t>\n    <t s=\"10\">and there are prosecutors who prosecute and say that he is not worthy of this.</t>\n    <t s=\"11\">And it can be said,</t>\n    <t s=\"12\">that this matter is also when the drawing down is from the name Havayah</t>\n    <t s=\"13\">(since even the name Havayah is a source for coming into being,</t>\n    <t s=\"14\">as above in section 5),</t>\n    <t s=\"15\">as it is stated,</t>\n    <t s=\"16\">\"And the sons of the Elokim came to station themselves upon Havayah.\"</t>\n    <t s=\"17\">And that which a flow of blessing is drawn down</t>\n    <t s=\"18\">(in superabundant multiplicity)</t>\n    <t s=\"19\">is because through the revelation of the Awtsmoos of the point of the heart, the drawing down is from the Ein Sof that is above Havayah,</t>\n    <t s=\"20\">and there the prosecution of the sons of the Elokim does not apply</t>\n    <t s=\"21\">(and as above at the end of section 6 in the explanation of the verse \"You shall not have other gods before Me\"),</t>\n    <t s=\"22\">and furthermore,</t>\n    <t s=\"23\">that there are also not the measures and limitations of the name Elokim</t>\n    <t s=\"24\">(of holiness),</t>\n    <t s=\"25\">and therefore the influence drawn from there is in superabundant multiplicity.</t>\n    <t s=\"26\">And that the drawing down of influence is in physical matters,</t>\n    <t s=\"27\">and all the more so that the drawing down of influence is not only from the aspect of the Above but</t>\n    <t s=\"28\">(as above from the maamar)</t>\n    <t s=\"29\">that the person becomes a vessel suitable to receive the influence,</t>\n    <t s=\"30\">is because through the service in the illumination of the point of the heart and the externality of the heart to make the lower [realm] a dwelling place for Him,</t>\n    <t s=\"31\">the advantage of physicality is felt</t>\n    <t s=\"32\">(as above in section 10 regarding the matter of \"From my flesh I shall perceive Elo'ah\")</t>\n    <t s=\"33\">and the advantage of Yisrael who make the dwelling place.</t>\n  </section>\n  <section v=\"20\">\n    <sectionSummaryBrief>This section concludes that since the service of Elul includes both being in the field and going after the King to His palace, the drawn-down blessing includes both superabundant good beyond measure and revealed good in physical matters for a good and sweet year.</sectionSummaryBrief>\n    <t s=\"0\">And since in the service of Elul there are these two matters,</t>\n    <t s=\"1\">that the service</t>\n    <t s=\"2\">(itself)</t>\n    <t s=\"3\">is in the field and in a manner of going after the King to His palace of royalty</t>\n    <t s=\"4\">(as above in section 11),</t>\n    <t s=\"5\">therefore,</t>\n    <t s=\"6\">also in the drawing down of influence there are two matters,</t>\n    <t s=\"7\">that abundant good is drawn down</t>\n    <t s=\"8\">(in a wrapped manner)</t>\n    <t s=\"9\">that is above measure and limitation,</t>\n    <t s=\"10\">and this comes in the good that is seen and revealed</t>\n    <t s=\"11\">(also)</t>\n    <t s=\"12\">in physical matters,</t>\n    <t s=\"13\">for a good and sweet year,</t>\n    <t s=\"14\">in children, life, and sustenance in their simple sense,</t>\n    <t s=\"15\">and in all of them — with expansion.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920487_theRebbe_9",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920487_theRebbe_9__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "This section explains that the king's descent to the field (Elul) creates a new elevation, as even the most distant come to greet him, yet the service must lead from the field to the king's palace, connecting the two interpretations of \"To You my heart said, 'Seek My face.'\"",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "that this is the case regarding the king in the field"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "(Elul),"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "that although this is a descent relative to how he is in his palace of royalty"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "(Rosh HaShanah and Yom HaKippurim),"
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "for when he is in his palace of royalty he is in the crown of royalty and royal garments, unlike when he is in the field,"
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "nevertheless, through this there is an elevation, so to speak, in the King,"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "for through His descent to the field a new matter is created,"
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "that even the most distant come to greet His face."
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "However, nonetheless,"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "since regarding the matter of revelations,"
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "that which is in the field is a descent relative to how He is in His palace of royalty,"
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "the service in the field must be in a manner of \"going\""
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "(afterwards)"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "after the King to His palace of royalty,"
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "and as it is explained in the maamar"
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "that the service of Elul is a preparation for the service of Rosh HaShanah and Yom HaKippurim."
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "And this is also the connection of the two interpretations"
+          },
+          {
+            "v": 18,
+            "s": 18,
+            "translation": "of \"To You my heart said, 'Seek My face,'\""
+          },
+          {
+            "v": 18,
+            "s": 19,
+            "translation": "that the service of \"To You my heart said\" according to the interpretation \"To You is for Your sake, in Your mission,\""
+          },
+          {
+            "v": 18,
+            "s": 20,
+            "translation": "to fulfill His will to make the lower [realm] a dwelling place for Him,"
+          },
+          {
+            "v": 18,
+            "s": 21,
+            "translation": "must be in a manner that through this they will reach the interpretation \"To You is in Your place,\""
+          },
+          {
+            "v": 18,
+            "s": 22,
+            "translation": "the revelation of the point of Judaism that is connected to the Awtsmoos."
+          }
+        ]
+      },
+      {
+        "v": 19,
+        "sectionSummaryBrief": "This section explains that through the awakening of the point of the heart, a pure vessel is made to receive abundant blessing, which comes from the Awtsmoos beyond the name Havayah, transcending both prosecution and limitations.",
+        "translations": [
+          {
+            "v": 19,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 19,
+            "s": 1,
+            "translation": "b)"
+          },
+          {
+            "v": 19,
+            "s": 2,
+            "translation": "And it continues in the maamar"
+          },
+          {
+            "v": 19,
+            "s": 3,
+            "translation": "(at the conclusion and seal of the maamar),"
+          },
+          {
+            "v": 19,
+            "s": 4,
+            "translation": "that through the awakening of the point of the heart, a pure vessel is made to receive the flow of blessing for the entire year."
+          },
+          {
+            "v": 19,
+            "s": 5,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 19,
+            "s": 6,
+            "translation": "that in this there are two advantages,"
+          },
+          {
+            "v": 19,
+            "s": 7,
+            "translation": "the advantage of \"To You in Your mission\" and the advantage of \"To You in Your place.\""
+          },
+          {
+            "v": 19,
+            "s": 8,
+            "translation": "For when the drawing down of influence is according to the order of Hishtalshelus,"
+          },
+          {
+            "v": 19,
+            "s": 9,
+            "translation": "they examine his judgment [to see] if he is worthy of this,"
+          },
+          {
+            "v": 19,
+            "s": 10,
+            "translation": "and there are prosecutors who prosecute and say that he is not worthy of this."
+          },
+          {
+            "v": 19,
+            "s": 11,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 19,
+            "s": 12,
+            "translation": "that this matter is also when the drawing down is from the name Havayah"
+          },
+          {
+            "v": 19,
+            "s": 13,
+            "translation": "(since even the name Havayah is a source for coming into being,"
+          },
+          {
+            "v": 19,
+            "s": 14,
+            "translation": "as above in section 5),"
+          },
+          {
+            "v": 19,
+            "s": 15,
+            "translation": "as it is stated,"
+          },
+          {
+            "v": 19,
+            "s": 16,
+            "translation": "\"And the sons of the Elokim came to station themselves upon Havayah.\""
+          },
+          {
+            "v": 19,
+            "s": 17,
+            "translation": "And that which a flow of blessing is drawn down"
+          },
+          {
+            "v": 19,
+            "s": 18,
+            "translation": "(in superabundant multiplicity)"
+          },
+          {
+            "v": 19,
+            "s": 19,
+            "translation": "is because through the revelation of the Awtsmoos of the point of the heart, the drawing down is from the Ein Sof that is above Havayah,"
+          },
+          {
+            "v": 19,
+            "s": 20,
+            "translation": "and there the prosecution of the sons of the Elokim does not apply"
+          },
+          {
+            "v": 19,
+            "s": 21,
+            "translation": "(and as above at the end of section 6 in the explanation of the verse \"You shall not have other gods before Me\"),"
+          },
+          {
+            "v": 19,
+            "s": 22,
+            "translation": "and furthermore,"
+          },
+          {
+            "v": 19,
+            "s": 23,
+            "translation": "that there are also not the measures and limitations of the name Elokim"
+          },
+          {
+            "v": 19,
+            "s": 24,
+            "translation": "(of holiness),"
+          },
+          {
+            "v": 19,
+            "s": 25,
+            "translation": "and therefore the influence drawn from there is in superabundant multiplicity."
+          },
+          {
+            "v": 19,
+            "s": 26,
+            "translation": "And that the drawing down of influence is in physical matters,"
+          },
+          {
+            "v": 19,
+            "s": 27,
+            "translation": "and all the more so that the drawing down of influence is not only from the aspect of the Above but"
+          },
+          {
+            "v": 19,
+            "s": 28,
+            "translation": "(as above from the maamar)"
+          },
+          {
+            "v": 19,
+            "s": 29,
+            "translation": "that the person becomes a vessel suitable to receive the influence,"
+          },
+          {
+            "v": 19,
+            "s": 30,
+            "translation": "is because through the service in the illumination of the point of the heart and the externality of the heart to make the lower [realm] a dwelling place for Him,"
+          },
+          {
+            "v": 19,
+            "s": 31,
+            "translation": "the advantage of physicality is felt"
+          },
+          {
+            "v": 19,
+            "s": 32,
+            "translation": "(as above in section 10 regarding the matter of \"From my flesh I shall perceive Elo'ah\")"
+          },
+          {
+            "v": 19,
+            "s": 33,
+            "translation": "and the advantage of Yisrael who make the dwelling place."
+          }
+        ]
+      },
+      {
+        "v": 20,
+        "sectionSummaryBrief": "This section concludes that since the service of Elul includes both being in the field and going after the King to His palace, the drawn-down blessing includes both superabundant good beyond measure and revealed good in physical matters for a good and sweet year.",
+        "translations": [
+          {
+            "v": 20,
+            "s": 0,
+            "translation": "And since in the service of Elul there are these two matters,"
+          },
+          {
+            "v": 20,
+            "s": 1,
+            "translation": "that the service"
+          },
+          {
+            "v": 20,
+            "s": 2,
+            "translation": "(itself)"
+          },
+          {
+            "v": 20,
+            "s": 3,
+            "translation": "is in the field and in a manner of going after the King to His palace of royalty"
+          },
+          {
+            "v": 20,
+            "s": 4,
+            "translation": "(as above in section 11),"
+          },
+          {
+            "v": 20,
+            "s": 5,
+            "translation": "therefore,"
+          },
+          {
+            "v": 20,
+            "s": 6,
+            "translation": "also in the drawing down of influence there are two matters,"
+          },
+          {
+            "v": 20,
+            "s": 7,
+            "translation": "that abundant good is drawn down"
+          },
+          {
+            "v": 20,
+            "s": 8,
+            "translation": "(in a wrapped manner)"
+          },
+          {
+            "v": 20,
+            "s": 9,
+            "translation": "that is above measure and limitation,"
+          },
+          {
+            "v": 20,
+            "s": 10,
+            "translation": "and this comes in the good that is seen and revealed"
+          },
+          {
+            "v": 20,
+            "s": 11,
+            "translation": "(also)"
+          },
+          {
+            "v": 20,
+            "s": 12,
+            "translation": "in physical matters,"
+          },
+          {
+            "v": 20,
+            "s": 13,
+            "translation": "for a good and sweet year,"
+          },
+          {
+            "v": 20,
+            "s": 14,
+            "translation": "in children, life, and sustenance in their simple sense,"
+          },
+          {
+            "v": 20,
+            "s": 15,
+            "translation": "and in all of them — with expansion."
+          }
+        ]
+      }
+    ]
+  }
+}

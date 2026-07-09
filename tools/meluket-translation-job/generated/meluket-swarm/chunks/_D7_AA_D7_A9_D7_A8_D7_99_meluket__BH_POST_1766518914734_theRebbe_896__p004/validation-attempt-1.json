@@ -1,0 +1,429 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 77,
+    "returned": 77,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914734_theRebbe_896\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>After one becomes close to G-d through repentance, healing is still needed, and this healing comes through Torah study, specifically by engraving the letters of Torah in one's memory.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And it continues in the maamar,</t>\n    <t s=\"2\">That which is written, \"I am G-d, I will heal him,\" after it says \"peace to the far-off,\"</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">that since initially he was distant from G-dliness,</t>\n    <t s=\"5\">therefore,</t>\n    <t s=\"6\">even after he became close to G-dliness</t>\n    <t s=\"7\">(through teshuvah,</t>\n    <t s=\"8\">the service of man),</t>\n    <t s=\"9\">and even after \"peace to the far-off\" was made</t>\n    <t s=\"10\">(through an drawing down from Above),</t>\n    <t s=\"11\">he still needs healing.</t>\n    <t s=\"12\">And the healing is through the study of Torah.</t>\n    <t s=\"13\">And this is \"I am G-d, I will heal him,\"</t>\n    <t s=\"14\">that the healing is \"the saying of G-d,\"</t>\n    <t s=\"15\">that he engraves the letters of the Torah in the power of his memory.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>The healing through Torah study applies even to physical healing, and through the power of Torah, even natural medicine can effect a complete cure with no residual trace.</sectionSummaryBrief>\n    <t s=\"0\">And it is to be noted,</t>\n    <t s=\"1\">that what is said in the maamar, that \"I will heal him\" is through the study of Torah,</t>\n    <t s=\"2\">also applies to physical healing,</t>\n    <t s=\"3\">as it is written,</t>\n    <t s=\"4\">\"and healing for all his flesh.\"</t>\n    <t s=\"5\">And based on this, it can be said,</t>\n    <t s=\"6\">that what was said above</t>\n    <t s=\"7\">(section 5)</t>\n    <t s=\"8\">that the healing of \"I am G-d, I will heal him\" is in a manner that no trace remains, to the point that it is uprooted from its very beginning,</t>\n    <t s=\"9\">applies also when the healing from the Holy One, blessed be He, is drawn down through a human physician and through medicinal herbs.</t>\n    <t s=\"10\">For since the Torah is the master over all of existence,</t>\n    <t s=\"11\">including also the existence of healing</t>\n    <t s=\"12\">(the wisdom of medicine, etc., and even the very essence of healing),</t>\n    <t s=\"13\">it is therefore understood,</t>\n    <t s=\"14\">that it is within the power of Torah,</t>\n    <t s=\"15\">that even healing through a human being and through herbs and the like will be in a manner that no trace remains, to the point that it is uprooted from its very beginning.</t>\n    <t s=\"16\">And it is to be noted,</t>\n    <t s=\"17\">that even in natural healing there is a healing that uproots the illness.</t>\n    <t s=\"18\">However, this healing is not common, and the common healings are in a manner that a trace remains.</t>\n    <t s=\"19\">And based on this, it is even more understood that it is within the power of Torah to cause that even healing through common medicines will be in a manner that no trace remains,</t>\n    <t s=\"20\">since this concept already exists in the world.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>The advice for the distant person, the baal teshuvah, is \"niv sefatayim\" (verbal confession), and for one distant from Jerusalem (fear of Heaven), it is speech in Torah, which becomes automatic through being engraved with Torah.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And it continues in the maamar in the explanation of the verse, \"Borei niv sefatayim, shalom... l'rachok,\"</t>\n    <t s=\"2\">that the advice and correction for the distant one,</t>\n    <t s=\"3\">the baal teshuvah,</t>\n    <t s=\"4\">is \"niv sefatayim,\"</t>\n    <t s=\"5\">verbal confession.</t>\n    <t s=\"6\">And it is called \"niv sefatayim,\"</t>\n    <t s=\"7\">speech that comes spontaneously,</t>\n    <t s=\"8\">for the confession of the baal teshuvah comes in a spontaneous manner,</t>\n    <t s=\"9\">from the pain of the depth of his heart.</t>\n    <t s=\"10\">And behold, this explanation, that \"niv sefatayim\" is confession,</t>\n    <t s=\"11\">is according to the Gemara's explanation that \"peace to the far-off\" refers to a baal teshuvah.</t>\n    <t s=\"12\">And according to the Radak's explanation that \"peace to the far-off\" refers to those distant from Jerusalem,</t>\n    <t s=\"13\">the maamar explains,</t>\n    <t s=\"14\">that Jerusalem is the concept of fear of Heaven,</t>\n    <t s=\"15\">and \"distant from Jerusalem\" is one who by nature does not fear Heaven,</t>\n    <t s=\"16\">and the advice for this is \"niv sefatayim,\"</t>\n    <t s=\"17\">speech in words of Torah.</t>\n    <t s=\"18\">And it can be said,</t>\n    <t s=\"19\">that this, that speech in Torah is called in this verse by the name \"niv sefatayim,\"</t>\n    <t s=\"20\">speech that comes spontaneously,</t>\n    <t s=\"21\">is,</t>\n    <t s=\"22\">to hint that a person must be so immersed in Torah,</t>\n    <t s=\"23\">until his speech in Torah is in a spontaneous manner</t>\n    <t s=\"24\">(like the saying of our Rabbis, of blessed memory,</t>\n    <t s=\"25\">\"from himself he would bow\").</t>\n    <t s=\"26\">And it is possible to connect this with what was brought above from the maamar, that the concept of \"I am G-d, I will heal him\" is that words of Torah will be engraved in the power of his memory,</t>\n    <t s=\"27\">for the concept of engraving is that the thing engraved is one with the thing into which it is engraved,</t>\n    <t s=\"28\">and by becoming one with the Torah,</t>\n    <t s=\"29\">so that his very existence is Torah,</t>\n    <t s=\"30\">all of his speech,</t>\n    <t s=\"31\">even when he does not intend to speak words of Torah,</t>\n    <t s=\"32\">are words of Torah.</t>\n    <t s=\"33\">And this is \"Borei niv sefatayim,\"</t>\n    <t s=\"34\">that this, that the \"niv sefatayim\" of a person</t>\n    <t s=\"35\">(speech that comes on its own,</t>\n    <t s=\"36\">without intention)</t>\n    <t s=\"37\">is words of Torah,</t>\n    <t s=\"38\">is through his becoming a new existence,</t>\n    <t s=\"39\">an existence of Torah.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914734_theRebbe_896",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914734_theRebbe_896__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "After one becomes close to G-d through repentance, healing is still needed, and this healing comes through Torah study, specifically by engraving the letters of Torah in one's memory.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And it continues in the maamar,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "That which is written, \"I am G-d, I will heal him,\" after it says \"peace to the far-off,\""
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "is,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "that since initially he was distant from G-dliness,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "therefore,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "even after he became close to G-dliness"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(through teshuvah,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "the service of man),"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "and even after \"peace to the far-off\" was made"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "(through an drawing down from Above),"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "he still needs healing."
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "And the healing is through the study of Torah."
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "And this is \"I am G-d, I will heal him,\""
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "that the healing is \"the saying of G-d,\""
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "that he engraves the letters of the Torah in the power of his memory."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "The healing through Torah study applies even to physical healing, and through the power of Torah, even natural medicine can effect a complete cure with no residual trace.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And it is to be noted,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "that what is said in the maamar, that \"I will heal him\" is through the study of Torah,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "also applies to physical healing,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "\"and healing for all his flesh.\""
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "that what was said above"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "(section 5)"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "that the healing of \"I am G-d, I will heal him\" is in a manner that no trace remains, to the point that it is uprooted from its very beginning,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "applies also when the healing from the Holy One, blessed be He, is drawn down through a human physician and through medicinal herbs."
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "For since the Torah is the master over all of existence,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "including also the existence of healing"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "(the wisdom of medicine, etc., and even the very essence of healing),"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "it is therefore understood,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "that it is within the power of Torah,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "that even healing through a human being and through herbs and the like will be in a manner that no trace remains, to the point that it is uprooted from its very beginning."
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "And it is to be noted,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "that even in natural healing there is a healing that uproots the illness."
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "However, this healing is not common, and the common healings are in a manner that a trace remains."
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "And based on this, it is even more understood that it is within the power of Torah to cause that even healing through common medicines will be in a manner that no trace remains,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "since this concept already exists in the world."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "The advice for the distant person, the baal teshuvah, is \"niv sefatayim\" (verbal confession), and for one distant from Jerusalem (fear of Heaven), it is speech in Torah, which becomes automatic through being engraved with Torah.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And it continues in the maamar in the explanation of the verse, \"Borei niv sefatayim, shalom... l'rachok,\""
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that the advice and correction for the distant one,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "the baal teshuvah,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "is \"niv sefatayim,\""
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "verbal confession."
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "And it is called \"niv sefatayim,\""
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "speech that comes spontaneously,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "for the confession of the baal teshuvah comes in a spontaneous manner,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "from the pain of the depth of his heart."
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "And behold, this explanation, that \"niv sefatayim\" is confession,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "is according to the Gemara's explanation that \"peace to the far-off\" refers to a baal teshuvah."
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "And according to the Radak's explanation that \"peace to the far-off\" refers to those distant from Jerusalem,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "the maamar explains,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "that Jerusalem is the concept of fear of Heaven,"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "and \"distant from Jerusalem\" is one who by nature does not fear Heaven,"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "and the advice for this is \"niv sefatayim,\""
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "speech in words of Torah."
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "that this, that speech in Torah is called in this verse by the name \"niv sefatayim,\""
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "speech that comes spontaneously,"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "is,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "to hint that a person must be so immersed in Torah,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "until his speech in Torah is in a spontaneous manner"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "(like the saying of our Rabbis, of blessed memory,"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "\"from himself he would bow\")."
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "And it is possible to connect this with what was brought above from the maamar, that the concept of \"I am G-d, I will heal him\" is that words of Torah will be engraved in the power of his memory,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "for the concept of engraving is that the thing engraved is one with the thing into which it is engraved,"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "and by becoming one with the Torah,"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "so that his very existence is Torah,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "all of his speech,"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "even when he does not intend to speak words of Torah,"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "are words of Torah."
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "And this is \"Borei niv sefatayim,\""
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "that this, that the \"niv sefatayim\" of a person"
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "(speech that comes on its own,"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "without intention)"
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "is words of Torah,"
+          },
+          {
+            "v": 11,
+            "s": 38,
+            "translation": "is through his becoming a new existence,"
+          },
+          {
+            "v": 11,
+            "s": 39,
+            "translation": "an existence of Torah."
+          }
+        ]
+      }
+    ]
+  }
+}

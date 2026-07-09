@@ -1,0 +1,150 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518914805_theRebbe_603" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914805_theRebbe_603__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518914805_theRebbe_603" title="מאמר ויאמר ה' אל אברם תשל"ח" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518914805_theRebbe_603__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">מוצאי ש"פ לך לך – בחדרו – ה'תשל"ח</src>
+  </section>
+  <section v="1">
+    <src s="0">ויאמר ה' אל אברם לך לך מארצך וממולדתך ומבית אביך אל הארץ אשר אראך,</src>
+    <src s="1">וידוע1</src>
+    <src s="2">שיש בזה ב' פירושים.</src>
+    <src s="3">פירוש הא' שההליכה</src>
+    <src s="4">(דלך לך)</src>
+    <src s="5">היא מלמעלמ"ט.</src>
+    <src s="6">וכמבואר בתו"א2</src>
+    <src s="7">שאברם הוא אב רם,</src>
+    <src s="8">שכל הנעלם מכל רעיון</src>
+    <src s="9">[שהוא למעלה גם מבחי' חכמה.</src>
+    <src s="10">כי חכמה</src>
+    <src s="11">(עם היותה ראשית כל הכחות פנימיים)</src>
+    <src s="12">היא בחי' גילוי.</src>
+    <src s="13">משא"כ אב רם הוא שכל הנעלם מכל רעיון.</src>
+    <src s="14">וכמבואר בהגהות וביאורי הצ"צ לתו"א שם3</src>
+    <src s="15">פרטי הדרגות שבזה].</src>
+    <src s="16">ואמר ה' אל אברם לך לך מארצך גו' שיצא אורו הנעלם לגילוי ויומשך מלמעלה למטה עד אל הארץ,</src>
+    <src s="17">בחי' מלכות.</src>
+    <src s="18">ומוסיף "אשר אראך",</src>
+    <src s="19">ובזה ב' פירושים.</src>
+    <src s="20">א'</src>
+    <src s="21">(כפשוטו)</src>
+    <src s="22">שאראך קאי על הארץ,</src>
+    <src s="23">בחי' מלכות,</src>
+    <src s="24">שהמלכות היא בחי' עלמא דאתגליא לכן אומר עלי' אשר אראך4.</src>
+    <src s="25">ופירוש ב' שאראך קאי על אברם</src>
+    <src s="26">(בחי' שכל הנעלם מכל רעיון)</src>
+    <src s="27">– "אראה ואגלה אותך בעצמך"5</src>
+    <src s="28">("במהותך ועצמותך"6).</src>
+    <src s="29">והיינו,</src>
+    <src s="30">דהגם שספירת המלכות עלמא דאתגליא</src>
+    <src s="31">(ובפרט כמו שנמשכת בבי"ע7)</src>
+    <src s="32">היא קצה הכי תחתון,</src>
+    <src s="33">ושכל הנעלם מכל רעיון</src>
+    <src s="34">(שהוא נעלם גם מרעיון העליון)</src>
+    <src s="35">הוא קצה הכי עליון,</src>
+    <src s="36">אעפ"כ,</src>
+    <src s="37">ע"י הירידה וההמשכה</src>
+    <src s="38">(דאברם,</src>
+    <src s="39">שכל הנעלם מכל רעיון)</src>
+    <src s="40">אל הארץ אשר אראך</src>
+    <src s="41">(כפירוש הא'),</src>
+    <src s="42">לבחי' מלכות עלמא דאתגליא</src>
+    <src s="43">(קצה התחתון),</src>
+    <src s="44">עי"ז יתראה ויתגלה אמיתית ענינו</src>
+    <src s="45">(מהותו ועצמותו)</src>
+    <src s="46">של אברם</src>
+    <src s="47">(כפירוש הב'),</src>
+    <src s="48">שנעשה עילוי</src>
+    <src s="49">(גם)</src>
+    <src s="50">בבחי' שכל הנעלם מכל רעיון</src>
+    <src s="51">(קצה הכי עליון),</src>
+    <src s="52">כמובן מהמבואר בתו"א שם8.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ועד"ז הוא גם בענין ירידת הנשמה בגוף9,</src>
+    <src s="2">שהעלי' הנעשית בהנשמה ע"י ירידתה למטה</src>
+    <src s="3">[שנעשית בבחינת מהלך10,</src>
+    <src s="4">ענין "לך לך"11],</src>
+    <src s="5">היא גם בהדרגות הכי נעלות שבה,</src>
+    <src s="6">ואפילו בבחינת יחידה.</src>
+    <src s="7">דהגם דזה שנקראת יחידה הוא להיותה "מקבלת מיחיד"12</src>
+    <src s="8">[שלכן13</src>
+    <src s="9">אין שייך שתהי' כנגדה בלעו"ז,</src>
+    <src s="10">בבואה דבבואה לית להו14],</src>
+    <src s="11">מ"מ,</src>
+    <src s="12">ע"י שהנשמה יורדת למטה,</src>
+    <src s="13">מאיגרא רמה לבירא עמיקתא15,</src>
+    <src s="14">נעשה עלי' גם בבחינת יחידה שבה.</src>
+    <src s="15">כמבואר בכמה דרושים16</src>
+    <src s="16">שע"י עבודת הנשמה בירידתה למטה דוקא נעשה עלי'</src>
+    <src s="17">(ועלי' שלא בערך)</src>
+    <src s="18">גם בשרש ועצם הנשמה שלמעלה.</src>
+    <src s="19">וכמובן גם מהמבואר בכמה שיחות17</src>
+    <src s="20">(בענין עלי' לתורה),</src>
+    <src s="21">שהעלי' היא בכל חמש הבחינות שבנשמה נפש רוח נשמה חי' יחידה,</src>
+    <src s="22">שהם ג' הבחינות תחתיים שניים ושלישיים18</src>
+    <src s="23">דתיבת נח.</src>
+    <src s="24">וע"פ משנת"ל19</src>
+    <src s="25">(ע"פ תורת הבעש"ט20</src>
+    <src s="26">עה"פ21</src>
+    <src s="27">בא גו' אל התיבה)</src>
+    <src s="28">שענין תיבת נח הוא "הוראה בסדר עבודה"22</src>
+    <src s="29">לכאו"א מישראל</src>
+    <src s="30">[ובפרט לאחרי חודש תשרי שאז מתחיל סדר העבודה ד"ויעקב הלך לדרכו"23.</src>
+    <src s="31">שהגם שהוא הולך לדרכו</src>
+    <src s="32">(גם)</src>
+    <src s="33">בעניני הרשות ובעובדין דחול,</src>
+    <src s="34">ועד לבחי' מים רבים שהם כל טרדות הפרנסה כו'24,</src>
+    <src s="35">מ"מ ע"י שמכניס את עצמו בהתיבות דתפלה ותורה הנה לא זו בלבד שהוא "ניצל מהשטף דמבול"22</src>
+    <src s="36">אלא יתירה מזו שע"י המים נעשה ותרם התיבה25</src>
+    <src s="37">ועד שנעשה ותנח התיבה26],</src>
+    <src s="38">מובן מזה,</src>
+    <src s="39">שעליית הנשמה שנעשה ע"י ירידתה למטה והתלבשותה במים רבים הוא בכל ג' הבחינות</src>
+    <src s="40">(דתיבת נח)</src>
+    <src s="41">תחתיים שניים ושלישיים,</src>
+    <src s="42">שענינם בנפש האדם הוא נר"נ חי' יחידה27.</src>
+    <src s="43">בדוגמת המבואר לעיל</src>
+    <src s="44">(סעיף א')</src>
+    <src s="45">שע"י הליכת וירידת אברם אל הארץ בחי' מלכות,</src>
+    <src s="46">שהתכלית</src>
+    <src s="47">(דירידה זו)</src>
+    <src s="48">הוא להיות גילוי בבי"ע28</src>
+    <src s="49">[וכידוע29,</src>
+    <src s="50">שהליכת אברם אל הארץ הי' בכדי להמשיך בבי"ע עד בעוה"ז הגשמי,</src>
+    <src s="51">שעי"ז עשה הכנה לההמשכה שע"י מעשה המצוות בגשמיות לאחרי מתן תורה]</src>
+    <src s="52">נעשה עילוי גם בבחי' שכל הנעלם מכל רעיון.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,141 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915857_theRebbe_394" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915857_theRebbe_394__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915857_theRebbe_394" title="מאמר ת"ר מצות נר חנוכה תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915857_theRebbe_394__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">וביאור הענין בעבודת האדם יובן בהקדים המבואר בדרושי כ"ק מו"ח אדמו"ר29,</src>
+    <src s="2">דזה שהיונים טימאו את השמנים שבהיכל הוא מפני שכל מלחמתם היתה מלחמה רוחנית,</src>
+    <src s="3">שלא רצו לפגוע בגופם של ישראל30</src>
+    <src s="4">אלא עיקר רצונם הי' להשכיחם תורתך ולהעבירם מחוקי רצונך21.</src>
+    <src s="5">וגם בזה גופא</src>
+    <src s="6">(בזה שלחמו נגד התומ"צ),</src>
+    <src s="7">עיקר מלחמתם היתה נגד הרוחניות</src>
+    <src s="8">(והאלקות)31</src>
+    <src s="9">דתומ"צ32.</src>
+    <src s="10">דזהו להשכיחם תורתך</src>
+    <src s="11">(תורתך דוקא),</src>
+    <src s="12">שגם להיונים לא הי' איכפת</src>
+    <src s="13">(כ"כ)</src>
+    <src s="14">שישראל ילמדו תורה,</src>
+    <src s="15">אלא שרצו שלימוד התורה יהי' רק מצד השכל שבתורה,</src>
+    <src s="16">כי היא חכמתכם ובינתכם לעיני העמים33,</src>
+    <src s="17">וכל עיקר מלחמתם היתה שביקשו להשכיחם תורתך,</src>
+    <src s="18">להשכיח ח"ו את ישראל שהתורה היא תורת הוי'.</src>
+    <src s="19">ועד"ז במצוות,</src>
+    <src s="20">שמלחמת היונים היתה נגד האלקות שבמצוות,</src>
+    <src s="21">מה שהמצוות הם רצונו ית' דזהו להעבירם מחוקי רצונך</src>
+    <src s="22">(חוקי דוקא ורצונך דוקא),</src>
+    <src s="23">דשני פירושים בזה.</src>
+    <src s="24">שעל המצוות דעדות ומשפטים,</src>
+    <src s="25">להיותם מצוות שכליות,</src>
+    <src s="26">הסכימו גם היונים,</src>
+    <src s="27">וכל מלחמתם היתה כנגד המצוות דחוקים,</src>
+    <src s="28">מכיון שאופן קיומם הוא רק מפני שהם רצון הוי'.</src>
+    <src s="29">ופירוש ב'</src>
+    <src s="30">(בעומק יותר),</src>
+    <src s="31">דזה מה שביקשו להעבירם מחוקי רצונך הוא בכל המצוות,</src>
+    <src s="32">גם בהמצוות דעדות ומשפטים34.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">ויובן זה ע"פ הידוע35,</src>
+    <src s="2">שגם המצוות דעדות ומשפטים צריך לקיים</src>
+    <src s="3">(בעיקר)</src>
+    <src s="4">מפני שהם רצון ה',</src>
+    <src s="5">כמו החוקים.</src>
+    <src s="6">וענין זה</src>
+    <src s="7">(שגם המצוות שיש עליהם טעם צריך לקיימם מפני שהם רצון ה')</src>
+    <src s="8">הוא לא רק מצד האדם המקיים,</src>
+    <src s="9">שקיום המצוות שלו צריך להיות בדרך עבודת עבד36,</src>
+    <src s="10">שזהו דוקא כשמקיים את המצוות</src>
+    <src s="11">(לא מצד הטעם והשכל,</src>
+    <src s="12">כי אם)</src>
+    <src s="13">מצד ציווי האדון37,</src>
+    <src s="14">אלא גם מצד המצוות,</src>
+    <src s="15">כי כל המצוות</src>
+    <src s="16">(גם המצוות שיש עליהם טעם)</src>
+    <src s="17">הם רצונו ית',</src>
+    <src s="18">רצון שלמעלה מהטעם38,</src>
+    <src s="19">ורק שכך גזר הקב"ה שהרצון דמצוות אלו יתלבש גם בטעם39.</src>
+    <src s="20">ולא עוד,</src>
+    <src s="21">אלא שגם טעמי המצוות</src>
+    <src s="22">(כמו שהם לאמיתתם)</src>
+    <src s="23">הם למעלה מההבנה דשכל אנושי,</src>
+    <src s="24">דאמיתית טעמי המצוות הוא כמו שהם בחכמתו ית',</src>
+    <src s="25">ומכיון שגם חכמתו ית' היא אין סוף</src>
+    <src s="26">(ובפרט שהוא ית' וחכמתו אחד40),</src>
+    <src s="27">הרי אין שייך ששכל מוגבל דהנבראים יוכל להשיג אמיתית הטעם דהמצוות,</src>
+    <src s="28">וכמ"ש באגה"ק41</src>
+    <src s="29">שטעמי מצוות לא נתגלו והם למעלה מהשכל וההבנה,</src>
+    <src s="30">וגם באיזהו מקומן שנתגלה ונתפרש איזה טעם המובן לנו לכאורה,</src>
+    <src s="31">הנה טעם זה המובן לנו אינו תכלית הטעם כו'.</src>
+    <src s="32">וענין זה</src>
+    <src s="33">(שהטעם המובן לנו אינו תכלית הטעם)</src>
+    <src s="34">מובן גם בשכל אנושי.</src>
+    <src s="35">שהרי גם שכל אנושי מבין בפשטות,</src>
+    <src s="36">ששכל מוגבל אין ביכלתו להשיג חכמתו ית' הבלתי מוגבלת.</src>
+    <src s="37">ואדרבא,</src>
+    <src s="38">זה שבאיזהו מקומן נתגלה ונתפרש איזה טעם המובן לנו הוא פלא גדול,</src>
+    <src s="39">והוא רק חסד ה' שגם שכל האדם יהי' לו איזו השגה בזה.</src>
+    <src s="40">וגם לאחרי שבחסד ה' נתגלה ונתפרש טעם המובן לנו,</src>
+    <src s="41">הרי ידוע42</src>
+    <src s="42">שהטעם הוא רק על כללות המצוה ולא על הפרטים.</src>
+    <src s="43">שמכל זה מובן,</src>
+    <src s="44">שגם המצוות דעדות ומשפטים הם</src>
+    <src s="45">(כמו)</src>
+    <src s="46">חוקים לגבינו</src>
+    <src s="47">(מכיון שגם טעמי המצוות שמצד חכמתו ית' הם למעלה משכל הנבראים),</src>
+    <src s="48">ויתירה מזו שהם רצונך</src>
+    <src s="49">(רצונו ית' שלמעלה גם מחכמתו ית').</src>
+    <src s="50">וזהו דמה שהיונים ביקשו להעבירם מחוקי רצונך הוא גם בהמצוות דעדות ומשפטים43,</src>
+    <src s="51">כי היונים ביקשו לעקור ח"ו מישראל את ההרגש האלקי שבמצוות,</src>
+    <src s="52">שכל המצוות הם חכמתו ית' שלמעלה משכל אנושי</src>
+    <src s="53">(להעבירם מחוקי),</src>
+    <src s="54">וביקשו לעקור ח"ו את ההרגש שהמצוות הם רצונו ית'</src>
+    <src s="55">(רצונך).</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">ובזה יובן לשון הגמרא כשנכנסו יונים להיכל טימאו כל השמנים שבהיכל,</src>
+    <src s="2">דמשמעות הלשון הוא44,</src>
+    <src s="3">שכשנכנסו להיכל הנה השתדלו ונתאמצו לטמא את השמנים</src>
+    <src s="4">(בכדי לנצח ח"ו את ישראל),</src>
+    <src s="5">כי היכל הוא בינה ושמן הוא חכמה שלמעלה מהשכל דבינה45</src>
+    <src s="6">(כנ"ל ס"ב ששמן הוא בחינת קודש),</src>
+    <src s="7">ולכן טימאו כל השמנים שבהיכל דבינה,</src>
+    <src s="8">בכדי להפיק ח"ו את מזימתם להשכיחם תורתך ולהעבירם מחוקי רצונך,</src>
+    <src s="9">אלא שלימוד התורה וקיום המצוות יהיו רק מצד השכל.</src>
+  </section>
+</awtsmoosMeluketSource>

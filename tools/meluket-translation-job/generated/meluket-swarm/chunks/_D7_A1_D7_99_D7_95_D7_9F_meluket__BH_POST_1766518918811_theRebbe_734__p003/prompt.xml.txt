@@ -1,0 +1,151 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918811_theRebbe_734" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918811_theRebbe_734__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918811_theRebbe_734" title="מאמר ביום השני הקריב תשל"ב" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918811_theRebbe_734__p003">
+  <section v="6">
+    <src s="0">וכמו31 שהוא בענין ההשפעה עד"ז הוא בכל עשי',</src>
+    <src s="1">דסופן הוא העשי' עצמה,</src>
+    <src s="2">עשיית ופעולת האדם,</src>
+    <src s="3">ונקראת בשם סופן,</src>
+    <src s="4">כי כח המעשה הוא כח היותר אחרון,</src>
+    <src s="5">וגם פעולת המעשה באה בסוף.</src>
+    <src s="6">דבתחילה הוא התענוג,</src>
+    <src s="7">ומזה נמשכים הרצון והשכל והמדות,</src>
+    <src s="8">והמדות מתלבשים במחשבה ודיבור,</src>
+    <src s="9">ולאח"ז באה המעשה32.</src>
+    <src s="10">ונעוץ סופן בתחלתן ותחלתן בסופן,</src>
+    <src s="11">דשורש המעשה הוא בהתענוג,</src>
+    <src s="12">שהוא ה"תחילה",</src>
+    <src s="13">סיבת הרצון ושאר הכחות.</src>
+    <src s="14">וכן נעוץ תחלתן בסופן,</src>
+    <src s="15">שגילוי התענוג הוא בהמעשה דוקא.</src>
+    <src s="16">וסוף מעשה הוא</src>
+    <src s="17">(לא העשי' עצמה,</src>
+    <src s="18">אלא)</src>
+    <src s="19">המעשה שנעשתה ע"י עשיית ופעולת האדם.</src>
+    <src s="20">ועיקר ענין סוף מעשה הוא בהמעשה הבאה ע"י עשייתו שאינה תלוי' ברצון האדם.</src>
+    <src s="21">וכמו אומן העושה מלאכה,</src>
+    <src s="22">דזה שהאומן אינו יכול לקבל על עצמו שהמלאכה תהי' בהצלחה</src>
+    <src s="23">[דענין זה אינו תלוי בהאומן.</src>
+    <src s="24">וע"ד המבואר לעיל בענין קבלת ההשפעה,</src>
+    <src s="25">שזה תלוי בהמקבל ולא בהנותן].</src>
+    <src s="26">וסוף מעשה במחשבה תחלה,</src>
+    <src s="27">שהתענוג של האומן מזה שהמלאכה נעשתה בתכלית ההידור והיופי</src>
+    <src s="28">(באופן דהצלחה)</src>
+    <src s="29">הוא תענוג נעלה יותר מהתענוג שבעשיית המלאכה.</src>
+    <src s="30">דהתענוג שנעשית המלאכה הוא תענוג המורכב</src>
+    <src s="31">(תענוג מעשיית המלאכה),</src>
+    <src s="32">וע"י שרואה שהמלאכה נעשתה בהידור וביופי,</src>
+    <src s="33">מתגלה תענוג הפשוט</src>
+    <src s="34">(כמבואר בהמשך הנ"ל).</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">והנה ידוע33</src>
+    <src s="2">שמעלת האדם מתחילה מכח הדיבור שבו34</src>
+    <src s="3">(משא"כ מעשה ישנו גם בבע"ח).</src>
+    <src s="4">ועפ"ז יש לומר,</src>
+    <src s="5">דשני הענינים שבמעשה – עשיית ופעולת האדם</src>
+    <src s="6">(סופן),</src>
+    <src s="7">והמעשה הבאה ע"י העשי' שלו</src>
+    <src s="8">(סוף מעשה)</src>
+    <src s="9">– יש</src>
+    <src s="10">(דוגמתם)</src>
+    <src s="11">גם בהעשי' דהאדם.</src>
+    <src s="12">דזה שהכחות דהאדם</src>
+    <src s="13">(שכל ומדות מחשבה ודיבור)</src>
+    <src s="14">נמשכים ומתלבשים בהמעשה,</src>
+    <src s="15">הוא ע"ד עשיית ופעולת האדם,</src>
+    <src s="16">והמעשה עצמה</src>
+    <src s="17">(כמו שהיא נבדלת מהכחות שלמעלה ממנה,</src>
+    <src s="18">שהם עיקר האדם)</src>
+    <src s="19">הוא ע"ד המעשה</src>
+    <src s="20">(שמחוץ להאדם)</src>
+    <src s="21">שנעשה ע"י עשיית ופעולת האדם.</src>
+    <src s="22">והחילוק דשני הענינים בשרשם בנפש הוא,</src>
+    <src s="23">דשורש המעשה ששייך להכחות שלמעלה ממנו</src>
+    <src s="24">(היינו ההתלבשות דהכחות בהמעשה)</src>
+    <src s="25">הוא בבחינת הגילוי דהנפש.</src>
+    <src s="26">והיינו35,</src>
+    <src s="27">שגם השורש דענין זה שבמעשה הוא בהנפש שלמעלה מהכחות.</src>
+    <src s="28">כי הכחות מצד עצמם הם מובדלים ואין ביכלתם לירד למטה כ"כ ולהתלבש במעשה,</src>
+    <src s="29">וזה שאפשר להם לירד ולהתלבש במעשה הוא ע"י שנמשך בהם מהנפש</src>
+    <src s="30">(שלמעלה מהכחות),</src>
+    <src s="31">שהיא נמצאת בכל הכחות והאיברים בשוה.</src>
+    <src s="32">אבל ענין זה שבנפש</src>
+    <src s="33">(שביכלתה לירד למטה מטה)</src>
+    <src s="34">הוא בחינת הגילוי שלה – ע"ד נעוץ סופן בתחלתן,</src>
+    <src s="35">שהשורש דסופן</src>
+    <src s="36">(עשיית האדם)</src>
+    <src s="37">הוא בה"תחילה",</src>
+    <src s="38">שורש ההשפעה.</src>
+    <src s="39">והשורש דהמעשה עצמו</src>
+    <src s="40">(כמו שהוא נבדל מהכחות שלמעלה ממנו)</src>
+    <src s="41">הוא בעצם הנפש35</src>
+    <src s="42">– ע"ד סוף מעשה במחשבה תחלה,</src>
+    <src s="43">שהשורש דסוף מעשה</src>
+    <src s="44">(שמחוץ להאדם)</src>
+    <src s="45">הוא בהתחילה שלפני תחלת המחשבה,</src>
+    <src s="46">למעלה משורש ההשפעה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דבמעלת המעשה בזה שעל ידה מתגלה הבל"ג דהנפש שלמעלה מהכחות – השכל והמדות וכו' הם לפני</src>
+    <src s="2">[ולמעלה מ]</src>
+    <src s="3">המעשה.</src>
+    <src s="4">דכיון שגילוי הבל"ג דהנפש הוא שהשכל והמדות נמשכים ומתלבשים בהמעשה,</src>
+    <src s="5">הרי השכל והמדות קודמים להמעשה.</src>
+    <src s="6">וגם למעלה מהמעשה.</src>
+    <src s="7">שהרי המעלה דמעשה</src>
+    <src s="8">(בבחינה זו)</src>
+    <src s="9">היא לא בהמעשה עצמו אלא בזה שהשכל והמדות מתלבשים בהמעשה</src>
+    <src s="10">[ועפ"ז יש לבאר מה שאמרו תלמוד גדול שמביא לידי מעשה</src>
+    <src s="11">(דלכאורה,</src>
+    <src s="12">מזה עצמו שהגדלות דתלמוד הוא שמביא למעשה מוכח שהמעשה הוא העיקר,</src>
+    <src s="13">ואעפ"כ תלמוד גדול ממעשה),</src>
+    <src s="14">כי היתרון דמעשה לגבי תלמוד בדרגא זו היא שהתלמוד מביא למעשה</src>
+    <src s="15">(דזה שהתלמוד מביא לידי מעשה הוא ע"י שנמשך בו ענין הבל"ג שלמעלה מהתלמוד עצמו),</src>
+    <src s="16">ולכן תלמוד גדול].</src>
+    <src s="17">ובמעלת המעשה מצד זה ששורש המעשה עצמו הוא בעצם הנפש – המעשה הוא לפני</src>
+    <src s="18">(ולמעלה מ)</src>
+    <src s="19">כל הכחות,</src>
+    <src s="20">וזהו שלפני מתן תורה הקדימו נעשה לנשמע,</src>
+    <src s="21">ועד"ז בחנוכת המשכן הקריב יהודה</src>
+    <src s="22">(מעשה)</src>
+    <src s="23">לפני יששכר</src>
+    <src s="24">(תלמוד),</src>
+    <src s="25">כי במתן תורה ובהקמת המשכן היתה המשכת העצמות,</src>
+    <src s="26">ושם – המעשה קודם לתלמוד.</src>
+  </section>
+</awtsmoosMeluketSource>

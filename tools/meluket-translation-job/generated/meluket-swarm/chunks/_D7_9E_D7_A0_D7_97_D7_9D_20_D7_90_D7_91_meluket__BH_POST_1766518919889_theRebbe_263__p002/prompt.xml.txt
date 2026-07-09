@@ -1,0 +1,105 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919889_theRebbe_263" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919889_theRebbe_263__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919889_theRebbe_263" title="מאמר והי' עקב תשמעון תשכ"ז" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919889_theRebbe_263__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים מ"ש בתניא19</src>
+    <src s="2">דתכלית השלימות של ימות המשיח ותחיית המתים תלוי במעשינו ועבודתינו כל זמן משך הגלות,</src>
+    <src s="3">וכתב אאמו"ר בעל ההילולא בהערותיו על הגליון של ספר התניא שלו20</src>
+    <src s="4">(שמשך כמה שנים הי' בשבי' ובזמן האחרון נפדו</src>
+    <src s="5">(ספר התניא שלו עם עוד ספרים שלו)</src>
+    <src s="6">מהשבי' והגיעו לכאן)</src>
+    <src s="7">דענין ב' הלשונות,</src>
+    <src s="8">במעשינו ועבודתינו,</src>
+    <src s="9">יובן ממ"ש לקמן באגה"ק סי"ב ד"ה והי' מעשה הצדקה גו' ע"ש.</src>
+    <src s="10">ולאח"ז ממשיך,</src>
+    <src s="11">דיש לומר,</src>
+    <src s="12">שמעשינו קאי על ימות המשיח ועבודתינו קאי על תחה"מ21.</src>
+  </section>
+  <section v="4">
+    <src s="0">והנה כוונתו של בעל ההילולא במה שמציין לאגה"ק סי"ב ד"ה והי' מעשה הצדקה גו' היא לכאורה להמבואר באגה"ק שם22</src>
+    <src s="1">ההפרש בין מעשה לעבודה,</src>
+    <src s="2">"כי שם מעשה נופל על דבר שכבר נעשה או שנעשה תמיד ממילא והוא דבר ההווה ורגיל תמיד כו',</src>
+    <src s="3">(משא"כ)</src>
+    <src s="4">לשון עבודה אינו נופל אלא על דבר שהאדם עושה ביגיעה עצומה נגד טבע נפשו רק שמבטל טבעו ורצונו מפני רצון העליון ב"ה".</src>
+    <src s="5">דמזה מובן,</src>
+    <src s="6">שכ"ה גם הפירוש דב' הלשונות מעשינו ועבודתינו שבתניא כאן,</src>
+    <src s="7">דמעשינו קאי על קיום התומ"צ כפי הטבע וההרגל,</src>
+    <src s="8">ועבודתינו קאי על היגיעה בתומ"צ יותר מהטבע והרגילות.</src>
+    <src s="9">אבל,</src>
+    <src s="10">מזה שכותב דב' הלשונות</src>
+    <src s="11">(מעשינו ועבודתינו)</src>
+    <src s="12">יובן ממ"ש באגה"ק סי"ב,</src>
+    <src s="13">ומסיים</src>
+    <src s="14">(לאחרי שמציין לאגה"ק הנ"ל)</src>
+    <src s="15">"עיין שם",</src>
+    <src s="16">משמע דכוונתו במה שמציין לאגה"ק הנ"ל היא</src>
+    <src s="17">(נוסף על ההפרש שבין מעשה לעבודה סתם)</src>
+    <src s="18">גם להמבואר שם בענין מעשה הצדקה23,</src>
+    <src s="19">דע"י העיון בזה</src>
+    <src s="20">("עיין שם")</src>
+    <src s="21">יובן בעומק יותר החילוק שבין מעשינו לעבודתינו,</src>
+  </section>
+  <section v="5">
+    <src s="0">דהנה מבואר באגה"ק שם בענין מעשה הצדקה דזה "שישראל בטבעם הם רחמנים24</src>
+    <src s="1">וגומלי חסדים25</src>
+    <src s="2">(הוא)</src>
+    <src s="3">מפני היות נפשותיהם נמשכות ממדותיו ית' אשר החסד גובר בהן על מדת הדין כו' שלכן נקראת הנשמה בת כהן"26</src>
+    <src s="4">(כהן איש החסד27).</src>
+    <src s="5">ומבאר שם,</src>
+    <src s="6">ד"הצדקה הנמשכת מבחי' זו נק' בשם מעשה הצדקה כי שם מעשה נופל על דבר הווה ורגיל תמיד,</src>
+    <src s="7">(מפני ש)</src>
+    <src s="8">מדת החסד והרחמנות הוטבעה בנפשות כל בית ישראל מכבר מעת בריאותן28</src>
+    <src s="9">והשתלשלותן ממדותיו ית'".</src>
+    <src s="10">והיינו,</src>
+    <src s="11">דהגם שטבע החסד שבו הוא</src>
+    <src s="12">(לא מצד נפשו הבהמית,</src>
+    <src s="13">אלא)</src>
+    <src s="14">מצד נפשו האלקית,</src>
+    <src s="15">מ"מ,</src>
+    <src s="16">הצדקה שעושה מפני טבע זה,</src>
+    <src s="17">נק' בשם מעשה הצדקה29.</src>
+    <src s="18">ועבודת הצדקה היא שנתינת הצדקה שלו היא יותר גם מהטבע דנפשו האלקית.</src>
+    <src s="19">ומזה מובן,</src>
+    <src s="20">דהחילוק שבין מעשינו לעבודתינו</src>
+    <src s="21">(בכללות התורה ומצוות)</src>
+    <src s="22">הוא,</src>
+    <src s="23">דגם כשנפש הבהמית שלו מסתרת על הטבע דנפש האלקית,</src>
+    <src s="24">וצריך להתייגע להסיר את הכיסוי וההסתר דנפש הבהמית ולגלות הטבע דנפש האלקית,</src>
+    <src s="25">מ"מ הוא בכלל מעשינו,</src>
+    <src s="26">מכיון שהיגיעה שלו היא רק לגלות הטבע דנפשו האלקית,</src>
+    <src s="27">ועבודתינו הוא שהיגיעה שלו היא יותר גם מהטבע דנפשו האלקית.</src>
+  </section>
+</awtsmoosMeluketSource>

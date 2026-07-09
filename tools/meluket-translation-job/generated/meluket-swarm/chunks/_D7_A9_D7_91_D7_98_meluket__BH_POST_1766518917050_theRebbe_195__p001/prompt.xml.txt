@@ -1,0 +1,87 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917050_theRebbe_195" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917050_theRebbe_195__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917050_theRebbe_195" title="מאמר הנני ממטיר לכם תשל"ז" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917050_theRebbe_195__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ה' פ' בשלח,</src>
+    <src s="2">ט"ו בשבט,</src>
+    <src s="3">ה'תשל"ז*</src>
+  </section>
+  <section v="1">
+    <src s="0">הנחה</src>
+  </section>
+  <section v="2">
+    <src s="0">הנני ממטיר לכם לחם מן השמים גו'</src>
+    <src s="1">(ומבאר שזהו)</src>
+    <src s="2">למען אנסנו הילך בתורתי אם לא1.</src>
+    <src s="3">וידועים דיוקי רבותינו נשיאינו בכתוב זה2,</src>
+    <src s="4">מהו הקשר דענין המן</src>
+    <src s="5">(לחם מן השמים)</src>
+    <src s="6">עם ענין התורה.</src>
+    <src s="7">ובפרט שאומר למען אנסנו אם יוכל להיות קבלת התורה,</src>
+    <src s="8">היינו שמנסיון זה ידעו אם ילך בתורתי אם לא,</src>
+    <src s="9">שבנסיון זה תלוי ענין קבלת התורה.</src>
+    <src s="10">וגם מהו לשון הילך בתורתי,</src>
+    <src s="11">הול"ל כבכ"מ לשון של לימוד,</src>
+    <src s="12">המתאים לתורה להיותה ענין של שכל,</src>
+    <src s="13">או הישמור תורתי וכיו"ב.</src>
+    <src s="14">עוד צלה"ב,</src>
+    <src s="15">דהנה מכיון שאומרים בחמשה עשר באייר3</src>
+    <src s="16">הנני ממטיר לכם לחם מן השמים,</src>
+    <src s="17">הרי מובן שזהו דבר חידוש לגבי הלחם מן הארץ שהיו אוכלים עד חמשה עשר באייר,</src>
+    <src s="18">ולכאורה אי"מ שהרי ישנה מעלה גדולה בהלחם מן הארץ שאכלו אז שהי' מהעוגות מצות שאכלו בארץ מצרים שע"ז נצטוו על מצות ומרורים יאכלוהו4,</src>
+    <src s="19">דענין המצה ה"ה קשור עם הגאולה,</src>
+    <src s="20">וכמבואר בדרושי פסח5</src>
+    <src s="21">דענין המצה</src>
+    <src s="22">(הנה אע"פ שהו"ע של קטנות,</src>
+    <src s="23">מ"מ)</src>
+    <src s="24">הוא קטנות אבא וכמאמר6</src>
+    <src s="25">אין התינוק יודע לקרות אבא כו' עד שיטעום טעם דגן,</src>
+    <src s="26">דעי"ז הי' הגילוי דנגלה עליהם ממה"מ הקב"ה בכבודו ובעצמו וגאלם7,</src>
+    <src s="27">שמכ"ז מובן גודל העילוי דלחם מן הארץ,</src>
+    <src s="28">ואעפ"כ אומרים ש</src>
+    <src s="29">(אי"ז מספיק ו)</src>
+    <src s="30">ישנו חידוש שנתוסף דוקא ע"י הלחם מן השמים.</src>
+    <src s="31">עוד צלה"ב,</src>
+    <src s="32">דהרי החידוש דלחם מן השמים הי' בזה שבא שלא ע"י עבודת ויגיעת האדם כלחם מן הארץ,</src>
+    <src s="33">אלא כמ"ש הנני ממטיר לכם,</src>
+    <src s="34">היינו שבא מלמעלה,</src>
+    <src s="35">וא"כ אי"מ מהו הלשון ממטיר,</src>
+    <src s="36">הלא ענין המטר הוא לא כענין הטל שטל לא מיעצר8,</src>
+    <src s="37">אלא הוא תלוי בעבודת האדם,</src>
+    <src s="38">וכמבואר בדרושי האזינו9</src>
+    <src s="39">החילוק בין יערוף כמטר לקחי ותזל כטל אמרתי10.</src>
+  </section>
+</awtsmoosMeluketSource>

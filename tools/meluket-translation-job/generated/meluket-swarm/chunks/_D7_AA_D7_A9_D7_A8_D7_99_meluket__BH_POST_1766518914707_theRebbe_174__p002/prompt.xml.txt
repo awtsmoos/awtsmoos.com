@@ -1,0 +1,164 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914707_theRebbe_174" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914707_theRebbe_174__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914707_theRebbe_174" title="מאמר להבין ענין שמח"ת תשמ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914707_theRebbe_174__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ונקודת הביאור בזה הוא,</src>
+    <src s="2">דקרוב ורחוק קאי על צדיקים ובעלי תשובה.</src>
+    <src s="3">וכמ"ש16</src>
+    <src s="4">שלום שלום לרחוק ולקרוב,</src>
+    <src s="5">וידוע17</src>
+    <src s="6">דשלום לקרוב קאי על צדיקים,</src>
+    <src s="7">ושלום לרחוק קאי על בעלי תשובה,</src>
+    <src s="8">לרחוק שנעשה קרוב18.</src>
+    <src s="9">וע"י התשובה,</src>
+    <src s="10">קירוב שלאחרי הריחוק,</src>
+    <src s="11">הנה עי"ז דוקא ממשיכים מבחינה עליונה יותר,</src>
+    <src s="12">בחינת רחוק</src>
+    <src s="13">(שלמעלה מהשתלשלות),</src>
+    <src s="14">בחינת העלם שאינו במציאות.</src>
+    <src s="15">ולכן במקום שבעלי תשובה עומדין אין צדיקים גמורין יכולין לעמוד בו19.</src>
+    <src s="16">דהגם שגם בצדיקים יש עבודת התשובה,</src>
+    <src s="17">שהרי תשובה היא מצוה</src>
+    <src s="18">(לכל אחד ואחת)20,</src>
+    <src s="19">יש לומר,</src>
+    <src s="20">דמעלת התשובה היא שתשובה היא בדרך דילוג21,</src>
+    <src s="21">וענין זה הוא בתשובה כפשוטה.</src>
+    <src s="22">דכאשר עשיית התשובה היא מפני שמצוה לעשות תשובה,</src>
+    <src s="23">התשובה שלו היא בסדר והדרגה,</src>
+    <src s="24">וענין הדילוג שבתשובה הוא בעיקר בתשובה כפשוטה,</src>
+    <src s="25">באלו שהיו תחלה במקום רחוק.</src>
+    <src s="26">והגם שגם אצל צדיקים יש הרגש הריחוק,</src>
+    <src s="27">שהרי גם אצלם יש ההתבוננות</src>
+    <src s="28">(ברוממות הא-ל ית' ו)</src>
+    <src s="29">בשפלות האדם22,</src>
+    <src s="30">הרי מובן,</src>
+    <src s="31">דהרגש הריחוק שמצד התבוננות זו אינו בערך להרגש הריחוק דרע23</src>
+    <src s="32">ומר עזבך את ה' אלקיך.</src>
+    <src s="33">ומכיון שהבעלי תשובה היו</src>
+    <src s="34">(תחלה)</src>
+    <src s="35">במקום רחוק ביותר,</src>
+    <src s="36">למטה מטה ביותר,</src>
+    <src s="37">לכן עבודתם היא בתוקף יותר און מיט אַ שטורעם,</src>
+    <src s="38">בחילא יתיר24,</src>
+    <src s="39">ועי"ז הם מגיעים למקום נעלה ביותר.</src>
+    <src s="40">ובפרט לפי תורת האריז"ל הידועה25,</src>
+    <src s="41">דזה שאדם צריך לדצ"ח הוא לפי שהניצוצות שבדצ"ח הם נעלים יותר מהניצוצות שבמדבר,</src>
+    <src s="42">דכל הגבוה גבוה ביותר כשהוא יורד הוא יורד למטה מטה ביותר.</src>
+    <src s="43">שמזה מובן במכ"ש בנוגע להענינים</src>
+    <src s="44">(עבירות)</src>
+    <src s="45">שעליהם הוא ענין התשובה כפשוטה,</src>
+    <src s="46">שהניצוצות שבהם הם גבוהים ביותר,</src>
+    <src s="47">שלכן ירדו למטה מטה ביותר26.</src>
+    <src s="48">דזהו גם מהטעמים על זה שתשובה כפשוטה היא בכחות הפנימיים והנעלמים שבנפש,</src>
+    <src s="49">עד לקלא פנימאה דלא אשתמע27,</src>
+    <src s="50">כי בכדי לברר ולהעלות ניצוצות אלו שגבוהים ביותר ונפלו למטה ביותר,</src>
+    <src s="51">הוא דוקא ע"י כחות הפנימיים והנעלמים,</src>
+    <src s="52">בחינת העלם שאינו במציאות.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">וזהו משל למה הדבר דומה למלך שהיו לו בנות הרבה,</src>
+    <src s="2">מהן נשואות במקום קרוב ומהן נשואות למקום רחוק,</src>
+    <src s="3">בנות הן הנשמות המלובשות בגוף28.</src>
+    <src s="4">והבנות הן נשואות,</src>
+    <src s="5">דענין ירידת הנשמות למטה להתלבש בגוף הוא בכדי לעשות לו ית' דירה בתחתונים29,</src>
+    <src s="6">ע"י קיום התומ"צ,</src>
+    <src s="7">מתחיל ממצוה הראשונה פרו ורבו ומלאו את הארץ וכבשוה30,</src>
+    <src s="8">ענין פרו ורבו ברוחניות</src>
+    <src s="9">(תוספת אור כו' ע"י העבודה דתומ"צ בכלל31),</src>
+    <src s="10">וגם ענין פרו ורבו כפשוטו,</src>
+    <src s="11">לשבת יצרה32,</src>
+    <src s="12">שעי"ז נעשה העולם דירה לו ית'.</src>
+    <src s="13">וזהו"ע בנות נשואות,</src>
+    <src s="14">דענין הנשואין הוא בשביל פו"ר33</src>
+    <src s="15">ברוחניות ובגשמיות,</src>
+    <src s="16">שיהי' המשכת וגילוי כח הא"ס למטה34.</src>
+    <src s="17">אלא שבזה גופא יש נשואות במקום קרוב,</src>
+    <src s="18">והו"ע עבודת הצדיקים העוסקים בתומ"צ,</src>
+    <src s="19">ויש נשואות למקום רחוק,</src>
+    <src s="20">והו"ע עבודת הבירורים שבדברי הרשות ובפרט עבודת התשובה28.</src>
+    <src s="21">וזהו שאומר שהנשואות במקום קרוב אית בעונתן למיזל ולמיתי משא"כ הנשואות למקום רחוק לית בעונתן למיזל ולמיתי,</src>
+    <src s="22">דהצדיקים,</src>
+    <src s="23">כיון שלא ירדו למטה כ"כ ונמצאים במקום קרוב,</src>
+    <src s="24">לכן אין צריך בזה השתדלות מיוחדת וזריזות מיוחדת,</src>
+    <src s="25">וזה יכול לקחת זמן</src>
+    <src s="26">(אית בעונתן),</src>
+    <src s="27">היינו שעבודתם היא בסדר והדרגה.</src>
+    <src s="28">משא"כ הבעלי תשובה,</src>
+    <src s="29">כיון שירדו למטה ביותר והיו במקום רחוק,</src>
+    <src s="30">ועד שגם לאחרי התשובה יש חשש שיחזרו לסורם ח"ו35,</src>
+    <src s="31">לכן צריך בזה השתדלות וזריזות וא"א לחכות</src>
+    <src s="32">(לית בעונתן),</src>
+    <src s="33">היינו שעבודתם היא בדרך דילוג דוקא למעלה מסדר והדרגה,</src>
+    <src s="34">וגם בנוגע לזמן כפשוטו הרי עבודת התשובה היא בשעתא חדא וברגעא חדא36,</src>
+    <src s="35">קונה עולמו בשעה אחת37.</src>
+  </section>
+  <section v="5">
+    <src s="0">והגם דזה שבעלי תשובה צריכים להשתדלות וזריזות מיוחדת הוא מצד החסרון שבהם,</src>
+    <src s="1">לפי שהיו במקום רחוק</src>
+    <src s="2">(וא"א לחכות,</src>
+    <src s="3">לית בעונתן),</src>
+    <src s="4">מ"מ,</src>
+    <src s="5">הנה זה גופא</src>
+    <src s="6">(שהיו במקום רחוק)</src>
+    <src s="7">מעורר אצלם גם ענין הריחוק למעליותא.</src>
+    <src s="8">דהצדיקים שהיו במקום קרוב,</src>
+    <src s="9">עבודתם היא בכחות הקרובים שבנפש</src>
+    <src s="10">(כחות הגלויים),</src>
+    <src s="11">וגם העבודה עצמה,</src>
+    <src s="12">העלי' שלהם בכל יום ויום</src>
+    <src s="13">(דבכל יום ויום צריך להיות מעלין בקודש38),</src>
+    <src s="14">היא בקירוב,</src>
+    <src s="15">בסדר והדרגה</src>
+    <src s="16">(היינו שכל דרגא ודרגא היא בערך וקירוב להדרגא שהיו בה תחלה),</src>
+    <src s="17">וגם המקום</src>
+    <src s="18">(הבחינה שלמעלה)</src>
+    <src s="19">שמגיעים לשם ע"י עבודתם הוא בחינת מקום קרוב,</src>
+    <src s="20">העלם שישנו במציאות.</src>
+    <src s="21">משא"כ הבעלי תשובה שהיו במקום רחוק,</src>
+    <src s="22">עבודתם היא בכחות הרחוקים והנעלמים שבנפש עד לכחות העצמיים,</src>
+    <src s="23">כי זה שהיו תחלה במקום רחוק,</src>
+    <src s="24">הנה ריחוק זה מעורר את הכחות הרחוקים שבנפש,</src>
+    <src s="25">וגם העבודה גופא</src>
+    <src s="26">(העלי' שלהם)</src>
+    <src s="27">היא בבחינת ריחוק ודילוג שלא בסדר והדרגה</src>
+    <src s="28">(היינו שהדרגא שעולים בה היא בריחוק ושלא בערך כלל לגבי הדרגות שהיו בה תחלה),</src>
+    <src s="29">וגם המקום</src>
+    <src s="30">(הבחינה שלמעלה)</src>
+    <src s="31">שמגיעים לשם הוא בחינת מקום רחוק,</src>
+    <src s="32">העלם שאינו במציאות.</src>
+  </section>
+</awtsmoosMeluketSource>

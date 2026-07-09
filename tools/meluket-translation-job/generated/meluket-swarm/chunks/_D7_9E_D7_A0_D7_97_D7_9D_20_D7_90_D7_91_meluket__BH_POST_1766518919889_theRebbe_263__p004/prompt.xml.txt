@@ -1,0 +1,107 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919889_theRebbe_263" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919889_theRebbe_263__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919889_theRebbe_263" title="מאמר והי' עקב תשמעון תשכ"ז" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919889_theRebbe_263__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">ויש לומר שעד"ז הוא גם כביכול בהירידה דצמצום הראשון</src>
+    <src s="2">(תחילת הירידה שבכללות ההשתלשלות),</src>
+    <src s="3">שכוונת הצמצום הוא בשביל הגילוי</src>
+    <src s="4">[ומזה נשתלשל כן בכל הירידות שהם לצורך עלי'],</src>
+    <src s="5">שיש בזה דוגמת שני ענינים הנ"ל56.</src>
+    <src s="6">א',</src>
+    <src s="7">שע"י הצמצום נתחדש שהגילוי דאוא"ס יהי' גם בעולמות.</src>
+    <src s="8">דקודם הצמצום,</src>
+    <src s="9">כשהי' "אוא"ס ממלא מקום החלל,</src>
+    <src s="10">לא הי' מקום</src>
+    <src s="11">(אפשר)</src>
+    <src s="12">להיות מציאות העולמות"57,</src>
+    <src s="13">ובמילא לא הי' הגילוי בעולמות,</src>
+    <src s="14">וע"י הצמצום נתחדש שהגילוי דאוא"ס יהי' בעולמות.</src>
+    <src s="15">דהחידוש שבענין זה הוא רק לגבי העולמות,</src>
+    <src s="16">ולא לגבי האור,</src>
+    <src s="17">שהרי בהמדריגות שלפני הצמצום הי' אור זה גם מקודם בגילוי.</src>
+    <src s="18">וב',</src>
+    <src s="19">שע"י עבודת הבירורים יהי' גילוי אור חדש שלא האיר קודם הצמצום,</src>
+    <src s="20">ועד שגילוי זה הוא למעלה לא רק מהתפשטות האור,</src>
+    <src s="21">שבבחינת גילוי,</src>
+    <src s="22">אלא גם מעצם האור,</src>
+    <src s="23">ועד גילוי דהעלם העצמי.</src>
+  </section>
+  <section v="10">
+    <src s="0">ז)</src>
+    <src s="1">והנה ידוע דשני ענינים אלו,</src>
+    <src s="2">הגילוי דאוא"ס שהאיר גם קודם הצמצום,</src>
+    <src s="3">והגילוי דהעלם העצמי,</src>
+    <src s="4">יהיו לעתיד לבוא,</src>
+    <src s="5">אלא שאז תהיינה שתי תקופות.</src>
+    <src s="6">וזהו ביאור המדרשות החלוקות בענין לע"ל,</src>
+    <src s="7">דאמרו58</src>
+    <src s="8">עתיד הקב"ה לעשות סעודה לצדיקים ואמרו59</src>
+    <src s="9">העוה"ב אין בו לא אכילה ולא שתי',</src>
+    <src s="10">וידוע הביאור60,</src>
+    <src s="11">דב' מאמרים אלו הם בנוגע לזמנים שונים.</src>
+    <src s="12">בתחילה יהי' הגילוי דתענוג המורגש</src>
+    <src s="13">(סעודה),</src>
+    <src s="14">והוא הגילוי דאוא"ס שהאיר גם קודם,</src>
+    <src s="15">ולאח"ז יהי' הגילוי דתענוג הבלתי מורגש,</src>
+    <src s="16">ועד גילוי העלם העצמי.</src>
+    <src s="17">ובכללות הוא החילוק61</src>
+    <src s="18">בין ימות המשיח לתחיית המתים62.</src>
+    <src s="19">דארז"ל63</src>
+    <src s="20">דכל הנביאים כולן לא נתנבאו אלא לימות המשיח אבל לעולם הבא עין לא ראתה אלקים זולתך64,</src>
+    <src s="21">וי"ל שבימות המשיח יהי' הגילוי דאוא"ס שהאיר בגילוי גם קודם הצמצום,</src>
+    <src s="22">ובעולם הבא</src>
+    <src s="23">(בתחיית המתים)</src>
+    <src s="24">יהי' הגילוי דבחי' עדן שעליו נאמר עין לא ראתה,</src>
+    <src s="25">העלם העצמי65.</src>
+  </section>
+  <section v="11">
+    <src s="0">ח)</src>
+    <src s="1">ועפ"ז י"ל שבפרטיות הגילוי דימות המשיח תלוי במעשינו והגילוי דתחה"מ תלוי בעבודתינו,</src>
+    <src s="2">כי כיון שהגורם שכר המצוה היא המצוה עצמה66,</src>
+    <src s="3">הרי המצוה</src>
+    <src s="4">(העבודה)</src>
+    <src s="5">צריכה להיות מעין השכר</src>
+    <src s="6">(ההמשכה שנעשית על ידה).</src>
+    <src s="7">ולכן,</src>
+    <src s="8">המשכת הגילוי דאוא"ס שהאיר גם מקודם נעשית ע"י היגיעה לגלות הטבע דהנשמה שהי' גם מקודם,</src>
+    <src s="9">מעשינו.</src>
+    <src s="10">והמשכת הגילוי דהעלם העצמי,</src>
+    <src s="11">אור חדש,</src>
+    <src s="12">נעשית ע"י היגיעה שלמעלה מהטבע גם דנפש האלקית</src>
+    <src s="13">(שעי"ז נעשה אצלו ענין חדש שלא הי' גם מצד נשמתו),</src>
+    <src s="14">עבודתינו.</src>
+  </section>
+</awtsmoosMeluketSource>

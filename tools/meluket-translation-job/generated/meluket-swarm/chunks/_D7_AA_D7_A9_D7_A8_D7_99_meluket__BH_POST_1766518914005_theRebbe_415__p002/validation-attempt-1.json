@@ -1,0 +1,659 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 123,
+    "returned": 123,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914005_theRebbe_415\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914005_theRebbe_415__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the essence of teshuvah is a leap beyond order and gradation, occurring instantly, even from the opposite extreme.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation is,</t>\n    <t s=\"1\">behold, the general concept of teshuvah is a concept of a leap</t>\n    <t s=\"2\">as mentioned above</t>\n    <t s=\"3\">(in the sichos),</t>\n    <t s=\"4\">above order and gradation and hishtalshelus.</t>\n    <t s=\"5\">For this is that teshuvah is in one hour and in one moment,</t>\n    <t s=\"6\">for matters that are in gradation require time for this,</t>\n    <t s=\"7\">and the more elevated the matters are, the more time is required,</t>\n    <t s=\"8\">and as [the statement] a person does not attain the mind of his teacher until forty years,</t>\n    <t s=\"9\">that due to the greatness of the elevation of the matter</t>\n    <t s=\"10\">(of the mind of his teacher)</t>\n    <t s=\"11\">it requires an extraordinary amount of time.</t>\n    <t s=\"12\">However, the concept of teshuvah</t>\n    <t s=\"13\">(despite it being an elevated matter)</t>\n    <t s=\"14\">is in one hour and in one moment,</t>\n    <t s=\"15\">because the service of teshuvah is with supernal power,</t>\n    <t s=\"16\">in a manner of a leap without gradation.</t>\n    <t s=\"17\">And the leap in the concept of teshuvah is that it leaps from an opposite matter,</t>\n    <t s=\"18\">meaning not only that it is in a manner of incomparable [ascent], like the incomparable ascents within holiness itself,</t>\n    <t s=\"19\">but rather,</t>\n    <t s=\"20\">that it leaps from an opposite matter.</t>\n    <t s=\"21\">For this is also in simple teshuvah,</t>\n    <t s=\"22\">that initially he was on the opposite side, and in one moment he becomes a baal teshuvah.</t>\n    <t s=\"23\">And especially in teshuvah from love, that intentional sins become for him as merits,</t>\n    <t s=\"24\">which is a leap from the very lowest extreme to the very highest extreme,</t>\n    <t s=\"25\">for initially he had not merely simple transgressions but rather intentional sins,</t>\n    <t s=\"26\">the lowest extreme,</t>\n    <t s=\"27\">and through teshuvah they become as merits,</t>\n    <t s=\"28\">that these merits</t>\n    <t s=\"29\">(which are made from intentional sins)</t>\n    <t s=\"30\">are more elevated even than the merits of the righteous,</t>\n    <t s=\"31\">the highest extreme.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the leap of teshuvah influences Torah and mitzvos to also be performed beyond measure, as in \"with all your might.\"</sectionSummaryBrief>\n    <t s=\"0\">And behold, the explanation of the Alter Rebbe is known</t>\n    <t s=\"1\">regarding the statement of our sages of blessed memory,</t>\n    <t s=\"2\">\"The culmination of wisdom is teshuvah and good deeds,\"</t>\n    <t s=\"3\">that the reason why it precedes teshuvah to good deeds is because through the precedence of teshuvah, the deeds are good deeds and illuminate.</t>\n    <t s=\"4\">For the service of teshuvah also affects the service of Torah and mitzvos.</t>\n    <t s=\"5\">Therefore,</t>\n    <t s=\"6\">since the service of teshuvah is in a way of a leap without gradation,</t>\n    <t s=\"7\">behold, this causes that likewise in the service of Torah and mitzvos, and even in the service of \"all your deeds shall be for the sake of Heaven,\"</t>\n    <t s=\"8\">that even this service will be in a manner above order and gradation,</t>\n    <t s=\"9\">similar to the concept of the leap in teshuvah.</t>\n    <t s=\"10\">And as is explained at length in the Hemshech of 5666 in the maamar preceding the discourse \"Shuva Yisrael\"</t>\n    <t s=\"11\">and is also explained in the previous maamar</t>\n    <t s=\"12\">(the discourse \"Zeh HaYom\")</t>\n    <t s=\"13\">that the study of Torah must be preceded by bittul,</t>\n    <t s=\"14\">as it is said, \"and let my soul be like dust to all,\"</t>\n    <t s=\"15\">(and specifically through this)</t>\n    <t s=\"16\">\"open my heart in Your Torah.\"</t>\n    <t s=\"17\">And even within the gradations of Torah study itself</t>\n    <t s=\"18\">(when the gradations are incomparable),</t>\n    <t s=\"19\">there must first be a bittul of the attainment of the previous level,</t>\n    <t s=\"20\">and like Rebbi Zeira who fasted one hundred fasts to forget the Babylonian Talmud in order to attain the Jerusalem Talmud.</t>\n    <t s=\"21\">And likewise in the fulfillment of mitzvos,</t>\n    <t s=\"22\">that there must also be in this the service that is above measure and limitation,</t>\n    <t s=\"23\">as it is said,</t>\n    <t s=\"24\">\"And you shall love the L-rd your G-d with all your heart and with all your soul and with all your might,\"</t>\n    <t s=\"25\">that it is not sufficient that the fulfillment of mitzvos be with the love of \"with all your heart\" and \"with all your soul,\" which is love within limitation, but rather there must also be the love of \"with all your might,\" which is above measure and limitation.</t>\n    <t s=\"26\">And this concept is incomparably higher than the simple fulfillment of mitzvos,</t>\n    <t s=\"27\">for the service of \"with all your might\" is the matter of \"doing the will of the Place,\"</t>\n    <t s=\"28\">as is known from the teaching of the Maggid</t>\n    <t s=\"29\">(meaning that he does the will),</t>\n    <t s=\"30\">and from this it is understood that it is incomparably higher than the fulfillment of mitzvos</t>\n    <t s=\"31\">(simple),</t>\n    <t s=\"32\">for the fulfillment of mitzvos</t>\n    <t s=\"33\">(simple)</t>\n    <t s=\"34\">is that the will already exists and the person only fulfills the will,</t>\n    <t s=\"35\">but unlike this, in the love of \"with all your might,\" he does the will of the Place.</t>\n    <t s=\"36\">And this concept</t>\n    <t s=\"37\">(of \"with all your might\")</t>\n    <t s=\"38\">must be not only in the matter of fulfillment of mitzvos but also in the service of \"all your deeds shall be for the sake of Heaven,\"</t>\n    <t s=\"39\">for there is another interpretation of \"with all your might,\"</t>\n    <t s=\"40\">as our sages of blessed memory said,</t>\n    <t s=\"41\">\"With all your might\" means \"with all your money,\"</t>\n    <t s=\"42\">which is the matter of \"all your deeds,\"</t>\n    <t s=\"43\">and also this interpretation of \"with all your might\" is connected to the aforementioned interpretation of \"with all your might,\"</t>\n    <t s=\"44\">meaning that also in \"with all your money,\"</t>\n    <t s=\"45\">\"all your deeds,\"</t>\n    <t s=\"46\">there must be \"and you shall love the L-rd your G-d\" not only with all your heart and not only with all your soul but also with all your might,</t>\n    <t s=\"47\">above measure and limitation.</t>\n    <t s=\"48\">However, the concept of the leap without gradation in Torah, mitzvos, and all your deeds for the sake of Heaven</t>\n    <t s=\"49\">(which is effected by the concept of the leap in teshuvah)</t>\n    <t s=\"50\">is that within holiness itself, the ascent is in an incomparable manner,</t>\n    <t s=\"51\">but unlike this, in teshuvah the leap is from the opposite side.</t>\n    <t s=\"52\">And even that the leap is from the very lowest extreme to the very highest extreme,</t>\n    <t s=\"53\">as mentioned above.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the power for the leap of teshuvah comes from the aspect of Yisrael, the essential and primary name of every Jew, which is above the level of Yaakov.</sectionSummaryBrief>\n    <t s=\"0\">And behold, the power for the service of teshuvah, which is in a manner of a complete leap as above, is from the aspect of Yisrael.</t>\n    <t s=\"1\">And although Yisrael is the letters</t>\n    <t s=\"2\">(of \"Li\")</t>\n    <t s=\"3\">\"Rosh\" [head],</t>\n    <t s=\"4\">and the concept of the head is that it has a connection to the body and the foot,</t>\n    <t s=\"5\">nevertheless, Yisrael is the letters \"Li Rosh\"</t>\n    <t s=\"6\">(that \"Rosh\" is \"Li\" – nullified to Him</t>\n    <t s=\"7\">(and according to the simple meaning of the language and the concept of \"sarisa\" – dominion and victory of war)),</t>\n    <t s=\"8\">and from this aspect can be the concept of the leap that is above measure.</t>\n    <t s=\"9\">And this is \"Shuva Yisrael,\"</t>\n    <t s=\"10\">for the power for \"shuva\" is specifically from the aspect of Yisrael.</t>\n    <t s=\"11\">And since this aspect exists in every single Jew,</t>\n    <t s=\"12\">even in one who has stumbled in his iniquity,</t>\n    <t s=\"13\">as our sages of blessed memory said,</t>\n    <t s=\"14\">\"Yisrael, even though he sinned, he is Yisrael,\"</t>\n    <t s=\"15\">and even that it exists even in one who is like the one from whom they learn \"Yisrael, even though he sinned, he is Yisrael,\"</t>\n    <t s=\"16\">therefore every single Jew has the power for teshuvah.</t>\n    <t s=\"17\">And from this aspect, the concept of teshuvah can also be in the aspect of Yaakov,</t>\n    <t s=\"18\">for the primary and essential name of every single Jew is Yisrael,</t>\n    <t s=\"19\">meaning that this aspect is the primary and essential [aspect] within him,</t>\n    <t s=\"20\">therefore it also affects the aspect of Yaakov.</t>\n    <t s=\"21\">And this is also what [the verse] continues, \"for you have stumbled in your iniquity,\"</t>\n    <t s=\"22\">for behold, the statement of our Nesi'im is known,</t>\n    <t s=\"23\">that just as one must know his own deficiencies, so too must he know his own virtues,</t>\n    <t s=\"24\">and therefore it says \"for you have stumbled,\" etc., that it is only a matter of stumbling,</t>\n    <t s=\"25\">that when his foot trips on a stick or a stone, this causes a stumble in the head,</t>\n    <t s=\"26\">and the aspect of Yisrael is in perfection.</t>\n    <t s=\"27\">Nevertheless, the concept of teshuvah must be in all its force, because since he is of the aspect of Yisrael,</t>\n    <t s=\"28\">behold, relative to his level, he requires teshuvah even for this matter.</t>\n    <t s=\"29\">And on the contrary,</t>\n    <t s=\"30\">from the perspective of his elevated level,</t>\n    <t s=\"31\">behold, even a minor matter affects more than a great flaw in the aspect of Yaakov,</t>\n    <t s=\"32\">and in the manner that is said in Tanya</t>\n    <t s=\"33\">and in Shabbos</t>\n    <t s=\"34\">regarding a stain on the garment of a Torah scholar, which is called \"builders,\"</t>\n    <t s=\"35\">and in the manner explained in Tanya</t>\n    <t s=\"36\">regarding a thought in the mind, that this affects much more than the matter of speech, etc.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914005_theRebbe_415",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914005_theRebbe_415__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the essence of teshuvah is a leap beyond order and gradation, occurring instantly, even from the opposite extreme.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "behold, the general concept of teshuvah is a concept of a leap"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "as mentioned above"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "(in the sichos),"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "above order and gradation and hishtalshelus."
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "For this is that teshuvah is in one hour and in one moment,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "for matters that are in gradation require time for this,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "and the more elevated the matters are, the more time is required,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "and as [the statement] a person does not attain the mind of his teacher until forty years,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "that due to the greatness of the elevation of the matter"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "(of the mind of his teacher)"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "it requires an extraordinary amount of time."
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "However, the concept of teshuvah"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(despite it being an elevated matter)"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "is in one hour and in one moment,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "because the service of teshuvah is with supernal power,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "in a manner of a leap without gradation."
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "And the leap in the concept of teshuvah is that it leaps from an opposite matter,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "meaning not only that it is in a manner of incomparable [ascent], like the incomparable ascents within holiness itself,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "but rather,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "that it leaps from an opposite matter."
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "For this is also in simple teshuvah,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "that initially he was on the opposite side, and in one moment he becomes a baal teshuvah."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "And especially in teshuvah from love, that intentional sins become for him as merits,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "which is a leap from the very lowest extreme to the very highest extreme,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "for initially he had not merely simple transgressions but rather intentional sins,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "the lowest extreme,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "and through teshuvah they become as merits,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "that these merits"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "(which are made from intentional sins)"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "are more elevated even than the merits of the righteous,"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "the highest extreme."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the leap of teshuvah influences Torah and mitzvos to also be performed beyond measure, as in \"with all your might.\"",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And behold, the explanation of the Alter Rebbe is known"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "regarding the statement of our sages of blessed memory,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "\"The culmination of wisdom is teshuvah and good deeds,\""
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "that the reason why it precedes teshuvah to good deeds is because through the precedence of teshuvah, the deeds are good deeds and illuminate."
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "For the service of teshuvah also affects the service of Torah and mitzvos."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "since the service of teshuvah is in a way of a leap without gradation,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "behold, this causes that likewise in the service of Torah and mitzvos, and even in the service of \"all your deeds shall be for the sake of Heaven,\""
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "that even this service will be in a manner above order and gradation,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "similar to the concept of the leap in teshuvah."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "And as is explained at length in the Hemshech of 5666 in the maamar preceding the discourse \"Shuva Yisrael\""
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "and is also explained in the previous maamar"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "(the discourse \"Zeh HaYom\")"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "that the study of Torah must be preceded by bittul,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "as it is said, \"and let my soul be like dust to all,\""
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "(and specifically through this)"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "\"open my heart in Your Torah.\""
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "And even within the gradations of Torah study itself"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "(when the gradations are incomparable),"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "there must first be a bittul of the attainment of the previous level,"
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "and like Rebbi Zeira who fasted one hundred fasts to forget the Babylonian Talmud in order to attain the Jerusalem Talmud."
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "And likewise in the fulfillment of mitzvos,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "that there must also be in this the service that is above measure and limitation,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "as it is said,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "\"And you shall love the L-rd your G-d with all your heart and with all your soul and with all your might,\""
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "that it is not sufficient that the fulfillment of mitzvos be with the love of \"with all your heart\" and \"with all your soul,\" which is love within limitation, but rather there must also be the love of \"with all your might,\" which is above measure and limitation."
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "And this concept is incomparably higher than the simple fulfillment of mitzvos,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "for the service of \"with all your might\" is the matter of \"doing the will of the Place,\""
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "as is known from the teaching of the Maggid"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "(meaning that he does the will),"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "and from this it is understood that it is incomparably higher than the fulfillment of mitzvos"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "(simple),"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "for the fulfillment of mitzvos"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "(simple)"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "is that the will already exists and the person only fulfills the will,"
+          },
+          {
+            "v": 4,
+            "s": 35,
+            "translation": "but unlike this, in the love of \"with all your might,\" he does the will of the Place."
+          },
+          {
+            "v": 4,
+            "s": 36,
+            "translation": "And this concept"
+          },
+          {
+            "v": 4,
+            "s": 37,
+            "translation": "(of \"with all your might\")"
+          },
+          {
+            "v": 4,
+            "s": 38,
+            "translation": "must be not only in the matter of fulfillment of mitzvos but also in the service of \"all your deeds shall be for the sake of Heaven,\""
+          },
+          {
+            "v": 4,
+            "s": 39,
+            "translation": "for there is another interpretation of \"with all your might,\""
+          },
+          {
+            "v": 4,
+            "s": 40,
+            "translation": "as our sages of blessed memory said,"
+          },
+          {
+            "v": 4,
+            "s": 41,
+            "translation": "\"With all your might\" means \"with all your money,\""
+          },
+          {
+            "v": 4,
+            "s": 42,
+            "translation": "which is the matter of \"all your deeds,\""
+          },
+          {
+            "v": 4,
+            "s": 43,
+            "translation": "and also this interpretation of \"with all your might\" is connected to the aforementioned interpretation of \"with all your might,\""
+          },
+          {
+            "v": 4,
+            "s": 44,
+            "translation": "meaning that also in \"with all your money,\""
+          },
+          {
+            "v": 4,
+            "s": 45,
+            "translation": "\"all your deeds,\""
+          },
+          {
+            "v": 4,
+            "s": 46,
+            "translation": "there must be \"and you shall love the L-rd your G-d\" not only with all your heart and not only with all your soul but also with all your might,"
+          },
+          {
+            "v": 4,
+            "s": 47,
+            "translation": "above measure and limitation."
+          },
+          {
+            "v": 4,
+            "s": 48,
+            "translation": "However, the concept of the leap without gradation in Torah, mitzvos, and all your deeds for the sake of Heaven"
+          },
+          {
+            "v": 4,
+            "s": 49,
+            "translation": "(which is effected by the concept of the leap in teshuvah)"
+          },
+          {
+            "v": 4,
+            "s": 50,
+            "translation": "is that within holiness itself, the ascent is in an incomparable manner,"
+          },
+          {
+            "v": 4,
+            "s": 51,
+            "translation": "but unlike this, in teshuvah the leap is from the opposite side."
+          },
+          {
+            "v": 4,
+            "s": 52,
+            "translation": "And even that the leap is from the very lowest extreme to the very highest extreme,"
+          },
+          {
+            "v": 4,
+            "s": 53,
+            "translation": "as mentioned above."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the power for the leap of teshuvah comes from the aspect of Yisrael, the essential and primary name of every Jew, which is above the level of Yaakov.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And behold, the power for the service of teshuvah, which is in a manner of a complete leap as above, is from the aspect of Yisrael."
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And although Yisrael is the letters"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(of \"Li\")"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "\"Rosh\" [head],"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "and the concept of the head is that it has a connection to the body and the foot,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "nevertheless, Yisrael is the letters \"Li Rosh\""
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "(that \"Rosh\" is \"Li\" – nullified to Him"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "(and according to the simple meaning of the language and the concept of \"sarisa\" – dominion and victory of war)),"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "and from this aspect can be the concept of the leap that is above measure."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "And this is \"Shuva Yisrael,\""
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "for the power for \"shuva\" is specifically from the aspect of Yisrael."
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "And since this aspect exists in every single Jew,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "even in one who has stumbled in his iniquity,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "as our sages of blessed memory said,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "\"Yisrael, even though he sinned, he is Yisrael,\""
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "and even that it exists even in one who is like the one from whom they learn \"Yisrael, even though he sinned, he is Yisrael,\""
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "therefore every single Jew has the power for teshuvah."
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "And from this aspect, the concept of teshuvah can also be in the aspect of Yaakov,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "for the primary and essential name of every single Jew is Yisrael,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "meaning that this aspect is the primary and essential [aspect] within him,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "therefore it also affects the aspect of Yaakov."
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "And this is also what [the verse] continues, \"for you have stumbled in your iniquity,\""
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "for behold, the statement of our Nesi'im is known,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "that just as one must know his own deficiencies, so too must he know his own virtues,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "and therefore it says \"for you have stumbled,\" etc., that it is only a matter of stumbling,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "that when his foot trips on a stick or a stone, this causes a stumble in the head,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "and the aspect of Yisrael is in perfection."
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "Nevertheless, the concept of teshuvah must be in all its force, because since he is of the aspect of Yisrael,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "behold, relative to his level, he requires teshuvah even for this matter."
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "And on the contrary,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "from the perspective of his elevated level,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "behold, even a minor matter affects more than a great flaw in the aspect of Yaakov,"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "and in the manner that is said in Tanya"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "and in Shabbos"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "regarding a stain on the garment of a Torah scholar, which is called \"builders,\""
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "and in the manner explained in Tanya"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "regarding a thought in the mind, that this affects much more than the matter of speech, etc."
+          }
+        ]
+      }
+    ]
+  }
+}

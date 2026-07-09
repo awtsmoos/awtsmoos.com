@@ -1,0 +1,119 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917442_theRebbe_735" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917442_theRebbe_735" title="מאמר על כן קראו תשי"ג" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917442_theRebbe_735__p002">
+  <section v="3">
+    <src s="0">וביאור השייכות דשני הענינים בההשוואה דיוהכ"פ ופורים</src>
+    <src s="1">[שבשניהם הו"ע הגורל,</src>
+    <src s="2">וששניהם הם למעלה משם הוי'17],</src>
+    <src s="3">יובן בהקדים דענין הגורל הוא למעלה מהשכל18.</src>
+    <src s="4">שהרי גורל הוא</src>
+    <src s="5">(בכלל19)</src>
+    <src s="6">בשני דברים שוים</src>
+    <src s="7">[וכמו שני השעירים דיוהכ"פ שהיו שוים במראה ובקומה ובדמים20],</src>
+    <src s="8">דכאשר אחד מהם הוא טוב יותר,</src>
+    <src s="9">אין מקום לגורל,</src>
+    <src s="10">ודוקא כששני הדברים הם שוים,</src>
+    <src s="11">כיון שמצד השכל א"א להכריע באיזה מהם לבחור,</src>
+    <src s="12">סומכים אז על הגורל שלמעלה מהשכל.</src>
+    <src s="13">ועד"ז הוא למעלה,</src>
+    <src s="14">דגורל הוא למעלה מהשתלשלות</src>
+    <src s="15">[דחכמה היא ראשית ההשתלשלות,</src>
+    <src s="16">וגורל שהוא למעלה מהחכמה הוא למעלה מהשתלשלות].</src>
+    <src s="17">ועפ"ז,</src>
+    <src s="18">ההשוואה דפורים ויוהכ"פ,</src>
+    <src s="19">שבשניהם הו"ע הגורל,</src>
+    <src s="20">הוא – גילוי אוא"ס שלמעלה מהשתלשלות.</src>
+    <src s="21">וזהו הקשר דשני הענינים בההשוואה דיוהכ"פ ופורים,</src>
+    <src s="22">שבשניהם הו"ע הגורל וששניהם הם למעלה מהוי',</src>
+    <src s="23">כי הוי' הוא השתלשלות</src>
+    <src s="24">(יו"ד חכמה ה' בינה וכו'),</src>
+    <src s="25">וזה שיוהכ"פ ופורים הם למעלה מהוי' הוא שהגילוי דיוהכ"פ ודפורים הוא למעלה מהשתלשלות21,</src>
+    <src s="26">ענין הגורל.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה ידוע22</src>
+    <src s="2">במעלת הגורל,</src>
+    <src s="3">שהוא למעלה</src>
+    <src s="4">(לא רק מהשכל,</src>
+    <src s="5">אלא)</src>
+    <src s="6">גם מהרצון שלמעלה מהשכל.</src>
+    <src s="7">שהרי כשאדם מטיל גורל הוא מחליט דכמו שיפול הגורל כן יהי' רצונו.</src>
+    <src s="8">דמזה מוכח שהגורל מגיע בדרגא שלמעלה גם מהרצון,</src>
+    <src s="9">שלכן הרצון הוא כפי הגורל.</src>
+    <src s="10">ועד"ז הוא למעלה,</src>
+    <src s="11">דענין הגורל הוא בבעל הרצון שלמעלה מרצון.</src>
+    <src s="12">ועפ"ז יש לומר,</src>
+    <src s="13">שהקשר דשני הענינים בההשוואה דיוהכ"פ ופורים</src>
+    <src s="14">(שבשניהם הו"ע הגורל וששניהם הם למעלה מהוי')</src>
+    <src s="15">הוא,</src>
+    <src s="16">כי ההתחלה דשם הוי' היא הקוץ שעל היו"ד,</src>
+    <src s="17">שרומז על הרצון שלמעלה מחכמה23,</src>
+    <src s="18">וזה שיוהכ"פ ופורים הם למעלה מהוי'</src>
+    <src s="19">(למעלה גם מהקוץ שעל היו"ד)</src>
+    <src s="20">הוא שביוהכ"פ ובפורים הוא המשכת וגילוי בחינת בעל הרצון</src>
+    <src s="21">(שלמעלה מרצון)24,</src>
+    <src s="22">ענין גורל.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">ועפ"ז יש לבאר הקשר דשני הפירושים ביום הכפורים – שביום זה מתכפרים כל הענינים הבלתי רצויים</src>
+    <src s="2">(כפורים כפשוטו),</src>
+    <src s="3">ושיום זה הוא כמו פורים</src>
+    <src s="4">(שהדמיון דיוהכ"פ לפורים הוא שביוהכ"פ הפילו גורל,</src>
+    <src s="5">כמו פורים על שם הפור הוא הגורל)</src>
+    <src s="6">– כי שלימות הכפרה על הענינים שעשו היפך הרצון דתומ"צ הוא כשהמשכת הכפרה היא מאוא"ס בעל הרצון</src>
+    <src s="7">(שלמעלה מהרצון דתומ"צ)25.</src>
+    <src s="8">וזהו הקשר דשני הפירושים ביום כפורים,</src>
+    <src s="9">דזה שיוהכ"פ הוא כמו פורים על שם הפור הוא הגורל,</src>
+    <src s="10">היינו שגם ביוהכ"פ הוא ההמשכה מבעל הרצון</src>
+    <src s="11">(דוגמת ההמשכה דפורים),</src>
+    <src s="12">הוא טעם וביאור על זה שהוא יום כפורים כפשוטו,</src>
+    <src s="13">שבו מתכפרים הענינים הבלתי רצויים.</src>
+    <src s="14">וזהו מה שהכפרה דפורים היא נעלית יותר מהכפרה דיוהכ"פ26,</src>
+    <src s="15">דיוהכ"פ אינו מכפר אלא עם התשובה27</src>
+    <src s="16">והכפרה שהיתה לכל היהודים בימי הפורים ה"ז יום שמחה28,</src>
+    <src s="17">כי עיקר ענין הגורל</src>
+    <src s="18">(המשכת בחינת בעל הרצון)</src>
+    <src s="19">הוא בימי הפורים,</src>
+    <src s="20">דהימים עצמם נקראים בשם פורים על שם הפור,</src>
+    <src s="21">ולכן,</src>
+    <src s="22">הכפרה שהיתה בימי הפורים אין בה הגבלות29,</src>
+    <src s="23">ויום הכפורים הוא כ.</src>
+    <src s="24">פורים30</src>
+    <src s="25">בכ"ף הדמיון בלבד,</src>
+    <src s="26">ואין יוהכ"פ מכפר אלא עם התשובה.</src>
+  </section>
+</awtsmoosMeluketSource>

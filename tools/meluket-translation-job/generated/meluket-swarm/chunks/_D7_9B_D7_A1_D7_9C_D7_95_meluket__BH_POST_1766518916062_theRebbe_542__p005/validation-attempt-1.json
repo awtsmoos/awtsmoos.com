@@ -1,0 +1,544 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 100,
+    "returned": 100,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518916062_theRebbe_542\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains that the difference between the four worlds of Atzilus, Beriah, Yetzirah, and Asiyah is only in their revelation, not in their concealed source in the level of the Akudim, analogous to the four categories of mineral, plant, animal, and speaker in the physical world.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And the maamar continues</t>\n    <t s=\"2\">to explain this matter with additional clarification</t>\n    <t s=\"3\">(that from the level of the Akudim, where all matters exist in concealment,</t>\n    <t s=\"4\">like the level of Yechidah,</t>\n    <t s=\"5\">all matters are drawn forth and come into revelation,</t>\n    <t s=\"6\">in a manner that there is a distinction between the world of Atzilus and the worlds below it down to the world of Asiyah),</t>\n    <t s=\"7\">which will be understood from what we find in the world</t>\n    <t s=\"8\">(as above, \"from my flesh I shall perceive G-d\")</t>\n    <t s=\"9\">that there are four levels of domem, tzomeach, chai, and medaber,</t>\n    <t s=\"10\">each of which includes the other,</t>\n    <t s=\"11\">namely,</t>\n    <t s=\"12\">that the medaber (speaker) also includes the three levels of chai, tzomeach, and domem,</t>\n    <t s=\"13\">and from this it is understood that the chai (living being) also includes not only the levels of tzomeach and domem,</t>\n    <t s=\"14\">but also the level of medaber,</t>\n    <t s=\"15\">to the extent that there can be blood and flesh from the flesh of the medaber,</t>\n    <t s=\"16\">in which case what was initially concealed becomes revealed.</t>\n    <t s=\"17\">And that each of them is called by its own name,</t>\n    <t s=\"18\">this is according to the revelation,</t>\n    <t s=\"19\">that in this created being the level of medaber is revealed,</t>\n    <t s=\"20\">and in that created being the level of chai is revealed,</t>\n    <t s=\"21\">and likewise with tzomeach and domem,</t>\n    <t s=\"22\">but from the perspective of concealment,</t>\n    <t s=\"23\">just as in the level of medaber are included chai, tzomeach, and domem,</t>\n    <t s=\"24\">so too is it in the other categories,</t>\n    <t s=\"25\">that even in the category of domem are included tzomeach, chai, and medaber.</t>\n    <t s=\"26\">That is,</t>\n    <t s=\"27\">the difference is only in the revelation within them,</t>\n    <t s=\"28\">and not in their concealment.</t>\n    <t s=\"29\">And likewise is it in the worlds of Atzilus, Beriah, Yetzirah, and Asiyah, which correspond to domem, tzomeach, chai, and medaber,</t>\n    <t s=\"30\">that the division between them is only from the aspect of revelation,</t>\n    <t s=\"31\">but as they are included in the ultimate concealment in the level of the Akudim,</t>\n    <t s=\"32\">they are absolutely equal.</t>\n    <t s=\"33\">And from this level, revelation can occur simultaneously and equally in the world of Atzilus and in the world of Asiyah,</t>\n    <t s=\"34\">like the revelation of the level of Yechidah in the soul in a multiplicity of intellect and in a dance of the foot simultaneously,</t>\n    <t s=\"35\">and therefore the matter of Divine Providence over every single detail can exist,</t>\n    <t s=\"36\">because it is drawn from the world of the Akudim and above.</t>\n    <t s=\"37\">And from this it is understood,</t>\n    <t s=\"38\">that this that the level of Yechidah and likewise the world of the Akudim are a matter of makif (encompassing),</t>\n    <t s=\"39\">does not mean that it encompasses and surrounds from the outside,</t>\n    <t s=\"40\">for on the contrary,</t>\n    <t s=\"41\">from this is drawn the matter of particular Divine Providence over every single detail,</t>\n    <t s=\"42\">and as explained in Tanya</t>\n    <t s=\"43\">that the matter of particular Divine Providence is connected with the vitality and coming-into-being of the created being,</t>\n    <t s=\"44\">\"And You give life to them all,\"</t>\n    <t s=\"45\">do not read \"give life\" but rather \"bring into being,\"</t>\n    <t s=\"46\">which is the true essence of His matter, that He is found within it and within its innermost core,</t>\n    <t s=\"47\">except that He is found within it in concealment.</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>This section explains that even a child can say the blessing \"Blessed are You\" to the essence of the Infinite One, because from the level of Yechidah all matters are equal, and specifically with the lowly and humble there is no concealment.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And the maamar concludes</t>\n    <t s=\"2\">with a good matter,</t>\n    <t s=\"3\">that this is the matter of the blessings that we say \"Blessed are You,\"</t>\n    <t s=\"4\">in the second person,</t>\n    <t s=\"5\">and even infants and women say this.</t>\n    <t s=\"6\">For at first glance,</t>\n    <t s=\"7\">since this saying is directed to Atik Yomin (the Ancient One)</t>\n    <t s=\"8\">(as explained in the Zohar)</t>\n    <t s=\"9\">and even to His very Essence,</t>\n    <t s=\"10\">the true reality,</t>\n    <t s=\"11\">of Whom alone can the term \"You\" be used,</t>\n    <t s=\"12\">if so,</t>\n    <t s=\"13\">how is it possible to say of Him \"Blessed,\" which is a term of drawing down,</t>\n    <t s=\"14\">to the extent that even an infant says this?</t>\n    <t s=\"15\">But the matter is,</t>\n    <t s=\"16\">that this is because from the perspective of the level of Yechidah,</t>\n    <t s=\"17\">and likewise the level of Yechidah above in the world of the Nekudim and above that,</t>\n    <t s=\"18\">all matters exist equally,</t>\n    <t s=\"19\">and on the contrary,</t>\n    <t s=\"20\">\"The high and lofty One</t>\n    <t s=\"21\">(with whom)</t>\n    <t s=\"22\">I dwell, with the contrite and lowly of spirit\"</t>\n    <t s=\"23\">(specifically).</t>\n    <t s=\"24\">That is,</t>\n    <t s=\"25\">that although at first glance there is no difference,</t>\n    <t s=\"26\">nevertheless,</t>\n    <t s=\"27\">when there is a matter of yesh (somethingness) and existence,</t>\n    <t s=\"28\">it conceals, to the point that it even hides, G-d forbid,</t>\n    <t s=\"29\">unlike one who is contrite and lowly of spirit,</t>\n    <t s=\"30\">where there is nothing that conceals,</t>\n    <t s=\"31\">then \"the high and lofty One dwells\" in revelation.</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>This section explains that through the service of the level of Yechidah, which involves self-nullification beyond will, the essence of the animal soul is transformed, eliminating all conflict so that redemption is in peace.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And according to this, what is said in the maamar beginning \"Padeh BeShalom\" mentioned above will be understood, that from the aspect of the service of Yechidah, the redemption is in peace,</t>\n    <t s=\"2\">for since from the perspective of the Essence of the Ein Sof,</t>\n    <t s=\"3\">and likewise from the perspective of the level of Yechidah in the soul,</t>\n    <t s=\"4\">all matters are equal,</t>\n    <t s=\"5\">therefore, even when there is a level of multiplicity,</t>\n    <t s=\"6\">to the greatest multiplicity,</t>\n    <t s=\"7\">from which a matter of strife and war arises,</t>\n    <t s=\"8\">for the matter of multiplicity is that there exist not only things separate from each other but also things that contradict each other,</t>\n    <t s=\"9\">nevertheless, from the aspect of the service of the level of Yechidah,</t>\n    <t s=\"10\">which is the service of \"with all your might,\"</t>\n    <t s=\"11\">and as explained in the aforementioned maamar \"Padeh BeShalom,\" that the level of \"with all your might\" is the matter of self-sacrifice of the soul itself, which is above the sacrifice of will,</t>\n    <t s=\"12\">which is from the level of Yechidah of the G-dly soul,</t>\n    <t s=\"13\">then it transforms the level of Yechidah of the animal soul,</t>\n    <t s=\"14\">so that all of its essence is nullified in the level of Yechidah of the G-dly soul,</t>\n    <t s=\"15\">and when its essence is transformed, then automatically it has no connection to matters that are the opposite, G-d forbid</t>\n    <t s=\"16\">(and as explained in the maamar there,</t>\n    <t s=\"17\">that when its essence is transformed, etc., then automatically the source of vitality of every alien will is also removed, etc.),</t>\n    <t s=\"18\">and then the matter of war cannot exist at all,</t>\n    <t s=\"19\">and the redemption is in peace.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518916062_theRebbe_542",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains that the difference between the four worlds of Atzilus, Beriah, Yetzirah, and Asiyah is only in their revelation, not in their concealed source in the level of the Akudim, analogous to the four categories of mineral, plant, animal, and speaker in the physical world.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "And the maamar continues"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "to explain this matter with additional clarification"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "(that from the level of the Akudim, where all matters exist in concealment,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "like the level of Yechidah,"
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "all matters are drawn forth and come into revelation,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "in a manner that there is a distinction between the world of Atzilus and the worlds below it down to the world of Asiyah),"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "which will be understood from what we find in the world"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "(as above, \"from my flesh I shall perceive G-d\")"
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "that there are four levels of domem, tzomeach, chai, and medaber,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "each of which includes the other,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "namely,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "that the medaber (speaker) also includes the three levels of chai, tzomeach, and domem,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "and from this it is understood that the chai (living being) also includes not only the levels of tzomeach and domem,"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "but also the level of medaber,"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "to the extent that there can be blood and flesh from the flesh of the medaber,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "in which case what was initially concealed becomes revealed."
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "And that each of them is called by its own name,"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "this is according to the revelation,"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "that in this created being the level of medaber is revealed,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "and in that created being the level of chai is revealed,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "and likewise with tzomeach and domem,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "but from the perspective of concealment,"
+          },
+          {
+            "v": 12,
+            "s": 23,
+            "translation": "just as in the level of medaber are included chai, tzomeach, and domem,"
+          },
+          {
+            "v": 12,
+            "s": 24,
+            "translation": "so too is it in the other categories,"
+          },
+          {
+            "v": 12,
+            "s": 25,
+            "translation": "that even in the category of domem are included tzomeach, chai, and medaber."
+          },
+          {
+            "v": 12,
+            "s": 26,
+            "translation": "That is,"
+          },
+          {
+            "v": 12,
+            "s": 27,
+            "translation": "the difference is only in the revelation within them,"
+          },
+          {
+            "v": 12,
+            "s": 28,
+            "translation": "and not in their concealment."
+          },
+          {
+            "v": 12,
+            "s": 29,
+            "translation": "And likewise is it in the worlds of Atzilus, Beriah, Yetzirah, and Asiyah, which correspond to domem, tzomeach, chai, and medaber,"
+          },
+          {
+            "v": 12,
+            "s": 30,
+            "translation": "that the division between them is only from the aspect of revelation,"
+          },
+          {
+            "v": 12,
+            "s": 31,
+            "translation": "but as they are included in the ultimate concealment in the level of the Akudim,"
+          },
+          {
+            "v": 12,
+            "s": 32,
+            "translation": "they are absolutely equal."
+          },
+          {
+            "v": 12,
+            "s": 33,
+            "translation": "And from this level, revelation can occur simultaneously and equally in the world of Atzilus and in the world of Asiyah,"
+          },
+          {
+            "v": 12,
+            "s": 34,
+            "translation": "like the revelation of the level of Yechidah in the soul in a multiplicity of intellect and in a dance of the foot simultaneously,"
+          },
+          {
+            "v": 12,
+            "s": 35,
+            "translation": "and therefore the matter of Divine Providence over every single detail can exist,"
+          },
+          {
+            "v": 12,
+            "s": 36,
+            "translation": "because it is drawn from the world of the Akudim and above."
+          },
+          {
+            "v": 12,
+            "s": 37,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 12,
+            "s": 38,
+            "translation": "that this that the level of Yechidah and likewise the world of the Akudim are a matter of makif (encompassing),"
+          },
+          {
+            "v": 12,
+            "s": 39,
+            "translation": "does not mean that it encompasses and surrounds from the outside,"
+          },
+          {
+            "v": 12,
+            "s": 40,
+            "translation": "for on the contrary,"
+          },
+          {
+            "v": 12,
+            "s": 41,
+            "translation": "from this is drawn the matter of particular Divine Providence over every single detail,"
+          },
+          {
+            "v": 12,
+            "s": 42,
+            "translation": "and as explained in Tanya"
+          },
+          {
+            "v": 12,
+            "s": 43,
+            "translation": "that the matter of particular Divine Providence is connected with the vitality and coming-into-being of the created being,"
+          },
+          {
+            "v": 12,
+            "s": 44,
+            "translation": "\"And You give life to them all,\""
+          },
+          {
+            "v": 12,
+            "s": 45,
+            "translation": "do not read \"give life\" but rather \"bring into being,\""
+          },
+          {
+            "v": 12,
+            "s": 46,
+            "translation": "which is the true essence of His matter, that He is found within it and within its innermost core,"
+          },
+          {
+            "v": 12,
+            "s": 47,
+            "translation": "except that He is found within it in concealment."
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "This section explains that even a child can say the blessing \"Blessed are You\" to the essence of the Infinite One, because from the level of Yechidah all matters are equal, and specifically with the lowly and humble there is no concealment.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 13,
+            "s": 1,
+            "translation": "And the maamar concludes"
+          },
+          {
+            "v": 13,
+            "s": 2,
+            "translation": "with a good matter,"
+          },
+          {
+            "v": 13,
+            "s": 3,
+            "translation": "that this is the matter of the blessings that we say \"Blessed are You,\""
+          },
+          {
+            "v": 13,
+            "s": 4,
+            "translation": "in the second person,"
+          },
+          {
+            "v": 13,
+            "s": 5,
+            "translation": "and even infants and women say this."
+          },
+          {
+            "v": 13,
+            "s": 6,
+            "translation": "For at first glance,"
+          },
+          {
+            "v": 13,
+            "s": 7,
+            "translation": "since this saying is directed to Atik Yomin (the Ancient One)"
+          },
+          {
+            "v": 13,
+            "s": 8,
+            "translation": "(as explained in the Zohar)"
+          },
+          {
+            "v": 13,
+            "s": 9,
+            "translation": "and even to His very Essence,"
+          },
+          {
+            "v": 13,
+            "s": 10,
+            "translation": "the true reality,"
+          },
+          {
+            "v": 13,
+            "s": 11,
+            "translation": "of Whom alone can the term \"You\" be used,"
+          },
+          {
+            "v": 13,
+            "s": 12,
+            "translation": "if so,"
+          },
+          {
+            "v": 13,
+            "s": 13,
+            "translation": "how is it possible to say of Him \"Blessed,\" which is a term of drawing down,"
+          },
+          {
+            "v": 13,
+            "s": 14,
+            "translation": "to the extent that even an infant says this?"
+          },
+          {
+            "v": 13,
+            "s": 15,
+            "translation": "But the matter is,"
+          },
+          {
+            "v": 13,
+            "s": 16,
+            "translation": "that this is because from the perspective of the level of Yechidah,"
+          },
+          {
+            "v": 13,
+            "s": 17,
+            "translation": "and likewise the level of Yechidah above in the world of the Nekudim and above that,"
+          },
+          {
+            "v": 13,
+            "s": 18,
+            "translation": "all matters exist equally,"
+          },
+          {
+            "v": 13,
+            "s": 19,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 13,
+            "s": 20,
+            "translation": "\"The high and lofty One"
+          },
+          {
+            "v": 13,
+            "s": 21,
+            "translation": "(with whom)"
+          },
+          {
+            "v": 13,
+            "s": 22,
+            "translation": "I dwell, with the contrite and lowly of spirit\""
+          },
+          {
+            "v": 13,
+            "s": 23,
+            "translation": "(specifically)."
+          },
+          {
+            "v": 13,
+            "s": 24,
+            "translation": "That is,"
+          },
+          {
+            "v": 13,
+            "s": 25,
+            "translation": "that although at first glance there is no difference,"
+          },
+          {
+            "v": 13,
+            "s": 26,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 13,
+            "s": 27,
+            "translation": "when there is a matter of yesh (somethingness) and existence,"
+          },
+          {
+            "v": 13,
+            "s": 28,
+            "translation": "it conceals, to the point that it even hides, G-d forbid,"
+          },
+          {
+            "v": 13,
+            "s": 29,
+            "translation": "unlike one who is contrite and lowly of spirit,"
+          },
+          {
+            "v": 13,
+            "s": 30,
+            "translation": "where there is nothing that conceals,"
+          },
+          {
+            "v": 13,
+            "s": 31,
+            "translation": "then \"the high and lofty One dwells\" in revelation."
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "This section explains that through the service of the level of Yechidah, which involves self-nullification beyond will, the essence of the animal soul is transformed, eliminating all conflict so that redemption is in peace.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "And according to this, what is said in the maamar beginning \"Padeh BeShalom\" mentioned above will be understood, that from the aspect of the service of Yechidah, the redemption is in peace,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "for since from the perspective of the Essence of the Ein Sof,"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "and likewise from the perspective of the level of Yechidah in the soul,"
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "all matters are equal,"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "therefore, even when there is a level of multiplicity,"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "to the greatest multiplicity,"
+          },
+          {
+            "v": 14,
+            "s": 7,
+            "translation": "from which a matter of strife and war arises,"
+          },
+          {
+            "v": 14,
+            "s": 8,
+            "translation": "for the matter of multiplicity is that there exist not only things separate from each other but also things that contradict each other,"
+          },
+          {
+            "v": 14,
+            "s": 9,
+            "translation": "nevertheless, from the aspect of the service of the level of Yechidah,"
+          },
+          {
+            "v": 14,
+            "s": 10,
+            "translation": "which is the service of \"with all your might,\""
+          },
+          {
+            "v": 14,
+            "s": 11,
+            "translation": "and as explained in the aforementioned maamar \"Padeh BeShalom,\" that the level of \"with all your might\" is the matter of self-sacrifice of the soul itself, which is above the sacrifice of will,"
+          },
+          {
+            "v": 14,
+            "s": 12,
+            "translation": "which is from the level of Yechidah of the G-dly soul,"
+          },
+          {
+            "v": 14,
+            "s": 13,
+            "translation": "then it transforms the level of Yechidah of the animal soul,"
+          },
+          {
+            "v": 14,
+            "s": 14,
+            "translation": "so that all of its essence is nullified in the level of Yechidah of the G-dly soul,"
+          },
+          {
+            "v": 14,
+            "s": 15,
+            "translation": "and when its essence is transformed, then automatically it has no connection to matters that are the opposite, G-d forbid"
+          },
+          {
+            "v": 14,
+            "s": 16,
+            "translation": "(and as explained in the maamar there,"
+          },
+          {
+            "v": 14,
+            "s": 17,
+            "translation": "that when its essence is transformed, etc., then automatically the source of vitality of every alien will is also removed, etc.),"
+          },
+          {
+            "v": 14,
+            "s": 18,
+            "translation": "and then the matter of war cannot exist at all,"
+          },
+          {
+            "v": 14,
+            "s": 19,
+            "translation": "and the redemption is in peace."
+          }
+        ]
+      }
+    ]
+  }
+}

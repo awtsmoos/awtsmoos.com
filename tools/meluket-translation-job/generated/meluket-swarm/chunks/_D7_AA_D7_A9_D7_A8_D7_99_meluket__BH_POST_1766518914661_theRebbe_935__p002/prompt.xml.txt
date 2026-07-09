@@ -1,0 +1,147 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914661_theRebbe_935" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914661_theRebbe_935__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914661_theRebbe_935" title="מאמר כנשר יעיר קנו תשכ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914661_theRebbe_935__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">ולהבין זה,</src>
+    <src s="2">וגם להבין שייכות הענינים שעי"ז שיצרנהו כאישון עינו עי"ז כנשר יעיר קנו,</src>
+    <src s="3">ועי"ז ישאהו על אברתו הוי' בדד ינחנו,</src>
+    <src s="4">יובן זה בהקדים מאמר בעל ההילולא5</src>
+    <src s="5">ע"פ6</src>
+    <src s="6">את הוי' האמרת היום גו' והוי' האמירך היום גו'7,</src>
+    <src s="7">ומביא מ"ש בהמשך הפסוק והוי' האמירך היום גו' לשמור כל מצותיו,</src>
+    <src s="8">שעל זה הקשה באוה"ח הקדוש הלא דבר זה הוא מתנאי הכבוד שרשם במעשה ישראל לה',</src>
+    <src s="9">כמו שכתוב בפסוק את הוי' האמרת היום גו' ולשמור חוקיו ומצוותיו גו',</src>
+    <src s="10">ומה מקום להזכירו בדברים שמה' לישראל.</src>
+    <src s="11">אך הענין יובן בהקדים הפירוש דהאמרת והאמירך מלשון שבח,</src>
+    <src s="12">כדרשת חז"ל8</src>
+    <src s="13">ע"פ זה,</src>
+    <src s="14">אמר להם הקב"ה לישראל אתם עשיתוני חטיבה אחת בעולם ואני אעשה אתכם חטיבה אחת בעולם,</src>
+    <src s="15">אתם עשיתוני חטיבה אחת בעולם שנאמר9</src>
+    <src s="16">שמע ישראל ה' אלקינו ה' אחד,</src>
+    <src s="17">ואני אעשה אתכם חטיבה אחת בעולם שנאמר10</src>
+    <src s="18">ומי כעמך ישראל גוי אחד בארץ.</src>
+  </section>
+  <section v="4">
+    <src s="0">ויש להוסיף המבואר במק"א11</src>
+    <src s="1">שהאמרת יש בו ג' פירושים,</src>
+    <src s="2">פירוש הא',</src>
+    <src s="3">לשון שבח,</src>
+    <src s="4">כנ"ל,</src>
+    <src s="5">פירוש הב',</src>
+    <src s="6">לשון לבוש,</src>
+    <src s="7">פורפירא,</src>
+    <src s="8">כמ"ש במדרש12</src>
+    <src s="9">ע"פ13</src>
+    <src s="10">בצע אמרתו,</src>
+    <src s="11">בזע פורפירא</src>
+    <src s="12">(לבוש)</src>
+    <src s="13">דילי',</src>
+    <src s="14">ופירוש הג',</src>
+    <src s="15">מלשון אמירה ודיבור.</src>
+    <src s="16">וזוהי שייכות הפסוק את הוי' האמרת היום גו' לראש השנה,</src>
+    <src s="17">כי,</src>
+    <src s="18">מבואר בלקו"ת14</src>
+    <src s="19">שהיום סתם קאי על ראש השנה,</src>
+    <src s="20">ובראש השנה נעשה הענין דאת הוי' האמרת היום,</src>
+    <src s="21">בכל ג' הפירושים הנ"ל.</src>
+    <src s="22">דהנה,</src>
+    <src s="23">העבודה דר"ה היא כמארז"ל15</src>
+    <src s="24">אמר הקב"ה</src>
+    <src s="25">(לישראל)</src>
+    <src s="26">אמרו לפני בר"ה מלכיות כו' כדי שתמליכוני עליכם,</src>
+    <src s="27">שזהו תוכן פירוש הא' דהאמרת,</src>
+    <src s="28">לשון שבח,</src>
+    <src s="29">שהו"ע אתם עשיתוני חטיבה אחת בעולם שנאמר שמע ישראל ה' אלקינו ה' אחד,</src>
+    <src s="30">כמארז"ל16</src>
+    <src s="31">שמע ישראל הוי' אלקינו הוי' אחד זהו מלכות.</src>
+    <src s="32">ופירוש הב',</src>
+    <src s="33">לשון לבוש,</src>
+    <src s="34">כי כאשר נברא אדה"ר בר"ה אמר הוי' מלך גאות לבש17,</src>
+    <src s="35">שנתלבש בלבוש מלכות.</src>
+    <src s="36">ופירוש הג' מלשון אמירה ודיבור,</src>
+    <src s="37">כידוע18</src>
+    <src s="38">שבר"ה הוא בנין עולם הדיבור.</src>
+  </section>
+  <section v="5">
+    <src s="0">וממשיך בהמאמר5</src>
+    <src s="1">בביאור הפירוש דהאמרת והאמירך מלשון שבח,</src>
+    <src s="2">שבשניהם נאמר אחד</src>
+    <src s="3">(הוי' אחד,</src>
+    <src s="4">גוי אחד),</src>
+    <src s="5">שיש בו ג' פירושים.</src>
+    <src s="6">פי' הא',</src>
+    <src s="7">כמארז"ל19</src>
+    <src s="8">אחד אין כיוצא בו.</src>
+    <src s="9">וצריך להבין מהו השבח שאין כיוצא בו,</src>
+    <src s="10">איך יעלה על לב איש קס"ד שיש כיוצא בו ח"ו,</src>
+    <src s="11">והרי אפילו אומות העולם קרו לי' אלקא דאלקייא20,</src>
+    <src s="12">וא"כ למה צריך לומר שאין כיוצא בו.</src>
+    <src s="13">ופירוש הב',</src>
+    <src s="14">שאחד שולל הענין דע"ז,</src>
+    <src s="15">כמארז"ל21</src>
+    <src s="16">מהיכן זכו ישראל לק"ש ממ"ת,</src>
+    <src s="17">אמר הקב"ה שמע ישראל אנכי ה' אלקיך השיבו ישראל ה' אלקינו,</src>
+    <src s="18">לא יהי' לך כו' השיבו ישראל ה' אחד,</src>
+    <src s="19">ונמצא,</src>
+    <src s="20">שהוי' אלקינו הוי' אחד הוא קיבול על ב' דברות דאנכי ולא יהי' לך,</src>
+    <src s="21">והיינו,</src>
+    <src s="22">שאחד שולל הענין דע"ז.</src>
+    <src s="23">ופי' הג',</src>
+    <src s="24">שהוי' אחד היא מצוה בפ"ע,</src>
+    <src s="25">מצות לייחדו,</src>
+    <src s="26">שהרי אפשר להיות קיום הציווי אנכי ולא יהי' לך,</src>
+    <src s="27">ומ"מ,</src>
+    <src s="28">אין זה עדיין ענין היחוד,</src>
+    <src s="29">ועל זה ניתוסף הענין דהוי' אחד,</src>
+    <src s="30">שהוא הציווי ליחדו,</src>
+    <src s="31">והוא שלילת ענין השיתוף,</src>
+    <src s="32">שעל זה נצטוו בנ"י בפסוק שמע ישראל גו' ה' אחד22,</src>
+    <src s="33">משא"כ אומות העולם,</src>
+    <src s="34">אף שנצטוו על ע"ז,</src>
+    <src s="35">כמ"ש באדה"ר ויצו23,</src>
+    <src s="36">ואמרו רז"ל24</src>
+    <src s="37">אין צו אלא ע"ז,</src>
+    <src s="38">מ"מ,</src>
+    <src s="39">לא נצטוו על השיתוף</src>
+    <src s="40">(כמ"ש הרמ"א25</src>
+    <src s="41">שנמשך אחר הר"ן והתוס'26).</src>
+    <src s="42">והיינו,</src>
+    <src s="43">שאצל אומות העולם,</src>
+    <src s="44">כולל גם חסידי אומות העולם,</src>
+    <src s="45">אין הענין דהאמנת היחוד,</src>
+    <src s="46">כי אם בישראל דוקא.</src>
+  </section>
+</awtsmoosMeluketSource>

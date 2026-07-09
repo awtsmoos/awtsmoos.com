@@ -1,0 +1,799 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 151,
+    "returned": 151,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916658_theRebbe_485\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916658_theRebbe_485__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the \"spirit of foolishness\" stems from an intense craving for physical pleasures, which cools one's taste for G-dliness, and clarifies that the strength of the body refers to the animal soul's dominance, not physical health, as even permissible pleasures can dull holiness.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">However, from the aspect of the spirit of foolishness that enters him, it is possible that he will transgress,</t>\n    <t s=\"2\">for the matter of the spirit of foolishness is the intensity of craving for physical pleasures, and it comes from this,</t>\n    <t s=\"3\">that even though it is in permissible matters,</t>\n    <t s=\"4\">but through this, that he is immersed in this, and especially the vitality and pleasure</t>\n    <t s=\"5\">(the ardor and the enjoyment)</t>\n    <t s=\"6\">that he has in this,</t>\n    <t s=\"7\">behold, it cools him and takes from him</t>\n    <t s=\"8\">(it takes from him)</t>\n    <t s=\"9\">the taste in G-dliness, as stated in the Zohar,</t>\n    <t s=\"10\">\"The strength of the body is the weakness of the soul,\"</t>\n    <t s=\"11\">for the intention is not about the strength of the body literally,</t>\n    <t s=\"12\">for on the contrary, having a healthy and whole body is among the ways of G-d,</t>\n    <t s=\"13\">and as is known from the teaching of the Baal Shem Tov</t>\n    <t s=\"14\">on the verse</t>\n    <t s=\"15\">\"When you see the donkey of your enemy...\": \"When you see the donkey,\"</t>\n    <t s=\"16\">when you look with good contemplation at your materiality, which is the body,</t>\n    <t s=\"17\">you will see,</t>\n    <t s=\"18\">your enemy,</t>\n    <t s=\"19\">that it is the enemy of the soul which yearns for G-dliness and spirituality,</t>\n    <t s=\"20\">and furthermore you will see that it</t>\n    <t s=\"21\">lies under its burden,</t>\n    <t s=\"22\">that the Holy One, blessed be He, gave the body so that it would be refined through Torah and mitzvos, and the body is lazy in their fulfillment.</t>\n    <t s=\"23\">And perhaps it will arise in your heart,</t>\n    <t s=\"24\">\"and you refrain from helping him,\"</t>\n    <t s=\"25\">that he might be able to fulfill his mission,</t>\n    <t s=\"26\">for if you begin with ascetic practices to break the materiality,</t>\n    <t s=\"27\">behold, this is not the way for the light of Torah to dwell,</t>\n    <t s=\"28\">but rather,</t>\n    <t s=\"29\">\"you shall surely help him,\"</t>\n    <t s=\"30\">to refine the body and purify it, and not to break it through ascetic practices.</t>\n    <t s=\"31\">Also known is what the Maggid of Mezeritch said,</t>\n    <t s=\"32\">\"A small hole in the body becomes a large hole in the soul.\"</t>\n    <t s=\"33\">From all this it is understood that \"the strength of the body\" does not refer to the body,</t>\n    <t s=\"34\">but rather the intention is regarding the animal soul,</t>\n    <t s=\"35\">that the strength of the animal soul, which rules over him and lets himself be drawn into physical pleasures,</t>\n    <t s=\"36\">behold, even though they are permissible matters, nevertheless this cools the heat that should be in holiness and takes</t>\n    <t s=\"37\">(and it takes)</t>\n    <t s=\"38\">the taste that should be in G-dliness.</t>\n    <t s=\"39\">Therefore, in the future to come it is written, \"and he will water the stream of Shittim,\"</t>\n    <t s=\"40\">for \"stream\" literally is from water, and \"stream of Shittim\" is the aspect of physical pleasures,</t>\n    <t s=\"41\">and as stated by the Rebbe Maharash,</t>\n    <t s=\"42\">that water causes all kinds of pleasures to grow,</t>\n    <t s=\"43\">for even though growth requires many things, nevertheless the main growth is from water.</t>\n    <t s=\"44\">And the reason why physical pleasures are foolishness,</t>\n    <t s=\"45\">behold, besides the fact that many physical pleasures end bitterly,</t>\n    <t s=\"46\">behold, even those matters that are a pleasure,</t>\n    <t s=\"47\">it is known</t>\n    <t s=\"48\">regarding the matter of \"and all my innards [call out] His holy name,\"</t>\n    <t s=\"49\">that \"innards\" refers to the angels who are called by the name \"innards,\"</t>\n    <t s=\"50\">for just as the innards separate the food from the waste and the waste is pushed outward,</t>\n    <t s=\"51\">so too above there are angels who separate the influence of the pleasure above,</t>\n    <t s=\"52\">and especially the pleasures of holiness,</t>\n    <t s=\"53\">from what is waste relative to them,</t>\n    <t s=\"54\">which descends downward and from this physical pleasures are generated,</t>\n    <t s=\"55\">and therefore physical pleasure is called by the name \"foolishness,\"</t>\n    <t s=\"56\">for in truth it is waste,</t>\n    <t s=\"57\">and so one who takes pleasure in this is foolishness,</t>\n    <t s=\"58\">and especially when he knows that through physical pleasures he will lack the pleasure in G-dliness, this is a great foolishness, that he exchanges a physical pleasure, which is truly waste, for a G-dly pleasure, which is the essence of pleasure.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the cause of the spirit of foolishness is a lack of Daas (holy intellect and feeling), which is compared to an animal state, and that to remove this foolishness of the other side one must specifically use the \"foolishness of holiness,\" like the acacia wood (Shittim) used for the Mishkan.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And behold, the cause of the spirit of foolishness is stated in the Mishnah</t>\n    <t s=\"2\">regarding the matter of \"when a woman goes astray,\"</t>\n    <t s=\"3\">\"Just as her deeds are the deeds of an animal, so too her offering is the food of an animal,\"</t>\n    <t s=\"4\">and this means that the cause is because he is an animal,</t>\n    <t s=\"5\">that he lacks the holy intellect,</t>\n    <t s=\"6\">for this is the cause of the craving for physical matters, which is foolishness,</t>\n    <t s=\"7\">and from this he can err and think that through the transgression he commits, he does not become separated from G-dliness.</t>\n    <t s=\"8\">And even though he has intellect and understanding in holiness, nevertheless this is not sufficient, and he specifically needs the aspect of Daas,</t>\n    <t s=\"9\">for from this reason, almost all the souls in our generations are called \"seed of an animal,\"</t>\n    <t s=\"10\">for even though most of them are capable of grasping and understanding matters of holiness in general,</t>\n    <t s=\"11\">and especially the greatness of the Creator, blessed be He,</t>\n    <t s=\"12\">from books and from scribes,</t>\n    <t s=\"13\">a great comprehension and understanding,</t>\n    <t s=\"14\">nevertheless they are called \"seed of an animal\" because they lack the aspect of Daas and feeling in their soul.</t>\n    <t s=\"15\">For the matter of Daas is as stated in Tanya,</t>\n    <t s=\"16\">that it is from the term \"and the man knew [Chavah],\"</t>\n    <t s=\"17\">which is the aspect of attachment and connection to the matter,</t>\n    <t s=\"18\">that he does not contemplate it merely superficially,</t>\n    <t s=\"19\">for then he can easily be detached from the intellect,</t>\n    <t s=\"20\">but rather he is attached to the matter,</t>\n    <t s=\"21\">he lies in the matter.</t>\n    <t s=\"22\">And on a higher level, the matter of Daas is the aspect of feeling, that he feels the matter,</t>\n    <t s=\"23\">and not only does he feel the matter in his mind, but he also feels it in his heart,</t>\n    <t s=\"24\">for this is the true matter of Daas,</t>\n    <t s=\"25\">as stated by the Rebbe, of blessed memory,</t>\n    <t s=\"26\">the reason why a minor is not obligated in mitzvos,</t>\n    <t s=\"27\">for even though he understands the matter clearly,</t>\n    <t s=\"28\">nevertheless he is not a \"bar daas\" (possessor of Daas), for the intention in this is that he has no feeling for the preciousness and greatness of the matter,</t>\n    <t s=\"29\">and because he has no such feeling,</t>\n    <t s=\"30\">it is impossible to obligate him and place upon him the responsibility of a positive or negative commandment,</t>\n    <t s=\"31\">and as the language is stated regarding vows and consecration,</t>\n    <t s=\"32\">that they must know in whose name they vow and consecrate,</t>\n    <t s=\"33\">that the precision in this is \"they know\" specifically,</t>\n    <t s=\"34\">the aspect of feeling,</t>\n    <t s=\"35\">and on a higher level is the matter of recognition,</t>\n    <t s=\"36\">for feeling can also be regarding a matter that is not revealed to him,</t>\n    <t s=\"37\">like \"the heart knows the bitterness of its soul,\"</t>\n    <t s=\"38\">even though the cause is hidden from him,</t>\n    <t s=\"39\">and recognition is when it comes into revelation until it is verified for him as if he actually sees it and needs no proofs or evidence for it,</t>\n    <t s=\"40\">and the absence of this Daas is the cause of the spirit of foolishness,</t>\n    <t s=\"41\">which covers the truth and misleads a person, making it seem to him that even when he transgresses the will of the Most High, he is still in his Judaism.</t>\n    <t s=\"42\">And in order to remove the spirit of foolishness of the other side,</t>\n    <t s=\"43\">it is specifically through the foolishness of holiness,</t>\n    <t s=\"44\">for even though in general one must walk in the middle path,</t>\n    <t s=\"45\">this is specifically when all his days he has walked and continues to walk in the straight path,</t>\n    <t s=\"46\">but when he has deviated from this path to the extreme of the other side, he must specifically deviate to the other extreme.</t>\n    <t s=\"47\">And this is analogous to what is explained regarding a baal teshuvah, that he should not say \"I desire it, and what can I do that my Father in heaven has decreed upon me,\" but rather he must say \"I do not desire it,\"</t>\n    <t s=\"48\">for to be a baal teshuvah requires a special regimen,</t>\n    <t s=\"49\">and so too is it regarding this matter,</t>\n    <t s=\"50\">for since through the foolishness of the other side and the sins they have removed the Shechinah,</t>\n    <t s=\"51\">behold, in order that afterwards there be \"and I will dwell in their midst,\" there must be \"and they shall make Me a Sanctuary\" specifically from acacia wood (Shittim),</t>\n    <t s=\"52\">the foolishness of holiness.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that just as the Mishkan was built through Moshe and Aharon, so too in every generation the Nesi'im draw down the \"foolishness of holiness\" through love of Israel, which refines the foolishness of the other side and brings the Shechinah to dwell.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And behold, just as \"they shall make Me a Sanctuary\" and the service in it was through Moshe and through Aharon,</t>\n    <t s=\"2\">and the main</t>\n    <t s=\"3\">service of Aharon is \"when you raise up the lamps,\"</t>\n    <t s=\"4\">for \"the soul of man is the lamp of G-d,\"</t>\n    <t s=\"5\">and the seven lamps are the seven levels in the service of G-d,</t>\n    <t s=\"6\">and the matter of Aharon is that he \"loves the creatures and draws them near to the Torah,\"</t>\n    <t s=\"7\">that even those who are distant from the Torah of G-d and His service, and are therefore called mere \"creatures,\"</t>\n    <t s=\"8\">for they have no virtue other than that they are created,</t>\n    <t s=\"9\">meaning that the Holy One, blessed be He, created them,</t>\n    <t s=\"10\">behold, even in them he drew down an aspect of love,</t>\n    <t s=\"11\">a great love,</t>\n    <t s=\"12\">for this is the general difference between the love of Avraham and the love of Aharon, that the love of Aharon is a \"great love,\"</t>\n    <t s=\"13\">and through Moshe and Aharon the influences were drawn down in the Mishkan,</t>\n    <t s=\"14\">and Moshe and Aharon are both equivalent,</t>\n    <t s=\"15\">behold, so too is it in every generation,</t>\n    <t s=\"16\">for \"the extension of Moshe is in every generation,\"</t>\n    <t s=\"17\">and especially the Nesi'im (leaders), whose entire matters, whether in Torah, mitzvos, or the leadership of Israel, are with love of Israel, love of Torah, and love of G-d.</t>\n    <t s=\"18\">And regarding the matter of love of Israel,</t>\n    <t s=\"19\">my father-in-law, the Rebbe, added in the name of the Alter Rebbe,</t>\n    <t s=\"20\">that \"love your fellow as yourself\"</t>\n    <t s=\"21\">is a vessel for \"and you shall love the L-rd your G-d,\"</t>\n    <t s=\"22\">and great is the love of Israel,</t>\n    <t s=\"23\">for one loves what the Beloved loves.</t>\n    <t s=\"24\">And this they drew down to all the Chassidim,</t>\n    <t s=\"25\">those who are connected,</t>\n    <t s=\"26\">those who belong to them and those who hold onto them,</t>\n    <t s=\"27\">each one according to his matter, his standing, and his situation.</t>\n    <t s=\"28\">One must work on oneself,</t>\n    <t s=\"29\">but since there is a need for the granting of power and Heavenly assistance in general,</t>\n    <t s=\"30\">and especially from that soul of which he is a spark,</t>\n    <t s=\"31\">behold, in this is the influence that comes through the Nesi'im,</t>\n    <t s=\"32\">\"a Sanctuary of acacia wood (Shittim),\"</t>\n    <t s=\"33\">through which they refine the foolishness of the other side,</t>\n    <t s=\"34\">and the Shechinah</t>\n    <t s=\"35\">rests upon the work of his hands,</t>\n    <t s=\"36\">\"and the pleasantness of G-d be upon him, and establish the work of our hands,\"</t>\n    <t s=\"37\">with success,</t>\n    <t s=\"38\">until the coming of Mashiach Tzidkeinu, speedily in our days.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916658_theRebbe_485",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916658_theRebbe_485__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the \"spirit of foolishness\" stems from an intense craving for physical pleasures, which cools one's taste for G-dliness, and clarifies that the strength of the body refers to the animal soul's dominance, not physical health, as even permissible pleasures can dull holiness.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "However, from the aspect of the spirit of foolishness that enters him, it is possible that he will transgress,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "for the matter of the spirit of foolishness is the intensity of craving for physical pleasures, and it comes from this,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "that even though it is in permissible matters,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "but through this, that he is immersed in this, and especially the vitality and pleasure"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "(the ardor and the enjoyment)"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "that he has in this,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "behold, it cools him and takes from him"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(it takes from him)"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "the taste in G-dliness, as stated in the Zohar,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "\"The strength of the body is the weakness of the soul,\""
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "for the intention is not about the strength of the body literally,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "for on the contrary, having a healthy and whole body is among the ways of G-d,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "and as is known from the teaching of the Baal Shem Tov"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "on the verse"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "\"When you see the donkey of your enemy...\": \"When you see the donkey,\""
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "when you look with good contemplation at your materiality, which is the body,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "you will see,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "your enemy,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "that it is the enemy of the soul which yearns for G-dliness and spirituality,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "and furthermore you will see that it"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "lies under its burden,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "that the Holy One, blessed be He, gave the body so that it would be refined through Torah and mitzvos, and the body is lazy in their fulfillment."
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "And perhaps it will arise in your heart,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "\"and you refrain from helping him,\""
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "that he might be able to fulfill his mission,"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "for if you begin with ascetic practices to break the materiality,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "behold, this is not the way for the light of Torah to dwell,"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "but rather,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "\"you shall surely help him,\""
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "to refine the body and purify it, and not to break it through ascetic practices."
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "Also known is what the Maggid of Mezeritch said,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "\"A small hole in the body becomes a large hole in the soul.\""
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "From all this it is understood that \"the strength of the body\" does not refer to the body,"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "but rather the intention is regarding the animal soul,"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "that the strength of the animal soul, which rules over him and lets himself be drawn into physical pleasures,"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "behold, even though they are permissible matters, nevertheless this cools the heat that should be in holiness and takes"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "(and it takes)"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "the taste that should be in G-dliness."
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "Therefore, in the future to come it is written, \"and he will water the stream of Shittim,\""
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "for \"stream\" literally is from water, and \"stream of Shittim\" is the aspect of physical pleasures,"
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "and as stated by the Rebbe Maharash,"
+          },
+          {
+            "v": 6,
+            "s": 42,
+            "translation": "that water causes all kinds of pleasures to grow,"
+          },
+          {
+            "v": 6,
+            "s": 43,
+            "translation": "for even though growth requires many things, nevertheless the main growth is from water."
+          },
+          {
+            "v": 6,
+            "s": 44,
+            "translation": "And the reason why physical pleasures are foolishness,"
+          },
+          {
+            "v": 6,
+            "s": 45,
+            "translation": "behold, besides the fact that many physical pleasures end bitterly,"
+          },
+          {
+            "v": 6,
+            "s": 46,
+            "translation": "behold, even those matters that are a pleasure,"
+          },
+          {
+            "v": 6,
+            "s": 47,
+            "translation": "it is known"
+          },
+          {
+            "v": 6,
+            "s": 48,
+            "translation": "regarding the matter of \"and all my innards [call out] His holy name,\""
+          },
+          {
+            "v": 6,
+            "s": 49,
+            "translation": "that \"innards\" refers to the angels who are called by the name \"innards,\""
+          },
+          {
+            "v": 6,
+            "s": 50,
+            "translation": "for just as the innards separate the food from the waste and the waste is pushed outward,"
+          },
+          {
+            "v": 6,
+            "s": 51,
+            "translation": "so too above there are angels who separate the influence of the pleasure above,"
+          },
+          {
+            "v": 6,
+            "s": 52,
+            "translation": "and especially the pleasures of holiness,"
+          },
+          {
+            "v": 6,
+            "s": 53,
+            "translation": "from what is waste relative to them,"
+          },
+          {
+            "v": 6,
+            "s": 54,
+            "translation": "which descends downward and from this physical pleasures are generated,"
+          },
+          {
+            "v": 6,
+            "s": 55,
+            "translation": "and therefore physical pleasure is called by the name \"foolishness,\""
+          },
+          {
+            "v": 6,
+            "s": 56,
+            "translation": "for in truth it is waste,"
+          },
+          {
+            "v": 6,
+            "s": 57,
+            "translation": "and so one who takes pleasure in this is foolishness,"
+          },
+          {
+            "v": 6,
+            "s": 58,
+            "translation": "and especially when he knows that through physical pleasures he will lack the pleasure in G-dliness, this is a great foolishness, that he exchanges a physical pleasure, which is truly waste, for a G-dly pleasure, which is the essence of pleasure."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the cause of the spirit of foolishness is a lack of Daas (holy intellect and feeling), which is compared to an animal state, and that to remove this foolishness of the other side one must specifically use the \"foolishness of holiness,\" like the acacia wood (Shittim) used for the Mishkan.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And behold, the cause of the spirit of foolishness is stated in the Mishnah"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "regarding the matter of \"when a woman goes astray,\""
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "\"Just as her deeds are the deeds of an animal, so too her offering is the food of an animal,\""
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "and this means that the cause is because he is an animal,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "that he lacks the holy intellect,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "for this is the cause of the craving for physical matters, which is foolishness,"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "and from this he can err and think that through the transgression he commits, he does not become separated from G-dliness."
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "And even though he has intellect and understanding in holiness, nevertheless this is not sufficient, and he specifically needs the aspect of Daas,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "for from this reason, almost all the souls in our generations are called \"seed of an animal,\""
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "for even though most of them are capable of grasping and understanding matters of holiness in general,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "and especially the greatness of the Creator, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "from books and from scribes,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "a great comprehension and understanding,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "nevertheless they are called \"seed of an animal\" because they lack the aspect of Daas and feeling in their soul."
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "For the matter of Daas is as stated in Tanya,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that it is from the term \"and the man knew [Chavah],\""
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "which is the aspect of attachment and connection to the matter,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "that he does not contemplate it merely superficially,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "for then he can easily be detached from the intellect,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "but rather he is attached to the matter,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "he lies in the matter."
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "And on a higher level, the matter of Daas is the aspect of feeling, that he feels the matter,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "and not only does he feel the matter in his mind, but he also feels it in his heart,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "for this is the true matter of Daas,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "as stated by the Rebbe, of blessed memory,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "the reason why a minor is not obligated in mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "for even though he understands the matter clearly,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "nevertheless he is not a \"bar daas\" (possessor of Daas), for the intention in this is that he has no feeling for the preciousness and greatness of the matter,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "and because he has no such feeling,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "it is impossible to obligate him and place upon him the responsibility of a positive or negative commandment,"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "and as the language is stated regarding vows and consecration,"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "that they must know in whose name they vow and consecrate,"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "that the precision in this is \"they know\" specifically,"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "the aspect of feeling,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "and on a higher level is the matter of recognition,"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "for feeling can also be regarding a matter that is not revealed to him,"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "like \"the heart knows the bitterness of its soul,\""
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "even though the cause is hidden from him,"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "and recognition is when it comes into revelation until it is verified for him as if he actually sees it and needs no proofs or evidence for it,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "and the absence of this Daas is the cause of the spirit of foolishness,"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "which covers the truth and misleads a person, making it seem to him that even when he transgresses the will of the Most High, he is still in his Judaism."
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "And in order to remove the spirit of foolishness of the other side,"
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "it is specifically through the foolishness of holiness,"
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "for even though in general one must walk in the middle path,"
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "this is specifically when all his days he has walked and continues to walk in the straight path,"
+          },
+          {
+            "v": 7,
+            "s": 46,
+            "translation": "but when he has deviated from this path to the extreme of the other side, he must specifically deviate to the other extreme."
+          },
+          {
+            "v": 7,
+            "s": 47,
+            "translation": "And this is analogous to what is explained regarding a baal teshuvah, that he should not say \"I desire it, and what can I do that my Father in heaven has decreed upon me,\" but rather he must say \"I do not desire it,\""
+          },
+          {
+            "v": 7,
+            "s": 48,
+            "translation": "for to be a baal teshuvah requires a special regimen,"
+          },
+          {
+            "v": 7,
+            "s": 49,
+            "translation": "and so too is it regarding this matter,"
+          },
+          {
+            "v": 7,
+            "s": 50,
+            "translation": "for since through the foolishness of the other side and the sins they have removed the Shechinah,"
+          },
+          {
+            "v": 7,
+            "s": 51,
+            "translation": "behold, in order that afterwards there be \"and I will dwell in their midst,\" there must be \"and they shall make Me a Sanctuary\" specifically from acacia wood (Shittim),"
+          },
+          {
+            "v": 7,
+            "s": 52,
+            "translation": "the foolishness of holiness."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that just as the Mishkan was built through Moshe and Aharon, so too in every generation the Nesi'im draw down the \"foolishness of holiness\" through love of Israel, which refines the foolishness of the other side and brings the Shechinah to dwell.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And behold, just as \"they shall make Me a Sanctuary\" and the service in it was through Moshe and through Aharon,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "and the main"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "service of Aharon is \"when you raise up the lamps,\""
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "for \"the soul of man is the lamp of G-d,\""
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "and the seven lamps are the seven levels in the service of G-d,"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "and the matter of Aharon is that he \"loves the creatures and draws them near to the Torah,\""
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "that even those who are distant from the Torah of G-d and His service, and are therefore called mere \"creatures,\""
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "for they have no virtue other than that they are created,"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "meaning that the Holy One, blessed be He, created them,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "behold, even in them he drew down an aspect of love,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "a great love,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "for this is the general difference between the love of Avraham and the love of Aharon, that the love of Aharon is a \"great love,\""
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "and through Moshe and Aharon the influences were drawn down in the Mishkan,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "and Moshe and Aharon are both equivalent,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "behold, so too is it in every generation,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "for \"the extension of Moshe is in every generation,\""
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "and especially the Nesi'im (leaders), whose entire matters, whether in Torah, mitzvos, or the leadership of Israel, are with love of Israel, love of Torah, and love of G-d."
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "And regarding the matter of love of Israel,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "my father-in-law, the Rebbe, added in the name of the Alter Rebbe,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "that \"love your fellow as yourself\""
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "is a vessel for \"and you shall love the L-rd your G-d,\""
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "and great is the love of Israel,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "for one loves what the Beloved loves."
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "And this they drew down to all the Chassidim,"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "those who are connected,"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "those who belong to them and those who hold onto them,"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "each one according to his matter, his standing, and his situation."
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "One must work on oneself,"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "but since there is a need for the granting of power and Heavenly assistance in general,"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "and especially from that soul of which he is a spark,"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "behold, in this is the influence that comes through the Nesi'im,"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "\"a Sanctuary of acacia wood (Shittim),\""
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "through which they refine the foolishness of the other side,"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "and the Shechinah"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "rests upon the work of his hands,"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "\"and the pleasantness of G-d be upon him, and establish the work of our hands,\""
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "with success,"
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "until the coming of Mashiach Tzidkeinu, speedily in our days."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,609 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 113,
+    "returned": 113,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916815_theRebbe_81\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>The Mitteler Rebbe explains the distinction between the nullification of speech to thought and the nullification of thought to intellect, using the analogy of a rider and chariot, and then applies this to the concept of \"Ein Levavcha Ela Echad.\"</sectionSummaryBrief>\n    <t s=\"0\">And the Mitteler Rebbe explains this in Shaarei Teshuvah,</t>\n    <t s=\"1\">by prefacing the distinction between the nullification of speech to thought and the nullification of thought to intellect.</t>\n    <t s=\"2\">For the nullification of speech to thought is not a complete nullification.</t>\n    <t s=\"3\">For although in order for speech to be ordered, it is through speech receiving from thought,</t>\n    <t s=\"4\">in addition to the fact that before speaking one must arrange in his thought how to speak</t>\n    <t s=\"5\">[as is known</t>\n    <t s=\"6\">regarding the matter of saying it four times to himself],</t>\n    <t s=\"7\">nevertheless, even during the actual speech, thought must illuminate within the speech so that it be according to the instruction of thought,</t>\n    <t s=\"8\">nevertheless,</t>\n    <t s=\"9\">speech in its essential essence is separate from thought,</t>\n    <t s=\"10\">and its nullification to thought is only with regard to this, that the order of the letters of speech be according to the instruction of thought.</t>\n    <t s=\"11\">And it is like the nullification of the chariot to the rider, where the chariot is an entity in itself, and the nullification of the horses</t>\n    <t s=\"12\">(chariot)</t>\n    <t s=\"13\">to the rider is only with regard to this, that their movement be according to the will of the rider.</t>\n    <t s=\"14\">But not so the nullification of the letters of thought to the intellect, which is</t>\n    <t s=\"15\">(not only with regard to the order of the letters, but also)</t>\n    <t s=\"16\">in their essential existence,</t>\n    <t s=\"17\">for in order for the letters of thought to exist, it is specifically through the intellect</t>\n    <t s=\"18\">(or the emotions)</t>\n    <t s=\"19\">that is clothed within them</t>\n    <t s=\"20\">[And that thought is always roaming is because the intellect and emotions are always felt within man].</t>\n    <t s=\"21\">And furthermore,</t>\n    <t s=\"22\">the very essence of the letters of thought is that they receive from the intellect or emotions that are clothed within them.</t>\n    <t s=\"23\">And the explanation is,</t>\n    <t s=\"24\">that the distinction between thought and speech is also in the manner of their connection to the intellect and emotions that are clothed within them.</t>\n    <t s=\"25\">For thought is a unified garment and speech is a separate garment.</t>\n    <t s=\"26\">For the matter of speech is that a person clothes his intellect and emotions in an entity</t>\n    <t s=\"27\">(letters)</t>\n    <t s=\"28\">that is outside of himself,</t>\n    <t s=\"29\">therefore,</t>\n    <t s=\"30\">although in order for speech to exist</t>\n    <t s=\"31\">(from the perspective of the speaking person)</t>\n    <t s=\"32\">it is specifically when speech receives from his intellect and emotions,</t>\n    <t s=\"33\">nevertheless,</t>\n    <t s=\"34\">after speech already exists,</t>\n    <t s=\"35\">it is heard also by another and is separate from the speaking person.</t>\n    <t s=\"36\">And the essence of the letters of thought is that the intellect and emotions of the thinking person are revealed through them,</t>\n    <t s=\"37\">therefore,</t>\n    <t s=\"38\">even after the letters of thought exist,</t>\n    <t s=\"39\">they do not go out from within him.</t>\n    <t s=\"40\">Now, in the nullification of the letters of thought to the intellect, there are two general levels.</t>\n    <t s=\"41\">When one thinks the intellect in its letters</t>\n    <t s=\"42\">[and certainly when one thinks how to influence the intellect to another,</t>\n    <t s=\"43\">and as above, that before speech one must arrange in his thought how to speak],</t>\n    <t s=\"44\">for in this thought,</t>\n    <t s=\"45\">the letters are felt,</t>\n    <t s=\"46\">except that they are unified with the intellect,</t>\n    <t s=\"47\">as above.</t>\n    <t s=\"48\">And when one thinks the intellect itself</t>\n    <t s=\"49\">[thought within thought],</t>\n    <t s=\"50\">in this thought the letters are not felt,</t>\n    <t s=\"51\">for they are included and nullified within the intellect.</t>\n    <t s=\"52\">And this is what the tribes said to Yaakov: \"There is nothing in your heart but One\"</t>\n    <t s=\"53\">(specifically \"in your heart\"),</t>\n    <t s=\"54\">for the matter of \"Ela Echad\" is that there is no existence besides Him,</t>\n    <t s=\"55\">not even an existence that is nullified to Him.</t>\n    <t s=\"56\">And therefore they said \"there is nothing in your heart but One\"</t>\n    <t s=\"57\">(even though the Patriarchs are themselves the Merkavah, and the nullification of the Merkavah is in all the limbs),</t>\n    <t s=\"58\">for this matter of \"Ela Echad\" is specifically in his heart.</t>\n    <t s=\"59\">And within the heart itself—in the innerness of the heart</t>\n    <t s=\"60\">[and as above, that the explanation of \"b.\"</t>\n    <t s=\"61\">'your heart' is within the heart],</t>\n    <t s=\"62\">for in the level of the heart,</t>\n    <t s=\"63\">even in the heart of the Supernal Man,</t>\n    <t s=\"64\">since there is the matter of the emotions,</t>\n    <t s=\"65\">although \"He and His life\"</t>\n    <t s=\"66\">are truly one,</t>\n    <t s=\"67\">this is not the true essence of the matter of \"Ela Echad,\"</t>\n    <t s=\"68\">and therefore they said \"b.\"</t>\n    <t s=\"69\">'your heart,'</t>\n    <t s=\"70\">within your heart,</t>\n    <t s=\"71\">for in the point of the heart the simple Oneness shines,</t>\n    <t s=\"72\">\"Ela Echad.\"</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>Based on the above, the soul's state above was not only in total attachment but also in a singular will with Hashem alone, where no \"other\" existence, even a nullified one, was present, reflecting the revelation of the point of the heart.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we can explain that after the maamar says that the soul, when above, stood in its image before the Holy King, and</t>\n    <t s=\"1\">(furthermore)</t>\n    <t s=\"2\">that it was in total attachment etc., it adds that it was in one will with Hashem alone, and \"no stranger is with Him,\"</t>\n    <t s=\"3\">for the intention of \"stranger\"</t>\n    <t s=\"4\">(here)</t>\n    <t s=\"5\">is also for an existence that is nullified completely</t>\n    <t s=\"6\">(like the nullification of the letters of thought that are included in the intellect),</t>\n    <t s=\"7\">and this is what it says \"and no stranger is with Him,\"</t>\n    <t s=\"8\">that the soul, when above,</t>\n    <t s=\"9\">was illuminated by the revelation of the point of the heart,</t>\n    <t s=\"10\">for from the perspective of this revelation, \"no stranger is with Him,\"</t>\n    <t s=\"11\">\"there is nothing in your heart but One.\"</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>The tribes, who are in BiYA, said \"there is nothing in our heart but One\" like Yaakov, because the root of souls in the Essence of the Ein Sof, above the simple will, equalizes all levels.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">Now, based on the above, we must understand why the tribes said \"there is nothing in our heart but One,\"</t>\n    <t s=\"2\">for the tribes are in BiYA</t>\n    <t s=\"3\">[as explained in many places</t>\n    <t s=\"4\">the distinction between the Patriarchs and the tribes,</t>\n    <t s=\"5\">that the Patriarchs are in Atzilus and the tribes are in BiYA],</t>\n    <t s=\"6\">where the nullification in BiYA is the nullification of Yichuda Tata'ah</t>\n    <t s=\"7\">(lower even than the nullification of the Merkavah of Atzilus),</t>\n    <t s=\"8\">and nevertheless they said \"there is nothing in our heart but One,\"</t>\n    <t s=\"9\">for the matter of \"Ela Echad\" is that there is no existence besides Him</t>\n    <t s=\"10\">(higher even than the Merkavah of Atzilus).</t>\n    <t s=\"11\">And furthermore, they said \"just as there is nothing in your heart but One, so too there is nothing in our heart but One,\"</t>\n    <t s=\"12\">that the matter of \"Ela Echad\" in them and the matter of \"Ela Echad\" in Yaakov,</t>\n    <t s=\"13\">both are equal.</t>\n    <t s=\"14\">And the Mitteler Rebbe explains in Shaarei Teshuvah there,</t>\n    <t s=\"15\">that the root of all the distinctions in the order of the chain of descent</t>\n    <t s=\"16\">[including the distinction between Yichuda Tata'ah of BiYA and Yichuda Ila'ah of Atzilus,</t>\n    <t s=\"17\">and higher still, the nullification of \"Ela Echad\"]</t>\n    <t s=\"18\">is in the Will for worlds,</t>\n    <t s=\"19\">which arose in His simple will to emanate and create,</t>\n    <t s=\"20\">and the root of the souls is in the Essence of the Ein Sof literally, above the simple will</t>\n    <t s=\"21\">[in the \"Who\"</t>\n    <t s=\"22\">He consulted with the souls of the righteous],</t>\n    <t s=\"23\">and since, with regard to the Essence of the Ein Sof</t>\n    <t s=\"24\">(the root of souls)</t>\n    <t s=\"25\">all matters are equal,</t>\n    <t s=\"26\">therefore, the matter of \"Ela Echad\" that is in Yaakov is drawn down also into the tribes,</t>\n    <t s=\"27\">the souls of BiYA.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916815_theRebbe_81",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "The Mitteler Rebbe explains the distinction between the nullification of speech to thought and the nullification of thought to intellect, using the analogy of a rider and chariot, and then applies this to the concept of \"Ein Levavcha Ela Echad.\"",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "And the Mitteler Rebbe explains this in Shaarei Teshuvah,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "by prefacing the distinction between the nullification of speech to thought and the nullification of thought to intellect."
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "For the nullification of speech to thought is not a complete nullification."
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "For although in order for speech to be ordered, it is through speech receiving from thought,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "in addition to the fact that before speaking one must arrange in his thought how to speak"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "[as is known"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "regarding the matter of saying it four times to himself],"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "nevertheless, even during the actual speech, thought must illuminate within the speech so that it be according to the instruction of thought,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "speech in its essential essence is separate from thought,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "and its nullification to thought is only with regard to this, that the order of the letters of speech be according to the instruction of thought."
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "And it is like the nullification of the chariot to the rider, where the chariot is an entity in itself, and the nullification of the horses"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "(chariot)"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "to the rider is only with regard to this, that their movement be according to the will of the rider."
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "But not so the nullification of the letters of thought to the intellect, which is"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "(not only with regard to the order of the letters, but also)"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "in their essential existence,"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "for in order for the letters of thought to exist, it is specifically through the intellect"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "(or the emotions)"
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "that is clothed within them"
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "[And that thought is always roaming is because the intellect and emotions are always felt within man]."
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "the very essence of the letters of thought is that they receive from the intellect or emotions that are clothed within them."
+          },
+          {
+            "v": 15,
+            "s": 23,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 15,
+            "s": 24,
+            "translation": "that the distinction between thought and speech is also in the manner of their connection to the intellect and emotions that are clothed within them."
+          },
+          {
+            "v": 15,
+            "s": 25,
+            "translation": "For thought is a unified garment and speech is a separate garment."
+          },
+          {
+            "v": 15,
+            "s": 26,
+            "translation": "For the matter of speech is that a person clothes his intellect and emotions in an entity"
+          },
+          {
+            "v": 15,
+            "s": 27,
+            "translation": "(letters)"
+          },
+          {
+            "v": 15,
+            "s": 28,
+            "translation": "that is outside of himself,"
+          },
+          {
+            "v": 15,
+            "s": 29,
+            "translation": "therefore,"
+          },
+          {
+            "v": 15,
+            "s": 30,
+            "translation": "although in order for speech to exist"
+          },
+          {
+            "v": 15,
+            "s": 31,
+            "translation": "(from the perspective of the speaking person)"
+          },
+          {
+            "v": 15,
+            "s": 32,
+            "translation": "it is specifically when speech receives from his intellect and emotions,"
+          },
+          {
+            "v": 15,
+            "s": 33,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 15,
+            "s": 34,
+            "translation": "after speech already exists,"
+          },
+          {
+            "v": 15,
+            "s": 35,
+            "translation": "it is heard also by another and is separate from the speaking person."
+          },
+          {
+            "v": 15,
+            "s": 36,
+            "translation": "And the essence of the letters of thought is that the intellect and emotions of the thinking person are revealed through them,"
+          },
+          {
+            "v": 15,
+            "s": 37,
+            "translation": "therefore,"
+          },
+          {
+            "v": 15,
+            "s": 38,
+            "translation": "even after the letters of thought exist,"
+          },
+          {
+            "v": 15,
+            "s": 39,
+            "translation": "they do not go out from within him."
+          },
+          {
+            "v": 15,
+            "s": 40,
+            "translation": "Now, in the nullification of the letters of thought to the intellect, there are two general levels."
+          },
+          {
+            "v": 15,
+            "s": 41,
+            "translation": "When one thinks the intellect in its letters"
+          },
+          {
+            "v": 15,
+            "s": 42,
+            "translation": "[and certainly when one thinks how to influence the intellect to another,"
+          },
+          {
+            "v": 15,
+            "s": 43,
+            "translation": "and as above, that before speech one must arrange in his thought how to speak],"
+          },
+          {
+            "v": 15,
+            "s": 44,
+            "translation": "for in this thought,"
+          },
+          {
+            "v": 15,
+            "s": 45,
+            "translation": "the letters are felt,"
+          },
+          {
+            "v": 15,
+            "s": 46,
+            "translation": "except that they are unified with the intellect,"
+          },
+          {
+            "v": 15,
+            "s": 47,
+            "translation": "as above."
+          },
+          {
+            "v": 15,
+            "s": 48,
+            "translation": "And when one thinks the intellect itself"
+          },
+          {
+            "v": 15,
+            "s": 49,
+            "translation": "[thought within thought],"
+          },
+          {
+            "v": 15,
+            "s": 50,
+            "translation": "in this thought the letters are not felt,"
+          },
+          {
+            "v": 15,
+            "s": 51,
+            "translation": "for they are included and nullified within the intellect."
+          },
+          {
+            "v": 15,
+            "s": 52,
+            "translation": "And this is what the tribes said to Yaakov: \"There is nothing in your heart but One\""
+          },
+          {
+            "v": 15,
+            "s": 53,
+            "translation": "(specifically \"in your heart\"),"
+          },
+          {
+            "v": 15,
+            "s": 54,
+            "translation": "for the matter of \"Ela Echad\" is that there is no existence besides Him,"
+          },
+          {
+            "v": 15,
+            "s": 55,
+            "translation": "not even an existence that is nullified to Him."
+          },
+          {
+            "v": 15,
+            "s": 56,
+            "translation": "And therefore they said \"there is nothing in your heart but One\""
+          },
+          {
+            "v": 15,
+            "s": 57,
+            "translation": "(even though the Patriarchs are themselves the Merkavah, and the nullification of the Merkavah is in all the limbs),"
+          },
+          {
+            "v": 15,
+            "s": 58,
+            "translation": "for this matter of \"Ela Echad\" is specifically in his heart."
+          },
+          {
+            "v": 15,
+            "s": 59,
+            "translation": "And within the heart itself—in the innerness of the heart"
+          },
+          {
+            "v": 15,
+            "s": 60,
+            "translation": "[and as above, that the explanation of \"b.\""
+          },
+          {
+            "v": 15,
+            "s": 61,
+            "translation": "'your heart' is within the heart],"
+          },
+          {
+            "v": 15,
+            "s": 62,
+            "translation": "for in the level of the heart,"
+          },
+          {
+            "v": 15,
+            "s": 63,
+            "translation": "even in the heart of the Supernal Man,"
+          },
+          {
+            "v": 15,
+            "s": 64,
+            "translation": "since there is the matter of the emotions,"
+          },
+          {
+            "v": 15,
+            "s": 65,
+            "translation": "although \"He and His life\""
+          },
+          {
+            "v": 15,
+            "s": 66,
+            "translation": "are truly one,"
+          },
+          {
+            "v": 15,
+            "s": 67,
+            "translation": "this is not the true essence of the matter of \"Ela Echad,\""
+          },
+          {
+            "v": 15,
+            "s": 68,
+            "translation": "and therefore they said \"b.\""
+          },
+          {
+            "v": 15,
+            "s": 69,
+            "translation": "'your heart,'"
+          },
+          {
+            "v": 15,
+            "s": 70,
+            "translation": "within your heart,"
+          },
+          {
+            "v": 15,
+            "s": 71,
+            "translation": "for in the point of the heart the simple Oneness shines,"
+          },
+          {
+            "v": 15,
+            "s": 72,
+            "translation": "\"Ela Echad.\""
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "Based on the above, the soul's state above was not only in total attachment but also in a singular will with Hashem alone, where no \"other\" existence, even a nullified one, was present, reflecting the revelation of the point of the heart.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "And based on this, we can explain that after the maamar says that the soul, when above, stood in its image before the Holy King, and"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "(furthermore)"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "that it was in total attachment etc., it adds that it was in one will with Hashem alone, and \"no stranger is with Him,\""
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "for the intention of \"stranger\""
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "(here)"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "is also for an existence that is nullified completely"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "(like the nullification of the letters of thought that are included in the intellect),"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "and this is what it says \"and no stranger is with Him,\""
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "that the soul, when above,"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "was illuminated by the revelation of the point of the heart,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "for from the perspective of this revelation, \"no stranger is with Him,\""
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "\"there is nothing in your heart but One.\""
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "The tribes, who are in BiYA, said \"there is nothing in our heart but One\" like Yaakov, because the root of souls in the Essence of the Ein Sof, above the simple will, equalizes all levels.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "Now, based on the above, we must understand why the tribes said \"there is nothing in our heart but One,\""
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "for the tribes are in BiYA"
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "[as explained in many places"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "the distinction between the Patriarchs and the tribes,"
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "that the Patriarchs are in Atzilus and the tribes are in BiYA],"
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "where the nullification in BiYA is the nullification of Yichuda Tata'ah"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "(lower even than the nullification of the Merkavah of Atzilus),"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "and nevertheless they said \"there is nothing in our heart but One,\""
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "for the matter of \"Ela Echad\" is that there is no existence besides Him"
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "(higher even than the Merkavah of Atzilus)."
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "And furthermore, they said \"just as there is nothing in your heart but One, so too there is nothing in our heart but One,\""
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "that the matter of \"Ela Echad\" in them and the matter of \"Ela Echad\" in Yaakov,"
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "both are equal."
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "And the Mitteler Rebbe explains in Shaarei Teshuvah there,"
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "that the root of all the distinctions in the order of the chain of descent"
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "[including the distinction between Yichuda Tata'ah of BiYA and Yichuda Ila'ah of Atzilus,"
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "and higher still, the nullification of \"Ela Echad\"]"
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "is in the Will for worlds,"
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "which arose in His simple will to emanate and create,"
+          },
+          {
+            "v": 17,
+            "s": 20,
+            "translation": "and the root of the souls is in the Essence of the Ein Sof literally, above the simple will"
+          },
+          {
+            "v": 17,
+            "s": 21,
+            "translation": "[in the \"Who\""
+          },
+          {
+            "v": 17,
+            "s": 22,
+            "translation": "He consulted with the souls of the righteous],"
+          },
+          {
+            "v": 17,
+            "s": 23,
+            "translation": "and since, with regard to the Essence of the Ein Sof"
+          },
+          {
+            "v": 17,
+            "s": 24,
+            "translation": "(the root of souls)"
+          },
+          {
+            "v": 17,
+            "s": 25,
+            "translation": "all matters are equal,"
+          },
+          {
+            "v": 17,
+            "s": 26,
+            "translation": "therefore, the matter of \"Ela Echad\" that is in Yaakov is drawn down also into the tribes,"
+          },
+          {
+            "v": 17,
+            "s": 27,
+            "translation": "the souls of BiYA."
+          }
+        ]
+      }
+    ]
+  }
+}

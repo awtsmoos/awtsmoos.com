@@ -1,0 +1,102 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919126_theRebbe_561" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919126_theRebbe_561" title="מאמר יהי ה' אלוקינו עמנו תשכ"ד" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p003">
+  <section v="6">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">דהטעם על שהלשון אוצר נאמר ביראה דוקא,</src>
+    <src s="2">הגם שענין זה</src>
+    <src s="3">(שהקב"ה צריך כביכול להאדם)</src>
+    <src s="4">הוא בכל המצוות,</src>
+    <src s="5">כי בכדי שיהי' קיום המצוות כדבעי הוא ע"י אהבת ה' או ע"י יראת ה'13,</src>
+    <src s="6">ומהחילוקים בין אהבה ליראה הוא14,</src>
+    <src s="7">דאהבת ה' באה ע"י גילוי אור מלמעלה,</src>
+    <src s="8">ויראת ה' באה</src>
+    <src s="9">(בעיקר)</src>
+    <src s="10">ע"י עבודת האדם.</src>
+    <src s="11">וע"ד יראת מלך בו"ד,</src>
+    <src s="12">דזה שאנשי המדינה יראים מפני המלך הוא לפי שקיבלו אותו להיות מלך עליהם15,</src>
+    <src s="13">דקבלת המלכות הוא ע"י העם,</src>
+    <src s="14">שום תשים עליך מלך16.</src>
+    <src s="15">ועפ"ז יש לבאר הלשון יהי הוי' אלקינו עמנו כאשר הי' עם אבותינו,</src>
+    <src s="16">כי ביראת ה'</src>
+    <src s="17">(שהיא ראשית העבודה ועיקרה ושרשה17),</src>
+    <src s="18">העיקר הוא עבודת האדם,</src>
+    <src s="19">והגילוי אור מלמעלה</src>
+    <src s="20">(הוי' אלקינו)</src>
+    <src s="21">הוא רק מסייע להאדם,</src>
+    <src s="22">עמנו.</src>
+  </section>
+  <section v="7">
+    <src s="0">ג)</src>
+    <src s="1">והנה הטעם על זה שהיראה באה בעיקר ע"י עבודת האדם,</src>
+    <src s="2">יש לומר,</src>
+    <src s="3">כי יראה היא ביטול.</src>
+    <src s="4">ובפרט יראת המלך,</src>
+    <src s="5">שום תשים עליך מלך שתהא אימתו עליך18,</src>
+    <src s="6">שהביטול דיראה זו קשור עם זה שהוא עבדו של המלך</src>
+    <src s="7">[דטבע העבד הוא שאימת ופחד האדון עליו],</src>
+    <src s="8">שהביטול דעבד הוא ביטול בתכלית,</src>
+    <src s="9">ולכן היא באה ע"י האדם דוקא,</src>
+    <src s="10">כי הפעולה שנעשית באדם ע"י גילוי אור מלמעלה היא כמו דבר נוסף עליו,</src>
+    <src s="11">ולכן השינוי שנעשה בו עי"ז הוא רק בהציור שלו,</src>
+    <src s="12">אבל לא שינוי בהאדם עצמו,</src>
+    <src s="13">ובכדי שיבוא לביטול בתכלית,</src>
+    <src s="14">ביטול דעבד</src>
+    <src s="15">[שהחילוק בין בן חורין לעבד הוא בעצם מציאותו],</src>
+    <src s="16">הוא ע"י שהאדם עצמו מקבל עליו להיות עבדו של המלך.</src>
+  </section>
+  <section v="8">
+    <src s="0">ויש לומר שעד"ז הוא במס"נ,</src>
+    <src s="1">דכיון שמס"נ הוא ביטול בתכלית,</src>
+    <src s="2">ובפרט כשהמס"נ היא על ענינים כאלה שע"פ דין</src>
+    <src s="3">(ציווי דלמעלה)</src>
+    <src s="4">אין מחוייב למסור נפשו עליהם19,</src>
+    <src s="5">לכן היא</src>
+    <src s="6">(בעיקר)</src>
+    <src s="7">לא ע"י גילוי אור מלמעלה אלא ע"י שהאדם מוסר את נפשו.</src>
+    <src s="8">ועפ"ז יובן עוד יותר שהבקשה והתפלה דבעל הגאולה</src>
+    <src s="9">(בהשיחה דג' תמוז)</src>
+    <src s="10">היתה בלשון הכתוב יהי הוי' אלקינו עמנו כאשר הי' עם אבותינו,</src>
+    <src s="11">כי דיבר אז בענין העבודה דמס"נ,</src>
+    <src s="12">ובזה עצמו בכו"כ ענינים שע"פ דין אין מחוייב למסור נפשו עליהם שבאה</src>
+    <src s="13">(בעיקר)</src>
+    <src s="14">מהאדם עצמו,</src>
+    <src s="15">וכיון שבהעבודה דמס"נ העיקר הוא עבודת האדם,</src>
+    <src s="16">והגילוי אור מלמעלה הוא מסייע לעבודת האדם,</src>
+    <src s="17">לכן התחיל בקשתו ותפלתו</src>
+    <src s="18">(בלשון הכתוב)</src>
+    <src s="19">יהי הוי' אלקינו עמנו.</src>
+  </section>
+</awtsmoosMeluketSource>

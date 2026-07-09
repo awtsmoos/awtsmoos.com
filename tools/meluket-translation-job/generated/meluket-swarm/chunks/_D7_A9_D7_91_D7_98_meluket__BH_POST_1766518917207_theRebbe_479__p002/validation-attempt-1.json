@@ -1,0 +1,674 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 126,
+    "returned": 126,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518917207_theRebbe_479\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917207_theRebbe_479__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains the Chazal teaching that the verse \"which you shall place before them\" implies the teacher must provide a reason that settles the students' learning, making the Torah their acquisition.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And this will be understood by prefacing the exposition of our sages, of blessed memory,</t>\n    <t s=\"2\">on the verse, \"And these are the judgments which you shall place before them,\"</t>\n    <t s=\"3\">that from the fact that it says \"which you shall place before them\"</t>\n    <t s=\"4\">(and not \"which you shall teach them\" or the like),</t>\n    <t s=\"5\">they learn that it is not sufficient for the teacher to review the laws with his students several times until they are arranged in their mouths, but rather he must also place before them a reason that settles their learning.</t>\n    <t s=\"6\">And based on this, it can be said</t>\n    <t s=\"7\">that what is stated afterwards, \"When you acquire\" is in the singular form, to hint</t>\n    <t s=\"8\">that \"When you acquire\" refers</t>\n    <t s=\"9\">(also)</t>\n    <t s=\"10\">to \"which you shall place,\"</t>\n    <t s=\"11\">that the teacher must teach his students in a manner that the subject being learned becomes their acquisition.</t>\n    <t s=\"12\">And as our sages, of blessed memory, said</t>\n    <t s=\"13\">on the verse,</t>\n    <t s=\"14\">\"In the Torah of Hashem is his desire, and in His Torah he meditates day and night,\"</t>\n    <t s=\"15\">that at first the Torah is called by the name of the Holy One, blessed be He</t>\n    <t s=\"16\">(\"Torah of Hashem\"),</t>\n    <t s=\"17\">and afterwards it is called by his name</t>\n    <t s=\"18\">(\"His Torah\"),</t>\n    <t s=\"19\">it is his Torah.</t>\n    <t s=\"20\">And this, that the Torah becomes the acquisition of the person who engages in Torah</t>\n    <t s=\"21\">(\"it is his Torah\"),</t>\n    <t s=\"22\">is specifically when he knows the reasons of the laws.</t>\n    <t s=\"23\">And this is \"which you shall place before them, when you acquire,\"</t>\n    <t s=\"24\">that through learning in the manner of \"you shall place before them,\"</t>\n    <t s=\"25\">through this the Torah becomes the acquisition of the person learning,</t>\n    <t s=\"26\">\"when you acquire.\"</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the Torah's descent into human intellect is not a diminishment but a revelation of its root in the infinite Ein Sof, which unites the person with Hashem.</sectionSummaryBrief>\n    <t s=\"0\">Also, it can be said</t>\n    <t s=\"1\">that this, that after it says \"which you shall place before them\" it continues with \"when you acquire,\"</t>\n    <t s=\"2\">is because \"when you acquire\" is an additional command beyond the command of \"you shall place before them.\"</t>\n    <t s=\"3\">And this will be understood by prefacing that, at first glance, it is not understood:</t>\n    <t s=\"4\">Behold, that the Torah becomes clothed in the intellect of the person learning until it becomes his Torah is a descent</t>\n    <t s=\"5\">(seemingly)</t>\n    <t s=\"6\">relative to the Torah as it is the Torah of Hashem,</t>\n    <t s=\"7\">and from the aforementioned statement of our sages, of blessed memory,</t>\n    <t s=\"8\">(\"and afterwards it is called by his name\")</t>\n    <t s=\"9\">it implies that this, that the Torah becomes his Torah</t>\n    <t s=\"10\">(of the person learning)</t>\n    <t s=\"11\">is an advantage.</t>\n    <t s=\"12\">And the point of the explanation in this is:</t>\n    <t s=\"13\">The descent and drawing down of the Torah below is in a manner that even after it descends below and becomes clothed in human intellect, it is the wisdom of the Holy One, blessed be He, which is above the intellect of created beings.</t>\n    <t s=\"14\">And that it is also understood in human intellect is because its root is in the Ein Sof, blessed be He, who is not limited by the definitions of above and below,</t>\n    <t s=\"15\">and therefore it has the capacity to be also below.</t>\n    <t s=\"16\">That is to say,</t>\n    <t s=\"17\">in addition to that even in its descent below it remains in its essence—the wisdom of the Holy One, blessed be He—</t>\n    <t s=\"18\">behold, on the contrary,</t>\n    <t s=\"19\">through its descent below, an advantage is made in it relative to the level of the Torah as it was above before its descent below.</t>\n    <t s=\"20\">For through its descent below, its root in the Ein Sof, blessed be He, is revealed in it.</t>\n    <t s=\"21\">And similarly, regarding that through the study of Torah with understanding and comprehension it becomes the Torah of the person learning,</t>\n    <t s=\"22\">that even after it becomes the Torah of the person learning, it remains in its essence the Torah of Hashem,</t>\n    <t s=\"23\">and moreover,</t>\n    <t s=\"24\">that through the Torah of Hashem becoming the Torah of the person,</t>\n    <t s=\"25\">an advantage is made in it relative to the level of the Torah as it is in its own right,</t>\n    <t s=\"26\">the Torah of Hashem.</t>\n    <t s=\"27\">For this, that the Torah of Hashem becomes the Torah of the person</t>\n    <t s=\"28\">[and in a manner that even after it becomes the Torah of the person it remains in its essence,</t>\n    <t s=\"29\">the Torah of Hashem,</t>\n    <t s=\"30\">and nevertheless it is the Torah of the person],</t>\n    <t s=\"31\">is through the revelation of Ein Sof</t>\n    <t s=\"32\">(which is above Hashem),</t>\n    <t s=\"33\">that connects and unites the person with Hashem,</t>\n    <t s=\"34\">Yisrael and the Holy One, blessed be He, are all one.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the two aspects of Torah—as Hashem's Torah and as the person's Torah—correspond to Atzilus and Beriah, and that through studying the inner dimension of Torah (Pnimiyus HaTorah), the soul's essence is revealed, making the Torah felt as Hashem's Torah even within human intellect.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And behold, the two aforementioned aspects in the Torah,</t>\n    <t s=\"2\">as it is the Torah of Hashem and as it is his Torah</t>\n    <t s=\"3\">(of the person who learns it),</t>\n    <t s=\"4\">are</t>\n    <t s=\"5\">(generally)</t>\n    <t s=\"6\">the Torah as it is in Atzilus and as it is in Beriah.</t>\n    <t s=\"7\">As it is stated in the teachings of the AriZal,</t>\n    <t s=\"8\">that the reason the Torah begins with a Beis is because the Alef of Torah is the Torah that is in Atzilus, and the Torah that we learn with understanding and comprehension is the Torah as it is in Beriah,</t>\n    <t s=\"9\">the Beis of Torah.</t>\n    <t s=\"10\">And it is explained in Chassidus</t>\n    <t s=\"11\">that this is what is said,</t>\n    <t s=\"12\">\"And upon Your Torah that You taught us,\"</t>\n    <t s=\"13\">\"and upon Your Torah\" in Atzilus, \"that You taught us\" in Beriah.</t>\n    <t s=\"14\">And it is known</t>\n    <t s=\"15\">that Atzilus is called by the name \"acquisition.\"</t>\n    <t s=\"16\">As it is written,</t>\n    <t s=\"17\">\"Blessed is your Maker, blessed is your Former, blessed is your Creator, blessed is your Acquirer,\"</t>\n    <t s=\"18\">that \"your Maker,\" \"your Former,\" and \"your Creator\" are the three worlds of Asiyah, Yetzirah, and Beriah,</t>\n    <t s=\"19\">and \"your Acquirer\" is Atzilus.</t>\n    <t s=\"20\">For just as an acquisition is not the bringing into existence of something new, but rather a revelation of the hidden</t>\n    <t s=\"21\">[for even before the acquisition the thing existed,</t>\n    <t s=\"22\">except that before the acquisition,</t>\n    <t s=\"23\">when the thing was in the possession of the seller,</t>\n    <t s=\"24\">it was in concealment relative to the buyer,</t>\n    <t s=\"25\">and through the acquisition the thing comes to him in revelation],</t>\n    <t s=\"26\">so too Atzilus is a revelation of the hidden.</t>\n    <t s=\"27\">And this is that after it says \"which you shall place before them\" it adds \"when you acquire,\"</t>\n    <t s=\"28\">that although the study of Torah must be with understanding and comprehension</t>\n    <t s=\"29\">(\"which you shall place before them\"),</t>\n    <t s=\"30\">to the point that it is called by his name,</t>\n    <t s=\"31\">\"his Torah\"</t>\n    <t s=\"32\">(of the person who learns it),</t>\n    <t s=\"33\">nevertheless, the learning must be in a manner that he feels that the Torah he learns</t>\n    <t s=\"34\">(even after it becomes his wisdom)</t>\n    <t s=\"35\">is the Torah of Hashem,</t>\n    <t s=\"36\">\"Your Torah\" that is in Atzilus,</t>\n    <t s=\"37\">\"when you acquire.\"</t>\n    <t s=\"38\">And based on this, we can explain what is stated in the Yerushalmi, that \"tashim\" is from the term \"simah\" (a hidden treasure), which is not revealed,</t>\n    <t s=\"39\">the secrets of the Torah,</t>\n    <t s=\"40\">because in order that in the Torah that a person learns and understands with his intellect</t>\n    <t s=\"41\">(human intellect)</t>\n    <t s=\"42\">it should be felt that it is the Torah of Hashem,</t>\n    <t s=\"43\">\"Your Torah\" that is in Atzilus</t>\n    <t s=\"44\">(\"when you acquire\"),</t>\n    <t s=\"45\">it is through the revelation of the soul as it is in Atzilus,</t>\n    <t s=\"46\">the aspect of \"Tahorah\"</t>\n    <t s=\"47\">she</t>\n    <t s=\"48\">(which is above the aspect of \"Atah\"</t>\n    <t s=\"49\">\"created her\"),</t>\n    <t s=\"50\">and the revelation of this aspect of the soul</t>\n    <t s=\"51\">(the hidden aspect of the soul)</t>\n    <t s=\"52\">is through the study of the inner dimension of the Torah,</t>\n    <t s=\"53\">the hidden aspect of the Torah.</t>\n    <t s=\"54\">And this is \"which you shall place before them, when you acquire,\"</t>\n    <t s=\"55\">that through \"tashim\" from the term \"simah,\"</t>\n    <t s=\"56\">the study of the inner dimension of the Torah,</t>\n    <t s=\"57\">there is a revelation of the inner dimension of the soul</t>\n    <t s=\"58\">—\"before them,\" to their innerness,</t>\n    <t s=\"59\">and through this, even in the Torah that he learns in the manner of \"tashim lifneihem\"</t>\n    <t s=\"60\">[understanding and reasoning,</t>\n    <t s=\"61\">a reason that settles his learning],</t>\n    <t s=\"62\">\"Your Torah\" that is in Atzilus is felt,</t>\n    <t s=\"63\">\"when you acquire.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518917207_theRebbe_479",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917207_theRebbe_479__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains the Chazal teaching that the verse \"which you shall place before them\" implies the teacher must provide a reason that settles the students' learning, making the Torah their acquisition.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And this will be understood by prefacing the exposition of our sages, of blessed memory,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "on the verse, \"And these are the judgments which you shall place before them,\""
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "that from the fact that it says \"which you shall place before them\""
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "(and not \"which you shall teach them\" or the like),"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "they learn that it is not sufficient for the teacher to review the laws with his students several times until they are arranged in their mouths, but rather he must also place before them a reason that settles their learning."
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "And based on this, it can be said"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "that what is stated afterwards, \"When you acquire\" is in the singular form, to hint"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "that \"When you acquire\" refers"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "(also)"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "to \"which you shall place,\""
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "that the teacher must teach his students in a manner that the subject being learned becomes their acquisition."
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "And as our sages, of blessed memory, said"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "\"In the Torah of Hashem is his desire, and in His Torah he meditates day and night,\""
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "that at first the Torah is called by the name of the Holy One, blessed be He"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "(\"Torah of Hashem\"),"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "and afterwards it is called by his name"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "(\"His Torah\"),"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "it is his Torah."
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "And this, that the Torah becomes the acquisition of the person who engages in Torah"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "(\"it is his Torah\"),"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "is specifically when he knows the reasons of the laws."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "And this is \"which you shall place before them, when you acquire,\""
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "that through learning in the manner of \"you shall place before them,\""
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "through this the Torah becomes the acquisition of the person learning,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "\"when you acquire.\""
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the Torah's descent into human intellect is not a diminishment but a revelation of its root in the infinite Ein Sof, which unites the person with Hashem.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "Also, it can be said"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "that this, that after it says \"which you shall place before them\" it continues with \"when you acquire,\""
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "is because \"when you acquire\" is an additional command beyond the command of \"you shall place before them.\""
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "And this will be understood by prefacing that, at first glance, it is not understood:"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "Behold, that the Torah becomes clothed in the intellect of the person learning until it becomes his Torah is a descent"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "(seemingly)"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "relative to the Torah as it is the Torah of Hashem,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "and from the aforementioned statement of our sages, of blessed memory,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "(\"and afterwards it is called by his name\")"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "it implies that this, that the Torah becomes his Torah"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "(of the person learning)"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "is an advantage."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And the point of the explanation in this is:"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "The descent and drawing down of the Torah below is in a manner that even after it descends below and becomes clothed in human intellect, it is the wisdom of the Holy One, blessed be He, which is above the intellect of created beings."
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "And that it is also understood in human intellect is because its root is in the Ein Sof, blessed be He, who is not limited by the definitions of above and below,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "and therefore it has the capacity to be also below."
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "in addition to that even in its descent below it remains in its essence—the wisdom of the Holy One, blessed be He—"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "behold, on the contrary,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "through its descent below, an advantage is made in it relative to the level of the Torah as it was above before its descent below."
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "For through its descent below, its root in the Ein Sof, blessed be He, is revealed in it."
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "And similarly, regarding that through the study of Torah with understanding and comprehension it becomes the Torah of the person learning,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "that even after it becomes the Torah of the person learning, it remains in its essence the Torah of Hashem,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "that through the Torah of Hashem becoming the Torah of the person,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "an advantage is made in it relative to the level of the Torah as it is in its own right,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "the Torah of Hashem."
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "For this, that the Torah of Hashem becomes the Torah of the person"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "[and in a manner that even after it becomes the Torah of the person it remains in its essence,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "the Torah of Hashem,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "and nevertheless it is the Torah of the person],"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "is through the revelation of Ein Sof"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "(which is above Hashem),"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "that connects and unites the person with Hashem,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "Yisrael and the Holy One, blessed be He, are all one."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the two aspects of Torah—as Hashem's Torah and as the person's Torah—correspond to Atzilus and Beriah, and that through studying the inner dimension of Torah (Pnimiyus HaTorah), the soul's essence is revealed, making the Torah felt as Hashem's Torah even within human intellect.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And behold, the two aforementioned aspects in the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "as it is the Torah of Hashem and as it is his Torah"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "(of the person who learns it),"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "are"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "(generally)"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "the Torah as it is in Atzilus and as it is in Beriah."
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "As it is stated in the teachings of the AriZal,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "that the reason the Torah begins with a Beis is because the Alef of Torah is the Torah that is in Atzilus, and the Torah that we learn with understanding and comprehension is the Torah as it is in Beriah,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "the Beis of Torah."
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "And it is explained in Chassidus"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "that this is what is said,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "\"And upon Your Torah that You taught us,\""
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "\"and upon Your Torah\" in Atzilus, \"that You taught us\" in Beriah."
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "And it is known"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "that Atzilus is called by the name \"acquisition.\""
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "As it is written,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "\"Blessed is your Maker, blessed is your Former, blessed is your Creator, blessed is your Acquirer,\""
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "that \"your Maker,\" \"your Former,\" and \"your Creator\" are the three worlds of Asiyah, Yetzirah, and Beriah,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "and \"your Acquirer\" is Atzilus."
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "For just as an acquisition is not the bringing into existence of something new, but rather a revelation of the hidden"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "[for even before the acquisition the thing existed,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "except that before the acquisition,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "when the thing was in the possession of the seller,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "it was in concealment relative to the buyer,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "and through the acquisition the thing comes to him in revelation],"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "so too Atzilus is a revelation of the hidden."
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "And this is that after it says \"which you shall place before them\" it adds \"when you acquire,\""
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "that although the study of Torah must be with understanding and comprehension"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "(\"which you shall place before them\"),"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "to the point that it is called by his name,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "\"his Torah\""
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "(of the person who learns it),"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "nevertheless, the learning must be in a manner that he feels that the Torah he learns"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "(even after it becomes his wisdom)"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "is the Torah of Hashem,"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "\"Your Torah\" that is in Atzilus,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "\"when you acquire.\""
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "And based on this, we can explain what is stated in the Yerushalmi, that \"tashim\" is from the term \"simah\" (a hidden treasure), which is not revealed,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "the secrets of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "because in order that in the Torah that a person learns and understands with his intellect"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "(human intellect)"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "it should be felt that it is the Torah of Hashem,"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "\"Your Torah\" that is in Atzilus"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "(\"when you acquire\"),"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "it is through the revelation of the soul as it is in Atzilus,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "the aspect of \"Tahorah\""
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "she"
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "(which is above the aspect of \"Atah\""
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "\"created her\"),"
+          },
+          {
+            "v": 5,
+            "s": 50,
+            "translation": "and the revelation of this aspect of the soul"
+          },
+          {
+            "v": 5,
+            "s": 51,
+            "translation": "(the hidden aspect of the soul)"
+          },
+          {
+            "v": 5,
+            "s": 52,
+            "translation": "is through the study of the inner dimension of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 53,
+            "translation": "the hidden aspect of the Torah."
+          },
+          {
+            "v": 5,
+            "s": 54,
+            "translation": "And this is \"which you shall place before them, when you acquire,\""
+          },
+          {
+            "v": 5,
+            "s": 55,
+            "translation": "that through \"tashim\" from the term \"simah,\""
+          },
+          {
+            "v": 5,
+            "s": 56,
+            "translation": "the study of the inner dimension of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 57,
+            "translation": "there is a revelation of the inner dimension of the soul"
+          },
+          {
+            "v": 5,
+            "s": 58,
+            "translation": "—\"before them,\" to their innerness,"
+          },
+          {
+            "v": 5,
+            "s": 59,
+            "translation": "and through this, even in the Torah that he learns in the manner of \"tashim lifneihem\""
+          },
+          {
+            "v": 5,
+            "s": 60,
+            "translation": "[understanding and reasoning,"
+          },
+          {
+            "v": 5,
+            "s": 61,
+            "translation": "a reason that settles his learning],"
+          },
+          {
+            "v": 5,
+            "s": 62,
+            "translation": "\"Your Torah\" that is in Atzilus is felt,"
+          },
+          {
+            "v": 5,
+            "s": 63,
+            "translation": "\"when you acquire.\""
+          }
+        ]
+      }
+    ]
+  }
+}

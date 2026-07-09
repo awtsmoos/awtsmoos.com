@@ -1,0 +1,69 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915857_theRebbe_394" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915857_theRebbe_394__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915857_theRebbe_394" title="מאמר ת"ר מצות נר חנוכה תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915857_theRebbe_394__p005">
+  <section v="12">
+    <src s="0">ט)</src>
+    <src s="1">והנה הענין דמשתשקע החמה קאי ביחוד על חושך הגלות73,</src>
+    <src s="2">ובפרט החושך כפול ומכופל דעקבתא דמשיחא.</src>
+    <src s="3">וזוהי ההוראה דנ"ח לכאו"א בזמן הגלות,</src>
+    <src s="4">שהכוונה דחושך הגלות הוא בכדי לעורר העבודה דמס"נ,</src>
+    <src s="5">ועי"ז מתברר החושך ונהפך לאור.</src>
+    <src s="6">וע"י צירוף עבודת כאו"א מבנ"י יחד,</src>
+    <src s="7">עכ"פ רובם</src>
+    <src s="8">(דרובו ככולו74),</src>
+    <src s="9">ואפילו ע"י מצוה אחת של אחד מישראל,</src>
+    <src s="10">הן במעשה הן בדיבור והן במחשבה,</src>
+    <src s="11">הוא מכריע את עצמו ואת כל העולם כולו לכף זכות וגורם לו ולהם תשועה והצלה75.</src>
+  </section>
+  <section v="13">
+    <src s="0">י)</src>
+    <src s="1">ו"ד)</src>
+    <src s="2">ועאכו"כ ע"י ההוספה בקיום מצות נר חנוכה,</src>
+    <src s="3">שמצוה זו שייכת במיוחד להישועה וההצלה,</src>
+    <src s="4">הגאולה שתהי' ע"י משיח,</src>
+    <src s="5">מכיון שמשיח,</src>
+    <src s="6">וכן אליהו מבשר הגאולה76,</src>
+    <src s="7">הם מהשמונה נסיכי אדם77,</src>
+    <src s="8">ענין שמונה נרות דחנוכה78.</src>
+    <src s="9">ועוד ענין בהשייכות המיוחדת דנרות חנוכה לגאולה העתידה,</src>
+    <src s="10">דכמו שנרות חנוכה אין בטלין לעולם79,</src>
+    <src s="11">כן גם גאולה העתידה תהי' גאולה נצחית שאין שייך שיהי' אחרי' גלות80,</src>
+    <src s="12">וכן בית המקדש השלישי הוא בית נצחי81</src>
+    <src s="13">שאינו בטל לעולם,</src>
+    <src s="14">בביאת משיח צדקנו,</src>
+    <src s="15">יבוא ויגאלנו ויוליכנו קוממיות לארצנו,</src>
+    <src s="16">ובקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

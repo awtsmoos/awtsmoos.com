@@ -1,0 +1,179 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 27,
+    "returned": 27,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919577_theRebbe_550\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919577_theRebbe_550__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbat Parshat Matot and Masei,</t>\n    <t s=\"2\">Rosh Chodesh Menachem Av,</t>\n    <t s=\"3\">the year 5716*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that the text is an unedited transcription.</sectionSummaryBrief>\n    <t s=\"0\">(An unedited transcription)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section introduces the psalm and the Midrashic interpretation that it speaks of the future redemption, contrasting the masculine and feminine forms of song.</sectionSummaryBrief>\n    <t s=\"0\">\"Halleluyah! Sing to God a new song, His praise in the congregation of chassidim,\"</t>\n    <t s=\"1\">and it concludes,</t>\n    <t s=\"2\">\"The exaltations of God are in their throat, and a double-edged sword is in their hand.\"</t>\n    <t s=\"3\">For in the verses after this, it explains what they will do with the sword, etc.</t>\n    <t s=\"4\">Now, it is brought in the Midrash Tehillim in its place that this psalm speaks about the future: Who are the chassidim? These are Israel.</t>\n    <t s=\"5\">Whenever they see the Holy One, blessed be He, they become chassidim, etc.</t>\n    <t s=\"6\">They saw Him at the sea, they became chassidim and said a song, as it is stated,</t>\n    <t s=\"7\">\"Then Moshe sang,\" etc.</t>\n    <t s=\"8\">And when they see Him in the World to Come, they become chassidim, as it is stated, \"His praise in the congregation of chassidim.\"</t>\n    <t s=\"9\">And so it is brought in the Mechilta and Yalkut on Parshat Beshalach that this song is for the future to come.</t>\n    <t s=\"10\">Therefore it says \"a new song\" in the masculine form,</t>\n    <t s=\"11\">while in many places it is stated \"a new song\" in the feminine form.</t>\n    <t s=\"12\">And even regarding the redemption from Egypt, it says \"this song\" in the feminine form.</t>\n    <t s=\"13\">And as it is explained in Shir HaShirim Rabbah</t>\n    <t s=\"14\">(on the verse \"I am black but comely\"):</t>\n    <t s=\"15\">A female takes a tenth of the property, etc. So Israel inherited the land of the seven nations, which is a tenth of the seventy nations, etc., they said a song in the feminine form, etc., as it is stated, \"this song to God,\"</t>\n    <t s=\"16\">But in the future, they are destined to inherit like a male who inherits all of his father's property, etc., they will say it in the masculine form.</t>\n    <t s=\"17\">And we need to understand the statement, \"The exaltations of God are in their throat, and a double-edged sword is in their hand,\"</t>\n    <t s=\"18\">for since it speaks of the future redemption,</t>\n    <t s=\"19\">then what is the matter of the sword?</t>\n    <t s=\"20\">For in the future it is written,</t>\n    <t s=\"21\">\"And they shall beat their swords into plowshares... nation shall not lift up sword against nation.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919577_theRebbe_550",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919577_theRebbe_550__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbat Parshat Matot and Masei,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Rosh Chodesh Menachem Av,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "the year 5716*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section notes that the text is an unedited transcription.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "(An unedited transcription)"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section introduces the psalm and the Midrashic interpretation that it speaks of the future redemption, contrasting the masculine and feminine forms of song.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"Halleluyah! Sing to God a new song, His praise in the congregation of chassidim,\""
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "and it concludes,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "\"The exaltations of God are in their throat, and a double-edged sword is in their hand.\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "For in the verses after this, it explains what they will do with the sword, etc."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "Now, it is brought in the Midrash Tehillim in its place that this psalm speaks about the future: Who are the chassidim? These are Israel."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "Whenever they see the Holy One, blessed be He, they become chassidim, etc."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "They saw Him at the sea, they became chassidim and said a song, as it is stated,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "\"Then Moshe sang,\" etc."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And when they see Him in the World to Come, they become chassidim, as it is stated, \"His praise in the congregation of chassidim.\""
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And so it is brought in the Mechilta and Yalkut on Parshat Beshalach that this song is for the future to come."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "Therefore it says \"a new song\" in the masculine form,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "while in many places it is stated \"a new song\" in the feminine form."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And even regarding the redemption from Egypt, it says \"this song\" in the feminine form."
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "And as it is explained in Shir HaShirim Rabbah"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "(on the verse \"I am black but comely\"):"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "A female takes a tenth of the property, etc. So Israel inherited the land of the seven nations, which is a tenth of the seventy nations, etc., they said a song in the feminine form, etc., as it is stated, \"this song to God,\""
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "But in the future, they are destined to inherit like a male who inherits all of his father's property, etc., they will say it in the masculine form."
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "And we need to understand the statement, \"The exaltations of God are in their throat, and a double-edged sword is in their hand,\""
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "for since it speaks of the future redemption,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "then what is the matter of the sword?"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "For in the future it is written,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "\"And they shall beat their swords into plowshares... nation shall not lift up sword against nation.\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,529 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 97,
+    "returned": 97,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918033_theRebbe_696\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918033_theRebbe_696__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the daily obligation to remember the Exodus refers to the singular \"day of your departure,\" because each day's exodus is from one's personal constraints, while the future redemption requires a plural \"days\" to indicate a departure from higher constraints.</sectionSummaryBrief>\n    <t s=\"0\">And so it is found,</t>\n    <t s=\"1\">that this which is in the verse \"in order that you remember the day of your departure from the land of Egypt all the days of your life,\"</t>\n    <t s=\"2\">from which we learn the obligation of remembering the Exodus from Egypt every day</t>\n    <t s=\"3\">(by day and by night)12,</t>\n    <t s=\"4\">it is written \"the day of your departure from the land of Egypt\"</t>\n    <t s=\"5\">(\"day\" in the singular),</t>\n    <t s=\"6\">it is,</t>\n    <t s=\"7\">because the matter of the Exodus from Egypt every day is</t>\n    <t s=\"8\">(primarily)</t>\n    <t s=\"9\">the departure from the constraints of the side of impurity13,</t>\n    <t s=\"10\">and in general it is the departure from the constraints and limitations that prevent and hinder the study of Torah and the fulfillment of the commandments,</t>\n    <t s=\"11\">and this relates to \"the day of your departure from the land of Egypt\"</t>\n    <t s=\"12\">(\"day\" in the singular),</t>\n    <t s=\"13\">for in the Exodus from Egypt,</t>\n    <t s=\"14\">by means of Israel becoming servants of G-d</t>\n    <t s=\"15\">(and not servants of Pharaoh)14,</t>\n    <t s=\"16\">the power was given15</t>\n    <t s=\"17\">to each and every Jew that regarding Torah and commandments he will be freed from all worldly matters,</t>\n    <t s=\"18\">including also the matters of exile16,</t>\n    <t s=\"19\">since the prior documents are nullified17.</t>\n    <t s=\"20\">And in the verse \"as the days of your departure from the land of Egypt I will show him wonders,\" it is written \"days\" in the plural,</t>\n    <t s=\"21\">because in order to reach the revelation of the future redemption,</t>\n    <t s=\"22\">\"I will show him wonders,\"</t>\n    <t s=\"23\">since the revelations of the future redemption will be wonders even relative to the revelation of the Exodus from Egypt18,</t>\n    <t s=\"24\">there must also be a departure from the constraints and limitations of holiness,</t>\n    <t s=\"25\">and within this itself—each and every day,</t>\n    <t s=\"26\">a departure from higher constraints,</t>\n    <t s=\"27\">therefore it says \"days\" in the plural.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that during the exile, especially in the last generation, the daily departure from constraints is from ever higher constraints, culminating in the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And now, from the above</t>\n    <t s=\"2\">(that the service of the Exodus from Egypt each day is in a more elevated manner)</t>\n    <t s=\"3\">it is understood,</t>\n    <t s=\"4\">that during the time of exile,</t>\n    <t s=\"5\">the departure from constraints and limitations is from higher constraints than the departure from constraints that was during the time of the Holy Temple.</t>\n    <t s=\"6\">And within the exile itself,</t>\n    <t s=\"7\">in the generations of the heels of Mashiach,</t>\n    <t s=\"8\">and particularly in the last generation,</t>\n    <t s=\"9\">the departure from constraints is from even higher constraints.</t>\n    <t s=\"10\">For in addition to this,</t>\n    <t s=\"11\">that each and every day more sparks and more sparks are refined,</t>\n    <t s=\"12\">and by this they draw closer to the coming of Mashiach19,</t>\n    <t s=\"13\">behold also the matter of the Exodus from Egypt,</t>\n    <t s=\"14\">the departure from constraints and limitations,</t>\n    <t s=\"15\">each day is in a more elevated manner.</t>\n    <t s=\"16\">And through the service of the Exodus from Egypt in the last days before the coming of Mashiach,</t>\n    <t s=\"17\">when the departure from Egypt in these days is also from the most elevated constraints,</t>\n    <t s=\"18\">they will merit very soon the future redemption, when there will be a departure from all constraints and limitations.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that all worlds are called \"Mitzrayim\" due to both limitation and concealment, and the three meanings of \"olam\" (world, concealment, and youth) are brought to explain the intensity of this concealment.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation of the matter</t>\n    <t s=\"1\">(that the revelation of the future redemption will be</t>\n    <t s=\"2\">(primarily)</t>\n    <t s=\"3\">through the service at the conclusion of the time of exile)</t>\n    <t s=\"4\">will be understood by prefacing the explanation of this, that in the future redemption there will be a departure from all constraints and limitations,</t>\n    <t s=\"5\">even from the most elevated constraints and limitations.</t>\n    <t s=\"6\">And the matter is,</t>\n    <t s=\"7\">as explained in the maamar20,</t>\n    <t s=\"8\">that all the worlds</t>\n    <t s=\"9\">(even the most elevated worlds)</t>\n    <t s=\"10\">are called by the name Mitzrayim,</t>\n    <t s=\"11\">because they are of the category of constraint and concealment.</t>\n    <t s=\"12\">And this is, that this that the worlds are called by the name Mitzrayim is due to two reasons.</t>\n    <t s=\"13\">On the one hand, because they are in limitation,</t>\n    <t s=\"14\">Mitzrayim from the term \"meitzar\" (strait) and boundary,</t>\n    <t s=\"15\">and also on the other hand, because their coming into being is through the concealment of the light,</t>\n    <t s=\"16\">as is known21</t>\n    <t s=\"17\">that the concealment of the first contraction</t>\n    <t s=\"18\">(through which a place was made for the existence of the worlds)</t>\n    <t s=\"19\">is a contraction in the manner of removal,</t>\n    <t s=\"20\">that the light was completely concealed,</t>\n    <t s=\"21\">similar to22</t>\n    <t s=\"22\">Egypt of the side of impurity</t>\n    <t s=\"23\">(Egypt in its simple sense)</t>\n    <t s=\"24\">which is concealment and hiding.</t>\n    <t s=\"25\">And it can be said,</t>\n    <t s=\"26\">that this is what is continued in the maamar23,</t>\n    <t s=\"27\">that in \"olam\" there are three matters.</t>\n    <t s=\"28\">\"Olam\" in its simple sense, which indicates place and time24,</t>\n    <t s=\"29\">and \"olam\" from the term \"helem\" (concealment)25</t>\n    <t s=\"30\">(its matter being hiding26),</t>\n    <t s=\"31\">and \"olam\" from the term \"elem\" (youth)27</t>\n    <t s=\"32\">whose meaning is youth and strength.</t>\n    <t s=\"33\">And he explains the connection of the three interpretations,</t>\n    <t s=\"34\">that the concealment and hiding of \"olam\"</t>\n    <t s=\"35\">(time and place)</t>\n    <t s=\"36\">is with great intensity.</t>\n    <t s=\"37\">For it can be said,</t>\n    <t s=\"38\">that this that he brings here not only the interpretation of \"olam\" in its simple sense</t>\n    <t s=\"39\">(place and time)</t>\n    <t s=\"40\">but also the interpretations that \"olam\" is from the term \"helem\" and from the term \"elem,\"</t>\n    <t s=\"41\">it is,</t>\n    <t s=\"42\">because \"olam\" in its simple sense,</t>\n    <t s=\"43\">place and time</t>\n    <t s=\"44\">(the matter of limitation),</t>\n    <t s=\"45\">is an explanation only of this, that worlds are Mitzrayim from the term \"meitzar\" and boundary,</t>\n    <t s=\"46\">and in order to also explain the constraint and concealment in the worlds</t>\n    <t s=\"47\">(and even that it is similar to the concealment and hiding of Egypt in its simple sense28),</t>\n    <t s=\"48\">he also brings the interpretations that \"olam\" is from the term \"helem\" and from the term \"elem,\"</t>\n    <t s=\"49\">that the concealment and hiding of \"olam\" is with great intensity.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918033_theRebbe_696",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918033_theRebbe_696__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the daily obligation to remember the Exodus refers to the singular \"day of your departure,\" because each day's exodus is from one's personal constraints, while the future redemption requires a plural \"days\" to indicate a departure from higher constraints.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And so it is found,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that this which is in the verse \"in order that you remember the day of your departure from the land of Egypt all the days of your life,\""
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "from which we learn the obligation of remembering the Exodus from Egypt every day"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "(by day and by night)12,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "it is written \"the day of your departure from the land of Egypt\""
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "(\"day\" in the singular),"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "it is,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "because the matter of the Exodus from Egypt every day is"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "the departure from the constraints of the side of impurity13,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "and in general it is the departure from the constraints and limitations that prevent and hinder the study of Torah and the fulfillment of the commandments,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "and this relates to \"the day of your departure from the land of Egypt\""
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(\"day\" in the singular),"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "for in the Exodus from Egypt,"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "by means of Israel becoming servants of G-d"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "(and not servants of Pharaoh)14,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "the power was given15"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "to each and every Jew that regarding Torah and commandments he will be freed from all worldly matters,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "including also the matters of exile16,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "since the prior documents are nullified17."
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "And in the verse \"as the days of your departure from the land of Egypt I will show him wonders,\" it is written \"days\" in the plural,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "because in order to reach the revelation of the future redemption,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "\"I will show him wonders,\""
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "since the revelations of the future redemption will be wonders even relative to the revelation of the Exodus from Egypt18,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "there must also be a departure from the constraints and limitations of holiness,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "and within this itself—each and every day,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "a departure from higher constraints,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "therefore it says \"days\" in the plural."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that during the exile, especially in the last generation, the daily departure from constraints is from ever higher constraints, culminating in the future redemption.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And now, from the above"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(that the service of the Exodus from Egypt each day is in a more elevated manner)"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that during the time of exile,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "the departure from constraints and limitations is from higher constraints than the departure from constraints that was during the time of the Holy Temple."
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "And within the exile itself,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "in the generations of the heels of Mashiach,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and particularly in the last generation,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "the departure from constraints is from even higher constraints."
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "For in addition to this,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "that each and every day more sparks and more sparks are refined,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "and by this they draw closer to the coming of Mashiach19,"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "behold also the matter of the Exodus from Egypt,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "the departure from constraints and limitations,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "each day is in a more elevated manner."
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "And through the service of the Exodus from Egypt in the last days before the coming of Mashiach,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "when the departure from Egypt in these days is also from the most elevated constraints,"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "they will merit very soon the future redemption, when there will be a departure from all constraints and limitations."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that all worlds are called \"Mitzrayim\" due to both limitation and concealment, and the three meanings of \"olam\" (world, concealment, and youth) are brought to explain the intensity of this concealment.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And the explanation of the matter"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "(that the revelation of the future redemption will be"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "through the service at the conclusion of the time of exile)"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "will be understood by prefacing the explanation of this, that in the future redemption there will be a departure from all constraints and limitations,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "even from the most elevated constraints and limitations."
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "And the matter is,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "as explained in the maamar20,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "that all the worlds"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "(even the most elevated worlds)"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "are called by the name Mitzrayim,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "because they are of the category of constraint and concealment."
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "And this is, that this that the worlds are called by the name Mitzrayim is due to two reasons."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "On the one hand, because they are in limitation,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "Mitzrayim from the term \"meitzar\" (strait) and boundary,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "and also on the other hand, because their coming into being is through the concealment of the light,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "as is known21"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "that the concealment of the first contraction"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "(through which a place was made for the existence of the worlds)"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "is a contraction in the manner of removal,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "that the light was completely concealed,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "similar to22"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "Egypt of the side of impurity"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "(Egypt in its simple sense)"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "which is concealment and hiding."
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "that this is what is continued in the maamar23,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "that in \"olam\" there are three matters."
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "\"Olam\" in its simple sense, which indicates place and time24,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "and \"olam\" from the term \"helem\" (concealment)25"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "(its matter being hiding26),"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "and \"olam\" from the term \"elem\" (youth)27"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "whose meaning is youth and strength."
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "And he explains the connection of the three interpretations,"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "that the concealment and hiding of \"olam\""
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "(time and place)"
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "is with great intensity."
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "For it can be said,"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "that this that he brings here not only the interpretation of \"olam\" in its simple sense"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "(place and time)"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "but also the interpretations that \"olam\" is from the term \"helem\" and from the term \"elem,\""
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "it is,"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "because \"olam\" in its simple sense,"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "place and time"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "(the matter of limitation),"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "is an explanation only of this, that worlds are Mitzrayim from the term \"meitzar\" and boundary,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "and in order to also explain the constraint and concealment in the worlds"
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "(and even that it is similar to the concealment and hiding of Egypt in its simple sense28),"
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "he also brings the interpretations that \"olam\" is from the term \"helem\" and from the term \"elem,\""
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "that the concealment and hiding of \"olam\" is with great intensity."
+          }
+        ]
+      }
+    ]
+  }
+}

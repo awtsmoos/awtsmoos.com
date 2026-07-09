@@ -1,0 +1,314 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 54,
+    "returned": 54,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915911_theRebbe_364\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains the difference between the concealment of wine, which is close to revelation and requires minimal effort, and the concealment of oil, which is far from revelation and requires crushing, paralleling the distinction between the secrets of Torah and the deepest secrets.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation is,</t>\n    <t s=\"1\">that the concealment of wine</t>\n    <t s=\"2\">(which is hidden in its grapes)</t>\n    <t s=\"3\">is a concealment that is close to revelation,</t>\n    <t s=\"4\">therefore the revelation of wine from its concealment is by squeezing the grapes,</t>\n    <t s=\"5\">which is not such a great exertion.</t>\n    <t s=\"6\">However, the concealment of oil, as it is hidden in olives, is a concealment that is not close to revelation,</t>\n    <t s=\"7\">therefore in order to reveal the oil from its concealment one must crush the olives,</t>\n    <t s=\"8\">which is</t>\n    <t s=\"9\">(crushing)</t>\n    <t s=\"10\">a very great exertion.</t>\n    <t s=\"11\">And this is what is explained in the discourses</t>\n    <t s=\"12\">that wine is the secrets of Torah and oil is the secrets within secrets,</t>\n    <t s=\"13\">that in order to reveal the secrets of Torah,</t>\n    <t s=\"14\">since they are of the category of concealment that is related to revelation,</t>\n    <t s=\"15\">ordinary exertion suffices,</t>\n    <t s=\"16\">but in order to reveal the secrets within secrets,</t>\n    <t s=\"17\">since they are of the category of concealment that is not related to revelation,</t>\n    <t s=\"18\">one needs tremendous exertion.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that in the revealed part of Torah there are also two types of exertion: one that does not require nullifying one's prior existence, and another that does, analogous to the difference between revealing the secrets of Torah and the deepest secrets.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And this will be understood</t>\n    <t s=\"2\">(the difference between the two types of exertion mentioned above)</t>\n    <t s=\"3\">from the fact that also in the revealed part of Torah there are two types of exertion.</t>\n    <t s=\"4\">For although the study of Torah</t>\n    <t s=\"5\">(in general,</t>\n    <t s=\"6\">in whatever subject it may be)</t>\n    <t s=\"7\">must specifically be with exertion</t>\n    <t s=\"8\">[to the extent that even when one reviews a subject he has already learned,</t>\n    <t s=\"9\">his study must be with depth and exertion,</t>\n    <t s=\"10\">to the point that if he reviews a subject he has already learned without depth, this is called \"nullification of Torah\"],</t>\n    <t s=\"11\">and certainly when one studies deep subjects in Torah, then he must exert himself with even greater exertion,</t>\n    <t s=\"12\">and there are in this</t>\n    <t s=\"13\">(as understood)</t>\n    <t s=\"14\">many levels,</t>\n    <t s=\"15\">nevertheless,</t>\n    <t s=\"16\">the exertion in all these levels is not in a manner that requires nullifying one's prior existence.</t>\n    <t s=\"17\">However, when one studies a subject in Torah that is not commensurate with his level,</t>\n    <t s=\"18\">the exertion is in a manner that requires nullifying his prior existence</t>\n    <t s=\"19\">(crushing).</t>\n    <t s=\"20\">And this is analogous to Reish Lakish who fasted one hundred fasts in order to forget the Babylonian Talmud so that he could study the Jerusalem Talmud.</t>\n    <t s=\"21\">And likewise is the difference between the exertion for the revelation of the secrets of Torah and the exertion for the revelation of the secrets within secrets.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section notes an additional superiority of oil over wine: even after being revealed through crushing, oil is not fit for drinking on its own, indicating it remains above the level of actual revelation.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And there is another superiority of oil over wine,</t>\n    <t s=\"2\">that oil, even after it comes to revelation</t>\n    <t s=\"3\">(through crushing),</t>\n    <t s=\"4\">is not fit for drinking by itself,</t>\n    <t s=\"5\">and one does not recite a blessing over it</t>\n    <t s=\"6\">(when drinking it as is, by itself)</t>\n    <t s=\"7\">because it is harmful to a person,</t>\n    <t s=\"8\">unlike wine, which after being squeezed is a significant beverage and one recites the blessing \"borei pri hagafen\" over it,</t>\n    <t s=\"9\">because oil</t>\n    <t s=\"10\">(even after crushing)</t>\n    <t s=\"11\">is still above the level of actual revelation,</t>\n    <t s=\"12\">[and therefore] is not fit for drinking.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915911_theRebbe_364",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains the difference between the concealment of wine, which is close to revelation and requires minimal effort, and the concealment of oil, which is far from revelation and requires crushing, paralleling the distinction between the secrets of Torah and the deepest secrets.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that the concealment of wine"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(which is hidden in its grapes)"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "is a concealment that is close to revelation,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "therefore the revelation of wine from its concealment is by squeezing the grapes,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "which is not such a great exertion."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "However, the concealment of oil, as it is hidden in olives, is a concealment that is not close to revelation,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "therefore in order to reveal the oil from its concealment one must crush the olives,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "which is"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "(crushing)"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "a very great exertion."
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "And this is what is explained in the discourses"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "that wine is the secrets of Torah and oil is the secrets within secrets,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "that in order to reveal the secrets of Torah,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "since they are of the category of concealment that is related to revelation,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "ordinary exertion suffices,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "but in order to reveal the secrets within secrets,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "since they are of the category of concealment that is not related to revelation,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "one needs tremendous exertion."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that in the revealed part of Torah there are also two types of exertion: one that does not require nullifying one's prior existence, and another that does, analogous to the difference between revealing the secrets of Torah and the deepest secrets.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And this will be understood"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "(the difference between the two types of exertion mentioned above)"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "from the fact that also in the revealed part of Torah there are two types of exertion."
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "For although the study of Torah"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "(in general,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "in whatever subject it may be)"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "must specifically be with exertion"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "[to the extent that even when one reviews a subject he has already learned,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "his study must be with depth and exertion,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "to the point that if he reviews a subject he has already learned without depth, this is called \"nullification of Torah\"],"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "and certainly when one studies deep subjects in Torah, then he must exert himself with even greater exertion,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "and there are in this"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "(as understood)"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "many levels,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "the exertion in all these levels is not in a manner that requires nullifying one's prior existence."
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "However, when one studies a subject in Torah that is not commensurate with his level,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "the exertion is in a manner that requires nullifying his prior existence"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "(crushing)."
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "And this is analogous to Reish Lakish who fasted one hundred fasts in order to forget the Babylonian Talmud so that he could study the Jerusalem Talmud."
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "And likewise is the difference between the exertion for the revelation of the secrets of Torah and the exertion for the revelation of the secrets within secrets."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section notes an additional superiority of oil over wine: even after being revealed through crushing, oil is not fit for drinking on its own, indicating it remains above the level of actual revelation.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And there is another superiority of oil over wine,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that oil, even after it comes to revelation"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "(through crushing),"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "is not fit for drinking by itself,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "and one does not recite a blessing over it"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "(when drinking it as is, by itself)"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "because it is harmful to a person,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "unlike wine, which after being squeezed is a significant beverage and one recites the blessing \"borei pri hagafen\" over it,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "because oil"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "(even after crushing)"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "is still above the level of actual revelation,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "[and therefore] is not fit for drinking."
+          }
+        ]
+      }
+    ]
+  }
+}

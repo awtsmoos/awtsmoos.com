@@ -1,0 +1,709 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 133,
+    "returned": 133,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917769_theRebbe_254\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917769_theRebbe_254__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the love of \"Who is for me in heaven, and with You I do not desire\" means rejecting even the highest revelations of Gan Eden and the World to Come, wanting only the Awtsmoos itself.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that this matter is the love of \"Who is for me in heaven, and with You I do not desire\"65,</t>\n    <t s=\"3\">and in the language of the Alter Rebbe66</t>\n    <t s=\"4\">\"I want nothing at all, I do not want Your Gan Eden, I do not want Your World to Come, etc., I want nothing more than You alone.\"</t>\n    <t s=\"5\">For although the revelations in Gan Eden, and certainly the revelations of the World to Come, are most sublime revelations,</t>\n    <t s=\"6\">and the Alter Rebbe had comprehension of this,</t>\n    <t s=\"7\">true comprehension in a manner that the intellect became unified with the object of intellection67,</t>\n    <t s=\"8\">nevertheless, he does not want the revelations of Gan Eden nor the revelations of the World to Come,</t>\n    <t s=\"9\">and all his desire is only for the Awtsmoos,</t>\n    <t s=\"10\">You alone.</t>\n    <t s=\"11\">And it should be added,</t>\n    <t s=\"12\">that the main shrewdness in this—that he does not want the dukedoms, etc.</t>\n    <t s=\"13\">(the levels within the order of the chain of descent,</t>\n    <t s=\"14\">and even those above the chain of descent)—</t>\n    <t s=\"15\">is,</t>\n    <t s=\"16\">that although the Sefiros</t>\n    <t s=\"17\">(from the term *sefirus* and *behirus*—sapphire and clarity68)</t>\n    <t s=\"18\">do not conceal Ein Sof,</t>\n    <t s=\"19\">for in the influence drawn through the Sefiros</t>\n    <t s=\"20\">(the vessels)</t>\n    <t s=\"21\">it is revealed that the influence is not from the Sefiros themselves, G-d forbid, but rather Ein Sof influences through them69,</t>\n    <t s=\"22\">and even more so regarding the lights of the Sefiros,</t>\n    <t s=\"23\">through which the light that is above them is revealed70,</t>\n    <t s=\"24\">and certainly regarding the levels above Atzilus71,</t>\n    <t s=\"25\">through which the light reveals all that can be revealed of the Luminary,</t>\n    <t s=\"26\">nevertheless,</t>\n    <t s=\"27\">he does not desire them, but rather the King,</t>\n    <t s=\"28\">\"I take the King.\"</t>\n    <t s=\"29\">And it can be said,</t>\n    <t s=\"30\">that this is also the precise meaning of the Alter Rebbe's wording \"I do not want Your Gan Eden, I do not want Your World to Come\",</t>\n    <t s=\"31\">for although Gan Eden and the World to Come are \"Your Gan Eden\",</t>\n    <t s=\"32\">\"Your World to Come\",</t>\n    <t s=\"33\">in addition to the fact that the revelations of Gan Eden and the World to Come themselves are most sublime revelations through which all that can be revealed of the Luminary is revealed,</t>\n    <t s=\"34\">nevertheless, he does not desire them,</t>\n    <t s=\"35\">and all his desire is only for the Awtsmoos,</t>\n    <t s=\"36\">You alone.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that the interpretation of \"I take the King\" as not wanting even holy levels, but only the Awtsmoos, is connected to the simple meaning of not serving other powers, and that desiring Gan Eden can lead to the error of serving other powers.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that this interpretation of \"I take the King\"—that he does not want the levels</t>\n    <t s=\"3\">(of holiness)</t>\n    <t s=\"4\">above, but only the Awtsmoos,</t>\n    <t s=\"5\">and the simple interpretation of \"I take the King\"</t>\n    <t s=\"6\">(that he does not serve other powers),</t>\n    <t s=\"7\">are related to each other.</t>\n    <t s=\"8\">And this will be understood based on the known principle72</t>\n    <t s=\"9\">that the love of \"Who is for me in heaven\"—that he does not want the revelations of Gan Eden but only the Awtsmoos of Ein Sof,</t>\n    <t s=\"10\">even though in Gan Eden he will remain in his existence and have comprehension and delight in G-dliness</t>\n    <t s=\"11\">(they delight in the radiance of the Shechinah73),</t>\n    <t s=\"12\">unlike from the revelation of the Awtsmoos of Ein Sof, where he would be nullified from his level,</t>\n    <t s=\"13\">nevertheless,</t>\n    <t s=\"14\">since the revelation of Gan Eden is only a mere illumination</t>\n    <t s=\"15\">(the radiance of the Shechinah),</t>\n    <t s=\"16\">which is incomparable relative to the Awtsmoos of Ein Sof,</t>\n    <t s=\"17\">he chooses the essence and not the secondary.</t>\n    <t s=\"18\">And from this it is understood,</t>\n    <t s=\"19\">that when he chooses the revelations of Gan Eden</t>\n    <t s=\"20\">(which are considered as nothing relative to the Awtsmoos of Ein Sof)</t>\n    <t s=\"21\">for his own self-interest74,</t>\n    <t s=\"22\">in order that he remain in his existence and delight in the radiance of the Shechinah,</t>\n    <t s=\"23\">it is possible that from this may come</t>\n    <t s=\"24\">(through multiplication of the chain of descent, etc.)</t>\n    <t s=\"25\">that although he knows that the influence through the seventy princes is drawn from a place of death</t>\n    <t s=\"26\">(as above at the end of section 5),</t>\n    <t s=\"27\">nevertheless, he will desire this influence more than the influence from holiness,</t>\n    <t s=\"28\">in order that he have abundant flow.</t>\n    <t s=\"29\">And likewise regarding the error of those who serve other powers, who consider them to be a reality</t>\n    <t s=\"30\">(that the influence comes from the other powers themselves,</t>\n    <t s=\"31\">or that they at least have choice to influence).</t>\n    <t s=\"32\">For from this—that he desires the revelations of Gan Eden and not the Awtsmoos of Ein Sof,</t>\n    <t s=\"33\">meaning that he gives importance to something outside the Awtsmoos,</t>\n    <t s=\"34\">it is possible that from this may come</t>\n    <t s=\"35\">(through multiplication of the chain of descent, etc.)</t>\n    <t s=\"36\">that he will give importance to the other powers,</t>\n    <t s=\"37\">that they have choice in their influence,</t>\n    <t s=\"38\">and moreover, that the influence is from themselves, G-d forbid.</t>\n    <t s=\"39\">And it should be added,</t>\n    <t s=\"40\">that even when his desire is for Gan Eden because it is the Gan Eden of the Holy One, blessed be He,</t>\n    <t s=\"41\">(\"Your Gan Eden\"),</t>\n    <t s=\"42\">even then it is possible that from this may come the error that they</t>\n    <t s=\"43\">(the other powers)</t>\n    <t s=\"44\">have choice to influence, and even the error that the influence is from themselves,</t>\n    <t s=\"45\">since even according to this error, the power they have to influence is</t>\n    <t s=\"46\">(not from themselves, but)</t>\n    <t s=\"47\">because the Holy One, blessed be He, appointed them over this, as above in section 3</t>\n    <t s=\"48\">(similar to \"Your Gan Eden\").</t>\n    <t s=\"49\">And in order that there be no place at all for \"I take dukedoms,\" etc., it is by arousing within himself</t>\n    <t s=\"50\">(at least a trace and a hint,</t>\n    <t s=\"51\">for this is within the power of every single Jew,</t>\n    <t s=\"52\">as will be explained below)</t>\n    <t s=\"53\">not to desire even \"Your Gan Eden\",</t>\n    <t s=\"54\">but rather \"nothing more than You alone.\"</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the connection between \"I take the King\" and the love of Ein Sof is that desiring any revelation, even the most sublime, as an end in itself, can lead to the error of considering intermediaries as the main thing, unlike Israel whose root is in the innermost will.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And 4)</t>\n    <t s=\"2\">And it should be added in explanation of the connection of \"I take the King\" to the love of \"Who is for me in heaven\" that desires Ein Sof,</t>\n    <t s=\"3\">by prefacing that the main matter of the service of other powers is that they consider something that is only a means to the essence as the main thing.</t>\n    <t s=\"4\">Regarding the other powers,</t>\n    <t s=\"5\">the truth is that they are only a means</t>\n    <t s=\"6\">(an axe)</t>\n    <t s=\"7\">through which influence is drawn,</t>\n    <t s=\"8\">and those who serve other powers think they are the main thing,</t>\n    <t s=\"9\">and likewise regarding the physical influences drawn through them,</t>\n    <t s=\"10\">the influence of physicality is in order that they be used for the service of G-d,</t>\n    <t s=\"11\">and those who serve other powers consider physicality to be the main thing</t>\n    <t s=\"12\">(therefore they desire influence from the other side,</t>\n    <t s=\"13\">in order to have abundant physical flow,</t>\n    <t s=\"14\">as above in section 4).</t>\n    <t s=\"15\">And now, the revelations,</t>\n    <t s=\"16\">even the most sublime revelations,</t>\n    <t s=\"17\">the purpose is not in themselves,</t>\n    <t s=\"18\">and they are only a means through which the inner intention of a dwelling place in the lower realms is completed.</t>\n    <t s=\"19\">Therefore,</t>\n    <t s=\"20\">when one desires the revelations</t>\n    <t s=\"21\">(and not Ein Sof),</t>\n    <t s=\"22\">meaning he considers them to be the main thing,</t>\n    <t s=\"23\">it is possible that there will be place for him to also consider the means</t>\n    <t s=\"24\">(the other powers and physical influence)</t>\n    <t s=\"25\">as the main thing.</t>\n    <t s=\"26\">And based on this it can be said,</t>\n    <t s=\"27\">that this—that the nations of the world, some worship the sun and some the moon, and Israel worships only the Holy One, blessed be He—</t>\n    <t s=\"28\">is,</t>\n    <t s=\"29\">because the root of the nations of the world is from the externality of the will</t>\n    <t s=\"30\">(which desires something for the sake of another matter),</t>\n    <t s=\"31\">and the aspect of the externality of the will</t>\n    <t s=\"32\">(as it is the source for the nations of the world)</t>\n    <t s=\"33\">is in a manner that it is not felt within it that the will is for the sake of another matter, but rather that this itself is the purpose,</t>\n    <t s=\"34\">and therefore it branches out that the nations of the world consider the intermediaries of the other powers to be the main thing75.</t>\n    <t s=\"35\">And the root of Israel is from the innerness of the will,</t>\n    <t s=\"36\">for from the perspective of the innerness of the will there is no place for any other matter,</t>\n    <t s=\"37\">and therefore Israel has the recognition that the other powers are only a means, like an axe in the hand of the hewer</t>\n    <t s=\"38\">(and likewise physical influence is only for the sake of the service of G-d),</t>\n    <t s=\"39\">and therefore they worship only the Holy One, blessed be He,</t>\n    <t s=\"40\">\"I take the King.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917769_theRebbe_254",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917769_theRebbe_254__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the love of \"Who is for me in heaven, and with You I do not desire\" means rejecting even the highest revelations of Gan Eden and the World to Come, wanting only the Awtsmoos itself.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that this matter is the love of \"Who is for me in heaven, and with You I do not desire\"65,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "and in the language of the Alter Rebbe66"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "\"I want nothing at all, I do not want Your Gan Eden, I do not want Your World to Come, etc., I want nothing more than You alone.\""
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "For although the revelations in Gan Eden, and certainly the revelations of the World to Come, are most sublime revelations,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "and the Alter Rebbe had comprehension of this,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "true comprehension in a manner that the intellect became unified with the object of intellection67,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "nevertheless, he does not want the revelations of Gan Eden nor the revelations of the World to Come,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "and all his desire is only for the Awtsmoos,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "You alone."
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "And it should be added,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "that the main shrewdness in this—that he does not want the dukedoms, etc."
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "(the levels within the order of the chain of descent,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "and even those above the chain of descent)—"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "is,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "that although the Sefiros"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "(from the term *sefirus* and *behirus*—sapphire and clarity68)"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "do not conceal Ein Sof,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "for in the influence drawn through the Sefiros"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "(the vessels)"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "it is revealed that the influence is not from the Sefiros themselves, G-d forbid, but rather Ein Sof influences through them69,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "and even more so regarding the lights of the Sefiros,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "through which the light that is above them is revealed70,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "and certainly regarding the levels above Atzilus71,"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "through which the light reveals all that can be revealed of the Luminary,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "he does not desire them, but rather the King,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "\"I take the King.\""
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "that this is also the precise meaning of the Alter Rebbe's wording \"I do not want Your Gan Eden, I do not want Your World to Come\","
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "for although Gan Eden and the World to Come are \"Your Gan Eden\","
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "\"Your World to Come\","
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "in addition to the fact that the revelations of Gan Eden and the World to Come themselves are most sublime revelations through which all that can be revealed of the Luminary is revealed,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "nevertheless, he does not desire them,"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "and all his desire is only for the Awtsmoos,"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "You alone."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that the interpretation of \"I take the King\" as not wanting even holy levels, but only the Awtsmoos, is connected to the simple meaning of not serving other powers, and that desiring Gan Eden can lead to the error of serving other powers.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "that this interpretation of \"I take the King\"—that he does not want the levels"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "(of holiness)"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "above, but only the Awtsmoos,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "and the simple interpretation of \"I take the King\""
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "(that he does not serve other powers),"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "are related to each other."
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "And this will be understood based on the known principle72"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "that the love of \"Who is for me in heaven\"—that he does not want the revelations of Gan Eden but only the Awtsmoos of Ein Sof,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "even though in Gan Eden he will remain in his existence and have comprehension and delight in G-dliness"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "(they delight in the radiance of the Shechinah73),"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "unlike from the revelation of the Awtsmoos of Ein Sof, where he would be nullified from his level,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "since the revelation of Gan Eden is only a mere illumination"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "(the radiance of the Shechinah),"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "which is incomparable relative to the Awtsmoos of Ein Sof,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "he chooses the essence and not the secondary."
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "that when he chooses the revelations of Gan Eden"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "(which are considered as nothing relative to the Awtsmoos of Ein Sof)"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "for his own self-interest74,"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "in order that he remain in his existence and delight in the radiance of the Shechinah,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "it is possible that from this may come"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "(through multiplication of the chain of descent, etc.)"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "that although he knows that the influence through the seventy princes is drawn from a place of death"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "(as above at the end of section 5),"
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "nevertheless, he will desire this influence more than the influence from holiness,"
+          },
+          {
+            "v": 10,
+            "s": 28,
+            "translation": "in order that he have abundant flow."
+          },
+          {
+            "v": 10,
+            "s": 29,
+            "translation": "And likewise regarding the error of those who serve other powers, who consider them to be a reality"
+          },
+          {
+            "v": 10,
+            "s": 30,
+            "translation": "(that the influence comes from the other powers themselves,"
+          },
+          {
+            "v": 10,
+            "s": 31,
+            "translation": "or that they at least have choice to influence)."
+          },
+          {
+            "v": 10,
+            "s": 32,
+            "translation": "For from this—that he desires the revelations of Gan Eden and not the Awtsmoos of Ein Sof,"
+          },
+          {
+            "v": 10,
+            "s": 33,
+            "translation": "meaning that he gives importance to something outside the Awtsmoos,"
+          },
+          {
+            "v": 10,
+            "s": 34,
+            "translation": "it is possible that from this may come"
+          },
+          {
+            "v": 10,
+            "s": 35,
+            "translation": "(through multiplication of the chain of descent, etc.)"
+          },
+          {
+            "v": 10,
+            "s": 36,
+            "translation": "that he will give importance to the other powers,"
+          },
+          {
+            "v": 10,
+            "s": 37,
+            "translation": "that they have choice in their influence,"
+          },
+          {
+            "v": 10,
+            "s": 38,
+            "translation": "and moreover, that the influence is from themselves, G-d forbid."
+          },
+          {
+            "v": 10,
+            "s": 39,
+            "translation": "And it should be added,"
+          },
+          {
+            "v": 10,
+            "s": 40,
+            "translation": "that even when his desire is for Gan Eden because it is the Gan Eden of the Holy One, blessed be He,"
+          },
+          {
+            "v": 10,
+            "s": 41,
+            "translation": "(\"Your Gan Eden\"),"
+          },
+          {
+            "v": 10,
+            "s": 42,
+            "translation": "even then it is possible that from this may come the error that they"
+          },
+          {
+            "v": 10,
+            "s": 43,
+            "translation": "(the other powers)"
+          },
+          {
+            "v": 10,
+            "s": 44,
+            "translation": "have choice to influence, and even the error that the influence is from themselves,"
+          },
+          {
+            "v": 10,
+            "s": 45,
+            "translation": "since even according to this error, the power they have to influence is"
+          },
+          {
+            "v": 10,
+            "s": 46,
+            "translation": "(not from themselves, but)"
+          },
+          {
+            "v": 10,
+            "s": 47,
+            "translation": "because the Holy One, blessed be He, appointed them over this, as above in section 3"
+          },
+          {
+            "v": 10,
+            "s": 48,
+            "translation": "(similar to \"Your Gan Eden\")."
+          },
+          {
+            "v": 10,
+            "s": 49,
+            "translation": "And in order that there be no place at all for \"I take dukedoms,\" etc., it is by arousing within himself"
+          },
+          {
+            "v": 10,
+            "s": 50,
+            "translation": "(at least a trace and a hint,"
+          },
+          {
+            "v": 10,
+            "s": 51,
+            "translation": "for this is within the power of every single Jew,"
+          },
+          {
+            "v": 10,
+            "s": 52,
+            "translation": "as will be explained below)"
+          },
+          {
+            "v": 10,
+            "s": 53,
+            "translation": "not to desire even \"Your Gan Eden\","
+          },
+          {
+            "v": 10,
+            "s": 54,
+            "translation": "but rather \"nothing more than You alone.\""
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the connection between \"I take the King\" and the love of Ein Sof is that desiring any revelation, even the most sublime, as an end in itself, can lead to the error of considering intermediaries as the main thing, unlike Israel whose root is in the innermost will.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And 4)"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "And it should be added in explanation of the connection of \"I take the King\" to the love of \"Who is for me in heaven\" that desires Ein Sof,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "by prefacing that the main matter of the service of other powers is that they consider something that is only a means to the essence as the main thing."
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "Regarding the other powers,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "the truth is that they are only a means"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "(an axe)"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "through which influence is drawn,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "and those who serve other powers think they are the main thing,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "and likewise regarding the physical influences drawn through them,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "the influence of physicality is in order that they be used for the service of G-d,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "and those who serve other powers consider physicality to be the main thing"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "(therefore they desire influence from the other side,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "in order to have abundant physical flow,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "as above in section 4)."
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "And now, the revelations,"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "even the most sublime revelations,"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "the purpose is not in themselves,"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "and they are only a means through which the inner intention of a dwelling place in the lower realms is completed."
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "when one desires the revelations"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "(and not Ein Sof),"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "meaning he considers them to be the main thing,"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "it is possible that there will be place for him to also consider the means"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "(the other powers and physical influence)"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "as the main thing."
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "And based on this it can be said,"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "that this—that the nations of the world, some worship the sun and some the moon, and Israel worships only the Holy One, blessed be He—"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "is,"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "because the root of the nations of the world is from the externality of the will"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "(which desires something for the sake of another matter),"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "and the aspect of the externality of the will"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "(as it is the source for the nations of the world)"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "is in a manner that it is not felt within it that the will is for the sake of another matter, but rather that this itself is the purpose,"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "and therefore it branches out that the nations of the world consider the intermediaries of the other powers to be the main thing75."
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "And the root of Israel is from the innerness of the will,"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "for from the perspective of the innerness of the will there is no place for any other matter,"
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "and therefore Israel has the recognition that the other powers are only a means, like an axe in the hand of the hewer"
+          },
+          {
+            "v": 11,
+            "s": 38,
+            "translation": "(and likewise physical influence is only for the sake of the service of G-d),"
+          },
+          {
+            "v": 11,
+            "s": 39,
+            "translation": "and therefore they worship only the Holy One, blessed be He,"
+          },
+          {
+            "v": 11,
+            "s": 40,
+            "translation": "\"I take the King.\""
+          }
+        ]
+      }
+    ]
+  }
+}

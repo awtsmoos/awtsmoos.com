@@ -1,0 +1,104 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918517_theRebbe_122" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918517_theRebbe_122__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918517_theRebbe_122" title="מאמר שיר המעלות תשכ"ב" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918517_theRebbe_122__p004">
+  <section v="9">
+    <src s="0">ד)</src>
+    <src s="1">והנה ענין זה שבתפלה</src>
+    <src s="2">(שעל ידה נמשכת השפעה חדשה)</src>
+    <src s="3">הוא בכללות גם בתורה.</src>
+    <src s="4">דזה שע"י הפסק דין שבתורה נעשה שינוי בעולם22</src>
+    <src s="5">[שנעשה דבר חדש שלא הי' גם בשרש ומקור העולם],</src>
+    <src s="6">הוא,</src>
+    <src s="7">כי התורה היא למעלה משרש העולם</src>
+    <src s="8">(כי התורה היא חכמתו ית' שלמעלה מהחכמה דמעשה בראשית),</src>
+    <src s="9">ולכן,</src>
+    <src s="10">ע"י הפס"ד דתורה נעשה שינוי וחידוש בהעולם.</src>
+    <src s="11">ונמצא,</src>
+    <src s="12">שבתורה ישנם ב' המעלות,</src>
+    <src s="13">המעלה דתפלה – המשכת ענין חדש,</src>
+    <src s="14">והמעלה דברכה23.</src>
+    <src s="15">דהשינוי והחידוש שנעשה בעולם ע"י הפס"ד דהת"ח העוסק בתורה הוא</src>
+    <src s="16">(לא בדרך בקשה כבתפלה,</src>
+    <src s="17">אלא)</src>
+    <src s="18">בדרך ממילא.</src>
+    <src s="19">וכידוע24</src>
+    <src s="20">בענין מאן מלכי רבנן25,</src>
+    <src s="21">דלהיות שלימוד התורה שלהם הוא בביטול,</src>
+    <src s="22">הרי הפסקי דינים שלהם הוא שהמלך עצמו</src>
+    <src s="23">(מלך מלכי המלכים הקב"ה)</src>
+    <src s="24">גוזר ואומר את הפסק דין,</src>
+    <src s="25">וכיון שזהו גזירת המלך,</src>
+    <src s="26">נעשה כן ממילא.</src>
+    <src s="27">ועד"ז הוא בנוגע להמופתים שעשו התנאים ואמוראים ע"י עסק התורה שלהם26,</src>
+    <src s="28">כמו רפב"י שאמר גינאי נהרא חלוק לי מימיך27,</src>
+    <src s="29">שישנם בזה שתי המעלות.</src>
+    <src s="30">שינוי וחידוש בהנהר</src>
+    <src s="31">(שאינו גם בשרשו ומקורו28)</src>
+    <src s="32">– המעלה דתפלה,</src>
+    <src s="33">ושהשינוי בהנהר נעשה ע"י הציווי של רפב"י – המעלה דברכה.</src>
+  </section>
+  <section v="10">
+    <src s="0">ה)</src>
+    <src s="1">אלא שאעפ"כ מעלה בתפלה לגבי תורה,</src>
+    <src s="2">כי תורה היא חכמה,</src>
+    <src s="3">וחכמה</src>
+    <src s="4">(גם החכמה דתורה שלמעלה מהחכמה דמעשה בראשית)</src>
+    <src s="5">היא באין ערוך לגבי אוא"ס,</src>
+    <src s="6">וע"י התפלה ממשיכים רצון חדש מאוא"ס שלמעלה גם מהחכמה דתורה29.</src>
+    <src s="7">ועפ"ז יש לומר,</src>
+    <src s="8">דהחידוש בזה שרשב"י המשיך ירידת גשמים ע"י אמירת תורה לגבי המופתים העצומים30</src>
+    <src s="9">שעשו כמה תנאים ואמוראים ע"י עסק התורה שלהם,</src>
+    <src s="10">הוא,</src>
+    <src s="11">שהשינוי בעולם שעשו כל התנאים והאמוראים הוא ע"י שהמשיכו וגילו שכן הוא ע"פ חכמת התורה31,</src>
+    <src s="12">והחידוש דירידת מטר ע"י שרשב"י אמר דרוש בפסוק הנה מה טוב ומה נעים שבת אחים גם יחד,</src>
+    <src s="13">הוא,</src>
+    <src s="14">דהגם שהדרוש שאמר שייך רק לענין המטר32</src>
+    <src s="15">בכלל אבל לא הי' בו רמז שהעולם הי' ראוי אז למטר,</src>
+    <src s="16">ונמצא שגם ע"פ חכמת התורה</src>
+    <src s="17">(שלמעלה משרש העולם)</src>
+    <src s="18">לא הי' העולם ראוי למטר,</src>
+    <src s="19">וזה שירד אז מטר ע"י אמירת הדרוש הוא לפי שע"י אמירת הדרוש המשיך מאוא"ס שלמעלה מהחכמה דתורה,</src>
+    <src s="20">בדוגמת ההמשכה שע"י תפלה.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזה שע"י אמירת תורה דהרשב"י נמשך מאוא"ס שלמעלה מהחכמה דתורה,</src>
+    <src s="2">הוא,</src>
+    <src s="3">כי בפנימיות התורה מאיר בגילוי אוא"ס33,</src>
+    <src s="4">ולהיות שרשב"י הי' מקור פנימיות התורה</src>
+    <src s="5">[וגם בלימוד הנגלה שלו האיר הפנימיות34],</src>
+    <src s="6">לכן ע"י אמירת תורה שלו המשיך בגילוי אוא"ס שלמעלה מהתורה.</src>
+  </section>
+</awtsmoosMeluketSource>

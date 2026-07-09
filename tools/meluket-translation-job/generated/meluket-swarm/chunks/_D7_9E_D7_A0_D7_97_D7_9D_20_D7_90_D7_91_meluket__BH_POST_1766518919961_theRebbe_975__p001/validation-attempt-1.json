@@ -1,0 +1,314 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 54,
+    "returned": 54,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919961_theRebbe_975\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919961_theRebbe_975__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">20 Menachem-Av 5737*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the verse \"And now, Israel, what does Hashem your G-d ask of you but to fear...\" and the Gemara's interpretation of \"mah\" as \"me'ah\" (one hundred).</sectionSummaryBrief>\n    <t s=\"0\">\"And now, Israel, what does Hashem your G-d ask of you but to fear [Him]...\"</t>\n    <t s=\"1\">And it is brought in the Gemara:</t>\n    <t s=\"2\">It was taught: Rabbi Meir would say, \"A person is obligated to recite one hundred blessings every day, as it is said, 'And now, Israel, what does Hashem your G-d ask of you.'\"</t>\n    <t s=\"3\">Do not read \"mah\" (what) but rather \"me'ah\" (one hundred).</t>\n    <t s=\"4\">And it may be said</t>\n    <t s=\"5\">that the reason for this, that they expounded \"do not read 'mah' etc.,\" is</t>\n    <t s=\"6\">because according to the simple interpretation, an explanation is needed:</t>\n    <t s=\"7\">Why does the verse state this matter</t>\n    <t s=\"8\">(that Hashem your G-d asks of you only to fear, etc.)</t>\n    <t s=\"9\">in the style of a question and answer,</t>\n    <t s=\"10\">for ostensibly it should have said, \"Hashem your G-d does not ask of you anything but to fear, etc.\"</t>\n    <t s=\"11\">Therefore they expounded: Do not read \"mah\" but rather \"me'ah.\"</t>\n    <t s=\"12\">And it is known</t>\n    <t s=\"13\">in the general principles of the study of \"do not read,\"</t>\n    <t s=\"14\">that it does not negate the plain meaning of the matter as it is read, but rather adds another interpretation,</t>\n    <t s=\"15\">and the two interpretations are connected to each other.</t>\n    <t s=\"16\">And one must understand the connection and relationship between \"mah\" and \"me'ah.\"</t>\n    <t s=\"17\">And particularly since the difference between the two interpretations is</t>\n    <t s=\"18\">(not only in this word itself,</t>\n    <t s=\"19\">but)</t>\n    <t s=\"20\">also in the entirety of the verse.</t>\n    <t s=\"21\">For according to its simple meaning, it is that He asks for nothing but fear,</t>\n    <t s=\"22\">but according to the Gemara's interpretation,</t>\n    <t s=\"23\">\"mah\"</t>\n    <t s=\"24\">(one hundred blessings)</t>\n    <t s=\"25\">is the thing that Hashem your G-d asks of you.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the simple meaning is achieved through the content of the Sages' exposition, and questions how the small thing \"mah\" comes specifically through the large number \"me'ah.\"</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And it is explained in many places regarding the study of \"do not read,\"</t>\n    <t s=\"2\">that the interpretation according to its simple meaning is through the content of the interpretation that the Sages expounded.</t>\n    <t s=\"3\">Based on this, the language \"do not read\" will be understood, which implies negating the simple interpretation,</t>\n    <t s=\"4\">for the intention in this is</t>\n    <t s=\"5\">that it is impossible for this interpretation to exist except through the expounded interpretation.</t>\n    <t s=\"6\">Based on this,</t>\n    <t s=\"7\">in our case – \"Do not read 'mah' but rather 'me'ah',\"</t>\n    <t s=\"8\">that through \"me'ah\" one comes to \"mah.\"</t>\n    <t s=\"9\">And one must understand,</t>\n    <t s=\"10\">for the word \"mah\" indicates that the matter</t>\n    <t s=\"11\">(being discussed)</t>\n    <t s=\"12\">is a small thing,</t>\n    <t s=\"13\">and in the language of the Gemara</t>\n    <t s=\"14\">\"a minor matter,\"</t>\n    <t s=\"15\">whereas \"me'ah\" is</t>\n    <t s=\"16\">a large number, even the completeness of number,</t>\n    <t s=\"17\">so that in order to reach completeness, much work is needed</t>\n    <t s=\"18\">[and likewise it is also regarding the one hundred blessings in their simple sense,</t>\n    <t s=\"19\">that in order to recite one hundred blessings every day, even on Shabbos and Yom Tov</t>\n    <t s=\"20\">(and similarly on a fast day),</t>\n    <t s=\"21\">special effort is required],</t>\n    <t s=\"22\">and how can they say that in order to come to \"mah\"</t>\n    <t s=\"23\">(a minor matter)</t>\n    <t s=\"24\">it is specifically through \"me'ah\"</t>\n    <t s=\"25\">(the matter of completeness that comes through work).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919961_theRebbe_975",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919961_theRebbe_975__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "20 Menachem-Av 5737*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the verse \"And now, Israel, what does Hashem your G-d ask of you but to fear...\" and the Gemara's interpretation of \"mah\" as \"me'ah\" (one hundred).",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And now, Israel, what does Hashem your G-d ask of you but to fear [Him]...\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is brought in the Gemara:"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "It was taught: Rabbi Meir would say, \"A person is obligated to recite one hundred blessings every day, as it is said, 'And now, Israel, what does Hashem your G-d ask of you.'\""
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "Do not read \"mah\" (what) but rather \"me'ah\" (one hundred)."
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "And it may be said"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that the reason for this, that they expounded \"do not read 'mah' etc.,\" is"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "because according to the simple interpretation, an explanation is needed:"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "Why does the verse state this matter"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(that Hashem your G-d asks of you only to fear, etc.)"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "in the style of a question and answer,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "for ostensibly it should have said, \"Hashem your G-d does not ask of you anything but to fear, etc.\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "Therefore they expounded: Do not read \"mah\" but rather \"me'ah.\""
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And it is known"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "in the general principles of the study of \"do not read,\""
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "that it does not negate the plain meaning of the matter as it is read, but rather adds another interpretation,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "and the two interpretations are connected to each other."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And one must understand the connection and relationship between \"mah\" and \"me'ah.\""
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "And particularly since the difference between the two interpretations is"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "(not only in this word itself,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "but)"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "also in the entirety of the verse."
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "For according to its simple meaning, it is that He asks for nothing but fear,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "but according to the Gemara's interpretation,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "\"mah\""
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "(one hundred blessings)"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "is the thing that Hashem your G-d asks of you."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the simple meaning is achieved through the content of the Sages' exposition, and questions how the small thing \"mah\" comes specifically through the large number \"me'ah.\"",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And it is explained in many places regarding the study of \"do not read,\""
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the interpretation according to its simple meaning is through the content of the interpretation that the Sages expounded."
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "Based on this, the language \"do not read\" will be understood, which implies negating the simple interpretation,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "for the intention in this is"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "that it is impossible for this interpretation to exist except through the expounded interpretation."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "Based on this,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "in our case – \"Do not read 'mah' but rather 'me'ah',\""
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that through \"me'ah\" one comes to \"mah.\""
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And one must understand,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "for the word \"mah\" indicates that the matter"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(being discussed)"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "is a small thing,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "and in the language of the Gemara"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "\"a minor matter,\""
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "whereas \"me'ah\" is"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "a large number, even the completeness of number,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "so that in order to reach completeness, much work is needed"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "[and likewise it is also regarding the one hundred blessings in their simple sense,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that in order to recite one hundred blessings every day, even on Shabbos and Yom Tov"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "(and similarly on a fast day),"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "special effort is required],"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "and how can they say that in order to come to \"mah\""
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(a minor matter)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "it is specifically through \"me'ah\""
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "(the matter of completeness that comes through work)."
+          }
+        ]
+      }
+    ]
+  }
+}

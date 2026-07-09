@@ -1,0 +1,102 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p013">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" title="מאמר ושבתי בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p013">
+  <section v="36">
+    <src s="0">כ)</src>
+    <src s="1">ח)</src>
+    <src s="2">וזהו ושבתי בשלום אל בית אבי,</src>
+    <src s="3">שקאי</src>
+    <src s="4">(כנ"ל)</src>
+    <src s="5">על עבודת הבירורים,</src>
+    <src s="6">שעי"ז נעשה</src>
+    <src s="7">(טוט זיך אויף)</src>
+    <src s="8">ענין ושבתי בשלום גו' שיהי' לעתיד עד והאבן הזאת גו' יהי' בית אלקים.</src>
+    <src s="9">וזה גופא מורה על גודל העילוי שבהעבודה דסוף זמן הגלות,</src>
+    <src s="10">שעיקר העבודה אז היא עבודת התשובה</src>
+    <src s="11">(ועד שגם העבודה דתורה ומצוות</src>
+    <src s="12">(לחם ובגד)</src>
+    <src s="13">שבסוף זמן הגלות היא לאחרי קדימת עבודת התשובה</src>
+    <src s="14">(ושבתי בשלום)205),</src>
+    <src s="15">שהרי ע"י העבודה דתשובה ומעשים טובים</src>
+    <src s="16">(היינו שגם המעשים טובים הם לאחרי קדימת התשובה206)</src>
+    <src s="17">נעשה</src>
+    <src s="18">(טוט זיך אויף)</src>
+    <src s="19">ענין ושבתי בשלום גו' שיהי' לע"ל.</src>
+    <src s="20">[ועד שיפה שעה אחת בתשובה ומעשים טובים בעוה"ז מכל חיי העוה"ב207,</src>
+    <src s="21">לפי שגורם הדבר חזק יותר מהנעשה על ידו.</src>
+    <src s="22">וגם לפי שהתענוג דעוה"ב הוא תענוג האדם שהוא נברא,</src>
+    <src s="23">והתענוג דתשובה ומע"ט</src>
+    <src s="24">(בעוה"ז)</src>
+    <src s="25">הוא תענוג הבורא208].</src>
+    <src s="26">ובפרט,</src>
+    <src s="27">שזה שע"י העבודה דעכשיו טוט זיך אויף הגילוי דלעתיד הוא באופן שמעין הגילוי דלעתיד יש גם עכשיו</src>
+    <src s="28">(כנ"ל סעיף כד-כה).</src>
+    <src s="29">דמכיון שהעבודה שבסוף זמן הגלות היא עבודת התשובה,</src>
+    <src s="30">ובבע"ת נאמר142</src>
+    <src s="31">והי' טרם יקראו ואני אענה140,</src>
+    <src s="32">לכן,</src>
+    <src s="33">גם בסוף זמן הגלות</src>
+    <src s="34">[ובפרט כשיש גם התפלה</src>
+    <src s="35">("יקראו")</src>
+    <src s="36">ושבתי בשלום]</src>
+    <src s="37">נעשה כבר ואני אענה,</src>
+    <src s="38">המשכת וגילוי מעין הענינים דלעתיד.</src>
+    <src s="39">ובדוגמת יעקב,</src>
+    <src s="40">שבהיותו עדיין בחרן הי' ויפרוץ האיש מאד מאד ויהי לו צאן רבות</src>
+    <src s="41">(שזהו העיקר110)</src>
+    <src s="42">ושפחות ועבדים וגמלים וחמורים111,</src>
+    <src s="43">עד"ז הוא בכאו"א מישראל,</src>
+    <src s="44">שבסוף זמן הגלות</src>
+    <src s="45">(כשנמצאים בחרן)</src>
+    <src s="46">יהי' ויפרוץ מאד מאד,</src>
+    <src s="47">ובאופן דפדה בשלום,</src>
+    <src s="48">בכל הפירושים ובכל הפרטים,</src>
+    <src s="49">הן בעבודה הרוחנית</src>
+    <src s="50">[ובפרט בלימוד והפצת תורת החסידות,</src>
+    <src s="51">שיהי' בלי שום בלבולים ובתכלית ההרחבה]</src>
+    <src s="52">והן בענינים הגשמיים,</src>
+    <src s="53">ובאופן דופרצת209</src>
+    <src s="54">(ויפרוץ),</src>
+    <src s="55">שזה ימהר ויזרז הגאולה העתידה – אחישנה</src>
+    <src s="56">(באחישנה גופא210),</src>
+    <src s="57">שבקרוב ממש יהי' קץ שם לחושך211,</src>
+    <src s="58">ויקבלו פני משיח צדקנו,</src>
+    <src s="59">שיוליכנו לארצנו הקדושה,</src>
+    <src s="60">ארץ אשר גו' תמיד עיני ה' אלקיך בה מרשית השנה ועד אחרית שנה212,</src>
+    <src s="61">ארץ ישראל לגבולותי',</src>
+    <src s="62">ואח"כ – וגם זה באופן דאחישנה – ירחיב ה' אלקיך את גבולך213,</src>
+    <src s="63">ובקרוב ממש ובעגלא דידן214.</src>
+  </section>
+</awtsmoosMeluketSource>

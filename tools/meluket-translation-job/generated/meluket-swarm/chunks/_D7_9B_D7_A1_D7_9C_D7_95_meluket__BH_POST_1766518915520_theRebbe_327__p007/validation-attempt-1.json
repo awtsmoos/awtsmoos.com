@@ -1,0 +1,132 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 20,
+    "returned": 20,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915520_theRebbe_327\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>Through the future revelation of the Yechidah of all of Hishtalshelus, there will be an incomparable elevation in wisdom, teshuvah, and good deeds.</sectionSummaryBrief>\n    <t s=\"0\">And to add,</t>\n    <t s=\"1\">that through the revelation of the Yechidah of all of Hishtalshelus that will be in the future to come,</t>\n    <t s=\"2\">there will be an additional elevation in all three matters</t>\n    <t s=\"3\">(wisdom,</t>\n    <t s=\"4\">teshuvah and good deeds),</t>\n    <t s=\"5\">even to an elevation that is beyond comparison.</t>\n    <t s=\"6\">For regarding Torah</t>\n    <t s=\"7\">(wisdom)</t>\n    <t s=\"8\">our sages said,</t>\n    <t s=\"9\">that the Torah of now is vanity compared to the Torah of Moshiach,</t>\n    <t s=\"10\">and regarding teshuvah it is known</t>\n    <t s=\"11\">that Moshiach comes to bring the righteous to teshuvah,</t>\n    <t s=\"12\">for the teshuvah of the righteous is more elevated than simple teshuvah,</t>\n    <t s=\"13\">and regarding good deeds it is known</t>\n    <t s=\"14\">that at the coming of Moshiach the fulfillment of the mitzvos will be in ultimate perfection.</t>\n    <t s=\"15\">And it can be said,</t>\n    <t s=\"16\">that in the perfection of good deeds and lights that will be then, is also included that all matters of the world of Asiyah will shine,</t>\n    <t s=\"17\">even to the extent that also night will shine like day,</t>\n    <t s=\"18\">in the true and complete redemption through Moshiach our righteousness,</t>\n    <t s=\"19\">and in a manner that immediately they are redeemed.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915520_theRebbe_327",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "Through the future revelation of the Yechidah of all of Hishtalshelus, there will be an incomparable elevation in wisdom, teshuvah, and good deeds.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "And to add,"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "that through the revelation of the Yechidah of all of Hishtalshelus that will be in the future to come,"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "there will be an additional elevation in all three matters"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "(wisdom,"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "teshuvah and good deeds),"
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "even to an elevation that is beyond comparison."
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "For regarding Torah"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "(wisdom)"
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "our sages said,"
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "that the Torah of now is vanity compared to the Torah of Moshiach,"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "and regarding teshuvah it is known"
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "that Moshiach comes to bring the righteous to teshuvah,"
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "for the teshuvah of the righteous is more elevated than simple teshuvah,"
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "and regarding good deeds it is known"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "that at the coming of Moshiach the fulfillment of the mitzvos will be in ultimate perfection."
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "that in the perfection of good deeds and lights that will be then, is also included that all matters of the world of Asiyah will shine,"
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "even to the extent that also night will shine like day,"
+          },
+          {
+            "v": 18,
+            "s": 18,
+            "translation": "in the true and complete redemption through Moshiach our righteousness,"
+          },
+          {
+            "v": 18,
+            "s": 19,
+            "translation": "and in a manner that immediately they are redeemed."
+          }
+        ]
+      }
+    ]
+  }
+}

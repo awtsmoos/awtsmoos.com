@@ -1,0 +1,123 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914333_theRebbe_315" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914333_theRebbe_315" title="מאמר בסוכות תשבו תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p002">
+  <section v="3">
+    <src s="0">וזהו גם שהקרבנות היו מקריבים על מזבח החיצון,</src>
+    <src s="1">והקטורת הי' על מזבח הפנימי25.</src>
+    <src s="2">דהנה ידוע שב' מזבחות אלה בנפש האדם הם חיצוניות הלב ופנימיות הלב,</src>
+    <src s="3">כמבואר בלקו"ת26</src>
+    <src s="4">ובארוכה בדרושי כ"ק אדמו"ר הצ"צ27.</src>
+    <src s="5">ולכן עבודת הקרבנות היא במזבח החיצון,</src>
+    <src s="6">כי העבודה שבבחינת התלהבות היא בחיצוניות הלב.</src>
+    <src s="7">וגם לפי שבחיצוניות הלב שייך ענין הבירורים,</src>
+    <src s="8">היינו שיש עדיין מציאות שצריך לבררו ולהעלותו לקדושה.</src>
+    <src s="9">משא"כ פנימיות הלב היא למעלה מענין הבירורים,</src>
+    <src s="10">והעבודה דפנימיות הלב היא האהבה וההתקשרות שמצד עצם הנשמה שלמעלה מטעם ודעת28.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה החילוק שבין עבודת הקרבנות להעבודה דקטורת היא גם בנוגע להדברים המתבררים על ידם.</src>
+    <src s="2">דקרבנות הם מדברים המותרים דוקא29,</src>
+    <src s="3">וכמו כל הענינים דתומ"צ שלא הוכשר למלאכת שמים אלא טהורים ומותרים בפיך30.</src>
+    <src s="4">משא"כ בסממני הקטורת היו גם דברים טמאים,</src>
+    <src s="5">וכמו המור שהיא דם של חי' ידוע31.</src>
+    <src s="6">וגם32</src>
+    <src s="7">בקטורת צ"ל י"א סממנים דוקא</src>
+    <src s="8">(ועד שאם חיסר אחד מכל סממני' חייב מיתה33,</src>
+    <src s="9">היפך הענין דקטורת34),</src>
+    <src s="10">דמספר י"א הוא בסט"א.</src>
+    <src s="11">דהנה ידוע דבקדושה הוא מספר עשר כמאמר35</src>
+    <src s="12">עשר ולא תשע עשר ולא אחד עשר,</src>
+    <src s="13">ומספר י"א הוא בסט"א,</src>
+    <src s="14">י"א כתרין דמסאבותא36.</src>
+    <src s="15">והענין הוא,</src>
+    <src s="16">דהנה כתיב37</src>
+    <src s="17">ואתה מחי' את כולם,</src>
+    <src s="18">אל תקרי מחי' אלא מהוה38,</src>
+    <src s="19">שכל הנבראים שבעולם חיותם וגם עצם מציאותם היא מאוא"ס,</src>
+    <src s="20">ומצד עצמם אינם שום מציאות כלל.</src>
+    <src s="21">וכמו שמבאר בעל ההילולא בד"ה מי כמוכה באלים הוי' מי כמוך נאדר בקודש39</src>
+    <src s="22">(שהי' אומרו פעם בשתים או בשלש שנים כדי לטהר את אויר העולם40),</src>
+    <src s="23">דהגם שהעולם הוא מציאות ולא אחיזת עינים,</src>
+    <src s="24">מ"מ לית בר מינך41,</src>
+    <src s="25">לפי שעיקר ואמיתית מציאותו של כל דבר הוא הכח האלקי המהוה אותו.</src>
+    <src s="26">דמזה מובן,</src>
+    <src s="27">שגם הסט"א וגקה"ט הכרח לומר שנמשך להם חיות מאוא"ס,</src>
+    <src s="28">דאל"כ לא היו שום מציאות כלל.</src>
+    <src s="29">אלא שהחיות המחי' אותם הוא בבחי' מקיף עליהם מלמעלה.</src>
+    <src s="30">[דהגם שיש ניצוץ דקדושה גם בפנימיותם,</src>
+    <src s="31">הרי ניצוץ זה הוא בבחי' גלות בתוכם</src>
+    <src s="32">(ועד שגם הניצוץ עצמו נעשה כמו רע כמו שמבאר אדמו"ר</src>
+    <src s="33">(מהורש"ב)</src>
+    <src s="34">נ"ע בד"ה פדה בשלום נפשי42),</src>
+    <src s="35">וזה שהם חיים וקיימים הוא מהחיות דקדושה שבבחי' מקיף עליהם מלמעלה43].</src>
+    <src s="36">וזהו שבקדושה הוא מספר עשר ובסט"א מספר י"א.</src>
+    <src s="37">דהנה כל דבר שבעולם הוא מורכב מעשר ענינים כמ"ש בפרדס44,</src>
+    <src s="38">ולכן בקדושה הוא מספר עשר,</src>
+    <src s="39">לפי שהחיות מתאחד עם הדבר שמחי' אותו ואינו נמנה בפ"ע.</src>
+    <src s="40">משא"כ בקליפות וסט"א שהחיות הוא בבחי' מקיף עליהם מלמעלה לכן החיות נמנה בפ"ע45.</src>
+    <src s="41">וזהו שבקטורת צ"ל י"א סממנים דוקא,</src>
+    <src s="42">כי ע"י העבודה דקטורת,</src>
+    <src s="43">גם הסט"א שהיא במספר י"א נהפכת לקדושה.</src>
+    <src s="44">ויש לומר,</src>
+    <src s="45">דחילוק זה שבין עבודת הקרבנות לעבודת הקטורת בנוגע להדברים המתבררים על ידם הוא מצד החילוק שביניהם בהאדם העובד,</src>
+    <src s="46">שהעבודה דקרבנות היא בחיצוניות הלב והעבודה דקטורת היא בפנימיות הלב.</src>
+    <src s="47">והענין הוא,</src>
+    <src s="48">שכאשר העבודה היא במדידה והגבלה והאדם העובד הוא בבחי' מציאות עדיין,</src>
+    <src s="49">צ"ל זהירות שלא תהי' בעבודתו שום נגיעה,</src>
+    <src s="50">ועאכו"כ שלא תהי' נגיעה מענינים השייכים להמציאות שלו.</src>
+    <src s="51">משא"כ כשהעבודה היא למעלה ממדידה והגבלה הנה ע"י עבודה זו,</src>
+    <src s="52">גם הרע נהפך לטוב46,</src>
+    <src s="53">כמו בתשובה שהזדונות נעשות לא רק כשגגות אלא כזכיות47</src>
+    <src s="54">[ועד שנעשים לא רק כזכיות</src>
+    <src s="55">(בכ"ף הדמיון)</src>
+    <src s="56">אלא זכיות ממש48],</src>
+    <src s="57">כמבואר בארוכה בתו"א49.</src>
+  </section>
+  <section v="5">
+    <src s="0">וזהו גם הקישור והשייכות דעבודת הקטורת ליוהכ"פ,</src>
+    <src s="1">כי התשובה דיוהכ"פ היא עצם ענין התשובה</src>
+    <src s="2">(תשובה עילאה)50,</src>
+    <src s="3">וכללות העבודה דעשרת ימי תשובה</src>
+    <src s="4">[ומכ"ש דיוהכ"פ51]</src>
+    <src s="5">היא בבחי' יחידה,</src>
+    <src s="6">וכידוע תורת אדמו"ר הזקן52</src>
+    <src s="7">בפירוש מאמר רז"ל53</src>
+    <src s="8">כאן ביחיד שהעבודה דעשי"ת היא בבחי' יחידה,</src>
+    <src s="9">ומכיון שכנגד בחי' יחידה לא יש בלעו"ז,</src>
+    <src s="10">בבואה דבבואה לית להו54,</src>
+    <src s="11">לכן ע"י העבודה והתשובה דיוהכ"פ גם הזדונות נהפכים לזכיות.</src>
+  </section>
+</awtsmoosMeluketSource>

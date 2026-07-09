@@ -1,0 +1,102 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918633_theRebbe_459" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918633_theRebbe_459" title="מאמר בחודש השלישי תשכ"ט" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918633_theRebbe_459__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ במדבר,</src>
+    <src s="2">מבה"ח וער"ח סיון,</src>
+    <src s="3">ה'תשכ"ט</src>
+  </section>
+  <section v="1">
+    <src s="0">בחודש השלישי לצאת בני ישראל מארץ מצרים ביום הזה באו מדבר סיני1,</src>
+    <src s="1">ואיתא בגמרא2,</src>
+    <src s="2">כתיב הכא ביום הזה באו מדבר סיני וכתיב התם3</src>
+    <src s="3">החודש הזה לכם ראש חדשים,</src>
+    <src s="4">מה להלן ראש חודש אף כאן ראש חודש.</src>
+    <src s="5">והקשו בתוספות4,</src>
+    <src s="6">דבמס' פסחים5</src>
+    <src s="7">איתא</src>
+    <src s="8">(עה"פ6</src>
+    <src s="9">וידבר ה' אל משה במדבר סיני בשנה השנית גו' בחודש הראשון),</src>
+    <src s="10">אתיא מדבר ממדבר,</src>
+    <src s="11">כתיב הכא במדבר סיני וכתיב התם7</src>
+    <src s="12">וידבר ה' אל משה במדבר סיני באוהל מועד באחד לחודש השני,</src>
+    <src s="13">מה להלן בר"ח אף כאן בר"ח,</src>
+    <src s="14">וכיון שגם בפסוק בחודש השלישי כתיב מדבר,</src>
+    <src s="15">אמאי לא יליף הכא מדבר ממדבר.</src>
+    <src s="16">וצריך להבין,</src>
+    <src s="17">דלכאורה,</src>
+    <src s="18">הילפותא מהגז"ש הזה הזה מגלה שפירוש ביום הזה הוא בר"ח,</src>
+    <src s="19">משא"כ באם היו למדין מהגז"ש מדבר מדבר</src>
+    <src s="20">[שהלימוד הוא רק שהענין שנאמר בכתוב</src>
+    <src s="21">(באו מדבר סיני)</src>
+    <src s="22">הי' בר"ח]</src>
+    <src s="23">לא הי' מובן הפירוש דביום הזה</src>
+    <src s="24">[ועוד יתרון בהגז"ש הזה הזה על הגז"ש מדבר מדבר,</src>
+    <src s="25">כי החודש הזה פירושו הוא ר"ח8,</src>
+    <src s="26">משא"כ מדבר סיני ואחד לחודש</src>
+    <src s="27">(ר"ח)</src>
+    <src s="28">הם שני ענינים]9,</src>
+    <src s="29">ומהי סברת התוספות דהוה לי' למילף מדבר ממדבר10.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">ויובן זה ע"פ המבואר בתו"א ד"ה זה11,</src>
+    <src s="2">דעיקר12</src>
+    <src s="3">קבלת התורה הוא כמ"ש</src>
+    <src s="4">(בהתחלת הענין דמ"ת13)</src>
+    <src s="5">וידבר אלקים את כל הדברים האלה לאמר,</src>
+    <src s="6">דפירוש תיבת לאמר בפסוק זה הוא שבשעת מתן תורה ניתן הכח לכל אחד מישראל,</src>
+    <src s="7">שלימוד התורה שלו</src>
+    <src s="8">[כל הדברים האלה,</src>
+    <src s="9">שקאי גם על כל התורה כולה14]</src>
+    <src s="10">יהי' באופן דלאמר,</src>
+    <src s="11">לחזור הדברים שהקב"ה אומר,</src>
+    <src s="12">כמ"ש15</src>
+    <src s="13">תען לשוני אמרתך,</src>
+    <src s="14">שהתורה היא אמרתך,</src>
+    <src s="15">שלשוני תען כעונה אחר האומר.</src>
+    <src s="16">וזוהי השייכות דמתן תורה לחג השבועות,</src>
+    <src s="17">דבחג השבועות הוא המשכת הכתר</src>
+    <src s="18">[וכידוע16</src>
+    <src s="19">בפירוש הכתוב17</src>
+    <src s="20">תספרו חמישים יום,</src>
+    <src s="21">שבחג השבועות נמשך שער הנו"ן דבינה,</src>
+    <src s="22">ושער הנו"ן הוא הכתר18],</src>
+    <src s="23">וזה שבמ"ת ניתן הכח שלימוד התורה דישראל יהי' בתכלית הביטול,</src>
+    <src s="24">שאינו מציאות לעצמו כלל והוא רק כעונה אחר הקורא,</src>
+    <src s="25">הוא לפי שבמ"ת נמשך גילוי הכתר.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,214 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 34,
+    "returned": 34,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518920021_theRebbe_64\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920021_theRebbe_64__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the opening header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Erev Shabbat Parshat Va'etchanan,</t>\n    <t s=\"2\">the fifteenth of Av, 5738*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section notes that the text is an unedited draft.</sectionSummaryBrief>\n    <t s=\"0\">(A draft.</t>\n    <t s=\"1\">Not proofread.)</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section discusses the order of Torah and mitzvos in the two paragraphs of Shema, and the precise language used for Torah study in each.</sectionSummaryBrief>\n    <t s=\"0\">\"And you shall teach them to your children and speak of them,\"</t>\n    <t s=\"1\">and afterwards it is stated, \"And you shall bind them as a sign upon your hand, etc.,\"</t>\n    <t s=\"2\">the mitzvah of tefillin,</t>\n    <t s=\"3\">about which our sages, of blessed memory, said,</t>\n    <t s=\"4\">\"The entire Torah is equated to tefillin,\"</t>\n    <t s=\"5\">the intention of which is regarding the mitzvos of the Torah,</t>\n    <t s=\"6\">and this means,</t>\n    <t s=\"7\">that the verse precedes the matter of Torah to the matter of mitzvos.</t>\n    <t s=\"8\">And it is known the precise observation of our Nesi'im,</t>\n    <t s=\"9\">that in the second paragraph of Shema it is stated,</t>\n    <t s=\"10\">\"And you shall bind them as a sign upon your hand, etc., and you shall teach them to your children, etc.,\"</t>\n    <t s=\"11\">that this verse is in reverse order,</t>\n    <t s=\"12\">preceding the matter of mitzvos</t>\n    <t s=\"13\">(the mitzvah of tefillin)</t>\n    <t s=\"14\">to the matter of Torah.</t>\n    <t s=\"15\">Also, one must understand what is the reason that the order where Torah precedes mitzvos is specifically in the first paragraph of Shema,</t>\n    <t s=\"16\">and the order where mitzvos precede Torah is specifically in the second paragraph of Shema.</t>\n    <t s=\"17\">Also, one must understand the precise language regarding the matter of Torah,</t>\n    <t s=\"18\">that in the first paragraph it is stated, \"And you shall sharpen them, etc.,\"</t>\n    <t s=\"19\">according to Rashi's explanation</t>\n    <t s=\"20\">(from the midrashim of our sages, of blessed memory),</t>\n    <t s=\"21\">that it is an expression of sharpening,</t>\n    <t s=\"22\">that they should be sharp in your mouth, so that if a person asks you something</t>\n    <t s=\"23\">(a halachah)</t>\n    <t s=\"24\">you will not need to stammer over it, but rather tell him immediately</t>\n    <t s=\"25\">(and only afterwards is it stated, \"and speak of them\"),</t>\n    <t s=\"26\">whereas in the second paragraph it is stated, \"And you shall teach them, etc.,\"</t>\n    <t s=\"27\">which this term includes all modes of study</t>\n    <t s=\"28\">(even if the study is not in a manner of being sharp in your mouth, etc.).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518920021_theRebbe_64",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920021_theRebbe_64__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the opening header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Erev Shabbat Parshat Va'etchanan,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "the fifteenth of Av, 5738*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section notes that the text is an unedited draft.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "(A draft."
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "Not proofread.)"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section discusses the order of Torah and mitzvos in the two paragraphs of Shema, and the precise language used for Torah study in each.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"And you shall teach them to your children and speak of them,\""
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "and afterwards it is stated, \"And you shall bind them as a sign upon your hand, etc.,\""
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "the mitzvah of tefillin,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "about which our sages, of blessed memory, said,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "\"The entire Torah is equated to tefillin,\""
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "the intention of which is regarding the mitzvos of the Torah,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and this means,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "that the verse precedes the matter of Torah to the matter of mitzvos."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And it is known the precise observation of our Nesi'im,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "that in the second paragraph of Shema it is stated,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "\"And you shall bind them as a sign upon your hand, etc., and you shall teach them to your children, etc.,\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "that this verse is in reverse order,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "preceding the matter of mitzvos"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "(the mitzvah of tefillin)"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "to the matter of Torah."
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "Also, one must understand what is the reason that the order where Torah precedes mitzvos is specifically in the first paragraph of Shema,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "and the order where mitzvos precede Torah is specifically in the second paragraph of Shema."
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "Also, one must understand the precise language regarding the matter of Torah,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "that in the first paragraph it is stated, \"And you shall sharpen them, etc.,\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "according to Rashi's explanation"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "(from the midrashim of our sages, of blessed memory),"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "that it is an expression of sharpening,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "that they should be sharp in your mouth, so that if a person asks you something"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(a halachah)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "you will not need to stammer over it, but rather tell him immediately"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "(and only afterwards is it stated, \"and speak of them\"),"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "whereas in the second paragraph it is stated, \"And you shall teach them, etc.,\""
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "which this term includes all modes of study"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "(even if the study is not in a manner of being sharp in your mouth, etc.)."
+          }
+        ]
+      }
+    ]
+  }
+}

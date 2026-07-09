@@ -1,0 +1,64 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920390_theRebbe_690" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920390_theRebbe_690__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920390_theRebbe_690" title="מאמר את הוי' האמרת תש"ל" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920390_theRebbe_690__p005">
+  <section v="12">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">ויש לקשר</src>
+    <src s="3">(גם)</src>
+    <src s="4">ענין זה עם ח"י אלול,</src>
+    <src s="5">כי נוסף על זה ש</src>
+    <src s="6">(גם)</src>
+    <src s="7">ענין זה</src>
+    <src s="8">(גודל העילוי דישראל ואהבת ישראל)</src>
+    <src s="9">הוא מהענינים העיקריים דתורת החסידות93,</src>
+    <src s="10">הנה ח"י אלול הוא יום התחלת העבודה דשנה הבאה94,</src>
+    <src s="11">מתחיל מר"ה שאז מכתירים ישראל את הקב"ה למלך95,</src>
+    <src s="12">דהכח שיש בישראל להכתיר אותו למלך הוא מפני שהם קשורים ומיוחדים עם עצמותו ית'</src>
+    <src s="13">(שלמעלה מבחי' מלך)96,</src>
+    <src s="14">והקב"ה מקבל את ההכתרה ונעשה מלך ישראל97,</src>
+    <src s="15">ועי"ז ועל ידם –</src>
+    <src s="16">(גם)</src>
+    <src s="17">מלך על כל הארץ98,</src>
+    <src s="18">הוי' אלקי ישראל מלך ומלכותו בכל משלה99,</src>
+    <src s="19">ונמשך בגילוי שיהי' מלך ישראל וגואלו 97,</src>
+    <src s="20">ע"י משיח צדקנו,</src>
+    <src s="21">שילחם מלחמות הוי' וינצח ויבנה מקדש במקומו ויקבץ נדחי ישראל100,</src>
+    <src s="22">ומלאה הארץ דעה את הוי' גו'101</src>
+    <src s="23">כל העולם102,</src>
+    <src s="24">בגאולה האמיתית והשלימה,</src>
+    <src s="25">בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

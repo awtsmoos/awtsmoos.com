@@ -1,0 +1,147 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 23,
+    "returned": 23,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919986_theRebbe_397\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919986_theRebbe_397__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>This section explains the connection between the Fifteenth of Av and Yom Kippur, emphasizing the ascent of Malchus and its superiority after the descent of Tisha B'Av, analogous to the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">And this is also the connection of the Fifteenth of Av to Yom Kippur.</t>\n    <t s=\"1\">For on Yom Kippur, there is the ascent of Malchus.</t>\n    <t s=\"2\">For this is what Yom Kippur is—a day obligated in five prayers,</t>\n    <t s=\"3\">in each prayer Malchus ascends to a higher level,</t>\n    <t s=\"4\">until in the Neilah prayer it ascends to the aspect of the innermost dimension of Atik.</t>\n    <t s=\"5\">Therefore, we then say \"Hashem is the Elokim\" seven times,</t>\n    <t s=\"6\">\"Baruch Shem\" three times, and \"Shema Yisrael\" once,</t>\n    <t s=\"7\">for this is from the aspect of the ascent of Malchus into Atik,</t>\n    <t s=\"8\">as explained in many places.</t>\n    <t s=\"9\">And this is the connection of the Fifteenth of Av to Yom Kippur,</t>\n    <t s=\"10\">for on the Fifteenth of Av, Malchus ascends to the aspect of the innermost dimension of Atik,</t>\n    <t s=\"11\">and moreover,</t>\n    <t s=\"12\">since the ascent of the Fifteenth of Av is after the descent of Tisha B'Av,</t>\n    <t s=\"13\">therefore the ascent of Malchus on the Fifteenth of Av is higher than the ascent of Yom Kippur,</t>\n    <t s=\"14\">for it is</t>\n    <t s=\"15\">analogous to the ascent that will be in the future redemption through our righteous Moshiach,</t>\n    <t s=\"16\">who will wage</t>\n    <t s=\"17\">the wars of Hashem and will be victorious</t>\n    <t s=\"18\">[meaning he will need to fight against opponents who stand with force, etc., and will be victorious]</t>\n    <t s=\"19\">and will build the Holy Temple in its place and gather the dispersed of Israel,</t>\n    <t s=\"20\">who will gather all the holy sparks,</t>\n    <t s=\"21\">and the dispersed of Israel in its simple sense—the matter of the ingathering of the exiles,</t>\n    <t s=\"22\">speedily, in the true and complete redemption through our righteous Moshiach.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919986_theRebbe_397",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919986_theRebbe_397__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "This section explains the connection between the Fifteenth of Av and Yom Kippur, emphasizing the ascent of Malchus and its superiority after the descent of Tisha B'Av, analogous to the future redemption.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And this is also the connection of the Fifteenth of Av to Yom Kippur."
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "For on Yom Kippur, there is the ascent of Malchus."
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "For this is what Yom Kippur is—a day obligated in five prayers,"
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "in each prayer Malchus ascends to a higher level,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "until in the Neilah prayer it ascends to the aspect of the innermost dimension of Atik."
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "Therefore, we then say \"Hashem is the Elokim\" seven times,"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "\"Baruch Shem\" three times, and \"Shema Yisrael\" once,"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "for this is from the aspect of the ascent of Malchus into Atik,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "as explained in many places."
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "And this is the connection of the Fifteenth of Av to Yom Kippur,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "for on the Fifteenth of Av, Malchus ascends to the aspect of the innermost dimension of Atik,"
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "since the ascent of the Fifteenth of Av is after the descent of Tisha B'Av,"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "therefore the ascent of Malchus on the Fifteenth of Av is higher than the ascent of Yom Kippur,"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "for it is"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "analogous to the ascent that will be in the future redemption through our righteous Moshiach,"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "who will wage"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "the wars of Hashem and will be victorious"
+          },
+          {
+            "v": 12,
+            "s": 18,
+            "translation": "[meaning he will need to fight against opponents who stand with force, etc., and will be victorious]"
+          },
+          {
+            "v": 12,
+            "s": 19,
+            "translation": "and will build the Holy Temple in its place and gather the dispersed of Israel,"
+          },
+          {
+            "v": 12,
+            "s": 20,
+            "translation": "who will gather all the holy sparks,"
+          },
+          {
+            "v": 12,
+            "s": 21,
+            "translation": "and the dispersed of Israel in its simple sense—the matter of the ingathering of the exiles,"
+          },
+          {
+            "v": 12,
+            "s": 22,
+            "translation": "speedily, in the true and complete redemption through our righteous Moshiach."
+          }
+        ]
+      }
+    ]
+  }
+}

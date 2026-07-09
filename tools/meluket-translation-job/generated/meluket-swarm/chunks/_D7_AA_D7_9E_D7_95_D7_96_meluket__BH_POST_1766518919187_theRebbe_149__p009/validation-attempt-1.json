@@ -1,0 +1,293 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 51,
+    "returned": 51,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919187_theRebbe_149\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p009\">\n  <section v=\"24\">\n    <sectionSummaryBrief>This section explains that although Moshe knew the reason for the Red Heifer, for him it remained a chok because it is a chok for Israel, and through Israel's acceptance of the yoke, the power for this comes from Moshe's level of nullification.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">4)</t>\n    <t s=\"2\">And this is: \"And Hashem spoke to Moshe, saying: Speak to the children of Israel, and they shall take to you a red heifer, etc.\"</t>\n    <t s=\"3\">That the heifer is called by the name of Moshe — although the unique aspect of the commandment of the red heifer is that the chok within it</t>\n    <t s=\"4\">(the will that is above wisdom)</t>\n    <t s=\"5\">is revealed,</t>\n    <t s=\"6\">and since Moshe knew the reason for the heifer, therefore for him there is no difference between the commandment of the red heifer and all other commandments — because through the fact that the commandment of the red heifer is a chok for Israel,</t>\n    <t s=\"7\">it is also a chok for Moshe.</t>\n    <t s=\"8\">And this is: \"Speak to the children of Israel, and they shall take to you, etc.\"</t>\n    <t s=\"9\">That through \"Speak to the children of Israel\" — through this it is \"and they shall take to you,\"</t>\n    <t s=\"10\">the aspect of \"this is the chok of the Torah\" in relation to Moshe.</t>\n    <t s=\"11\">However, this matter</t>\n    <t s=\"12\">(that from Israel it is drawn to Moshe)</t>\n    <t s=\"13\">is in relation to the commandment itself,</t>\n    <t s=\"14\">that it being a chok</t>\n    <t s=\"15\">(without reason)</t>\n    <t s=\"16\">is primarily in Israel.</t>\n    <t s=\"17\">But in relation to the fulfillment of the commandment,</t>\n    <t s=\"18\">in order that Israel be able to fulfill the commandment of the red heifer, and likewise all the commandments, with the self-nullification of acceptance of the yoke</t>\n    <t s=\"19\">(in the manner of \"I have decreed a decree, I have issued a decree\"),</t>\n    <t s=\"20\">the power for this comes from Moshe,</t>\n    <t s=\"21\">whose aspect is self-nullification,</t>\n    <t s=\"22\">\"and we are nothing.\"</t>\n    <t s=\"23\">And it can be said,</t>\n    <t s=\"24\">that through Moshe knowing the reason for the heifer,</t>\n    <t s=\"25\">and the self-nullification of acceptance of the yoke is drawn also into his comprehension,</t>\n    <t s=\"26\">power is given to every single Jew that faith and acceptance of the yoke should be placed</t>\n    <t s=\"27\">(should be laid down)</t>\n    <t s=\"28\">also in his intellect.</t>\n  </section>\n  <section v=\"25\">\n    <sectionSummaryBrief>This section connects the concept of acceptance of the yoke without intellectual questioning to the Midrashic allegory of the red heifer representing the exiles, explaining that this prepares for the future redemption.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this is what our sages said: \"A chok</t>\n    <t s=\"2\">I have decreed, a decree I have issued, and you have no permission to ponder it,\"</t>\n    <t s=\"3\">that his acceptance of the yoke is in a manner that not only does he actually fulfill the command of the Holy One, blessed be He</t>\n    <t s=\"4\">(even when he does not understand),</t>\n    <t s=\"5\">but rather that he does not ponder at all,</t>\n    <t s=\"6\">because even in his intellect the matter of acceptance of the yoke is placed.</t>\n    <t s=\"7\">And one can connect this with the statement of the Midrash</t>\n    <t s=\"8\">that the red heifer alludes to the exiles,</t>\n    <t s=\"9\">\"Heifer\" is Egypt, \"Red\" is Babylon, \"Perfect\" is Media, \"Without blemish\" is Greece,</t>\n    <t s=\"10\">for through this that the intellect is in a manner that the matter of acceptance of the yoke, which is above intellect, is placed within him,</t>\n    <t s=\"11\">it is a close preparation for the future redemption,</t>\n    <t s=\"12\">when the revelation of G‑dliness in the world will also be from the perspective of the world.</t>\n    <t s=\"13\">And this is the connection of \"this is the chok of the Torah\" to the burning of the heifer,</t>\n    <t s=\"14\">that through the acceptance of the yoke being in a manner that he does not ponder,</t>\n    <t s=\"15\">because even in his intellect the matter of acceptance of the yoke is placed,</t>\n    <t s=\"16\">there occurs the burning of</t>\n    <t s=\"17\">(the heifer, which alludes to)</t>\n    <t s=\"18\">the exile,</t>\n    <t s=\"19\">as per the well-known saying of the master of the redemption,</t>\n    <t s=\"20\">and we will all go together with our leaders, with the master of the redemption at our head, to the true and complete redemption with the coming of our righteous Moshiach,</t>\n    <t s=\"21\">speedily, truly.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919187_theRebbe_149",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919187_theRebbe_149__p009"
+    },
+    "sections": [
+      {
+        "v": 24,
+        "sectionSummaryBrief": "This section explains that although Moshe knew the reason for the Red Heifer, for him it remained a chok because it is a chok for Israel, and through Israel's acceptance of the yoke, the power for this comes from Moshe's level of nullification.",
+        "translations": [
+          {
+            "v": 24,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 24,
+            "s": 1,
+            "translation": "4)"
+          },
+          {
+            "v": 24,
+            "s": 2,
+            "translation": "And this is: \"And Hashem spoke to Moshe, saying: Speak to the children of Israel, and they shall take to you a red heifer, etc.\""
+          },
+          {
+            "v": 24,
+            "s": 3,
+            "translation": "That the heifer is called by the name of Moshe — although the unique aspect of the commandment of the red heifer is that the chok within it"
+          },
+          {
+            "v": 24,
+            "s": 4,
+            "translation": "(the will that is above wisdom)"
+          },
+          {
+            "v": 24,
+            "s": 5,
+            "translation": "is revealed,"
+          },
+          {
+            "v": 24,
+            "s": 6,
+            "translation": "and since Moshe knew the reason for the heifer, therefore for him there is no difference between the commandment of the red heifer and all other commandments — because through the fact that the commandment of the red heifer is a chok for Israel,"
+          },
+          {
+            "v": 24,
+            "s": 7,
+            "translation": "it is also a chok for Moshe."
+          },
+          {
+            "v": 24,
+            "s": 8,
+            "translation": "And this is: \"Speak to the children of Israel, and they shall take to you, etc.\""
+          },
+          {
+            "v": 24,
+            "s": 9,
+            "translation": "That through \"Speak to the children of Israel\" — through this it is \"and they shall take to you,\""
+          },
+          {
+            "v": 24,
+            "s": 10,
+            "translation": "the aspect of \"this is the chok of the Torah\" in relation to Moshe."
+          },
+          {
+            "v": 24,
+            "s": 11,
+            "translation": "However, this matter"
+          },
+          {
+            "v": 24,
+            "s": 12,
+            "translation": "(that from Israel it is drawn to Moshe)"
+          },
+          {
+            "v": 24,
+            "s": 13,
+            "translation": "is in relation to the commandment itself,"
+          },
+          {
+            "v": 24,
+            "s": 14,
+            "translation": "that it being a chok"
+          },
+          {
+            "v": 24,
+            "s": 15,
+            "translation": "(without reason)"
+          },
+          {
+            "v": 24,
+            "s": 16,
+            "translation": "is primarily in Israel."
+          },
+          {
+            "v": 24,
+            "s": 17,
+            "translation": "But in relation to the fulfillment of the commandment,"
+          },
+          {
+            "v": 24,
+            "s": 18,
+            "translation": "in order that Israel be able to fulfill the commandment of the red heifer, and likewise all the commandments, with the self-nullification of acceptance of the yoke"
+          },
+          {
+            "v": 24,
+            "s": 19,
+            "translation": "(in the manner of \"I have decreed a decree, I have issued a decree\"),"
+          },
+          {
+            "v": 24,
+            "s": 20,
+            "translation": "the power for this comes from Moshe,"
+          },
+          {
+            "v": 24,
+            "s": 21,
+            "translation": "whose aspect is self-nullification,"
+          },
+          {
+            "v": 24,
+            "s": 22,
+            "translation": "\"and we are nothing.\""
+          },
+          {
+            "v": 24,
+            "s": 23,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 24,
+            "s": 24,
+            "translation": "that through Moshe knowing the reason for the heifer,"
+          },
+          {
+            "v": 24,
+            "s": 25,
+            "translation": "and the self-nullification of acceptance of the yoke is drawn also into his comprehension,"
+          },
+          {
+            "v": 24,
+            "s": 26,
+            "translation": "power is given to every single Jew that faith and acceptance of the yoke should be placed"
+          },
+          {
+            "v": 24,
+            "s": 27,
+            "translation": "(should be laid down)"
+          },
+          {
+            "v": 24,
+            "s": 28,
+            "translation": "also in his intellect."
+          }
+        ]
+      },
+      {
+        "v": 25,
+        "sectionSummaryBrief": "This section connects the concept of acceptance of the yoke without intellectual questioning to the Midrashic allegory of the red heifer representing the exiles, explaining that this prepares for the future redemption.",
+        "translations": [
+          {
+            "v": 25,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 25,
+            "s": 1,
+            "translation": "that this is what our sages said: \"A chok"
+          },
+          {
+            "v": 25,
+            "s": 2,
+            "translation": "I have decreed, a decree I have issued, and you have no permission to ponder it,\""
+          },
+          {
+            "v": 25,
+            "s": 3,
+            "translation": "that his acceptance of the yoke is in a manner that not only does he actually fulfill the command of the Holy One, blessed be He"
+          },
+          {
+            "v": 25,
+            "s": 4,
+            "translation": "(even when he does not understand),"
+          },
+          {
+            "v": 25,
+            "s": 5,
+            "translation": "but rather that he does not ponder at all,"
+          },
+          {
+            "v": 25,
+            "s": 6,
+            "translation": "because even in his intellect the matter of acceptance of the yoke is placed."
+          },
+          {
+            "v": 25,
+            "s": 7,
+            "translation": "And one can connect this with the statement of the Midrash"
+          },
+          {
+            "v": 25,
+            "s": 8,
+            "translation": "that the red heifer alludes to the exiles,"
+          },
+          {
+            "v": 25,
+            "s": 9,
+            "translation": "\"Heifer\" is Egypt, \"Red\" is Babylon, \"Perfect\" is Media, \"Without blemish\" is Greece,"
+          },
+          {
+            "v": 25,
+            "s": 10,
+            "translation": "for through this that the intellect is in a manner that the matter of acceptance of the yoke, which is above intellect, is placed within him,"
+          },
+          {
+            "v": 25,
+            "s": 11,
+            "translation": "it is a close preparation for the future redemption,"
+          },
+          {
+            "v": 25,
+            "s": 12,
+            "translation": "when the revelation of G‑dliness in the world will also be from the perspective of the world."
+          },
+          {
+            "v": 25,
+            "s": 13,
+            "translation": "And this is the connection of \"this is the chok of the Torah\" to the burning of the heifer,"
+          },
+          {
+            "v": 25,
+            "s": 14,
+            "translation": "that through the acceptance of the yoke being in a manner that he does not ponder,"
+          },
+          {
+            "v": 25,
+            "s": 15,
+            "translation": "because even in his intellect the matter of acceptance of the yoke is placed,"
+          },
+          {
+            "v": 25,
+            "s": 16,
+            "translation": "there occurs the burning of"
+          },
+          {
+            "v": 25,
+            "s": 17,
+            "translation": "(the heifer, which alludes to)"
+          },
+          {
+            "v": 25,
+            "s": 18,
+            "translation": "the exile,"
+          },
+          {
+            "v": 25,
+            "s": 19,
+            "translation": "as per the well-known saying of the master of the redemption,"
+          },
+          {
+            "v": 25,
+            "s": 20,
+            "translation": "and we will all go together with our leaders, with the master of the redemption at our head, to the true and complete redemption with the coming of our righteous Moshiach,"
+          },
+          {
+            "v": 25,
+            "s": 21,
+            "translation": "speedily, truly."
+          }
+        ]
+      }
+    ]
+  }
+}

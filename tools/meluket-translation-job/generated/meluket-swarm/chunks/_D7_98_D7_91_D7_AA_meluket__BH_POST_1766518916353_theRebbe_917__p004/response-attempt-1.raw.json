@@ -1,0 +1,28 @@
+{
+  "id": "6123aa90-df72-4935-8820-bc7812ee6173",
+  "object": "chat.completion",
+  "created": 1783582269,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916353_theRebbe_917\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that in the descent itself there are two levels, analogous to intellect descending into thought letters and then into speech letters, and similarly in the service of Torah and prayer.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And behold, in the descent itself there are two levels,</t>\n    <t s=\"2\">and by way of example, there is the descent of intellect into the letters of thought,</t>\n    <t s=\"3\">and lower still, that the intellect also comes into the letters of speech47.</t>\n    <t s=\"4\">And likewise, in the service of Torah and prayer, there are these two aspects.</t>\n    <t s=\"5\">For there is the matter of the thought of Torah and also the speech of Torah48,</t>\n    <t s=\"6\">as it is said49</t>\n    <t s=\"7\">\"They are life to those who find them\" and our Sages expounded50</t>\n    <t s=\"8\">\"to those who utter them with the mouth,\"</t>\n    <t s=\"9\">and even more so in all his 248 limbs,</t>\n    <t s=\"10\">as our Sages said50</t>\n    <t s=\"11\">\"If it is arranged in your 248 limbs, it is preserved.\"</t>\n    <t s=\"12\">And similarly in prayer,</t>\n    <t s=\"13\">for although prayer is the service of the heart51,</t>\n    <t s=\"14\">and as it is stated in the Gemara52</t>\n    <t s=\"15\">\"What is the service that is in the heart? You must say, this is prayer,\"</t>\n    <t s=\"16\">nevertheless, one must also speak the letters of prayer,</t>\n    <t s=\"17\">for through this the obstacles and hindrances are removed.</t>\n    <t s=\"18\">And in the manner explained by the holy Tzemach Tzedek in his Sefer HaMitzvos regarding the mitzvah of confession of repentance53</t>\n    <t s=\"19\">concerning the matter of uttering the twenty-two letters in confession.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that the redemption is the drawing down of His great name into both concealed and revealed worlds, through the first redeemer who is the final redeemer.</sectionSummaryBrief>\n    <t s=\"0\">And this is the matter of the redemption, which is the drawing down</t>\n    <t s=\"1\">(of His great name)</t>\n    <t s=\"2\">in the two levels,</t>\n    <t s=\"3\">in the hidden worlds that are not revealed,</t>\n    <t s=\"4\">the concealed world,</t>\n    <t s=\"5\">which is analogous to the letters of thought,</t>\n    <t s=\"6\">and in the revealed world,</t>\n    <t s=\"7\">which is analogous to the letters of speech,</t>\n    <t s=\"8\">for the drawing down in the two aspects of the concealed world and the revealed world is the matter of \"from the world and until the world\"</t>\n    <t s=\"9\">[as explained in Torah Ohr there54].</t>\n    <t s=\"10\">Through the first redeemer, he is the final redeemer55</t>\n    <t s=\"11\">speedily, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1387,
+    "completion_tokens": 907,
+    "total_tokens": 2294,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 1131
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

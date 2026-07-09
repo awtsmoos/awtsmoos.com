@@ -1,0 +1,379 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 67,
+    "returned": 67,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919159_theRebbe_441\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919159_theRebbe_441__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">B\"S.</t>\n    <t s=\"1\">12 Tammuz 5717*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section questions the phrase \"G-d is my helper,\" which implies other helpers, and asks why Dovid prayed to see vengeance rather than for his enemies to repent.</sectionSummaryBrief>\n    <t s=\"0\">\"G-d is my helper, and I will see [vengeance] upon my enemies,\"</t>\n    <t s=\"1\">And the Rebbe, my father-in-law, the Baal HaSimchah VeHaGeulah, precisely analyzes in his maamar beginning with these words</t>\n    <t s=\"2\">(which he said on the first 12 Tammuz,</t>\n    <t s=\"3\">5687)2,</t>\n    <t s=\"4\">that the implication of the phrase \"G-d is my helper\" is that there are other helpers,</t>\n    <t s=\"5\">and the request is that also the Holy One, blessed be He, should be among the helpers.</t>\n    <t s=\"6\">And this is not understood3,</t>\n    <t s=\"7\">for all of Israel believe with simple faith that He, blessed be He, alone is the Helper and Savior for a person in all his affairs,</t>\n    <t s=\"8\">so how can he say \"G-d is my helper,\"</t>\n    <t s=\"9\">since the implication of the phrase is that there are other helpers,</t>\n    <t s=\"10\">who are the true helpers,</t>\n    <t s=\"11\">and the Holy One, blessed be He, joins with them.</t>\n    <t s=\"12\">And also, one must understand what is the request \"and I will see [vengeance] upon my enemies\"</t>\n    <t s=\"13\">(that he will see vengeance upon his enemies),</t>\n    <t s=\"14\">for ostensibly, he should have requested that the enemies and haters become lovers.</t>\n    <t s=\"15\">And although Dovid's hatred was only for the haters of G-d, as it is written4</t>\n    <t s=\"16\">\"Do I not hate those who hate You, G-d, and with those who rise up against You do I quarrel,\"</t>\n    <t s=\"17\">nevertheless,</t>\n    <t s=\"18\">it is written5</t>\n    <t s=\"19\">\"Let sins cease, and not sinners\"</t>\n    <t s=\"20\">[and this matter applies also to the haters of G-d,</t>\n    <t s=\"21\">and as we have seen in the conduct of our Nesi'im,</t>\n    <t s=\"22\">and especially in the Baal HaGeulah,</t>\n    <t s=\"23\">who drew close even those who are included in the category discussed in Tanya, chapter 32, at its end,</t>\n    <t s=\"24\">and returned them to the good6],</t>\n    <t s=\"25\">so he should have requested that they repent,</t>\n    <t s=\"26\">and what is the request \"and I will see [vengeance] upon my enemies\"?</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains Dovid's statement \"Your statutes were songs for me\" and questions why he specifically compared the pleasure of Torah to songs, and why he specified \"statutes\" (chukim) rather than all types of mitzvos.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And to understand this, the maamar7 prefaces</t>\n    <t s=\"2\">what Dovid said8</t>\n    <t s=\"3\">\"Your statutes were songs for me in the house of my sojourning,\"</t>\n    <t s=\"4\">that at the time he was wandering and tossed about in sojourning</t>\n    <t s=\"5\">(meguray — from the word girus, sojourning9)</t>\n    <t s=\"6\">and full of fears</t>\n    <t s=\"7\">(meguray — from the word magor, terror10)</t>\n    <t s=\"8\">from his enemies and pursuers,</t>\n    <t s=\"9\">he was delighting and rejoicing in the words of Torah</t>\n    <t s=\"10\">(Your statutes),</t>\n    <t s=\"11\">which were pleasant and sweet to him like songs and melodies.</t>\n    <t s=\"12\">And one must understand,</t>\n    <t s=\"13\">there are many types of pleasures,</t>\n    <t s=\"14\">so why did Dovid specifically compare the pleasure he had in words of Torah to the pleasure of songs?</t>\n    <t s=\"15\">And also, one must understand,</t>\n    <t s=\"16\">there are three types of mitzvos,</t>\n    <t s=\"17\">mishpatim (ordinances), eidos (testimonies), and chukim (statutes)11,</t>\n    <t s=\"18\">mishpatim are the mitzvos that are obligatory also from the perspective of intellect</t>\n    <t s=\"19\">(like theft, robbery, fraud, honoring father and mother).</t>\n    <t s=\"20\">Eidos are the mitzvos that are a sign and remembrance</t>\n    <t s=\"21\">(like Shabbos, Pesach, Sukkah, and Tefillin),</t>\n    <t s=\"22\">for these mitzvos also have a place in the intellect.</t>\n    <t s=\"23\">For although the intellect, on its own</t>\n    <t s=\"24\">(without the Torah's command)</t>\n    <t s=\"25\">would not obligate them</t>\n    <t s=\"26\">[unlike the mitzvos of mishpatim, which even if the Torah had not been given, we would have learned modesty from a cat and theft from an ant12],</t>\n    <t s=\"27\">nevertheless,</t>\n    <t s=\"28\">after the Torah commanded them,</t>\n    <t s=\"29\">the intellect also agrees to this.</t>\n    <t s=\"30\">But not so chukim,</t>\n    <t s=\"31\">they are the mitzvos that are not according to reason,</t>\n    <t s=\"32\">but only \"a statute I have decreed, a decree I have issued\"13.</t>\n    <t s=\"33\">And one must understand what is written \"Your statutes were songs for me,\"</t>\n    <t s=\"34\">for it is simple that the pleasure and joy of King Dovid in the study of Torah was in all the laws of the Torah</t>\n    <t s=\"35\">(also in the laws of eidos and mishpatim),</t>\n    <t s=\"36\">so why does he say \"Your statutes were songs for me,\"</t>\n    <t s=\"37\">specifically \"Your statutes\"?</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919159_theRebbe_441",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919159_theRebbe_441__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B\"S."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "12 Tammuz 5717*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section questions the phrase \"G-d is my helper,\" which implies other helpers, and asks why Dovid prayed to see vengeance rather than for his enemies to repent.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"G-d is my helper, and I will see [vengeance] upon my enemies,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe, my father-in-law, the Baal HaSimchah VeHaGeulah, precisely analyzes in his maamar beginning with these words"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(which he said on the first 12 Tammuz,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "5687)2,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "that the implication of the phrase \"G-d is my helper\" is that there are other helpers,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "and the request is that also the Holy One, blessed be He, should be among the helpers."
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And this is not understood3,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "for all of Israel believe with simple faith that He, blessed be He, alone is the Helper and Savior for a person in all his affairs,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "so how can he say \"G-d is my helper,\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "since the implication of the phrase is that there are other helpers,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "who are the true helpers,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "and the Holy One, blessed be He, joins with them."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And also, one must understand what is the request \"and I will see [vengeance] upon my enemies\""
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "(that he will see vengeance upon his enemies),"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "for ostensibly, he should have requested that the enemies and haters become lovers."
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "And although Dovid's hatred was only for the haters of G-d, as it is written4"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "\"Do I not hate those who hate You, G-d, and with those who rise up against You do I quarrel,\""
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "it is written5"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "\"Let sins cease, and not sinners\""
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "[and this matter applies also to the haters of G-d,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "and as we have seen in the conduct of our Nesi'im,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "and especially in the Baal HaGeulah,"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "who drew close even those who are included in the category discussed in Tanya, chapter 32, at its end,"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "and returned them to the good6],"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "so he should have requested that they repent,"
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "and what is the request \"and I will see [vengeance] upon my enemies\"?"
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains Dovid's statement \"Your statutes were songs for me\" and questions why he specifically compared the pleasure of Torah to songs, and why he specified \"statutes\" (chukim) rather than all types of mitzvos.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And to understand this, the maamar7 prefaces"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "what Dovid said8"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "\"Your statutes were songs for me in the house of my sojourning,\""
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that at the time he was wandering and tossed about in sojourning"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(meguray — from the word girus, sojourning9)"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and full of fears"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "(meguray — from the word magor, terror10)"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "from his enemies and pursuers,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "he was delighting and rejoicing in the words of Torah"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "(Your statutes),"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "which were pleasant and sweet to him like songs and melodies."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And one must understand,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "there are many types of pleasures,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "so why did Dovid specifically compare the pleasure he had in words of Torah to the pleasure of songs?"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "And also, one must understand,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "there are three types of mitzvos,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "mishpatim (ordinances), eidos (testimonies), and chukim (statutes)11,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "mishpatim are the mitzvos that are obligatory also from the perspective of intellect"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(like theft, robbery, fraud, honoring father and mother)."
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "Eidos are the mitzvos that are a sign and remembrance"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "(like Shabbos, Pesach, Sukkah, and Tefillin),"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "for these mitzvos also have a place in the intellect."
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "For although the intellect, on its own"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "(without the Torah's command)"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "would not obligate them"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "[unlike the mitzvos of mishpatim, which even if the Torah had not been given, we would have learned modesty from a cat and theft from an ant12],"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "after the Torah commanded them,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "the intellect also agrees to this."
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "But not so chukim,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "they are the mitzvos that are not according to reason,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "but only \"a statute I have decreed, a decree I have issued\"13."
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "And one must understand what is written \"Your statutes were songs for me,\""
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "for it is simple that the pleasure and joy of King Dovid in the study of Torah was in all the laws of the Torah"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "(also in the laws of eidos and mishpatim),"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "so why does he say \"Your statutes were songs for me,\""
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "specifically \"Your statutes\"?"
+          }
+        ]
+      }
+    ]
+  }
+}

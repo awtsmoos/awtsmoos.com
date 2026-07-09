@@ -1,0 +1,644 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 120,
+    "returned": 120,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915834_theRebbe_708\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains the difference between Torah and mitzvos, where mitzvos are performed as a servant, while Torah study in a state of self-nullification makes one like the King Himself, as the words of G-d speak through him.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And 4)</t>\n    <t s=\"2\">And this will be understood by prefacing what our Rebbe, the Alter Rebbe, explains</t>\n    <t s=\"3\">(the Baal HaGeulah of Yud-Tes Kislev89)</t>\n    <t s=\"4\">in Torah Ohr, the discourse beginning \"Vayeishev Yaakov b'Eretz Megurei Aviv\"90</t>\n    <t s=\"5\">regarding the difference between Torah and mitzvos,</t>\n    <t s=\"6\">that in the fulfillment of mitzvos,</t>\n    <t s=\"7\">the person who fulfills the mitzvos is in the category of a servant,</t>\n    <t s=\"8\">like a servant who fulfills the king's command and does his bidding,</t>\n    <t s=\"9\">but not so in the study of Torah, where he is the king himself91,</t>\n    <t s=\"10\">as per the statement92</t>\n    <t s=\"11\">\"Who are the kings? The Rabbis.\"</t>\n    <t s=\"12\">For when his engagement in Torah is in a state of self-nullification (bittul),</t>\n    <t s=\"13\">then \"I place My words in your mouth\"93,</t>\n    <t s=\"14\">My actual words,</t>\n    <t s=\"15\">meaning</t>\n    <t s=\"16\">(it is not the person who speaks,</t>\n    <t s=\"17\">but rather)</t>\n    <t s=\"18\">that \"the word of G-d, this is the halachah\"94</t>\n    <t s=\"19\">is itself revealed within him and it speaks from his throat.</t>\n    <t s=\"20\">And this is \"Who are the kings? The Rabbis,\"</t>\n    <t s=\"21\">for because their study of the halachos is in a state of self-nullification,</t>\n    <t s=\"22\">their study of the halachos is in a manner that the King Himself</t>\n    <t s=\"23\">(the King of kings, the Holy One, blessed be He)</t>\n    <t s=\"24\">decrees and speaks the ruling</t>\n    <t s=\"25\">(the halachah).</t>\n    <t s=\"26\">And he continues there,</t>\n    <t s=\"27\">that this is the meaning of \"Vayeishev Yaakov b'Eretz Megurei Aviv,\"</t>\n    <t s=\"28\">\"Megurei\" is an expression of awe (yirah)95</t>\n    <t s=\"29\">and also an expression of a storehouse (otzar)</t>\n    <t s=\"30\">[like \"a granary (megurah) filled with produce\"96,</t>\n    <t s=\"31\">which is a vessel in which one stores things],</t>\n    <t s=\"32\">and both align with one another, as it is written97</t>\n    <t s=\"33\">\"The awe of G-d is His storehouse,\" and likewise in the words of our Sages, of blessed memory98</t>\n    <t s=\"34\">\"a storehouse of fear of Heaven.\"</t>\n    <t s=\"35\">[And this explanation was written by the Maggid99</t>\n    <t s=\"36\">(the Baal HaHilula of Yud-Tes Kislev100)</t>\n    <t s=\"37\">in Ohr HaTorah101</t>\n    <t s=\"38\">that \"Megurei Aviv\" is the awe of his Father in Heaven,</t>\n    <t s=\"39\">and in the continuation of the topic there102</t>\n    <t s=\"40\">: \"Megurei\" is an expression of gathering and ingathering, like \"one who gathers (oger)103</t>\n    <t s=\"41\">in the summer.\"]</t>\n    <t s=\"42\">And the explanation of \"Megurei Aviv\" is,</t>\n    <t s=\"43\">that the self-nullification of awe (yirah)</t>\n    <t s=\"44\">[and particularly the self-nullification of sublime awe (yirah ila'ah)]</t>\n    <t s=\"45\">is a vessel of reception</t>\n    <t s=\"46\">[a storehouse]</t>\n    <t s=\"47\">for the revelation of supernal wisdom (Chochmah Ila'ah)</t>\n    <t s=\"48\">[for supernal wisdom is called \"his father\" (aviv)104].</t>\n    <t s=\"49\">And as above,</t>\n    <t s=\"50\">that when his engagement in Torah is in a state of self-nullification,</t>\n    <t s=\"51\">then \"I place My words in your mouth,\"</t>\n    <t s=\"52\">that \"the word of G-d, this is the halachah,\" speaks from his throat.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section explains that the self-nullification of awe described as \"Megurei Aviv\" is the self-nullification of a son, not a servant, which enables a perfect and absolute bittul where one has no independent existence.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">A)</t>\n    <t s=\"2\">Now, from the explanation in Torah Ohr that the self-nullification of awe, which is a vessel for supernal wisdom, is called \"Megurei Aviv,\"</t>\n    <t s=\"3\">meaning that the Holy One, blessed be He, is referred to here not with the title \"Master\" (Adon) but with the title \"Father\" (Av)</t>\n    <t s=\"4\">[as per the language of the Maggid that \"Megurei Aviv\" is the awe of his Father in Heaven],</t>\n    <t s=\"5\">it is understood from this,</t>\n    <t s=\"6\">that this self-nullification is</t>\n    <t s=\"7\">(not the self-nullification of a servant,</t>\n    <t s=\"8\">but rather)</t>\n    <t s=\"9\">the self-nullification of a son,</t>\n    <t s=\"10\">and through this self-nullification</t>\n    <t s=\"11\">(of a son),</t>\n    <t s=\"12\">\"the word of G-d, this is the halachah, is itself revealed within him and it speaks from his throat,\"</t>\n    <t s=\"13\">for in the service of the category of a son, it is possible to have a truly absolute self-nullification,</t>\n    <t s=\"14\">where he has no independent existence at all, and his entire existence is the existence of the father.</t>\n    <t s=\"15\">[And as explained in Likkutei Torah105,</t>\n    <t s=\"16\">that the fact that souls are called \"sons\" is not like a son below, who, although he is taken from his father's brain, is later separate from him</t>\n    <t s=\"17\">(therefore, his lost object and his father's lost object, his lost object takes precedence106),</t>\n    <t s=\"18\">but rather,</t>\n    <t s=\"19\">the soul is completely one (kula chad) and is not separate from Him, blessed be He, at all].</t>\n    <t s=\"20\">Moreover,</t>\n    <t s=\"21\">this self-nullification is superior to the self-nullification of a servant,</t>\n    <t s=\"22\">and even more so, as above</t>\n    <t s=\"23\">(from Torah Ohr)</t>\n    <t s=\"24\">that through engaging in Torah with self-nullification, he is not like a servant fulfilling the king's command, but rather he is the king himself.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains that the service of Torah scholars, called \"sons,\" is to gather and elevate holy sparks, bringing peace to the world and to themselves, as their self-nullification allows them to experience the pleasure of the Creator.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">B)</t>\n    <t s=\"2\">And this is \"And all your children (banayich) shall be students of G-d, and great shall be the peace of your children (banayich)\" — do not read \"banayich\" (your children) but \"bonayich\" (your builders)</t>\n    <t s=\"3\">(and it continues)</t>\n    <t s=\"4\">\"Great peace have those who love Your Torah,\"</t>\n    <t s=\"5\">that the service of the Torah scholars, who are called \"sons\"</t>\n    <t s=\"6\">(banayich)</t>\n    <t s=\"7\">is as the Maggid's explanation102</t>\n    <t s=\"8\">on the verse \"Vayeishev Yaakov b'Eretz Megurei Aviv\"</t>\n    <t s=\"9\">(which is the matter of the service of the category of sons,</t>\n    <t s=\"10\">as above)</t>\n    <t s=\"11\">\"to gather and collect the holy sparks and to bring them in and elevate them upward.\"</t>\n    <t s=\"12\">[For this is also what continues in the verse \"in the land of Canaan,\"</t>\n    <t s=\"13\">Canaan being an expression of a merchant (sochar),</t>\n    <t s=\"14\">that the purpose of the soul's descent below is \"to acquire for itself merchandise and acquisition specifically in this world\"107</t>\n    <t s=\"15\">through the sparks that it refines,</t>\n    <t s=\"16\">and this is also what continues in the parshah108</t>\n    <t s=\"17\">\"And behold, we were binding sheaves (me'al'mim alumim),\"</t>\n    <t s=\"18\">which refers to the refinement of the sparks109].</t>\n    <t s=\"19\">And through this, \"Vayeishev Yaakov\"</t>\n    <t s=\"20\">(Yaakov sought110</t>\n    <t s=\"21\">to dwell)</t>\n    <t s=\"22\">in tranquility — the matter of peace (shalom),</t>\n    <t s=\"23\">both the peace in the world, as our Sages, of blessed memory, said: \"Torah scholars increase peace in the world,\"</t>\n    <t s=\"24\">and also peace for the Torah scholars themselves,</t>\n    <t s=\"25\">as it continues, \"Great peace have those who love Your Torah,\"</t>\n    <t s=\"26\">for since the Torah scholars, called \"sons,\" are in a state of absolute self-nullification, as above,</t>\n    <t s=\"27\">therefore, the category of the satisfaction (nachas ruach) of the Creator, from the fact that they increase peace in the world, is also drawn down to the Torah scholars themselves.</t>\n    <t s=\"28\">And this is \"Great peace have those who love Your Torah,\"</t>\n    <t s=\"29\">that because their service in Torah and mitzvos is</t>\n    <t s=\"30\">(not in order to receive reward,</t>\n    <t s=\"31\">but rather)</t>\n    <t s=\"32\">out of love for G-d,</t>\n    <t s=\"33\">to bring satisfaction (nachas ruach) to the Creator</t>\n    <t s=\"34\">[and they know that their reward,</t>\n    <t s=\"35\">the satisfaction of the created being,</t>\n    <t s=\"36\">is</t>\n    <t s=\"37\">(as above, section 8)</t>\n    <t s=\"38\">incomparable to the satisfaction of the Creator],</t>\n    <t s=\"39\">behold, through this self-nullification, the satisfaction and delight of the Creator is drawn down to them in revelation,</t>\n    <t s=\"40\">for since they have no independent existence at all,</t>\n    <t s=\"41\">the delight of the Creator is their delight.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915834_theRebbe_708",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains the difference between Torah and mitzvos, where mitzvos are performed as a servant, while Torah study in a state of self-nullification makes one like the King Himself, as the words of G-d speak through him.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "And 4)"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "And this will be understood by prefacing what our Rebbe, the Alter Rebbe, explains"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "(the Baal HaGeulah of Yud-Tes Kislev89)"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "in Torah Ohr, the discourse beginning \"Vayeishev Yaakov b'Eretz Megurei Aviv\"90"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "regarding the difference between Torah and mitzvos,"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "that in the fulfillment of mitzvos,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "the person who fulfills the mitzvos is in the category of a servant,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "like a servant who fulfills the king's command and does his bidding,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "but not so in the study of Torah, where he is the king himself91,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "as per the statement92"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "\"Who are the kings? The Rabbis.\""
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "For when his engagement in Torah is in a state of self-nullification (bittul),"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "then \"I place My words in your mouth\"93,"
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "My actual words,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "meaning"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "(it is not the person who speaks,"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "but rather)"
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "that \"the word of G-d, this is the halachah\"94"
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "is itself revealed within him and it speaks from his throat."
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "And this is \"Who are the kings? The Rabbis,\""
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "for because their study of the halachos is in a state of self-nullification,"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "their study of the halachos is in a manner that the King Himself"
+          },
+          {
+            "v": 15,
+            "s": 23,
+            "translation": "(the King of kings, the Holy One, blessed be He)"
+          },
+          {
+            "v": 15,
+            "s": 24,
+            "translation": "decrees and speaks the ruling"
+          },
+          {
+            "v": 15,
+            "s": 25,
+            "translation": "(the halachah)."
+          },
+          {
+            "v": 15,
+            "s": 26,
+            "translation": "And he continues there,"
+          },
+          {
+            "v": 15,
+            "s": 27,
+            "translation": "that this is the meaning of \"Vayeishev Yaakov b'Eretz Megurei Aviv,\""
+          },
+          {
+            "v": 15,
+            "s": 28,
+            "translation": "\"Megurei\" is an expression of awe (yirah)95"
+          },
+          {
+            "v": 15,
+            "s": 29,
+            "translation": "and also an expression of a storehouse (otzar)"
+          },
+          {
+            "v": 15,
+            "s": 30,
+            "translation": "[like \"a granary (megurah) filled with produce\"96,"
+          },
+          {
+            "v": 15,
+            "s": 31,
+            "translation": "which is a vessel in which one stores things],"
+          },
+          {
+            "v": 15,
+            "s": 32,
+            "translation": "and both align with one another, as it is written97"
+          },
+          {
+            "v": 15,
+            "s": 33,
+            "translation": "\"The awe of G-d is His storehouse,\" and likewise in the words of our Sages, of blessed memory98"
+          },
+          {
+            "v": 15,
+            "s": 34,
+            "translation": "\"a storehouse of fear of Heaven.\""
+          },
+          {
+            "v": 15,
+            "s": 35,
+            "translation": "[And this explanation was written by the Maggid99"
+          },
+          {
+            "v": 15,
+            "s": 36,
+            "translation": "(the Baal HaHilula of Yud-Tes Kislev100)"
+          },
+          {
+            "v": 15,
+            "s": 37,
+            "translation": "in Ohr HaTorah101"
+          },
+          {
+            "v": 15,
+            "s": 38,
+            "translation": "that \"Megurei Aviv\" is the awe of his Father in Heaven,"
+          },
+          {
+            "v": 15,
+            "s": 39,
+            "translation": "and in the continuation of the topic there102"
+          },
+          {
+            "v": 15,
+            "s": 40,
+            "translation": ": \"Megurei\" is an expression of gathering and ingathering, like \"one who gathers (oger)103"
+          },
+          {
+            "v": 15,
+            "s": 41,
+            "translation": "in the summer.\"]"
+          },
+          {
+            "v": 15,
+            "s": 42,
+            "translation": "And the explanation of \"Megurei Aviv\" is,"
+          },
+          {
+            "v": 15,
+            "s": 43,
+            "translation": "that the self-nullification of awe (yirah)"
+          },
+          {
+            "v": 15,
+            "s": 44,
+            "translation": "[and particularly the self-nullification of sublime awe (yirah ila'ah)]"
+          },
+          {
+            "v": 15,
+            "s": 45,
+            "translation": "is a vessel of reception"
+          },
+          {
+            "v": 15,
+            "s": 46,
+            "translation": "[a storehouse]"
+          },
+          {
+            "v": 15,
+            "s": 47,
+            "translation": "for the revelation of supernal wisdom (Chochmah Ila'ah)"
+          },
+          {
+            "v": 15,
+            "s": 48,
+            "translation": "[for supernal wisdom is called \"his father\" (aviv)104]."
+          },
+          {
+            "v": 15,
+            "s": 49,
+            "translation": "And as above,"
+          },
+          {
+            "v": 15,
+            "s": 50,
+            "translation": "that when his engagement in Torah is in a state of self-nullification,"
+          },
+          {
+            "v": 15,
+            "s": 51,
+            "translation": "then \"I place My words in your mouth,\""
+          },
+          {
+            "v": 15,
+            "s": 52,
+            "translation": "that \"the word of G-d, this is the halachah,\" speaks from his throat."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section explains that the self-nullification of awe described as \"Megurei Aviv\" is the self-nullification of a son, not a servant, which enables a perfect and absolute bittul where one has no independent existence.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "A)"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "Now, from the explanation in Torah Ohr that the self-nullification of awe, which is a vessel for supernal wisdom, is called \"Megurei Aviv,\""
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "meaning that the Holy One, blessed be He, is referred to here not with the title \"Master\" (Adon) but with the title \"Father\" (Av)"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "[as per the language of the Maggid that \"Megurei Aviv\" is the awe of his Father in Heaven],"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "it is understood from this,"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "that this self-nullification is"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "(not the self-nullification of a servant,"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "but rather)"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "the self-nullification of a son,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "and through this self-nullification"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "(of a son),"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "\"the word of G-d, this is the halachah, is itself revealed within him and it speaks from his throat,\""
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "for in the service of the category of a son, it is possible to have a truly absolute self-nullification,"
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "where he has no independent existence at all, and his entire existence is the existence of the father."
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "[And as explained in Likkutei Torah105,"
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "that the fact that souls are called \"sons\" is not like a son below, who, although he is taken from his father's brain, is later separate from him"
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "(therefore, his lost object and his father's lost object, his lost object takes precedence106),"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "but rather,"
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "the soul is completely one (kula chad) and is not separate from Him, blessed be He, at all]."
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "Moreover,"
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "this self-nullification is superior to the self-nullification of a servant,"
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "and even more so, as above"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "(from Torah Ohr)"
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "that through engaging in Torah with self-nullification, he is not like a servant fulfilling the king's command, but rather he is the king himself."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section explains that the service of Torah scholars, called \"sons,\" is to gather and elevate holy sparks, bringing peace to the world and to themselves, as their self-nullification allows them to experience the pleasure of the Creator.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "B)"
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "And this is \"And all your children (banayich) shall be students of G-d, and great shall be the peace of your children (banayich)\" — do not read \"banayich\" (your children) but \"bonayich\" (your builders)"
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "(and it continues)"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "\"Great peace have those who love Your Torah,\""
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "that the service of the Torah scholars, who are called \"sons\""
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "(banayich)"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "is as the Maggid's explanation102"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "on the verse \"Vayeishev Yaakov b'Eretz Megurei Aviv\""
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "(which is the matter of the service of the category of sons,"
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "as above)"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "\"to gather and collect the holy sparks and to bring them in and elevate them upward.\""
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "[For this is also what continues in the verse \"in the land of Canaan,\""
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "Canaan being an expression of a merchant (sochar),"
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "that the purpose of the soul's descent below is \"to acquire for itself merchandise and acquisition specifically in this world\"107"
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "through the sparks that it refines,"
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "and this is also what continues in the parshah108"
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "\"And behold, we were binding sheaves (me'al'mim alumim),\""
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "which refers to the refinement of the sparks109]."
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "And through this, \"Vayeishev Yaakov\""
+          },
+          {
+            "v": 17,
+            "s": 20,
+            "translation": "(Yaakov sought110"
+          },
+          {
+            "v": 17,
+            "s": 21,
+            "translation": "to dwell)"
+          },
+          {
+            "v": 17,
+            "s": 22,
+            "translation": "in tranquility — the matter of peace (shalom),"
+          },
+          {
+            "v": 17,
+            "s": 23,
+            "translation": "both the peace in the world, as our Sages, of blessed memory, said: \"Torah scholars increase peace in the world,\""
+          },
+          {
+            "v": 17,
+            "s": 24,
+            "translation": "and also peace for the Torah scholars themselves,"
+          },
+          {
+            "v": 17,
+            "s": 25,
+            "translation": "as it continues, \"Great peace have those who love Your Torah,\""
+          },
+          {
+            "v": 17,
+            "s": 26,
+            "translation": "for since the Torah scholars, called \"sons,\" are in a state of absolute self-nullification, as above,"
+          },
+          {
+            "v": 17,
+            "s": 27,
+            "translation": "therefore, the category of the satisfaction (nachas ruach) of the Creator, from the fact that they increase peace in the world, is also drawn down to the Torah scholars themselves."
+          },
+          {
+            "v": 17,
+            "s": 28,
+            "translation": "And this is \"Great peace have those who love Your Torah,\""
+          },
+          {
+            "v": 17,
+            "s": 29,
+            "translation": "that because their service in Torah and mitzvos is"
+          },
+          {
+            "v": 17,
+            "s": 30,
+            "translation": "(not in order to receive reward,"
+          },
+          {
+            "v": 17,
+            "s": 31,
+            "translation": "but rather)"
+          },
+          {
+            "v": 17,
+            "s": 32,
+            "translation": "out of love for G-d,"
+          },
+          {
+            "v": 17,
+            "s": 33,
+            "translation": "to bring satisfaction (nachas ruach) to the Creator"
+          },
+          {
+            "v": 17,
+            "s": 34,
+            "translation": "[and they know that their reward,"
+          },
+          {
+            "v": 17,
+            "s": 35,
+            "translation": "the satisfaction of the created being,"
+          },
+          {
+            "v": 17,
+            "s": 36,
+            "translation": "is"
+          },
+          {
+            "v": 17,
+            "s": 37,
+            "translation": "(as above, section 8)"
+          },
+          {
+            "v": 17,
+            "s": 38,
+            "translation": "incomparable to the satisfaction of the Creator],"
+          },
+          {
+            "v": 17,
+            "s": 39,
+            "translation": "behold, through this self-nullification, the satisfaction and delight of the Creator is drawn down to them in revelation,"
+          },
+          {
+            "v": 17,
+            "s": 40,
+            "translation": "for since they have no independent existence at all,"
+          },
+          {
+            "v": 17,
+            "s": 41,
+            "translation": "the delight of the Creator is their delight."
+          }
+        ]
+      }
+    ]
+  }
+}

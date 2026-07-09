@@ -1,0 +1,162 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518916037_theRebbe_540" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518916037_theRebbe_540" title="מאמר וישב יעקב תשכ"ז" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p006">
+  <section v="15">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">וזהו מ"ש פדה בשלום נפשי מקרב לי כי ברבים היו עמדי.</src>
+    <src s="3">דהנה73,</src>
+    <src s="4">יש אופן של פדי' בשלום שאינה בדרך מלחמה כלל,</src>
+    <src s="5">אלא בדרך מנוחה,</src>
+    <src s="6">כפי שמצינו בשלמה שהי' איש מנוחה74,</src>
+    <src s="7">והניצוצות באו אליו בדרך ממילא,</src>
+    <src s="8">וכמו מלכת שבא שהביאה אליו את הניצוצות כו'75,</src>
+    <src s="9">ומ"מ,</src>
+    <src s="10">כאשר מלכת שבא חזרה למקומה נשארה כמקודם ולא נתבררה.</src>
+    <src s="11">משא"כ בדוד,</src>
+    <src s="12">שאצלו הי' הבירור באופן של קרב,</src>
+    <src s="13">באופן של מלחמה.</src>
+    <src s="14">ובפרטיות יותר,</src>
+    <src s="15">יש במלחמה גופא ב' דרגות.</src>
+    <src s="16">יש מלחמה שהיא מרחוק,</src>
+    <src s="17">שאין רואים את האויב ואין יודעים מהנעשה אתו,</src>
+    <src s="18">שאז אין יכולים לבררו.</src>
+    <src s="19">אבל יש מלחמה שהיא באופן של קרב שמורה על הקירוב,</src>
+    <src s="20">שזהו מש"נ בדוד מקרב לי.</src>
+    <src s="21">ועל זה אמר כי ברבים היו עמדי,</src>
+    <src s="22">וכמ"ש בירושלמי שגם אנשי אבשלום התפללו לנצחונו של דוד,</src>
+    <src s="23">וכמ"ש76</src>
+    <src s="24">גם אויביו ישלים אתו,</src>
+    <src s="25">שבתיבת ישלים יש ב' פירושים,</src>
+    <src s="26">מלשון שלום,</src>
+    <src s="27">וגם מלשון שלימות.</src>
+    <src s="28">וענין זה נעשה ע"י העבודה בבחי' קרב,</src>
+    <src s="29">מלחמה באופן של קירוב,</src>
+    <src s="30">שעי"ז פועלים שברבים היו עמדי,</src>
+    <src s="31">דרבים הו"ע רה"ר,</src>
+    <src s="32">וכמ"ש77</src>
+    <src s="33">נעשה לשון רבים,</src>
+    <src s="34">וכמארז"ל78</src>
+    <src s="35">כתוב והרוצה לטעות וכו',</src>
+    <src s="36">ומהרבים נעשה עמדי,</src>
+    <src s="37">רשות היחיד דיחידו של עולם79.</src>
+    <src s="38">וזהו פדה בשלום נפשי מקרב לי גו',</src>
+    <src s="39">שזוהי תפלת דוד,</src>
+    <src s="40">בחי' המלכות,</src>
+    <src s="41">כללות כנס"י,</src>
+    <src s="42">היינו,</src>
+    <src s="43">שנותנים כח לכאו"א מישראל שיוכל להיות אצלו הפדי' מקרב,</src>
+    <src s="44">שע"י הבירור בבחי' קרב נעשה הפיכת התחתון,</src>
+    <src s="45">היינו,</src>
+    <src s="46">שאין זה באופן שמתבטל ממציאותו,</src>
+    <src s="47">אלא שמציאות התחתון גופא נהפך לאלקות,</src>
+    <src s="48">וכמ"ש80</src>
+    <src s="49">בכל לבבך בשני יצריך,</src>
+    <src s="50">שאין זה באופן שהרגו בתענית81,</src>
+    <src s="51">אלא שגם הנה"ב יהי' לו אהבה לאלקות.</src>
+    <src s="52">וכללות הענין בזה,</src>
+    <src s="53">שהבירור באופן דקרב אינו כמו אור השמש שמאיר בבית ע"י שפותחים את החלונות,</src>
+    <src s="54">שאור השמש אינו מתערב ומתאחד בעניני הבית,</src>
+    <src s="55">ולכן לאחר שנסתלק אור השמש נשאר הבית אפל,</src>
+    <src s="56">ואין יודעים מהנעשה שם,</src>
+    <src s="57">אלא הבירור באופן דקרב הוא ע"ד שהנשמה מתלבשת בגוף שהיא מתאחדת עם הגוף,</src>
+    <src s="58">שהרי קודם התלבשותה בגוף היתה הנשמה למעלה והשיגה שם מהות אלקות,</src>
+    <src s="59">ובהתלבשותה בגוף השגתה באלקות היא בבחי' המציאות דאלקות בלבד,</src>
+    <src s="60">והשגת המהות שלה הוא בענינים גשמיים,</src>
+    <src s="61">שזהו מפני שהנשמה מתאחדת עם הגוף ונה"ב,</src>
+    <src s="62">והיינו,</src>
+    <src s="63">שנה"א מרגשת את נה"ב.</src>
+    <src s="64">וכמו"כ לאידך גיסא,</src>
+    <src s="65">שנפש הבהמית עלי' נאמר82</src>
+    <src s="66">רוח הבהמה היורדת למטה,</src>
+    <src s="67">מרגשת את נפש האלקית,</src>
+    <src s="68">ועי"ז פועלת נה"א על נה"ב שיהי' אצלה השגת אלקות באופן שהשכל הטבעי משיג את האלקות,</src>
+    <src s="69">והיינו,</src>
+    <src s="70">לא רק באופן שהוא מקבל דבר שלמעלה הימנו,</src>
+    <src s="71">אלא באופן שהשכל הטבעי דנה"ב נעשה כמו שכל התורה.</src>
+  </section>
+  <section v="16">
+    <src s="0">והנה ב' אופני בירור הנ"ל ישנם בכל ג' הקוין דתורה עבודה וגמ"ח,</src>
+    <src s="1">אבל בכללות הרי זה ההפרש בין תורה לתפלה,</src>
+    <src s="2">שתורה הוא בבחי' קרב,</src>
+    <src s="3">שעי"ז מתהפכת נה"ב לאלקות,</src>
+    <src s="4">משא"כ תפלה,</src>
+    <src s="5">שעז"נ83</src>
+    <src s="6">בחרבי ובקשתי,</src>
+    <src s="7">שתרגומו בצלותי ובבעותי,</src>
+    <src s="8">הו"ע מלחמה סתם84.</src>
+    <src s="9">וכיון שע"י התורה נעשה שלימות הבירור,</src>
+    <src s="10">לכן בתורה לא נאמר וימת בהדר,</src>
+    <src s="11">משא"כ בדה"י שזהו בבחי' מלכות,</src>
+    <src s="12">שרגלי' יורדות כו'85,</src>
+    <src s="13">במקום של היפך החיים,</src>
+    <src s="14">לכן נאמר וימת,</src>
+    <src s="15">כיון ששם לא נעשה ענין הבירור כו'.</src>
+    <src s="16">ואף שידוע שהבירורים הם בבחי' מלכות,</src>
+    <src s="17">שעז"נ86</src>
+    <src s="18">ותקם גו' ותתן טרף לביתה,</src>
+    <src s="19">שהו"ע ירידת המלכות בבי"ע לברר בירורים,</src>
+    <src s="20">יש לתרץ זה בב' אופנים,</src>
+    <src s="21">הא',</src>
+    <src s="22">שע"י המלכות נעשה רק בירור ראשון ולא בירור שני87,</src>
+    <src s="23">והב',</src>
+    <src s="24">שגם הבירורים שמבררת המלכות הם ג"כ ע"י שנמשך בה מבחי' היסוד כו'.</src>
+  </section>
+  <section v="17">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וזהו מ"ש וישב יעקב בארץ מגורי אביו בארץ כנען,</src>
+    <src s="3">דכנען הוא לשון סוחר,</src>
+    <src s="4">שמפזר את ממונו בכדי להרויח,</src>
+    <src s="5">והו"ע עליית הנשמה שע"י ירידתה למטה והתלבשותה בגוף ונה"ב.</src>
+    <src s="6">והנה ידוע88</src>
+    <src s="7">שירידת הנשמה למטה אינה בשביל עצמה,</src>
+    <src s="8">כי הנשמה עצמה אינה צריכה תיקון,</src>
+    <src s="9">וירידתה למטה היא בכדי לברר את הניצוצות דתהו שנפלו למטה בדברים הגשמיים.</src>
+    <src s="10">וע"י שמבררת את הניצוצות,</src>
+    <src s="11">מתעלית היא למעלה יותר מכמו שהיתה קודם ירידתה.</src>
+    <src s="12">וזהו מה שענין ישובי עשו ותולדותיו הוא הקדמה לוישב יעקב גו' בארץ כנען,</src>
+    <src s="13">כי ישובי עשו הו"ע ז' מלכין דתהו,</src>
+    <src s="14">וכל ענין המסחר</src>
+    <src s="15">(כנען)</src>
+    <src s="16">של ירידת הנשמה למטה הוא מצד הניצוצות דתהו שנפלו בשבה"כ,</src>
+    <src s="17">שזוהי הסיבה לירידת הנשמה</src>
+    <src s="18">(פיזור ממון),</src>
+    <src s="19">וכנ"ל שהנשמה לא ירדה בשביל עצמה רק בכדי לברר את הניצוצות,</src>
+    <src s="20">וזוהי גם הסיבה להעלי' שנעשית ע"י הירידה</src>
+    <src s="21">(הריוח שע"י הפיזור),</src>
+    <src s="22">וכנ"ל שעליית הנשמה היא ע"י בירור הניצוצות דתהו.</src>
+  </section>
+</awtsmoosMeluketSource>

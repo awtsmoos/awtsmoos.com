@@ -1,0 +1,28 @@
+{
+  "id": "3b17513f-7847-44b7-9083-dfb13d3f9d39",
+  "object": "chat.completion",
+  "created": 1783583819,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920191_theRebbe_834\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920191_theRebbe_834__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>Since in Elul the king receives everyone with a pleasant countenance, he certainly fulfills the request of every Jew for a good year and the ultimate redemption.</sectionSummaryBrief>\n    <t s=\"0\">And since in Elul the king receives all of them with a pleasant countenance and shows a smiling face to everyone,</t>\n    <t s=\"1\">surely the king fulfills the request of each and every one of Israel,</t>\n    <t s=\"2\">that he should have a good inscription and sealing for a good and sweet year in the revealed and manifest good,</t>\n    <t s=\"3\">both in spiritual matters—in the study of Torah and fulfillment of the commandments—</t>\n    <t s=\"4\">and in material matters—in children, life, and ample sustenance—</t>\n    <t s=\"5\">and all the more so regarding the primary request—the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"6\">may he come and redeem us and lead us upright to our land,</t>\n    <t s=\"7\">very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 872,
+    "completion_tokens": 372,
+    "total_tokens": 1244,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 616
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

@@ -1,0 +1,489 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 89,
+    "returned": 89,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919223_theRebbe_96\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>Poverty is negated only by a wealth beyond filling lack, not by mere sufficiency, and lower daat leaves a hidden lack in the person because his consciousness of G-d is an addition to his own existence.</sectionSummaryBrief>\n    <t s=\"0\">And according to what was explained above in section 4, that the negation of poverty</t>\n    <t s=\"1\">(lack)</t>\n    <t s=\"2\">is specifically through the wealth that is above filling the lack,</t>\n    <t s=\"3\">but not when the flow is only enough for his lack</t>\n    <t s=\"4\">[including also the matter of \"that which he lacks\"—</t>\n    <t s=\"5\">,</t>\n    <t s=\"6\">even a horse to ride upon and a servant to run before him]</t>\n    <t s=\"7\">there remains</t>\n    <t s=\"8\">(in inwardness)</t>\n    <t s=\"9\">a lack also regarding the contracted flow,</t>\n    <t s=\"10\">it must be said,</t>\n    <t s=\"11\">that even when the service is from the aspect of daat,</t>\n    <t s=\"12\">recognition and feeling,</t>\n    <t s=\"13\">but only lower daat that receives from Arich,</t>\n    <t s=\"14\">the service is like something additional upon him,</t>\n    <t s=\"15\">and the person himself</t>\n    <t s=\"16\">(in his inwardness)</t>\n    <t s=\"17\">lacks the service,</t>\n    <t s=\"18\">meaning that there remains a place in the person where the revelation of G-dliness does not shine.</t>\n    <t s=\"19\">For although the matter of recognition and feeling</t>\n    <t s=\"20\">(even of lower daat)</t>\n    <t s=\"21\">is that the person himself recognizes and feels</t>\n    <t s=\"22\">(as above in section 3),</t>\n    <t s=\"23\">nevertheless,</t>\n    <t s=\"24\">since the essence of the person is existence</t>\n    <t s=\"25\">(and not that his essence is the feeling of G-dliness),</t>\n    <t s=\"26\">his recognition and feeling of G-dliness is like something additional upon him.</t>\n  </section>\n  <section v=\"19\">\n    <sectionSummaryBrief>Lower daat itself grants place to existence outside G-d, whereas upper daat from Atik, the Essence of Ein Sof, reveals that G-d's true existence is the true existence of all beings, filling all lack.</sectionSummaryBrief>\n    <t s=\"0\">And on a deeper level it may be said,</t>\n    <t s=\"1\">that this—that in the service of lower daat a lack still remains—</t>\n    <t s=\"2\">is not only because the person and his recognition of G-dliness are two things,</t>\n    <t s=\"3\">but also from the aspect of the recognition itself</t>\n    <t s=\"4\">(the recognition of lower daat)</t>\n    <t s=\"5\">there is a granting of place to an existence outside of G-dliness.</t>\n    <t s=\"6\">For since lower daat receives from the externality of Keter,</t>\n    <t s=\"7\">Arich,</t>\n    <t s=\"8\">which in general is the aspect of Sovev that is like a source for worlds,</t>\n    <t s=\"9\">therefore,</t>\n    <t s=\"10\">even from the aspect of daat itself there is a granting of place to existence.</t>\n    <t s=\"11\">And this itself is the reason that through the revelation of this level in the person, he remains in his existence,</t>\n    <t s=\"12\">an existence outside of G-dliness.</t>\n    <t s=\"13\">And in order for the lack to be completely filled,</t>\n    <t s=\"14\">that is, that there be no place where the revelation of G-dliness does not shine,</t>\n    <t s=\"15\">it is through the service of upper daat that receives from the inwardness of Keter,</t>\n    <t s=\"16\">Atik,</t>\n    <t s=\"17\">which in general is the Essence of Ein Sof.</t>\n    <t s=\"18\">For regarding the Essence of Ein Sof, there is no existence outside of Him,</t>\n    <t s=\"19\">and on the contrary,</t>\n    <t s=\"20\">His true existence is the true existence of all beings.</t>\n    <t s=\"21\">Therefore, through the revelation of upper daat,</t>\n    <t s=\"22\">the person's recognition of G-dliness is in a manner that this</t>\n    <t s=\"23\">(the recognition of G-dliness)</t>\n    <t s=\"24\">is his entire existence.</t>\n  </section>\n  <section v=\"20\">\n    <sectionSummaryBrief>Moshe's prayer to fill Knesset Yisrael's lack is called a rich man's prayer because from the perspective of upper daat, even their lack is not a lack, and his prayer was that this truth be revealed to them.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, we may explain why Moshe's prayer to fill the lack of Knesset Yisrael is called a rich man's prayer,</t>\n    <t s=\"1\">even though the lack of Knesset Yisrael certainly affected him greatly,</t>\n    <t s=\"2\">for Moshe is the aspect of upper daat</t>\n    <t s=\"3\">(as above),</t>\n    <t s=\"4\">and from the perspective of upper daat,</t>\n    <t s=\"5\">the matter of wealth,</t>\n    <t s=\"6\">the matter of lack does not apply.</t>\n    <t s=\"7\">That is,</t>\n    <t s=\"8\">in addition to the fact that in Moshe himself no lack applies, G-d forbid,</t>\n    <t s=\"9\">rather, regarding Moshe,</t>\n    <t s=\"10\">even the lack of Knesset Yisrael for whom he prayed is not a lack,</t>\n    <t s=\"11\">for upper daat receives from Atik,</t>\n    <t s=\"12\">and therefore it is felt in him that His true existence is the true existence of all beings and they lack nothing.</t>\n    <t s=\"13\">And although Moshe prayed for them,</t>\n    <t s=\"14\">and the matter of prayer is to fill the lack—it may be said,</t>\n    <t s=\"15\">that his prayer was that this matter</t>\n    <t s=\"16\">(that the truth is that they lack nothing)</t>\n    <t s=\"17\">be felt in revelation also by them.</t>\n    <t s=\"18\">But in Moshe this was felt</t>\n    <t s=\"19\">(that they lack nothing)</t>\n    <t s=\"20\">in revelation even when they were in a state that required him to pray for them,</t>\n    <t s=\"21\">and therefore,</t>\n    <t s=\"22\">his prayer is a rich man's prayer.</t>\n    <t s=\"23\">And to add,</t>\n    <t s=\"24\">that this—that Moshe's prayer is called a rich man's prayer—is not only because even then</t>\n    <t s=\"25\">(at the time of prayer)</t>\n    <t s=\"26\">he was rich,</t>\n    <t s=\"27\">but moreover,</t>\n    <t s=\"28\">his prayer was because he is rich.</t>\n    <t s=\"29\">For Moshe's prayer that the lack of Knesset Yisrael be filled</t>\n    <t s=\"30\">[Knesset Yisrael simply,</t>\n    <t s=\"31\">and through this—the lack of Malchus,</t>\n    <t s=\"32\">and of the world]</t>\n    <t s=\"33\">is that the lack be completely filled,</t>\n    <t s=\"34\">that there be no place where the revelation of G-dliness does not shine,</t>\n    <t s=\"35\">and in order for the lack to be completely filled, it is specifically through the revelation of upper daat,</t>\n    <t s=\"36\">as above.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919223_theRebbe_96",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919223_theRebbe_96__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "Poverty is negated only by a wealth beyond filling lack, not by mere sufficiency, and lower daat leaves a hidden lack in the person because his consciousness of G-d is an addition to his own existence.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "And according to what was explained above in section 4, that the negation of poverty"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "(lack)"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "is specifically through the wealth that is above filling the lack,"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "but not when the flow is only enough for his lack"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "[including also the matter of \"that which he lacks\"—"
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": ","
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "even a horse to ride upon and a servant to run before him]"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "there remains"
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "(in inwardness)"
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "a lack also regarding the contracted flow,"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "it must be said,"
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "that even when the service is from the aspect of daat,"
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "recognition and feeling,"
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "but only lower daat that receives from Arich,"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "the service is like something additional upon him,"
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "and the person himself"
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "(in his inwardness)"
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "lacks the service,"
+          },
+          {
+            "v": 18,
+            "s": 18,
+            "translation": "meaning that there remains a place in the person where the revelation of G-dliness does not shine."
+          },
+          {
+            "v": 18,
+            "s": 19,
+            "translation": "For although the matter of recognition and feeling"
+          },
+          {
+            "v": 18,
+            "s": 20,
+            "translation": "(even of lower daat)"
+          },
+          {
+            "v": 18,
+            "s": 21,
+            "translation": "is that the person himself recognizes and feels"
+          },
+          {
+            "v": 18,
+            "s": 22,
+            "translation": "(as above in section 3),"
+          },
+          {
+            "v": 18,
+            "s": 23,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 18,
+            "s": 24,
+            "translation": "since the essence of the person is existence"
+          },
+          {
+            "v": 18,
+            "s": 25,
+            "translation": "(and not that his essence is the feeling of G-dliness),"
+          },
+          {
+            "v": 18,
+            "s": 26,
+            "translation": "his recognition and feeling of G-dliness is like something additional upon him."
+          }
+        ]
+      },
+      {
+        "v": 19,
+        "sectionSummaryBrief": "Lower daat itself grants place to existence outside G-d, whereas upper daat from Atik, the Essence of Ein Sof, reveals that G-d's true existence is the true existence of all beings, filling all lack.",
+        "translations": [
+          {
+            "v": 19,
+            "s": 0,
+            "translation": "And on a deeper level it may be said,"
+          },
+          {
+            "v": 19,
+            "s": 1,
+            "translation": "that this—that in the service of lower daat a lack still remains—"
+          },
+          {
+            "v": 19,
+            "s": 2,
+            "translation": "is not only because the person and his recognition of G-dliness are two things,"
+          },
+          {
+            "v": 19,
+            "s": 3,
+            "translation": "but also from the aspect of the recognition itself"
+          },
+          {
+            "v": 19,
+            "s": 4,
+            "translation": "(the recognition of lower daat)"
+          },
+          {
+            "v": 19,
+            "s": 5,
+            "translation": "there is a granting of place to an existence outside of G-dliness."
+          },
+          {
+            "v": 19,
+            "s": 6,
+            "translation": "For since lower daat receives from the externality of Keter,"
+          },
+          {
+            "v": 19,
+            "s": 7,
+            "translation": "Arich,"
+          },
+          {
+            "v": 19,
+            "s": 8,
+            "translation": "which in general is the aspect of Sovev that is like a source for worlds,"
+          },
+          {
+            "v": 19,
+            "s": 9,
+            "translation": "therefore,"
+          },
+          {
+            "v": 19,
+            "s": 10,
+            "translation": "even from the aspect of daat itself there is a granting of place to existence."
+          },
+          {
+            "v": 19,
+            "s": 11,
+            "translation": "And this itself is the reason that through the revelation of this level in the person, he remains in his existence,"
+          },
+          {
+            "v": 19,
+            "s": 12,
+            "translation": "an existence outside of G-dliness."
+          },
+          {
+            "v": 19,
+            "s": 13,
+            "translation": "And in order for the lack to be completely filled,"
+          },
+          {
+            "v": 19,
+            "s": 14,
+            "translation": "that is, that there be no place where the revelation of G-dliness does not shine,"
+          },
+          {
+            "v": 19,
+            "s": 15,
+            "translation": "it is through the service of upper daat that receives from the inwardness of Keter,"
+          },
+          {
+            "v": 19,
+            "s": 16,
+            "translation": "Atik,"
+          },
+          {
+            "v": 19,
+            "s": 17,
+            "translation": "which in general is the Essence of Ein Sof."
+          },
+          {
+            "v": 19,
+            "s": 18,
+            "translation": "For regarding the Essence of Ein Sof, there is no existence outside of Him,"
+          },
+          {
+            "v": 19,
+            "s": 19,
+            "translation": "and on the contrary,"
+          },
+          {
+            "v": 19,
+            "s": 20,
+            "translation": "His true existence is the true existence of all beings."
+          },
+          {
+            "v": 19,
+            "s": 21,
+            "translation": "Therefore, through the revelation of upper daat,"
+          },
+          {
+            "v": 19,
+            "s": 22,
+            "translation": "the person's recognition of G-dliness is in a manner that this"
+          },
+          {
+            "v": 19,
+            "s": 23,
+            "translation": "(the recognition of G-dliness)"
+          },
+          {
+            "v": 19,
+            "s": 24,
+            "translation": "is his entire existence."
+          }
+        ]
+      },
+      {
+        "v": 20,
+        "sectionSummaryBrief": "Moshe's prayer to fill Knesset Yisrael's lack is called a rich man's prayer because from the perspective of upper daat, even their lack is not a lack, and his prayer was that this truth be revealed to them.",
+        "translations": [
+          {
+            "v": 20,
+            "s": 0,
+            "translation": "And based on this, we may explain why Moshe's prayer to fill the lack of Knesset Yisrael is called a rich man's prayer,"
+          },
+          {
+            "v": 20,
+            "s": 1,
+            "translation": "even though the lack of Knesset Yisrael certainly affected him greatly,"
+          },
+          {
+            "v": 20,
+            "s": 2,
+            "translation": "for Moshe is the aspect of upper daat"
+          },
+          {
+            "v": 20,
+            "s": 3,
+            "translation": "(as above),"
+          },
+          {
+            "v": 20,
+            "s": 4,
+            "translation": "and from the perspective of upper daat,"
+          },
+          {
+            "v": 20,
+            "s": 5,
+            "translation": "the matter of wealth,"
+          },
+          {
+            "v": 20,
+            "s": 6,
+            "translation": "the matter of lack does not apply."
+          },
+          {
+            "v": 20,
+            "s": 7,
+            "translation": "That is,"
+          },
+          {
+            "v": 20,
+            "s": 8,
+            "translation": "in addition to the fact that in Moshe himself no lack applies, G-d forbid,"
+          },
+          {
+            "v": 20,
+            "s": 9,
+            "translation": "rather, regarding Moshe,"
+          },
+          {
+            "v": 20,
+            "s": 10,
+            "translation": "even the lack of Knesset Yisrael for whom he prayed is not a lack,"
+          },
+          {
+            "v": 20,
+            "s": 11,
+            "translation": "for upper daat receives from Atik,"
+          },
+          {
+            "v": 20,
+            "s": 12,
+            "translation": "and therefore it is felt in him that His true existence is the true existence of all beings and they lack nothing."
+          },
+          {
+            "v": 20,
+            "s": 13,
+            "translation": "And although Moshe prayed for them,"
+          },
+          {
+            "v": 20,
+            "s": 14,
+            "translation": "and the matter of prayer is to fill the lack—it may be said,"
+          },
+          {
+            "v": 20,
+            "s": 15,
+            "translation": "that his prayer was that this matter"
+          },
+          {
+            "v": 20,
+            "s": 16,
+            "translation": "(that the truth is that they lack nothing)"
+          },
+          {
+            "v": 20,
+            "s": 17,
+            "translation": "be felt in revelation also by them."
+          },
+          {
+            "v": 20,
+            "s": 18,
+            "translation": "But in Moshe this was felt"
+          },
+          {
+            "v": 20,
+            "s": 19,
+            "translation": "(that they lack nothing)"
+          },
+          {
+            "v": 20,
+            "s": 20,
+            "translation": "in revelation even when they were in a state that required him to pray for them,"
+          },
+          {
+            "v": 20,
+            "s": 21,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 20,
+            "s": 22,
+            "translation": "his prayer is a rich man's prayer."
+          },
+          {
+            "v": 20,
+            "s": 23,
+            "translation": "And to add,"
+          },
+          {
+            "v": 20,
+            "s": 24,
+            "translation": "that this—that Moshe's prayer is called a rich man's prayer—is not only because even then"
+          },
+          {
+            "v": 20,
+            "s": 25,
+            "translation": "(at the time of prayer)"
+          },
+          {
+            "v": 20,
+            "s": 26,
+            "translation": "he was rich,"
+          },
+          {
+            "v": 20,
+            "s": 27,
+            "translation": "but moreover,"
+          },
+          {
+            "v": 20,
+            "s": 28,
+            "translation": "his prayer was because he is rich."
+          },
+          {
+            "v": 20,
+            "s": 29,
+            "translation": "For Moshe's prayer that the lack of Knesset Yisrael be filled"
+          },
+          {
+            "v": 20,
+            "s": 30,
+            "translation": "[Knesset Yisrael simply,"
+          },
+          {
+            "v": 20,
+            "s": 31,
+            "translation": "and through this—the lack of Malchus,"
+          },
+          {
+            "v": 20,
+            "s": 32,
+            "translation": "and of the world]"
+          },
+          {
+            "v": 20,
+            "s": 33,
+            "translation": "is that the lack be completely filled,"
+          },
+          {
+            "v": 20,
+            "s": 34,
+            "translation": "that there be no place where the revelation of G-dliness does not shine,"
+          },
+          {
+            "v": 20,
+            "s": 35,
+            "translation": "and in order for the lack to be completely filled, it is specifically through the revelation of upper daat,"
+          },
+          {
+            "v": 20,
+            "s": 36,
+            "translation": "as above."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,149 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914333_theRebbe_315" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914333_theRebbe_315" title="מאמר בסוכות תשבו תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">ועפ"ז יובן בעומק יותר גודל העילוי דעבודת הקטורת על עבודת הקרבנות,</src>
+    <src s="2">כי ע"י העבודה דקטורת מתבררים גם הניצוצות שנפלו בגקה"ט,</src>
+    <src s="3">ועד שגם זדונות נעשות כזכיות,</src>
+    <src s="4">ומכיון שכל שנפל למטה מטה ביותר מורה ששרשו הוא למעלה מעלה ביותר,</src>
+    <src s="5">הרי מובן77</src>
+    <src s="6">שניצוצות אלו</src>
+    <src s="7">(שנפלו בגקה"ט ובפרט בזדונות)</src>
+    <src s="8">הם מלמעלה יותר גם מהניצוצות ודברים הגשמיים</src>
+    <src s="9">(המותרים)</src>
+    <src s="10">שמתבררים ע"י עבודת הקרבנות.</src>
+    <src s="11">והיינו שבתוהו גופא הם בבחי' נעלית יותר.</src>
+    <src s="12">דזהו שאמרו רז"ל78</src>
+    <src s="13">במקום שבעלי תשובה עומדין אין צדיקים גמורין יכולים לעמוד בו,</src>
+    <src s="14">לפי שבעלי תשובה מבררים מגקה"ט וצדיקים גמורים מבררים רק מנוגה79.</src>
+    <src s="15">וזהו גם שהגילויים דלע"ל תלויים</src>
+    <src s="16">(בעיקר)</src>
+    <src s="17">במעשינו ועבודתנו במשך זמן הגלות80</src>
+    <src s="18">דוקא</src>
+    <src s="19">[ובזמן הגלות גופא בהזמן דעקבתא דמשיחא],</src>
+    <src s="20">כי עיקר הענין די"א כתרין דמסאבותא הוא בזמן הגלות</src>
+    <src s="21">[ובפרט בעקבתא דמשיחא],</src>
+    <src s="22">ולכן ע"י מעשינו ועבודתנו בזמן הגלות ממשיכים אור בלתי מוגבל,</src>
+    <src s="23">אלה תולדות פרץ81</src>
+    <src s="24">תולדות מלא82,</src>
+    <src s="25">שהוא נעלה יותר גם מתולדות מלא שהי' בעת הבריאה83</src>
+    <src s="26">(אלה תולדות השמים והארץ בהבראם84),</src>
+    <src s="27">שעולם על מילואו נברא85.</src>
+  </section>
+  <section v="10">
+    <src s="0">וזהו גם מעלת הקטורת דיוהכ"פ על הקטורת דכל השנה,</src>
+    <src s="1">כי הקטורת דיוהכ"פ הו"ע התשובה שזדונות נעשות כזכיות86</src>
+    <src s="2">[כי העבודה דיוהכ"פ היא בבחינת יחידה שבנפש,</src>
+    <src s="3">והיינו דבעשי"ת גופא</src>
+    <src s="4">(כאן ליחיד)</src>
+    <src s="5">הנה עיקר הגילוי</src>
+    <src s="6">(והעבודה)</src>
+    <src s="7">דבחינת יחידה הוא ביום הכפורים אחת בשנה87,</src>
+    <src s="8">וזה שזדונות נעשות לזכיות ממש הוא על ידי העבודה דבחי' יחידה],</src>
+    <src s="9">וענין זה</src>
+    <src s="10">[שזדונות נהפכים לזכיות]</src>
+    <src s="11">מגיע בבחי' פנימיות עתיק86.</src>
+    <src s="12">וגם ענין זה שייך ליוהכ"פ,</src>
+    <src s="13">כידוע88</src>
+    <src s="14">דביוהכ"פ הוא עליית המלכות בבחי' עתיק.</src>
+    <src s="15">וזה נעשה גם הכנה והקדמה להגילוי דלע"ל</src>
+    <src s="16">[שיהי' ג"כ ע"י עבודת התשובה דוקא,</src>
+    <src s="17">כמאמר89</src>
+    <src s="18">משיח אתא לאתבא צדיקייא בתיובתא],</src>
+    <src s="19">שאז יהי' הגילוי דפנימיות עתיק90.</src>
+  </section>
+  <section v="11">
+    <src s="0">ז)</src>
+    <src s="1">והנה כל העילויים הנ"ל שנעשים בהנשמה ע"י העבודה בעוה"ז דוקא,</src>
+    <src s="2">ובעוה"ז גופא במשך זמן הגלות,</src>
+    <src s="3">היו בה גם לפני ירידתה.</src>
+    <src s="4">וכמובן מתורת הרב המגיד91</src>
+    <src s="5">בפירוש מאמר רז"ל66</src>
+    <src s="6">ישראל עלו במחשבה,</src>
+    <src s="7">שהוא כמשל הבן שצורתו חקוקה במחשבת האב,</src>
+    <src s="8">ומכיון שאצל השי"ת העבר והעתיד אחד לכן גם קודם שנבראו ישראל הי' נחקק צורתם במחשבה.</src>
+    <src s="9">דמזה מובן,</src>
+    <src s="10">שגם העילוי שנעשה בהנשמה ע"י ירידתה מאיגרא רמה לבירא עמיקתא ועבודתה שם בבחי' עומק ופנימיות הלב,</src>
+    <src s="11">ובזה גופא בדרגא הכי נעלית</src>
+    <src s="12">(עצמות נקודת הלב)92,</src>
+    <src s="13">שעי"ז היא מתעלית למעלה יותר מכפי שהיתה בשרשה בבחי' האלקים אשר נתנה93,</src>
+    <src s="14">גם צורה זו</src>
+    <src s="15">(של הבן,</src>
+    <src s="16">כמו שהוא בתכלית השלימות)</src>
+    <src s="17">היתה חקוקה במחשבתו ית'.</src>
+    <src s="18">אלא שזהו בכח,</src>
+    <src s="19">ובכדי שיהי' עילוי זה בפועל94,</src>
+    <src s="20">הנה זה נעשה ע"י ירידתה למטה ועבודתה בפועל בלימוד התורה ובקיום המצוות,</src>
+    <src s="21">ובפרט ע"י העבודה דקטורת דיוהכ"פ שהיא עבודת התשובה,</src>
+    <src s="22">וע"י הישיבה בסוכה ונטילת ד' מינים שעי"ז נעשה המשכת וגילוי המקיף דענן הקטורת דיוהכ"פ.</src>
+    <src s="23">ועד"ז בהימים שבין יוהכ"פ לסוכות,</src>
+    <src s="24">דזה עוסק בסוכתו וזה בלולבו95.</src>
+    <src s="25">דזהו הטעם של זה שיום א' דסוכות הוא ראשון לחשבון עונות96,</src>
+    <src s="26">לפי שבמשך ד' ימים אלו כל ישראל עסוקים</src>
+    <src s="27">(רק)</src>
+    <src s="28">במצוות,</src>
+    <src s="29">ובמילא אין שייך שיעשו איזה דבר בלתי רצוי.</src>
+    <src s="30">ומובן,</src>
+    <src s="31">דכאשר ד' ימים אלו הם כדבעי הנה גם לאחרי שמתחיל החשבון,</src>
+    <src s="32">הוא באופן אחר לגמרי,</src>
+    <src s="33">וע"ד הידוע בענין מה שגם צדיקים גמורים אומרים על חטא97,</src>
+    <src s="34">חטא מלשון חסרון98,</src>
+    <src s="35">בדקות דדקות.</src>
+    <src s="36">ומ"ש ראשון לחשבון עונות הכוונה בזה היא לא לעונות כפשוטם</src>
+    <src s="37">(כולל גם מי שיש בידו למחות ולא מיחה99)</src>
+    <src s="38">אלא לעונות מלשון עיוות ועיקום,</src>
+    <src s="39">ועד שגם זה אינו שייך,</src>
+    <src s="40">ועיוות ועיקום הוא בתכלית הדקות,</src>
+    <src s="41">וכמו שנתבאר לעיל100</src>
+    <src s="42">בפירוש הכתוב101</src>
+    <src s="43">כי כשלת בעונך.</src>
+    <src s="44">ועי"ז,</src>
+    <src s="45">הנה גם הקטורת דיוהכ"פ,</src>
+    <src s="46">שענינה הוא תשובה דזדונות נהפכים לזכיות,</src>
+    <src s="47">הוא ג"כ על עונות</src>
+    <src s="48">(וזדונות)</src>
+    <src s="49">שבתכלית הדקות.</src>
+    <src s="50">ולאחרי יוהכ"פ ממשיכים בחי' המקיף דענן הקטורת בהענינים דסוכה ולולב כמו שהם דברי הרשות עדיין וישראל מכינים ומכשירים אותם למצוה,</src>
+    <src s="51">ובפרט לאחרי שמקיימים בהם מצות ישיבה בסוכה ונטילת ד' מינים בחג הסוכות זמן שמחתנו,</src>
+    <src s="52">ונמשך שמחה על כל השנה כולה102,</src>
+    <src s="53">שמחה תמידית103,</src>
+    <src s="54">שעובדים את ה' בתמידות בשמחה ובטוב לבב104,</src>
+    <src s="55">וזה נעשה הכנה קרובה לשמחת עולם על ראשם105</src>
+    <src s="56">שתהי' בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="57">יבוא ויגאלנו ויוליכנו קוממיות לארצנו,</src>
+    <src s="58">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,324 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 56,
+    "returned": 56,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918762_theRebbe_940\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains the three novel aspects of the Giving of the Torah: regarding the Giver, the recipients, and the Torah itself.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And one can explain the elucidation of this,</t>\n    <t s=\"2\">that at the Giving of the Torah there are three matters,</t>\n    <t s=\"3\">the Holy One, blessed be He, gives the Torah,</t>\n    <t s=\"4\">and Yisrael are the recipients of the Torah,</t>\n    <t s=\"5\">and the Torah itself.</t>\n    <t s=\"6\">And the innovation in the Torah that was given at the Giving of the Torah regarding the Torah that the Patriarchs studied before the Giving of the Torah is both regarding the Giver of the Torah,</t>\n    <t s=\"7\">and regarding the recipients of the Torah, and regarding the Torah itself.</t>\n    <t s=\"8\">That the innovation regarding the Giver of the Torah is as it is brought in the Gemara</t>\n    <t s=\"9\">that “Anochi”</t>\n    <t s=\"10\">(the opening of the Giving of the Torah)</t>\n    <t s=\"11\">is an acronym: A.</t>\n    <t s=\"12\">na N.</t>\n    <t s=\"13\">afshi K.</t>\n    <t s=\"14\">savti Y.</t>\n    <t s=\"15\">havis,</t>\n    <t s=\"16\">that “Ana”</t>\n    <t s=\"17\">(My soul)</t>\n    <t s=\"18\">is His Essence, blessed be He,</t>\n    <t s=\"19\">and the explanation of “Ana Nafshi Ksavti Yhavis” is</t>\n    <t s=\"20\">that He wrote and gave Himself,</t>\n    <t s=\"21\">“Ana Nafshi.”</t>\n    <t s=\"22\">And in the language of the Midrash:</t>\n    <t s=\"23\">“I sold you My Torah; as it were, I was sold with it.”</t>\n    <t s=\"24\">And the innovation regarding Yisrael, the recipients of the Torah, is,</t>\n    <t s=\"25\">that at the Giving of the Torah, the Torah was given into the ownership, as it were, of Yisrael,</t>\n    <t s=\"26\">that the power to rule on halachos was given specifically to Yisrael.</t>\n    <t s=\"27\">For “we do not pay attention to a Heavenly Voice,” and beyond this, “My children have defeated Me, My children have defeated Me.”</t>\n    <t s=\"28\">And the innovation regarding the Torah itself is that the Torah given at the Giving of the Torah is in a manner of command and decree that acts upon man and the world to be as the Torah instructs.</t>\n    <t s=\"29\">And as explained in Likkutei Torah</t>\n    <t s=\"30\">regarding the Ten Commandments that were said at the Giving of the Torah</t>\n    <t s=\"31\">(and from that the matter is understood that it is likewise regarding all the commandments of the Torah)</t>\n    <t s=\"32\">that they were said in the language of command and also in the future tense,</t>\n    <t s=\"33\">such as “Lo Tirtzach” (You shall not murder), which is both a command and a promise,</t>\n    <t s=\"34\">for the speech itself decrees upon man and the world</t>\n    <t s=\"35\">and acts upon them to be so.</t>\n    <t s=\"36\">[And although this innovation is seemingly only in the action of the Torah upon man and the world, and not in the Torah itself,</t>\n    <t s=\"37\">nevertheless,</t>\n    <t s=\"38\">since the name “Torah”</t>\n    <t s=\"39\">[for the name of every thing indicates its content]</t>\n    <t s=\"40\">is from the term “hora’ah” (instruction),</t>\n    <t s=\"41\">the innovation in the manner of the instruction of the Torah</t>\n    <t s=\"42\">[that the instruction of the Torah as to how man and the world should be is in a manner that acts upon them]</t>\n    <t s=\"43\">pertains to the Torah itself.]</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that the same dynamic applies to Yisrael's study of Torah, which refines and separates the impure from the pure.</sectionSummaryBrief>\n    <t s=\"0\">And likewise is it regarding the study of Torah by Yisrael,</t>\n    <t s=\"1\">as explained in Likkutei Torah there,</t>\n    <t s=\"2\">that through Yisrael studying “these are treifos in an animal, etc., and these are kosher, etc.,”</t>\n    <t s=\"3\">a clarification and separation is made between impure and pure, and “all workers of iniquity shall be scattered,”</t>\n    <t s=\"4\">similar to the action in the world that is done through the utterances that the Holy One, blessed be He, spoke at the Giving of the Torah.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section emphasizes that the innovation of the Torah effecting change in the world is even more pronounced through the performance of its commandments.</sectionSummaryBrief>\n    <t s=\"0\">And to add,</t>\n    <t s=\"1\">that the innovation that occurs in the Torah, that through it a change is made in the world,</t>\n    <t s=\"2\">is emphasized even more in the commandments of the Torah.</t>\n    <t s=\"3\">For through the fulfillment of the commandments of the Torah after the Giving of the Torah,</t>\n    <t s=\"4\">a clarification and refinement is made in the physical object in which the commandment is performed,</t>\n    <t s=\"5\">to the extent that in several matters the physical becomes an object of a commandment,</t>\n    <t s=\"6\">and even an object of holiness.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918762_theRebbe_940",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains the three novel aspects of the Giving of the Torah: regarding the Giver, the recipients, and the Torah itself.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And one can explain the elucidation of this,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that at the Giving of the Torah there are three matters,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "the Holy One, blessed be He, gives the Torah,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "and Yisrael are the recipients of the Torah,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and the Torah itself."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "And the innovation in the Torah that was given at the Giving of the Torah regarding the Torah that the Patriarchs studied before the Giving of the Torah is both regarding the Giver of the Torah,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "and regarding the recipients of the Torah, and regarding the Torah itself."
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "That the innovation regarding the Giver of the Torah is as it is brought in the Gemara"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "that “Anochi”"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "(the opening of the Giving of the Torah)"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "is an acronym: A."
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "na N."
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "afshi K."
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "savti Y."
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "havis,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "that “Ana”"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "(My soul)"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "is His Essence, blessed be He,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "and the explanation of “Ana Nafshi Ksavti Yhavis” is"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "that He wrote and gave Himself,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "“Ana Nafshi.”"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "And in the language of the Midrash:"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "“I sold you My Torah; as it were, I was sold with it.”"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "And the innovation regarding Yisrael, the recipients of the Torah, is,"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "that at the Giving of the Torah, the Torah was given into the ownership, as it were, of Yisrael,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "that the power to rule on halachos was given specifically to Yisrael."
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "For “we do not pay attention to a Heavenly Voice,” and beyond this, “My children have defeated Me, My children have defeated Me.”"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "And the innovation regarding the Torah itself is that the Torah given at the Giving of the Torah is in a manner of command and decree that acts upon man and the world to be as the Torah instructs."
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "And as explained in Likkutei Torah"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "regarding the Ten Commandments that were said at the Giving of the Torah"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "(and from that the matter is understood that it is likewise regarding all the commandments of the Torah)"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "that they were said in the language of command and also in the future tense,"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "such as “Lo Tirtzach” (You shall not murder), which is both a command and a promise,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "for the speech itself decrees upon man and the world"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "and acts upon them to be so."
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "[And although this innovation is seemingly only in the action of the Torah upon man and the world, and not in the Torah itself,"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "since the name “Torah”"
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "[for the name of every thing indicates its content]"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "is from the term “hora’ah” (instruction),"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "the innovation in the manner of the instruction of the Torah"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "[that the instruction of the Torah as to how man and the world should be is in a manner that acts upon them]"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "pertains to the Torah itself.]"
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that the same dynamic applies to Yisrael's study of Torah, which refines and separates the impure from the pure.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And likewise is it regarding the study of Torah by Yisrael,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "as explained in Likkutei Torah there,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "that through Yisrael studying “these are treifos in an animal, etc., and these are kosher, etc.,”"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "a clarification and separation is made between impure and pure, and “all workers of iniquity shall be scattered,”"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "similar to the action in the world that is done through the utterances that the Holy One, blessed be He, spoke at the Giving of the Torah."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section emphasizes that the innovation of the Torah effecting change in the world is even more pronounced through the performance of its commandments.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And to add,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that the innovation that occurs in the Torah, that through it a change is made in the world,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "is emphasized even more in the commandments of the Torah."
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "For through the fulfillment of the commandments of the Torah after the Giving of the Torah,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "a clarification and refinement is made in the physical object in which the commandment is performed,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "to the extent that in several matters the physical becomes an object of a commandment,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "and even an object of holiness."
+          }
+        ]
+      }
+    ]
+  }
+}

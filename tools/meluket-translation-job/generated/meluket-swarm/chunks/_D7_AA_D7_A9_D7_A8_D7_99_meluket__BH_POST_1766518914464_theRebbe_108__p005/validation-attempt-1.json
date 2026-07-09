@@ -1,0 +1,122 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 18,
+    "returned": 18,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914464_theRebbe_108\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>The vessel for these two matters is the unity of Israel in two modes, which also applies to individual divine service and prepares for the true redemption through Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">And the vessel for these two matters is the unity of Israel in two modes.</t>\n    <t s=\"1\">That each one receives from his fellow,</t>\n    <t s=\"2\">and that all of Israel are one structure.</t>\n    <t s=\"3\">And likewise in the individual service of each and every one,</t>\n    <t s=\"4\">that there are these two matters in it.</t>\n    <t s=\"5\">The service of the ten powers of his soul</t>\n    <t s=\"6\">(which are analogous to the ten categories from your heads, your tribes, until the hewer of your wood and the drawer of your water54)</t>\n    <t s=\"7\">in a manner that all the powers receive from each other and complete each other,</t>\n    <t s=\"8\">and the service from the aspect of Yechidah, which is above division.</t>\n    <t s=\"9\">And this is also a proximate preparation for the true and complete redemption through Moshiach our righteousness,</t>\n    <t s=\"10\">for the matter of Moshiach is Yechidah55.</t>\n    <t s=\"11\">And this is that in every Jew there is a spark of Moshiach56,</t>\n    <t s=\"12\">that the particular Yechidah in each and every Jew is a spark of the general Yechidah of Moshiach</t>\n    <t s=\"13\">[And analogous to Moshe</t>\n    <t s=\"14\">(the first redeemer57)</t>\n    <t s=\"15\">that in each and every Jew there is the aspect of Moshe within him58],</t>\n    <t s=\"16\">he will come and redeem us and lead us upright to our land,</t>\n    <t s=\"17\">in the true and complete redemption speedily, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914464_theRebbe_108",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "The vessel for these two matters is the unity of Israel in two modes, which also applies to individual divine service and prepares for the true redemption through Moshiach.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "And the vessel for these two matters is the unity of Israel in two modes."
+          },
+          {
+            "v": 12,
+            "s": 1,
+            "translation": "That each one receives from his fellow,"
+          },
+          {
+            "v": 12,
+            "s": 2,
+            "translation": "and that all of Israel are one structure."
+          },
+          {
+            "v": 12,
+            "s": 3,
+            "translation": "And likewise in the individual service of each and every one,"
+          },
+          {
+            "v": 12,
+            "s": 4,
+            "translation": "that there are these two matters in it."
+          },
+          {
+            "v": 12,
+            "s": 5,
+            "translation": "The service of the ten powers of his soul"
+          },
+          {
+            "v": 12,
+            "s": 6,
+            "translation": "(which are analogous to the ten categories from your heads, your tribes, until the hewer of your wood and the drawer of your water54)"
+          },
+          {
+            "v": 12,
+            "s": 7,
+            "translation": "in a manner that all the powers receive from each other and complete each other,"
+          },
+          {
+            "v": 12,
+            "s": 8,
+            "translation": "and the service from the aspect of Yechidah, which is above division."
+          },
+          {
+            "v": 12,
+            "s": 9,
+            "translation": "And this is also a proximate preparation for the true and complete redemption through Moshiach our righteousness,"
+          },
+          {
+            "v": 12,
+            "s": 10,
+            "translation": "for the matter of Moshiach is Yechidah55."
+          },
+          {
+            "v": 12,
+            "s": 11,
+            "translation": "And this is that in every Jew there is a spark of Moshiach56,"
+          },
+          {
+            "v": 12,
+            "s": 12,
+            "translation": "that the particular Yechidah in each and every Jew is a spark of the general Yechidah of Moshiach"
+          },
+          {
+            "v": 12,
+            "s": 13,
+            "translation": "[And analogous to Moshe"
+          },
+          {
+            "v": 12,
+            "s": 14,
+            "translation": "(the first redeemer57)"
+          },
+          {
+            "v": 12,
+            "s": 15,
+            "translation": "that in each and every Jew there is the aspect of Moshe within him58],"
+          },
+          {
+            "v": 12,
+            "s": 16,
+            "translation": "he will come and redeem us and lead us upright to our land,"
+          },
+          {
+            "v": 12,
+            "s": 17,
+            "translation": "in the true and complete redemption speedily, literally."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918679_theRebbe_674" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918679_theRebbe_674__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918679_theRebbe_674" title="מאמר אנכי הוי' אלוקיך תשמ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918679_theRebbe_674__p005">
+  <section v="12">
+    <src s="0">ועפ"ז כשישראל למטה פוסקים פס"ד ע"פ תורה שהגיע כבר זמן הגאולה</src>
+    <src s="1">(כי כלו כל הקצין55</src>
+    <src s="2">וישראל כבר עשו תשובה56)</src>
+    <src s="3">– כן יקום ותיכף ומיד באה הגאולה.</src>
+  </section>
+  <section v="13">
+    <src s="0">ו)</src>
+    <src s="1">ולהוסיף שחג השבועות שייך למשה רבינו57,</src>
+    <src s="2">דמשה58</src>
+    <src s="3">קיבל תורה מסיני ומסרה וכו' עד לאנשי כנסת הגדולה שהם אמרו העמידו תלמידים הרבה,</src>
+    <src s="4">שבזה</src>
+    <src s="5">(תלמידים הרבה)</src>
+    <src s="6">נכלל כל אחד מישראל,</src>
+    <src s="7">אנשים נשים וטף.</src>
+    <src s="8">[ויש לומר דפירוש העמידו תלמידים הרבה הוא גם שכל אחד מהתלמידים</src>
+    <src s="9">(היינו כל א' מישראל)</src>
+    <src s="10">נעשה עמוד,</src>
+    <src s="11">שעל ידו מתקיימים כל ג' העמודים שעליהם העולם עומד].</src>
+  </section>
+  <section v="14">
+    <src s="0">וחג השבועות שייך לדוד המלך ולהבעש"ט57</src>
+    <src s="1">שיום ההילולא שלהם הוא בחגה"ש.</src>
+    <src s="2">ומכיון שהענין דחידוש הבריאה הוא פירוש הבעש"ט על הפסוק לעולם ה' דברך נצב בשמים,</src>
+    <src s="3">פסוק בתהלים שנאמר ע"י דוד נעים זמירות ישראל,</src>
+    <src s="4">לכן,</src>
+    <src s="5">ימי חגה"ש הם מסוגלים ביחוד ללימוד והפצת התורה באופן דהעמידו תלמידים הרבה,</src>
+    <src s="6">ושהלימוד וההפצה בכל יום,</src>
+    <src s="7">ועאכו"כ בכל שנה,</src>
+    <src s="8">יהיו באופן דמעלין בקודש ועד באופן של חידוש,</src>
+    <src s="9">שע"י החידוש בתורה נתגלה</src>
+    <src s="10">(כנ"ל)</src>
+    <src s="11">החידוש דהבריאה,</src>
+    <src s="12">שכל הנבראים מתחדשים מאין ליש בכל רגע.</src>
+  </section>
+</awtsmoosMeluketSource>

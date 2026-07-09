@@ -1,0 +1,279 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 47,
+    "returned": 47,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919515_theRebbe_764\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>This section explains that unlike the parable of teacher and student where the contraction conceals even from the teacher, above, the contraction itself does not conceal from Ein Sof, so the revelation of the Name Havayah shines even within the actual created reality.</sectionSummaryBrief>\n    <t s=\"0\">And to add,</t>\n    <t s=\"1\">that in the parable of the teacher and student,</t>\n    <t s=\"2\">this that regarding the teacher the contraction does not conceal,</t>\n    <t s=\"3\">is that after the contraction, the innerness of the intellect shines for him even in the externality and even in the garments,</t>\n    <t s=\"4\">but not so above,</t>\n    <t s=\"5\">this that the contraction is not literal</t>\n    <t s=\"6\">(meaning that the contraction does not conceal regarding Ein Sof),</t>\n    <t s=\"7\">[these are] two matters in this.</t>\n    <t s=\"8\">That after the contraction, Ein Sof shines in actual revelation in the place of the void just as before the contraction.</t>\n    <t s=\"9\">And that even at the time of the contraction,</t>\n    <t s=\"10\">the contraction does not conceal regarding Him,</t>\n    <t s=\"11\">as explained at length in the discourses.</t>\n    <t s=\"12\">And based on this it is understood even more that also in the reality that is made through the concealment of the Name Elokim, the revelation of the Name Havayah shines,</t>\n    <t s=\"13\">for in the parable of the teacher and student,</t>\n    <t s=\"14\">the contraction itself is a concealment even regarding the teacher,</t>\n    <t s=\"15\">for at the time of the contraction the intellect is concealed even from the teacher.</t>\n    <t s=\"16\">Therefore,</t>\n    <t s=\"17\">even after the contraction,</t>\n    <t s=\"18\">when the teacher sees his very intellect even within the garments and parables,</t>\n    <t s=\"19\">this does not pertain to the garments themselves.</t>\n    <t s=\"20\">But not so above,</t>\n    <t s=\"21\">even the contraction itself does not conceal regarding Ein Sof,</t>\n    <t s=\"22\">and therefore,</t>\n    <t s=\"23\">the revelation of the Name Havayah shines even within the reality itself.</t>\n    <t s=\"24\">And based on this, the expression \"There is no place that is profane\" will be understood even more, that the place of the Temple is not a profane place</t>\n    <t s=\"25\">[and likewise the expression \"the place of the Ark is not from the measure,\"</t>\n    <t s=\"26\">that the place is not from the measure],</t>\n    <t s=\"27\">because the revelation of the Name Havayah is in the place itself.</t>\n  </section>\n  <section v=\"19\">\n    <sectionSummaryBrief>This section introduces two general explanations of the unity of Havayah and Elokim: that the Name Elokim itself is for revelation, and that both Names are Names of the Holy One, blessed be He, above both of them.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And the explanation of the matter of \"There is no place that is profane\" in greater depth will be understood by prefacing that in the matter of the unification of Havayah and Elokim,</t>\n    <t s=\"2\">Havayah and Elokim are entirely one,</t>\n    <t s=\"3\">[there are] two explanations in general.</t>\n    <t s=\"4\">That even the Name Elokim</t>\n    <t s=\"5\">(contraction)</t>\n    <t s=\"6\">its purpose is to reveal,</t>\n    <t s=\"7\">that in order for the revelation of the Name Havayah to be drawn downward, it is through the contraction and concealment of the Name Elokim.</t>\n    <t s=\"8\">And another explanation,</t>\n    <t s=\"9\">that the two Names Havayah and Elokim are Names of the Holy One, blessed be He, Who is above both of them,</t>\n    <t s=\"10\">except that thus it arose in His will, blessed be He, that His revelation be in the two lines of without limit and limit</t>\n    <t s=\"11\">(revelation and contraction).</t>\n  </section>\n  <section v=\"20\">\n    <sectionSummaryBrief>This section explains that since the contraction of the Name Elokim is one with Havayah, it cannot conceal regarding Him, and therefore the revelation of that which is above place shone in the place itself.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, there is to add explanation in this, that above, even the contraction itself does not conceal regarding Ein Sof</t>\n    <t s=\"1\">(in addition to the explanation in the discourses),</t>\n    <t s=\"2\">for since even the contraction of the Name Elokim is one with Havayah,</t>\n    <t s=\"3\">it is not possible that it conceal regarding Him.</t>\n    <t s=\"4\">And based on this, there is to explain in greater depth the expression \"There is no place that is profane,\" that the place of the Temple is not a profane place</t>\n    <t s=\"5\">[and likewise \"the place of the Ark is not from the measure\"],</t>\n    <t s=\"6\">that the revelation of that which is above place that shone in the place was from the aspect of the place itself.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919515_theRebbe_764",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "This section explains that unlike the parable of teacher and student where the contraction conceals even from the teacher, above, the contraction itself does not conceal from Ein Sof, so the revelation of the Name Havayah shines even within the actual created reality.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "And to add,"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "that in the parable of the teacher and student,"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "this that regarding the teacher the contraction does not conceal,"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "is that after the contraction, the innerness of the intellect shines for him even in the externality and even in the garments,"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "but not so above,"
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "this that the contraction is not literal"
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "(meaning that the contraction does not conceal regarding Ein Sof),"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "[these are] two matters in this."
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "That after the contraction, Ein Sof shines in actual revelation in the place of the void just as before the contraction."
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "And that even at the time of the contraction,"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "the contraction does not conceal regarding Him,"
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "as explained at length in the discourses."
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "And based on this it is understood even more that also in the reality that is made through the concealment of the Name Elokim, the revelation of the Name Havayah shines,"
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "for in the parable of the teacher and student,"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "the contraction itself is a concealment even regarding the teacher,"
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "for at the time of the contraction the intellect is concealed even from the teacher."
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "even after the contraction,"
+          },
+          {
+            "v": 18,
+            "s": 18,
+            "translation": "when the teacher sees his very intellect even within the garments and parables,"
+          },
+          {
+            "v": 18,
+            "s": 19,
+            "translation": "this does not pertain to the garments themselves."
+          },
+          {
+            "v": 18,
+            "s": 20,
+            "translation": "But not so above,"
+          },
+          {
+            "v": 18,
+            "s": 21,
+            "translation": "even the contraction itself does not conceal regarding Ein Sof,"
+          },
+          {
+            "v": 18,
+            "s": 22,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 18,
+            "s": 23,
+            "translation": "the revelation of the Name Havayah shines even within the reality itself."
+          },
+          {
+            "v": 18,
+            "s": 24,
+            "translation": "And based on this, the expression \"There is no place that is profane\" will be understood even more, that the place of the Temple is not a profane place"
+          },
+          {
+            "v": 18,
+            "s": 25,
+            "translation": "[and likewise the expression \"the place of the Ark is not from the measure,\""
+          },
+          {
+            "v": 18,
+            "s": 26,
+            "translation": "that the place is not from the measure],"
+          },
+          {
+            "v": 18,
+            "s": 27,
+            "translation": "because the revelation of the Name Havayah is in the place itself."
+          }
+        ]
+      },
+      {
+        "v": 19,
+        "sectionSummaryBrief": "This section introduces two general explanations of the unity of Havayah and Elokim: that the Name Elokim itself is for revelation, and that both Names are Names of the Holy One, blessed be He, above both of them.",
+        "translations": [
+          {
+            "v": 19,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 19,
+            "s": 1,
+            "translation": "And the explanation of the matter of \"There is no place that is profane\" in greater depth will be understood by prefacing that in the matter of the unification of Havayah and Elokim,"
+          },
+          {
+            "v": 19,
+            "s": 2,
+            "translation": "Havayah and Elokim are entirely one,"
+          },
+          {
+            "v": 19,
+            "s": 3,
+            "translation": "[there are] two explanations in general."
+          },
+          {
+            "v": 19,
+            "s": 4,
+            "translation": "That even the Name Elokim"
+          },
+          {
+            "v": 19,
+            "s": 5,
+            "translation": "(contraction)"
+          },
+          {
+            "v": 19,
+            "s": 6,
+            "translation": "its purpose is to reveal,"
+          },
+          {
+            "v": 19,
+            "s": 7,
+            "translation": "that in order for the revelation of the Name Havayah to be drawn downward, it is through the contraction and concealment of the Name Elokim."
+          },
+          {
+            "v": 19,
+            "s": 8,
+            "translation": "And another explanation,"
+          },
+          {
+            "v": 19,
+            "s": 9,
+            "translation": "that the two Names Havayah and Elokim are Names of the Holy One, blessed be He, Who is above both of them,"
+          },
+          {
+            "v": 19,
+            "s": 10,
+            "translation": "except that thus it arose in His will, blessed be He, that His revelation be in the two lines of without limit and limit"
+          },
+          {
+            "v": 19,
+            "s": 11,
+            "translation": "(revelation and contraction)."
+          }
+        ]
+      },
+      {
+        "v": 20,
+        "sectionSummaryBrief": "This section explains that since the contraction of the Name Elokim is one with Havayah, it cannot conceal regarding Him, and therefore the revelation of that which is above place shone in the place itself.",
+        "translations": [
+          {
+            "v": 20,
+            "s": 0,
+            "translation": "And based on this, there is to add explanation in this, that above, even the contraction itself does not conceal regarding Ein Sof"
+          },
+          {
+            "v": 20,
+            "s": 1,
+            "translation": "(in addition to the explanation in the discourses),"
+          },
+          {
+            "v": 20,
+            "s": 2,
+            "translation": "for since even the contraction of the Name Elokim is one with Havayah,"
+          },
+          {
+            "v": 20,
+            "s": 3,
+            "translation": "it is not possible that it conceal regarding Him."
+          },
+          {
+            "v": 20,
+            "s": 4,
+            "translation": "And based on this, there is to explain in greater depth the expression \"There is no place that is profane,\" that the place of the Temple is not a profane place"
+          },
+          {
+            "v": 20,
+            "s": 5,
+            "translation": "[and likewise \"the place of the Ark is not from the measure\"],"
+          },
+          {
+            "v": 20,
+            "s": 6,
+            "translation": "that the revelation of that which is above place that shone in the place was from the aspect of the place itself."
+          }
+        ]
+      }
+    ]
+  }
+}

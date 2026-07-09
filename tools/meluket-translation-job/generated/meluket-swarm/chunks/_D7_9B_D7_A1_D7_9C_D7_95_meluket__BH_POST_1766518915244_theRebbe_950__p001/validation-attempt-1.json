@@ -1,0 +1,289 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 49,
+    "returned": 49,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915244_theRebbe_950\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header of the maamar for Shabbos Vayeitzei, 10 Kislev 5722.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos of Parshas Vayeitzei,</t>\n    <t s=\"2\">10 Kislev, Maamar 3,</t>\n    <t s=\"3\">5722*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that war is called \"krav\" from the term for closeness, as the Divine soul must draw near to the animal soul to influence it during prayer.</sectionSummaryBrief>\n    <t s=\"0\">\"He redeemed my soul in peace from the battle that was against me, for many were with me.\"</t>\n    <t s=\"1\">And the Baal HaGeulah explains in his maamar beginning with this phrase</t>\n    <t s=\"2\">(printed in his book Shaarei Teshuvah),</t>\n    <t s=\"3\">that the reason war is called by the term \"krav,\" from the language of closeness (kiruv)</t>\n    <t s=\"4\">(even though war is the opposite of closeness),</t>\n    <t s=\"5\">is,</t>\n    <t s=\"6\">that the matter of war is that each of the two combatants wants to defeat the other and subdue him so that he will be included within him,</t>\n    <t s=\"7\">and in order to effect this—that he fights against him so that he will be included within him—</t>\n    <t s=\"8\">it is specifically through the closeness that he draws near to him,</t>\n    <t s=\"9\">\"krav\" from the language of closeness.</t>\n    <t s=\"10\">And similarly, regarding the war between the Divine soul and the animal soul,</t>\n    <t s=\"11\">the primary war is during the time of prayer</t>\n    <t s=\"12\">(the time of prayer is the time of battle),</t>\n    <t s=\"13\">so that the service</t>\n    <t s=\"14\">(prayer)</t>\n    <t s=\"15\">of the Divine soul will affect the animal soul so that it becomes included in the Divine soul</t>\n    <t s=\"16\">[meaning that even the animal soul will have love for G-d,</t>\n    <t s=\"17\">\"with all your heart, with both your inclinations\"],</t>\n    <t s=\"18\">it is through the Divine soul clothing itself in the animal soul,</t>\n    <t s=\"19\">that the contemplation of the Divine soul is in such matters and in such a manner that even the animal soul can grasp.</t>\n    <t s=\"20\">However, when prayer is from the soul itself,</t>\n    <t s=\"21\">it does not affect the animal soul,</t>\n    <t s=\"22\">as explained in the maamar.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the refinement of the animal soul through the Divine soul clothing in it is a matter of war, whereas \"He redeemed my soul in peace\" refers to redemption through the revelation of a supernal light that nullifies the animal soul's desires without war.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">Now, the refinement of the animal soul through the Divine soul clothing itself in the animal soul,</t>\n    <t s=\"2\">is a matter of war,</t>\n    <t s=\"3\">as above.</t>\n    <t s=\"4\">For the matter of war is,</t>\n    <t s=\"5\">that there is an opponent and one must wage war against him.</t>\n    <t s=\"6\">And the matter of \"He redeemed my soul in peace\" is that the redemption of the Divine soul from the exile of the animal soul is not in a manner of war,</t>\n    <t s=\"7\">but rather,</t>\n    <t s=\"8\">that through the revelation of a supernal light, the desires of the animal soul are nullified,</t>\n    <t s=\"9\">so that there is no need for war at all.</t>\n    <t s=\"10\">And as explained in many places,</t>\n    <t s=\"11\">and also in the aforementioned maamar,</t>\n    <t s=\"12\">regarding the refinement through engaging in Torah study,</t>\n    <t s=\"13\">which is not in a path of war</t>\n    <t s=\"14\">(meaning that there is an opponent but one defeats him through war,</t>\n    <t s=\"15\">but rather)</t>\n    <t s=\"16\">that through the revelation of the light of Torah, it is the nullification of evil in its very essence.</t>\n    <t s=\"17\">.</t>\n    <t s=\"18\">And similarly regarding prayer,</t>\n    <t s=\"19\">that through the love that is above reason and intellect, from the aspect of Chayah and Yechidah, the desires of the animal soul are nullified,</t>\n    <t s=\"20\">and the redemption of the Divine soul from the exile of the animal soul is in a manner of peace,</t>\n    <t s=\"21\">\"He redeemed my soul in peace.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915244_theRebbe_950",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915244_theRebbe_950__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header of the maamar for Shabbos Vayeitzei, 10 Kislev 5722.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos of Parshas Vayeitzei,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "10 Kislev, Maamar 3,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "5722*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that war is called \"krav\" from the term for closeness, as the Divine soul must draw near to the animal soul to influence it during prayer.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"He redeemed my soul in peace from the battle that was against me, for many were with me.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Baal HaGeulah explains in his maamar beginning with this phrase"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(printed in his book Shaarei Teshuvah),"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "that the reason war is called by the term \"krav,\" from the language of closeness (kiruv)"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "(even though war is the opposite of closeness),"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "is,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that the matter of war is that each of the two combatants wants to defeat the other and subdue him so that he will be included within him,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "and in order to effect this—that he fights against him so that he will be included within him—"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "it is specifically through the closeness that he draws near to him,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "\"krav\" from the language of closeness."
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "And similarly, regarding the war between the Divine soul and the animal soul,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "the primary war is during the time of prayer"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "(the time of prayer is the time of battle),"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "so that the service"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "(prayer)"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "of the Divine soul will affect the animal soul so that it becomes included in the Divine soul"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "[meaning that even the animal soul will have love for G-d,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "\"with all your heart, with both your inclinations\"],"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "it is through the Divine soul clothing itself in the animal soul,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "that the contemplation of the Divine soul is in such matters and in such a manner that even the animal soul can grasp."
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "However, when prayer is from the soul itself,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "it does not affect the animal soul,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "as explained in the maamar."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the refinement of the animal soul through the Divine soul clothing in it is a matter of war, whereas \"He redeemed my soul in peace\" refers to redemption through the revelation of a supernal light that nullifies the animal soul's desires without war.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "Now, the refinement of the animal soul through the Divine soul clothing itself in the animal soul,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "is a matter of war,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "as above."
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "For the matter of war is,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "that there is an opponent and one must wage war against him."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And the matter of \"He redeemed my soul in peace\" is that the redemption of the Divine soul from the exile of the animal soul is not in a manner of war,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "but rather,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that through the revelation of a supernal light, the desires of the animal soul are nullified,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "so that there is no need for war at all."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And as explained in many places,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "and also in the aforementioned maamar,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "regarding the refinement through engaging in Torah study,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "which is not in a path of war"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "(meaning that there is an opponent but one defeats him through war,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "but rather)"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "that through the revelation of the light of Torah, it is the nullification of evil in its very essence."
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And similarly regarding prayer,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that through the love that is above reason and intellect, from the aspect of Chayah and Yechidah, the desires of the animal soul are nullified,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "and the redemption of the Divine soul from the exile of the animal soul is in a manner of peace,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "\"He redeemed my soul in peace.\""
+          }
+        ]
+      }
+    ]
+  }
+}

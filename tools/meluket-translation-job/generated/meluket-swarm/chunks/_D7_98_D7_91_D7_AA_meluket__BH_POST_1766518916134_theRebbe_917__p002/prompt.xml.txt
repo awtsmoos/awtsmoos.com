@@ -1,0 +1,120 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="טבת_meluket" postId="BH_POST_1766518916134_theRebbe_917" title="מאמר ויגש אליו יהודה תשכ"ה" batchId="meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916134_theRebbe_917__p002">
+  <section v="3">
+    <src s="0">ומזה מובן,</src>
+    <src s="1">שבהגשת יהודה ליוסף,</src>
+    <src s="2">שני ענינים.</src>
+    <src s="3">שבגילוי,</src>
+    <src s="4">הענין דהגשת יהודה ליוסף הוא לפי שיוסף</src>
+    <src s="5">(יסוד ז"א)</src>
+    <src s="6">הוא המשפיע ויהודה</src>
+    <src s="7">(מלכות)</src>
+    <src s="8">הוא המקבל,</src>
+    <src s="9">ולכן נגש יהודה ליוסף וביקש בי אדוני,</src>
+    <src s="10">שיומשך בו השפע מיוסף הצדיק.</src>
+    <src s="11">ועוד ענין בהגשת יהודה ליוסף,</src>
+    <src s="12">שמרומז בהסופי תיבות דויגש אליו יהודה,</src>
+    <src s="13">שהוא החיבור והיחוד דיוסף</src>
+    <src s="14">(ז"א,</src>
+    <src s="15">דעת עליון)</src>
+    <src s="16">ויהודה</src>
+    <src s="17">(מלכות,</src>
+    <src s="18">דעת תחתון)</src>
+    <src s="19">שיהי' לע"ל,</src>
+    <src s="20">שהמלכות תהי' כמו הז"א.</src>
+    <src s="21">ועפ"ז יש לומר,</src>
+    <src s="22">שבויגש אליו יהודה מרומז גם העלי' דמלכות שיהי' לע"ל,</src>
+    <src s="23">שהמלכות תהי' למעלה מז"א,</src>
+    <src s="24">אשת חיל עטרת בעלה15,</src>
+    <src s="25">שלמעלה גם מהענין דשניהם שוים.</src>
+  </section>
+  <section v="4">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזהו מה דאיתא בזהר16</src>
+    <src s="2">שהגשת יהודה ליוסף הוא ענין סמיכת גאולה לתפלה</src>
+    <src s="3">[דגאולה היא בחינת יסוד,</src>
+    <src s="4">יוסף,</src>
+    <src s="5">ותפלה היא בחינת מלכות,</src>
+    <src s="6">יהודה17].</src>
+    <src s="7">דמלשון רז"ל18</src>
+    <src s="8">סמיכת גאולה לתפלה</src>
+    <src s="9">(ולא סמיכת תפלה לגאולה),</src>
+    <src s="10">שתפלה היא במקומה וגאולה נסמכת</src>
+    <src s="11">(נגשת)</src>
+    <src s="12">לתפלה,</src>
+    <src s="13">מובן19,</src>
+    <src s="14">שהעיקר הוא20</src>
+    <src s="15">התפלה.</src>
+    <src s="16">ומזה שאומר בזהר שהגשת יהודה ליוסף הו"ע סמיכת גאולה לתפלה,</src>
+    <src s="17">משמע,</src>
+    <src s="18">שגם בהגשת יהודה ליוסף ישנה</src>
+    <src s="19">(בהעלם)</src>
+    <src s="20">המעלה דיהודה לגבי יוסף.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים מ"ש אדמו"ר</src>
+    <src s="2">(מהורש"ב)</src>
+    <src s="3">נ"ע בד"ה זה21,</src>
+    <src s="4">דזה שיהודה הקדים תחלה בי אדוני</src>
+    <src s="5">(דלכאורה הי' צריך להתחיל ידבר נא עבדך גו')</src>
+    <src s="6">הוא כענין קדימת פסוק22</src>
+    <src s="7">אד' שפתי תפתח קודם התפלה</src>
+    <src s="8">[שאין זה הפסק בין גאולה לתפלה,</src>
+    <src s="9">כדאיתא בגמרא23,</src>
+    <src s="10">כיון דתקינו רבנן למימר אד' שפתי תפתח,</src>
+    <src s="11">כתפלה אריכתא דמיא].</src>
+    <src s="12">והנה בתרגום עה"פ אד' שפתי תפתח פירש,</src>
+    <src s="13">שפותי פתח באורייתא.</src>
+    <src s="14">ומבואר בכמה דרושים24</src>
+    <src s="15">המבארים הענין דתורה ותפלה</src>
+    <src s="16">(וגם בדרוש הנ"ל25),</src>
+    <src s="17">דהבקשה שבפסוק זה שבהתחלת התפלה היא,</src>
+    <src s="18">שהתפלה</src>
+    <src s="19">(ופי יגיד תהלתך)</src>
+    <src s="20">תהי' כמו תורה</src>
+    <src s="21">(אד' שפתי תפתח באורייתא).</src>
+    <src s="22">דכמו שבתורה,</src>
+    <src s="23">התורה שהאדם לומד היא דבר ה',</src>
+    <src s="24">דברי אשר שמתי בפיך26,</src>
+    <src s="25">והאדם הוא כעונה אחר הקורא27,</src>
+    <src s="26">כמו"כ גם התפלה תהי' באופן דופי יגיד תהלתך,</src>
+    <src s="27">שתפלת האדם תהי' שעל ידה תומשך</src>
+    <src s="28">(יגיד מלשון המשכה)</src>
+    <src s="29">תהלתך,</src>
+    <src s="30">תפלתו של הקב"ה.</src>
+  </section>
+</awtsmoosMeluketSource>

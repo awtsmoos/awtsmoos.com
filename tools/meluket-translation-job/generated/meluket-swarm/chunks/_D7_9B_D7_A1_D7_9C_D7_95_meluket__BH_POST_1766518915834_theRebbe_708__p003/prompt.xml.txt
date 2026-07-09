@@ -1,0 +1,118 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915834_theRebbe_708" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915834_theRebbe_708" title="מאמר שלום רב לאוהבי תורתך תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915834_theRebbe_708__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">אך עדיין צריך להבין מה שפסוק זה</src>
+    <src s="2">(שלום רב לאוהבי תורתך)</src>
+    <src s="3">בא43</src>
+    <src s="4">בהמשך ובהוספה למ"ש44</src>
+    <src s="5">וכל בניך לימודי הוי' ורב שלום בניך,</src>
+    <src s="6">דלכאורה גם לימוד התורה דבניך לימודי הוי' וגו' בניך הוא לאחרי הקדמת עבודת התפלה,</src>
+    <src s="7">שהרי כתוב בהם ורב שלום,</src>
+    <src s="8">ומבואר בהמאמר דשלום רב</src>
+    <src s="9">(רב שלום)</src>
+    <src s="10">הוא דוקא לאוהבי תורתך</src>
+    <src s="11">(שאוהבים את התורה מצד זה שהיא תורתך),</src>
+    <src s="12">דאהבה זו היא ע"י הקדמת עבודת התפלה</src>
+    <src s="13">(כנ"ל סעיף א וב'),</src>
+    <src s="14">ומהי ההוספה בשלום רב לאוהבי תורתך על ורב שלום בניך.</src>
+    <src s="15">אך הענין הוא,</src>
+    <src s="16">דהנה ארז"ל43</src>
+    <src s="17">(עה"פ ורב שלום בניך)</src>
+    <src s="18">א"ת בניך אלא בוניך,</src>
+    <src s="19">ופירוש בוניך הוא כמרז"ל45</src>
+    <src s="20">מאי בנאין אלו תלמידי חכמים שעוסקין בבנינו של עולם46.</src>
+    <src s="21">וזהו החילוק שבין ב' הפסוקים,</src>
+    <src s="22">דבפסוק ורב שלום בניך שמדבר בענין פעולת התורה בעולם</src>
+    <src s="23">(מה שתלמידי חכמים בונים את העולם ע"י עסק התורה שלהם),</src>
+    <src s="24">גם הכוונה בורב שלום בניך היא</src>
+    <src s="25">(בעיקר)</src>
+    <src s="26">לענין השלום שנעשה בעולם47</src>
+    <src s="27">ע"י עסק התורה,</src>
+    <src s="28">שהתורה ניתנה48</src>
+    <src s="29">לעשות שלום בעולם.</src>
+    <src s="30">ובפסוק שלום רב לאוהבי תורתך מוסיף שהשלום רב נמשך גם להתלמידי חכמים עצמם</src>
+    <src s="31">(לאוהבי תורתך).</src>
+    <src s="32">וזהו שדוקא בפסוק זה אומר לאוהבי תורתך</src>
+    <src s="33">(שהאהבה לתורה היא מצד נותן התורה,</src>
+    <src s="34">שזה נעשה ע"י הקדמת עבודת התפלה),</src>
+    <src s="35">כי בכדי להמשיך ריבוי שלום בעולם אינו מוכרח להקדמת עבודת התפלה,</src>
+    <src s="36">משא"כ בכדי שיומשך שלום רב להתלמידי חכמים עצמם המשכה זו היא דוקא ע"י עבודת התפלה.</src>
+  </section>
+  <section v="7">
+    <src s="0">ו)</src>
+    <src s="1">ויובן זה בהקדים המבואר בהמאמר</src>
+    <src s="2">(ד"ה שלום רב תש"ד49)</src>
+    <src s="3">בענין עבודת הצדיקים שמקיימים את העולם שנברא בעשרה מאמרות50</src>
+    <src s="4">[שזהו ג"כ ענין תלמידי חכמים שעוסקים בבנינו של עולם51],</src>
+    <src s="5">שעשרה מאמרות שבהם נברא העולם מכוונים כנגד עשרת הדברות52,</src>
+    <src s="6">וכמ"ש53</src>
+    <src s="7">עשרה עשרה הכף בשקל הקודש,</src>
+    <src s="8">ומה שתלמידי חכמים בונים את העולם הוא שממשיכים את עשרת הדברות</src>
+    <src s="9">[שבהם כלולה כל התורה כולה54,</src>
+    <src s="10">כולל גם מה שתלמיד ותיק עתיד לחדש55]</src>
+    <src s="11">בעשרה מאמרות שבהם נברא העולם.</src>
+    <src s="12">והגם שגם בתחילת הבריאה עולם על מילואו נברא56</src>
+    <src s="13">(היינו שע"י העשרה מאמרות יש גילוי אלקות בעולם),</src>
+    <src s="14">הרי כוונת הבריאה היא שהאדם ע"י עבודתו ימשיך תוספת אור בעולם57,</src>
+    <src s="15">ועד לאור שלמעלה משרש הנבראים,</src>
+    <src s="16">והמשכה זו היא ע"י התורה</src>
+    <src s="17">(עשרת הדברות)</src>
+    <src s="18">דוקא.</src>
+  </section>
+  <section v="8">
+    <src s="0">וזהו תלמידי חכמים מרבים שלום בעולם</src>
+    <src s="1">(מרבים דוקא),</src>
+    <src s="2">דהשלום בעולם שנעשה ע"י התלמידי חכמים הוא לא רק שלילת ענינים בלתי רצויים</src>
+    <src s="3">(היפך השלום)</src>
+    <src s="4">שנעשה ע"י החטאים,</src>
+    <src s="5">היינו שיהי' העולם על מילואו כמו שהי' בתחילת הבריאה</src>
+    <src s="6">[ועד שמצד גודל העילוי שלהם</src>
+    <src s="7">(מה שהם בניך לימודי הוי')</src>
+    <src s="8">אין צריכים לזה עבודה מיוחדת,</src>
+    <src s="9">כי חטא והעלם דעולם שנעשה ע"י החטא אינו אצלם</src>
+    <src s="10">(לגבם),</src>
+    <src s="11">ורואים את העולם כמו שהוא על מילואו כמו שהי' קודם החטא],</src>
+    <src s="12">אלא יתירה מזו,</src>
+    <src s="13">שמרבים שלום בעולם,</src>
+    <src s="14">ורב שלום בניך,</src>
+    <src s="15">(בדוגמת)</src>
+    <src s="16">ריבוי השלום שיהי' לעתיד לבוא58,</src>
+    <src s="17">לפי שע"י עסק התורה שלהם ממשיכים מעצמות אוא"ס שלמעלה משרש העולמות,</src>
+    <src s="18">ועי"ז משלימים הכוונה דנתאוה59</src>
+    <src s="19">הקב"ה להיות לו ית' דירה בתחתונים.</src>
+  </section>
+</awtsmoosMeluketSource>

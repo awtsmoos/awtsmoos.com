@@ -1,0 +1,884 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 168,
+    "returned": 168,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917418_theRebbe_694\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917418_theRebbe_694__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that within the mitzvos themselves there are three levels: refining creation, G-d's own ways (the 248 limbs of the King), and the transcendent will of the Ein Sof.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And one may add,</t>\n    <t s=\"2\">that the root of these three modes in the fulfillment of the mitzvos</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">that also in the mitzvos themselves there are three aspects</t>\n    <t s=\"5\">(paralleling the three modes in the fulfillment of the mitzvos).</t>\n    <t s=\"6\">And the explanation is,</t>\n    <t s=\"7\">that the giving of the mitzvos</t>\n    <t s=\"8\">(below)</t>\n    <t s=\"9\">is as our Sages, of blessed memory, said,40</t>\n    <t s=\"10\">“The mitzvos were only given to refine the creations through them.”</t>\n    <t s=\"11\">That is,</t>\n    <t s=\"12\">that the intention in giving the mitzvos is</t>\n    <t s=\"13\">(not for the sake of the mitzvos themselves,</t>\n    <t s=\"14\">but rather)</t>\n    <t s=\"15\">for the sake of the clarification and refinement of the powers and limbs of the person who fulfills the mitzvah, and for the sake of the clarification and refinement of the things of the world with which the mitzvah is fulfilled.41</t>\n    <t s=\"16\">And there is a more elevated aspect in the mitzvos,</t>\n    <t s=\"17\">that they are the mitzvos of the Holy One, blessed be He,</t>\n    <t s=\"18\">as the exposition of our Sages, of blessed memory,42</t>\n    <t s=\"19\">on the verse,43</t>\n    <t s=\"20\">“He declares His words to Yaakov, His statutes and judgments to Israel,”</t>\n    <t s=\"21\">“What He does, He tells Israel to do,”</t>\n    <t s=\"22\">that this—that the Holy One, blessed be He, fulfills the mitzvos</t>\n    <t s=\"23\">(first,44</t>\n    <t s=\"24\">before He tells Israel to do them)—</t>\n    <t s=\"25\">is from His own essence</t>\n    <t s=\"26\">(from the perspective of Above).</t>\n    <t s=\"27\">[And this is also understood from the fact that the 248 positive commandments are the 248 limbs of the King,45</t>\n    <t s=\"28\">that this—that the mitzvos are His limbs, as it were—is from the perspective of Above].</t>\n    <t s=\"29\">And through Israel doing the mitzvos that He does,</t>\n    <t s=\"30\">they walk in the ways of the Holy One, blessed be He,46</t>\n    <t s=\"31\">and are attached to Him,47</t>\n    <t s=\"32\">and through this, vitality is drawn down to the person who fulfills the mitzvos,</t>\n    <t s=\"33\">as it is written,48</t>\n    <t s=\"34\">“which a man shall do and live by them,”</t>\n    <t s=\"35\">for through the doing of the mitzvos he attaches himself to the Holy One, blessed be He,</t>\n    <t s=\"36\">(as above),</t>\n    <t s=\"37\">and through “and you who cling to Havayah your G-d”</t>\n    <t s=\"38\">(through this)</t>\n    <t s=\"39\">“you are all alive today.”49</t>\n    <t s=\"40\">And since this aspect in the mitzvos</t>\n    <t s=\"41\">(that they are the ways of the Holy One, blessed be He,</t>\n    <t s=\"42\">through the fact that the Holy One, blessed be He, does the mitzvos)</t>\n    <t s=\"43\">is above any connection to worlds,</t>\n    <t s=\"44\">therefore,</t>\n    <t s=\"45\">also the vitality drawn down to the person who fulfills the mitzvos is the vitality of the aspect of Sovev (the Encompassing),</t>\n    <t s=\"46\">which in its own essence is holy and separate from worlds, and nevertheless, through the fulfillment of the mitzvos, he lives by them with an inner vitality.50</t>\n    <t s=\"47\">However, also this aspect in the mitzvos</t>\n    <t s=\"48\">is on a level that has form.</t>\n    <t s=\"49\">And therefore the mitzvos that are on this level are divided,</t>\n    <t s=\"50\">“the ways of Havayah”</t>\n    <t s=\"51\">(plural),51</t>\n    <t s=\"52\">the 248 limbs of the King,</t>\n    <t s=\"53\">for the drawing down through each mitzvah is a particular drawing down</t>\n    <t s=\"54\">(like the power of sight in the eye and the power of hearing in the ear).</t>\n    <t s=\"55\">And therefore it is possible for a person to do the mitzvos that the Holy One, blessed be He, does,</t>\n    <t s=\"56\">for the 248 limbs of the lower man are, as it were, a parallel to the 248 limbs of the King,</t>\n    <t s=\"57\">“Let us make man in our image, after our likeness.”52</t>\n    <t s=\"58\">And there is a more elevated aspect in the mitzvos,</t>\n    <t s=\"59\">that the mitzvos are the Supernal Will</t>\n    <t s=\"60\">(a will that is above reason),</t>\n    <t s=\"61\">for the will in the mitzvos is equal in all 613 mitzvos</t>\n    <t s=\"62\">(above the 248 limbs).</t>\n    <t s=\"63\">And since the will in the mitzvos is incomparably above the lower man who fulfills the mitzvah</t>\n    <t s=\"64\">(all the more so from the fact that it is above the form of the Supernal Man),</t>\n    <t s=\"65\">therefore,</t>\n    <t s=\"66\">with regard to53</t>\n    <t s=\"67\">this level</t>\n    <t s=\"68\">(as it is in its own essence)</t>\n    <t s=\"69\">the person occupies no place,</t>\n    <t s=\"70\">for the self-nullification of the absence of occupying place is a nullification of existence.54</t>\n    <t s=\"71\">And also after there is the command to the person, through which he becomes an existence,</t>\n    <t s=\"72\">his entire existence is only to fulfill the command,</t>\n    <t s=\"73\">and through his fulfilling the command he becomes joined</t>\n    <t s=\"74\">(mitzvah from the term tzavta, connection55)</t>\n    <t s=\"75\">with the Commander,</t>\n    <t s=\"76\">(Who is incomparably above him).</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section describes three parallel modes in Torah study: for intellectual pleasure, for connection with G-d through the soul, and for the sake of the Torah itself as one with Atzmus.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And similarly is it in the study of Torah,</t>\n    <t s=\"2\">that there are these three modes in it.</t>\n    <t s=\"3\">For in addition to the three modes that exist in the mitzvah of Torah study</t>\n    <t s=\"4\">(as in all mitzvos),</t>\n    <t s=\"5\">behold, also in the aspect of the study of Torah itself there exist</t>\n    <t s=\"6\">(parallels to)</t>\n    <t s=\"7\">these three modes.</t>\n    <t s=\"8\">For when one studies Torah from the perspective of the wisdom and intellect within it,</t>\n    <t s=\"9\">that the Torah is “your wisdom and your understanding</t>\n    <t s=\"10\">(even)</t>\n    <t s=\"11\">in the eyes of the nations,”56</t>\n    <t s=\"12\">his study of Torah is from the nature of his body and his natural soul,</t>\n    <t s=\"13\">for by his nature he loves intellectual concepts.</t>\n    <t s=\"14\">And when his study of Torah is from the perspective that the Torah is the medium that connects Israel and the Holy One, blessed be He,</t>\n    <t s=\"15\">as the statement of the Zohar,57</t>\n    <t s=\"16\">“Three knots are bound one with another: Israel, the Torah, and the Holy One, blessed be He,”</t>\n    <t s=\"17\">that through Israel being bound in the Torah they are bound to the Holy One, blessed be He,</t>\n    <t s=\"18\">his study of Torah is from the perspective of the soul within him.</t>\n    <t s=\"19\">That is,</t>\n    <t s=\"20\">that also this mode in Torah study is from the perspective of his existence</t>\n    <t s=\"21\">(that he be connected to the Holy One, blessed be He)</t>\n    <t s=\"22\">except that it is the existence of the soul.</t>\n    <t s=\"23\">And there is a more elevated mode in Torah study,</t>\n    <t s=\"24\">that one who studies Torah does so</t>\n    <t s=\"25\">(not because of the elevation he will have through it,</t>\n    <t s=\"26\">but rather)</t>\n    <t s=\"27\">from the perspective of the Torah itself.</t>\n    <t s=\"28\">For since “the Torah and the Holy One, blessed be He, are entirely one,”58</t>\n    <t s=\"29\">and moreover, it is one with the Atzmus (Essence),</t>\n    <t s=\"30\">as our Sages, of blessed memory, said,59</t>\n    <t s=\"31\">that “Anochi” is an acronym for “Ana Nafshi Ketavit Yahavit” (I wrote and gave My very Self),</t>\n    <t s=\"32\">that “Ana”</t>\n    <t s=\"33\">(My Self)</t>\n    <t s=\"34\">is His very Essence,</t>\n    <t s=\"35\">and the explanation of “Ana Nafshi Ketavit Yahavit” is60</t>\n    <t s=\"36\">that He wrote and gave Himself,</t>\n    <t s=\"37\">“Ana Nafshi,”</t>\n    <t s=\"38\">that through the Torah “you take Me,”61</t>\n    <t s=\"39\">therefore, just as the Holy One, blessed be He, is not, heaven forbid, a means to some other end, and the “purpose” is in Himself,</t>\n    <t s=\"40\">so too62</t>\n    <t s=\"41\">is it also in the Torah study of man,</t>\n    <t s=\"42\">that he feels that the purpose of his Torah study is the Torah itself.</t>\n    <t s=\"43\">For this—that he knows that “the Torah and the Holy One, blessed be He, are entirely one”—</t>\n    <t s=\"44\">causes him to give and surrender himself to Torah study without any calculations</t>\n    <t s=\"45\">(not even the calculation that through this he will be connected to the Holy One, blessed be He),</t>\n    <t s=\"46\">and his Torah study is with ultimate self-nullification.</t>\n    <t s=\"47\">And these three modes in Torah study are drawn from the three aspects in the Torah itself,</t>\n    <t s=\"48\">that the Torah is wisdom and intellect</t>\n    <t s=\"49\">(that is, it is the wisdom of the Holy One, blessed be He, and afterwards descended and became clothed in the intellect of man63),</t>\n    <t s=\"50\">that the Torah is the medium that connects Israel to the Holy One, blessed be He,</t>\n    <t s=\"51\">and that “the Torah and the Holy One, blessed be He, are entirely one.”</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section parallels the three modes in the laws of Torah study: learning for practical action (body), knowing the entire Torah (soul), and constant study without limit (Torah itself).</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And behold, these three above-mentioned aspects have their parallel also in the laws and halachos of Torah study.</t>\n    <t s=\"2\">For the obligation to study the halachos that are necessary for action64</t>\n    <t s=\"3\">in order to know the deed that one must do,</t>\n    <t s=\"4\">is analogous to Torah study from the perspective of the</t>\n    <t s=\"5\">(nature of the)</t>\n    <t s=\"6\">body and the natural soul,</t>\n    <t s=\"7\">since the doing of the mitzvos</t>\n    <t s=\"8\">(including the mitzvos that depend on speech65)</t>\n    <t s=\"9\">is through the body and the animal soul.66</t>\n    <t s=\"10\">And the obligation of the mitzvah of knowing the Torah,</t>\n    <t s=\"11\">to know the entire Torah</t>\n    <t s=\"12\">(also matters that are not necessary for action),</t>\n    <t s=\"13\">since the purpose of this mitzvah is that the person know the Torah,</t>\n    <t s=\"14\">is analogous to Torah study for the sake of the soul.</t>\n    <t s=\"15\">And one could say,</t>\n    <t s=\"16\">that this is the reason why there is a measure and limit to the mitzvah of knowing the Torah</t>\n    <t s=\"17\">[for what is said,67</t>\n    <t s=\"18\">“It is longer than the measure of the earth” refers to the fact that there is no end to the depth of the reasons of the halachos,</t>\n    <t s=\"19\">but the halachos themselves, as well as the midrashim, etc., have an end and a number,68</t>\n    <t s=\"20\">and there were many who learned and knew the entire Torah69],</t>\n    <t s=\"21\">for since the mitzvah of knowing the Torah is that the person know the Torah,</t>\n    <t s=\"22\">and the person is limited,</t>\n    <t s=\"23\">therefore also the Torah</t>\n    <t s=\"24\">(that pertains to this mitzvah)</t>\n    <t s=\"25\">is with measure and limitation.</t>\n    <t s=\"26\">And the obligation of “and you shall meditate in it day and night”70</t>\n    <t s=\"27\">[even after one has learned the entire Torah,</t>\n    <t s=\"28\">and similarly regarding those whose intellect is limited and will not attain knowledge of the entire Torah71]</t>\n    <t s=\"29\">is the obligation of Torah study from the perspective of the Torah itself.</t>\n    <t s=\"30\">And since the Torah</t>\n    <t s=\"31\">(as it is in its own essence)</t>\n    <t s=\"32\">is above measure and limitation</t>\n    <t s=\"33\">(“it is longer than the measure of the earth”),</t>\n    <t s=\"34\">therefore,</t>\n    <t s=\"35\">also the mitzvah of Torah study</t>\n    <t s=\"36\">(as it is from the perspective of the Torah itself)</t>\n    <t s=\"37\">is that one should engage in it constantly, day and night, in every free moment,</t>\n    <t s=\"38\">above measure and limitation.72</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917418_theRebbe_694",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917418_theRebbe_694__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that within the mitzvos themselves there are three levels: refining creation, G-d's own ways (the 248 limbs of the King), and the transcendent will of the Ein Sof.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that the root of these three modes in the fulfillment of the mitzvos"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "is,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that also in the mitzvos themselves there are three aspects"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "(paralleling the three modes in the fulfillment of the mitzvos)."
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that the giving of the mitzvos"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(below)"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "is as our Sages, of blessed memory, said,40"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "“The mitzvos were only given to refine the creations through them.”"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "That is,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that the intention in giving the mitzvos is"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "(not for the sake of the mitzvos themselves,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "but rather)"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "for the sake of the clarification and refinement of the powers and limbs of the person who fulfills the mitzvah, and for the sake of the clarification and refinement of the things of the world with which the mitzvah is fulfilled.41"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "And there is a more elevated aspect in the mitzvos,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "that they are the mitzvos of the Holy One, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "as the exposition of our Sages, of blessed memory,42"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "on the verse,43"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "“He declares His words to Yaakov, His statutes and judgments to Israel,”"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "“What He does, He tells Israel to do,”"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "that this—that the Holy One, blessed be He, fulfills the mitzvos"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "(first,44"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "before He tells Israel to do them)—"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "is from His own essence"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "(from the perspective of Above)."
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "[And this is also understood from the fact that the 248 positive commandments are the 248 limbs of the King,45"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "that this—that the mitzvos are His limbs, as it were—is from the perspective of Above]."
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "And through Israel doing the mitzvos that He does,"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "they walk in the ways of the Holy One, blessed be He,46"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "and are attached to Him,47"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "and through this, vitality is drawn down to the person who fulfills the mitzvos,"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "as it is written,48"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "“which a man shall do and live by them,”"
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "for through the doing of the mitzvos he attaches himself to the Holy One, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "(as above),"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "and through “and you who cling to Havayah your G-d”"
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "(through this)"
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "“you are all alive today.”49"
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "And since this aspect in the mitzvos"
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "(that they are the ways of the Holy One, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 42,
+            "translation": "through the fact that the Holy One, blessed be He, does the mitzvos)"
+          },
+          {
+            "v": 6,
+            "s": 43,
+            "translation": "is above any connection to worlds,"
+          },
+          {
+            "v": 6,
+            "s": 44,
+            "translation": "therefore,"
+          },
+          {
+            "v": 6,
+            "s": 45,
+            "translation": "also the vitality drawn down to the person who fulfills the mitzvos is the vitality of the aspect of Sovev (the Encompassing),"
+          },
+          {
+            "v": 6,
+            "s": 46,
+            "translation": "which in its own essence is holy and separate from worlds, and nevertheless, through the fulfillment of the mitzvos, he lives by them with an inner vitality.50"
+          },
+          {
+            "v": 6,
+            "s": 47,
+            "translation": "However, also this aspect in the mitzvos"
+          },
+          {
+            "v": 6,
+            "s": 48,
+            "translation": "is on a level that has form."
+          },
+          {
+            "v": 6,
+            "s": 49,
+            "translation": "And therefore the mitzvos that are on this level are divided,"
+          },
+          {
+            "v": 6,
+            "s": 50,
+            "translation": "“the ways of Havayah”"
+          },
+          {
+            "v": 6,
+            "s": 51,
+            "translation": "(plural),51"
+          },
+          {
+            "v": 6,
+            "s": 52,
+            "translation": "the 248 limbs of the King,"
+          },
+          {
+            "v": 6,
+            "s": 53,
+            "translation": "for the drawing down through each mitzvah is a particular drawing down"
+          },
+          {
+            "v": 6,
+            "s": 54,
+            "translation": "(like the power of sight in the eye and the power of hearing in the ear)."
+          },
+          {
+            "v": 6,
+            "s": 55,
+            "translation": "And therefore it is possible for a person to do the mitzvos that the Holy One, blessed be He, does,"
+          },
+          {
+            "v": 6,
+            "s": 56,
+            "translation": "for the 248 limbs of the lower man are, as it were, a parallel to the 248 limbs of the King,"
+          },
+          {
+            "v": 6,
+            "s": 57,
+            "translation": "“Let us make man in our image, after our likeness.”52"
+          },
+          {
+            "v": 6,
+            "s": 58,
+            "translation": "And there is a more elevated aspect in the mitzvos,"
+          },
+          {
+            "v": 6,
+            "s": 59,
+            "translation": "that the mitzvos are the Supernal Will"
+          },
+          {
+            "v": 6,
+            "s": 60,
+            "translation": "(a will that is above reason),"
+          },
+          {
+            "v": 6,
+            "s": 61,
+            "translation": "for the will in the mitzvos is equal in all 613 mitzvos"
+          },
+          {
+            "v": 6,
+            "s": 62,
+            "translation": "(above the 248 limbs)."
+          },
+          {
+            "v": 6,
+            "s": 63,
+            "translation": "And since the will in the mitzvos is incomparably above the lower man who fulfills the mitzvah"
+          },
+          {
+            "v": 6,
+            "s": 64,
+            "translation": "(all the more so from the fact that it is above the form of the Supernal Man),"
+          },
+          {
+            "v": 6,
+            "s": 65,
+            "translation": "therefore,"
+          },
+          {
+            "v": 6,
+            "s": 66,
+            "translation": "with regard to53"
+          },
+          {
+            "v": 6,
+            "s": 67,
+            "translation": "this level"
+          },
+          {
+            "v": 6,
+            "s": 68,
+            "translation": "(as it is in its own essence)"
+          },
+          {
+            "v": 6,
+            "s": 69,
+            "translation": "the person occupies no place,"
+          },
+          {
+            "v": 6,
+            "s": 70,
+            "translation": "for the self-nullification of the absence of occupying place is a nullification of existence.54"
+          },
+          {
+            "v": 6,
+            "s": 71,
+            "translation": "And also after there is the command to the person, through which he becomes an existence,"
+          },
+          {
+            "v": 6,
+            "s": 72,
+            "translation": "his entire existence is only to fulfill the command,"
+          },
+          {
+            "v": 6,
+            "s": 73,
+            "translation": "and through his fulfilling the command he becomes joined"
+          },
+          {
+            "v": 6,
+            "s": 74,
+            "translation": "(mitzvah from the term tzavta, connection55)"
+          },
+          {
+            "v": 6,
+            "s": 75,
+            "translation": "with the Commander,"
+          },
+          {
+            "v": 6,
+            "s": 76,
+            "translation": "(Who is incomparably above him)."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section describes three parallel modes in Torah study: for intellectual pleasure, for connection with G-d through the soul, and for the sake of the Torah itself as one with Atzmus.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And similarly is it in the study of Torah,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that there are these three modes in it."
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "For in addition to the three modes that exist in the mitzvah of Torah study"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "(as in all mitzvos),"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "behold, also in the aspect of the study of Torah itself there exist"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "(parallels to)"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "these three modes."
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "For when one studies Torah from the perspective of the wisdom and intellect within it,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "that the Torah is “your wisdom and your understanding"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "(even)"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "in the eyes of the nations,”56"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "his study of Torah is from the nature of his body and his natural soul,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "for by his nature he loves intellectual concepts."
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "And when his study of Torah is from the perspective that the Torah is the medium that connects Israel and the Holy One, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "as the statement of the Zohar,57"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "“Three knots are bound one with another: Israel, the Torah, and the Holy One, blessed be He,”"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "that through Israel being bound in the Torah they are bound to the Holy One, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "his study of Torah is from the perspective of the soul within him."
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "That is,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "that also this mode in Torah study is from the perspective of his existence"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "(that he be connected to the Holy One, blessed be He)"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "except that it is the existence of the soul."
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "And there is a more elevated mode in Torah study,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "that one who studies Torah does so"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "(not because of the elevation he will have through it,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "but rather)"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "from the perspective of the Torah itself."
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "For since “the Torah and the Holy One, blessed be He, are entirely one,”58"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "and moreover, it is one with the Atzmus (Essence),"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "as our Sages, of blessed memory, said,59"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "that “Anochi” is an acronym for “Ana Nafshi Ketavit Yahavit” (I wrote and gave My very Self),"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "that “Ana”"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "(My Self)"
+          },
+          {
+            "v": 7,
+            "s": 34,
+            "translation": "is His very Essence,"
+          },
+          {
+            "v": 7,
+            "s": 35,
+            "translation": "and the explanation of “Ana Nafshi Ketavit Yahavit” is60"
+          },
+          {
+            "v": 7,
+            "s": 36,
+            "translation": "that He wrote and gave Himself,"
+          },
+          {
+            "v": 7,
+            "s": 37,
+            "translation": "“Ana Nafshi,”"
+          },
+          {
+            "v": 7,
+            "s": 38,
+            "translation": "that through the Torah “you take Me,”61"
+          },
+          {
+            "v": 7,
+            "s": 39,
+            "translation": "therefore, just as the Holy One, blessed be He, is not, heaven forbid, a means to some other end, and the “purpose” is in Himself,"
+          },
+          {
+            "v": 7,
+            "s": 40,
+            "translation": "so too62"
+          },
+          {
+            "v": 7,
+            "s": 41,
+            "translation": "is it also in the Torah study of man,"
+          },
+          {
+            "v": 7,
+            "s": 42,
+            "translation": "that he feels that the purpose of his Torah study is the Torah itself."
+          },
+          {
+            "v": 7,
+            "s": 43,
+            "translation": "For this—that he knows that “the Torah and the Holy One, blessed be He, are entirely one”—"
+          },
+          {
+            "v": 7,
+            "s": 44,
+            "translation": "causes him to give and surrender himself to Torah study without any calculations"
+          },
+          {
+            "v": 7,
+            "s": 45,
+            "translation": "(not even the calculation that through this he will be connected to the Holy One, blessed be He),"
+          },
+          {
+            "v": 7,
+            "s": 46,
+            "translation": "and his Torah study is with ultimate self-nullification."
+          },
+          {
+            "v": 7,
+            "s": 47,
+            "translation": "And these three modes in Torah study are drawn from the three aspects in the Torah itself,"
+          },
+          {
+            "v": 7,
+            "s": 48,
+            "translation": "that the Torah is wisdom and intellect"
+          },
+          {
+            "v": 7,
+            "s": 49,
+            "translation": "(that is, it is the wisdom of the Holy One, blessed be He, and afterwards descended and became clothed in the intellect of man63),"
+          },
+          {
+            "v": 7,
+            "s": 50,
+            "translation": "that the Torah is the medium that connects Israel to the Holy One, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 51,
+            "translation": "and that “the Torah and the Holy One, blessed be He, are entirely one.”"
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section parallels the three modes in the laws of Torah study: learning for practical action (body), knowing the entire Torah (soul), and constant study without limit (Torah itself).",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And behold, these three above-mentioned aspects have their parallel also in the laws and halachos of Torah study."
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "For the obligation to study the halachos that are necessary for action64"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "in order to know the deed that one must do,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "is analogous to Torah study from the perspective of the"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "(nature of the)"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "body and the natural soul,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "since the doing of the mitzvos"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(including the mitzvos that depend on speech65)"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "is through the body and the animal soul.66"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "And the obligation of the mitzvah of knowing the Torah,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "to know the entire Torah"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "(also matters that are not necessary for action),"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "since the purpose of this mitzvah is that the person know the Torah,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "is analogous to Torah study for the sake of the soul."
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "And one could say,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "that this is the reason why there is a measure and limit to the mitzvah of knowing the Torah"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "[for what is said,67"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "“It is longer than the measure of the earth” refers to the fact that there is no end to the depth of the reasons of the halachos,"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "but the halachos themselves, as well as the midrashim, etc., have an end and a number,68"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "and there were many who learned and knew the entire Torah69],"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "for since the mitzvah of knowing the Torah is that the person know the Torah,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "and the person is limited,"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "therefore also the Torah"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "(that pertains to this mitzvah)"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "is with measure and limitation."
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "And the obligation of “and you shall meditate in it day and night”70"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "[even after one has learned the entire Torah,"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "and similarly regarding those whose intellect is limited and will not attain knowledge of the entire Torah71]"
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "is the obligation of Torah study from the perspective of the Torah itself."
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "And since the Torah"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "(as it is in its own essence)"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "is above measure and limitation"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "(“it is longer than the measure of the earth”),"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "therefore,"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "also the mitzvah of Torah study"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "(as it is from the perspective of the Torah itself)"
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "is that one should engage in it constantly, day and night, in every free moment,"
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "above measure and limitation.72"
+          }
+        ]
+      }
+    ]
+  }
+}

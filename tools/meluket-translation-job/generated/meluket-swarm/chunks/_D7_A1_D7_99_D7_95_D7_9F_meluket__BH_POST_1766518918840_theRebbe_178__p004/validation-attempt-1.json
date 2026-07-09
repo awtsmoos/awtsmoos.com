@@ -1,0 +1,269 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 45,
+    "returned": 45,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918840_theRebbe_178\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the superiority of the self-nullification of \"Basi\" (the yoke of mitzvos) over that of \"Imi\" (the precedence of Naaseh to Nishma) stems from the fact that Israel's yoke to observe the commandments given at Matan Torah is because the Holy One made them servants, which is the essence of true nullification.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And based on this, we can explain the superiority of the nullification of \"Basi\" over the nullification of \"Imi\"</t>\n    <t s=\"2\">[even though the nullification of \"Basi\"</t>\n    <t s=\"3\">(the yoke of mitzvos)</t>\n    <t s=\"4\">pertains to the power of action,</t>\n    <t s=\"5\">to do what one is commanded,</t>\n    <t s=\"6\">and the nullification of \"Imi\"</t>\n    <t s=\"7\">(the precedence of Naaseh to Nishma,</t>\n    <t s=\"8\">the yoke of the kingdom of heaven)</t>\n    <t s=\"9\">is in his very existence</t>\n    <t s=\"10\">(as above in section 4)],</t>\n    <t s=\"11\">because the yoke of Israel to fulfill the mitzvos that were given at the giving of the Torah is because at the giving of the Torah the Holy One made them servants,</t>\n    <t s=\"12\">the essence of nullification.</t>\n    <t s=\"13\">And it can be said,</t>\n    <t s=\"14\">that this which is explained in many places30</t>\n    <t s=\"15\">that \"Bas\" is the aspect of the recipient,</t>\n    <t s=\"16\">that he has nothing of his own and is only a recipient of what is given to him from above,</t>\n    <t s=\"17\">the intention in this is,</t>\n    <t s=\"18\">that even the nullification of accepting the yoke is not from himself, but rather that at the giving of the Torah the Holy One chose Israel to be His servants.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section connects the nullification of \"Basi\" to the service during exile, explaining that Israel overcomes immense concealments because their nullification stems from G-dliness, as the Holy One chose them to be His servants.</sectionSummaryBrief>\n    <t s=\"0\">[And we can connect this with what was brought above</t>\n    <t s=\"1\">(at the beginning of the maamar)</t>\n    <t s=\"2\">from Torah Ohr that \"Bas Tzion\" refers to the Congregation of Israel in the time of exile,</t>\n    <t s=\"3\">because the nullification of \"Bas\" is primarily revealed in the service during the time of exile.</t>\n    <t s=\"4\">And as explained elsewhere31,</t>\n    <t s=\"5\">that in the time of exile,</t>\n    <t s=\"6\">and especially in the generation of the heels of Moshiach,</t>\n    <t s=\"7\">the concealments and veils are exceedingly great,</t>\n    <t s=\"8\">and there are concealments and veils that a person, from his own side</t>\n    <t s=\"9\">(even through his acceptance of the yoke that he accepts willingly),</t>\n    <t s=\"10\">since he is limited,</t>\n    <t s=\"11\">is not able to overcome,</t>\n    <t s=\"12\">and that Israel overcomes even these concealments and veils is because their nullification of accepting the yoke is</t>\n    <t s=\"13\">(not from their own existence, but rather)</t>\n    <t s=\"14\">from the aspect of G-dliness,</t>\n    <t s=\"15\">because the Holy One chose them to be His servants,</t>\n    <t s=\"16\">and with regard to G-dliness there are no limitations32].</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the haftorah of \"Reini Vesimchi Bas Tzion\" is read after Shavuos because the ultimate intent of the nullification of \"Imi\" on Shavuos is to subsequently reach the higher nullification of \"Basi,\" which is \"Bas Tzion.\"</sectionSummaryBrief>\n    <t s=\"0\">And this is that the haftorah of Parshas Beha'aloscha, which is after the time of the giving of our Torah, is \"Reini Vesimchi Bas Tzion,\"</t>\n    <t s=\"1\">even though the concept and virtue of \"the day of His wedding\"8</t>\n    <t s=\"2\">— this is the giving of the Torah33 —</t>\n    <t s=\"3\">is</t>\n    <t s=\"4\">(the crown with which His mother crowned Him)</t>\n    <t s=\"5\">\"His mother,\"</t>\n    <t s=\"6\">because the ultimate intent in the nullification of \"Imi\" on the holiday of Shavuos is that through this they will afterwards reach a more elevated nullification,</t>\n    <t s=\"7\">the nullification of \"Basi,\"</t>\n    <t s=\"8\">\"Bas Tzion.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918840_theRebbe_178",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the superiority of the self-nullification of \"Basi\" (the yoke of mitzvos) over that of \"Imi\" (the precedence of Naaseh to Nishma) stems from the fact that Israel's yoke to observe the commandments given at Matan Torah is because the Holy One made them servants, which is the essence of true nullification.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And based on this, we can explain the superiority of the nullification of \"Basi\" over the nullification of \"Imi\""
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "[even though the nullification of \"Basi\""
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "(the yoke of mitzvos)"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "pertains to the power of action,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "to do what one is commanded,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "and the nullification of \"Imi\""
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "(the precedence of Naaseh to Nishma,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "the yoke of the kingdom of heaven)"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "is in his very existence"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "(as above in section 4)],"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "because the yoke of Israel to fulfill the mitzvos that were given at the giving of the Torah is because at the giving of the Torah the Holy One made them servants,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "the essence of nullification."
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "that this which is explained in many places30"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "that \"Bas\" is the aspect of the recipient,"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "that he has nothing of his own and is only a recipient of what is given to him from above,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "the intention in this is,"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "that even the nullification of accepting the yoke is not from himself, but rather that at the giving of the Torah the Holy One chose Israel to be His servants."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section connects the nullification of \"Basi\" to the service during exile, explaining that Israel overcomes immense concealments because their nullification stems from G-dliness, as the Holy One chose them to be His servants.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "[And we can connect this with what was brought above"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "(at the beginning of the maamar)"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "from Torah Ohr that \"Bas Tzion\" refers to the Congregation of Israel in the time of exile,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "because the nullification of \"Bas\" is primarily revealed in the service during the time of exile."
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "And as explained elsewhere31,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "that in the time of exile,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "and especially in the generation of the heels of Moshiach,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "the concealments and veils are exceedingly great,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "and there are concealments and veils that a person, from his own side"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "(even through his acceptance of the yoke that he accepts willingly),"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "since he is limited,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "is not able to overcome,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "and that Israel overcomes even these concealments and veils is because their nullification of accepting the yoke is"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "(not from their own existence, but rather)"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "from the aspect of G-dliness,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "because the Holy One chose them to be His servants,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "and with regard to G-dliness there are no limitations32]."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the haftorah of \"Reini Vesimchi Bas Tzion\" is read after Shavuos because the ultimate intent of the nullification of \"Imi\" on Shavuos is to subsequently reach the higher nullification of \"Basi,\" which is \"Bas Tzion.\"",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And this is that the haftorah of Parshas Beha'aloscha, which is after the time of the giving of our Torah, is \"Reini Vesimchi Bas Tzion,\""
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "even though the concept and virtue of \"the day of His wedding\"8"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "— this is the giving of the Torah33 —"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "is"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "(the crown with which His mother crowned Him)"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "\"His mother,\""
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "because the ultimate intent in the nullification of \"Imi\" on the holiday of Shavuos is that through this they will afterwards reach a more elevated nullification,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "the nullification of \"Basi,\""
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "\"Bas Tzion.\""
+          }
+        ]
+      }
+    ]
+  }
+}

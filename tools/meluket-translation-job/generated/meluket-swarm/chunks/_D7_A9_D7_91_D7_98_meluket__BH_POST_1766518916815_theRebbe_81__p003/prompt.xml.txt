@@ -1,0 +1,119 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" title="מאמר באתי לגני תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">וממשיך בהמאמר27</src>
+    <src s="2">(לאחרי שמבאר בארוכה שהמשכת עיקר שכינה בתחתונים היא ע"י העבודה דאתכפיא ואתהפכא),</src>
+    <src s="3">שעל שם זה נקראים ישראל בשם צבאות הוי'28,</src>
+    <src s="4">מצד העבודה שלהם דאתכפיא ואתהפכא.</src>
+    <src s="5">ויש לומר הביאור בזה,</src>
+    <src s="6">דהחילוק שבין צבא</src>
+    <src s="7">(אנשי חיל)</src>
+    <src s="8">ובין השרים וכיו"ב שעוסקים בהטבת עניני המדינה הוא בשני ענינים.</src>
+    <src s="9">הן בהפעולה בהמדינה שנעשית על ידם,</src>
+    <src s="10">דע"י שיוצאים למלחמה לכבוש את האויב,</src>
+    <src s="11">נעשה חידוש במדינת המלך,</src>
+    <src s="12">שגם אותה המדינה שהיתה תחלה ברשות האויב נעשית מדינת המלך</src>
+    <src s="13">(משא"כ הטבת המדינה והגדלת כחה שע"י השרים אינה באופן של חידוש),</src>
+    <src s="14">והן בנוגע להצבא עצמם,</src>
+    <src s="15">שהמסירה והנתינה שלהם להמלך היא למעלה מכל הגבלות,</src>
+    <src s="16">ועד שמסכנים את נפשם כשיוצאים למלחמה,</src>
+    <src s="17">ויתירה מזו שהם מוכנים תמיד</src>
+    <src s="18">(גם שלא בעת מלחמה)</src>
+    <src s="19">למסור נפשם מבלי לנטות מאשר נצטוו29,</src>
+    <src s="20">מעלת הביטול.</src>
+    <src s="21">וזהו שישראל נק' בשם צבאות הוי' הוא מצד העבודה שלהם דאתכפיא ואתהפכא,</src>
+    <src s="22">דענין אתהפכא,</src>
+    <src s="23">שמהפך את העולם שמראה את עצמו למציאות</src>
+    <src s="24">[שזהו"ע השקר דעולם30]</src>
+    <src s="25">להיות מקדש ודירה לו ית',</src>
+    <src s="26">הוא דוגמת הכיבוש שבא ע"י המלחמה.</src>
+    <src s="27">ומהמעלות דאתהפכא היא החידוש31.</src>
+    <src s="28">דזה שחושך נהפך לאור הוא חידוש.</src>
+    <src s="29">וענין האתכפיא היא המלחמה עצמה,</src>
+    <src s="30">שלוחם נגד יצרו,</src>
+    <src s="31">והמעלה דאתכפיא היא בענין הביטול32,</src>
+    <src s="32">שמסלק ומניח את עצמו על הצד מפני רצון הקב"ה33.</src>
+  </section>
+  <section v="7">
+    <src s="0">וממשיך בהמאמר34,</src>
+    <src s="1">דכמו שבמלחמה בגשמיות,</src>
+    <src s="2">בכדי לנצח את המלחמה מבזבזים את האוצרות ונותנים אותם</src>
+    <src s="3">(ע"י שרי הפקידים)</src>
+    <src s="4">לאנשי החיל בכדי שינצחו את המלחמה,</src>
+    <src s="5">עד"ז הוא גם למעלה,</src>
+    <src s="6">שבכדי שהצבאות הוי' ינצחו את המלחמה,</src>
+    <src s="7">נותנים להם,</src>
+    <src s="8">ובאופן דבזבוז,</src>
+    <src s="9">האוצר שלמעלה.</src>
+  </section>
+  <section v="8">
+    <src s="0">ה)</src>
+    <src s="1">והנה החילוק שבין שתי העבודות דאתכפיא ואתהפכא היא גם בההמשכה שנמשכת על ידם.</src>
+    <src s="2">שההמשכה שע"י העבודה דאתכפיא היא נעלית יותר מההמשכה שע"י העבודה דאתהפכא32.</src>
+    <src s="3">דכד אתכפיא סט"א</src>
+    <src s="4">(אתכפיא דוקא35)</src>
+    <src s="5">אסתלק יקרא דקוב"ה בכולהו עלמין36,</src>
+    <src s="6">המשכת וגילוי עצמות אוא"ס שלמעלה משייכות לעולמות37,</src>
+    <src s="7">שלכן נקראת המשכה זו בשם אסתלק,</src>
+    <src s="8">לפי שהוא גילוי האור שבבחינת רוממות38.</src>
+    <src s="9">[ולהעיר,</src>
+    <src s="10">שכמו"כ הוא גם בהסתלקות של צדיקים,</src>
+    <src s="11">שאינה סילוק כפשוטו ח"ו,</src>
+    <src s="12">שהרי רועי ישראל לא יעזבו את צאן מרעיתם39,</src>
+    <src s="13">אלא אדרבא,</src>
+    <src s="14">המשכה נעלית יותר,</src>
+    <src s="15">המשכה מנשמת הצדיק עצמה שאינה מוגבלת בתוך כלי ולבוש40,</src>
+    <src s="16">וזה שנק' בשם הסתלקות הוא לפי שהוא גילוי שלמעלה מהתלבשות בכלים.</src>
+    <src s="17">ובפרט לאחרי עשרים שנה,</src>
+    <src s="18">שאז מיתוסף גם הענין דלמכור בנכסי אביו41</src>
+    <src s="19">[שזה קאי גם על התלמידים של הצדיק שנקראים בנים42],</src>
+    <src s="20">ומבואר בלקו"ת43</src>
+    <src s="21">דזה שארז"ל41</src>
+    <src s="22">ולמכור בנכסי אביו עד שיהא בן עשרים הוא כי אז נכנסים בו מקיפי אבא,</src>
+    <src s="23">מקיפים שלמעלה מהתלבשות בכלים.</src>
+    <src s="24">ויש לקשר זה גם עם זה שעשרים בגימטריא כתר44,</src>
+    <src s="25">ע"פ המבואר בלקו"ת שם בפירוש הכתוב45</src>
+    <src s="26">שאו את ראש גו' לגולגלותם מבן עשרים שנה גו',</src>
+    <src s="27">דגולגלותם הוא כתר</src>
+    <src s="28">(גלגלתא),</src>
+    <src s="29">וע"י שנמשכים המקיפים דאבא אפשר להיות ההעלאה לגלגלתא,</src>
+    <src s="30">כתר.</src>
+    <src s="31">והיינו,</src>
+    <src s="32">שלאחרי עשרים שנה יכולים לקבל נוסף על בחינת חי' של נשמת הצדיק גם מבחינת יחידה שלו,</src>
+    <src s="33">כמבואר בלקו"ת שם שמקיפים דאבא וגלגלתא הם חי' ויחידה].</src>
+  </section>
+</awtsmoosMeluketSource>

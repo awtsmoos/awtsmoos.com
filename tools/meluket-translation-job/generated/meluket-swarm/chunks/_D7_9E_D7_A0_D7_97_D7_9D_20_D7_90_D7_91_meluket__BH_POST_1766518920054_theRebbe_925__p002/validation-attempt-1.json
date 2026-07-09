@@ -1,0 +1,639 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 119,
+    "returned": 119,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518920054_theRebbe_925\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920054_theRebbe_925__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>There are three interpretations of the word \"tishma'un\" (hearing, understanding, gathering), corresponding to thought, speech, and action, and the verse links these to the reward of covenant, kindness, and oath from above.</sectionSummaryBrief>\n    <t s=\"0\">Now, in the word \"tishma'un\" there are three interpretations.</t>\n    <t s=\"1\">\"Tishma'un\" from the term of understanding,</t>\n    <t s=\"2\">as it is written,</t>\n    <t s=\"3\">\"Speak, for your servant is listening.\"</t>\n    <t s=\"4\">\"Tishma'un\" from the term of gathering,</t>\n    <t s=\"5\">as it is written,</t>\n    <t s=\"6\">\"And Shaul gathered the people.\"</t>\n    <t s=\"7\">And \"tishma'un\" simply, from the term of hearing,</t>\n    <t s=\"8\">for the matter of hearing relates to thought,</t>\n    <t s=\"9\">since the ear is only the vessel through which one hears,</t>\n    <t s=\"10\">but hearing itself is in thought,</t>\n    <t s=\"11\">and the matter of hearing also relates to speech,</t>\n    <t s=\"12\">for one hears what is spoken.</t>\n    <t s=\"13\">And this is what is said: \"Tishma'un, and you shall guard, and you shall do,\"</t>\n    <t s=\"14\">for \"tishma'un\" is thought,</t>\n    <t s=\"15\">and as above, that hearing is in thought,</t>\n    <t s=\"16\">\"and you shall guard\" is speech,</t>\n    <t s=\"17\">as the saying,</t>\n    <t s=\"18\">\"Guard\" refers to Mishnah,</t>\n    <t s=\"19\">and it is the halachic ruling as it comes in speech,</t>\n    <t s=\"20\">for when the intellect is in thought,</t>\n    <t s=\"21\">it is still in concealment,</t>\n    <t s=\"22\">for there are aspects of permission and purity, and aspects of the opposite,</t>\n    <t s=\"23\">but when the intellect is revealed in speech,</t>\n    <t s=\"24\">then there is a halachic ruling.</t>\n    <t s=\"25\">And then there will be no sustenance for the external forces,</t>\n    <t s=\"26\">for when it is still in concealment, sustenance is possible,</t>\n    <t s=\"27\">but when it is revealed, they have no sustenance.</t>\n    <t s=\"28\">And this is \"Guard\" refers to Mishnah,</t>\n    <t s=\"29\">that the Mishnah, whose matter is the revelation of intellect in speech, is a guard against sustenance, etc.</t>\n    <t s=\"30\">\"And you shall do\" is action.</t>\n    <t s=\"31\">And this means that \"tishma'un,\" \"and you shall guard,\" and \"and you shall do\" are thought, speech, and action.</t>\n    <t s=\"32\">And the beginning of this is from the aspect of the source of thought, speech, and action within thought itself,</t>\n    <t s=\"33\">which are the three interpretations in the word \"tishma'un,\"</t>\n    <t s=\"34\">for hearing from the term of understanding is thought within thought,</t>\n    <t s=\"35\">and hearing from the term of gathering is action within thought,</t>\n    <t s=\"36\">and hearing simply is speech within thought,</t>\n    <t s=\"37\">for one hears what is spoken.</t>\n    <t s=\"38\">And this is \"And it shall be, because you will listen,\" etc.,</t>\n    <t s=\"39\">for when you \"listen\" in the aspect of the source of thought, speech, and action within thought,</t>\n    <t s=\"40\">and afterward \"listen,\" \"guard,\" and \"do\" in actual thought, speech, and action,</t>\n    <t s=\"41\">then through this, \"the L-rd your G-d will keep for you the covenant and the kindness which He swore,\"</t>\n    <t s=\"42\">for these three matters</t>\n    <t s=\"43\">(covenant, kindness, and oath)</t>\n    <t s=\"44\">are the drawing down from above.</t>\n    <t s=\"45\">For covenant is action,</t>\n    <t s=\"46\">for the matter of cutting a covenant is that one cuts a whole thing into two and passes between them,</t>\n    <t s=\"47\">so that through this, love between them will be constant,</t>\n    <t s=\"48\">even in a situation where there is no reason for love,</t>\n    <t s=\"49\">neither from the aspect of speech,</t>\n    <t s=\"50\">nor even from the aspect of thought,</t>\n    <t s=\"51\">and nevertheless there will be love from the aspect of the covenant, which is a matter of actual action.</t>\n    <t s=\"52\">And kindness is thought,</t>\n    <t s=\"53\">for kindness is the feeling of the heart and mind,</t>\n    <t s=\"54\">and therefore it is included in thought.</t>\n    <t s=\"55\">And especially here it says \"and He will keep the kindness,\"</t>\n    <t s=\"56\">as explained</t>\n    <t s=\"57\">the difference between one who does kindness and one who guards kindness,</t>\n    <t s=\"58\">for one who does kindness is the doing of kindness,</t>\n    <t s=\"59\">and one who guards kindness is one who keeps the kindness in his heart and thought.</t>\n    <t s=\"60\">And oath is speech.</t>\n    <t s=\"61\">And this is \"And it shall be, because,\" etc., for when there is the service from below upward in thought, speech, and action,</t>\n    <t s=\"62\">then there will be a drawing down of thought, speech, and action from above downward.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>The order of thought, speech, and action in the service from below upward is reversed in the drawing down from above, where action precedes thought and speech.</sectionSummaryBrief>\n    <t s=\"0\">And one must understand the reason for the change of order,</t>\n    <t s=\"1\">that in the service from below upward, thought, speech, and action are stated in their order,</t>\n    <t s=\"2\">first thought, then speech and action,</t>\n    <t s=\"3\">and in the drawing down from above, action is stated first, then thought and speech.</t>\n    <t s=\"4\">For seemingly,</t>\n    <t s=\"5\">since the drawing down from above comes through the service of man,</t>\n    <t s=\"6\">therefore the order of the drawing down from above should be according to the order of service,</t>\n    <t s=\"7\">and what is the reason that in service the order is that action comes after thought and speech,</t>\n    <t s=\"8\">and in the drawing down from above, action comes before thought and speech.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>The letter dalet in \"Echad\" represents the greatness of speech, which is the level where all particular utterances are included in a single thought, as in the maamar of Bereishis.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">that the entirety of man's service comes through contemplation,</t>\n    <t s=\"3\">for the point of service is as the saying of our sages, of blessed memory,</t>\n    <t s=\"4\">\"Which is the service of the heart? This is prayer,\"</t>\n    <t s=\"5\">and before that is the contemplation of the Shema and the blessings of the Shema, etc.,</t>\n    <t s=\"6\">and it is written,</t>\n    <t s=\"7\">\"Hear, O Israel, the L-rd is our G-d, the L-rd is One,\"</t>\n    <t s=\"8\">now, the alef of \"Echad\" indicates the Ein Sof, the Aluf of the world,</t>\n    <t s=\"9\">and the chet indicates the seven firmaments and the earth,</t>\n    <t s=\"10\">and the dalet indicates the four directions.</t>\n    <t s=\"11\">And now,</t>\n    <t s=\"12\">the dalet is a large dalet,</t>\n    <t s=\"13\">and it is the aspect of the greatness of speech.</t>\n    <t s=\"14\">For dalet is the aspect of speech,</t>\n    <t s=\"15\">and a large dalet is the greatness of speech,</t>\n    <t s=\"16\">and it is the aspect of speech as it is in thought.</t>\n    <t s=\"17\">And the explanation is by way of analogy, as we see in man below,</t>\n    <t s=\"18\">that all the details of the utterances are first included in his thought,</t>\n    <t s=\"19\">in a single thought,</t>\n    <t s=\"20\">for this single thought is the source of all the particular utterances,</t>\n    <t s=\"21\">and not only is thought their source,</t>\n    <t s=\"22\">but thought includes within itself all the details of the utterances even after they are drawn from it.</t>\n    <t s=\"23\">And in this way it will be understood also above,</t>\n    <t s=\"24\">that all the details of the Ten Utterances are first included in a single thought that encompasses them,</t>\n    <t s=\"25\">and it is the aspect of the utterance of \"Bereishis,\"</t>\n    <t s=\"26\">as our sages, of blessed memory, said,</t>\n    <t s=\"27\">\"'Bereishis' is also an utterance,\"</t>\n    <t s=\"28\">for from this language two opposites are understood,</t>\n    <t s=\"29\">for on one hand it is understood that the utterance of \"Bereishis\" is included among the utterances,</t>\n    <t s=\"30\">and on the other hand it is understood that it is above them,</t>\n    <t s=\"31\">for it needs to be stated that \"it is also an utterance,\"</t>\n    <t s=\"32\">because the utterance of \"Bereishis\" is above the other utterances,</t>\n    <t s=\"33\">and it is the aspect of the utterances as they are included in thought.</t>\n    <t s=\"34\">And this is what they said,</t>\n    <t s=\"35\">\"Could not the world have been created with one utterance?\"</t>\n    <t s=\"36\">for \"one utterance\" refers to the utterance of \"Bereishis,\" which includes within itself all the other utterances,</t>\n    <t s=\"37\">and therefore, from the one utterance of \"Bereishis,\" all of creation could be created.</t>\n    <t s=\"38\">And this is the aspect of the large dalet, which is the matter of the particular utterances as they are included in the single thought that encompasses them,</t>\n    <t s=\"39\">which is the greatness of speech,</t>\n    <t s=\"40\">for this is not the true matter of thought,</t>\n    <t s=\"41\">but rather the matter of speech,</t>\n    <t s=\"42\">except that it is speech as it is still included in thought,</t>\n    <t s=\"43\">which is the aspect of the greatness of speech.</t>\n    <t s=\"44\">And this is the matter of \"the L-rd is One,\"</t>\n    <t s=\"45\">which is the nullification as it is from the aspect of the large dalet,</t>\n    <t s=\"46\">the greatness of speech.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518920054_theRebbe_925",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920054_theRebbe_925__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "There are three interpretations of the word \"tishma'un\" (hearing, understanding, gathering), corresponding to thought, speech, and action, and the verse links these to the reward of covenant, kindness, and oath from above.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "Now, in the word \"tishma'un\" there are three interpretations."
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "\"Tishma'un\" from the term of understanding,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "\"Speak, for your servant is listening.\""
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "\"Tishma'un\" from the term of gathering,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "\"And Shaul gathered the people.\""
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "And \"tishma'un\" simply, from the term of hearing,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "for the matter of hearing relates to thought,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "since the ear is only the vessel through which one hears,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "but hearing itself is in thought,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "and the matter of hearing also relates to speech,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "for one hears what is spoken."
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "And this is what is said: \"Tishma'un, and you shall guard, and you shall do,\""
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "for \"tishma'un\" is thought,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "and as above, that hearing is in thought,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "\"and you shall guard\" is speech,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "as the saying,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "\"Guard\" refers to Mishnah,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "and it is the halachic ruling as it comes in speech,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "for when the intellect is in thought,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "it is still in concealment,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "for there are aspects of permission and purity, and aspects of the opposite,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "but when the intellect is revealed in speech,"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "then there is a halachic ruling."
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "And then there will be no sustenance for the external forces,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "for when it is still in concealment, sustenance is possible,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "but when it is revealed, they have no sustenance."
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "And this is \"Guard\" refers to Mishnah,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "that the Mishnah, whose matter is the revelation of intellect in speech, is a guard against sustenance, etc."
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "\"And you shall do\" is action."
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "And this means that \"tishma'un,\" \"and you shall guard,\" and \"and you shall do\" are thought, speech, and action."
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "And the beginning of this is from the aspect of the source of thought, speech, and action within thought itself,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "which are the three interpretations in the word \"tishma'un,\""
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "for hearing from the term of understanding is thought within thought,"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "and hearing from the term of gathering is action within thought,"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "and hearing simply is speech within thought,"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "for one hears what is spoken."
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "And this is \"And it shall be, because you will listen,\" etc.,"
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "for when you \"listen\" in the aspect of the source of thought, speech, and action within thought,"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "and afterward \"listen,\" \"guard,\" and \"do\" in actual thought, speech, and action,"
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "then through this, \"the L-rd your G-d will keep for you the covenant and the kindness which He swore,\""
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "for these three matters"
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "(covenant, kindness, and oath)"
+          },
+          {
+            "v": 3,
+            "s": 44,
+            "translation": "are the drawing down from above."
+          },
+          {
+            "v": 3,
+            "s": 45,
+            "translation": "For covenant is action,"
+          },
+          {
+            "v": 3,
+            "s": 46,
+            "translation": "for the matter of cutting a covenant is that one cuts a whole thing into two and passes between them,"
+          },
+          {
+            "v": 3,
+            "s": 47,
+            "translation": "so that through this, love between them will be constant,"
+          },
+          {
+            "v": 3,
+            "s": 48,
+            "translation": "even in a situation where there is no reason for love,"
+          },
+          {
+            "v": 3,
+            "s": 49,
+            "translation": "neither from the aspect of speech,"
+          },
+          {
+            "v": 3,
+            "s": 50,
+            "translation": "nor even from the aspect of thought,"
+          },
+          {
+            "v": 3,
+            "s": 51,
+            "translation": "and nevertheless there will be love from the aspect of the covenant, which is a matter of actual action."
+          },
+          {
+            "v": 3,
+            "s": 52,
+            "translation": "And kindness is thought,"
+          },
+          {
+            "v": 3,
+            "s": 53,
+            "translation": "for kindness is the feeling of the heart and mind,"
+          },
+          {
+            "v": 3,
+            "s": 54,
+            "translation": "and therefore it is included in thought."
+          },
+          {
+            "v": 3,
+            "s": 55,
+            "translation": "And especially here it says \"and He will keep the kindness,\""
+          },
+          {
+            "v": 3,
+            "s": 56,
+            "translation": "as explained"
+          },
+          {
+            "v": 3,
+            "s": 57,
+            "translation": "the difference between one who does kindness and one who guards kindness,"
+          },
+          {
+            "v": 3,
+            "s": 58,
+            "translation": "for one who does kindness is the doing of kindness,"
+          },
+          {
+            "v": 3,
+            "s": 59,
+            "translation": "and one who guards kindness is one who keeps the kindness in his heart and thought."
+          },
+          {
+            "v": 3,
+            "s": 60,
+            "translation": "And oath is speech."
+          },
+          {
+            "v": 3,
+            "s": 61,
+            "translation": "And this is \"And it shall be, because,\" etc., for when there is the service from below upward in thought, speech, and action,"
+          },
+          {
+            "v": 3,
+            "s": 62,
+            "translation": "then there will be a drawing down of thought, speech, and action from above downward."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "The order of thought, speech, and action in the service from below upward is reversed in the drawing down from above, where action precedes thought and speech.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And one must understand the reason for the change of order,"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "that in the service from below upward, thought, speech, and action are stated in their order,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "first thought, then speech and action,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "and in the drawing down from above, action is stated first, then thought and speech."
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "For seemingly,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "since the drawing down from above comes through the service of man,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "therefore the order of the drawing down from above should be according to the order of service,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "and what is the reason that in service the order is that action comes after thought and speech,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and in the drawing down from above, action comes before thought and speech."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "The letter dalet in \"Echad\" represents the greatness of speech, which is the level where all particular utterances are included in a single thought, as in the maamar of Bereishis.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "that the entirety of man's service comes through contemplation,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "for the point of service is as the saying of our sages, of blessed memory,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "\"Which is the service of the heart? This is prayer,\""
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "and before that is the contemplation of the Shema and the blessings of the Shema, etc.,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and it is written,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "\"Hear, O Israel, the L-rd is our G-d, the L-rd is One,\""
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "now, the alef of \"Echad\" indicates the Ein Sof, the Aluf of the world,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "and the chet indicates the seven firmaments and the earth,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "and the dalet indicates the four directions."
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "And now,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "the dalet is a large dalet,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "and it is the aspect of the greatness of speech."
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "For dalet is the aspect of speech,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "and a large dalet is the greatness of speech,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "and it is the aspect of speech as it is in thought."
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "And the explanation is by way of analogy, as we see in man below,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "that all the details of the utterances are first included in his thought,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "in a single thought,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "for this single thought is the source of all the particular utterances,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "and not only is thought their source,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "but thought includes within itself all the details of the utterances even after they are drawn from it."
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "And in this way it will be understood also above,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "that all the details of the Ten Utterances are first included in a single thought that encompasses them,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "and it is the aspect of the utterance of \"Bereishis,\""
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "as our sages, of blessed memory, said,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "\"'Bereishis' is also an utterance,\""
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "for from this language two opposites are understood,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "for on one hand it is understood that the utterance of \"Bereishis\" is included among the utterances,"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "and on the other hand it is understood that it is above them,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "for it needs to be stated that \"it is also an utterance,\""
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "because the utterance of \"Bereishis\" is above the other utterances,"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "and it is the aspect of the utterances as they are included in thought."
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "And this is what they said,"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "\"Could not the world have been created with one utterance?\""
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "for \"one utterance\" refers to the utterance of \"Bereishis,\" which includes within itself all the other utterances,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "and therefore, from the one utterance of \"Bereishis,\" all of creation could be created."
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "And this is the aspect of the large dalet, which is the matter of the particular utterances as they are included in the single thought that encompasses them,"
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "which is the greatness of speech,"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "for this is not the true matter of thought,"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "but rather the matter of speech,"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "except that it is speech as it is still included in thought,"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "which is the aspect of the greatness of speech."
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "And this is the matter of \"the L-rd is One,\""
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "which is the nullification as it is from the aspect of the large dalet,"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "the greatness of speech."
+          }
+        ]
+      }
+    ]
+  }
+}

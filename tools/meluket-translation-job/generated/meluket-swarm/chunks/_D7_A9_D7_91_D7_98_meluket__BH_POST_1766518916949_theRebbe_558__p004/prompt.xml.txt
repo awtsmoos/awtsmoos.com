@@ -1,0 +1,165 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916949_theRebbe_558" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916949_theRebbe_558__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916949_theRebbe_558" title="מאמר באתי לגני תש"מ" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916949_theRebbe_558__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">וזהו מה ששם צבאות לא נזכר בתורה כ"א בנביאים דוקא,</src>
+    <src s="2">כי משה רבינו הי' נשמה והנהגה דאצילות,</src>
+    <src s="3">שלכן נקרא משה על שם מן המים משיתיהו47,</src>
+    <src s="4">מים חכ' הוא בחי' אצילות.</src>
+    <src s="5">וכן התורה שניתנה ע"י משה ונקראת על שמו כמ"ש48</src>
+    <src s="6">זכרו תורת משה עבדי היא בחי' אצילות.</src>
+    <src s="7">ולכן לא נזכר בתורה שם צבאות,</src>
+    <src s="8">כי שם צבאות מורה</src>
+    <src s="9">(כנ"ל)</src>
+    <src s="10">על אוא"ס כמו שנמשך בנבראים,</src>
+    <src s="11">שלמטה מאצילות.</src>
+    <src s="12">והוא49</src>
+    <src s="13">ע"ד מ"ש50</src>
+    <src s="14">ביהושע ויאמר לא כי אני שר צבא ה' עתה באתי,</src>
+    <src s="15">ואמרו רז"ל51</src>
+    <src s="16">עתה באתי אבל משה רבך לא קיבלו.</src>
+    <src s="17">דבימי משה,</src>
+    <src s="18">פני משה כפני חמה52,</src>
+    <src s="19">הי' המשכת בחי' אצילות,</src>
+    <src s="20">וגם הנהגת המלחמות53</src>
+    <src s="21">לא היתה ע"י שר צבא ה' כ"א כמ"ש54</src>
+    <src s="22">הוי' ילחם לכם.</src>
+    <src s="23">דזהו מה שביציאת מצרים וקריעת ים סוף היו נסים נגלים יוצאים מדרכי הטבע לגמרי שלא הי' לבוש הטבע כלל,</src>
+    <src s="24">לפי שהמלחמה היתה ע"י שם הוי',</src>
+    <src s="25">בחי' אצילות.</src>
+    <src s="26">משא"כ לאחרי הסתלקות פני משה כפני חמה וההנהגה היתה ע"י פני יהושע כפני לבנה52</src>
+    <src s="27">הנה אז דוקא בא שר צבא הוי',</src>
+    <src s="28">עתה</src>
+    <src s="29">(דוקא)</src>
+    <src s="30">באתי.</src>
+    <src s="31">והגם שגם אז</src>
+    <src s="32">(ע"י שהנהגת המלחמה היתה ע"י שר צבא הוי')</src>
+    <src s="33">היו כמה נסים שלמעלה מהטבע,</src>
+    <src s="34">מ"מ כללות המלחמה היתה קצת בלבושי הטבע,</src>
+    <src s="35">ולא כהמלחמה בימי משה שהיתה למעלה מלבושי הטבע לגמרי,</src>
+    <src s="36">הוי' ילחם לכם.</src>
+    <src s="37">וזהו ענין שם צבאות שנמשך ע"י הנביאים,</src>
+    <src s="38">אות הוא בצבא שלו,</src>
+    <src s="39">שגם בנבראים דבי"ע</src>
+    <src s="40">(צבא)</src>
+    <src s="41">יהי' אות הוא ית' ממש בצבא שלו,</src>
+    <src s="42">שגם בבי"ע יהי' איהו וגרמוהי חד כמו באצילות.</src>
+    <src s="43">וענין זה הוא למעלה מבחי' שר צבא הוי'</src>
+    <src s="44">(שהי' ביהושע),</src>
+    <src s="45">כי שר צבא הוי' הוא מלאך,</src>
+    <src s="46">משא"כ שם צבאות הוא מז' שמות שאינן נמחקין,</src>
+    <src s="47">כי גם בבי"ע נעשה איהו וגרמוהי חד.</src>
+    <src s="48">וזהו מה ששם צבאות נתחדש ע"י הנביאים,</src>
+    <src s="49">כי הנביאים המשיכו שגם בכלים דבי"ע תהי' התלבשות אוא"ס ב"ה בתכלית היחוד,</src>
+    <src s="50">כמו בכלים דאצילות,</src>
+    <src s="51">ועי"ז נקרא הוא ית' בשם צבאות,</src>
+    <src s="52">כמו שנקרא בהשמות</src>
+    <src s="53">(א-ל,</src>
+    <src s="54">אלקים וכו')</src>
+    <src s="55">שמורים על הכלים דאצילות</src>
+    <src s="56">(לפי שאיהו וגרמוהי חד),</src>
+    <src s="57">כי גם הצבאות</src>
+    <src s="58">(לשון חיילות,</src>
+    <src s="59">גדודי נשמות ומלאכים דבריאה)</src>
+    <src s="60">נעשו חד עמו ית',</src>
+    <src s="61">כמבואר בארוכה בתו"א38.</src>
+  </section>
+  <section v="10">
+    <src s="0">ז)</src>
+    <src s="1">והנה ענין הנ"ל בשם צבאות שאיהו וגרמוהי חד גם בבי"ע,</src>
+    <src s="2">כותב כ"ק אדמו"ר הצ"צ55</src>
+    <src s="3">שבע"ח לא מצינו זה.</src>
+    <src s="4">שמזה משמע שזהו חידושו של כ"ק אדמו"ר הזקן,</src>
+    <src s="5">כדמוכח ממה שכ"ק אדמו"ר הצ"צ אינו מציין מקור אחר לזה.</src>
+    <src s="6">ומובן גודל החידוש והעילוי דשם צבאות שנעשה ע"י עבודת בנ"י כמו שישראל הם במעמד ומצב דזמן הנביאים</src>
+    <src s="7">(לאחרי הזמן דפני משה כפני חמה),</src>
+    <src s="8">ובפרט כמו שישראל הם במעמד ומצב דזמן נביאים האחרונים שהיו בסוף בית ראשון ותחלת זמן הגלות,</src>
+    <src s="9">ועד"ז בהזמן שלאח"ז,</src>
+    <src s="10">שגם בעולמות בי"ע שמצד עצמם הם נבראים נפרדים</src>
+    <src s="11">[דענין איהו וגרמוהי חד הוא באצילות,</src>
+    <src s="12">עולם האחדות]</src>
+    <src s="13">יהי' איהו וגרמוהי חד כמו באצילות.</src>
+    <src s="14">וי"ל שזהו הפי' להפס"ד שצבאות הוא שם קודש ובכ"ז נקרא ע"ש צבאות שלו</src>
+    <src s="15">(כבגמרא56),</src>
+    <src s="16">ע"ש ישראל57,</src>
+    <src s="17">כי זה שצבאות הוא שם קודש,</src>
+    <src s="18">היינו שגם בבי"ע איהו וגרמוהי חד,</src>
+    <src s="19">זה נעשה ע"י העבודה דישראל,</src>
+    <src s="20">כנ"ל.</src>
+    <src s="21">וזה נעשה ע"י המשכת אור ממקום עליון ביותר58,</src>
+    <src s="22">שנעלה גם מבחינת התורה</src>
+    <src s="23">(כמו שהיתה בגילוי בזמן משה).</src>
+    <src s="24">שהרי בתורה לא נזכר שם צבאות</src>
+    <src s="25">(היינו שמצד בחינת התורה,</src>
+    <src s="26">הענין דאיהו וגרמוהי חד הוא רק באצילות),</src>
+    <src s="27">ובכדי שיהי' איהו וגרמוהי חד גם בבי"ע צריך להמשיך ממקום עליון יותר.</src>
+  </section>
+  <section v="11">
+    <src s="0">ח)</src>
+    <src s="1">והנה המשכה זו היא ע"י עבודת הבירורים.</src>
+    <src s="2">דהנה ידועה תורת הבעש"ט59,</src>
+    <src s="3">שבכל דבר שנמצא ברשותו של ישראל ישנם ניצוצין קדושים השייכים לשרש נשמתו.</src>
+    <src s="4">ובזה מבאר מה שהתורה חסה על ממונם של ישראל60</src>
+    <src s="5">(אף שהוא רק ממונם),</src>
+    <src s="6">כי מכיון שהממון</src>
+    <src s="7">(וכן שארי דברים)</src>
+    <src s="8">הוא של ישראל,</src>
+    <src s="9">זה מורה</src>
+    <src s="10">(שהרי כל הענינים הם בהשגחה פרטית)</src>
+    <src s="11">שניצוצות אלו שייכים לשרש נשמתו,</src>
+    <src s="12">והבירור דניצוצות אלו הוא חלק מעבודתו,</src>
+    <src s="13">וע"י שמבררים את הניצוצות ומזככים ומעלים אותם לשרשם הם מוסיפים עילוי גם בו.</src>
+    <src s="14">דכמו"כ הי' בגלות מצרים,</src>
+    <src s="15">שע"י וינצלו את מצרים שעשאוה כמצולה שאין בה דגים וכמצודה שאין בה דגן61</src>
+    <src s="16">שביררו את הניצוצות השייכים לעלמא דאתכסיא</src>
+    <src s="17">(כמצולה שאין בה דגים)</src>
+    <src s="18">והניצוצות השייכים לעלמא דאתגליא</src>
+    <src s="19">(כמצודה שאין בה דגן),</src>
+    <src s="20">עי"ז נעשה עילוי גם בישראל.</src>
+    <src s="21">וכמו שמבאר כ"ק אדמו"ר מהר"ש62</src>
+    <src s="22">בארוכה בענין ויהי בשלח פרעה את העם שהי' משלח פארות וענפים ועושה פרי למעלה את העם,</src>
+    <src s="23">שע"י הניצוצות שביררו בגלות מצרים נעשה בהם תוספות וריבוי.</src>
+    <src s="24">דזהו מ"ש</src>
+    <src s="25">(גבי גלות מצרים)</src>
+    <src s="26">וזרעתי' לי בארץ63,</src>
+    <src s="27">דענין הזריעה הוא כמרז"ל64</src>
+    <src s="28">כלום אדם זורע כור65</src>
+    <src s="29">אלא כדי להוציא כמה כורין,</src>
+    <src s="30">היינו,</src>
+    <src s="31">דמה שישראל נזרעו בגלות מצרים הוא בשביל ההוספה שנעשה בהם ע"י בירור הניצוצות.</src>
+    <src s="32">כמו שמבאר כ"ק אדמו"ר מהר"ש בארוכה כמה פרטים בענין ההוספה שנעשה ע"י בירור הניצוצות.</src>
+  </section>
+</awtsmoosMeluketSource>

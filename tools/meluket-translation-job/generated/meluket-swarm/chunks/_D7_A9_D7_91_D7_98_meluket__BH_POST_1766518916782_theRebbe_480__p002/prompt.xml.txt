@@ -1,0 +1,179 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916782_theRebbe_480" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916782_theRebbe_480" title="מאמר באתי לגני תשכ"ט" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916782_theRebbe_480__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והטעם שע"י העבודה דאתכפיא ואתהפכא נמשך אור זה שלמעלה משייכות לעולמות,</src>
+    <src s="2">מבאר בהמאמר,</src>
+    <src s="3">כי יתרון האור הוא מן החושך דוקא18,</src>
+    <src s="4">דכאשר החושך נהפך לאור נעשה יתרון בהאור.</src>
+    <src s="5">ועפ"ז יש לומר,</src>
+    <src s="6">דהמשכת עיקר שכינה בתחתונים עכשיו</src>
+    <src s="7">(לאחרי שנסתלקה ע"י ז' הענינים הבלתי רצויים,</src>
+    <src s="8">מתחיל מחטא עה"ד)</src>
+    <src s="9">ע"י העבודה דאתכפיא ואתהפכא,</src>
+    <src s="10">היא נעלית יותר מהמשכת עיקר שכינה בתחתונים ע"י עבודת אדם הראשון19</src>
+    <src s="11">בג"ע קודם החטא.</src>
+    <src s="12">כי העבודה אז היתה להמשיך אלקות מלמעלה,</src>
+    <src s="13">משא"כ עכשיו,</src>
+    <src s="14">שהעבודה היא להפוך החושך לאור,</src>
+    <src s="15">הנה ההמשכה שע"י עבודה זו היא המשכה נעלית יותר.</src>
+    <src s="16">וזהו20</src>
+    <src s="17">שהמשכן הי' מעצי שטים,</src>
+    <src s="18">שטים מלשון שטות21,</src>
+    <src s="19">כי העבודה דועשו לי מקדש היא להפוך השטות דלעו"ז לשטות דקדושה,</src>
+    <src s="20">ועי"ז נעשה ושכנתי בתוכם,</src>
+    <src s="21">המשכת עיקר שכינה בתחתונים,</src>
+    <src s="22">למעלה יותר מכמו שהי' קודם החטא.</src>
+    <src s="23">וכח זה ניתן לכאו"א מישראל,</src>
+    <src s="24">שע"י שלוחם עם השטות דלעו"ז ומהפכו לשטות דקדושה,</src>
+    <src s="25">נעשתה המשכת עיקר שכינה בתחתונים,</src>
+    <src s="26">עד לדרגא הכי נעלית דעיקר שכינה,</src>
+    <src s="27">ועד להמשכת העצמות.</src>
+    <src s="28">ועי"ז דוקא22</src>
+    <src s="29">נשלמת הכוונה דדירה לו ית' בתחתונים23,</src>
+    <src s="30">שעוה"ז התחתון שאין תחתון למטה ממנו24</src>
+    <src s="31">נעשה דירה לו ית',</src>
+    <src s="32">לו לעצמותו25.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">וממשיך בהמאמר26,</src>
+    <src s="2">דזהו שישראל נק' בשם צבאות הוי'27,</src>
+    <src s="3">דכל אחד מישראל הוא חיל בצבאות ה'</src>
+    <src s="4">(צבא מלשון חיל),</src>
+    <src s="5">שיוצא למלחמה,</src>
+    <src s="6">לכבוש את העולם ולעשותו דירה לו ית'.</src>
+    <src s="7">ובכדי שישראל ינצחו את המלחמה,</src>
+    <src s="8">נותנים להם מלמעלה כחות מיוחדים על זה.</src>
+    <src s="9">דכמו שבמלחמה בגשמיות,</src>
+    <src s="10">בכדי לנצח את המלחמה מבזבזים את האוצרות28,</src>
+    <src s="11">דהגם שע"ד הרגיל הם כמוסים וחתומים מעין כל רואה</src>
+    <src s="12">(ומכש"כ שאין משתמשים בהם אפילו לצורך גדול),</src>
+    <src s="13">ומ"מ בכדי לנצח את המנגדים מבזבזים כל האוצרות,</src>
+    <src s="14">והטעם לזה הוא כי הנצח מושרש בעצם הנפש,</src>
+    <src s="15">דשם</src>
+    <src s="16">(בעצם הנפש)</src>
+    <src s="17">אין שייך חשבונות,</src>
+    <src s="18">דעד"ז הוא גם למעלה,</src>
+    <src s="19">דשרש הנצח הוא בפנימיות הכתר בחינת לא אדם29,</src>
+    <src s="20">ולכן,</src>
+    <src s="21">בכדי שהצבאות הוי' ינצחו את המלחמה,</src>
+    <src s="22">נותנים להם,</src>
+    <src s="23">ובאופן דבזבוז,</src>
+    <src s="24">בחינת האוצר שלמעלה.</src>
+    <src s="25">ובכדי לבאר ענין האוצר שלמעלה,</src>
+    <src s="26">מקדים30</src>
+    <src s="27">מאמר התקו"ז31</src>
+    <src s="28">אור א"ס למעלה מעלה32</src>
+    <src s="29">עד אין קץ ולמטה מטה32</src>
+    <src s="30">עד אין תכלית.</src>
+    <src s="31">ומבאר33</src>
+    <src s="32">שב' ענינים אלו הם</src>
+    <src s="33">(גם)</src>
+    <src s="34">ב' מדריגות באוא"ס גופא.</src>
+    <src s="35">דלמטה מטה עד אין תכלית הוא האור שבבחינת גילוי בעצמותו כביכול וממנו בא אח"כ הגילוי בעולמות,</src>
+    <src s="36">ולמעלה מעלה עד אין קץ הוא עצם האור שאינו בגדר גילוי גם בעצמותו.</src>
+    <src s="37">וענין האוצר שלמעלה הוא העצמות שלמעלה מאור וגילוי,</src>
+    <src s="38">גם מעצם האור.</src>
+    <src s="39">דהגם שגם עצם האור,</src>
+    <src s="40">מכיון שאינו בגדר גילוי גם בעצמותו</src>
+    <src s="41">(כנ"ל)</src>
+    <src s="42">נק' אוצר,</src>
+    <src s="43">מ"מ מזה שגם עצם האור נק' בשם אור</src>
+    <src s="44">(גילוי),</src>
+    <src s="45">מובן,</src>
+    <src s="46">שעיקר ענין האוצר</src>
+    <src s="47">[שענינו הוא שהוא סתום ונעלם]</src>
+    <src s="48">הוא העצמות,</src>
+    <src s="49">שאינו בגדר אור כלל34.</src>
+    <src s="50">ואוצר זה נותנים,</src>
+    <src s="51">ובאופן דבזבוז,</src>
+    <src s="52">לצבאות הוי',</src>
+    <src s="53">בכדי לנצח המלחמה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">וממשיך בפרק י"ט</src>
+    <src s="2">(הפרק השייך לשנה זו35),</src>
+    <src s="3">דמכיון שהנצח מושרש בעצם הנפש שלמעלה מכחות הגלויים</src>
+    <src s="4">[דכמו"כ הוא למעלה ששרש הנצח הוא בפנימיות הכתר,</src>
+    <src s="5">כנ"ל],</src>
+    <src s="6">לכן במדת הנצח יכולים להגיע לאוצר העליון.</src>
+    <src s="7">והיינו דזה שבכדי לנצח את המלחמה נותנים לישראל</src>
+    <src s="8">(ובאופן דבזבוז)</src>
+    <src s="9">האוצר שלמעלה הוא לא רק מפני ששרש הנצח הוא בדרגא כזו</src>
+    <src s="10">(פנימיות הכתר)</src>
+    <src s="11">שאין שייך שם חשבונות</src>
+    <src s="12">[ובדוגמת בזבוז האוצרות בשביל נצוח המלחמה בגשמיות,</src>
+    <src s="13">שמכיון שבעצם הנפש</src>
+    <src s="14">(שרש הנצח)</src>
+    <src s="15">אין חשבונות לכן בשביל הנצחון מבזבזים את האוצרות,</src>
+    <src s="16">אבל הנצחון והאוצרות הם שני ענינים],</src>
+    <src s="17">אלא שע"י הנצח מגיעים לאוצר העליון.</src>
+    <src s="18">ומוסיף בהמאמר "פירוש דהתגלות והמשכת אוצר העליון הוא במדת הנצח".</src>
+    <src s="19">דענין זה,</src>
+    <src s="20">שבמדת הנצח מתגלה ונמשך אוצר העליון,</src>
+    <src s="21">הוא חידוש גדול יותר מזה שע"י הנצח מגיעים להאוצר.</src>
+    <src s="22">דזה שע"י הנצח מגיעים לאוצר העליון,</src>
+    <src s="23">אף שהאוצר הוא סתום ונעלם,</src>
+    <src s="24">מצינו עד"ז גם בענין התשובה,</src>
+    <src s="25">וכמבואר בלקו"ת36</src>
+    <src s="26">בפירוש הכתוב37</src>
+    <src s="27">לך אמר לבי בקשו פני את פניך הוי' אבקש,</src>
+    <src s="28">שע"י התשובה מעומק פנימיות הלב,</src>
+    <src s="29">בקשו פני,</src>
+    <src s="30">מגיעים לבחינת הפנים שלמעלה,</src>
+    <src s="31">פניך הוי'.</src>
+    <src s="32">דהגם שבחינת הפנים שלמעלה הוא למעלה מגילוי,</src>
+    <src s="33">כמ"ש38</src>
+    <src s="34">ופני לא יראו,</src>
+    <src s="35">הוא בבחינת המשכה מלמעלה למטה,</src>
+    <src s="36">אבל בבחינת העלאה את פניך הוי' אבקש39.</src>
+    <src s="37">ומזה מובן בנוגע לעניננו – מדת הנצח,</src>
+    <src s="38">דזה שע"י הנצח יכולים להגיע לאוצר העליון,</src>
+    <src s="39">"להגיע" מלמטה למעלה,</src>
+    <src s="40">אין זה חידוש כ"כ,</src>
+    <src s="41">ועיקר החידוש הוא שבמדת הנצח הוא התגלות והמשכת אוצר העליון,</src>
+    <src s="42">התגלות והמשכה מלמעלה.</src>
+    <src s="43">וצריך להבין,</src>
+    <src s="44">הרי ענינו של אוצר הוא שהוא סתום ונעלם,</src>
+    <src s="45">למעלה מבחינת גילוי</src>
+    <src s="46">[ובפרט לפי מה שנת"ל</src>
+    <src s="47">(סעיף ד)</src>
+    <src s="48">שעיקר ענין האוצר הוא העצמות שאינו בגדר אור כלל],</src>
+    <src s="49">והיאך שייך שתהי' התגלותו והמשכתו במדת הנצח.</src>
+  </section>
+</awtsmoosMeluketSource>

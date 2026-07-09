@@ -1,0 +1,147 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913912_theRebbe_602" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913912_theRebbe_602__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913912_theRebbe_602" title="מאמר אדון עולם תשמ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913912_theRebbe_602__p005">
+  <section v="12">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">ובפרט שכבר הי' לעולמים,</src>
+    <src s="3">ומעשה רב73,</src>
+    <src s="4">כמסופר בגמרא74</src>
+    <src s="5">שאמרו לשונות שנראים בחיצוניות כו' ובאמת כולהו ברכתא נינהו,</src>
+    <src s="6">ומה שברכו אותו בלשון כזה הוא כמ"ש אדמו"ר הצ"צ75</src>
+    <src s="7">לפי שהברכה באופן זה היא מבחינת סתים,</src>
+    <src s="8">דהברכות שמבחינת סתים הם ברכות נעלות יותר וגם המשכתם למטה היא בתוקף גדול יותר</src>
+    <src s="9">(מיט אַ שטורעם).</src>
+    <src s="10">וכדאיתא בגמרא שם,</src>
+    <src s="11">שברכו אותו תוליד בנים כו' המשכת וגילוי כח הא"ס76</src>
+    <src s="12">בדור ישרים יבורך.</src>
+    <src s="13">והנה פירוש זה</src>
+    <src s="14">(דמה שברכו בלשון כזה הוא לפי שהברכה באופן זה היא מבחינת סתים)</src>
+    <src s="15">אומר אדמו"ר הצ"צ שהוא "יותר נראה כפשטן".</src>
+    <src s="16">דלפנ"ז מובא שם</src>
+    <src s="17">(בענין הברכות שבפרשת בחוקותי)</src>
+    <src s="18">שהו"ע דהיפך הברכה אלא שזה קאי על הלעו"ז.</src>
+    <src s="19">ואח"כ מביא פירוש נעלה יותר77,</src>
+    <src s="20">דמה שהברכות נאמרו בלשון כזה הוא בכדי לחדודי.</src>
+    <src s="21">דגם לפי פירוש זה,</src>
+    <src s="22">ענין הברכה שבלשון זה אינו בפשטות ובגילוי,</src>
+    <src s="23">שהרי בכדי לעמוד על אמיתית הענין צריך לחידוד השכל.</src>
+    <src s="24">אבל לאח"ז מסיק,</src>
+    <src s="25">דמה שהברכות נאמרו בלשון כזה אין זה גרעון ח"ו אלא אדרבה מפני שהברכות נעלות יותר.</src>
+    <src s="26">ועל פירוש זה אומר שהוא "יותר נראה כפשטן",</src>
+    <src s="27">דמה שלשונות אלו ברכתא נינהו אין זה פירוש מחודד כ"א הפירוש הפשוט,</src>
+    <src s="28">גם בעולם הפשט.</src>
+    <src s="29">ולאחר שאדמו"ר הצ"צ פתח את הדרך,</src>
+    <src s="30">ובפרט שלימד ונתן זה בתורה מלשון הוראה78,</src>
+    <src s="31">נעשה זה הוראה ונתינת כח לכאו"א,</src>
+    <src s="32">לפרש ולגלות הברכה גם בלשונות וענינים שבחיצוניותם נראים כו',</src>
+    <src s="33">ואדרבה,</src>
+    <src s="34">ברכות אלו הם נעלות ביותר,</src>
+    <src s="35">וכפשטן,</src>
+    <src s="36">בטוב הנראה והנגלה.</src>
+    <src s="37">דכח זה</src>
+    <src s="38">(להמשיך כל הענינים בטוב הנראה והנגלה)</src>
+    <src s="39">הוא גם בכל ימי השנה.</src>
+    <src s="40">ובפרט בראש השנה כשמכתירים את המלך בשמחה גדולה</src>
+    <src s="41">(כמובא לעיל מכ"ק מו"ח אדמו"ר),</src>
+    <src s="42">דשמחה פורצת כל הגדרים79.</src>
+    <src s="43">ועאכו"כ ביו"ט של ראש השנה שחל להיות בשבת,</src>
+    <src s="44">דכל ההמשכות הנעשים ע"י תקיעת שופר נעשים הם בשבת מצ"ע,</src>
+    <src s="45">דבשבת נמשך בחי' תענוג הפשוט,</src>
+    <src s="46">כמבואר בארוכה בהמשך יו"ט של ראש השנה שחל להיות בשבת לכ"ק אדמו"ר</src>
+    <src s="47">(מהורש"ב)</src>
+    <src s="48">נ"ע80.</src>
+  </section>
+  <section v="13">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וזהו אדון עולם אשר מלך בטרם כל יצור נברא,</src>
+    <src s="3">ומבאר כ"ק מו"ח אדמו"ר במאמרו ד"ה זה</src>
+    <src s="4">(כמובא לעיל בהתחלת המאמר)</src>
+    <src s="5">דאדון עולם בגימט' אין סוף קאי על המלכות כמו שהוא בעצמותו ית',</src>
+    <src s="6">רצון המוחלט בעצמותו,</src>
+    <src s="7">ומבאר שם81,</src>
+    <src s="8">דברצון המוחלט בעצמותו אין שייך העלאת מ"ן כלל.</src>
+    <src s="9">אבל אעפ"כ,</src>
+    <src s="10">כ"ז והמאמר ד"ה אדון עולם בא</src>
+    <src s="11">(כנ"ל)</src>
+    <src s="12">בהמשך להמאמר ד"ה יו"ט של ראש השנה שחל להיות בשבת שבו מבאר הענין דתקיעת שופר בראש השנה</src>
+    <src s="13">(העבודה שכוללת כל פרטי העבודות דכל השנה),</src>
+    <src s="14">דעבודת ישראל פועלת לא רק בנין הז"א</src>
+    <src s="15">(וגם כל הבחינות והפרצופים דכל ההשתלשלות,</src>
+    <src s="16">כנ"ל בארוכה),</src>
+    <src s="17">ולא רק שהיא מעוררת גם באוא"ס שלפני הצמצום בחינת רצון הגלוי</src>
+    <src s="18">(בהבחינה דגילוי לזולתו)</src>
+    <src s="19">וגם בחינת רצון הנעלם</src>
+    <src s="20">(בהבחינה דגילוי לעצמו),</src>
+    <src s="21">אלא יתירה מזו,</src>
+    <src s="22">דמצד זה שישראל מושרשים בהעצמות,</src>
+    <src s="23">הם ממשיכים גם מבחינת רצון המוחלט בעצמותו,</src>
+    <src s="24">בחינת אדון עולם בגימ' אין סוף82.</src>
+    <src s="25">והמשכה זו היא</src>
+    <src s="26">(בעיקר)</src>
+    <src s="27">למטה בעולם העשי' הגשמיית,</src>
+    <src s="28">ובזה גופא – בענינים גשמיים,</src>
+    <src s="29">דנוסף על הדין בראש השנה בענין המשכת אלקות,</src>
+    <src s="30">משפט83</src>
+    <src s="31">לאלקי יעקב84,</src>
+    <src s="32">הנה עיקר הדין בראש השנה הוא בענין השפעות גשמיות85,</src>
+    <src s="33">וישראל זוכים בדין בב' הענינים,</src>
+    <src s="34">הן בהשפעות רוחניות והן בהשפעות גשמיות בבני חיי ומזוני רויחי,</src>
+    <src s="35">וכאמור דעיקר הענין דראש השנה היא ההמשכה בגשמיות,</src>
+    <src s="36">פועל ישועות בקרב הארץ86,</src>
+    <src s="37">דהמשכת הישועות</src>
+    <src s="38">(בכל הפירושים שבזה)</src>
+    <src s="39">תהי' באופן דפועל,</src>
+    <src s="40">דלשון פעולה מורה על פעולה גשמיית דוקא עוד יותר מלשון עשי',</src>
+    <src s="41">ובזה גופא בקרב הארץ87,</src>
+    <src s="42">בתחתון שאין תחתון למטה ממנו.</src>
+    <src s="43">ובפשטות הוא,</src>
+    <src s="44">שכאו"א מישראל נכתב ונחתם בספרן של צדיקים גמורים88,</src>
+    <src s="45">כי ועמך כולם צדיקים89</src>
+    <src s="46">(צדיקים גמורים),</src>
+    <src s="47">לאלתר לחיים88</src>
+    <src s="48">ולאלתר לגאולה90,</src>
+    <src s="49">דכאו"א מישראל יצא מהגלות לגאולה האמיתית והשלימה,</src>
+    <src s="50">וכמ"ש בההפטורה דראש השנה91</src>
+    <src s="51">קהל גדול ישובו הנה,</src>
+    <src s="52">דבזה נכלל כל אחד ואחת מישראל כמבואר בארוכה בההפטורה דראש השנה,</src>
+    <src s="53">ובשמחה גדולה,</src>
+    <src s="54">וכנ"ל שהכתרת המלך היא בשמחה גדולה,</src>
+    <src s="55">ושמחת עולם על ראשם92,</src>
+    <src s="56">בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="57">בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

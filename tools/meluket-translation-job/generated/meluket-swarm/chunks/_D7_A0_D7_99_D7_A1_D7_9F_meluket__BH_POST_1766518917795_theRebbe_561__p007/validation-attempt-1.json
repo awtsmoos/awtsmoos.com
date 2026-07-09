@@ -1,0 +1,173 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 27,
+    "returned": 27,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917795_theRebbe_561\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917795_theRebbe_561__p007\">\n  <section v=\"18\">\n    <sectionSummaryBrief>The answer \"We were slaves to Pharaoh in Egypt and Hashem took us out with a strong hand\" applies even to one at the level of a newborn or a slave, showing a leap from the lowest to the highest revelation.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">A)</t>\n    <t s=\"2\">And the answer: \"We were slaves to Pharaoh in Egypt, and Hashem took us out of Egypt with a strong hand\" —</t>\n    <t s=\"3\">that even one who is at the level of an infant at the moment of birth</t>\n    <t s=\"4\">(including one who is at this level simply,</t>\n    <t s=\"5\">and not like the wise son, for whom being at this level is due to his ascents),</t>\n    <t s=\"6\">and moreover,</t>\n    <t s=\"7\">even one who is in the state of a slave to Pharaoh in Egypt</t>\n    <t s=\"8\">(before the birth of the Exodus from Egypt),</t>\n    <t s=\"9\">Hashem takes him out of Egypt with a strong hand,</t>\n    <t s=\"10\">for \"with a strong</t>\n    <t s=\"11\">hand\" is the intensity of the revelation, to the extent that there was revealed</t>\n    <t s=\"12\">upon them the King of kings, the Holy One, blessed be He, in His glory and in His very Self, and He redeemed them,</t>\n    <t s=\"13\">which is a leap</t>\n    <t s=\"14\">from one extreme to the other,</t>\n    <t s=\"15\">from the very lowest</t>\n    <t s=\"16\">(slaves to Pharaoh in Egypt)</t>\n    <t s=\"17\">to the very highest — the revelation of \"in His glory and in His very Self.\"</t>\n  </section>\n  <section v=\"19\">\n    <sectionSummaryBrief>So too will the future redemption be for us, a leap from the extreme darkness of exile to the revelation of Hashem's glory and kingship with the coming of Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">And so it will be for us,</t>\n    <t s=\"1\">\"As in the days of your going out from the land of Egypt, I will show him wonders,\"</t>\n    <t s=\"2\">a redemption by way of a leap from one extreme to the other,</t>\n    <t s=\"3\">that from the double and multiplied darkness of exile,</t>\n    <t s=\"4\">and especially in the generation of the heels of Moshiach, where the darkness is even greater,</t>\n    <t s=\"5\">they come immediately to the revelation of \"And the glory of Hashem shall be revealed, and all flesh shall see,\"</t>\n    <t s=\"6\">and \"Kingship shall be Hashem's,\"</t>\n    <t s=\"7\">with the coming of Moshiach our righteousness,</t>\n    <t s=\"8\">speedily in our days, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917795_theRebbe_561",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917795_theRebbe_561__p007"
+    },
+    "sections": [
+      {
+        "v": 18,
+        "sectionSummaryBrief": "The answer \"We were slaves to Pharaoh in Egypt and Hashem took us out with a strong hand\" applies even to one at the level of a newborn or a slave, showing a leap from the lowest to the highest revelation.",
+        "translations": [
+          {
+            "v": 18,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 18,
+            "s": 1,
+            "translation": "A)"
+          },
+          {
+            "v": 18,
+            "s": 2,
+            "translation": "And the answer: \"We were slaves to Pharaoh in Egypt, and Hashem took us out of Egypt with a strong hand\" —"
+          },
+          {
+            "v": 18,
+            "s": 3,
+            "translation": "that even one who is at the level of an infant at the moment of birth"
+          },
+          {
+            "v": 18,
+            "s": 4,
+            "translation": "(including one who is at this level simply,"
+          },
+          {
+            "v": 18,
+            "s": 5,
+            "translation": "and not like the wise son, for whom being at this level is due to his ascents),"
+          },
+          {
+            "v": 18,
+            "s": 6,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 18,
+            "s": 7,
+            "translation": "even one who is in the state of a slave to Pharaoh in Egypt"
+          },
+          {
+            "v": 18,
+            "s": 8,
+            "translation": "(before the birth of the Exodus from Egypt),"
+          },
+          {
+            "v": 18,
+            "s": 9,
+            "translation": "Hashem takes him out of Egypt with a strong hand,"
+          },
+          {
+            "v": 18,
+            "s": 10,
+            "translation": "for \"with a strong"
+          },
+          {
+            "v": 18,
+            "s": 11,
+            "translation": "hand\" is the intensity of the revelation, to the extent that there was revealed"
+          },
+          {
+            "v": 18,
+            "s": 12,
+            "translation": "upon them the King of kings, the Holy One, blessed be He, in His glory and in His very Self, and He redeemed them,"
+          },
+          {
+            "v": 18,
+            "s": 13,
+            "translation": "which is a leap"
+          },
+          {
+            "v": 18,
+            "s": 14,
+            "translation": "from one extreme to the other,"
+          },
+          {
+            "v": 18,
+            "s": 15,
+            "translation": "from the very lowest"
+          },
+          {
+            "v": 18,
+            "s": 16,
+            "translation": "(slaves to Pharaoh in Egypt)"
+          },
+          {
+            "v": 18,
+            "s": 17,
+            "translation": "to the very highest — the revelation of \"in His glory and in His very Self.\""
+          }
+        ]
+      },
+      {
+        "v": 19,
+        "sectionSummaryBrief": "So too will the future redemption be for us, a leap from the extreme darkness of exile to the revelation of Hashem's glory and kingship with the coming of Moshiach.",
+        "translations": [
+          {
+            "v": 19,
+            "s": 0,
+            "translation": "And so it will be for us,"
+          },
+          {
+            "v": 19,
+            "s": 1,
+            "translation": "\"As in the days of your going out from the land of Egypt, I will show him wonders,\""
+          },
+          {
+            "v": 19,
+            "s": 2,
+            "translation": "a redemption by way of a leap from one extreme to the other,"
+          },
+          {
+            "v": 19,
+            "s": 3,
+            "translation": "that from the double and multiplied darkness of exile,"
+          },
+          {
+            "v": 19,
+            "s": 4,
+            "translation": "and especially in the generation of the heels of Moshiach, where the darkness is even greater,"
+          },
+          {
+            "v": 19,
+            "s": 5,
+            "translation": "they come immediately to the revelation of \"And the glory of Hashem shall be revealed, and all flesh shall see,\""
+          },
+          {
+            "v": 19,
+            "s": 6,
+            "translation": "and \"Kingship shall be Hashem's,\""
+          },
+          {
+            "v": 19,
+            "s": 7,
+            "translation": "with the coming of Moshiach our righteousness,"
+          },
+          {
+            "v": 19,
+            "s": 8,
+            "translation": "speedily in our days, literally."
+          }
+        ]
+      }
+    ]
+  }
+}

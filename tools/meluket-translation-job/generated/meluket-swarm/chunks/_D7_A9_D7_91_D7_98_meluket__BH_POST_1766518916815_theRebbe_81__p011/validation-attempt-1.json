@@ -1,0 +1,424 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 76,
+    "returned": 76,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916815_theRebbe_81\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p011\">\n  <section v=\"30\">\n    <sectionSummaryBrief>This section explains that the advice to be freed from distractions during prayer through contemplation of their purpose applies only when the distractions come from another person's speech, but not when they come from one's own animal soul's foreign thoughts, where the advice is to ignore them entirely.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">9)</t>\n    <t s=\"2\">Now, this matter—that the advice to be freed from distractions in prayer is through contemplation that the intent of the distractions is to arouse a person to pray with more concentration—</t>\n    <t s=\"3\">is when the distractions come through the speech of another person who disturbs him.</t>\n    <t s=\"4\">However, when the distractions are from foreign thoughts that fall upon him from his animal soul in order to disturb him</t>\n    <t s=\"5\">(even though that his animal soul disturbs him with foreign thoughts is analogous to a foreskinned wicked person who disturbs him through his speech,</t>\n    <t s=\"6\">as brought above from Tanya),</t>\n    <t s=\"7\">nevertheless,</t>\n    <t s=\"8\">at the time of the falling of the foreign thoughts, there is no place to contemplate the intent of the descent of the Shechinah and the clothing of a spark from its illumination in the foreign thoughts,</t>\n    <t s=\"9\">and as it is stated in Tanya there, that one should not offer any argument or response against the foreign thought</t>\n    <t s=\"10\">[And it can be said,</t>\n    <t s=\"11\">that even contemplating the cause of the foreign thought is included in the category of argument and response],</t>\n    <t s=\"12\">and the advice is that he should make himself as if he does not know and does not hear the thoughts that have fallen upon him, and remove them from his mind.</t>\n    <t s=\"13\">[For when he contemplates the intent of the foreign thoughts at another time,</t>\n    <t s=\"14\">the contemplation can help that during prayer he will not have foreign thoughts.</t>\n    <t s=\"15\">But at the time of the falling of the thoughts themselves,</t>\n    <t s=\"16\">the advice is to make himself as if he does not know and does not hear the thoughts that have fallen upon him].</t>\n    <t s=\"17\">Therefore, the maamar says that the advice to be freed from the thoughts that fall during Torah study and prayer is to arouse the attribute of Netzach,</t>\n    <t s=\"18\">because at the time of the falling of foreign thoughts there is no place for contemplation,</t>\n    <t s=\"19\">as above.</t>\n  </section>\n  <section v=\"31\">\n    <sectionSummaryBrief>This section distinguishes between the work of transformation (it'hapcha) achieved through contemplating the purpose of distractions, and the work of subjugation (it'kafya) achieved by forcefully ignoring them, noting that the latter draws a higher illumination.</sectionSummaryBrief>\n    <t s=\"0\">20)</t>\n    <t s=\"1\">\"f)</t>\n    <t s=\"2\">Now, through contemplation of the cause of the distractions</t>\n    <t s=\"3\">[that come through the speech of another person who disturbs him,</t>\n    <t s=\"4\">and likewise, contemplation of the cause of the distractions of foreign thoughts that come from the animal soul,</t>\n    <t s=\"5\">which he contemplates at another time]—</t>\n    <t s=\"6\">that the descent of the Shechinah and the clothing of a spark from its illumination in the distracting words and thoughts is in order that through this he will be aroused to greater concentration,</t>\n    <t s=\"7\">a descent for the sake of an ascent—</t>\n    <t s=\"8\">through this he elevates the sparks that fell into the speech,</t>\n    <t s=\"9\">it'hapcha (transformation).</t>\n    <t s=\"10\">But when he arouses his attribute of Netzach and overcomes the distractions and pushes them away,</t>\n    <t s=\"11\">and makes himself as if he does not hear the thoughts,</t>\n    <t s=\"12\">this is it'kafya (subjugation).</t>\n    <t s=\"13\">And according to what was explained above</t>\n    <t s=\"14\">(section 5)</t>\n    <t s=\"15\">that the drawing down that comes through the service of it'kafya is more elevated than the drawing down that comes through the service of it'hapcha,</t>\n    <t s=\"16\">it can be said,</t>\n    <t s=\"17\">that by pushing away the thoughts in the manner of it'kafya,</t>\n    <t s=\"18\">additional strength is added to his concentration in prayer, even more than the increase in concentration that is brought about through the aforementioned contemplation.</t>\n  </section>\n  <section v=\"32\">\n    <sectionSummaryBrief>This section explains that to enable a person to overcome distractions, the supernal treasure is given from above in a lavish manner, and the drawing down that results from the person's victory is a revelation of the innerness and Atzmus of Ein Sof.</sectionSummaryBrief>\n    <t s=\"0\">20)</t>\n    <t s=\"1\">a)</t>\n    <t s=\"2\">Now, in order that a person be able to overcome the distractions and push them away—</t>\n    <t s=\"3\">which is a great and most difficult service—</t>\n    <t s=\"4\">they give him from above,</t>\n    <t s=\"5\">and in a manner of lavish outpouring,</t>\n    <t s=\"6\">the supernal treasure.</t>\n    <t s=\"7\">And one must explain the connection between these two matters,</t>\n    <t s=\"8\">for since a treasure is a matter that is hidden,</t>\n    <t s=\"9\">\"No eye has seen\"125,</t>\n    <t s=\"10\">so the fact that they give and reveal the treasure,</t>\n    <t s=\"11\">and especially in a manner of lavish outpouring,</t>\n    <t s=\"12\">is, as it were, difficult before the Holy One, blessed be He,</t>\n    <t s=\"13\">and nevertheless they do this for the sake of the person,</t>\n    <t s=\"14\">in order that he be able to perform the aforementioned difficult service.</t>\n    <t s=\"15\">And one may add,</t>\n    <t s=\"16\">that according to what is known126</t>\n    <t s=\"17\">that the drawing down from above that comes through the person's service is more elevated than the drawing down from above that is the giving of power to the person to perform his service,</t>\n    <t s=\"18\">it can be said,</t>\n    <t s=\"19\">that by the person overcoming the distractions and pushing them away</t>\n    <t s=\"20\">(through the giving of power of the drawing down of the supernal treasure),</t>\n    <t s=\"21\">the drawing down of the treasure that comes through his service</t>\n    <t s=\"22\">is even more elevated.</t>\n    <t s=\"23\">And it can be said,</t>\n    <t s=\"24\">that this is what the maamar says</t>\n    <t s=\"25\">(in the conclusion and seal of chapter twenty,</t>\n    <t s=\"26\">which is also the conclusion and seal of the entire discourse),</t>\n    <t s=\"27\">that through the victory with which a person vanquishes his animal soul, he causes127</t>\n    <t s=\"28\">the drawing down of the supernal treasure,</t>\n    <t s=\"29\">which is the revelation of the innerness and Atzmus of Ein Sof, blessed be He.</t>\n    <t s=\"30\">For in the previous chapters, when it explains the matter of the treasure,</t>\n    <t s=\"31\">it does not use this language</t>\n    <t s=\"32\">(innerness and Atzmus of Ein Sof, blessed be He)128,</t>\n    <t s=\"33\">because there it speaks of the matter of the drawing down and revelation of the treasure that is for the sake of the victory,</t>\n    <t s=\"34\">but in the conclusion and seal of the discourse, which speaks of the matter of the drawing down of the treasure that comes through the person's victory,</t>\n    <t s=\"35\">it says,</t>\n    <t s=\"36\">that it is the revelation of the innerness and Atzmus of Ein Sof, blessed be He.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916815_theRebbe_81",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p011"
+    },
+    "sections": [
+      {
+        "v": 30,
+        "sectionSummaryBrief": "This section explains that the advice to be freed from distractions during prayer through contemplation of their purpose applies only when the distractions come from another person's speech, but not when they come from one's own animal soul's foreign thoughts, where the advice is to ignore them entirely.",
+        "translations": [
+          {
+            "v": 30,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 30,
+            "s": 1,
+            "translation": "9)"
+          },
+          {
+            "v": 30,
+            "s": 2,
+            "translation": "Now, this matter—that the advice to be freed from distractions in prayer is through contemplation that the intent of the distractions is to arouse a person to pray with more concentration—"
+          },
+          {
+            "v": 30,
+            "s": 3,
+            "translation": "is when the distractions come through the speech of another person who disturbs him."
+          },
+          {
+            "v": 30,
+            "s": 4,
+            "translation": "However, when the distractions are from foreign thoughts that fall upon him from his animal soul in order to disturb him"
+          },
+          {
+            "v": 30,
+            "s": 5,
+            "translation": "(even though that his animal soul disturbs him with foreign thoughts is analogous to a foreskinned wicked person who disturbs him through his speech,"
+          },
+          {
+            "v": 30,
+            "s": 6,
+            "translation": "as brought above from Tanya),"
+          },
+          {
+            "v": 30,
+            "s": 7,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 30,
+            "s": 8,
+            "translation": "at the time of the falling of the foreign thoughts, there is no place to contemplate the intent of the descent of the Shechinah and the clothing of a spark from its illumination in the foreign thoughts,"
+          },
+          {
+            "v": 30,
+            "s": 9,
+            "translation": "and as it is stated in Tanya there, that one should not offer any argument or response against the foreign thought"
+          },
+          {
+            "v": 30,
+            "s": 10,
+            "translation": "[And it can be said,"
+          },
+          {
+            "v": 30,
+            "s": 11,
+            "translation": "that even contemplating the cause of the foreign thought is included in the category of argument and response],"
+          },
+          {
+            "v": 30,
+            "s": 12,
+            "translation": "and the advice is that he should make himself as if he does not know and does not hear the thoughts that have fallen upon him, and remove them from his mind."
+          },
+          {
+            "v": 30,
+            "s": 13,
+            "translation": "[For when he contemplates the intent of the foreign thoughts at another time,"
+          },
+          {
+            "v": 30,
+            "s": 14,
+            "translation": "the contemplation can help that during prayer he will not have foreign thoughts."
+          },
+          {
+            "v": 30,
+            "s": 15,
+            "translation": "But at the time of the falling of the thoughts themselves,"
+          },
+          {
+            "v": 30,
+            "s": 16,
+            "translation": "the advice is to make himself as if he does not know and does not hear the thoughts that have fallen upon him]."
+          },
+          {
+            "v": 30,
+            "s": 17,
+            "translation": "Therefore, the maamar says that the advice to be freed from the thoughts that fall during Torah study and prayer is to arouse the attribute of Netzach,"
+          },
+          {
+            "v": 30,
+            "s": 18,
+            "translation": "because at the time of the falling of foreign thoughts there is no place for contemplation,"
+          },
+          {
+            "v": 30,
+            "s": 19,
+            "translation": "as above."
+          }
+        ]
+      },
+      {
+        "v": 31,
+        "sectionSummaryBrief": "This section distinguishes between the work of transformation (it'hapcha) achieved through contemplating the purpose of distractions, and the work of subjugation (it'kafya) achieved by forcefully ignoring them, noting that the latter draws a higher illumination.",
+        "translations": [
+          {
+            "v": 31,
+            "s": 0,
+            "translation": "20)"
+          },
+          {
+            "v": 31,
+            "s": 1,
+            "translation": "\"f)"
+          },
+          {
+            "v": 31,
+            "s": 2,
+            "translation": "Now, through contemplation of the cause of the distractions"
+          },
+          {
+            "v": 31,
+            "s": 3,
+            "translation": "[that come through the speech of another person who disturbs him,"
+          },
+          {
+            "v": 31,
+            "s": 4,
+            "translation": "and likewise, contemplation of the cause of the distractions of foreign thoughts that come from the animal soul,"
+          },
+          {
+            "v": 31,
+            "s": 5,
+            "translation": "which he contemplates at another time]—"
+          },
+          {
+            "v": 31,
+            "s": 6,
+            "translation": "that the descent of the Shechinah and the clothing of a spark from its illumination in the distracting words and thoughts is in order that through this he will be aroused to greater concentration,"
+          },
+          {
+            "v": 31,
+            "s": 7,
+            "translation": "a descent for the sake of an ascent—"
+          },
+          {
+            "v": 31,
+            "s": 8,
+            "translation": "through this he elevates the sparks that fell into the speech,"
+          },
+          {
+            "v": 31,
+            "s": 9,
+            "translation": "it'hapcha (transformation)."
+          },
+          {
+            "v": 31,
+            "s": 10,
+            "translation": "But when he arouses his attribute of Netzach and overcomes the distractions and pushes them away,"
+          },
+          {
+            "v": 31,
+            "s": 11,
+            "translation": "and makes himself as if he does not hear the thoughts,"
+          },
+          {
+            "v": 31,
+            "s": 12,
+            "translation": "this is it'kafya (subjugation)."
+          },
+          {
+            "v": 31,
+            "s": 13,
+            "translation": "And according to what was explained above"
+          },
+          {
+            "v": 31,
+            "s": 14,
+            "translation": "(section 5)"
+          },
+          {
+            "v": 31,
+            "s": 15,
+            "translation": "that the drawing down that comes through the service of it'kafya is more elevated than the drawing down that comes through the service of it'hapcha,"
+          },
+          {
+            "v": 31,
+            "s": 16,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 31,
+            "s": 17,
+            "translation": "that by pushing away the thoughts in the manner of it'kafya,"
+          },
+          {
+            "v": 31,
+            "s": 18,
+            "translation": "additional strength is added to his concentration in prayer, even more than the increase in concentration that is brought about through the aforementioned contemplation."
+          }
+        ]
+      },
+      {
+        "v": 32,
+        "sectionSummaryBrief": "This section explains that to enable a person to overcome distractions, the supernal treasure is given from above in a lavish manner, and the drawing down that results from the person's victory is a revelation of the innerness and Atzmus of Ein Sof.",
+        "translations": [
+          {
+            "v": 32,
+            "s": 0,
+            "translation": "20)"
+          },
+          {
+            "v": 32,
+            "s": 1,
+            "translation": "a)"
+          },
+          {
+            "v": 32,
+            "s": 2,
+            "translation": "Now, in order that a person be able to overcome the distractions and push them away—"
+          },
+          {
+            "v": 32,
+            "s": 3,
+            "translation": "which is a great and most difficult service—"
+          },
+          {
+            "v": 32,
+            "s": 4,
+            "translation": "they give him from above,"
+          },
+          {
+            "v": 32,
+            "s": 5,
+            "translation": "and in a manner of lavish outpouring,"
+          },
+          {
+            "v": 32,
+            "s": 6,
+            "translation": "the supernal treasure."
+          },
+          {
+            "v": 32,
+            "s": 7,
+            "translation": "And one must explain the connection between these two matters,"
+          },
+          {
+            "v": 32,
+            "s": 8,
+            "translation": "for since a treasure is a matter that is hidden,"
+          },
+          {
+            "v": 32,
+            "s": 9,
+            "translation": "\"No eye has seen\"125,"
+          },
+          {
+            "v": 32,
+            "s": 10,
+            "translation": "so the fact that they give and reveal the treasure,"
+          },
+          {
+            "v": 32,
+            "s": 11,
+            "translation": "and especially in a manner of lavish outpouring,"
+          },
+          {
+            "v": 32,
+            "s": 12,
+            "translation": "is, as it were, difficult before the Holy One, blessed be He,"
+          },
+          {
+            "v": 32,
+            "s": 13,
+            "translation": "and nevertheless they do this for the sake of the person,"
+          },
+          {
+            "v": 32,
+            "s": 14,
+            "translation": "in order that he be able to perform the aforementioned difficult service."
+          },
+          {
+            "v": 32,
+            "s": 15,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 32,
+            "s": 16,
+            "translation": "that according to what is known126"
+          },
+          {
+            "v": 32,
+            "s": 17,
+            "translation": "that the drawing down from above that comes through the person's service is more elevated than the drawing down from above that is the giving of power to the person to perform his service,"
+          },
+          {
+            "v": 32,
+            "s": 18,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 32,
+            "s": 19,
+            "translation": "that by the person overcoming the distractions and pushing them away"
+          },
+          {
+            "v": 32,
+            "s": 20,
+            "translation": "(through the giving of power of the drawing down of the supernal treasure),"
+          },
+          {
+            "v": 32,
+            "s": 21,
+            "translation": "the drawing down of the treasure that comes through his service"
+          },
+          {
+            "v": 32,
+            "s": 22,
+            "translation": "is even more elevated."
+          },
+          {
+            "v": 32,
+            "s": 23,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 32,
+            "s": 24,
+            "translation": "that this is what the maamar says"
+          },
+          {
+            "v": 32,
+            "s": 25,
+            "translation": "(in the conclusion and seal of chapter twenty,"
+          },
+          {
+            "v": 32,
+            "s": 26,
+            "translation": "which is also the conclusion and seal of the entire discourse),"
+          },
+          {
+            "v": 32,
+            "s": 27,
+            "translation": "that through the victory with which a person vanquishes his animal soul, he causes127"
+          },
+          {
+            "v": 32,
+            "s": 28,
+            "translation": "the drawing down of the supernal treasure,"
+          },
+          {
+            "v": 32,
+            "s": 29,
+            "translation": "which is the revelation of the innerness and Atzmus of Ein Sof, blessed be He."
+          },
+          {
+            "v": 32,
+            "s": 30,
+            "translation": "For in the previous chapters, when it explains the matter of the treasure,"
+          },
+          {
+            "v": 32,
+            "s": 31,
+            "translation": "it does not use this language"
+          },
+          {
+            "v": 32,
+            "s": 32,
+            "translation": "(innerness and Atzmus of Ein Sof, blessed be He)128,"
+          },
+          {
+            "v": 32,
+            "s": 33,
+            "translation": "because there it speaks of the matter of the drawing down and revelation of the treasure that is for the sake of the victory,"
+          },
+          {
+            "v": 32,
+            "s": 34,
+            "translation": "but in the conclusion and seal of the discourse, which speaks of the matter of the drawing down of the treasure that comes through the person's victory,"
+          },
+          {
+            "v": 32,
+            "s": 35,
+            "translation": "it says,"
+          },
+          {
+            "v": 32,
+            "s": 36,
+            "translation": "that it is the revelation of the innerness and Atzmus of Ein Sof, blessed be He."
+          }
+        ]
+      }
+    ]
+  }
+}

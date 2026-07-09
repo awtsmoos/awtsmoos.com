@@ -1,0 +1,284 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 48,
+    "returned": 48,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916328_theRebbe_715\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the revelation of the Name Sha-dai to Avraham was a new revelation, because creation within measure and limitation occurs through light clothed in vessels, while the aspect of \"Sha-dai\" that says \"Enough\" in My Elokus to every creature comes from the revelation of the boundless light above the clothing in vessels.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this is what is said in the maamar</t>\n    <t s=\"2\">(cited above in section 2)</t>\n    <t s=\"3\">that the revelation of the Name Sha-dai that was to Avraham is a new revelation that was not before this even in concealment,</t>\n    <t s=\"4\">for the creation of the world in measure and limitation is through the light being clothed in vessels that limit the diffusion of the light,</t>\n    <t s=\"5\">and this \"Sha-dai\" — \"Enough\" in My Elokus to every creature</t>\n    <t s=\"6\">(whose diffusion is without limit)</t>\n    <t s=\"7\">is through the revelation of the boundless light that is above the clothing in vessels.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that the two aspects of the Name Sha-dai are interconnected, because the light's diffusion without limit in relation to the revelation of Elokus occurs even while it is clothed in vessels that limit creation.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And behold, from this that these two matters — \"I said to My world: Enough\" and \"Sha-dai\" — \"Enough in My Elokus to every creature\" — are in the same Name</t>\n    <t s=\"2\">(Sha-dai),</t>\n    <t s=\"3\">it is understood,</t>\n    <t s=\"4\">that they are related to each other.</t>\n    <t s=\"5\">For this matter of \"Enough in My Elokus to every creature\" is through the revelation of the boundless light that is above the clothing in vessels,</t>\n    <t s=\"6\">it is</t>\n    <t s=\"7\">[not that the light itself is revealed as it is in its place,</t>\n    <t s=\"8\">above vessels,</t>\n    <t s=\"9\">for then the measurement and limitation of the world would be nullified,</t>\n    <t s=\"10\">but rather],</t>\n    <t s=\"11\">that even though the light is clothed in vessels,</t>\n    <t s=\"12\">through which a limitation is made in its diffusion with regard to coming-into-being,</t>\n    <t s=\"13\">that \"I said to My world: Enough\",</t>\n    <t s=\"14\">nevertheless,</t>\n    <t s=\"15\">with regard to the revelation of Elokus,</t>\n    <t s=\"16\">its diffusion will be without limit</t>\n    <t s=\"17\">(as it is from its own side,</t>\n    <t s=\"18\">above the clothing in vessels),</t>\n    <t s=\"19\">\"Enough in My Elokus to every creature\".</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section adds that the revelation of the light above vessels is such that the revealed light is \"enough for every creature\" because even the light above vessels (of the Name Sha-dai) is a light that relates to the worlds, being the source of the chain of descent.</sectionSummaryBrief>\n    <t s=\"0\">And to add,</t>\n    <t s=\"1\">that this — that the revelation of the light above the vessels is in a manner that the revelation of the light that is clothed is \"enough for every creature\",</t>\n    <t s=\"2\">is,</t>\n    <t s=\"3\">because even the light itself that is above the vessels</t>\n    <t s=\"4\">(of the Name Sha-dai)</t>\n    <t s=\"5\">is a light that pertains to the worlds,</t>\n    <t s=\"6\">\"Enough in My Elokus to every creature\".</t>\n    <t s=\"7\">And as is explained in the discourses,</t>\n    <t s=\"8\">that the Name Sha-dai, on account of \"Sha-dai\" — \"Enough in My Elokus to every creature\" — is in the source of the chain of descent,</t>\n    <t s=\"9\">for in the matter of the Sefiros it is the externality of Kesser, which is the root of the emanated beings,</t>\n    <t s=\"10\">and in the Ein Sof before the tzimtzum it is the light that He estimated in Himself to shine in measure and limitation.</t>\n    <t s=\"11\">Therefore,</t>\n    <t s=\"12\">after there was drawn from it an illumination that is the actual source to bring creatures into being</t>\n    <t s=\"13\">(light that is clothed in vessels),</t>\n    <t s=\"14\">the revelation of this light</t>\n    <t s=\"15\">(which is above the chain of descent but pertains to the chain of descent)</t>\n    <t s=\"16\">does not negate the illumination, but rather, on the contrary,</t>\n    <t s=\"17\">it shines within it</t>\n    <t s=\"18\">[and through it — within the creatures that came into being from it]</t>\n    <t s=\"19\">and brings about in it an elevation.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916328_theRebbe_715",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916328_theRebbe_715__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the revelation of the Name Sha-dai to Avraham was a new revelation, because creation within measure and limitation occurs through light clothed in vessels, while the aspect of \"Sha-dai\" that says \"Enough\" in My Elokus to every creature comes from the revelation of the boundless light above the clothing in vessels.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that this is what is said in the maamar"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(cited above in section 2)"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "that the revelation of the Name Sha-dai that was to Avraham is a new revelation that was not before this even in concealment,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "for the creation of the world in measure and limitation is through the light being clothed in vessels that limit the diffusion of the light,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and this \"Sha-dai\" — \"Enough\" in My Elokus to every creature"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "(whose diffusion is without limit)"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "is through the revelation of the boundless light that is above the clothing in vessels."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that the two aspects of the Name Sha-dai are interconnected, because the light's diffusion without limit in relation to the revelation of Elokus occurs even while it is clothed in vessels that limit creation.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "And behold, from this that these two matters — \"I said to My world: Enough\" and \"Sha-dai\" — \"Enough in My Elokus to every creature\" — are in the same Name"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "(Sha-dai),"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "that they are related to each other."
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "For this matter of \"Enough in My Elokus to every creature\" is through the revelation of the boundless light that is above the clothing in vessels,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "it is"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "[not that the light itself is revealed as it is in its place,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "above vessels,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "for then the measurement and limitation of the world would be nullified,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "but rather],"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "that even though the light is clothed in vessels,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "through which a limitation is made in its diffusion with regard to coming-into-being,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "that \"I said to My world: Enough\","
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "with regard to the revelation of Elokus,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "its diffusion will be without limit"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "(as it is from its own side,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "above the clothing in vessels),"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "\"Enough in My Elokus to every creature\"."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section adds that the revelation of the light above vessels is such that the revealed light is \"enough for every creature\" because even the light above vessels (of the Name Sha-dai) is a light that relates to the worlds, being the source of the chain of descent.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And to add,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "that this — that the revelation of the light above the vessels is in a manner that the revelation of the light that is clothed is \"enough for every creature\","
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "is,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "because even the light itself that is above the vessels"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "(of the Name Sha-dai)"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "is a light that pertains to the worlds,"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "\"Enough in My Elokus to every creature\"."
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "And as is explained in the discourses,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "that the Name Sha-dai, on account of \"Sha-dai\" — \"Enough in My Elokus to every creature\" — is in the source of the chain of descent,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "for in the matter of the Sefiros it is the externality of Kesser, which is the root of the emanated beings,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "and in the Ein Sof before the tzimtzum it is the light that He estimated in Himself to shine in measure and limitation."
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "after there was drawn from it an illumination that is the actual source to bring creatures into being"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "(light that is clothed in vessels),"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "the revelation of this light"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "(which is above the chain of descent but pertains to the chain of descent)"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "does not negate the illumination, but rather, on the contrary,"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "it shines within it"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "[and through it — within the creatures that came into being from it]"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "and brings about in it an elevation."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,110 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919688_theRebbe_695" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919688_theRebbe_695__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919688_theRebbe_695" title="מאמר ציון במשפט תפדה תשל"ה" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919688_theRebbe_695__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ דברים,</src>
+    <src s="2">שבת חזון,</src>
+    <src s="3">תשל"ה*.</src>
+  </section>
+  <section v="1">
+    <src s="0">ציון במשפט תפדה ושבי' בצדקה1,</src>
+    <src s="1">ומבאר כ"ק אדמו"ר הזקן2</src>
+    <src s="2">וכ"ק אדמו"ר הצ"צ3</src>
+    <src s="3">(ורבותינו נשיאינו שלאח"ז),</src>
+    <src s="4">דציון קאי על בחי' פנימיות הלב.</src>
+    <src s="5">ונק' ציון לשון סימן,</src>
+    <src s="6">כי בחי' פנימיות הלב היא ציון וסימן ללמעלה.</src>
+    <src s="7">ובבחי' זו אא"פ להיות שבי' ח"ו,</src>
+    <src s="8">רק שהיא צריכה לפדי' בלבד,</src>
+    <src s="9">והפדי' היא במשפט היינו תורה,</src>
+    <src s="10">כתרגומו ע"פ כמשפט הראשון4</src>
+    <src s="11">כהלכתא קדמיתא.</src>
+    <src s="12">ושבי' הם כחות הגלויים של הנשמה שבבחי' התלבשות בגוף,</src>
+    <src s="13">בחי' רגל שבנשמה,</src>
+    <src s="14">שהם בבחי' שבי' ממש,</src>
+    <src s="15">ופדייתם מן השבי' היא בצדקה דוקא,</src>
+    <src s="16">שהוא מעשה המצוות,</src>
+    <src s="17">כמשנת"ל</src>
+    <src s="18">(בד"ה ציון במשפט5)</src>
+    <src s="19">בארוכה.</src>
+  </section>
+  <section v="2">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">והנה לפי פירוש זה,</src>
+    <src s="3">ציון במשפט תפדה</src>
+    <src s="4">(פדי' שע"י תורה)</src>
+    <src s="5">הוא למעלה מושבי' בצדקה</src>
+    <src s="6">(פדי' שע"י מצוות),</src>
+    <src s="7">וע"פ משנ"ת בכ"מ שתורה היא למעלה ממצוות.</src>
+    <src s="8">אמנם ברשימות הצ"צ לנ"ך6</src>
+    <src s="9">עה"פ ציון במשפט תפדה ושבי' בצדקה,</src>
+    <src s="10">מביא פירוש,</src>
+    <src s="11">שושבי' הו"ע לאתבא צדיקייא בתיובתא.</src>
+    <src s="12">דציון קאי על צדיקים7,</src>
+    <src s="13">ושבי' דציון הו"ע לאתבא צדיקייא בתיובתא8,</src>
+    <src s="14">ופדיית הצדיקים היא ע"י התורה,</src>
+    <src s="15">משא"כ לאתבא צדיקייא בתיובתא נעשה ע"י צדקה דוקא.</src>
+    <src s="16">ולפי פירוש זה ושבי' בצדקה הוא למעלה מציון במשפט תפדה,</src>
+    <src s="17">ולא עוד אלא שהוא עילוי שלא בערך.</src>
+    <src s="18">וכמובן גם מזה שלאתבא צדיקייא בתיובתא הוא ע"י משיח דוקא,</src>
+    <src s="19">וכמאמר9</src>
+    <src s="20">משיח אתא לאתבא צדיקייא בתיובתא,</src>
+    <src s="21">שדרגת נשמת משיח היא באין ערוך מדרגות שאר הנשמות,</src>
+    <src s="22">וכידוע בכתבי האריז"ל10,</src>
+    <src s="23">שדרגת הנשמה שזכו אלי' גדולי ישראל שעד משיח היא רק בהבחינות נרנ"ח,</src>
+    <src s="24">ואדם הראשון זכה לחי',</src>
+    <src s="25">משא"כ משיח יזכה ליחידה,</src>
+    <src s="26">יחידה הכללית של כלל ישראל.</src>
+    <src s="27">והרי העילוי דבחי' יחידה על הבחינות נרנ"ח הוא עילוי שבאין ערוך.</src>
+    <src s="28">וכמובן גם מזה שנקראת יחידה מלשון יחיד,</src>
+    <src s="29">שתואר זה מורה אשר אין לה ערך להבחינות דנרנ"ח.</src>
+    <src s="30">וכידוע11</src>
+    <src s="31">ההפרש בין יחיד לאחד,</src>
+    <src s="32">דאחד מורה שיש לו ערך לעוד דבר</src>
+    <src s="33">[דהגם שהתואר אחד אינו כהתואר ראשון,</src>
+    <src s="34">שראשון מכריח שיש שני,</src>
+    <src s="35">משא"כ אחד הרי יש אחד ואין שני גו' לו12,</src>
+    <src s="36">מ"מ,</src>
+    <src s="37">מזה גופא שצריך לומר ואין שני הרי מוכח שאפשר שיהי' שני לו,</src>
+    <src s="38">בערך לו כו'],</src>
+    <src s="39">משא"כ התואר יחיד,</src>
+    <src s="40">הרי זה גופא מורה שאין שני לו.</src>
+    <src s="41">ומזה מובן גודל העילוי דלאתבא צדיקייא בתיובתא,</src>
+    <src s="42">מכיון שזהו אחד הענינים שיתחדשו ע"י משיח דוקא,</src>
+    <src s="43">בחי' יחידה.</src>
+  </section>
+</awtsmoosMeluketSource>

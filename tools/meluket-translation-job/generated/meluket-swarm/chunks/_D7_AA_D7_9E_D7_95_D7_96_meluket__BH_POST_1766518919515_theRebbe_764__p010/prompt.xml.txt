@@ -1,0 +1,54 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919515_theRebbe_764" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p010">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919515_theRebbe_764" title="מאמר גדול יהי' תשכ"ב" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919515_theRebbe_764__p010">
+  <section v="27">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וזהו גדול יהי' כבוד הבית הזה האחרון מן הראשון,</src>
+    <src s="3">דהגם שבגאולה העתידה יהיו כו"כ ענינים ועד לתחה"מ שהוא אחרון שבכולם,</src>
+    <src s="4">מ"מ,</src>
+    <src s="5">עיקר ההדגשה היא בכבוד הבית הזה האחרון,</src>
+    <src s="6">כי שורש דכל הענינים יהי' בביהמ"ק,</src>
+    <src s="7">וממנו יומשכו בעולם</src>
+    <src s="8">(כנ"ל סעיף ב).</src>
+  </section>
+  <section v="28">
+    <src s="0">וזהו גם מהטעמים שהפעולה הראשונה של משיח</src>
+    <src s="1">(לאחרי שיהי' בחזקת משיח)</src>
+    <src s="2">הוא בנין ביהמ"ק74,</src>
+    <src s="3">כי זהו השורש דכל הענינים שלאח"ז.</src>
+    <src s="4">ויהי רצון ועיקר שכל זה יהי' בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

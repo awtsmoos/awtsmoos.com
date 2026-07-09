@@ -1,0 +1,74 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 6,
+    "returned": 6,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914213_theRebbe_9\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section opens the maamar with the heading and the date of the 13th of Tishrei, the yahrtzeit of the Rebbe Maharash.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">13 Tishrei</t>\n    <t s=\"2\">(Yahrtzeit of the Rebbe Maharash),</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section gives the precise time of the discourse: the eve of the holiday of Sukkos, 5738.</sectionSummaryBrief>\n    <t s=\"0\">Erev Sukkos,</t>\n    <t s=\"1\">5738*.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section notes that the maamar is a transcript (hanachah).</sectionSummaryBrief>\n    <t s=\"0\">Transcript.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914213_theRebbe_9",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914213_theRebbe_9__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section opens the maamar with the heading and the date of the 13th of Tishrei, the yahrtzeit of the Rebbe Maharash.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "13 Tishrei"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "(Yahrtzeit of the Rebbe Maharash),"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section gives the precise time of the discourse: the eve of the holiday of Sukkos, 5738.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "Erev Sukkos,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "5738*."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section notes that the maamar is a transcript (hanachah).",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "Transcript."
+          }
+        ]
+      }
+    ]
+  }
+}

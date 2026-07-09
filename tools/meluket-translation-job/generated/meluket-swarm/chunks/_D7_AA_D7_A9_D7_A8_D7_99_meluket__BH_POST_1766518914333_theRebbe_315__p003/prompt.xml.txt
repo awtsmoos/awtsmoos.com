@@ -1,0 +1,151 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914333_theRebbe_315" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914333_theRebbe_315" title="מאמר בסוכות תשבו תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914333_theRebbe_315__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">וזהו בסוכות תשבו גו' למען ידעו דורותיכם כי בסוכות הושבתי גו',</src>
+    <src s="2">דידיעה זו היא</src>
+    <src s="3">(לא רק ענין בכוונת המצוה,</src>
+    <src s="4">אלא גם)</src>
+    <src s="5">חלק בקיום המצוה55</src>
+    <src s="6">(כדמוכח גם מלשון אדמו"ר הזקן בשלחנו56).</src>
+    <src s="7">דהנה סכך הסוכה נעשה</src>
+    <src s="8">(כנ"ל)</src>
+    <src s="9">מענן הקטורת דיוהכ"פ</src>
+    <src s="10">[והשייכות דסוכה לענן הקטורת היא הן מצד זה שהסוכה היא עשוי' לצל וענן הוא כמו צל</src>
+    <src s="11">(כנ"ל),</src>
+    <src s="12">וגם מצד זה שבסוכות הושבתי הם ענני הכבוד],</src>
+    <src s="13">דענין ענן הקטורת דיוהכ"פ הוא בחי' המקיף שלמעלה מטעם ודעת,</src>
+    <src s="14">ובחג הסוכות צריך להמשיך מקיף זה בפנימיות,</src>
+    <src s="15">בסוכות תשבו,</src>
+    <src s="16">וההמשכה בפנימיות היא ע"י הדעת דוקא,</src>
+    <src s="17">כמבואר בארוכה בהמשך וככה של בעל ההילולא57.</src>
+    <src s="18">ובפרט ע"י נטילת ד' מינים,</src>
+    <src s="19">שמורים על ענין האחדות58,</src>
+    <src s="20">שעי"ז נמשך הדעת</src>
+    <src s="21">(גם בבחי' נוקבא59)</src>
+    <src s="22">למטה יותר,</src>
+    <src s="23">בפנימיותו של כאו"א מישראל60.</src>
+  </section>
+  <section v="7">
+    <src s="0">ה)</src>
+    <src s="1">וביאור הענין בעומק יותר יובן ע"פ מה שמבאר בעל ההילולא בהמשך המאמרים הנ"ל61</src>
+    <src s="2">בענין ירידת הנשמה בגוף,</src>
+    <src s="3">ועד"ז בענין ירידת המצוות והתלבשותם בדברים גשמיים</src>
+    <src s="4">[וכמו במצות הקרבנות שצריך להקריב בהמה גשמית דוקא,</src>
+    <src s="5">וכן הקטורת היא מי"א סממנים גשמיים דוקא,</src>
+    <src s="6">וכן סכך הסוכה</src>
+    <src s="7">(שהוא דוגמת ענין הקטורת)</src>
+    <src s="8">הוא מדבר גשמי מפסולת גורן ויקב62,</src>
+    <src s="9">ועד"ז הוא בשאר המצוות],</src>
+    <src s="10">שהיא ירידה צורך עלי'.</src>
+    <src s="11">דשרש הנשמה היא מבחי' התיקון,</src>
+    <src s="12">ושרש הגוף ונה"ב,</src>
+    <src s="13">וכן שרש הדברים הגשמיים שבהם נתלבשו המצוות,</src>
+    <src s="14">הוא בבחי' התוהו שקדם לתיקון.</src>
+    <src s="15">וע"י שהנשמה יורדת למטה ומתלבשת בגוף ונה"ב ועוסקת בתומ"צ שנתלבשו בדברים גשמיים,</src>
+    <src s="16">עי"ז היא מבררת את הניצוצות דתוהו שנפלו למטה בהגוף ונה"ב ובדברים הגשמיים</src>
+    <src s="17">(שהמצוות מלובשות בהם)</src>
+    <src s="18">ומעלה אותם לשרשם,</src>
+    <src s="19">ועי"ז נמשך להם האורות דתוהו שלמעלה מהאורות דתיקון,</src>
+    <src s="20">כידוע שהאורות דתיקון הם אורות מועטים ובתוהו היו אורות מרובים63.</src>
+    <src s="21">ובפרט לפי המבואר שם64</src>
+    <src s="22">שריבוי האור דתוהו הוא לא רק ריבוי בכמות</src>
+    <src s="23">(היינו שהוא באותו הסוג של האורות דתיקון ורק שהוא בריבוי גדול מאד),</src>
+    <src s="24">כי אם,</src>
+    <src s="25">שהאורות דתוהו הם בסוג אחר לגמרי.</src>
+    <src s="26">ובמכ"ש מזה שאמרו רז"ל65</src>
+    <src s="27">על אור שנברא ביום הראשון שהי' אדם מביט בו מסוף העולם ועד סופו,</src>
+    <src s="28">שביאור הלשון מסוף העולם ועד סופו</src>
+    <src s="29">(אף שלכאורה הי' צ"ל מתחלת העולם ועד סופו)</src>
+    <src s="30">הוא דכללות כל העולמות נחלקים לב' בחינות,</src>
+    <src s="31">עלמא דאתכסיא ועלמא דאתגליא,</src>
+    <src s="32">והכוונה במסוף העולם ועד סופו היא מסוף העולם דעלמא דאתגליא מלמעלמ"ט ועד סופו דעלמא דאתכסיא מלמטלמ"ע,</src>
+    <src s="33">דמזה מובן שענין הריבוי דאור זה</src>
+    <src s="34">(אור שנברא ביום הראשון)</src>
+    <src s="35">לגבי האור דשאר הימים הוא לא רק ריבוי בכמות אלא שהוא ריבוי שאינו בערך כלל.</src>
+    <src s="36">וכל זה הוא בעולם התיקון גופא</src>
+    <src s="37">[שהרי גם אור שנברא ביום ראשון הוא מבחי' התיקון],</src>
+    <src s="38">שכללות האורות דתיקון הם אורות מועטים.</src>
+    <src s="39">ומזה מובן במכ"ש בענין ריבוי האור שהי' בבחי' התוהו,</src>
+    <src s="40">שנוסף על הריבוי בכמות,</src>
+    <src s="41">הי'</src>
+    <src s="42">(וזהו עיקר מעלתו)</src>
+    <src s="43">אור נבדל בערך לגמרי מהאור דתיקון.</src>
+    <src s="44">וע"י שהנשמה,</src>
+    <src s="45">ששרשה מבחי' התיקון,</src>
+    <src s="46">מבררת ומתקנת את הניצוצות שנפלו למטה בדברים הגשמיים,</src>
+    <src s="47">עי"ז נמשכים האורות מרובים דתוהו בכלים מרובים דתיקון.</src>
+  </section>
+  <section v="8">
+    <src s="0">וזהו שירידת הנשמה בגוף היא ירידה צורך עלי',</src>
+    <src s="1">דשרש הנשמה הוא</src>
+    <src s="2">(כנ"ל)</src>
+    <src s="3">בבחי' התיקון</src>
+    <src s="4">[אלא שבתיקון גופא היא בבחי' הכי עליונה,</src>
+    <src s="5">דישראל עלו במחשבה66],</src>
+    <src s="6">וע"י שיורדת מאיגרא67</src>
+    <src s="7">רמה לבירא עמיקתא ומבררת את הניצוצות שנפלו למטה מטה</src>
+    <src s="8">(לבירא עמיקתא),</src>
+    <src s="9">דזה גופא שנפלו למטה מטה ביותר הוא מצד זה ששרשם הוא למעלה מעלה ביותר68,</src>
+    <src s="10">עי"ז נעשה בה תוספת עילוי למעלה יותר מכמו שהיתה קודם ירידתה69.</src>
+    <src s="11">וכידוע תורת האריז"ל עה"פ כי לא על הלחם לבדו יחי' האדם כי על כל מוצא פי הוי' יחי' האדם70,</src>
+    <src s="12">דזה שהלחם מחי' את האדם</src>
+    <src s="13">(אף שהלחם הוא צומח והאדם הוא מדבר)</src>
+    <src s="14">הוא לא מצד הלחם לבדו,</src>
+    <src s="15">כי אם,</src>
+    <src s="16">מצד מוצא פי הוי' שבהלחם,</src>
+    <src s="17">היינו מהמאמר71</src>
+    <src s="18">תדשא הארץ דשא.</src>
+    <src s="19">וזה שהאדם צריך להמוצא פי הוי' שבהלחם דוקא</src>
+    <src s="20">(אף שגם באדם מלובש דבר הוי' מהמאמר72</src>
+    <src s="21">נעשה אדם)</src>
+    <src s="22">הוא לפי שמוצא פי הוי' שבהלחם הוא מבחי' התוהו,</src>
+    <src s="23">ולכן על ידו דוקא יחי' האדם שמבחי' התיקון.</src>
+    <src s="24">וכמו שהוא בלחם,</src>
+    <src s="25">עד"ז הוא בכל עניני האדם</src>
+    <src s="26">[דלחם כולל כל עניני אכילה ושתי'73</src>
+    <src s="27">וגם כל צרכי האדם74],</src>
+    <src s="28">כולל גם עבודת האדם בתומ"צ,</src>
+    <src s="29">שע"י שהאדם מברר את הדברים הגשמיים</src>
+    <src s="30">[ע"י שעושה אותם לשם שמים75,</src>
+    <src s="31">ועאכו"כ ע"י קיום המצוות בדברים הגשמיים עצמם],</src>
+    <src s="32">הנה על מוצא פי הוי' שבדברים הגשמיים יחי' האדם,</src>
+    <src s="33">שמתוסף עילוי בנשמת האדם למעלה יותר מכמו שהיתה קודם ירידתה.</src>
+    <src s="34">ומכיון שהאור דתוהו הוא נבדל בערך לגמרי</src>
+    <src s="35">(כנ"ל),</src>
+    <src s="36">לכן גם העילוי שמתוסף בהנשמה הוא עילוי שלא בערך כלל76.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,28 @@
+{
+  "id": "31128227-0553-471b-ad6b-11a4482af6f8",
+  "object": "chat.completion",
+  "created": 1783582221,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915545_theRebbe_780\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915545_theRebbe_780__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>May it be His will that each person engages in this, and even more so in the remaining days of exile, leading to the immediate redemption with joy, to greet Moshiach and go with him and all Torah scrolls and synagogues to the Holy Land.</sectionSummaryBrief>\n    <t s=\"0\">And may it be His will that each and every one engages in this,</t>\n    <t s=\"1\">and as is proper,</t>\n    <t s=\"2\">and even more so,</t>\n    <t s=\"3\">in the final days that still remain of the days of exile,</t>\n    <t s=\"4\">and this will bring about, very soon,</t>\n    <t s=\"5\">and out of joy and goodness of heart,</t>\n    <t s=\"6\">that we will go with our young and with our elders, with our sons and with our daughters,</t>\n    <t s=\"7\">to greet the face of Moshiach our righteousness.</t>\n    <t s=\"8\">And we will go together with Moshiach our righteousness,</t>\n    <t s=\"9\">and with all the Torah scrolls that are in the diaspora,</t>\n    <t s=\"10\">and including the synagogues and study halls that are in Babylonia</t>\n    <t s=\"11\">(which is in the diaspora),</t>\n    <t s=\"12\">to the land of Israel,</t>\n    <t s=\"13\">the holy land,</t>\n    <t s=\"14\">speedily in our days, literally, with joy and with goodness of heart.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 941,
+    "completion_tokens": 492,
+    "total_tokens": 1433,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 557
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

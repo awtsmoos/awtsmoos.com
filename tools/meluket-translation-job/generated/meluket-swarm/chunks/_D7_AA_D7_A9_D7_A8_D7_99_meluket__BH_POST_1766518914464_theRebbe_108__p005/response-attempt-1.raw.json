@@ -1,0 +1,28 @@
+{
+  "id": "1dfb0aa9-1bc2-4b66-888a-b4c61654aeba",
+  "object": "chat.completion",
+  "created": 1783582146,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914464_theRebbe_108\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914464_theRebbe_108__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>The vessel for these two matters is the unity of Israel in two modes, which also applies to individual divine service and prepares for the true redemption through Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">And the vessel for these two matters is the unity of Israel in two modes.</t>\n    <t s=\"1\">That each one receives from his fellow,</t>\n    <t s=\"2\">and that all of Israel are one structure.</t>\n    <t s=\"3\">And likewise in the individual service of each and every one,</t>\n    <t s=\"4\">that there are these two matters in it.</t>\n    <t s=\"5\">The service of the ten powers of his soul</t>\n    <t s=\"6\">(which are analogous to the ten categories from your heads, your tribes, until the hewer of your wood and the drawer of your water54)</t>\n    <t s=\"7\">in a manner that all the powers receive from each other and complete each other,</t>\n    <t s=\"8\">and the service from the aspect of Yechidah, which is above division.</t>\n    <t s=\"9\">And this is also a proximate preparation for the true and complete redemption through Moshiach our righteousness,</t>\n    <t s=\"10\">for the matter of Moshiach is Yechidah55.</t>\n    <t s=\"11\">And this is that in every Jew there is a spark of Moshiach56,</t>\n    <t s=\"12\">that the particular Yechidah in each and every Jew is a spark of the general Yechidah of Moshiach</t>\n    <t s=\"13\">[And analogous to Moshe</t>\n    <t s=\"14\">(the first redeemer57)</t>\n    <t s=\"15\">that in each and every Jew there is the aspect of Moshe within him58],</t>\n    <t s=\"16\">he will come and redeem us and lead us upright to our land,</t>\n    <t s=\"17\">in the true and complete redemption speedily, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1069,
+    "completion_tokens": 590,
+    "total_tokens": 1659,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 813
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

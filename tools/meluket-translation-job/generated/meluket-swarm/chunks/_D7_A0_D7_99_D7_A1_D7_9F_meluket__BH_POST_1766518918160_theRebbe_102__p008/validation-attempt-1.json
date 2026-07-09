@@ -1,0 +1,449 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 81,
+    "returned": 81,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918160_theRebbe_102\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918160_theRebbe_102__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>The soul's desire to descend into the body stems from its awareness of the body's higher root, and this feeling is imposed upon it as a necessity, enabling it to become a vessel for that root's revelation through its service.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">a)</t>\n    <t s=\"2\">Now, it is known70</t>\n    <t s=\"3\">that this—that the soul wants to descend below to enliven the body—is because the soul feels the superiority of the body from the perspective of its source,</t>\n    <t s=\"4\">for the source of the body is higher than the source of the soul,</t>\n    <t s=\"5\">and therefore it wants to enliven the body.</t>\n    <t s=\"6\">And what our Rabbis, of blessed memory, said:71</t>\n    <t s=\"7\">\"Against your will you live,\"</t>\n    <t s=\"8\">is</t>\n    <t s=\"9\">that since the will of the soul to enliven the body is not from itself, but because it feels the source of the body,</t>\n    <t s=\"10\">therefore this is called by the term \"compulsion,\"</t>\n    <t s=\"11\">\"against your will you live.\"</t>\n    <t s=\"12\">And it can be said</t>\n    <t s=\"13\">that this—that the soul feels the source of the body</t>\n    <t s=\"14\">[even though this feeling seemingly does not pertain to the soul's own matter,</t>\n    <t s=\"15\">and as is understood from the fact that its will to enliven the body, which comes from this feeling, is called by the term \"compulsion\"],</t>\n    <t s=\"16\">is</t>\n    <t s=\"17\">because in order for it to have a will to enliven the body, a revelation of the source of the body is drawn into it,</t>\n    <t s=\"18\">even though from its own perspective</t>\n    <t s=\"19\">(even as it is from the perspective of its source)</t>\n    <t s=\"20\">it is not related to this revelation.</t>\n    <t s=\"21\">And through the revelation of the source of the body that shines in the soul</t>\n    <t s=\"22\">(in a manner of compulsion, at least)</t>\n    <t s=\"23\">before its descent below,</t>\n    <t s=\"24\">it becomes like a vessel for the revelation of the source of the body that shines in it afterward through its service in the body.</t>\n    <t s=\"25\">And similarly, regarding the matter of lights and vessels,</t>\n    <t s=\"26\">that through the enclothing of the lights in the vessels, the aspect of the source of the vessels is drawn into them—this is because the source of the vessels is felt in them even before their descent into the vessels.</t>\n    <t s=\"27\">And it can be said</t>\n    <t s=\"28\">that likewise, regarding the matter of the Counting of the Omer and the Giving of the Torah,</t>\n    <t s=\"29\">that through the descent of the G-dly soul to refine the attributes of the animal soul</t>\n    <t s=\"30\">(\"your place will be missed\")</t>\n    <t s=\"31\">the revelation of the Giving of the Torah is drawn into it, from the perspective of the superiority of the refinements</t>\n    <t s=\"32\">(as above, section d),</t>\n    <t s=\"33\">is</t>\n    <t s=\"34\">because the descent to refine the attributes of the animal soul comes after and through the revelation of the Exodus from Egypt,</t>\n    <t s=\"35\">and through the revelation of the Exodus from Egypt, there is felt in it</t>\n    <t s=\"36\">(even before the descent)</t>\n    <t s=\"37\">the superiority of the refinements,</t>\n    <t s=\"38\">since the departure from Egypt was with great wealth.</t>\n  </section>\n  <section v=\"22\">\n    <sectionSummaryBrief>The phrase \"you will be missed because your place will be missed\" indicates that the ascent of the soul comes specifically through the descent itself, and within the descent itself the superiority of the refinements is already felt.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">b)</t>\n    <t s=\"2\">And this is: \"And Yehonasan said to him: 'Tomorrow is the new moon, and you will be missed, for your place will be missed,'\"</t>\n    <t s=\"3\">that in order that through \"your place will be missed\" there will be \"you will be missed,\" this is through the drawing down of \"And Yehonasan said to him\"</t>\n    <t s=\"4\">(as above, section c),</t>\n    <t s=\"5\">which is analogous to the matter of the Exodus from Egypt and the Splitting of the Sea of Reeds,</t>\n    <t s=\"6\">through which there is felt</t>\n    <t s=\"7\">(even before the descent)</t>\n    <t s=\"8\">the superiority of the refinements.</t>\n    <t s=\"9\">And this is: \"you will be missed because your place will be missed,\"</t>\n    <t s=\"10\">for from this language it is implied that the connection of \"your place will be missed\" to \"you will be missed\" is not from the perspective of the self-nullification within \"your place will be missed,\"</t>\n    <t s=\"11\">but rather from the matter of \"your place will be missed\" itself</t>\n    <t s=\"12\">(as above, section a),</t>\n    <t s=\"13\">for the ascent of the soul that comes through its descent into the body is not because through this the matter of the soul is revealed</t>\n    <t s=\"14\">(self-nullification,</t>\n    <t s=\"15\">etc.)</t>\n    <t s=\"16\">but rather from the perspective of the body itself</t>\n    <t s=\"17\">(as above, section e),</t>\n    <t s=\"18\">and similarly, regarding the matter of \"you will be missed,\"</t>\n    <t s=\"19\">this is accomplished through the matter of \"your place will be missed\" itself.</t>\n    <t s=\"20\">And it is stated: \"you will be missed because your place will be missed,\"</t>\n    <t s=\"21\">for \"your place will be missed\" is</t>\n    <t s=\"22\">(also)</t>\n    <t s=\"23\">a term of \"you will be missed,\"</t>\n    <t s=\"24\">for in addition to the fact that \"your place will be missed\" brings about \"you will be missed,\"</t>\n    <t s=\"25\">even within \"your place will be missed\" itself there is the matter of \"you will be missed\"</t>\n    <t s=\"26\">(as above, section a),</t>\n    <t s=\"27\">for through the fact that the descent of \"your place will be missed\" comes through the drawing down of \"And Yehonasan said to him,\"</t>\n    <t s=\"28\">the superiority of the refinements is felt even within the descent itself,</t>\n    <t s=\"29\">except that the primary revelation is after the descent of \"your place will be missed,\"</t>\n    <t s=\"30\">\"tomorrow is the new moon.\"</t>\n  </section>\n  <section v=\"23\">\n    <sectionSummaryBrief>In the moments before the future redemption, a glimmer of its superiority shines forth in both spiritual and material matters, leading immediately to the complete revelation of the redemption.</sectionSummaryBrief>\n    <t s=\"0\">And similarly, regarding the renewal of Knesset Yisrael in the future redemption,</t>\n    <t s=\"1\">that they are destined to be renewed like it,72</t>\n    <t s=\"2\">even on the eve of the new moon,</t>\n    <t s=\"3\">in the final moments before the redemption,</t>\n    <t s=\"4\">a glimmer of the superiority of the redemption shines,</t>\n    <t s=\"5\">both regarding spiritual matters—the revelation of the inner dimensions of the Torah,</t>\n    <t s=\"6\">and in a manner of \"your springs will burst forth outward,\"</t>\n    <t s=\"7\">and regarding the great wealth that will be in the future redemption—that all the children of Israel will have abundant livelihood, even to the point of wealth,</t>\n    <t s=\"8\">and from this they come immediately to the redemption,</t>\n    <t s=\"9\">for then both matters will be in ultimate perfection—that the good will be influenced abundantly and all delights will be as common as dust,67</t>\n    <t s=\"10\">and all the more so regarding spiritual matters—\"the earth will be filled with knowledge of Havayah as the waters cover the sea.\"66</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918160_theRebbe_102",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918160_theRebbe_102__p008"
+    },
+    "sections": [
+      {
+        "v": 21,
+        "sectionSummaryBrief": "The soul's desire to descend into the body stems from its awareness of the body's higher root, and this feeling is imposed upon it as a necessity, enabling it to become a vessel for that root's revelation through its service.",
+        "translations": [
+          {
+            "v": 21,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 21,
+            "s": 1,
+            "translation": "a)"
+          },
+          {
+            "v": 21,
+            "s": 2,
+            "translation": "Now, it is known70"
+          },
+          {
+            "v": 21,
+            "s": 3,
+            "translation": "that this—that the soul wants to descend below to enliven the body—is because the soul feels the superiority of the body from the perspective of its source,"
+          },
+          {
+            "v": 21,
+            "s": 4,
+            "translation": "for the source of the body is higher than the source of the soul,"
+          },
+          {
+            "v": 21,
+            "s": 5,
+            "translation": "and therefore it wants to enliven the body."
+          },
+          {
+            "v": 21,
+            "s": 6,
+            "translation": "And what our Rabbis, of blessed memory, said:71"
+          },
+          {
+            "v": 21,
+            "s": 7,
+            "translation": "\"Against your will you live,\""
+          },
+          {
+            "v": 21,
+            "s": 8,
+            "translation": "is"
+          },
+          {
+            "v": 21,
+            "s": 9,
+            "translation": "that since the will of the soul to enliven the body is not from itself, but because it feels the source of the body,"
+          },
+          {
+            "v": 21,
+            "s": 10,
+            "translation": "therefore this is called by the term \"compulsion,\""
+          },
+          {
+            "v": 21,
+            "s": 11,
+            "translation": "\"against your will you live.\""
+          },
+          {
+            "v": 21,
+            "s": 12,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 21,
+            "s": 13,
+            "translation": "that this—that the soul feels the source of the body"
+          },
+          {
+            "v": 21,
+            "s": 14,
+            "translation": "[even though this feeling seemingly does not pertain to the soul's own matter,"
+          },
+          {
+            "v": 21,
+            "s": 15,
+            "translation": "and as is understood from the fact that its will to enliven the body, which comes from this feeling, is called by the term \"compulsion\"],"
+          },
+          {
+            "v": 21,
+            "s": 16,
+            "translation": "is"
+          },
+          {
+            "v": 21,
+            "s": 17,
+            "translation": "because in order for it to have a will to enliven the body, a revelation of the source of the body is drawn into it,"
+          },
+          {
+            "v": 21,
+            "s": 18,
+            "translation": "even though from its own perspective"
+          },
+          {
+            "v": 21,
+            "s": 19,
+            "translation": "(even as it is from the perspective of its source)"
+          },
+          {
+            "v": 21,
+            "s": 20,
+            "translation": "it is not related to this revelation."
+          },
+          {
+            "v": 21,
+            "s": 21,
+            "translation": "And through the revelation of the source of the body that shines in the soul"
+          },
+          {
+            "v": 21,
+            "s": 22,
+            "translation": "(in a manner of compulsion, at least)"
+          },
+          {
+            "v": 21,
+            "s": 23,
+            "translation": "before its descent below,"
+          },
+          {
+            "v": 21,
+            "s": 24,
+            "translation": "it becomes like a vessel for the revelation of the source of the body that shines in it afterward through its service in the body."
+          },
+          {
+            "v": 21,
+            "s": 25,
+            "translation": "And similarly, regarding the matter of lights and vessels,"
+          },
+          {
+            "v": 21,
+            "s": 26,
+            "translation": "that through the enclothing of the lights in the vessels, the aspect of the source of the vessels is drawn into them—this is because the source of the vessels is felt in them even before their descent into the vessels."
+          },
+          {
+            "v": 21,
+            "s": 27,
+            "translation": "And it can be said"
+          },
+          {
+            "v": 21,
+            "s": 28,
+            "translation": "that likewise, regarding the matter of the Counting of the Omer and the Giving of the Torah,"
+          },
+          {
+            "v": 21,
+            "s": 29,
+            "translation": "that through the descent of the G-dly soul to refine the attributes of the animal soul"
+          },
+          {
+            "v": 21,
+            "s": 30,
+            "translation": "(\"your place will be missed\")"
+          },
+          {
+            "v": 21,
+            "s": 31,
+            "translation": "the revelation of the Giving of the Torah is drawn into it, from the perspective of the superiority of the refinements"
+          },
+          {
+            "v": 21,
+            "s": 32,
+            "translation": "(as above, section d),"
+          },
+          {
+            "v": 21,
+            "s": 33,
+            "translation": "is"
+          },
+          {
+            "v": 21,
+            "s": 34,
+            "translation": "because the descent to refine the attributes of the animal soul comes after and through the revelation of the Exodus from Egypt,"
+          },
+          {
+            "v": 21,
+            "s": 35,
+            "translation": "and through the revelation of the Exodus from Egypt, there is felt in it"
+          },
+          {
+            "v": 21,
+            "s": 36,
+            "translation": "(even before the descent)"
+          },
+          {
+            "v": 21,
+            "s": 37,
+            "translation": "the superiority of the refinements,"
+          },
+          {
+            "v": 21,
+            "s": 38,
+            "translation": "since the departure from Egypt was with great wealth."
+          }
+        ]
+      },
+      {
+        "v": 22,
+        "sectionSummaryBrief": "The phrase \"you will be missed because your place will be missed\" indicates that the ascent of the soul comes specifically through the descent itself, and within the descent itself the superiority of the refinements is already felt.",
+        "translations": [
+          {
+            "v": 22,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 22,
+            "s": 1,
+            "translation": "b)"
+          },
+          {
+            "v": 22,
+            "s": 2,
+            "translation": "And this is: \"And Yehonasan said to him: 'Tomorrow is the new moon, and you will be missed, for your place will be missed,'\""
+          },
+          {
+            "v": 22,
+            "s": 3,
+            "translation": "that in order that through \"your place will be missed\" there will be \"you will be missed,\" this is through the drawing down of \"And Yehonasan said to him\""
+          },
+          {
+            "v": 22,
+            "s": 4,
+            "translation": "(as above, section c),"
+          },
+          {
+            "v": 22,
+            "s": 5,
+            "translation": "which is analogous to the matter of the Exodus from Egypt and the Splitting of the Sea of Reeds,"
+          },
+          {
+            "v": 22,
+            "s": 6,
+            "translation": "through which there is felt"
+          },
+          {
+            "v": 22,
+            "s": 7,
+            "translation": "(even before the descent)"
+          },
+          {
+            "v": 22,
+            "s": 8,
+            "translation": "the superiority of the refinements."
+          },
+          {
+            "v": 22,
+            "s": 9,
+            "translation": "And this is: \"you will be missed because your place will be missed,\""
+          },
+          {
+            "v": 22,
+            "s": 10,
+            "translation": "for from this language it is implied that the connection of \"your place will be missed\" to \"you will be missed\" is not from the perspective of the self-nullification within \"your place will be missed,\""
+          },
+          {
+            "v": 22,
+            "s": 11,
+            "translation": "but rather from the matter of \"your place will be missed\" itself"
+          },
+          {
+            "v": 22,
+            "s": 12,
+            "translation": "(as above, section a),"
+          },
+          {
+            "v": 22,
+            "s": 13,
+            "translation": "for the ascent of the soul that comes through its descent into the body is not because through this the matter of the soul is revealed"
+          },
+          {
+            "v": 22,
+            "s": 14,
+            "translation": "(self-nullification,"
+          },
+          {
+            "v": 22,
+            "s": 15,
+            "translation": "etc.)"
+          },
+          {
+            "v": 22,
+            "s": 16,
+            "translation": "but rather from the perspective of the body itself"
+          },
+          {
+            "v": 22,
+            "s": 17,
+            "translation": "(as above, section e),"
+          },
+          {
+            "v": 22,
+            "s": 18,
+            "translation": "and similarly, regarding the matter of \"you will be missed,\""
+          },
+          {
+            "v": 22,
+            "s": 19,
+            "translation": "this is accomplished through the matter of \"your place will be missed\" itself."
+          },
+          {
+            "v": 22,
+            "s": 20,
+            "translation": "And it is stated: \"you will be missed because your place will be missed,\""
+          },
+          {
+            "v": 22,
+            "s": 21,
+            "translation": "for \"your place will be missed\" is"
+          },
+          {
+            "v": 22,
+            "s": 22,
+            "translation": "(also)"
+          },
+          {
+            "v": 22,
+            "s": 23,
+            "translation": "a term of \"you will be missed,\""
+          },
+          {
+            "v": 22,
+            "s": 24,
+            "translation": "for in addition to the fact that \"your place will be missed\" brings about \"you will be missed,\""
+          },
+          {
+            "v": 22,
+            "s": 25,
+            "translation": "even within \"your place will be missed\" itself there is the matter of \"you will be missed\""
+          },
+          {
+            "v": 22,
+            "s": 26,
+            "translation": "(as above, section a),"
+          },
+          {
+            "v": 22,
+            "s": 27,
+            "translation": "for through the fact that the descent of \"your place will be missed\" comes through the drawing down of \"And Yehonasan said to him,\""
+          },
+          {
+            "v": 22,
+            "s": 28,
+            "translation": "the superiority of the refinements is felt even within the descent itself,"
+          },
+          {
+            "v": 22,
+            "s": 29,
+            "translation": "except that the primary revelation is after the descent of \"your place will be missed,\""
+          },
+          {
+            "v": 22,
+            "s": 30,
+            "translation": "\"tomorrow is the new moon.\""
+          }
+        ]
+      },
+      {
+        "v": 23,
+        "sectionSummaryBrief": "In the moments before the future redemption, a glimmer of its superiority shines forth in both spiritual and material matters, leading immediately to the complete revelation of the redemption.",
+        "translations": [
+          {
+            "v": 23,
+            "s": 0,
+            "translation": "And similarly, regarding the renewal of Knesset Yisrael in the future redemption,"
+          },
+          {
+            "v": 23,
+            "s": 1,
+            "translation": "that they are destined to be renewed like it,72"
+          },
+          {
+            "v": 23,
+            "s": 2,
+            "translation": "even on the eve of the new moon,"
+          },
+          {
+            "v": 23,
+            "s": 3,
+            "translation": "in the final moments before the redemption,"
+          },
+          {
+            "v": 23,
+            "s": 4,
+            "translation": "a glimmer of the superiority of the redemption shines,"
+          },
+          {
+            "v": 23,
+            "s": 5,
+            "translation": "both regarding spiritual matters—the revelation of the inner dimensions of the Torah,"
+          },
+          {
+            "v": 23,
+            "s": 6,
+            "translation": "and in a manner of \"your springs will burst forth outward,\""
+          },
+          {
+            "v": 23,
+            "s": 7,
+            "translation": "and regarding the great wealth that will be in the future redemption—that all the children of Israel will have abundant livelihood, even to the point of wealth,"
+          },
+          {
+            "v": 23,
+            "s": 8,
+            "translation": "and from this they come immediately to the redemption,"
+          },
+          {
+            "v": 23,
+            "s": 9,
+            "translation": "for then both matters will be in ultimate perfection—that the good will be influenced abundantly and all delights will be as common as dust,67"
+          },
+          {
+            "v": 23,
+            "s": 10,
+            "translation": "and all the more so regarding spiritual matters—\"the earth will be filled with knowledge of Havayah as the waters cover the sea.\"66"
+          }
+        ]
+      }
+    ]
+  }
+}

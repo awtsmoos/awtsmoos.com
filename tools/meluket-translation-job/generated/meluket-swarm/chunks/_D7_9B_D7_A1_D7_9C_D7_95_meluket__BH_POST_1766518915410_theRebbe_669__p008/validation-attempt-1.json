@@ -1,0 +1,132 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 20,
+    "returned": 20,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915410_theRebbe_669\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p008\">\n  <section v=\"21\">\n    <sectionSummaryBrief>The ninth of Kislev, the day of the hilula, is the eve of the day of redemption, because the revelation of \"He redeemed my soul in peace\" came after the preparatory work of the hilula of the master of redemption, enabling all connected to him to receive this revelation without prior nullification.</sectionSummaryBrief>\n    <t s=\"0\">And this is that the ninth day of Kislev,</t>\n    <t s=\"1\">the day of the hilula,</t>\n    <t s=\"2\">is the eve of the day of redemption,</t>\n    <t s=\"3\">for through the fact that the revelation of \"He redeemed my soul in peace\" came after the precedence of the service of the hilula of the master of redemption,</t>\n    <t s=\"4\">the matter of self-nullification</t>\n    <t s=\"5\">(which is analogous to passing away),</t>\n    <t s=\"6\">drew down this revelation</t>\n    <t s=\"7\">(the revelation of \"He redeemed my soul in peace\" which is above measure and limitation)</t>\n    <t s=\"8\">also into the reality of all those connected to him.</t>\n    <t s=\"9\">Therefore,</t>\n    <t s=\"10\">in order to receive this revelation,</t>\n    <t s=\"11\">there is no need for a preparation of self-nullification and departure from reality,</t>\n    <t s=\"12\">and the matter depends only on the will,</t>\n    <t s=\"13\">and the ability of each one</t>\n    <t s=\"14\">(even before he departs from his state)</t>\n    <t s=\"15\">to redeem himself in the manner of \"He redeemed my soul in peace,\"</t>\n    <t s=\"16\">peace in the ultimate perfection,</t>\n    <t s=\"17\">and through this to redeem also the entire world,</t>\n    <t s=\"18\">with the true and complete redemption through our righteous Moshiach,</t>\n    <t s=\"19\">speedily in our days, literally, and immediately, literally.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915410_theRebbe_669",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p008"
+    },
+    "sections": [
+      {
+        "v": 21,
+        "sectionSummaryBrief": "The ninth of Kislev, the day of the hilula, is the eve of the day of redemption, because the revelation of \"He redeemed my soul in peace\" came after the preparatory work of the hilula of the master of redemption, enabling all connected to him to receive this revelation without prior nullification.",
+        "translations": [
+          {
+            "v": 21,
+            "s": 0,
+            "translation": "And this is that the ninth day of Kislev,"
+          },
+          {
+            "v": 21,
+            "s": 1,
+            "translation": "the day of the hilula,"
+          },
+          {
+            "v": 21,
+            "s": 2,
+            "translation": "is the eve of the day of redemption,"
+          },
+          {
+            "v": 21,
+            "s": 3,
+            "translation": "for through the fact that the revelation of \"He redeemed my soul in peace\" came after the precedence of the service of the hilula of the master of redemption,"
+          },
+          {
+            "v": 21,
+            "s": 4,
+            "translation": "the matter of self-nullification"
+          },
+          {
+            "v": 21,
+            "s": 5,
+            "translation": "(which is analogous to passing away),"
+          },
+          {
+            "v": 21,
+            "s": 6,
+            "translation": "drew down this revelation"
+          },
+          {
+            "v": 21,
+            "s": 7,
+            "translation": "(the revelation of \"He redeemed my soul in peace\" which is above measure and limitation)"
+          },
+          {
+            "v": 21,
+            "s": 8,
+            "translation": "also into the reality of all those connected to him."
+          },
+          {
+            "v": 21,
+            "s": 9,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 21,
+            "s": 10,
+            "translation": "in order to receive this revelation,"
+          },
+          {
+            "v": 21,
+            "s": 11,
+            "translation": "there is no need for a preparation of self-nullification and departure from reality,"
+          },
+          {
+            "v": 21,
+            "s": 12,
+            "translation": "and the matter depends only on the will,"
+          },
+          {
+            "v": 21,
+            "s": 13,
+            "translation": "and the ability of each one"
+          },
+          {
+            "v": 21,
+            "s": 14,
+            "translation": "(even before he departs from his state)"
+          },
+          {
+            "v": 21,
+            "s": 15,
+            "translation": "to redeem himself in the manner of \"He redeemed my soul in peace,\""
+          },
+          {
+            "v": 21,
+            "s": 16,
+            "translation": "peace in the ultimate perfection,"
+          },
+          {
+            "v": 21,
+            "s": 17,
+            "translation": "and through this to redeem also the entire world,"
+          },
+          {
+            "v": 21,
+            "s": 18,
+            "translation": "with the true and complete redemption through our righteous Moshiach,"
+          },
+          {
+            "v": 21,
+            "s": 19,
+            "translation": "speedily in our days, literally, and immediately, literally."
+          }
+        ]
+      }
+    ]
+  }
+}

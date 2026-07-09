@@ -1,0 +1,344 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 60,
+    "returned": 60,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918942_theRebbe_422\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918942_theRebbe_422__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header information for the maamar, including the Torah portion and date.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbos Parshas Shlach,</t>\n    <t s=\"2\">28 Sivan,</t>\n    <t s=\"3\">Erev Rosh Chodesh Tammuz,</t>\n    <t s=\"4\">5736*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section contrasts the spies sent by Yehoshua with those sent by Moshe, noting that Yehoshua's mission was by Divine command and only to Yericho.</sectionSummaryBrief>\n    <t s=\"0\">\"And Yehoshua sent... two men, spies, secretly\"1,</t>\n    <t s=\"1\">and it is explained in Likkutei Torah</t>\n    <t s=\"2\">(in the discourse beginning \"Zeh\"2)</t>\n    <t s=\"3\">the difference between the spies that Yehoshua sent and the spies that Moshe sent,</t>\n    <t s=\"4\">for regarding the spies that Moshe sent it is written3</t>\n    <t s=\"5\">\"Send for yourself, according to your understanding; I do not command you,\"</t>\n    <t s=\"6\">but the sending of the spies by Yehoshua was</t>\n    <t s=\"7\">(not according to his own understanding, but rather)</t>\n    <t s=\"8\">by the command of G-d.</t>\n    <t s=\"9\">And another difference:</t>\n    <t s=\"10\">the spies that Yehoshua sent were only to Yericho,</t>\n    <t s=\"11\">the lock of the Land of Israel4,</t>\n    <t s=\"12\">and through this they spied out the entire land5,</t>\n    <t s=\"13\">but the spies that Moshe sent went throughout the entire land, its length and its breadth6.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the command to conquer the land spiritually applies eternally, with Yericho representing the garments of thought, speech, and action which are in everyone's control, while the conquest of the emotional attributes requires the level of Moshe.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And the point of the explanation in this matter,</t>\n    <t s=\"2\">that the command of conquering the land</t>\n    <t s=\"3\">(in spirituality)</t>\n    <t s=\"4\">is</t>\n    <t s=\"5\">(like all the commands of the Torah)</t>\n    <t s=\"6\">an eternal matter in every generation7.</t>\n    <t s=\"7\">For each and every Jew must conquer8</t>\n    <t s=\"8\">all the powers and matters of his body and his animal soul</t>\n    <t s=\"9\">(the land of Canaan)</t>\n    <t s=\"10\">and make them into vessels for G-dliness</t>\n    <t s=\"11\">(the Land of Israel).</t>\n    <t s=\"12\">And the difference between Yericho and the entirety of the land in the soul of man is9,</t>\n    <t s=\"13\">that Yericho is the three garments—thought, speech, and action</t>\n    <t s=\"14\">[for Yericho is from the term \"reach\" (scent),</t>\n    <t s=\"15\">and garments are related to scent,</t>\n    <t s=\"16\">as hinted in the language of the Zohar10</t>\n    <t s=\"17\">\"by the scent of your garments\"],</t>\n    <t s=\"18\">and the entirety of the land</t>\n    <t s=\"19\">(the land of the seven nations)</t>\n    <t s=\"20\">are the emotional attributes in man.</t>\n    <t s=\"21\">And this is why the command</t>\n    <t s=\"22\">(to Yehoshua)</t>\n    <t s=\"23\">to send spies was that they should go</t>\n    <t s=\"24\">(only)</t>\n    <t s=\"25\">to Yericho,</t>\n    <t s=\"26\">for thought, speech, and action are in a person's control,</t>\n    <t s=\"27\">therefore there is a command for each and every one to spy out and examine his thought, speech, and action so that they all be for G-d.</t>\n    <t s=\"28\">But the emotional attributes of the heart are not in the control of every person,</t>\n    <t s=\"29\">for only the righteous</t>\n    <t s=\"30\">(specifically)</t>\n    <t s=\"31\">have their hearts in their control11,</t>\n    <t s=\"32\">and therefore regarding the spies that Moshe sent to spy out the entire land</t>\n    <t s=\"33\">(to examine the emotional attributes,</t>\n    <t s=\"34\">that they all be for G-d)</t>\n    <t s=\"35\">it is written \"Send for yourself, according to your understanding,\"</t>\n    <t s=\"36\">\"I do not command you,\"</t>\n    <t s=\"37\">for the service of conquering the emotional attributes</t>\n    <t s=\"38\">(in completeness)</t>\n    <t s=\"39\">is specifically through the revelation of the aspect of Moshe,</t>\n    <t s=\"40\">and it is not equal for every soul.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918942_theRebbe_422",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918942_theRebbe_422__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header information for the maamar, including the Torah portion and date.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Shlach,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "28 Sivan,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "Erev Rosh Chodesh Tammuz,"
+          },
+          {
+            "v": 0,
+            "s": 4,
+            "translation": "5736*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section contrasts the spies sent by Yehoshua with those sent by Moshe, noting that Yehoshua's mission was by Divine command and only to Yericho.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And Yehoshua sent... two men, spies, secretly\"1,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and it is explained in Likkutei Torah"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(in the discourse beginning \"Zeh\"2)"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "the difference between the spies that Yehoshua sent and the spies that Moshe sent,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "for regarding the spies that Moshe sent it is written3"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "\"Send for yourself, according to your understanding; I do not command you,\""
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "but the sending of the spies by Yehoshua was"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "(not according to his own understanding, but rather)"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "by the command of G-d."
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "And another difference:"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "the spies that Yehoshua sent were only to Yericho,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "the lock of the Land of Israel4,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "and through this they spied out the entire land5,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "but the spies that Moshe sent went throughout the entire land, its length and its breadth6."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the command to conquer the land spiritually applies eternally, with Yericho representing the garments of thought, speech, and action which are in everyone's control, while the conquest of the emotional attributes requires the level of Moshe.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And the point of the explanation in this matter,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the command of conquering the land"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(in spirituality)"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "is"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(like all the commands of the Torah)"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "an eternal matter in every generation7."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "For each and every Jew must conquer8"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "all the powers and matters of his body and his animal soul"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "(the land of Canaan)"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "and make them into vessels for G-dliness"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(the Land of Israel)."
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And the difference between Yericho and the entirety of the land in the soul of man is9,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "that Yericho is the three garments—thought, speech, and action"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "[for Yericho is from the term \"reach\" (scent),"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "and garments are related to scent,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "as hinted in the language of the Zohar10"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "\"by the scent of your garments\"],"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "and the entirety of the land"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(the land of the seven nations)"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "are the emotional attributes in man."
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "And this is why the command"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "(to Yehoshua)"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "to send spies was that they should go"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "(only)"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "to Yericho,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "for thought, speech, and action are in a person's control,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "therefore there is a command for each and every one to spy out and examine his thought, speech, and action so that they all be for G-d."
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "But the emotional attributes of the heart are not in the control of every person,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "for only the righteous"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "have their hearts in their control11,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "and therefore regarding the spies that Moshe sent to spy out the entire land"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "(to examine the emotional attributes,"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "that they all be for G-d)"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "it is written \"Send for yourself, according to your understanding,\""
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "\"I do not command you,\""
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "for the service of conquering the emotional attributes"
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "(in completeness)"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "is specifically through the revelation of the aspect of Moshe,"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "and it is not equal for every soul."
+          }
+        ]
+      }
+    ]
+  }
+}

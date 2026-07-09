@@ -1,0 +1,219 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 35,
+    "returned": 35,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913974_theRebbe_325\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913974_theRebbe_325__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the header and date for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">B'S\"D.</t>\n    <t s=\"1\">Shabbos Parshas Haazinu,</t>\n    <t s=\"2\">Shabbos Teshuvah 5723</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains that the revelation in the Holy of Holies was above the chain of descent, as indicated by the Yerushalmi and Midrash regarding the merit of circumcision.</sectionSummaryBrief>\n    <t s=\"0\">\"And no man shall be in the Tent of Meeting when he comes to atone in the Holy [of Holies]...\"</t>\n    <t s=\"1\">And it is stated in the Yerushalmi,</t>\n    <t s=\"2\">\"Even those upon whom it is written,</t>\n    <t s=\"3\">'And the likeness of their faces was the face of a man.'\"</t>\n    <t s=\"4\">And the Tzemach Tzedek explains in his maamar beginning with the words \"Zeh,\"</t>\n    <t s=\"5\">that the revelation drawn down when the Kohen Gadol entered the Holy of Holies is a revelation that is above the chain of descent.</t>\n    <t s=\"6\">And as it is brought in the Midrash</t>\n    <t s=\"7\">on the verse,</t>\n    <t s=\"8\">\"With this shall Aharon come,\"</t>\n    <t s=\"9\">\"In what merit did Aharon enter the Holy of Holies? ... The merit of circumcision entered with him,</t>\n    <t s=\"10\">and circumcision was given on the eighth [day],</t>\n    <t s=\"11\">for 'eight' is above the chain of descent.\"</t>\n    <t s=\"12\">And as it is brought in the Midrash</t>\n    <t s=\"13\">on the verse,</t>\n    <t s=\"14\">\"The secret of Havayah is for those who fear Him\" — \"What is the secret of Havayah? This is circumcision.\"</t>\n    <t s=\"15\">For the revelations of the chain of descent are from the aspect of the revealed aspect of the Holy One, blessed be He,</t>\n    <t s=\"16\">and the revelation drawn down through circumcision is from the aspect of the hidden aspect of the Holy One, blessed be He,</t>\n    <t s=\"17\">and therefore it is called \"the secret of Havayah,\"</t>\n    <t s=\"18\">for \"secret\" is that which is hidden and concealed.</t>\n    <t s=\"19\">And at the time that the Kohen Gadol entered the Holy of Holies, the revelation of \"the secret of Havayah\" was drawn down.</t>\n    <t s=\"20\">Therefore, even those upon whom it is written \"and the likeness of their faces was the face of a man\" were not there,</t>\n    <t s=\"21\">for in relation to this revelation there is no place for created beings,</t>\n    <t s=\"22\">not even for the angels whose likeness of their faces is the face of a man.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section clarifies that the revelation drawn down through the Kohen Gadol's service in the Holy of Holies is superior to the inherent revelation of the Holy of Holies itself.</sectionSummaryBrief>\n    <t s=\"0\">And it must be understood,</t>\n    <t s=\"1\">that from the fact that in order for the Kohen Gadol to be able to enter the Holy of Holies it is through the merit of circumcision, which was given on the eighth [day],</t>\n    <t s=\"2\">it is proven,</t>\n    <t s=\"3\">that the revelation of that which is above the chain of descent that was in the Holy of Holies is due to the virtue of the Holy of Holies itself</t>\n    <t s=\"4\">(and not that through the entry of the Kohen Gadol into the Holy of Holies the revelation is drawn down),</t>\n    <t s=\"5\">and nevertheless,</t>\n    <t s=\"6\">this [rule] that \"no man shall be... even those upon whom it is written 'and the likeness of their faces was the face of a man'\" is specifically when the Kohen Gadol comes to the Holy of Holies to atone in the Holy [of Holies].</t>\n    <t s=\"7\">From this it is understood,</t>\n    <t s=\"8\">that the revelation drawn down through the service of the Kohen Gadol in the Holy of Holies is more elevated than the revelation that was in the Holy of Holies in and of itself.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913974_theRebbe_325",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913974_theRebbe_325__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the header and date for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "B'S\"D."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbos Parshas Haazinu,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Shabbos Teshuvah 5723"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains that the revelation in the Holy of Holies was above the chain of descent, as indicated by the Yerushalmi and Midrash regarding the merit of circumcision.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And no man shall be in the Tent of Meeting when he comes to atone in the Holy [of Holies]...\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And it is stated in the Yerushalmi,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "\"Even those upon whom it is written,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "'And the likeness of their faces was the face of a man.'\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "And the Tzemach Tzedek explains in his maamar beginning with the words \"Zeh,\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that the revelation drawn down when the Kohen Gadol entered the Holy of Holies is a revelation that is above the chain of descent."
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And as it is brought in the Midrash"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "\"With this shall Aharon come,\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "\"In what merit did Aharon enter the Holy of Holies? ... The merit of circumcision entered with him,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "and circumcision was given on the eighth [day],"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "for 'eight' is above the chain of descent.\""
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And as it is brought in the Midrash"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "\"The secret of Havayah is for those who fear Him\" — \"What is the secret of Havayah? This is circumcision.\""
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "For the revelations of the chain of descent are from the aspect of the revealed aspect of the Holy One, blessed be He,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "and the revelation drawn down through circumcision is from the aspect of the hidden aspect of the Holy One, blessed be He,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "and therefore it is called \"the secret of Havayah,\""
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "for \"secret\" is that which is hidden and concealed."
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "And at the time that the Kohen Gadol entered the Holy of Holies, the revelation of \"the secret of Havayah\" was drawn down."
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "Therefore, even those upon whom it is written \"and the likeness of their faces was the face of a man\" were not there,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "for in relation to this revelation there is no place for created beings,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "not even for the angels whose likeness of their faces is the face of a man."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section clarifies that the revelation drawn down through the Kohen Gadol's service in the Holy of Holies is superior to the inherent revelation of the Holy of Holies itself.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And it must be understood,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that from the fact that in order for the Kohen Gadol to be able to enter the Holy of Holies it is through the merit of circumcision, which was given on the eighth [day],"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "it is proven,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "that the revelation of that which is above the chain of descent that was in the Holy of Holies is due to the virtue of the Holy of Holies itself"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "(and not that through the entry of the Kohen Gadol into the Holy of Holies the revelation is drawn down),"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "this [rule] that \"no man shall be... even those upon whom it is written 'and the likeness of their faces was the face of a man'\" is specifically when the Kohen Gadol comes to the Holy of Holies to atone in the Holy [of Holies]."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "From this it is understood,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "that the revelation drawn down through the service of the Kohen Gadol in the Holy of Holies is more elevated than the revelation that was in the Holy of Holies in and of itself."
+          }
+        ]
+      }
+    ]
+  }
+}

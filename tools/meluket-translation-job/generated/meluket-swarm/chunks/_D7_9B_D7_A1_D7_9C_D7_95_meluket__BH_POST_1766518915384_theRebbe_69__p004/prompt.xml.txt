@@ -1,0 +1,111 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915384_theRebbe_69" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915384_theRebbe_69__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915384_theRebbe_69" title="מאמר אתה אחד תשמ"ב" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915384_theRebbe_69__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">ויש לומר דזהו גם הקשר דאמירת דרוש זה לש"ק האחרון של המאסר,</src>
+    <src s="2">ערב יום הגאולה,</src>
+    <src s="3">דהנה ידוע שע"י המאסר נעשה</src>
+    <src s="4">(איז אויפגעטאָן געוואָרן)</src>
+    <src s="5">עילוי גדול יותר כו'.</src>
+    <src s="6">וע"ד מאמר רז"ל30</src>
+    <src s="7">הזית כשכותשין אותו</src>
+    <src s="8">(דוקא)</src>
+    <src s="9">הוא נותן שמנו31.</src>
+    <src s="10">והגם שהענין דיפוצו מעינותיך חוצה הי' גם לפני המאסר</src>
+    <src s="11">(דאדמו"ר האמצעי),</src>
+    <src s="12">מ"מ,</src>
+    <src s="13">ע"י המאסר ניתוסף בזה,</src>
+    <src s="14">וי"ל שעד להוספה באין ערוך,</src>
+    <src s="15">וכדיוק לשון רז"ל שע"י הכתישה הוא נותן שמנו</src>
+    <src s="16">(נותן דוקא)32,</src>
+    <src s="17">דכל הנותן בעין יפה הוא נותן33.</src>
+    <src s="18">וגודל העילוי שנתחדש ע"י המאסר דוקא מובן מהמבואר בשיחת כ"ק מו"ח אדמו"ר34</src>
+    <src s="19">(בנוגע להמאסר דאדמו"ר הזקן,</src>
+    <src s="20">דמזה מובן גם בנוגע להמאסר דאדמו"ר האמצעי),</src>
+    <src s="21">שהמאסר הי' בהסכמתו,</src>
+    <src s="22">כי כל צדיק וצדיק הוא מושל ושולט על כל הענינים הגשמיים שלו,</src>
+    <src s="23">וכל מאורע עמו הוא בהסכמתו.</src>
+    <src s="24">ומזה שהסכים על המאסר אף שזה הי' קשור עם יסורים וכו' ועם מניעת הפצת תורת החסידות</src>
+    <src s="25">(בעת שבתו במאסר),</src>
+    <src s="26">מובן מזה גודל העילוי דהפצת המעינות שנתחדש לאחרי גאולתו דוקא,</src>
+    <src s="27">עד שבשביל זה הי' כדאי כל המאסר.</src>
+    <src s="28">וזהו הקשר דאמירת דרוש זה ל</src>
+    <src s="29">(ערב יום)</src>
+    <src s="30">הגאולה35,</src>
+    <src s="31">כי אז נתחדש עילוי גדול יותר בגילוי פנימיות התורה</src>
+    <src s="32">[בחינת יחידה דתורה],</src>
+    <src s="33">גילוי בהבנה והשגה,</src>
+    <src s="34">ועד שהגילוי הוא לא רק בחו"ב אלא גם בבחינת הדעת,</src>
+    <src s="35">דשרש הדעת הוא בפנימיות הכתר</src>
+    <src s="36">[וכמבואר בארוכה בהמשך עת"ר36</src>
+    <src s="37">מעלת ענין הדעת],</src>
+    <src s="38">בחינת יחידה.</src>
+    <src s="39">דזהו יכירו בניך וידעו כי מאתך היא מנוחתם,</src>
+    <src s="40">דגילוי בחינת יחידה</src>
+    <src s="41">(מאתך היא מנוחתם)</src>
+    <src s="42">הוא בענין הדעת דוקא,</src>
+    <src s="43">יכירו כו' וידעו.</src>
+  </section>
+  <section v="10">
+    <src s="0">ח)</src>
+    <src s="1">וזהו ג"כ מה שמשיח ילמד דעת לכל העם בהשגת פנימיות התורה37,</src>
+    <src s="2">דעת דוקא,</src>
+    <src s="3">דעיקר הענין שיתחדש בימות המשיח הוא</src>
+    <src s="4">[כמ"ש הרמב"ם בסיום וחותם ספרו]</src>
+    <src s="5">כי מלאה הארץ דעה את הוי'38,</src>
+    <src s="6">דעה דוקא.</src>
+    <src s="7">וגילוי זה יהי' באופן דכמים לים מכסים,</src>
+    <src s="8">היינו שזה יהי'</src>
+    <src s="9">(נוסף על דעת והכרת השכל,</src>
+    <src s="10">גם)</src>
+    <src s="11">בראי' מוחשית,</src>
+    <src s="12">כמו מי הים שנראים בראי' מוחשית.</src>
+    <src s="13">דהנה מבואר בכ"מ39</src>
+    <src s="14">בענין הנבראים שבעלמא דאתכסיא שהם בדוגמת דגים שבים שהם בטלים להמים,</src>
+    <src s="15">עד שמציאותם של הדגים אינה נראית כלל ומה שנראה הם רק מי הים שמכסים עליהם40.</src>
+    <src s="16">ומזה מובן שפירוש כמים לים מכסים הוא שהגילוי דאלקות יהי' אז בראי' מוחשית,</src>
+    <src s="17">כמו מי הים</src>
+    <src s="18">(שמכסים על הנבראים שבתוכם)</src>
+    <src s="19">שהם נראים בראי' מוחשית.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויהי רצון שמלימוד ענינים אלו בתורה יבואו בקרוב לקיום היעוד</src>
+    <src s="1">(דענינים אלה)</src>
+    <src s="2">בפועל,</src>
+    <src s="3">שמתוך מנוחה אמיתית ומתוך שמחה וטוב לבב נלך לקראת הגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="4">שאז יהי' מלאה הארץ דעה את הוי' כמים לים מכסים.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,414 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 74,
+    "returned": 74,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919814_theRebbe_260\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>Opening with the date: Tuesday, the fifteenth of Av, 5735.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Tuesday,</t>\n    <t s=\"2\">the fifteenth of Av, 5735*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>The Gemara states that there were no greater festivals for Israel than the fifteenth of Av and Yom Kippur, raising questions about the unique greatness of the fifteenth of Av.</sectionSummaryBrief>\n    <t s=\"0\">\"There were no greater festivals for Israel than the fifteenth of Av and Yom Kippur,\"</t>\n    <t s=\"1\">and it is stated in the Gemara,</t>\n    <t s=\"2\">\"Granted, Yom Kippur, because it has forgiveness and pardon,</t>\n    <t s=\"3\">the day on which the latter Tablets were given,</t>\n    <t s=\"4\">but the fifteenth of Av, what is it?\"</t>\n    <t s=\"5\">And it answers that on the fifteenth of Av several good things occurred</t>\n    <t s=\"6\">(the day the tribes were permitted to intermarry, etc.).</t>\n    <t s=\"7\">And it needs to be understood,</t>\n    <t s=\"8\">what is the greatness of these events,</t>\n    <t s=\"9\">that because of this,</t>\n    <t s=\"10\">the festival of the fifteenth of Av is greater than the other festivals.</t>\n    <t s=\"11\">And especially, from the simple language \"There were no greater festivals for Israel than the fifteenth of Av, etc.\" it implies</t>\n    <t s=\"12\">that it is greater than all the festivals,</t>\n    <t s=\"13\">even the three pilgrimage festivals.</t>\n    <t s=\"14\">Also, it needs to be understood,</t>\n    <t s=\"15\">that from the fact that there were no [greater festivals] than the fifteenth of Av and Yom Kippur, it implies that the fifteenth of Av and Yom Kippur are related to each other.</t>\n    <t s=\"16\">And also, it must be said that this teaching is the conclusion and seal of Tractate Ta'anit,</t>\n    <t s=\"17\">for ostensibly,</t>\n    <t s=\"18\">fasting and a festival</t>\n    <t s=\"19\">[and especially a very great festival,</t>\n    <t s=\"20\">that there were no festivals like it]</t>\n    <t s=\"21\">are opposites.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>The essence of the festival of the fifteenth of Av is the fullness of the moon, and the ascent after the great descent of Tisha B'Av makes it greater than the festivals of Pesach and Sukkos.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation is,</t>\n    <t s=\"1\">that the essence of the festival of the fifteenth of Av is as brought in the maamar that explains the concept of the fifteenth of Av of the Rebbe</t>\n    <t s=\"2\">(the Rebbe Rashab)</t>\n    <t s=\"3\">of blessed memory,</t>\n    <t s=\"4\">from the Pri Etz Chaim,</t>\n    <t s=\"5\">that then is</t>\n    <t s=\"6\">[the perfection]</t>\n    <t s=\"7\">the fullness of the moon</t>\n    <t s=\"8\">[and the events that occurred on the fifteenth of Av are like results of the essential concept of this day—the fullness of the moon].</t>\n    <t s=\"9\">And it is explained in the maamar,</t>\n    <t s=\"10\">that although on every fifteenth of the month there is the fullness of the moon,</t>\n    <t s=\"11\">nevertheless,</t>\n    <t s=\"12\">the greatness of the level of the fullness of the moon is its fullness and perfection after a deficiency,</t>\n    <t s=\"13\">for the perfection after a deficiency is a more elevated perfection than the perfection that is from itself,</t>\n    <t s=\"14\">as is known</t>\n    <t s=\"15\">the principle regarding ascents and descents,</t>\n    <t s=\"16\">that the ascent after the descent is an ascent to a level higher than the level before the descent,</t>\n    <t s=\"17\">and the greater the descent,</t>\n    <t s=\"18\">the greater the ascent.</t>\n    <t s=\"19\">Therefore, the essential level of the fullness of the moon is on the fifteenth of Av,</t>\n    <t s=\"20\">for in the month of Av,</t>\n    <t s=\"21\">the descent of the moon</t>\n    <t s=\"22\">(and Israel are compared to the moon)</t>\n    <t s=\"23\">is a very great descent,</t>\n    <t s=\"24\">therefore,</t>\n    <t s=\"25\">the ascent of the fifteenth of Av</t>\n    <t s=\"26\">(after the descent of Tisha B'Av)</t>\n    <t s=\"27\">is a very great ascent.</t>\n    <t s=\"28\">And this is \"There were no greater festivals for Israel than the fifteenth of Av,\"</t>\n    <t s=\"29\">that it is a festival greater even than the festivals of Pesach and Sukkos,</t>\n    <t s=\"30\">even though these festivals also occur on the fifteenth of the month,</t>\n    <t s=\"31\">for the ascent of the fifteenth of Nissan</t>\n    <t s=\"32\">(Pesach),</t>\n    <t s=\"33\">although it comes after the descent of the Egyptian exile,</t>\n    <t s=\"34\">nevertheless,</t>\n    <t s=\"35\">when Israel left Egypt it was the beginning of their service, the level of tzaddikim,</t>\n    <t s=\"36\">a convert who converts</t>\n    <t s=\"37\">is like a newborn child,</t>\n    <t s=\"38\">and therefore the ascent of the fifteenth of Nissan is not so connected to the descent that preceded it.</t>\n    <t s=\"39\">And also the ascent of the fifteenth of Tishrei</t>\n    <t s=\"40\">(Sukkos),</t>\n    <t s=\"41\">although the festival of Sukkos comes in connection with the repentance and atonement of Yom Kippur,</t>\n    <t s=\"42\">nevertheless,</t>\n    <t s=\"43\">the ascent itself from the undesirable state that existed before is on Yom Kippur,</t>\n    <t s=\"44\">only that the revelation of the concepts drawn down on Yom Kippur is on Sukkos.</t>\n    <t s=\"45\">But not so the ascent after the descent of the beginning of the month of Av,</t>\n    <t s=\"46\">where the ascent itself is on the fifteenth of Av,</t>\n    <t s=\"47\">therefore,</t>\n    <t s=\"48\">the festival of the fifteenth of Av is greater than the festivals of Pesach and Sukkos.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919814_theRebbe_260",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919814_theRebbe_260__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "Opening with the date: Tuesday, the fifteenth of Av, 5735.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Tuesday,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "the fifteenth of Av, 5735*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "The Gemara states that there were no greater festivals for Israel than the fifteenth of Av and Yom Kippur, raising questions about the unique greatness of the fifteenth of Av.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"There were no greater festivals for Israel than the fifteenth of Av and Yom Kippur,\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "and it is stated in the Gemara,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "\"Granted, Yom Kippur, because it has forgiveness and pardon,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "the day on which the latter Tablets were given,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "but the fifteenth of Av, what is it?\""
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And it answers that on the fifteenth of Av several good things occurred"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "(the day the tribes were permitted to intermarry, etc.)."
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "And it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "what is the greatness of these events,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "that because of this,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "the festival of the fifteenth of Av is greater than the other festivals."
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "And especially, from the simple language \"There were no greater festivals for Israel than the fifteenth of Av, etc.\" it implies"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "that it is greater than all the festivals,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "even the three pilgrimage festivals."
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "Also, it needs to be understood,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that from the fact that there were no [greater festivals] than the fifteenth of Av and Yom Kippur, it implies that the fifteenth of Av and Yom Kippur are related to each other."
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "And also, it must be said that this teaching is the conclusion and seal of Tractate Ta'anit,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "for ostensibly,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "fasting and a festival"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "[and especially a very great festival,"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "that there were no festivals like it]"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "are opposites."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "The essence of the festival of the fifteenth of Av is the fullness of the moon, and the ascent after the great descent of Tisha B'Av makes it greater than the festivals of Pesach and Sukkos.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "that the essence of the festival of the fifteenth of Av is as brought in the maamar that explains the concept of the fifteenth of Av of the Rebbe"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "of blessed memory,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "from the Pri Etz Chaim,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "that then is"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "[the perfection]"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "the fullness of the moon"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "[and the events that occurred on the fifteenth of Av are like results of the essential concept of this day—the fullness of the moon]."
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And it is explained in the maamar,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "that although on every fifteenth of the month there is the fullness of the moon,"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "the greatness of the level of the fullness of the moon is its fullness and perfection after a deficiency,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "for the perfection after a deficiency is a more elevated perfection than the perfection that is from itself,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "as is known"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "the principle regarding ascents and descents,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "that the ascent after the descent is an ascent to a level higher than the level before the descent,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "and the greater the descent,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "the greater the ascent."
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "Therefore, the essential level of the fullness of the moon is on the fifteenth of Av,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "for in the month of Av,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "the descent of the moon"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "(and Israel are compared to the moon)"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "is a very great descent,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "therefore,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "the ascent of the fifteenth of Av"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "(after the descent of Tisha B'Av)"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "is a very great ascent."
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "And this is \"There were no greater festivals for Israel than the fifteenth of Av,\""
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "that it is a festival greater even than the festivals of Pesach and Sukkos,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "even though these festivals also occur on the fifteenth of the month,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "for the ascent of the fifteenth of Nissan"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "(Pesach),"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "although it comes after the descent of the Egyptian exile,"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "when Israel left Egypt it was the beginning of their service, the level of tzaddikim,"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "a convert who converts"
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "is like a newborn child,"
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "and therefore the ascent of the fifteenth of Nissan is not so connected to the descent that preceded it."
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "And also the ascent of the fifteenth of Tishrei"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "(Sukkos),"
+          },
+          {
+            "v": 2,
+            "s": 41,
+            "translation": "although the festival of Sukkos comes in connection with the repentance and atonement of Yom Kippur,"
+          },
+          {
+            "v": 2,
+            "s": 42,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 43,
+            "translation": "the ascent itself from the undesirable state that existed before is on Yom Kippur,"
+          },
+          {
+            "v": 2,
+            "s": 44,
+            "translation": "only that the revelation of the concepts drawn down on Yom Kippur is on Sukkos."
+          },
+          {
+            "v": 2,
+            "s": 45,
+            "translation": "But not so the ascent after the descent of the beginning of the month of Av,"
+          },
+          {
+            "v": 2,
+            "s": 46,
+            "translation": "where the ascent itself is on the fifteenth of Av,"
+          },
+          {
+            "v": 2,
+            "s": 47,
+            "translation": "therefore,"
+          },
+          {
+            "v": 2,
+            "s": 48,
+            "translation": "the festival of the fifteenth of Av is greater than the festivals of Pesach and Sukkos."
+          }
+        ]
+      }
+    ]
+  }
+}

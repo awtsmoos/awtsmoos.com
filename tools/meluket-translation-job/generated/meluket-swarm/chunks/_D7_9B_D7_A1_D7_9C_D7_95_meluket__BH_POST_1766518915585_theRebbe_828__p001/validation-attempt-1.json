@@ -1,0 +1,419 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 75,
+    "returned": 75,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915585_theRebbe_828\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening heading and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">19 Kislev 5715*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains the levels from Atzmus Ein Sof to the ten Sefiros of Atzilus as enumerated in the introduction to Tikkunei Zohar.</sectionSummaryBrief>\n    <t s=\"0\">Eliyahu opened and said,</t>\n    <t s=\"1\">\"Master of the worlds, You are One and not in number,</t>\n    <t s=\"2\">You are the highest above all high,</t>\n    <t s=\"3\">the hidden above all hidden,</t>\n    <t s=\"4\">no thought can grasp You at all,</t>\n    <t s=\"5\">You are He who brought forth ten adornments which we call the ten Sefiros.\"</t>\n    <t s=\"6\">And it is explained by my father-in-law, the Rebbe, in his maamar beginning with the word \"Zeh\"</t>\n    <t s=\"7\">which he said on 19 Kislev</t>\n    <t s=\"8\">(5712),</t>\n    <t s=\"9\">that all the levels from the Essence of Ein Sof to the ten Sefiros of Atzilus are enumerated here.</t>\n    <t s=\"10\">\"You are One\" is the Essence of Ein Sof,</t>\n    <t s=\"11\">and in Keter it is the innerness of Keter,</t>\n    <t s=\"12\">Atik.</t>\n    <t s=\"13\">And regarding this level it says \"and not in number,\"</t>\n    <t s=\"14\">that it is not in the number of the matters enumerated afterwards,</t>\n    <t s=\"15\">for all the matters enumerated afterwards</t>\n    <t s=\"16\">(including also \"the highest above all high\")</t>\n    <t s=\"17\">are incomparable relative to \"You are One,\"</t>\n    <t s=\"18\">therefore it is not counted with them,</t>\n    <t s=\"19\">not in number.</t>\n    <t s=\"20\">\"You are the highest above all high\" is the externality of Keter,</t>\n    <t s=\"21\">Arich.</t>\n    <t s=\"22\">\"The hidden above all hidden\" is the Chochmah of Arich.</t>\n    <t s=\"23\">\"No thought can grasp You at all\" is the innerness of Chochmah.</t>\n    <t s=\"24\">\"You are He who brought forth ten adornments,\"</t>\n    <t s=\"25\">they are the ten Sefiros of Atzilus.</t>\n    <t s=\"26\">And it explains,</t>\n    <t s=\"27\">that the reason that in Atzilus the Sefiros are in number</t>\n    <t s=\"28\">(ten adornments)</t>\n    <t s=\"29\">is,</t>\n    <t s=\"30\">because Atzilus is included in the order of Hishtalshelus</t>\n    <t s=\"31\">(limitation),</t>\n    <t s=\"32\">and in Hishtalshelus the concept of number applies.</t>\n    <t s=\"33\">And from this it is understood,</t>\n    <t s=\"34\">that the matters enumerated here are divided generally into three categories.</t>\n    <t s=\"35\">\"You are One\" which refers</t>\n    <t s=\"36\">(as above)</t>\n    <t s=\"37\">to Atik,</t>\n    <t s=\"38\">is removed and separate from Hishtalshelus,</t>\n    <t s=\"39\">\"You are the highest above all high,\"</t>\n    <t s=\"40\">which is above Hishtalshelus but relates to Hishtalshelus,</t>\n    <t s=\"41\">\"You are He who brought forth ten adornments,\"</t>\n    <t s=\"42\">they are the ten Sefiros of Atzilus,</t>\n    <t s=\"43\">Hishtalshelus.</t>\n    <t s=\"44\">And it continues in the maamar,</t>\n    <t s=\"45\">that through the service of mesirus nefesh they draw down from the level of \"You are One\" into the ten Sefiros.</t>\n    <t s=\"46\">And through this the revelation of that which is above nature is drawn into nature.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the levels above the ten Sefiros are above nature, and questions why a revelation above nature is needed within nature.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">Now, from that which it says in the maamar of \"Patah Eliyahu\" — \"You are He who brought forth ten adornments... to conduct the worlds through them,\"</t>\n    <t s=\"2\">that the reason for the emanation of the ten Sefiros of Atzilus is so that through them there will be the conduct of the worlds,</t>\n    <t s=\"3\">it is understood,</t>\n    <t s=\"4\">that the levels above the ten Sefiros are above the conduct of the worlds.</t>\n    <t s=\"5\">Accordingly,</t>\n    <t s=\"6\">also the revelation of \"You are the highest\" etc. is above nature.</t>\n    <t s=\"7\">And in the maamar it says that the drawing down of the revelation that is above nature is through the drawing down from the level of \"You are One.\"</t>\n    <t s=\"8\">It also needs to be understood,</t>\n    <t s=\"9\">that since the conduct of the world according to nature is that Ein Sof conducts the world in this manner,</t>\n    <t s=\"10\">\"You are He who brought forth ten adornments... to conduct the worlds through them,\"</t>\n    <t s=\"11\">why is it necessary that within nature there be the drawing down of the revelation that is above nature?</t>\n    <t s=\"12\">And although that which Ein Sof conducts the worlds through the ten Sefiros is through His enclothing in the vessels of the ten Sefiros</t>\n    <t s=\"13\">[for the conduct of the worlds is from the light that is enclothed in the worlds,</t>\n    <t s=\"14\">and in order for the light to be enclothed in the worlds it is through being enclothed</t>\n    <t s=\"15\">(first)</t>\n    <t s=\"16\">in the vessels],</t>\n    <t s=\"17\">nevertheless, even after the light is enclothed in the vessels and in the worlds, it is connected with Ein Sof, Who has no end.</t>\n    <t s=\"18\">And as explained in the continuation of 5666</t>\n    <t s=\"19\">that this that in the conduct of nature there is the matter of constancy</t>\n    <t s=\"20\">(although nature is from the Divine vitality that is enclothed in the creations,</t>\n    <t s=\"21\">which is limited vitality),</t>\n    <t s=\"22\">is,</t>\n    <t s=\"23\">because the source of the vitality that is enclothed in the creations is from the light of the line,</t>\n    <t s=\"24\">whose source is from Ein Sof before the tzimtzum,</t>\n    <t s=\"25\">and the perfection of nature is through the revelation of that which is above nature being drawn into it.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915585_theRebbe_828",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915585_theRebbe_828__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening heading and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "19 Kislev 5715*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains the levels from Atzmus Ein Sof to the ten Sefiros of Atzilus as enumerated in the introduction to Tikkunei Zohar.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "Eliyahu opened and said,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "\"Master of the worlds, You are One and not in number,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "You are the highest above all high,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "the hidden above all hidden,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "no thought can grasp You at all,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "You are He who brought forth ten adornments which we call the ten Sefiros.\""
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And it is explained by my father-in-law, the Rebbe, in his maamar beginning with the word \"Zeh\""
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "which he said on 19 Kislev"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "(5712),"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "that all the levels from the Essence of Ein Sof to the ten Sefiros of Atzilus are enumerated here."
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "\"You are One\" is the Essence of Ein Sof,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "and in Keter it is the innerness of Keter,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "Atik."
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "And regarding this level it says \"and not in number,\""
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "that it is not in the number of the matters enumerated afterwards,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "for all the matters enumerated afterwards"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "(including also \"the highest above all high\")"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "are incomparable relative to \"You are One,\""
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "therefore it is not counted with them,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "not in number."
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "\"You are the highest above all high\" is the externality of Keter,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "Arich."
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "\"The hidden above all hidden\" is the Chochmah of Arich."
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "\"No thought can grasp You at all\" is the innerness of Chochmah."
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "\"You are He who brought forth ten adornments,\""
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "they are the ten Sefiros of Atzilus."
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "And it explains,"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "that the reason that in Atzilus the Sefiros are in number"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "(ten adornments)"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "is,"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "because Atzilus is included in the order of Hishtalshelus"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "(limitation),"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "and in Hishtalshelus the concept of number applies."
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "that the matters enumerated here are divided generally into three categories."
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "\"You are One\" which refers"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "(as above)"
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "to Atik,"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "is removed and separate from Hishtalshelus,"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "\"You are the highest above all high,\""
+          },
+          {
+            "v": 1,
+            "s": 40,
+            "translation": "which is above Hishtalshelus but relates to Hishtalshelus,"
+          },
+          {
+            "v": 1,
+            "s": 41,
+            "translation": "\"You are He who brought forth ten adornments,\""
+          },
+          {
+            "v": 1,
+            "s": 42,
+            "translation": "they are the ten Sefiros of Atzilus,"
+          },
+          {
+            "v": 1,
+            "s": 43,
+            "translation": "Hishtalshelus."
+          },
+          {
+            "v": 1,
+            "s": 44,
+            "translation": "And it continues in the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 45,
+            "translation": "that through the service of mesirus nefesh they draw down from the level of \"You are One\" into the ten Sefiros."
+          },
+          {
+            "v": 1,
+            "s": 46,
+            "translation": "And through this the revelation of that which is above nature is drawn into nature."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the levels above the ten Sefiros are above nature, and questions why a revelation above nature is needed within nature.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "Now, from that which it says in the maamar of \"Patah Eliyahu\" — \"You are He who brought forth ten adornments... to conduct the worlds through them,\""
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the reason for the emanation of the ten Sefiros of Atzilus is so that through them there will be the conduct of the worlds,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "that the levels above the ten Sefiros are above the conduct of the worlds."
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "Accordingly,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "also the revelation of \"You are the highest\" etc. is above nature."
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "And in the maamar it says that the drawing down of the revelation that is above nature is through the drawing down from the level of \"You are One.\""
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "It also needs to be understood,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "that since the conduct of the world according to nature is that Ein Sof conducts the world in this manner,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "\"You are He who brought forth ten adornments... to conduct the worlds through them,\""
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "why is it necessary that within nature there be the drawing down of the revelation that is above nature?"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "And although that which Ein Sof conducts the worlds through the ten Sefiros is through His enclothing in the vessels of the ten Sefiros"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "[for the conduct of the worlds is from the light that is enclothed in the worlds,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and in order for the light to be enclothed in the worlds it is through being enclothed"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "(first)"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "in the vessels],"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "nevertheless, even after the light is enclothed in the vessels and in the worlds, it is connected with Ein Sof, Who has no end."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And as explained in the continuation of 5666"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "that this that in the conduct of nature there is the matter of constancy"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "(although nature is from the Divine vitality that is enclothed in the creations,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "which is limited vitality),"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "is,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "because the source of the vitality that is enclothed in the creations is from the light of the line,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "whose source is from Ein Sof before the tzimtzum,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "and the perfection of nature is through the revelation of that which is above nature being drawn into it."
+          }
+        ]
+      }
+    ]
+  }
+}

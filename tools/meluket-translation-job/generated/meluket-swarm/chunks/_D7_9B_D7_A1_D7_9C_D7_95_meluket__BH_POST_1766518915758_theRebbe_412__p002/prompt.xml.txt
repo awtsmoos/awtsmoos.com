@@ -1,0 +1,126 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915758_theRebbe_412" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915758_theRebbe_412" title="מאמר להבין ענין נרות חנוכה תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915758_theRebbe_412__p002">
+  <section v="3">
+    <src s="0">והנה אור זה</src>
+    <src s="1">(שלמעלה מהשתלשלות,</src>
+    <src s="2">שמאיר בימי חנוכה ובפרט בנרות חנוכה)</src>
+    <src s="3">נמשך ע"י המס"נ דמתתיהו ובניו19.</src>
+    <src s="4">והיינו20,</src>
+    <src s="5">שהשייכות דאור זה עם החושך שהי' אז,</src>
+    <src s="6">הוא בשני ענינים,</src>
+    <src s="7">מלמטה למעלה ומלמעלה למטה.</src>
+    <src s="8">מלמטה למעלה,</src>
+    <src s="9">שמצד גודל החושך שהי' אז נתעורר אצלם כח המס"נ שלמעלה מהשתלשלות שבאדם,</src>
+    <src s="10">ועי"ז המשיכו מעצמות אוא"ס שלמעלה מהשתלשלות.</src>
+    <src s="11">ומלמעלה למטה,</src>
+    <src s="12">שע"י אור זה מאירים גם את החושך.</src>
+    <src s="13">וזהו הטעם לכל החילוקים דלעיל שבין נרות חנוכה ונרות המקדש,</src>
+    <src s="14">דהאור שהאיר במקדש</src>
+    <src s="15">(כיון שהמשכתו היתה לא ע"י מס"נ)</src>
+    <src s="16">הי' גילוי דהשתלשלות,</src>
+    <src s="17">ז' נרות.</src>
+    <src s="18">וכיון שהגילוי דהשתלשלות אין בכחו להאיר את החושך,</src>
+    <src s="19">כי החושך הוא מנגד לגבי',</src>
+    <src s="20">לכן מקום המנורה הי' בפנים</src>
+    <src s="21">(בתוך הקודש)</src>
+    <src s="22">ובימין</src>
+    <src s="23">(דרום),</src>
+    <src s="24">וזמן הדלקת הנרות הי' משך זמן לפני שקיעת החמה.</src>
+    <src s="25">ונרות חנוכה</src>
+    <src s="26">(שלאחרי המס"נ)</src>
+    <src s="27">הם שמונה נרות,</src>
+    <src s="28">אור שלמעלה מהשתלשלות,</src>
+    <src s="29">שמאיר גם את החושך.</src>
+  </section>
+  <section v="4">
+    <src s="0">ומבאר כ"ק מו"ח אדמו"ר בהמשך הנ"ל21,</src>
+    <src s="1">שלכן תיקנו שנר חנוכה יהי' על פתח ביתו מבחוץ,</src>
+    <src s="2">לרשות הרבים,</src>
+    <src s="3">אף שלא מצינו מצוה</src>
+    <src s="4">(מלבד פרה אדומה)</src>
+    <src s="5">שצריכה להיות ברשות הרבים,</src>
+    <src s="6">כי ענינם של נרות חנוכה הוא להאיר את החושך דרשות הרבים,</src>
+    <src s="7">כנ"ל.</src>
+    <src s="8">ולכאורה,</src>
+    <src s="9">ביאור זה צריך לביאור נוסף.</src>
+    <src s="10">דכיון שהאור שלמעלה מהשתלשלות שמאיר בחנוכה</src>
+    <src s="11">[שאור זה מאיר את החושך דרה"ר]</src>
+    <src s="12">נמשך ע"י המס"נ דמתתי' ובניו,</src>
+    <src s="13">צריך לומר לכאורה,</src>
+    <src s="14">שגם ע"י המס"נ דפורים נמשך אור זה</src>
+    <src s="15">[ובפרט שהמס"נ דחנוכה הי'</src>
+    <src s="16">(בעיקר)</src>
+    <src s="17">רק במתתי' ובניו,</src>
+    <src s="18">והמס"נ דפורים הי' בכל ישראל22],</src>
+    <src s="19">ואעפ"כ לא תיקנו בפורים מצוה שצריכה להיות ברה"ר,</src>
+    <src s="20">רק בחנוכה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">והנה זה שהאור שהאיר במקדש הי' גילוי דהשתלשלות,</src>
+    <src s="2">שהחושך הוא מנגד לגבי'</src>
+    <src s="3">(כמובא לעיל מהדרושים),</src>
+    <src s="4">הוא בערך האור דחנוכה,</src>
+    <src s="5">אבל בכללות,</src>
+    <src s="6">גם האור שהאיר במקדש הי' גילוי שלמעלה מהשתלשלות,</src>
+    <src s="7">שאין החושך מנגד לגבי'.</src>
+    <src s="8">וכמו שנתבאר לעיל</src>
+    <src s="9">(בד"ה פדה בשלום23)</src>
+    <src s="10">דזה שבנין ביהמ"ק הי' ע"י שלמה דוקא</src>
+    <src s="11">(אף שתבנית המקדש נעשה ע"י דוד)</src>
+    <src s="12">הוא כמ"ש24</src>
+    <src s="13">הוא</src>
+    <src s="14">(שלמה)</src>
+    <src s="15">יהי' איש מנוחה וגו' ושלום ושקט אתן על ישראל בימיו</src>
+    <src s="16">(ולכן)</src>
+    <src s="17">הוא יבנה בית לשמי גו',</src>
+    <src s="18">וזה שכל הגוים היו בטלים לשלמה</src>
+    <src s="19">[שלכן הי' בימיו שלום ושקט]</src>
+    <src s="20">הוא לפי ששלמה הוא בחינת מלך שהשלום שלו25,</src>
+    <src s="21">אוא"ס שלמעלה מהשתלשלות,</src>
+    <src s="22">דלגבי גילוי זה</src>
+    <src s="23">(שלמעלה מהשתלשלות)</src>
+    <src s="24">מתבטלים כל המנגדים.</src>
+    <src s="25">דגילוי זה</src>
+    <src s="26">(שהאיר ע"י שלמה)</src>
+    <src s="27">הי' גם לפני שנבנה ביהמ"ק,</src>
+    <src s="28">ובביהמ"ק האיר גילוי זה עוד יותר.</src>
+    <src s="29">ואעפ"כ,</src>
+    <src s="30">לגבי הגילוי דחנוכה,</src>
+    <src s="31">גם הגילוי שהאיר בביהמ"ק הוא בכלל השתלשלות.</src>
+    <src s="32">וצריך ביאור בהחילוק שבין הגילוי דביהמ"ק להגילוי דחנוכה.</src>
+  </section>
+</awtsmoosMeluketSource>

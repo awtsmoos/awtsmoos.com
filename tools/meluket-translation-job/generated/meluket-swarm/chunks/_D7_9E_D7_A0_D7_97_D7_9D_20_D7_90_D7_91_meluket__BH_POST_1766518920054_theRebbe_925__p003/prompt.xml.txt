@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518920054_theRebbe_925" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920054_theRebbe_925__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518920054_theRebbe_925" title="מאמר והי' עקב תשמעון תשט"ז" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920054_theRebbe_925__p003">
+  <section v="6">
+    <src s="0">אמנם מי הם המתבוננים והעובדים בביטול הלזה,</src>
+    <src s="1">הנה עז"נ שמע ישראל,</src>
+    <src s="2">דישראל עלו במחשבה16.</src>
+    <src s="3">ופירוש ישראל עלו במחשבה היינו מחשבה עילאה,</src>
+    <src s="4">שלמעלה מבחי' המחשבה כמו שהיא באה בציור מוגבל.</src>
+    <src s="5">והיינו דלא זו בלבד שהוא למעלה במדריגה מבחי' מחשבה שבדיבור ובחי' דיבור שבמחשבה,</src>
+    <src s="6">אלא הוא למעלה גם מבחי' מחשבה שבמחשבה.</src>
+    <src s="7">דהנה,</src>
+    <src s="8">מחשבה שבדיבור הוא מה שחושב איך לדבר,</src>
+    <src s="9">היינו איך לבאר בפרטי אופני הדיבור,</src>
+    <src s="10">ואין זה אמיתית ענין המחשבה,</src>
+    <src s="11">שהרי זה בחי' המחשבה כמו שמתלבשת בענין הדיבור,</src>
+    <src s="12">שחושב איך לדבר.</src>
+    <src s="13">ודיבור שבמחשבה הוא המחשבה עצמה שלמעלה מענין הדיבור,</src>
+    <src s="14">אבל מ"מ הוא כולל את הדיבור,</src>
+    <src s="15">וכנ"ל בענין גדלות הדיבור שהוא המחשבה אחת שכוללת את פרטי הדיבור.</src>
+    <src s="16">ואמיתית ענין המחשבה הוא בחי' מחשבה שבמחשבה,</src>
+    <src s="17">והיינו כמו שחושב את עצם השכל טרם שמתלבש בהאותיות,</src>
+    <src s="18">שהוא למעלה במדריגה מבחי' מחשבת השכל לאחר שמתלבש בהאותיות.</src>
+    <src s="19">ומעלת השכל טרם שמתלבש באותיות על בחי' השכל לאחר שמתלבש בהאותיות הוא בב' ענינים.</src>
+    <src s="20">הא',</src>
+    <src s="21">שהשכל שמתלבש בהאותיות הרי הוא מצוייר בפרטי אופני הביאור,</src>
+    <src s="22">שהם האותיות שמתלבש בהם,</src>
+    <src s="23">שהאותיות הם פרטי האופנים דביאור השכל,</src>
+    <src s="24">משא"כ קודם שמתלבש בהאותיות הרי אינו מצוייר עדיין בפרטי אופני הביאור,</src>
+    <src s="25">ולכן אפשר לבארו בכמה אופנים שונים.</src>
+    <src s="26">והב',</src>
+    <src s="27">שהשכל טרם שמתלבש בהאותיות,</src>
+    <src s="28">הנה לא זו בלבד שאינו מצוייר בפרטי אופני הביאור,</src>
+    <src s="29">אלא עוד זאת,</src>
+    <src s="30">שגם השכל עצמו הוא בפשיטות,</src>
+    <src s="31">שהוא מופשט עדיין מפרטי השכל עצמו</src>
+    <src s="32">(לא רק מאופני הביאור).</src>
+    <src s="33">אמנם בחי' ישראל עלו במחשבה הוא בחי' מחשבה עילאה שלמעלה גם מבחי' מחשבה שבמחשבה,</src>
+    <src s="34">דבחי' מחשבה שבמחשבה הרי הוא בבחי' ציור,</src>
+    <src s="35">דאף שהוא מושלל מהאופנים והפרטים,</src>
+    <src s="36">אבל מ"מ הוא בציור השכל עכ"פ,</src>
+    <src s="37">משא"כ מחשבה עילאה היא בפשיטות לגמרי.</src>
+  </section>
+  <section v="7">
+    <src s="0">ג)</src>
+    <src s="1">אך לפי זה צריך להבין למה ירדה הנשמה למטה,</src>
+    <src s="2">שזוהי ירידה מאיגרא רמה לבירא עמיקתא17</src>
+    <src s="3">ממש,</src>
+    <src s="4">דמאחר ששרש הנשמות הוא במחשבה עילאה,</src>
+    <src s="5">א"כ לאיזה תועלת ירדה למטה.</src>
+    <src s="6">אך הענין הוא,</src>
+    <src s="7">דירידה זו צורך עלי',</src>
+    <src s="8">והעלי' הוא למעלה גם מבחי' מחשבה עילאה.</src>
+  </section>
+  <section v="8">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דהנה איתא בגמרא18</src>
+    <src s="2">כתוב אחד אומר19</src>
+    <src s="3">ואספת דגנך,</src>
+    <src s="4">וכתוב אחד אומר20</src>
+    <src s="5">ועמדו זרים ורעו צאנכם,</src>
+    <src s="6">כאן בזמן שישראל עושין רצונו של מקום,</src>
+    <src s="7">כאן בזמן שאין עושין רצונו של מקום.</src>
+    <src s="8">וידוע הקושיא בזה,</src>
+    <src s="9">הרי הפסוק ואספת דגנך נאמר בפ' והי' אם שמוע,</src>
+    <src s="10">שבה נאמר21</src>
+    <src s="11">והי' אם שמוע תשמעו גו' בכל לבבכם ובכל נפשכם,</src>
+    <src s="12">ואיך אומר על זה שהוא בזמן שאין עושין רצונו של מקום.</src>
+    <src s="13">ותירץ הרב המגיד22,</src>
+    <src s="14">דמכיון שהעבודה היא רק בכל לבבכם ובכל נפשכם,</src>
+    <src s="15">אבל חסרה העבודה דבכל מאדך23,</src>
+    <src s="16">לכן נקרא אין עושין רצונו של מקום.</src>
+  </section>
+</awtsmoosMeluketSource>

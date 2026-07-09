@@ -1,0 +1,394 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 70,
+    "returned": 70,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919434_theRebbe_712\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the phrase \"and You give life to them all\" in the maamar refers specifically to vitality, not creation, and that the line is like a central bolt connecting the aspect of \"You are Hashem alone\" with the aspect of \"You made the heavens.\"</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that this is what the maamar brings</t>\n    <t s=\"2\">(in continuation of this, that \"and You give life to them all\" refers to the drawing down of the line)</t>\n    <t s=\"3\">the language of the Tikkunei Zohar17</t>\n    <t s=\"4\">\"and that wellspring is like a soul to the body, which is life to the body,\"</t>\n    <t s=\"5\">in order to emphasize,</t>\n    <t s=\"6\">that the intention of \"and You give life to them all\" here is not regarding the matter of creation</t>\n    <t s=\"7\">(do not read it as \"gives life\" but rather as \"brings into being\"18),</t>\n    <t s=\"8\">but rather regarding the matter of vitality,</t>\n    <t s=\"9\">just as the soul gives life to the body19.</t>\n    <t s=\"10\">And this is that the line is the central bolt,</t>\n    <t s=\"11\">which connects and joins the aspect of \"You are Hashem alone\" with the aspect of \"You made the heavens, etc.,\"</t>\n    <t s=\"12\">so that even in the worlds that were brought into being through the tzimtzum</t>\n    <t s=\"13\">(\"et\" [spelled] without a hei),</t>\n    <t s=\"14\">there will be drawn into them the revelation of the Ein Sof, blessed be He, that preceded the tzimtzum</t>\n    <t s=\"15\">(\"You are Hashem alone\").</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the line has an advantage over the light before the tzimtzum because it brings revelation into the worlds, and its source is in the hidden attribute that unites opposites.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And behold, that through the line the revelation of the Ein Sof that preceded the tzimtzum is drawn into the worlds,</t>\n    <t s=\"2\">indicates that it has an advantage even over the light that preceded the tzimtzum.</t>\n    <t s=\"3\">For the light that preceded the tzimtzum was concealed by the tzimtzum,</t>\n    <t s=\"4\">and the concealment caused by the tzimtzum applies also to the light of the boundless</t>\n    <t s=\"5\">(which is above the light relevant to the worlds),</t>\n    <t s=\"6\">except that the concealment of this light is that it is concealed and included in its source and does not shine in revelation in the worlds20.</t>\n    <t s=\"7\">[For this that is explained in many places21,</t>\n    <t s=\"8\">that regarding the light of the boundless the tzimtzum does not conceal,</t>\n    <t s=\"9\">is in relation to the light</t>\n    <t s=\"10\">(that in His knowledge, blessed be He, it shines in revelation even in the place of the void),</t>\n    <t s=\"11\">but in relation to the worlds</t>\n    <t s=\"12\">(that were brought into being from the tzimtzum),</t>\n    <t s=\"13\">the tzimtzum caused that the light</t>\n    <t s=\"14\">(of the boundless)</t>\n    <t s=\"15\">not be felt in the worlds22].</t>\n    <t s=\"16\">And that through the line the revelation is drawn into the worlds</t>\n    <t s=\"17\">(that even in the worlds the revelation will be felt)</t>\n    <t s=\"18\">indicates that it has an advantage over the light that preceded the tzimtzum,</t>\n    <t s=\"19\">even over the light of the boundless.</t>\n    <t s=\"20\">And as is explained in the maamar23,</t>\n    <t s=\"21\">that this that the line pierces the darkness of the tzimtzum,</t>\n    <t s=\"22\">and all piercing is from the side of superiority24,</t>\n    <t s=\"23\">is because the root of its drawing down is above even the light that preceded the tzimtzum.</t>\n    <t s=\"24\">And the explanation of this can be said,</t>\n    <t s=\"25\">that this that the light that preceded the tzimtzum cannot come into revelation in the worlds that were brought into being from the tzimtzum,</t>\n    <t s=\"26\">is because the light</t>\n    <t s=\"27\">(which is revelation)</t>\n    <t s=\"28\">and the tzimtzum</t>\n    <t s=\"29\">(which is concealment)</t>\n    <t s=\"30\">are opposites.</t>\n    <t s=\"31\">And that through the line the revelation of the Ein Sof that preceded the tzimtzum is drawn,</t>\n    <t s=\"32\">is because the root of the line is from the hidden attribute25,</t>\n    <t s=\"33\">which includes and unites opposites,</t>\n    <t s=\"34\">revelation and concealment.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the three matters in the verse beginning with \"You\" are three modes of revelation of the Awtsmoos: His infinite light, His power of limitation, and His simplicity that unites both.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, it can be explained that the three matters in the verse</t>\n    <t s=\"1\">(\"You are Hashem alone,</t>\n    <t s=\"2\">You made the heavens,</t>\n    <t s=\"3\">and You give life to them all\")</t>\n    <t s=\"4\">that begin with the word \"You,\"</t>\n    <t s=\"5\">for \"You\" indicates the Awtsmoos</t>\n    <t s=\"6\">(as above, section 2),</t>\n    <t s=\"7\">are three modes in the revelation of the Awtsmoos.</t>\n    <t s=\"8\">\"You are Hashem alone\"</t>\n    <t s=\"9\">is the revelation of the infinite and boundless of the Awtsmoos,</t>\n    <t s=\"10\">that He is present in every place and that there is no existence apart from Him — \"You are Hashem alone\"26.</t>\n    <t s=\"11\">\"You made the heavens, etc.,\"</t>\n    <t s=\"12\">is the revelation of the power of limitation within the Awtsmoos</t>\n    <t s=\"13\">(the ability not to shine27),</t>\n    <t s=\"14\">and on a higher level — the matter of His existence from His own essence,</t>\n    <t s=\"15\">as is known that the creation of something from nothing</t>\n    <t s=\"16\">(\"You made the heavens, etc.\")</t>\n    <t s=\"17\">is only through the power of the Awtsmoos, whose existence is from His own essence28.</t>\n    <t s=\"18\">\"And You give life to them all\" is the revelation of the simplicity of the Awtsmoos, which is not defined by the definitions of revelation and concealment, and therefore unites both as one.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919434_theRebbe_712",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919434_theRebbe_712__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the phrase \"and You give life to them all\" in the maamar refers specifically to vitality, not creation, and that the line is like a central bolt connecting the aspect of \"You are Hashem alone\" with the aspect of \"You made the heavens.\"",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that this is what the maamar brings"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(in continuation of this, that \"and You give life to them all\" refers to the drawing down of the line)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "the language of the Tikkunei Zohar17"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "\"and that wellspring is like a soul to the body, which is life to the body,\""
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "in order to emphasize,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "that the intention of \"and You give life to them all\" here is not regarding the matter of creation"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "(do not read it as \"gives life\" but rather as \"brings into being\"18),"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "but rather regarding the matter of vitality,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "just as the soul gives life to the body19."
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "And this is that the line is the central bolt,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "which connects and joins the aspect of \"You are Hashem alone\" with the aspect of \"You made the heavens, etc.,\""
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "so that even in the worlds that were brought into being through the tzimtzum"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(\"et\" [spelled] without a hei),"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "there will be drawn into them the revelation of the Ein Sof, blessed be He, that preceded the tzimtzum"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "(\"You are Hashem alone\")."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the line has an advantage over the light before the tzimtzum because it brings revelation into the worlds, and its source is in the hidden attribute that unites opposites.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And behold, that through the line the revelation of the Ein Sof that preceded the tzimtzum is drawn into the worlds,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "indicates that it has an advantage even over the light that preceded the tzimtzum."
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "For the light that preceded the tzimtzum was concealed by the tzimtzum,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "and the concealment caused by the tzimtzum applies also to the light of the boundless"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "(which is above the light relevant to the worlds),"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "except that the concealment of this light is that it is concealed and included in its source and does not shine in revelation in the worlds20."
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "[For this that is explained in many places21,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "that regarding the light of the boundless the tzimtzum does not conceal,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "is in relation to the light"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "(that in His knowledge, blessed be He, it shines in revelation even in the place of the void),"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "but in relation to the worlds"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "(that were brought into being from the tzimtzum),"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "the tzimtzum caused that the light"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "(of the boundless)"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "not be felt in the worlds22]."
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "And that through the line the revelation is drawn into the worlds"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "(that even in the worlds the revelation will be felt)"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "indicates that it has an advantage over the light that preceded the tzimtzum,"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "even over the light of the boundless."
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "And as is explained in the maamar23,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "that this that the line pierces the darkness of the tzimtzum,"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "and all piercing is from the side of superiority24,"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "is because the root of its drawing down is above even the light that preceded the tzimtzum."
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "And the explanation of this can be said,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "that this that the light that preceded the tzimtzum cannot come into revelation in the worlds that were brought into being from the tzimtzum,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "is because the light"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "(which is revelation)"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "and the tzimtzum"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "(which is concealment)"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "are opposites."
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "And that through the line the revelation of the Ein Sof that preceded the tzimtzum is drawn,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "is because the root of the line is from the hidden attribute25,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "which includes and unites opposites,"
+          },
+          {
+            "v": 4,
+            "s": 34,
+            "translation": "revelation and concealment."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the three matters in the verse beginning with \"You\" are three modes of revelation of the Awtsmoos: His infinite light, His power of limitation, and His simplicity that unites both.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And based on this, it can be explained that the three matters in the verse"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "(\"You are Hashem alone,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "You made the heavens,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "and You give life to them all\")"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "that begin with the word \"You,\""
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "for \"You\" indicates the Awtsmoos"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "(as above, section 2),"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "are three modes in the revelation of the Awtsmoos."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "\"You are Hashem alone\""
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "is the revelation of the infinite and boundless of the Awtsmoos,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "that He is present in every place and that there is no existence apart from Him — \"You are Hashem alone\"26."
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "\"You made the heavens, etc.,\""
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "is the revelation of the power of limitation within the Awtsmoos"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "(the ability not to shine27),"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "and on a higher level — the matter of His existence from His own essence,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "as is known that the creation of something from nothing"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "(\"You made the heavens, etc.\")"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "is only through the power of the Awtsmoos, whose existence is from His own essence28."
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "\"And You give life to them all\" is the revelation of the simplicity of the Awtsmoos, which is not defined by the definitions of revelation and concealment, and therefore unites both as one."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917894_theRebbe_634" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917894_theRebbe_634__p008">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917894_theRebbe_634" title="מאמר כימי צאתך תשי"ב" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917894_theRebbe_634__p008">
+  <section v="21">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וע"פ כל הנ"ל יש לבאר מ"ש בזהר3</src>
+    <src s="3">דאראנו</src>
+    <src s="4">(נפלאות)</src>
+    <src s="5">לשון נסתר קאי על משה,</src>
+    <src s="6">כי הגאולה דיציאת מצרים היתה ע"י משה.</src>
+    <src s="7">וע"פ הנ"ל שבהגאולה דיציאת מצרים נפתח הצנור גם על גאולה העתידה,</src>
+    <src s="8">נמצא,</src>
+    <src s="9">שמשה פתח את הצנור דהנפלאות שיהיו בגאולה העתידה.</src>
+    <src s="10">אלא שאעפ"כ הי' זה אצלו בהעלם.</src>
+    <src s="11">וזהו מ"ש כימי צאתך מארץ מצרים אראנו נפלאות,</src>
+    <src s="12">שלע"ל יתגלו לו הנפלאות שפתח ביציאת מצרים.</src>
+  </section>
+  <section v="22">
+    <src s="0">גם יש לומר,</src>
+    <src s="1">דזה שאראנו</src>
+    <src s="2">(נפלאות)</src>
+    <src s="3">לשון נסתר קאי על משה,</src>
+    <src s="4">הוא הוראה לכאו"א מישראל,</src>
+    <src s="5">שבכדי לזכות לראיית הנפלאות דלע"ל הוא ע"י גילוי בחינת משה שבו60.</src>
+    <src s="6">דהגם שהביטול דמשה הוא ביטול דיחו"ע שמצד הגילויים והמשכת הענין דאראנו נפלאות הוא ע"י הביטול דקבלת עול</src>
+    <src s="7">(כנ"ל סעיף ט),</src>
+    <src s="8">מ"מ,</src>
+    <src s="9">בכדי שההמשכה תהי' בגילוי</src>
+    <src s="10">(אראנו)</src>
+    <src s="11">צ"ל גם הביטול שמצד הגילויים</src>
+    <src s="12">(ע"י ההתבוננות שכולא קמי' כלא חשיב,</src>
+    <src s="13">וכדומה),</src>
+    <src s="14">ועי"ז יהי' אראנו נפלאות,</src>
+    <src s="15">שהנפלאות דלעתיד יהיו בגילוי,</src>
+    <src s="16">בביאת משיח צדקנו בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

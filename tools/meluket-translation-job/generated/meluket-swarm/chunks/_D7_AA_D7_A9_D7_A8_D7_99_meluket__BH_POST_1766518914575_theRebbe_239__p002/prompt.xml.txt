@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914575_theRebbe_239" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914575_theRebbe_239__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914575_theRebbe_239" title="מאמר בראשית ברא תשל"ח" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914575_theRebbe_239__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ומה טעם פתח בבראשית משום כח מעשיו הגיד לעמו לתת להם נחלת גוים.</src>
+    <src s="2">והיינו שהענין דכח מעשיו גו' לתת להם נחלת גוים הוא נעלה יותר גם מענין המשכת הסובב,</src>
+    <src s="3">בחי' אוא"ס שלפני הצמצום.</src>
+    <src s="4">דהנה תכלית הכוונה</src>
+    <src s="5">(דתומ"צ)</src>
+    <src s="6">הוא להמשיך בחי' אור חדש,</src>
+    <src s="7">היינו בחי' עצמות אוא"ס שלמעלה מהאור שהי' ממלא מקום החלל9.</src>
+    <src s="8">והמשכת אור זה הוא דוקא ע"י עבודת הבירורים10.</src>
+    <src s="9">וזהו היתרון שבכח מעשיו גו' לתת להם נחלת גוים על החודש הזה,</src>
+    <src s="10">כי ענין החודש הזה הוא המשכת אור הסובב,</src>
+    <src s="11">שבשרשו הוא בחי' האור שהי' ממלא מקום החלל,</src>
+    <src s="12">וע"י11</src>
+    <src s="13">עבודת הבירורים דעניני העולם שנפלו מז"מ,</src>
+    <src s="14">מלכי אדום שברצונו נתנה להם – כמרז"ל12</src>
+    <src s="15">בונה עולמות ומחריבן – ובנ"י מבררים ויורשים13</src>
+    <src s="16">אותם ונעשו נחלת יעקב,</src>
+    <src s="17">ממשיכים בחי' אור חדש שלמעלה מהאור שהי' ממלא מקום החלל.</src>
+    <src s="18">וכמו שהוא בכלל העולם</src>
+    <src s="19">(עולמות בי"ע,</src>
+    <src s="20">דמשם יפרד)</src>
+    <src s="21">בא ג"כ בפרט הבירור דכיבוש ארצות שבעה גוים,</src>
+    <src s="22">שישראל מהפכים אותם לארץ ישראל.</src>
+  </section>
+  <section v="4">
+    <src s="0">ד)</src>
+    <src s="1">והנה מכיון דזה ש"ברצונו נתנה להם"</src>
+    <src s="2">(לזמן מסויים)</src>
+    <src s="3">הוא בכדי שיהי' אח"כ "ברצונו נטלה מהם ונתנה לנו",</src>
+    <src s="4">הרי פשוט,</src>
+    <src s="5">שבאם מחליטים בתוקף,</src>
+    <src s="6">אזי מבררים בנקל ביותר את ארצות שבעה גוים,</src>
+    <src s="7">וכל העולם כולו,</src>
+    <src s="8">שיהי' דירה לו ית'.</src>
+    <src s="9">וזה מה שנדמה שצריך לזה יגיעה ועמל,</src>
+    <src s="10">ועד שאומות העולם טוענים בנוגע לכל בירור14</src>
+    <src s="11">לסטים אתם הוא מצד גודל ההעלם והסתר,</src>
+    <src s="12">מה שאין נרגש בעולם אשר "כל הארץ של הקב"ה היא"</src>
+    <src s="13">(ו"כי15</src>
+    <src s="14">ממך הכל"16).</src>
+    <src s="15">אבל הרי תכלית הכוונה של ההעלם והסתר הוא בכדי שיהי' ובקשתם משם17,</src>
+    <src s="16">אַז אידן זאָלן זוכן און געפינען דעם אויבערשטן בכל עניני העולם,</src>
+    <src s="17">בההעלמות וההסתרים18</src>
+    <src s="18">[וכמשל האב המסתיר את עצמו מבנו הקטן בכדי להראות את חכמת הבן שמבין שההסתר וההעלם אינו אלא בכדי שיבקשנו וימצאנו19],</src>
+    <src s="19">והבטיחה תורה שכאשר ובקשתם משם אז בודאי "ומצאת"20,</src>
+    <src s="20">שכובשים את כל העולם ועושים ממנו דירה לו ית',</src>
+    <src s="21">עד אשר אז אהפוך אל עמים שפה ברורה וגו' לעבדו שכם אחד21.</src>
+    <src s="22">והיתה לה' המלוכה22.</src>
+  </section>
+  <section v="5">
+    <src s="0">ה)</src>
+    <src s="1">ויש לקשר זה גם עם ענין ד"ויעקב הלך לדרכו"</src>
+    <src s="2">(שבמוצאי שבת בראשית23),</src>
+    <src s="3">דהגם שהולך לדרכו</src>
+    <src s="4">(גם)</src>
+    <src s="5">בעניני הרשות ובעובדין דחול במשך כל השנה,</src>
+    <src s="6">מ"מ אינו יירא מזה,</src>
+    <src s="7">כי אם,</src>
+    <src s="8">הולך לבטח דרכו,</src>
+    <src s="9">ובשמחה ובטוב לבב.</src>
+    <src s="10">וזהו גם מה שבמוצאי שבת</src>
+    <src s="11">[ובפרט במוצאי שבת בראשית,</src>
+    <src s="12">שאז מתחיל</src>
+    <src s="13">(בעיקר)</src>
+    <src s="14">הסדר דויעקב הלך לדרכו23]</src>
+    <src s="15">אומרים24</src>
+    <src s="16">אל תירא עבדי יעקב25,</src>
+    <src s="17">כי "במוצאי שבת מסתלקת הנשמה יתירה וצריך לחזור ולירד בבחי' יעקב עבדי בכל ששת ימי המעשה לברר בירורים בבי"ע כו' לכך אומר אל תירא עבדי יעקב כו' מלירד שם,</src>
+    <src s="18">ובזה נותנים כח ועוז כו'"26.</src>
+    <src s="19">והטעם לזה</src>
+    <src s="20">(לענין אל תירא)</src>
+    <src s="21">הוא כי הוי' אלקיו עמו27,</src>
+    <src s="22">שכאו"א מישראל</src>
+    <src s="23">(גם מי שהוא בבחי' יעקב),</src>
+    <src s="24">בכל מקום ובכל זמן ובכל ענין</src>
+    <src s="25">(גם בחו"ל ובימי החול ובעובדין דחול),</src>
+    <src s="26">הוי' אלקיו</src>
+    <src s="27">(הוא)</src>
+    <src s="28">עמו,</src>
+    <src s="29">ועד שנעשה שותף להקב"ה במעשה בראשית28,</src>
+    <src s="30">שהוא פועל חידוש בהבריאה</src>
+    <src s="31">(כמו הקב"ה כביכול).</src>
+    <src s="32">כי ע"י עבודתו בעבודת הבירורים לעשות את העולם דירה לו ית',</src>
+    <src s="33">הוא פועל חידוש בהבריאה</src>
+    <src s="34">[דזהו גם מה שבשבת בראשית קורין בתורה בראשית ברא אלקים את השמים ואת הארץ,</src>
+    <src s="35">שעי"ז נעשה בריאת השמים והארץ וכל צבאיהם מחדש ובאופן חדש],</src>
+    <src s="36">ועד שיהי' השמים החדשים והארץ החדשה גו'29.</src>
+  </section>
+</awtsmoosMeluketSource>

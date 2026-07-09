@@ -1,0 +1,589 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 109,
+    "returned": 109,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920437_theRebbe_883\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920437_theRebbe_883__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains the Baal Shem Tov's interpretation of \"When you come into the land,\" the Maggid's explanation about entering the upper land through extracting sparks, and the Alter Rebbe's connection of this to Rosh Hashanah.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And this will be understood with a prior explanation of the matter of entering the land in avodah.</t>\n    <t s=\"2\">For it is written</t>\n    <t s=\"3\">(in the weekly portion of this past Shabbos,</t>\n    <t s=\"4\">the eighth [portion], all the following days are blessed,</t>\n    <t s=\"5\">including this day,</t>\n    <t s=\"6\">the day of 18 Elul)</t>\n    <t s=\"7\">\"And it will be, when you come into the land which Hashem your G-d gives you...\"</t>\n    <t s=\"8\">And the Baal Shem Tov, of blessed memory, explains</t>\n    <t s=\"9\">(in the maamar that was said by my revered father-in-law, the Rebbe, our leader, who heard it from his father, the Rebbe</t>\n    <t s=\"10\">(the Rebbe Rashab)</t>\n    <t s=\"11\">of blessed memory, who heard it from the Baal Shem Tov)</t>\n    <t s=\"12\">: \"And it will be, when you come into the land\" – when you will come to that [supernal] will</t>\n    <t s=\"13\">[the supernal]</t>\n    <t s=\"14\">and desire,</t>\n    <t s=\"15\">\"which Hashem your G-d gives you as an inheritance and you will possess it\" – which is a gift from above, as an inheritance in every Jew,</t>\n    <t s=\"16\">the avodah must be in this,</t>\n    <t s=\"17\">\"and you will dwell in it\" – that this should be with settlement,</t>\n    <t s=\"18\">\"and you shall take... and put it in a basket\" – to clothe the lights in vessels,</t>\n    <t s=\"19\">\"and you shall go to the place\" – this is the matter of hashgacha peratis,</t>\n    <t s=\"20\">\"which Hashem your G-d will choose\" – when a Jew goes to a place,</t>\n    <t s=\"21\">it is not that he goes, rather he is led,</t>\n    <t s=\"22\">by supernal hashgacha.</t>\n    <t s=\"23\">So when he comes to a place, the intention is – \"to cause His name to dwell there\" – to publicize Elokus in the world.</t>\n    <t s=\"24\">And afterwards the Baal Shem Tov said the previous maamar again and added that the matter of \"to cause His name to dwell there\" is \"with a blessing and a verse of Tehillim.\"</t>\n    <t s=\"25\">And the Maggid, of blessed memory,</t>\n    <t s=\"26\">(his student and successor of the Baal Shem Tov)</t>\n    <t s=\"27\">explained:</t>\n    <t s=\"28\">\"And it will be, when you come into the land,\"</t>\n    <t s=\"29\">the explanation is... when you wish to come into the supernal land</t>\n    <t s=\"30\">(the World to Come)</t>\n    <t s=\"31\">\"which Hashem your G-d gives you,\"</t>\n    <t s=\"32\">for all of Israel have a portion in the World to Come,</t>\n    <t s=\"33\">\"and you will possess it,\"</t>\n    <t s=\"34\">to inherit it as an eternal inheritance so that he will not need to be reincarnated</t>\n    <t s=\"35\">(G-d forbid)</t>\n    <t s=\"36\">but rather \"and you will dwell in it\" an eternal and everlasting dwelling,</t>\n    <t s=\"37\">so shall you conduct yourself and merit: \"And you shall take from the first...\" meaning the first of your taking from the pleasures of this world should be from \"the first,\" which is Chochmah, as it is said</t>\n    <t s=\"38\">\"The beginning of wisdom...\"</t>\n    <t s=\"39\">meaning that all matters of this world have a holy spark mixed in them, which is Chochmah, etc.,</t>\n    <t s=\"40\">therefore all your taking and doing etc. should be, the main focus of your intention and aim should be on the \"first\" within it, which is the holy Chochmah within it.</t>\n    <t s=\"41\">And therefore it says \"from the first\" and not \"all the first,\"</t>\n    <t s=\"42\">for the whole thing is physicality, only there is in it a bit of holiness which is \"the first,\" etc.,</t>\n    <t s=\"43\">and this is what is meant by \"from the first of all the fruit of the ground\" – these are the sparks within the vegetative.</t>\n    <t s=\"44\">And not only will you see to extract from the vegetative, but even that which you bring from your land,</t>\n    <t s=\"45\">meaning even from something that is completely earthiness, which is the inanimate, which is more physical than the vegetative.</t>\n    <t s=\"46\">And he did not mention here the sparks within animals,</t>\n    <t s=\"47\">because they can easily be elevated to holiness, as is explained in the writings of the Arizal.</t>\n    <t s=\"48\">And then he said: Do not say that I am warning you only about physical things, which are inanimate, vegetative,</t>\n    <t s=\"49\">(and animal),</t>\n    <t s=\"50\">but even regarding spiritual matters,</t>\n    <t s=\"51\">which are matters of Torah.</t>\n    <t s=\"52\">And this is what is meant by \"which Hashem your G-d gives you...\" – your intention should be pleasing, your thought pure, and your speech complete, etc.,</t>\n    <t s=\"53\">so that in every word that issues from your mouth, every letter, its vowels, and its cantillation notes should be discernible.</t>\n    <t s=\"54\">And this is what is meant by \"and put it in a basket,\"</t>\n    <t s=\"55\">for \"basket\" (טנא) is an acronym for \"cantillation notes, vowels, letters\" (טעמים נקודות אותיות).</t>\n    <t s=\"56\">And he did not mention here the crowns (tagin),</t>\n    <t s=\"57\">because they are not in pronunciation, etc. And when you conduct yourself thus</t>\n    <t s=\"58\">[meaning,</t>\n    <t s=\"59\">that in all these matters there should be the matter of \"and you shall take from the first,\"</t>\n    <t s=\"60\">the aspect of Chochmah,</t>\n    <t s=\"61\">then there will be]</t>\n    <t s=\"62\">\"and you shall go to the place...\" and you will elevate everything to holiness.</t>\n    <t s=\"63\">And this is \"which Hashem your G-d will choose...\" and this is \"to cause His name to dwell there.\"</t>\n    <t s=\"64\">And this is why the verse opens with the language \"and it will be,\" which is a language of joy,</t>\n    <t s=\"65\">etc.</t>\n    <t s=\"66\">And our Rebbe, the Alter Rebbe, explained</t>\n    <t s=\"67\">(in Likkutei Torah, Parshat Tavo)</t>\n    <t s=\"68\">that just as there is an aspect of Eretz Yisrael in the world, so too there is in the year, and that is Rosh Hashanah,</t>\n    <t s=\"69\">and before this there must be a cutting of a covenant, etc.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that all worldly matters originate in Torah, and Eretz Yisrael corresponds to the Oral Torah, which reveals the supernal will through definitive halachic ruling.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And to understand all this, it is known that all matters in the world have their source in the Torah,</t>\n    <t s=\"2\">and so it is with the matter of Eretz Yisrael</t>\n    <t s=\"3\">(and the entry into Eretz Yisrael)</t>\n    <t s=\"4\">that there is this aspect in the Torah.</t>\n    <t s=\"5\">And as our Rebbe, the Alter Rebbe, explains at length</t>\n    <t s=\"6\">(in Torah Or, at its beginning,</t>\n    <t s=\"7\">and in Likkutei Torah there)</t>\n    <t s=\"8\">that Eretz Yisrael is the aspect of the Oral Torah,</t>\n    <t s=\"9\">for \"land\" (ארץ) is a term of will and desire (ratzon u'retzusa)</t>\n    <t s=\"10\">(as brought in the teaching of the Baal Shem Tov above)</t>\n    <t s=\"11\">and as the saying goes,</t>\n    <t s=\"12\">\"Why is it called 'land' (ארץ)? Because it desired (ratzta) to do the will of its Master,\"</t>\n    <t s=\"13\">and the revelation of the supernal will is specifically through the Oral Torah.</t>\n    <t s=\"14\">For in order to fulfill the supernal will, the study of the Written Torah is insufficient,</t>\n    <t s=\"15\">for although there is nothing that is not hinted at in the Torah,</t>\n    <t s=\"16\">this is only in the manner of a hint, and there can be two opinions from it,</t>\n    <t s=\"17\">for \"these and those are the words of the living G-d,\"</t>\n    <t s=\"18\">and specifically through a definitive halachah and clear legal ruling in the Oral Torah is it possible to know and fulfill the supernal will.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the covenant before entering the land (Oral Torah) connects the highest level above Chochmah with the lowest level in this world, requiring a drawing down from a source above both.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And with this, the matter of the cutting of the covenant before entering Eretz Yisrael,</t>\n    <t s=\"2\">which is the Oral Torah, will be understood.</t>\n    <t s=\"3\">For the matter of the Oral Torah is the connection of the highest level with the lowest level,</t>\n    <t s=\"4\">for the halachah originates from the supernal will that is above the aspect of Chochmah</t>\n    <t s=\"5\">(which is the matter of the Torah in its plain sense),</t>\n    <t s=\"6\">and it is the aspect of \"and he was with him\"</t>\n    <t s=\"7\">that the halachah follows him</t>\n    <t s=\"8\">(which is above not only the aspect of Elokim, but also above the aspect of \"these and those are the words of the living G-d,\"</t>\n    <t s=\"9\">for \"living G-d\" is the aspect of Binah,</t>\n    <t s=\"10\">as explained in the discourses of the Tzemach Tzedek</t>\n    <t s=\"11\">and the Rebbe Maharash</t>\n    <t s=\"12\">and the subsequent Rebbes who succeeded them,</t>\n    <t s=\"13\">who explain the matter of \"living G-d\"),</t>\n    <t s=\"14\">and from there it is drawn into the legal ruling for practical halachah in this world.</t>\n    <t s=\"15\">And as our Rebbe, the Alter Rebbe, explains in Iggeret HaKodesh,</t>\n    <t s=\"16\">the analogy of the fulfillment of the mitzvos is like a pillar that connects the roof with the floor.</t>\n    <t s=\"17\">And in the language of Kabbalah and Chassidus, it is the connection of Sovev Kol Almin and Memaleh Kol Almin.</t>\n    <t s=\"18\">And it is known that for this connection, a drawing down is needed from a place that is above both of them,</t>\n    <t s=\"19\">and this is the matter of the covenant.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920437_theRebbe_883",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920437_theRebbe_883__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains the Baal Shem Tov's interpretation of \"When you come into the land,\" the Maggid's explanation about entering the upper land through extracting sparks, and the Alter Rebbe's connection of this to Rosh Hashanah.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And this will be understood with a prior explanation of the matter of entering the land in avodah."
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "For it is written"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "(in the weekly portion of this past Shabbos,"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "the eighth [portion], all the following days are blessed,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "including this day,"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "the day of 18 Elul)"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "\"And it will be, when you come into the land which Hashem your G-d gives you...\""
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "And the Baal Shem Tov, of blessed memory, explains"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "(in the maamar that was said by my revered father-in-law, the Rebbe, our leader, who heard it from his father, the Rebbe"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "(the Rebbe Rashab)"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "of blessed memory, who heard it from the Baal Shem Tov)"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": ": \"And it will be, when you come into the land\" – when you will come to that [supernal] will"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "[the supernal]"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "and desire,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "\"which Hashem your G-d gives you as an inheritance and you will possess it\" – which is a gift from above, as an inheritance in every Jew,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "the avodah must be in this,"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "\"and you will dwell in it\" – that this should be with settlement,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "\"and you shall take... and put it in a basket\" – to clothe the lights in vessels,"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "\"and you shall go to the place\" – this is the matter of hashgacha peratis,"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "\"which Hashem your G-d will choose\" – when a Jew goes to a place,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "it is not that he goes, rather he is led,"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "by supernal hashgacha."
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "So when he comes to a place, the intention is – \"to cause His name to dwell there\" – to publicize Elokus in the world."
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "And afterwards the Baal Shem Tov said the previous maamar again and added that the matter of \"to cause His name to dwell there\" is \"with a blessing and a verse of Tehillim.\""
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "And the Maggid, of blessed memory,"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(his student and successor of the Baal Shem Tov)"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "explained:"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "\"And it will be, when you come into the land,\""
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "the explanation is... when you wish to come into the supernal land"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "(the World to Come)"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "\"which Hashem your G-d gives you,\""
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "for all of Israel have a portion in the World to Come,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "\"and you will possess it,\""
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "to inherit it as an eternal inheritance so that he will not need to be reincarnated"
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "(G-d forbid)"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "but rather \"and you will dwell in it\" an eternal and everlasting dwelling,"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "so shall you conduct yourself and merit: \"And you shall take from the first...\" meaning the first of your taking from the pleasures of this world should be from \"the first,\" which is Chochmah, as it is said"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "\"The beginning of wisdom...\""
+          },
+          {
+            "v": 3,
+            "s": 39,
+            "translation": "meaning that all matters of this world have a holy spark mixed in them, which is Chochmah, etc.,"
+          },
+          {
+            "v": 3,
+            "s": 40,
+            "translation": "therefore all your taking and doing etc. should be, the main focus of your intention and aim should be on the \"first\" within it, which is the holy Chochmah within it."
+          },
+          {
+            "v": 3,
+            "s": 41,
+            "translation": "And therefore it says \"from the first\" and not \"all the first,\""
+          },
+          {
+            "v": 3,
+            "s": 42,
+            "translation": "for the whole thing is physicality, only there is in it a bit of holiness which is \"the first,\" etc.,"
+          },
+          {
+            "v": 3,
+            "s": 43,
+            "translation": "and this is what is meant by \"from the first of all the fruit of the ground\" – these are the sparks within the vegetative."
+          },
+          {
+            "v": 3,
+            "s": 44,
+            "translation": "And not only will you see to extract from the vegetative, but even that which you bring from your land,"
+          },
+          {
+            "v": 3,
+            "s": 45,
+            "translation": "meaning even from something that is completely earthiness, which is the inanimate, which is more physical than the vegetative."
+          },
+          {
+            "v": 3,
+            "s": 46,
+            "translation": "And he did not mention here the sparks within animals,"
+          },
+          {
+            "v": 3,
+            "s": 47,
+            "translation": "because they can easily be elevated to holiness, as is explained in the writings of the Arizal."
+          },
+          {
+            "v": 3,
+            "s": 48,
+            "translation": "And then he said: Do not say that I am warning you only about physical things, which are inanimate, vegetative,"
+          },
+          {
+            "v": 3,
+            "s": 49,
+            "translation": "(and animal),"
+          },
+          {
+            "v": 3,
+            "s": 50,
+            "translation": "but even regarding spiritual matters,"
+          },
+          {
+            "v": 3,
+            "s": 51,
+            "translation": "which are matters of Torah."
+          },
+          {
+            "v": 3,
+            "s": 52,
+            "translation": "And this is what is meant by \"which Hashem your G-d gives you...\" – your intention should be pleasing, your thought pure, and your speech complete, etc.,"
+          },
+          {
+            "v": 3,
+            "s": 53,
+            "translation": "so that in every word that issues from your mouth, every letter, its vowels, and its cantillation notes should be discernible."
+          },
+          {
+            "v": 3,
+            "s": 54,
+            "translation": "And this is what is meant by \"and put it in a basket,\""
+          },
+          {
+            "v": 3,
+            "s": 55,
+            "translation": "for \"basket\" (טנא) is an acronym for \"cantillation notes, vowels, letters\" (טעמים נקודות אותיות)."
+          },
+          {
+            "v": 3,
+            "s": 56,
+            "translation": "And he did not mention here the crowns (tagin),"
+          },
+          {
+            "v": 3,
+            "s": 57,
+            "translation": "because they are not in pronunciation, etc. And when you conduct yourself thus"
+          },
+          {
+            "v": 3,
+            "s": 58,
+            "translation": "[meaning,"
+          },
+          {
+            "v": 3,
+            "s": 59,
+            "translation": "that in all these matters there should be the matter of \"and you shall take from the first,\""
+          },
+          {
+            "v": 3,
+            "s": 60,
+            "translation": "the aspect of Chochmah,"
+          },
+          {
+            "v": 3,
+            "s": 61,
+            "translation": "then there will be]"
+          },
+          {
+            "v": 3,
+            "s": 62,
+            "translation": "\"and you shall go to the place...\" and you will elevate everything to holiness."
+          },
+          {
+            "v": 3,
+            "s": 63,
+            "translation": "And this is \"which Hashem your G-d will choose...\" and this is \"to cause His name to dwell there.\""
+          },
+          {
+            "v": 3,
+            "s": 64,
+            "translation": "And this is why the verse opens with the language \"and it will be,\" which is a language of joy,"
+          },
+          {
+            "v": 3,
+            "s": 65,
+            "translation": "etc."
+          },
+          {
+            "v": 3,
+            "s": 66,
+            "translation": "And our Rebbe, the Alter Rebbe, explained"
+          },
+          {
+            "v": 3,
+            "s": 67,
+            "translation": "(in Likkutei Torah, Parshat Tavo)"
+          },
+          {
+            "v": 3,
+            "s": 68,
+            "translation": "that just as there is an aspect of Eretz Yisrael in the world, so too there is in the year, and that is Rosh Hashanah,"
+          },
+          {
+            "v": 3,
+            "s": 69,
+            "translation": "and before this there must be a cutting of a covenant, etc."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that all worldly matters originate in Torah, and Eretz Yisrael corresponds to the Oral Torah, which reveals the supernal will through definitive halachic ruling.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And to understand all this, it is known that all matters in the world have their source in the Torah,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "and so it is with the matter of Eretz Yisrael"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "(and the entry into Eretz Yisrael)"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that there is this aspect in the Torah."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "And as our Rebbe, the Alter Rebbe, explains at length"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(in Torah Or, at its beginning,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "and in Likkutei Torah there)"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "that Eretz Yisrael is the aspect of the Oral Torah,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "for \"land\" (ארץ) is a term of will and desire (ratzon u'retzusa)"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "(as brought in the teaching of the Baal Shem Tov above)"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "and as the saying goes,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "\"Why is it called 'land' (ארץ)? Because it desired (ratzta) to do the will of its Master,\""
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and the revelation of the supernal will is specifically through the Oral Torah."
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "For in order to fulfill the supernal will, the study of the Written Torah is insufficient,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "for although there is nothing that is not hinted at in the Torah,"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "this is only in the manner of a hint, and there can be two opinions from it,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "for \"these and those are the words of the living G-d,\""
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "and specifically through a definitive halachah and clear legal ruling in the Oral Torah is it possible to know and fulfill the supernal will."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the covenant before entering the land (Oral Torah) connects the highest level above Chochmah with the lowest level in this world, requiring a drawing down from a source above both.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And with this, the matter of the cutting of the covenant before entering Eretz Yisrael,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "which is the Oral Torah, will be understood."
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "For the matter of the Oral Torah is the connection of the highest level with the lowest level,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "for the halachah originates from the supernal will that is above the aspect of Chochmah"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "(which is the matter of the Torah in its plain sense),"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and it is the aspect of \"and he was with him\""
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "that the halachah follows him"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "(which is above not only the aspect of Elokim, but also above the aspect of \"these and those are the words of the living G-d,\""
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "for \"living G-d\" is the aspect of Binah,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "as explained in the discourses of the Tzemach Tzedek"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "and the Rebbe Maharash"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "and the subsequent Rebbes who succeeded them,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "who explain the matter of \"living G-d\"),"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "and from there it is drawn into the legal ruling for practical halachah in this world."
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "And as our Rebbe, the Alter Rebbe, explains in Iggeret HaKodesh,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "the analogy of the fulfillment of the mitzvos is like a pillar that connects the roof with the floor."
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "And in the language of Kabbalah and Chassidus, it is the connection of Sovev Kol Almin and Memaleh Kol Almin."
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "And it is known that for this connection, a drawing down is needed from a place that is above both of them,"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "and this is the matter of the covenant."
+          }
+        ]
+      }
+    ]
+  }
+}

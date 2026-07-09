@@ -1,0 +1,219 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 35,
+    "returned": 35,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919663_theRebbe_89\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919663_theRebbe_89__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section provides the date and occasion for the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">The third day, which was doubled with \"it was good,\"</t>\n    <t s=\"2\">Erev Rosh Chodesh Menachem-Av,</t>\n    <t s=\"3\">5735*.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section indicates that the following is an unedited discourse.</sectionSummaryBrief>\n    <t s=\"0\">An unedited discourse.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the verse \"Zion shall be redeemed with justice\" is from Yeshayahu, whose prophecies are entirely comfort and salvation, including through sweetened gevuros.</sectionSummaryBrief>\n    <t s=\"0\">\"Zion shall be redeemed with justice, and her captives with charity.\"</t>\n    <t s=\"1\">Now, this verse is at the beginning of the book of Yeshayahu,</t>\n    <t s=\"2\">whose subject matter</t>\n    <t s=\"3\">(of Yeshayahu)</t>\n    <t s=\"4\">is as his name implies</t>\n    <t s=\"5\">(Yeshayahu from the word yeshuah—salvation),</t>\n    <t s=\"6\">and as it is stated in the Gemara:</t>\n    <t s=\"7\">\"All of Yeshayahu is consolation.\"</t>\n    <t s=\"8\">And even those matters in the prophecies of Yeshayahu that seemingly are not salvation,</t>\n    <t s=\"9\">in truth they too are salvation and consolation,</t>\n    <t s=\"10\">as is explained in Kabbalah</t>\n    <t s=\"11\">that they are aspects of sweetened gevuros (might/severities),</t>\n    <t s=\"12\">and because the salvation</t>\n    <t s=\"13\">(redemption)</t>\n    <t s=\"14\">of the future will be through the sweetening of the gevuros,</t>\n    <t s=\"15\">therefore Yitzchak will be the main one, etc.</t>\n    <t s=\"16\">[And as it is stated in the Gemara,</t>\n    <t s=\"17\">that in the future they will say to Yitzchak</t>\n    <t s=\"18\">(specifically)</t>\n    <t s=\"19\">\"for you are our father,\"</t>\n    <t s=\"20\">for Yitzchak is the aspect of gevuros],</t>\n    <t s=\"21\">therefore in the salvations in the book of Yeshayahu there are the salvations in the aspect of revealed chassadim (kindnesses),</t>\n    <t s=\"22\">and the salvations of the aspect of sweetened gevuros,</t>\n    <t s=\"23\">gevuros that are transformed into chassadim</t>\n    <t s=\"24\">(which are loftier</t>\n    <t s=\"25\">than revealed chassadim).</t>\n    <t s=\"26\">And likewise is it also with the prophecy at the beginning of the book,</t>\n    <t s=\"27\">which contains the two aforementioned types,</t>\n    <t s=\"28\">concluding with the two [matters]: \"Zion shall be redeemed with justice, and her captives with charity,\"</t>\n    <t s=\"29\">as will be explained further.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "מנחם אב_meluket",
+      "postId": "BH_POST_1766518919663_theRebbe_89",
+      "batchId": "meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919663_theRebbe_89__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section provides the date and occasion for the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "The third day, which was doubled with \"it was good,\""
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "Erev Rosh Chodesh Menachem-Av,"
+          },
+          {
+            "v": 0,
+            "s": 3,
+            "translation": "5735*."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section indicates that the following is an unedited discourse.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "An unedited discourse."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the verse \"Zion shall be redeemed with justice\" is from Yeshayahu, whose prophecies are entirely comfort and salvation, including through sweetened gevuros.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "\"Zion shall be redeemed with justice, and her captives with charity.\""
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "Now, this verse is at the beginning of the book of Yeshayahu,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "whose subject matter"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(of Yeshayahu)"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "is as his name implies"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "(Yeshayahu from the word yeshuah—salvation),"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "and as it is stated in the Gemara:"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "\"All of Yeshayahu is consolation.\""
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And even those matters in the prophecies of Yeshayahu that seemingly are not salvation,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "in truth they too are salvation and consolation,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "as is explained in Kabbalah"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "that they are aspects of sweetened gevuros (might/severities),"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "and because the salvation"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "(redemption)"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "of the future will be through the sweetening of the gevuros,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "therefore Yitzchak will be the main one, etc."
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "[And as it is stated in the Gemara,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "that in the future they will say to Yitzchak"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "\"for you are our father,\""
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "for Yitzchak is the aspect of gevuros],"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "therefore in the salvations in the book of Yeshayahu there are the salvations in the aspect of revealed chassadim (kindnesses),"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "and the salvations of the aspect of sweetened gevuros,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "gevuros that are transformed into chassadim"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "(which are loftier"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "than revealed chassadim)."
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "And likewise is it also with the prophecy at the beginning of the book,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "which contains the two aforementioned types,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "concluding with the two [matters]: \"Zion shall be redeemed with justice, and her captives with charity,\""
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "as will be explained further."
+          }
+        ]
+      }
+    ]
+  }
+}

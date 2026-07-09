@@ -1,0 +1,344 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 60,
+    "returned": 60,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תמוז_meluket\" postId=\"BH_POST_1766518919126_theRebbe_561\" batchId=\"meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that fear of G-d, unlike love, comes primarily through human effort, and therefore the request \"Hashem our G-d be with us\" emphasizes His assistance to our own work.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that the reason the term \"treasury\" is said specifically regarding fear,</t>\n    <t s=\"2\">even though this matter</t>\n    <t s=\"3\">(that the Holy One, blessed be He, needs, so to speak, man)</t>\n    <t s=\"4\">applies to all mitzvos,</t>\n    <t s=\"5\">for in order for the fulfillment of mitzvos to be as required, it is through love of Hashem or through fear of Hashem13,</t>\n    <t s=\"6\">and among the distinctions between love and fear is14,</t>\n    <t s=\"7\">that love of Hashem comes through a revelation of light from above,</t>\n    <t s=\"8\">and fear of Hashem comes</t>\n    <t s=\"9\">(primarily)</t>\n    <t s=\"10\">through the work of man.</t>\n    <t s=\"11\">And analogous to fear of a human king,</t>\n    <t s=\"12\">that the reason the people of the country fear the king is because they accepted him to be king over them15,</t>\n    <t s=\"13\">for the acceptance of kingship is through the people,</t>\n    <t s=\"14\">\"You shall surely set a king over you\"16.</t>\n    <t s=\"15\">And based on this, one can explain the phrase \"May Hashem our G-d be with us as He was with our forefathers,\"</t>\n    <t s=\"16\">for in fear of Hashem</t>\n    <t s=\"17\">(which is the beginning of service and its essence and root17),</t>\n    <t s=\"18\">the main thing is the work of man,</t>\n    <t s=\"19\">and the revelation of light from above</t>\n    <t s=\"20\">(Hashem our G-d)</t>\n    <t s=\"21\">is only an assistance to man,</t>\n    <t s=\"22\">\"with us.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that fear, being total self-nullification like that of a servant, must come specifically through man's own acceptance of servitude, not through an external revelation.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">Now, the reason for this, that fear comes primarily through the work of man,</t>\n    <t s=\"2\">one may say,</t>\n    <t s=\"3\">is because fear is self-nullification.</t>\n    <t s=\"4\">And particularly the fear of a king,</t>\n    <t s=\"5\">\"You shall surely set a king over you, so that his awe shall be upon you\"18,</t>\n    <t s=\"6\">that the self-nullification of this fear is connected with the fact that he is a servant of the king</t>\n    <t s=\"7\">[for the nature of a servant is that the awe and fear of the master is upon him],</t>\n    <t s=\"8\">that the self-nullification of a servant is total self-nullification,</t>\n    <t s=\"9\">and therefore it comes specifically through man,</t>\n    <t s=\"10\">for the action that is done in man through a revelation of light from above is like something additional to him,</t>\n    <t s=\"11\">and therefore the change that occurs in him through this is only in his mental conception,</t>\n    <t s=\"12\">but not a change in the man himself,</t>\n    <t s=\"13\">and in order to come to total self-nullification,</t>\n    <t s=\"14\">the self-nullification of a servant</t>\n    <t s=\"15\">[for the difference between a free man and a servant is in the very essence of his existence],</t>\n    <t s=\"16\">it is through man himself accepting upon himself to be a servant of the king.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that self-sacrifice, being total nullification, also comes primarily from man himself, so the request \"May Hashem our G-d be with us\" was fitting for the Rebbe's talk about self-sacrifice.</sectionSummaryBrief>\n    <t s=\"0\">And one may say that the same applies to self-sacrifice (mesiras nefesh),</t>\n    <t s=\"1\">for since self-sacrifice is total self-nullification,</t>\n    <t s=\"2\">and particularly when the self-sacrifice is for matters that according to law</t>\n    <t s=\"3\">(a command from above)</t>\n    <t s=\"4\">one is not obligated to give his life for them19,</t>\n    <t s=\"5\">therefore it is</t>\n    <t s=\"6\">(primarily)</t>\n    <t s=\"7\">not through a revelation of light from above, but through man giving his life.</t>\n    <t s=\"8\">And based on this, it will be understood even more that the request and prayer of the Baal HaGeulah</t>\n    <t s=\"9\">(in the sicha of 3 Tammuz)</t>\n    <t s=\"10\">was in the language of the verse \"May Hashem our G-d be with us as He was with our forefathers,\"</t>\n    <t s=\"11\">for he spoke then about the matter of the service of self-sacrifice,</t>\n    <t s=\"12\">and in this very matter, regarding many matters that according to law one is not obligated to give his life for, which come</t>\n    <t s=\"13\">(primarily)</t>\n    <t s=\"14\">from man himself,</t>\n    <t s=\"15\">and since in the service of self-sacrifice the main thing is the work of man,</t>\n    <t s=\"16\">and the revelation of light from above assists the work of man,</t>\n    <t s=\"17\">therefore he began his request and prayer</t>\n    <t s=\"18\">(in the language of the verse)</t>\n    <t s=\"19\">\"May Hashem our G-d be with us.\"</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תמוז_meluket",
+      "postId": "BH_POST_1766518919126_theRebbe_561",
+      "batchId": "meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919126_theRebbe_561__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that fear of G-d, unlike love, comes primarily through human effort, and therefore the request \"Hashem our G-d be with us\" emphasizes His assistance to our own work.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that the reason the term \"treasury\" is said specifically regarding fear,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "even though this matter"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(that the Holy One, blessed be He, needs, so to speak, man)"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "applies to all mitzvos,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "for in order for the fulfillment of mitzvos to be as required, it is through love of Hashem or through fear of Hashem13,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "and among the distinctions between love and fear is14,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "that love of Hashem comes through a revelation of light from above,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "and fear of Hashem comes"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "through the work of man."
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "And analogous to fear of a human king,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "that the reason the people of the country fear the king is because they accepted him to be king over them15,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "for the acceptance of kingship is through the people,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "\"You shall surely set a king over you\"16."
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "And based on this, one can explain the phrase \"May Hashem our G-d be with us as He was with our forefathers,\""
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "for in fear of Hashem"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "(which is the beginning of service and its essence and root17),"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "the main thing is the work of man,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "and the revelation of light from above"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "(Hashem our G-d)"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "is only an assistance to man,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "\"with us.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that fear, being total self-nullification like that of a servant, must come specifically through man's own acceptance of servitude, not through an external revelation.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "Now, the reason for this, that fear comes primarily through the work of man,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "one may say,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "is because fear is self-nullification."
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "And particularly the fear of a king,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "\"You shall surely set a king over you, so that his awe shall be upon you\"18,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "that the self-nullification of this fear is connected with the fact that he is a servant of the king"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "[for the nature of a servant is that the awe and fear of the master is upon him],"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "that the self-nullification of a servant is total self-nullification,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "and therefore it comes specifically through man,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "for the action that is done in man through a revelation of light from above is like something additional to him,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "and therefore the change that occurs in him through this is only in his mental conception,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "but not a change in the man himself,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "and in order to come to total self-nullification,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "the self-nullification of a servant"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "[for the difference between a free man and a servant is in the very essence of his existence],"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "it is through man himself accepting upon himself to be a servant of the king."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that self-sacrifice, being total nullification, also comes primarily from man himself, so the request \"May Hashem our G-d be with us\" was fitting for the Rebbe's talk about self-sacrifice.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "And one may say that the same applies to self-sacrifice (mesiras nefesh),"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "for since self-sacrifice is total self-nullification,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "and particularly when the self-sacrifice is for matters that according to law"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "(a command from above)"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "one is not obligated to give his life for them19,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "therefore it is"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "not through a revelation of light from above, but through man giving his life."
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "And based on this, it will be understood even more that the request and prayer of the Baal HaGeulah"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "(in the sicha of 3 Tammuz)"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "was in the language of the verse \"May Hashem our G-d be with us as He was with our forefathers,\""
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "for he spoke then about the matter of the service of self-sacrifice,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "and in this very matter, regarding many matters that according to law one is not obligated to give his life for, which come"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "from man himself,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "and since in the service of self-sacrifice the main thing is the work of man,"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "and the revelation of light from above assists the work of man,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "therefore he began his request and prayer"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "(in the language of the verse)"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "\"May Hashem our G-d be with us.\""
+          }
+        ]
+      }
+    ]
+  }
+}

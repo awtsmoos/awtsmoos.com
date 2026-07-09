@@ -1,0 +1,155 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916815_theRebbe_81" title="מאמר באתי לגני תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916815_theRebbe_81__p006">
+  <section v="15">
+    <src s="0">ומבאר זה אדמו"ר האמצעי בשערי תשובה73</src>
+    <src s="1">בהקדים החילוק בין הביטול דדיבור למחשבה להביטול דמחשבה לשכל.</src>
+    <src s="2">שהביטול דדיבור למחשבה אינו ביטול בתכלית.</src>
+    <src s="3">דהגם שבכדי שיהי' הדיבור מסודר הוא ע"י שהדיבור מקבל ממחשבה,</src>
+    <src s="4">דנוסף לזה שקודם הדיבור צריך לסדר במחשבתו איך לדבר</src>
+    <src s="5">[כידוע74</src>
+    <src s="6">בענין אמרה ד' פעמים בינו לבין עצמו75]</src>
+    <src s="7">הנה גם בעת הדיבור גופא צריך שהמחשבה תאיר בהדיבור שתהי' כפי הוראת המחשבה76,</src>
+    <src s="8">מ"מ,</src>
+    <src s="9">הדיבור בעצם מהותו הוא נפרד מהמחשבה,</src>
+    <src s="10">והביטול שלו להמחשבה הוא רק בנוגע לזה שהסדר דאותיות הדיבור יהי' כפי הוראת המחשבה.</src>
+    <src s="11">והוא כמו ביטול המרכבה להרוכב שהמרכבה היא מציאות בפני עצמה והביטול של הסוסים</src>
+    <src s="12">(מרכבה)</src>
+    <src s="13">להרוכב הוא רק בנוגע לזה שהליכתם תהי' כפי רצון הרוכב.</src>
+    <src s="14">משא"כ הביטול דאותיות המחשבה להשכל הוא</src>
+    <src s="15">(לא רק בנוגע לסדר האותיות אלא גם)</src>
+    <src s="16">בעצם מציאותם,</src>
+    <src s="17">שבכדי שיהיו אותיות המחשבה הוא דוקא ע"י השכל</src>
+    <src s="18">(או המדות)</src>
+    <src s="19">שמלובש בהם</src>
+    <src s="20">[וזה שהמחשבה משוטטת תמיד הוא לפי שהשכל והמדות נרגשים תמיד בהאדם77].</src>
+    <src s="21">ויתירה מזו,</src>
+    <src s="22">שענינם של אותיות המחשבה הוא שהן מקבלות מהשכל או המדות שמתלבשים בהם.</src>
+    <src s="23">והענין הוא,</src>
+    <src s="24">דהחילוק בין מחשבה לדיבור הוא גם באופן שייכותם להשכל והמדות המתלבשות בהם.</src>
+    <src s="25">דמחשבה הוא לבוש המיוחד ודיבור הוא לבוש הנפרד.</src>
+    <src s="26">דענין הדיבור הוא שהאדם מלביש שכלו ומדותיו במציאות</src>
+    <src s="27">(אותיות)</src>
+    <src s="28">שחוץ ממנו,</src>
+    <src s="29">ולכן,</src>
+    <src s="30">הגם שבכדי שיהי' הדיבור</src>
+    <src s="31">(מצד האדם המדבר)</src>
+    <src s="32">הוא דוקא כשהדיבור מקבל מהשכל ומהמדות שלו,</src>
+    <src s="33">מ"מ,</src>
+    <src s="34">לאחרי שישנו כבר הדיבור,</src>
+    <src s="35">הוא נשמע גם לזולתו ונפרד מהאדם המדבר.</src>
+    <src s="36">וענינם של אותיות המחשבה הוא זה שהשכל והמדות של האדם החושב מתגלים על ידם,</src>
+    <src s="37">ולכן,</src>
+    <src s="38">גם לאחרי שישנם אותיות המחשבה,</src>
+    <src s="39">אינם יוצאים חוץ ממנו78.</src>
+    <src s="40">והנה בהביטול דאותיות המחשבה להשכל יש שתי דרגות בכללות.</src>
+    <src s="41">כאשר חושב את השכל באותיותיו</src>
+    <src s="42">[ועאכו"כ כשחושב איך להשפיע השכל לזולתו,</src>
+    <src s="43">וכנ"ל שקודם הדיבור צריך לסדר במחשבתו איך לדבר],</src>
+    <src s="44">דבמחשבה זו,</src>
+    <src s="45">נרגשים האותיות,</src>
+    <src s="46">אלא שהן מיוחדות עם השכל,</src>
+    <src s="47">כנ"ל.</src>
+    <src s="48">וכאשר חושב את השכל עצמו</src>
+    <src s="49">[מחשבה שבמחשבה79],</src>
+    <src s="50">במחשבה זו אין האותיות נרגשים,</src>
+    <src s="51">כי הם כלולים ובטלים בהשכל80.</src>
+    <src s="52">וזהו שאמרו השבטים ליעקב שאין בלבך אלא אחד</src>
+    <src s="53">(בלבך דוקא),</src>
+    <src s="54">כי ענין אלא אחד הוא שאין שום מציאות מבלעדו,</src>
+    <src s="55">גם לא מציאות שבטל אליו.</src>
+    <src s="56">ולכן אמרו אין בלבך אלא אחד</src>
+    <src s="57">(אף שהאבות הן הן המרכבה והביטול דמרכבה הוא בכל האברים),</src>
+    <src s="58">כי ענין זה דאלא אחד הוא דוקא בלבו.</src>
+    <src s="59">ובלבו גופא – בפנימיות הלב</src>
+    <src s="60">[וכנ"ל דפירוש ב.</src>
+    <src s="61">לבך הוא בתוך הלב],</src>
+    <src s="62">כי בהדרגא דלב,</src>
+    <src s="63">גם בלב אדם העליון,</src>
+    <src s="64">כיון שיש שם ענין המדות,</src>
+    <src s="65">הגם שאיהו וחיוהי81</src>
+    <src s="66">חד ממש,</src>
+    <src s="67">אין זה אמיתית הענין דאלא אחד,</src>
+    <src s="68">ולכן אמרו ב.</src>
+    <src s="69">לבך,</src>
+    <src s="70">בתוך לבך,</src>
+    <src s="71">שבנקודת הלב מאיר אחדות הפשוטה,</src>
+    <src s="72">אלא אחד.</src>
+  </section>
+  <section v="16">
+    <src s="0">ועפ"ז יש לבאר זה שלאחרי שאומר בהמאמר שהנשמה בהיותה למעלה הוה קיימא בדיוקנאה קמי מלכא קדישא ו</src>
+    <src s="1">(יתירה מזו)</src>
+    <src s="2">שהיתה בתכלית הדביקות וכו' מוסיף שהיתה ברצון אחד להוי' לבדו ואין זר אתו,</src>
+    <src s="3">כי הכוונה ב"זר"</src>
+    <src s="4">(כאן)</src>
+    <src s="5">היא גם למציאות שבטילה בתכלית</src>
+    <src s="6">(כהביטול דאותיות המחשבה הכלולים בהשכל),</src>
+    <src s="7">וזהו שאומר ואין זר אתו,</src>
+    <src s="8">שהנשמה בהיותה למעלה,</src>
+    <src s="9">האיר בה הגילוי דנקודת הלב,</src>
+    <src s="10">שמצד גילוי זה אין זר אתו,</src>
+    <src s="11">אין בלבך אלא אחד.</src>
+  </section>
+  <section v="17">
+    <src s="0">ט)</src>
+    <src s="1">והנה ע"פ הנ"ל צריך להבין מה שאמרו השבטים כך אין בלבנו אלא אחד,</src>
+    <src s="2">הרי השבטים הם בבי"ע</src>
+    <src s="3">[כמבואר בכ"מ82</src>
+    <src s="4">החילוק בין האבות להשבטים,</src>
+    <src s="5">שהאבות הם באצילות והשבטים הם בבי"ע],</src>
+    <src s="6">שהביטול שבבי"ע הוא הביטול דיחודא תתאה</src>
+    <src s="7">(למטה גם מהביטול דמרכבה דאצילות),</src>
+    <src s="8">ואעפ"כ אמרו אין בלבנו אלא אחד,</src>
+    <src s="9">דענין אלא אחד הוא שאין שום מציאות מבלעדו</src>
+    <src s="10">(למעלה גם ממרכבה דאצילות).</src>
+    <src s="11">ויתירה מזו שאמרו כשם שאין בלבך אלא אחד כך אין בלבנו אלא אחד,</src>
+    <src s="12">שהענין דאלא אחד שבהם והענין דאלא אחד שביעקב,</src>
+    <src s="13">שניהם הם בשוה.</src>
+    <src s="14">ומבאר אדמו"ר האמצעי בשערי תשובה שם83,</src>
+    <src s="15">שהשרש לכל החילוקים שבסדר ההשתלשלות</src>
+    <src s="16">[כולל החילוק שבין יחו"ת דבי"ע ליחו"ע דאצילות,</src>
+    <src s="17">ולמעלה יותר הביטול ד"אלא אחד"]</src>
+    <src s="18">הוא בהרצון על עולמות,</src>
+    <src s="19">שעלה ברצונו הפשוט להאציל ולברוא,</src>
+    <src s="20">ושרש הנשמות הוא בעצמות אוא"ס ממש למעלה מרצון הפשוט</src>
+    <src s="21">[במי84</src>
+    <src s="22">נמלך בנשמותיהן של צדיקים85],</src>
+    <src s="23">וכיון שלגבי עצמות אוא"ס</src>
+    <src s="24">(שרש הנשמות)</src>
+    <src s="25">כל הענינים הם בשוה,</src>
+    <src s="26">לכן גם הענין דאלא אחד שביעקב נמשך גם בהשבטים,</src>
+    <src s="27">נשמות דבי"ע.</src>
+  </section>
+</awtsmoosMeluketSource>

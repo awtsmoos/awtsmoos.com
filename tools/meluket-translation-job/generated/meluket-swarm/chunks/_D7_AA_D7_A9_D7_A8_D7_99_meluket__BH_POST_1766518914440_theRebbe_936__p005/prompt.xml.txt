@@ -1,0 +1,106 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914440_theRebbe_936" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914440_theRebbe_936__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914440_theRebbe_936" title="מאמר תורה צוה תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914440_theRebbe_936__p005">
+  <section v="12">
+    <src s="0">וזוהי השייכות דג' ענינים אלה שבישראל</src>
+    <src s="1">(יעקב,</src>
+    <src s="2">ישראל וישורון)</src>
+    <src s="3">לג' הענינים שבתורה,</src>
+    <src s="4">דענין הירושה שבתורה שהוא מצד הבירורים</src>
+    <src s="5">[שע"י הבירורים דתורה יורשים את האורות דתהו,</src>
+    <src s="6">כנ"ל סעיף ב],</src>
+    <src s="7">הוא מצד בחינת יעקב,</src>
+    <src s="8">דעבודת הבירורים היא בבחינת יעקב.</src>
+    <src s="9">והענין דהתקן עצמך ללמוד תורה,</src>
+    <src s="10">שע"י עסק התורה לשמה נמשך הגילוי דתורה כמו שהיא למעלה</src>
+    <src s="11">(פנימיות התורה),</src>
+    <src s="12">הוא מצד בחינת ישראל46,</src>
+    <src s="13">דעסק התורה דבחינת ישראל הוא</src>
+    <src s="14">(לא בכדי לברר בירורים,</src>
+    <src s="15">אלא)</src>
+    <src s="16">בכדי להמשיך גילוי אלקות.</src>
+    <src s="17">וענין המתנה דתורה שהוא המשכת התענוג דתורה</src>
+    <src s="18">(שלמעלה מהשגה)</src>
+    <src s="19">שלמעלה מהתחלקות הוא מצד בחינת ישורון.</src>
+  </section>
+  <section v="13">
+    <src s="0">ו)</src>
+    <src s="1">וצריך להבין,</src>
+    <src s="2">דלפי ביאור הנ"ל,</src>
+    <src s="3">הטעם שהתורה נקראת בשם ירושה הוא לפי שהתורה מביאה לירושה</src>
+    <src s="4">(שע"י הבירורים שע"י התורה יורשים אורות דתהו),</src>
+    <src s="5">והפירוש דתורה גו' מורשה</src>
+    <src s="6">(בפשטות,</src>
+    <src s="7">דאין מקרא יוצא מידי פשוטו47)</src>
+    <src s="8">הוא,</src>
+    <src s="9">שהתורה עצמה היא ירושה48.</src>
+  </section>
+  <section v="14">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דענין הירושה דתורה</src>
+    <src s="2">(להפירוש שהתורה עצמה היא ירושה)</src>
+    <src s="3">הוא למעלה יותר גם מענין המתנה דתורה.</src>
+    <src s="4">דזה שמובא לעיל מהדרושים דירושה היא למטה ממתנה,</src>
+    <src s="5">הוא49</src>
+    <src s="6">לפי שירושה היא מצד מציאותו של היורש</src>
+    <src s="7">(שהוא קרובו של המוריש)</src>
+    <src s="8">ואינה תלוי' ברצון המוריש,</src>
+    <src s="9">ומתנה היא מצד רצונו של הנותן.</src>
+    <src s="10">דענין זה הוא בירושה שהיא50</src>
+    <src s="11">(רק)</src>
+    <src s="12">מצד קורבה.</src>
+    <src s="13">אבל בירושה שענינה הוא50</src>
+    <src s="14">שהיורש עומד במקום המוריש</src>
+    <src s="15">(ובמילא יורש את נכסיו),</src>
+    <src s="16">אין שייך לומר שהיא באה מצד מציאותו של היורש,</src>
+    <src s="17">כיון שהיורש אינו מציאות אחר מהמוריש אלא עומד במקום המוריש.</src>
+    <src s="18">ואדרבה,</src>
+    <src s="19">ירושה זו היא למעלה ממתנה.</src>
+    <src s="20">דמתנה היא מצד רצון הנותן,</src>
+    <src s="21">ובירושה</src>
+    <src s="22">(באופן זה)</src>
+    <src s="23">היורש עומד במקום המוריש עצמו</src>
+    <src s="24">(שלמעלה מהרצון שלו).</src>
+    <src s="25">ועפ"ז צריך לומר,</src>
+    <src s="26">דהטעם על זה שבענין הירושה דתורה</src>
+    <src s="27">(שהיא למעלה גם ממתנה דתורה)</src>
+    <src s="28">נאמר מורשה קהלת יעקב הוא,</src>
+    <src s="29">כי ישראל וישורון הם שם המעלה,</src>
+    <src s="30">ולכן שייכים לענין הגילויים,</src>
+    <src s="31">וענין הירושה שהיורש עומד במקום המוריש עצמו מתגלה בהשם יעקב,</src>
+    <src s="32">כאשר הוא שם העצם51,</src>
+    <src s="33">שבו כל ישראל הם בשוה.</src>
+  </section>
+</awtsmoosMeluketSource>

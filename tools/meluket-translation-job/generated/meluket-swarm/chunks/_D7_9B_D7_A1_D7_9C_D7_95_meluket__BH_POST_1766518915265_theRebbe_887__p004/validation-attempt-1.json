@@ -1,0 +1,484 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 88,
+    "returned": 88,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915265_theRebbe_887\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915265_theRebbe_887__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains the distinction between light (or) and name (shem), noting that light reveals the luminary while a name draws forth the essence itself.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And behold, the reason for this, that in all three matters</t>\n    <t s=\"2\">(You,</t>\n    <t s=\"3\">Your Name,</t>\n    <t s=\"4\">as Your people Israel)</t>\n    <t s=\"5\">it says \"Echad\" and not \"Yachid,\"</t>\n    <t s=\"6\">is explained in the maamar by first prefacing the distinction between light and name,</t>\n    <t s=\"7\">that in each of them there is an advantage.</t>\n    <t s=\"8\">For the advantage of light is in the matter of revelation,</t>\n    <t s=\"9\">that light reveals the luminary.</t>\n    <t s=\"10\">For a name does not reveal the one called by the name,</t>\n    <t s=\"11\">like the name of a person,</t>\n    <t s=\"12\">for from knowing his name one does not know his essence,</t>\n    <t s=\"13\">and indeed many people are called by the same name even though they are not similar to each other,</t>\n    <t s=\"14\">neither in their intellect nor in their attributes,</t>\n    <t s=\"15\">and through light one knows the luminary.</t>\n    <t s=\"16\">And the advantage of name is,</t>\n    <t s=\"17\">that it draws forth the essence.</t>\n    <t s=\"18\">For when one calls a person by his name,</t>\n    <t s=\"19\">he turns to the one calling him with his entire essence.</t>\n    <t s=\"20\">And moreover,</t>\n    <t s=\"21\">even when a person faints,</t>\n    <t s=\"22\">by calling him by his name he awakens from the fainting,</t>\n    <t s=\"23\">for through the calling by his name they draw forth the essence of life that is above the diffusion of life.</t>\n    <t s=\"24\">And this is the advantage of name over light,</t>\n    <t s=\"25\">that light does not draw forth the essence, namely the luminary,</t>\n    <t s=\"26\">and a name draws forth the essence.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section clarifies that the luminary is not the essence itself, and that the root of light is in the luminary while the root of name is in the essence, which is separate from revelation.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that what the maamar says, that light does not draw forth the essence, namely the luminary,</t>\n    <t s=\"2\">the intention in this is,</t>\n    <t s=\"3\">that in the essence from which light is drawn,</t>\n    <t s=\"4\">there are two matters.</t>\n    <t s=\"5\">The luminary within it and the essence itself that is above the luminary.</t>\n    <t s=\"6\">For that which is called by the name \"luminary\" is because it shines,</t>\n    <t s=\"7\">meaning that light is drawn from it,</t>\n    <t s=\"8\">but the essence itself is separate from the matter of light</t>\n    <t s=\"9\">(even from that which it is a luminary,</t>\n    <t s=\"10\">from which light is drawn).</t>\n    <t s=\"11\">And it can be said,</t>\n    <t s=\"12\">that the distinction between the root of light and the root of name is,</t>\n    <t s=\"13\">that the root of light is in the luminary and the root of name is in the essence.</t>\n    <t s=\"14\">And this is that light is revelation and name is concealment,</t>\n    <t s=\"15\">for the matter of the luminary is that it shines</t>\n    <t s=\"16\">(spreads forth and is revealed),</t>\n    <t s=\"17\">and the essence</t>\n    <t s=\"18\">(the root of name)</t>\n    <t s=\"19\">is separate from the matter of light</t>\n    <t s=\"20\">(diffusion and revelation).</t>\n    <t s=\"21\">And based on this, we can explain what the maamar says, that light does not draw forth the essence, namely the luminary,</t>\n    <t s=\"22\">that the intention in this, that it adds \"namely the luminary,\" is,</t>\n    <t s=\"23\">that the essence that pertains to light is not the essence itself, but only the luminary,</t>\n    <t s=\"24\">and nevertheless, light does not draw forth even this matter.</t>\n    <t s=\"25\">And afterwards it says that the name draws forth the essence</t>\n    <t s=\"26\">(the essence, simply),</t>\n    <t s=\"27\">that the essence that pertains to name is the essence itself that is separate from the matter of revelation,</t>\n    <t s=\"28\">and nevertheless,</t>\n    <t s=\"29\">the name draws forth the essence.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that the root of name is above the root of light, and that through Israel's service the name is revealed like light, achieving the advantage of both.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And the maamar continues,</t>\n    <t s=\"2\">that this is what our sages, of blessed memory, said,</t>\n    <t s=\"3\">that the Holy One, blessed be He, traveled a journey of five hundred years to acquire a name for Himself,</t>\n    <t s=\"4\">for the root of name is above the root of light</t>\n    <t s=\"5\">(as above)</t>\n    <t s=\"6\">except that it is in concealment,</t>\n    <t s=\"7\">and the matter of \"acquiring a name for Himself\" is that the name will be in revelation</t>\n    <t s=\"8\">like light,</t>\n    <t s=\"9\">so that then there will be both advantages,</t>\n    <t s=\"10\">the drawing forth of the essence – the advantage of name,</t>\n    <t s=\"11\">and that this drawing forth will be in revelation – the advantage of light.</t>\n    <t s=\"12\">And based on this, he explains what is written \"You are Echad and Your Name is Echad,\"</t>\n    <t s=\"13\">for Yachid and Echad are concealment and revelation,</t>\n    <t s=\"14\">for from the perspective of the revelation of Ein Sof there is no place for worlds</t>\n    <t s=\"15\">(– Yachid),</t>\n    <t s=\"16\">and that there are worlds</t>\n    <t s=\"17\">(olam, language of concealment)</t>\n    <t s=\"18\">except that they are unified</t>\n    <t s=\"19\">(Echad)</t>\n    <t s=\"20\">is through the tzimtzum and concealment.</t>\n    <t s=\"21\">Therefore there is an advantage in Echad over Yachid,</t>\n    <t s=\"22\">analogous to the advantage of name</t>\n    <t s=\"23\">(concealment)</t>\n    <t s=\"24\">over light</t>\n    <t s=\"25\">(revelation).</t>\n    <t s=\"26\">And this is accomplished through Israel, \"a singular nation in the land,\"</t>\n    <t s=\"27\">that through their service in Torah and mitzvos, the alef is drawn, which alludes to \"You,\"</t>\n    <t s=\"28\">essence,</t>\n    <t s=\"29\">into the chet and dalet,</t>\n    <t s=\"30\">the seven firmaments and the earth and the four directions of the world.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915265_theRebbe_887",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915265_theRebbe_887__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains the distinction between light (or) and name (shem), noting that light reveals the luminary while a name draws forth the essence itself.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And behold, the reason for this, that in all three matters"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(You,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "Your Name,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "as Your people Israel)"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "it says \"Echad\" and not \"Yachid,\""
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "is explained in the maamar by first prefacing the distinction between light and name,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "that in each of them there is an advantage."
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "For the advantage of light is in the matter of revelation,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "that light reveals the luminary."
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "For a name does not reveal the one called by the name,"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "like the name of a person,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "for from knowing his name one does not know his essence,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "and indeed many people are called by the same name even though they are not similar to each other,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "neither in their intellect nor in their attributes,"
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "and through light one knows the luminary."
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "And the advantage of name is,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "that it draws forth the essence."
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "For when one calls a person by his name,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "he turns to the one calling him with his entire essence."
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "And moreover,"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "even when a person faints,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "by calling him by his name he awakens from the fainting,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "for through the calling by his name they draw forth the essence of life that is above the diffusion of life."
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "And this is the advantage of name over light,"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "that light does not draw forth the essence, namely the luminary,"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "and a name draws forth the essence."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section clarifies that the luminary is not the essence itself, and that the root of light is in the luminary while the root of name is in the essence, which is separate from revelation.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "that what the maamar says, that light does not draw forth the essence, namely the luminary,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "the intention in this is,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "that in the essence from which light is drawn,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "there are two matters."
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "The luminary within it and the essence itself that is above the luminary."
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "For that which is called by the name \"luminary\" is because it shines,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "meaning that light is drawn from it,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "but the essence itself is separate from the matter of light"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "(even from that which it is a luminary,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "from which light is drawn)."
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "that the distinction between the root of light and the root of name is,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "that the root of light is in the luminary and the root of name is in the essence."
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "And this is that light is revelation and name is concealment,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "for the matter of the luminary is that it shines"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "(spreads forth and is revealed),"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "and the essence"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "(the root of name)"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "is separate from the matter of light"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "(diffusion and revelation)."
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "And based on this, we can explain what the maamar says, that light does not draw forth the essence, namely the luminary,"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "that the intention in this, that it adds \"namely the luminary,\" is,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "that the essence that pertains to light is not the essence itself, but only the luminary,"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "and nevertheless, light does not draw forth even this matter."
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "And afterwards it says that the name draws forth the essence"
+          },
+          {
+            "v": 10,
+            "s": 26,
+            "translation": "(the essence, simply),"
+          },
+          {
+            "v": 10,
+            "s": 27,
+            "translation": "that the essence that pertains to name is the essence itself that is separate from the matter of revelation,"
+          },
+          {
+            "v": 10,
+            "s": 28,
+            "translation": "and nevertheless,"
+          },
+          {
+            "v": 10,
+            "s": 29,
+            "translation": "the name draws forth the essence."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that the root of name is above the root of light, and that through Israel's service the name is revealed like light, achieving the advantage of both.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And the maamar continues,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that this is what our sages, of blessed memory, said,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "that the Holy One, blessed be He, traveled a journey of five hundred years to acquire a name for Himself,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "for the root of name is above the root of light"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "(as above)"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "except that it is in concealment,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "and the matter of \"acquiring a name for Himself\" is that the name will be in revelation"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "like light,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "so that then there will be both advantages,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "the drawing forth of the essence – the advantage of name,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "and that this drawing forth will be in revelation – the advantage of light."
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "And based on this, he explains what is written \"You are Echad and Your Name is Echad,\""
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "for Yachid and Echad are concealment and revelation,"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "for from the perspective of the revelation of Ein Sof there is no place for worlds"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "(– Yachid),"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "and that there are worlds"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "(olam, language of concealment)"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "except that they are unified"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "(Echad)"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "is through the tzimtzum and concealment."
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "Therefore there is an advantage in Echad over Yachid,"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "analogous to the advantage of name"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "(concealment)"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "over light"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "(revelation)."
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "And this is accomplished through Israel, \"a singular nation in the land,\""
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "that through their service in Torah and mitzvos, the alef is drawn, which alludes to \"You,\""
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "essence,"
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "into the chet and dalet,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "the seven firmaments and the earth and the four directions of the world."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915961_theRebbe_461" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915961_theRebbe_461__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915961_theRebbe_461" title="מאמר ביום השמיני תשמ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915961_theRebbe_461__p002">
+  <section v="3">
+    <src s="0">ולכאורה צריך לומר,</src>
+    <src s="1">שעד"ז הוא בנוגע ליום השמיני דחנוכה,</src>
+    <src s="2">שיש בו שני הפירושים.</src>
+    <src s="3">דזה שביום הח' ההמשכה היא במלכות</src>
+    <src s="4">(שלכן נקרא זאת חנוכה),</src>
+    <src s="5">שמיני שלמטה משבעה,</src>
+    <src s="6">הוא לפי ששרשו הוא בשמיני שלמעלה משבעה.</src>
+    <src s="7">אבל מזה שבמאמר הנ"ל</src>
+    <src s="8">(שמבאר ענין יום השמיני דחנוכה)</src>
+    <src s="9">מובא</src>
+    <src s="10">(בתחלת הענין16)</src>
+    <src s="11">רק הפירוש ששמיני הוא מלכות,</src>
+    <src s="12">ודלא כבהדרושים שמבארים ענין שמונת ימי המילואים שמובא בהם שני הפירושים דשמיני,</src>
+    <src s="13">משמע,</src>
+    <src s="14">שעיקר ענינו של יום השמיני דחנוכה הוא ההמשכה למטה.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה ע"פ הידוע,</src>
+    <src s="2">דבמעלת המעשה</src>
+    <src s="3">[דכח המעשה שבאדם,</src>
+    <src s="4">כח הכי תחתון,</src>
+    <src s="5">הוא דוגמת ספירת המלכות]</src>
+    <src s="6">כמה ענינים.</src>
+    <src s="7">זה שע"י המעשה דוקא נעשה עלי' בכל כחות הנפש.</src>
+    <src s="8">וכידוע המשל על זה מכלי ההגבהה הנקרא ליווער,</src>
+    <src s="9">שע"י שמעמידים אותו תחת כל הדבר שרוצים להגבי',</src>
+    <src s="10">אז דוקא יוגבה כל הדבר.</src>
+    <src s="11">דכאשר מגביהים את הדבר מאמצעיתו,</src>
+    <src s="12">אזי החלק התחתון שבו ישאר למטה.</src>
+    <src s="13">וכמו הגבהת בית,</src>
+    <src s="14">שבכדי שכל הבית יוגבה למעלה הוא דוקא על ידי שמגביהים הקורה התחתונה של הבית,</src>
+    <src s="15">וכשמגביהים את הכתלים מאמצעיתם,</src>
+    <src s="16">הקורות התחתונות נשארות למטה17.</src>
+    <src s="17">ויש לומר,</src>
+    <src s="18">דכיון שכל הקורות הם של בית אחד,</src>
+    <src s="19">לכן,</src>
+    <src s="20">כשקורה התחתונה נשארת למטה,</src>
+    <src s="21">גם ההגבהה והעלי' של קורות העליונות אינה בשלימות.</src>
+    <src s="22">ועאכו"כ בהנמשל דכחות הנפש,</src>
+    <src s="23">שכל כח משפיע על שאר הכחות18,</src>
+    <src s="24">שבכדי שהעלי' דכחות הנעלים</src>
+    <src s="25">(שכל וכו')</src>
+    <src s="26">תהי' בשלימות,</src>
+    <src s="27">הוא דוקא ע"י העלי' דכח המעשה,</src>
+    <src s="28">כח הכי תחתון.</src>
+    <src s="29">ועוד ענין בזה,</src>
+    <src s="30">שע"י המעשה,</src>
+    <src s="31">העלי' וההגבהה של כחות העליונים היא למקום גבוה יותר.</src>
+    <src s="32">וכהמשל דכף מאזנים ששוקלין בכף אחת ונותנים משא בכף השני',</src>
+    <src s="33">שכל שהכף שבה שוקלין יורדת למטה יותר,</src>
+    <src s="34">הגבהת המשא שבכף השני' היא למעלה יותר19.</src>
+  </section>
+  <section v="5">
+    <src s="0">ד)</src>
+    <src s="1">והנה זה שע"י המעשה דוקא נעשה שלימות העלי' דכל הכחות הוא לפי ששרש המעשה הוא למעלה מכל הכחות.</src>
+    <src s="2">ושני ענינים בזה20.</src>
+    <src s="3">שההמשכה במעשה</src>
+    <src s="4">(זה שהשכל ומדות נמשכים במעשה),</src>
+    <src s="5">שרשה הוא בהנפש שלמעלה מהכחות.</src>
+    <src s="6">שהשכל ומדות מצד עצמם הם מוגבלים ואין ביכלתם לירד למטה כ"כ ולהתלבש במעשה,</src>
+    <src s="7">וזה שאפשרי להם לירד ולהתלבש במעשה הוא ע"י שנמשך בהם מהנפש,</src>
+    <src s="8">שהיא נמצאת בכל הכחות והאיברים בשוה.</src>
+    <src s="9">ושהשרש דכח המעשה עצמו הוא למעלה מהשרש דכל הכחות.</src>
+    <src s="10">דזה שכל הכחות הם בבחי' קירוב להנפש וכח המעשה הוא כח נבדל,</src>
+    <src s="11">הוא לפי שהשרש דכל הכחות הוא בהגילויים דהנפש,</src>
+    <src s="12">והשרש דכח המעשה הוא בעצם הנפש21.</src>
+  </section>
+</awtsmoosMeluketSource>

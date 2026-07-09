@@ -1,0 +1,389 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 69,
+    "returned": 69,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915493_theRebbe_561\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915493_theRebbe_561__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Shabbat Parshat Vayishlach,</t>\n    <t s=\"2\">14 Kislev 5741*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section explains two interpretations of \"And great peace shall be to your children\" from the maamar of the Rebbe Rayatz.</sectionSummaryBrief>\n    <t s=\"0\">\"And all your children shall be students of Hashem, and great peace shall be to your children.\"</t>\n    <t s=\"1\">And the Rebbe, my master, father-in-law, the Rebbe [Rayatz], brings in his maamar beginning with the word \"Zeh\"</t>\n    <t s=\"2\">(in the pamphlet of wedding discourses of 1929),</t>\n    <t s=\"3\">the statement that \"peace of your children\" has two explanations.</t>\n    <t s=\"4\">The first,</t>\n    <t s=\"5\">that the explanation of \"and great peace shall be to your children\" is that there will be abundant peace for your children,</t>\n    <t s=\"6\">according to the explanation of the Metzudat Dovid and the Targum.</t>\n    <t s=\"7\">And the second,</t>\n    <t s=\"8\">that the explanation of \"and great peace shall be to your children\" is that through your children, an increase of peace is made in the world,</t>\n    <t s=\"9\">as the saying of our Rabbis, of blessed memory,</t>\n    <t s=\"10\">\"Torah scholars increase peace in the world, as it is said, 'And all your children shall be students of Hashem, and great peace shall be to your children.' Do not read 'your children' (banayich) but rather 'your builders' (bonayich).\"</t>\n    <t s=\"11\">And it is explained in the maamar,</t>\n    <t s=\"12\">that this that Torah scholars are called \"your builders\" is as our Rabbis, of blessed memory, said,</t>\n    <t s=\"13\">\"What are 'builders'? These are Torah scholars who occupy themselves with the building of the world.\"</t>\n    <t s=\"14\">And from this it is understood,</t>\n    <t s=\"15\">that this that Torah scholars increase peace in the world is not from the aspect of the virtue of Torah scholars</t>\n    <t s=\"16\">(the study of Torah)</t>\n    <t s=\"17\">as it is in itself,</t>\n    <t s=\"18\">but rather through this that they occupy themselves with the building of the world,</t>\n    <t s=\"19\">that through their occupation with Torah, the clarification of the world is accomplished.</t>\n    <t s=\"20\">And this is \"And all your children shall be students of Hashem, and great peace shall be to your children,\"</t>\n    <t s=\"21\">that here two matters are explained.</t>\n    <t s=\"22\">\"And all your children shall be students of Hashem,\"</t>\n    <t s=\"23\">that the explanation of \"students of Hashem\" is that they are taught in the Torah of Hashem</t>\n    <t s=\"24\">— the virtue of Torah scholars in themselves,</t>\n    <t s=\"25\">and afterwards it adds \"and great peace shall be to your children; do not read 'your children' but rather 'your builders,'\"</t>\n    <t s=\"26\">the clarification of the world</t>\n    <t s=\"27\">(\"your builders\")</t>\n    <t s=\"28\">and the increase of peace in the world,</t>\n    <t s=\"29\">which is accomplished through the occupation with Torah.</t>\n    <t s=\"30\">And at the conclusion of the maamar,</t>\n    <t s=\"31\">that through the matter of \"and great peace shall be to your children; do not read 'your children' but rather 'your builders,'\"</t>\n    <t s=\"32\">builders who occupy themselves with the building of the world,</t>\n    <t s=\"33\">through this, \"and great peace shall be to your children\" will also be fulfilled in them,</t>\n    <t s=\"34\">as it is written,</t>\n    <t s=\"35\">\"And may you see children of your children, peace upon Israel,\"</t>\n    <t s=\"36\">that is,</t>\n    <t s=\"37\">that through the clarification of the world that is accomplished through the occupation with Torah of the Torah scholars,</t>\n    <t s=\"38\">an increase of peace is drawn down also to the Torah scholars themselves</t>\n    <t s=\"39\">(according to the explanation of the Metzudot and the Targum regarding \"and great peace shall be to your children\").</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section connects the maamar to the beginning of the parshah, explaining why Yaakov delayed going to Esav until after his service with Lavan.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And one can connect this with what is stated at the beginning of our parshah,</t>\n    <t s=\"2\">\"And Yaakov sent messengers before him to Esav his brother, saying, 'Thus shall you say, \"With Lavan I have sojourned and I have delayed until now.\"'\"</t>\n    <t s=\"3\">For the implication of the verse is that Yaakov needed to come first to Esav,</t>\n    <t s=\"4\">and therefore he gave a reason for having delayed coming to him,</t>\n    <t s=\"5\">\"With Lavan I have sojourned\"</t>\n    <t s=\"6\">(and therefore)</t>\n    <t s=\"7\">\"and I have delayed until now.\"</t>\n    <t s=\"8\">And it needs to be understood</t>\n    <t s=\"9\">why he needed to hurry to come to Esav, to the extent that he needed a reason for having delayed.</t>\n    <t s=\"10\">And also it needs to be understood</t>\n    <t s=\"11\">what Rashi explains: \"I have sojourned\" (garti) has the numerical value of 613,</t>\n    <t s=\"12\">\"With Lavan I have sojourned and I have kept the 613 commandments,\"</t>\n    <t s=\"13\">for Yaakov knew that Esav does not value the matter of keeping the commandments,</t>\n    <t s=\"14\">so what is he informing him by saying that he kept the 613 commandments?</t>\n    <t s=\"15\">And behold, the explanation of this is known,</t>\n    <t s=\"16\">that the blessings with which Yitzchak blessed Yaakov were in order to clarify Esav,</t>\n    <t s=\"17\">but in order that he could clarify Esav, he first needed to have his service in the house of Lavan.</t>\n    <t s=\"18\">And this is what Yaakov said: \"With Lavan I have sojourned and I have delayed until now,\"</t>\n    <t s=\"19\">for the reason that he delayed going to Esav to clarify him until now</t>\n    <t s=\"20\">(even though ostensibly he needed to clarify him immediately after receiving the blessings)</t>\n    <t s=\"21\">is that</t>\n    <t s=\"22\">(until now)</t>\n    <t s=\"23\">\"With Lavan I have sojourned and I have kept the 613 commandments,\"</t>\n    <t s=\"24\">and after he finished his service in the house of Lavan,</t>\n    <t s=\"25\">he immediately sent to Esav to clarify him.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915493_theRebbe_561",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915493_theRebbe_561__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Shabbat Parshat Vayishlach,"
+          },
+          {
+            "v": 0,
+            "s": 2,
+            "translation": "14 Kislev 5741*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section explains two interpretations of \"And great peace shall be to your children\" from the maamar of the Rebbe Rayatz.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"And all your children shall be students of Hashem, and great peace shall be to your children.\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "And the Rebbe, my master, father-in-law, the Rebbe [Rayatz], brings in his maamar beginning with the word \"Zeh\""
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "(in the pamphlet of wedding discourses of 1929),"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "the statement that \"peace of your children\" has two explanations."
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "The first,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that the explanation of \"and great peace shall be to your children\" is that there will be abundant peace for your children,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "according to the explanation of the Metzudat Dovid and the Targum."
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "And the second,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "that the explanation of \"and great peace shall be to your children\" is that through your children, an increase of peace is made in the world,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "as the saying of our Rabbis, of blessed memory,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "\"Torah scholars increase peace in the world, as it is said, 'And all your children shall be students of Hashem, and great peace shall be to your children.' Do not read 'your children' (banayich) but rather 'your builders' (bonayich).\""
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "And it is explained in the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "that this that Torah scholars are called \"your builders\" is as our Rabbis, of blessed memory, said,"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "\"What are 'builders'? These are Torah scholars who occupy themselves with the building of the world.\""
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "that this that Torah scholars increase peace in the world is not from the aspect of the virtue of Torah scholars"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "(the study of Torah)"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "as it is in itself,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "but rather through this that they occupy themselves with the building of the world,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "that through their occupation with Torah, the clarification of the world is accomplished."
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "And this is \"And all your children shall be students of Hashem, and great peace shall be to your children,\""
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "that here two matters are explained."
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "\"And all your children shall be students of Hashem,\""
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "that the explanation of \"students of Hashem\" is that they are taught in the Torah of Hashem"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "— the virtue of Torah scholars in themselves,"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "and afterwards it adds \"and great peace shall be to your children; do not read 'your children' but rather 'your builders,'\""
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "the clarification of the world"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "(\"your builders\")"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "and the increase of peace in the world,"
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "which is accomplished through the occupation with Torah."
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "And at the conclusion of the maamar,"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "that through the matter of \"and great peace shall be to your children; do not read 'your children' but rather 'your builders,'\""
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "builders who occupy themselves with the building of the world,"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "through this, \"and great peace shall be to your children\" will also be fulfilled in them,"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "\"And may you see children of your children, peace upon Israel,\""
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "that is,"
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "that through the clarification of the world that is accomplished through the occupation with Torah of the Torah scholars,"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "an increase of peace is drawn down also to the Torah scholars themselves"
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "(according to the explanation of the Metzudot and the Targum regarding \"and great peace shall be to your children\")."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section connects the maamar to the beginning of the parshah, explaining why Yaakov delayed going to Esav until after his service with Lavan.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And one can connect this with what is stated at the beginning of our parshah,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "\"And Yaakov sent messengers before him to Esav his brother, saying, 'Thus shall you say, \"With Lavan I have sojourned and I have delayed until now.\"'\""
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "For the implication of the verse is that Yaakov needed to come first to Esav,"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "and therefore he gave a reason for having delayed coming to him,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "\"With Lavan I have sojourned\""
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "(and therefore)"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "\"and I have delayed until now.\""
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "And it needs to be understood"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "why he needed to hurry to come to Esav, to the extent that he needed a reason for having delayed."
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "And also it needs to be understood"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "what Rashi explains: \"I have sojourned\" (garti) has the numerical value of 613,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "\"With Lavan I have sojourned and I have kept the 613 commandments,\""
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "for Yaakov knew that Esav does not value the matter of keeping the commandments,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "so what is he informing him by saying that he kept the 613 commandments?"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "And behold, the explanation of this is known,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "that the blessings with which Yitzchak blessed Yaakov were in order to clarify Esav,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "but in order that he could clarify Esav, he first needed to have his service in the house of Lavan."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And this is what Yaakov said: \"With Lavan I have sojourned and I have delayed until now,\""
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "for the reason that he delayed going to Esav to clarify him until now"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "(even though ostensibly he needed to clarify him immediately after receiving the blessings)"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "is that"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "(until now)"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "\"With Lavan I have sojourned and I have kept the 613 commandments,\""
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "and after he finished his service in the house of Lavan,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "he immediately sent to Esav to clarify him."
+          }
+        ]
+      }
+    ]
+  }
+}

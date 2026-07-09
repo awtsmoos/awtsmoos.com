@@ -1,0 +1,264 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 44,
+    "returned": 44,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916627_theRebbe_635\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916627_theRebbe_635__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section questions the difference between partnership and actual worship, explaining that only Israel was commanded against partnership because their root is above all worlds where no existence is found, unlike the lower worlds where existence is nullified, allowing for the concept of the God of gods.</sectionSummaryBrief>\n    <t s=\"0\">And behold, at first glance there is a difficulty,</t>\n    <t s=\"1\">that ultimately what is the practical difference,</t>\n    <t s=\"2\">for this too</t>\n    <t s=\"3\">is the opposite of [His] will.</t>\n    <t s=\"4\">And it can be explained according to the distinction that only Israel were commanded regarding partnership,</t>\n    <t s=\"5\">for their root is from Sovev Kol Almin (that which encompasses all worlds),</t>\n    <t s=\"6\">and there there is no existence,</t>\n    <t s=\"7\">in contrast to Memaleh Kol Almin (that which fills all worlds),</t>\n    <t s=\"8\">where there is an existence that is nullified,</t>\n    <t s=\"9\">and consequently it gives place to the God of gods,</t>\n    <t s=\"10\">but regarding Israel, even this matter is the opposite of their nature,</t>\n    <t s=\"11\">since they are from Sovev Kol Almin,</t>\n    <t s=\"12\">and therefore also [the concept of] partnership with the Holy One, blessed be He,</t>\n    <t s=\"13\">as is explained at length in the Discourse of Chanukah, chapter 8 — because in this it is impossible to err.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section discusses the intensity of desire and the animal soul, explaining that the body should be healthy as per the Rambam, and the Baal Shem Tov's interpretation of the verse about the donkey, referring specifically to the animal soul clothed in the body that covers the G-dly soul.</sectionSummaryBrief>\n    <t s=\"0\">Through</t>\n    <t s=\"1\">the intensity of desire etc.,</t>\n    <t s=\"2\">for the intensity of the body,</t>\n    <t s=\"3\">which means the animal soul,</t>\n    <t s=\"4\">for the body,</t>\n    <t s=\"5\">on the contrary,</t>\n    <t s=\"6\">must be healthy,</t>\n    <t s=\"7\">and as the Rambam wrote that the body being healthy is among the ways of G-d,</t>\n    <t s=\"8\">and the Baal Shem Tov's explanation of the verse \"When you see the donkey...\" is known,</t>\n    <t s=\"9\">with him</t>\n    <t s=\"10\">specifically,</t>\n    <t s=\"11\">rather the intention is for the animal soul that is clothed in the body</t>\n    <t s=\"12\">(Vayomer Moshe 5709)</t>\n    <t s=\"13\">and covers the G-dly soul.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the spark is from the vessels of the Sefiros but from the interior of the vessels, from the essence of the light that does not reveal itself externally, and this corresponds to the Yechidah from the exterior of Adam Kadmon, which is a garment for its interior, and this exists in every Jew and is unchanging by nature.</sectionSummaryBrief>\n    <t s=\"0\">And even though the spark</t>\n    <t s=\"1\">is from the vessels of the Sefiros,</t>\n    <t s=\"2\">but it is from the interior of the vessels,</t>\n    <t s=\"3\">in which specifically</t>\n    <t s=\"4\">from the essence of the light,</t>\n    <t s=\"5\">which is not revealed at all in the exterior of the vessel,</t>\n    <t s=\"6\">and from this specifically can come into something similar to it</t>\n    <t s=\"7\">(Ki Ereh 5660).</t>\n    <t s=\"8\">And this also corresponds to what is explained elsewhere, that the Yechidah is from the exterior of Adam Kadmon,</t>\n    <t s=\"9\">but it is a garment for the interior of Adam Kadmon.</t>\n    <t s=\"10\">And from this there is in every single Jew,</t>\n    <t s=\"11\">as explained in Likkutei Torah, which the Tzemach Tzedek brings</t>\n    <t s=\"12\">(Lamnatzeach Al HaShminit, chapter 2,</t>\n    <t s=\"13\">discourse beginning \"Ve'atah Im Na\" 5678,</t>\n    <t s=\"14\">to study the matter of circumcision in Sefer HaMitzvos).</t>\n    <t s=\"15\">And consequently it is understood that by nature it does not change.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916627_theRebbe_635",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916627_theRebbe_635__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section questions the difference between partnership and actual worship, explaining that only Israel was commanded against partnership because their root is above all worlds where no existence is found, unlike the lower worlds where existence is nullified, allowing for the concept of the God of gods.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "And behold, at first glance there is a difficulty,"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "that ultimately what is the practical difference,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "for this too"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "is the opposite of [His] will."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "And it can be explained according to the distinction that only Israel were commanded regarding partnership,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "for their root is from Sovev Kol Almin (that which encompasses all worlds),"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "and there there is no existence,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "in contrast to Memaleh Kol Almin (that which fills all worlds),"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "where there is an existence that is nullified,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "and consequently it gives place to the God of gods,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "but regarding Israel, even this matter is the opposite of their nature,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "since they are from Sovev Kol Almin,"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "and therefore also [the concept of] partnership with the Holy One, blessed be He,"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "as is explained at length in the Discourse of Chanukah, chapter 8 — because in this it is impossible to err."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section discusses the intensity of desire and the animal soul, explaining that the body should be healthy as per the Rambam, and the Baal Shem Tov's interpretation of the verse about the donkey, referring specifically to the animal soul clothed in the body that covers the G-dly soul.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "Through"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "the intensity of desire etc.,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "for the intensity of the body,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "which means the animal soul,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "for the body,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "on the contrary,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "must be healthy,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "and as the Rambam wrote that the body being healthy is among the ways of G-d,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and the Baal Shem Tov's explanation of the verse \"When you see the donkey...\" is known,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "with him"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "specifically,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "rather the intention is for the animal soul that is clothed in the body"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "(Vayomer Moshe 5709)"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and covers the G-dly soul."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the spark is from the vessels of the Sefiros but from the interior of the vessels, from the essence of the light that does not reveal itself externally, and this corresponds to the Yechidah from the exterior of Adam Kadmon, which is a garment for its interior, and this exists in every Jew and is unchanging by nature.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And even though the spark"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "is from the vessels of the Sefiros,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "but it is from the interior of the vessels,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "in which specifically"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "from the essence of the light,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "which is not revealed at all in the exterior of the vessel,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and from this specifically can come into something similar to it"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "(Ki Ereh 5660)."
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "And this also corresponds to what is explained elsewhere, that the Yechidah is from the exterior of Adam Kadmon,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "but it is a garment for the interior of Adam Kadmon."
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "And from this there is in every single Jew,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "as explained in Likkutei Torah, which the Tzemach Tzedek brings"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "(Lamnatzeach Al HaShminit, chapter 2,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "discourse beginning \"Ve'atah Im Na\" 5678,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "to study the matter of circumcision in Sefer HaMitzvos)."
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "And consequently it is understood that by nature it does not change."
+          }
+        ]
+      }
+    ]
+  }
+}

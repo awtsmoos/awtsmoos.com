@@ -1,0 +1,110 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" title="מאמר קץ שם לחושך תשכ"ד" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">והנה ידוע שכל גילוי הוא ע"י תורה</src>
+    <src s="2">(תורה אור13).</src>
+    <src s="3">ומזה מובן,</src>
+    <src s="4">דכיון שביטול חושך הגלות הוא ע"י אור,</src>
+    <src s="5">לכן,</src>
+    <src s="6">בכדי לקרב ולמהר עוד יותר את הגאולה העתידה,</src>
+    <src s="7">הוא ע"י הלימוד בתורה בענין האור14.</src>
+    <src s="8">ולהעיר,</src>
+    <src s="9">דבהדרוש של אדמו"ר</src>
+    <src s="10">(מהורש"ב)</src>
+    <src s="11">נ"ע שנאמר בשבת תשעה באב נדחה15</src>
+    <src s="12">מדובר בענין האור.</src>
+    <src s="13">דיש לומר,</src>
+    <src s="14">שהשייכות דענין זה לתשעה באב נדחה הוא16,</src>
+    <src s="15">כי תשעה באב שחל בשבת ונדחה הוא מסוגל לפעול שיהי' נדחה לגמרי17,</src>
+    <src s="16">ודחיית וביטול הגלות הוא ע"י אור18.</src>
+  </section>
+  <section v="4">
+    <src s="0">ומבואר בהמאמר,</src>
+    <src s="1">דאור הוא אין,</src>
+    <src s="2">ביטול.</src>
+    <src s="3">[דהחילוק בין אור וכלי,</src>
+    <src s="4">הוא,</src>
+    <src s="5">שאור הוא אין וכלי הוא יש].</src>
+    <src s="6">ובהביטול דאור ג' מדריגות.</src>
+    <src s="7">הביטול דאור מצד עצמו,</src>
+    <src s="8">מפני שאור הוא מעין המאור,</src>
+    <src s="9">והביטול שבו ע"י שנרגש בו מקורו,</src>
+    <src s="10">והביטול שלו מצד טבע הרצוא והעלי' שבו ליכלל במקורו.</src>
+    <src s="11">וצריך להבין,</src>
+    <src s="12">הרי גם הביטול דאור שמצד עצמו הוא</src>
+    <src s="13">(לכאורה)</src>
+    <src s="14">זה שאור אינו מציאות לעצמו וענינו הוא גילוי המאור,</src>
+    <src s="15">ומהו החילוק בין האור עצמו</src>
+    <src s="16">(שענינו הוא גילוי המאור)</src>
+    <src s="17">לזה שנרגש בו מקורו.</src>
+    <src s="18">גם צריך להבין מ"ש בהמאמר19</src>
+    <src s="19">שהביטול שבהאור ע"י שנרגש בו מקורו הוא הביטול דכלא חשיב,</src>
+    <src s="20">הרי זה שהאור אינו מציאות לעצמו וענינו הוא גילוי המאור,</src>
+    <src s="21">הוא,</src>
+    <src s="22">לכאורה,</src>
+    <src s="23">ביטול גדול יותר מהביטול דכלא חשיב</src>
+    <src s="24">[כי הביטול דכלא חשיב הוא רק בנוגע לחשיבותו,</src>
+    <src s="25">שאין לו ערך וחשיבות לגבי מקורו,</src>
+    <src s="26">ואין זה נוגע לעצם מציאותו],</src>
+    <src s="27">ובהמאמר אומר,</src>
+    <src s="28">שהביטול שניתוסף בהאור ע"י שנרגש בו מקורו,</src>
+    <src s="29">על הביטול שלו מצד עצמו</src>
+    <src s="30">(שענינו הוא גילוי המאור),</src>
+    <src s="31">הוא הביטול דכלא חשיב.</src>
+  </section>
+  <section v="5">
+    <src s="0">ויש לומר הביאור בזה ע"פ הידוע20,</src>
+    <src s="1">דהגם שאור הוא מעין המאור,</src>
+    <src s="2">מ"מ,</src>
+    <src s="3">כיון שהמאור הוא מובדל מהאור</src>
+    <src s="4">(שהמאור אינו מקור להאור ורק שהוא נמצא ממנו),</src>
+    <src s="5">לכן זה שהאור מגלה את המאור הוא רק מציאות המאור ולא מהותו21.</src>
+    <src s="6">אלא שאעפ"כ,</src>
+    <src s="7">מצד דביקותו של האור בהמאור נרגש בו גם מהות המאור</src>
+    <src s="8">(שמובדל מהאור ואינו מתגלה בו).</src>
+    <src s="9">ועי"ז הוא מתבטל ממציאותו.</src>
+    <src s="10">דמציאות האור הוא גילוי</src>
+    <src s="11">(המאור),</src>
+    <src s="12">וע"י שנרגש בו שהמאור</src>
+    <src s="13">(מהות המאור)</src>
+    <src s="14">הוא למעלה מגילוי,</src>
+    <src s="15">ושהגילוי אין לו ערך</src>
+    <src s="16">(כלא חשיב)</src>
+    <src s="17">לגבי המאור,</src>
+    <src s="18">הוא מתבטל ממציאותו.</src>
+  </section>
+</awtsmoosMeluketSource>

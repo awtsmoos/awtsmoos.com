@@ -1,0 +1,96 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919310_theRebbe_548" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919310_theRebbe_548" title="מאמר זה היום עשה ה' תשל"ח" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919310_theRebbe_548__p006">
+  <section v="15">
+    <src s="0">וממשיך במדרש,</src>
+    <src s="1">אמר ר' יצחק47</src>
+    <src s="2">בך בעשרים ושתים אותיות שכתבת לנו בתורה,</src>
+    <src s="3">דזה שע"י התורה נמשכת הישועה באופן הנ"ל הוא בעיקר באותיות התורה.</src>
+    <src s="4">ושני ענינים בזה.</src>
+    <src s="5">כי החיבור דלמעלה מהטבע עם הטבע הוא בכח העצמות</src>
+    <src s="6">(כנ"ל),</src>
+    <src s="7">ואותיות התורה הם כלים להמשכת העצמות</src>
+    <src s="8">(כמבואר בהמאמר דבעל הגאולה).</src>
+    <src s="9">והחיות של כאו"א מישראל הוא ע"י שיש לו אות בתורה48,</src>
+    <src s="10">ולכן,</src>
+    <src s="11">בכדי שיהי' נגילה ונשמחה בך</src>
+    <src s="12">(דענין השמחה היא גילוי החיות עד לגילוי פנימיות החיות49),</src>
+    <src s="13">הוא ע"י אותיות התורה,</src>
+    <src s="14">שמהם נמשך חיות לכ"א מישראל.</src>
+  </section>
+  <section v="16">
+    <src s="0">י)</src>
+    <src s="1">והנה ידוע50</src>
+    <src s="2">ששמחה פורצת גדר.</src>
+    <src s="3">ומובן,</src>
+    <src s="4">שהגדרים שנפרצים ע"י השמחה הם רק הגדרים של אותה הבחינה שבה היא השמחה.</src>
+    <src s="5">ולכן,</src>
+    <src s="6">כאשר השמחה בהנסים היא מצד הגילויים דממלא וסובב</src>
+    <src s="7">(יום והקב"ה),</src>
+    <src s="8">שהם בגדר ידיעה</src>
+    <src s="9">(אין אנו יודעים),</src>
+    <src s="10">נשארים עדיין הגדרים שישנם בהבחינות שלמעלה מידיעה.</src>
+    <src s="11">משא"כ ע"י השמחה דנגילה ונשמחה בך בעצמותך,</src>
+    <src s="12">נעשה פורץ,</src>
+    <src s="13">פריצת כל הגדרים.</src>
+    <src s="14">ועי"ז מיתוסף עוד יותר בהחיבור דלמעלה מהטבע עם הטבע שנעשה ע"י גילוי העצמות.</src>
+  </section>
+  <section v="17">
+    <src s="0">וזהו זה היום עשה ה' נגילה ונשמחה בו,</src>
+    <src s="1">דע"י השמחה בזה היום</src>
+    <src s="2">(באופן דנגילה ונשמחה בך),</src>
+    <src s="3">מיתוסף עוד יותר בהגאולה,</src>
+    <src s="4">שהיא באופן נעלה עוד יותר מכמו שהיתה בפעם הראשונה</src>
+    <src s="5">(כפי שנמשכה מלמעלה,</src>
+    <src s="6">לפני השמחה).</src>
+    <src s="7">וכיון שבהגאולה די"ב תמוז נגאלו כאו"א מישראל,</src>
+    <src s="8">גם אלו אשר בשם ישראל</src>
+    <src s="9">(רק)</src>
+    <src s="10">יכונה51,</src>
+    <src s="11">לכן,</src>
+    <src s="12">גם ההוספה בהגאולה בכל שנה,</src>
+    <src s="13">שנעשית ע"י שמחת הגאולה,</src>
+    <src s="14">היא נמשכת לכאו"א מישראל,</src>
+    <src s="15">להגאל מכל הענינים המונעים ומעכבים לתומ"צ.</src>
+    <src s="16">וע"פ הידוע שכל הגאולות שייכות זל"ז כי כולם גאולה נקראות52,</src>
+    <src s="17">יש לומר,</src>
+    <src s="18">דע"י השמחה בחגיגת הגאולה,</src>
+    <src s="19">תהי' הוספה גם בגאולה העתידה,</src>
+    <src s="20">שם נשמחה בו53,</src>
+    <src s="21">בו בעצמותו54,</src>
+    <src s="22">בביאת משיח צדקנו,</src>
+    <src s="23">בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,152 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אדר_meluket" postId="BH_POST_1766518917334_theRebbe_880" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אדר_meluket" postId="BH_POST_1766518917334_theRebbe_880" title="מאמר ואתה תצוה תשמ"א" batchId="meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p005">
+  <section v="12">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">דלפי ביאור הנ"ל,</src>
+    <src s="2">הענין דכתית למאור שייך לואתה תצוה את בני ישראל,</src>
+    <src s="3">לזה שמשה ואתפשטותא דילי' שבכל דור מקשרים ומחברים את ישראל עם אוא"ס,</src>
+    <src s="4">ובהכתוב נאמר כתית למאור בהמשך לויקחו אליך שמן זית זך,</src>
+    <src s="5">דענין ויקחו אליך גו'</src>
+    <src s="6">(שישראל מביאים שמן למשה)</src>
+    <src s="7">הוא שישראל מוסיפים תוספות אור במשה</src>
+    <src s="8">(כמובא לעיל ס"ב מהמאמר).</src>
+  </section>
+  <section v="13">
+    <src s="0">ט)</src>
+    <src s="1">והנה הכתוב וקבל היהודים את אשר החלו לעשות מדבר</src>
+    <src s="2">(בפשטות)</src>
+    <src s="3">בהזמן שלאחרי הנס דפורים.</src>
+    <src s="4">ויש לומר,</src>
+    <src s="5">דמ"ש בהמאמר דפירוש וקבל היהודים את אשר החלו לעשות הוא שבימי אחשורוש קיבלו מה שהחלו במתן תורה,</src>
+    <src s="6">הוא גם לפי פשטות הכתוב שוקבל גו' הי' לאחרי הנס.</src>
+    <src s="7">ועפ"ז,</src>
+    <src s="8">בזה שבימי אחשורוש קיבלו מה שהחלו במתן תורה,</src>
+    <src s="9">שני ענינים.</src>
+    <src s="10">הקבלה שהיתה בזמן הגזירה ע"י המס"נ שלהם</src>
+    <src s="11">(כמפורש בהמאמר),</src>
+    <src s="12">והקבלה שהיתה לאחרי הנס דפורים,</src>
+    <src s="13">שהיא נעלית יותר גם מהקבלה בזמן הגזירה</src>
+    <src s="14">(כדלקמן).</src>
+    <src s="15">ויש לומר,</src>
+    <src s="16">שעד"ז הוא בנוגע כתית למאור,</src>
+    <src s="17">שע"י הענין דכתית שבזמן הגלות מגיעים להמאור,</src>
+    <src s="18">דשני ענינים בזה.</src>
+    <src s="19">כשישראל נמצאים במצב של כתית מצד זה שישנם גזירות על קיום התומ"צ</src>
+    <src s="20">(כמו שהי' בזמן אמירת המאמר),</src>
+    <src s="21">ועי"ז מגיעים להמאור ע"י המס"נ שלהם.</src>
+    <src s="22">ועוד ענין בכתית למאור,</src>
+    <src s="23">שגם כשישראל נמצאים במצב של הרחבה,</src>
+    <src s="24">הרחבה בגשמיות וגם הרחבה ברוחניות,</src>
+    <src s="25">אלא שהם נמצאים בגלות41</src>
+    <src s="26">[וע"ד המצב שהי' לאחרי הנס דפורים,</src>
+    <src s="27">שליהודים היתה אורה ושמחה וששון ויקר42,</src>
+    <src s="28">בפשטות וגם ברוחניות43</src>
+    <src s="29">[ויתירה מזה שגם בית המן ניתן לאסתר44,</src>
+    <src s="30">שהי' אז גם המעלה דאתהפכא],</src>
+    <src s="31">אלא שאכתי עבדי אחשורוש אנן45],</src>
+    <src s="32">הם שבורים ונדכאים</src>
+    <src s="33">(כתית)</src>
+    <src s="34">מזה שהם בגלות.</src>
+    <src s="35">וע"י הכתית דישראל מזה שנמצאים בגלות,</src>
+    <src s="36">מגיעים להמאור.</src>
+  </section>
+  <section v="14">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דזה שישראל הם שבורים מזה שהם בגלות</src>
+    <src s="2">(גם כשיש להם הרחבה בגשמיות וברוחניות),</src>
+    <src s="3">הוא,</src>
+    <src s="4">כי רצונו האמיתי של כל אחד מישראל הוא שיהי' גילוי אלקות,</src>
+    <src s="5">ועד שזה</src>
+    <src s="6">(גילוי אלקות)</src>
+    <src s="7">נוגע לעצם מציאותו,</src>
+    <src s="8">ולכן,</src>
+    <src s="9">זה שבזמן הגלות אין מאיר גילוי אלקות כמו שהי' בזמן הבית</src>
+    <src s="10">[ובפרט כשמתבונן בזה שארז"ל46</src>
+    <src s="11">כל מי שלא נבנה ביהמ"ק בימיו ה"ז כאילו נחרב בימיו],</src>
+    <src s="12">הנה מזה עצמו איז ער אינגאַנצן צוטרייסלט,</src>
+    <src s="13">כתית.</src>
+    <src s="14">וגם כשהוא בדרגא נעלית ביותר שמאיר אצלו גילוי אלקות בדוגמת הגילוי שהי' בזמן הבית47,</src>
+    <src s="15">מ"מ,</src>
+    <src s="16">מזה שבכללות העולם אין מאיר הגילוי,</src>
+    <src s="17">מוכח,</src>
+    <src s="18">שגם הגילוי שמאיר אצלו הוא גילוי מוגבל.</src>
+    <src s="19">דכשמאיר גילוי אוא"ס הבל"ג הגילוי הוא בכל מקום,</src>
+    <src s="20">וכשישנו מקום אחד</src>
+    <src s="21">(אפילו פינה נדחת)</src>
+    <src s="22">שאין מאיר שם גילוי אלקות,</src>
+    <src s="23">הוא מפני שהגילוי</src>
+    <src s="24">(גם בהמקום שהוא מאיר)</src>
+    <src s="25">הוא גילוי מוגבל.</src>
+    <src s="26">[וזהו מה שמובא במאמר אדמו"ר הזקן48</src>
+    <src s="27">דאיתא בתיקונים49</src>
+    <src s="28">שאפילו אם הי' צדיק אחד חוזר בתשובה שלימה בדורו הי' בא משיח,</src>
+    <src s="29">כי ע"י תשובה שלימה ממשיכים גילוי אוא"ס הבל"ג,</src>
+    <src s="30">וגילוי זה הוא בכל מקום].</src>
+    <src s="31">ומזה שאין מאיר אצלו גילוי עצמות אוא"ס,</src>
+    <src s="32">הוא נשבר ונדכא,</src>
+    <src s="33">כתית.</src>
+    <src s="34">[וע"ד הידוע שחולה בגימטריא מ"ט,</src>
+    <src s="35">שגם כשמשיג מ"ט שערי בינה אלא שחסר לו שער הנו"ן,</src>
+    <src s="36">הוא חולה50].</src>
+    <src s="37">וידוע מ"ש הצ"צ51</src>
+    <src s="38">שהי' נשמע ממורינו ורבינו נ"ע</src>
+    <src s="39">(אדמו"ר הזקן)</src>
+    <src s="40">איך וויל זע גאָר ניסט איך וויל ניט דאיין ג"ע איך וויל ניט דאיין עוה"ב כו' איך וויל מער ניט אַז דיך אַליין.</src>
+    <src s="41">וע"י שהי' נשמע לשון זה מאדמו"ר הזקן</src>
+    <src s="42">[דפירוש הי' נשמע הוא שזה הי' לא רק בזמנים מיוחדים אלא שזה הי' דבר הרגיל],</src>
+    <src s="43">ובפרט לאחרי שנתפרסם זה ע"י הצ"צ,</src>
+    <src s="44">ניתן הכח לכאו"א מישראל שעיקר רצונו יהי' גילוי העצמות,</src>
+    <src s="45">ועד כדי כך,</src>
+    <src s="46">שכשאין מאיר גילוי זה,</src>
+    <src s="47">ומכש"כ בזמן הגלות שאין מאיר אפילו הגילוי</src>
+    <src s="48">(גילוי אור)</src>
+    <src s="49">שהי' בזמן הבית,</src>
+    <src s="50">הוא במצב דכתית,</src>
+    <src s="51">ומבקש ג' פעמים בכל יום</src>
+    <src s="52">(או יותר)</src>
+    <src s="53">ותחזינה עינינו בשובך לציון ברחמים,</src>
+    <src s="54">שאז יהי' גילוי אלקות ועד לגילוי העצמות.</src>
+    <src s="55">וזהו כתית למאור,</src>
+    <src s="56">שע"י הענין דכתית מזה שנמצאים בגלות מגיעים להמאור,</src>
+    <src s="57">כי זה שהרצון דכל אחד מישראל הוא גילוי אלקות ועד שזה נוגע לעצם מציאותו</src>
+    <src s="58">[שלכן הוא נשבר ונדכא</src>
+    <src s="59">(כתית)</src>
+    <src s="60">מזה שבזמן הגלות לא יש גילוי אלקות]</src>
+    <src s="61">הוא מצד עצם הנשמה,</src>
+    <src s="62">מאור שבנשמה,</src>
+    <src s="63">שהתקשרותה באלקות היא התקשרות עצמית.</src>
+  </section>
+</awtsmoosMeluketSource>

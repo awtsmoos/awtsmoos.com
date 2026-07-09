@@ -1,0 +1,564 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 104,
+    "returned": 104,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918060_theRebbe_524\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918060_theRebbe_524__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>These two aspects in man's service are the study of Torah and the fulfillment of mitzvos, where Torah study unites the learner with the Giver of the Torah in a wondrous unity, while mitzvos require action and self-abnegation.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">Now, these two matters in the overall service of man are the two matters</t>\n    <t s=\"2\">(two modes of service)</t>\n    <t s=\"3\">of the study of Torah and the fulfillment of the mitzvos.</t>\n    <t s=\"4\">For the essence of Torah is that the Torah and the Holy One, blessed be He, are entirely one,</t>\n    <t s=\"5\">and as it is brought in Tanya</t>\n    <t s=\"6\">that through the study of Torah, the person studying becomes united with the Giver of the Torah in a wondrous unity, the likes of which there is no other unity comparable or equal to it at all,</t>\n    <t s=\"7\">and in whatever world he studies the Torah,</t>\n    <t s=\"8\">behold, through the study he reaches the Torah as it is in its truth and inwardness in this world.</t>\n    <t s=\"9\">And it is understood,</t>\n    <t s=\"10\">that since through the study of Torah one attains this elevation,</t>\n    <t s=\"11\">behold, the person studying has pleasure</t>\n    <t s=\"12\">(taste)</t>\n    <t s=\"13\">in the matter.</t>\n    <t s=\"14\">However, the matter of the fulfillment of mitzvos is specifically through the power of action,</t>\n    <t s=\"15\">for the fulfillment of mitzvos is with physical things,</t>\n    <t s=\"16\">things that are outside the person himself</t>\n    <t s=\"17\">(it is not he),</t>\n    <t s=\"18\">and for this there must be action, from the term \"submission\"</t>\n    <t s=\"19\">(and acknowledgment),</t>\n    <t s=\"20\">that he descends from his level,</t>\n    <t s=\"21\">from a high roof</t>\n    <t s=\"22\">to a deep pit,</t>\n    <t s=\"23\">that is, from the power of intellect and his mental faculties to the power of action within the person himself, below which there is no lower level.</t>\n    <t s=\"24\">And as is brought in many discourses,</t>\n    <t s=\"25\">that the power of action exists also in an animal</t>\n    <t s=\"26\">(the animal species),</t>\n    <t s=\"27\">and in this power the speaking species is equated with the animal species.</t>\n    <t s=\"28\">This descent is through submission and acknowledgment.</t>\n    <t s=\"29\">And this is also what is found in the mitzvah of Torah study,</t>\n    <t s=\"30\">that according to Torah there must be vitality and pleasure</t>\n    <t s=\"31\">(taste)</t>\n    <t s=\"32\">in the study of Torah,</t>\n    <t s=\"33\">and the essence of the fulfillment of mitzvos is specifically through acceptance of the yoke,</t>\n    <t s=\"34\">and the yoke primarily applies to an animal.</t>\n    <t s=\"35\">And they are the two aspects of Yosef</t>\n    <t s=\"36\">(Torah)</t>\n    <t s=\"37\">and Yehudah</t>\n    <t s=\"38\">(mitzvos).</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>There is a debate in the Gemara whether study or action is greater, concluding that study is greater because it leads to action, and within study itself there is also the quality of submission.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">Now, regarding these two modes of service of Torah and mitzvos</t>\n    <t s=\"2\">(study and action)</t>\n    <t s=\"3\">there is a discussion in the Gemara</t>\n    <t s=\"4\">as to which of them is greater.</t>\n    <t s=\"5\">And as is brought in the maamar there,</t>\n    <t s=\"6\">they disagreed about this,</t>\n    <t s=\"7\">one said study is greater and one said action is greater.</t>\n    <t s=\"8\">And from the language of the Gemara it is understood,</t>\n    <t s=\"9\">that when they compared the virtues of study and action in themselves,</t>\n    <t s=\"10\">they did not decide which is greater.</t>\n    <t s=\"11\">For the virtue of study is the matter of the pleasure in it</t>\n    <t s=\"12\">(as above),</t>\n    <t s=\"13\">and there is a virtue in action that is not in study,</t>\n    <t s=\"14\">the matter of subjugation,</t>\n    <t s=\"15\">which is a novelty that one does something that is contrary to his nature and his pleasure.</t>\n    <t s=\"16\">And this is,</t>\n    <t s=\"17\">that even without the matter of acceptance of the yoke of the kingdom of heaven</t>\n    <t s=\"18\">(which is above),</t>\n    <t s=\"19\">behold, there is a novelty in the very matter that a person can also do something that is contrary to his nature and his pleasure.</t>\n    <t s=\"20\">And finally they voted and concluded that study is greater, for study leads to action,</t>\n    <t s=\"21\">behold, this is not because study</t>\n    <t s=\"22\">(pleasure)</t>\n    <t s=\"23\">in itself is above action</t>\n    <t s=\"24\">(submission),</t>\n    <t s=\"25\">but rather because in study there is also the virtue of action,</t>\n    <t s=\"26\">that it leads to action.</t>\n    <t s=\"27\">For in order to know the action that one should do, study is needed beforehand.</t>\n    <t s=\"28\">And one may add to this,</t>\n    <t s=\"29\">that in study itself there is also the virtue that is in action, which is submission.</t>\n    <t s=\"30\">For after one studies Torah with the utmost perfection from the aspect of his pleasure and its broad rivers and his joy,</t>\n    <t s=\"31\">behold, afterwards he reaches a higher level,</t>\n    <t s=\"32\">of studying from the aspect of submission and acknowledgment,</t>\n    <t s=\"33\">that he nullifies his entire existence and studies because of acceptance of the yoke.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>In the future, action will be greater, as the service will be through acceptance of the yoke beyond all pleasure, which is the ultimate perfection of service from love without any ulterior motives.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">However, all this is only in this present time,</t>\n    <t s=\"2\">but in the future, action will be greater.</t>\n    <t s=\"3\">And the explanation is,</t>\n    <t s=\"4\">that in the future it is written,</t>\n    <t s=\"5\">\"And the spirit of impurity I will remove from the earth,\"</t>\n    <t s=\"6\">and therefore the service then will be only in ascents from strength to strength in the good itself and in holiness itself,</t>\n    <t s=\"7\">and the perfection of the ascent is that the service will be above even the aspect of pleasure,</t>\n    <t s=\"8\">rather, the service of G-d out of acceptance of the yoke,</t>\n    <t s=\"9\">to fulfill the will of the Holy One, blessed be He.</t>\n    <t s=\"10\">And furthermore,</t>\n    <t s=\"11\">for in this present time they are still within the confines and boundaries of holiness,</t>\n    <t s=\"12\">and there are categories of virtues and so forth,</t>\n    <t s=\"13\">and they say that there is a virtue in action and there is a virtue in study,</t>\n    <t s=\"14\">but in the future, when there will be an exit from all confines and boundaries,</t>\n    <t s=\"15\">behold, then it is not applicable to speak of virtues,</t>\n    <t s=\"16\">but only the true service,</t>\n    <t s=\"17\">that they serve G-d with acceptance of the yoke without any ulterior motives,</t>\n    <t s=\"18\">even not ulterior motives of holiness.</t>\n    <t s=\"19\">And one can explain this in the revealed aspect according to what the Rambam wrote,</t>\n    <t s=\"20\">that the perfection of man's service is service out of love, and this is the virtue of Avraham our father, whom the Holy One, blessed be He, called His beloved,</t>\n    <t s=\"21\">and this is service without any ulterior motives,</t>\n    <t s=\"22\">and as the Rambam wrote there,</t>\n    <t s=\"23\">that the service must be even not for the sake of the ulterior motive that I will merit the life of the World to Come.</t>\n    <t s=\"24\">And this perfection will be in the future</t>\n    <t s=\"25\">(in the days of Moshiach).</t>\n    <t s=\"26\">And this is that in the future action is greater,</t>\n    <t s=\"27\">the virtue of submission and acceptance of the yoke that is above all the powers of man.</t>\n    <t s=\"28\">And one can say that this is hinted at in what the Rambam wrote, that the service must be even not for the sake of meriting the life of the World to Come, for the matter of the World to Come is the matter of Torah</t>\n    <t s=\"29\">(as explained in many places),</t>\n    <t s=\"30\">and the service in perfection is above this.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918060_theRebbe_524",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918060_theRebbe_524__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "These two aspects in man's service are the study of Torah and the fulfillment of mitzvos, where Torah study unites the learner with the Giver of the Torah in a wondrous unity, while mitzvos require action and self-abnegation.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "Now, these two matters in the overall service of man are the two matters"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "(two modes of service)"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "of the study of Torah and the fulfillment of the mitzvos."
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "For the essence of Torah is that the Torah and the Holy One, blessed be He, are entirely one,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "and as it is brought in Tanya"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "that through the study of Torah, the person studying becomes united with the Giver of the Torah in a wondrous unity, the likes of which there is no other unity comparable or equal to it at all,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "and in whatever world he studies the Torah,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "behold, through the study he reaches the Torah as it is in its truth and inwardness in this world."
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "And it is understood,"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "that since through the study of Torah one attains this elevation,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "behold, the person studying has pleasure"
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "(taste)"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "in the matter."
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "However, the matter of the fulfillment of mitzvos is specifically through the power of action,"
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "for the fulfillment of mitzvos is with physical things,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "things that are outside the person himself"
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "(it is not he),"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "and for this there must be action, from the term \"submission\""
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "(and acknowledgment),"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "that he descends from his level,"
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "from a high roof"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "to a deep pit,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "that is, from the power of intellect and his mental faculties to the power of action within the person himself, below which there is no lower level."
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "And as is brought in many discourses,"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "that the power of action exists also in an animal"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "(the animal species),"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "and in this power the speaking species is equated with the animal species."
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "This descent is through submission and acknowledgment."
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "And this is also what is found in the mitzvah of Torah study,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "that according to Torah there must be vitality and pleasure"
+          },
+          {
+            "v": 3,
+            "s": 31,
+            "translation": "(taste)"
+          },
+          {
+            "v": 3,
+            "s": 32,
+            "translation": "in the study of Torah,"
+          },
+          {
+            "v": 3,
+            "s": 33,
+            "translation": "and the essence of the fulfillment of mitzvos is specifically through acceptance of the yoke,"
+          },
+          {
+            "v": 3,
+            "s": 34,
+            "translation": "and the yoke primarily applies to an animal."
+          },
+          {
+            "v": 3,
+            "s": 35,
+            "translation": "And they are the two aspects of Yosef"
+          },
+          {
+            "v": 3,
+            "s": 36,
+            "translation": "(Torah)"
+          },
+          {
+            "v": 3,
+            "s": 37,
+            "translation": "and Yehudah"
+          },
+          {
+            "v": 3,
+            "s": 38,
+            "translation": "(mitzvos)."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "There is a debate in the Gemara whether study or action is greater, concluding that study is greater because it leads to action, and within study itself there is also the quality of submission.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "Now, regarding these two modes of service of Torah and mitzvos"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "(study and action)"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "there is a discussion in the Gemara"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "as to which of them is greater."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "And as is brought in the maamar there,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "they disagreed about this,"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "one said study is greater and one said action is greater."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And from the language of the Gemara it is understood,"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "that when they compared the virtues of study and action in themselves,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "they did not decide which is greater."
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "For the virtue of study is the matter of the pleasure in it"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "(as above),"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "and there is a virtue in action that is not in study,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "the matter of subjugation,"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "which is a novelty that one does something that is contrary to his nature and his pleasure."
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "And this is,"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "that even without the matter of acceptance of the yoke of the kingdom of heaven"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "(which is above),"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "behold, there is a novelty in the very matter that a person can also do something that is contrary to his nature and his pleasure."
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "And finally they voted and concluded that study is greater, for study leads to action,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "behold, this is not because study"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "(pleasure)"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "in itself is above action"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "(submission),"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "but rather because in study there is also the virtue of action,"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "that it leads to action."
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "For in order to know the action that one should do, study is needed beforehand."
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "And one may add to this,"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "that in study itself there is also the virtue that is in action, which is submission."
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "For after one studies Torah with the utmost perfection from the aspect of his pleasure and its broad rivers and his joy,"
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "behold, afterwards he reaches a higher level,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "of studying from the aspect of submission and acknowledgment,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "that he nullifies his entire existence and studies because of acceptance of the yoke."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "In the future, action will be greater, as the service will be through acceptance of the yoke beyond all pleasure, which is the ultimate perfection of service from love without any ulterior motives.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "However, all this is only in this present time,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "but in the future, action will be greater."
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "that in the future it is written,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "\"And the spirit of impurity I will remove from the earth,\""
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "and therefore the service then will be only in ascents from strength to strength in the good itself and in holiness itself,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "and the perfection of the ascent is that the service will be above even the aspect of pleasure,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "rather, the service of G-d out of acceptance of the yoke,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "to fulfill the will of the Holy One, blessed be He."
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "And furthermore,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "for in this present time they are still within the confines and boundaries of holiness,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "and there are categories of virtues and so forth,"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "and they say that there is a virtue in action and there is a virtue in study,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "but in the future, when there will be an exit from all confines and boundaries,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "behold, then it is not applicable to speak of virtues,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "but only the true service,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "that they serve G-d with acceptance of the yoke without any ulterior motives,"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "even not ulterior motives of holiness."
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "And one can explain this in the revealed aspect according to what the Rambam wrote,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "that the perfection of man's service is service out of love, and this is the virtue of Avraham our father, whom the Holy One, blessed be He, called His beloved,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "and this is service without any ulterior motives,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "and as the Rambam wrote there,"
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "that the service must be even not for the sake of the ulterior motive that I will merit the life of the World to Come."
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "And this perfection will be in the future"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "(in the days of Moshiach)."
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "And this is that in the future action is greater,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "the virtue of submission and acceptance of the yoke that is above all the powers of man."
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "And one can say that this is hinted at in what the Rambam wrote, that the service must be even not for the sake of meriting the life of the World to Come, for the matter of the World to Come is the matter of Torah"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "(as explained in many places),"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "and the service in perfection is above this."
+          }
+        ]
+      }
+    ]
+  }
+}

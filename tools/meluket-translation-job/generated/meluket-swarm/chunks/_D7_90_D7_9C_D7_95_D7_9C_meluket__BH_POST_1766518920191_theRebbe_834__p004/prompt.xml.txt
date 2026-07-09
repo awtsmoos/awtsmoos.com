@@ -1,0 +1,127 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אלול_meluket" postId="BH_POST_1766518920191_theRebbe_834" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920191_theRebbe_834__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אלול_meluket" postId="BH_POST_1766518920191_theRebbe_834" title="מאמר אני לדודי תשל"ב" batchId="meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920191_theRebbe_834__p004">
+  <section v="9">
+    <src s="0">ו)</src>
+    <src s="1">והנה אף שבהדרגות דיראה,</src>
+    <src s="2">היראה דאלול היא למטה מהיראה דראש השנה,</src>
+    <src s="3">דהיראה דאלול היא יראה תתאה והיראה דר"ה היא יראה עילאה,</src>
+    <src s="4">מ"מ יש מעלה בהיראה דאלול על היראה דר"ה.</src>
+    <src s="5">כי היראה והביטול שבר"ה,</src>
+    <src s="6">כיון שאז הוא זמן התגלות מלכותו ית'29,</src>
+    <src s="7">היראה והביטול אז אינם חידוש.</src>
+    <src s="8">דכיון שכולא קמי' כלא חשיב וכל שהוא קמי' יותר הוא יותר כלא30,</src>
+    <src s="9">הרי זה שישראל הם בביטול דיראה עילאה בהזמן דר"ה כשהם נמצאים בהיכל מלכותו,</src>
+    <src s="10">אין בזה חידוש.</src>
+    <src s="11">[ובדוגמת הביטול שבאצילות,</src>
+    <src s="12">שאין בזה חידוש31,</src>
+    <src s="13">מכיון שבאצילות מאיר גילוי אוא"ס.</src>
+    <src s="14">ועד"ז באצילות גופא,</src>
+    <src s="15">שהביטול שבספירת החכמה,</src>
+    <src s="16">שבה הוא עיקר הביטול,</src>
+    <src s="17">אינו חידוש,</src>
+    <src s="18">לפי שבחכמה הוא הגילוי דהוא לבדו ואין זולתו32.</src>
+    <src s="19">ומכ"ש הביטול דכתר,</src>
+    <src s="20">דאע"ג שהוא אור צח וכו' אוכם הוא קדם עילת העילות33,</src>
+    <src s="21">דפירוש אוכם הוא שהכתר הוא בביטול</src>
+    <src s="22">(כמו מראה השחור שאינו גבוה נגד מראה הלבן)</src>
+    <src s="23">לגבי אוא"ס שלמעלה מהכתר</src>
+    <src s="24">(עילת העילות)34,</src>
+    <src s="25">שאין זה חידוש,</src>
+    <src s="26">מכיון שהכתר משיג35</src>
+    <src s="27">שהוא באין ערוך לגבי אוא"ס].</src>
+    <src s="28">והיראה והביטול באלול,</src>
+    <src s="29">כשהמלך הוא בשדה</src>
+    <src s="30">(שאז אין נרגש הגדלות והרוממות שלו)</src>
+    <src s="31">ואעפ"כ ישנו הביטול דישראל,</src>
+    <src s="32">שמקבלים עליהם מלכותו ית',</src>
+    <src s="33">ולא עוד אלא שגם תוקעין בשופר לעורר יראה וחרדה</src>
+    <src s="34">(בכדי שקבלת המלכות תהי' בשלימות),</src>
+    <src s="35">הנה ביטול זה,</src>
+    <src s="36">אף שהוא ביטול היש,</src>
+    <src s="37">הוא יקר מאד בעיני הוי'36.</src>
+    <src s="38">ויש לומר,</src>
+    <src s="39">דע"י התענוג של המלך מזה שיוצאין לקראתו לקבל פניו</src>
+    <src s="40">(קבלת מלכותו ית')</src>
+    <src s="41">בהיותו בשדה מיתוסף עוד יותר בזה שהוא מקבל את כולם בסבר פנים יפות ומראה פנים שוחקות לכולם.</src>
+    <src s="42">ויש להוסיף,</src>
+    <src s="43">דהמעלה שבהיראה והביטול דאלול לגבי היראה והביטול דר"ה היא לא רק מצד החידוש שבזה,</src>
+    <src s="44">אלא גם בענין הביטול37.</src>
+    <src s="45">דהביטול שע"י גילוי,</src>
+    <src s="46">כיון שהביטול הוא מפני שמכיר ומרגיש העילוי דהגילוי</src>
+    <src s="47">(שהוא באין ערוך לגבי'),</src>
+    <src s="48">הרי הביטול קשור עם מציאות האדם</src>
+    <src s="49">(ההכרה שלו).</src>
+    <src s="50">ואמיתית ענין הביטול הוא בהעבודה דקבלת עול,</src>
+    <src s="51">שהוא כמו עבד,</src>
+    <src s="52">שמצד עול האדון שמוטל עליו הוא מוכרח לקיים רצון האדון.</src>
+  </section>
+  <section v="10">
+    <src s="0">ז)</src>
+    <src s="1">ועפ"ז יש לבאר מ"ש בהמאמר שהמשכת המקיף דר"ה היא</src>
+    <src s="2">(בעיקר)</src>
+    <src s="3">ע"י היראה והחרדה הבאה ע"י תק"ש דאלול,</src>
+    <src s="4">כי זה שע"י החרדה</src>
+    <src s="5">(וחרד על דברי)</src>
+    <src s="6">הוא המשכת המקיף</src>
+    <src s="7">(בית),</src>
+    <src s="8">הוא</src>
+    <src s="9">(בעיקר)</src>
+    <src s="10">כשהחרדה היא באופן דביטול ושפלות,</src>
+    <src s="11">עני ונכה רוח.</src>
+    <src s="12">וכמבואר בהמאמר דכל שהאדם משפיל את עצמו יותר,</src>
+    <src s="13">המקיף שנמשך הוא מקיף עליון יותר.</src>
+    <src s="14">ולכן עיקר המשכת המקיף הוא ע"י היראה והחרדה דאלול,</src>
+    <src s="15">כי היראה והחרדה דר"ה הוא ע"י שמרגיש הגילוי דלמעלה,</src>
+    <src s="16">והביטול שע"י הרגש הגילוי אינו באופן דשפלות,</src>
+    <src s="17">ועיקר הענין דעני ונכה רוח,</src>
+    <src s="18">ביטול באופן דשפלות,</src>
+    <src s="19">הוא בהיראה והחרדה דאלול.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויש להוסיף עוד ביאור בהמעלה שבהיראה דאלול על היראה דראש השנה,</src>
+    <src s="1">דכיון שהיראה והביטול דאלול באה ע"י עבודתם של ישראל,</src>
+    <src s="2">אני לדודי,</src>
+    <src s="3">שהשרש דישראל הוא בהעצמות,</src>
+    <src s="4">לכן,</src>
+    <src s="5">ההמשכה שע"י יראה וביטול זה היא המשכת העצמות.</src>
+    <src s="6">ויש לומר,</src>
+    <src s="7">שזהו הטעם הפנימי על זה שמהיראה תתאה דאלול באים אח"כ בר"ה ליראה עילאה,</src>
+    <src s="8">כי ע"י היראה דאלול הוא המשכת העצמות,</src>
+    <src s="9">ועי"ז נמשכים</src>
+    <src s="10">(אח"כ)</src>
+    <src s="11">גם הגילויים.</src>
+  </section>
+</awtsmoosMeluketSource>

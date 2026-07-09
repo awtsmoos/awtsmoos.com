@@ -1,0 +1,144 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913707_theRebbe_562" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913707_theRebbe_562" title="מאמר יבחר לנו את נחלתינו תשכ"ג" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913707_theRebbe_562__p002">
+  <section v="3">
+    <src s="0">והנה מזה שאומרים לפני תקיעת שופר</src>
+    <src s="1">(לא רק פסוק זה,</src>
+    <src s="2">אלא)</src>
+    <src s="3">את כל המזמור,</src>
+    <src s="4">מובן,</src>
+    <src s="5">שכל הפסוקים דהמזמור שייכים להענין דעומד מכסא דין ויושב בכסא רחמים שע"י תקיעת שופר12.</src>
+    <src s="6">ומכ"ש הפסוק יבחר לנו גו' שהוא בסמיכות להפסוק עלה אלקים בתרועה גו',</src>
+    <src s="7">שזה מורה,</src>
+    <src s="8">שפסוק זה שייך לעלה אלקים בתרועה גו'.</src>
+    <src s="9">וצריך להבין,</src>
+    <src s="10">דענין יבחר לנו הוא שהבחירה דהקב"ה בישראל היא מצד עצמו</src>
+    <src s="11">(ולא שהעבודה דישראל מעוררת שיבחור בהם),</src>
+    <src s="12">ויתירה מזו,</src>
+    <src s="13">דענין הבחירה הוא13</src>
+    <src s="14">בהעצמות,</src>
+    <src s="15">שאין שייך שם הענין דאתערותא דלתתא.</src>
+    <src s="16">והיינו,</src>
+    <src s="17">דנוסף לזה שהבחירה בפועל היא מצד עצמו ולא שמתעוררת ע"י אתעדל"ת,</src>
+    <src s="18">אלא שבמקום זה</src>
+    <src s="19">(שבו הוא ענין הבחירה)</src>
+    <src s="20">אין שייך כלל לעורר ע"י אתעדל"ת.</src>
+    <src s="21">וענין עלה אלקים בתרועה גו' הוא,</src>
+    <src s="22">שתקיעת שופר דישראל מעוררת שיהי' עומד מכסא דין ויושב בכסא רחמים.</src>
+    <src s="23">ומהסמיכות דשני הפסוקים משמע דשני הענינים שייכים זל"ז.</src>
+    <src s="24">והיינו,</src>
+    <src s="25">דע"י שישראל נוטלין את שופריהן ותוקעין לפני הקב"ה הם ממשיכים לא רק הרחמים המתעוררים ע"י עבודה</src>
+    <src s="26">(אתערותא דלעילא שמתעוררת ע"י אתערותא דלתתא),</src>
+    <src s="27">אלא שעי"ז ממשיכים הם גם הרחמים14</src>
+    <src s="28">שמצד בחירת הקב"ה בישראל,</src>
+    <src s="29">יבחר לנו.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויש להוסיף,</src>
+    <src s="2">דענין הנ"ל</src>
+    <src s="3">(שע"י שישראל תוקעין בשופר ממשיכים הם גם הענין דבחירת העצמות שאין שייך לעורר שם ע"י אתעדל"ת)</src>
+    <src s="4">מובן גם מהידוע15</src>
+    <src s="5">שעיקר16</src>
+    <src s="6">ענין ר"ה הוא בנין המלכות,</src>
+    <src s="7">כמאמר רז"ל17</src>
+    <src s="8">אמרו לפני מלכיות כדי שתמליכוני עליכם.</src>
+    <src s="9">ומה שאמרו18</src>
+    <src s="10">מצות היום בשופר הוא,</src>
+    <src s="11">כי הענין דתמליכוני עליכם הוא ע"י תקיעת שופר19,</src>
+    <src s="12">כהמשך מארז"ל הנ"ל ובמה בשופר20.</src>
+    <src s="13">והשייכות דר"ה לבנין המלכות</src>
+    <src s="14">(בפשטות)</src>
+    <src s="15">היא21,</src>
+    <src s="16">לפי שבר"ה הוא חידוש מעשה בראשית.</src>
+    <src s="17">כמו שאומרים22</src>
+    <src s="18">זה היום תחלת מעשיך,</src>
+    <src s="19">שבכל ר"ה מתהוים כל העולמות23</src>
+    <src s="20">מחדש כמו שהי' בפעם הראשונה.</src>
+    <src s="21">והענין הוא,</src>
+    <src s="22">דהתהוות כל העולמות היא ממדת מלכותו ית'.</src>
+    <src s="23">והמשכת המלכות שבכל ר"ה</src>
+    <src s="24">(כולל גם ר"ה הראשון שבתחלת הבריאה)</src>
+    <src s="25">היא רק על שנה אחת24,</src>
+    <src s="26">ובערב ר"ה עם חשיכה25</src>
+    <src s="27">היא חוזרת ועולה ונכללת במקורה24.</src>
+    <src s="28">אלא שהעלי' והסילוק הוא רק בפנימיות המלכות,</src>
+    <src s="29">שהוא התענוג והרצון שבמלכות.</src>
+    <src s="30">והחיות דהעולם בר"ה</src>
+    <src s="31">(גם לפני הענין דתמליכוני עליכם)</src>
+    <src s="32">הוא מחיצוניות המלכות26,</src>
+    <src s="33">בדוגמת אדם שעושה מלאכה כשהוא עיף ורפה ידים ואין לו תענוג בזה27.</src>
+    <src s="34">וכפתגם הידוע28,</src>
+    <src s="35">שבליל ר"ה</src>
+    <src s="36">(לפני הענין דתמליכוני עליכם)</src>
+    <src s="37">העולם הוא במצב דהתעלפות.</src>
+    <src s="38">וזהו אמרו לפני מלכיות כדי שתמליכוני עליכם,</src>
+    <src s="39">שיהי' לו רצון ותענוג במלוכה.</src>
+    <src s="40">והנה ידוע27</src>
+    <src s="41">שהסילוק שבר"ה הוא בכל המדריגות</src>
+    <src s="42">(מעשה,</src>
+    <src s="43">דיבור,</src>
+    <src s="44">מחשבה,</src>
+    <src s="45">מדות ושכל),</src>
+    <src s="46">דכל הדברים חוזרין לקדמותן.</src>
+    <src s="47">והמשכת המלכות</src>
+    <src s="48">(רצון ותענוג במלוכה)</src>
+    <src s="49">בר"ה היא ע"י שממשיכים מעצמות אוא"ס.</src>
+    <src s="50">ומזה שהענין דתמליכוני עליכם הוא ע"י תקיעת שופר כנ"ל,</src>
+    <src s="51">מובן,</src>
+    <src s="52">שתקיעת שופר מגעת בעצמות אוא"ס.</src>
+  </section>
+  <section v="5">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">הרי תקיעת שופר היא מצוה,</src>
+    <src s="2">וענין הציוויים</src>
+    <src s="3">(מצוות)</src>
+    <src s="4">שייך דוקא לאחרי שהוא ית' נעשה מלך,</src>
+    <src s="5">כמאמר29</src>
+    <src s="6">קבלו מלכותי תחלה ואח"כ אגזור עליכם גזירות,</src>
+    <src s="7">ובכדי שיהי' תמליכוני עליכם</src>
+    <src s="8">(שישראל עושים אותו ית' למלך)</src>
+    <src s="9">הוא ע"י שמגיעים בעצמות אוא"ס כמו שהוא לפני</src>
+    <src s="10">(למעלה)</src>
+    <src s="11">שנעשה מלך,</src>
+    <src s="12">ואיך אפשר שע"י תקיעת שופר</src>
+    <src s="13">(קיום מצות וציווי המלך)</src>
+    <src s="14">יעשו אותו ית' למלך30.</src>
+    <src s="15">ומזה מובן,</src>
+    <src s="16">דבתקיעת שופר שני ענינים,</src>
+    <src s="17">המצוה דתקיעת שופר,</src>
+    <src s="18">וזה שע"י תקיעת שופר מגיעים בעצמות אוא"ס שלמעלה מבחינת מלך.</src>
+  </section>
+</awtsmoosMeluketSource>

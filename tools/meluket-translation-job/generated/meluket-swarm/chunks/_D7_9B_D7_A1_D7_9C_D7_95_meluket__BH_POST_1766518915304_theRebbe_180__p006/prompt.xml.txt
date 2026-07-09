@@ -1,0 +1,143 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" title="מאמר ושבתי בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p006">
+  <section v="15">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">והנה ענין ויקח מאבני המקום גו' ישנו גם בהאדם עצמו.</src>
+    <src s="3">והענין הוא,</src>
+    <src s="4">דהנה ידוע82</src>
+    <src s="5">שאבנים הן אותיות83,</src>
+    <src s="6">כי כמו שאבנים הן דומם כן האותיות הם בחי' הדומם שבכחות האדם.</src>
+    <src s="7">אבל אעפ"כ,</src>
+    <src s="8">ומטעם זה גופא,</src>
+    <src s="9">ממשיכים הם</src>
+    <src s="10">(אותיות מלשון אתא84</src>
+    <src s="11">בוקר85,</src>
+    <src s="12">ענין המשכה)</src>
+    <src s="13">בחינת אור נעלה ביותר.</src>
+    <src s="14">וע"ד הידוע86</src>
+    <src s="15">בפירוש הכתוב87</src>
+    <src s="16">כי לא על הלחם לבדו יחי' האדם כי על כל מוצא פי הוי' יחי' האדם,</src>
+    <src s="17">דזה שהלחם מחי' את האדם הוא לפי שהמוצא פי הוי' שבלחם</src>
+    <src s="18">(צומח)</src>
+    <src s="19">הוא נעלה יותר</src>
+    <src s="20">(בשרשו)</src>
+    <src s="21">מהמוצא פי הוי' שבאדם,</src>
+    <src s="22">דזה גופא שירד למטה יותר מורה שבשרשו הוא נעלה יותר,</src>
+    <src s="23">דכל הגבוה יותר יורד למטה יותר,</src>
+    <src s="24">עד"ז הוא גם בענין האותיות,</src>
+    <src s="25">דומם</src>
+    <src s="26">(שבאדם),</src>
+    <src s="27">ששרשם הוא למעלה יותר גם מבחי' צומח88,</src>
+    <src s="28">דכל הגבוה גבוה89</src>
+    <src s="29">יותר יורד למטה מטה יותר.</src>
+    <src s="30">וזהו"ע ויקח מאבני המקום וישם מראשותיו</src>
+    <src s="31">(כמו שהוא בעבודת כאו"א מישראל),</src>
+    <src s="32">שהעבודה דבחי' אותיות,</src>
+    <src s="33">דומם שבאדם,</src>
+    <src s="34">מגעת למעלה יותר מהעבודה דבחי' השכל</src>
+    <src s="35">(מראשותיו).</src>
+  </section>
+  <section v="16">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">ושני פירושים הנ"ל בויקח מאבני המקום גו'</src>
+    <src s="3">[העבודה בבחי' הדומם שבאדם</src>
+    <src s="4">(דלעיל סעיף יא)</src>
+    <src s="5">והעבודה דבירור דברים הגשמיים שבעולם</src>
+    <src s="6">(דלעיל סעיף ט)]</src>
+    <src s="7">שייכים זה לזה.</src>
+    <src s="8">כי הבירור דעניני עוה"ז הגשמי</src>
+    <src s="9">(אבני המקום דעולם)</src>
+    <src s="10">הוא ע"י הדומם שבאדם,</src>
+    <src s="11">כח הדיבור,</src>
+    <src s="12">ובעיקר – כח המעשה90,</src>
+    <src s="13">שהמעשה הוא העיקר91.</src>
+    <src s="14">ויש להוסיף,</src>
+    <src s="15">שהשייכות דשני ענינים אלו היא לא רק מצד ענין ה"תחתון"</src>
+    <src s="16">(אבן,</src>
+    <src s="17">דומם)</src>
+    <src s="18">שבהם</src>
+    <src s="19">[שהפעולה בגשמיות העולם היא ע"י כחות התחתונים שבאדם],</src>
+    <src s="20">כי אם,</src>
+    <src s="21">גם בנוגע לענין העילוי שבהם</src>
+    <src s="22">(וישם מראשותיו).</src>
+    <src s="23">והיינו,</src>
+    <src s="24">דזה שבכחו של כאו"א מישראל לעשות מחלקו בעולם דירה לו ית',</src>
+    <src s="25">לו לעצמותו92,</src>
+    <src s="26">הוא לפי שע"י עבודתו בכחות התחתונים שלו מתגלה עצם הנשמה המיוחד בעצמותו ית'93.</src>
+  </section>
+  <section v="17">
+    <src s="0">ויובן זה בהקדים המבואר בכ"מ94</src>
+    <src s="1">בענין היו"ד דשם הוי' שבנפש האדם שהוא בחי' חי'.</src>
+    <src s="2">ומכיון שבחי' הראש דיעקב</src>
+    <src s="3">[שהוא היו"ד דיעקב,</src>
+    <src s="4">שהוא היו"ד דשם הוי'</src>
+    <src s="5">(כנ"ל סעיף ד)]</src>
+    <src s="6">הוא בחי' חי',</src>
+    <src s="7">מובן מזה,</src>
+    <src s="8">דזה שהעבודה דבחי' דומם שבאדם מגעת למעלה מבחי' ראש דיעקב</src>
+    <src s="9">(כנ"ל</src>
+    <src s="10">(סו"ס יא)</src>
+    <src s="11">בפירוש ויקח מאבני המקום וישם מראשותיו),</src>
+    <src s="12">הכוונה בזה היא – שע"י העבודה דבחי' דומם שבאדם,</src>
+    <src s="13">מתגלית בחינת היחידה שבו</src>
+    <src s="14">(שלמעלה מבחי' חי').</src>
+    <src s="15">כי ענין העבודה דבחי' דומם שבאדם,</src>
+    <src s="16">היינו דהגם שאין לו שום חיות</src>
+    <src s="17">(לא מצד הרגש המדות שבלב,</src>
+    <src s="18">ולא מצד השכל שבמוח,</src>
+    <src s="19">וגם לא מצד הרצון שלמעלה מהשכל</src>
+    <src s="20">(בחי' חי'))</src>
+    <src s="21">ומ"מ הוא עובד את עבודתו,</src>
+    <src s="22">הוא מצד העצם שלו,</src>
+    <src s="23">מה שכל אחד מישראל בעצם מהותו הוא רוצה לעשות כל מה שהוא רצון ה',</src>
+    <src s="24">כפס"ד הרמב"ם95</src>
+    <src s="25">הידוע.</src>
+    <src s="26">וזהו שכאו"א מישראל,</src>
+    <src s="27">גם קל שבקלים,</src>
+    <src s="28">יכול למסור נפשו על קדה"ש96,</src>
+    <src s="29">כי כח המס"נ הוא מצד העצם שלו בחי' יחידה97,</src>
+    <src s="30">שלגבי בחינה זו אין שייך שום מנגד,</src>
+    <src s="31">בבואה דבבואה לית להו98.</src>
+    <src s="32">[וזהו גם מה שהבטיחה תורה שסוף ישראל לעשות תשובה כו' ומיד הן נגאלין99,</src>
+    <src s="33">שהכוונה ב"סוף ישראל לעשות תשובה" היא</src>
+    <src s="34">(גם)</src>
+    <src s="35">לכאו"א מישראל100</src>
+    <src s="36">– כי על בחינת היחידה שבכ"א מישראל אין שייך שום מנגד ח"ו אלא שהיא בהעלם,</src>
+    <src s="37">ותורת אמת מבטיחה שסו"ס תהי' בגילוי].</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518917075_theRebbe_40" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917075_theRebbe_40__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518917075_theRebbe_40" title="מאמר באתי לגני תשל"ח" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518917075_theRebbe_40__p004">
+  <section v="9">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דזהו גם הפירוש</src>
+    <src s="2">(בפנימיות הענינים)</src>
+    <src s="3">בזה שיתרו הי' כהן מדין,</src>
+    <src s="4">דמדין הוא מלשון מדון ופירוד39,</src>
+    <src s="5">והתחלת ענין הפירוד הוא</src>
+    <src s="6">(כביכול)</src>
+    <src s="7">בדקות וכו' מהמדריגות הכי עליונות שבאצילות.</src>
+    <src s="8">כמרז"ל40</src>
+    <src s="9">עד שלא נברא העולם הי' הוא ושמו בלבד,</src>
+    <src s="10">וידוע שבעד שלא נברא העולם נכלל גם עד שלא נאצל41,</src>
+    <src s="11">והיינו שדוקא קודם שנאצל הי' הוא ושמו בלבד</src>
+    <src s="12">[שהגילוי</src>
+    <src s="13">(שמו)</src>
+    <src s="14">הי' בתכלית היחוד בעצמותו ית'42],</src>
+    <src s="15">אבל לאחרי שנאצל</src>
+    <src s="16">(ע"י הצמצום),</src>
+    <src s="17">נעשה הגילוי בבחינת מציאות</src>
+    <src s="18">(בערך הביטול והיחוד שהי' עד שלא נאצל),</src>
+    <src s="19">כביכול ענין מדון ופירוד43.</src>
+    <src s="20">אלא שזה שנעשה מציאות הוא מצד הצמצום דשם אלקים,</src>
+    <src s="21">ומכיון שההעלם דהצמצום הוא רק לגבינו</src>
+    <src s="22">(היינו לגבי הגילויים שלאחרי הצמצום),</src>
+    <src s="23">והוי' ואלקים כולא חד44,</src>
+    <src s="24">לכן,</src>
+    <src s="25">גם עכשיו הם</src>
+    <src s="26">(באמת)</src>
+    <src s="27">בתכלית היחוד כמו שהי' קודם שנאצל.</src>
+    <src s="28">וזהו מה שיתרו הי' כהן מדין,</src>
+    <src s="29">שהיתה לו ידיעה והכרה בכל המדריגות שנאצלו,</src>
+    <src s="30">אלא שידיעתו בהם היתה כמו שהם</src>
+    <src s="31">(מצד הצמצום)</src>
+    <src s="32">בבחינת מציאות,</src>
+    <src s="33">מדון ופירוד.</src>
+    <src s="34">ומזה נשתלשל45</src>
+    <src s="35">שהי' כהן מדין כפשוטו,</src>
+    <src s="36">והי' מכיר בכל ע"ז שבעולם,</src>
+    <src s="37">ע"ז כפשוטה.</src>
+    <src s="38">וע"י שהי' לו ידיעה והכרה בכל הדרגות</src>
+    <src s="39">(לאחרי שנאצל),</src>
+    <src s="40">בא אח"כ לידי ידיעה והכרה</src>
+    <src s="41">[והודעה והכרזה]</src>
+    <src s="42">כי גדול הוי' מכל האלקים.</src>
+  </section>
+  <section v="10">
+    <src s="0">ה)</src>
+    <src s="1">וע"פ כל הנ"ל יש לומר,</src>
+    <src s="2">דזה שהיתרון נעשה בתורה ע"י הודאת יתרו הוא שנמשך בה העצמות</src>
+    <src s="3">(כנ"ל סעיף ג),</src>
+    <src s="4">הוא מפני שהודאת יתרו עתה ידעתי כי גדול הוי' מכל האלקים היא הידיעה בהפלאת העצמות שהוא למעלה מגילויים</src>
+    <src s="5">(גדול הוי' מכל האלקים).</src>
+    <src s="6">ומכיון דזה שהגיע לידיעה זו</src>
+    <src s="7">(בהפלאת העצמות)</src>
+    <src s="8">היתה ע"י הידיעה וההכרה שהיתה לו</src>
+    <src s="9">(לפני זה)</src>
+    <src s="10">בכל הדרגות דגילויים שנאצלו,</src>
+    <src s="11">לכן,</src>
+    <src s="12">היתרון בתורה</src>
+    <src s="13">(המשכת העצמות)</src>
+    <src s="14">הוא באופן ששייך לגילויים,</src>
+    <src s="15">הנתינת כח לכל אחד מישראל לאפשה לה,</src>
+    <src s="16">לגלות את חלקו בתורה46,</src>
+    <src s="17">וכפסק אדמו"ר הזקן47</src>
+    <src s="18">שכל אחד צריך להשיג בידיעת התורה,</src>
+    <src s="19">ולחדש בה48,</src>
+    <src s="20">הן בפשט והן ברמז הן בדרוש והן בסוד.</src>
+  </section>
+  <section v="11">
+    <src s="0">ויהי רצון שכן תהי' לנו,</src>
+    <src s="1">שכל אחד יעשה כהנ"ל,</src>
+    <src s="2">ונזכה לראות בגלוי איך שכל ישראל הם ממלכת כהנים וגוי קדוש49,</src>
+    <src s="3">שכל אחד מישראל יהי' במעמד ומצב של שר50</src>
+    <src s="4">כפשוטו,</src>
+    <src s="5">כי ע"י ההחלטה ללמוד את התורה ולקיימה גם כשהוא במצב של עוני,</src>
+    <src s="6">הרי כהבטחת חז"ל51</src>
+    <src s="7">כל המקיים את התורה מעוני סופה לקיימה מעושר,</src>
+    <src s="8">שכשמחליט ללמדה ולקיימה מעוני הנה מיד לאחרי ההחלטה52</src>
+    <src s="9">הוא לומדה ומקיימה מעושר,</src>
+    <src s="10">מעושר אמיתי בגשמיות וברוחניות גם יחד,</src>
+    <src s="11">ומוסיף בלימוד התורה בנגלה ובחסידות,</src>
+    <src s="12">ולימוד מביא לידי מעשה53</src>
+    <src s="13">– קיום המצוות בהידור,</src>
+    <src s="14">און מ'ברענגט אַראָפּ משיח צדקנו למטה מעשרה טפחים בקרוב ממש,</src>
+    <src s="15">ויבנה בית המקדש במקומו ויקבץ נדחי ישראל54,</src>
+    <src s="16">והיתה לה' המלוכה55,</src>
+    <src s="17">בגאולה האמיתית והשלימה ע"י משיח צדקנו,</src>
+    <src s="18">במהרה בימינו ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,120 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918679_theRebbe_674" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918679_theRebbe_674__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918679_theRebbe_674" title="מאמר אנכי הוי' אלוקיך תשמ"ט" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918679_theRebbe_674__p002">
+  <section v="3">
+    <src s="0">והנה הכח על זה שבכל יום יהיו בעיניך חדשים,</src>
+    <src s="1">ניתן במ"ת.</src>
+    <src s="2">וכידוע18</src>
+    <src s="3">בפירוש הכתוב19</src>
+    <src s="4">וידבר אלקים את כל הדברים האלה לאמר,</src>
+    <src s="5">שהפירוש דתיבת לאמר בפסוק זה הוא לא לאמר לאחרים</src>
+    <src s="6">(כמו כל לאמר שבמקרא)</src>
+    <src s="7">שהרי</src>
+    <src s="8">(נשמות)</src>
+    <src s="9">כל ישראל היו במעמד הר סיני ושמעו הדברות מהקב"ה עצמו,</src>
+    <src s="10">ופירוש לאמר כאן הוא שבשעת מ"ת ניתן הכח לכאו"א מישראל שבכל הדורות לאמר את כל הדברים האלה</src>
+    <src s="11">(שקאי גם על כל התורה כולה20),</src>
+    <src s="12">שלימוד התורה שלו יהי' באופן דלאמר,</src>
+    <src s="13">שאומר הדברים שהקב"ה אומר עכשיו,</src>
+    <src s="14">כמו בשעת מתן תורה.</src>
+    <src s="15">שלכן מה להלן באימה וביראה וברתת ובזיע אף כאן כו'21.</src>
+    <src s="16">ועפ"ז מודגש עוד יותר השייכות דענין ההתחדשות למתן תורה,</src>
+    <src s="17">כיון שהכח על זה שיהיו בעיניך חדשים ניתן במתן תורה.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה ע"פ הידוע שגם שאלה בתורה היא תורה,</src>
+    <src s="2">תורת אמת,</src>
+    <src s="3">מובן,</src>
+    <src s="4">דזה שמובא בכמה דרושים שההתחלה דמ"ת הי' צ"ל בבריאת שמים וארץ הוא גם אליבא דאמת.</src>
+    <src s="5">דנוסף לזה שהתחלת כל התורה היא בראשית ברא אלקים את השמים ואת הארץ22,</src>
+    <src s="6">וכן התחלת משנה תורה</src>
+    <src s="7">(להרמב"ם)23</src>
+    <src s="8">היא לידע שיש שם מצוי ראשון והוא ממציא כל נמצא וכל הנמצאים כו' לא נמצאו אלא מאמיתת המצאו</src>
+    <src s="9">[ולהוסיף,</src>
+    <src s="10">שבההתחלה דמשנה תורה מבואר לא רק ענין הבריאה בכללות</src>
+    <src s="11">(כבהתחלת תושב"כ)</src>
+    <src s="12">אלא גם שכל הנמצאים נמצאו מאמיתת המצאו,</src>
+    <src s="13">היינו שהבריאה היא בכח העצמות יש האמיתי,</src>
+    <src s="14">וכן – שהבריאה היא בכל רגע ורגע כמ"ש בהמשך הענין שם24</src>
+    <src s="15">דאם יעלה על הדעת שהוא אינו מצוי אין דבר אחר יכול להמצאות,</src>
+    <src s="16">שהכוונה בזה היא שגם לאחרי שנמצאו הנמצאים – באם לא יהי' מצוי</src>
+    <src s="17">(בהם),</src>
+    <src s="18">תיבטל מציאותם.</src>
+    <src s="19">דשני ענינים אלו שבתורת החסידות,</src>
+    <src s="20">שהבריאה היא בכח העצמות ושהבריאה היא בכל רגע,</src>
+    <src s="21">כתבם הרמב"ם בסגנון דהלכה],</src>
+    <src s="22">הנה נוסף לזה – גם בההתחלה דמתן תורה ישנו הענין דבריאת שמים וארץ,</src>
+    <src s="23">אלא שענין זה הוא בהחלק דתושבע"פ דפסוק ראשון דמ"ת25,</src>
+    <src s="24">הפירוש דתורה שבכתב26.</src>
+    <src s="25">וי"ל הביאור בזה,</src>
+    <src s="26">דע"י עסק התורה באופן דיהיו בעיניך חדשים,</src>
+    <src s="27">מגלים גם החידוש בהבריאה27</src>
+    <src s="28">שהיא מתחדשת בכל רגע מאין ליש.</src>
+    <src s="29">וע"פ המובא לעיל דתיבת לאמר שבהתחלת מ"ת הוא הנתינת כח על יהיו בעיניך חדשים,</src>
+    <src s="30">שעי"ז מגלים</src>
+    <src s="31">(כנ"ל)</src>
+    <src s="32">החידוש דהבריאה,</src>
+    <src s="33">הרי,</src>
+    <src s="34">שבההתחלה דמ"ת</src>
+    <src s="35">(עוד לפני עשרת הדברות)</src>
+    <src s="36">יש</src>
+    <src s="37">(ברמז עכ"פ)</src>
+    <src s="38">הענין דחידוש הבריאה.</src>
+  </section>
+  <section v="5">
+    <src s="0">אלא שאעפ"כ ההתחלה דמ"ת בגילוי</src>
+    <src s="1">(בתושב"כ)</src>
+    <src s="2">היא אנכי ה"א אשר הוצאתיך מארץ מצרים,</src>
+    <src s="3">כי הכוונה דבריאת העולם ודמתן תורה היא בשביל ישראל,</src>
+    <src s="4">אַז זיי זאָלן דורכגיין הענין דמצרים מלשון מיצר וגבול ושיהי' אצלם היציאה מכל מיצרים וגבולים,</src>
+    <src s="5">הוצאתיך מארץ מצרים,</src>
+    <src s="6">ואפילו מבית עבדים,</src>
+    <src s="7">שיהיו מושללים מעבדות לבו"ד ואיזו שהיא,</src>
+    <src s="8">כי לי בני ישראל עבדים28,</src>
+    <src s="9">לי לעצמות ומהות,</src>
+    <src s="10">ושטרי קודם29.</src>
+    <src s="11">ויש לקשר זה עם הענין שמתן תורה הי' לאחרי שהקדימו ישראל נעשה לנשמע30,</src>
+    <src s="12">דהגם שהגילוי דמתן תורה הי' מצד למעלה,</src>
+    <src s="13">ואני המתחיל31,</src>
+    <src s="14">הי' צריך להיות תחלה הקדמת נעשה לנשמע,</src>
+    <src s="15">הביטול לבעל הרצון,</src>
+    <src s="16">ועי"ז דוקא ניתנה התורה ונמשכה מהעצמות.</src>
+    <src s="17">כולל גם הנתינת כח שהי' במ"ת</src>
+    <src s="18">("לאמר",</src>
+    <src s="19">כנ"ל)</src>
+    <src s="20">שבכל יום יהיו בעיניך חדשים.</src>
+  </section>
+</awtsmoosMeluketSource>

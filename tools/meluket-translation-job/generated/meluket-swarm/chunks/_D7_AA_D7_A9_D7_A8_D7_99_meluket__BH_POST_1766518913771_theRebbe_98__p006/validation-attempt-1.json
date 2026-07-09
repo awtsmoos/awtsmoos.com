@@ -1,0 +1,143 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 21,
+    "returned": 21,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913771_theRebbe_98\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains that the shofar blast only draws down illumination, while the revelation comes through Torah (the verses of Shofaros), because Torah's root is higher than that of mitzvos, and through reciting the verses the very essence of Atzmus is drawn down, paralleling the future elevation.</sectionSummaryBrief>\n    <t s=\"0\">And one may add,</t>\n    <t s=\"1\">that this—that through the mitzvah of the shofar blast only the drawing down is effected,</t>\n    <t s=\"2\">while the revelation is through the Torah</t>\n    <t s=\"3\">(the recitation of the verses of Shofaros),</t>\n    <t s=\"4\">is</t>\n    <t s=\"5\">because the root of the Torah is above the root of the mitzvos.</t>\n    <t s=\"6\">And one may connect this with what is explained in the continuation of the above-mentioned59,</t>\n    <t s=\"7\">that there is an additional advantage in the recitation of the verses of Shofaros,</t>\n    <t s=\"8\">namely, that the drawing down through the shofar blast is only the light and revelation drawn from Atzmus,</t>\n    <t s=\"9\">while through the recitation of the verses, the very self-concealment of Atzmus itself is drawn down,</t>\n    <t s=\"10\">in the manner of the elevation that will be in the future.</t>\n    <t s=\"11\">And based on this, it is even more understood that also on Rosh HaShanah that falls on Shabbat, there is the advantage of the service,</t>\n    <t s=\"12\">for through the service of reciting the verses of Shofaros, even the drawing down itself is a more elevated drawing down.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section concludes that since Shabbat is a matter of rest and delight, the service on Rosh HaShanah falling on Shabbat, and likewise the service of Erev Rosh HaShanah, is from a place of rest and delight, which affects the entire year to be a year of rest and delight, leading to the true rest of the day that is entirely Shabbat.</sectionSummaryBrief>\n    <t s=\"0\">And since Shabbat is a matter of rest and delight,</t>\n    <t s=\"1\">also the service on Rosh HaShanah that falls on Shabbat,</t>\n    <t s=\"2\">and likewise the service of Erev Rosh HaShanah,</t>\n    <t s=\"3\">is from within rest and delight,</t>\n    <t s=\"4\">and this affects also the entire year,</t>\n    <t s=\"5\">that it will be a year of rest and delight,</t>\n    <t s=\"6\">and even to the true matter of rest—the day that is entirely Shabbat and rest for the life of the worlds60,</t>\n    <t s=\"7\">and very soon, speedily in our days.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518913771_theRebbe_98",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913771_theRebbe_98__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains that the shofar blast only draws down illumination, while the revelation comes through Torah (the verses of Shofaros), because Torah's root is higher than that of mitzvos, and through reciting the verses the very essence of Atzmus is drawn down, paralleling the future elevation.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "that this—that through the mitzvah of the shofar blast only the drawing down is effected,"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "while the revelation is through the Torah"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "(the recitation of the verses of Shofaros),"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "is"
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "because the root of the Torah is above the root of the mitzvos."
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "And one may connect this with what is explained in the continuation of the above-mentioned59,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "that there is an additional advantage in the recitation of the verses of Shofaros,"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "namely, that the drawing down through the shofar blast is only the light and revelation drawn from Atzmus,"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "while through the recitation of the verses, the very self-concealment of Atzmus itself is drawn down,"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "in the manner of the elevation that will be in the future."
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "And based on this, it is even more understood that also on Rosh HaShanah that falls on Shabbat, there is the advantage of the service,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "for through the service of reciting the verses of Shofaros, even the drawing down itself is a more elevated drawing down."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section concludes that since Shabbat is a matter of rest and delight, the service on Rosh HaShanah falling on Shabbat, and likewise the service of Erev Rosh HaShanah, is from a place of rest and delight, which affects the entire year to be a year of rest and delight, leading to the true rest of the day that is entirely Shabbat.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "And since Shabbat is a matter of rest and delight,"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "also the service on Rosh HaShanah that falls on Shabbat,"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "and likewise the service of Erev Rosh HaShanah,"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "is from within rest and delight,"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "and this affects also the entire year,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "that it will be a year of rest and delight,"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "and even to the true matter of rest—the day that is entirely Shabbat and rest for the life of the worlds60,"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "and very soon, speedily in our days."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,125 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915304_theRebbe_180" title="מאמר ושבתי בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915304_theRebbe_180__p003">
+  <section v="6">
+    <src s="0">ויש לומר שזהו מה שמובא בתו"א ותו"ח תיכף ובהמשך לויצא יעקב מבאר שבע מש"נ43</src>
+    <src s="1">צוה ישועות יעקב,</src>
+    <src s="2">שהוא המשכת בחי' שע"ה נהורין דאריך44,</src>
+    <src s="3">כי כמו שענין הישועה בפשטות הוא סיוע ונתינת כח מיוחד שלא ע"ד הרגיל,</src>
+    <src s="4">ונתינת כח זה הוא דוקא בשביל האדם שמושיעים אותו שהוא במעמד ומצב שפל ביותר שצריך לישועה,</src>
+    <src s="5">עד"ז הוא גם בפירוש הפנימי דישועות,</src>
+    <src s="6">שענינם הוא שע"ה נהורין דאריך,</src>
+    <src s="7">שהמשכתן</src>
+    <src s="8">(ליעקב)</src>
+    <src s="9">היא דוקא בשביל המצב דיציאתו מבאר שבע והליכתו חרנה.</src>
+    <src s="10">שבכדי שיוכל להמשיך היו"ד גם בחרן,</src>
+    <src s="11">צריך להיות צוה ישועות יעקב,</src>
+    <src s="12">להמשיך ליעקב שע"ה נהורין דאריך שלמעלה מהשתלשלות,</src>
+    <src s="13">למעלה גם מהיו"ד דשם הוי',</src>
+    <src s="14">היו"ד דיעקב.</src>
+  </section>
+  <section v="7">
+    <src s="0">ויש להוסיף בדיוק לשון הכתוב צוה ישועות יעקב</src>
+    <src s="1">(צוה דוקא),</src>
+    <src s="2">שהמשכת הישועות</src>
+    <src s="3">(שע"ה נהורין)</src>
+    <src s="4">ליעקב תהי' באופן דצוה,</src>
+    <src s="5">לשון צותא וחיבור45.</src>
+    <src s="6">דהגם שהשע"ה נהורין הם למעלה מיעקב,</src>
+    <src s="7">למעלה גם מהיו"ד שבו,</src>
+    <src s="8">מ"מ,</src>
+    <src s="9">יהיו מחוברים ומיוחדים עמו,</src>
+    <src s="10">אַז זיי ווערן אָפּגעגעבן צו אים בפנימיות.</src>
+    <src s="11">וע"י שנמשך ליעקב בחי' ישועות הנ"ל</src>
+    <src s="12">(לצורך הליכתו לחרן),</src>
+    <src s="13">הי' בטוח</src>
+    <src s="14">(עוד לפני הליכתו לחרן46)</src>
+    <src s="15">שתתקיים תפלתו,</src>
+    <src s="16">שיהי' ונתן לי לחם לאכול ובגד ללבוש,</src>
+    <src s="17">ויתירה מזו – ושבתי בשלום אל בית אבי,</src>
+    <src s="18">ויתירה מזו – והי' הוי' לי לאלקים,</src>
+    <src s="19">ויתירה מזו – והאבן הזאת אשר שמתי מצבה יהי' בית אלקים.</src>
+  </section>
+  <section v="8">
+    <src s="0">ו)</src>
+    <src s="1">והנה תפלתו של יעקב</src>
+    <src s="2">(באופן דנדר47)</src>
+    <src s="3">אם יהי' אלקים עמדי גו' והאבן הזאת גו' יהי' בית אלקים היתה לאחרי העבודה דויקח48</src>
+    <src s="4">מאבני המקום וישם מראשותיו.</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">מקום הוא הגדר דעולם,</src>
+    <src s="7">כדאיתא בתניא49</src>
+    <src s="8">שגדר העולם הוא מקום</src>
+    <src s="9">(וזמן).</src>
+    <src s="10">[והגם שמקום הוא שמו של הקב"ה שנקרא מקום,</src>
+    <src s="11">לפי שהוא מקומו של עולם50,</src>
+    <src s="12">הרי ענין זה הוא בהעלם,</src>
+    <src s="13">ומה שנרגש בגילוי בהמקום הוא העולם.</src>
+    <src s="14">דזהו מה שהוי' ברבוע בגימטריא מקום51,</src>
+    <src s="15">היינו שענין הוי' שנמשך במקום הוא רק באופן דגימטריא שהוא חשבון האותיות,</src>
+    <src s="16">שהחשבון מורה52</src>
+    <src s="17">על מיעוט האור כו' מיעוט אחר מיעוט].</src>
+    <src s="18">ואבני המקום</src>
+    <src s="19">(בחי' דומם)</src>
+    <src s="20">הם סוג היותר תחתון שבעולם.</src>
+    <src s="21">ובזה גופא אבני לשון רבים,</src>
+    <src s="22">כמו שהם בבחי' ריבוי ההתחלקות.</src>
+    <src s="23">וזהו ויקח מאבני המקום וישם מראשותיו,</src>
+    <src s="24">שיעקב עשה53</src>
+    <src s="25">מאבני המקום</src>
+    <src s="26">(אבני לשון רבים)</src>
+    <src s="27">אבן אחת</src>
+    <src s="28">[שלכן כתיב וישם ולא וישימם54],</src>
+    <src s="29">ולא עוד,</src>
+    <src s="30">אלא שוישם מראשותיו,</src>
+    <src s="31">שהגבי' והעלה את האבן עד שיגבי' את ראשו,</src>
+    <src s="32">וי"ל עוד יתירה מזה שהאבן למעלה מראשו55</src>
+    <src s="33">של יעקב,</src>
+    <src s="34">היינו למעלה מבחי' היו"ד דיעקב56</src>
+    <src s="35">(שהוא הראש שלו,</src>
+    <src s="36">כנ"ל).</src>
+    <src s="37">ועל זה התפלל והאבן הזאת גו' יהי' בית אלקים,</src>
+    <src s="38">שהאבן הזאת</src>
+    <src s="39">(אבן אחת,</src>
+    <src s="40">שעשה מריבוי אבנים)</src>
+    <src s="41">תהי' לא רק למעלה מבחי' הראש</src>
+    <src s="42">(היו"ד)</src>
+    <src s="43">דיעקב,</src>
+    <src s="44">אלא שתהי' למעלה יותר – בית אלקים,</src>
+    <src s="45">בית</src>
+    <src s="46">(ודירה)</src>
+    <src s="47">לעצמותו ית'.</src>
+  </section>
+</awtsmoosMeluketSource>

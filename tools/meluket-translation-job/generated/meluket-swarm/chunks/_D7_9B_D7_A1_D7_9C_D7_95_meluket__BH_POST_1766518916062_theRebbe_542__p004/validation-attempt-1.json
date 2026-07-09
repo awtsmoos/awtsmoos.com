@@ -1,0 +1,474 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 86,
+    "returned": 86,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518916062_theRebbe_542\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>After the tzimtzum, the first revelation is only a single point (the world of Akudim), not a full order of progression, analogous to the level of Yechidah in the soul which is a simple unity containing all powers in one vessel.</sectionSummaryBrief>\n    <t s=\"0\">Now, since this matter is accomplished through the tzimtzum in a manner of complete removal of the light,</t>\n    <t s=\"1\">it is understood,</t>\n    <t s=\"2\">that when a matter of revelation occurs,</t>\n    <t s=\"3\">it is impossible for a full order of progression to be revealed immediately,</t>\n    <t s=\"4\">but rather in a manner that only a single point is revealed,</t>\n    <t s=\"5\">and this is that after the tzimtzum there is first the matter of the world of Akudim,</t>\n    <t s=\"6\">in which all the lights are bound together in one vessel,</t>\n    <t s=\"7\">and only afterwards does the matter of the world of Nekudim occur,</t>\n    <t s=\"8\">in which there are ten points in ten vessels.</t>\n    <t s=\"9\">And this will be understood by way of an analogy from the soul of man28</t>\n    <t s=\"10\">(as above, \"from my flesh I shall see G-d\"),</t>\n    <t s=\"11\">that there are the five names by which it is called, up to the level of Yechidah29,</t>\n    <t s=\"12\">which is called by the name Yechidah because it is in the state of simple unity,</t>\n    <t s=\"13\">therefore it receives from the level of Yachid30,</t>\n    <t s=\"14\">a spark of the Creator31.</t>\n    <t s=\"15\">And in the level of Yechidah, it is not applicable to say that there are ten matters in it</t>\n    <t s=\"16\">(even if we say that they are not in a manner of revealed wisdom etc.,</t>\n    <t s=\"17\">but only a source for wisdom and a source for understanding and similarly in all ten faculties),</t>\n    <t s=\"18\">because this is the opposite of the essence of Yechidah,</t>\n    <t s=\"19\">rather there is only one light there,</t>\n    <t s=\"20\">one point.</t>\n    <t s=\"21\">And the analogy from this will be understood above,</t>\n    <t s=\"22\">that the first revelation after the tzimtzum is in a manner of one point,</t>\n    <t s=\"23\">and from this is later made the matter of ten points,</t>\n    <t s=\"24\">but as they are bound in one vessel.</t>\n    <t s=\"25\">But at first glance it is not understood how the term \"vessel\" is applicable at all</t>\n    <t s=\"26\">(even one vessel),</t>\n    <t s=\"27\">since this is already a matter of revelation etc.,</t>\n    <t s=\"28\">and this is immediately after the tzimtzum,</t>\n    <t s=\"29\">even before the world of Nekudim,</t>\n    <t s=\"30\">and if so,</t>\n    <t s=\"31\">there should not be a matter of vessel at all.</t>\n    <t s=\"32\">And the explanation of this is,</t>\n    <t s=\"33\">that the matter of \"one vessel\" is not as it is in the world of Nekudim,</t>\n    <t s=\"34\">ten points in ten vessels,</t>\n    <t s=\"35\">where the matter of the vessels is in a manner of a source for the existence of the vessel below,</t>\n    <t s=\"36\">but rather the matter of \"one vessel\" is only a potentiality that from this there can later be a source for a source for the matter of lights and vessels,</t>\n    <t s=\"37\">and what it is called by the name \"vessel\" is only because there is no other term or description for it besides \"vessel\",</t>\n    <t s=\"38\">named so because ultimately a source for vessels will be drawn from it, which will first be in concealment and later drawn forth in revelation.</t>\n    <t s=\"39\">Nevertheless,</t>\n    <t s=\"40\">this is not in a manner that it is entirely unrelated to the matter of revelation,</t>\n    <t s=\"41\">for on the contrary,</t>\n    <t s=\"42\">in the one vessel there are ten points,</t>\n    <t s=\"43\">and furthermore,</t>\n    <t s=\"44\">as is explained elsewhere32</t>\n    <t s=\"45\">at length, that the first point after the tzimtzum includes the entire order of progression,</t>\n    <t s=\"46\">and therefore it is called by the name Akudim,</t>\n    <t s=\"47\">because it binds together the entire order of progression.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>When the level of Yechidah in the soul is revealed, all powers emerge simultaneously in one vessel, just as the first point after the tzimtzum encompasses the entire order of progression.</sectionSummaryBrief>\n    <t s=\"0\">And this too will be understood according to the analogy from the level of Yechidah in the soul of man,</t>\n    <t s=\"1\">that when the level of Yechidah is in revelation,</t>\n    <t s=\"2\">such as at the wedding of his only son and the like33,</t>\n    <t s=\"3\">then all his powers are suddenly revealed at once,</t>\n    <t s=\"4\">meaning that this is not in a way of an order of progression,</t>\n    <t s=\"5\">that first one matter is revealed and then another matter is revealed,</t>\n    <t s=\"6\">wisdom and then understanding,</t>\n    <t s=\"7\">and all ten faculties that progress one from the other,</t>\n    <t s=\"8\">but rather all the powers are revealed at once,</t>\n    <t s=\"9\">namely,</t>\n    <t s=\"10\">revelation of intellect,</t>\n    <t s=\"11\">and performance of kindness in abundance,</t>\n    <t s=\"12\">melody in abundance,</t>\n    <t s=\"13\">and speech and dancing in abundance,</t>\n    <t s=\"14\">this is because the level of Yechidah is in revelation,</t>\n    <t s=\"15\">and therefore all the powers emerge and are revealed as they are in concealment in the level of Yechidah,</t>\n    <t s=\"16\">where they are not in a manner of ten vessels,</t>\n    <t s=\"17\">but rather in one vessel,</t>\n    <t s=\"18\">and therefore they are all revealed at once.</t>\n    <t s=\"19\">And this is,</t>\n    <t s=\"20\">that when the drawing down is from the essence of the soul,</t>\n    <t s=\"21\">above even the level of the light as it is in concealment,</t>\n    <t s=\"22\">it is drawn down in revelation all the way below,</t>\n    <t s=\"23\">even to the dancing of the foot.</t>\n    <t s=\"24\">And so it is, as it were, above in the level of the Supernal Man and higher,</t>\n    <t s=\"25\">that the first point after the tzimtzum includes and encompasses the entire order of progression all the way below etc.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>The error of those who question how Divine Providence can extend to every particular detail is rooted in viewing things as divided into separate vessels, whereas from the perspective of the single vessel, all details are equal and thus particular providence is possible.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, the error of those who erred in their imagination and questioned how it is possible for there to be a matter of particular providence over every detail of created beings, down to this physical world of action, is understood,</t>\n    <t s=\"1\">for seemingly it is incomparably beyond measure that there should be particular providence over every single detail.</t>\n    <t s=\"2\">But the matter is,</t>\n    <t s=\"3\">that the root of this error is from the aspect of division into separate vessels,</t>\n    <t s=\"4\">even as it is in the world of Nekudim,</t>\n    <t s=\"5\">and certainly as it is drawn down below that in the worlds of Beriah, Yetzirah, and Asiyah.</t>\n    <t s=\"6\">But from the perspective that all matters are included in one vessel,</t>\n    <t s=\"7\">where they are all equal,</t>\n    <t s=\"8\">and are not in a manner of existence at all,</t>\n    <t s=\"9\">but only a source for a source of a source etc.,</t>\n    <t s=\"10\">then even the revelation is in a manner that all the details are revealed equally,</t>\n    <t s=\"11\">and therefore there can be particular providence over every single detail.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518916062_theRebbe_542",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916062_theRebbe_542__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "After the tzimtzum, the first revelation is only a single point (the world of Akudim), not a full order of progression, analogous to the level of Yechidah in the soul which is a simple unity containing all powers in one vessel.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "Now, since this matter is accomplished through the tzimtzum in a manner of complete removal of the light,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "it is understood,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that when a matter of revelation occurs,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "it is impossible for a full order of progression to be revealed immediately,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "but rather in a manner that only a single point is revealed,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and this is that after the tzimtzum there is first the matter of the world of Akudim,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "in which all the lights are bound together in one vessel,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "and only afterwards does the matter of the world of Nekudim occur,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "in which there are ten points in ten vessels."
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "And this will be understood by way of an analogy from the soul of man28"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "(as above, \"from my flesh I shall see G-d\"),"
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "that there are the five names by which it is called, up to the level of Yechidah29,"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "which is called by the name Yechidah because it is in the state of simple unity,"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "therefore it receives from the level of Yachid30,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "a spark of the Creator31."
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "And in the level of Yechidah, it is not applicable to say that there are ten matters in it"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "(even if we say that they are not in a manner of revealed wisdom etc.,"
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "but only a source for wisdom and a source for understanding and similarly in all ten faculties),"
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "because this is the opposite of the essence of Yechidah,"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "rather there is only one light there,"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "one point."
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "And the analogy from this will be understood above,"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "that the first revelation after the tzimtzum is in a manner of one point,"
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "and from this is later made the matter of ten points,"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "but as they are bound in one vessel."
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "But at first glance it is not understood how the term \"vessel\" is applicable at all"
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "(even one vessel),"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "since this is already a matter of revelation etc.,"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "and this is immediately after the tzimtzum,"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "even before the world of Nekudim,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "and if so,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "there should not be a matter of vessel at all."
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "And the explanation of this is,"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "that the matter of \"one vessel\" is not as it is in the world of Nekudim,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "ten points in ten vessels,"
+          },
+          {
+            "v": 9,
+            "s": 35,
+            "translation": "where the matter of the vessels is in a manner of a source for the existence of the vessel below,"
+          },
+          {
+            "v": 9,
+            "s": 36,
+            "translation": "but rather the matter of \"one vessel\" is only a potentiality that from this there can later be a source for a source for the matter of lights and vessels,"
+          },
+          {
+            "v": 9,
+            "s": 37,
+            "translation": "and what it is called by the name \"vessel\" is only because there is no other term or description for it besides \"vessel\","
+          },
+          {
+            "v": 9,
+            "s": 38,
+            "translation": "named so because ultimately a source for vessels will be drawn from it, which will first be in concealment and later drawn forth in revelation."
+          },
+          {
+            "v": 9,
+            "s": 39,
+            "translation": "Nevertheless,"
+          },
+          {
+            "v": 9,
+            "s": 40,
+            "translation": "this is not in a manner that it is entirely unrelated to the matter of revelation,"
+          },
+          {
+            "v": 9,
+            "s": 41,
+            "translation": "for on the contrary,"
+          },
+          {
+            "v": 9,
+            "s": 42,
+            "translation": "in the one vessel there are ten points,"
+          },
+          {
+            "v": 9,
+            "s": 43,
+            "translation": "and furthermore,"
+          },
+          {
+            "v": 9,
+            "s": 44,
+            "translation": "as is explained elsewhere32"
+          },
+          {
+            "v": 9,
+            "s": 45,
+            "translation": "at length, that the first point after the tzimtzum includes the entire order of progression,"
+          },
+          {
+            "v": 9,
+            "s": 46,
+            "translation": "and therefore it is called by the name Akudim,"
+          },
+          {
+            "v": 9,
+            "s": 47,
+            "translation": "because it binds together the entire order of progression."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "When the level of Yechidah in the soul is revealed, all powers emerge simultaneously in one vessel, just as the first point after the tzimtzum encompasses the entire order of progression.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And this too will be understood according to the analogy from the level of Yechidah in the soul of man,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "that when the level of Yechidah is in revelation,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "such as at the wedding of his only son and the like33,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "then all his powers are suddenly revealed at once,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "meaning that this is not in a way of an order of progression,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "that first one matter is revealed and then another matter is revealed,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "wisdom and then understanding,"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "and all ten faculties that progress one from the other,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "but rather all the powers are revealed at once,"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "namely,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "revelation of intellect,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "and performance of kindness in abundance,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "melody in abundance,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "and speech and dancing in abundance,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "this is because the level of Yechidah is in revelation,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "and therefore all the powers emerge and are revealed as they are in concealment in the level of Yechidah,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "where they are not in a manner of ten vessels,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "but rather in one vessel,"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "and therefore they are all revealed at once."
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "And this is,"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "that when the drawing down is from the essence of the soul,"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "above even the level of the light as it is in concealment,"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "it is drawn down in revelation all the way below,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "even to the dancing of the foot."
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "And so it is, as it were, above in the level of the Supernal Man and higher,"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "that the first point after the tzimtzum includes and encompasses the entire order of progression all the way below etc."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "The error of those who question how Divine Providence can extend to every particular detail is rooted in viewing things as divided into separate vessels, whereas from the perspective of the single vessel, all details are equal and thus particular providence is possible.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "And based on this, the error of those who erred in their imagination and questioned how it is possible for there to be a matter of particular providence over every detail of created beings, down to this physical world of action, is understood,"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "for seemingly it is incomparably beyond measure that there should be particular providence over every single detail."
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "But the matter is,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "that the root of this error is from the aspect of division into separate vessels,"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "even as it is in the world of Nekudim,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "and certainly as it is drawn down below that in the worlds of Beriah, Yetzirah, and Asiyah."
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "But from the perspective that all matters are included in one vessel,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "where they are all equal,"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "and are not in a manner of existence at all,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "but only a source for a source of a source etc.,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "then even the revelation is in a manner that all the details are revealed equally,"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "and therefore there can be particular providence over every single detail."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="שבט_meluket" postId="BH_POST_1766518916418_theRebbe_902" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916418_theRebbe_902__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="שבט_meluket" postId="BH_POST_1766518916418_theRebbe_902" title="מאמר לה"ע כתיבת ספר תורה תש"ל" batchId="meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916418_theRebbe_902__p003">
+  <section v="6">
+    <src s="0">ואולי י"ל,</src>
+    <src s="1">דזה שתיקון הז' נקרא ואמת</src>
+    <src s="2">(דענין האמת הוא שאינו משתנה)</src>
+    <src s="3">הוא גם מצד שרשו,</src>
+    <src s="4">דהבחינה שממנה באה ההמשכה דתיקון הז' היא אני הוי' לא שניתי40.</src>
+  </section>
+  <section v="7">
+    <src s="0">ד)</src>
+    <src s="1">והנה ע"פ הידוע41</src>
+    <src s="2">שכל הגבוה גבוה ביותר נמשך למטה מטה ביותר,</src>
+    <src s="3">מובן,</src>
+    <src s="4">דתיקון השביעי,</src>
+    <src s="5">תיקון ואמת,</src>
+    <src s="6">נמשך בעיקר למטה.</src>
+    <src s="7">והענין הוא,</src>
+    <src s="8">דהנה אמיתית הענין דאני הוי' לא שניתי הוא בעצמותו ומהותו ית' שמציאותו42</src>
+    <src s="9">הוא מעצמותו ואינו עלול מאיזה עילה שקדמה לו ח"ו.</src>
+    <src s="10">כי בהגילויים43,</src>
+    <src s="11">שקדמה להם עילה וסיבה,</src>
+    <src s="12">אין לומר אמיתית הענין דלא שניתי,</src>
+    <src s="13">וזה גופא שקדמה להם עילה וסיבה,</src>
+    <src s="14">הרי זה שינוי,</src>
+    <src s="15">שהרי ישנו שינוי בין לפני שנמשכה מהעילה וסיבה,</src>
+    <src s="16">ובעת שנמשכה מהעילה וסיבה,</src>
+    <src s="17">ולאחר שנמשכה מהעילה וסיבה.</src>
+    <src s="18">משא"כ בעצמותו ומהותו ית' שאינו עלול מאיזה עילה שקדמה לו ח"ו,</src>
+    <src s="19">הרי אין בו שום שינויים ח"ו,</src>
+    <src s="20">אמיתית הענין דאני הוי' לא שניתי.</src>
+    <src s="21">וענין זה נמשך בעיקר למטה,</src>
+    <src s="22">וכמו שמבאר כ"ק אדמו"ר האמצעי44,</src>
+    <src s="23">דזה שהיש דלמטה מרגיש שמציאותו מעצמותו,</src>
+    <src s="24">ובהרגשתו לא קדמה לו עילה וסיבה,</src>
+    <src s="25">הוא מפני ששרשו הוא מעצמותו ומהותו ית' שמציאותו הוא מעצמותו ואינו עלול מאיזה עילה שקדמה לו ח"ו,</src>
+    <src s="26">דאמיתית המציאות דיש הנברא הוא יש האמיתי.</src>
+    <src s="27">וכמבואר בארוכה בד"ה מי כמוכה לכ"ק אדמו"ר מהר"ש45</src>
+  </section>
+  <section v="8">
+    <src s="0">[אשר,</src>
+    <src s="1">כפי שגילה כ"ק מו"ח אדמו"ר46</src>
+    <src s="2">– לכל אחד מהרביים היו מאמרים קבועים אשר פעם בשתים או בשלש שנים היו חוזרים עליהם ברבים,</src>
+    <src s="3">ואחד ממאמרי כ"ק אדמו"ר מהר"ש אלה – הי' ד"ה מי כמוכה],</src>
+  </section>
+</awtsmoosMeluketSource>

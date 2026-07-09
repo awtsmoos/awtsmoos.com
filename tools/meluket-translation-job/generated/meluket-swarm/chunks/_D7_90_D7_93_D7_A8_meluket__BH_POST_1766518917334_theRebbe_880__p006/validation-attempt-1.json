@@ -1,0 +1,539 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 99,
+    "returned": 99,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917334_theRebbe_880\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>The illumination of the soul revealed through being crushed by exile is higher than that revealed through mesirus nefesh, as the former reveals the soul's essence rooted in Atzmus.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">And 4)</t>\n    <t s=\"2\">And it can be said,</t>\n    <t s=\"3\">that the aspect of the illumination of the soul that is revealed through the matter of being crushed, from this that they are in exile,</t>\n    <t s=\"4\">is more elevated than the aspect of the illumination of the soul that is revealed through mesirus nefesh.</t>\n    <t s=\"5\">And the explanation is,</t>\n    <t s=\"6\">that from the reasons for this, that at the Giving of the Torah there was only the beginning</t>\n    <t s=\"7\">(they began to do)</t>\n    <t s=\"8\">and in the days of Achashverosh there was the acceptance</t>\n    <t s=\"9\">(and the Jews accepted)</t>\n    <t s=\"10\">is,</t>\n    <t s=\"11\">because this that they preceded \"we will do\" to \"we will hear\" at the Giving of the Torah was because He coerced them [like a mountain suspended over them]52,</t>\n    <t s=\"12\">a revelation from Above53,</t>\n    <t s=\"13\">and in the days of Achashverosh the acceptance was from their own selves.</t>\n    <t s=\"14\">And it can be said,</t>\n    <t s=\"15\">that the faith of Israel from this that the soul above sees Elokus</t>\n    <t s=\"16\">(faith that is from the cause)</t>\n    <t s=\"17\">is analogous to their preceding \"we will do\" to \"we will hear\"</t>\n    <t s=\"18\">(at the Giving of the Torah)</t>\n    <t s=\"19\">from the aspect of the revelation from Above54,</t>\n    <t s=\"20\">and this that in the days of Achashverosh the acceptance was from their own selves,</t>\n    <t s=\"21\">is,</t>\n    <t s=\"22\">because then was revealed the connection to Elokus that is from the essence of the soul,</t>\n    <t s=\"23\">an essential connection that is from the essence of their existence.</t>\n    <t s=\"24\">And in more particularity it can be said,</t>\n    <t s=\"25\">that even in the revelation of the essence of the soul,</t>\n    <t s=\"26\">there exist</t>\n    <t s=\"27\">(analogous to)</t>\n    <t s=\"28\">the two matters mentioned above.</t>\n    <t s=\"29\">For the revelation of the essence of the soul in the matter of mesirus nefesh,</t>\n    <t s=\"30\">it can be said,</t>\n    <t s=\"31\">that in relation to the revealed faculties it is like an additional thing.</t>\n    <t s=\"32\">And as is seen in actuality in several people,</t>\n    <t s=\"33\">that when they were in a place where there were decrees against Torah and mitzvos,</t>\n    <t s=\"34\">they had actual mesirus nefesh for a number of years,</t>\n    <t s=\"35\">and when they afterwards came to countries where it is possible to engage in Torah and mitzvos with ease,</t>\n    <t s=\"36\">there is not discernible in them</t>\n    <t s=\"37\">(so much)</t>\n    <t s=\"38\">the mesirus nefesh that they had previously.</t>\n    <t s=\"39\">Because this that they stood in mesirus nefesh for a number of years is according to that the revelation of the essence of the soul, which is above the revealed faculties, shone in them, and no change was thereby made in the revealed faculties themselves55.</t>\n    <t s=\"40\">[For this that the essence of the soul is the essence</t>\n    <t s=\"41\">(also)</t>\n    <t s=\"42\">of the revealed faculties</t>\n    <t s=\"43\">(as above section 5),</t>\n    <t s=\"44\">is,</t>\n    <t s=\"45\">that the essence of the soul is their essence, and this does not pertain to the matter of the revealed faculties themselves,</t>\n    <t s=\"46\">to their conceptualization].</t>\n    <t s=\"47\">And the revelation of the essence of the soul in this that he is broken and crushed from this that he is in exile, is that even his revealed faculties</t>\n    <t s=\"48\">(the conceptualization of the revealed faculties)</t>\n    <t s=\"49\">are like one with the essence56.</t>\n    <t s=\"50\">And it can be said,</t>\n    <t s=\"51\">that this that the essence of the soul and the conceptualization of the faculties are</t>\n    <t s=\"52\">(analogous to)</t>\n    <t s=\"53\">two matters,</t>\n    <t s=\"54\">is because even the essence of the soul is defined by a definition,</t>\n    <t s=\"55\">and its definition is above the conceptualization of the faculties.</t>\n    <t s=\"56\">But from the perspective of the essence of the soul as it is rooted in the Atzmus,</t>\n    <t s=\"57\">the simplicity of the soul and the conceptualization of its faculties are all one57.</t>\n    <t s=\"58\">And based on this it can be said,</t>\n    <t s=\"59\">that the aspect of the illumination of the soul that is revealed through mesirus nefesh is the essence of the soul as it is defined in the matter of simplicity that is above the conceptualization of faculties,</t>\n    <t s=\"60\">and the aspect of the illumination of the soul that is revealed through the matter of being crushed from this that they are in exile,</t>\n    <t s=\"61\">is the revelation of the essence of the soul as it is rooted in the Atzmus.</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>Moshe connects and nourishes faith in Israel so that it comes also from the soul's essence, and Israel's service then adds revelation in Moshe's level by revealing the soul's root in Atzmus.</sectionSummaryBrief>\n    <t s=\"0\">10)</t>\n    <t s=\"1\">A)</t>\n    <t s=\"2\">And it should be connected with what is explained in the maamar58</t>\n    <t s=\"3\">in the explanation of the verse \"And you shall command the children of Israel, and they shall take to you pure olive oil etc.\",</t>\n    <t s=\"4\">that after Moshe will command and connect the children of Israel, then Israel will bring to Moshe olive oil etc.,</t>\n    <t s=\"5\">that Israel through their service will add a revelation of light in the level of Moshe.</t>\n    <t s=\"6\">And it can be said from the explanations of this in the service of man,</t>\n    <t s=\"7\">that this that Moshe commands and connects the children of Israel,</t>\n    <t s=\"8\">is,</t>\n    <t s=\"9\">that he nourishes and sustains the faith,</t>\n    <t s=\"10\">that the faith will be, in addition to as it is from the aspect of the revelations of the soul</t>\n    <t s=\"11\">(from this that the soul above sees Elokus)</t>\n    <t s=\"12\">also from the aspect of the essence of the soul.</t>\n    <t s=\"13\">[And it can be said,</t>\n    <t s=\"14\">that this is what is written \"And you shall command the children of Israel\",</t>\n    <t s=\"15\">that the expression \"And you shall command the children of Israel\" implies that Moshe commands</t>\n    <t s=\"16\">(connects and joins)</t>\n    <t s=\"17\">the children of Israel themselves,</t>\n    <t s=\"18\">because from the perspective of the essence of the soul,</t>\n    <t s=\"19\">all of Israel are one59].</t>\n    <t s=\"20\">And through the service of Israel</t>\n    <t s=\"21\">(after the revelation of the essence of the soul was drawn into Israel through Moshe),</t>\n    <t s=\"22\">that even their revealed faculties</t>\n    <t s=\"23\">(the conceptualization of the faculties)</t>\n    <t s=\"24\">will be aligned with the essence of the soul,</t>\n    <t s=\"25\">through this there is an advantage and addition in the aspect of the essence of the soul that was drawn and revealed in them through Moshe</t>\n    <t s=\"26\">(\"and they shall take to you\"),</t>\n    <t s=\"27\">because through this its true root is revealed in it, as it is rooted in the Atzmus.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>Through the revelation of the soul's essence rooted in Atzmus, the unity of Israel becomes complete, encompassing even physical matters.</sectionSummaryBrief>\n    <t s=\"0\">[And to note,</t>\n    <t s=\"1\">that through this there is also addition in the unity of Israel.</t>\n    <t s=\"2\">That the unity of Israel through the essence of the soul that is revealed in them is like an additional thing upon their existence.</t>\n    <t s=\"3\">And therefore,</t>\n    <t s=\"4\">this unity is through their making their soul primary and their body secondary60.</t>\n    <t s=\"5\">And through the revelation of the essence of the soul as it is rooted in the Atzmus,</t>\n    <t s=\"6\">through which even the conceptualization of the revealed faculties is one with the essence,</t>\n    <t s=\"7\">the unity of Israel is in all their matters,</t>\n    <t s=\"8\">even in matters that pertain to the body].</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917334_theRebbe_880",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917334_theRebbe_880__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "The illumination of the soul revealed through being crushed by exile is higher than that revealed through mesirus nefesh, as the former reveals the soul's essence rooted in Atzmus.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "And 4)"
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "that the aspect of the illumination of the soul that is revealed through the matter of being crushed, from this that they are in exile,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "is more elevated than the aspect of the illumination of the soul that is revealed through mesirus nefesh."
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "that from the reasons for this, that at the Giving of the Torah there was only the beginning"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "(they began to do)"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "and in the days of Achashverosh there was the acceptance"
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "(and the Jews accepted)"
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "is,"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "because this that they preceded \"we will do\" to \"we will hear\" at the Giving of the Torah was because He coerced them [like a mountain suspended over them]52,"
+          },
+          {
+            "v": 15,
+            "s": 12,
+            "translation": "a revelation from Above53,"
+          },
+          {
+            "v": 15,
+            "s": 13,
+            "translation": "and in the days of Achashverosh the acceptance was from their own selves."
+          },
+          {
+            "v": 15,
+            "s": 14,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 15,
+            "translation": "that the faith of Israel from this that the soul above sees Elokus"
+          },
+          {
+            "v": 15,
+            "s": 16,
+            "translation": "(faith that is from the cause)"
+          },
+          {
+            "v": 15,
+            "s": 17,
+            "translation": "is analogous to their preceding \"we will do\" to \"we will hear\""
+          },
+          {
+            "v": 15,
+            "s": 18,
+            "translation": "(at the Giving of the Torah)"
+          },
+          {
+            "v": 15,
+            "s": 19,
+            "translation": "from the aspect of the revelation from Above54,"
+          },
+          {
+            "v": 15,
+            "s": 20,
+            "translation": "and this that in the days of Achashverosh the acceptance was from their own selves,"
+          },
+          {
+            "v": 15,
+            "s": 21,
+            "translation": "is,"
+          },
+          {
+            "v": 15,
+            "s": 22,
+            "translation": "because then was revealed the connection to Elokus that is from the essence of the soul,"
+          },
+          {
+            "v": 15,
+            "s": 23,
+            "translation": "an essential connection that is from the essence of their existence."
+          },
+          {
+            "v": 15,
+            "s": 24,
+            "translation": "And in more particularity it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 25,
+            "translation": "that even in the revelation of the essence of the soul,"
+          },
+          {
+            "v": 15,
+            "s": 26,
+            "translation": "there exist"
+          },
+          {
+            "v": 15,
+            "s": 27,
+            "translation": "(analogous to)"
+          },
+          {
+            "v": 15,
+            "s": 28,
+            "translation": "the two matters mentioned above."
+          },
+          {
+            "v": 15,
+            "s": 29,
+            "translation": "For the revelation of the essence of the soul in the matter of mesirus nefesh,"
+          },
+          {
+            "v": 15,
+            "s": 30,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 31,
+            "translation": "that in relation to the revealed faculties it is like an additional thing."
+          },
+          {
+            "v": 15,
+            "s": 32,
+            "translation": "And as is seen in actuality in several people,"
+          },
+          {
+            "v": 15,
+            "s": 33,
+            "translation": "that when they were in a place where there were decrees against Torah and mitzvos,"
+          },
+          {
+            "v": 15,
+            "s": 34,
+            "translation": "they had actual mesirus nefesh for a number of years,"
+          },
+          {
+            "v": 15,
+            "s": 35,
+            "translation": "and when they afterwards came to countries where it is possible to engage in Torah and mitzvos with ease,"
+          },
+          {
+            "v": 15,
+            "s": 36,
+            "translation": "there is not discernible in them"
+          },
+          {
+            "v": 15,
+            "s": 37,
+            "translation": "(so much)"
+          },
+          {
+            "v": 15,
+            "s": 38,
+            "translation": "the mesirus nefesh that they had previously."
+          },
+          {
+            "v": 15,
+            "s": 39,
+            "translation": "Because this that they stood in mesirus nefesh for a number of years is according to that the revelation of the essence of the soul, which is above the revealed faculties, shone in them, and no change was thereby made in the revealed faculties themselves55."
+          },
+          {
+            "v": 15,
+            "s": 40,
+            "translation": "[For this that the essence of the soul is the essence"
+          },
+          {
+            "v": 15,
+            "s": 41,
+            "translation": "(also)"
+          },
+          {
+            "v": 15,
+            "s": 42,
+            "translation": "of the revealed faculties"
+          },
+          {
+            "v": 15,
+            "s": 43,
+            "translation": "(as above section 5),"
+          },
+          {
+            "v": 15,
+            "s": 44,
+            "translation": "is,"
+          },
+          {
+            "v": 15,
+            "s": 45,
+            "translation": "that the essence of the soul is their essence, and this does not pertain to the matter of the revealed faculties themselves,"
+          },
+          {
+            "v": 15,
+            "s": 46,
+            "translation": "to their conceptualization]."
+          },
+          {
+            "v": 15,
+            "s": 47,
+            "translation": "And the revelation of the essence of the soul in this that he is broken and crushed from this that he is in exile, is that even his revealed faculties"
+          },
+          {
+            "v": 15,
+            "s": 48,
+            "translation": "(the conceptualization of the revealed faculties)"
+          },
+          {
+            "v": 15,
+            "s": 49,
+            "translation": "are like one with the essence56."
+          },
+          {
+            "v": 15,
+            "s": 50,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 51,
+            "translation": "that this that the essence of the soul and the conceptualization of the faculties are"
+          },
+          {
+            "v": 15,
+            "s": 52,
+            "translation": "(analogous to)"
+          },
+          {
+            "v": 15,
+            "s": 53,
+            "translation": "two matters,"
+          },
+          {
+            "v": 15,
+            "s": 54,
+            "translation": "is because even the essence of the soul is defined by a definition,"
+          },
+          {
+            "v": 15,
+            "s": 55,
+            "translation": "and its definition is above the conceptualization of the faculties."
+          },
+          {
+            "v": 15,
+            "s": 56,
+            "translation": "But from the perspective of the essence of the soul as it is rooted in the Atzmus,"
+          },
+          {
+            "v": 15,
+            "s": 57,
+            "translation": "the simplicity of the soul and the conceptualization of its faculties are all one57."
+          },
+          {
+            "v": 15,
+            "s": 58,
+            "translation": "And based on this it can be said,"
+          },
+          {
+            "v": 15,
+            "s": 59,
+            "translation": "that the aspect of the illumination of the soul that is revealed through mesirus nefesh is the essence of the soul as it is defined in the matter of simplicity that is above the conceptualization of faculties,"
+          },
+          {
+            "v": 15,
+            "s": 60,
+            "translation": "and the aspect of the illumination of the soul that is revealed through the matter of being crushed from this that they are in exile,"
+          },
+          {
+            "v": 15,
+            "s": 61,
+            "translation": "is the revelation of the essence of the soul as it is rooted in the Atzmus."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "Moshe connects and nourishes faith in Israel so that it comes also from the soul's essence, and Israel's service then adds revelation in Moshe's level by revealing the soul's root in Atzmus.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "10)"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "A)"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "And it should be connected with what is explained in the maamar58"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "in the explanation of the verse \"And you shall command the children of Israel, and they shall take to you pure olive oil etc.\","
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "that after Moshe will command and connect the children of Israel, then Israel will bring to Moshe olive oil etc.,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "that Israel through their service will add a revelation of light in the level of Moshe."
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "And it can be said from the explanations of this in the service of man,"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "that this that Moshe commands and connects the children of Israel,"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "is,"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "that he nourishes and sustains the faith,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "that the faith will be, in addition to as it is from the aspect of the revelations of the soul"
+          },
+          {
+            "v": 16,
+            "s": 11,
+            "translation": "(from this that the soul above sees Elokus)"
+          },
+          {
+            "v": 16,
+            "s": 12,
+            "translation": "also from the aspect of the essence of the soul."
+          },
+          {
+            "v": 16,
+            "s": 13,
+            "translation": "[And it can be said,"
+          },
+          {
+            "v": 16,
+            "s": 14,
+            "translation": "that this is what is written \"And you shall command the children of Israel\","
+          },
+          {
+            "v": 16,
+            "s": 15,
+            "translation": "that the expression \"And you shall command the children of Israel\" implies that Moshe commands"
+          },
+          {
+            "v": 16,
+            "s": 16,
+            "translation": "(connects and joins)"
+          },
+          {
+            "v": 16,
+            "s": 17,
+            "translation": "the children of Israel themselves,"
+          },
+          {
+            "v": 16,
+            "s": 18,
+            "translation": "because from the perspective of the essence of the soul,"
+          },
+          {
+            "v": 16,
+            "s": 19,
+            "translation": "all of Israel are one59]."
+          },
+          {
+            "v": 16,
+            "s": 20,
+            "translation": "And through the service of Israel"
+          },
+          {
+            "v": 16,
+            "s": 21,
+            "translation": "(after the revelation of the essence of the soul was drawn into Israel through Moshe),"
+          },
+          {
+            "v": 16,
+            "s": 22,
+            "translation": "that even their revealed faculties"
+          },
+          {
+            "v": 16,
+            "s": 23,
+            "translation": "(the conceptualization of the faculties)"
+          },
+          {
+            "v": 16,
+            "s": 24,
+            "translation": "will be aligned with the essence of the soul,"
+          },
+          {
+            "v": 16,
+            "s": 25,
+            "translation": "through this there is an advantage and addition in the aspect of the essence of the soul that was drawn and revealed in them through Moshe"
+          },
+          {
+            "v": 16,
+            "s": 26,
+            "translation": "(\"and they shall take to you\"),"
+          },
+          {
+            "v": 16,
+            "s": 27,
+            "translation": "because through this its true root is revealed in it, as it is rooted in the Atzmus."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "Through the revelation of the soul's essence rooted in Atzmus, the unity of Israel becomes complete, encompassing even physical matters.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "[And to note,"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "that through this there is also addition in the unity of Israel."
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "That the unity of Israel through the essence of the soul that is revealed in them is like an additional thing upon their existence."
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "And therefore,"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "this unity is through their making their soul primary and their body secondary60."
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "And through the revelation of the essence of the soul as it is rooted in the Atzmus,"
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "through which even the conceptualization of the revealed faculties is one with the essence,"
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "the unity of Israel is in all their matters,"
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "even in matters that pertain to the body]."
+          }
+        ]
+      }
+    ]
+  }
+}

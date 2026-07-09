@@ -1,0 +1,299 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 51,
+    "returned": 51,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918762_theRebbe_940\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p006\">\n  <section v=\"15\">\n    <sectionSummaryBrief>This section explains that the \"Anochi\" of \"I am your G-d\" for Israel is higher than the \"Anochi\" in the Torah, as the root of Israel in Atzmus is above the root of the Torah.</sectionSummaryBrief>\n    <t s=\"0\">[And it may be said,</t>\n    <t s=\"1\">that the concept of \"Anochi Elokecha\" of Israel is above the aspect of \"Anochi\" that is in the Torah.</t>\n    <t s=\"2\">And as is known,</t>\n    <t s=\"3\">that even in the root of Torah and Israel as they are in Atzmus,</t>\n    <t s=\"4\">the root of Israel is above the root of the Torah.</t>\n    <t s=\"5\">For the Torah</t>\n    <t s=\"6\">(even as it is after the Giving of the Torah,</t>\n    <t s=\"7\">the concept of \"I wrote and gave My very Self\")</t>\n    <t s=\"8\">is for the sake of Israel.</t>\n    <t s=\"9\">But the revelation of \"Anochi Elokecha\"</t>\n    <t s=\"10\">(of Israel)</t>\n    <t s=\"11\">— is drawn down by means of the \"Anochi\" that is in the Torah].</t>\n  </section>\n  <section v=\"16\">\n    <sectionSummaryBrief>This section states that Israel's Torah study also effects change in the world, similar to the Ten Commandments, because it draws down the revelation of \"Anochi\" which is the speech of Atzmus.</sectionSummaryBrief>\n    <t s=\"0\">And this is also the reason that even through the Torah study of Israel a change is effected in the things of the world,</t>\n    <t s=\"1\">similar to the change effected in the world through the Ten Commandments of the Holy One, blessed be He</t>\n    <t s=\"2\">(as above in section 6 of Likutei Torah),</t>\n    <t s=\"3\">for through Israel engaging in Torah, the revelation of \"Anochi\" is drawn down</t>\n    <t s=\"4\">(the \"Anochi\" that is in the Torah,</t>\n    <t s=\"5\">and also the \"Anochi Elokecha\" of Israel,</t>\n    <t s=\"6\">which is above the \"Anochi\" that is in the Torah),</t>\n    <t s=\"7\">and the speech</t>\n    <t s=\"8\">(as it were)</t>\n    <t s=\"9\">of Atzmus effects a change in the world,</t>\n    <t s=\"10\">as above.</t>\n  </section>\n  <section v=\"17\">\n    <sectionSummaryBrief>This section explains that for Torah study and mitzvah observance to draw down the \"Anochi\" speech, they must be done with absolute self-nullification, which is possible only after the Giving of the Torah, unlike the lesser nullification of the Patriarchs.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And one should add an explanation of the connection of the change in the world effected through a person's Torah study and observance of mitzvos to the drawing down of Atzmus into Torah and mitzvos,</t>\n    <t s=\"2\">for in order that in a person's study</t>\n    <t s=\"3\">(speech)</t>\n    <t s=\"4\">of Torah there be a drawing down of the speech of \"Anochi\",</t>\n    <t s=\"5\">this is through his study being with absolute self-nullification.</t>\n    <t s=\"6\">And similarly regarding the observance of mitzvos.</t>\n    <t s=\"7\">And the true self-nullification in Torah study and mitzvah observance comes from the fact that in the Torah and mitzvos given at the Giving of the Torah there is a drawing down of Atzmus.</t>\n    <t s=\"8\">For the Torah study and mitzvah observance of the Patriarchs before the Giving of the Torah,</t>\n    <t s=\"9\">since the service of the Patriarchs reached only until the root of created beings,</t>\n    <t s=\"10\">for regarding the root of created beings there is a grasp of place for created beings,</t>\n    <t s=\"11\">therefore,</t>\n    <t s=\"12\">their self-nullification was not absolute self-nullification.</t>\n    <t s=\"13\">And this is what is said of Avraham,</t>\n    <t s=\"14\">\"And I am dust and ashes,\"</t>\n    <t s=\"15\">for even ashes are an existence.</t>\n    <t s=\"16\">But the self-nullification through Torah study and mitzvah observance after the Giving of the Torah is absolute self-nullification,</t>\n    <t s=\"17\">similar to the self-nullification of Moshe</t>\n    <t s=\"18\">(the receiver of the Torah)</t>\n    <t s=\"19\">of whom it is written,</t>\n    <t s=\"20\">\"And we are what.\"</t>\n    <t s=\"21\">[And it may be said,</t>\n    <t s=\"22\">that this—that each and every Jew can, through Torah and mitzvos, attain the self-nullification of \"Mah\"—is because at the Giving of the Torah, \"Havayah Elokecha\" came into being</t>\n    <t s=\"23\">(as above in sections 3 and 4),</t>\n    <t s=\"24\">and Havayah spelled out with Alephs has the numerical value of Mah,</t>\n    <t s=\"25\">and the self-nullification effected through the drawing down of Atzmus</t>\n    <t s=\"26\">(\"Anochi\" which is above Havayah)</t>\n    <t s=\"27\">into Torah and its mitzvos is above even the self-nullification of Mah].</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918762_theRebbe_940",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918762_theRebbe_940__p006"
+    },
+    "sections": [
+      {
+        "v": 15,
+        "sectionSummaryBrief": "This section explains that the \"Anochi\" of \"I am your G-d\" for Israel is higher than the \"Anochi\" in the Torah, as the root of Israel in Atzmus is above the root of the Torah.",
+        "translations": [
+          {
+            "v": 15,
+            "s": 0,
+            "translation": "[And it may be said,"
+          },
+          {
+            "v": 15,
+            "s": 1,
+            "translation": "that the concept of \"Anochi Elokecha\" of Israel is above the aspect of \"Anochi\" that is in the Torah."
+          },
+          {
+            "v": 15,
+            "s": 2,
+            "translation": "And as is known,"
+          },
+          {
+            "v": 15,
+            "s": 3,
+            "translation": "that even in the root of Torah and Israel as they are in Atzmus,"
+          },
+          {
+            "v": 15,
+            "s": 4,
+            "translation": "the root of Israel is above the root of the Torah."
+          },
+          {
+            "v": 15,
+            "s": 5,
+            "translation": "For the Torah"
+          },
+          {
+            "v": 15,
+            "s": 6,
+            "translation": "(even as it is after the Giving of the Torah,"
+          },
+          {
+            "v": 15,
+            "s": 7,
+            "translation": "the concept of \"I wrote and gave My very Self\")"
+          },
+          {
+            "v": 15,
+            "s": 8,
+            "translation": "is for the sake of Israel."
+          },
+          {
+            "v": 15,
+            "s": 9,
+            "translation": "But the revelation of \"Anochi Elokecha\""
+          },
+          {
+            "v": 15,
+            "s": 10,
+            "translation": "(of Israel)"
+          },
+          {
+            "v": 15,
+            "s": 11,
+            "translation": "— is drawn down by means of the \"Anochi\" that is in the Torah]."
+          }
+        ]
+      },
+      {
+        "v": 16,
+        "sectionSummaryBrief": "This section states that Israel's Torah study also effects change in the world, similar to the Ten Commandments, because it draws down the revelation of \"Anochi\" which is the speech of Atzmus.",
+        "translations": [
+          {
+            "v": 16,
+            "s": 0,
+            "translation": "And this is also the reason that even through the Torah study of Israel a change is effected in the things of the world,"
+          },
+          {
+            "v": 16,
+            "s": 1,
+            "translation": "similar to the change effected in the world through the Ten Commandments of the Holy One, blessed be He"
+          },
+          {
+            "v": 16,
+            "s": 2,
+            "translation": "(as above in section 6 of Likutei Torah),"
+          },
+          {
+            "v": 16,
+            "s": 3,
+            "translation": "for through Israel engaging in Torah, the revelation of \"Anochi\" is drawn down"
+          },
+          {
+            "v": 16,
+            "s": 4,
+            "translation": "(the \"Anochi\" that is in the Torah,"
+          },
+          {
+            "v": 16,
+            "s": 5,
+            "translation": "and also the \"Anochi Elokecha\" of Israel,"
+          },
+          {
+            "v": 16,
+            "s": 6,
+            "translation": "which is above the \"Anochi\" that is in the Torah),"
+          },
+          {
+            "v": 16,
+            "s": 7,
+            "translation": "and the speech"
+          },
+          {
+            "v": 16,
+            "s": 8,
+            "translation": "(as it were)"
+          },
+          {
+            "v": 16,
+            "s": 9,
+            "translation": "of Atzmus effects a change in the world,"
+          },
+          {
+            "v": 16,
+            "s": 10,
+            "translation": "as above."
+          }
+        ]
+      },
+      {
+        "v": 17,
+        "sectionSummaryBrief": "This section explains that for Torah study and mitzvah observance to draw down the \"Anochi\" speech, they must be done with absolute self-nullification, which is possible only after the Giving of the Torah, unlike the lesser nullification of the Patriarchs.",
+        "translations": [
+          {
+            "v": 17,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 17,
+            "s": 1,
+            "translation": "And one should add an explanation of the connection of the change in the world effected through a person's Torah study and observance of mitzvos to the drawing down of Atzmus into Torah and mitzvos,"
+          },
+          {
+            "v": 17,
+            "s": 2,
+            "translation": "for in order that in a person's study"
+          },
+          {
+            "v": 17,
+            "s": 3,
+            "translation": "(speech)"
+          },
+          {
+            "v": 17,
+            "s": 4,
+            "translation": "of Torah there be a drawing down of the speech of \"Anochi\","
+          },
+          {
+            "v": 17,
+            "s": 5,
+            "translation": "this is through his study being with absolute self-nullification."
+          },
+          {
+            "v": 17,
+            "s": 6,
+            "translation": "And similarly regarding the observance of mitzvos."
+          },
+          {
+            "v": 17,
+            "s": 7,
+            "translation": "And the true self-nullification in Torah study and mitzvah observance comes from the fact that in the Torah and mitzvos given at the Giving of the Torah there is a drawing down of Atzmus."
+          },
+          {
+            "v": 17,
+            "s": 8,
+            "translation": "For the Torah study and mitzvah observance of the Patriarchs before the Giving of the Torah,"
+          },
+          {
+            "v": 17,
+            "s": 9,
+            "translation": "since the service of the Patriarchs reached only until the root of created beings,"
+          },
+          {
+            "v": 17,
+            "s": 10,
+            "translation": "for regarding the root of created beings there is a grasp of place for created beings,"
+          },
+          {
+            "v": 17,
+            "s": 11,
+            "translation": "therefore,"
+          },
+          {
+            "v": 17,
+            "s": 12,
+            "translation": "their self-nullification was not absolute self-nullification."
+          },
+          {
+            "v": 17,
+            "s": 13,
+            "translation": "And this is what is said of Avraham,"
+          },
+          {
+            "v": 17,
+            "s": 14,
+            "translation": "\"And I am dust and ashes,\""
+          },
+          {
+            "v": 17,
+            "s": 15,
+            "translation": "for even ashes are an existence."
+          },
+          {
+            "v": 17,
+            "s": 16,
+            "translation": "But the self-nullification through Torah study and mitzvah observance after the Giving of the Torah is absolute self-nullification,"
+          },
+          {
+            "v": 17,
+            "s": 17,
+            "translation": "similar to the self-nullification of Moshe"
+          },
+          {
+            "v": 17,
+            "s": 18,
+            "translation": "(the receiver of the Torah)"
+          },
+          {
+            "v": 17,
+            "s": 19,
+            "translation": "of whom it is written,"
+          },
+          {
+            "v": 17,
+            "s": 20,
+            "translation": "\"And we are what.\""
+          },
+          {
+            "v": 17,
+            "s": 21,
+            "translation": "[And it may be said,"
+          },
+          {
+            "v": 17,
+            "s": 22,
+            "translation": "that this—that each and every Jew can, through Torah and mitzvos, attain the self-nullification of \"Mah\"—is because at the Giving of the Torah, \"Havayah Elokecha\" came into being"
+          },
+          {
+            "v": 17,
+            "s": 23,
+            "translation": "(as above in sections 3 and 4),"
+          },
+          {
+            "v": 17,
+            "s": 24,
+            "translation": "and Havayah spelled out with Alephs has the numerical value of Mah,"
+          },
+          {
+            "v": 17,
+            "s": 25,
+            "translation": "and the self-nullification effected through the drawing down of Atzmus"
+          },
+          {
+            "v": 17,
+            "s": 26,
+            "translation": "(\"Anochi\" which is above Havayah)"
+          },
+          {
+            "v": 17,
+            "s": 27,
+            "translation": "into Torah and its mitzvos is above even the self-nullification of Mah]."
+          }
+        ]
+      }
+    ]
+  }
+}

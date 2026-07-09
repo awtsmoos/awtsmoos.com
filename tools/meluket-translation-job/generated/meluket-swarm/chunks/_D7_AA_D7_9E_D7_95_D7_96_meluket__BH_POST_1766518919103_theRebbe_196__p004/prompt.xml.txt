@@ -1,0 +1,109 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תמוז_meluket" postId="BH_POST_1766518919103_theRebbe_196" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919103_theRebbe_196__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תמוז_meluket" postId="BH_POST_1766518919103_theRebbe_196" title="מאמר השם נפשנו בחיים תשח"י" batchId="meluket-_D7_AA_D7_9E_D7_95_D7_96_meluket__BH_POST_1766518919103_theRebbe_196__p004">
+  <section v="9">
+    <src s="0">ז)</src>
+    <src s="1">ויש לומר,</src>
+    <src s="2">שהסיבה לזה שקרח טעה וחשב שהכוונה ברקיע המבדיל היא ההבדלה עצמה,</src>
+    <src s="3">היא,</src>
+    <src s="4">מפני שלא הי' בו ענין הביטול.</src>
+    <src s="5">והענין הוא,</src>
+    <src s="6">דזה שנת"ל</src>
+    <src s="7">(סעיף ג)</src>
+    <src s="8">שהכוונה בזה שמים התחתונים נבדלו ממים העליונים וירדו למטה היא בכדי שיהי' בהם התשוקה והצמאון לעלות למעלה,</src>
+    <src s="9">הוא חיבור והתכללות דשני מדות הפכיות.</src>
+    <src s="10">כי מצד החסדים</src>
+    <src s="11">(מעלת הגילויים),</src>
+    <src s="12">המעלה היא במים העליונים ולא הי' צריך שמים התחתונים יובדלו ממים העליונים וירדו למטה,</src>
+    <src s="13">ומצד הגבורות,</src>
+    <src s="14">המעלה היא בגילוי השרש דמים התחתונים עצמם,</src>
+    <src s="15">ואין צריך שבמים התחתונים יהי' תשוקה וצמאון לצאת ממציאותם ולעלות למעלה.</src>
+    <src s="16">וזה שהכוונה בהירידה דמים התחתונים למטה היא שיהי' בהם הצמאון לעלות למעלה הוא מצד הת"ת,</src>
+    <src s="17">קו האמצעי,</src>
+    <src s="18">שמחבר ההפכים דחסד וגבורה,</src>
+    <src s="19">שיהי' לאכללא שמאלא בימינא48.</src>
+    <src s="20">ולהיות דענין ההתכללות הוא מצד הביטול49,</src>
+    <src s="21">לכן קרח שלא הי' בביטול,</src>
+    <src s="22">לא הונח אצלו ענין זה.</src>
+  </section>
+  <section v="10">
+    <src s="0">ויש לומר,</src>
+    <src s="1">שעד"ז הוא בנוגע להעבודה דכל מעשיך לשם שמים,</src>
+    <src s="2">דזה שהגם שיודע גודל העילוי דבכל דרכיך דעהו,</src>
+    <src s="3">ידיעת אלקות בעניני העולם עצמם,</src>
+    <src s="4">ומ"מ יהי' כל עסקו בעניני העולם רק אמצעי בשביל קיום התומ"צ,</src>
+    <src s="5">הוא ע"י הביטול לקיים רצון העליון.</src>
+    <src s="6">דמכיון שעבודתו היא לא לרוות את צמאונו שיהי' גילוי אלקות בנפשו,</src>
+    <src s="7">אלא שהוא מסור ונתון לקיים רצון הקב"ה,</src>
+    <src s="8">לכן אין נוגע לו הגילוי שידע אלקות</src>
+    <src s="9">(גם)</src>
+    <src s="10">בעניני העולם,</src>
+    <src s="11">וכל רצונו הוא בקיום התומ"צ,</src>
+    <src s="12">קיום רצון הקב"ה.</src>
+    <src s="13">[ועי"ז יהי' לו גם הגילוי אלקות שבעניני העולם,</src>
+    <src s="14">וכנ"ל</src>
+    <src s="15">(סעיף ה),</src>
+    <src s="16">שע"י העבודה דכל מעשיך לשם שמים מגיעים לבכל דרכיך דעהו].</src>
+  </section>
+  <section v="11">
+    <src s="0">ח)</src>
+    <src s="1">וזהו השם נפשנו בחיים ולא נתן למוט רגלנו,</src>
+    <src s="2">דכשהאדם עוסק בתומ"צ הוא בבחינת ראש וכשהוא עוסק בעניני העולם הוא בבחינת רגל,</src>
+    <src s="3">והכח על זה שהרגלים שלו</src>
+    <src s="4">(העסק בעניני העולם)</src>
+    <src s="5">לא יהיו למוט,</src>
+    <src s="6">הוא מהחיים שבהם שם נפשנו,</src>
+    <src s="7">החיים שלמעלה מהטבע,</src>
+    <src s="8">שלמעלה מחיי הנפש עצמה,</src>
+    <src s="9">גם מבחינת חי בעצם,</src>
+    <src s="10">כי מצד הדרגא דחיי הנפש עצמה</src>
+    <src s="11">(כולל גם בחינת חי בעצם),</src>
+    <src s="12">אפשר שירצה בהגילוי אלקות שבעניני העולם,</src>
+    <src s="13">וכאשר עסקו בעניני העולם יהי' בשביל</src>
+    <src s="14">(הגילוי שב)</src>
+    <src s="15">עניני העולם עצמם,</src>
+    <src s="16">ולא לשם שמים בשביל קיום התומ"צ,</src>
+    <src s="17">אז הרגלים שבו</src>
+    <src s="18">(התעסקותו בעניני הרשות)</src>
+    <src s="19">יהיו למוט,</src>
+    <src s="20">ובכדי שהרגלים שלו לא יהיו למוט,</src>
+    <src s="21">ע"י שעסקו בדברי הרשות הוא לשם שמים כנ"ל,</src>
+    <src s="22">הוא ע"י החיים שלמעלה מהטבע</src>
+    <src s="23">(די"ל שהכלי לזה הוא הביטול),</src>
+    <src s="24">שלהיותם למעלה מהגבלה הם מחברים שני ההפכים דחסד וגבורה,</src>
+    <src s="25">דהגם שיודע העילוי שבבירור דברי הרשות,</src>
+    <src s="26">מ"מ כוונתו בעשיית דברי הרשות היא בשביל קיום התומ"צ.</src>
+  </section>
+</awtsmoosMeluketSource>

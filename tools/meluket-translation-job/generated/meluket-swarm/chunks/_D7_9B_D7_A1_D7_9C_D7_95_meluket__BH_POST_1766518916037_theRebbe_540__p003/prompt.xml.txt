@@ -1,0 +1,154 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518916037_theRebbe_540" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518916037_theRebbe_540" title="מאמר וישב יעקב תשכ"ז" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p003">
+  <section v="6">
+    <src s="0">ה)</src>
+    <src s="1">והנה חטא עה"ד פעל ירידה בכל סדר ההשתלשלות,</src>
+    <src s="2">כשם שבאדם הראשון פעל החטא ירידה לא רק ברגליו בעשי',</src>
+    <src s="3">שהרגיש טעם גשמי,</src>
+    <src s="4">אלא גם בגופו שביצירה,</src>
+    <src s="5">דעולם היצירה הו"ע המדות,</src>
+    <src s="6">דז"א מקננא ביצירה38,</src>
+    <src s="7">והיינו,</src>
+    <src s="8">שהחטא פעל ירידה גם בהמדות שביצירה,</src>
+    <src s="9">שהמדות כפי שהם לאחרי החטא אינם דומים להמדות כפי שהיו לפני החטא.</src>
+    <src s="10">וכשם שהירידה ברגליו שבעשי' היתה ע"י הדעת וההרגש,</src>
+    <src s="11">כמו"כ גם הירידה במדות באה ע"י ההרגש.</src>
+  </section>
+  <section v="7">
+    <src s="0">וביאור הענין הוא,</src>
+    <src s="1">דהנה התחלת המדות הו"ע חסד,</src>
+    <src s="2">ובחסד יש חסדים המכוסים וחסדים המגולים39.</src>
+    <src s="3">חסדים מגולים הו"ע החסד כפי שבא בגילוי,</src>
+    <src s="4">וחסדים המכוסים היינו כפי שהחסד הוא בהעלם מצד השכל.</src>
+    <src s="5">ואין הכוונה בחסדים המכוסים להמדות הכלולים בשכל,</src>
+    <src s="6">כי,</src>
+    <src s="7">בהיותם כלולים בשכל אינם מדות שבלב אלא מדות שבשכל,</src>
+    <src s="8">ואז לא שייך לחלק בין חסדים המכוסים לחסדים המגולים,</src>
+    <src s="9">וא"כ,</src>
+    <src s="10">הכוונה בחסדים המכוסים היא להמדות כפי שהם במקומם בלב,</src>
+    <src s="11">אלא שהם בטלים מצד השכל שמאיר בלב.</src>
+    <src s="12">והענין בזה,</src>
+    <src s="13">דהנה,</src>
+    <src s="14">עם היות שהמדות נמצאים מהשכל,</src>
+    <src s="15">וכמ"ש בתניא40</src>
+    <src s="16">שחב"ד נקרא אמות ומקור למדות,</src>
+    <src s="17">שע"י שמתבונן במה רבו מעשיך הוי'41</src>
+    <src s="18">ומה גדלו מעשיך הוי'42</src>
+    <src s="19">מתגלים המדות,</src>
+    <src s="20">אהבת הוי' ופחדו ויראתו ולפארו כו',</src>
+    <src s="21">וכמ"ש הרמב"ם43</src>
+    <src s="22">והיאך היא הדרך לאהבתו ויראתו בשעה שיתבונן כו',</src>
+    <src s="23">שע"י ההתבוננות המתאימה לאהבה נולד מדת האהבה,</src>
+    <src s="24">וע"י ההתבוננות המתאימה ליראה נולד מדת היראה,</src>
+    <src s="25">מ"מ,</src>
+    <src s="26">בשעה שמאיר תוקף השכל,</src>
+    <src s="27">אי אפשר להיות מציאות המדות בהתגלות,</src>
+    <src s="28">ורק בשעה שמסתלקים המוחין,</src>
+    <src s="29">שאינו מאיר כלום,</src>
+    <src s="30">או שהשכל מאיר בדרך מקיף עכ"פ,</src>
+    <src s="31">אזי יכול להיות מציאות המדה בהתגלות.</src>
+    <src s="32">אמנם,</src>
+    <src s="33">יש דרגה במדות שאפילו בשעה שהשכל הוא בגלוי,</src>
+    <src s="34">ופועל ביטול בהמדות,</src>
+    <src s="35">מ"מ ישנם המדות במציאותם בלב.</src>
+    <src s="36">וענין זה הוא כאשר מתבונן בעומק ופנימיות השכל ומבין את השכל שלא ע"י כלי ההבנה והשגה,</src>
+    <src s="37">שהם כלי המוח,</src>
+    <src s="38">אזי יכול אור השכל להאיר גם בלב.</src>
+    <src s="39">והיינו,</src>
+    <src s="40">שכאשר ההתבוננות היא ע"י כלי המוח בלבד,</src>
+    <src s="41">הרי זה מאיר רק במוח ולא בלב,</src>
+    <src s="42">משא"כ כאשר ההתבוננות היא בפנימיות ובעומק השכל למעלה מכלי המוח,</src>
+    <src s="43">אזי אין שם הגבלות המוח,</src>
+    <src s="44">ויכול להאיר גם בלב</src>
+    <src s="45">(ואדרבה,</src>
+    <src s="46">עיקר מציאותן הוא בלב),</src>
+    <src s="47">ובשעה שהשכל מאיר בלב הרי זה פועל ביטול בהמדות,</src>
+    <src s="48">והיינו שהעיקר הוא השכל,</src>
+    <src s="49">ואדרבה,</src>
+    <src s="50">פנימיות השכל,</src>
+    <src s="51">ומ"מ יש מציאות של מדה בלב,</src>
+    <src s="52">אלא שהמדה אינה מורגשת,</src>
+    <src s="53">להיותה בטלה אל השכל שמאיר בלב,</src>
+    <src s="54">והו"ע פנימיות המדות.</src>
+    <src s="55">והנה,</src>
+    <src s="56">מצד פנימיות המדות שבהם מאירים פנימיות המוחין,</src>
+    <src s="57">לא יכול להיות יניקה לחיצונים,</src>
+    <src s="58">כיון שהמדות אינם ניכרים ונרגשים,</src>
+    <src s="59">משא"כ מצד חיצוניות המוחין שמהם נעשים חיצוניות המדות,</src>
+    <src s="60">יכול להיות יניקה לחיצונים.</src>
+    <src s="61">וזהו ענין חטא עה"ד,</src>
+    <src s="62">שנעשה ענין ההרגשה בהמדות שהם ניכרים ונרגשים,</src>
+    <src s="63">והו"ע חסדים המגולים.</src>
+  </section>
+  <section v="8">
+    <src s="0">והענין בזה בעבודת הוי'44,</src>
+    <src s="1">דהנה,</src>
+    <src s="2">ישנו הענין דקרבת אלקים טוב,</src>
+    <src s="3">וישנו הענין דקרבת אלקים לי טוב45.</src>
+    <src s="4">קרבת אלקים טוב היינו שאלקות הוא טוב מצד עצמו,</src>
+    <src s="5">ומזה אין יניקה ללעו"ז.</src>
+    <src s="6">והו"ע עץ החיים,</src>
+    <src s="7">שעז"נ46</src>
+    <src s="8">ואכל וחי לעולם,</src>
+    <src s="9">שאין מזה יניקה ללעו"ז.</src>
+    <src s="10">משא"כ קרבת אלקים לי טוב הוא באופן שנעשה מורגש,</src>
+    <src s="11">שמערב בזה מציאותו,</src>
+    <src s="12">עד שיכול להיות שהעיקר הוא מה שמרגיש את עצמו,</src>
+    <src s="13">והאלקות הוא רק בדרך טפל,</src>
+    <src s="14">ולכן אם אינו מרגיש את עצמו,</src>
+    <src s="15">היינו שאינו מרגיש איך שאלקות לי טוב,</src>
+    <src s="16">אזי יכול להיות שתתבטל האהבה,</src>
+    <src s="17">וזהו"ע חסדים המגולים,</src>
+    <src s="18">שהוא בבחי' הרגש עצמו.</src>
+    <src s="19">ומזה יכול להיות יניקה ללעו"ז,</src>
+    <src s="20">והיינו,</src>
+    <src s="21">דעם היות שגם ההרגש דקרבת אלקים לי טוב הו"ע של קדושה,</src>
+    <src s="22">מ"מ,</src>
+    <src s="23">יכול להיות מזה יניקה ללעו"ז,</src>
+    <src s="24">כידוע שמחסד דאברהם יכול להיות אהבה דפלשתים</src>
+    <src s="25">(כמבואר בענין קליפת פלשתים47).</src>
+    <src s="26">ואע"פ שגם בבחי' חיצוניות המוחין</src>
+    <src s="27">(שמהם נמשכים חיצוניות המדות,</src>
+    <src s="28">חסדים המגולים)</src>
+    <src s="29">יכולה להיות שמירה מהיניקה ללעו"ז,</src>
+    <src s="30">עי"ז שהשכל מאיר בבחי' מקיף,</src>
+    <src s="31">מ"מ,</src>
+    <src s="32">הרי יש צורך בזהירות ועצה כו'</src>
+    <src s="33">(אַ באַוואָרעניש),</src>
+    <src s="34">משא"כ בפנימיות המוחין,</src>
+    <src s="35">ששם אין צריך על זה זהירות כלל.</src>
+  </section>
+</awtsmoosMeluketSource>

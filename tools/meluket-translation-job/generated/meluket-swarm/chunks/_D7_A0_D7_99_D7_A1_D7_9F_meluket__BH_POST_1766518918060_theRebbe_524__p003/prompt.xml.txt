@@ -1,0 +1,122 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518918060_theRebbe_524" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918060_theRebbe_524__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518918060_theRebbe_524" title="מאמר ועבדי דוד תשמ"ו" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918060_theRebbe_524__p003">
+  <section v="6">
+    <src s="0">ו)</src>
+    <src s="1">ובזה יובן מ"ש ועבדי דוד מלך עליהם ורועה אחד יהי' לכולם כו' ולא יחצו עוד לשתי ממלכות עוד.</src>
+    <src s="2">כי גם לע"ל יהיו ב' ממלכות דיהודה ויוסף,</src>
+    <src s="3">היינו ב' אופני העבודה דתורה ומצוות,</src>
+    <src s="4">ואדרבה,</src>
+    <src s="5">אז יהי' תכלית השלימות דלימוד התורה,</src>
+    <src s="6">שהרי אז מלאכתן נעשית ע"י אחרים28</src>
+    <src s="7">ואפשר להיות עסק התורה באופן דתורתן אומנתן29.</src>
+    <src s="8">ובזה הוא החידוש,</src>
+    <src s="9">דאעפ"כ עבדי דוד מלך עליהם,</src>
+    <src s="10">מעשה גדול,</src>
+    <src s="11">שכל העבודות אז</src>
+    <src s="12">(גם לימוד התורה)</src>
+    <src s="13">יהיו באופן דמעשה וכפי',</src>
+    <src s="14">היינו למעלה מכל המיצרים וגבולים.</src>
+    <src s="15">וזהו גם הדיוק ודוד עבדי דוקא,</src>
+    <src s="16">שיהי' בבחי' עבד,</src>
+    <src s="17">עבד נאמן30,</src>
+    <src s="18">תכלית השלימות,</src>
+    <src s="19">בחי' יחידה ליחדך31,</src>
+    <src s="20">שיש רק הענין דיחיד בלי שום פניות.</src>
+    <src s="21">וזה נמשך,</src>
+    <src s="22">כנ"ל,</src>
+    <src s="23">גם בלימוד התורה דלעתיד,</src>
+    <src s="24">וכנ"ל דאז יהי' לימוד התורה באופן דתורתן אומנתן כו'.</src>
+    <src s="25">ועד שלא יחצו עוד לשתי ממלכות</src>
+    <src s="26">(ושתי מחנות),</src>
+    <src s="27">וכמ"ש לפני זה32,</src>
+    <src s="28">וקרב אותם אחד אל אחד לך לעץ אחד והיו לאחדים בידיך.</src>
+  </section>
+  <section v="7">
+    <src s="0">ז)</src>
+    <src s="1">והנה נת"ל שכל הגילויים דלע"ל תלויים במעשינו ועבודתינו.</src>
+    <src s="2">ועד"ז יובן גם בענין זה דועבדי דוד מלך עליהם,</src>
+    <src s="3">שזה נעשה ע"י ההכנה בעבודת האדם בזמן הזה.</src>
+    <src s="4">וי"ל שזהו מ"ש הרמב"ם שם33,</src>
+    <src s="5">שתחלת העבודה היא שלא לשמה ומתוך שלא לשמה בא לעבודה לשם חיי עוה"ב,</src>
+    <src s="6">ועד שסוף סוף בא לשמה,</src>
+    <src s="7">לעבודה כאברהם אבינו,</src>
+    <src s="8">שקראו הקב"ה אוהבו.</src>
+    <src s="9">דמזה שענין זה נפסק להלכה בספר הרמב"ם,</src>
+    <src s="10">מובן שענין זה נדרש מכאו"א מישראל,</src>
+    <src s="11">ומבקש לפי כוחם,</src>
+    <src s="12">דישנם הכחות בכאו"א מישראל להגיע לעבודה זו.</src>
+    <src s="13">ואולי י"ל ע"ד הרמז,</src>
+    <src s="14">שזה שהנ"ל הוא הכנה אל הגילויים דלעתיד,</src>
+    <src s="15">נרמז במ"ש הרמב"ם ענין זה בפרק עשירי מהלכות תשובה,</src>
+    <src s="16">דידוע34</src>
+    <src s="17">דענין התשובה הוא החידוש דלע"ל,</src>
+    <src s="18">כמאמר35</src>
+    <src s="19">משיח עתיד לאתבא צדיקייא בתיובתא.</src>
+    <src s="20">דמזה מובן,</src>
+    <src s="21">שע"י עבודה זו דלשמה בתכלית השלימות</src>
+    <src s="22">(עשר),</src>
+    <src s="23">באים להגילוי דלע"ל,</src>
+    <src s="24">ועבדי דוד מלך עליהם.</src>
+  </section>
+  <section v="8">
+    <src s="0">ח)</src>
+    <src s="1">ויהי רצון שכן יהי' במהרה בימינו ממש,</src>
+    <src s="2">שיקויים היעוד36</src>
+    <src s="3">דכי מלאה הארץ דעה את ה' כמים לים מכסים,</src>
+    <src s="4">היינו לא רק שישיגו דעת בוראם כפי כח האדם37,</src>
+    <src s="5">ובאופן דיחוד נפלא שאין יחוד כמוהו כו',</src>
+    <src s="6">אלא יתירה מזו,</src>
+    <src s="7">שיגיעו לבחי' כמים לים מכסים38,</src>
+    <src s="8">בחי' עבד נאמן שאינו מציאות בפני עצמו כלל.</src>
+    <src s="9">ויקויים היעוד39</src>
+    <src s="10">והיתה לה' המלוכה בכל העולם כולו,</src>
+    <src s="11">ובפרט בישראל עם קרובו40,</src>
+    <src s="12">שכל אחד מהם הוא כבן יחיד להקב"ה41,</src>
+    <src s="13">הקשור עם בחי' יחיד שלמעלה,</src>
+    <src s="14">יחידה ליחדך.</src>
+    <src s="15">ויקויים גם המשך הפסוק42,</src>
+    <src s="16">והי' ה' למלך על כל הארץ ביום ההוא יהי' ה' אחד ושמו אחד,</src>
+    <src s="17">כפי שאני נכתב כך אני נקרא43,</src>
+    <src s="18">שיהי' נקרא</src>
+    <src s="19">(בגלוי)</src>
+    <src s="20">בשם העצם ושם המפורש ושם המיוחד44,</src>
+    <src s="21">ויהי' גילוי בחי' אחדות הפשוטה דלמעלה,</src>
+    <src s="22">אשר הפשיטות דלמעלה קשורה עם הפשיטות דאדם פשוט שלמטה45,</src>
+    <src s="23">בגאולה האמיתית והשלימה,</src>
+    <src s="24">במהרה בימינו ממש,</src>
+    <src s="25">ע"י משיח צדקנו.</src>
+  </section>
+</awtsmoosMeluketSource>

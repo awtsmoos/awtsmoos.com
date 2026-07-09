@@ -1,0 +1,137 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518916037_theRebbe_540" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p007">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518916037_theRebbe_540" title="מאמר וישב יעקב תשכ"ז" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518916037_theRebbe_540__p007">
+  <section v="18">
+    <src s="0">והנה מה שנקראים בשם ישובי עשו,</src>
+    <src s="1">אף שענין ההתיישבות היא בתיקון דוקא,</src>
+    <src s="2">כי גם בתהו ישנם בחי' הכלים,</src>
+    <src s="3">ובחי' הכלים הו"ע ההתיישבות,</src>
+    <src s="4">אלא שישובי עשו הם בדרך קצרה,</src>
+    <src s="5">היינו,</src>
+    <src s="6">שענין ההתיישבות שבתהו היא בבחי' קיצור ומיעוט,</src>
+    <src s="7">כי בתהו היו אורות מרובים וכלים מועטים,</src>
+    <src s="8">שהכלים לא היו לפי ערך האורות כלל,</src>
+    <src s="9">כי לא הי' מזיגה נכונה בין האורות והכלים89</src>
+    <src s="10">(נוסף לכך שגם הכלים מצד עצמם הם מועטים,</src>
+    <src s="11">היינו,</src>
+    <src s="12">שענין הכלי בהם הוא במיעוט),</src>
+    <src s="13">שזו היתה הסיבה לשבירת הכלים,</src>
+    <src s="14">שהאורות נסתלקו למעלה והכלים נשברו ונפלו למטה.</src>
+    <src s="15">וזהו מה שנתחדש בענין התיקון,</src>
+    <src s="16">שנעשה מזיגה נכונה בין האורות והכלים,</src>
+    <src s="17">אורות מועטים וכלים מרובים,</src>
+    <src s="18">שמצד זה הנה בתיקון ההתיישבות היא בריבוי,</src>
+    <src s="19">ישובי יעקב בדרך ארוכה.</src>
+  </section>
+  <section v="19">
+    <src s="0">והנה אף שבחי' התהו מצד עצמה אינה כפי הכוונה,</src>
+    <src s="1">וכמאמר90</src>
+    <src s="2">דין לא הניין לי',</src>
+    <src s="3">שזהו שישובי עשו ותולדותיו לא היו ספונים וחשובים,</src>
+    <src s="4">מ"מ,</src>
+    <src s="5">הם הקדמה לענין וישב יעקב גו' בארץ כנען,</src>
+    <src s="6">שהרי כל ענין המסחר של ירידת הנשמה למטה הוא מצד שבה"כ דתהו,</src>
+    <src s="7">כנ"ל.</src>
+    <src s="8">וזהו שאחר שכתב לך ישובי עשו בדרך קצרה כתיב וישב יעקב בארץ מגורי אביו בארץ כנען,</src>
+    <src s="9">כי ירידת הנשמה למטה היא בכדי לברר את הניצוצות דתהו כנ"ל,</src>
+    <src s="10">וזהו"ע וישב יעקב בארץ מגורי אביו,</src>
+    <src s="11">שמגורי הוא לשון אוצר91,</src>
+    <src s="12">וכמו אוגר בקיץ92,</src>
+    <src s="13">והו"ע אסיפת ובירור הניצוצות דתהו שנתפזרו ע"י שבה"כ.</src>
+    <src s="14">דהנה ידוע93</src>
+    <src s="15">שענין שבה"כ הוא שהכלים נפרדו מחיבורם,</src>
+    <src s="16">וכהמשל בזה מענין האותיות,</src>
+    <src s="17">שכאשר הם מחוברים בתיבה אחת,</src>
+    <src s="18">אזי נושאים הם בתוכם פירוש התיבה.</src>
+    <src s="19">וכמו בהאותיות ב'ר'ו'ך',</src>
+    <src s="20">שבהיותם מחוברים יחד בהצירוף דברוך נושאים הם ההשכלה שבתיבת ברוך,</src>
+    <src s="21">וכאשר הם מתפזרים זה מזה,</src>
+    <src s="22">אזי נשאר בכל אות רק רושם מההשכלה.</src>
+    <src s="23">וכמו"כ הוא ענין שבה"כ דתהו,</src>
+    <src s="24">שהכלים נפרדו מחיבורם כו'.</src>
+    <src s="25">וזהו"ע מגורי אביו,</src>
+    <src s="26">שהנשמה בירידתה למטה אוספת ומבררת את הניצוצות דתהו שנתפזרו כו'.</src>
+    <src s="27">והנה,</src>
+    <src s="28">יש עוד פירוש במגורי אביו,</src>
+    <src s="29">שמגורי הוא מלשון יראה,</src>
+    <src s="30">וכמו שפירש הרב המגיד94</src>
+    <src s="31">(שיום הילולא שלו בי"ט כסלו,</src>
+    <src s="32">וגם ענין גאולת רבינו הזקן בי"ט כסלו שייכת לענין ההילולא של הרב המגיד95)</src>
+    <src s="33">שמגורי אביו הו"ע היראה מאבינו שבשמים.</src>
+    <src s="34">ויש לבאר שייכות ב' הפירושים,</src>
+    <src s="35">ע"פ משנת"ל</src>
+    <src s="36">(ס"ח ואילך)</src>
+    <src s="37">שעיקר הבירור שבתיקון הוא ע"י בחי' הדעת האלקי,</src>
+    <src s="38">שהיא ההכרה עצמית שלמעלה מהשכל,</src>
+    <src s="39">שזהו"ע תכלית הידיעה שלא נדע.</src>
+    <src s="40">וזהו"ע מגורי אביו מלשון יראה</src>
+    <src s="41">(כפירוש הב'),</src>
+    <src s="42">בחי' יראת בושת,</src>
+    <src s="43">שבאה מצד ההכרה ברוממות הא"ס שלמעלה מהשגה96,</src>
+    <src s="44">בחי' תכלית הידיעה שלא נדע.</src>
+    <src s="45">ומצד הכרה זו נעשית הבחירה בטוב</src>
+    <src s="46">(כנ"ל),</src>
+    <src s="47">שעי"ז הוא עיקר אסיפת ובירור הניצוצות</src>
+    <src s="48">(פירוש הא' דמגורי).</src>
+    <src s="49">וזהו ג"כ מה שארץ ישראל נקראת כאן בשם ארץ כנען,</src>
+    <src s="50">דענין כנען הוא כמ"ש כנען בידו מאזני מרמה,</src>
+    <src s="51">שמצד המרמה נעשה תערובות טו"ר,</src>
+    <src s="52">וכנ"ל</src>
+    <src s="53">(ס"ו)</src>
+    <src s="54">שמצד ענין הערמומית נעשה תערובות טו"ר,</src>
+    <src s="55">והו"ע חיצוניות הדעת,</src>
+    <src s="56">שזוהי הסיבה לשבה"כ דתהו.</src>
+    <src s="57">אך התכלית של ירידה זו היא לעשות מארץ כנען ארץ ישראל,</src>
+    <src s="58">שזוהי העלי' הנעשית ע"י הירידה,</src>
+    <src s="59">וכפי' השני שבכנען לשון סוחר,</src>
+    <src s="60">שהו"ע הריוח שע"י הפיזור.</src>
+  </section>
+  <section v="20">
+    <src s="0">וזהו גם ענין המאסר והגאולה די"ט כסלו,</src>
+    <src s="1">שבעת המאסר היתה הירידה בתכלית,</src>
+    <src s="2">וכידוע97</src>
+    <src s="3">שרבינו הזקן סבל אז יסורי הגוף ויסורי הנפש כו'.</src>
+    <src s="4">אך תכלית ירידה הלזו היא בשביל העלי',</src>
+    <src s="5">שזהו שבעת הגאולה ראו כל אפסי ארץ כו'98,</src>
+    <src s="6">והו"ע גילוי אלקות בהאותות ומופתים שע"י הצדיקים,</src>
+    <src s="7">ואז הותחל עיקר הענין דיפוצו99</src>
+    <src s="8">מעינותיך חוצה100,</src>
+    <src s="9">והרי ע"י הפצת המעינות דפנימיות התורה יהי' קאתי מר99,</src>
+    <src s="10">שאז יהי' גילוי פנימיות הדעת,</src>
+    <src s="11">כמ"ש101</src>
+    <src s="12">כי מלאה הארץ דעה את הוי' וגו',</src>
+    <src s="13">בקרוב ממש.</src>
+  </section>
+</awtsmoosMeluketSource>

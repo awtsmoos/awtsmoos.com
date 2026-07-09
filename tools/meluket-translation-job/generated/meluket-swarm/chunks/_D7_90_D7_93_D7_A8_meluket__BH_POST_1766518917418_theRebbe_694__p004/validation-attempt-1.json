@@ -1,0 +1,359 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 63,
+    "returned": 63,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917418_theRebbe_694\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917418_theRebbe_694__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>On a deeper level, Torah studied as a commandment relates to man, whereas Torah studied for its own sake is the essence of Torah study, beyond connection to man.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And one may say, on a deeper level,</t>\n    <t s=\"2\">that even the commandment of \"and you shall meditate in it day and night,\"</t>\n    <t s=\"3\">since the commandments are commands to man</t>\n    <t s=\"4\">[and not like the Torah as it is the wisdom of the Holy One, blessed be He</t>\n    <t s=\"5\">(which is above any connection to the world)</t>\n    <t s=\"6\">and only afterward descended below],</t>\n    <t s=\"7\">behold, the Torah that one learns by virtue of the commandment of \"and you shall meditate in it day and night\" is</t>\n    <t s=\"8\">(not the Torah as it is in its own essence,</t>\n    <t s=\"9\">but rather)</t>\n    <t s=\"10\">as it relates to man.</t>\n    <t s=\"11\">And the true essence of the matter of the study of Torah itself</t>\n    <t s=\"12\">(as it is above any connection to man)</t>\n    <t s=\"13\">is in the study of Torah for its own sake,</t>\n    <t s=\"14\">where the study is not in order to fulfill the commandment of Torah study, but rather from the perspective of the Torah itself.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>The superiority of Torah study for its own sake over study to fulfill the commandment is not only in intent but also in the actual study, which transcends limitations of time and place.</sectionSummaryBrief>\n    <t s=\"0\">And one may add that the superiority in the study of Torah for its own sake over study in order to fulfill the commandment of Torah study is not only in the intention of the study, but also in the actual study.</t>\n    <t s=\"1\">For when the study is in order to fulfill the commandment of Torah study,</t>\n    <t s=\"2\">the study is within limitation,</t>\n    <t s=\"3\">for even in the commandment of \"and you shall meditate in it day and night\" there are various limitations, as explained in the Laws of Torah Study.</t>\n    <t s=\"4\">However, in the study of Torah for its own sake,</t>\n    <t s=\"5\">one does not take into account measures and limitations</t>\n    <t s=\"6\">(even if in such a manner he is obligated to learn or not73),</t>\n    <t s=\"7\">and his study is above the measure and limitation of time,</t>\n    <t s=\"8\">and likewise above the measure and limitation of place, as our sages, of blessed memory, said74</t>\n    <t s=\"9\">\"one who is forced is different.\"</t>\n    <t s=\"10\">And the reason for this</t>\n    <t s=\"11\">(in the inwardness of the matters)</t>\n    <t s=\"12\">is,</t>\n    <t s=\"13\">because the commandment of \"and you shall meditate\" is a command to man,</t>\n    <t s=\"14\">therefore it has limitations</t>\n    <t s=\"15\">(according to man).</t>\n    <t s=\"16\">However, in the study of Torah for its own sake,</t>\n    <t s=\"17\">since the Torah</t>\n    <t s=\"18\">(as it is in its own essence)</t>\n    <t s=\"19\">is above measure and limitation</t>\n    <t s=\"20\">(\"its measure is longer than the earth\"),</t>\n    <t s=\"21\">therefore,</t>\n    <t s=\"22\">also the Torah study of man,</t>\n    <t s=\"23\">when his study is for its own sake</t>\n    <t s=\"24\">(from the perspective of the Torah itself),</t>\n    <t s=\"25\">is in a manner that he emerges from the limitations of time and place.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>The union of upper and lower realms renewed at the giving of the Torah is primarily revealed in Torah study for its own sake, where the Torah's boundlessness acts upon man and is further revealed through its descent.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And one may say,</t>\n    <t s=\"2\">that the union of upper and lower realms that was renewed at the giving of the Torah is revealed primarily in the study of Torah for its own sake.</t>\n    <t s=\"3\">For in addition to the fact that in order for the union of upper and lower to be possible, it is through the nullification of the boundary of upper and lower by means of the drawing down of the Ein Sof light that is above both of them</t>\n    <t s=\"4\">(as above, section 4),</t>\n    <t s=\"5\">whose parallel in man is when he engages in Torah for its own sake, for then he is in a state of self-nullification both with regard to the body</t>\n    <t s=\"6\">(lower)</t>\n    <t s=\"7\">and with regard to the soul</t>\n    <t s=\"8\">(upper),</t>\n    <t s=\"9\">behold, also the union of upper and lower themselves is revealed in this study,</t>\n    <t s=\"10\">for the boundlessness of the Torah</t>\n    <t s=\"11\">(upper)</t>\n    <t s=\"12\">acts upon man</t>\n    <t s=\"13\">(lower)</t>\n    <t s=\"14\">so that his Torah study will be above limitation.</t>\n    <t s=\"15\">And one may add,</t>\n    <t s=\"16\">that by means of the boundlessness of the Torah acting also within man</t>\n    <t s=\"17\">(and likewise through the descent of the Torah below in general),</t>\n    <t s=\"18\">the boundlessness of the Torah is revealed even more,</t>\n    <t s=\"19\">for this—that the Torah is boundless—is not only in the place and level of the Torah, but that it is drawn down also below75</t>\n    <t s=\"20\">and even in its drawing down below, the boundlessness within it is felt in revelation,</t>\n    <t s=\"21\">so that also the Torah study of man is in a manner of boundlessness76.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917418_theRebbe_694",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917418_theRebbe_694__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "On a deeper level, Torah studied as a commandment relates to man, whereas Torah studied for its own sake is the essence of Torah study, beyond connection to man.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And one may say, on a deeper level,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "that even the commandment of \"and you shall meditate in it day and night,\""
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "since the commandments are commands to man"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "[and not like the Torah as it is the wisdom of the Holy One, blessed be He"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "(which is above any connection to the world)"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "and only afterward descended below],"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "behold, the Torah that one learns by virtue of the commandment of \"and you shall meditate in it day and night\" is"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "(not the Torah as it is in its own essence,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "but rather)"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "as it relates to man."
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "And the true essence of the matter of the study of Torah itself"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "(as it is above any connection to man)"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "is in the study of Torah for its own sake,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "where the study is not in order to fulfill the commandment of Torah study, but rather from the perspective of the Torah itself."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "The superiority of Torah study for its own sake over study to fulfill the commandment is not only in intent but also in the actual study, which transcends limitations of time and place.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And one may add that the superiority in the study of Torah for its own sake over study in order to fulfill the commandment of Torah study is not only in the intention of the study, but also in the actual study."
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "For when the study is in order to fulfill the commandment of Torah study,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "the study is within limitation,"
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "for even in the commandment of \"and you shall meditate in it day and night\" there are various limitations, as explained in the Laws of Torah Study."
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "However, in the study of Torah for its own sake,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "one does not take into account measures and limitations"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "(even if in such a manner he is obligated to learn or not73),"
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "and his study is above the measure and limitation of time,"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "and likewise above the measure and limitation of place, as our sages, of blessed memory, said74"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "\"one who is forced is different.\""
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "And the reason for this"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "(in the inwardness of the matters)"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "is,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "because the commandment of \"and you shall meditate\" is a command to man,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "therefore it has limitations"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "(according to man)."
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "However, in the study of Torah for its own sake,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "since the Torah"
+          },
+          {
+            "v": 10,
+            "s": 18,
+            "translation": "(as it is in its own essence)"
+          },
+          {
+            "v": 10,
+            "s": 19,
+            "translation": "is above measure and limitation"
+          },
+          {
+            "v": 10,
+            "s": 20,
+            "translation": "(\"its measure is longer than the earth\"),"
+          },
+          {
+            "v": 10,
+            "s": 21,
+            "translation": "therefore,"
+          },
+          {
+            "v": 10,
+            "s": 22,
+            "translation": "also the Torah study of man,"
+          },
+          {
+            "v": 10,
+            "s": 23,
+            "translation": "when his study is for its own sake"
+          },
+          {
+            "v": 10,
+            "s": 24,
+            "translation": "(from the perspective of the Torah itself),"
+          },
+          {
+            "v": 10,
+            "s": 25,
+            "translation": "is in a manner that he emerges from the limitations of time and place."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "The union of upper and lower realms renewed at the giving of the Torah is primarily revealed in Torah study for its own sake, where the Torah's boundlessness acts upon man and is further revealed through its descent.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And one may say,"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "that the union of upper and lower realms that was renewed at the giving of the Torah is revealed primarily in the study of Torah for its own sake."
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "For in addition to the fact that in order for the union of upper and lower to be possible, it is through the nullification of the boundary of upper and lower by means of the drawing down of the Ein Sof light that is above both of them"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "(as above, section 4),"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "whose parallel in man is when he engages in Torah for its own sake, for then he is in a state of self-nullification both with regard to the body"
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "(lower)"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "and with regard to the soul"
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "(upper),"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "behold, also the union of upper and lower themselves is revealed in this study,"
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "for the boundlessness of the Torah"
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "(upper)"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "acts upon man"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "(lower)"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "so that his Torah study will be above limitation."
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "And one may add,"
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "that by means of the boundlessness of the Torah acting also within man"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "(and likewise through the descent of the Torah below in general),"
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "the boundlessness of the Torah is revealed even more,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "for this—that the Torah is boundless—is not only in the place and level of the Torah, but that it is drawn down also below75"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "and even in its drawing down below, the boundlessness within it is felt in revelation,"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "so that also the Torah study of man is in a manner of boundlessness76."
+          }
+        ]
+      }
+    ]
+  }
+}

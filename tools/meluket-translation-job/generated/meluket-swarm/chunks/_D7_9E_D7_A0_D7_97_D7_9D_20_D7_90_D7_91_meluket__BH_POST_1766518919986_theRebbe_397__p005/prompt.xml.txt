@@ -1,0 +1,61 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919986_theRebbe_397" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919986_theRebbe_397__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919986_theRebbe_397" title="מאמר לא היו ימים טובים לישראל תשל"ה" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919986_theRebbe_397__p005">
+  <section v="12">
+    <src s="0">וזהו גם השייכות דט"ו באב ליום הכפורים.</src>
+    <src s="1">כי ביוהכ"פ הוא עליית המלכות.</src>
+    <src s="2">דזהו מה שיוהכ"פ הוא יום שנתחייב בחמש תפלות,</src>
+    <src s="3">שבכל תפלה מתעלית המלכות לבחינה עליונה יותר,</src>
+    <src s="4">ועד שבתפלת נעילה היא מתעלית בבחינת פנימיות עתיק.</src>
+    <src s="5">שלכן אומרים אז הוי' הוא האלקים ז"פ,</src>
+    <src s="6">ברוך שם ג"פ ושמע ישראל פ"א,</src>
+    <src s="7">שזהו מצד עליית המלכות בעתיקא,</src>
+    <src s="8">כמבואר בכ"מ59.</src>
+    <src s="9">וזהו השייכות דט"ו באב ליוהכ"פ,</src>
+    <src s="10">כי בט"ו באב מתעלית המלכות בבחינת פנימיות עתיק,</src>
+    <src s="11">ואדרבה,</src>
+    <src s="12">מכיון שהעלי' דט"ו באב היא לאחרי הירידה דט"ב,</src>
+    <src s="13">לכן עליית המלכות דט"ו באב היא למעלה יותר מהעלי' דיוהכ"פ,</src>
+    <src s="14">כי אם,</src>
+    <src s="15">בדוגמת העלי' שתהי' בגאולה העתידה ע"י משיח צדקנו,</src>
+    <src s="16">שילחום60</src>
+    <src s="17">מלחמות ה' וינצח</src>
+    <src s="18">[היינו שיצטרך ללחום עם מנגדים העומדים בתוקף כו' וינצח]</src>
+    <src s="19">ויבנה ביהמ"ק במקומו ויקבץ נדחי ישראל,</src>
+    <src s="20">שיקבץ כל ניצוצות הקדושה,</src>
+    <src s="21">ונדחי ישראל כפשוטו – הענין דקיבוץ גליות,</src>
+    <src s="22">בקרוב ממש בגאולה האמיתית והשלימה ע"י משיח צדקנו.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,28 @@
+{
+  "id": "d7f32334-2fda-4d77-87e2-41313ecadac4",
+  "object": "chat.completion",
+  "created": 1783583868,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"מנחם אב_meluket\" postId=\"BH_POST_1766518919866_theRebbe_58\" batchId=\"meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919866_theRebbe_58__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>The manna is a food of hunger when a person exists as a separate entity, but when in self-nullification to G-dliness, his pleasure comes from the influence felt as not in his domain, and through his nullification he becomes a vessel to receive unlimited influence.</sectionSummaryBrief>\n    <t s=\"0\">And behold, that the manna is a food of hunger is when the person is a [separate] existence,</t>\n    <t s=\"1\">but when he is in self-nullification to G-dliness,</t>\n    <t s=\"2\">the primary pleasure and delight is from the influence in which it is felt that it is not in the person's basket, and is drawn from the Holy One, blessed be He.</t>\n    <t s=\"3\">And through his self-nullification he is a vessel to receive the unlimited influence,</t>\n    <t s=\"4\">he sees and eats.</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>Based on this, the blessing for food (Grace after Meals) refers to the manna, for true satiety is in the manna when one feels the influence is not in his own basket but is constantly drawn from above, and through this feeling he becomes a vessel for the unlimited influence of the manna.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And based on this, it can be explained that the text of the blessing for food</t>\n    <t s=\"2\">(about which it is written \"and you shall eat and be satisfied and bless\")</t>\n    <t s=\"3\">is about the manna,</t>\n    <t s=\"4\">for the true concept of satiety</t>\n    <t s=\"5\">(and wealth49)</t>\n    <t s=\"6\">is in the manna,</t>\n    <t s=\"7\">when one feels that the influence given to him is not in his basket</t>\n    <t s=\"8\">(of the person)</t>\n    <t s=\"9\">but is constantly influenced from above</t>\n    <t s=\"10\">(like the manna, in which it was visibly apparent that it was renewed each day).</t>\n    <t s=\"11\">And it is within the capacity of every single Jew to come to this feeling.</t>\n    <t s=\"12\">And especially according to the known [teaching]50</t>\n    <t s=\"13\">that sustenance in this time</t>\n    <t s=\"14\">(in the time of exile)</t>\n    <t s=\"15\">is in the manner of the influence of the manna.</t>\n    <t s=\"16\">And through this feeling, he is a vessel to receive the unlimited influence of the manna.</t>\n    <t s=\"17\">And as the saying of our sages, of blessed memory:51</t>\n    <t s=\"18\">An empty vessel holds [content]; a full vessel does not hold.</t>\n    <t s=\"19\">For when he is [a separate] existence,</t>\n    <t s=\"20\">and especially when he thinks that the influence given to him is in his basket</t>\n    <t s=\"21\">(a full vessel),</t>\n    <t s=\"22\">he does not hold even the limited influence of bread from the earth,</t>\n    <t s=\"23\">and by his being an empty vessel,</t>\n    <t s=\"24\">he holds also the satiety and wealth of the manna,</t>\n    <t s=\"25\">and all the influences of children, life, and sustenance are drawn to him in a manner of abundance.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1375,
+    "completion_tokens": 967,
+    "total_tokens": 2342,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 991
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

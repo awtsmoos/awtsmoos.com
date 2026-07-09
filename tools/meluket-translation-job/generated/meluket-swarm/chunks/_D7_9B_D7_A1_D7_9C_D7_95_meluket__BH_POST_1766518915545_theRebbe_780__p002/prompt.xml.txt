@@ -1,0 +1,124 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915545_theRebbe_780" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915545_theRebbe_780__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915545_theRebbe_780" title="מאמר פדה בשלום תשמ"א" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915545_theRebbe_780__p002">
+  <section v="3">
+    <src s="0">והנה פדי' זו יכולה להיות בב' אופנים,</src>
+    <src s="1">פדי' באופן של מלחמה ופדי' באופן של שלום.</src>
+    <src s="2">ומבאר ומחדש בפסוק,</src>
+    <src s="3">שפדי' זו היא בשלום.</src>
+    <src s="4">ובזה גופא</src>
+    <src s="5">(הן במלחמה והן בשלום)</src>
+    <src s="6">אפשר להיות בב' אופנים,</src>
+    <src s="7">אם הפדי' היא באופן שעומדים בקירוב אל המתברר והנפדה אף שעדיין לא נתברר ונפדה,</src>
+    <src s="8">או שעומדים בריחוק ממנו,</src>
+    <src s="9">וגם בזה מבאר ומחדש בפסוק,</src>
+    <src s="10">שהפדי' היא מקרב לי,</src>
+    <src s="11">היינו באופן דקירוב</src>
+    <src s="12">(כמבואר בד"ה פדה בשלום לאדמו"ר האמצעי5),</src>
+    <src s="13">ולי פדי' בתוקף שאין מקום לשינוי,</src>
+    <src s="14">דכ"מ שנאמר לי אינו זז לעולם6.</src>
+    <src s="15">והטעם על פדי' זו הוא כי ברבים היו עמדי,</src>
+    <src s="16">שבזה ב' פירושים.</src>
+    <src s="17">א' דקאי על תפלת הרבים7.</src>
+    <src s="18">ב' דקאי על הגאולה,</src>
+    <src s="19">שהגאולה היא</src>
+    <src s="20">(גם)</src>
+    <src s="21">של הרבים,</src>
+    <src s="22">וע"ד הלשון הידוע8</src>
+    <src s="23">"לא אותי בלבד גאל הקב"ה כו'"9.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">והנה כל ענינים אלה ישנם בעבודת האדם</src>
+    <src s="2">(כמבואר בהדרושים),</src>
+    <src s="3">ומזה מובן שישנם בתורה,</src>
+    <src s="4">כמ"ש10</src>
+    <src s="5">זאת התורה אדם.</src>
+    <src s="6">וע"פ מה שארז"ל11</src>
+    <src s="7">קוב"ה אסתכל באורייתא וברא עלמא,</src>
+    <src s="8">מובן,</src>
+    <src s="9">דאדרבה,</src>
+    <src s="10">הענינים הם בתורה,</src>
+    <src s="11">וממנה נמשכים לעולם.</src>
+  </section>
+  <section v="5">
+    <src s="0">וביאור ענין פדה בשלום גו' כמו שהוא בתורה,</src>
+    <src s="1">הנה ידוע12</src>
+    <src s="2">דתורה לא בשמים היא וניתנה למטה בארץ דוקא.</src>
+    <src s="3">והיות שהתורה נמצאת למטה במקום החושך והסכלות13,</src>
+    <src s="4">צ"ל ענין הפדי' בתורה,</src>
+    <src s="5">ועי"ז נעשה יתרון האור מן החושך כו'.</src>
+    <src s="6">וע"פ הידוע14</src>
+    <src s="7">שבעולמות העליונים הפשיטות הוא אלקות וההתחדשות הוא המציאות אבל למטה הוא היפך מזה לגמרי דהפשיטות הוא המציאות וההתחדשות הוא אלקות,</src>
+    <src s="8">וגילוי האלקות שצ"ל התחדשות,</src>
+    <src s="9">ה"ז ענין הפדי'.</src>
+    <src s="10">ועד"ז הוא בתורה.</src>
+    <src s="11">אמנם בזה גופא יש כמה אופנים,</src>
+    <src s="12">ובכללות ב' אופנים,</src>
+    <src s="13">דכשם שבעבודת האדם ישנה פדי' באופן של מלחמה ופדי' בשלום,</src>
+    <src s="14">שזהו החילוק15</src>
+    <src s="15">בין עבודת התפלה ללימוד התורה,</src>
+    <src s="16">עד"ז בתורה גופא יש כמה</src>
+    <src s="17">(שני)</src>
+    <src s="18">אופנים.</src>
+    <src s="19">אופן של לימוד התורה כמ"ש16</src>
+    <src s="20">חנוך לנער ע"פ דרכו,</src>
+    <src s="21">וכמו שמאריך הרמב"ם בפירוש המשניות שלו17</src>
+    <src s="22">שצריך לחפש כמה עצות וכו' כדי שהלימוד והחינוך יתאימו לדרכו של האדם הלומד</src>
+    <src s="23">(הנער),</src>
+    <src s="24">לפי מעמדו ומצבו באותה שעה.</src>
+    <src s="25">וישנו אופן של לימוד התורה,</src>
+    <src s="26">שלומד תורה כפי שהיא בשמים,</src>
+    <src s="27">דהגם שלומד התורה בארץ,</src>
+    <src s="28">מ"מ אופן הלימוד שלו הוא שאינו שייך אז כלל למציאות העולם,</src>
+    <src s="29">ואין לו שום קשר עם עניני העולם.</src>
+    <src s="30">וכשם שיש חילוקים אלה בלימוד התורה,</src>
+    <src s="31">עד"ז הוא בתורה גופא.</src>
+    <src s="32">וכדאיתא ברעיא מהימנא18</src>
+    <src s="33">ונתבאר באגרת הקודש19</src>
+    <src s="34">(דבעל הגאולה)</src>
+    <src s="35">דבתורה הנגלית,</src>
+    <src s="36">עץ הדעת טו"ר,</src>
+    <src s="37">יש בה קשיא ומחלוקת</src>
+    <src s="38">(וצ"ל מלחמתה של תורה20</src>
+    <src s="39">לתרץ ולברר המסקנא),</src>
+    <src s="40">ופנימיות התורה,</src>
+    <src s="41">עץ החיים,</src>
+    <src s="42">דלית תמן לא קשיא כו',</src>
+    <src s="43">ועד למעינות תורת הבעש"ט,</src>
+    <src s="44">שנתגלתה בדורותינו בתורת החסידות,</src>
+    <src s="45">וזהו ענין הפדי' בשלום.</src>
+  </section>
+</awtsmoosMeluketSource>

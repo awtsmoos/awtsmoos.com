@@ -1,0 +1,140 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="חשון_meluket" postId="BH_POST_1766518915043_theRebbe_419" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915043_theRebbe_419__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="חשון_meluket" postId="BH_POST_1766518915043_theRebbe_419" title="מאמר ואברהם זקן תשל"ח" batchId="meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915043_theRebbe_419__p004">
+  <section v="9">
+    <src s="0">אמנם ביאור זה מבאר רק השייכות דמצוות לימים.</src>
+    <src s="1">אבל עדיין אינו מובן ההכרח לעשיית המצוות בכל יום דוקא,</src>
+    <src s="2">דלכאורה,</src>
+    <src s="3">גם כשיחסיר יום אחד ולמחר יעשה שתי מצוות,</src>
+    <src s="4">יזדככו המצוות ע"י התפלה דיום המחרת.</src>
+    <src s="5">ואין לומר שהתפלה יכולה לזכך ולהעלות רק המצוות השייכות ליום זה,</src>
+    <src s="6">דאין כל טעם לחילוק זה.</src>
+    <src s="7">ועוד דמכיון דיש ענין התשלומין</src>
+    <src s="8">(ביום שלאח"ז,</src>
+    <src s="9">בתפלה הסמוכה לה)58</src>
+    <src s="10">"ואין אומרים כיון שעבר יומו בטל קרבנו"59,</src>
+    <src s="11">ועד ש</src>
+    <src s="12">(בנוגע לכוונת התפלה)</src>
+    <src s="13">תפלה אחת מלוקטת מתפלות כל השנה מעלית את התפלות דכל השנה60,</src>
+    <src s="14">משמע מזה גם בנוגע לעליית המצוות שע"י התפלה,</src>
+    <src s="15">שהתפלה מעלית גם המצוות דיום הסמוך וכו'.</src>
+    <src s="16">וסמוכין לדבר – התפלות דשבת שהן מעלות התפלות של כל ימי החול עם כל התורה ומע"ט שנכללו בהן61.</src>
+  </section>
+  <section v="10">
+    <src s="0">ח)</src>
+    <src s="1">אך הענין הוא,</src>
+    <src s="2">דהנה ידוע שהתכלית דתומ"צ הוא לפעול בירור וזיכוך בעוה"ז הגשמי.</src>
+    <src s="3">דזהו מה שתורה לא בשמים היא62,</src>
+    <src s="4">וכל התורה ניתנה לעשות שלום בעולם63,</src>
+    <src s="5">ועאכו"כ מצוות שלא ניתנו אלא לצרף בהן את הבריות64.</src>
+    <src s="6">ועד שמצות צדקה היא שקולה כנגד כל המצוות</src>
+    <src s="7">(ונקראת בשם מצוה סתם),</src>
+    <src s="8">כי התכלית דמצוות</src>
+    <src s="9">[וכן התכלית דירידת הנשמה למטה]</src>
+    <src s="10">שהוא</src>
+    <src s="11">[לא בשביל הנשמה כ"א]</src>
+    <src s="12">בכדי לתקן את הגוף ונה"ב וחלקו בעולם,</src>
+    <src s="13">נשלם ע"י מצות הצדקה</src>
+    <src s="14">(יותר מאשר ע"י שאר כל המצוות),</src>
+    <src s="15">כמבואר בתניא65.</src>
+    <src s="16">וזהו66</src>
+    <src s="17">שצריך להיות יומין שלימין דוקא,</src>
+    <src s="18">שבכל יום ויום צריך להיות קיום מצוה,</src>
+    <src s="19">כי מכיון שגדר העולם הוא מקום וזמן67,</src>
+    <src s="20">הרי מובן שהתומ"צ</src>
+    <src s="21">(שתכליתם הוא לתקן את העולם)</src>
+    <src s="22">צריכים לתקן גם את הזמן.</src>
+    <src s="23">ולכן מוכרח שבכל יום תהי' עשיית מצוה</src>
+    <src s="24">(הגם שגם כשחסר לו יומא חדא יכול הוא לעשות את הלבוש ע"י שיקיים מחר ב' מצוות),</src>
+    <src s="25">כי בכדי לתקן את הימים68</src>
+    <src s="26">(הזמן)</src>
+    <src s="27">גופא צריך להיות כל69</src>
+    <src s="28">יומא ויומא עביד עבידתי'.</src>
+  </section>
+  <section v="11">
+    <src s="0">ט)</src>
+    <src s="1">וזהו ואברהם זקן בא בימים,</src>
+    <src s="2">שלאחרי שואברהם זקן הוא גם בא בימים שהוא מעלה גדולה יותר גם מהמעלה דזקן.</src>
+    <src s="3">דהנה הכוונה האמיתית בהתהוות העולמות</src>
+    <src s="4">(בבחי' עצמות א"ס)</src>
+    <src s="5">היא מה שנתאוה הקב"ה להיות לו ית' דירה בתחתונים דוקא70.</src>
+    <src s="6">וכוונה זו נשלמת ע"י עבודת האדם,</src>
+    <src s="7">אתם קרויין אדם71,</src>
+    <src s="8">שהאדם דוקא יכול להשלים כוונה זו.</src>
+    <src s="9">וזהו שנקרא בשם אדם,</src>
+    <src s="10">ע"ש ב' הקצוות שהוא אדמה לעליון72</src>
+    <src s="11">ושהוא נוצר מן האדמה73,</src>
+    <src s="12">שגופו נעשה מהאדמה עצמה74</src>
+    <src s="13">ובאופן שהי' תחילה דומם בפ"ע</src>
+    <src s="14">(בלי שום נפש חיונית בתוכו)</src>
+    <src s="15">וכמ"ש75</src>
+    <src s="16">גלמי ראו עיניך</src>
+    <src s="17">(ולא כגוף הצומח והחי)76,</src>
+    <src s="18">כי גם ענין זה שבתואר אדם</src>
+    <src s="19">(על שם האדמה)</src>
+    <src s="20">מורה על מעלתו77,</src>
+    <src s="21">שהוא מברר מתקן ומעלה גם את הדומם שהוא תחתון ביותר שאין תחתון למטה ממנו.</src>
+    <src s="22">ומעלה זו שבו באה בפועל ע"י העבודה דבא בימים דוקא.</src>
+    <src s="23">שע"י העבודה דזקן</src>
+    <src s="24">(עצמה),</src>
+    <src s="25">אף שגם עי"ז בירר ותיקן את חלקו בעולם</src>
+    <src s="26">(מקום),</src>
+    <src s="27">מ"מ,</src>
+    <src s="28">מכיון שלא תיקן עדיין את הזמן,</src>
+    <src s="29">הרי לא השלים עדיין הכוונה דדירה בתחתונים.</src>
+    <src s="30">ולכן הגם שעבודה זו מגעת בבחינת עתיק יומין,</src>
+    <src s="31">שהיא בהעתקה</src>
+    <src s="32">(והבדלה)</src>
+    <src s="33">מבחי' יומין,</src>
+    <src s="34">אין זה תכלית השלימות.</src>
+    <src s="35">משא"כ ע"י העבודה דבא בימים78,</src>
+    <src s="36">כשעובד לתקן את הימים,</src>
+    <src s="37">ועד דאת מספר ימיך אמלא79</src>
+    <src s="38">מספר מלשון אבן ספיר</src>
+    <src s="39">(וכמ"ש בתו"א80</src>
+    <src s="40">שמספר ימיך הוא כמו השמים מספרים81</src>
+    <src s="41">שפירש בזהר82</src>
+    <src s="42">מנהרין ומנצצין וספירין),</src>
+    <src s="43">היינו שהאדם מאיר את הימים</src>
+    <src s="44">(הזמן)</src>
+    <src s="45">באור התורה והמצוות,</src>
+    <src s="46">עי"ז הוא משלים הכוונה דדירה בתחתונים</src>
+    <src s="47">(בהתחתון שבעולם הזה גופא83),</src>
+    <src s="48">שזה</src>
+    <src s="49">(השלמת כוונה זו)</src>
+    <src s="50">הוא תכלית שלימות מעלת האדם,</src>
+    <src s="51">כנ"ל.</src>
+  </section>
+</awtsmoosMeluketSource>

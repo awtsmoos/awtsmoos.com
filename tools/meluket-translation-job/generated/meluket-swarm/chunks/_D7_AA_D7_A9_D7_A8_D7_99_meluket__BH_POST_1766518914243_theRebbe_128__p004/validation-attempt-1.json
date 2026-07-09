@@ -1,0 +1,569 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 105,
+    "returned": 105,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914243_theRebbe_128\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>This section explains that the service of the Ten Days of Repentance, particularly on Rosh Hashanah and Yom Kippur, involves the level of Yechidah, which is then revealed in Sukkot, transforming the hidden service of those days into revealed joy.</sectionSummaryBrief>\n    <t s=\"0\">8)</t>\n    <t s=\"1\">And likewise is the matter of the refinement of the nations etc.</t>\n    <t s=\"2\">(Praise the Lord, all nations etc.)</t>\n    <t s=\"3\">that is in the festival of Sukkot,</t>\n    <t s=\"4\">which comes after the revelation of the level of Yechidah.</t>\n    <t s=\"5\">And the explanation is,</t>\n    <t s=\"6\">that the entire service of the Ten Days of Repentance is from the depth of the heart,</t>\n    <t s=\"7\">\"From the depths I called You.\"</t>\n    <t s=\"8\">And it says \"from the depths\" in the plural,</t>\n    <t s=\"9\">two depths,</t>\n    <t s=\"10\">Chayah and Yechidah.</t>\n    <t s=\"11\">And specifically on Rosh Hashanah</t>\n    <t s=\"12\">(the beginning of the Ten Days of Repentance),</t>\n    <t s=\"13\">and all the more so on Yom Kippur, which is within the Ten Days of Repentance itself, the time of repentance etc., the end of pardon and forgiveness,</t>\n    <t s=\"14\">that the service then is in the aspect of \"Echad\"</t>\n    <t s=\"15\">(Yechidah)</t>\n    <t s=\"16\">in all three matters of world, year, and soul.</t>\n    <t s=\"17\">And the revelation of the aspect of \"Echad\"</t>\n    <t s=\"18\">(which was drawn down during the Ten Days of Repentance, and specifically on Rosh Hashanah and Yom Kippur)</t>\n    <t s=\"19\">is in the festival of Sukkot</t>\n    <t s=\"20\">[as is known</t>\n    <t s=\"21\">in the explanation of the verse</t>\n    <t s=\"22\">\"At the concealment for our festival day,\"</t>\n    <t s=\"23\">that all the matters of the Ten Days of Repentance are in concealment and hiddenness</t>\n    <t s=\"24\">(\"in concealment\"),</t>\n    <t s=\"25\">they are revealed in the festival of Sukkot.</t>\n    <t s=\"26\">And this is why the service of the Ten Days of Repentance is connected with weeping,</t>\n    <t s=\"27\">to the extent that one</t>\n    <t s=\"28\">who does not weep during the Ten Days of Repentance</t>\n    <t s=\"29\">his soul is not complete,</t>\n    <t s=\"30\">but Sukkot is the time of our joy,</t>\n    <t s=\"31\">for joy is specifically over something that is revealed,</t>\n    <t s=\"32\">and through joy there is additional increase in the revelation,</t>\n    <t s=\"33\">for the nature of joy is to bring forth from concealment to revelation,</t>\n    <t s=\"34\">to the extent that it breaks all boundaries].</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>This section explains that the revelation of the aspect of \"Echad\" in Sukkot has two levels: the initial revelation through the mitzvah of dwelling in the sukkah, which is a surrounding light, and the internalized revelation through the mitzvah of the Four Species.</sectionSummaryBrief>\n    <t s=\"0\">And in the revelation of the aspect of \"Echad\" in the festival of Sukkot there are two levels.</t>\n    <t s=\"1\">For the beginning of the revelation is through sitting in the sukkah,</t>\n    <t s=\"2\">the aspect of \"Echad,\"</t>\n    <t s=\"3\">\"All of Israel are fit to sit in one sukkah.\"</t>\n    <t s=\"4\">And this revelation is in the aspect of a surrounding light.</t>\n    <t s=\"5\">And through the mitzvah of taking the Four Species, the revelation is drawn into the innerness,</t>\n    <t s=\"6\">as explained in many places.</t>\n    <t s=\"7\">And one may connect this with what was explained above</t>\n    <t s=\"8\">(section 2)</t>\n    <t s=\"9\">that the unity of the sukkah is an essential unity that from the outset has no division into details, unlike the unity in the mitzvah of taking the Four Species, which is that although there are divided details, nevertheless they are in unity,</t>\n    <t s=\"10\">for the internal is in the aspect of division,</t>\n    <t s=\"11\">therefore,</t>\n    <t s=\"12\">the unity of the sukkah, which has no division,</t>\n    <t s=\"13\">is in the aspect of a surrounding light,</t>\n    <t s=\"14\">and through the unity in the Four Species,</t>\n    <t s=\"15\">which correspond to the four types within Israel,</t>\n    <t s=\"16\">and likewise corresponding to the four levels within each individual,</t>\n    <t s=\"17\">it is drawn into the innerness.</t>\n  </section>\n  <section v=\"11\">\n    <sectionSummaryBrief>This section explains that through the revelation of unity within the diverse details of Israel via the Four Species, this unity is drawn down into the multiplicity of the nations, causing them to praise God.</sectionSummaryBrief>\n    <t s=\"0\">9)</t>\n    <t s=\"1\">And through the revelation of unity within the details of Israel</t>\n    <t s=\"2\">(the four types within the collective of Israel,</t>\n    <t s=\"3\">and the four levels within the soul of each individual),</t>\n    <t s=\"4\">an additional matter is drawn down through the mitzvah of taking the Four Species,</t>\n    <t s=\"5\">that through them it is revealed that Israel are \"victorious ones,\"</t>\n    <t s=\"6\">and in a manner that even the nations of the world agree to this,</t>\n    <t s=\"7\">to the extent that they praise and extol Havayah for the fact that His kindness has prevailed over us.</t>\n    <t s=\"8\">And the explanation is,</t>\n    <t s=\"9\">that the matter of multiplicity is primarily in the nations of the world.</t>\n    <t s=\"10\">For in addition to the fact that \"you are the smallest of all the peoples\"</t>\n    <t s=\"11\">and Israel are one in seventy among the nations,</t>\n    <t s=\"12\">behold, all of Israel are one structure,</t>\n    <t s=\"13\">and the matter of multiplicity</t>\n    <t s=\"14\">(separate things)</t>\n    <t s=\"15\">is in the gentiles and the nations of the world.</t>\n    <t s=\"16\">And behold, the reason for this, that all of Israel are in unity, is because their root is in Havayah,</t>\n    <t s=\"17\">\"Havayah is One.\"</t>\n    <t s=\"18\">And from this it is understood,</t>\n    <t s=\"19\">that the matter of the unity of Israel is additional to the fact that they are not separate from each other</t>\n    <t s=\"20\">(like the nations of the world),</t>\n    <t s=\"21\">but rather they are elevated</t>\n    <t s=\"22\">(in a negative sense)</t>\n    <t s=\"23\">also from the division of the angels</t>\n    <t s=\"24\">and the worlds that were created from the Name Elokim, which is in the plural,</t>\n    <t s=\"25\">and furthermore,</t>\n    <t s=\"26\">that they are above even the division of the Name Elokim</t>\n    <t s=\"27\">(in the plural),</t>\n    <t s=\"28\">which in general is the immanent light that gives life to every world and every created being according to its worth.</t>\n    <t s=\"29\">But nevertheless,</t>\n    <t s=\"30\">since even within Israel there is the matter of multiplicity</t>\n    <t s=\"31\">(in externality),</t>\n    <t s=\"32\">behold, through the drawing down of unity into the multiplicity of Israel,</t>\n    <t s=\"33\">through this it is drawn also into the multiplicity of the Name Elokim,</t>\n    <t s=\"34\">and through this also into the multiplicity of worlds and created beings,</t>\n    <t s=\"35\">to the extent of the multiplicity of created beings in this physical world</t>\n    <t s=\"36\">[for the matter of \"How great are Your works, Havayah\"</t>\n    <t s=\"37\">(the division into a multiplicity of details)</t>\n    <t s=\"38\">is primarily in this physical world specifically],</t>\n    <t s=\"39\">including also the multiplicity of the nations of the world.</t>\n    <t s=\"40\">And it may be said,</t>\n    <t s=\"41\">that this is the connection between the two interpretations regarding the matter of the Four Species,</t>\n    <t s=\"42\">for according to one interpretation they correspond to the four types within Israel, and according to another interpretation they correspond to the four levels above</t>\n    <t s=\"43\">(as above, section 2),</t>\n    <t s=\"44\">for the matter of the four levels above is that the immanent light gives life and brings into being the four worlds of Atzilus, Beriah, Yetzirah, and Asiyah,</t>\n    <t s=\"45\">each world according to its worth.</t>\n    <t s=\"46\">And through the drawing down of unity into the multiplicity</t>\n    <t s=\"47\">(the four types and the four levels)</t>\n    <t s=\"48\">of Israel,</t>\n    <t s=\"49\">through this they draw this also into the aspect of multiplicity within the immanent light</t>\n    <t s=\"50\">(the four levels above),</t>\n    <t s=\"51\">and through this – also into the multiplicity of worlds etc., and to the multiplicity of the nations of the world.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914243_theRebbe_128",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914243_theRebbe_128__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "This section explains that the service of the Ten Days of Repentance, particularly on Rosh Hashanah and Yom Kippur, involves the level of Yechidah, which is then revealed in Sukkot, transforming the hidden service of those days into revealed joy.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "8)"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "And likewise is the matter of the refinement of the nations etc."
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "(Praise the Lord, all nations etc.)"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "that is in the festival of Sukkot,"
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "which comes after the revelation of the level of Yechidah."
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "that the entire service of the Ten Days of Repentance is from the depth of the heart,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "\"From the depths I called You.\""
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "And it says \"from the depths\" in the plural,"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "two depths,"
+          },
+          {
+            "v": 9,
+            "s": 10,
+            "translation": "Chayah and Yechidah."
+          },
+          {
+            "v": 9,
+            "s": 11,
+            "translation": "And specifically on Rosh Hashanah"
+          },
+          {
+            "v": 9,
+            "s": 12,
+            "translation": "(the beginning of the Ten Days of Repentance),"
+          },
+          {
+            "v": 9,
+            "s": 13,
+            "translation": "and all the more so on Yom Kippur, which is within the Ten Days of Repentance itself, the time of repentance etc., the end of pardon and forgiveness,"
+          },
+          {
+            "v": 9,
+            "s": 14,
+            "translation": "that the service then is in the aspect of \"Echad\""
+          },
+          {
+            "v": 9,
+            "s": 15,
+            "translation": "(Yechidah)"
+          },
+          {
+            "v": 9,
+            "s": 16,
+            "translation": "in all three matters of world, year, and soul."
+          },
+          {
+            "v": 9,
+            "s": 17,
+            "translation": "And the revelation of the aspect of \"Echad\""
+          },
+          {
+            "v": 9,
+            "s": 18,
+            "translation": "(which was drawn down during the Ten Days of Repentance, and specifically on Rosh Hashanah and Yom Kippur)"
+          },
+          {
+            "v": 9,
+            "s": 19,
+            "translation": "is in the festival of Sukkot"
+          },
+          {
+            "v": 9,
+            "s": 20,
+            "translation": "[as is known"
+          },
+          {
+            "v": 9,
+            "s": 21,
+            "translation": "in the explanation of the verse"
+          },
+          {
+            "v": 9,
+            "s": 22,
+            "translation": "\"At the concealment for our festival day,\""
+          },
+          {
+            "v": 9,
+            "s": 23,
+            "translation": "that all the matters of the Ten Days of Repentance are in concealment and hiddenness"
+          },
+          {
+            "v": 9,
+            "s": 24,
+            "translation": "(\"in concealment\"),"
+          },
+          {
+            "v": 9,
+            "s": 25,
+            "translation": "they are revealed in the festival of Sukkot."
+          },
+          {
+            "v": 9,
+            "s": 26,
+            "translation": "And this is why the service of the Ten Days of Repentance is connected with weeping,"
+          },
+          {
+            "v": 9,
+            "s": 27,
+            "translation": "to the extent that one"
+          },
+          {
+            "v": 9,
+            "s": 28,
+            "translation": "who does not weep during the Ten Days of Repentance"
+          },
+          {
+            "v": 9,
+            "s": 29,
+            "translation": "his soul is not complete,"
+          },
+          {
+            "v": 9,
+            "s": 30,
+            "translation": "but Sukkot is the time of our joy,"
+          },
+          {
+            "v": 9,
+            "s": 31,
+            "translation": "for joy is specifically over something that is revealed,"
+          },
+          {
+            "v": 9,
+            "s": 32,
+            "translation": "and through joy there is additional increase in the revelation,"
+          },
+          {
+            "v": 9,
+            "s": 33,
+            "translation": "for the nature of joy is to bring forth from concealment to revelation,"
+          },
+          {
+            "v": 9,
+            "s": 34,
+            "translation": "to the extent that it breaks all boundaries]."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "This section explains that the revelation of the aspect of \"Echad\" in Sukkot has two levels: the initial revelation through the mitzvah of dwelling in the sukkah, which is a surrounding light, and the internalized revelation through the mitzvah of the Four Species.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And in the revelation of the aspect of \"Echad\" in the festival of Sukkot there are two levels."
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "For the beginning of the revelation is through sitting in the sukkah,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "the aspect of \"Echad,\""
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "\"All of Israel are fit to sit in one sukkah.\""
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "And this revelation is in the aspect of a surrounding light."
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "And through the mitzvah of taking the Four Species, the revelation is drawn into the innerness,"
+          },
+          {
+            "v": 10,
+            "s": 6,
+            "translation": "as explained in many places."
+          },
+          {
+            "v": 10,
+            "s": 7,
+            "translation": "And one may connect this with what was explained above"
+          },
+          {
+            "v": 10,
+            "s": 8,
+            "translation": "(section 2)"
+          },
+          {
+            "v": 10,
+            "s": 9,
+            "translation": "that the unity of the sukkah is an essential unity that from the outset has no division into details, unlike the unity in the mitzvah of taking the Four Species, which is that although there are divided details, nevertheless they are in unity,"
+          },
+          {
+            "v": 10,
+            "s": 10,
+            "translation": "for the internal is in the aspect of division,"
+          },
+          {
+            "v": 10,
+            "s": 11,
+            "translation": "therefore,"
+          },
+          {
+            "v": 10,
+            "s": 12,
+            "translation": "the unity of the sukkah, which has no division,"
+          },
+          {
+            "v": 10,
+            "s": 13,
+            "translation": "is in the aspect of a surrounding light,"
+          },
+          {
+            "v": 10,
+            "s": 14,
+            "translation": "and through the unity in the Four Species,"
+          },
+          {
+            "v": 10,
+            "s": 15,
+            "translation": "which correspond to the four types within Israel,"
+          },
+          {
+            "v": 10,
+            "s": 16,
+            "translation": "and likewise corresponding to the four levels within each individual,"
+          },
+          {
+            "v": 10,
+            "s": 17,
+            "translation": "it is drawn into the innerness."
+          }
+        ]
+      },
+      {
+        "v": 11,
+        "sectionSummaryBrief": "This section explains that through the revelation of unity within the diverse details of Israel via the Four Species, this unity is drawn down into the multiplicity of the nations, causing them to praise God.",
+        "translations": [
+          {
+            "v": 11,
+            "s": 0,
+            "translation": "9)"
+          },
+          {
+            "v": 11,
+            "s": 1,
+            "translation": "And through the revelation of unity within the details of Israel"
+          },
+          {
+            "v": 11,
+            "s": 2,
+            "translation": "(the four types within the collective of Israel,"
+          },
+          {
+            "v": 11,
+            "s": 3,
+            "translation": "and the four levels within the soul of each individual),"
+          },
+          {
+            "v": 11,
+            "s": 4,
+            "translation": "an additional matter is drawn down through the mitzvah of taking the Four Species,"
+          },
+          {
+            "v": 11,
+            "s": 5,
+            "translation": "that through them it is revealed that Israel are \"victorious ones,\""
+          },
+          {
+            "v": 11,
+            "s": 6,
+            "translation": "and in a manner that even the nations of the world agree to this,"
+          },
+          {
+            "v": 11,
+            "s": 7,
+            "translation": "to the extent that they praise and extol Havayah for the fact that His kindness has prevailed over us."
+          },
+          {
+            "v": 11,
+            "s": 8,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 11,
+            "s": 9,
+            "translation": "that the matter of multiplicity is primarily in the nations of the world."
+          },
+          {
+            "v": 11,
+            "s": 10,
+            "translation": "For in addition to the fact that \"you are the smallest of all the peoples\""
+          },
+          {
+            "v": 11,
+            "s": 11,
+            "translation": "and Israel are one in seventy among the nations,"
+          },
+          {
+            "v": 11,
+            "s": 12,
+            "translation": "behold, all of Israel are one structure,"
+          },
+          {
+            "v": 11,
+            "s": 13,
+            "translation": "and the matter of multiplicity"
+          },
+          {
+            "v": 11,
+            "s": 14,
+            "translation": "(separate things)"
+          },
+          {
+            "v": 11,
+            "s": 15,
+            "translation": "is in the gentiles and the nations of the world."
+          },
+          {
+            "v": 11,
+            "s": 16,
+            "translation": "And behold, the reason for this, that all of Israel are in unity, is because their root is in Havayah,"
+          },
+          {
+            "v": 11,
+            "s": 17,
+            "translation": "\"Havayah is One.\""
+          },
+          {
+            "v": 11,
+            "s": 18,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 11,
+            "s": 19,
+            "translation": "that the matter of the unity of Israel is additional to the fact that they are not separate from each other"
+          },
+          {
+            "v": 11,
+            "s": 20,
+            "translation": "(like the nations of the world),"
+          },
+          {
+            "v": 11,
+            "s": 21,
+            "translation": "but rather they are elevated"
+          },
+          {
+            "v": 11,
+            "s": 22,
+            "translation": "(in a negative sense)"
+          },
+          {
+            "v": 11,
+            "s": 23,
+            "translation": "also from the division of the angels"
+          },
+          {
+            "v": 11,
+            "s": 24,
+            "translation": "and the worlds that were created from the Name Elokim, which is in the plural,"
+          },
+          {
+            "v": 11,
+            "s": 25,
+            "translation": "and furthermore,"
+          },
+          {
+            "v": 11,
+            "s": 26,
+            "translation": "that they are above even the division of the Name Elokim"
+          },
+          {
+            "v": 11,
+            "s": 27,
+            "translation": "(in the plural),"
+          },
+          {
+            "v": 11,
+            "s": 28,
+            "translation": "which in general is the immanent light that gives life to every world and every created being according to its worth."
+          },
+          {
+            "v": 11,
+            "s": 29,
+            "translation": "But nevertheless,"
+          },
+          {
+            "v": 11,
+            "s": 30,
+            "translation": "since even within Israel there is the matter of multiplicity"
+          },
+          {
+            "v": 11,
+            "s": 31,
+            "translation": "(in externality),"
+          },
+          {
+            "v": 11,
+            "s": 32,
+            "translation": "behold, through the drawing down of unity into the multiplicity of Israel,"
+          },
+          {
+            "v": 11,
+            "s": 33,
+            "translation": "through this it is drawn also into the multiplicity of the Name Elokim,"
+          },
+          {
+            "v": 11,
+            "s": 34,
+            "translation": "and through this also into the multiplicity of worlds and created beings,"
+          },
+          {
+            "v": 11,
+            "s": 35,
+            "translation": "to the extent of the multiplicity of created beings in this physical world"
+          },
+          {
+            "v": 11,
+            "s": 36,
+            "translation": "[for the matter of \"How great are Your works, Havayah\""
+          },
+          {
+            "v": 11,
+            "s": 37,
+            "translation": "(the division into a multiplicity of details)"
+          },
+          {
+            "v": 11,
+            "s": 38,
+            "translation": "is primarily in this physical world specifically],"
+          },
+          {
+            "v": 11,
+            "s": 39,
+            "translation": "including also the multiplicity of the nations of the world."
+          },
+          {
+            "v": 11,
+            "s": 40,
+            "translation": "And it may be said,"
+          },
+          {
+            "v": 11,
+            "s": 41,
+            "translation": "that this is the connection between the two interpretations regarding the matter of the Four Species,"
+          },
+          {
+            "v": 11,
+            "s": 42,
+            "translation": "for according to one interpretation they correspond to the four types within Israel, and according to another interpretation they correspond to the four levels above"
+          },
+          {
+            "v": 11,
+            "s": 43,
+            "translation": "(as above, section 2),"
+          },
+          {
+            "v": 11,
+            "s": 44,
+            "translation": "for the matter of the four levels above is that the immanent light gives life and brings into being the four worlds of Atzilus, Beriah, Yetzirah, and Asiyah,"
+          },
+          {
+            "v": 11,
+            "s": 45,
+            "translation": "each world according to its worth."
+          },
+          {
+            "v": 11,
+            "s": 46,
+            "translation": "And through the drawing down of unity into the multiplicity"
+          },
+          {
+            "v": 11,
+            "s": 47,
+            "translation": "(the four types and the four levels)"
+          },
+          {
+            "v": 11,
+            "s": 48,
+            "translation": "of Israel,"
+          },
+          {
+            "v": 11,
+            "s": 49,
+            "translation": "through this they draw this also into the aspect of multiplicity within the immanent light"
+          },
+          {
+            "v": 11,
+            "s": 50,
+            "translation": "(the four levels above),"
+          },
+          {
+            "v": 11,
+            "s": 51,
+            "translation": "and through this – also into the multiplicity of worlds etc., and to the multiplicity of the nations of the world."
+          }
+        ]
+      }
+    ]
+  }
+}

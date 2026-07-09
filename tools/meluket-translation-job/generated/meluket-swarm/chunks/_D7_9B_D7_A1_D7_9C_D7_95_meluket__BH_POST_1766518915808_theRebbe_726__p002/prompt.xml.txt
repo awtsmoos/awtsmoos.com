@@ -1,0 +1,135 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915808_theRebbe_726" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915808_theRebbe_726__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915808_theRebbe_726" title="מאמר פדה בשלום תשל"ח" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915808_theRebbe_726__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">והנה בפסוק זה שני פירושים.</src>
+    <src s="2">פירוש הפשוט בפדה בשלום נפשי הוא שהקב"ה פודה את הצדיקים</src>
+    <src s="3">[הן לפי פשטות הענין שקאי על פדיית דוד,</src>
+    <src s="4">שהקב"ה פדה אותו מהמלחמות שבאו עליו14,</src>
+    <src s="5">וכדאיתא בירושלמי15</src>
+    <src s="6">שפדה בשלום נפשי קאי על פדיית דוד ממלחמת אבשלום,</src>
+    <src s="7">וכ"ה גם בנוגע לפדה בשלום נפשי דהגאולות די"ט כסלו יו"ד כסלו וי"ב תמוז,</src>
+    <src s="8">שהקב"ה פדה את הצדיקים],</src>
+    <src s="9">ופירוש הב' הוא כמרז"ל16</src>
+    <src s="10">אמר הקב"ה כל העוסק בתורה ובגמ"ח ומתפלל עם הצבור כו' כאילו פדאני כו',</src>
+    <src s="11">שהאדם</src>
+    <src s="12">(העוסק בתורה וכו')</src>
+    <src s="13">הוא פודה את הקב"ה כביכול.</src>
+    <src s="14">וצריך להבין השייכות דשני הפירושים,</src>
+    <src s="15">דנוסף על הידוע שכל הפירושים שבאותו פסוק שייכים זה לזה17,</src>
+    <src s="16">הנה זה שבהדרושים די"ט כסלו18</src>
+    <src s="17">ודי"ב תמוז7</src>
+    <src s="18">(שאז הי' הענין דפדה בשלום נפשי כפשוטו,</src>
+    <src s="19">כנ"ל)</src>
+    <src s="20">מובא</src>
+    <src s="21">(בכו"כ מהם)</src>
+    <src s="22">בתחילתם וראשיתם דרשת חז"ל הנ"ל,</src>
+    <src s="23">הרי זה מדגיש עוד יותר דשני פירושים אלה שייכים זל"ז.</src>
+    <src s="24">וצריך להבין השייכות דשני הפירושים.</src>
+    <src s="25">ואף שגם לפי מרז"ל הנ"ל מדבר הכתוב</src>
+    <src s="26">(גם)</src>
+    <src s="27">בענין פדיית ישראל,</src>
+    <src s="28">פדאני לי ולבני</src>
+    <src s="29">[ובחדא"ג מהרש"א19</src>
+    <src s="30">שם שהשכינה אמרה פדה בשלום נפשי עם מקרב לי מלשון קרובים דהיינו בני],</src>
+    <src s="31">הרי זהו בנוגע להנפדה,</src>
+    <src s="32">אבל בנוגע להפודה,</src>
+    <src s="33">הרי לפי פירוש הפשוט,</src>
+    <src s="34">פדה גו' קאי על הקב"ה,</src>
+    <src s="35">ולפי מרז"ל הנ"ל,</src>
+    <src s="36">פדה גו' קאי על האדם העוסק בתורה וכו'.</src>
+  </section>
+  <section v="4">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים שג' הענינים דתורה וגמ"ח ותפלה</src>
+    <src s="2">(בצבור),</src>
+    <src s="3">שעל ידם פדאני לי ולבני,</src>
+    <src s="4">הם ג' העמודים שעליהם העולם עומד20</src>
+    <src s="5">(כמ"ש בחדא"ג מהרש"א שם21</src>
+    <src s="6">ועד"ז ברשב"א שם22).</src>
+    <src s="7">ומכיון שקיום ועמידת העולם הוא על ג' עמודים אלה,</src>
+    <src s="8">צריך לומר,</src>
+    <src s="9">דג' ענינים אלה היו גם בתחילת הבריאה.</src>
+    <src s="10">ואף שידוע שבריאת העולם היתה מצד כי23</src>
+    <src s="11">חפץ חסד הוא</src>
+    <src s="12">(ורק עכשיו באתעדל"ת תליא מילתא)24,</src>
+    <src s="13">אעפ"כ,</src>
+    <src s="14">מכיון שכוונת הבריאה מלכתחילה היא בשביל ישראל ובשביל התורה25,</src>
+    <src s="15">צריך לומר,</src>
+    <src s="16">שג' ענינים אלה הם עמודי העולם גם בתחילת התהוותו.</src>
+  </section>
+  <section v="5">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דהנה ידועה תורת הרב המגיד26</src>
+    <src s="2">ותורת כ"ק אדמו"ר הזקן27</src>
+    <src s="3">[שנקראת</src>
+    <src s="4">(גם)</src>
+    <src s="5">על שמו28]</src>
+    <src s="6">על מאמר רז"ל29</src>
+    <src s="7">דע מה למעלה ממך,</src>
+    <src s="8">דכל מה שלמעלה הכל הוא ממך.</src>
+    <src s="9">ומהמשך הענין שם מובן,</src>
+    <src s="10">שע"י עבודת האדם נעשה הענין למעלה גם קודם העבודה30.</src>
+    <src s="11">וכמ"ש הרב המגיד31</src>
+    <src s="12">עה"פ32</src>
+    <src s="13">נעשה אדם בצלמנו גו',</src>
+    <src s="14">שהוא כמשל אדם שיש לו בן,</src>
+    <src s="15">שמצד גודל אהבתו אליו,</src>
+    <src s="16">נחקקה צורת הבן במחשבתו.</src>
+    <src s="17">ומכיון שאצלו ית' העבר והעתיד אחד,</src>
+    <src s="18">לכן נחקקה צורתם של ישראל</src>
+    <src s="19">(כמו שנש"י הן בבחי' נברא,</src>
+    <src s="20">ויתירה מזה כמו שהן יורדות למטה33)</src>
+    <src s="21">במחשבתו ית' גם קודם שנבראו.</src>
+    <src s="22">דזהו גם ענין במי נמלך בנשמותיהן של צדיקים34,</src>
+    <src s="23">דזה מה שהי' ידוע לפניו ית' שיתענג כביכול בעבודת הצדיקים,</src>
+    <src s="24">הנה תענוג זה עלה לפניו ית' גם לפני הבריאה</src>
+    <src s="25">(ועי"ז היתה הבריאה)35.</src>
+    <src s="26">וזהו מה שג' העמודים</src>
+    <src s="27">(תורה עבודה וגמ"ח)</src>
+    <src s="28">היו גם בתחילת הבריאה,</src>
+    <src s="29">דמכיון שהקב"ה צמצם את עצמו בצלם של ישראל</src>
+    <src s="30">(עוד לפני שנבראו),</src>
+    <src s="31">הנה על ידי העבודה דישראל דתורה עבודה וגמ"ח,</src>
+    <src s="32">שהם ג' הקוין חג"ת36</src>
+    <src s="33">(וג' הענינים דמחשבה דיבור ומעשה37),</src>
+    <src s="34">נעשה למעלה</src>
+    <src s="35">(עוד לפני הבריאה)</src>
+    <src s="36">הציור דחג"ת</src>
+    <src s="37">(ודמחדו"מ),</src>
+    <src s="38">ונתהוו כל העולמות38.</src>
+  </section>
+</awtsmoosMeluketSource>

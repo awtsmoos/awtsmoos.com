@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="אייר_meluket" postId="BH_POST_1766518918574_theRebbe_925" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918574_theRebbe_925__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="אייר_meluket" postId="BH_POST_1766518918574_theRebbe_925" title="מאמר פתח רבי שמעון תשל"ד" batchId="meluket-_D7_90_D7_99_D7_99_D7_A8_meluket__BH_POST_1766518918574_theRebbe_925__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ אמור,</src>
+    <src s="2">י"ט אייר,</src>
+    <src s="3">ה'תשל"ד*</src>
+  </section>
+  <section v="1">
+    <src s="0">פתח רבי שמעון ואמר אני לדודי ועלי תשוקתו1,</src>
+    <src s="1">כל יומין דאתקטרנא בהאי עלמא בחד קטירא אתקטרנא בי' בקוב"ה ובגין כך השתא ועלי תשוקתו2.</src>
+    <src s="2">ובהמשך הענין שם3,</src>
+    <src s="3">מסתכל הוינא כל יומא בהאי קרא דכתיב4</src>
+    <src s="4">בה' תתהלל נפשי כו' והאידנא אתקיים קרא כולא כו' דהא נשמתי בי' אחידא בי' להיטא בי' אתדבקת כו'.</src>
+    <src s="5">שבמשך כל ימי חייו</src>
+    <src s="6">(כל יומין דאתקטרנא בהאי עלמא)</src>
+    <src s="7">הי' רשב"י מקושר בהקב"ה</src>
+    <src s="8">(אתקטרנא הוא לשון קשר,</src>
+    <src s="9">כמו ותקשור על ידו שני וגו'5</src>
+    <src s="10">ותרגם וקטרת על ידיה זהוריתא6),</src>
+    <src s="11">דהתקשרות היא דוקא בשני דברים,</src>
+    <src s="12">והאידנא,</src>
+    <src s="13">ביום הסתלקותו7,</src>
+    <src s="14">הגיע לדרגא נעלית יותר,</src>
+    <src s="15">שנעשה חד עם הקב"ה,</src>
+    <src s="16">בי' אחידא.</src>
+  </section>
+  <section v="2">
+    <src s="0">והנה אף שלהדרגא דבי' אחידא הגיע רשב"י</src>
+    <src s="1">(רק)</src>
+    <src s="2">ביום הסתלקותו,</src>
+    <src s="3">הרי מכיון שכל ימיו השתדל להגיע לדרגא זו</src>
+    <src s="4">(מסתכל הוינא כל יומא בהאי קרא),</src>
+    <src s="5">מובן,</src>
+    <src s="6">שבכללות שייך לזה והגיע לזה8</src>
+    <src s="7">גם בחייו9,</src>
+    <src s="8">אלא שהשלימות בזה</src>
+    <src s="9">(קרא כולא)</src>
+    <src s="10">נתקיים בו האידנא,</src>
+    <src s="11">ביום הסתלקותו.</src>
+    <src s="12">וכמובן גם מהמבואר בהמשך תרס"ו10</src>
+    <src s="13">דזה שעסק התורה דרשב"י הי' באופן דתורתו אומנתו11,</src>
+    <src s="14">היינו שעסק התורה שלו היתה באופן דהמשכת מ"ד12</src>
+    <src s="15">(ודלא כשאר התנאים שהלימוד שלהם הי' באופן דהעלאת מ"ן),</src>
+    <src s="16">הוא הענין ד</src>
+    <src s="17">(בי' אחידא)</src>
+    <src s="18">בי' להיטא,</src>
+    <src s="19">והרי זה שרשב"י היתה תורתו אומנתו,</src>
+    <src s="20">הי' זה במשך כל ימי חייו.</src>
+    <src s="21">ויש להוסיף,</src>
+    <src s="22">דזה שבכמה דרושים13</src>
+    <src s="23">מובא הענין דנשמתי בי' אחידא כו' בהמשך אחד עם בחד קטירא אתקטרנא,</src>
+    <src s="24">הוא,</src>
+    <src s="25">כי גם בהענין דבחד קטירא אתקטרנא יש בפנימיות בי' אחידא כו',</src>
+    <src s="26">אלא שבמשך כל ימי חייו לא הי' זה</src>
+    <src s="27">(בי' אחידא כו')</src>
+    <src s="28">בגילוי,</src>
+    <src s="29">וביום ההסתלקות שלו,</src>
+    <src s="30">שאז מתגלה הפנימיות</src>
+    <src s="31">(השרש והמקור)</src>
+    <src s="32">של כל עניני עבודת האדם שעבד במשך כל ימי חייו14,</src>
+    <src s="33">אז מתגלה הפנימיות דבחד קטירא אתקטרנא15,</src>
+    <src s="34">שהוא</src>
+    <src s="35">(לא רק התקשרות,</src>
+    <src s="36">אלא גם)</src>
+    <src s="37">בי' אחידא.</src>
+  </section>
+</awtsmoosMeluketSource>

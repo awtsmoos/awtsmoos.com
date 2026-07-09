@@ -1,0 +1,118 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 16,
+    "returned": 16,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918104_theRebbe_982\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p004\">\n  <section v=\"9\">\n    <sectionSummaryBrief>Based on this, there are two aspects in the superiority of the Torah of the future, the Torah of Moshiach.</sectionSummaryBrief>\n    <t s=\"0\">And based on this, it can be said,</t>\n    <t s=\"1\">that regarding the superiority of the Torah of the future,</t>\n    <t s=\"2\">the Torah of Moshiach,</t>\n    <t s=\"3\">there are two matters.</t>\n    <t s=\"4\">One is that then there will be the revelation of the perfection of the Torah from its own essence,</t>\n    <t s=\"5\">and the elevation that will then be in the Torah through the elevation of the mitzvos.</t>\n    <t s=\"6\">And similarly, regarding the soul,</t>\n    <t s=\"7\">in addition to the fact that then the root of the souls themselves will be revealed,</t>\n    <t s=\"8\">the soul will also receive the revelation of the superiority of the body</t>\n    <t s=\"9\">(the choice of Atzmus in the body).</t>\n  </section>\n  <section v=\"10\">\n    <sectionSummaryBrief>May it be His will that through our actions and service, especially spreading the wellsprings, we merit to learn Moshiach's Torah from his mouth very soon.</sectionSummaryBrief>\n    <t s=\"0\">And may it be His will,</t>\n    <t s=\"1\">that through our deeds and our service,</t>\n    <t s=\"2\">and particularly through the service of \"spreading your wellsprings outward,\"</t>\n    <t s=\"3\">we will merit to study the Torah of Moshiach,</t>\n    <t s=\"4\">from the mouth of Moshiach,</t>\n    <t s=\"5\">very soon.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918104_theRebbe_982",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p004"
+    },
+    "sections": [
+      {
+        "v": 9,
+        "sectionSummaryBrief": "Based on this, there are two aspects in the superiority of the Torah of the future, the Torah of Moshiach.",
+        "translations": [
+          {
+            "v": 9,
+            "s": 0,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 9,
+            "s": 1,
+            "translation": "that regarding the superiority of the Torah of the future,"
+          },
+          {
+            "v": 9,
+            "s": 2,
+            "translation": "the Torah of Moshiach,"
+          },
+          {
+            "v": 9,
+            "s": 3,
+            "translation": "there are two matters."
+          },
+          {
+            "v": 9,
+            "s": 4,
+            "translation": "One is that then there will be the revelation of the perfection of the Torah from its own essence,"
+          },
+          {
+            "v": 9,
+            "s": 5,
+            "translation": "and the elevation that will then be in the Torah through the elevation of the mitzvos."
+          },
+          {
+            "v": 9,
+            "s": 6,
+            "translation": "And similarly, regarding the soul,"
+          },
+          {
+            "v": 9,
+            "s": 7,
+            "translation": "in addition to the fact that then the root of the souls themselves will be revealed,"
+          },
+          {
+            "v": 9,
+            "s": 8,
+            "translation": "the soul will also receive the revelation of the superiority of the body"
+          },
+          {
+            "v": 9,
+            "s": 9,
+            "translation": "(the choice of Atzmus in the body)."
+          }
+        ]
+      },
+      {
+        "v": 10,
+        "sectionSummaryBrief": "May it be His will that through our actions and service, especially spreading the wellsprings, we merit to learn Moshiach's Torah from his mouth very soon.",
+        "translations": [
+          {
+            "v": 10,
+            "s": 0,
+            "translation": "And may it be His will,"
+          },
+          {
+            "v": 10,
+            "s": 1,
+            "translation": "that through our deeds and our service,"
+          },
+          {
+            "v": 10,
+            "s": 2,
+            "translation": "and particularly through the service of \"spreading your wellsprings outward,\""
+          },
+          {
+            "v": 10,
+            "s": 3,
+            "translation": "we will merit to study the Torah of Moshiach,"
+          },
+          {
+            "v": 10,
+            "s": 4,
+            "translation": "from the mouth of Moshiach,"
+          },
+          {
+            "v": 10,
+            "s": 5,
+            "translation": "very soon."
+          }
+        ]
+      }
+    ]
+  }
+}

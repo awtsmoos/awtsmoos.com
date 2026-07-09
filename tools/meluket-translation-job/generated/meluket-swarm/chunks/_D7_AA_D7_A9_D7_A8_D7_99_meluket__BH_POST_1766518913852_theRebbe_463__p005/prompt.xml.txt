@@ -1,0 +1,138 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518913852_theRebbe_463" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913852_theRebbe_463__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518913852_theRebbe_463" title="מאמר זה היום תחילת מעשיך תשמ"ב" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913852_theRebbe_463__p005">
+  <section v="12">
+    <src s="0">ושלימות זו שנעשית ע"י עבודת האדם הותחלה ביום הששי למע"ב כשנברא האדם והתחיל לעבוד את האדמה,</src>
+    <src s="1">בתחלה את האדמה שבהאדם גופא,</src>
+    <src s="2">וייצר ה' אלקים את האדם עפר מן האדמה58,</src>
+    <src s="3">ואח"כ ועי"ז גם את האדמה שמחוצה לו,</src>
+    <src s="4">היינו כל סדר ההשתלשלות</src>
+    <src s="5">(דהכל הי' מן העפר59),</src>
+    <src s="6">וכנ"ל שפעל בכל הבריאה הענין דנשתחוה ונכרעה נברכה לפני ה' עושינו.</src>
+    <src s="7">ובפרט לאחרי יום הששי דמ"ת</src>
+    <src s="8">[שאז נעשה עילוי ושלימות ביום הששי דמעשה בראשית60],</src>
+    <src s="9">שעבודת האדם והפעולה בעולם</src>
+    <src s="10">(שנעשית ע"י עבודתו)</src>
+    <src s="11">שלאחרי מ"ת היא באופן נעלה יותר.</src>
+    <src s="12">ובפרט בראש השנה,</src>
+    <src s="13">זה היום תחלת מעשיך,</src>
+    <src s="14">שהוא דוגמת תחלת מעשיך שנעשה ע"י עבודת אדם הראשון בראש השנה הראשון,</src>
+    <src s="15">ועוד למעלה יותר,</src>
+    <src s="16">ובראש השנה גופא הנה בכל שנה ושנה ענין זה הוא באופן נעלה יותר,</src>
+    <src s="17">כהציווי61</src>
+    <src s="18">מעלין בקודש,</src>
+    <src s="19">ועד שבכל ראש השנה נמשך אור חדש עליון יותר שלא הי' מאיר עדיין מימי עולם אור עליון כזה62,</src>
+    <src s="20">ועד להגאולה שאז יעלה הפורץ לפנינו63</src>
+    <src s="21">ויפרוץ כל המדידות וההגבלות.</src>
+  </section>
+  <section v="13">
+    <src s="0">ח)</src>
+    <src s="1">והנה ג' ענינים הנ"ל הנמשכים בראש השנה</src>
+    <src s="2">(תחלת מעשיך,</src>
+    <src s="3">זכרון ליום ראשון</src>
+    <src s="4">(הגילוי דחפץ חסד),</src>
+    <src s="5">והמשכת גילוי תענוג העצמי שלמעלה מחפץ חסד)</src>
+    <src s="6">הם</src>
+    <src s="7">(ע"ד)</src>
+    <src s="8">ג' הענינים דמלכיות זכרונות ושופרות.</src>
+    <src s="9">והענין הוא,</src>
+    <src s="10">דמלכיות הם בבחי' ממכ"ע</src>
+    <src s="11">(כמבואר בדרוש הנ"ל דהצ"צ64),</src>
+    <src s="12">אור שבערך העולמות שאתעדל"ת מגעת לשם,</src>
+    <src s="13">וזהו אמרו לפני מלכיות כדי שתמליכוני עליכם65,</src>
+    <src s="14">דכמו שענין המלוכה למטה נעשה ע"י העם כמ"ש66</src>
+    <src s="15">שום תשים עליך מלך,</src>
+    <src s="16">עד"ז הוא במלכותא דרקיעא67,</src>
+    <src s="17">דזה שהקב"ה נעשה מלך הוא ע"י שתמליכוני,</src>
+    <src s="18">שישראל מקבלים עליהם עול מלכות שמים ומבקשים מלוך כו'</src>
+    <src s="19">[דבבקשה וקבלה זו נכללת גם הבקשה שיגזור עלינו גזירות וקבלת עול מצוות68,</src>
+    <src s="20">לקיים כל מה שיגזור ויצוה בדרך קבלת עול,</src>
+    <src s="21">וכהנוסח דברכת</src>
+    <src s="22">(כל)</src>
+    <src s="23">המצוות אשר קדשנו במצותיו וצונו,</src>
+    <src s="24">שקיום המצוות הוא מצד הציווי והגזירה69],</src>
+    <src s="25">שעי"ז נעשה הקב"ה למלך על כל ישראל,</src>
+    <src s="26">שתמליכוני עליכם,</src>
+    <src s="27">ועל ידם גם מלך על כל הארץ.</src>
+    <src s="28">וזה שע"י העבודה דישראל מעוררים ענין המלכות הוא,</src>
+    <src s="29">כי ענין המלכות הוא</src>
+    <src s="30">(בכללות)</src>
+    <src s="31">באור הממלא,</src>
+    <src s="32">שאתערותא דלתתא מגעת לשם.</src>
+    <src s="33">וע"ד הענין דתחלת מעשיך.</src>
+    <src s="34">והגם שבראש השנה חוזרים כל הדברים לקדמותם,</src>
+    <src s="35">והמשכת המלכות דראש השנה היא מעצמות אוא"ס שלמעלה מענין המלכות</src>
+    <src s="36">[וזה שבכחם של ישראל להמשיך מעצמות אוא"ס הוא לפי שהם מושרשים בהעצמות70,</src>
+    <src s="37">וע"ד המבואר בלקו"ת71,</src>
+    <src s="38">דזה שביכלתם של ישראל לעורר התגלות מלכותו ית' מעצמותו ומהותו הוא מצד הברית אשר כרת ה' עמנו להיות לו לעם72,</src>
+    <src s="39">שיהיו דומים להמלך,</src>
+    <src s="40">אנשים כמותו],</src>
+    <src s="41">הנה זהו ששרש ההמשכה הוא מעצמות אוא"ס,</src>
+    <src s="42">אבל ההמשכה עצמה היא שנמשכת ענין המלכות73,</src>
+    <src s="43">שבכללות הוא ממכ"ע.</src>
+    <src s="44">וענין זכרונות הוא באוא"ס הסוכ"ע74</src>
+    <src s="45">שקדוש ומובדל מעולמות.</src>
+    <src s="46">כי ענין הזכרון אינו שייך אלא בדבר הרחוק,</src>
+    <src s="47">במקום או במעלה,</src>
+    <src s="48">ועד שאין הדבר תופס מקום לגבי'.</src>
+    <src s="49">וזהו דזכרונות הוא בעצמות אוא"ס דכולא קמי' כלא חשיבא75.</src>
+    <src s="50">וע"ד הענין דזכרון ליום ראשון76.</src>
+    <src s="51">אלא שאעפ"כ גם ענין הזכרון שייך דוקא על דבר שישנו במציאות גם לפני שזוכרים עליו</src>
+    <src s="52">(אלא שהדבר הוא רחוק ממנו במקום ובמעלה).</src>
+    <src s="53">וזהו מה שזכרונות הוא בבחינת סובב,</src>
+    <src s="54">כי גם לגבי סובב יש המציאות דעולמות</src>
+    <src s="55">(ורק שהם במקום רחוק,</src>
+    <src s="56">דכלא ממש חשיבי)77.</src>
+  </section>
+  <section v="14">
+    <src s="0">וענין שופרות הוא כמבואר בדרוש הנ"ל דהצ"צ78</src>
+    <src s="1">דקול השופר הוא קלא פנימאה שמבחי' פנימיות הלב,</src>
+    <src s="2">דמזה מובן,</src>
+    <src s="3">שההמשכה שע"י שופר היא מפנימיות ועצמות אוא"ס שלמעלה גם מסובב79.</src>
+    <src s="4">וכמ"ש80</src>
+    <src s="5">לך אמר לבי בקשו פני את פניך הוי' אבקש,</src>
+    <src s="6">דע"י בקשו פני,</src>
+    <src s="7">הצעקה דפנימיות הלב,</src>
+    <src s="8">עי"ז את פניך הוי' אבקש,</src>
+    <src s="9">ההמשכה מפנימיות ועצמות אוא"ס.</src>
+    <src s="10">והוא ע"ד המשכת וגילוי תענוג העצמי שלמעלה גם מהענין דחפץ חסד.</src>
+    <src s="11">ובפרט ע"פ הידוע81</src>
+    <src s="12">דשופר</src>
+    <src s="13">(מלשון שפרו מעשיכם82)</src>
+    <src s="14">הוא תענוג,</src>
+    <src s="15">ושבחי' התענוג דשופר הוא מקור התענוגים,</src>
+    <src s="16">ועד שעשוע המלך בעצמותו.</src>
+  </section>
+</awtsmoosMeluketSource>

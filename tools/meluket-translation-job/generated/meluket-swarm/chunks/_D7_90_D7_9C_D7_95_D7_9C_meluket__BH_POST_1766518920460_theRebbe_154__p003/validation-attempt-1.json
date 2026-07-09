@@ -1,0 +1,147 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 23,
+    "returned": 23,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אלול_meluket\" postId=\"BH_POST_1766518920460_theRebbe_154\" batchId=\"meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920460_theRebbe_154__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that all soul-sparks stand and are elevated to their original source before Hashem, becoming one with Him, and thereby merit a favorable judgment in both spiritual and physical matters for a good year.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And this is: \"You are standing today, all of you,\" etc.,</t>\n    <t s=\"2\">that all the sparks of souls</t>\n    <t s=\"3\">(from your heads, your tribes, to the hewer of your wood and drawer of your water)</t>\n    <t s=\"4\">stand and are elevated to their first source, until before Hashem,</t>\n    <t s=\"5\">and until they become literally one with</t>\n    <t s=\"6\">(the aspect of)</t>\n    <t s=\"7\">\"before Hashem\"</t>\n    <t s=\"8\">(as above regarding the matter of \"passing you into the covenant\"),</t>\n    <t s=\"9\">[this being] Yisrael and the King alone,</t>\n    <t s=\"10\">and through this they also stand</t>\n    <t s=\"11\">(according to the explanation of the Baal Shem Tov)</t>\n    <t s=\"12\">[meaning] enduring and standing, i.e., they merit [favor] in judgment,</t>\n    <t s=\"13\">and not only regarding spiritual matters</t>\n    <t s=\"14\">(\"judgment for the G-d of Yaakov\"),</t>\n    <t s=\"15\">but also regarding physical matters</t>\n    <t s=\"16\">(\"a statute for Yisrael\"),</t>\n    <t s=\"17\">and moreover, the main judgment on Rosh HaShanah</t>\n    <t s=\"18\">(and that which they merit in judgment)</t>\n    <t s=\"19\">is regarding physical matters,</t>\n    <t s=\"20\">that each and every one of Yisrael should have a good writing and sealing for a good and sweet year, in the good that is seen and revealed,</t>\n    <t s=\"21\">in children, life, and sustenance,</t>\n    <t s=\"22\">and in all of them, prosperity.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אלול_meluket",
+      "postId": "BH_POST_1766518920460_theRebbe_154",
+      "batchId": "meluket-_D7_90_D7_9C_D7_95_D7_9C_meluket__BH_POST_1766518920460_theRebbe_154__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that all soul-sparks stand and are elevated to their original source before Hashem, becoming one with Him, and thereby merit a favorable judgment in both spiritual and physical matters for a good year.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And this is: \"You are standing today, all of you,\" etc.,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "that all the sparks of souls"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(from your heads, your tribes, to the hewer of your wood and drawer of your water)"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "stand and are elevated to their first source, until before Hashem,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "and until they become literally one with"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "(the aspect of)"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "\"before Hashem\""
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(as above regarding the matter of \"passing you into the covenant\"),"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "[this being] Yisrael and the King alone,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "and through this they also stand"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "(according to the explanation of the Baal Shem Tov)"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "[meaning] enduring and standing, i.e., they merit [favor] in judgment,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "and not only regarding spiritual matters"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "(\"judgment for the G-d of Yaakov\"),"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "but also regarding physical matters"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "(\"a statute for Yisrael\"),"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "and moreover, the main judgment on Rosh HaShanah"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "(and that which they merit in judgment)"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "is regarding physical matters,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "that each and every one of Yisrael should have a good writing and sealing for a good and sweet year, in the good that is seen and revealed,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "in children, life, and sustenance,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "and in all of them, prosperity."
+          }
+        ]
+      }
+    ]
+  }
+}

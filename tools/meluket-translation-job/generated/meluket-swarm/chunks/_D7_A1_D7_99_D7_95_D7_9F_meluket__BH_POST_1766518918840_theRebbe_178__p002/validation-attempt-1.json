@@ -1,0 +1,354 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 62,
+    "returned": 62,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"סיון_meluket\" postId=\"BH_POST_1766518918840_theRebbe_178\" batchId=\"meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains how the three levels of \"daughter,\" \"sister,\" and \"mother\" in the Midrash correspond to mitzvah observance, Torah study, and self-sacrifice in divine service.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And behold, in Torah Ohr there, in the discourse beginning \"Rani Vesimchi\" (the first one),</t>\n    <t s=\"2\">he connects the verse \"Rani Vesimchi Bat Tzion\" with the statement of the Midrash</t>\n    <t s=\"3\">(on the verse</t>\n    <t s=\"4\">\"Go forth and see, O daughters of Tzion, King Shlomo, with the crown with which his mother crowned him\"),</t>\n    <t s=\"5\">a parable of a king, etc. He did not cease cherishing her</t>\n    <t s=\"6\">until He called her \"My daughter,\" etc. He did not cease cherishing her until He called her \"My sister,\" etc. He did not cease cherishing her until He called her \"My mother.\"</t>\n    <t s=\"7\">And he explains there,</t>\n    <t s=\"8\">that these three matters</t>\n    <t s=\"9\">(daughter, sister, mother)</t>\n    <t s=\"10\">in the service of man are: the fulfillment of the mitzvos,</t>\n    <t s=\"11\">the occupation with Torah, and the service of self-sacrifice (mesiras nefesh).</t>\n    <t s=\"12\">For in the fulfillment of mitzvos, the person who fulfills the mitzvah is in the aspect of a receiver</t>\n    <t s=\"13\">(daughter),</t>\n    <t s=\"14\">for he receives the drawing down that is drawn down through the fulfillment of the mitzvah.</t>\n    <t s=\"15\">And through occupation with Torah, Yisrael become brothers and companions to the Holy One, blessed be He,</t>\n    <t s=\"16\">(sister).</t>\n    <t s=\"17\">And through the service of self-sacrifice (mesiras nefesh), they are called by the name \"mother,\"</t>\n    <t s=\"18\">for they bestow influence, as it were, upon the Holy One, blessed be He.</t>\n    <t s=\"19\">And this can be connected with what is explained in many places</t>\n    <t s=\"20\">on the verse \"with the crown with which his mother crowned him,\"</t>\n    <t s=\"21\">that the crown with which the Congregation of Yisrael</t>\n    <t s=\"22\">(the mother)</t>\n    <t s=\"23\">crowned the Holy One, blessed be He, is through their having preceded \"we will do\" to \"we will hear,\"</t>\n    <t s=\"24\">for the self-nullification of the precedence of \"we will do\" to \"we will hear\" is like the self-nullification of self-sacrifice (mesiras nefesh).</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the reading of the portion \"Beha'aloscha\" after Shavuos relates to the concept of the crown with which His mother crowned Him, and the Haftorah of \"Rani Vesimchi\" is connected to this.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that among the reasons for reading the portion of \"Beha'aloscha Es HaNeiros\" (When you raise up the lamps) after the festival of Shavuos</t>\n    <t s=\"2\">is,</t>\n    <t s=\"3\">that \"lamps\" (neiros) refer to the souls of Yisrael, as it is written,</t>\n    <t s=\"4\">\"The lamp of Hashem is the soul of man,\"</t>\n    <t s=\"5\">for the explanation of \"the lamp of Hashem\" is that the soul illuminates</t>\n    <t s=\"6\">(bestows influence)</t>\n    <t s=\"7\">as it were, to Hashem,</t>\n    <t s=\"8\">and as it is brought in the Midrash</t>\n    <t s=\"9\">on the verse \"When you raise up the lamps,\" that Yisrael illuminate for the One Who illuminates for the entire world,</t>\n    <t s=\"10\">and this matter is related to the festival of Shavuos,</t>\n    <t s=\"11\">the crown with which His mother crowned Him.</t>\n    <t s=\"12\">And based on this, it is necessary to understand even more why the Haftorah of the weekly portion of Beha'aloscha</t>\n    <t s=\"13\">(the matter of \"mother\")</t>\n    <t s=\"14\">is \"Rani Vesimchi Bat Tzion.\"</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that the drawing down through mitzvos (the level of \"daughter\") is from the Essence of Ein Sof, higher than the spiritual service of Torah and self-sacrifice.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">that the drawing down that comes through the fulfillment of the mitzvos,</t>\n    <t s=\"3\">\"daughter,\"</t>\n    <t s=\"4\">is a drawing down that is more elevated than the drawing down that comes through the service of \"sister\" and \"mother.\"</t>\n    <t s=\"5\">For the service of self-sacrifice</t>\n    <t s=\"6\">(mother),</t>\n    <t s=\"7\">and likewise the occupation with Torah</t>\n    <t s=\"8\">(sister),</t>\n    <t s=\"9\">since it is a spiritual service,</t>\n    <t s=\"10\">it has a connection to the drawing down that is drawn down through it,</t>\n    <t s=\"11\">and since the drawing down through the service of \"sister\" and \"mother\" is like an arousal from above that is aroused and drawn down through an arousal from below,</t>\n    <t s=\"12\">the drawing down is only from the place that the arousal from below reaches.</t>\n    <t s=\"13\">But the drawing down through the performance of the mitzvos,</t>\n    <t s=\"14\">for the performance of the mitzvah is a physical action that is not comparable at all,</t>\n    <t s=\"15\">is like an arousal from above that is from its own accord,</t>\n    <t s=\"16\">and therefore the drawing down is from the Essence (Atzmus) of Ein Sof.</t>\n    <t s=\"17\">And this is \"Rani Vesimchi Bat Tzion, for behold, I am coming and I will dwell in your midst,\"</t>\n    <t s=\"18\">that \"I am coming\" includes two matters.</t>\n    <t s=\"19\">\"I am\" (Hineni) — ready of Myself, not through an arousal from below,</t>\n    <t s=\"20\">\"coming\" (Ba) —</t>\n    <t s=\"21\">I Myself, as it were, the actual Ein Sof, blessed be He.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "סיון_meluket",
+      "postId": "BH_POST_1766518918840_theRebbe_178",
+      "batchId": "meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918840_theRebbe_178__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains how the three levels of \"daughter,\" \"sister,\" and \"mother\" in the Midrash correspond to mitzvah observance, Torah study, and self-sacrifice in divine service.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And behold, in Torah Ohr there, in the discourse beginning \"Rani Vesimchi\" (the first one),"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "he connects the verse \"Rani Vesimchi Bat Tzion\" with the statement of the Midrash"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "(on the verse"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "\"Go forth and see, O daughters of Tzion, King Shlomo, with the crown with which his mother crowned him\"),"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "a parable of a king, etc. He did not cease cherishing her"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "until He called her \"My daughter,\" etc. He did not cease cherishing her until He called her \"My sister,\" etc. He did not cease cherishing her until He called her \"My mother.\""
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "And he explains there,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "that these three matters"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "(daughter, sister, mother)"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "in the service of man are: the fulfillment of the mitzvos,"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "the occupation with Torah, and the service of self-sacrifice (mesiras nefesh)."
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "For in the fulfillment of mitzvos, the person who fulfills the mitzvah is in the aspect of a receiver"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "(daughter),"
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "for he receives the drawing down that is drawn down through the fulfillment of the mitzvah."
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "And through occupation with Torah, Yisrael become brothers and companions to the Holy One, blessed be He,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "(sister)."
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "And through the service of self-sacrifice (mesiras nefesh), they are called by the name \"mother,\""
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "for they bestow influence, as it were, upon the Holy One, blessed be He."
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "And this can be connected with what is explained in many places"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "on the verse \"with the crown with which his mother crowned him,\""
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "that the crown with which the Congregation of Yisrael"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "(the mother)"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "crowned the Holy One, blessed be He, is through their having preceded \"we will do\" to \"we will hear,\""
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "for the self-nullification of the precedence of \"we will do\" to \"we will hear\" is like the self-nullification of self-sacrifice (mesiras nefesh)."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the reading of the portion \"Beha'aloscha\" after Shavuos relates to the concept of the crown with which His mother crowned Him, and the Haftorah of \"Rani Vesimchi\" is connected to this.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "that among the reasons for reading the portion of \"Beha'aloscha Es HaNeiros\" (When you raise up the lamps) after the festival of Shavuos"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "is,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "that \"lamps\" (neiros) refer to the souls of Yisrael, as it is written,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "\"The lamp of Hashem is the soul of man,\""
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "for the explanation of \"the lamp of Hashem\" is that the soul illuminates"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "(bestows influence)"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "as it were, to Hashem,"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "and as it is brought in the Midrash"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "on the verse \"When you raise up the lamps,\" that Yisrael illuminate for the One Who illuminates for the entire world,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "and this matter is related to the festival of Shavuos,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "the crown with which His mother crowned Him."
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "And based on this, it is necessary to understand even more why the Haftorah of the weekly portion of Beha'aloscha"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "(the matter of \"mother\")"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "is \"Rani Vesimchi Bat Tzion.\""
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that the drawing down through mitzvos (the level of \"daughter\") is from the Essence of Ein Sof, higher than the spiritual service of Torah and self-sacrifice.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "that the drawing down that comes through the fulfillment of the mitzvos,"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "\"daughter,\""
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "is a drawing down that is more elevated than the drawing down that comes through the service of \"sister\" and \"mother.\""
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "For the service of self-sacrifice"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "(mother),"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "and likewise the occupation with Torah"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "(sister),"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "since it is a spiritual service,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "it has a connection to the drawing down that is drawn down through it,"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "and since the drawing down through the service of \"sister\" and \"mother\" is like an arousal from above that is aroused and drawn down through an arousal from below,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "the drawing down is only from the place that the arousal from below reaches."
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "But the drawing down through the performance of the mitzvos,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "for the performance of the mitzvah is a physical action that is not comparable at all,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "is like an arousal from above that is from its own accord,"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "and therefore the drawing down is from the Essence (Atzmus) of Ein Sof."
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "And this is \"Rani Vesimchi Bat Tzion, for behold, I am coming and I will dwell in your midst,\""
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "that \"I am coming\" includes two matters."
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "\"I am\" (Hineni) — ready of Myself, not through an arousal from below,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "\"coming\" (Ba) —"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "I Myself, as it were, the actual Ein Sof, blessed be He."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,549 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 101,
+    "returned": 101,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915520_theRebbe_327\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>Even heartfelt desire cannot grasp Atzmus itself, because Atzmus is grasped only through His will, which is the mitzvos, and the advantage of kabbalas ol over heartfelt desire is that it is not from the person's own existence.</sectionSummaryBrief>\n    <t s=\"0\">And it can be said,</t>\n    <t s=\"1\">that the reason for this, that even through heartfelt desire one does not grasp Atzmus itself,</t>\n    <t s=\"2\">[and in order to grasp Atzmus it is specifically through the fulfillment of the mitzvos that follow the heartfelt desire],</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">that since Atzmus is separate from every matter,</t>\n    <t s=\"5\">it is impossible to grasp it through any matter,</t>\n    <t s=\"6\">but only through His will</t>\n    <t s=\"7\">(of Atzmus).</t>\n    <t s=\"8\">And since even the innate love that stems from the essence of the soul</t>\n    <t s=\"9\">(heartfelt desire)</t>\n    <t s=\"10\">is the love and will of the human,</t>\n    <t s=\"11\">Atzmus itself is not grasped through this.</t>\n    <t s=\"12\">And this is the advantage of the service of kabbalas ol over heartfelt desire,</t>\n    <t s=\"13\">for heartfelt desire is the will of the human,</t>\n    <t s=\"14\">and even when his will is in a state of nullification,</t>\n    <t s=\"15\">so that he does not want anything for himself at all and all his will is</t>\n    <t s=\"16\">(to fulfill)</t>\n    <t s=\"17\">the will of the Holy One, blessed be He,</t>\n    <t s=\"18\">nevertheless,</t>\n    <t s=\"19\">even this will is the will of the human,</t>\n    <t s=\"20\">an existence.</t>\n    <t s=\"21\">And the service of kabbalas ol,</t>\n    <t s=\"22\">where one accepts upon himself to fulfill the command of G-d even when the command is contrary to his will, like a servant,</t>\n    <t s=\"23\">for a servant is compelled to fulfill the will of the master,</t>\n    <t s=\"24\">is not from his own existence</t>\n    <t s=\"25\">(will)</t>\n    <t s=\"26\">but rather from the yoke of the kingdom of heaven that is upon him.</t>\n    <t s=\"27\">However, even so,</t>\n    <t s=\"28\">the nullification of kabbalas ol also does not grasp Atzmus itself,</t>\n    <t s=\"29\">and in order to grasp Atzmus it is specifically through the fulfillment of Torah and mitzvos,</t>\n    <t s=\"30\">for since all matters are incomparable and considered as nothing before Him,</t>\n    <t s=\"31\">it is not possible that there be some matter through which one can grasp Him.</t>\n    <t s=\"32\">And in order to grasp Atzmus it is specifically through Atzmus desiring this.</t>\n    <t s=\"33\">And this is that through the fulfillment of Torah and mitzvos one grasps Atzmus,</t>\n    <t s=\"34\">for the mitzvos are the will of Atzmus.</t>\n    <t s=\"35\">That is,</t>\n    <t s=\"36\">that this, that through Torah and mitzvos one grasps Atzmus, is not due to the virtue of the Torah and mitzvos themselves,</t>\n    <t s=\"37\">but because it is the will of Atzmus.</t>\n    <t s=\"38\">And that the fulfillment of mitzvos must be with nullification</t>\n    <t s=\"39\">[even though regarding Atzmus, nullification and existence are truly equal],</t>\n    <t s=\"40\">is,</t>\n    <t s=\"41\">in order that the drawing down of Atzmus through the fulfillment of mitzvos be in revelation.</t>\n    <t s=\"42\">For when the performance of the mitzvah by the human is in a manner that his existence is felt,</t>\n    <t s=\"43\">that he is the one performing the mitzvah,</t>\n    <t s=\"44\">the feeling of existence is like a contradiction to the revelation of Atzmus.</t>\n    <t s=\"45\">And since when a person fulfills the mitzvos from his own will,</t>\n    <t s=\"46\">even when his will is to fulfill the will of the Holy One, blessed be He,</t>\n    <t s=\"47\">his existence is felt,</t>\n    <t s=\"48\">therefore,</t>\n    <t s=\"49\">in order that the drawing down of Atzmus through the fulfillment of mitzvos be in revelation,</t>\n    <t s=\"50\">it is through the fulfillment of mitzvos being in the manner of kabbalas ol,</t>\n    <t s=\"51\">not from his own will but from the yoke of the kingdom of heaven that is upon him.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>The difference between a son and a servant is that a servant is nullified to the master, while a son's existence is the father, and these aspects are revealed through Torah study and mitzvah observance respectively.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And it is known,</t>\n    <t s=\"2\">that the two matters of son and servant are, in general, in the study of Torah and the fulfillment of mitzvos.</t>\n    <t s=\"3\">And perhaps an explanation of this can be said,</t>\n    <t s=\"4\">that the difference between a son and a servant is,</t>\n    <t s=\"5\">that the servant is nullified to the master,</t>\n    <t s=\"6\">and the matter of a son is that his existence is the father.</t>\n    <t s=\"7\">And as explained in the continuation of 5666,</t>\n    <t s=\"8\">that what is the will of the father is also the will of the son,</t>\n    <t s=\"9\">and just as the intellect of the father compels, so does the intellect of the son compel.</t>\n    <t s=\"10\">And these matters</t>\n    <t s=\"11\">(son and servant)</t>\n    <t s=\"12\">that are in every Jew are revealed through the study of Torah and the fulfillment of mitzvos.</t>\n    <t s=\"13\">For in the fulfillment of mitzvos,</t>\n    <t s=\"14\">since the fulfillment of mitzvos is to fulfill the command of G-d in the manner of kabbalas ol,</t>\n    <t s=\"15\">the servant within him is revealed,</t>\n    <t s=\"16\">and in the study of Torah, which must specifically be with understanding and comprehension,</t>\n    <t s=\"17\">so that the intellect of the person engaging in Torah be in accordance with the wisdom of the Holy One, blessed be He,</t>\n    <t s=\"18\">the son within him is revealed.</t>\n    <t s=\"19\">And it should be added,</t>\n    <t s=\"20\">that even this, that the ruling of the person engaging in Torah must be according to the person's understanding,</t>\n    <t s=\"21\">that the Torah is not in heaven,</t>\n    <t s=\"22\">is from the aspect of the son within Israel,</t>\n    <t s=\"23\">and as the saying of our sages, of blessed memory, \"The Holy One, blessed be He, laughed and said, 'My children have defeated Me, My children have defeated Me,'\"</t>\n    <t s=\"24\">for the reason for this, that they defeated Me, is because they are sons.</t>\n    <t s=\"25\">And this is,</t>\n    <t s=\"26\">for the root of the son is in the Atzmus of the father, above his revealed powers,</t>\n    <t s=\"27\">and likewise with Israel,</t>\n    <t s=\"28\">the sons of the Holy One, blessed be He,</t>\n    <t s=\"29\">whose root is in His Atzmus, above the manner in which He contracted Himself in the attribute of the Holy One, blessed be He,</t>\n    <t s=\"30\">and therefore they know and comprehend</t>\n    <t s=\"31\">the true essence of the Torah as it is rooted in Atzmus, above the level of the Torah as it is drawn into the knowledge of the Holy One, blessed be He.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>In addition to the aspects of son and servant, there is another aspect in the service of fulfilling mitzvos, where the drawing down of Atzmus is through the mitzvah itself as the will of Atzmus, revealed through kabbalas ol, and perfected by the prior arousal of innate love.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And now, in addition to the two matters of son and servant,</t>\n    <t s=\"2\">there is another matter in the service of man,</t>\n    <t s=\"3\">the fulfillment of mitzvos.</t>\n    <t s=\"4\">And as explained above</t>\n    <t s=\"5\">(section 4),</t>\n    <t s=\"6\">that in the fulfillment of mitzvos there are two matters.</t>\n    <t s=\"7\">The nullification of kabbalas ol within the fulfillment of the mitzvah,</t>\n    <t s=\"8\">and the fulfillment of the mitzvah itself.</t>\n    <t s=\"9\">And the primary matter of the drawing down of Atzmus is through the fulfillment of the mitzvah itself—the will of Atzmus,</t>\n    <t s=\"10\">except that in order for the drawing down of Atzmus that is in the fulfillment of the mitzvah to be in revelation, it is when the fulfillment of the mitzvah is in the manner of kabbalas ol,</t>\n    <t s=\"11\">servant.</t>\n    <t s=\"12\">And the perfection of this matter</t>\n    <t s=\"13\">(that the fulfillment of mitzvos is without any personal motive and only to fulfill His will in the manner of kabbalas ol)</t>\n    <t s=\"14\">is through the precedence of the arousal of innate love</t>\n    <t s=\"15\">(heartfelt desire),</t>\n    <t s=\"16\">son.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915520_theRebbe_327",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915520_theRebbe_327__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "Even heartfelt desire cannot grasp Atzmus itself, because Atzmus is grasped only through His will, which is the mitzvos, and the advantage of kabbalas ol over heartfelt desire is that it is not from the person's own existence.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that the reason for this, that even through heartfelt desire one does not grasp Atzmus itself,"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "[and in order to grasp Atzmus it is specifically through the fulfillment of the mitzvos that follow the heartfelt desire],"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "is,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "that since Atzmus is separate from every matter,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "it is impossible to grasp it through any matter,"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "but only through His will"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "(of Atzmus)."
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "And since even the innate love that stems from the essence of the soul"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "(heartfelt desire)"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "is the love and will of the human,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "Atzmus itself is not grasped through this."
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "And this is the advantage of the service of kabbalas ol over heartfelt desire,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "for heartfelt desire is the will of the human,"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "and even when his will is in a state of nullification,"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "so that he does not want anything for himself at all and all his will is"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "(to fulfill)"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "the will of the Holy One, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "even this will is the will of the human,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "an existence."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "And the service of kabbalas ol,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "where one accepts upon himself to fulfill the command of G-d even when the command is contrary to his will, like a servant,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "for a servant is compelled to fulfill the will of the master,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "is not from his own existence"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "(will)"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "but rather from the yoke of the kingdom of heaven that is upon him."
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "However, even so,"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "the nullification of kabbalas ol also does not grasp Atzmus itself,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "and in order to grasp Atzmus it is specifically through the fulfillment of Torah and mitzvos,"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "for since all matters are incomparable and considered as nothing before Him,"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "it is not possible that there be some matter through which one can grasp Him."
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "And in order to grasp Atzmus it is specifically through Atzmus desiring this."
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "And this is that through the fulfillment of Torah and mitzvos one grasps Atzmus,"
+          },
+          {
+            "v": 6,
+            "s": 34,
+            "translation": "for the mitzvos are the will of Atzmus."
+          },
+          {
+            "v": 6,
+            "s": 35,
+            "translation": "That is,"
+          },
+          {
+            "v": 6,
+            "s": 36,
+            "translation": "that this, that through Torah and mitzvos one grasps Atzmus, is not due to the virtue of the Torah and mitzvos themselves,"
+          },
+          {
+            "v": 6,
+            "s": 37,
+            "translation": "but because it is the will of Atzmus."
+          },
+          {
+            "v": 6,
+            "s": 38,
+            "translation": "And that the fulfillment of mitzvos must be with nullification"
+          },
+          {
+            "v": 6,
+            "s": 39,
+            "translation": "[even though regarding Atzmus, nullification and existence are truly equal],"
+          },
+          {
+            "v": 6,
+            "s": 40,
+            "translation": "is,"
+          },
+          {
+            "v": 6,
+            "s": 41,
+            "translation": "in order that the drawing down of Atzmus through the fulfillment of mitzvos be in revelation."
+          },
+          {
+            "v": 6,
+            "s": 42,
+            "translation": "For when the performance of the mitzvah by the human is in a manner that his existence is felt,"
+          },
+          {
+            "v": 6,
+            "s": 43,
+            "translation": "that he is the one performing the mitzvah,"
+          },
+          {
+            "v": 6,
+            "s": 44,
+            "translation": "the feeling of existence is like a contradiction to the revelation of Atzmus."
+          },
+          {
+            "v": 6,
+            "s": 45,
+            "translation": "And since when a person fulfills the mitzvos from his own will,"
+          },
+          {
+            "v": 6,
+            "s": 46,
+            "translation": "even when his will is to fulfill the will of the Holy One, blessed be He,"
+          },
+          {
+            "v": 6,
+            "s": 47,
+            "translation": "his existence is felt,"
+          },
+          {
+            "v": 6,
+            "s": 48,
+            "translation": "therefore,"
+          },
+          {
+            "v": 6,
+            "s": 49,
+            "translation": "in order that the drawing down of Atzmus through the fulfillment of mitzvos be in revelation,"
+          },
+          {
+            "v": 6,
+            "s": 50,
+            "translation": "it is through the fulfillment of mitzvos being in the manner of kabbalas ol,"
+          },
+          {
+            "v": 6,
+            "s": 51,
+            "translation": "not from his own will but from the yoke of the kingdom of heaven that is upon him."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "The difference between a son and a servant is that a servant is nullified to the master, while a son's existence is the father, and these aspects are revealed through Torah study and mitzvah observance respectively.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And it is known,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "that the two matters of son and servant are, in general, in the study of Torah and the fulfillment of mitzvos."
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "And perhaps an explanation of this can be said,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "that the difference between a son and a servant is,"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "that the servant is nullified to the master,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "and the matter of a son is that his existence is the father."
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "And as explained in the continuation of 5666,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "that what is the will of the father is also the will of the son,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "and just as the intellect of the father compels, so does the intellect of the son compel."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "And these matters"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "(son and servant)"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "that are in every Jew are revealed through the study of Torah and the fulfillment of mitzvos."
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "For in the fulfillment of mitzvos,"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "since the fulfillment of mitzvos is to fulfill the command of G-d in the manner of kabbalas ol,"
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "the servant within him is revealed,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "and in the study of Torah, which must specifically be with understanding and comprehension,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "so that the intellect of the person engaging in Torah be in accordance with the wisdom of the Holy One, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "the son within him is revealed."
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "And it should be added,"
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "that even this, that the ruling of the person engaging in Torah must be according to the person's understanding,"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "that the Torah is not in heaven,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "is from the aspect of the son within Israel,"
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "and as the saying of our sages, of blessed memory, \"The Holy One, blessed be He, laughed and said, 'My children have defeated Me, My children have defeated Me,'\""
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "for the reason for this, that they defeated Me, is because they are sons."
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "And this is,"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "for the root of the son is in the Atzmus of the father, above his revealed powers,"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "and likewise with Israel,"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "the sons of the Holy One, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "whose root is in His Atzmus, above the manner in which He contracted Himself in the attribute of the Holy One, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "and therefore they know and comprehend"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "the true essence of the Torah as it is rooted in Atzmus, above the level of the Torah as it is drawn into the knowledge of the Holy One, blessed be He."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "In addition to the aspects of son and servant, there is another aspect in the service of fulfilling mitzvos, where the drawing down of Atzmus is through the mitzvah itself as the will of Atzmus, revealed through kabbalas ol, and perfected by the prior arousal of innate love.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And now, in addition to the two matters of son and servant,"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "there is another matter in the service of man,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "the fulfillment of mitzvos."
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "And as explained above"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "(section 4),"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "that in the fulfillment of mitzvos there are two matters."
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "The nullification of kabbalas ol within the fulfillment of the mitzvah,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "and the fulfillment of the mitzvah itself."
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "And the primary matter of the drawing down of Atzmus is through the fulfillment of the mitzvah itself—the will of Atzmus,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "except that in order for the drawing down of Atzmus that is in the fulfillment of the mitzvah to be in revelation, it is when the fulfillment of the mitzvah is in the manner of kabbalas ol,"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "servant."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "And the perfection of this matter"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "(that the fulfillment of mitzvos is without any personal motive and only to fulfill His will in the manner of kabbalas ol)"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "is through the precedence of the arousal of innate love"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "(heartfelt desire),"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "son."
+          }
+        ]
+      }
+    ]
+  }
+}

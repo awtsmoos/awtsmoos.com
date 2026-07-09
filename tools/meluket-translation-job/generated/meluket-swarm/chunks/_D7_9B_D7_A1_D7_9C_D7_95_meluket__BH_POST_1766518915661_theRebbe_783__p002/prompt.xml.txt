@@ -1,0 +1,131 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915661_theRebbe_783" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915661_theRebbe_783" title="מאמר פדה בשלום תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p002">
+  <section v="3">
+    <src s="0">ג)</src>
+    <src s="1">ויובן זה בהקדים מ"ש8</src>
+    <src s="2">יודוך ה' כל מעשיך וחסידיך יברכוכה,</src>
+    <src s="3">ואיתא בזהר9</src>
+    <src s="4">דפירוש יברכוכה הוא יברכו כה.</src>
+    <src s="5">ומבאר אדמו"ר</src>
+    <src s="6">(מהורש"ב)</src>
+    <src s="7">נ"ע</src>
+    <src s="8">(במאמרו ד"ה פדה בשלום העת"ר10),</src>
+    <src s="9">דכה הוא מלכות11,</src>
+    <src s="10">ויברכו כה הוא להמשיך גילוי אור במלכות.</src>
+    <src s="11">ונאמר וחסידיך יברכוכה,</src>
+    <src s="12">דהמשכה זו היא בכח חסידיך דוקא.</src>
+    <src s="13">והענין הוא,</src>
+    <src s="14">דזה שחסידיך יברכוכה הוא בסמיכות ובהמשך ליודוך ה' כל מעשיך,</src>
+    <src s="15">הוא,</src>
+    <src s="16">כי ההמשכה במלכות</src>
+    <src s="17">(שע"י חסידיך)</src>
+    <src s="18">היא ממקום נעלה מאד</src>
+    <src s="19">(אוא"ס שלמעלה מהשתלשלות)</src>
+    <src s="20">שאין שייך בו השגה אלא הודאה בלבד,</src>
+    <src s="21">יודוך.</src>
+    <src s="22">וההמשכה משם</src>
+    <src s="23">(באופן דברכה)</src>
+    <src s="24">היא בכח חסידיך דוקא.</src>
+  </section>
+  <section v="4">
+    <src s="0">ובכדי להבין גודל העילוי דהמשכה באופן דברכה מהמקום שבו היא ההודאה,</src>
+    <src s="1">מקדים בהמאמר החילוק בין ברכה לתפלה,</src>
+    <src s="2">שבכל אחד מהם יש מעלה לגבי זולתו.</src>
+    <src s="3">והענין הוא12,</src>
+    <src s="4">דתפלה היא מלמטה למעלה,</src>
+    <src s="5">היינו שהמתפלל הוא למטה ומבקש שישפיעו לו מלמעלה,</src>
+    <src s="6">וברכה היא מלמעלה למטה,</src>
+    <src s="7">שהמברך הוא למעלה מהשורש שממנו נמשכת הברכה וממשיך אותה מלמעלה למטה.</src>
+    <src s="8">וזהו שברכה היא בדרך ציווי,</src>
+    <src s="9">דכיון שהמברך הוא למעלה מהשורש שממנו נמשכת הברכה,</src>
+    <src s="10">לכן בכחו לצוות.</src>
+    <src s="11">וזהו שברכה היא דוקא במי שבכחו לברך</src>
+    <src s="12">(כמו אברהם אבינו שאמר לו הקב"ה הברכות נתונות לך13),</src>
+    <src s="13">[ודלא כתפלה שכל אחד יכול להתפלל,</src>
+    <src s="14">ויתירה מזה שכל אחד נצטווה להתפלל14],</src>
+    <src s="15">כי בכדי לברך,</src>
+    <src s="16">צריך המברך להיות למעלה מהשורש שממנו נמשכת הברכה.</src>
+    <src s="17">ומזה מובנת המעלה בברכה לגבי תפלה,</src>
+    <src s="18">דבתפלה,</src>
+    <src s="19">שהיא בקשה שימשיכו את ההשפעה,</src>
+    <src s="20">אין ודאות שתתמלא הבקשה.</src>
+    <src s="21">ובברכה שהיא בדרך ציווי – ודאי שתומשך ההשפעה15,</src>
+    <src s="22">כיון שהמברך בכחו לצוות.</src>
+    <src s="23">והמעלה בתפלה לגבי ברכה היא בההמשכה עצמה,</src>
+    <src s="24">דההמשכה שע"י תפלה היא נעלית יותר.</src>
+    <src s="25">דענין הברכה הוא להמשיך מה שכבר נמצא בהמקור ולא דבר חדש,</src>
+    <src s="26">וענין התפלה הוא בקשה מהקב"ה שגם באם לא ישנה ח"ו ההשפעה גם בהמקור,</src>
+    <src s="27">ולא עוד אלא שנגזר עליו שיהי' חולה ח"ו וכיו"ב,</src>
+    <src s="28">מ"מ,</src>
+    <src s="29">תומשך לו השפעה חדשה מאוא"ס שלמעלה מהשתלשלות.</src>
+    <src s="30">דזהו שאומרים בכמה תפלות יהי רצון,</src>
+    <src s="31">דפירוש יהי רצון הוא שיהי' רצון חדש.</src>
+    <src s="32">והטעם על זה שהמשכת אור חדש הוא ע"י התפלה דוקא,</src>
+    <src s="33">כי למעשה ידיך תכסוף16,</src>
+    <src s="34">ולכן,</src>
+    <src s="35">ע"י התפלה,</src>
+    <src s="36">עבודת המטה,</src>
+    <src s="37">מגיעים לאוא"ס שלמעלה מהשתלשלות.</src>
+  </section>
+  <section v="5">
+    <src s="0">ועפ"ז מובן גודל עילוי הברכה</src>
+    <src s="1">(דחסידיך)</src>
+    <src s="2">שהמשכתה היא מהמקום שבו היא ההודאה,</src>
+    <src s="3">דבברכה זו שתי המעלות.</src>
+    <src s="4">שההמשכה היא מאוא"ס שלמעלה מהשתלשלות,</src>
+    <src s="5">היינו שע"י ברכה זו נעשה רצון חדש – המעלה דתפלה.</src>
+    <src s="6">ואעפ"כ היא</src>
+    <src s="7">(לא תפלה,</src>
+    <src s="8">בקשה,</src>
+    <src s="9">אלא)</src>
+    <src s="10">ברכה,</src>
+    <src s="11">בדרך ציווי.</src>
+    <src s="12">והוא ע"ד דאיתא בירושלמי17</src>
+    <src s="13">עה"פ18</src>
+    <src s="14">ותגזר אומר ויקם לך,</src>
+    <src s="15">אפילו הוא</src>
+    <src s="16">(הקב"ה)</src>
+    <src s="17">אומר הכין ואת אמר הכין,</src>
+    <src s="18">דידך קיימא דידי לא קיימא.</src>
+    <src s="19">דזה שהקב"ה מבטל את גזירתו מפני גזירת הצדיק,</src>
+    <src s="20">הוא,</src>
+    <src s="21">כי הצדיק ממשיך רצון חדש – המעלה דתפלה,</src>
+    <src s="22">ואופן ביטול הגזירה הוא</src>
+    <src s="23">(לא ע"י בקשה,</src>
+    <src s="24">אלא)</src>
+    <src s="25">ע"י גזירת הצדיק – מעלת הברכה שהיא בדרך ציווי.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,170 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518919022_theRebbe_358" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518919022_theRebbe_358__p003">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518919022_theRebbe_358" title="מאמר ואהי אצלו אמון תשכ"א" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518919022_theRebbe_358__p003">
+  <section v="6">
+    <src s="0">ד)</src>
+    <src s="1">והנה חילוק הנ"ל בין שני המקיפים</src>
+    <src s="2">(מקיף הקרוב ומקיף הרחוק)</src>
+    <src s="3">הוא בנוגע לכחות הפנימיים</src>
+    <src s="4">(מקבל).</src>
+    <src s="5">והחילוק דשני המקיפים מצד המשפיע הוא,</src>
+    <src s="6">שמקיף הקרוב הוא מקיף הישר,</src>
+    <src s="7">ומקיף הרחוק הוא מקיף החוזר.</src>
+    <src s="8">והענין בזה,</src>
+    <src s="9">דמקיף הישר ענינו הוא גילוי,</src>
+    <src s="10">שנמשך ביושר להתגלות.</src>
+    <src s="11">והיינו,</src>
+    <src s="12">שעם היותו בחינת מקיף,</src>
+    <src s="13">מ"מ ענינו הוא גילוי.</src>
+    <src s="14">וכשם שענינו של הכח פנימי הוא שיתגלה בפנימיות,</src>
+    <src s="15">כמו"כ ענינו של המקיף הוא שיתגלה בבחינת מקיף,</src>
+    <src s="16">אבל ענינו הוא גילוי.</src>
+    <src s="17">משא"כ מקיף החוזר,</src>
+    <src s="18">אין ענינו ענין הגילוי כלל,</src>
+    <src s="19">אלא אדרבה,</src>
+    <src s="20">שחוזר ועולה בעצמותו כו'.</src>
+    <src s="21">וענין ב' בחינות אלו למעלה בענין הספירות,</src>
+    <src s="22">הנה החכמה היא ראשית הכחות פנימיים,</src>
+    <src s="23">והכתר היא בחינת מקיף,</src>
+    <src s="24">אלא שבכתר גופא ישנו עתיק ואריך,</src>
+    <src s="25">שהם ב' בחינות מקיף הנ"ל.</src>
+    <src s="26">אריך הוא בחינת מקיף הקרוב,</src>
+    <src s="27">מקיף דאור ישר,</src>
+    <src s="28">שזהו שנקרא בשם אריך,</src>
+    <src s="29">היינו ששייך לבחינת ז"א,</src>
+    <src s="30">אלא שז"א הוא בבחינת קטנות,</src>
+    <src s="31">ואריך הוא באריכות,</src>
+    <src s="32">משא"כ בחינת עתיק הוא שנעתק ונבדל.</src>
+    <src s="33">וכמו"כ ישנם ב' בחינות אלו גם בהאור שקודם הצמצום,</src>
+    <src s="34">והוא בחינת עצם האור והתפשטות האור.</src>
+    <src s="35">דהתפשטות האור,</src>
+    <src s="36">עם היותו קודם הצמצום,</src>
+    <src s="37">מ"מ,</src>
+    <src s="38">זה עצמו שנקרא בשם התפשטות האור,</src>
+    <src s="39">מורה שענינו הוא ענין הגילוי,</src>
+    <src s="40">וע"י הצמצום יהי' ממנו גילויים בסדר השתלשלות.</src>
+    <src s="41">משא"כ האור שהבדילו לעצמו,</src>
+    <src s="42">ומכש"כ עצם האור,</src>
+    <src s="43">הרי זה למעלה מגדר גילוי כלל,</src>
+    <src s="44">והו"ע המקיף דאור חוזר,</src>
+    <src s="45">שחוזר ומתעלם בעצמותו.</src>
+  </section>
+  <section v="7">
+    <src s="0">והנה המקיף דאור ישר,</src>
+    <src s="1">עם היותו בגדר גילוי,</src>
+    <src s="2">מ"מ אינו דומה אופן הגילוי שלו לאופן הגילוי דאור פנימי.</src>
+    <src s="3">כי,</src>
+    <src s="4">הגילוי דאור פנימי הוא במיעוט ובהתלבשות ובהעלם,</src>
+    <src s="5">והיינו,</src>
+    <src s="6">שמה שנמשך ומתגלה מאור פנימי לכח התחתון ממנו,</src>
+    <src s="7">הוא רק בחינה האחרונה שבהכח עליון כנ"ל,</src>
+    <src s="8">שהוא ענין המיעוט,</src>
+    <src s="9">וגם אופן התגלותו הוא שמתלבש בכח התחתון ממנו ומתעלם בו.</src>
+    <src s="10">משא"כ הגילוי דאור מקיף הוא באופן שנמשך בריבוי אור,</src>
+    <src s="11">ואינו בא בהתלבשות והעלם.</src>
+    <src s="12">ויובן זה36</src>
+    <src s="13">ממה שמצינו שלפעמים איתא37</src>
+    <src s="14">או"א יונקים ממזלא,</src>
+    <src s="15">שאבא יונק ממזל ונוצר,</src>
+    <src s="16">ואימא יונק ממזל ונקה,</src>
+    <src s="17">ולפעמים איתא38</src>
+    <src s="18">שאבא ואימא מלבישים לזרועות דאריך.</src>
+    <src s="19">ולכאורה,</src>
+    <src s="20">היניקה דאבא ואימא ממזלא היא בחינה תחתונה יותר מזה שמלבישים לזרועות דאריך,</src>
+    <src s="21">שהרי היניקה מהמזלות שהם בחי' שערות היא המשכת הארה בלבד,</src>
+    <src s="22">וע"י הפסק הגולגולת,</src>
+    <src s="23">משא"כ מה שאבא ואימא מלבישים זרועות דאריך,</src>
+    <src s="24">הרי ענין התלבשות הוא שמלבישים את עצם המהות כו'.</src>
+    <src s="25">ומ"מ,</src>
+    <src s="26">לאידך גיסא,</src>
+    <src s="27">ענין ההתלבשות הוא באופן שהאור מתלבש ומתעלם,</src>
+    <src s="28">משא"כ ענין היניקה ממזלא,</src>
+    <src s="29">עם היות שזהו יניקת הארה בלבד,</src>
+    <src s="30">מ"מ הרי זה ריבוי אור,</src>
+    <src s="31">ואינו מתלבש ומתעלם כלל.</src>
+    <src s="32">ולכן בכדי שיהי' יחוד אבא ואימא,</src>
+    <src s="33">הרי זה דוקא ע"י יניקתם מהמזל.</src>
+    <src s="34">דההמשכה שנמשכת לאו"א מזרועות דאריך</src>
+    <src s="35">(ע"י שאו"א מלבישים אותם),</src>
+    <src s="36">היא באופן שעי"ז נעשה ההתחלקות דחו"ב,</src>
+    <src s="37">שמבחינת חסד דאריך נמשך החכמה,</src>
+    <src s="38">ומבחינת גבורה דאריך נמשך הבינה,</src>
+    <src s="39">והם בהתחלקות זה מזה,</src>
+    <src s="40">משא"כ ההמשכה שנמשכת לאו"א ע"י שיונקים ממזלא,</src>
+    <src s="41">היא באופן שהם בהתאחדות ובהתכללות.</src>
+    <src s="42">והיינו שלא זו בלבד שלא נעשה בהם התחלקות ע"י ההמשכה מהמזל,</src>
+    <src s="43">אלא שמצד יניקתם ממזלא דאריך נעשה יחוד והתכללות גם בהתחלקות שהיתה בהם מקודם.</src>
+    <src s="44">ועד שמצד יניקתם ממזלא דאריך,</src>
+    <src s="45">נעשה ענין ההולדה להוליד בדומה לו.</src>
+    <src s="46">וטעם הדבר הוא,</src>
+    <src s="47">לפי שזרועות דאריך,</src>
+    <src s="48">אף שהם באריך שלמעלה מהשתלשלות,</src>
+    <src s="49">מ"מ באריך גופא הוא בחינת סדר ההשתלשלות,</src>
+    <src s="50">היינו אור פנימי,</src>
+    <src s="51">ולכן אופן התגלותם הוא בהתלבשות והעלם.</src>
+    <src s="52">משא"כ כשההמשכה היא מאריך עצמו</src>
+    <src s="53">(שבאריך גופא הוא מקיף שלמעלה מהשתלשלות),</src>
+    <src s="54">הנה הגם שההמשכה היא באופן של יניקה,</src>
+    <src s="55">הארה לבד</src>
+    <src s="56">(מזלות ושערות),</src>
+    <src s="57">מ"מ,</src>
+    <src s="58">אין זה באופן דהתלבשות והעלם.</src>
+    <src s="59">אלא שמ"מ גם אריך עצמו,</src>
+    <src s="60">הוא מקיף הקרוב,</src>
+    <src s="61">מקיף הישר,</src>
+    <src s="62">ולכן התגלותו היא באופן של יניקת הארה לבד,</src>
+    <src s="63">משא"כ עתיק הוא מקיף הרחוק,</src>
+    <src s="64">מקיף דאור חוזר שאינו בגדר גילוי כלל,</src>
+    <src s="65">וכאשר נמשך אזי הוא נמשך בכל עצמותו.</src>
+  </section>
+  <section v="8">
+    <src s="0">וזהו החילוק שבין מדלג ומקפץ,</src>
+    <src s="1">שההמשכה דמדלג היא רק רגל אחת</src>
+    <src s="2">(ואינו נמשך כמו שהוא בעצמותו)</src>
+    <src s="3">– דוגמתא</src>
+    <src s="4">או"א יונקים ממזלא,</src>
+    <src s="5">וההמשכה דמקפץ בשתי רגליו27</src>
+    <src s="6">שעי"ז נעתק כל גופו היא ההמשכה ממקיף הרחוק,</src>
+    <src s="7">שכאשר נמשך אזי נמשך בכל עצמותוב.</src>
+    <src s="8">וזהו שמדלג על ההרים קאי על יציאת מצרים</src>
+    <src s="9">(כמארז"ל39</src>
+    <src s="10">עה"פ מדלג על ההרים דלג על הקץ),</src>
+    <src s="11">ומקפץ על הגבעות קאי על מתן תורה,</src>
+    <src s="12">כי הגילוי דיצי"מ הוא הגילוי דבחינת מקיף הישר,</src>
+    <src s="13">והגילוי דמ"ת הוא הגילוי דמקיף החוזר,</src>
+    <src s="14">ועד להגילוי דאנכי מי שאנכי,</src>
+    <src s="15">עצמות.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,101 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="סיון_meluket" postId="BH_POST_1766518918894_theRebbe_986" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918894_theRebbe_986__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="סיון_meluket" postId="BH_POST_1766518918894_theRebbe_986" title="מאמר בהעלותך את הנרות תשל"ד" batchId="meluket-_D7_A1_D7_99_D7_95_D7_9F_meluket__BH_POST_1766518918894_theRebbe_986__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">יום ד' פ' בהעלותך,</src>
+    <src s="2">ט"ו סיון ה'תשל"ד*</src>
+  </section>
+  <section v="1">
+    <src s="0">בהעלותך את הנרות אל מול פני המנורה יאירו שבעת הנרות1,</src>
+    <src s="1">ומדייק כ"ק מו"ח אדמו"ר בעל המאסר והגאולה במאמרו ד"ה זה2,</src>
+    <src s="2">שבתחלה אומר בהעלותך את הנרות</src>
+    <src s="3">(נרות סתם)</src>
+    <src s="4">ואינו מזכיר את מספרם,</src>
+    <src s="5">ולאחרי זה אומר יאירו שבעת הנרות.</src>
+    <src s="6">וגם צריך להבין3</src>
+    <src s="7">מ"ש אל מול פני המנורה יאירו שבעת הנרות,</src>
+    <src s="8">הרי פני המנורה הוא נר האמצעי4,</src>
+    <src s="9">והול"ל אל מול פני המנורה יאירו ששת הנרות5.</src>
+    <src s="10">ונקודת הביאור בזה6,</src>
+    <src s="11">דהנרות שעליהם נאמר בהעלותך את הנרות,</src>
+    <src s="12">והנרות שעליהם נאמר יאירו שבעת הנרות,</src>
+    <src s="13">הם שני ענינים.</src>
+    <src s="14">בהעלותך את הנרות,</src>
+    <src s="15">נרות סתם,</src>
+    <src s="16">הם הנשמות שנק' נרות כמ"ש7</src>
+    <src s="17">נר הוי' נשמת אדם,</src>
+    <src s="18">דכמו שהנר טבעו לעלות למעלה ולידבק בשרשו</src>
+    <src s="19">(ביסוד האש הכללי שתחת גלגל8</src>
+    <src s="20">הירח9),</src>
+    <src s="21">כן הנשמה היא בטבע הרצוא לעלות למעלה להכלל במקור חוצבה.</src>
+    <src s="22">אלא שבנשמות דבי"ע,</src>
+    <src s="23">טבע הרצוא שבהם הוא בהעלם,</src>
+    <src s="24">ועבודתו של אהרן היא לעורר ולגלות את טבע הרצוא והעלי' שלהם,</src>
+    <src s="25">בהעלותך את הנרות,</src>
+    <src s="26">שטבע העלי' שבהם יהי' בגילוי.</src>
+    <src s="27">ויאירו שבעת הנרות קאי על המאורות שברקיע השמים,</src>
+    <src s="28">כדאיתא במדרש10</src>
+    <src s="29">שהמשכן הוא שקול כנגד העולם,</src>
+    <src s="30">דכל הענינים שהיו בבריאת העולם היו דוגמתם במשכן,</src>
+    <src s="31">והמנורה שהיתה במשכן היא דוגמת יהי11</src>
+    <src s="32">מאורות ברקיע השמים.</src>
+    <src s="33">ומ"ש יאירו שבעת הנרות,</src>
+    <src s="34">אף שבהמאמר יהי מאורות כתיב12</src>
+    <src s="35">ויעש אלקים את שני המאורות גו',</src>
+    <src s="36">הוא,</src>
+    <src s="37">כי שמש וירח הם עיקרי המאורות,</src>
+    <src s="38">אבל בפרטיות ישנם שבעה מאורות.</src>
+    <src s="39">וזהו בהעלותך את הנרות גו' יאירו שבעת הנרות,</src>
+    <src s="40">שע"י עבודתו של אהרן להעלות את הנרות,</src>
+    <src s="41">שהנשמות דבי"ע יהי' בהם הרצוא לאלקות בגילוי,</src>
+    <src s="42">עי"ז יאירו שבעת הנרות,</src>
+    <src s="43">שנעשה תוספות אור בהמאמר13</src>
+    <src s="44">יהי מאורות,</src>
+    <src s="45">ע"ד שרה הוסיפה על המאורות14.</src>
+  </section>
+  <section v="2">
+    <src s="0">ב)</src>
+    <src s="1">והנה מזה שבהעלותך את הנרות לפי פשוטו קאי על נרות המנורה,</src>
+    <src s="2">מובן,</src>
+    <src s="3">דזה שבהעלותך את הנרות בפנימיות הענינים קאי על הנשמות הוא כי הנרות דנשמות הם הפנימיות דנרות המנורה.</src>
+    <src s="4">[דנוסף לזה שהנשמות הם נרות בכלל,</src>
+    <src s="5">הם נרות המנורה].</src>
+    <src s="6">וזה שבמנורה היו ז' נרות הוא מפני שהנרות דנשמות נחלקות לז' סוגים.</src>
+    <src s="7">ועפ"ז צריך להבין טעם השינוי בלשון הכתוב,</src>
+    <src s="8">שבנרות המאורות כתיב יאירו שבעת הנרות ובהנרות דנשמות כתיב בהעלותך את הנרות,</src>
+    <src s="9">נרות סתם.</src>
+  </section>
+</awtsmoosMeluketSource>

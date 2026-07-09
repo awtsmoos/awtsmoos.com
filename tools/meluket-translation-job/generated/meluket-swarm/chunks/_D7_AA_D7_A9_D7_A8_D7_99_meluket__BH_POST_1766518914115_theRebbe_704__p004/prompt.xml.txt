@@ -1,0 +1,135 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="תשרי_meluket" postId="BH_POST_1766518914115_theRebbe_704" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914115_theRebbe_704__p004">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="תשרי_meluket" postId="BH_POST_1766518914115_theRebbe_704" title="מאמר שובה ישראל תשמ"א" batchId="meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914115_theRebbe_704__p004">
+  <section v="9">
+    <src s="0">ויש להוסיף,</src>
+    <src s="1">שענין הישות</src>
+    <src s="2">(דיש מי שאוהב)</src>
+    <src s="3">כפשוטו נתקן כבר ע"י עבודת התשובה דחודש אלול,</src>
+    <src s="4">ובכתה את אבי' ואת אמה ירח ימים64</src>
+    <src s="5">דקאי על חודש אלול</src>
+    <src s="6">(כדאיתא בכתבי האריז"ל65),</src>
+    <src s="7">חודש הרחמים,</src>
+    <src s="8">שאז המלך הוא בשדה66,</src>
+    <src s="9">ובפרט בהימים שאחר ח"י אלול שמכניס חיות בכל הענינים דחודש אלול67,</src>
+    <src s="10">ובפרט בימי הסליחות שאומרים לך68</src>
+    <src s="11">הוי' הצדקה ולנו בושת הפנים,</src>
+    <src s="12">ביטול דיראת בושת שהיא יראת הרוממות בדרגא הכי עליונה69,</src>
+    <src s="13">ובפרט בערב ראש השנה שענינו הוא</src>
+    <src s="14">(כשמו ערב ראש השנה)</src>
+    <src s="15">הכנה לראש השנה,</src>
+    <src s="16">ובפרט בראש השנה גופא שאז היא העבודה דקבלת עול מלכות שמים,</src>
+    <src s="17">שתמליכוני עליכם70.</src>
+    <src s="18">והתשובה דשבת תשובה היא על הישות כמו שהוא בתכלית הדקות.</src>
+    <src s="19">ולכן מבאר בלקו"ת דפירוש שובה ישראל עד הוי' אלקיך</src>
+    <src s="20">[שאומרים בשבת תשובה]</src>
+    <src s="21">הוא שהוי' יהי' רק אלקים וצמצום לגבי עצמות אוא"ס,</src>
+    <src s="22">כי בכדי לשלול הישות בתכלית הדקות הוא דוקא ע"י גילוי עצמות אוא"ס שלמעלה מהוי'.</src>
+  </section>
+  <section v="10">
+    <src s="0">ח)</src>
+    <src s="1">ולאחרי71 אומרו שובה ישראל גו' כי כשלת בעוניך,</src>
+    <src s="2">שהיא התשובה דסור מרע</src>
+    <src s="3">[כמו שהיא בדרגת ישראל],</src>
+    <src s="4">מוסיף קחו עמכם דברים ושובו אל הוי',</src>
+    <src s="5">אמרו אליו כל תשא עון,</src>
+    <src s="6">שב' תשובות אלו הם התשובה דועשה טוב והתשובה דבקש שלום.</src>
+    <src s="7">ויובן זה בהקדים המבואר בלקו"ת72</src>
+    <src s="8">שג' התשובות דסו"מ דוע"ט ודבקש שלום הן בג' הבחינות נר"נ.</src>
+    <src s="9">התשובה דסור מרע</src>
+    <src s="10">(שהיא על חטא ועון)</src>
+    <src s="11">היא בבחי' נפש.</src>
+    <src s="12">כי ענין החטא ועון שייך רק בבחי' נפש כמ"ש73</src>
+    <src s="13">הנפש החוטאת74.</src>
+    <src s="14">וגם התשובה</src>
+    <src s="15">(דסור מרע)</src>
+    <src s="16">היא בבחי' נפש,</src>
+    <src s="17">כי התשובה דסו"מ היא שמקבל עליו קבלת עול מלכות שמים ועול מצוות</src>
+    <src s="18">[שלא למרוד במלכותו ית' ולא לעבור על מצות המלך ח"ו75],</src>
+    <src s="19">וענין הקב"ע הוא בבחי' נפש.</src>
+    <src s="20">התשובה דועשה טוב,</src>
+    <src s="21">שהיא על העדר התעוררות אהבה ויראה</src>
+    <src s="22">[דההמשכה שע"י קיום המצוות</src>
+    <src s="23">(ועשה טוב)</src>
+    <src s="24">היא ע"י אהבה ויראה שהם הגדפין שעל ידם פרחא לעילא76,</src>
+    <src s="25">וגם השלימות דקיום המצוות גופא היא ע"י האהבה דוקא77],</src>
+    <src s="26">היא בבחי' רוח,</src>
+    <src s="27">דמדות שבלב</src>
+    <src s="28">(אהבה ויראה)</src>
+    <src s="29">הם בחי' רוח.</src>
+    <src s="30">והתשובה דבקש שלום,</src>
+    <src s="31">שהיא על העדר עסק התורה בהבנה והשגה,</src>
+    <src s="32">ובפרטיות יותר – התשובה על העדר בהשגת אלקות,</src>
+    <src s="33">ובעיקר על זה שהענין האלקי אינו נרגש במוחו</src>
+    <src s="34">(דגם כשמתבונן בענין אלקי אין הענין נרגש במוחו),</src>
+    <src s="35">היא בבחי' נשמה,</src>
+    <src s="36">נשמת שדי תבינם78,</src>
+    <src s="37">וזהו שבהתשובה דועשה טוב כתיב קחו עמכם דברים ובתשובה דבקש שלום כתיב אמרו אליו,</src>
+    <src s="38">כי דיבור</src>
+    <src s="39">(דברים)</src>
+    <src s="40">שייך למדות</src>
+    <src s="41">(דדיבור הוא ההבל היוצא מהלב79),</src>
+    <src s="42">ולכן הוא בחי' רוח,</src>
+    <src s="43">רוח ממללא80,</src>
+    <src s="44">ואמירה שהיא בלב81,</src>
+    <src s="45">מחשבה,</src>
+    <src s="46">היא82</src>
+    <src s="47">בחי' נשמה.</src>
+    <src s="48">וזהו גם מ"ש אמרו אליו כל,</src>
+    <src s="49">כל מלשון התכללות,</src>
+    <src s="50">כי</src>
+    <src s="51">(בקש)</src>
+    <src s="52">שלום הו"ע ההתכללות.</src>
+  </section>
+  <section v="11">
+    <src s="0">ט)</src>
+    <src s="1">ומה שאומר בתשובה זו</src>
+    <src s="2">(דבחי' נשמה)</src>
+    <src s="3">תשא עון,</src>
+    <src s="4">יובן על פי מ"ש בזהר83</src>
+    <src s="5">(שאומרים במענה לשון)</src>
+    <src s="6">נפשא דילהון קדישא רוחא דילהון קדישא נשמתא דילהון קדש קדשים,</src>
+    <src s="7">דזה שנשמה נקראת קדש קדשים הוא לפי שכוללת בתוכה גם קדשים דנפש ורוח.</src>
+    <src s="8">ומכיון שנפש ורוח כמו שכלולים בנשמה הם במדריגה נעלית יותר</src>
+    <src s="9">[וע"ד דצ"ח שבאדם שהם למעלה מדצ"ח,</src>
+    <src s="10">וכמו כן הוא בנוגע בי"ע שבאצילות,</src>
+    <src s="11">ועד"ז הוא גם בע"ס דאצילות כמו שהם גנוזות בלמעלה מאצילות],</src>
+    <src s="12">לכן ע"י התשובה דנשמה נעשה עילוי גם בנפש ורוח,</src>
+    <src s="13">ולא רק כמו שהם כלולים בנשמה אלא גם כמו שהם במקומם.</src>
+    <src s="14">ולכן אומר בהתשובה דבחי' נשמה תשא עון,</src>
+    <src s="15">כי ע"י תשובה זו,</src>
+    <src s="16">נעשה עילוי גם בהתשובה דסור מרע.</src>
+  </section>
+</awtsmoosMeluketSource>

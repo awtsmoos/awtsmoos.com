@@ -1,0 +1,594 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 110,
+    "returned": 110,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"טבת_meluket\" postId=\"BH_POST_1766518916353_theRebbe_917\" batchId=\"meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that there are two descents and two ascents, corresponding to the Exodus from Egypt and the future redemption, and questions the connection between them.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And the explanation is,</t>\n    <t s=\"2\">for it is written,</t>\n    <t s=\"3\">“I will surely descend,”</t>\n    <t s=\"4\">that there are two descents,</t>\n    <t s=\"5\">and likewise regarding the redemption it is said, “And I will surely bring you up,”</t>\n    <t s=\"6\">two ascents,</t>\n    <t s=\"7\">and in general these two</t>\n    <t s=\"8\">(descents and)</t>\n    <t s=\"9\">ascents refer to the redemption from Egypt and the future redemption.</t>\n    <t s=\"10\">And seemingly, what is the connection between the redemption from Egypt and the future redemption</t>\n    <t s=\"11\">(that they are linked to each other).</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that the verse “As in the days of your exodus from Egypt I will show him wonders” indicates an inner connection between the two redemptions, not just external similarity.</sectionSummaryBrief>\n    <t s=\"0\">And the explanation is,</t>\n    <t s=\"1\">for it is written,</t>\n    <t s=\"2\">“As in the days of your exodus from the land of Egypt I will show him wonders.”</t>\n    <t s=\"3\">For the simple interpretation of the verse is,</t>\n    <t s=\"4\">that just as in the days of your exodus from the land of Egypt there were wonders, so too in a similar manner I will show him wonders in the future redemption,</t>\n    <t s=\"5\">and in the Zohar</t>\n    <t s=\"6\">it is explained that the wonders of the future redemption will be wonders even relative to the wonders that were in the days of your exodus from the land of Egypt.</t>\n    <t s=\"7\">However, from the fact that they compare the two wonders</t>\n    <t s=\"8\">(of Egypt and the future redemption)</t>\n    <t s=\"9\">to each other, it is understood that there is a connection between them in their inner content</t>\n    <t s=\"10\">(and not only that they are similar in that both have wonders),</t>\n    <t s=\"11\">and because they are similar in their inner content, it follows afterward that they are also similar in that in both redemptions there are wonders</t>\n    <t s=\"12\">[And this is the connection of the continuation of the maamar</t>\n    <t s=\"13\">(in Torah Or there,</t>\n    <t s=\"14\">and likewise in Toras Chayim there)</t>\n    <t s=\"15\">that after it explained that the two ascents</t>\n    <t s=\"16\">(of “I will surely bring you up”)</t>\n    <t s=\"17\">refer to the redemption from Egypt and the future redemption, it continues that it is written, “As in the days of your exodus from the land of Egypt I will show him wonders,”</t>\n    <t s=\"18\">for by this it comes to explain the connection between the two redemptions</t>\n    <t s=\"19\">(that they are linked in the verse “I will surely bring you up”)].</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains that just as the Egyptian exile was for the purpose of receiving the Torah, this final exile is for the revelation of the inner dimension of Torah, which is infinitely greater, explaining its length and severity.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of the connection in the content of the two redemptions</t>\n    <t s=\"2\">(of Egypt and the future redemption)</t>\n    <t s=\"3\">is,</t>\n    <t s=\"4\">that just as in the Egyptian exile the intention was not in the exile itself, G-d forbid,</t>\n    <t s=\"5\">and its inner point was the matter of the redemption that followed,</t>\n    <t s=\"6\">whose purpose is the receiving of the Torah, as it is written,</t>\n    <t s=\"7\">“When you bring the people out of Egypt, you will serve G-d on this mountain,”</t>\n    <t s=\"8\">so too this entire exile is in order to merit the revelation of the inner dimension of the Torah that will be in the future,</t>\n    <t s=\"9\">about which it is said,</t>\n    <t s=\"10\">“Let him kiss me with the kisses of his mouth,” etc.</t>\n    <t s=\"11\">For just as the matter of the bondage of Egypt was to refine the Jewish people and purify and cleanse them so that they could receive the Torah,</t>\n    <t s=\"12\">analogous to a crucible of iron</t>\n    <t s=\"13\">that refines silver from waste and dross, leaving the silver pure of any dross, etc.,</t>\n    <t s=\"14\">so too, through this final exile, we merit the revelation of the inner dimension of the Torah</t>\n    <t s=\"15\">[And it is drawn in a manner of “from it they will be sustained,”</t>\n    <t s=\"16\">meaning in a manner of sustenance and food,</t>\n    <t s=\"17\">for this matter is the true sustenance of</t>\n    <t s=\"18\">(every)</t>\n    <t s=\"19\">individual of Israel,</t>\n    <t s=\"20\">and it extends even into his habit,</t>\n    <t s=\"21\">and effects in him expansion and broadening,</t>\n    <t s=\"22\">as explained above].</t>\n    <t s=\"23\">And this is the explanation of the great length of this final exile, which is incomparable to the Egyptian exile,</t>\n    <t s=\"24\">for the reason for this is,</t>\n    <t s=\"25\">since the purpose of the intention of the final exile is to merit through it the revelation of the inner dimension of the Torah,</t>\n    <t s=\"26\">unlike the Egyptian exile whose intention was for the revelation of the revealed aspect of the Torah,</t>\n    <t s=\"27\">as above,</t>\n    <t s=\"28\">therefore, just as the inner dimension of the Torah,</t>\n    <t s=\"29\">“Let him kiss me with the kisses of his mouth,”</t>\n    <t s=\"30\">is incomparably greater than the revealed aspect of the Torah,</t>\n    <t s=\"31\">so too the exile</t>\n    <t s=\"32\">(through which one comes to this revelation)</t>\n    <t s=\"33\">is also</t>\n    <t s=\"34\">(analogous to the Torah that is revealed through it)</t>\n    <t s=\"35\">incomparable to the Egyptian exile, through which they came to the revelation of the revealed aspect of the Torah.</t>\n    <t s=\"36\">For the revealed aspect of the Torah is a level of Torah that comes with limitation,</t>\n    <t s=\"37\">unlike the inner dimension of the Torah,</t>\n    <t s=\"38\">which is incomparably above measure and limitation.</t>\n    <t s=\"39\">And although even the length of this final exile comes with limitation in quantity</t>\n    <t s=\"40\">(of years),</t>\n    <t s=\"41\">nevertheless, the intention in the greatness of the length of this exile is not on the length in time</t>\n    <t s=\"42\">(alone),</t>\n    <t s=\"43\">but rather</t>\n    <t s=\"44\">(also)</t>\n    <t s=\"45\">on its length in the greatness of the sufferings and troubles, and particularly in the birth pangs of Mashiach</t>\n    <t s=\"46\">(birth pangs),</t>\n    <t s=\"47\">for these troubles and sufferings are incomparable to the sufferings of the Egyptian exile.</t>\n    <t s=\"48\">And the intention is not that there must be, G-d forbid, troubles and sufferings, etc.,</t>\n    <t s=\"49\">but rather matters that are not in accordance with the habit of a Jew</t>\n    <t s=\"50\">(that which is not according to the habit of a Jew)</t>\n    <t s=\"51\">alone,</t>\n    <t s=\"52\">for this too is considered suffering.</t>\n    <t s=\"53\">And as it is brought in the Gemara</t>\n    <t s=\"54\">on the verse,</t>\n    <t s=\"55\">“And the Egyptians made the children of Israel work with rigor,” that they gave women’s work to men, etc.,</t>\n    <t s=\"56\">even though women’s work is lighter than men’s work,</t>\n    <t s=\"57\">for a woman’s strength is weaker,</t>\n    <t s=\"58\">nevertheless, regarding the men it is considered rigorous labor because it is not according to their habit.</t>\n    <t s=\"59\">And all the more so regarding a matter of lack of habit for an individual of Israel,</t>\n    <t s=\"60\">it is considered great suffering.</t>\n    <t s=\"61\">And all the more so, a fortiori, from Nevuchadnetzar,</t>\n    <t s=\"62\">that in the merit of taking three steps in honor of the King of kings, the Holy One, blessed be He, he merited kingship for himself, his son, and his grandson,</t>\n    <t s=\"63\">three generations,</t>\n    <t s=\"64\">and kingship in the ultimate expansion, etc.,</t>\n    <t s=\"65\">for Nevuchadnetzar ruled by coercion,</t>\n    <t s=\"66\">now all the more so when it is about an individual of Israel,</t>\n    <t s=\"67\">“My firstborn son Israel,”</t>\n    <t s=\"68\">“You are children to the L-rd your G-d,”</t>\n    <t s=\"69\">the good that comes to them is incomparably greater than what Nevuchadnetzar merited,</t>\n    <t s=\"70\">and every individual of Israel, even the simplest of the simple, has the ability to demand from the Holy One, blessed be He, all good matters in spirituality</t>\n    <t s=\"71\">[for this is the main thing of a Jew]</t>\n    <t s=\"72\">and from this extends also into physicality,</t>\n    <t s=\"73\">in all matters of blessing, etc., the general principle of which is children, life, and ample sustenance,</t>\n    <t s=\"74\">and in a manner of ruling by coercion.</t>\n    <t s=\"75\">And from this it is understood that any matter of lack of habit for a Jew is considered great suffering,</t>\n    <t s=\"76\">and incomparably more so than regarding Egypt, which was before the giving of the Torah and the level of “one who is commanded and does,”</t>\n    <t s=\"77\">and through this, the smallest blemishes that remain after all the sufferings and troubles that one has gone through are removed.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "טבת_meluket",
+      "postId": "BH_POST_1766518916353_theRebbe_917",
+      "batchId": "meluket-_D7_98_D7_91_D7_AA_meluket__BH_POST_1766518916353_theRebbe_917__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that there are two descents and two ascents, corresponding to the Exodus from Egypt and the future redemption, and questions the connection between them.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "for it is written,"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "“I will surely descend,”"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "that there are two descents,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "and likewise regarding the redemption it is said, “And I will surely bring you up,”"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "two ascents,"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "and in general these two"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "(descents and)"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "ascents refer to the redemption from Egypt and the future redemption."
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "And seemingly, what is the connection between the redemption from Egypt and the future redemption"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "(that they are linked to each other)."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that the verse “As in the days of your exodus from Egypt I will show him wonders” indicates an inner connection between the two redemptions, not just external similarity.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "And the explanation is,"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "for it is written,"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "“As in the days of your exodus from the land of Egypt I will show him wonders.”"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "For the simple interpretation of the verse is,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "that just as in the days of your exodus from the land of Egypt there were wonders, so too in a similar manner I will show him wonders in the future redemption,"
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "and in the Zohar"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "it is explained that the wonders of the future redemption will be wonders even relative to the wonders that were in the days of your exodus from the land of Egypt."
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "However, from the fact that they compare the two wonders"
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "(of Egypt and the future redemption)"
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "to each other, it is understood that there is a connection between them in their inner content"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "(and not only that they are similar in that both have wonders),"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "and because they are similar in their inner content, it follows afterward that they are also similar in that in both redemptions there are wonders"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "[And this is the connection of the continuation of the maamar"
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "(in Torah Or there,"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "and likewise in Toras Chayim there)"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "that after it explained that the two ascents"
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "(of “I will surely bring you up”)"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "refer to the redemption from Egypt and the future redemption, it continues that it is written, “As in the days of your exodus from the land of Egypt I will show him wonders,”"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "for by this it comes to explain the connection between the two redemptions"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "(that they are linked in the verse “I will surely bring you up”)]."
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section explains that just as the Egyptian exile was for the purpose of receiving the Torah, this final exile is for the revelation of the inner dimension of Torah, which is infinitely greater, explaining its length and severity.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "And the explanation of the connection in the content of the two redemptions"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(of Egypt and the future redemption)"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "is,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "that just as in the Egyptian exile the intention was not in the exile itself, G-d forbid,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "and its inner point was the matter of the redemption that followed,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "whose purpose is the receiving of the Torah, as it is written,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "“When you bring the people out of Egypt, you will serve G-d on this mountain,”"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "so too this entire exile is in order to merit the revelation of the inner dimension of the Torah that will be in the future,"
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "about which it is said,"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "“Let him kiss me with the kisses of his mouth,” etc."
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "For just as the matter of the bondage of Egypt was to refine the Jewish people and purify and cleanse them so that they could receive the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "analogous to a crucible of iron"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "that refines silver from waste and dross, leaving the silver pure of any dross, etc.,"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "so too, through this final exile, we merit the revelation of the inner dimension of the Torah"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "[And it is drawn in a manner of “from it they will be sustained,”"
+          },
+          {
+            "v": 5,
+            "s": 16,
+            "translation": "meaning in a manner of sustenance and food,"
+          },
+          {
+            "v": 5,
+            "s": 17,
+            "translation": "for this matter is the true sustenance of"
+          },
+          {
+            "v": 5,
+            "s": 18,
+            "translation": "(every)"
+          },
+          {
+            "v": 5,
+            "s": 19,
+            "translation": "individual of Israel,"
+          },
+          {
+            "v": 5,
+            "s": 20,
+            "translation": "and it extends even into his habit,"
+          },
+          {
+            "v": 5,
+            "s": 21,
+            "translation": "and effects in him expansion and broadening,"
+          },
+          {
+            "v": 5,
+            "s": 22,
+            "translation": "as explained above]."
+          },
+          {
+            "v": 5,
+            "s": 23,
+            "translation": "And this is the explanation of the great length of this final exile, which is incomparable to the Egyptian exile,"
+          },
+          {
+            "v": 5,
+            "s": 24,
+            "translation": "for the reason for this is,"
+          },
+          {
+            "v": 5,
+            "s": 25,
+            "translation": "since the purpose of the intention of the final exile is to merit through it the revelation of the inner dimension of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 26,
+            "translation": "unlike the Egyptian exile whose intention was for the revelation of the revealed aspect of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 27,
+            "translation": "as above,"
+          },
+          {
+            "v": 5,
+            "s": 28,
+            "translation": "therefore, just as the inner dimension of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 29,
+            "translation": "“Let him kiss me with the kisses of his mouth,”"
+          },
+          {
+            "v": 5,
+            "s": 30,
+            "translation": "is incomparably greater than the revealed aspect of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 31,
+            "translation": "so too the exile"
+          },
+          {
+            "v": 5,
+            "s": 32,
+            "translation": "(through which one comes to this revelation)"
+          },
+          {
+            "v": 5,
+            "s": 33,
+            "translation": "is also"
+          },
+          {
+            "v": 5,
+            "s": 34,
+            "translation": "(analogous to the Torah that is revealed through it)"
+          },
+          {
+            "v": 5,
+            "s": 35,
+            "translation": "incomparable to the Egyptian exile, through which they came to the revelation of the revealed aspect of the Torah."
+          },
+          {
+            "v": 5,
+            "s": 36,
+            "translation": "For the revealed aspect of the Torah is a level of Torah that comes with limitation,"
+          },
+          {
+            "v": 5,
+            "s": 37,
+            "translation": "unlike the inner dimension of the Torah,"
+          },
+          {
+            "v": 5,
+            "s": 38,
+            "translation": "which is incomparably above measure and limitation."
+          },
+          {
+            "v": 5,
+            "s": 39,
+            "translation": "And although even the length of this final exile comes with limitation in quantity"
+          },
+          {
+            "v": 5,
+            "s": 40,
+            "translation": "(of years),"
+          },
+          {
+            "v": 5,
+            "s": 41,
+            "translation": "nevertheless, the intention in the greatness of the length of this exile is not on the length in time"
+          },
+          {
+            "v": 5,
+            "s": 42,
+            "translation": "(alone),"
+          },
+          {
+            "v": 5,
+            "s": 43,
+            "translation": "but rather"
+          },
+          {
+            "v": 5,
+            "s": 44,
+            "translation": "(also)"
+          },
+          {
+            "v": 5,
+            "s": 45,
+            "translation": "on its length in the greatness of the sufferings and troubles, and particularly in the birth pangs of Mashiach"
+          },
+          {
+            "v": 5,
+            "s": 46,
+            "translation": "(birth pangs),"
+          },
+          {
+            "v": 5,
+            "s": 47,
+            "translation": "for these troubles and sufferings are incomparable to the sufferings of the Egyptian exile."
+          },
+          {
+            "v": 5,
+            "s": 48,
+            "translation": "And the intention is not that there must be, G-d forbid, troubles and sufferings, etc.,"
+          },
+          {
+            "v": 5,
+            "s": 49,
+            "translation": "but rather matters that are not in accordance with the habit of a Jew"
+          },
+          {
+            "v": 5,
+            "s": 50,
+            "translation": "(that which is not according to the habit of a Jew)"
+          },
+          {
+            "v": 5,
+            "s": 51,
+            "translation": "alone,"
+          },
+          {
+            "v": 5,
+            "s": 52,
+            "translation": "for this too is considered suffering."
+          },
+          {
+            "v": 5,
+            "s": 53,
+            "translation": "And as it is brought in the Gemara"
+          },
+          {
+            "v": 5,
+            "s": 54,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 5,
+            "s": 55,
+            "translation": "“And the Egyptians made the children of Israel work with rigor,” that they gave women’s work to men, etc.,"
+          },
+          {
+            "v": 5,
+            "s": 56,
+            "translation": "even though women’s work is lighter than men’s work,"
+          },
+          {
+            "v": 5,
+            "s": 57,
+            "translation": "for a woman’s strength is weaker,"
+          },
+          {
+            "v": 5,
+            "s": 58,
+            "translation": "nevertheless, regarding the men it is considered rigorous labor because it is not according to their habit."
+          },
+          {
+            "v": 5,
+            "s": 59,
+            "translation": "And all the more so regarding a matter of lack of habit for an individual of Israel,"
+          },
+          {
+            "v": 5,
+            "s": 60,
+            "translation": "it is considered great suffering."
+          },
+          {
+            "v": 5,
+            "s": 61,
+            "translation": "And all the more so, a fortiori, from Nevuchadnetzar,"
+          },
+          {
+            "v": 5,
+            "s": 62,
+            "translation": "that in the merit of taking three steps in honor of the King of kings, the Holy One, blessed be He, he merited kingship for himself, his son, and his grandson,"
+          },
+          {
+            "v": 5,
+            "s": 63,
+            "translation": "three generations,"
+          },
+          {
+            "v": 5,
+            "s": 64,
+            "translation": "and kingship in the ultimate expansion, etc.,"
+          },
+          {
+            "v": 5,
+            "s": 65,
+            "translation": "for Nevuchadnetzar ruled by coercion,"
+          },
+          {
+            "v": 5,
+            "s": 66,
+            "translation": "now all the more so when it is about an individual of Israel,"
+          },
+          {
+            "v": 5,
+            "s": 67,
+            "translation": "“My firstborn son Israel,”"
+          },
+          {
+            "v": 5,
+            "s": 68,
+            "translation": "“You are children to the L-rd your G-d,”"
+          },
+          {
+            "v": 5,
+            "s": 69,
+            "translation": "the good that comes to them is incomparably greater than what Nevuchadnetzar merited,"
+          },
+          {
+            "v": 5,
+            "s": 70,
+            "translation": "and every individual of Israel, even the simplest of the simple, has the ability to demand from the Holy One, blessed be He, all good matters in spirituality"
+          },
+          {
+            "v": 5,
+            "s": 71,
+            "translation": "[for this is the main thing of a Jew]"
+          },
+          {
+            "v": 5,
+            "s": 72,
+            "translation": "and from this extends also into physicality,"
+          },
+          {
+            "v": 5,
+            "s": 73,
+            "translation": "in all matters of blessing, etc., the general principle of which is children, life, and ample sustenance,"
+          },
+          {
+            "v": 5,
+            "s": 74,
+            "translation": "and in a manner of ruling by coercion."
+          },
+          {
+            "v": 5,
+            "s": 75,
+            "translation": "And from this it is understood that any matter of lack of habit for a Jew is considered great suffering,"
+          },
+          {
+            "v": 5,
+            "s": 76,
+            "translation": "and incomparably more so than regarding Egypt, which was before the giving of the Torah and the level of “one who is commanded and does,”"
+          },
+          {
+            "v": 5,
+            "s": 77,
+            "translation": "and through this, the smallest blemishes that remain after all the sufferings and troubles that one has gone through are removed."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "5fe3dd1e-8f61-40ae-87bb-1141c11685ff",
+  "object": "chat.completion",
+  "created": 1783582273,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916678_theRebbe_290\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916678_theRebbe_290__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section raises a difficulty with the preceding concept.</sectionSummaryBrief>\n    <t s=\"0\">And superficially, it is difficult:</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section notes that we find nations of the world transgressing the Seven Noachide Laws they were commanded.</sectionSummaryBrief>\n    <t s=\"0\">A)</t>\n    <t s=\"1\">Behold, we find nations of the world transgressing the Seven Noachide Laws that they were commanded.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section explains the simple resolution, drawing on the parallel with the Jewish people, that either a spirit of folly or the heart's dominance over the mind causes the transgression, contrary to their essential nature.</sectionSummaryBrief>\n    <t s=\"0\">And the simple resolution,</t>\n    <t s=\"1\">it is,</t>\n    <t s=\"2\">in the manner explained regarding the Jewish people,</t>\n    <t s=\"3\">because of a spirit of folly that enters him and covers and conceals the truth, which contradicts that which is called Eloka d'Elokaya.</t>\n    <t s=\"4\">But from their own perspective, as they are influenced from the kelipos and sitra achra, they are in a manner that they will not transgress and will not rebel,</t>\n    <t s=\"5\">and like Bilaam who said, \"I cannot transgress the word of Hashem\"</t>\n    <t s=\"6\">(see Tanya ch. 24),</t>\n    <t s=\"7\">even though he came upon his donkey</t>\n    <t s=\"8\">(&lt;a href=\"/library/article_cdo/aid/5458666/jewish/page.</t>\n    <t s=\"9\">htm\" data-book-id=\"17216-5458666\" title=\"Sanhedrin 105,</t>\n    <t s=\"10\">b\" target=\"_blank\"&gt;Sanhedrin 105,</t>\n    <t s=\"11\">b.</t>\n    <t s=\"12\">Zohar I 128,</t>\n    <t s=\"13\">b),</t>\n    <t s=\"14\">which is from the Seven Noachide Laws.</t>\n    <t s=\"15\">Or</t>\n    <t s=\"16\">\"Because of the greatness and intensity of their iniquity\" their heart rules over their mind</t>\n    <t s=\"17\">(in the manner explained regarding the Jewish people – Tanya ch. 17),</t>\n    <t s=\"18\">even though this is the opposite of the natural outcome also in a Noachide</t>\n    <t s=\"19\">(see Tanya ch. 51).</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1179,
+    "completion_tokens": 749,
+    "total_tokens": 1928,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 923
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

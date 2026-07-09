@@ -1,0 +1,344 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 60,
+    "returned": 60,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518918104_theRebbe_982\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section is a placeholder with no text.</sectionSummaryBrief>\n    <t s=\"0\">*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>All Israel have a portion in the World to Come, which refers to the World of Resurrection, unlike Gan Eden which requires conditions.</sectionSummaryBrief>\n    <t s=\"0\">All Israel have a portion in the World to Come,</t>\n    <t s=\"1\">for the explanation</t>\n    <t s=\"2\">of \"the World to Come\" in this Mishnah is the World of Resurrection,</t>\n    <t s=\"3\">as is evident from the continuation of the Mishnah: \"And these have no portion in the World to Come: he who says the resurrection of the dead is not from the Torah,\"</t>\n    <t s=\"4\">for the reason for this is, as stated in the Gemara,</t>\n    <t s=\"5\">\"He denied the resurrection of the dead, therefore he will not have a portion in the resurrection of the dead... measure for measure.\"</t>\n    <t s=\"6\">And all Israel have a portion in the World to Come,</t>\n    <t s=\"7\">for regarding Gan Eden it is written,</t>\n    <t s=\"8\">\"Who may ascend the mountain of Hashem... one with clean hands and a pure heart...,\"</t>\n    <t s=\"9\">indicating that there are several conditions required to ascend to Gan Eden,</t>\n    <t s=\"10\">even to the lower Gan Eden,</t>\n    <t s=\"11\">but not so regarding the World of Resurrection: all Israel have a portion in the World to Come.</t>\n    <t s=\"12\">And it must be understood:</t>\n    <t s=\"13\">Behold, the revelation that will be in the World of Resurrection is vastly superior to the revelation of Gan Eden,</t>\n    <t s=\"14\">even to the revelation of the upper Gan Eden,</t>\n    <t s=\"15\">even to the highest level of Gan Eden</t>\n    <t s=\"16\">[and obviously also to the matter of the resurrection itself,</t>\n    <t s=\"17\">for all Israel will rise to life,</t>\n    <t s=\"18\">even the souls that have been in Gan Eden for several thousand years,</t>\n    <t s=\"19\">and three times each day they ascend to a higher level,</t>\n    <t s=\"20\">yet in the future they will be clothed in bodies,</t>\n    <t s=\"21\">because the revelation of the World of Resurrection is vastly superior to the revelation of Gan Eden,</t>\n    <t s=\"22\">even to the highest level of Gan Eden],</t>\n    <t s=\"23\">and nevertheless, to merit the revelation of Gan Eden, several conditions are necessary,</t>\n    <t s=\"24\">yet the revelation of the World of Resurrection will be for all Israel.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>The revelation of the World of Resurrection is superior to that of Gan Eden, and is specifically received through the soul being clothed in a physical body.</sectionSummaryBrief>\n    <t s=\"0\">B)</t>\n    <t s=\"1\">And this will be understood by prefacing the explanation of this matter: that the revelation of the World of Resurrection is vastly superior to the revelation of Gan Eden.</t>\n    <t s=\"2\">For at first glance,</t>\n    <t s=\"3\">since Gan Eden is the world of souls</t>\n    <t s=\"4\">(souls without bodies),</t>\n    <t s=\"5\">and in the World of Resurrection there will be souls in bodies,</t>\n    <t s=\"6\">what is the explanation of this: that in the World of Resurrection,</t>\n    <t s=\"7\">when the soul will be clothed in a physical body,</t>\n    <t s=\"8\">there will be a revelation superior to that in Gan Eden?</t>\n    <t s=\"9\">And although in the future the body will be in ultimate refinement,</t>\n    <t s=\"10\">like the body of Adam HaRishon</t>\n    <t s=\"11\">(the handiwork</t>\n    <t s=\"12\">of the Holy One, Blessed be He),</t>\n    <t s=\"13\">which outshone the orb of the sun,</t>\n    <t s=\"14\">and moreover,</t>\n    <t s=\"15\">that in the future the body will be in ultimate perfection even more than that of Adam HaRishon,</t>\n    <t s=\"16\">this is seemingly only an explanation for the fact that in the future the souls clothed in bodies will be vessels to receive a revelation superior to the revelation that is now revealed to souls without bodies.</t>\n    <t s=\"17\">But this does not explain why the revelation of the future will be specifically for souls in bodies.</t>\n    <t s=\"18\">For although in the future as well,</t>\n    <t s=\"19\">when the body will be in ultimate perfection,</t>\n    <t s=\"20\">it will still be a physical body,</t>\n    <t s=\"21\">and the limitations of a physical thing are greater than the limitations of a spiritual thing,</t>\n    <t s=\"22\">like the limitation of time and place, which is</t>\n    <t s=\"23\">(primarily)</t>\n    <t s=\"24\">in physical things,</t>\n    <t s=\"25\">nevertheless,</t>\n    <t s=\"26\">in order for the soul to receive the revelation of the future,</t>\n    <t s=\"27\">it is specifically through being clothed in a physical body.</t>\n    <t s=\"28\">That is to say,</t>\n    <t s=\"29\">that among the differences between the revelation of Gan Eden and the revelation of the future is that to receive the revelation of Gan Eden is through abstraction from physical things.</t>\n    <t s=\"30\">For before the soul ascends to Gan Eden, it must first immerse in the River of Fire to forget the vision of this world.</t>\n    <t s=\"31\">[And similarly regarding the ascents within Gan Eden itself,</t>\n    <t s=\"32\">that at every ascent one must first forget the comprehension and delight of the lower level.]</t>\n    <t s=\"33\">And to receive the revelation of the future is through being clothed in a physical body.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518918104_theRebbe_982",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518918104_theRebbe_982__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section is a placeholder with no text.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "All Israel have a portion in the World to Come, which refers to the World of Resurrection, unlike Gan Eden which requires conditions.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "All Israel have a portion in the World to Come,"
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "for the explanation"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "of \"the World to Come\" in this Mishnah is the World of Resurrection,"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "as is evident from the continuation of the Mishnah: \"And these have no portion in the World to Come: he who says the resurrection of the dead is not from the Torah,\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "for the reason for this is, as stated in the Gemara,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "\"He denied the resurrection of the dead, therefore he will not have a portion in the resurrection of the dead... measure for measure.\""
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "And all Israel have a portion in the World to Come,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "for regarding Gan Eden it is written,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "\"Who may ascend the mountain of Hashem... one with clean hands and a pure heart...,\""
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "indicating that there are several conditions required to ascend to Gan Eden,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "even to the lower Gan Eden,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "but not so regarding the World of Resurrection: all Israel have a portion in the World to Come."
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "And it must be understood:"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "Behold, the revelation that will be in the World of Resurrection is vastly superior to the revelation of Gan Eden,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "even to the revelation of the upper Gan Eden,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "even to the highest level of Gan Eden"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "[and obviously also to the matter of the resurrection itself,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "for all Israel will rise to life,"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "even the souls that have been in Gan Eden for several thousand years,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "and three times each day they ascend to a higher level,"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "yet in the future they will be clothed in bodies,"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "because the revelation of the World of Resurrection is vastly superior to the revelation of Gan Eden,"
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "even to the highest level of Gan Eden],"
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "and nevertheless, to merit the revelation of Gan Eden, several conditions are necessary,"
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "yet the revelation of the World of Resurrection will be for all Israel."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "The revelation of the World of Resurrection is superior to that of Gan Eden, and is specifically received through the soul being clothed in a physical body.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "B)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And this will be understood by prefacing the explanation of this matter: that the revelation of the World of Resurrection is vastly superior to the revelation of Gan Eden."
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "For at first glance,"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "since Gan Eden is the world of souls"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "(souls without bodies),"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and in the World of Resurrection there will be souls in bodies,"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "what is the explanation of this: that in the World of Resurrection,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "when the soul will be clothed in a physical body,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "there will be a revelation superior to that in Gan Eden?"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "And although in the future the body will be in ultimate refinement,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "like the body of Adam HaRishon"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "(the handiwork"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "of the Holy One, Blessed be He),"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "which outshone the orb of the sun,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and moreover,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "that in the future the body will be in ultimate perfection even more than that of Adam HaRishon,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "this is seemingly only an explanation for the fact that in the future the souls clothed in bodies will be vessels to receive a revelation superior to the revelation that is now revealed to souls without bodies."
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "But this does not explain why the revelation of the future will be specifically for souls in bodies."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "For although in the future as well,"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "when the body will be in ultimate perfection,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "it will still be a physical body,"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "and the limitations of a physical thing are greater than the limitations of a spiritual thing,"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "like the limitation of time and place, which is"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "in physical things,"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "nevertheless,"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "in order for the soul to receive the revelation of the future,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "it is specifically through being clothed in a physical body."
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "That is to say,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "that among the differences between the revelation of Gan Eden and the revelation of the future is that to receive the revelation of Gan Eden is through abstraction from physical things."
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "For before the soul ascends to Gan Eden, it must first immerse in the River of Fire to forget the vision of this world."
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "[And similarly regarding the ascents within Gan Eden itself,"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "that at every ascent one must first forget the comprehension and delight of the lower level.]"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "And to receive the revelation of the future is through being clothed in a physical body."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 9,
+    "returned": 9,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916442_theRebbe_16\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916442_theRebbe_16__p005\">\n  <section v=\"12\">\n    <sectionSummaryBrief>On the third of Kislev, he writes again regarding the parchment for the Sefer Torah.</sectionSummaryBrief>\n    <t s=\"0\">However, on the third of Kislev he writes to him again:</t>\n  </section>\n  <section v=\"13\">\n    <sectionSummaryBrief>He notes that the parchment will be expensive, so they plan to prepare it locally.</sectionSummaryBrief>\n    <t s=\"0\">\"Regarding the parchment for the Sefer Torah, it will indeed be expensive, so we intend to do this here.\"</t>\n  </section>\n  <section v=\"14\">\n    <sectionSummaryBrief>They obtained the parchment in the United States despite wartime difficulties, and after beginning the writing, he turned to Rabbi Eliyahu Nachum Shklier.</sectionSummaryBrief>\n    <t s=\"0\">The parchment, however, they obtained in the United States,</t>\n    <t s=\"1\">despite the difficulties in obtaining parchment at that time,</t>\n    <t s=\"2\">because most hides were taken at that time by the government</t>\n    <t s=\"3\">(for war needs).</t>\n    <t s=\"4\">And after the beginning of the writing, he turned regarding this matter,</t>\n    <t s=\"5\">on the sixth of Iyar 5702,</t>\n    <t s=\"6\">to the honorable Rabbi Eliyahu Nachum Shklier.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916442_theRebbe_16",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916442_theRebbe_16__p005"
+    },
+    "sections": [
+      {
+        "v": 12,
+        "sectionSummaryBrief": "On the third of Kislev, he writes again regarding the parchment for the Sefer Torah.",
+        "translations": [
+          {
+            "v": 12,
+            "s": 0,
+            "translation": "However, on the third of Kislev he writes to him again:"
+          }
+        ]
+      },
+      {
+        "v": 13,
+        "sectionSummaryBrief": "He notes that the parchment will be expensive, so they plan to prepare it locally.",
+        "translations": [
+          {
+            "v": 13,
+            "s": 0,
+            "translation": "\"Regarding the parchment for the Sefer Torah, it will indeed be expensive, so we intend to do this here.\""
+          }
+        ]
+      },
+      {
+        "v": 14,
+        "sectionSummaryBrief": "They obtained the parchment in the United States despite wartime difficulties, and after beginning the writing, he turned to Rabbi Eliyahu Nachum Shklier.",
+        "translations": [
+          {
+            "v": 14,
+            "s": 0,
+            "translation": "The parchment, however, they obtained in the United States,"
+          },
+          {
+            "v": 14,
+            "s": 1,
+            "translation": "despite the difficulties in obtaining parchment at that time,"
+          },
+          {
+            "v": 14,
+            "s": 2,
+            "translation": "because most hides were taken at that time by the government"
+          },
+          {
+            "v": 14,
+            "s": 3,
+            "translation": "(for war needs)."
+          },
+          {
+            "v": 14,
+            "s": 4,
+            "translation": "And after the beginning of the writing, he turned regarding this matter,"
+          },
+          {
+            "v": 14,
+            "s": 5,
+            "translation": "on the sixth of Iyar 5702,"
+          },
+          {
+            "v": 14,
+            "s": 6,
+            "translation": "to the honorable Rabbi Eliyahu Nachum Shklier."
+          }
+        ]
+      }
+    ]
+  }
+}

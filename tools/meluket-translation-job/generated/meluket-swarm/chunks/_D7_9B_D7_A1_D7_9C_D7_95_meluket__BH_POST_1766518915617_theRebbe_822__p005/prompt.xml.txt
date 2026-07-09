@@ -1,0 +1,91 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915617_theRebbe_822" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915617_theRebbe_822__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915617_theRebbe_822" title="מאמר ברוך שעשה ניסים תשט"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915617_theRebbe_822__p005">
+  <section v="12">
+    <src s="0">ו)</src>
+    <src s="1">וע"פ המבואר לעיל</src>
+    <src s="2">(סעיף ד)</src>
+    <src s="3">דזה שהחכמה נעשית מקור לבינה הוא אין לגבי עצם החכמה</src>
+    <src s="4">(אין דכלא חשיב),</src>
+    <src s="5">יש לומר,</src>
+    <src s="6">שההרמה והעלי' בבחינת החכמה שנעשית מקור לבינה,</src>
+    <src s="7">נכללת בההרמה והעלי' דבינה23,</src>
+    <src s="8">ומ"ש נסים לאבותינו לשון רבים,</src>
+    <src s="9">שההרמה והעלי' שע"י הנסים היא בשתי המוחין בבינה ובחכמה,</src>
+    <src s="10">הכוונה בזה היא שע"י הנסים נעשה הרמה ועלי' גם בעצם החכמה שלמעלה ממקור לבינה.</src>
+  </section>
+  <section v="13">
+    <src s="0">ויובן בהקדים המובא לעיל</src>
+    <src s="1">(בד"ה פתח אלי'24),</src>
+    <src s="2">דשתי הדעות</src>
+    <src s="3">(דעת עליון ודעת תחתון)</src>
+    <src s="4">הם אמת,</src>
+    <src s="5">כי שתיהם יש להם שרש בעצמות אוא"ס.</src>
+    <src s="6">דזה שאוא"ס הוא</src>
+    <src s="7">(בגילוי)</src>
+    <src s="8">למטה מטה עד אין תכלית הוא השרש דדעת עליון שלמטה אין,</src>
+    <src s="9">וזה שאוא"ס הוא</src>
+    <src s="10">(בהעלם)</src>
+    <src s="11">למעלה מעלה עד אין קץ הוא השרש דדעת תחתון שלמטה יש.</src>
+    <src s="12">ונתבאר שם25,</src>
+    <src s="13">דזה שגם דעת תחתון הוא אמת לפי שיש לו שרש בעצמות אוא"ס,</src>
+    <src s="14">הוא,</src>
+    <src s="15">לפי שהדיעה שלמטה יש היא</src>
+    <src s="16">(לא.</src>
+    <src s="17">שלגבי דרגא זו המטה מצד עצמו הוא מציאות,</src>
+    <src s="18">אלא)</src>
+    <src s="19">בכדי שיהי' הגילוי דלמעלה מעלה עד אין קץ.</src>
+    <src s="20">וזהו שהשלימות דדעת תחתון היא ע"י שמאיר בו הגילוי דדעת עליון,</src>
+    <src s="21">כי בחיצוניות נראה שהדיעה דלמטה יש הוא שהמטה מצד עצמו הוא מציאות,</src>
+    <src s="22">וע"י החיבור שלו עם דעת עליון מתגלה שענינו</src>
+    <src s="23">(בפנימיות)</src>
+    <src s="24">הוא הגילוי דלמעלה עד אין קץ.</src>
+  </section>
+  <section v="14">
+    <src s="0">ועד"ז הוא בנוגע להענין דדעת תחתון בהנהגת הטבע,</src>
+    <src s="1">דזה שהקב"ה מנהיג כל נברא לפי ענינו</src>
+    <src s="2">(לפי מזגו ותכונותיו)</src>
+    <src s="3">שזה מורה שהנבראים תופסים מקום הוא</src>
+    <src s="4">(לא שהנבראים מצד עצמם תופסים מקום לגבי',</src>
+    <src s="5">אלא)</src>
+    <src s="6">מפני שכך עלה ברצונו ית' שיהי' תפיסת מקום להנבראים.</src>
+    <src s="7">והחילוק בין הנהגה טבעית להנהגה נסית הוא,</src>
+    <src s="8">דהרצון בהנהגה טבעית הוא להנהיג את העולם באופן שהעולם הוא מציאות,</src>
+    <src s="9">והרצון בהנהגה נסית הוא להנהיג את העולם באופן שהעולם הוא כלא חשיב.</src>
+    <src s="10">וזהו שהשלימות דהנהגת הטבע היא ע"י שנמשך בו הגילוי דלמעלה מהטבע,</src>
+    <src s="11">כי עי"ז דוקא מתגלה הפנימיות דהנהגת הטבע,</src>
+    <src s="12">שהוא מפני שכך עלה ברצונו ית'.</src>
+  </section>
+</awtsmoosMeluketSource>

@@ -1,0 +1,449 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 81,
+    "returned": 81,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915911_theRebbe_364\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>This section explains that the lengthy discussion in the Chanukah maamar about the altar's dedication with anointing oil is not merely introductory, but directly related to Chanukah, as the name \"Chanukah\" refers to that dedication, and the reading of the princes' offerings and the menorah lighting show an ascent from the anointing oil to the superior oil for light.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And it can be said,</t>\n    <t s=\"2\">that this which is explained at length in the maamar</t>\n    <t s=\"3\">(of Chanukah)</t>\n    <t s=\"4\">the reason for this, that the dedication of the altar was through anointing oil, is not only as an introduction,</t>\n    <t s=\"5\">that through this the greatness of the superiority of the oil for light will be better understood</t>\n    <t s=\"6\">(which is higher even than the anointing oil)</t>\n    <t s=\"7\">with which the miracle of Chanukah occurred,</t>\n    <t s=\"8\">but rather,</t>\n    <t s=\"9\">that also this matter</t>\n    <t s=\"10\">(the dedication of the altar with anointing oil)</t>\n    <t s=\"11\">is related to Chanukah.</t>\n    <t s=\"12\">For the reason that it is called by the name Chanukah is because of the dedication of the altar that took place</t>\n    <t s=\"13\">then.</t>\n    <t s=\"14\">And this is also one of the reasons that on Chanukah we read the offerings of the princes.</t>\n    <t s=\"15\">And based on this, it can be said,</t>\n    <t s=\"16\">that also in the dedication of the altar that took place on Chanukah, there was the matter of anointing oil in spirituality.</t>\n    <t s=\"17\">Except that there is in it a more elevated matter—the miracle that occurred with the oil for light,</t>\n    <t s=\"18\">which is more elevated</t>\n    <t s=\"19\">(as above)</t>\n    <t s=\"20\">than the anointing oil.</t>\n    <t s=\"21\">And this is also what the conclusion of the reading of the days of Chanukah</t>\n    <t s=\"22\">(after they read the offerings of the princes,</t>\n    <t s=\"23\">and also \"this was the dedication of the altar on the day it was anointed\")</t>\n    <t s=\"24\">is \"When you raise up the lamps,\" which alludes</t>\n    <t s=\"25\">(also)</t>\n    <t s=\"26\">to the Chanukah lights,</t>\n    <t s=\"27\">that it can be said,</t>\n    <t s=\"28\">that it is in the order of from below upward,</t>\n    <t s=\"29\">first the dedication of the altar through anointing oil,</t>\n    <t s=\"30\">and afterwards the matter of the oil for light and the miracle that occurred with it.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>This section explains that offerings and libations on the altar draw down inner aspects, analogous to eating and drinking, with wine libations revealing a higher internality than bread offerings, and the water libation of Sukkos being higher still, corresponding to Chochmah which cannot be written in the Written Torah.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of the matter:</t>\n    <t s=\"2\">Behold, the offerings that were sacrificed upon the altar,</t>\n    <t s=\"3\">and likewise the libations that were poured upon it,</t>\n    <t s=\"4\">are the drawing down of the aspect of internality.</t>\n    <t s=\"5\">Therefore they are called offerings and libations by the name of eating and drinking,</t>\n    <t s=\"6\">for the drawing down through the offerings and libations is the aspect of internality</t>\n    <t s=\"7\">(analogous to physical eating and drinking which become blood and flesh like his flesh).</t>\n    <t s=\"8\">And the drawing down through the libations is more elevated than the drawing down through the offerings.</t>\n    <t s=\"9\">For just as in physical eating and drinking,</t>\n    <t s=\"10\">through bread only the externality of the life-force of the soul is revealed, and through wine the internality of the soul is revealed,</t>\n    <t s=\"11\">so too is it with the eating and drinking of the altar,</t>\n    <t s=\"12\">that the drawing down through the offerings, which are called by the name \"bread,\"</t>\n    <t s=\"13\">is</t>\n    <t s=\"14\">(only)</t>\n    <t s=\"15\">\"the spreading forth of life-force to enliven all the worlds\"</t>\n    <t s=\"16\">(Memaleh Kol Almin),</t>\n    <t s=\"17\">and through the libations is the drawing down and revelation of the internality</t>\n    <t s=\"18\">(which is above the life-force of the worlds),</t>\n    <t s=\"19\">Sovev Kol Almin.</t>\n    <t s=\"20\">And within the libations themselves,</t>\n    <t s=\"21\">behold, on the festival of Sukkos there was also the water libation</t>\n    <t s=\"22\">(in addition to the wine libation which was also on all the days of the year),</t>\n    <t s=\"23\">which is higher even than the wine libation,</t>\n    <t s=\"24\">and as explained in Likkutei Torah,</t>\n    <t s=\"25\">that this is why the wine libation is explicit in the Written Torah, while the water libation is a halachah to Moshe from Sinai</t>\n    <t s=\"26\">and the Rabbis only supported it with verses,</t>\n    <t s=\"27\">for the aspect of Chochmah</t>\n    <t s=\"28\">(the water libation)</t>\n    <t s=\"29\">\"cannot be written in the Written Torah,</t>\n    <t s=\"30\">to be spread forth in the form of written letters.\"</t>\n    <t s=\"31\">Therefore,</t>\n    <t s=\"32\">the water libation is specifically in the Oral Torah,</t>\n    <t s=\"33\">in the manner of \"the words of the Scribes are more beloved to me than the wine of the Torah.\"</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>This section adds that the connection of wine to Binah and water to Chochmah is reflected in their physical properties: wine has taste and brings joy, while water has no taste and is only enjoyed when one is thirsty.</sectionSummaryBrief>\n    <t s=\"0\">And it can be added,</t>\n    <t s=\"1\">that the connection of this matter</t>\n    <t s=\"2\">(that wine is Binah and water is Chochmah)</t>\n    <t s=\"3\">to wine and water in their simple physical sense is,</t>\n    <t s=\"4\">that wine has taste and it is a thing that gladdens,</t>\n    <t s=\"5\">to the point that we do not recite song except over wine,</t>\n    <t s=\"6\">but water has no taste,</t>\n    <t s=\"7\">therefore we do not recite a blessing over water unless one drinks to quench his thirst,</t>\n    <t s=\"8\">because a person derives no pleasure from drinking water except when he is thirsty.</t>\n    <t s=\"9\">For this distinction between wine and water is</t>\n    <t s=\"10\">(in accordance with their matter in spirituality)</t>\n    <t s=\"11\">that wine is Binah,</t>\n    <t s=\"12\">taste</t>\n    <t s=\"13\">(understanding and comprehension),</t>\n    <t s=\"14\">and water is Chochmah,</t>\n    <t s=\"15\">above taste.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "כסלו_meluket",
+      "postId": "BH_POST_1766518915911_theRebbe_364",
+      "batchId": "meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915911_theRebbe_364__p002"
+    },
+    "sections": [
+      {
+        "v": 3,
+        "sectionSummaryBrief": "This section explains that the lengthy discussion in the Chanukah maamar about the altar's dedication with anointing oil is not merely introductory, but directly related to Chanukah, as the name \"Chanukah\" refers to that dedication, and the reading of the princes' offerings and the menorah lighting show an ascent from the anointing oil to the superior oil for light.",
+        "translations": [
+          {
+            "v": 3,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 3,
+            "s": 1,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 2,
+            "translation": "that this which is explained at length in the maamar"
+          },
+          {
+            "v": 3,
+            "s": 3,
+            "translation": "(of Chanukah)"
+          },
+          {
+            "v": 3,
+            "s": 4,
+            "translation": "the reason for this, that the dedication of the altar was through anointing oil, is not only as an introduction,"
+          },
+          {
+            "v": 3,
+            "s": 5,
+            "translation": "that through this the greatness of the superiority of the oil for light will be better understood"
+          },
+          {
+            "v": 3,
+            "s": 6,
+            "translation": "(which is higher even than the anointing oil)"
+          },
+          {
+            "v": 3,
+            "s": 7,
+            "translation": "with which the miracle of Chanukah occurred,"
+          },
+          {
+            "v": 3,
+            "s": 8,
+            "translation": "but rather,"
+          },
+          {
+            "v": 3,
+            "s": 9,
+            "translation": "that also this matter"
+          },
+          {
+            "v": 3,
+            "s": 10,
+            "translation": "(the dedication of the altar with anointing oil)"
+          },
+          {
+            "v": 3,
+            "s": 11,
+            "translation": "is related to Chanukah."
+          },
+          {
+            "v": 3,
+            "s": 12,
+            "translation": "For the reason that it is called by the name Chanukah is because of the dedication of the altar that took place"
+          },
+          {
+            "v": 3,
+            "s": 13,
+            "translation": "then."
+          },
+          {
+            "v": 3,
+            "s": 14,
+            "translation": "And this is also one of the reasons that on Chanukah we read the offerings of the princes."
+          },
+          {
+            "v": 3,
+            "s": 15,
+            "translation": "And based on this, it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 16,
+            "translation": "that also in the dedication of the altar that took place on Chanukah, there was the matter of anointing oil in spirituality."
+          },
+          {
+            "v": 3,
+            "s": 17,
+            "translation": "Except that there is in it a more elevated matter—the miracle that occurred with the oil for light,"
+          },
+          {
+            "v": 3,
+            "s": 18,
+            "translation": "which is more elevated"
+          },
+          {
+            "v": 3,
+            "s": 19,
+            "translation": "(as above)"
+          },
+          {
+            "v": 3,
+            "s": 20,
+            "translation": "than the anointing oil."
+          },
+          {
+            "v": 3,
+            "s": 21,
+            "translation": "And this is also what the conclusion of the reading of the days of Chanukah"
+          },
+          {
+            "v": 3,
+            "s": 22,
+            "translation": "(after they read the offerings of the princes,"
+          },
+          {
+            "v": 3,
+            "s": 23,
+            "translation": "and also \"this was the dedication of the altar on the day it was anointed\")"
+          },
+          {
+            "v": 3,
+            "s": 24,
+            "translation": "is \"When you raise up the lamps,\" which alludes"
+          },
+          {
+            "v": 3,
+            "s": 25,
+            "translation": "(also)"
+          },
+          {
+            "v": 3,
+            "s": 26,
+            "translation": "to the Chanukah lights,"
+          },
+          {
+            "v": 3,
+            "s": 27,
+            "translation": "that it can be said,"
+          },
+          {
+            "v": 3,
+            "s": 28,
+            "translation": "that it is in the order of from below upward,"
+          },
+          {
+            "v": 3,
+            "s": 29,
+            "translation": "first the dedication of the altar through anointing oil,"
+          },
+          {
+            "v": 3,
+            "s": 30,
+            "translation": "and afterwards the matter of the oil for light and the miracle that occurred with it."
+          }
+        ]
+      },
+      {
+        "v": 4,
+        "sectionSummaryBrief": "This section explains that offerings and libations on the altar draw down inner aspects, analogous to eating and drinking, with wine libations revealing a higher internality than bread offerings, and the water libation of Sukkos being higher still, corresponding to Chochmah which cannot be written in the Written Torah.",
+        "translations": [
+          {
+            "v": 4,
+            "s": 0,
+            "translation": "3)"
+          },
+          {
+            "v": 4,
+            "s": 1,
+            "translation": "And the explanation of the matter:"
+          },
+          {
+            "v": 4,
+            "s": 2,
+            "translation": "Behold, the offerings that were sacrificed upon the altar,"
+          },
+          {
+            "v": 4,
+            "s": 3,
+            "translation": "and likewise the libations that were poured upon it,"
+          },
+          {
+            "v": 4,
+            "s": 4,
+            "translation": "are the drawing down of the aspect of internality."
+          },
+          {
+            "v": 4,
+            "s": 5,
+            "translation": "Therefore they are called offerings and libations by the name of eating and drinking,"
+          },
+          {
+            "v": 4,
+            "s": 6,
+            "translation": "for the drawing down through the offerings and libations is the aspect of internality"
+          },
+          {
+            "v": 4,
+            "s": 7,
+            "translation": "(analogous to physical eating and drinking which become blood and flesh like his flesh)."
+          },
+          {
+            "v": 4,
+            "s": 8,
+            "translation": "And the drawing down through the libations is more elevated than the drawing down through the offerings."
+          },
+          {
+            "v": 4,
+            "s": 9,
+            "translation": "For just as in physical eating and drinking,"
+          },
+          {
+            "v": 4,
+            "s": 10,
+            "translation": "through bread only the externality of the life-force of the soul is revealed, and through wine the internality of the soul is revealed,"
+          },
+          {
+            "v": 4,
+            "s": 11,
+            "translation": "so too is it with the eating and drinking of the altar,"
+          },
+          {
+            "v": 4,
+            "s": 12,
+            "translation": "that the drawing down through the offerings, which are called by the name \"bread,\""
+          },
+          {
+            "v": 4,
+            "s": 13,
+            "translation": "is"
+          },
+          {
+            "v": 4,
+            "s": 14,
+            "translation": "(only)"
+          },
+          {
+            "v": 4,
+            "s": 15,
+            "translation": "\"the spreading forth of life-force to enliven all the worlds\""
+          },
+          {
+            "v": 4,
+            "s": 16,
+            "translation": "(Memaleh Kol Almin),"
+          },
+          {
+            "v": 4,
+            "s": 17,
+            "translation": "and through the libations is the drawing down and revelation of the internality"
+          },
+          {
+            "v": 4,
+            "s": 18,
+            "translation": "(which is above the life-force of the worlds),"
+          },
+          {
+            "v": 4,
+            "s": 19,
+            "translation": "Sovev Kol Almin."
+          },
+          {
+            "v": 4,
+            "s": 20,
+            "translation": "And within the libations themselves,"
+          },
+          {
+            "v": 4,
+            "s": 21,
+            "translation": "behold, on the festival of Sukkos there was also the water libation"
+          },
+          {
+            "v": 4,
+            "s": 22,
+            "translation": "(in addition to the wine libation which was also on all the days of the year),"
+          },
+          {
+            "v": 4,
+            "s": 23,
+            "translation": "which is higher even than the wine libation,"
+          },
+          {
+            "v": 4,
+            "s": 24,
+            "translation": "and as explained in Likkutei Torah,"
+          },
+          {
+            "v": 4,
+            "s": 25,
+            "translation": "that this is why the wine libation is explicit in the Written Torah, while the water libation is a halachah to Moshe from Sinai"
+          },
+          {
+            "v": 4,
+            "s": 26,
+            "translation": "and the Rabbis only supported it with verses,"
+          },
+          {
+            "v": 4,
+            "s": 27,
+            "translation": "for the aspect of Chochmah"
+          },
+          {
+            "v": 4,
+            "s": 28,
+            "translation": "(the water libation)"
+          },
+          {
+            "v": 4,
+            "s": 29,
+            "translation": "\"cannot be written in the Written Torah,"
+          },
+          {
+            "v": 4,
+            "s": 30,
+            "translation": "to be spread forth in the form of written letters.\""
+          },
+          {
+            "v": 4,
+            "s": 31,
+            "translation": "Therefore,"
+          },
+          {
+            "v": 4,
+            "s": 32,
+            "translation": "the water libation is specifically in the Oral Torah,"
+          },
+          {
+            "v": 4,
+            "s": 33,
+            "translation": "in the manner of \"the words of the Scribes are more beloved to me than the wine of the Torah.\""
+          }
+        ]
+      },
+      {
+        "v": 5,
+        "sectionSummaryBrief": "This section adds that the connection of wine to Binah and water to Chochmah is reflected in their physical properties: wine has taste and brings joy, while water has no taste and is only enjoyed when one is thirsty.",
+        "translations": [
+          {
+            "v": 5,
+            "s": 0,
+            "translation": "And it can be added,"
+          },
+          {
+            "v": 5,
+            "s": 1,
+            "translation": "that the connection of this matter"
+          },
+          {
+            "v": 5,
+            "s": 2,
+            "translation": "(that wine is Binah and water is Chochmah)"
+          },
+          {
+            "v": 5,
+            "s": 3,
+            "translation": "to wine and water in their simple physical sense is,"
+          },
+          {
+            "v": 5,
+            "s": 4,
+            "translation": "that wine has taste and it is a thing that gladdens,"
+          },
+          {
+            "v": 5,
+            "s": 5,
+            "translation": "to the point that we do not recite song except over wine,"
+          },
+          {
+            "v": 5,
+            "s": 6,
+            "translation": "but water has no taste,"
+          },
+          {
+            "v": 5,
+            "s": 7,
+            "translation": "therefore we do not recite a blessing over water unless one drinks to quench his thirst,"
+          },
+          {
+            "v": 5,
+            "s": 8,
+            "translation": "because a person derives no pleasure from drinking water except when he is thirsty."
+          },
+          {
+            "v": 5,
+            "s": 9,
+            "translation": "For this distinction between wine and water is"
+          },
+          {
+            "v": 5,
+            "s": 10,
+            "translation": "(in accordance with their matter in spirituality)"
+          },
+          {
+            "v": 5,
+            "s": 11,
+            "translation": "that wine is Binah,"
+          },
+          {
+            "v": 5,
+            "s": 12,
+            "translation": "taste"
+          },
+          {
+            "v": 5,
+            "s": 13,
+            "translation": "(understanding and comprehension),"
+          },
+          {
+            "v": 5,
+            "s": 14,
+            "translation": "and water is Chochmah,"
+          },
+          {
+            "v": 5,
+            "s": 15,
+            "translation": "above taste."
+          }
+        ]
+      }
+    ]
+  }
+}

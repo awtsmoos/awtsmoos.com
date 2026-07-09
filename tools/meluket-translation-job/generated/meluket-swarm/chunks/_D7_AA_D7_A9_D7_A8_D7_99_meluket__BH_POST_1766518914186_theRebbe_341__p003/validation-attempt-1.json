@@ -1,0 +1,449 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 81,
+    "returned": 81,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518914186_theRebbe_341\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914186_theRebbe_341__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>The purpose of drawing down the encompassing lights of the Sukkah is to internalize them, which is accomplished through the mitzvah of the Four Species, whose waving draws down Daas into the Nukva, bringing peace even to the lowest world.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">Now, the intention in drawing down the encompassing lights (makifim) of the Sukkah is that they should be drawn down and also act within the internal (penimiyus).</t>\n    <t s=\"2\">And this is the matter of the taking of the Four Species, which follows after \"In sukkot you shall dwell\"</t>\n    <t s=\"3\">[for the mitzvah of dwelling in the Sukkah is from the beginning of the seven days of Sukkot,</t>\n    <t s=\"4\">and after this, in the morning</t>\n    <t s=\"5\">(at dawn or sunrise38)</t>\n    <t s=\"6\">the mitzvah of taking the Four Species begins],</t>\n    <t s=\"7\">for the concept of taking the Four Species is to draw down the encompassing light</t>\n    <t s=\"8\">(of the Sukkah)</t>\n    <t s=\"9\">into the internal,</t>\n    <t s=\"10\">as is explained in Kabbalah</t>\n    <t s=\"11\">(M\"Ch)</t>\n    <t s=\"12\">and in Chassidus39</t>\n    <t s=\"13\">that the concept of the waving movements is to draw down the aspect of Daas into the Nukva of Zeir Anpin, which stands at the chest of Zeir Anpin</t>\n    <t s=\"14\">[therefore the lulav and its species must touch the chest],</t>\n    <t s=\"15\">for the concept of drawing down into the Nukva is that the drawing down should also be in worldly matters,</t>\n    <t s=\"16\">even to the matters of this lowest world, below which there is no lower.</t>\n    <t s=\"17\">And therefore, the effect of peace brought about through the drawing down of Daas is also below, in this lowest world,</t>\n    <t s=\"18\">analogous to the future era, when \"they shall not harm nor destroy... for the earth shall be filled with knowledge of Havayah.\"</t>\n    <t s=\"19\">And the connection between \"the earth shall be filled with knowledge\" and \"they shall not harm nor destroy\" is40</t>\n    <t s=\"20\">because quarrels and arguments stem from smallness of Daas.</t>\n    <t s=\"21\">And the parable for this is well known:</t>\n    <t s=\"22\">a small child who has no Daas,</t>\n    <t s=\"23\">when his desire is not fulfilled,</t>\n    <t s=\"24\">immediately becomes angry, etc.</t>\n    <t s=\"25\">(as explained in the holy Tanya41</t>\n    <t s=\"26\">that a small child gets angry over small things),</t>\n    <t s=\"27\">but not so an adult who has Daas,</t>\n    <t s=\"28\">he can tolerate even its opposite.</t>\n    <t s=\"29\">And likewise regarding the peace of the Sukkah,</t>\n    <t s=\"30\">since the concept of the Sukkah is, as it is written, \"in order that they know,\"</t>\n    <t s=\"31\">therefore, through the Daas drawn down by the Sukkah,</t>\n    <t s=\"32\">peace is made,</t>\n    <t s=\"33\">\"the Sukkah of your peace.\"</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>To internalize the encompassing light of the Sukkah into a settled state, the initial act came from G-d, as in \"I began,\" enabling the command \"in sukkot you shall dwell\" to be internalized through Daas and drawn into time itself.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">However, in order to draw down the encompassing light of the Sukkah into the aspect of the internal,</t>\n    <t s=\"2\">even to the point of being in a settled state, as it says \"in sukkot you shall dwell\"</t>\n    <t s=\"3\">[and so that through the taking of the Four Species this will also be drawn into the aspect of Nukva of Zeir Anpin],</t>\n    <t s=\"4\">for although the encompassing light of the Sukkah is exceedingly lofty</t>\n    <t s=\"5\">[and as above, the encompassing light of the Sukkah is above even the division into garments of the head, garments of the body, and garments of the leg,</t>\n    <t s=\"6\">and certainly it does not have the division of head, body, and leg],</t>\n    <t s=\"7\">nevertheless, there will be in this a matter of settlement,</t>\n    <t s=\"8\">the explanation comes from: \"For I caused the children of Israel to dwell in sukkot when I brought them out of the land of Egypt,\"</t>\n    <t s=\"9\">the beginning was from the Holy One, blessed be He,</t>\n    <t s=\"10\">\"I began.\"42</t>\n    <t s=\"11\">And through this, that \"I caused them to dwell in sukkot,\"</t>\n    <t s=\"12\">the granting of the power was drawn down so that \"in sukkot you shall dwell.\"</t>\n    <t s=\"13\">And regarding this it says \"in order that they know,\"</t>\n    <t s=\"14\">that the matter of dwelling in the Sukkah must not be in a manner of \"I engraved a decree, I decreed a decree,\"</t>\n    <t s=\"15\">but rather it should be drawn and come into Daas,</t>\n    <t s=\"16\">into the internal,</t>\n    <t s=\"17\">and be drawn also into the aspect of time,</t>\n    <t s=\"18\">and this is \"in sukkot you shall dwell for seven days,\"</t>\n    <t s=\"19\">for seven days include the entire duration of time and all the changes within them.</t>\n    <t s=\"20\">And as explained in many places43</t>\n    <t s=\"21\">on the verse44</t>\n    <t s=\"22\">\"I was young and also I have aged,\"</t>\n    <t s=\"23\">that on every Sunday, the matter of the seven days of creation begins anew.</t>\n    <t s=\"24\">And this is similar to what was explained above, that through the waving movements we draw down into the aspect of the Nukva,</t>\n    <t s=\"25\">(the aspect of Malchus)</t>\n    <t s=\"26\">which is the beginning45</t>\n    <t s=\"27\">of the matter of time.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>The verse \"all the citizens in Israel shall dwell in sukkot\" refers to the future illumination (azrach), teaching that the power for the present mitzvah comes from the future, and the mitzvah itself enhances that future aspect.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And the verse continues: \"All the citizens (ha-ezrach) in Israel shall dwell in sukkot.\"</t>\n    <t s=\"2\">And it must be understood:</t>\n    <t s=\"3\">The command \"in sukkot you shall dwell\" is for all of Israel,</t>\n    <t s=\"4\">so what does \"all the citizens in Israel\" add?</t>\n    <t s=\"5\">And the explanation of this is:</t>\n    <t s=\"6\">\"Ezrach\" refers to the aspect that will shine (yizrach) in the future,</t>\n    <t s=\"7\">and therefore the word \"ezrach\" begins with an aleph,</t>\n    <t s=\"8\">which is one of the letters used for the future tense.46</t>\n    <t s=\"9\">And this is \"all the citizens in Israel shall dwell in sukkot,\"</t>\n    <t s=\"10\">which has two meanings:</t>\n    <t s=\"11\">that from the aspect of \"the citizen in Israel\" that will be in the future,</t>\n    <t s=\"12\">there is power even now for \"in sukkot you shall dwell,\"</t>\n    <t s=\"13\">that also in the aspect of \"the citizen in Israel,\"</t>\n    <t s=\"14\">and also as it will be in the future,</t>\n    <t s=\"15\">even in this aspect there is addition through dwelling in the Sukkah.</t>\n    <t s=\"16\">And it can be said that this is the reason that the mitzvah of Sukkah will be in the future with greater excellence and strength,</t>\n    <t s=\"17\">as explained in the prophecy of Zechariah47</t>\n    <t s=\"18\">(which is the haftarah during the days of Sukkot).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "תשרי_meluket",
+      "postId": "BH_POST_1766518914186_theRebbe_341",
+      "batchId": "meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518914186_theRebbe_341__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "The purpose of drawing down the encompassing lights of the Sukkah is to internalize them, which is accomplished through the mitzvah of the Four Species, whose waving draws down Daas into the Nukva, bringing peace even to the lowest world.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "Now, the intention in drawing down the encompassing lights (makifim) of the Sukkah is that they should be drawn down and also act within the internal (penimiyus)."
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "And this is the matter of the taking of the Four Species, which follows after \"In sukkot you shall dwell\""
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "[for the mitzvah of dwelling in the Sukkah is from the beginning of the seven days of Sukkot,"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "and after this, in the morning"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "(at dawn or sunrise38)"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "the mitzvah of taking the Four Species begins],"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "for the concept of taking the Four Species is to draw down the encompassing light"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(of the Sukkah)"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "into the internal,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "as is explained in Kabbalah"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "(M\"Ch)"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "and in Chassidus39"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "that the concept of the waving movements is to draw down the aspect of Daas into the Nukva of Zeir Anpin, which stands at the chest of Zeir Anpin"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "[therefore the lulav and its species must touch the chest],"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "for the concept of drawing down into the Nukva is that the drawing down should also be in worldly matters,"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "even to the matters of this lowest world, below which there is no lower."
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "And therefore, the effect of peace brought about through the drawing down of Daas is also below, in this lowest world,"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "analogous to the future era, when \"they shall not harm nor destroy... for the earth shall be filled with knowledge of Havayah.\""
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "And the connection between \"the earth shall be filled with knowledge\" and \"they shall not harm nor destroy\" is40"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "because quarrels and arguments stem from smallness of Daas."
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "And the parable for this is well known:"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "a small child who has no Daas,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "when his desire is not fulfilled,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "immediately becomes angry, etc."
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "(as explained in the holy Tanya41"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "that a small child gets angry over small things),"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "but not so an adult who has Daas,"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "he can tolerate even its opposite."
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "And likewise regarding the peace of the Sukkah,"
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "since the concept of the Sukkah is, as it is written, \"in order that they know,\""
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "therefore, through the Daas drawn down by the Sukkah,"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "peace is made,"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "\"the Sukkah of your peace.\""
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "To internalize the encompassing light of the Sukkah into a settled state, the initial act came from G-d, as in \"I began,\" enabling the command \"in sukkot you shall dwell\" to be internalized through Daas and drawn into time itself.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "However, in order to draw down the encompassing light of the Sukkah into the aspect of the internal,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "even to the point of being in a settled state, as it says \"in sukkot you shall dwell\""
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "[and so that through the taking of the Four Species this will also be drawn into the aspect of Nukva of Zeir Anpin],"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "for although the encompassing light of the Sukkah is exceedingly lofty"
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "[and as above, the encompassing light of the Sukkah is above even the division into garments of the head, garments of the body, and garments of the leg,"
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "and certainly it does not have the division of head, body, and leg],"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "nevertheless, there will be in this a matter of settlement,"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "the explanation comes from: \"For I caused the children of Israel to dwell in sukkot when I brought them out of the land of Egypt,\""
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "the beginning was from the Holy One, blessed be He,"
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "\"I began.\"42"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "And through this, that \"I caused them to dwell in sukkot,\""
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "the granting of the power was drawn down so that \"in sukkot you shall dwell.\""
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "And regarding this it says \"in order that they know,\""
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "that the matter of dwelling in the Sukkah must not be in a manner of \"I engraved a decree, I decreed a decree,\""
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "but rather it should be drawn and come into Daas,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "into the internal,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "and be drawn also into the aspect of time,"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "and this is \"in sukkot you shall dwell for seven days,\""
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "for seven days include the entire duration of time and all the changes within them."
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "And as explained in many places43"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "on the verse44"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "\"I was young and also I have aged,\""
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "that on every Sunday, the matter of the seven days of creation begins anew."
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "And this is similar to what was explained above, that through the waving movements we draw down into the aspect of the Nukva,"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "(the aspect of Malchus)"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "which is the beginning45"
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "of the matter of time."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "The verse \"all the citizens in Israel shall dwell in sukkot\" refers to the future illumination (azrach), teaching that the power for the present mitzvah comes from the future, and the mitzvah itself enhances that future aspect.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And the verse continues: \"All the citizens (ha-ezrach) in Israel shall dwell in sukkot.\""
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "And it must be understood:"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "The command \"in sukkot you shall dwell\" is for all of Israel,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "so what does \"all the citizens in Israel\" add?"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "And the explanation of this is:"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "\"Ezrach\" refers to the aspect that will shine (yizrach) in the future,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "and therefore the word \"ezrach\" begins with an aleph,"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "which is one of the letters used for the future tense.46"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "And this is \"all the citizens in Israel shall dwell in sukkot,\""
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "which has two meanings:"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "that from the aspect of \"the citizen in Israel\" that will be in the future,"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "there is power even now for \"in sukkot you shall dwell,\""
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "that also in the aspect of \"the citizen in Israel,\""
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "and also as it will be in the future,"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "even in this aspect there is addition through dwelling in the Sukkah."
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "And it can be said that this is the reason that the mitzvah of Sukkah will be in the future with greater excellence and strength,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "as explained in the prophecy of Zechariah47"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "(which is the haftarah during the days of Sukkot)."
+          }
+        ]
+      }
+    ]
+  }
+}

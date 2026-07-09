@@ -1,0 +1,163 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915661_theRebbe_783" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p006">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915661_theRebbe_783" title="מאמר פדה בשלום תשכ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915661_theRebbe_783__p006">
+  <section v="15">
+    <src s="0">י)</src>
+    <src s="1">א)</src>
+    <src s="2">ומבאר בהמאמר,</src>
+    <src s="3">דע"י שלעתיד לבוא תהי' ההמשכה מפנימיות עתיק</src>
+    <src s="4">(א"ס שברדל"א)</src>
+    <src s="5">שלמעלה מההמשכה שהיתה בימי שלמה,</src>
+    <src s="6">עי"ז יומשך הגילוי למטה יותר.</src>
+    <src s="7">וכדאיתא בע"ח60,</src>
+    <src s="8">שבעליית המלכות יש ז' מדריגות.</src>
+    <src s="9">בימי שלמה היתה מדריגה הו' ולע"ל תהי' מדריגה הז'.</src>
+    <src s="10">ומהחילוקים שביניהם הוא,</src>
+    <src s="11">דבמדריגה הו',</src>
+    <src s="12">הגילוי במלכות הוא רק בט' ספירות שבה ועד לבחינת יסוד שבה</src>
+    <src s="13">(והגילוי במלכות דמלכות61</src>
+    <src s="14">הי' ע"י שנכללה ביסוד שבה),</src>
+    <src s="15">ובמדריגה הז',</src>
+    <src s="16">הגילוי הוא גם במלכות דמלכות</src>
+    <src s="17">(כמו שהיא במקומה).</src>
+    <src s="18">וממשיך בהמאמר,</src>
+    <src s="19">שהחילוק דב' העליות דמלכות</src>
+    <src s="20">(עלי' הו' שבימי שלמה ועלי' הז' שתהי' לע"ל)</src>
+    <src s="21">הוא גם בנוגע להנצוצות שנפלו למטה.</src>
+    <src s="22">והענין הוא,</src>
+    <src s="23">דיסוד דנוקבא הוא התקשרות המקבל</src>
+    <src s="24">(מלכות)</src>
+    <src s="25">בהמשפיע</src>
+    <src s="26">(ז"א),</src>
+    <src s="27">ומלכות דמלכות הוא</src>
+    <src s="28">(בדרך כלל)</src>
+    <src s="29">כח הפועל שבנפעל.</src>
+    <src s="30">ולכן,</src>
+    <src s="31">בימי שלמה שהגילוי במלכות הי' רק בדרגת המלכות כמו ששייכת לז"א,</src>
+    <src s="32">גם ההעלאה דהנצוצות שנפלו למטה היתה רק באותם הנצוצות ששייכים להרגיש אור אלקי62.</src>
+    <src s="33">ולע"ל שהגילוי יהי' גם בדרגת המלכות כמו שהיא בבי"ע ועד לכח הפועל שבנפעל,</src>
+    <src s="34">גם הנצוצות שנתרחקו ממלכות שלכן אין שייכים</src>
+    <src s="35">(מצד עצמם)</src>
+    <src s="36">להרגיש אור אלקי,</src>
+    <src s="37">ואפילו הנצוצות שנתרחקו כ"כ עד שהם עצמם נעשו כמו רע,</src>
+    <src s="38">גם הם יתעלו ויוכללו בקדושה.</src>
+    <src s="39">ויתירה מזה,</src>
+    <src s="40">שגם הגשמי עצמו</src>
+    <src s="41">(לא רק הניצוץ שבו)</src>
+    <src s="42">יהי' בתכלית ההתאחדות באלקות.</src>
+    <src s="43">וזה שהגשמי יהי' אז בתכלית ההתאחדות הוא לא רק מפני שאז יתגלה כח האלקי שבו שמהווה אותו מאין ליש,</src>
+    <src s="44">גילוי כח הפועל שבנפעל,</src>
+    <src s="45">אלא שגם הנפעל עצמו יהי' בתכלית ההתאחדות.</src>
+    <src s="46">והטעם לכל זה הוא</src>
+    <src s="47">(כמובא לעיל מהמאמר),</src>
+    <src s="48">כי אז תהי' המשכת פנימיות עתיק</src>
+    <src s="49">(א"ס שברדל"א),</src>
+    <src s="50">ולכן יהי' אז הגילוי גם במלכות שבמלכות,</src>
+    <src s="51">ויתירה מזה – גם למטה בעוה"ז הגשמי,</src>
+    <src s="52">בנצוצות הקדושה שבדברים הגשמיים</src>
+    <src s="53">(גם בהנצוצות שנתרחקו),</src>
+    <src s="54">וגם בדברים הגשמיים עצמם.</src>
+  </section>
+  <section v="16">
+    <src s="0">ויש לומר,</src>
+    <src s="1">דהטעם על זה שע"י המשכת פנימיות עתיק</src>
+    <src s="2">(א"ס שברדל"א)</src>
+    <src s="3">יהי' גילוי אלקות בכל מקום,</src>
+    <src s="4">הוא,</src>
+    <src s="5">כי פנימיות עתיק הוא</src>
+    <src s="6">(בכללות)</src>
+    <src s="7">עצמות אוא"ס,</src>
+    <src s="8">דלגבי עצמות אוא"ס אין שום מציאות שחוץ ממנו,</src>
+    <src s="9">ואדרבא,</src>
+    <src s="10">אמיתת המצאו ית' הוא המציאות של כל הנמצאים63,</src>
+    <src s="11">ולכן ע"י גילוי פנימיות עתיק,</src>
+    <src s="12">יהי' נרגש בכל דבר שמציאותו הוא אלקות.</src>
+    <src s="13">ועפ"ז יש לומר שהעילוי בהעולם שיהי' ע"י המשכת פנימיות עתיק לגבי מצב העולם שהי' בימי שלמה הוא גם בנוגע לאותם הדברים שגם בימי שלמה הי' בהם גילוי אלקות.</src>
+    <src s="14">כי הגילוי שהי' בימי שלמה</src>
+    <src s="15">(שהגילוי אז הי' מחיצוניות עתיק)</src>
+    <src s="16">הי' כמו דבר נוסף על הדברים שבהם נמשך הגילוי,</src>
+    <src s="17">והגילוי שיהי' לע"ל בכל דבר הוא שיתגלה אז המציאות שלו גופא.</src>
+  </section>
+  <section v="17">
+    <src s="0">י)</src>
+    <src s="1">ב)</src>
+    <src s="2">וזהו וחסידיך יברכוכה,</src>
+    <src s="3">שההמשכה במלכות</src>
+    <src s="4">(יברכו כה)</src>
+    <src s="5">שנמשכת ע"י חסידיך הוא באופן של חסד,</src>
+    <src s="6">הפלגת הטוב.</src>
+    <src s="7">דנוסף לזה שהם ממשיכים במלכות האורות שנסתלקו ממנה שעי"ז נתמלא החסרון שלה,</src>
+    <src s="8">הם ממשיכים בה ענין העשירות שלמעלה ממילוי החסרון,</src>
+    <src s="9">עתיק,</src>
+    <src s="10">ויתירה מזה,</src>
+    <src s="11">שממשיכים בה גם הגילוי שלמעלה מבחי' עשירות,</src>
+    <src s="12">פנימיות עתיק.</src>
+    <src s="13">ומבאר בהמאמר,</src>
+    <src s="14">דזה שהמשכה זו נמשכת ע"י חסידיך</src>
+    <src s="15">(דוקא)</src>
+    <src s="16">הוא מצד שני ענינים.</src>
+    <src s="17">מצד הביטול שלהם.</src>
+    <src s="18">כמאמר הזהר</src>
+    <src s="19">(הובא לעיל סעיף ה)</src>
+    <src s="20">איזהו חסיד המתחסד עם קונו,</src>
+    <src s="21">שעבודתו היא לא בשביל עצמו בכדי שיהי' דבוק באלקות אלא לצורך גבוה,</src>
+    <src s="22">כמבואר בתניא64.</src>
+    <src s="23">וע"י שהעבודה שלהם היא בביטול</src>
+    <src s="24">(למעלה ממציאות),</src>
+    <src s="25">לכן ההמשכה שנמשכת ע"י עבודתם היא מבחינת העצם שלמעלה מהתפשטות</src>
+    <src s="26">(מציאות),</src>
+    <src s="27">עתיק,</src>
+    <src s="28">ויתירה מזה – פנימיות עתיק.</src>
+    <src s="29">[וזהו איזהו חסיד שמתחסד עם קונו ופירש בתקו"ז עם קן דילי'.</src>
+    <src s="30">דמהביאורים בהקשר דשני הענינים הוא,</src>
+    <src s="31">דע"י שהוא מתחסד עם קונו,</src>
+    <src s="32">שעבודתו היא לא בשביל עצמו אלא לצורך גבוה,</src>
+    <src s="33">לכן בכחו להתחסד עם קן דילי',</src>
+    <src s="34">שההמשכה במלכות</src>
+    <src s="35">(קן דילי')</src>
+    <src s="36">תהי'</src>
+    <src s="37">(לא רק באופן של צדקה,</src>
+    <src s="38">מילוי החסרון,</src>
+    <src s="39">אלא)</src>
+    <src s="40">באופן של חסד – עשירות ולמעלה מעשירות].</src>
+    <src s="41">ועוד ענין בהשייכות דהמשכת פנימיות עתיק לחסידיך,</src>
+    <src s="42">דענין החסידות הוא שכחות הטבעיים נעשים כחות אלקיים65,</src>
+    <src s="43">והחידוש בעולם שיהי' לע"ל ע"י המשכת פנימיות עתיק הוא אז אהפוך אל עמים66</src>
+    <src s="44">[שהבירור בימי שלמה הי' ע"י שהאור דלמעלה משך אליו את הנצוצות שבהעמים</src>
+    <src s="45">(כנ"ל),</src>
+    <src s="46">ולע"ל יהפכו הם עצמם לקדושה],</src>
+    <src s="47">ע"ד שכחות הטבעיים נהפכים ונעשים כחות אלקיים.</src>
+  </section>
+</awtsmoosMeluketSource>

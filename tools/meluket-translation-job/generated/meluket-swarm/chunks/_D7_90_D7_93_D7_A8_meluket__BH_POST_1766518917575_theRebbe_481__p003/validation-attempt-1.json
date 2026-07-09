@@ -1,0 +1,584 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 108,
+    "returned": 108,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"אדר_meluket\" postId=\"BH_POST_1766518917575_theRebbe_481\" batchId=\"meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917575_theRebbe_481__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that the intellect is above relation to the \"other,\" including a person's own faculties, requiring their concealment for comprehension, and that the intellect's effect on emotions does not reveal its essence.</sectionSummaryBrief>\n    <t s=\"0\">And to add,</t>\n    <t s=\"1\">that this—that the intellect is above relation to the other—</t>\n    <t s=\"2\">the intention in this is not only regarding the other that is outside the person,</t>\n    <t s=\"3\">but also regarding the matters within the person himself that are \"other\" relative to the intellect.</t>\n    <t s=\"4\">And therefore,</t>\n    <t s=\"5\">in order to come upon a matter of intellect, one must contract and conceal all the faculties</t>\n    <t s=\"6\">(also the desire to understand the intellect)34,</t>\n    <t s=\"7\">for since they are other relative to the intellect,</t>\n    <t s=\"8\">they confuse the understanding of the intellect</t>\n    <t s=\"9\">(like the other that is outside the person).</t>\n    <t s=\"10\">And likewise on the other hand,</t>\n    <t s=\"11\">that even when he understands the intellect,</t>\n    <t s=\"12\">the comprehension is in distance and separation from the other matters and faculties in the person35,</t>\n    <t s=\"13\">to the extent that it is possible that the comprehension will not affect him.</t>\n    <t s=\"14\">And that the comprehension of the intellect brings</t>\n    <t s=\"15\">(in general)</t>\n    <t s=\"16\">to the emotions of the heart and even to actual deed</t>\n    <t s=\"17\">(\"Great is study that brings to deed\"36),</t>\n    <t s=\"18\">it is</t>\n    <t s=\"19\">[not because the matter of the intellect is to act upon the emotions and the deed,</t>\n    <t s=\"20\">but rather]</t>\n    <t s=\"21\">because the intellect is analogous to light,</t>\n    <t s=\"22\">which illuminates in every place37.</t>\n    <t s=\"23\">And from this it is understood,</t>\n    <t s=\"24\">that in the action of the intellect upon all the faculties and matters in the person,</t>\n    <t s=\"25\">the essence of the intellect is not revealed38.</t>\n    <t s=\"26\">And based on this it can be said,</t>\n    <t s=\"27\">that this—that the mochin are hidden things—</t>\n    <t s=\"28\">is,</t>\n    <t s=\"29\">that they are in concealment even from the matters and faculties within the person himself.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that \"Mishkan HaEidus\" refers to the work of the mind (mochin), which is hidden, and that through the aspect of Moshe, a person becomes a dwelling for this Divine light.</sectionSummaryBrief>\n    <t s=\"0\">6)</t>\n    <t s=\"1\">And this is: \"These are the accountings of the Mishkan, the Mishkan of Testimony, which was accounted at the mouth of Moshe,\"</t>\n    <t s=\"2\">\"Mishkan\" simply is the service of the heart,</t>\n    <t s=\"3\">and therefore it is stated \"the Mishkan\" with the definite article,</t>\n    <t s=\"4\">for the emotions of the heart are a level of revelation.</t>\n    <t s=\"5\">And \"Mishkan of Testimony,\"</t>\n    <t s=\"6\">for the matter of testimony is specifically about something hidden</t>\n    <t s=\"7\">(as explained in Likkutei Torah39),</t>\n    <t s=\"8\">is the service of the mind,</t>\n    <t s=\"9\">for the mochin are a level of concealment.</t>\n    <t s=\"10\">[And to add,</t>\n    <t s=\"11\">that within the mochin themselves,</t>\n    <t s=\"12\">the essential matter of \"Mishkan of Testimony\"</t>\n    <t s=\"13\">(that testimony is about something hidden)</t>\n    <t s=\"14\">is in the pnimiyut of the mochin, which is above relation to the emotions].</t>\n    <t s=\"15\">And the matter of \"Mishkan of Testimony\" is,</t>\n    <t s=\"16\">that the comprehension of Elokus</t>\n    <t s=\"17\">[including also the comprehension of the pnimiyut of the mochin]</t>\n    <t s=\"18\">becomes unified with the person who comprehends,</t>\n    <t s=\"19\">to the extent that his existence is that he is a Mishkan of Testimony—a dwelling and abode for the Divine light that shines in the mochin, above the light that shines in the emotions.</t>\n    <t s=\"20\">And this is that regarding the Mishkan of Testimony it is stated \"which was accounted at the mouth of Moshe,\"</t>\n    <t s=\"21\">for in order that a person be a dwelling for this light,</t>\n    <t s=\"22\">it is through the aspect of Moshe that is in every Jew40.</t>\n    <t s=\"23\">And the verse does not depart from its simple meaning,</t>\n    <t s=\"24\">that \"which was accounted at the mouth of Moshe\" refers</t>\n    <t s=\"25\">(also)</t>\n    <t s=\"26\">to \"These are the accountings of the Mishkan\"</t>\n    <t s=\"27\">(as above, section 1),</t>\n    <t s=\"28\">for through the service of the Mishkan of Testimony</t>\n    <t s=\"29\">(mochin),</t>\n    <t s=\"30\">also the emotions</t>\n    <t s=\"31\">(Mishkan simply)</t>\n    <t s=\"32\">are in a different manner41</t>\n    <t s=\"33\">[and as explained above in section 5, that the mochin are analogous to light that illuminates in every place].</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the service of teshuvah, which is in Binah, involves leaping beyond existence, corresponding to the Mishkan of Testimony, while the service of tzaddikim corresponds to the simple Mishkan.</sectionSummaryBrief>\n    <t s=\"0\">7)</t>\n    <t s=\"1\">And it is known42</t>\n    <t s=\"2\">that the superiority of the service of teshuvah over the service of tzaddikim is,</t>\n    <t s=\"3\">that the service of tzaddikim is in order and gradation,</t>\n    <t s=\"4\">and the service of teshuvah is to leap over a ditch,</t>\n    <t s=\"5\">without gradation.</t>\n    <t s=\"6\">And it can be said,</t>\n    <t s=\"7\">that from the explanations in this, that teshuvah</t>\n    <t s=\"8\">(specifically)</t>\n    <t s=\"9\">is in Binah</t>\n    <t s=\"10\">(as above, section 2),</t>\n    <t s=\"11\">even though also in the service of tzaddikim there is also service from the aspect of the mochin</t>\n    <t s=\"12\">(including the service from the aspect of the pnimiyut of the mochin),</t>\n    <t s=\"13\">it is,</t>\n    <t s=\"14\">for the main superiority of the mochin over the emotions is that the light of the mochin is above and in separation from the existence of the person</t>\n    <t s=\"15\">(as above, section 5),</t>\n    <t s=\"16\">and therefore,</t>\n    <t s=\"17\">the matter of the mochin</t>\n    <t s=\"18\">(Binah)</t>\n    <t s=\"19\">is</t>\n    <t s=\"20\">(primarily)</t>\n    <t s=\"21\">in the service of teshuvah,</t>\n    <t s=\"22\">the leap and departure from existence.</t>\n    <t s=\"23\">And based on this,</t>\n    <t s=\"24\">the two matters in the Mishkan are the service of tzaddikim and the service of teshuvah.</t>\n    <t s=\"25\">For the service of tzaddikim</t>\n    <t s=\"26\">(also the service of the mochin)</t>\n    <t s=\"27\">is \"Mishkan\" simply,</t>\n    <t s=\"28\">and \"Mishkan of Testimony\" is the service of teshuvah.</t>\n    <t s=\"29\">And the connection of the two interpretations of \"which was accounted at the mouth of Moshe\"</t>\n    <t s=\"30\">(according to this explanation)</t>\n    <t s=\"31\">can be said,</t>\n    <t s=\"32\">that the matter of Moshe is self-nullification,</t>\n    <t s=\"33\">\"and we are nothing\"43,</t>\n    <t s=\"34\">and therefore the essential matter of \"accounted at the mouth of Moshe\" is in the Mishkan of Testimony.</t>\n    <t s=\"35\">Nevertheless, this also applies to \"These are the accountings of the Mishkan,\"</t>\n    <t s=\"36\">for through teshuvah,</t>\n    <t s=\"37\">also the fulfillment of Torah and mitzvos is in a more elevated manner.</t>\n    <t s=\"38\">And as the well-known explanation44</t>\n    <t s=\"39\">of the language of our sages45</t>\n    <t s=\"40\">\"Teshuvah and good deeds,\"</t>\n    <t s=\"41\">that through teshuvah the deeds</t>\n    <t s=\"42\">(the deeds of the mitzvos)</t>\n    <t s=\"43\">become good deeds and luminous.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "אדר_meluket",
+      "postId": "BH_POST_1766518917575_theRebbe_481",
+      "batchId": "meluket-_D7_90_D7_93_D7_A8_meluket__BH_POST_1766518917575_theRebbe_481__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains that the intellect is above relation to the \"other,\" including a person's own faculties, requiring their concealment for comprehension, and that the intellect's effect on emotions does not reveal its essence.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "And to add,"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "that this—that the intellect is above relation to the other—"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "the intention in this is not only regarding the other that is outside the person,"
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "but also regarding the matters within the person himself that are \"other\" relative to the intellect."
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "And therefore,"
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "in order to come upon a matter of intellect, one must contract and conceal all the faculties"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "(also the desire to understand the intellect)34,"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "for since they are other relative to the intellect,"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "they confuse the understanding of the intellect"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "(like the other that is outside the person)."
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "And likewise on the other hand,"
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "that even when he understands the intellect,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "the comprehension is in distance and separation from the other matters and faculties in the person35,"
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "to the extent that it is possible that the comprehension will not affect him."
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "And that the comprehension of the intellect brings"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "(in general)"
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "to the emotions of the heart and even to actual deed"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "(\"Great is study that brings to deed\"36),"
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "it is"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "[not because the matter of the intellect is to act upon the emotions and the deed,"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "but rather]"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "because the intellect is analogous to light,"
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "which illuminates in every place37."
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "And from this it is understood,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "that in the action of the intellect upon all the faculties and matters in the person,"
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "the essence of the intellect is not revealed38."
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "And based on this it can be said,"
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "that this—that the mochin are hidden things—"
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "is,"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "that they are in concealment even from the matters and faculties within the person himself."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that \"Mishkan HaEidus\" refers to the work of the mind (mochin), which is hidden, and that through the aspect of Moshe, a person becomes a dwelling for this Divine light.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "6)"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "And this is: \"These are the accountings of the Mishkan, the Mishkan of Testimony, which was accounted at the mouth of Moshe,\""
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "\"Mishkan\" simply is the service of the heart,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "and therefore it is stated \"the Mishkan\" with the definite article,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "for the emotions of the heart are a level of revelation."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "And \"Mishkan of Testimony,\""
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "for the matter of testimony is specifically about something hidden"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "(as explained in Likkutei Torah39),"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "is the service of the mind,"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "for the mochin are a level of concealment."
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "[And to add,"
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "that within the mochin themselves,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "the essential matter of \"Mishkan of Testimony\""
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "(that testimony is about something hidden)"
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "is in the pnimiyut of the mochin, which is above relation to the emotions]."
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "And the matter of \"Mishkan of Testimony\" is,"
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "that the comprehension of Elokus"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "[including also the comprehension of the pnimiyut of the mochin]"
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "becomes unified with the person who comprehends,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "to the extent that his existence is that he is a Mishkan of Testimony—a dwelling and abode for the Divine light that shines in the mochin, above the light that shines in the emotions."
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "And this is that regarding the Mishkan of Testimony it is stated \"which was accounted at the mouth of Moshe,\""
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "for in order that a person be a dwelling for this light,"
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "it is through the aspect of Moshe that is in every Jew40."
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "And the verse does not depart from its simple meaning,"
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "that \"which was accounted at the mouth of Moshe\" refers"
+          },
+          {
+            "v": 7,
+            "s": 25,
+            "translation": "(also)"
+          },
+          {
+            "v": 7,
+            "s": 26,
+            "translation": "to \"These are the accountings of the Mishkan\""
+          },
+          {
+            "v": 7,
+            "s": 27,
+            "translation": "(as above, section 1),"
+          },
+          {
+            "v": 7,
+            "s": 28,
+            "translation": "for through the service of the Mishkan of Testimony"
+          },
+          {
+            "v": 7,
+            "s": 29,
+            "translation": "(mochin),"
+          },
+          {
+            "v": 7,
+            "s": 30,
+            "translation": "also the emotions"
+          },
+          {
+            "v": 7,
+            "s": 31,
+            "translation": "(Mishkan simply)"
+          },
+          {
+            "v": 7,
+            "s": 32,
+            "translation": "are in a different manner41"
+          },
+          {
+            "v": 7,
+            "s": 33,
+            "translation": "[and as explained above in section 5, that the mochin are analogous to light that illuminates in every place]."
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains that the service of teshuvah, which is in Binah, involves leaping beyond existence, corresponding to the Mishkan of Testimony, while the service of tzaddikim corresponds to the simple Mishkan.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "7)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And it is known42"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "that the superiority of the service of teshuvah over the service of tzaddikim is,"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "that the service of tzaddikim is in order and gradation,"
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "and the service of teshuvah is to leap over a ditch,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "without gradation."
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "And it can be said,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "that from the explanations in this, that teshuvah"
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "(specifically)"
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "is in Binah"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "(as above, section 2),"
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "even though also in the service of tzaddikim there is also service from the aspect of the mochin"
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "(including the service from the aspect of the pnimiyut of the mochin),"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "it is,"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "for the main superiority of the mochin over the emotions is that the light of the mochin is above and in separation from the existence of the person"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "(as above, section 5),"
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "the matter of the mochin"
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "(Binah)"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "is"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "in the service of teshuvah,"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "the leap and departure from existence."
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "And based on this,"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "the two matters in the Mishkan are the service of tzaddikim and the service of teshuvah."
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "For the service of tzaddikim"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "(also the service of the mochin)"
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "is \"Mishkan\" simply,"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "and \"Mishkan of Testimony\" is the service of teshuvah."
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "And the connection of the two interpretations of \"which was accounted at the mouth of Moshe\""
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "(according to this explanation)"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "can be said,"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "that the matter of Moshe is self-nullification,"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "\"and we are nothing\"43,"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "and therefore the essential matter of \"accounted at the mouth of Moshe\" is in the Mishkan of Testimony."
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "Nevertheless, this also applies to \"These are the accountings of the Mishkan,\""
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "for through teshuvah,"
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "also the fulfillment of Torah and mitzvos is in a more elevated manner."
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "And as the well-known explanation44"
+          },
+          {
+            "v": 8,
+            "s": 39,
+            "translation": "of the language of our sages45"
+          },
+          {
+            "v": 8,
+            "s": 40,
+            "translation": "\"Teshuvah and good deeds,\""
+          },
+          {
+            "v": 8,
+            "s": 41,
+            "translation": "that through teshuvah the deeds"
+          },
+          {
+            "v": 8,
+            "s": 42,
+            "translation": "(the deeds of the mitzvos)"
+          },
+          {
+            "v": 8,
+            "s": 43,
+            "translation": "become good deeds and luminous."
+          }
+        ]
+      }
+    ]
+  }
+}

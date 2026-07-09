@@ -1,0 +1,28 @@
+{
+  "id": "064acccf-d86d-4510-a2c7-cd1df0ba03d3",
+  "object": "chat.completion",
+  "created": 1783582111,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"תשרי_meluket\" postId=\"BH_POST_1766518913852_theRebbe_463\" batchId=\"meluket-_D7_AA_D7_A9_D7_A8_D7_99_meluket__BH_POST_1766518913852_theRebbe_463__p002\">\n  <section v=\"3\">\n    <sectionSummaryBrief>Human service can elevate even the past, and Adam's service on Rosh Hashanah perfected all of creation retroactively.</sectionSummaryBrief>\n    <t s=\"0\">3)</t>\n    <t s=\"1\">And the explanation of the matter</t>\n    <t s=\"2\">(that Rosh Hashanah,</t>\n    <t s=\"3\">the day when the first man was created,</t>\n    <t s=\"4\">is the beginning of Your works)</t>\n    <t s=\"5\">in a deeper sense,</t>\n    <t s=\"6\">it is known that the service of man has the power to change even the past.</t>\n    <t s=\"7\">And from this it is understood</t>\n    <t s=\"8\">(all the more so)</t>\n    <t s=\"9\">regarding the service of the first man, who was the handiwork of the Holy One, blessed be He,</t>\n    <t s=\"10\">that the elevation he effected in all created beings through his proclamation, \"Come, let us bow down... before Hashem our Maker,\" also applies to their existence prior to his service.</t>\n    <t s=\"11\">For since</t>\n    <t s=\"12\">the original intent of creation was that man, through his service, should draw down a revelation of G-dliness into the world,</t>\n    <t s=\"13\">therefore,</t>\n    <t s=\"14\">after a revelation of G-dliness is drawn into the world, an elevation is thereby effected also in the existence of the world that preceded it,</t>\n    <t s=\"15\">and especially since its purpose is the preparation for the revelation that is drawn down through the service of man.</t>\n  </section>\n  <section v=\"4\">\n    <sectionSummaryBrief>The day of Rosh Hashanah is the beginning of all works, including the first five days of creation, because Adam's service elevated and renewed them.</sectionSummaryBrief>\n    <t s=\"0\">And this is what [is meant by] the day of Rosh Hashanah,</t>\n    <t s=\"1\">the day when the first man was created,</t>\n    <t s=\"2\">is the beginning of Your works,</t>\n    <t s=\"3\">for the simple explanation</t>\n    <t s=\"4\">(and a matter does not depart from its simple meaning)</t>\n    <t s=\"5\">[is that] \"the beginning of Your works\" is the beginning of all the works,</t>\n    <t s=\"6\">even the works that were in the first five days of creation</t>\n    <t s=\"7\">(including also the time of those days),</t>\n    <t s=\"8\">for through the service of the first man, an elevation and renewal was effected also in the existence of the world that preceded this,</t>\n    <t s=\"9\">and therefore this day is the beginning of Your works,</t>\n    <t s=\"10\">the beginning of all of creation.</t>\n  </section>\n  <section v=\"5\">\n    <sectionSummaryBrief>Just as on the first Rosh Hashanah Adam's service perfected creation anew, so too each year Israel's coronation of Hashem perfects and renews all of creation, even above.</sectionSummaryBrief>\n    <t s=\"0\">And just as on the first Rosh Hashanah,</t>\n    <t s=\"1\">on the day when the first man was created,</t>\n    <t s=\"2\">the perfection of creation was effected</t>\n    <t s=\"3\">(Your works),</t>\n    <t s=\"4\">and in a manner of renewal</t>\n    <t s=\"5\">(the beginning of Your works),</t>\n    <t s=\"6\">so too is it on Rosh Hashanah of every single year,</t>\n    <t s=\"7\">for through Israel crowning the Holy One, blessed be He, that He be King over them and over the entire world,</t>\n    <t s=\"8\">perfection and renewal are effected in all of creation,</t>\n    <t s=\"9\">and even to the extent that through this, perfection and renewal are effected also above,</t>\n    <t s=\"10\">according to the teaching of the Baal Shem Tov</t>\n    <t s=\"11\">and the Alter Rebbe</t>\n    <t s=\"12\">on the statement of the Mishnah,</t>\n    <t s=\"13\">\"Know what is above from you,\"</t>\n    <t s=\"14\">[meaning] that all the matters that are above are from you.</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1592,
+    "completion_tokens": 1178,
+    "total_tokens": 2770,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1592
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

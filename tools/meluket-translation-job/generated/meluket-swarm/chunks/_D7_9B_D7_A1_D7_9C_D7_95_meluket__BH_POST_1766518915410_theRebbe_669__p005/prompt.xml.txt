@@ -1,0 +1,141 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915410_theRebbe_669" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915410_theRebbe_669" title="מאמר פדה בשלום תשמ"ו" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915410_theRebbe_669__p005">
+  <section v="12">
+    <src s="0">ו)</src>
+    <src s="1">והנה ידוע,</src>
+    <src s="2">דכמו שירידת הנשמה למטה היא ירידה לצורך עלי',</src>
+    <src s="3">עד"ז הוא בתומ"צ,</src>
+    <src s="4">שהכוונה בהירידה דתומ"צ היא לצורך עלי'.</src>
+    <src s="5">כי ע"י ירידתם למטה והתלבשותם בדברים גשמיים נמשך בהם עצמיות כח התומ"צ42.</src>
+    <src s="6">ועפ"ז יש לומר,</src>
+    <src s="7">דענין ההילולא שבקיום התומ"צ בהאי עלמא דוקא,</src>
+    <src s="8">הוא גם בהתומ"צ עצמם.</src>
+    <src s="9">דנוסף לענין ההילולא בהאדם העוסק בתומ"צ,</src>
+    <src s="10">המשכת כח הא"ס שע"י החיבור והיחוד דנשמה וגוף</src>
+    <src s="11">(כנ"ל סעיף ה),</src>
+    <src s="12">גם בהתומ"צ עצמם הו"ע ההילולא.</src>
+    <src s="13">כי תורה ומצוות הם חכמתו ורצונו של הקב"ה שלמעלה מעולם43,</src>
+    <src s="14">והחיבור שלהם עם הענינים שבהאי עלמא</src>
+    <src s="15">(הדברים הגשמיים שבהם נתלבשו התומ"צ)</src>
+    <src s="16">הוא חיבור דשני הפכים,</src>
+    <src s="17">וחיבור זה הוא ע"י המשכת עצמות כח התומ"צ – ע"ד יחוד חתן וכלה,</src>
+    <src s="18">ע"י המשכת כח הא"ס שלמעלה משניהם ומחבר אותם.</src>
+  </section>
+  <section v="13">
+    <src s="0">ז)</src>
+    <src s="1">וממשיך בהמאמר44</src>
+    <src s="2">עוד פירוש בהאי עלמא דאזלינן מיני',</src>
+    <src s="3">שבשעת פטירתו של אדם,</src>
+    <src s="4">כשהנשמה נפטרת מהגוף ומעולם הזה,</src>
+    <src s="5">דאזלינן מיני',</src>
+    <src s="6">אזי נעשה בה הענין דאזלינן,</src>
+    <src s="7">שהיא נעשית בבחינת מהלך.</src>
+    <src s="8">דלהביאור דלעיל</src>
+    <src s="9">(סעיף ה),</src>
+    <src s="10">זה שהנשמה נעשית מהלך,</src>
+    <src s="11">הוא בהיותה למטה בהאי עלמא.</src>
+    <src s="12">ופירוש דאזלינן מיני' הוא מחמתו ובסיבתו45,</src>
+    <src s="13">דזה שהנשמה באה לבחינת אזלינן,</src>
+    <src s="14">שהיא נעשית מהלך,</src>
+    <src s="15">הוא מיני',</src>
+    <src s="16">מצד העילוי שבהאי עלמא שהוא כמו הילולא.</src>
+    <src s="17">ולפירוש השני,</src>
+    <src s="18">הענין דאזלינן שנעשה בהנשמה</src>
+    <src s="19">(שנעשית מהלך)</src>
+    <src s="20">הוא בעת דאזלינן מיני',</src>
+    <src s="21">כשהיא הולכת ונפטרת מהאי עלמא.</src>
+    <src s="22">ונקודת הביאור בזה</src>
+    <src s="23">(בהמאמר)46,</src>
+    <src s="24">דהמצוות כמו שהם למטה,</src>
+    <src s="25">הם במדידה והגבלה47.</src>
+    <src s="26">וגם התורה שלמטה היא במדידה והגבלה,</src>
+    <src s="27">כמ"ש48</src>
+    <src s="28">ארוכה מארץ מדה,</src>
+    <src s="29">היינו שיש מדה להתורה אלא שהמדה היא ארוכה מארץ49.</src>
+    <src s="30">ולכן,</src>
+    <src s="31">ההילוך</src>
+    <src s="32">(ענין הבל"ג)</src>
+    <src s="33">שנעשה בהנשמה ע"י עסק התומ"צ שלה בעוה"ז,</src>
+    <src s="34">הוא בהעלם.</src>
+    <src s="35">וגם ההילוך דהנשמה שע"י מצות פרי' ורבי',</src>
+    <src s="36">אף שבענין ההולדה הוא גילוי כח הא"ס,</src>
+    <src s="37">מ"מ,</src>
+    <src s="38">כיון שגילוי כח הא"ס שבזה הוא בנוגע לענין מוגבל</src>
+    <src s="39">(הולדת בנים,</src>
+    <src s="40">אלא שההולדה היא דור אחר דור עד אין שיעור),</src>
+    <src s="41">לכן,</src>
+    <src s="42">גם ע"י קיום מצוה זו,</src>
+    <src s="43">ענין ההילוך הוא בהעלם.</src>
+    <src s="44">ולאחרי שהנשמה ממלאת את שליחותה בהאי עלמא ובא הזמן דאזלינן מיני',</src>
+    <src s="45">שהיא הולכת</src>
+    <src s="46">(ויוצאת)</src>
+    <src s="47">מההגבלות דהאי עלמא,</src>
+    <src s="48">אזי מתגלה לה הפנימיות דהתומ"צ שעסקה בעוה"ז,</src>
+    <src s="49">שהפנימיות דהתומ"צ הם בלי גבול,</src>
+    <src s="50">ואז נעשה בה הענין דאזלינן</src>
+    <src s="51">(מהלך)</src>
+    <src s="52">גם בגילוי.</src>
+    <src s="53">וזהו שיום הסתלקות הצדיקים שעסקו בפנימיות התורה נק' בשם יום הילולא</src>
+    <src s="54">(כמו הילולא דרשב"י,</src>
+    <src s="55">ועד"ז הוא בנוגע ליום ההסתלקות דכל הצדיקים שעסקו בפנימיות התורה),</src>
+    <src s="56">כי ע"י הלימוד והעסק בפנימיות התורה,</src>
+    <src s="57">מתגלית ביום ההסתלקות הפנימיות והבל"ג,</src>
+    <src s="58">ענין ההילולא וההילוך.</src>
+  </section>
+  <section v="14">
+    <src s="0">ח)</src>
+    <src s="1">ומבאר בעל הגאולה במאמר הנ"ל50,</src>
+    <src s="2">שבהילולא</src>
+    <src s="3">(יחוד דכר ונוקבא)</src>
+    <src s="4">ג' ענינים</src>
+    <src s="5">(בכללות).</src>
+    <src s="6">יחוד דכר ונוקבא למעלה.</src>
+    <src s="7">דענין דכר ונוקבא הוא גם בהנשמות כמו שהם למעלה קודם ירידתם למטה.</src>
+    <src s="8">דישנם נשמות שבבחינת דכר ונשמות שבבחינת נוקבא.</src>
+    <src s="9">והיחוד דהנשמות שבבחינת דכר עם הנשמות שבבחינת נוקבא נק' הילולא.</src>
+    <src s="10">ויחוד דכר ונוקבא למטה.</src>
+    <src s="11">ובזה עצמו שני ענינים.</src>
+    <src s="12">יחוד דכר ונוקבא כפשוטם ויחוד הנשמה עם הגוף</src>
+    <src s="13">[שהם דוגמת איש ואשה].</src>
+    <src s="14">וענין הג' בהילולא הוא יחוד הנשמה</src>
+    <src s="15">(דכר)</src>
+    <src s="16">עם הגוף</src>
+    <src s="17">(נוקבא)</src>
+    <src s="18">שיהי' בתחיית המתים.</src>
+    <src s="19">דהילולא זו היא דרגא הכי נעלית,</src>
+    <src s="20">שאז יהי' גילוי העצמות.</src>
+  </section>
+</awtsmoosMeluketSource>

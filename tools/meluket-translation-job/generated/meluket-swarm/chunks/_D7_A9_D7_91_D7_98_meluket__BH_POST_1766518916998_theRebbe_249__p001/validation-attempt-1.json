@@ -1,0 +1,349 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 61,
+    "returned": 61,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"שבט_meluket\" postId=\"BH_POST_1766518916998_theRebbe_249\" batchId=\"meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916998_theRebbe_249__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section opens the maamar with the heading and date of the discourse.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">Wednesday, the fifteenth of Shevat, 5731.</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section introduces the Mishnah's four New Years, noting that the New Year for Trees is on the fifteenth, unlike the others which are on the first of the month, and raises the question of this difference.</sectionSummaryBrief>\n    <t s=\"0\">There are four New Years: on the first of Nisan, etc., on the first of Elul, etc., on the first of Tishrei, etc., on the first of Shevat is the New Year for the tree, according to the words of Beis Shammai.</t>\n    <t s=\"1\">Beis Hillel says on the fifteenth thereof,</t>\n    <t s=\"2\">and the law is like Beis Hillel.</t>\n    <t s=\"3\">And it is necessary to understand the reason for the difference of the New Year for the tree from the first three New Years,</t>\n    <t s=\"4\">that the first three New Years are on the first of the month, and the New Year for the tree is on the fifteenth.</t>\n    <t s=\"5\">And to add,</t>\n    <t s=\"6\">that according to what is explained elsewhere,</t>\n    <t s=\"7\">that the connection of the three pilgrimage festivals</t>\n    <t s=\"8\">to the fifteenth day of the month is because on the fifteenth day is the fullness of the moon,</t>\n    <t s=\"9\">which also indicates the perfection of Israel, who count by the moon and are similar to the moon,</t>\n    <t s=\"10\">it must be said,</t>\n    <t s=\"11\">that this, that most of the New Years</t>\n    <t s=\"12\">[and according to Beis Shammai, all four New Years]</t>\n    <t s=\"13\">are on the first of the month,</t>\n    <t s=\"14\">at the time of the moon's birth when the moon is only a point,</t>\n    <t s=\"15\">is because the concept of a New Year is that on it the matter that is the New Year is drawn down into it,</t>\n    <t s=\"16\">and matters as they are at the beginning of their drawing down are only a point,</t>\n    <t s=\"17\">and based on this it is necessary to understand even more why the New Year for the tree is on the fifteenth.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains that the pilgrimage festivals correspond to the spiritual harvest of Israel, and that the New Year for the tree relates to man as a tree, with Torah study being the defining characteristic of the \"tree\" aspect.</sectionSummaryBrief>\n    <t s=\"0\">2)</t>\n    <t s=\"1\">And this will be understood by prefacing what is explained in several discourses,</t>\n    <t s=\"2\">that the fact that the pilgrimage festivals were established at the times of the completion and gathering of the produce</t>\n    <t s=\"3\">[that the festival of Pesach must be in the season of spring</t>\n    <t s=\"4\">(the time of the completion of the barley)</t>\n    <t s=\"5\">and even more so in the festival of Shavuos, which is called by the name</t>\n    <t s=\"6\">\"the festival of the harvest\"</t>\n    <t s=\"7\">for the name of the first fruits of the wheat harvest,</t>\n    <t s=\"8\">and likewise the festival of Sukkos, which is called by the name \"the festival of the ingathering\"],</t>\n    <t s=\"9\">the intention is</t>\n    <t s=\"10\">(primarily)</t>\n    <t s=\"11\">for the spiritual produce,</t>\n    <t s=\"12\">which is Israel,</t>\n    <t s=\"13\">as it is written about them,</t>\n    <t s=\"14\">\"Holy is Israel to Hashem, the first of His produce,\" etc.</t>\n    <t s=\"15\">And this, that the pilgrimage festivals must be at the times of the completion and gathering of the produce in the physical</t>\n    <t s=\"16\">[to the extent that for this reason we intercalate the year],</t>\n    <t s=\"17\">is,</t>\n    <t s=\"18\">because all matters in the physical are derived from their counterpart in the spiritual.</t>\n    <t s=\"19\">And based on this, it can also be said regarding the New Year for the tree,</t>\n    <t s=\"20\">that its main concept is that it is a New Year for the man</t>\n    <t s=\"21\">(\"you are called 'man'\")</t>\n    <t s=\"22\">who is compared to a tree,</t>\n    <t s=\"23\">as it is written,</t>\n    <t s=\"24\">\"For man is a tree of the field,\"</t>\n    <t s=\"25\">and from this it is derived that it is a New Year for the tree in its simple physical sense.</t>\n    <t s=\"26\">And according to the saying of our sages, of blessed memory,</t>\n    <t s=\"27\">on the verse,</t>\n    <t s=\"28\">\"For man is a tree of the field\" — if he is a Torah scholar, etc.,</t>\n    <t s=\"29\">it can be said,</t>\n    <t s=\"30\">that this, that Israel are called by the name \"produce\"</t>\n    <t s=\"31\">(wheat, barley, etc.)</t>\n    <t s=\"32\">is from the aspect of their service in the fulfillment of the commandments</t>\n    <t s=\"33\">(as will be explained),</t>\n    <t s=\"34\">and this, that they are called by the name \"tree\"</t>\n    <t s=\"35\">(\"tree of the field\")</t>\n    <t s=\"36\">is through their involvement in Torah.</t>\n    <t s=\"37\">And it can be said that this is what is written, \"For man is a tree of the field\"</t>\n    <t s=\"38\">(specifically \"man\"),</t>\n    <t s=\"39\">for the name \"man\" (Adam) is for the name of the intellect</t>\n    <t s=\"40\">(as is explained in many places the difference between \"man\" (Adam) and \"man\" (Ish)).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "שבט_meluket",
+      "postId": "BH_POST_1766518916998_theRebbe_249",
+      "batchId": "meluket-_D7_A9_D7_91_D7_98_meluket__BH_POST_1766518916998_theRebbe_249__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section opens the maamar with the heading and date of the discourse.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "Wednesday, the fifteenth of Shevat, 5731."
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section introduces the Mishnah's four New Years, noting that the New Year for Trees is on the fifteenth, unlike the others which are on the first of the month, and raises the question of this difference.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "There are four New Years: on the first of Nisan, etc., on the first of Elul, etc., on the first of Tishrei, etc., on the first of Shevat is the New Year for the tree, according to the words of Beis Shammai."
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "Beis Hillel says on the fifteenth thereof,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "and the law is like Beis Hillel."
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "And it is necessary to understand the reason for the difference of the New Year for the tree from the first three New Years,"
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "that the first three New Years are on the first of the month, and the New Year for the tree is on the fifteenth."
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "And to add,"
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "that according to what is explained elsewhere,"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "that the connection of the three pilgrimage festivals"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "to the fifteenth day of the month is because on the fifteenth day is the fullness of the moon,"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "which also indicates the perfection of Israel, who count by the moon and are similar to the moon,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "it must be said,"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "that this, that most of the New Years"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "[and according to Beis Shammai, all four New Years]"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "are on the first of the month,"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "at the time of the moon's birth when the moon is only a point,"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "is because the concept of a New Year is that on it the matter that is the New Year is drawn down into it,"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "and matters as they are at the beginning of their drawing down are only a point,"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "and based on this it is necessary to understand even more why the New Year for the tree is on the fifteenth."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains that the pilgrimage festivals correspond to the spiritual harvest of Israel, and that the New Year for the tree relates to man as a tree, with Torah study being the defining characteristic of the \"tree\" aspect.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "2)"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "And this will be understood by prefacing what is explained in several discourses,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the fact that the pilgrimage festivals were established at the times of the completion and gathering of the produce"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "[that the festival of Pesach must be in the season of spring"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "(the time of the completion of the barley)"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and even more so in the festival of Shavuos, which is called by the name"
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "\"the festival of the harvest\""
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "for the name of the first fruits of the wheat harvest,"
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "and likewise the festival of Sukkos, which is called by the name \"the festival of the ingathering\"],"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "the intention is"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "for the spiritual produce,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "which is Israel,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "as it is written about them,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "\"Holy is Israel to Hashem, the first of His produce,\" etc."
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "And this, that the pilgrimage festivals must be at the times of the completion and gathering of the produce in the physical"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "[to the extent that for this reason we intercalate the year],"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "is,"
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "because all matters in the physical are derived from their counterpart in the spiritual."
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "And based on this, it can also be said regarding the New Year for the tree,"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "that its main concept is that it is a New Year for the man"
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "(\"you are called 'man'\")"
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "who is compared to a tree,"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "as it is written,"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "\"For man is a tree of the field,\""
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "and from this it is derived that it is a New Year for the tree in its simple physical sense."
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "And according to the saying of our sages, of blessed memory,"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "on the verse,"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "\"For man is a tree of the field\" — if he is a Torah scholar, etc.,"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "it can be said,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "that this, that Israel are called by the name \"produce\""
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "(wheat, barley, etc.)"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "is from the aspect of their service in the fulfillment of the commandments"
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "(as will be explained),"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "and this, that they are called by the name \"tree\""
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "(\"tree of the field\")"
+          },
+          {
+            "v": 2,
+            "s": 36,
+            "translation": "is through their involvement in Torah."
+          },
+          {
+            "v": 2,
+            "s": 37,
+            "translation": "And it can be said that this is what is written, \"For man is a tree of the field\""
+          },
+          {
+            "v": 2,
+            "s": 38,
+            "translation": "(specifically \"man\"),"
+          },
+          {
+            "v": 2,
+            "s": 39,
+            "translation": "for the name \"man\" (Adam) is for the name of the intellect"
+          },
+          {
+            "v": 2,
+            "s": 40,
+            "translation": "(as is explained in many places the difference between \"man\" (Adam) and \"man\" (Ish))."
+          }
+        ]
+      }
+    ]
+  }
+}

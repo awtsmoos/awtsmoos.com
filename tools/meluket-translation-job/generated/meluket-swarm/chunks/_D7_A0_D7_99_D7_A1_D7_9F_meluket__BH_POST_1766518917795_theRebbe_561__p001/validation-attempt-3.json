@@ -1,0 +1,454 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 82,
+    "returned": 82,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"ניסן_meluket\" postId=\"BH_POST_1766518917795_theRebbe_561\" batchId=\"meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917795_theRebbe_561__p001\">\n  <section v=\"0\">\n    <sectionSummaryBrief>This section contains the opening header and date of the maamar.</sectionSummaryBrief>\n    <t s=\"0\">With the help of Heaven.</t>\n    <t s=\"1\">11 Nissan 5738*</t>\n  </section>\n  <section v=\"1\">\n    <sectionSummaryBrief>This section analyzes the question of the wise son regarding the testimonies, statutes, and judgments, and the difficulty in understanding how a wise son could ask such a question.</sectionSummaryBrief>\n    <t s=\"0\">\"When your son asks you tomorrow, saying: 'What are the testimonies, and the statutes, and the judgments, which the L-rd our G-d commanded you?'\"</t>\n    <t s=\"1\">– This question is the question of the wise son,</t>\n    <t s=\"2\">as it is stated in the Haggadah:</t>\n    <t s=\"3\">\"The wise son, what does he say? 'What are the testimonies, etc.'\"</t>\n    <t s=\"4\">And the precise point is known in the discourses of our Nesi'im,</t>\n    <t s=\"5\">that since he is called by the name \"wise\"</t>\n    <t s=\"6\">[for the essence of wisdom is the wisdom of the Torah],</t>\n    <t s=\"7\">he certainly knows the commandments,</t>\n    <t s=\"8\">so what is his question: \"What are the testimonies, and the statutes, and the judgments, etc.\"?</t>\n    <t s=\"9\">And one must add,</t>\n    <t s=\"10\">that from the continuation of the verse:</t>\n    <t s=\"11\">\"And you shall say to your son, etc. 'And the L-rd commanded us to do all these statutes, etc., for our good, etc.'\" which explains the virtue of fulfilling the commandments</t>\n    <t s=\"12\">(\"for our good, etc.\"),</t>\n    <t s=\"13\">it is understood</t>\n    <t s=\"14\">that the meaning of \"What are the testimonies, etc.\" is: what is the matter of the commandments</t>\n    <t s=\"15\">(what virtue is in them),</t>\n    <t s=\"16\">and an explanation is needed:</t>\n    <t s=\"17\">how is it possible that a wise son would ask such a question?</t>\n    <t s=\"18\">And even more so, it is not understood,</t>\n    <t s=\"19\">that in the explanation regarding the matter of the commandments</t>\n    <t s=\"20\">(in the answer of \"And you shall say to your son\")</t>\n    <t s=\"21\">he says two matters.</t>\n    <t s=\"22\">\"And the L-rd brought us out of Egypt, etc., and commanded us, etc., to do all these statutes,\"</t>\n    <t s=\"23\">for since He brought us out of Egypt, we are subjugated to Him to fulfill His commandments.</t>\n    <t s=\"24\">And another matter in the fulfillment of the commandments:</t>\n    <t s=\"25\">that they are for our good all the days, etc.</t>\n    <t s=\"26\">And from the fact that in the answer of \"And you shall say to your son\" he explains both matters,</t>\n    <t s=\"27\">it is understood</t>\n    <t s=\"28\">that both of them are a novelty for the son.</t>\n    <t s=\"29\">And it is not understood,</t>\n    <t s=\"30\">that since he does not know the matter of the commandments</t>\n    <t s=\"31\">(not only does he not know that the commandments are for our good,</t>\n    <t s=\"32\">but he does not even understand the obligation of fulfilling the commandments in the manner of acceptance of the yoke),</t>\n    <t s=\"33\">how do they call him by the title</t>\n    <t s=\"34\">(\"son\")</t>\n    <t s=\"35\">\"wise\"?</t>\n    <t s=\"36\">Also, one must understand</t>\n    <t s=\"37\">(as is precisely noted in the discourses)</t>\n    <t s=\"38\">what he says: \"which the L-rd our G-d commanded you,\"</t>\n    <t s=\"39\">\"you\" and not \"us.\"</t>\n    <t s=\"40\">And although by saying \"the L-rd our G-d\" there is no room for error that he is, G-d forbid, excluding himself from the collective,</t>\n    <t s=\"41\">nevertheless, an explanation is needed for why he says \"you,\"</t>\n    <t s=\"42\">for he should have said \"which the L-rd our G-d commanded us,\"</t>\n    <t s=\"43\">or \"which the L-rd our G-d commanded\" and nothing more.</t>\n  </section>\n  <section v=\"2\">\n    <sectionSummaryBrief>This section explains the answer: the wise son questions how the revelation of Ein Sof can be drawn down through physical action, and the response is that the Exodus and the giving of the Torah empowered the performance of practical commandments to draw down even higher revelations, up to the Awtsmoos.</sectionSummaryBrief>\n    <t s=\"0\">And the point of the explanation in the discourses is,</t>\n    <t s=\"1\">based on what is known,</t>\n    <t s=\"2\">that the fulfillment of the commandments of the Patriarchs was</t>\n    <t s=\"3\">(primarily)</t>\n    <t s=\"4\">spiritual service,</t>\n    <t s=\"5\">and the physical action they performed was like a vessel for the spiritual service.</t>\n    <t s=\"6\">And the commandments given at the giving of the Torah,</t>\n    <t s=\"7\">their essence is the actual deed.</t>\n    <t s=\"8\">For the doing of the commandment is not a preparation and vessel for its intention,</t>\n    <t s=\"9\">but on the contrary,</t>\n    <t s=\"10\">the deed is the main thing.</t>\n    <t s=\"11\">And as in our case, the commandment of eating matzah,</t>\n    <t s=\"12\">for if one intends the secret of the mitzvah of matzah but, G-d forbid, the actual physical act is lacking,</t>\n    <t s=\"13\">he will draw down nothing,</t>\n    <t s=\"14\">and on the other hand,</t>\n    <t s=\"15\">when one fulfills the commandment in actual deed,</t>\n    <t s=\"16\">even without intention,</t>\n    <t s=\"17\">he will draw down the light.</t>\n    <t s=\"18\">And the question of the wise son is: how is the revelation of Ein Sof drawn down through deed</t>\n    <t s=\"19\">(the commandments)?</t>\n    <t s=\"20\">And this is what he says: \"What are the testimonies, etc., which the L-rd our G-d commanded you,\"</t>\n    <t s=\"21\">specifically \"you,\"</t>\n    <t s=\"22\">for since your service</t>\n    <t s=\"23\">(after the giving of the Torah)</t>\n    <t s=\"24\">is deed</t>\n    <t s=\"25\">(and not spiritual service like the service of the Patriarchs),</t>\n    <t s=\"26\">how is the revelation of Ein Sof drawn down through this service?</t>\n    <t s=\"27\">And the answer</t>\n    <t s=\"28\">(\"And you shall say to your son\")</t>\n    <t s=\"29\">\"We were slaves to Pharaoh in Egypt, and the L-rd brought us out of Egypt, etc., and the L-rd commanded us to do all these statutes, etc.\" is,</t>\n    <t s=\"30\">that the exile of Egypt and the Exodus from Egypt were a preparation for the giving of the Torah,</t>\n    <t s=\"31\">and at the giving of the Torah, the power was given that through practical commandments</t>\n    <t s=\"32\">(\"to do all the statutes, etc.,\"</t>\n    <t s=\"33\">specifically \"to do\")</t>\n    <t s=\"34\">they would draw down influences higher than the influences that the Patriarchs drew down through their spiritual service,</t>\n    <t s=\"35\">and even up to the drawing down of the Awtsmoos.</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "ניסן_meluket",
+      "postId": "BH_POST_1766518917795_theRebbe_561",
+      "batchId": "meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917795_theRebbe_561__p001"
+    },
+    "sections": [
+      {
+        "v": 0,
+        "sectionSummaryBrief": "This section contains the opening header and date of the maamar.",
+        "translations": [
+          {
+            "v": 0,
+            "s": 0,
+            "translation": "With the help of Heaven."
+          },
+          {
+            "v": 0,
+            "s": 1,
+            "translation": "11 Nissan 5738*"
+          }
+        ]
+      },
+      {
+        "v": 1,
+        "sectionSummaryBrief": "This section analyzes the question of the wise son regarding the testimonies, statutes, and judgments, and the difficulty in understanding how a wise son could ask such a question.",
+        "translations": [
+          {
+            "v": 1,
+            "s": 0,
+            "translation": "\"When your son asks you tomorrow, saying: 'What are the testimonies, and the statutes, and the judgments, which the L-rd our G-d commanded you?'\""
+          },
+          {
+            "v": 1,
+            "s": 1,
+            "translation": "– This question is the question of the wise son,"
+          },
+          {
+            "v": 1,
+            "s": 2,
+            "translation": "as it is stated in the Haggadah:"
+          },
+          {
+            "v": 1,
+            "s": 3,
+            "translation": "\"The wise son, what does he say? 'What are the testimonies, etc.'\""
+          },
+          {
+            "v": 1,
+            "s": 4,
+            "translation": "And the precise point is known in the discourses of our Nesi'im,"
+          },
+          {
+            "v": 1,
+            "s": 5,
+            "translation": "that since he is called by the name \"wise\""
+          },
+          {
+            "v": 1,
+            "s": 6,
+            "translation": "[for the essence of wisdom is the wisdom of the Torah],"
+          },
+          {
+            "v": 1,
+            "s": 7,
+            "translation": "he certainly knows the commandments,"
+          },
+          {
+            "v": 1,
+            "s": 8,
+            "translation": "so what is his question: \"What are the testimonies, and the statutes, and the judgments, etc.\"?"
+          },
+          {
+            "v": 1,
+            "s": 9,
+            "translation": "And one must add,"
+          },
+          {
+            "v": 1,
+            "s": 10,
+            "translation": "that from the continuation of the verse:"
+          },
+          {
+            "v": 1,
+            "s": 11,
+            "translation": "\"And you shall say to your son, etc. 'And the L-rd commanded us to do all these statutes, etc., for our good, etc.'\" which explains the virtue of fulfilling the commandments"
+          },
+          {
+            "v": 1,
+            "s": 12,
+            "translation": "(\"for our good, etc.\"),"
+          },
+          {
+            "v": 1,
+            "s": 13,
+            "translation": "it is understood"
+          },
+          {
+            "v": 1,
+            "s": 14,
+            "translation": "that the meaning of \"What are the testimonies, etc.\" is: what is the matter of the commandments"
+          },
+          {
+            "v": 1,
+            "s": 15,
+            "translation": "(what virtue is in them),"
+          },
+          {
+            "v": 1,
+            "s": 16,
+            "translation": "and an explanation is needed:"
+          },
+          {
+            "v": 1,
+            "s": 17,
+            "translation": "how is it possible that a wise son would ask such a question?"
+          },
+          {
+            "v": 1,
+            "s": 18,
+            "translation": "And even more so, it is not understood,"
+          },
+          {
+            "v": 1,
+            "s": 19,
+            "translation": "that in the explanation regarding the matter of the commandments"
+          },
+          {
+            "v": 1,
+            "s": 20,
+            "translation": "(in the answer of \"And you shall say to your son\")"
+          },
+          {
+            "v": 1,
+            "s": 21,
+            "translation": "he says two matters."
+          },
+          {
+            "v": 1,
+            "s": 22,
+            "translation": "\"And the L-rd brought us out of Egypt, etc., and commanded us, etc., to do all these statutes,\""
+          },
+          {
+            "v": 1,
+            "s": 23,
+            "translation": "for since He brought us out of Egypt, we are subjugated to Him to fulfill His commandments."
+          },
+          {
+            "v": 1,
+            "s": 24,
+            "translation": "And another matter in the fulfillment of the commandments:"
+          },
+          {
+            "v": 1,
+            "s": 25,
+            "translation": "that they are for our good all the days, etc."
+          },
+          {
+            "v": 1,
+            "s": 26,
+            "translation": "And from the fact that in the answer of \"And you shall say to your son\" he explains both matters,"
+          },
+          {
+            "v": 1,
+            "s": 27,
+            "translation": "it is understood"
+          },
+          {
+            "v": 1,
+            "s": 28,
+            "translation": "that both of them are a novelty for the son."
+          },
+          {
+            "v": 1,
+            "s": 29,
+            "translation": "And it is not understood,"
+          },
+          {
+            "v": 1,
+            "s": 30,
+            "translation": "that since he does not know the matter of the commandments"
+          },
+          {
+            "v": 1,
+            "s": 31,
+            "translation": "(not only does he not know that the commandments are for our good,"
+          },
+          {
+            "v": 1,
+            "s": 32,
+            "translation": "but he does not even understand the obligation of fulfilling the commandments in the manner of acceptance of the yoke),"
+          },
+          {
+            "v": 1,
+            "s": 33,
+            "translation": "how do they call him by the title"
+          },
+          {
+            "v": 1,
+            "s": 34,
+            "translation": "(\"son\")"
+          },
+          {
+            "v": 1,
+            "s": 35,
+            "translation": "\"wise\"?"
+          },
+          {
+            "v": 1,
+            "s": 36,
+            "translation": "Also, one must understand"
+          },
+          {
+            "v": 1,
+            "s": 37,
+            "translation": "(as is precisely noted in the discourses)"
+          },
+          {
+            "v": 1,
+            "s": 38,
+            "translation": "what he says: \"which the L-rd our G-d commanded you,\""
+          },
+          {
+            "v": 1,
+            "s": 39,
+            "translation": "\"you\" and not \"us.\""
+          },
+          {
+            "v": 1,
+            "s": 40,
+            "translation": "And although by saying \"the L-rd our G-d\" there is no room for error that he is, G-d forbid, excluding himself from the collective,"
+          },
+          {
+            "v": 1,
+            "s": 41,
+            "translation": "nevertheless, an explanation is needed for why he says \"you,\""
+          },
+          {
+            "v": 1,
+            "s": 42,
+            "translation": "for he should have said \"which the L-rd our G-d commanded us,\""
+          },
+          {
+            "v": 1,
+            "s": 43,
+            "translation": "or \"which the L-rd our G-d commanded\" and nothing more."
+          }
+        ]
+      },
+      {
+        "v": 2,
+        "sectionSummaryBrief": "This section explains the answer: the wise son questions how the revelation of Ein Sof can be drawn down through physical action, and the response is that the Exodus and the giving of the Torah empowered the performance of practical commandments to draw down even higher revelations, up to the Awtsmoos.",
+        "translations": [
+          {
+            "v": 2,
+            "s": 0,
+            "translation": "And the point of the explanation in the discourses is,"
+          },
+          {
+            "v": 2,
+            "s": 1,
+            "translation": "based on what is known,"
+          },
+          {
+            "v": 2,
+            "s": 2,
+            "translation": "that the fulfillment of the commandments of the Patriarchs was"
+          },
+          {
+            "v": 2,
+            "s": 3,
+            "translation": "(primarily)"
+          },
+          {
+            "v": 2,
+            "s": 4,
+            "translation": "spiritual service,"
+          },
+          {
+            "v": 2,
+            "s": 5,
+            "translation": "and the physical action they performed was like a vessel for the spiritual service."
+          },
+          {
+            "v": 2,
+            "s": 6,
+            "translation": "And the commandments given at the giving of the Torah,"
+          },
+          {
+            "v": 2,
+            "s": 7,
+            "translation": "their essence is the actual deed."
+          },
+          {
+            "v": 2,
+            "s": 8,
+            "translation": "For the doing of the commandment is not a preparation and vessel for its intention,"
+          },
+          {
+            "v": 2,
+            "s": 9,
+            "translation": "but on the contrary,"
+          },
+          {
+            "v": 2,
+            "s": 10,
+            "translation": "the deed is the main thing."
+          },
+          {
+            "v": 2,
+            "s": 11,
+            "translation": "And as in our case, the commandment of eating matzah,"
+          },
+          {
+            "v": 2,
+            "s": 12,
+            "translation": "for if one intends the secret of the mitzvah of matzah but, G-d forbid, the actual physical act is lacking,"
+          },
+          {
+            "v": 2,
+            "s": 13,
+            "translation": "he will draw down nothing,"
+          },
+          {
+            "v": 2,
+            "s": 14,
+            "translation": "and on the other hand,"
+          },
+          {
+            "v": 2,
+            "s": 15,
+            "translation": "when one fulfills the commandment in actual deed,"
+          },
+          {
+            "v": 2,
+            "s": 16,
+            "translation": "even without intention,"
+          },
+          {
+            "v": 2,
+            "s": 17,
+            "translation": "he will draw down the light."
+          },
+          {
+            "v": 2,
+            "s": 18,
+            "translation": "And the question of the wise son is: how is the revelation of Ein Sof drawn down through deed"
+          },
+          {
+            "v": 2,
+            "s": 19,
+            "translation": "(the commandments)?"
+          },
+          {
+            "v": 2,
+            "s": 20,
+            "translation": "And this is what he says: \"What are the testimonies, etc., which the L-rd our G-d commanded you,\""
+          },
+          {
+            "v": 2,
+            "s": 21,
+            "translation": "specifically \"you,\""
+          },
+          {
+            "v": 2,
+            "s": 22,
+            "translation": "for since your service"
+          },
+          {
+            "v": 2,
+            "s": 23,
+            "translation": "(after the giving of the Torah)"
+          },
+          {
+            "v": 2,
+            "s": 24,
+            "translation": "is deed"
+          },
+          {
+            "v": 2,
+            "s": 25,
+            "translation": "(and not spiritual service like the service of the Patriarchs),"
+          },
+          {
+            "v": 2,
+            "s": 26,
+            "translation": "how is the revelation of Ein Sof drawn down through this service?"
+          },
+          {
+            "v": 2,
+            "s": 27,
+            "translation": "And the answer"
+          },
+          {
+            "v": 2,
+            "s": 28,
+            "translation": "(\"And you shall say to your son\")"
+          },
+          {
+            "v": 2,
+            "s": 29,
+            "translation": "\"We were slaves to Pharaoh in Egypt, and the L-rd brought us out of Egypt, etc., and the L-rd commanded us to do all these statutes, etc.\" is,"
+          },
+          {
+            "v": 2,
+            "s": 30,
+            "translation": "that the exile of Egypt and the Exodus from Egypt were a preparation for the giving of the Torah,"
+          },
+          {
+            "v": 2,
+            "s": 31,
+            "translation": "and at the giving of the Torah, the power was given that through practical commandments"
+          },
+          {
+            "v": 2,
+            "s": 32,
+            "translation": "(\"to do all the statutes, etc.,\""
+          },
+          {
+            "v": 2,
+            "s": 33,
+            "translation": "specifically \"to do\")"
+          },
+          {
+            "v": 2,
+            "s": 34,
+            "translation": "they would draw down influences higher than the influences that the Patriarchs drew down through their spiritual service,"
+          },
+          {
+            "v": 2,
+            "s": 35,
+            "translation": "and even up to the drawing down of the Awtsmoos."
+          }
+        ]
+      }
+    ]
+  }
+}

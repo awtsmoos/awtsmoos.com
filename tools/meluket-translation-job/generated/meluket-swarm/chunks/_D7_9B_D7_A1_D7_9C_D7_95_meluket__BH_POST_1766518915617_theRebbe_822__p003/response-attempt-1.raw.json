@@ -1,0 +1,28 @@
+{
+  "id": "687d3e27-d4a7-4a31-96b6-3dbf10526662",
+  "object": "chat.completion",
+  "created": 1783582231,
+  "model": "deepseek-v4-flash",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"כסלו_meluket\" postId=\"BH_POST_1766518915617_theRebbe_822\" batchId=\"meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915617_theRebbe_822__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains that in the external aspect of Binah only the intellect of Chochmah is drawn, but in the internal aspect of Binah, the essence of Chochmah shines, enabling a higher Daat that leads to miraculous governance.</sectionSummaryBrief>\n    <t s=\"0\">And behold, that which is in Binah is drawn only from the intellect of Chochmah</t>\n    <t s=\"1\">[therefore Binah is the lower Daat],</t>\n    <t s=\"2\">this is in the externality of Binah.</t>\n    <t s=\"3\">But in the innerness of Binah, there shines</t>\n    <t s=\"4\">(also)</t>\n    <t s=\"5\">the very essence of Chochmah,</t>\n    <t s=\"6\">and through this,</t>\n    <t s=\"7\">even Binah is in the aspect of the higher Daat,</t>\n    <t s=\"8\">for the awareness that everything is as nothing, which is in Chochmah, also shines in Binah18.</t>\n    <t s=\"9\">And based on this, we can explain the reason that from the internal union of Chochmah and Binah, miracles are drawn,</t>\n    <t s=\"10\">because miraculous governance is in the aspect of the higher Daat,</t>\n    <t s=\"11\">and since in the internal union of Chochmah and Binah</t>\n    <t s=\"12\">(the drawing of Chochmah into the innerness of Binah)</t>\n    <t s=\"13\">the higher knowledge that below Him everything is as nothing is also felt in Binah,</t>\n    <t s=\"14\">therefore,</t>\n    <t s=\"15\">the governance drawn from the internal union of Chochmah and Binah is miraculous governance.</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section questions why the blessing for miracles mentions the Patriarchs (Avraham, Yitzchak, Yaakov) as Chochmah and Binah, indicating that for plain miracles there must also be an elevation in Chochmah itself.</sectionSummaryBrief>\n    <t s=\"0\">D)</t>\n    <t s=\"1\">And we must understand,</t>\n    <t s=\"2\">that according to the above, the primary advantage of the internal union of Chochmah and Binah</t>\n    <t s=\"3\">(the source of miraculous governance)</t>\n    <t s=\"4\">over the external union of Chochmah and Binah</t>\n    <t s=\"5\">(the source of natural governance)</t>\n    <t s=\"6\">is in Binah,</t>\n    <t s=\"7\">that in the internal union of Chochmah and Binah,</t>\n    <t s=\"8\">the awareness that everything is as nothing</t>\n    <t s=\"9\">(which is in Chochmah)</t>\n    <t s=\"10\">shines also in Binah.</t>\n    <t s=\"11\">And from the fact that regarding miracles they say</t>\n    <t s=\"12\">(in their simple sense)</t>\n    <t s=\"13\">\"Blessed is He who performed miracles for our forefathers,\"</t>\n    <t s=\"14\">and \"our forefathers\" are Chochmah and Binah,</t>\n    <t s=\"15\">it is understood,</t>\n    <t s=\"16\">that in order for there to be miracles in their simple sense, there must be an elevation and ascent also in Chochmah.</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains that the superiority of the internal union over the external union of Chochmah and Binah lies in two aspects: the revelation of Chochmah within Binah, and the drawing from a higher level of Chochmah itself, beyond its aspect of \"nothingness.\"</sectionSummaryBrief>\n    <t s=\"0\">And we can explain the elucidation of this,</t>\n    <t s=\"1\">that the advantage of the internal union of Chochmah and Binah over the external union of Chochmah and Binah is in two matters.</t>\n    <t s=\"2\">In the matter of revelation,</t>\n    <t s=\"3\">that in the externality of Binah, Chochmah is in concealment,</t>\n    <t s=\"4\">Ayin (nothingness) that is not grasped,</t>\n    <t s=\"5\">and in the innerness of Binah,</t>\n    <t s=\"6\">it is in revelation</t>\n    <t s=\"7\">(as above in section 3).</t>\n    <t s=\"8\">And there is another advantage in the internal union of Chochmah and Binah,</t>\n    <t s=\"9\">that the drawing of Chochmah</t>\n    <t s=\"10\">(which is in this union)</t>\n    <t s=\"11\">is from a more elevated aspect,</t>\n    <t s=\"12\">the innerness of Chochmah,</t>\n    <t s=\"13\">which is above that which Chochmah is called Ayin (nothingness).</t>\n  </section>\n</awtsmoosMeluketTranslation>"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1689,
+    "completion_tokens": 1314,
+    "total_tokens": 3003,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 1305
+  },
+  "system_fingerprint": "fp_8b330d02d0_prod0820_fp8_kvcache_20260402"
+}

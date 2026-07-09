@@ -1,0 +1,544 @@
+{
+  "validation": {
+    "ok": true,
+    "rootOk": true,
+    "expected": 100,
+    "returned": 100,
+    "missing": [],
+    "extra": [],
+    "empty": [],
+    "missingSummaries": [],
+    "markdownFencePresent": false
+  },
+  "parsed": {
+    "hadFence": false,
+    "xml": "<awtsmoosMeluketTranslation heichel=\"ikar\" alias=\"meluket_translation_en\" seriesId=\"חשון_meluket\" postId=\"BH_POST_1766518915193_theRebbe_723\" batchId=\"meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p003\">\n  <section v=\"6\">\n    <sectionSummaryBrief>This section explains the connection between the verse \"And Yehonatan said to Dovid\" and the new moon, based on the sun and moon analogy representing Zeir Anpin and Malchus.</sectionSummaryBrief>\n    <t s=\"0\">4)</t>\n    <t s=\"1\">And this will be understood according to what is explained in the discourses</t>\n    <t s=\"2\">[regarding] the connection of \"And Yehonatan said to Dovid\"</t>\n    <t s=\"3\">(the saying of Yehonatan to Dovid)</t>\n    <t s=\"4\">to \"tomorrow [is the] new moon,\"</t>\n    <t s=\"5\">for the concept of the new moon</t>\n    <t s=\"6\">(the birth of the moon)</t>\n    <t s=\"7\">is the drawing down of light</t>\n    <t s=\"8\">(new)</t>\n    <t s=\"9\">from the sun into the moon,</t>\n    <t s=\"10\">and it is known that sun and moon in their root are Zeir Anpin and Malchus.</t>\n    <t s=\"11\">For Zeir Anpin and Malchus are the influencer and the receiver,</t>\n    <t s=\"12\">analogous to the sun and moon.</t>\n    <t s=\"13\">And this is the connection of</t>\n    <t s=\"14\">(\"tomorrow\")</t>\n    <t s=\"15\">[the] new moon to \"And Yehonatan said to Dovid,\"</t>\n    <t s=\"16\">for Dovid is the aspect of Malchus,</t>\n    <t s=\"17\">the moon.</t>\n    <t s=\"18\">As it is written</t>\n    <t s=\"19\">\"And Dovid is the small one,\" and our Rabbis of blessed memory said</t>\n    <t s=\"20\">that he is called so because of the small luminary,</t>\n    <t s=\"21\">the moon.</t>\n    <t s=\"22\">And Yehonatan is Zeir Anpin,</t>\n    <t s=\"23\">the aspect of the sun of Havayah,</t>\n    <t s=\"24\">who draws down and influences into Malchus.</t>\n    <t s=\"25\">For this is that Yehonatan is \"Yud-Heh-Vav\" \"Natan\" [He gave],</t>\n    <t s=\"26\">the giving and influence of the aspect of Yud-Heh-Vav to Malchus.</t>\n    <t s=\"27\">And this is the connection of \"And Yehonatan said to Dovid\"</t>\n    <t s=\"28\">(the drawing down from Yehonatan to Dovid)</t>\n    <t s=\"29\">with \"tomorrow [is the] new moon,\"</t>\n    <t s=\"30\">for the concept of the new moon is the drawing down from Zeir Anpin</t>\n    <t s=\"31\">(sun)</t>\n    <t s=\"32\">to Malchus</t>\n    <t s=\"33\">(moon).</t>\n  </section>\n  <section v=\"7\">\n    <sectionSummaryBrief>This section explains that the verse \"And Yehonatan said to Dovid\" relates to the empowerment given on the eve of the new moon for the \"missing of your seat\" to be filled on the new moon itself.</sectionSummaryBrief>\n    <t s=\"0\">And to note,</t>\n    <t s=\"1\">that according to the above,</t>\n    <t s=\"2\">the concept of \"And Yehonatan said to Dovid\" relates to Rosh Chodesh,</t>\n    <t s=\"3\">for then is the drawing down from Zeir Anpin to Malchus,</t>\n    <t s=\"4\">and she is remembered [and filled].</t>\n    <t s=\"5\">And from that it is said \"And Yehonatan said to Dovid, 'Tomorrow [is the] new moon,'\"</t>\n    <t s=\"6\">it implies</t>\n    <t s=\"7\">that \"And Yehonatan said to Dovid\" relates</t>\n    <t s=\"8\">(also)</t>\n    <t s=\"9\">to the matter of \"your seat will be missed,\"</t>\n    <t s=\"10\">which is on the eve of Rosh Chodesh.</t>\n    <t s=\"11\">And one can say the explanation of this,</t>\n    <t s=\"12\">that in order for the matter of \"your seat will be missed\" to be,</t>\n    <t s=\"13\">and that through this there will be \"and she is remembered [and filled],\"</t>\n    <t s=\"14\">it is through the giving of power from above.</t>\n    <t s=\"15\">And this is \"And Yehonatan said to Dovid, 'Tomorrow [is the] new moon,'\"</t>\n    <t s=\"16\">for one can say,</t>\n    <t s=\"17\">that this which is stated \"And Yehonatan said to Dovid\" before the words \"tomorrow [is the] new moon,\"</t>\n    <t s=\"18\">is,</t>\n    <t s=\"19\">that \"And Yehonatan said to Dovid\" is the drawing down of the giving of power from Zeir Anpin to Malchus for the matter of \"your seat will be missed\"</t>\n    <t s=\"20\">(which is on the eve of Rosh Chodesh)</t>\n    <t s=\"21\">and that through this there will be \"and she is remembered [and filled]\"</t>\n    <t s=\"22\">(on Rosh Chodesh).</t>\n    <t s=\"23\">Therefore it is stated \"And Yehonatan said to Dovid\" before \"tomorrow [is the] new moon,\"</t>\n    <t s=\"24\">for \"And Yehonatan said to Dovid\" is the giving of power for the matter of \"tomorrow [is the] new moon.\"</t>\n  </section>\n  <section v=\"8\">\n    <sectionSummaryBrief>This section explains the verse \"And these are the generations of Yitzchak son of Avraham; Avraham begot Yitzchak,\" showing that the elevation from below reaches a higher place than the initial drawing down from above.</sectionSummaryBrief>\n    <t s=\"0\">5)</t>\n    <t s=\"1\">And one can connect this with what is explained in the discourses</t>\n    <t s=\"2\">on the verse</t>\n    <t s=\"3\">\"And these are the generations of Yitzchak son of Avraham; Avraham begot Yitzchak,\"</t>\n    <t s=\"4\">for it needs to be understood,</t>\n    <t s=\"5\">behold it already says \"Yitzchak son of Avraham,\" why is it repeated again \"Avraham begot Yitzchak\"?</t>\n    <t s=\"6\">And the explanation of this,</t>\n    <t s=\"7\">that Avraham is a drawing down from above to below, and Yitzchak is an elevation from below to above.</t>\n    <t s=\"8\">And behold, the elevation from below to above reaches a place more elevated than the place from which the drawing down from above to below comes.</t>\n    <t s=\"9\">And analogous to that which our Rabbis of blessed memory said,</t>\n    <t s=\"10\">\"If a man emits seed first, a female is born; [if] a woman emits seed first, a male is born.\"</t>\n    <t s=\"11\">[If] a woman emits seed first, a male is born.</t>\n    <t s=\"12\">That the birth that comes through the elevation of Mayin Nukvin</t>\n    <t s=\"13\">(an elevation from below to above)</t>\n    <t s=\"14\">is more elevated than the birth that comes through the drawing down of Mayin Duchrin</t>\n    <t s=\"15\">(a drawing down from above to below).</t>\n    <t s=\"16\">However, initially there must be the drawing down from above to below, and afterwards there is the elevation from below to above.</t>\n    <t s=\"17\">And there are two reasons for this.</t>\n    <t s=\"18\">For it is impossible to have an elevation without the precedence of the drawing down</t>\n    <t s=\"19\">[and analogous to a woman emitting seed,</t>\n    <t s=\"20\">that even when a woman emits seed first, it is through the man arousing her].</t>\n    <t s=\"21\">And also the power that exists in the elevation from below to above to reach a very elevated place</t>\n    <t s=\"22\">(a woman emitting seed first gives birth to a male),</t>\n    <t s=\"23\">its drawing down</t>\n    <t s=\"24\">(its revelation)</t>\n    <t s=\"25\">is through the drawing down from above to below that precedes the elevation</t>\n    <t s=\"26\">[and analogous to \"When a woman conceives and gives birth,\"</t>\n    <t s=\"27\">that this birth that comes from the woman's seed,</t>\n    <t s=\"28\">is through the man].</t>\n    <t s=\"29\">And one can say,</t>\n    <t s=\"30\">that this [fact] that the power in the elevation from below to above to reach a very elevated place is through the drawing down from above to below</t>\n    <t s=\"31\">[even though the elevation reaches a place more elevated than the place from which the drawing down comes</t>\n    <t s=\"32\">(that precedes the elevation)],</t>\n    <t s=\"33\">is,</t>\n    <t s=\"34\">for the concept of elevation is the elevation of the lower one,</t>\n    <t s=\"35\">and therefore,</t>\n    <t s=\"36\">the power in the elevation to reach very high is in concealment,</t>\n    <t s=\"37\">and through the drawing down from above</t>\n    <t s=\"38\">(the drawing down of the upper one)</t>\n    <t s=\"39\">the power in the elevation of the lower one is revealed</t>\n    <t s=\"40\">(and it reaches higher than the place from which the drawing down from above comes).</t>\n  </section>\n</awtsmoosMeluketTranslation>",
+    "root": {
+      "heichel": "ikar",
+      "alias": "meluket_translation_en",
+      "seriesId": "חשון_meluket",
+      "postId": "BH_POST_1766518915193_theRebbe_723",
+      "batchId": "meluket-_D7_97_D7_A9_D7_95_D7_9F_meluket__BH_POST_1766518915193_theRebbe_723__p003"
+    },
+    "sections": [
+      {
+        "v": 6,
+        "sectionSummaryBrief": "This section explains the connection between the verse \"And Yehonatan said to Dovid\" and the new moon, based on the sun and moon analogy representing Zeir Anpin and Malchus.",
+        "translations": [
+          {
+            "v": 6,
+            "s": 0,
+            "translation": "4)"
+          },
+          {
+            "v": 6,
+            "s": 1,
+            "translation": "And this will be understood according to what is explained in the discourses"
+          },
+          {
+            "v": 6,
+            "s": 2,
+            "translation": "[regarding] the connection of \"And Yehonatan said to Dovid\""
+          },
+          {
+            "v": 6,
+            "s": 3,
+            "translation": "(the saying of Yehonatan to Dovid)"
+          },
+          {
+            "v": 6,
+            "s": 4,
+            "translation": "to \"tomorrow [is the] new moon,\""
+          },
+          {
+            "v": 6,
+            "s": 5,
+            "translation": "for the concept of the new moon"
+          },
+          {
+            "v": 6,
+            "s": 6,
+            "translation": "(the birth of the moon)"
+          },
+          {
+            "v": 6,
+            "s": 7,
+            "translation": "is the drawing down of light"
+          },
+          {
+            "v": 6,
+            "s": 8,
+            "translation": "(new)"
+          },
+          {
+            "v": 6,
+            "s": 9,
+            "translation": "from the sun into the moon,"
+          },
+          {
+            "v": 6,
+            "s": 10,
+            "translation": "and it is known that sun and moon in their root are Zeir Anpin and Malchus."
+          },
+          {
+            "v": 6,
+            "s": 11,
+            "translation": "For Zeir Anpin and Malchus are the influencer and the receiver,"
+          },
+          {
+            "v": 6,
+            "s": 12,
+            "translation": "analogous to the sun and moon."
+          },
+          {
+            "v": 6,
+            "s": 13,
+            "translation": "And this is the connection of"
+          },
+          {
+            "v": 6,
+            "s": 14,
+            "translation": "(\"tomorrow\")"
+          },
+          {
+            "v": 6,
+            "s": 15,
+            "translation": "[the] new moon to \"And Yehonatan said to Dovid,\""
+          },
+          {
+            "v": 6,
+            "s": 16,
+            "translation": "for Dovid is the aspect of Malchus,"
+          },
+          {
+            "v": 6,
+            "s": 17,
+            "translation": "the moon."
+          },
+          {
+            "v": 6,
+            "s": 18,
+            "translation": "As it is written"
+          },
+          {
+            "v": 6,
+            "s": 19,
+            "translation": "\"And Dovid is the small one,\" and our Rabbis of blessed memory said"
+          },
+          {
+            "v": 6,
+            "s": 20,
+            "translation": "that he is called so because of the small luminary,"
+          },
+          {
+            "v": 6,
+            "s": 21,
+            "translation": "the moon."
+          },
+          {
+            "v": 6,
+            "s": 22,
+            "translation": "And Yehonatan is Zeir Anpin,"
+          },
+          {
+            "v": 6,
+            "s": 23,
+            "translation": "the aspect of the sun of Havayah,"
+          },
+          {
+            "v": 6,
+            "s": 24,
+            "translation": "who draws down and influences into Malchus."
+          },
+          {
+            "v": 6,
+            "s": 25,
+            "translation": "For this is that Yehonatan is \"Yud-Heh-Vav\" \"Natan\" [He gave],"
+          },
+          {
+            "v": 6,
+            "s": 26,
+            "translation": "the giving and influence of the aspect of Yud-Heh-Vav to Malchus."
+          },
+          {
+            "v": 6,
+            "s": 27,
+            "translation": "And this is the connection of \"And Yehonatan said to Dovid\""
+          },
+          {
+            "v": 6,
+            "s": 28,
+            "translation": "(the drawing down from Yehonatan to Dovid)"
+          },
+          {
+            "v": 6,
+            "s": 29,
+            "translation": "with \"tomorrow [is the] new moon,\""
+          },
+          {
+            "v": 6,
+            "s": 30,
+            "translation": "for the concept of the new moon is the drawing down from Zeir Anpin"
+          },
+          {
+            "v": 6,
+            "s": 31,
+            "translation": "(sun)"
+          },
+          {
+            "v": 6,
+            "s": 32,
+            "translation": "to Malchus"
+          },
+          {
+            "v": 6,
+            "s": 33,
+            "translation": "(moon)."
+          }
+        ]
+      },
+      {
+        "v": 7,
+        "sectionSummaryBrief": "This section explains that the verse \"And Yehonatan said to Dovid\" relates to the empowerment given on the eve of the new moon for the \"missing of your seat\" to be filled on the new moon itself.",
+        "translations": [
+          {
+            "v": 7,
+            "s": 0,
+            "translation": "And to note,"
+          },
+          {
+            "v": 7,
+            "s": 1,
+            "translation": "that according to the above,"
+          },
+          {
+            "v": 7,
+            "s": 2,
+            "translation": "the concept of \"And Yehonatan said to Dovid\" relates to Rosh Chodesh,"
+          },
+          {
+            "v": 7,
+            "s": 3,
+            "translation": "for then is the drawing down from Zeir Anpin to Malchus,"
+          },
+          {
+            "v": 7,
+            "s": 4,
+            "translation": "and she is remembered [and filled]."
+          },
+          {
+            "v": 7,
+            "s": 5,
+            "translation": "And from that it is said \"And Yehonatan said to Dovid, 'Tomorrow [is the] new moon,'\""
+          },
+          {
+            "v": 7,
+            "s": 6,
+            "translation": "it implies"
+          },
+          {
+            "v": 7,
+            "s": 7,
+            "translation": "that \"And Yehonatan said to Dovid\" relates"
+          },
+          {
+            "v": 7,
+            "s": 8,
+            "translation": "(also)"
+          },
+          {
+            "v": 7,
+            "s": 9,
+            "translation": "to the matter of \"your seat will be missed,\""
+          },
+          {
+            "v": 7,
+            "s": 10,
+            "translation": "which is on the eve of Rosh Chodesh."
+          },
+          {
+            "v": 7,
+            "s": 11,
+            "translation": "And one can say the explanation of this,"
+          },
+          {
+            "v": 7,
+            "s": 12,
+            "translation": "that in order for the matter of \"your seat will be missed\" to be,"
+          },
+          {
+            "v": 7,
+            "s": 13,
+            "translation": "and that through this there will be \"and she is remembered [and filled],\""
+          },
+          {
+            "v": 7,
+            "s": 14,
+            "translation": "it is through the giving of power from above."
+          },
+          {
+            "v": 7,
+            "s": 15,
+            "translation": "And this is \"And Yehonatan said to Dovid, 'Tomorrow [is the] new moon,'\""
+          },
+          {
+            "v": 7,
+            "s": 16,
+            "translation": "for one can say,"
+          },
+          {
+            "v": 7,
+            "s": 17,
+            "translation": "that this which is stated \"And Yehonatan said to Dovid\" before the words \"tomorrow [is the] new moon,\""
+          },
+          {
+            "v": 7,
+            "s": 18,
+            "translation": "is,"
+          },
+          {
+            "v": 7,
+            "s": 19,
+            "translation": "that \"And Yehonatan said to Dovid\" is the drawing down of the giving of power from Zeir Anpin to Malchus for the matter of \"your seat will be missed\""
+          },
+          {
+            "v": 7,
+            "s": 20,
+            "translation": "(which is on the eve of Rosh Chodesh)"
+          },
+          {
+            "v": 7,
+            "s": 21,
+            "translation": "and that through this there will be \"and she is remembered [and filled]\""
+          },
+          {
+            "v": 7,
+            "s": 22,
+            "translation": "(on Rosh Chodesh)."
+          },
+          {
+            "v": 7,
+            "s": 23,
+            "translation": "Therefore it is stated \"And Yehonatan said to Dovid\" before \"tomorrow [is the] new moon,\""
+          },
+          {
+            "v": 7,
+            "s": 24,
+            "translation": "for \"And Yehonatan said to Dovid\" is the giving of power for the matter of \"tomorrow [is the] new moon.\""
+          }
+        ]
+      },
+      {
+        "v": 8,
+        "sectionSummaryBrief": "This section explains the verse \"And these are the generations of Yitzchak son of Avraham; Avraham begot Yitzchak,\" showing that the elevation from below reaches a higher place than the initial drawing down from above.",
+        "translations": [
+          {
+            "v": 8,
+            "s": 0,
+            "translation": "5)"
+          },
+          {
+            "v": 8,
+            "s": 1,
+            "translation": "And one can connect this with what is explained in the discourses"
+          },
+          {
+            "v": 8,
+            "s": 2,
+            "translation": "on the verse"
+          },
+          {
+            "v": 8,
+            "s": 3,
+            "translation": "\"And these are the generations of Yitzchak son of Avraham; Avraham begot Yitzchak,\""
+          },
+          {
+            "v": 8,
+            "s": 4,
+            "translation": "for it needs to be understood,"
+          },
+          {
+            "v": 8,
+            "s": 5,
+            "translation": "behold it already says \"Yitzchak son of Avraham,\" why is it repeated again \"Avraham begot Yitzchak\"?"
+          },
+          {
+            "v": 8,
+            "s": 6,
+            "translation": "And the explanation of this,"
+          },
+          {
+            "v": 8,
+            "s": 7,
+            "translation": "that Avraham is a drawing down from above to below, and Yitzchak is an elevation from below to above."
+          },
+          {
+            "v": 8,
+            "s": 8,
+            "translation": "And behold, the elevation from below to above reaches a place more elevated than the place from which the drawing down from above to below comes."
+          },
+          {
+            "v": 8,
+            "s": 9,
+            "translation": "And analogous to that which our Rabbis of blessed memory said,"
+          },
+          {
+            "v": 8,
+            "s": 10,
+            "translation": "\"If a man emits seed first, a female is born; [if] a woman emits seed first, a male is born.\""
+          },
+          {
+            "v": 8,
+            "s": 11,
+            "translation": "[If] a woman emits seed first, a male is born."
+          },
+          {
+            "v": 8,
+            "s": 12,
+            "translation": "That the birth that comes through the elevation of Mayin Nukvin"
+          },
+          {
+            "v": 8,
+            "s": 13,
+            "translation": "(an elevation from below to above)"
+          },
+          {
+            "v": 8,
+            "s": 14,
+            "translation": "is more elevated than the birth that comes through the drawing down of Mayin Duchrin"
+          },
+          {
+            "v": 8,
+            "s": 15,
+            "translation": "(a drawing down from above to below)."
+          },
+          {
+            "v": 8,
+            "s": 16,
+            "translation": "However, initially there must be the drawing down from above to below, and afterwards there is the elevation from below to above."
+          },
+          {
+            "v": 8,
+            "s": 17,
+            "translation": "And there are two reasons for this."
+          },
+          {
+            "v": 8,
+            "s": 18,
+            "translation": "For it is impossible to have an elevation without the precedence of the drawing down"
+          },
+          {
+            "v": 8,
+            "s": 19,
+            "translation": "[and analogous to a woman emitting seed,"
+          },
+          {
+            "v": 8,
+            "s": 20,
+            "translation": "that even when a woman emits seed first, it is through the man arousing her]."
+          },
+          {
+            "v": 8,
+            "s": 21,
+            "translation": "And also the power that exists in the elevation from below to above to reach a very elevated place"
+          },
+          {
+            "v": 8,
+            "s": 22,
+            "translation": "(a woman emitting seed first gives birth to a male),"
+          },
+          {
+            "v": 8,
+            "s": 23,
+            "translation": "its drawing down"
+          },
+          {
+            "v": 8,
+            "s": 24,
+            "translation": "(its revelation)"
+          },
+          {
+            "v": 8,
+            "s": 25,
+            "translation": "is through the drawing down from above to below that precedes the elevation"
+          },
+          {
+            "v": 8,
+            "s": 26,
+            "translation": "[and analogous to \"When a woman conceives and gives birth,\""
+          },
+          {
+            "v": 8,
+            "s": 27,
+            "translation": "that this birth that comes from the woman's seed,"
+          },
+          {
+            "v": 8,
+            "s": 28,
+            "translation": "is through the man]."
+          },
+          {
+            "v": 8,
+            "s": 29,
+            "translation": "And one can say,"
+          },
+          {
+            "v": 8,
+            "s": 30,
+            "translation": "that this [fact] that the power in the elevation from below to above to reach a very elevated place is through the drawing down from above to below"
+          },
+          {
+            "v": 8,
+            "s": 31,
+            "translation": "[even though the elevation reaches a place more elevated than the place from which the drawing down comes"
+          },
+          {
+            "v": 8,
+            "s": 32,
+            "translation": "(that precedes the elevation)],"
+          },
+          {
+            "v": 8,
+            "s": 33,
+            "translation": "is,"
+          },
+          {
+            "v": 8,
+            "s": 34,
+            "translation": "for the concept of elevation is the elevation of the lower one,"
+          },
+          {
+            "v": 8,
+            "s": 35,
+            "translation": "and therefore,"
+          },
+          {
+            "v": 8,
+            "s": 36,
+            "translation": "the power in the elevation to reach very high is in concealment,"
+          },
+          {
+            "v": 8,
+            "s": 37,
+            "translation": "and through the drawing down from above"
+          },
+          {
+            "v": 8,
+            "s": 38,
+            "translation": "(the drawing down of the upper one)"
+          },
+          {
+            "v": 8,
+            "s": 39,
+            "translation": "the power in the elevation of the lower one is revealed"
+          },
+          {
+            "v": 8,
+            "s": 40,
+            "translation": "(and it reaches higher than the place from which the drawing down from above comes)."
+          }
+        ]
+      }
+    ]
+  }
+}

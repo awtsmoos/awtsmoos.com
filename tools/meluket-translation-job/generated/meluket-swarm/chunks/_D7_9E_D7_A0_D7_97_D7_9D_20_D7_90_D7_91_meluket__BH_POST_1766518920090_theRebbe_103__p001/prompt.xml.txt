@@ -1,0 +1,91 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518920090_theRebbe_103" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920090_theRebbe_103__p001">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518920090_theRebbe_103" title="מאמר ושמתי כדכד שמשתיך תשט"ז" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518920090_theRebbe_103__p001">
+  <section v="0">
+    <src s="0">בס"ד.</src>
+    <src s="1">ש"פ ראה,</src>
+    <src s="2">מבה"ח אלול,</src>
+    <src s="3">ה'תשט"ז *</src>
+  </section>
+  <section v="1">
+    <src s="0">(הנחה בלתי מוגה)</src>
+  </section>
+  <section v="2">
+    <src s="0">ושמתי כדכד שמשתיך1,</src>
+    <src s="1">ואמרז"ל2</src>
+    <src s="2">חד אמר שהם וחד אמר ישפה אמר הקב"ה להוי כדין וכדין.</src>
+    <src s="3">הנה פסוק זה הוא אחד היעודים שיהיו בהגאולה העתידה לבוא ע"י משיח צדקנו במהרה בימינו.</src>
+    <src s="4">ויש בזה ב' אופנים,</src>
+    <src s="5">שהם וישפה,</src>
+    <src s="6">ואמר הקב"ה להוי כדין וכדין.</src>
+    <src s="7">ולהבין ב' אופנים אלו ברוחניות,</src>
+    <src s="8">היינו בהגילוי אלקות שיהי' לע"ל,</src>
+    <src s="9">יובן זה מזה שב' אבנים אלו היו מי"ב האבנים טובות אשר בהחושן של כה"ג,</src>
+    <src s="10">למספר שבטי בנ"י,</src>
+    <src s="11">שהם כנגד יוסף וישפה כנגד בנימין.</src>
+    <src s="12">והנה,</src>
+    <src s="13">יוסף ובנימין הם צדיק עליון וצדיק תחתון,</src>
+    <src s="14">דבחי' יוסף הוא המשכת אלקות מלמעלה למטה,</src>
+    <src s="15">יוסף הוא המשביר בר3,</src>
+    <src s="16">שממשיך אלקות מלמעלמ"ט,</src>
+    <src s="17">והיינו דגם כאשר העולם לא נזדכך עדיין עד כדי כך שיוכל לקבל בתוכו גילוי אור נעלה,</src>
+    <src s="18">מ"מ נמשך אור בדרך מלמעלמ"ט.</src>
+    <src s="19">ובחי' בנימין הוא זיכוך ועלי' מלמטלמ"ע,</src>
+    <src s="20">היינו שפועל בירור זיכוך עלי' והתקשרות בנש"י וחלקם בעולם,</src>
+    <src s="21">ובמילא גם בכללות הבריאה,</src>
+    <src s="22">שיוכלו לקבל את האור.</src>
+    <src s="23">וע"ד משל כמו שמוח הבע"ח אינו כלי לשכל ומוח האדם הוא כלי לשכל,</src>
+    <src s="24">לפי שהוא מזוכך יותר,</src>
+    <src s="25">הנה עבודתו של בנימין הוא העלאה מלמטלמ"ע שפועל זיכוך במוח ושכל האדם עד שיהי' כלי לאור אלקי נעלה.</src>
+    <src s="26">והנה,</src>
+    <src s="27">בב' אופנים אלו יש בכל אחד מהם מעלה מיוחדת.</src>
+    <src s="28">המעלה בעבודתו של בנימין,</src>
+    <src s="29">שהו"ע ישפה,</src>
+    <src s="30">שהמטה מתייחד יותר עם האור אלקי,</src>
+    <src s="31">דלהיות אשר ההמשכה היא מצד הזיכוך שנעשה כלי להאור,</src>
+    <src s="32">במילא הרי הוא ביחוד גמור עם האור.</src>
+    <src s="33">והמעלה בעבודתו של יוסף,</src>
+    <src s="34">שהו"ע שהם,</src>
+    <src s="35">שנמשך אור נעלה ביותר שאינו כפי אופן התחתון כי אם כפי שהוא מצד העליון.</src>
+    <src s="36">ועל זה אמר הקב"ה להוי כדין וכדין,</src>
+    <src s="37">אשר לע"ל יהיו ב' המעלות.</src>
+    <src s="38">וכמבואר כל הנ"ל באריכות בלקו"ת בהדרושים ושמתי כדכד4.</src>
+    <src s="39">והנה,</src>
+    <src s="40">ידוע שכל הגילוים שיהיו לעתיד תלויים במעשינו ועבודתינו כל זמן משך הגלות5,</src>
+    <src s="41">ומאחר שלעתיד יהיו האופנים דמלמעלמ"ט ומלמטלמ"ע,</src>
+    <src s="42">בהכרח לומר שגם בהעבודה בזמן משך הגלות ישנם ג"כ אופנים אלו.</src>
+    <src s="43">וצריך להבין מהו"ע ב' אופנים אלו דשהם וישפה בעבודה.</src>
+  </section>
+</awtsmoosMeluketSource>

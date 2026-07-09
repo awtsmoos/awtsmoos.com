@@ -1,0 +1,115 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p005">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="מנחם אב_meluket" postId="BH_POST_1766518919765_theRebbe_137" title="מאמר קץ שם לחושך תשכ"ד" batchId="meluket-_D7_9E_D7_A0_D7_97_D7_9D_20_D7_90_D7_91_meluket__BH_POST_1766518919765_theRebbe_137__p005">
+  <section v="12">
+    <src s="0">ו)</src>
+    <src s="1">והנה גם הביטול דאמונה שלמעלה מהשכל אינו ביטול בתכלית.</src>
+    <src s="2">כי הביטול דאמונה הוא זה שהוא מאמין באלקות הגם שמצד שכלו</src>
+    <src s="3">(המציאות שלו)</src>
+    <src s="4">אין לו הוכחות על זה.</src>
+    <src s="5">וכיון שהטעם לזה שהוא מאמין באלקות</src>
+    <src s="6">(הגם שאין לו הוכחות על זה)</src>
+    <src s="7">הוא מפני שהאלקות נרגש בנפשו</src>
+    <src s="8">[אלא שהרגש זה הוא למעלה מהמציאות</src>
+    <src s="9">(השגה)</src>
+    <src s="10">שלו],</src>
+    <src s="11">לכן,</src>
+    <src s="12">הביטול דאמונה אינו ביטול בתכלית,</src>
+    <src s="13">כיון דזה שמאמין הוא מפני שנרגש בו אלקות.</src>
+    <src s="14">ובדוגמת הביטול דאור ע"י שנרגש בו מקורו</src>
+    <src s="15">(מהות המאור),</src>
+    <src s="16">דהגם שזה שנרגש בו מקורו הוא למעלה ממציאותו</src>
+    <src s="17">[דמהות המאור אינו מתגלה בהאור],</src>
+    <src s="18">מ"מ,</src>
+    <src s="19">נרגש זה בהאור כמו שהוא במציאותו,</src>
+    <src s="20">מציאות שמחוץ להמקור</src>
+    <src s="21">[שלכן,</src>
+    <src s="22">זה שנרגש בו מקורו אינו פועל עליו שירצה ליכלל במקורו].</src>
+    <src s="23">והביטול דמס"נ,</src>
+    <src s="24">שמוסר את נפשו בשביל האלקות</src>
+    <src s="25">(יציאה ממציאותו),</src>
+    <src s="26">הוא דוגמת הביטול דאור מצד הרצוא שלו ליכלל במקורו.</src>
+    <src s="27">וכמובן גם מהמשך הענינים בתניא36,</src>
+    <src s="28">דכח המס"נ שבישראל הוא דוגמת הרצון דהנשמה ליפרד ולצאת מן הגוף ולידבק בשרשה ומקורה,</src>
+    <src s="29">הגם שתהי' אין ואפס ותתבטל שם במציאות לגמרי37.</src>
+    <src s="30">ולהוסיף,</src>
+    <src s="31">שבהרצון דהנשמה ליכלל באוא"ס ישנם ב' דרגות.</src>
+    <src s="32">שהיא רוצה ליכלל,</src>
+    <src s="33">ושהיא בבחינת כליון בדרך ממילא.</src>
+    <src s="34">ויש לומר,</src>
+    <src s="35">דכיון שהביטול</src>
+    <src s="36">(דאור)</src>
+    <src s="37">שמצד הרצון ליכלל במקורו הוא ביטול לגמרי</src>
+    <src s="38">(ע"ד הביטול דאור הכלול במאור כנ"ל סעיף ג),</src>
+    <src s="39">לכן מתבטל גם הרצון.</src>
+  </section>
+  <section v="13">
+    <src s="0">ז)</src>
+    <src s="1">וממשיך בהמאמר38,</src>
+    <src s="2">דכיון שהרצוא דאור ליכלל במקורו הוא מפני שדבוק במקורו,</src>
+    <src s="3">לכן,</src>
+    <src s="4">הרצוא דאור</src>
+    <src s="5">[וכן הביטול שמצד הרצוא]</src>
+    <src s="6">הוא בכל הדרגות דאור,</src>
+    <src s="7">גם בהאור המלובש בכלים</src>
+    <src s="8">(שהרי זה שהאור הוא דבוק במקורו הוא בכל הדרגות שבו),</src>
+    <src s="9">אלא שעיקר הרצוא</src>
+    <src s="10">[והביטול שמצד הרצוא]</src>
+    <src s="11">הוא בעצם האור שלמעלה מגדר התלבשות בכלים.</src>
+    <src s="12">ויש לומר,</src>
+    <src s="13">דבטבע הרצוא שבאור ליכלל במקורו,</src>
+    <src s="14">שני ענינים.</src>
+    <src s="15">הרצון להיות כלול במקורו,</src>
+    <src s="16">והרצון לא להיות חוץ למקורו.</src>
+    <src s="17">וזה שעיקר הרצוא הוא בעצם האור,</src>
+    <src s="18">הוא,</src>
+    <src s="19">שבהאור המתלבש בכלים ושבגדר התלבשות,</src>
+    <src s="20">הוא הרצון לא להיות חוץ למקורו,</src>
+    <src s="21">ובעצם האור הרצון להיות כלול במקורו.</src>
+  </section>
+  <section v="14">
+    <src s="0">והענין הוא,</src>
+    <src s="1">דשני רצונות הנ"ל יש בכל אחד מהם מעלה שאינה בזולתו.</src>
+    <src s="2">הרצון להיות כלול במקורו הוא נעלה יותר,</src>
+    <src s="3">כי רצון זה שבאור הוא מפני שנרגש בו המקור – וגילוי המקור הוא בעיקר בעצם האור.</src>
+    <src s="4">והרצון לא להיות חוץ למקורו הוא בפנימיות יותר</src>
+    <src s="5">(טיפער)</src>
+    <src s="6">בהאור,</src>
+    <src s="7">ועד שרצון זה הוא בעצם מציאותו – ולכן הוא בכל הדרגות שבו.</src>
+    <src s="8">וע"ד החילוק שבין הרצון דנשמה ליכלל באוא"ס וכח המס"נ39,</src>
+    <src s="9">שהרצון ליכלל באוא"ס הוא בגילוי רק ביחידי סגולה,</src>
+    <src s="10">וענין המס"נ שלא להיות נפרד ח"ו מאלקות הוא בגילוי בכאו"א.</src>
+  </section>
+</awtsmoosMeluketSource>

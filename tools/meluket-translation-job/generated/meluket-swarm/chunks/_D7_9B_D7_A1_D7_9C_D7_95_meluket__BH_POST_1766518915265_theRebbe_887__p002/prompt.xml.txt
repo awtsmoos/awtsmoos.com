@@ -1,0 +1,95 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="כסלו_meluket" postId="BH_POST_1766518915265_theRebbe_887" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915265_theRebbe_887__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="כסלו_meluket" postId="BH_POST_1766518915265_theRebbe_887" title="מאמר אתה אחד תשכ"ט" batchId="meluket-_D7_9B_D7_A1_D7_9C_D7_95_meluket__BH_POST_1766518915265_theRebbe_887__p002">
+  <section v="3">
+    <src s="0">וצריך להבין,</src>
+    <src s="1">הרי הדיוק</src>
+    <src s="2">(שבהמאמר)</src>
+    <src s="3">שהי' צריך לומר גוי יחיד מובן בפשטות,</src>
+    <src s="4">ועד"ז בהמשל דבן יחיד,</src>
+    <src s="5">שזה שנקרא בשם בן יחיד הוא מפני שהוא בן אחד בלבד,</src>
+    <src s="6">ובהמאמר משמע,</src>
+    <src s="7">דזה שהול"ל גוי יחיד הוא מפני שהאהבה לבן יחיד וכן אהבת הבן יחיד להוריו היא אהבה גדולה ביותר.</src>
+  </section>
+  <section v="4">
+    <src s="0">ב)</src>
+    <src s="1">ויש לומר הביאור בזה ע"פ המבואר בכ"מ6</src>
+    <src s="2">עה"פ7</src>
+    <src s="3">שמע ישראל גו' הוי' אחד,</src>
+    <src s="4">דמ"ש הוי' אחד ולא הוי' יחיד,</src>
+    <src s="5">הוא,</src>
+    <src s="6">כי החילוק בין יחיד לאחד הוא,</src>
+    <src s="7">שאחד מורה על התאחדות הפרטים8</src>
+    <src s="8">[וכמו אלף אחד שהוא כלל הכלול מאלף פרטים.</src>
+    <src s="9">ועד"ז אדם אחד,</src>
+    <src s="10">שהוא כלול מרמ"ח אברים ושס"ה גידים],</src>
+    <src s="11">ויחיד מורה על ענין שלמעלה מפרטים</src>
+    <src s="12">[וכמו יחידה שבנפש,</src>
+    <src s="13">שאינה מורכבת מכחות פרטים].</src>
+    <src s="14">ולכן נאמר הוי' אחד ולא הוי' יחיד,</src>
+    <src s="15">בכדי להורות,</src>
+    <src s="16">שגם לאחרי שנברא העולם</src>
+    <src s="17">(שיש בו ריבוי פרטים),</src>
+    <src s="18">הוא מיוחד עמו ית'.</src>
+    <src s="19">וכמרומז בג' האותיות שבתיבת אחד9,</src>
+    <src s="20">שהח' שמורה על ז' רקיעים וארץ והד' שמורה על ד' רוחות העולם הם בטלים ומיוחדים עם האל"ף,</src>
+    <src s="21">אלופו10</src>
+    <src s="22">של עולם.</src>
+  </section>
+  <section v="5">
+    <src s="0">וזה שמדייק בהמאמר מ"ש אתה אחד ושמך אחד</src>
+    <src s="1">(ולא אתה יחיד ושמך יחיד),</src>
+    <src s="2">יש לומר ע"פ המבואר בכ"מ11,</src>
+    <src s="3">דזה שכתוב הוי' אחד הוא דוקא בהאור ששייך לעולמות,</src>
+    <src s="4">אבל אוא"ס שלמעלה משייכות לעולמות,</src>
+    <src s="5">אין שייך לקרותו אחד רק יחיד,</src>
+    <src s="6">כי לגבי אור זה אין שום מציאות12</src>
+    <src s="7">והוא לבדו הוא.</src>
+    <src s="8">וכיון שתפלה זו</src>
+    <src s="9">(אתה אחד כו')</src>
+    <src s="10">היא התפלה דמנחת שבת,</src>
+    <src s="11">דנוסף לזה שבשבת בכלל הוא הגילוי דאוא"ס שלמעלה משייכות לעולמות,</src>
+    <src s="12">הנה בשבת גופא עיקר גילוי זה הוא במנחת שבת,</src>
+    <src s="13">רעוא דרעוין13,</src>
+    <src s="14">וכידוע14</src>
+    <src s="15">בענין ג' הסעודות דשבת,</src>
+    <src s="16">דזה שבסעודה הג' כתיב15</src>
+    <src s="17">היום לא הוא לפי שאז הוא המשכת תענוג העצמי הבלתי מורגש</src>
+    <src s="18">(שלמעלה מאכילה ושתי'),</src>
+    <src s="19">דבכללות הוא עצם האור שאינו בגדר עלמין</src>
+    <src s="20">(גם לא באופן דסובב)16,</src>
+    <src s="21">לכן מדייק בהמאמר שבתפלה זו הול"ל אתה יחיד ושמך יחיד.</src>
+  </section>
+</awtsmoosMeluketSource>

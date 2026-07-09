@@ -1,0 +1,116 @@
+B"H
+You are translating a section range from one maamar in Sefer Hamaamarim Meluket.
+
+Return ONLY raw XML. Do NOT use markdown fences. Do NOT add commentary outside XML.
+
+TRANSLITERATION / GLOSSARY RULES:
+- יעקב = Yaakov, never Jacob.
+- יצחק = Yitzchak, never Isaac.
+- אברהם = Avraham, never Abraham.
+- משה = Moshe, never Moses.
+- דוד = Dovid, never David.
+- עצמות / Atzmus = Awtsmoos.
+- Preserve: Ein Sof, Sefiros, Nefesh HaBahamis, Nefesh HaElokis, Chayah, Yechidah.
+- Use: The Rebbe, the Alter Rebbe, the Mitteler Rebbe, the Tzemach Tzedek.
+- Translate faithfully; do not flatten Chassidic technical terms.
+
+OUTPUT REQUIREMENTS:
+- Root must be <awtsmoosMeluketTranslation>.
+- Copy heichel, alias, seriesId, postId, and batchId exactly.
+- Do NOT write a whole-post summary.
+- For every input <section v="..."> return exactly one matching <section v="...">.
+- Each section must have <sectionSummaryBrief>: one short, clear summary sentence for that verseSection only.
+- For every input <src s="..."> return exactly one matching <t s="..."> translation.
+- Preserve order. Do not skip, merge, split, or add subsections.
+
+EXPECTED XML SHAPE:
+<awtsmoosMeluketTranslation heichel="ikar" alias="meluket_translation_en" seriesId="ניסן_meluket" postId="BH_POST_1766518917845_theRebbe_238" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917845_theRebbe_238__p002">
+  <section v="0">
+    <sectionSummaryBrief>One sentence summary of this section.</sectionSummaryBrief>
+    <t s="0">...</t>
+  </section>
+</awtsmoosMeluketTranslation>
+
+SOURCE_RANGE:
+<awtsmoosMeluketSource heichel="ikar" seriesId="ניסן_meluket" postId="BH_POST_1766518917845_theRebbe_238" title="מאמר מצה זו תשמ"ט" batchId="meluket-_D7_A0_D7_99_D7_A1_D7_9F_meluket__BH_POST_1766518917845_theRebbe_238__p002">
+  <section v="3">
+    <src s="0">ב)</src>
+    <src s="1">ויש לומר שהמצה שאנו אוכלים לאחרי מתן תורה,</src>
+    <src s="2">היא למעלה יותר גם מבחי' מצות מלא וא"ו דפסח הראשון שלפני מתן תורה.</src>
+    <src s="3">כי מכיון שהגילוי דממה"מ הקב"ה בהמצה שאנו אוכלים לאחרי מ"ת הוא ע"י קדימת העבודה בקיום התומ"צ במשך כל השנה</src>
+    <src s="4">(קודם הפסח)13,</src>
+    <src s="5">הוא גילוי נעלה יותר.</src>
+    <src s="6">וע"ד מעלת הגילוי דחגה"ש זמן מ"ת שלאחרי העבודה דספירת העומר על הגילוי דיצי"מ14,</src>
+    <src s="7">שהגילוי דיצי"מ,</src>
+    <src s="8">עם היותו גילוי נעלה ביותר</src>
+    <src s="9">(בכבודו ובעצמו),</src>
+    <src s="10">מ"מ,</src>
+    <src s="11">מכיון שהגילוי הי' מצד מלמעלה,</src>
+    <src s="12">הי' רק לפי שעה,</src>
+    <src s="13">וע"י העבודה דספה"ע,</src>
+    <src s="14">עבודת התחתון</src>
+    <src s="15">(שלאחרי הגילוי דיצי"מ),</src>
+    <src s="16">ממשיכים נוסף על המ"ט שערים,</src>
+    <src s="17">לאחרי השלימות דמ"ט שערים,</src>
+    <src s="18">גם שער הנו"ן</src>
+    <src s="19">(שגם שער זה נמשך ע"י עבודתינו כמ"ש15</src>
+    <src s="20">תספרו חמשים יום גו')16,</src>
+    <src s="21">ובשער הנו"ן גופא – נוסף על בחינה התחתונה שבו שהיא שייכת להמ"ט שערים</src>
+    <src s="22">(דוגמת אריך)</src>
+    <src s="23">גם בחינה עליונה שבו17</src>
+    <src s="24">שלמעלה משייכות להמ"ט שערים</src>
+    <src s="25">(דוגמת עתיק)18,</src>
+    <src s="26">שהוא נעלה יותר19</src>
+    <src s="27">גם מהגילוי דיצי"מ.</src>
+  </section>
+  <section v="4">
+    <src s="0">ויש להוסיף דמעלת המצה שאנו אוכלים לאחרי מ"ת על המצה שלאחרי חצות שהי' אז,</src>
+    <src s="1">היא</src>
+    <src s="2">(נוסף על שהגילוי בהמצה שאנו אוכלים בא ע"י קדימת העבודה בקיום התומ"צ קודם הפסח,</src>
+    <src s="3">אלא)</src>
+    <src s="4">גם מפני שאכילת המצה עצמה היא מצוה.</src>
+    <src s="5">דהמצה שלאחרי חצות אז היתה</src>
+    <src s="6">(בעיקר20)</src>
+    <src s="7">מפני שלא הספיק בצקת של אבותינו להחמיץ</src>
+    <src s="8">(מצד הגילוי דלמעלה),</src>
+    <src s="9">ולא הי' בזה עבודה</src>
+    <src s="10">(וקיום מצוה)21.</src>
+    <src s="11">והמצה שאנו אוכלים לאחרי מ"ת היא קשורה עם עבודת האדם,</src>
+    <src s="12">קיום מצות אכילת מצה.</src>
+  </section>
+  <section v="5">
+    <src s="0">ג)</src>
+    <src s="1">וצריך להבין מה שאומרים מצה זו שאנו אוכלים על שום מה על שום שלא הספיק בצקת של אבותינו להחמיץ,</src>
+    <src s="2">הרי המצה שאנו אוכלים</src>
+    <src s="3">(לאחרי מ"ת)</src>
+    <src s="4">יש בה מעלת העבודה והמעלה דקיום המצוה</src>
+    <src s="5">[ובזה גופא – מצוה שלאחרי מתן תורה],</src>
+    <src s="6">והיאך אומרים דהמצה שאנו אוכלים הוא על שום שלא הספיק להחמיץ</src>
+    <src s="7">(דזה שהוא מצה ולא חמץ הוא בא ממילא,</src>
+    <src s="8">מפני שלא הספיק להחמיץ).</src>
+    <src s="9">ויש לומר הביאור בזה,</src>
+    <src s="10">כי מצות סיפור יצי"מ היא לספר הענין דיציאת מצרים כמו שהי' אז.</src>
+    <src s="11">ועוד</src>
+    <src s="12">(ועיקר)</src>
+    <src s="13">כיון שאילו לא הוציא הקב"ה את אבותינו ממצרים כו' משועבדים היינו לפרעה במצרים22,</src>
+    <src s="14">לכן גם עכשיו</src>
+    <src s="15">(ובפרט בליל הפסח)</src>
+    <src s="16">אף שנמצאים כבר לאחרי יצי"מ ולאחרי מתן תורה,</src>
+    <src s="17">יש גם המעמד ומצב שהי' אז.</src>
+    <src s="18">ולכן אומרים</src>
+    <src s="19">(בהסיפור דיצי"מ שבהגדה)</src>
+    <src s="20">מצה זו שאנו אוכלים כו' על שום שלא הספיק בצקת של אבותינו להחמיץ עד שנגלה עליהם ממה"מ הקב"ה וגאלם,</src>
+    <src s="21">דבהמצה שאנו אוכלים קודם חצות יש בה נוסף על מעלת המצה דקודם חצות – המעלה דעבודת התחתון בקיום ציווי הקב"ה</src>
+    <src s="22">(כמו שהי' לפני מ"ת),</src>
+    <src s="23">גם מעלת המצה שאחרי חצות – המעלה דלא הספיק להחמיץ</src>
+    <src s="24">(שא"א להיות בה חימוץ)</src>
+    <src s="25">מצד הגילוי דמלמעלה.</src>
+    <src s="26">ונוסף לזה,</src>
+    <src s="27">בהמצה שאנו אוכלים יש גם העילוי דמצד מתן תורה,</src>
+    <src s="28">קיום מצוה שלאחרי מתן תורה.</src>
+    <src s="29">ויתירה מזו,</src>
+    <src s="30">שיש בה גם מעין המעלה דאכילת מצה בשביעי של פסח שהיא רשות23</src>
+    <src s="31">(שלמעלה מחובה)24,</src>
+    <src s="32">שהיא מעין האכילה דלע"ל.</src>
+  </section>
+</awtsmoosMeluketSource>
