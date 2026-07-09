@@ -2,12 +2,11 @@
 // B"H
 /**
  * @file pack_sefer_hasichos_english_vectors.mjs
- * @description Rebuilds the separate Sefer HaSichos English comment vector
- * shard using the minimal correct AwtsmoosDB vector contract. The records are
- * first bulk-loaded into the real AwtsmoosDB list, then the vector index is
- * enabled once so the built-in reindexer scans the completed list. This avoids
- * per-insert index churn while still producing a shard that can be searched via
- * db.vector.nearest(db.root.seferHaSichosEnglishCommentVectors, query, k).
+ * @description Packs the Sefer HaSichos English comment vectors without burning
+ * their reference garments. The f32 matrix remains the fast road for cosine
+ * search, while AwtsmoosDB remains the canonical vessel for every record's full
+ * metadata: commentIds, first/last comment ids, subsection bounds, chunk policy,
+ * q-piece identity as encoded in the id, and the exact embedded text.
  */
 import fs from 'fs';
 import path from 'path';
@@ -38,21 +37,30 @@ function hasHebrew(text) {
   return /[\u0590-\u05ff]/.test(String(text || ''));
 }
 
+function qIndexFromId(id) {
+  const match = String(id || '').match(/:q(\d+)$/);
+  return match ? Number(match[1]) : null;
+}
+
+function commentWindowFromId(id) {
+  const match = String(id || '').match(/:c(\d+)-(\d+)(?::q\d+)?$/);
+  return match ? { commentStart: Number(match[1]), commentEnd: Number(match[2]) } : {};
+}
+
+function metadataWithoutVector(row) {
+  const { vec, ...rest } = row;
+  return {
+    ...rest,
+    qIndex: row.qIndex ?? qIndexFromId(row.id),
+    ...commentWindowFromId(row.id),
+    realEmbedding: true,
+    dimensions: DIMS
+  };
+}
+
 function packed(row) {
   return {
-    id: row.id,
-    seriesId: row.seriesId,
-    postId: row.postId,
-    aliasId: row.aliasId,
-    commentPath: row.commentPath,
-    year: row.year,
-    title: row.title,
-    verseStart: row.verseStart,
-    verseEnd: row.verseEnd,
-    text: row.text,
-    previewEnglish: row.previewEnglish,
-    realEmbedding: true,
-    dimensions: DIMS,
+    ...metadataWithoutVector(row),
     vec: row.vec
   };
 }
@@ -87,14 +95,7 @@ async function writeSidecars(records) {
     const arr = new Float32Array(DIMS);
     for (let i = 0; i < DIMS; i += 1) arr[i] = record.vec[i];
     fs.writeSync(fd, Buffer.from(arr.buffer), 0, DIMS * 4, row * DIMS * 4);
-    metaOut.write(JSON.stringify({
-      id: record.id,
-      year: record.year,
-      title: record.title,
-      postId: record.postId,
-      commentPath: record.commentPath,
-      text: record.text
-    }) + '\n');
+    metaOut.write(JSON.stringify(metadataWithoutVector(record)) + '\n');
   }
   fs.closeSync(fd);
   await new Promise(resolve => metaOut.end(resolve));
@@ -140,7 +141,25 @@ async function main() {
     awtsdbBytes: fs.statSync(SHARD).size,
     matrix: F32,
     matrixBytes: fs.statSync(F32).size,
-    metadata: META,
+    metadataStore: 'canonical-awtsmoosdb-list',
+    metadataSidecar: META,
+    metadataSidecarPolicy: 'full-metadata-mirror-for-fast-f32-index-compatibility; not canonical',
+    preservedMetadataFields: [
+      'commentIds',
+      'firstCommentId',
+      'lastCommentId',
+      'commentCount',
+      'firstSubSection',
+      'lastSubSection',
+      'verseStart',
+      'verseEnd',
+      'previewEnglish',
+      'previewHebrew',
+      'textPolicy',
+      'qIndex',
+      'commentStart',
+      'commentEnd'
+    ],
     liveWalBefore: preWal,
     liveWalAfter: postWal,
     packedAt: new Date().toISOString()

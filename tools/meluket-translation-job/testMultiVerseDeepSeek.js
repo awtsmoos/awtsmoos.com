@@ -1,7 +1,7 @@
 // B"H
 /**
  * Multi-verse, multi-subsection DeepSeek XML alignment test.
- * One network request, zero database writes.
+ * One network request, zero database writes. Output goes outside git.
  */
 const fs = require('fs');
 const path = require('path');
@@ -9,9 +9,10 @@ const crypto = require('crypto');
 const AwtsmoosDB = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
 const awts = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js');
 const { buildPrompt } = require('./meluketPrompt.js');
+const { generatedDir } = require('./jobPaths.js');
 
 const apiKey = process.env.DEEPSEEK_API_KEY;
-const outDir = path.join(__dirname, 'generated', 'multi-test');
+const outDir = generatedDir('multi-test');
 const postsDbFile = '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/socialPacked/social.heichel.ikar.posts.fs.awtsdb';
 const seriesId = process.argv.find(a => a.startsWith('--series='))?.split('=')[1] || 'כסלו_meluket';
 const postIdArg = process.argv.find(a => a.startsWith('--post='))?.split('=')[1] || null;
@@ -26,16 +27,9 @@ function openDb() { const db = new AwtsmoosDB(postsDbFile, { compression: false,
 function closeDb(db) { try { db.pager?.close?.(); db.processLock?.release?.(); } catch {} }
 function readPosts(db, id) { const p = `/social/heichelos/ikar/series/${id}/posts.awtsmoosJSON`; const st = db.fs.stat(p); return awts.deserializeBinary(db.fs.readRange(p, 0, st.size)); }
 function keys(o) { return o && typeof o === 'object' && !Array.isArray(o) ? Object.keys(o).filter(k => !k.startsWith('__')) : []; }
-function sectionParts(section) {
-  if (Array.isArray(section)) return section.map(String);
-  const raw = String(section || '');
-  const split = raw.split(/(?:\n{2,}|(?<=\.)\s+(?=[א-ת]))/).map(s => s.trim()).filter(Boolean);
-  return split.length > 1 ? split : [raw];
-}
-function pickPost(posts) {
-  if (postIdArg) return postIdArg;
-  return keys(posts).find(id => (posts[id]?.dayuh?.sections || []).length >= startSection + sectionCount) || keys(posts)[0];
-}
+function sectionParts(section) { if (Array.isArray(section)) return section.map(String); const raw = String(section || ''); const split = raw.split(/(?:\n{2,}|(?<=\.)\s+(?=[א-ת]))/).map(s => s.trim()).filter(Boolean); return split.length > 1 ? split : [raw]; }
+function pickPost(posts) { if (postIdArg) return postIdArg; return keys(posts).find(id => (posts[id]?.dayuh?.sections || []).length >= startSection + sectionCount) || keys(posts)[0]; }
+
 function collectBatch() {
   const db = openDb();
   try {
@@ -54,6 +48,7 @@ function collectBatch() {
     return { post, items };
   } finally { closeDb(db); }
 }
+
 function attr(text, name) { const m = text.match(new RegExp(`${name}="([^"]*)"`)); return m ? m[1] : ''; }
 function unescapeXml(text) { return String(text).replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&'); }
 function parseReturned(xml) {
@@ -84,16 +79,15 @@ function validate(items, returned) {
   const empty = returned.filter(x => !x.translation);
   return { ok: missing.length === 0 && extra.length === 0 && empty.length === 0, expected: wanted.size, returned: returned.length, missing, extra, emptyCount: empty.length };
 }
+
 async function callDeepSeek(prompt) {
-  const res = await fetch('https://api.deepseek.com/chat/completions', {
-    method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-    body: JSON.stringify({ model: 'deepseek-chat', temperature: 0.1, messages: [{ role: 'user', content: prompt }] })
-  });
+  const res = await fetch('https://api.deepseek.com/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` }, body: JSON.stringify({ model: 'deepseek-chat', temperature: 0.1, messages: [{ role: 'user', content: prompt }] }) });
   const text = await res.text();
   let json; try { json = JSON.parse(text); } catch {}
   if (!res.ok) throw new Error(`DeepSeek HTTP ${res.status}: ${text.slice(0, 800)}`);
   return { status: res.status, rawJson: json, content: json?.choices?.[0]?.message?.content || '' };
 }
+
 async function main() {
   if (!apiKey) throw new Error('DEEPSEEK_API_KEY is not set');
   fs.mkdirSync(outDir, { recursive: true });

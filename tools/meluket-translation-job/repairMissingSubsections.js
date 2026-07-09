@@ -10,7 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 const apiKey = process.env.DEEPSEEK_API_KEY;
-const outDir = path.join(__dirname, 'generated', 'meluket-swarm');
+const outDir = path.join(process.env.AWTSMOOS_JOB_ROOT || '/Users/awtsmoos/Documents/awtsmoos-jobs/meluket-translation-job', 'generated', 'meluket-swarm');
 const chunkRoot = path.join(outDir, 'chunks');
 const model = process.argv.find(a => a.startsWith('--model='))?.split('=')[1] || 'deepseek-chat';
 

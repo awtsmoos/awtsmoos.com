@@ -17,7 +17,7 @@ const { buildWholePostPrompt } = require('./meluketWholePostPrompt.js');
 
 const apiKey = process.env.DEEPSEEK_API_KEY;
 const postsDbFile = '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/socialPacked/social.heichel.ikar.posts.fs.awtsdb';
-const outDir = path.join(__dirname, 'generated', 'meluket-swarm');
+const outDir = path.join(process.env.AWTSMOOS_JOB_ROOT || '/Users/awtsmoos/Documents/awtsmoos-jobs/meluket-translation-job', 'generated', 'meluket-swarm');
 const model = process.argv.find(a => a.startsWith('--model='))?.split('=')[1] || 'deepseek-chat';
 const workerCount = Number(process.argv.find(a => a.startsWith('--workers='))?.split('=')[1] || 50);
 const sectionsPerRequest = Number(process.argv.find(a => a.startsWith('--sectionsPerRequest='))?.split('=')[1] || 3);

@@ -10,7 +10,7 @@ const awts = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/inde
 const { buildWholePostPrompt } = require('./meluketWholePostPrompt.js');
 
 const apiKey = process.env.DEEPSEEK_API_KEY;
-const outDir = path.join(__dirname, 'generated', 'whole-post-test');
+const outDir = path.join(process.env.AWTSMOOS_JOB_ROOT || '/Users/awtsmoos/Documents/awtsmoos-jobs/meluket-translation-job', 'generated', 'whole-post-test');
 const postsDbFile = '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/socialPacked/social.heichel.ikar.posts.fs.awtsdb';
 const seriesId = process.argv.find(a => a.startsWith('--series='))?.split('=')[1] || 'כסלו_meluket';
 const postIdArg = process.argv.find(a => a.startsWith('--post='))?.split('=')[1] || null;

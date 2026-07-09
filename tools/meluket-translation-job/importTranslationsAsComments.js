@@ -14,9 +14,9 @@ const awts = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/inde
 const aliasId = 'meluket_translation_en';
 const dryRun = !process.argv.includes('--run');
 const commentsDbFile = '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/socialPacked/social.heichel.ikar.comments.fs.awtsdb';
-const swarmDir = path.join(__dirname, 'generated', 'meluket-swarm');
+const swarmDir = path.join(process.env.AWTSMOOS_JOB_ROOT || '/Users/awtsmoos/Documents/awtsmoos-jobs/meluket-translation-job', 'generated', 'meluket-swarm');
 const chunksDir = path.join(swarmDir, 'chunks');
-const importDir = path.join(__dirname, 'generated', 'meluket-comment-import');
+const importDir = path.join(process.env.AWTSMOOS_JOB_ROOT || '/Users/awtsmoos/Documents/awtsmoos-jobs/meluket-translation-job', 'generated', 'meluket-comment-import');
 
 function decodeXml(text) {
   return String(text || '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');

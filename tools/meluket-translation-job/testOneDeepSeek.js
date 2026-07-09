@@ -1,8 +1,8 @@
 // B"H
 /**
  * One-subsection DeepSeek pipeline test for Meluket.
- * Network call: exactly one DeepSeek request.
- * Database writes: none.
+ * Network call: exactly one DeepSeek request. Database writes: none.
+ * Output goes outside git through jobPaths.js.
  */
 const fs = require('fs');
 const path = require('path');
@@ -10,9 +10,10 @@ const crypto = require('crypto');
 const AwtsmoosDB = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
 const awts = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js');
 const { buildPrompt } = require('./meluketPrompt.js');
+const { generatedDir } = require('./jobPaths.js');
 
 const apiKey = process.env.DEEPSEEK_API_KEY;
-const outDir = path.join(__dirname, 'generated', 'one-test');
+const outDir = generatedDir('one-test');
 const postsDbFile = '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash/socialPacked/social.heichel.ikar.posts.fs.awtsdb';
 const preferredSeries = process.argv.find(a => a.startsWith('--series='))?.split('=')[1] || 'כסלו_meluket';
 const preferredPost = process.argv.find(a => a.startsWith('--post='))?.split('=')[1] || null;
@@ -26,6 +27,7 @@ function closeDb(db) { try { db.pager?.close?.(); db.processLock?.release?.(); }
 function readPosts(db, seriesId) { const p = `/social/heichelos/ikar/series/${seriesId}/posts.awtsmoosJSON`; const st = db.fs.stat(p); return awts.deserializeBinary(db.fs.readRange(p, 0, st.size)); }
 function keys(o) { return o && typeof o === 'object' && !Array.isArray(o) ? Object.keys(o).filter(k => !k.startsWith('__')) : []; }
 function sectionParts(section) { if (Array.isArray(section)) return section.map(String); if (section == null) return []; return [String(section)]; }
+
 function selectItem() {
   const db = openDb();
   try {
@@ -46,21 +48,14 @@ function selectItem() {
   } finally { closeDb(db); }
   throw new Error('No suitable Meluket subsection found');
 }
+
 function validateXml(xml, item) {
-  const required = [
-    '<awtsmoosTranslationBatch',
-    `seriesId="${item.seriesId}"`,
-    `postId="${item.postId}"`,
-    `verseSection="${item.verseSection}"`,
-    `index="${item.subSection}"`,
-    `sourceHash="${item.sourceHash}"`,
-    '<translation>',
-    '</awtsmoosTranslationBatch>'
-  ];
+  const required = ['<awtsmoosTranslationBatch', `seriesId="${item.seriesId}"`, `postId="${item.postId}"`, `verseSection="${item.verseSection}"`, `index="${item.subSection}"`, `sourceHash="${item.sourceHash}"`, '<translation>', '</awtsmoosTranslationBatch>'];
   const missing = required.filter(x => !xml.includes(x));
   const translation = (xml.match(/<translation>([\s\S]*?)<\/translation>/) || [])[1]?.trim() || '';
   return { ok: missing.length === 0 && translation.length > 0, missing, translationPreview: translation.slice(0, 500), translationLength: translation.length };
 }
+
 async function callDeepSeek(prompt) {
   const res = await fetch('https://api.deepseek.com/chat/completions', {
     method: 'POST',
@@ -71,9 +66,9 @@ async function callDeepSeek(prompt) {
   let json = null;
   try { json = JSON.parse(text); } catch {}
   if (!res.ok) throw new Error(`DeepSeek HTTP ${res.status}: ${text.slice(0, 800)}`);
-  const content = json?.choices?.[0]?.message?.content || '';
-  return { status: res.status, rawJson: json, content };
+  return { status: res.status, rawJson: json, content: json?.choices?.[0]?.message?.content || '' };
 }
+
 async function main() {
   if (!apiKey) throw new Error('DEEPSEEK_API_KEY is not set');
   fs.mkdirSync(outDir, { recursive: true });

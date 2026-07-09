@@ -1,0 +1,5 @@
+# B"H
+# Generated Meluket job artifacts belong outside the git repository.
+generated/
+*.tmp
+.DS_Store
