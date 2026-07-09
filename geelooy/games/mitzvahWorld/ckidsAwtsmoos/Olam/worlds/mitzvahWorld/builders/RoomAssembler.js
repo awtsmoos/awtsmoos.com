@@ -3,7 +3,7 @@
  * @file RoomAssembler.js
  * @description Assembles rooms from parser-clear walls, windows, floors, and manifest furniture.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { makeWall, makeFloor, makeWindow } from "./wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { GeometryEngine } from "../GeometryEngine.js?compact=true&v=awtsmoos-geometry-engine-20260614-bh2";
 import { FURNITURE_BLUEPRINTS } from "../data/manifests/FurnitureManifest.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

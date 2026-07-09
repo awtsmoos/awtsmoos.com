@@ -3,7 +3,7 @@
  * @file buildGlbEntity.js
  * @description Loads GLB entities with fallback, animation, shadows, and physics through parser-clear vessels.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { loadGlb } from "./glb/GlbLoader.js?compact=true&v=awtsmoos-glb-loader-20260614-bh2";
 import { makeFallbackCapsule } from "./glb/GlbFallback.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { addDynamicCapsule } from "./glb/GlbPhysics.js?compact=true&v=awtsmoos-glb-physics-20260614-bh2";

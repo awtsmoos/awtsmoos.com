@@ -1,7 +1,7 @@
 // B"H
 /** @file VillagePictureProp.js @description Engine-registered visible props: cottage returns, trees get finite bounds, no hidden colliders. */
 import Domem from "../../chayim/domem/index.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import TerrainMath from "../terrain/core/TerrainMath.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 import { markDecorative } from "./villagePicture/geometryKit.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 import { VILLAGE_PICTURE_RECIPES } from "./villagePicture/recipeMap.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";

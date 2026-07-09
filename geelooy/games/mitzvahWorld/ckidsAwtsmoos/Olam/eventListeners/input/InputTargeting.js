@@ -1,6 +1,6 @@
 // B"H
 /** @file InputTargeting.js @description Exact ray targeting: no projected NPC fallback from empty air. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import PointerUpdater from "../../methods/interaction/PointerUpdater.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { ownerFromHit, raycastTargets } from "../../methods/helpers/mouse/MouseRaycastTargets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { selectNpcTarget, isNpcTargeted } from "../../../dvarim/npc/NpcTargetRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

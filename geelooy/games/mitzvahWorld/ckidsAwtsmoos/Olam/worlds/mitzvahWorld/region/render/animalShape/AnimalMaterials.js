@@ -4,7 +4,7 @@
  * The Awtsmoos paints each beast with separate vessels: hide, muzzle, hoof,
  * horn, wing, and eye. No pixel soup; every surface keeps its own dignity.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const materialCache = new Map();
 

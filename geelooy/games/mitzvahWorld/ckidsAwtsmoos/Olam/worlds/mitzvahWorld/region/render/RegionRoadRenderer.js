@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionRoadRenderer.js @description Roads cling to terrain and use the fresh grainy material vessel. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { samplePolyline } from "./RegionPolyline.js?compact=true&v=awtsmoos-polyline-20260614-bh2";
 import { regionMaterial } from "./RegionMaterials.js?compact=true&v=awtsmoos-materials-20260614-bh2";
 import { groundY, groundNormal } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

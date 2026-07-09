@@ -1,6 +1,6 @@
 // B"H
 /** @file InteriorClutterRecipe.js @description Lived-in interiors with fresh RAM shader material import. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { rvGroup, rvMesh, rvSeal } from "./RealisticVillageMaterials.js?compact=true&v=awtsmoos-realistic-village-materials-20260614-bh3";
 function add(g, kind, mat, p, s, r = [0,0,0], op = {}) { const m = rvMesh(kind, mat, p, s, r, op); g.add(m); return m; }
 function table(g, x, z) { add(g,"box","wood",[x,.38,z],[.92,.12,.58]); for (const dx of [-.36,.36]) for (const dz of [-.22,.22]) add(g,"box","darkWood",[x+dx,.18,z+dz],[.07,.36,.07]); }

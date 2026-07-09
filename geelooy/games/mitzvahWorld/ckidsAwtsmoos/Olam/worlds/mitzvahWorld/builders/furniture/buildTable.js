@@ -7,7 +7,7 @@
  * ════════════════════════════════════════════════════════════════════════
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { makeWall, makePillar } from '../wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export async function buildTable(scene, physics, def, olam = null) {

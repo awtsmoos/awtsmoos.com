@@ -5,7 +5,7 @@
  * Door lifecycle for collision truth: initialize the visual door, remove the
  * collider while the door opens, and re-add it only when fully closed.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { DOOR_DEFAULTS } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import {
   markDoorPassable,

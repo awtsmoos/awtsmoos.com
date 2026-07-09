@@ -12,7 +12,7 @@
  * B"H UPDATE: All canvas dependencies have been purged! The flares are now pure WebGL math.
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default class IntenseSkySystem {
     constructor(olam) {

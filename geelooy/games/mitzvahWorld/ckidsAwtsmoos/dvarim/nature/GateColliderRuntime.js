@@ -1,6 +1,6 @@
 // B"H
 /** @file GateColliderRuntime.js @description Closed gate collider enters octree; open gate removes it. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { markCollider, COLLISION_POLICY } from "../../systems/collision/CollisionTruthContract.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const mat = () => new THREE.MeshBasicMaterial({ visible: false, transparent: true, opacity: 0 });
 export function buildGateCollider(gate = {}) {

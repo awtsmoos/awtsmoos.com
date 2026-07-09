@@ -1,6 +1,6 @@
 // B"H
 /** @file HebrewProjectileSystem.js @description Hebrew letters/arrows that refine moving targets with homing correction. */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { getRandomLetter, getLetterByIndex } from './WeaponRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import { isLiveTarget } from './CombatTargeting.js?compact=true&v=realistic-target-proof-20260706-bh2';
 function makeCanvas(w, h) { if (typeof document !== 'undefined') { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; } if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(w, h); return null; }

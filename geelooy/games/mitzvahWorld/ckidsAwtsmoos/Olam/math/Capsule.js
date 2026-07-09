@@ -1,7 +1,7 @@
 //B"H
 import {
 	Vector3
-} from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+} from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 var _v1 = new Vector3();
 var _v2 = new Vector3();

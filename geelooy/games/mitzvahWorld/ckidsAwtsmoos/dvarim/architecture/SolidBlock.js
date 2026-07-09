@@ -10,7 +10,7 @@
  * readable top sigil without changing the collision body beneath it.
  */
 import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const cache = new Map();
 const clamp = n => Math.max(0, Math.min(255, Math.round(n)));

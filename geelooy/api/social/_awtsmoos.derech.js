@@ -30,6 +30,7 @@ const packed = require('./_awtsmoos.packed.js');
 const platform = require('./_awtsmoos.platform.js');
 const migrations = require('./_awtsmoos.migrations.js');
 const profile = require('./_awtsmoos.profile.js');
+const search = require('./_awtsmoos.search.js');
 const { verifyApiKey } = require('./helper/apiKeys.js');
 const { loggedIn } = require('./helper/general.js');
 async function resolveUser($i) {
@@ -61,7 +62,7 @@ module.exports = async $i => {
     '/': async () => ({ BH: 'yes', session: $i.request.user }),
     '/fetch/:url': async vars => await fetchProxy($i, vars),
     ...profile(vessel), ...communications(vessel), ...civilization(vessel), ...objects(vessel),
-    ...aliases(vessel), ...keys(vessel), ...graph(vessel), ...content(vessel), ...community(vessel),
+    ...aliases(vessel), ...keys(vessel), ...graph(vessel), ...search(vessel), ...content(vessel), ...community(vessel),
     ...entities(vessel), ...living(vessel), ...thoughts(vessel), ...assets(vessel), ...editor(vessel),
     ...governance(vessel), ...notifications(vessel), ...packed(vessel), ...platform(vessel),
     ...migrations(vessel), ...heichelos(vessel), ...posts(vessel), ...counters(vessel),

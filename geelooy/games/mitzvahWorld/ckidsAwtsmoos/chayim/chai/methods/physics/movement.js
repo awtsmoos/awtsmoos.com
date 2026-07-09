@@ -11,7 +11,7 @@
  * @invariants Forward is +Z at rotation zero; left uses sideX=-cos and sideZ=sin.
  * @failureModes Missing velocity or movement state makes the method a no-op.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { PHYSICS_CONSTANTS } from "./physicsConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default {

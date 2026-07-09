@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { GLTFLoader } from "/games/scripts/jsm/loaders/GLTFLoader.js";
 import { meadowMaterial } from "./RamTextures.js?v=ram-meadow-bh3-grass-diffuse";
 import { RamOctree } from "./RamOctree.js?v=ram-meadow-bh6-camera-octree";

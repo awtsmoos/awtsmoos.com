@@ -7,7 +7,7 @@
  * Merges them all into one single BufferGeometry so it costs exactly 1 draw call,
  * behaving just like a normal object without needing InstancedMesh complexity here.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import BladeBuilder from "./BladeBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 

@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionParcelRenderer.js @description Renders parcel fences, gates, and garden markers without visual rails crossing gate gaps. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { splitSegmentForGap } from "../../../../../dvarim/nature/FenceGapMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

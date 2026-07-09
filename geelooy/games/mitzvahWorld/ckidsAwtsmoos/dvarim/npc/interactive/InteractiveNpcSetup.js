@@ -4,7 +4,7 @@
  * @description Birth and visual readiness helpers for friendly NPCs. Every NPC
  * receives explicit raycast, targeting, and dialogue metadata at setup time.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { buildGuideVisualFromRig } from "../guide/runtime/GuideVisualFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { applyNpcPalette } from "./InteractiveNpcPalette.js?compact=true&v=npc-split-20260628-bh1";
 import {

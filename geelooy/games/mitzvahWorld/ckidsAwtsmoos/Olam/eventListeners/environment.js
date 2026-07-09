@@ -4,7 +4,7 @@
  */
 import { Water } from '/games/scripts/jsm/objects/Water.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import { Sky } from '/games/scripts/jsm/objects/Sky.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 export default function() {
     var self = this;
     this.on("start rain", d => {

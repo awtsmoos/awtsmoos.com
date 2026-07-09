@@ -3,7 +3,7 @@
  * @file villageGrounding.js
  * @description Mesh ground authority, with player jump air respected.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import TerrainMath from "../../../dvarim/terrain/core/TerrainMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { diagEvent, diagThrottle } from "../../../utils/AwtsmoosDiagnostics.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { meshGroundHit, registerGroundMesh } from "../../worlds/mitzvahWorld/collision/GroundCollisionWorld.js?compact=true&v=inline-octree-no-worker-import-20260702-bh1";

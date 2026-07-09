@@ -1,6 +1,6 @@
 // B"H
 /** @file build.js @description Three-style octree build: triangles are real objects, not fragile flat indices. */
-import { Box3, Triangle, Vector3 } from '/games/scripts/build/three.module.js?compact=true&v=stable-three-octree-20260708-bh3';
+import { Box3, Triangle, Vector3 } from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 const _half = new Vector3(), _corner = new Vector3();
 const MAX_TRIANGLES = 65000;
 function sourceAlive(tri) { const s = tri?.sourceMesh; return !s || s.parent || s.userData?.inMainWorld || s.userData?.finalOctreeOnly; }

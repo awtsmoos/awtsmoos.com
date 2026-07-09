@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionWaterRenderer.js @description Grounded translucent stream cells with a living shimmer ticker. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { solveWaterFlow } from "../terrain/WaterFlowSolver.js?compact=true&v=awtsmoos-water-flow-20260614-bh2";
 import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

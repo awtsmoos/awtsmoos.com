@@ -7,7 +7,7 @@
  * Forges an ancient stone well by merging a cylindrical pit with a tiled roof. 
  * A place where the living waters are found.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export default class StoneWell {

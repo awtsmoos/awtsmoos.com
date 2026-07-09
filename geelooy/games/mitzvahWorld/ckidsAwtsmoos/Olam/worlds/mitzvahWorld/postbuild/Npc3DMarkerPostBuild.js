@@ -7,7 +7,7 @@
  * before action. These are not DOM labels; they are small mesh signs above
  * real NPC vessels, visible to desktop and mobile cameras alike.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { NPC_INTERACTION_SCHEMA } from "../data/manifests/NpcInteractionSchema.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 const KEY = "__awtsmoosNpc3DMarker";

@@ -4,7 +4,7 @@
  * WeatherEffects - The physical phenomena of the spiritual environment.
  * B"H SAFE MODE: Custom shaders disabled.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default class WeatherEffects {
     constructor(olam) {

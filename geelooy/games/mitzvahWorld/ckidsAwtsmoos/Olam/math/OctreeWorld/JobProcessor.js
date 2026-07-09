@@ -3,7 +3,7 @@
  * B"H
  * Job Processor for background geometry operations
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { JOB_STEP, NODE_STATE } from './constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const _v1 = new THREE.Vector3();

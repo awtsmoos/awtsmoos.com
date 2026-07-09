@@ -5,7 +5,7 @@
  * Selection bubbles and mesh leaves are gathered per target, deduped, and then
  * offered to the pointer so the right creature rises into the target UI.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { ensureCreatureLevel } from "../progression/CreatureLevelRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { logEightStep } from "../debug/ViralGameplayLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { collectSafeRaycastLeaves } from "../../Olam/methods/helpers/mouse/RaycastSafety.js?compact=true&v=reality-raycast-20260629-bh1";

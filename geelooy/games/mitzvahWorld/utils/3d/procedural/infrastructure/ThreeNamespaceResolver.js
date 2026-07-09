@@ -15,7 +15,7 @@
  * - otherwise use the real static THREE import
  */
 
-import * as REAL_THREE from "/games/scripts/build/three.module.js";
+import * as REAL_THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 /**
  * B"H

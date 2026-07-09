@@ -1,6 +1,6 @@
 // B"H
 /** @module buildHut @description Grainy textured grounded cottages with beams, door, windows, and honest walls. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { makeWall } from "./wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { materialWithTexture } from "../materials/ProceduralTextureKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function deco(group, name, mat, pos, scale){const m=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),mat);m.name=name;m.position.set(...pos);m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;m.userData={hutDecor:true,skipOctree:true,noOctree:true};group.add(m);return m;}

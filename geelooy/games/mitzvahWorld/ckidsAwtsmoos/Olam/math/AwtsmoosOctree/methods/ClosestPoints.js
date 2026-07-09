@@ -1,6 +1,6 @@
 // B"H
 /** @file ClosestPoints.js @description Stable segment closest-points math from the old Octree covenant. */
-import { Vector3 } from '/games/scripts/build/three.module.js?compact=true&v=stable-three-octree-20260708-bh3';
+import { Vector3 } from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 const _r = new Vector3(), _s = new Vector3(), _w = new Vector3();
 const EPS = 1e-10;
 export function lineToLineClosestPoints(line1, line2, target1, target2) {

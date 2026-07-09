@@ -3,9 +3,9 @@
 export default {
   Domem:"../../chayim/domem/index.js?compact=true&v=single-player-mixer-fast-20260709-bh1",
   Tzomayach:"../../chayim/tzomayach.js?compact=true&v=single-player-mixer-fast-20260709-bh1",
-  Chai:"../../chayim/chai/index.js?compact=true&v=up-down-jump-ground-20260709-bh4",
+  Chai:"../../chayim/chai/index.js?compact=true&v=jump-arc-landing-20260709-bh10",
   Medabeir:"../../chayim/medabeir/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
-  Chossid:"../../chayim/chossid/index.js?compact=true&v=up-down-jump-ground-20260709-bh4",
+  Chossid:"../../chayim/chossid/index.js?compact=true&v=jump-arc-landing-20260709-bh10",
   Tool:"../../dvarim/tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Coin:"../../dvarim/coin.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Container:"../../dvarim/container.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
   Wheat:"../../dvarim/farming/wheat.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Mill:"../../dvarim/farming/mill.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Oven:"../../dvarim/farming/oven.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",
   Fire:"../../dvarim/fire.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Lava:"../../dvarim/lava.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1", Portal:"../../dvarim/portal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1",

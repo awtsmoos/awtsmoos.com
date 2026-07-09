@@ -1,6 +1,6 @@
 // B"H
 /** @file CombatManager.js @description Live combat integration: target truth, mobile strike, durability, death/corpse, threat/nameplates/castbars. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import HebrewProjectileSystem from "./HebrewProjectileSystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import HealthBarSystem from "./HealthBarSystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import CombatTargeting, { collectCombatTargets, isLiveTarget } from "./CombatTargeting.js?compact=true&v=realistic-target-proof-20260706-bh2";

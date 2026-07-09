@@ -3,8 +3,8 @@
  * @file buildTerrain.js
  * @description Plain visible grass terrain registered as walkable ground authority.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=plain-grass-terrain-20260709-bh1";
-import TerrainMaterialScribe from "../../../../dvarim/terrain/core/TerrainMaterialScribe.js?compact=true&v=square-grass-repeat-20260709-bh3";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
+import TerrainMaterialScribe from "../../../../dvarim/terrain/core/TerrainMaterialScribe.js?compact=true&v=terrain-unstretched-repeat-20260709-bh11";
 import { registerGroundMesh as registerMeshGroundAuthority } from "../collision/GroundCollisionWorld.js?compact=true&v=inline-octree-no-worker-import-20260702-bh1";
 const fallbackTriple = (value, fallback) => Array.isArray(value) ? value : fallback;
 const propsOf = def => def?.props || {};

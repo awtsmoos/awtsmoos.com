@@ -1,6 +1,6 @@
 // B"H
 /** @file CottageWindowSystem.js @description Cottage frame, sill, shutters, glass, and night-glow metadata. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { COTTAGE_BRICK_PALETTE as P } from "../CottageBrickPalette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function mat(color){ return new THREE.MeshLambertMaterial({ color, transparent:false, opacity:1, depthWrite:true, depthTest:true }); }
 function box(name,size,pos,color,data={}){ const m=new THREE.Mesh(new THREE.BoxGeometry(...size),mat(color)); m.name=name; m.position.set(...pos); Object.assign(m.userData||={},data,{cottageWindowPart:true,opacitySealed:true}); return m; }

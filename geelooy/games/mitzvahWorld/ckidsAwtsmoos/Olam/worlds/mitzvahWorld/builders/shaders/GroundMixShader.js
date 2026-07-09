@@ -8,7 +8,7 @@
  * and every later garment. The shader is generated from the texture count, so
  * more layers can descend without changing the covenant below.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { MAX_GRASS_PATCHES, normalizeGrassPatches } from './GrassPatchMask.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import { normalizeGroundTextureUrls } from './GroundTextureConfig.js?compact=true&v=hosted-ground-textures-20260708-bh1';
 import { createGroundTextureUniforms, loadGroundTextures } from './GroundTextureLoader.js?compact=true&v=hosted-ground-textures-20260708-bh1';

@@ -11,7 +11,7 @@
  * ║  Spawns interactive doors at the designated entrances.     ║
  * ╚═══════════════════════════════════════════════════════════╝
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import ENTRANCE_POSITIONS from '../../../../utils/3d/procedural/house/data/EntrancePositionMap.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default {

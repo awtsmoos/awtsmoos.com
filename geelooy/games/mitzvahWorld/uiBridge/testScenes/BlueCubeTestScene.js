@@ -1,6 +1,6 @@
 // B"H
 /** Absolute minimum visual proof: one renderer, one camera, one blue cube. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=minimal-blue-cube-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export function startBlueCubeTest(back) {
   const host = document.getElementById("ikar") || document.body;

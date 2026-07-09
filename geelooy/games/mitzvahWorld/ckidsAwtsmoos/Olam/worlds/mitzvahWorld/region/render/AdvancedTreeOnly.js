@@ -6,7 +6,7 @@
  * vessel keeps procedural trees finite, grounded, visible, and cheap: one trunk,
  * one leaf mesh, one optional invisible trunk collider.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=tree-visible-perf-jump-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { createProceduralCoreTree } from "../trees/ProceduralCoreTreeFactory.js?compact=true&v=tree-visible-perf-jump-20260708-bh1";
 import { groundY } from "./RegionGround.js?compact=true&v=tree-visible-perf-jump-20260708-bh1";
 

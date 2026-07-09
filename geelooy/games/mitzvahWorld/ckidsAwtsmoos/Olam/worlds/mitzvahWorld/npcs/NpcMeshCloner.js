@@ -3,7 +3,7 @@
  * @file NpcMeshCloner.js
  * @description Makes NPCs visually reuse player-style meshes without optional chaining.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { getNpcClothingPreset } from "./NpcClothingData.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { makeNpcMaterial, applyMaterialByName } from "./NpcMaterialTools.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function dataPath(root, a, b) { const first = root && root[a] ? root[a] : null; return first && first[b] ? first[b] : null; }

@@ -1,6 +1,6 @@
 // B"H
 /** @file geometryKit.js @description Parser-clear geometry, texture, light, and decorative marking helpers, with quiet procedural generation. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { generateProceduralGeometry } from "../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const cache = new Map();
 export const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;

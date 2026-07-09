@@ -3,7 +3,7 @@
  * @file AnimalCrispDetailMeshes.js
  * @description Small low-poly anatomical meshes for close animal readability.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const EYELID = new THREE.BoxGeometry(.12, .018, .028);
 const NOSTRIL = new THREE.SphereGeometry(.022, 8, 6);

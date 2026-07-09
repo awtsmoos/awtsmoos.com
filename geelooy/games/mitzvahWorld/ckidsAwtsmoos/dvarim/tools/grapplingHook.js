@@ -1,7 +1,7 @@
 
 //B"H
 import Tool from "../tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default class GrapplingHook extends Tool {
     constructor(op, olam) { super(op); this.olam = olam; }

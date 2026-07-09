@@ -11,6 +11,7 @@ const { er } = require('../general.js');
 const { verifyAliasOwnership } = require('../alias.js');
 const { normalizeCommentBody, uniqueCommentUrl } = require('./richCommentSchema.js');
 const paths = require('./richCommentPaths.js');
+const { indexAliasComment } = require('./aliasCommentIndex.js');
 
 function id(aliasId) { return `c_${Date.now()}_${aliasId}_${Math.random().toString(36).slice(2)}`; }
 function arr(value) { return Array.isArray(value) ? value : []; }
@@ -53,6 +54,7 @@ async function createComment({ $i, userid, heichelId, postId, seriesId = 'root',
   const context = contextFrom({ heichelId, postId, seriesId, commentId, verseSection: comment.verseSection, subsectionId: comment.subsectionId });
   await $i.db.write(paths.commentPath(context), comment);
   await $i.db.write(paths.uniquePath({ commentId }), { heichelId, postId, seriesId });
+  await indexAliasComment({ $i, comment });
   await writeIndex($i, parentId ? paths.childIndexPath(contextFrom({ heichelId, postId, commentId: parentId })) : paths.rootChildrenPath(context), commentId);
   await writeIndex($i, paths.verseIndexPath(context), commentId);
   if (comment.subsectionId) await writeIndex($i, paths.subsectionIndexPath(context), commentId);
@@ -112,6 +114,7 @@ async function deleteOne({ $i, heichelId, postId, commentId, reason = 'deleted' 
   for (const childId of arr(await read($i, paths.childIndexPath(contextFrom({ heichelId, postId, commentId })), []))) count += (await deleteOne({ $i, heichelId, postId, commentId: childId, reason })).deleted;
   const tombstone = { ...comment, deleted: true, deletedAt: Date.now(), deleteReason: reason, content: '', audioNoteText: '', assets: [], sections: [], links: [], previews: [] };
   await $i.db.write(paths.commentPath(contextFrom({ heichelId, postId, commentId })), tombstone);
+  await indexAliasComment({ $i, comment: tombstone });
   await removeIndex($i, paths.verseIndexPath(contextFrom({ heichelId, postId, verseSection: comment.verseSection })), commentId);
   if (comment.subsectionId) await removeIndex($i, paths.subsectionIndexPath(contextFrom({ heichelId, postId, subsectionId: comment.subsectionId })), commentId);
   return { deleted: count, missing: [] };

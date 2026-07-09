@@ -6,7 +6,7 @@
  * An insanely robust, modular, data-driven JSON geometry engine.
  * Orchestrates Primitives, Specialized Architecture, Modifiers, and Topology edits.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 import PrimitiveFactory from './JSONMesh/PrimitiveFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';

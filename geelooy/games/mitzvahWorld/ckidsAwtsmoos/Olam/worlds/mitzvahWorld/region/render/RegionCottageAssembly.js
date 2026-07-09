@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionCottageAssembly.js @description Real cottage assembly with sealed roof and fresh cache keys. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=door-roof-target-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { buildCottageBricks } from "../houses/CottageBrickBuilder.js?compact=true&v=big-solid-house-rooms-20260702-bh12";
 import { buildCottageRoof } from "../houses/cottage/CottageRoofBuilder.js?compact=true&v=door-roof-target-20260708-bh1";
 import { buildCottageWindows } from "../houses/cottage/CottageWindowSystem.js?compact=true&v=actual-solid-house-20260702-bh5";

@@ -6,7 +6,7 @@
  * Spawns an interactive, grounded field of life. 
  * Every blade of grass probes the Octree physics world to find the ground beneath it.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import GrassBladeGeometry from "./GrassBladeGeometry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class LivingField {

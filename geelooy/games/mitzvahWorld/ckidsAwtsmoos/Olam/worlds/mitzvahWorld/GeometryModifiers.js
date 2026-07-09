@@ -3,7 +3,7 @@
  * @file GeometryModifiers.js
  * @description Parser-clear geometry transformations: scale, array, mirror, extrude, translate, rotate, center, deterministic noise.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import * as BufferGeometryUtils from "/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function list(value) { return Array.isArray(value) ? value : []; }
 function vector(value, resolve, fallback = [0,0,0]) { return list(value || fallback).map(resolve); }

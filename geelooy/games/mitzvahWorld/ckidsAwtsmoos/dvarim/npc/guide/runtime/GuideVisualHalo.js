@@ -1,6 +1,6 @@
 // B"H
 /** @file GuideVisualHalo.js @description Chapter 514: The guide gains a visible level-select halo. */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { guideGlow } from './GuideVisualMaterials.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 export function buildGuideHalo() {
   const g = new THREE.Group();

@@ -5,7 +5,7 @@
  * side edges, front gable, and back gable are real visible wall meshes. No roof
  * fix can hide a missing wall, so the wall builder itself creates the gables.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=door-wall-source-fix-20260708-bh4";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { pos, wallPiece, wallCollider, wallMaterial } from "./CottageBrickPrimitives.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const WALL_THICK = .72;
 const SKIN = .18;

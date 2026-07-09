@@ -2,7 +2,7 @@
 import {
 	Color,
 	Vector3
-} from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+} from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 /**
  * Awtsmoos-rays (crepuscular rays)

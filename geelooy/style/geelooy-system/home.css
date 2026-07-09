@@ -87,3 +87,27 @@ html:has(body.geelooy-home-document), body.geelooy-home-document {
   .geelooy-home-document .home-dashboard-shell { padding: 8px 8px calc(var(--g-dock-h) + 86px) !important; }
   .geelooy-home-document .home-feed-tabs { top: 54px !important; }
 }
+/* B"H mobile click covenant: controls stay touchable even when legacy menus mis-set state. */
+body.geelooy-home-document :where(.awtsmoosificationalisticaticalism, .home-feed-tabs, .home-command-dock, .home-empty-actions, .geelooy-feed-compact-actions, .geelooy-verse-chip) {
+  pointer-events: auto !important;
+}
+body.geelooy-home-document :where(.home-feed-tabs button, .home-command-dock a, .home-empty-actions a, #shared-menu-button, .menuBtn, .geelooy-feed-compact-actions button, .geelooy-verse-chip) {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  user-select: none !important;
+  -webkit-tap-highlight-color: rgba(56, 189, 248, .22) !important;
+}
+body.geelooy-home-document[data-global-menu-open="true"] .geelooy-home-shell,
+body.geelooy-home-document[data-geelooy-drawer-open="false"] .geelooy-home-shell {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+body.geelooy-home-document .sidebarMitzvah.geelooy-drawer:not(.offscreen) {
+  display: grid !important;
+  pointer-events: auto !important;
+  z-index: 5000 !important;
+}
+body.geelooy-home-document .home-feed-tabs { z-index: 120 !important; }
+body.geelooy-home-document .home-command-dock { z-index: 4600 !important; }
+body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 4700 !important; }

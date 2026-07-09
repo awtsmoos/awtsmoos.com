@@ -6,7 +6,7 @@
  * Build mode still places blocks/furniture/wood; tree items are redirected to
  * the current geelooy/libs hero tree vessel and never to legacy generators.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 export default class PlacementManager {
   constructor(olam) { this.olam = olam; this.isActive = false; this.currentItem = null; this.ghostMesh = null; this.raycaster = new THREE.Raycaster(); this.mouse = new THREE.Vector2(0, 0); this._onClick = this.onClick.bind(this); }
   startPlacement(itemData) { if (!itemData) return; this.isActive = true; this.currentItem = itemData; const geo = new THREE.BoxGeometry(1, 1, 1), mat = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5, wireframe: true }); if (itemData.type === 'furniture' || itemData.id?.includes('chair')) geo.scale(1.2, 2, 1.2); else if (itemData.type === 'tree' || itemData.id?.includes('tree')) geo.scale(2, 7, 2); this.ghostMesh = new THREE.Mesh(geo, mat); this.olam.scene.add(this.ghostMesh); this.rotationY = 0; this._onWheel = e => { if (!this.isActive || !this.ghostMesh) return; this.rotationY += Math.sign(e.deltaY) * (Math.PI / 4); this.ghostMesh.rotation.y = this.rotationY; }; document.addEventListener('mousedown', this._onClick); window.addEventListener('wheel', this._onWheel); this.olam.ayshPeula("ui event", "toast", { message: `Placing: ${itemData.name}. Click to anchor.` }); }

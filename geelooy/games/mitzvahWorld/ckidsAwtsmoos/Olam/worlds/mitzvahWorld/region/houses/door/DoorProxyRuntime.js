@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const PROXY = "AWTSMOOS_DOOR_EXPLICIT_INTERACTION_PROXY";
 const HIGHLIGHT = "AWTSMOOS_DOOR_HOVER_HIGHLIGHT";

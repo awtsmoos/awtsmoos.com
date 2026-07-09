@@ -9,7 +9,7 @@
  * This module allows external systems to probe the world. Raycasting to 
  * find what the eye sees, and Capsule checks to find what the body touches.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 const _tempBox = new THREE.Box3();
 
 export default {

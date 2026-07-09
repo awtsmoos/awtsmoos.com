@@ -5,7 +5,7 @@
  * The Awtsmoos lets each creature receive a path before the frame begins, so
  * the per-frame river only carries intent, not repeated random searching.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 const ray = new THREE.Raycaster();
 const down = new THREE.Vector3(0, -1, 0);
 const up = new THREE.Vector3(0, 1, 0);

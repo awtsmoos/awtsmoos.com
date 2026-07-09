@@ -1,6 +1,6 @@
 // B"H
 /** @file CottageBrickBuilder.js @description Larger sealed cottage: shell, rooms, floor, live door. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=door-roof-target-20260708-bh2";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { COTTAGE_BRICK_PALETTE as P } from "./CottageBrickPalette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { addCottageWalls } from "./CottageBrickWalls.js?compact=true&v=door-roof-target-20260708-bh2";
 import { addCottageBeams, addCottageWindows } from "./CottageBrickDetails.js?compact=true&v=actual-solid-house-20260702-bh5";

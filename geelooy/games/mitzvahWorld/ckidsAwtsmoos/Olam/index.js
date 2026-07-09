@@ -1,4 +1,12 @@
 // B"H
-/** Public Olam gate cache-busted for active tested live gates. */
-import OlamVessel from "./core/OlamVessel.js?compact=true&v=actual-tested-live-gates-20260709-bh5";
-export default OlamVessel;
+/**
+ * Public Olam gate.
+ *
+ * This is the single supported doorway for code that wants the Olam class. The
+ * worker must be allowed to import Olam through this gate, and this gate must
+ * faithfully expose the constructable class from the core vessel.
+ */
+import Olam from "./core/OlamVessel.js";
+export { Olam };
+export const OlamClass = Olam;
+export default Olam;

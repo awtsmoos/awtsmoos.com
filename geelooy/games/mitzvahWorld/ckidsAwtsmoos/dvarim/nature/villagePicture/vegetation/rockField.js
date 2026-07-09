@@ -1,6 +1,6 @@
 // B"H
 /** @file rockField.js @description Decorative instanced rocks, parser-clear and non-colliding. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { geometry, material } from "../geometryKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;

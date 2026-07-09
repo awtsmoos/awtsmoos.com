@@ -9,7 +9,7 @@
  * flare excess, no lava brightness changes.
  */
 import Tzomayach from "../../chayim/tzomayach.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 function rgbaCloudTexture(size = 64) {
   const data = new Uint8Array(size * size * 4);

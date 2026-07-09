@@ -1,5 +1,5 @@
 // B"H
-import { renderUnifiedFeedCard } from '../../feed/renderFeedCard.js';
+import { renderUnifiedFeedCard } from '../../feed/renderFeedCard.js?v=comments-001';
 import { button, element, link, pill, textNode } from './dom.js';
 export function renderObjectCard(object, onInspect) {
   return renderUnifiedFeedCard(object, { onInspect, onSave:onInspect, onShare:onInspect });

@@ -6,7 +6,7 @@
  * by GroundedColliderBuilder are already center-based, so this factory never
  * adds terrain height a second time.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { categorySpec } from "./ColliderCategoryRegistry.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 function num(value, fallback = 0) {

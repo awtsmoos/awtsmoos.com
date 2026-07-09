@@ -1,6 +1,6 @@
 // B"H
 /** Isolated chossid.glb animation laboratory with raw clip buttons. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=main-menu-tests-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { GLTFLoader } from "/games/scripts/jsm/loaders/GLTFLoader.js?compact=true&v=main-menu-tests-20260708-bh1";
 import { makeSceneShell } from "./TestSceneShell.js?compact=true&v=main-menu-tests-20260708-bh1";
 const GLB = "https://models-3122d.web.app/chossid.glb";

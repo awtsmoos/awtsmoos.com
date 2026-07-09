@@ -7,7 +7,7 @@
  * to return to ayin before the next chamber is born. The worker is not slain;
  * only the current world-body is unloaded and acknowledged.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import VeilController from "../../uiManager/logic/VeilController.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 /** @param {any} value Maybe array. @returns {Array} A normalized array. */

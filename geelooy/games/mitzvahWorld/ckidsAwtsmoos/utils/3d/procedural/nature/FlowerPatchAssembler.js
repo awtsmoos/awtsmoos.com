@@ -4,7 +4,7 @@
  * @description Generates a single instanced mesh for hundreds of procedural flowers.
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { FLOWER_VERTEX_SHADER, FLOWER_FRAGMENT_SHADER, getFlowerUniforms } from '../../../../shaders/FlowerShader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class FlowerPatchAssembler {

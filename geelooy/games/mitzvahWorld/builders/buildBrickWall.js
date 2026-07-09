@@ -16,7 +16,7 @@
  * @module buildBrickWall
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const _DUMMY = new THREE.Object3D();
 

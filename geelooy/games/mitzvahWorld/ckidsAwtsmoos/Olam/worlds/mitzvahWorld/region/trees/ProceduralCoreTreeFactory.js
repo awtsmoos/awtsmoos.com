@@ -5,7 +5,7 @@
  * decoded, pixel-cleaned, cached once per URL, and only then placed into a plain
  * THREE.Texture. No loader helpers, no canvas-backed texture wrapper, no per-tree image surgery.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { TreeGenerator } from "/libs/awtsmoos-procedural-core/src/core/geometry/generators/tree/treeGenerator.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { createAwtsmoosThreeBufferGeometry } from "/libs/awtsmoos-procedural-core/src/adapters/three/bufferGeometry.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 export const TREE_TEXTURE_URLS=Object.freeze({bark:"https://awtsmoos-docs-base.web.app/full-resolution/tree%20bark%201.png",fall:"https://awtsmoos-docs-base.web.app/full-resolution/oak%20leaf%20fall.png",spring:"https://awtsmoos-docs-base.web.app/full-resolution/oak%20spring.png"});

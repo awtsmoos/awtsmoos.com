@@ -1,6 +1,6 @@
 // B"H
 /** @file brickStructure.js @description One-buffer masonry walls, parser-clear and visual-only. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { material } from "../geometryKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { buildBrickWallRenderData } from "../../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/generators/brickWall/brickWallGenerator.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

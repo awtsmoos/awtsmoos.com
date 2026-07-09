@@ -3,7 +3,7 @@
  * @file Ghost.js
  * @description Chapter 1026: build preview never imports removed tree generators.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 function simpleGhost(color = 0x00ff00, size = [1,1,1]) { return new THREE.Mesh(new THREE.BoxGeometry(...size), new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: .5, depthWrite: false })); }
 export default {
   async placeBlockOnRay() {

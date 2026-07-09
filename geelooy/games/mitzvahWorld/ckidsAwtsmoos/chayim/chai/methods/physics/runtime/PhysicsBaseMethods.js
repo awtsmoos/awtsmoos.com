@@ -1,6 +1,6 @@
 // B"H
 /** @file PhysicsBaseMethods.js @description Capsule base physics with anti-fling collision clamps. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=stable-collision-animation-20260708-bh5";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { solveMovingSolid } from "../../../../../dvarim/movers/runtime/movingSolidSolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?compact=true&v=perf-tight-collision-20260703-bh2";
 import { clearAirTrajectory } from "./PhysicsAirRuntime.js?compact=true&v=stable-collision-animation-20260708-bh5";
@@ -75,6 +75,13 @@ export default {
     const octree = this.olam && this.olam.worldOctree;
     const result = octree && typeof octree.capsuleIntersect === 'function' ? octree.capsuleIntersect(this.collider) : null;
     if (!finiteResult(result)) return;
+    if (this.jumped && !this.onFloor && result.normal.y > 0.55) {
+      const age = Date.now() - Number(this.__jumpStartedAt || 0);
+      if (age < 650 || Number(this.velocity?.y || 0) > -0.55) {
+        this.__lastJumpFloorCollisionSkip = { at: Date.now(), age, vy: this.velocity?.y || 0, normalY: result.normal.y, depth: result.depth };
+        return;
+      }
+    }
     const push = safePush(result);
     if (!push) return;
     this.collider.translate(push);

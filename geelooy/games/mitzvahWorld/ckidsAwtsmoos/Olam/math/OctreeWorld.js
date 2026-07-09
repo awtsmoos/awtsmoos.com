@@ -1,6 +1,6 @@
 
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js?compact=true&v=stable-three-octree-20260708-bh3";
 import { JOB_STEP, NODE_STATE, CONFIG } from './OctreeWorld/constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import LODNode from './OctreeWorld/LODNode.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';

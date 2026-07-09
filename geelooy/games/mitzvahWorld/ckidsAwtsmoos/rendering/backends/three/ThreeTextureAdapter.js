@@ -1,6 +1,6 @@
 // B"H
 /** @file ThreeTextureAdapter.js @description Texture intent materializes into Three texture only here. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import FurGenerator from "../../../utils/TextureForge/Generators/Fur.js?compact=true&v=fur-generator-20260614-bh1";
 const cache = new Map();
 export function createThreeTexture(intent = {}) {

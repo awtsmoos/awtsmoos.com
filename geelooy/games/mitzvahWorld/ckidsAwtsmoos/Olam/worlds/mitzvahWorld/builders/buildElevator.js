@@ -3,7 +3,7 @@
  * @file buildElevator.js
  * @description Moving light platform with parser-clear tzimtzum binding.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { makeWall } from "./wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function propsOf(def) { return def && def.props ? def.props : {}; }
 function triple(value, fallback) { return Array.isArray(value) ? value : fallback; }

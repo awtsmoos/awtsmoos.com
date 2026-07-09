@@ -7,7 +7,7 @@
  * It transitions through the spiritual worlds based on the passage of time.
  * Now supercharged with the IntenseSkySystem, forging realistic scattering and lens flares.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import WeatherEffects from './WeatherEffects.js?compact=true&v=crisp-background-budget-20260621-bh2';
 import IntenseSkySystem from '../../dvarim/nature/sky/IntenseSkySystem.js?compact=true&v=full-chain-cache-bust-20260708-bh10'; // B"H!
 

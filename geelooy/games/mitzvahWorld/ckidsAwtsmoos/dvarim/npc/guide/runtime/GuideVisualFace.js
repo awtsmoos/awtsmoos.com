@@ -4,7 +4,7 @@
  * @description Chapter 513: The guide face consumes living-eye/yarmulke/beard
  * metadata and makes it visible in the current renderer.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { guideGlow, guideMat } from './GuideVisualMaterials.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 function rgb(arr, fallback) { return Array.isArray(arr) ? new THREE.Color(arr[0], arr[1], arr[2]).getHex() : fallback; }
 export function buildGuideFace(rig = {}) {

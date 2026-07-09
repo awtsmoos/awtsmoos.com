@@ -10,7 +10,7 @@
  * It integrates Ghost generation, Placement, and Collection 
  * into a unified interface for the soul to interact with the world.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import Ghost from "./Ghost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import Placement from "./Placement.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import Collection from "./Collection.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

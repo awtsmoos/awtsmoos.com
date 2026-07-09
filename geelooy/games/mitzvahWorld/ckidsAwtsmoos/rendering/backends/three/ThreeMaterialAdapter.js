@@ -4,7 +4,7 @@
  * @description Renderer covenant for opaque animals: no accidental see-through,
  * stable depth writing, richer rough fur, and explicit alpha only when intended.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { createThreeTexture } from "./ThreeTextureAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const creatureHints = /animal|creature|wildlife|fox|wolf|cow|goat|deer|bird|fur|hide|skinned/i;
 function wantsDoubleSide(intent = {}) {

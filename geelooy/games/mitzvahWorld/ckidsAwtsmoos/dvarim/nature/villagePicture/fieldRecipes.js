@@ -1,6 +1,6 @@
 // B"H
 /** @file fieldRecipes.js @description Meadow detail clusters, parser-clear and visual-only. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { foliageBatch, setFoliageInstance } from "./FoliageAtlas.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const rand = value => { const x = Math.sin(value * 91.173) * 43758.5453; return x - Math.floor(x); };
 function mark(mesh) { if (!mesh.userData) mesh.userData = {}; Object.assign(mesh.userData, { villageDecor:true, skipOctree:true, noOctree:true, skipRaycast:true }); }

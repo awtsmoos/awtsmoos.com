@@ -10,7 +10,7 @@
  * saving the rendering pipeline from infinite compilation loops.
  */
 import Domem from "../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default class Lava extends Domem {
     type = "lava";

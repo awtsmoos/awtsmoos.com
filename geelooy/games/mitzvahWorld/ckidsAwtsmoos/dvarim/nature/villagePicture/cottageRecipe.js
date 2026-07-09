@@ -1,6 +1,6 @@
 // B"H
 /** @file cottageRecipe.js @description Visible cottage meshes are the only collision vessels. No invisible colliders, no sidecars. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 const URLS=Object.freeze({red:"https://awtsmoos-docs-base.web.app/full-resolution/red%20brick%201.png"});
 const M=new Map(),T=new Map();
 function tex(url,r){const k=url+JSON.stringify(r);if(T.has(k))return T.get(k);const t=new THREE.Texture();T.set(k,t);if(typeof fetch==="function"&&typeof createImageBitmap==="function")fetch(url,{mode:"cors",cache:"force-cache"}).then(x=>x.blob()).then(createImageBitmap).then(b=>{t.image=b;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(r.x,r.y);t.anisotropy=8;if(THREE.SRGBColorSpace)t.colorSpace=THREE.SRGBColorSpace;t.needsUpdate=true;}).catch(()=>{});return t;}

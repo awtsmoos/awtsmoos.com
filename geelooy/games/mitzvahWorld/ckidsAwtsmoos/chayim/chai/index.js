@@ -1,11 +1,11 @@
 // B"H
 /** Chai root with up/down corrected physics and single-mixer animation chain. */
 import Tzomayach from "../tzomayach.js?compact=true&v=single-player-mixer-fast-20260709-bh1";
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { Capsule } from '../../Olam/math/Capsule.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import visualMethods from "./methods/visuals.js?compact=true&v=exact-visual-feet-20260603-bh388";
 import movementMethods from "./methods/movement.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import physicsMethods from "./methods/physics.js?compact=true&v=up-down-jump-ground-20260709-bh4";
+import physicsMethods from "./methods/physics.js?compact=true&v=jump-arc-landing-20260709-bh10";
 import raycastingMethods from "./methods/raycasting.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { PHYSICS_CONSTANTS } from "./methods/physics/physicsConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';

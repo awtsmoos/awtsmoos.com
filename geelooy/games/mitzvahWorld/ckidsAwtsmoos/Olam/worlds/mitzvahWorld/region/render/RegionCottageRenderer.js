@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionCottageRenderer.js @description Full cottages with fresh door runtime and sealed roofs. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=door-roof-target-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { planHouses } from "../houses/HousePlanner.js?compact=true&v=awtsmoos-house-plan-20260614-bh2";
 import { installDoorInteractionRuntime } from "../houses/door/DoorInteractionRuntime.js?compact=true&v=door-wall-source-fix-20260708-bh4";
 import { makeCottage } from "./RegionCottageAssembly.js?compact=true&v=door-roof-target-20260708-bh1";

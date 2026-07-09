@@ -1,6 +1,6 @@
 ﻿// B"H
 /** @file RegionMaterials.js @description Cached grainy procedural materials for every named ecology vessel. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?compact=true&v=ping-pong-crisp-textures-20260622-bh1";
 const cache = new Map();
 const ALIASES = Object.freeze({

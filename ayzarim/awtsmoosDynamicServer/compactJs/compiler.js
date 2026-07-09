@@ -3,7 +3,7 @@
 const path = require("path");
 const { parseJavaScript } = require("./ast.js");
 const { collectTopLevelExports, collectTopLevelModuleLinks } = require("./imports.js");
-const { isLocalImport, resolveLocalImport } = require("./paths.js");
+const { cleanImportSource, isLocalImport, isPublicExternalImport, resolveLocalImport } = require("./paths.js");
 
 /**
  * B"H
@@ -56,7 +56,7 @@ async function addFileToCompactModule(state, filePath) {
     if (isLocalImport(link.source)) {
       const resolved = resolveLocalImport({ fromFile: absolute, source: link.source, rootDir: state.rootDir });
       if (resolved) record.deps.set(link.source, await addFileToCompactModule(state, resolved));
-    } else if (link.type === "ImportDeclaration") {
+    } else if (link.type === "ImportDeclaration" || link.type === "ExportNamedDeclaration" || link.type === "ExportAllDeclaration") {
       record.externalDeps.set(link.source, externalRecordFor(state, link.source));
     }
   }
@@ -88,10 +88,24 @@ function collectLiteralDynamicImports(source) {
 }
 
 function externalRecordFor(state, source) {
-  if (state.externals.has(source)) return state.externals.get(source);
-  const record = { source, id: `__awtsmoosExternal_${state.externals.size}` };
-  state.externals.set(source, record);
+  const canonical = canonicalExternalSource(source);
+  if (state.externals.has(canonical)) return state.externals.get(canonical);
+  const record = { source: canonical, id: `__awtsmoosExternal_${state.externals.size}` };
+  state.externals.set(canonical, record);
   return record;
+}
+
+/**
+ * B"H
+ * Browser ESM identity is the full URL. A vendor library with many query-string
+ * costumes becomes many different modules. Compact externalization must gather
+ * every decorated request for three.module.js into one canonical URL so the
+ * page receives one THREE namespace only.
+ */
+function canonicalExternalSource(source) {
+  const clean = cleanImportSource(source);
+  if (isPublicExternalImport(clean)) return clean;
+  return String(source || "");
 }
 
 function renderCompactModule(state) {
@@ -280,13 +294,15 @@ function isSuperclassImport(source, local) {
 
 function namedExportReplacement(record, node) {
   const sourceValue = node.source && node.source.value;
-  if (sourceValue && record.deps.has(sourceValue)) return sourceReexportReplacement(record, node);
+  if (sourceValue && (record.deps.has(sourceValue) || record.externalDeps.has(sourceValue))) return sourceReexportReplacement(record, node);
   if (node.declaration) return declarationExportReplacement(record, node.declaration);
   return specifierExportAssignments(node.specifiers, "");
 }
 
 function sourceReexportReplacement(record, node) {
-  const dep = record.deps.get(node.source.value);
+  const source = node.source && node.source.value;
+  const dep = record.deps.get(source) || record.externalDeps.get(source);
+  if (!dep) return "";
   const specifiers = node.specifiers || [];
   if (!specifiers.length || specifiers.some((item) => item.type === "ExportAllDeclaration")) return `Object.assign(__exports, ${dep.id});`;
   return specifiers.map((specifier) => {
@@ -295,9 +311,9 @@ function sourceReexportReplacement(record, node) {
     return local && exported ? `__exports.${exported} = ${dep.id}.${local};` : "";
   }).filter(Boolean).join("\n");
 }
-
 function exportAllReplacement(record, node) {
-  const dep = record.deps.get(node.source && node.source.value);
+  const source = node.source && node.source.value;
+  const dep = record.deps.get(source) || record.externalDeps.get(source);
   return dep ? `Object.assign(__exports, ${dep.id});` : "";
 }
 

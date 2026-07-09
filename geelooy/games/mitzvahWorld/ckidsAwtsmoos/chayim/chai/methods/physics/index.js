@@ -1,6 +1,6 @@
 // B"H
 /** Player physics hot path: up moves forward, down moves backward, air stays airborne until real floor. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=up-down-jump-ground-20260709-bh4";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { ensurePlayerCollisionBubble } from "../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?compact=true&v=trees-house-fps-final-20260708-bh4";
 import baseMethods from "./runtime/PhysicsBaseMethods.js?compact=true&v=trees-house-fps-final-20260708-bh4";
 import frameMethods from "./runtime/PhysicsFrameMethods.js?compact=true&v=trees-house-fps-final-20260708-bh4";

@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 const V1 = new THREE.Vector3(), V2 = new THREE.Vector3(), V3 = new THREE.Vector3();
 const P1 = new THREE.Vector3(), P2 = new THREE.Vector3(), T1 = new THREE.Vector3(), T2 = new THREE.Vector3(), T3 = new THREE.Vector3();
 const PLANE = new THREE.Plane(), LINE1 = new THREE.Line3(), LINE2 = new THREE.Line3(), BOX = new THREE.Box3(), RAY = new THREE.Ray();

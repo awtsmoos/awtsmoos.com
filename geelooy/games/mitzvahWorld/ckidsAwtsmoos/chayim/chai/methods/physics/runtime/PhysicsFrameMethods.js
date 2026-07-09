@@ -1,6 +1,6 @@
 // B"H
 /** @file PhysicsFrameMethods.js @purpose Hot path without per-frame profiler allocation. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=trees-house-fps-final-20260708-bh4";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import Tzomayach from "../../../../tzomayach.js?compact=true&v=trees-house-fps-final-20260708-bh4";
 import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?compact=true&v=trees-house-fps-final-20260708-bh4";
 import { clearAirTrajectory, needsOctreePhysics } from "./PhysicsAirRuntime.js?compact=true&v=trees-house-fps-final-20260708-bh4";

@@ -1,6 +1,6 @@
 // B"H
 /** Registers Chossid and loads fresh model animation prep. */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import Chai from "../../chai/index.js?compact=true&v=grass-chossid-stepwise-20260707-bh1";
 import { applyCameraStart } from './lifecycle/cameraStart.js?compact=true&v=lava-camera-axis-20260609-bh640';
 import { ensureFallbackBody } from './lifecycle/fallbackBody.js?compact=true&v=compact-engine-20260702-bh2';

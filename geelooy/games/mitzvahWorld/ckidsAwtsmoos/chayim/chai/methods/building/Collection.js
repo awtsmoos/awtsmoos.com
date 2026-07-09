@@ -9,7 +9,7 @@
  * This module allows the soul to reclaim blocks from the world, 
  * returning them to the Treasury (Inventory) for later use.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default {
     async collectObject() {

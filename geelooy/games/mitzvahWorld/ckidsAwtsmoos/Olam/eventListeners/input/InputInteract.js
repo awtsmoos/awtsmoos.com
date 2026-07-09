@@ -1,6 +1,6 @@
 // B"H
 /** @file InputInteract.js @description Stable NPC selection; door taps route to doors without erasing friendly target. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=door-roof-target-20260708-bh2";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { toggleNearestDoor } from "../../worlds/mitzvahWorld/region/houses/door/DoorInteractionRuntime.js?compact=true&v=door-wall-source-fix-20260708-bh4";
 import { clearTarget } from "./InputTargeting.js?compact=true&v=door-roof-target-20260708-bh2";
 import { nearPlayer, positionOf } from "./InputTrace.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

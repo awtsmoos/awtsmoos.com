@@ -7,7 +7,7 @@
  * 
  * Materializes a Three.js geometry from the JSON blueprint instantly and quietly.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import GeometryManager from '../../math/GeometryManager.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export default class GeometryCarver {

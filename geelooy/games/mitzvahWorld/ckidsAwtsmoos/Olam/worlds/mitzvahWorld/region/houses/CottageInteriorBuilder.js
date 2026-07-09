@@ -1,6 +1,6 @@
 // B"H
 /** @file CottageInteriorBuilder.js @description Builds socketed visible interiors using split semantic prop modules. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { COTTAGE_BRICK_PALETTE as P } from "./CottageBrickPalette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { interiorSockets } from "./interior/InteriorSocketPlanner.js?compact=true&v=cottage-interior-sockets-20260615-bh3";
 import { buildInteriorProp } from "./interior/InteriorPropBuilder.js?compact=true&v=cottage-interior-props-20260615-bh3";

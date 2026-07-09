@@ -10,7 +10,7 @@
  * @module buildCottage
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { makeWall, makeWindow } from './wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 /**

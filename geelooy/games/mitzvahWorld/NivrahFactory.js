@@ -10,7 +10,7 @@
 
 console.log("B\"H - NivrahFactory: Initializing...");
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { GeometryEngine }    from './GeometryEngine.js';
 import { ARCHITECT_MANIFEST } from './ckidsAwtsmoos/Olam/worlds/mitzvahWorld/data/manifests/ArchitectManifest.js';
 import { NIVRA_SCHEMA }      from './ckidsAwtsmoos/Olam/worlds/mitzvahWorld/data/manifests/NivraSchema.js';

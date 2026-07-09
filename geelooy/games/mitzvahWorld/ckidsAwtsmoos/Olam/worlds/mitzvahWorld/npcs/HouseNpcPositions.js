@@ -1,6 +1,6 @@
 // B"H
 /** @file HouseNpcPositions.js @description Places NPCs visibly near houses when houses exist, parser-clear. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 function nameOf(object) { return String(object && object.name ? object.name : "").toLowerCase(); }
 function isHouseLike(object) { const name = nameOf(object); return name.includes("house") || name.includes("home") || name.includes("hut"); }
 function findHouses(scene) { const houses = []; if (!scene || typeof scene.traverse !== "function") return houses; scene.traverse(child => { if (isHouseLike(child)) houses.push(child); }); return houses; }

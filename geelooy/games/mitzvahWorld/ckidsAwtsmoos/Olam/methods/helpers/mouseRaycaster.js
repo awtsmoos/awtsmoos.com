@@ -4,7 +4,7 @@
  * @description Pointer interaction uses explicit finite proxies. Empty clicks do
  * not erase a selected friendly NPC; only explicit target changes clear it.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=npc-target-final-20260708-bh3";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { finitePayload, ownerFromHit, raycastTargets } from "./mouse/MouseRaycastTargets.js?compact=true&v=npc-target-final-20260708-bh3";
 import { interactionPayload, stopBrowserContext } from "./mouse/MouseInteractionPayload.js?compact=true&v=npc-target-final-20260708-bh3";
 function viewportRect(olam){return{width:olam.width||olam.renderer?.domElement?.clientWidth||1,height:olam.height||olam.renderer?.domElement?.clientHeight||1};}

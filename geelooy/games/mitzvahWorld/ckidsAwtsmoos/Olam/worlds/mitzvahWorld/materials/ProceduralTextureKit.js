@@ -1,6 +1,6 @@
 // B"H
 /** @file ProceduralTextureKit.js @description Tiny textures, vast illusion: mirrored repeat, macro stains, micro grain, mipmapped forever. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 const cache=new Map();
 const P=Object.freeze({grass:[[12,38,13],[42,118,34],[132,205,82],[28,76,24],[190,225,118]],leaf:[[16,56,20],[54,132,42],[132,210,74],[22,70,24]],dirt:[[38,24,14],[102,62,30],[180,112,54],[24,16,10]],stone:[[70,70,68],[138,134,122],[220,214,194],[96,92,88]],wood:[[34,20,11],[92,50,22],[170,98,42],[55,32,16]],flower:[[155,88,142],[255,224,112],[255,245,210],[118,210,122]],fur:[[78,58,38],[158,118,74],[230,214,188],[44,30,20]],water:[[36,105,145],[74,176,222],[166,232,250],[22,72,118]],brick:[[70,28,22],[138,56,38],[198,88,58],[154,128,98]],fabric:[[66,60,50],[132,122,96],[224,210,166],[94,84,68]],gold:[[86,55,8],[184,128,28],[255,226,85],[138,82,12]]});
 function kindFor(v){const n=String(v||'stone').toLowerCase(); if(/grass|moss/.test(n))return'grass'; if(/leaf|cabbage|onion/.test(n))return'leaf'; if(/dirt|earth|trail|skin|straw/.test(n))return'dirt'; if(/wood|bark/.test(n))return'wood'; if(/flower|petal|mushroom/.test(n))return'flower'; if(/fur|feather|animal/.test(n))return'fur'; if(/water/.test(n))return'water'; if(/brick/.test(n))return'brick'; if(/fabric|linen|cotton/.test(n))return'fabric'; if(/gold/.test(n))return'gold'; return'stone';}

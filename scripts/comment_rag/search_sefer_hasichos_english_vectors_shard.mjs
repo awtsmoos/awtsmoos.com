@@ -2,11 +2,12 @@
 // B"H
 /**
  * @file search_sefer_hasichos_english_vectors_shard.mjs
- * @description The Awtsmoos breathes through already-packed Sefer HaSichos
- * English comment vectors: no corpus embeddings regenerated, no slow
- * db.vector.nearest pilgrimage, only the f32 sidecar road and the exact stored
- * metadata text revealed in full. The letters are not previews; the letters are
- * the vessel, and the vessel is printed whole.
+ * @description Fast f32 semantic search over Sefer HaSichos English comment
+ * vectors, followed by source resolution through the live Awtsmoos comments DB.
+ * The vector row's text is the exact embedded subchunk; the reference metadata
+ * says where that subchunk came from. This script therefore prints the hit,
+ * its reference garment, and the smallest live comment row(s) found under
+ * commentPath/commentIds that contain the embedded subchunk.
  */
 import fs from 'fs';
 import path from 'path';
@@ -14,6 +15,8 @@ import { createRequire } from 'module';
 import { performance } from 'perf_hooks';
 
 const require = createRequire(import.meta.url);
+const AwtsmoosDB = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
+const legacy = require('../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js');
 const { embedTextAuto, runnerState } = require('../../ayzarim/DosDB/aiSearch/textEmbedRunner.js');
 
 const ROOT = process.env.AWTS_DB_ROOT || '/Users/awtsmoos/Documents/awtsmoos/dayuhChadash';
@@ -21,9 +24,11 @@ const RAG = path.join(ROOT, 'ai/comment-rag');
 const MANIFEST = path.join(RAG, 'sefer-hasichos-english-comments-rag.fast-manifest.json');
 const FALLBACK_F32 = path.join(RAG, 'sefer-hasichos-english-comments-rag.f32');
 const FALLBACK_META = path.join(RAG, 'sefer-hasichos-english-comments-rag.meta.jsonl');
-const LIVE_WAL = path.join(ROOT, 'socialPacked/social.heichel.ikar.comments.fs.awtsdb.wal');
+const LIVE_COMMENTS_DB = path.join(ROOT, 'socialPacked/social.heichel.ikar.comments.fs.awtsdb');
+const LIVE_WAL = `${LIVE_COMMENTS_DB}.wal`;
 const DIM = 384;
 const TOP_K = Number(process.env.TOP_K || 5);
+const RESOLVE_LIVE = process.env.RESOLVE_LIVE !== '0';
 const DEFAULT_QUERIES = [
   'dreams and sleep',
   'music and singing',
@@ -53,11 +58,19 @@ function readManifest() {
   return { ...manifest, matrix: manifest.matrix || FALLBACK_F32, metadata: manifest.metadata || FALLBACK_META };
 }
 
-function normalize(vector) {
+function normalizeVector(vector) {
   let sum = 0;
   for (const value of vector) sum += value * value;
   const magnitude = Math.sqrt(sum) || 1;
   return vector.map(value => value / magnitude);
+}
+
+function normText(text) {
+  return String(text || '').replace(/\s+/g, ' ').trim();
+}
+
+function comparable(text) {
+  return normText(text).toLowerCase();
 }
 
 function cosineAt(matrix, offset, q) {
@@ -93,25 +106,84 @@ function hydrate(best, metaLines) {
   return best.map(hit => {
     const row = JSON.parse(metaLines[hit.index]);
     return {
+      ...row,
       score: Number(hit.score.toFixed(6)),
       index: hit.index,
-      id: row.id,
-      year: row.year,
-      title: row.title,
-      postId: row.postId,
-      commentPath: row.commentPath,
       text: row.text == null ? '' : String(row.text)
     };
   });
 }
 
-async function searchOne(query, matrix, metaLines, rows) {
+function numericKeys(obj) {
+  return Object.keys(obj || {}).filter(k => /^\d+$/.test(k)).sort((a, b) => Number(a) - Number(b));
+}
+
+function rowSection(row) {
+  return row?.verseSection ?? row?.dayuh?.verseSection ?? '';
+}
+
+function rowSubSection(row) {
+  return row?.subSection ?? row?.dayuh?.subSection ?? '';
+}
+
+function readRows(db, cache, commentPath) {
+  if (cache.has(commentPath)) return cache.get(commentPath);
+  const obj = legacy.deserializeBinary(db.fs.cat(commentPath));
+  const rows = [];
+  for (const key of numericKeys(obj)) {
+    const arr = Array.isArray(obj[key]) ? obj[key] : [];
+    for (const row of arr) rows.push({ ...row, __sectionKey: key });
+  }
+  cache.set(commentPath, rows);
+  return rows;
+}
+
+function minimalWindow(candidates, target) {
+  const wanted = comparable(target);
+  if (!wanted) return [];
+  for (let i = 0; i < candidates.length; i += 1) {
+    const content = comparable(candidates[i]?.content);
+    if (content.includes(wanted) || wanted.includes(content)) return [candidates[i]];
+  }
+  for (let start = 0; start < candidates.length; start += 1) {
+    let joined = '';
+    for (let end = start; end < candidates.length; end += 1) {
+      joined = joined ? `${joined} ${comparable(candidates[end]?.content)}` : comparable(candidates[end]?.content);
+      if (joined.includes(wanted) || wanted.includes(joined)) return candidates.slice(start, end + 1);
+      if (joined.length > wanted.length + 1200) break;
+    }
+  }
+  return [];
+}
+
+function resolveLiveHit(db, cache, hit) {
+  if (!RESOLVE_LIVE || !hit.commentPath) return null;
+  try {
+    const allRows = readRows(db, cache, hit.commentPath);
+    const ids = Array.isArray(hit.commentIds) ? new Set(hit.commentIds) : null;
+    const candidates = ids ? allRows.filter(row => ids.has(row?.id)) : allRows;
+    const selected = minimalWindow(candidates, hit.text);
+    const rows = selected.length ? selected : [];
+    return {
+      status: rows.length ? 'resolved-live-comment-rows' : 'no-live-row-contained-embedded-text',
+      rowCount: rows.length,
+      rows
+    };
+  } catch (error) {
+    return { status: 'live-resolution-error', error: error.message || String(error), rowCount: 0, rows: [] };
+  }
+}
+
+async function searchOne(query, matrix, metaLines, rows, live) {
   const start = performance.now();
   const embedded = await embedTextAuto(query, { modelRoot: RAG, noFallback: true, fresh: true });
   const afterEmbed = performance.now();
-  const q = normalize(embedded.vector);
+  const q = normalizeVector(embedded.vector);
   const ranked = scan(matrix, q, rows, TOP_K);
   const afterScan = performance.now();
+  const hits = hydrate(ranked, metaLines);
+  const cache = live?.cache || new Map();
+  for (const hit of hits) hit.live = live?.db ? resolveLiveHit(live.db, cache, hit) : null;
   return {
     query,
     provider: embedded.provider,
@@ -120,7 +192,7 @@ async function searchOne(query, matrix, metaLines, rows) {
       scan: Math.round(afterScan - afterEmbed),
       total: Math.round(afterScan - start)
     },
-    results: hydrate(ranked, metaLines)
+    results: hits
   };
 }
 
@@ -128,49 +200,52 @@ function line(value = '') {
   return value == null ? '' : String(value);
 }
 
+function renderRows(rows) {
+  if (!rows?.length) return '';
+  return rows.map((row, index) => [
+    `SOURCE ROW ${index + 1}`,
+    `COMMENT ID ${line(row.id)}`,
+    `VERSE SECTION ${line(rowSection(row))}`,
+    `SUBSECTION ${line(rowSubSection(row))}`,
+    'COMMENT TEXT',
+    line(row.content)
+  ].join('\n')).join('\n\n');
+}
+
 function renderSearch(search) {
   const parts = [];
   search.results.forEach((result, rankIndex) => {
     parts.push('==================================================');
-    parts.push('');
     parts.push('QUERY');
-    parts.push('');
     parts.push(search.query);
-    parts.push('');
-    parts.push('--------------------------------------------------');
-    parts.push('');
     parts.push('RANK');
-    parts.push('');
     parts.push(String(rankIndex + 1));
-    parts.push('');
     parts.push('SCORE');
-    parts.push('');
     parts.push(result.score.toFixed(6));
-    parts.push('');
     parts.push('ID');
-    parts.push('');
     parts.push(line(result.id));
-    parts.push('');
     parts.push('YEAR');
-    parts.push('');
     parts.push(line(result.year));
-    parts.push('');
     parts.push('TITLE');
-    parts.push('');
     parts.push(line(result.title));
-    parts.push('');
     parts.push('COMMENT PATH');
-    parts.push('');
     parts.push(line(result.commentPath));
-    parts.push('');
     parts.push('POST ID');
-    parts.push('');
     parts.push(line(result.postId));
-    parts.push('');
-    parts.push('FULL COMMENT');
-    parts.push('');
+    parts.push('REFERENCE');
+    parts.push(`verse ${line(result.verseStart)}-${line(result.verseEnd)}; subsection ${line(result.firstSubSection)}-${line(result.lastSubSection)}; comments ${line(result.commentStart)}-${line(result.commentEnd)}; q ${line(result.qIndex ?? result.subChunkIndex)}/${line(result.subChunkCount)}`);
+    parts.push('FIRST COMMENT ID');
+    parts.push(line(result.firstCommentId));
+    parts.push('LAST COMMENT ID');
+    parts.push(line(result.lastCommentId));
+    parts.push('EMBEDDED HIT TEXT');
     parts.push(result.text);
-    parts.push('');
+    parts.push('LIVE SOURCE STATUS');
+    parts.push(line(result.live?.status || 'not-resolved'));
+    if (result.live?.rows?.length) {
+      parts.push('LIVE SOURCE COMMENTS');
+      parts.push(renderRows(result.live.rows));
+    }
     parts.push('==================================================');
     parts.push('');
   });
@@ -188,13 +263,19 @@ async function main() {
   const rows = Math.floor(matrix.length / (DIM * 4));
   if (rows !== metaLines.length) throw new Error(`matrix/meta mismatch rows=${rows} meta=${metaLines.length}`);
   const loadMs = Math.round(performance.now() - loadStart);
+  const live = RESOLVE_LIVE ? { db: new AwtsmoosDB(LIVE_COMMENTS_DB, { debug: false, readOnly: true, processLockMode: 'shared', lockMode: 'shared' }), cache: new Map() } : null;
+  if (live) await live.db.open();
   const searches = [];
-  for (const query of queries) searches.push(await searchOne(query, matrix, metaLines, rows));
+  try {
+    for (const query of queries) searches.push(await searchOne(query, matrix, metaLines, rows, live));
+  } finally {
+    try { live?.db?.pager?.close?.(); live?.db?.processLock?.release?.(); } catch {}
+  }
   const postWal = wal();
   const header = [
     'B"H',
     'MODE',
-    'fast-f32-sidecar-over-packed-awtsdb-shard',
+    'fast-f32-search-plus-live-comment-resolution',
     'ROWS',
     String(rows),
     'DIMENSIONS',

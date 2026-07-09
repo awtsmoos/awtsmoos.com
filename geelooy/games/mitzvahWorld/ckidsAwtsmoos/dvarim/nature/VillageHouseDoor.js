@@ -1,7 +1,7 @@
 // B"H
 /** @file VillageHouseDoor.js @description Visible hinged door; no invisible octree body. */
 import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { material as texturedMaterial } from "./villagePicture/geometryKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { COTTAGE, doorLeafLocal, doorwayLocalOffset } from "./villagePicture/cottage/cottageContract.js?compact=true&v=wide-door-low-floor-20260603-bh346";
 import { registerLock, toggleLockable } from "../../systems/locks/LockStateRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

@@ -4,7 +4,7 @@
  * This is a visual roof made from real closed panels, not an extruded triangle
  * that leaves the house looking opened from mobile camera angles.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { COTTAGE_BRICK_PALETTE as P } from "../CottageBrickPalette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { cottageStyleProfile } from "./CottageStyleProfiles.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { materialWithTexture } from "../../../materials/ProceduralTextureKit.js?compact=true&v=ping-pong-crisp-textures-20260622-bh1";

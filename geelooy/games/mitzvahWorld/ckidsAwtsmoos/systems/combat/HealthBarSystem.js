@@ -1,6 +1,6 @@
 ﻿// B"H
 /** @file HealthBarSystem.js @description Compact health-bar/nameplate bridge that stays visual-only and delegates rich UI to runtime payloads. */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 function hpOf(enemy) { return Number(enemy?.hp ?? enemy?.health?.current ?? enemy?.currentStats?.health ?? 0); }
 function maxHpOf(enemy) { return Math.max(1, Number(enemy?.maxHp ?? enemy?.health?.max ?? enemy?.currentStats?.maxHealth ?? 1)); }
 function posOf(enemy) { return enemy?.mesh?.position || enemy?.modelMesh?.position || enemy?.position || null; }

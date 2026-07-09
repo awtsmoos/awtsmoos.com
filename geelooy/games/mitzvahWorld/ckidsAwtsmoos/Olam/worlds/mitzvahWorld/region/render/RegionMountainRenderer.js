@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionMountainRenderer.js @description Distant visual ridges plus explicit cliff collider records, never mystery fences. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function mat(color) { return new THREE.MeshLambertMaterial({ color, transparent:false, opacity:1, depthWrite:true, depthTest:true }); }
 function ridgeMesh(name, points, height, color) { const shape = new THREE.Shape(); shape.moveTo(points[0][0], 0); points.forEach(p => shape.lineTo(p[0], p[1])); shape.lineTo(points[points.length-1][0], 0); shape.lineTo(points[0][0], 0); const g = new THREE.ExtrudeGeometry(shape, { depth:.9, bevelEnabled:false }); const m = new THREE.Mesh(g, mat(color)); m.name = name; m.scale.y = height; m.receiveShadow = true; m.userData = { mountainVisual:true, visualOnly:true, skipOctree:true, noOctree:true }; return m; }

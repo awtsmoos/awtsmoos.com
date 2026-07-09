@@ -1,6 +1,6 @@
 // B"H
 /** @file PhysicsVisualMethods.js @description Visual sync plus state-gated GLB locomotion clips. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=stable-collision-animation-20260708-bh4";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { clampVisibleBodyAboveFeet } from "../VisualGroundClamp.js?compact=true&v=solid-browser-verify-20260702-bh11";
 import { setAnim } from "./PhysicsAirRuntime.js?compact=true&v=stable-collision-animation-20260708-bh3";
 import { normAngle, numeric } from "./PhysicsNumbers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

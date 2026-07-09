@@ -9,7 +9,7 @@
  * count, scale, and rotation. No guessed world-center. No copied final prop.
  */
 import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const hiddenMat = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0, depthWrite: false, depthTest: false });

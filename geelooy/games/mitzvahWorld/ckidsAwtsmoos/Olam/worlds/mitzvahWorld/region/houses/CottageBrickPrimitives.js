@@ -1,6 +1,6 @@
 // B"H
 /** Brick primitives: the cubit where cottage truth becomes mesh and collider. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?compact=true&v=intense-dirt-grain-20260615-bh904";
 const WALLS = new Map();
 export const pos = (x, y, z) => [x, y, z];

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Awtsmoos - Mitzvah World 3D</title>
   <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./main.css?v=player-facing-starter-ui-20260615-bh1">
+  <link rel="stylesheet" href="./main.css">
   <link rel="stylesheet" href="./styles/mobile-ui-overlap-fix.css?v=step-by-step-20260621-bh1" data-awtsmoos-mobile-overlap-fix="true">
   <style>
     html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:linear-gradient(180deg,#8eb9ff 0%,#cfe7ff 48%,#59bd48 49%,#238823 100%); }
@@ -35,7 +35,7 @@
     .loading-radial-core{background:conic-gradient(#00ffed var(--load),rgba(255,255,255,.12) 0),radial-gradient(circle at 40% 35%,#ffffff 0%,#0ff 10%,#17314f 54%,#071324 58%)!important;box-shadow:0 0 14px rgba(0,255,237,.48)!important;transform:none!important}.loading-radial-core:after{animation:spinFlat 18s linear infinite!important;opacity:.55!important}.awtsmoos-title-glow{text-shadow:0 2px 0 rgba(0,255,237,.35),0 0 16px rgba(255,255,255,.55)!important;transform:none!important}.pulse-text{animation:pulseText 4s ease-in-out infinite alternate!important}.barLoading{height:26px!important;background:rgba(3,10,23,.78)!important;border-color:rgba(0,255,237,.55)!important;box-shadow:0 0 10px rgba(0,255,237,.25),inset 0 0 14px rgba(0,0,0,.55)!important}.barMitzvah{background:linear-gradient(90deg,#1cf7ff,#ffe77a,#5bffa8)!important;box-shadow:0 0 10px rgba(0,255,237,.35)!important}.light-spark-comet{display:none!important}
     .genesis-stage-panel{background:linear-gradient(135deg,rgba(2,12,30,.82),rgba(5,48,55,.62))!important;border:1px solid rgba(0,255,237,.36)!important;box-shadow:0 12px 28px rgba(0,0,0,.28),inset 0 0 20px rgba(0,255,237,.05)!important;transform:none!important}.genesis-stage-label{color:#fff7aa;text-shadow:none!important}.genesis-stage-note{color:#fff2a8!important;font-size:.82rem!important}.genesis-stage-track{background:rgba(255,255,255,.09)!important;height:12px!important;box-shadow:inset 0 0 8px rgba(0,0,0,.35)}.genesis-stage-fill{background:linear-gradient(90deg,#ffe77a,#00ffed,#5bffa8)!important;box-shadow:none!important;transition:width .45s linear!important}
     .txtLoad{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;text-wrap:balance}.genesis-progress-log,.genesis-profiler-log{background:rgba(0,7,20,.72)!important;border-color:rgba(255,231,122,.22)!important;max-height:70px!important;box-shadow:inset 0 0 12px rgba(0,243,255,.04)}
-    @media(max-width:680px){.loadingContent{width:92vw!important;max-height:calc(100dvh - 42px)!important;gap:8px!important;padding:11px!important;border-radius:22px!important}.awts-orbital-loader{top:5vh!important;width:88vw!important;height:88vw!important}.kabbalah-vortex{top:20vh!important}.genesis-progress-log,.genesis-profiler-log{max-height:54px!important}.genesis-stage-note{font-size:.72rem!important}.barLoading{height:24px!important}}
+    @media(max-width:680px){.loading{align-items:flex-start!important;justify-content:center!important;padding-top:calc(12px + env(safe-area-inset-top,0px))!important;box-sizing:border-box!important}.loadingContent{width:min(94vw,390px)!important;max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))!important;gap:6px!important;padding:9px!important;border-radius:18px!important;overflow:hidden!important}.awts-orbital-loader{top:2vh!important;width:54vw!important;height:54vw!important;opacity:.32!important}.kabbalah-vortex{display:none!important}.loading-stars{display:none!important}.loading-radial-core{width:58px!important;height:58px!important}.awtsmoos-title-glow{font-size:clamp(2rem,12vw,3rem)!important;line-height:.88!important}.barLoading{height:18px!important}.genesis-stage-panel{gap:5px!important;padding:8px!important;border-radius:14px!important}.genesis-stage-row{grid-template-columns:62px minmax(0,1fr)!important;gap:6px!important;font-size:.66rem!important}.genesis-stage-track{height:8px!important}.genesis-stage-note{font-size:.62rem!important;white-space:nowrap!important}.txtLoad{font-size:.9rem!important;line-height:1.08!important}.txtLoad.info{font-size:.74rem!important}.genesis-progress-log,.genesis-profiler-log{display:none!important}}
   </style>
 
 </head>
@@ -144,9 +144,9 @@
   <div id="awtsmoosUiSinks" aria-hidden="true"><div shaym="torahSkills"></div><div shaym="torahSpellbook"></div><div shaym="knowledgeMenu"></div><div shaym="skillBar"></div><div shaym="torahCodex"></div><div shaym="objectiveProgress"></div><div shaym="torahActionBar"></div><div shaym="macroPanel"></div><div shaym="nameplates"></div><div shaym="playerProgress"></div><div shaym="farmPanel"></div><div shaym="tutorialHint"></div><div shaym="combatLog"></div><div shaym="targetCastBar"></div><div shaym="castBar"></div><div shaym="floatingCombatText"></div><div shaym="questTracker"></div><div shaym="personalPerutas"></div><div shaym="animalKillProof"></div></div>
   <div id="mitzvahUiBridge" aria-hidden="true"><div id="mitzvahWorldMarkers"></div><div id="mitzvahTopLeft"></div><div id="mitzvahTopRight"></div><div id="mitzvahCenter"></div><div id="mitzvahBottomCenter"></div></div>
   <script type="importmap">{ "imports": { "three": "/games/scripts/build/three.module.js", "three/addons/": "/games/scripts/jsm/", "three/examples/jsm/": "/games/scripts/jsm/" } }</script>
-  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js?compact=true&v=loader-calm-error-visible-20260708-bh1"></script>
-  <script type="module" src="./systems/osGraph/bridge.js?compact=true&v=perf-tight-collision-20260706-bh1"></script>
-  <script type="module" src="./index.js?compact=true&v=loader-calm-error-visible-20260708-bh1"></script>
+  <script type="module" src="./ckidsAwtsmoos/Olam/uiManager/logic/LoadingProgressBridge.js"></script>
+  <script type="module" src="./systems/osGraph/bridge.js"></script>
+  <script type="module" src="./index.js"></script>
   <script type="module">
     if (new URLSearchParams(location.search).get("awtsFix") === "wowLikeLiveGameplay") {
       import("./ckidsAwtsmoos/gameplay/LiveWowSliceRuntime.js?compact=true&v=wow-like-live-gameplay-20260706-bh2");
@@ -155,17 +155,9 @@
   <script type="module">
     /** B"H - Load optional systems only after the playable world is proven. */
     const bootExtras = [
-      "./geelooy/libs/awtsmoosCinematicWorld/store/ChaiAssetStore.js?compact=true&v=post-ready-load-profiler-20260708-bh1",
       "./systems/ui/OpenWorldUiMobilePatch.js?compact=true&v=fast-post-ready-20260706-bh2",
       "./systems/mobile/MobileCleanHudRuntime.js?compact=true&v=world-first-ui-20260706-bh2",
-      "./systems/performance/FpsGuardian.js?compact=true&v=fps-guardian-direct-20260706-bh2",
       "./systems/performance/PerformanceModeBootstrap.js?compact=true&v=fast-post-ready-20260706-bh2",
-      "./systems/performance/PostLoadFpsProbe.js?compact=true&v=quiet-worker-fps-dom-proof-20260708-bh1",
-      "./systems/performance/TestModeFeaturePanel.js?compact=true&v=test-feature-panel-20260706-bh2",
-      "./systems/performance/RuntimeBudgetBootstrap.js?compact=true&v=fast-post-ready-20260706-bh2",
-      "./systems/performance/BrowserFrameTraceHarness.js?compact=true&v=real-browser-trace-20260706-bh2",
-      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceUiBridge.js?compact=true&v=starter-zone-ui-20260706-bh2",
-      "./ckidsAwtsmoos/systems/tutorial/StarterExperienceBootstrap.js?compact=true&v=starter-zone-boot-20260706-bh2",
       "./systems/boot/DeferredBootScheduler.js?compact=true&v=fast-post-ready-20260706-bh2"
     ];
     const idle = (fn, timeout = 1800) => window.requestIdleCallback ? window.requestIdleCallback(fn, { timeout }) : setTimeout(fn, Math.min(timeout, 700));
@@ -175,25 +167,24 @@
       if (started) return;
       started = true;
       window.__MITZVAH_DEFERRED_MODULES__ ||= { startedAt:Date.now(), reason, loaded:[], failed:[] };
-      await new Promise(resolve => idle(resolve, 1600));
+      await new Promise(resolve => idle(resolve, 2600));
       for (const spec of bootExtras) {
         const name = spec.split("/").pop().split("?")[0];
         try {
           await import(spec);
           window.__MITZVAH_DEFERRED_MODULES__.loaded.push(name);
         } catch (error) {
-          console.warn("B'H post-ready module failed", name, error);
           window.__MITZVAH_DEFERRED_MODULES__.failed.push({ name, error:String(error?.message || error) });
         }
-        await pause(35);
+        await pause(120);
       }
       window.dispatchEvent?.(new CustomEvent("mitzvah-world:post-ready-extras-loaded", { detail:window.__MITZVAH_DEFERRED_MODULES__ }));
     }
     window.addEventListener("awtsmoos-game-ready", event => loadBootExtras(event?.detail?.phase || "game-ready"), { once:true });
     setTimeout(() => {
       if (window.__AWTSMOOS_BOOT_LOADED__ || window.__AWTSMOOS_LOADING_FINAL_READY__?.playable) loadBootExtras("boot-loaded");
-    }, 1200);
-    setTimeout(() => loadBootExtras("idle-fallback-after-core-load"), 18000);
+    }, 3200);
+    setTimeout(() => loadBootExtras("idle-fallback-after-core-load"), 26000);
   </script>
 <script>
 (function(){

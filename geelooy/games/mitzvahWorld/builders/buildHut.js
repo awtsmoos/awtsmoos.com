@@ -17,7 +17,7 @@
  * @module buildHut
  */
 
-import * as THREE from '/games/scripts/build/three.module.js';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 /**
  * @function buildHut

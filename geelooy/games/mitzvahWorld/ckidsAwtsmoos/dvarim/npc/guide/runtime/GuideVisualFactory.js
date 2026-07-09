@@ -4,7 +4,7 @@
  * @description Chapter 515: Builds the central guide visual from visualRig. If
  * procedural-core metadata is present, the current renderer now consumes it.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { buildGuideBody } from './GuideVisualBody.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import { buildGuideFace } from './GuideVisualFace.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import { buildGuideHalo } from './GuideVisualHalo.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';

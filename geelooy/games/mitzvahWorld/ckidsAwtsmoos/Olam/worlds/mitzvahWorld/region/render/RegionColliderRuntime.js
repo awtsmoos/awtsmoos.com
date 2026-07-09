@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionColliderRuntime.js @description Author final-position-ready merged collider geometry; octree insertion waits for scene-root finalization. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { mergeGeometries } from "/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { sealHardCollider, sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

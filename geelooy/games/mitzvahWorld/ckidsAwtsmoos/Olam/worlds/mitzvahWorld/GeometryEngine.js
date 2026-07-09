@@ -3,7 +3,7 @@
  * @file GeometryEngine.js
  * @description Manifest geometry engine with parser-clear variable resolution and no legacy tree generator.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { getMaterial } from "./materials/MaterialFactory.js?compact=true&v=awtsmoos-material-factory-20260614-bh2";
 import { GeometryModifiers } from "./GeometryModifiers.js?compact=true&v=awtsmoos-geometry-modifiers-20260614-bh2";
 import { ProceduralGeometryFactory } from "./ProceduralGeometryFactory.js?compact=true&v=awtsmoos-procedural-geometry-20260614-bh2";

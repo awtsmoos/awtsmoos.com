@@ -1,6 +1,6 @@
 // B"H
 /** Shared renderer shell for isolated menu test scenes. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=main-menu-tests-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export function makeSceneShell({ title = "Test Scene", back }) {
   const host = document.getElementById("ikar") || document.body;

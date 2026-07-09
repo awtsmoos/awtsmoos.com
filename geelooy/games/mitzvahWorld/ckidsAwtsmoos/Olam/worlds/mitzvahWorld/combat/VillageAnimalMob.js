@@ -11,7 +11,7 @@
  * @invariants Strike pulse timing never adds vertical attack drift to mesh position.
  * @failureModes Missing player or food target falls back to patrol/forage safely.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { getVillageGroundNavigator } from "./VillageGroundNavigator.js?compact=true&v=mitzvah-battle-split-20260703-bh1";
 import { createVillageAnimal, disposeVillageAnimal } from "./VillageAnimalFactory.js?compact=true&v=awtsmoos-village-animal-factory-20260614-bh2";
 import { animateAnimal } from "../region/wildlife/render/AnimalAnimator.js?compact=true&v=awtsmoos-animal-gait-20260614-bh2";

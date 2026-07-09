@@ -18,7 +18,7 @@ function canLoadBrowserModules() {
 export async function loadThree() {
   if (cachedThree) return cachedThree;
   if (!canLoadBrowserModules()) return null;
-  cachedThree = await import('/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1');
+  cachedThree = await import("/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js");
   return cachedThree;
 }
 

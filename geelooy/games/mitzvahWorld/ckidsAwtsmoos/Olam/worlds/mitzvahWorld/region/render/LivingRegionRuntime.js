@@ -4,7 +4,7 @@
  * @description Split living region runtime: cottages collide, wildlife breathes,
  * friendly NPCs stand in the default scene, and every subsystem has its vessel.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { buildRoadRenderer } from "./RegionRoadRenderer.js?compact=true&v=road-cell-budget-20260622-bh1";
 import { buildCottageRenderer } from "./RegionCottageRenderer.js?compact=true&v=perf-tight-collision-20260703-bh2";
 import { installCollisionDiagnostics } from "../../collision/CollisionRuntime.js?compact=true&v=perf-tight-collision-20260703-bh2";

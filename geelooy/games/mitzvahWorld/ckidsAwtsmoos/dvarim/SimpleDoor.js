@@ -13,7 +13,7 @@
  * the same spark that opens the next world also settles into the player's bag.
  */
 import Domem from "../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { awardMoney } from "../systems/economy/wallet/PersonalPerutaWallet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { logEightStep } from "../systems/debug/ViralGameplayLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 

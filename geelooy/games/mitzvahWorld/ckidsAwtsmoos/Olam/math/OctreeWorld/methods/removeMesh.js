@@ -13,7 +13,7 @@
  * This module traverses the spatial quadrants and extracts any physics clones 
  * that are tethered to the original mesh.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default {
     /**

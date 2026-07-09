@@ -6,7 +6,7 @@
  * The Awtsmoos keeps the terrain algorithm pure and data-first so village JSON
  * can shape hills without heavy runtime ray work.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import TerrainMath from './TerrainMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class TerrainGeometryEmanator {

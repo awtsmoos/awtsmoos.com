@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import SpatialBubbleIndex from "./SpatialBubbleIndex.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { DOWN, NORMAL_MATRIX, RAYCASTER, finite } from "./groundWorld/GroundWorldMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { terrainRecord } from "./groundWorld/GroundTerrainRegistry.js?compact=true&v=octree-dirty-fix-20260702-bh1";

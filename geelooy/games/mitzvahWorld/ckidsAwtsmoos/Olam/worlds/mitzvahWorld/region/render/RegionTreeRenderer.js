@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionTreeRenderer.js @description Visible preset forest with mobile-safe count and no per-frame traversal. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { rand } from "./RegionRandom.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { buildAdvancedTree, approvedTreeStats, registerTreeTrunkColliders } from "./AdvancedTreeOnly.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

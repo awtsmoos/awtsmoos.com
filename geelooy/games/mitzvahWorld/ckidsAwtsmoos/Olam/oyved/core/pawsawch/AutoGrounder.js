@@ -11,7 +11,7 @@
  * ask for it by omitting Y or by declaring `autoGround`, `groundY`, or
  * `groundLift`.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const DEFAULT_GROUND_Y = -0.2;
 const NEVER_GROUND_TYPES = new Set([

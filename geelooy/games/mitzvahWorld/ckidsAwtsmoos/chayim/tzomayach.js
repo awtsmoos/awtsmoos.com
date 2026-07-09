@@ -1,6 +1,6 @@
 // B"H
 /** Growing entities carry proximity and the single-mixer Domem runtime. */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import Domem from "./domem.js?compact=true&v=single-player-mixer-fast-20260709-bh1";
 import Utils from "../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 export default class Tzomayach extends Domem {

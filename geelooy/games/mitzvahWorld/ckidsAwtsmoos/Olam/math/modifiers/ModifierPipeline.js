@@ -7,7 +7,7 @@
  * A robust system to apply a sequence of modifiers to BufferGeometries.
  * Similar to Blender's modifier stack, but operating entirely in the Awtsmoos reality.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import ArrayModifier from "./ArrayModifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import MirrorModifier from "./MirrorModifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import TwistModifier from "./TwistModifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

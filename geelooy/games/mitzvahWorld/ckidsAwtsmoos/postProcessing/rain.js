@@ -2,7 +2,7 @@
  * B"H
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { tslFn, texture, uv, uint, positionWorld, modelWorldMatrix, cameraViewMatrix, timerLocal, timerDelta, cameraProjectionMatrix, vec2, instanceIndex, positionGeometry, storage, MeshBasicNodeMaterial, If }
 			 from  '/games/scripts/jsm/nodes/Nodes.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 

@@ -152,13 +152,16 @@ function commentsPostDbFile({ rootDir, heichelId, seriesId, postId }) {
 function familyOrderFor(id) {
   const clean = normalizePath(id);
   if (/^\/social\/heichelos\/[^/]+\/comments(?:\/|$)/.test(clean)) return ["comments"];
+  if (/^\/social\/heichelos\/[^/]+\/posts\/[^/]+\/commentTree(?:\/|$)/.test(clean)) return ["comments"];
   if (/^\/social\/heichelos\/[^/]+\/series\/[^/]+\/posts(?:\.awtsmoosJSON)?$/.test(clean)) return ["posts"];
   if (/^\/social\/heichelos\/[^/]+\/series(?:\/|$)/.test(clean)) return ["series", "posts"];
   return [];
 }
 
 function isCommentPath(id) {
-  return /^\/social\/heichelos\/[^/]+\/comments(?:\/|$)/.test(normalizePath(id));
+  const clean = normalizePath(id);
+  return /^\/social\/heichelos\/[^/]+\/comments(?:\/|$)/.test(clean)
+    || /^\/social\/heichelos\/[^/]+\/posts\/[^/]+\/commentTree(?:\/|$)/.test(clean);
 }
 
 function canonicalCommentPath(id) {

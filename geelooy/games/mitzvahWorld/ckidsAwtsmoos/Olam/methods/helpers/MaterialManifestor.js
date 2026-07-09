@@ -11,7 +11,7 @@
  * constructs the garments that allow the eye to perceive the manifested vessels.
  * It carefully handles color interpretation and texture mapping.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import SafeMaterialApplier from './SafeMaterialApplier.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export default class MaterialManifestor {

@@ -1,6 +1,6 @@
 // B"H
 /** @file ChossidNpcTransform.js @description Single real GLB NPC transform, target proxy, animation, and two-tap dialogue bridge. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { createChossidNpcInventory } from "./ChossidNpcInventory.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { applyChossidNpcStyle } from "./ChossidNpcStyle.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { attachChossidNpcAnimator } from "./ChossidNpcAnimator.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

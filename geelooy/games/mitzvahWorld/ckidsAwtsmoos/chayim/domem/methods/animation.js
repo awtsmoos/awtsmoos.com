@@ -1,6 +1,6 @@
 // B"H
 /** Raw GLB AnimationMixer playback with real standing idle preference. */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=single-player-mixer-fast-20260709-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import Nivra from "../../nivra.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const ALIASES=Object.freeze({idle:["stand","idle","breath","neutral"],stand:["stand","idle","breath","neutral"],walk:["walk","walking"],run:["run","running"],jump:["jump","jumping"],falling:["falling","fall","air","drop"],"left turn":["left turn","turn left"],"right turn":["right turn","turn right"]});
 const finite=(value,fallback=0)=>Number.isFinite(Number(value))?Number(value):fallback;

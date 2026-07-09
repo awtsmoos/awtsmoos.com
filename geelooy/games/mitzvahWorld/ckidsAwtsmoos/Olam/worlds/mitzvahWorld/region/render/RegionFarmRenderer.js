@@ -3,7 +3,7 @@
  * @file RegionFarmRenderer.js
  * @description Farms now prefer parcel gardens; fallback rows remain for older reports.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { makeInstancedLayer } from "./RegionInstancer.js?compact=true&v=awtsmoos-instancer-20260614-bh2";
 import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { qualityCount } from "./RegionQuality.js?compact=true&v=awtsmoos-quality-20260614-bh2";

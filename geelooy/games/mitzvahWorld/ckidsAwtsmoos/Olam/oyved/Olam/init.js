@@ -3,7 +3,7 @@
  * B"H
  * Olam Initialization module (Angel Thread)
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 // B"H: ABSOLUTE TIKKUN - The path descends into jsm to find its true manifestation.
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';

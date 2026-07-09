@@ -11,7 +11,7 @@
  * pose inside an identity physics group, so house and fence boxes remain exactly
  * where the village placed them.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { NODE_STATE } from '../constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 const worldPosition = new THREE.Vector3();

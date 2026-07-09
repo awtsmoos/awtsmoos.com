@@ -5,7 +5,7 @@
  * are trusted first; fallback arm bones are used only when no mixer clip exists,
  * so the NPC cannot be forced into the strange hands-behind-back pose.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=npc-pose-tap-inventory-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 const IDLE_RULES=[/idle/i,/stand/i,/neutral/i,/breath/i,/rest/i];
 const WALK_RULES=[/walk/i,/run/i,/move/i];
 const BAD=/dance|jump|fall|attack|death|tpose|bind/i;

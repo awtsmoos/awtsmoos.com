@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>B&quot;H AWTS OOS 3D Chossid</title>
+  <style>html,body{margin:0;height:100%;overflow:hidden;background:#06100a;color:#eaffff;font-family:system-ui,Arial}canvas{position:fixed;inset:0;width:100vw;height:100vh;display:block}#hud{position:fixed;left:12px;top:12px;background:rgba(0,0,0,.56);border:1px solid #35ffd8;border-radius:12px;padding:10px;z-index:2}#joy{position:fixed;left:22px;bottom:26px;width:132px;height:132px;z-index:3}.awts-joy-base{position:absolute;inset:0;border-radius:50%;background:rgba(20,60,80,.35);border:1px solid #35ffd8;touch-action:none}.awts-joy-knob{position:absolute;left:42px;top:42px;width:48px;height:48px;border-radius:50%;background:#fff2a3;box-shadow:0 0 18px #35ffd8}#jump{position:fixed;right:24px;bottom:48px;width:104px;height:104px;z-index:3}.awts-jump-button{width:100%;height:100%;border-radius:50%;border:1px solid #ffd166;background:rgba(255,209,102,.22);color:#fff7d6;font-weight:800;text-transform:uppercase;letter-spacing:.08em;box-shadow:0 0 22px rgba(255,209,102,.45);touch-action:none}</style>
+</head>
+<body>
+  <canvas id="awtsCanvas"></canvas><div id="hud">B&quot;H loading real 3D chossid...</div><div id="joy"></div><div id="jump"></div>
+  <script type="module">import { createEretz3DDemo } from '../src/app/createEretz3DDemo.js'; createEretz3DDemo({ canvas:awtsCanvas, joystickHost:joy, jumpHost:jump, hud });</script>
+</body>
+</html>

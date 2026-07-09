@@ -4,7 +4,7 @@
  * @description LOD may add proxies and diagnostics, never a second chossid GLB
  * under a root already born from the canonical NPC clone.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { requestNpcNearGlb } from "./lod/NpcGlbNearRuntime.js?compact=true&v=npc-source-body-prune-20260708-bh1";
 import { collectNpcLodDiagnostics } from "./NpcLodDiagnostics.js?compact=true&v=npc-source-body-prune-20260708-bh1";
 const PROXY_MAT = new THREE.MeshBasicMaterial({ transparent:true, opacity:0, depthWrite:false, colorWrite:false });

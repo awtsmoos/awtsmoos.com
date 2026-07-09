@@ -1,94 +1,64 @@
 /*B"H*/
+/**
+ * @module CommentIndexRoutes
+ * @description
+ * Alias profile routes read the dedicated packed alias-comment index. The
+ * comment body remains in the universal comment-tree; this route returns the
+ * map of where each alias spoke: heichel, series, post, root replies and nested
+ * replies included through the same pointer shape.
+ */
+const { addCommentIndexToAlias, updateAllCommentIndexes } = require('../index.js');
+const aliasIndex = require('../aliasCommentIndex.js');
+const { er, methodIs, getUserId } = require('./utils.js');
 
-const {
-    addCommentIndexToAlias,
-    updateAllCommentIndexes
-} = require("../index.js");
-
-const { sp } = require("../../_awtsmoos.constants.js");
-const { er, methodIs, getUserId } = require("./utils.js");
-
-function safeKeys(value) {
-    if (!value || typeof value !== "object") return [];
-    if (Array.isArray(value)) return value.filter(Boolean).map(String);
-    return Object.keys(value).filter(key => key && !key.startsWith("$") && key !== "awtsmoosDayuh");
-}
-
-function flattenSeriesChain(node, trail = []) {
-    if (!node || typeof node !== "object") return [];
-
-    const records = [];
-    if (node.seriesId || node.breadcrumb) {
-        records.push({
-            id: node.seriesId || trail[trail.length - 1] || "root",
-            seriesId: node.seriesId || trail[trail.length - 1] || "root",
-            breadcrumb: node.breadcrumb || trail.join("/"),
-            path: trail.join("/")
-        });
-    }
-
-    for (const key of safeKeys(node)) {
-        if (key === "seriesId" || key === "breadcrumb" || key === "updatedAt") continue;
-        records.push(...flattenSeriesChain(node[key], [...trail, key]));
-    }
-
-    return records;
-}
+function item(id, kind) { return { id, name: id, kind }; }
+function listIds(ids, kind) { return (ids || []).filter(Boolean).map(id => item(id, kind)); }
+function pointers(rows) { return { success: Array.isArray(rows) ? rows : [] }; }
 
 module.exports = ({ $i, userid }) => ({
-    "/aliases/:alias/commentsMade/heichelos": async vars => {
-        const basePath = `${sp}/aliases/${vars.alias}/comments/heichel`;
-        const index = await $i.db.get(basePath).catch(() => null);
-        const heichelIds = safeKeys(index);
+  '/aliases/:alias/commentsMade': async vars => pointers(aliasIndex.allFor($i, vars.alias)),
 
-        return {
-            success: heichelIds.map(id => ({
-                id,
-                name: id,
-                kind: "comment-heichel"
-            }))
-        };
-    },
+  '/aliases/:alias/commentsMade/heichelos': async vars => ({
+    success: listIds(aliasIndex.heichelosFor($i, vars.alias), 'comment-heichel')
+  }),
 
-    "/aliases/:alias/commentsMade/heichel/:heichel/series": async vars => {
-        const basePath = `${sp}/aliases/${vars.alias}/comments/heichel/${vars.heichel}/seriesChain`;
-        const index = await $i.db.get(basePath).catch(() => null);
-        const series = flattenSeriesChain(index).map(record => ({
-            ...record,
-            name: record.breadcrumb || record.seriesId,
-            kind: "comment-series"
-        }));
+  '/aliases/:alias/commentsMade/heichel/:heichel': async vars => {
+    return pointers(aliasIndex.forHeichel($i, vars.alias, vars.heichel));
+  },
 
-        return { success: series };
-    },
+  '/aliases/:alias/commentsMade/heichel/:heichel/series': async vars => ({
+    success: listIds(aliasIndex.seriesFor($i, vars.alias, vars.heichel), 'comment-series')
+  }),
 
-    "/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment": async vars => {
-        if (!methodIs($i, "POST")) return er({ message: "POST only request", code: "POST_ONLY" });
-        const seriesId = $i.$_POST.seriesId;
-        if (!seriesId) return er({ message: "Missing required POST parameter: seriesId", code: "MISSING_PARAMS" });
-        return await addCommentIndexToAlias({
-            $i,
-            userid: getUserId($i, userid),
-            aliasId: vars.alias,
-            heichelId: vars.heichel,
-            seriesId
-        });
-    },
+  '/aliases/:alias/commentsMade/heichel/:heichel/series/:series': async vars => {
+    return pointers(aliasIndex.forSeries($i, vars.alias, vars.heichel, vars.series));
+  },
 
-    "/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes": async vars => {
-        if (!methodIs($i, "POST")) {
-            return {
-                message: "Use POST. Note: This endpoint is legacy and only kept for compatibility.",
-                apiInfo: "Modern comment writes update indexes during creation."
-            };
-        }
-        const requestingUserid = getUserId($i, userid);
-        if (!requestingUserid) return er({ message: "You're not logged in" });
-        return await updateAllCommentIndexes({
-            $i,
-            userid: requestingUserid,
-            aliasId: vars.alias,
-            heichelId: vars.heichel
-        });
-    }
+  '/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts': async vars => ({
+    success: listIds(aliasIndex.postsFor($i, vars.alias, vars.heichel, vars.series), 'comment-post')
+  }),
+
+  '/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post': async vars => {
+    return pointers(aliasIndex.forPost($i, vars.alias, vars.heichel, vars.series, vars.post));
+  },
+
+  '/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment': async vars => {
+    if (!methodIs($i, 'POST')) return er({ message: 'POST only request', code: 'POST_ONLY' });
+    const seriesId = $i.$_POST.seriesId;
+    if (!seriesId) return er({ message: 'Missing required POST parameter: seriesId', code: 'MISSING_PARAMS' });
+    return await addCommentIndexToAlias({
+      $i,
+      userid: getUserId($i, userid),
+      aliasId: vars.alias,
+      heichelId: vars.heichel,
+      seriesId
+    });
+  },
+
+  '/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes': async vars => {
+    if (!methodIs($i, 'POST')) return { message: 'Use POST. This endpoint is legacy compatibility.' };
+    const requestingUserid = getUserId($i, userid);
+    if (!requestingUserid) return er({ message: "You're not logged in" });
+    return await updateAllCommentIndexes({ $i, userid: requestingUserid, aliasId: vars.alias, heichelId: vars.heichel });
+  }
 });

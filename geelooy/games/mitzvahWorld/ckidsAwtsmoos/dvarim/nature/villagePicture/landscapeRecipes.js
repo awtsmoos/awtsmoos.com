@@ -1,6 +1,6 @@
 // B"H
 /** @file landscapeRecipes.js @description Parser-clear decorative village landscape recipes. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { add } from "./geometryKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { PICTURE_COLORS as C } from "./palette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { instancedFlowerField } from "./vegetation/flowerField.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

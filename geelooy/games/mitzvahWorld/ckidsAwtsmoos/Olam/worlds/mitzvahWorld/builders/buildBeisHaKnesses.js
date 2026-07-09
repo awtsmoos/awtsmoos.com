@@ -8,7 +8,7 @@
  * @module buildBeisHaKnesses
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { buildHall } from './beisHaKnesses/buildHall.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import { buildSanctuary } from './beisHaKnesses/buildSanctuary.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import { getMaterial } from '../materials/MaterialFactory.js?compact=true&v=full-chain-cache-bust-20260708-bh10';

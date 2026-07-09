@@ -4,7 +4,7 @@
  * Procedural Clouds
  */
 import Domem from "../../chayim/domem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { simplex2d } from '../../utils/math/noise.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 
 export default class ProceduralCloud extends Domem {

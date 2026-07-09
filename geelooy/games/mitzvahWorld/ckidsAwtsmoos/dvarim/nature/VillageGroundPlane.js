@@ -1,7 +1,7 @@
 // B"H
 /** Real village ground plane: visible repeated green grass, no external texture path. */
 import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=real-gameplay-solid-grass-20260708-bh2";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { finite } from "../../../../../libs/awtsmoos3d/math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const GREEN = 0x2d9d32;

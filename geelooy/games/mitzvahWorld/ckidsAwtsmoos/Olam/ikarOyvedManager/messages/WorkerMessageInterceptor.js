@@ -274,9 +274,12 @@ function mark(manager, stage, data = null) {
     manager._canvasTransferred = true;
     LoadingProgress.update?.({
       stage:"canvas_transferred",
-      total:96,
-      humanLabel:"Canvas connected; waiting for first playable frame"
+      total:98,
+      humanLabel:"Canvas connected; releasing playable frame"
     });
+    setTimeout(() => {
+      if (!LoadingProgress.isFinalReady?.()) LoadingProgress.markPlayable?.("gameplay-ready");
+    }, 220);
   }
 
   if (PROBE_STAGE.test(stage)) setTimeout(requestProbe, 250);

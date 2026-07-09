@@ -5,7 +5,7 @@
  * The panel swings around its hinge; the closed collision box lives in that
  * same hinge-root coordinate system. When open, the descriptor becomes air.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { COTTAGE_BRICK_PALETTE as P } from "./CottageBrickPalette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { defaultDoorState } from "./door/DoorStateIndex.js?compact=true&v=compact-engine-20260702-bh2";
 

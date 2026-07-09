@@ -1,6 +1,6 @@
 // B"H
 /** @file CottageInteriorSystem.js @description Visible rooms, floor, partitions, and walkable openings. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const mat = color => new THREE.MeshLambertMaterial({ color, transparent:false, opacity:1, depthWrite:true, depthTest:true });
 const PARTITION_THICK = 0.16;

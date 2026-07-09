@@ -1,6 +1,6 @@
 // B"H
 /** @file ThreeAnimationAdapter.js @description Abstract bone tracks become binding-safe Three animation clips only here. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 function values(keys = []) { return new Float32Array(keys.flatMap(k => k.value || [0, 0, 0])); }
 function times(keys = []) { return new Float32Array(keys.map(k => Number(k.time) || 0)); }
 function quatValues(keys = []) { const out = []; for (const k of keys) { const r = k.value || [0, 0, 0]; const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(r[0] || 0, r[1] || 0, r[2] || 0)); out.push(q.x, q.y, q.z, q.w); } return new Float32Array(out); }

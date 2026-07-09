@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { createPlayerState } from "./player/PlayerState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { createInventoryState, equipItem } from "./inventory/InventoryState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { createQuestState, acceptNextQuest, turnInReadyQuest } from "./quests/QuestState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

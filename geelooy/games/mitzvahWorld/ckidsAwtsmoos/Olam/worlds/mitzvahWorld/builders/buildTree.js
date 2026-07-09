@@ -1,6 +1,6 @@
 // B"H
 /** Lightweight Chai Forest tree builder for the gameplay path. */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { ACTUAL_TEXTURES, namedTexture } from '../../../../../geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import { progressiveMaterialMap } from '../../../../../geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 

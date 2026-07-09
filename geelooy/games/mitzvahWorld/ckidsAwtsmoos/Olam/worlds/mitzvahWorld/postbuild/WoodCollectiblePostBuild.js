@@ -1,6 +1,6 @@
 // B"H
 /** @file WoodCollectiblePostBuild.js @description Touch-responsive wood collectibles, parser-clear and interaction-layer ready. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { EMERALD_WOOD_NODES, WOOD_COLLECTIBLE_CONTRACT } from "../data/collectibles/WoodCollectibles.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 function material(color, roughness) {

@@ -1,6 +1,6 @@
 // B"H
 /** @file index.js @description Stable split Octree based on the old Three.js collision covenant. */
-import { Box3, Layers } from '/games/scripts/build/three.module.js?compact=true&v=stable-three-octree-20260708-bh3';
+import { Box3, Layers } from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import build from "./methods/build.js?compact=true&v=stable-three-octree-20260708-bh3";
 import intersection from "./methods/intersection.js?compact=true&v=stable-three-octree-20260708-bh3";
 export class Octree {

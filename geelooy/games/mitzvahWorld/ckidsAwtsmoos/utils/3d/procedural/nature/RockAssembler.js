@@ -7,7 +7,7 @@
  * This module takes a perfect, symmetrical geometry (Dodecahedron) and applies 
  * jagged, random noise to its vertices, manifesting a unique rocky vessel.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default class RockAssembler {
     /**

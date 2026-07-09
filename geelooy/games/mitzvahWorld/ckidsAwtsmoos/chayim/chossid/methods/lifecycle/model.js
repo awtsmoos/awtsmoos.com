@@ -1,6 +1,6 @@
 // B"H
 /** Chossid model prep: bind visible GLB, foot offset, and live animation mixer. */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { hasVisibleRenderable } from './fallbackBody.js?compact=true&v=chossid-visible-guarantee-20260610-bh707';
 import { sanitizeLivingModelTree } from '../../../../Olam/worlds/mitzvahWorld/npcs/LivingModelSanitizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 

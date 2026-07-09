@@ -1,6 +1,6 @@
 // B"H
 /** @file AnimalInteractionProxy.js @description Stable cheap wildlife click proxy. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const MAT = new THREE.MeshBasicMaterial({ transparent:true, opacity:0, depthWrite:false });
 

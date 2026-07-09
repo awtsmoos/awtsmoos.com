@@ -6,7 +6,7 @@
  * The house/fence fix lives inside methods/index.js, so this root module must
  * cache-bust that hub or Android can keep old non-solid wall physics.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import JobProcessor from './JobProcessor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import methods from './methods/index.js?compact=true&v=world-pose-collider-clones-20260605-bh448';
 

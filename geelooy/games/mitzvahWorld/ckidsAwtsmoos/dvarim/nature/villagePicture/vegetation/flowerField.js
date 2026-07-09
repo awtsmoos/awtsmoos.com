@@ -6,7 +6,7 @@
  * pixelated filters: ping-pong wrapping, linear sampling, and mipmaps so the
  * meadow does not become a jagged dream.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;

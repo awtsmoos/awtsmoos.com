@@ -5,9 +5,8 @@ import { blobForTrack, entryName, saveBlob } from './files.js';
 
 /**
  * B"H
- * The ZIP river now flows from newest to oldest. The latest spark receives the
- * first garment, `001`, so the device that opens the vessel sees revelation in
- * the order the seeker expects.
+ * The ZIP river now flows from newest to oldest while every file keeps its
+ * original name-number. The order may turn around, but `001` remains `001`.
  * @param {Array<object>} rows Audio or metadata rows.
  * @param {string} filename ZIP file name.
  * @param {string} title Progress card title.
@@ -62,7 +61,7 @@ export function playlistZipName(playlist = {}) {
 function orderedZipRows(rows = []) {
   const audioRows = rows.filter(row => !row?.meta).slice().reverse();
   const metaRows = rows.filter(row => row?.meta);
-  return [...audioRows.map((row, index) => ({ ...row, zipIndex: index + 1 })), ...metaRows];
+  return [...audioRows, ...metaRows];
 }
 
 function metaFile(row) {

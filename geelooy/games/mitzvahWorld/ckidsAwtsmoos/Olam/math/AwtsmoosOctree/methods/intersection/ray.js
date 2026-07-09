@@ -12,7 +12,7 @@
  * The ray now passes through the mathematical grid without getting tangled 
  * in the branches of the scene graph, ensuring your cursor never lags again.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const _v1 = new THREE.Vector3();
 const _triangle = new THREE.Triangle();

@@ -4,7 +4,7 @@
  * DOM and Scene Utilities
  * "And He rested on the seventh day from all His work which He had made."
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default class DomUtils {
     static replaceMaterialsWithLambert(obj) {

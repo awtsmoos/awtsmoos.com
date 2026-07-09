@@ -1,7 +1,7 @@
 // B"H
 /** @module Chossid @description Player body with real idle, sane jump impulse, and worker-truth animation. */
 import InventoryManager from '../../systems/InventoryManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import Chai from "../chai/index.js?compact=true&v=up-down-jump-ground-20260709-bh4";
+import Chai from "../chai/index.js?compact=true&v=jump-arc-landing-20260709-bh10";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import controlMethods from './methods/controls.js?compact=true&v=controls-no-preclip-20260709-bh4';
 import interactionMethods from './methods/interaction.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';

@@ -3,7 +3,7 @@
  * @file RegionInstancer.js
  * @description One grounded instancing gate: every tuft, leaf, rock, and road receives the same earth law.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { regionGeometry } from "./RegionGeometry.js?compact=true&v=awtsmoos-geometry-20260614-bh2";
 import { regionMaterial } from "./RegionMaterials.js?compact=true&v=awtsmoos-materials-20260614-bh2";
 import { groundedMatrix } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

@@ -9,7 +9,7 @@
  * motion cleanly while the Awtsmoos keeps collision simple, finite, and clear.
  */
 import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { bakeDetachedCollider, removeDetachedColliders } from "./OctreeBakeClone.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const num = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;

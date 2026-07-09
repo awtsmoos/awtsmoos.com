@@ -1,9 +1,9 @@
 // B"H
 import { getCivilizationState, loadFeedMode } from './api.js';
-import { emptyCard, metricCard, renderObjectCard, statusCard } from './cards.js';
+import { emptyCard, metricCard, renderObjectCard } from './cards.js?v=comments-001';
 import { inspectObject } from './inspector.js';
 import { extractItems, normalizeItem } from './normalize.js';
-import { labels, state } from './state.js';
+import { state } from './state.js';
 import { syncFeedObjects, syncMetrics } from './graphBridge.js';
 import { createInfiniteFeed } from '../../feed/infiniteFeed.js';
 import { sampleCollegePage, seedCollegeFeed } from '../../feed/sampleCollegeFeed.js';
@@ -53,53 +53,27 @@ function appendCards(feed, next) {
   sentinel ? sentinel.before(...cards) : feed.append(...cards);
 }
 async function loadRealObjects(mode, options) {
-  const [response, realIkar] = await Promise.all([
-    withTimeout(safeLoad(mode, options), 4500, { timeout: true }),
-    mode === 'search' ? [] : withTimeout(safeIkar(), 4500, [])
-  ]);
+  const [response, realIkar] = await Promise.all([withTimeout(safeLoad(mode, options), 4500, { timeout: true }), mode === 'search' ? [] : withTimeout(safeIkar(), 4500, [])]);
   const apiObjects = extractItems(response, mode).map(item => normalizeItem(item, mode));
   return [...realIkar, ...apiObjects];
 }
-async function safeIkar() {
-  try { return await fetchIkarPosts({ limit: 18 }); }
-  catch (error) { console.warn('B"H Ikar feed fallback', error); return []; }
-}
-async function safeLoad(mode, options) {
-  try { return await loadFeedMode(mode, { query: state.lastQuery, ...options }); }
-  catch (error) { console.error('B"H home feed load failed', error); return { ok: false, error: error.message }; }
-}
-function withTimeout(promise, ms, fallback) {
-  return Promise.race([promise, new Promise(resolve => setTimeout(() => resolve(fallback), ms))]);
-}
+async function safeIkar() { try { return await fetchIkarPosts({ limit: 18 }); } catch (error) { console.warn('B"H Ikar feed fallback', error); return []; } }
+async function safeLoad(mode, options) { try { return await loadFeedMode(mode, { query: state.lastQuery, ...options }); } catch (error) { console.error('B"H home feed load failed', error); return { ok: false, error: error.message }; } }
+function withTimeout(promise, ms, fallback) { return Promise.race([promise, new Promise(resolve => setTimeout(() => resolve(fallback), ms))]); }
 async function hydrateMetrics(seed) {
   const root = document.querySelector('[data-civilization-metrics]');
   if (!root) return;
   const payload = payloadOf(seed) || payloadOf(await withTimeout(getCivilizationState(), 1800, {})) || {};
-  const metrics = metricSet(payload);
+  const metrics = { Objects: payload.ikarObjects ?? payload.objects ?? payload.sampleObjects ?? 0, Events: payload.events ?? payload.recentEvents ?? 6, Graph: payload.graphEdges ?? payload.edges ?? payload.subscriptions ?? 18 };
   syncMetrics(metrics);
   root.replaceChildren(...Object.entries(metrics).map(([label, value]) => metricCard(label, value)));
 }
-function metricSet(payload = {}) {
-  return { Objects: payload.ikarObjects ?? payload.objects ?? payload.sampleObjects ?? 0, Events: payload.events ?? payload.recentEvents ?? 6, Graph: payload.graphEdges ?? payload.edges ?? payload.subscriptions ?? 18 };
-}
 function payloadOf(response) { return response?.success ?? response?.data ?? response; }
-function bindTabs() {
-  document.querySelectorAll('[data-feed-mode]').forEach(tab => tab.addEventListener('click', () => activate(tab.dataset.feedMode)));
-}
+function bindTabs() { document.querySelectorAll('[data-feed-mode]').forEach(tab => tab.addEventListener('click', () => activate(tab.dataset.feedMode))); }
 function bindSearch() {
   const form = document.querySelector('[data-home-command], [data-home-search]');
   if (!form) return;
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    state.lastQuery = new FormData(form).get('q') || '';
-    activate('search', { query: state.lastQuery });
-  });
+  form.addEventListener('submit', event => { event.preventDefault(); state.lastQuery = new FormData(form).get('q') || ''; activate('search', { query: state.lastQuery }); });
 }
-function updateTabs(mode) {
-  document.querySelectorAll('[data-feed-mode]').forEach(tab => {
-    const selected = tab.dataset.feedMode === mode;
-    tab.classList.toggle('active', selected);
-    tab.setAttribute('aria-pressed', String(selected));
-  });
-}
+function updateTabs(mode) { document.querySelectorAll('[data-feed-mode]').forEach(tab => { const selected = tab.dataset.feedMode === mode; tab.classList.toggle('active', selected); tab.setAttribute('aria-pressed', String(selected)); }); }
 function feedRoot() { return document.querySelector('[data-home-feed]'); }

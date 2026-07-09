@@ -8,7 +8,7 @@
  * console. Real living GLBs are cloned, sanctified, and traced in memory only;
  * fallbacks are last-resort bodies, never a second body layered over a real one.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import * as SkeletonUtils from '/games/scripts/jsm/utils/SkeletonUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import Utils from '../../utils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import BoneSanctifier from './boyrayNivra/BoneSanctifier.js?compact=true&v=full-chain-cache-bust-20260708-bh10';

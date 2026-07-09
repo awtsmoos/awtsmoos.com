@@ -5,7 +5,7 @@
  * Collider-matched walls and placement. The Awtsmoos keeps the house body and
  * its collider story aligned without crowding the renderer conductor.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { materialWithTexture } from "../../materials/ProceduralTextureKit.js?compact=true&v=ping-pong-crisp-textures-20260622-bh1";
 import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { houseColliderSlabs } from "./RegionHouseColliderPlan.js?compact=true&v=full-chain-cache-bust-20260708-bh10";

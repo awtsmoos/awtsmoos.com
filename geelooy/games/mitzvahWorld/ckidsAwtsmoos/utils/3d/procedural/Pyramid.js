@@ -5,7 +5,7 @@
  * @description
  * A monument of ancient mathematics, a base of four points ascending to a singular unity.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default class Pyramid {
     /**

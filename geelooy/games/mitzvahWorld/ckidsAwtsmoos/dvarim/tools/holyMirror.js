@@ -3,7 +3,7 @@
  * Holy Mirror - Spawns a reflective surface to reflect the divine image.
  */
 import Tool from "../tool.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 export default class HolyMirror extends Tool {
     static itemName = "Mirror of the Soul";

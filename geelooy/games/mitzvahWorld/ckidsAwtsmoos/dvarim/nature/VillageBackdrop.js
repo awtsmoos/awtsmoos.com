@@ -7,7 +7,7 @@
  * warm horizon, far mountains, and soft sky glow, all WebGL-safe.
  */
 import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { finite as n } from "../../../../../libs/awtsmoos3d/math.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { markDecorative } from "../../../../../libs/awtsmoos3d/decor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { basicGlow } from "../../../../../libs/awtsmoos3d/lambert.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

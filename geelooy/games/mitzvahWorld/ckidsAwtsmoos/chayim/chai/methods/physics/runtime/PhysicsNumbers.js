@@ -11,7 +11,7 @@
  * @invariants Non-finite values never leak into capsule math.
  * @failureModes Bad numbers resolve to caller-provided fallbacks.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 export const MOVING_EPSILON_SQ = 0.0001;
 export const finite = value => Number.isFinite(Number(value));
 export const numeric = (value, fallback = 0) => finite(value) ? Number(value) : fallback;

@@ -6,7 +6,7 @@
  * before the NPC root is returned, so no later system can hide a mistake that was
  * already attached.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=npc-source-body-prune-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import * as SkeletonUtils from "/games/scripts/jsm/utils/SkeletonUtils.js?compact=true&v=npc-source-body-prune-20260708-bh1";
 import { sanitizeLivingModelTree } from "./LivingModelSanitizer.js?compact=true&v=npc-source-body-prune-20260708-bh1";
 import { sanitizeRenderGeometryTree } from "../runtime/RenderGeometrySanitizer.js?compact=true&v=npc-source-body-prune-20260708-bh1";

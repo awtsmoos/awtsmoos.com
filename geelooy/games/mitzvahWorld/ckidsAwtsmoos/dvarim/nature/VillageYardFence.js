@@ -1,7 +1,7 @@
 // B"H
 /** @file VillageYardFence.js @description A parcel fence root whose colliders are exactly split around gates. */
 import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { fenceColliderBodies } from "./YardFenceColliderBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const wood = () => new THREE.MeshStandardMaterial({ color: 0x6b431f, roughness: 0.9 });
 function rail(segment) {

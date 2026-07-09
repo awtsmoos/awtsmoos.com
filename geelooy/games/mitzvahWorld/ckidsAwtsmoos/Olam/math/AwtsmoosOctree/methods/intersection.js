@@ -1,6 +1,6 @@
 // B"H
 /** @file intersection.js @description Stable Octree capsule, sphere, box, and ray intersections with source objects. */
-import { Box3, Line3, Plane, Sphere, Triangle, Vector3 } from '/games/scripts/build/three.module.js?compact=true&v=stable-three-octree-20260708-bh3';
+import { Box3, Line3, Plane, Sphere, Triangle, Vector3 } from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import { lineToLineClosestPoints } from './ClosestPoints.js?compact=true&v=stable-three-octree-20260708-bh3';
 const _v1=new Vector3(), _v2=new Vector3(), _p1=new Vector3(), _p2=new Vector3(), _plane=new Plane(), _line1=new Line3(), _line2=new Line3(), _box=new Box3(), _sphere=new Sphere();
 function alive(tri){const s=tri?.sourceMesh||tri?.object;return !s||s.parent||s.userData?.inMainWorld||s.userData?.finalOctreeOnly;}

@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 /**
  * MAX_SEGMENTS_FOR_SHADER - The number of segments the GPU can process.

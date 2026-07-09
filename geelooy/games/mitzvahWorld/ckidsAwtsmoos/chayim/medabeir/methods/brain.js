@@ -1,5 +1,5 @@
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 export default {
   needs: { energy: 100, hunger: 0, social: 100, wealth: 0 }, currentActionState: "IDLE", targetEntity: null, navTarget: null, lastDecisionTime: 0, decisionInterval: 2.0,
   updateBrain(dt) { if (!this.isReady || !this.mesh) return; this.updateNeeds(dt); const now = this.olam.clock.getElapsedTime(); if (now - this.lastDecisionTime > this.decisionInterval) { this.makeDecision(); this.lastDecisionTime = now; } this.executeState(dt); },

@@ -3,7 +3,7 @@
  * @file Placement.js
  * @description Chapter 1027: tree placement now resolves to VillageHeroTree only.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 export default {
   async placeObject() {
     if (!this.activeObject?.mesh) return;

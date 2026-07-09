@@ -1,6 +1,6 @@
 // B"H
 /** Real gameplay terrain: square mirrored grass tiles, visible mesh is also octree terrain. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=square-grass-repeat-20260709-bh3";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 import Domem from "../../chayim/domem/index.js?compact=true&v=single-player-mixer-fast-20260709-bh1";
 import { markVisualGroundAuthority } from "./core/GroundMeshAuthority.js?compact=true&v=visible-ground-authority-20260701-bh1";
 import TerrainGeometryEmanator from "./core/TerrainGeometryEmanator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

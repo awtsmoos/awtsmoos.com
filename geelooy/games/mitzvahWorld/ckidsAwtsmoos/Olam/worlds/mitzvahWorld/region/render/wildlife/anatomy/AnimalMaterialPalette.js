@@ -6,7 +6,7 @@
  * can ask for fox-red, cow-hide, frog-green, or bird-blue without rebuilding
  * materials every frame.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const CACHE = new Map();
 

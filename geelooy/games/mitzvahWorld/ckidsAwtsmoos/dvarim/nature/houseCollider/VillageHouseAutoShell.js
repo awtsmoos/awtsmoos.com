@@ -9,7 +9,7 @@
  * listens to the final world matrix, measures the local bounds, and rebuilds
  * clean slabs that the octree can drink without swallowing decorative detail.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/mitzvahWorld/systems/three/AwtsmoosThreeGateway.js";
 
 const CORNERS = [
   [0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1],
