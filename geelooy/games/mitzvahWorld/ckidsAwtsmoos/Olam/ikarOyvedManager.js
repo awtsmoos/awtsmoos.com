@@ -6,7 +6,7 @@ import setupDomEvents from "./worker/domEvents.js?compact=true&v=solid-browser-v
 import setupMessageHandler from "./worker/messageHandler.js?compact=true&v=zone-reality-20260614-bh817";
 import { createModuleWorker } from "./ikarOyvedManager/worker/WorkerCreator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { attachWorkerErrorEvents } from "./ikarOyvedManager/worker/WorkerErrorEvents.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?compact=true&v=loading-proof-mobile-20260706-bh2";
+import { interceptWorkerMessage } from "./ikarOyvedManager/messages/WorkerMessageInterceptor.js?compact=true&v=visible-fatal-loader-errors-20260708-bh5";
 import { WorkerQueue } from "./ikarOyvedManager/queue/WorkerQueue.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { WorkerRuntimeState } from "./ikarOyvedManager/state/WorkerRuntimeState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { oyvedManagerLog } from "./ikarOyvedManager/log/MainTextLogger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";

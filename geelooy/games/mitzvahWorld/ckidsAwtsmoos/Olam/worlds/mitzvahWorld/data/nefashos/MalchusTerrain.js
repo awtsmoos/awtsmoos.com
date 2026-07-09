@@ -21,7 +21,7 @@
  */
 
 /**
- * @constant {import('../../nivrayimDefs.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1').NefeshDef} MALCHUS_TERRAIN
+ * @constant {import('../../nivrayimDefs.js?compact=true&v=full-chain-cache-bust-20260708-bh10').NefeshDef} MALCHUS_TERRAIN
  * @description
  *   The primary ground definition.
  *   Like the dust from which man was formed, this terrain is the 

@@ -3,19 +3,19 @@
  * Chapter 52: The Runtime Opened Its Eyes.
  */
 
-import { RuntimeActionBus } from './RuntimeActionBus.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { RuntimeStateStore } from './RuntimeStateStore.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { DoorTransitionRuntime } from '../doors/DoorTransitionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { InteriorStreamingRuntime } from '../interiors/InteriorStreamingRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { RuntimeDiagnosticsOverlay } from '../diagnostics/RuntimeDiagnosticsOverlay.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { TorahEnergyOverlayRuntime } from '../effects/TorahEnergyOverlayRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { RuntimeInventoryAdapter } from './RuntimeInventoryAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { RuntimeQuestAdapter } from './RuntimeQuestAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { NpcInteractionRuntime } from '../npcs/NpcInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { ChumashReaderController } from '../debate/ChumashReaderController.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { TorahDebateController } from '../debate/TorahDebateController.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { RuntimeActionBar } from './RuntimeActionBar.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { STARTING_CHUMASH_ITEM } from '../data/manifests/ChumashPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { RuntimeActionBus } from './RuntimeActionBus.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { RuntimeStateStore } from './RuntimeStateStore.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { DoorTransitionRuntime } from '../doors/DoorTransitionRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { InteriorStreamingRuntime } from '../interiors/InteriorStreamingRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { RuntimeDiagnosticsOverlay } from '../diagnostics/RuntimeDiagnosticsOverlay.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { TorahEnergyOverlayRuntime } from '../effects/TorahEnergyOverlayRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { RuntimeInventoryAdapter } from './RuntimeInventoryAdapter.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { RuntimeQuestAdapter } from './RuntimeQuestAdapter.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { NpcInteractionRuntime } from '../npcs/NpcInteractionRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { ChumashReaderController } from '../debate/ChumashReaderController.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { TorahDebateController } from '../debate/TorahDebateController.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { RuntimeActionBar } from './RuntimeActionBar.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { STARTING_CHUMASH_ITEM } from '../data/manifests/ChumashPassages.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export function createMitzvahWorldRuntime(config = {}) {
   const bus = new RuntimeActionBus();

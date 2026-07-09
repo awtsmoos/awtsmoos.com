@@ -3,7 +3,7 @@
  * @module RendererFactory
  * @description Chapter 12: Renderer uses bh17 conservative WebGL attributes.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import ContextAttributes from "./ContextAttributes.js?compact=true&v=high-performance-context-20260621-bh1";
 
 export default class RendererFactory {

@@ -10,8 +10,8 @@
  * @module buildCottage
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { makeWall, makeWindow } from './wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { makeWall, makeWindow } from './wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 /**
  * @function buildCottage

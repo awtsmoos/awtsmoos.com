@@ -1,10 +1,10 @@
 // B"H
 /** @file PhysicsBaseMethods.js @description Capsule base physics with anti-fling collision clamps. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=stable-collision-animation-20260708-bh4";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=stable-collision-animation-20260708-bh5";
 import { solveMovingSolid } from "../../../../../dvarim/movers/runtime/movingSolidSolver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { ensurePlayerCollisionBubble } from "../../../../../Olam/worlds/mitzvahWorld/collision/PlayerCollisionBubble.js?compact=true&v=perf-tight-collision-20260703-bh2";
-import { clearAirTrajectory } from "./PhysicsAirRuntime.js?compact=true&v=stable-collision-animation-20260708-bh3";
-import { bestGroundHit, canAcceptGroundContact } from "./PhysicsGroundRuntime.js?compact=true&v=stable-collision-animation-20260708-bh4";
+import { clearAirTrajectory } from "./PhysicsAirRuntime.js?compact=true&v=stable-collision-animation-20260708-bh5";
+import { bestGroundHit, canAcceptGroundContact } from "./PhysicsGroundRuntime.js?compact=true&v=stable-collision-animation-20260708-bh5";
 import { finite, numeric } from "./PhysicsNumbers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 const MAX_CORRECTION = 0.55;
@@ -13,20 +13,34 @@ const MAX_UP_CORRECTION = 0.18;
 function capsuleFromFeet(feet, height, radius) {
   const r = Math.max(0.01, numeric(radius, 0.45));
   const h = Math.max(r * 2, numeric(height, 1.5));
-  return { start:new THREE.Vector3(feet.x, feet.y + r, feet.z), end:new THREE.Vector3(feet.x, feet.y + h - r, feet.z) };
+  return {
+    start: new THREE.Vector3(feet.x, feet.y + r, feet.z),
+    end: new THREE.Vector3(feet.x, feet.y + h - r, feet.z)
+  };
 }
 
-function finiteResult(r) {
-  return r && finite(r.depth) && finite(r.normal?.x) && finite(r.normal?.y) && finite(r.normal?.z);
+function finiteVector3(vec3) {
+  return Boolean(vec3 && finite(vec3.x) && finite(vec3.y) && finite(vec3.z));
+}
+
+function finiteResult(result) {
+  return Boolean(
+    result &&
+    finite(result.depth) &&
+    result.normal &&
+    finite(result.normal.x) &&
+    finite(result.normal.y) &&
+    finite(result.normal.z)
+  );
 }
 
 function safePush(result) {
-  const n = result.normal.clone();
-  if (Math.abs(n.y) > 0.85 && result.depth > MAX_UP_CORRECTION) n.y = Math.sign(n.y) * 0.35;
-  if (n.lengthSq() < 1e-10) return null;
-  n.normalize();
-  const d = Math.min(Math.max(result.depth, 0), MAX_CORRECTION);
-  return n.multiplyScalar(d);
+  const normal = result.normal.clone();
+  if (Math.abs(normal.y) > 0.85 && result.depth > MAX_UP_CORRECTION) normal.y = Math.sign(normal.y) * 0.35;
+  if (normal.lengthSq() < 1e-10) return null;
+  normal.normalize();
+  const depth = Math.min(Math.max(result.depth, 0), MAX_CORRECTION);
+  return normal.multiplyScalar(depth);
 }
 
 function removeIntoVelocity(player, normal) {
@@ -35,21 +49,31 @@ function removeIntoVelocity(player, normal) {
   player.velocity.y = Math.max(player.velocity.y, -28);
 }
 
+function dynamicBodiesOf(player) {
+  const bodies = player && player.olam && player.olam.dynamicBodies;
+  return Array.isArray(bodies) ? bodies : [];
+}
+
 export default {
   setPosition(vec3) {
-    if (!vec3 || !finite(vec3.x) || !finite(vec3.y) || !finite(vec3.z)) return console.warn("B"H: invalid player feet position ignored.");
-    if (!this.collider?.start || !this.collider?.end) return;
+    if (!finiteVector3(vec3)) {
+      console.warn('B"H: invalid player feet position ignored.');
+      return;
+    }
+    if (!this.collider || !this.collider.start || !this.collider.end) return;
     this.collider.radius = numeric(this.radius, this.collider.radius || 0.45);
-    const c = capsuleFromFeet(vec3, this.height, this.collider.radius);
-    this.collider.start.copy(c.start);
-    this.collider.end.copy(c.end);
+    const capsule = capsuleFromFeet(vec3, this.height, this.collider.radius);
+    this.collider.start.copy(capsule.start);
+    this.collider.end.copy(capsule.end);
     clearAirTrajectory(this);
     this.isTeleporting = true;
   },
 
   collisions() {
-    ensurePlayerCollisionBubble(this.olam)?.resolveMovement?.(this);
-    const result = this.olam?.worldOctree?.capsuleIntersect?.(this.collider);
+    const bubble = ensurePlayerCollisionBubble(this.olam);
+    if (bubble && typeof bubble.resolveMovement === 'function') bubble.resolveMovement(this);
+    const octree = this.olam && this.olam.worldOctree;
+    const result = octree && typeof octree.capsuleIntersect === 'function' ? octree.capsuleIntersect(this.collider) : null;
     if (!finiteResult(result)) return;
     const push = safePush(result);
     if (!push) return;
@@ -59,7 +83,12 @@ export default {
       this.__airVelocityX = this.velocity.x;
       this.__airVelocityZ = this.velocity.z;
     }
-    this.__lastSafeCollision = { at:Date.now(), depth:result.depth, applied:push.length(), object:result.object?.name || null };
+    this.__lastSafeCollision = {
+      at: Date.now(),
+      depth: result.depth,
+      applied: push.length(),
+      object: result.object && result.object.name ? result.object.name : null
+    };
   },
 
   async calculateOffset() {
@@ -71,17 +100,23 @@ export default {
 
   getCapsule() {
     if (!this.collider) return null;
-    return { radius:this.collider.radius, height:(this.collider.end.y - this.collider.start.y) + this.collider.radius * 2 };
+    return {
+      radius: this.collider.radius,
+      height: (this.collider.end.y - this.collider.start.y) + this.collider.radius * 2
+    };
   },
 
-  _solveDynamicBodies(phase = "unknown") {
+  _solveDynamicBodies(phase = 'unknown') {
     if (this.__spikeColliderDisabled) return false;
-    const bodies = this.olam?.dynamicBodies;
-    if (!Array.isArray(bodies) || !bodies.length) return false;
+    const bodies = dynamicBodiesOf(this);
+    if (!bodies.length) return false;
     let supported = false;
-    for (const body of bodies) if (body?.type === "movingBlock") {
-      const result = solveMovingSolid(body, this);
-      supported ||= Boolean(result?.hit && String(result.type || "").startsWith("top"));
+    for (const body of bodies) {
+      if (body && body.type === 'movingBlock') {
+        const result = solveMovingSolid(body, this);
+        const type = result && result.type ? String(result.type) : '';
+        supported = supported || Boolean(result && result.hit && type.startsWith('top'));
+      }
     }
     this.__lastDynamicSolvePhase = phase;
     return supported;
@@ -89,21 +124,22 @@ export default {
 
   _checkNaNAndReset() {
     if (!this.mesh) return false;
-    if (finite(this.mesh.position.x) && finite(this.mesh.position.y) && finite(this.mesh.position.z)) return false;
-    console.warn("B"H: Player position NaN; resetting.", { was:this.mesh.position.clone() });
+    if (finiteVector3(this.mesh.position)) return false;
+    console.warn('B"H: player position was NaN; resetting.', { was: this.mesh.position.clone() });
     this.velocity.set(0, 0, 0);
     clearAirTrajectory(this);
     this.setPosition(new THREE.Vector3(0, 10, 0));
-    if (this.olam?.ayin) this.olam.ayin.currentDistance = 5;
+    if (this.olam && this.olam.ayin) this.olam.ayin.currentDistance = 5;
     return true;
   },
 
   _updateSubSystems(dt) {
-    this.updateRayColor?.();
-    this.updateHandState?.();
-    this.updateBlockHighlight?.();
-    this.updateParticles?.(dt);
-    this.activeObject?.mesh?.userData?.onUpdate?.(dt);
+    if (typeof this.updateRayColor === 'function') this.updateRayColor();
+    if (typeof this.updateHandState === 'function') this.updateHandState();
+    if (typeof this.updateBlockHighlight === 'function') this.updateBlockHighlight();
+    if (typeof this.updateParticles === 'function') this.updateParticles(dt);
+    const updater = this.activeObject && this.activeObject.mesh && this.activeObject.mesh.userData && this.activeObject.mesh.userData.onUpdate;
+    if (typeof updater === 'function') updater(dt);
   },
 
   _checkGround() {

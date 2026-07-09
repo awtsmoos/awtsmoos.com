@@ -1,6 +1,6 @@
 // B"H
 /** @file FoliageAtlas.js @description Procedural foliage atlas without DOM, parser-clear wind updates. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const textures = new Map(), materials = new Map(), geometries = new Map();
 const ATLAS_COLUMNS = 4, ATLAS_ROWS = 2, CELL = 32, WIDTH = ATLAS_COLUMNS * CELL, HEIGHT = ATLAS_ROWS * CELL;
 function colorForFile(file = "") { const lower = String(file).toLowerCase(); if (lower.includes("grass")) return [86,153,68]; if (lower.includes("flower")) return [232,196,76]; if (lower.includes("dry")) return [146,116,58]; return [70,127,58]; }

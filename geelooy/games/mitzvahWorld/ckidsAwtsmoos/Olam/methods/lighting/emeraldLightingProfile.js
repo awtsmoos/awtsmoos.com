@@ -1,10 +1,10 @@
 // B"H
 /** @file emeraldLightingProfile.js @description Chapter 449: Complete Emerald lighting profile. */
-import { THREE } from '../../rendering/ThreeAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { applyEmeraldFog } from './fogRig.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { GOLDEN_HOUR } from './goldenHourPalette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { createEmeraldHemisphere } from './hemisphereRig.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { createEmeraldSun } from './sunRig.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { THREE } from '../../rendering/ThreeAdapter.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { applyEmeraldFog } from './fogRig.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { GOLDEN_HOUR } from './goldenHourPalette.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { createEmeraldHemisphere } from './hemisphereRig.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { createEmeraldSun } from './sunRig.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 export function markLight(light, name) { light.name = name; light.userData.awtsmoosLighting = true; return light; }
 export function applyEmeraldLighting(scene) {
   applyEmeraldFog(scene);

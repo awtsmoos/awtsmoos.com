@@ -1,6 +1,6 @@
 // B"H
 /** @file MultiRoomHouseDiagnostics.js @description House/octree proof counters. */
-import { collectMultiStoryDiagnostics } from "../stories/MultiStoryHouseDiagnostics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { collectMultiStoryDiagnostics } from "../stories/MultiStoryHouseDiagnostics.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function blank() {
   return {
     houseCount:0,

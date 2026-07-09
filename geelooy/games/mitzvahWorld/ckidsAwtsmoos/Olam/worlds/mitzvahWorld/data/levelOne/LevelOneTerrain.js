@@ -1,5 +1,5 @@
 ﻿// B"H
-import { VILLAGE_GRASS_PATCHES } from './LevelOneVillageConfig.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { VILLAGE_GRASS_PATCHES } from './LevelOneVillageConfig.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 /** Level-one terrain: Chai textured ground with visible but budgeted grass blades. */
 export const LEVEL_ONE_TERRAIN = Object.freeze([

@@ -9,9 +9,9 @@
  * This module detects if a creation requests the 'AwtsmoosGrassMaterial' 
  * and applies the complex GLSL shader logic natively.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import GeometryCarver from './GeometryCarver.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import MaterialScribe from './MaterialScribe.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import GeometryCarver from './GeometryCarver.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import MaterialScribe from './MaterialScribe.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export default async function generateThreeJsMesh(golem, olamContext) {
     const soulName = golem.name || golem.id || 'Procedural Spark';

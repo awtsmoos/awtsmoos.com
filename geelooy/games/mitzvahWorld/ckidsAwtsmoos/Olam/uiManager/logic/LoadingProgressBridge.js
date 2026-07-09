@@ -3,7 +3,7 @@
 import { SEAL, FINAL } from "./loading/LoadingConstants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { canvasReady, clamp, frame } from "./loading/LoadingDom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { state, hold } from "./loading/LoadingState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { paint } from "./loading/LoadingPaint.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { paint } from "./loading/LoadingPaint.js?compact=true&v=loader-text-detail-20260708-bh5";
 import { record } from "./loading/LoadingLog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { snapshot } from "./loading/LoadingSnapshot.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { finish, setStopHeartbeat } from "./loading/LoadingFinish.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
@@ -35,25 +35,55 @@ function seedFromVisibleDom() {
 
 function ensureErrorPanel(message) {
   if (typeof document === "undefined") return;
-  const host = document.querySelector(".loadingContent") || document.getElementById("awtsmoosLoadingVeil");
+  const veil = document.getElementById("awtsmoosLoadingVeil");
+  const host = veil || document.body;
   if (!host) return;
+  if (veil) veil.classList.add("awtsmoos-loading-fatal");
+  document.body?.setAttribute?.("data-awtsmoos-loading-fatal", "true");
   let panel = document.getElementById("awtsmoosLoadingErrorPanel");
   if (!panel) {
     panel = document.createElement("div");
     panel.id = "awtsmoosLoadingErrorPanel";
-    panel.style.cssText = "pointer-events:auto;max-width:100%;box-sizing:border-box;border:1px solid rgba(255,110,110,.75);border-radius:12px;background:rgba(45,0,0,.78);color:#ffe9e9;font:800 11px/1.25 ui-monospace,Menlo,monospace;padding:8px 10px;white-space:pre-wrap;text-align:left";
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = "Retry loading";
-    button.style.cssText = "margin-top:7px;border:1px solid #ffd966;border-radius:8px;background:rgba(7,20,18,.92);color:#fff3c4;font:800 13px system-ui;padding:7px 12px";
-    button.addEventListener("click", () => location.reload());
-    panel.appendChild(document.createElement("div"));
-    panel.appendChild(button);
+    panel.setAttribute("role", "alert");
+    panel.style.cssText = [
+      "position:fixed", "z-index:100500", "left:50%", "top:50%", "transform:translate(-50%,-50%)",
+      "width:min(92vw,620px)", "max-height:82dvh", "overflow:auto", "box-sizing:border-box",
+      "border:2px solid rgba(255,110,110,.95)", "border-radius:18px", "background:rgba(34,0,0,.94)",
+      "color:#ffe9e9", "font:800 12px/1.35 ui-monospace,Menlo,monospace", "padding:14px 16px",
+      "white-space:pre-wrap", "text-align:left", "box-shadow:0 22px 80px rgba(0,0,0,.65),0 0 34px rgba(255,80,80,.35)",
+      "pointer-events:auto"
+    ].join(";");
+    const title = document.createElement("div");
+    title.textContent = 'B"H — Load error detected';
+    title.style.cssText = "font:1000 18px/1.15 system-ui,sans-serif;color:#fff;margin:0 0 8px;text-shadow:0 0 14px rgba(255,80,80,.7)";
+    const body = document.createElement("div");
+    body.id = "awtsmoosLoadingErrorText";
+    body.style.cssText = "max-height:48dvh;overflow:auto;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:rgba(0,0,0,.34);padding:10px;margin-top:8px";
+    const actions = document.createElement("div");
+    actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.textContent = "Retry loading";
+    retry.style.cssText = "border:1px solid #ffd966;border-radius:10px;background:rgba(7,20,18,.96);color:#fff3c4;font:900 14px system-ui;padding:8px 13px";
+    retry.addEventListener("click", () => location.reload());
+    const copy = document.createElement("button");
+    copy.type = "button";
+    copy.textContent = "Copy error";
+    copy.style.cssText = retry.style.cssText;
+    copy.addEventListener("click", async () => { try { await navigator.clipboard?.writeText?.(panel.dataset.errorText || ""); copy.textContent = "Copied"; } catch (error) { copy.textContent = "Copy failed"; } });
+    actions.appendChild(retry);
+    actions.appendChild(copy);
+    panel.appendChild(title);
+    panel.appendChild(body);
+    panel.appendChild(actions);
     host.appendChild(panel);
   }
   panel.hidden = false;
-  panel.firstChild.textContent = message;
+  panel.dataset.errorText = String(message || "Unknown loading error");
+  const textNode = document.getElementById("awtsmoosLoadingErrorText");
+  if (textNode) textNode.textContent = String(message || "Unknown loading error");
   window.__MITZVAH_RETRY_LOADING__ = () => location.reload();
+  window.__AWTSMOOS_VISIBLE_LOAD_ERROR__ = String(message || "Unknown loading error");
 }
 
 function classifyError(input = {}) {

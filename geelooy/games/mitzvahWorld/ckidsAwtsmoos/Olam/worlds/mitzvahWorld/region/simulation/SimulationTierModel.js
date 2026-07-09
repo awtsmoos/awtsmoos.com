@@ -1,6 +1,6 @@
 // B"H
 /** @file SimulationTierModel.js @description Five veils of life, parser-clear tier assignment. */
-import { distanceToBubble, tierForDistance } from "./InterestBubble.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { distanceToBubble, tierForDistance } from "./InterestBubble.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 export const SIMULATION_TIERS = Object.freeze({ 0:{ name:"immediate", updateMs:16, fidelity:"full" }, 1:{ name:"nearby", updateMs:250, fidelity:"simple" }, 2:{ name:"visible", updateMs:1000, fidelity:"impostor" }, 3:{ name:"offscreen", updateMs:5000, fidelity:"summary" }, 4:{ name:"dormant", updateMs:60000, fidelity:"snapshot" } });
 function chunkTier(chunk) { return Number.isFinite(Number(chunk.tier)) ? Number(chunk.tier) : 4; }
 export function tierSummary(chunks = []) { const tiers = { 0:0, 1:0, 2:0, 3:0, 4:0 }; for (const chunk of chunks) tiers[chunkTier(chunk)] += 1; return { tiers }; }

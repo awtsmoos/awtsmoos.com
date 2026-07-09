@@ -10,12 +10,12 @@
  * ensuring no single vessel holds too much light, protecting the engine from crashing.
  */
 
-import Stage1Data from "./stages/Stage1Data.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import Stage2Events from "./stages/Stage2Events.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import Stage3Fonts from "./stages/Stage3Fonts.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import Stage4Components from "./stages/Stage4Components.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import Stage5UI from "./stages/Stage5UI.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import Stage6Ignition from "./stages/Stage6Ignition.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Stage1Data from "./stages/Stage1Data.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import Stage2Events from "./stages/Stage2Events.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import Stage3Fonts from "./stages/Stage3Fonts.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import Stage4Components from "./stages/Stage4Components.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import Stage5UI from "./stages/Stage5UI.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import Stage6Ignition from "./stages/Stage6Ignition.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 export default class TzimtzumOrchestrator {
     /**

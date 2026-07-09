@@ -6,7 +6,7 @@
  * fix can hide a missing wall, so the wall builder itself creates the gables.
  */
 import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=door-wall-source-fix-20260708-bh4";
-import { pos, wallPiece, wallCollider, wallMaterial } from "./CottageBrickPrimitives.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { pos, wallPiece, wallCollider, wallMaterial } from "./CottageBrickPrimitives.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const WALL_THICK = .72;
 const SKIN = .18;
 function push(colliders, house, side, name, size, p, yaw = 0, extra = {}) {

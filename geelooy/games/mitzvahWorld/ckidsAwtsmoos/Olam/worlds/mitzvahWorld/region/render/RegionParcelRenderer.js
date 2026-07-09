@@ -1,9 +1,9 @@
 // B"H
 /** @file RegionParcelRenderer.js @description Renders parcel fences, gates, and garden markers without visual rails crossing gate gaps. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { splitSegmentForGap } from "../../../../../dvarim/nature/FenceGapMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { splitSegmentForGap } from "../../../../../dvarim/nature/FenceGapMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function houses(report) { return Array.isArray(report?.houses) ? report.houses : []; }
 function parcels(report) { const h = houses(report); return Array.isArray(h.parcels) ? h.parcels : h.map(x => x.parcel).filter(Boolean); }
 function mat(color) { return new THREE.MeshStandardMaterial({ color, roughness:0.85 }); }

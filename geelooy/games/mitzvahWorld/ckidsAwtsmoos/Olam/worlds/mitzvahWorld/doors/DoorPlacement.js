@@ -1,37 +1,5 @@
-
-/**
- * B"H
- * @file DoorPlacement.js
- * @description
- * Places doors on house fronts in world coordinates.
- */
-
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-
-/**
- * B"H
- * Gets door world transform for a house.
- *
- * @param {any} house
- * House.
- *
- * @returns {{position:any,rotation:any,width:number,height:number,depth:number}}
- * Door transform.
- */
-export function getDoorPlacementForHouse(house) {
-  const box = new THREE.Box3().setFromObject(house);
-  const size = box.getSize(new THREE.Vector3());
-  const center = box.getCenter(new THREE.Vector3());
-
-  const frontZ = box.min.z - 0.09;
-  const doorHeight = Math.max(1.75, Math.min(2.4, size.y * 0.48));
-  const doorWidth = Math.max(0.9, Math.min(1.45, size.x * 0.2));
-
-  return {
-    position: new THREE.Vector3(center.x, box.min.y + doorHeight / 2, frontZ),
-    rotation: new THREE.Euler(0, 0, 0),
-    width: doorWidth,
-    height: doorHeight,
-    depth: 0.16
-  };
-}
+// B"H
+/** @file DoorPlacement.js @description Places passable visible doors at house front thresholds. */
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
+export function getDoorPlacementForHouse(house) { const box = new THREE.Box3().setFromObject(house), size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3()), frontZ = n(box.min.z, center.z) - .045, doorHeight = Math.max(1.75, Math.min(2.4, n(size.y, 4) * .48)), doorWidth = Math.max(.9, Math.min(1.45, n(size.x, 5) * .2)); return { position:new THREE.Vector3(n(center.x), n(box.min.y) + doorHeight / 2, frontZ), rotation:new THREE.Euler(0, 0, 0), width:doorWidth, height:doorHeight, depth:.08 }; }

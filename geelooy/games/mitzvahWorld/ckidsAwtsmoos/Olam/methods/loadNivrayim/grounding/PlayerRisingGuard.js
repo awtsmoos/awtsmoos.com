@@ -1,6 +1,19 @@
 // B"H
-/** @file PlayerRisingGuard.js @description Hard grounding may not crush a real jump. */
-export function isRisingEntity(entity) {
+/**
+ * @file PlayerRisingGuard.js
+ * @description Runtime grounding must not crush the jump arc before real landing.
+ */
+const MIN_JUMP_AIR_MS = 420;
+
+export function hardGroundSkipReason(entity) {
   const vy = Number(entity?.velocity?.y || 0);
-  return vy > 0.05 || Boolean(entity?.jumped && !entity?.onFloor && vy > -0.01);
+  if (vy > 0.05) return "ascending";
+  if (Date.now() < Number(entity?.__jumpAirborneUntil || 0)) return "airborne-lock";
+  if (entity?.jumped && Date.now() - Number(entity.__jumpStartedAt || 0) < MIN_JUMP_AIR_MS) return "fresh-jump";
+  if (entity?.jumped && !entity?.onFloor && vy > -0.35) return "jump-crest";
+  return null;
+}
+
+export function isRisingEntity(entity) {
+  return Boolean(hardGroundSkipReason(entity));
 }

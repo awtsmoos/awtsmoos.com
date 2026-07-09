@@ -1,7 +1,7 @@
 // B"H
 /** BattleWildlife.js — capped hostile wildlife seed; no 40-mob frame collapse. */
 import VillageAnimalMob from "../../combat/VillageAnimalMob.js?compact=true&v=mitzvah-battle-split-20260703-bh1";
-import { VILLAGE_WILDLIFE } from "../../combat/VillageCombatManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { VILLAGE_WILDLIFE } from "../../combat/VillageCombatManifest.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { ensureArray } from "./BattleContext.js?compact=true&v=mitzvah-battle-split-20260703-bh1";
 const SPECIES = ["fox", "goat", "deer", "fox"];
 const LIMIT = 10;

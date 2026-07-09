@@ -3,12 +3,12 @@
  * @file MitzvahWorldPostBuild.js
  * @description Player-first postbuild for terrain, living region, vehicles, and deferred polish.
  */
-import { EMERALD_NPC_ROLES as NPC_ROLES } from "../data/manifests/NpcInteractionSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { EMERALD_WOOD_NODES as WOOD_COLLECTIBLES } from "../data/collectibles/WoodCollectibles.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { ensureNpcRoles } from "./NpcRolePostBuild.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { EMERALD_NPC_ROLES as NPC_ROLES } from "../data/manifests/NpcInteractionSchema.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { EMERALD_WOOD_NODES as WOOD_COLLECTIBLES } from "../data/collectibles/WoodCollectibles.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { ensureNpcRoles } from "./NpcRolePostBuild.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { ensureWoodCollectibles } from "./WoodCollectiblePostBuild.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { ensureGeneratedBattleLayer } from "./GeneratedBattleLayer.js?compact=true&v=perf-tight-collision-20260703-bh2";
-import { ensureFinalGroundingPass } from "./FinalGroundingPass.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureFinalGroundingPass } from "./FinalGroundingPass.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { ensureMitzvahRegionDirector } from "../region/MitzvahRegionDirector.js?compact=true&v=ecology-data-spine-20260612-bh1";
 import { ensureLivingRegionRuntime } from "../region/render/LivingRegionRuntime.js?compact=true&v=perf-tight-collision-20260703-bh3";
 import { ensureVehiclePostBuildLayer } from "./VehiclePostBuildLayer.js?compact=true&v=vehicles-u-mount-20260706-bh1";

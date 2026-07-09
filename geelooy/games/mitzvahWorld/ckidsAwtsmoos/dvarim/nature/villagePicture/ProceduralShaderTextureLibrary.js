@@ -1,6 +1,6 @@
 // B"H
 /** @file ProceduralShaderTextureLibrary.js @description Parser-clear CPU procedural texture library for village materials. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 export const VILLAGE_SHADER_TEXTURE_KINDS = ["grass_meadow","dry_grass","dirt_path","mud_dark","gravel_pebble","cobble_stone","plaster_limestone","weathered_wood","dark_beam_wood","clay_roof_tiles","woven_rug","burlap_sack","straw_thatch","yellow_brick","flower_petal","leaf_vein","lamp_shade","lichen_rock"];
 export const VILLAGE_SHADER_TEXTURE_CHANNELS = ["albedo","normal","roughness","height","ao"];
 const KINDS = VILLAGE_SHADER_TEXTURE_KINDS, CHANNELS = VILLAGE_SHADER_TEXTURE_CHANNELS;

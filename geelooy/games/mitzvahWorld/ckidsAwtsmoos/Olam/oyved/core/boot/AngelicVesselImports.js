@@ -3,8 +3,8 @@
  * @file AngelicVesselImports.js
  * @description Ordered imports for the worker's canonical core vessels.
  */
-import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?compact=true&v=repair-ground-material-20260708-bh2";
-import { importLedgerModule } from "./SafeModuleImport.js?compact=true&v=repair-ground-material-20260708-bh2";
+import { MODULE_PATH_LEDGER } from "./ModulePathLedger.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
+import { importLedgerModule } from "./SafeModuleImport.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
 
 /** @returns {Promise<object>} B"H Olam core import record. */
 export function importOlamCore() {

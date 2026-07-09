@@ -1,149 +1,98 @@
 /**
-B"H
-**/
-
+ * B"H
+ * @file heeooleey.js
+ * @description Parser-plain event vessel for the worker root graph.
+ */
 export default class Heeoolee {
-    events = {};
-    constructor() {
+  constructor() {
+    this.events = {};
+  }
 
+  static extend(target) {
+    var names = Object.getOwnPropertyNames(Heeoolee.prototype);
+    for (var i = 0; i < names.length; i += 1) {
+      var name = names[i];
+      if (name !== "constructor" && name !== "extend" && !Object.prototype.hasOwnProperty.call(target, name)) {
+        target[name] = Heeoolee.prototype[name];
+      }
     }
+  }
 
-	static extend(target) {
-	 Object.getOwnPropertyNames(Heeoolee.prototype).forEach((name) => {
-		if (
-		name !== 'constructor' && 
-		name != "extend" &&
-		!target.hasOwnProperty(name)
-		) {
-		  target[name] = Heeoolee.prototype[name];
-		}
-	  });
-	}
-
-    clearAll() {
-        Object.keys(this.events)
-        .forEach(w => {
-            try {
-                delete this.events[w]
-            } catch(e){
-
-            }
-        });
-        this.events = {}
+  clearAll() {
+    var keys = Object.keys(this.events || {});
+    for (var i = 0; i < keys.length; i += 1) {
+      try { delete this.events[keys[i]]; } catch (error) {}
     }
-	
-    clear(shaym, func=null) {
-        if(typeof(shaym) != "string") {
-            return null;
-        }
-        if(this.events[shaym]) {
-            if(typeof(func) == "function") {
-                var fnd = this.events[shaym].find(q=>q.peula==func);
-                if(!fnd) {
-                    delete this.events[shaym];
-                    return;
-                }
-                var ind = this.events[shaym].indexOf(fnd);
-                this.events[shaym].splice(ind, 1);
-            } else
-                delete this.events[shaym];
-        }
+    this.events = {};
+  }
+
+  clear(shaym, func) {
+    if (typeof shaym !== "string") return null;
+    var list = this.events[shaym];
+    if (!list) return null;
+    if (typeof func !== "function") {
+      delete this.events[shaym];
+      return null;
     }
-
-    remove(shaym, peula) {
-        if(typeof(shaym) != "string") {
-            return false;
-        }
-
-        
-        if(typeof(peula) != "function") {
-            if(this.events[shaym]) {
-                delete this.events[shaym];
-            }
-            return true;
-        }
-
-        var ev = this.events[shaym]
-        if(!ev || !Array.isArray(ev)) {
-            return false;
-        }
-
-        var ind = ev.indexOf(peula)
-        if(
-            ind > -1
-        ) {
-            this.events.splice(ind, 1);
-            return true;
-        }
-        return false;
+    for (var i = list.length - 1; i >= 0; i -= 1) {
+      if (list[i] && list[i].peula === func) list.splice(i, 1);
     }
+    if (!list.length) delete this.events[shaym];
+    return null;
+  }
 
-    on(shaym, peula/*function*/, oneTime=false) {
-        if(typeof(shaym) != "string") {
-            return null;
-        }
-
-        if(typeof(peula) != "function") {
-            if(typeof(peula) == "string") {
-                /*try to resolve string as 
-                function, maybe passed from worker
-                or socket etc.*/
-                
-                try {
-                    peula = eval("("+peula+")");
-                } catch(e) {
-                    
-                    return null;
-                }
-                
-            }
-            
-        }
-
-
-        if(!this.events[shaym]) {
-            this.events[shaym] = [];
-        }
-        this.events[shaym].push({peula, oneTime});
+  remove(shaym, peula) {
+    if (typeof shaym !== "string") return false;
+    var list = this.events[shaym];
+    if (typeof peula !== "function") {
+      if (list) delete this.events[shaym];
+      return true;
     }
-
-    event(shaym) {
-        return this.events[shaym] ? 
-            this.events[shaym].length ? 
-            this.events[shaym] : null : null;
+    if (!Array.isArray(list)) return false;
+    for (var i = list.length - 1; i >= 0; i -= 1) {
+      if (list[i] && list[i].peula === peula) {
+        list.splice(i, 1);
+        return true;
+      }
     }
+    return false;
+  }
 
-    ayshPeula/*fire event*/(
-        shaym/*name*/, 
-        ...dayuh/*data*/
-    ) {
-        var asyncs = [];
-        var results = [];
-        if(this.events[shaym]) {
-			var indexesToRemove = [];
-            this.events[shaym].map(async (ev, index)=>{
-				var q = ev.peula;
-				var isOne = ev.oneTime;
-                if((q+"").indexOf("async") > -1) {
-                    asyncs.push(q(...dayuh));
-				}
-                else {
-					results.push(q(...dayuh));
-				}
-				if(isOne) {
-					indexesToRemove.push(index);
-				}
-            });
-			
-			indexesToRemove.sort((a,b)=> b-a);
-			for(var ind of indexesToRemove) {
-				this.events[shaym].splice(ind, 1)
-			}
-        }
-        if(asyncs.length)
-            return Promise.all(asyncs);
-        else if (results.length) {
-            return results[0];
-        }
+  on(shaym, peula, oneTime) {
+    if (typeof shaym !== "string") return null;
+    if (typeof peula !== "function") {
+      if (typeof peula !== "string") return null;
+      try { peula = eval("(" + peula + ")"); } catch (error) { return null; }
     }
+    if (!this.events[shaym]) this.events[shaym] = [];
+    this.events[shaym].push({ peula:peula, oneTime:Boolean(oneTime) });
+    return peula;
+  }
+
+  event(shaym) {
+    var list = this.events[shaym];
+    return list && list.length ? list : null;
+  }
+
+  ayshPeula(shaym) {
+    var list = this.events[shaym];
+    var args = Array.prototype.slice.call(arguments, 1);
+    var asyncs = [];
+    var results = [];
+    var remove = [];
+    if (Array.isArray(list)) {
+      for (var i = 0; i < list.length; i += 1) {
+        var ev = list[i] || {};
+        var q = ev.peula;
+        if (typeof q !== "function") continue;
+        if (String(q).indexOf("async") > -1) asyncs.push(q.apply(this, args));
+        else results.push(q.apply(this, args));
+        if (ev.oneTime) remove.push(i);
+      }
+      for (var r = remove.length - 1; r >= 0; r -= 1) list.splice(remove[r], 1);
+    }
+    if (asyncs.length) return Promise.all(asyncs);
+    if (results.length) return results[0];
+    return undefined;
+  }
 }

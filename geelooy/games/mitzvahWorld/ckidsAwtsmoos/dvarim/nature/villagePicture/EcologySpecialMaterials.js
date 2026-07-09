@@ -1,6 +1,6 @@
 // B"H
 /** @file EcologySpecialMaterials.js @description Structural ecology materials with parser-clear warm progress. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { add, byte, branchVeins, capsule, cellInfo, clamp01, cmix, crackNetwork, crystalMask, fbm, line, petalSdf, potatoEyes, rgb, ringLayer, smooth, stripe, threadWeave } from "./MaterialSynthesisPrimitives.js?compact=true&v=sharp-primitives-20260612-bh1";
 export const ECOLOGY_MATERIAL_KINDS = ["barkOak","barkPine","marbleWhite","goldHammered","cottonFiber","linenFabric","cabbageLeaf","carrotSkin","potatoSkin","onionSkin","graniteRock","slateStone","mossPatch","mushroomCap","daisyPetal","lavenderFlower"];
 const CHANNELS = ["albedo","normal","roughness","height","ao"], textureCache = new Map(), materialCache = new Map();

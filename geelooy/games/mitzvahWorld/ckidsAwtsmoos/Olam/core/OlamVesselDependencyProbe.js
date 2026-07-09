@@ -8,7 +8,7 @@
 const DEFAULT_TIMEOUT_MS = 7000;
 
 const DEPENDENCIES = [
-  ["THREE", "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
+  ["THREE", "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10"],
   ["Nivra", "../../chayim/nivra.js?compact=true&v=village-combat-20260611-bh804"],
   ["OlamGrafting", "./OlamGraftingPlain.js?compact=true&v=starter-contracts-20260628-bh9"],
   ["OlamProperties", "../properties/index.js?compact=true&v=village-combat-20260611-bh804"],

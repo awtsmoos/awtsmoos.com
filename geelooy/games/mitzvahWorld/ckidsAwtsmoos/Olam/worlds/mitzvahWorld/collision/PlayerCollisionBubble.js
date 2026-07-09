@@ -4,9 +4,9 @@
  * The old 9m player radius made the Chossid strike invisible walls. Now the
  * body is near the capsule, while terrain still samples a forgiving nearby ray.
  */
-import CollisionBudget from "./CollisionBudget.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { ensureGroundCollisionWorld } from "./GroundCollisionWorld.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { ensureHouseCollisionWorld } from "./HouseCollisionWorld.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import CollisionBudget from "./CollisionBudget.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { ensureGroundCollisionWorld } from "./GroundCollisionWorld.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { ensureHouseCollisionWorld } from "./HouseCollisionWorld.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { houseCollisionDisabled } from "./player/PlayerCollisionFlags.js?compact=true&v=perf-tight-collision-20260703-bh2";
 import { groundPlayer, hitPayload, rising } from "./player/PlayerCollisionGround.js?compact=true&v=perf-tight-collision-20260703-bh2";
 import { resolveHouseMovement, updateHouseFocus } from "./player/PlayerCollisionHouse.js?compact=true&v=perf-tight-collision-20260703-bh2";

@@ -3,8 +3,8 @@
  * @file EcologyGrid.js
  * @description Chapter 982: the kingdom receives cells instead of guesses.
  */
-import { chooseBiome, shapeCell } from "./EcologyRules.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { summarizeEcology } from "./EcologyStats.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { chooseBiome, shapeCell } from "./EcologyRules.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { summarizeEcology } from "./EcologyStats.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 const DEFAULT_BOUNDS = Object.freeze({ minX: -330, maxX: 330, minZ: -200, maxZ: 200 });
 const WATER = Object.freeze([[95, -90, 95], [180, -40, 70], [20, -155, 60]]);

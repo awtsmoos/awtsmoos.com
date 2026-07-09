@@ -3,11 +3,11 @@
  * @file SafeModuleImport.js
  * @description Timed, named, case-safe dynamic imports for worker boot modules.
  */
-import { workerImportLog, postTextToMain } from "../log/WorkerTextLogger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { postWorkerProgress } from "../protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { resolveModuleRecord } from "./ModuleUrlResolver.js?compact=true&v=repair-ground-material-20260708-bh2";
-import { makeModuleFailureText, makeModuleStartText, makeModuleSuccessText } from "./ModuleLoadText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { requireModuleExport } from "./ModuleExportValidator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { workerImportLog, postTextToMain } from "../log/WorkerTextLogger.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
+import { postWorkerProgress } from "../protocol/WorkerProtocol.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
+import { resolveModuleRecord } from "./ModuleUrlResolver.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
+import { makeModuleFailureText, makeModuleStartText, makeModuleSuccessText } from "./ModuleLoadText.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
+import { requireModuleExport } from "./ModuleExportValidator.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
 
 export const IMPORT_TIMEOUT_MS = 120000;
 

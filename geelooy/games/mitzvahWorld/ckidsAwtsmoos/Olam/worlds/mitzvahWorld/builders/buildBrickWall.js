@@ -3,7 +3,7 @@
  * @file buildBrickWall.js
  * @description Instanced textured wall with parser-clear static collider and optional octree proxy.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const DUMMY = new THREE.Object3D();
 function propsOf(def) { return def && def.props ? def.props : {}; }
 function triple(value, fallback) { return Array.isArray(value) ? value : fallback; }

@@ -6,7 +6,7 @@
  * Door interaction helpers.
  */
 
-import { toggleDoorState } from "./DoorState.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { toggleDoorState } from "./DoorState.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 /**
  * B"H

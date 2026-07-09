@@ -1,8 +1,8 @@
 // B"H
 /** Door registry: every cottage door gets one wrapper and one explicit proxy. */
-import { serialDoor } from "./DoorPersistence.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { serialDoor } from "./DoorPersistence.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { ensureDoorProxy, sealDoorPart, setDoorHighlight } from "./DoorProxyRuntime.js?compact=true&v=perf-tight-collision-20260703-bh6";
-import { actionName, ensureGenericRegistry, ensureInteractionArray, worldPos } from "./DoorInteractionHelpers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { actionName, ensureGenericRegistry, ensureInteractionArray, worldPos } from "./DoorInteractionHelpers.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const DOOR_RADIUS = 10.5;
 function upsert(list, item, same) { const i = list.findIndex(same); if (i >= 0) list[i] = item; else list.push(item); return item; }
 function promptFor(state) { return state.locked ? "Door locked" : state.open ? "Close cottage door" : "Open cottage door"; }

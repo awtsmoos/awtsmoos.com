@@ -1,6 +1,6 @@
 // B"H
 /** Details: beams and windows whisper that the house is alive. */
-import { COTTAGE_BRICK_PALETTE as P } from "./CottageBrickPalette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { box } from "./CottageBrickPrimitives.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { COTTAGE_BRICK_PALETTE as P } from "./CottageBrickPalette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { box } from "./CottageBrickPrimitives.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 export function addCottageBeams(group, house, spec) { const w = spec.width, d = spec.depth, h = spec.height; [[0,h+.08,d/2],[0,h+.08,-d/2],[w/2,h+.08,0],[-w/2,h+.08,0]].forEach((p,i) => group.add(box(`cottage_${house.id}_beam_${i}`, i < 2 ? [w+.35,.18,.22] : [.22,.18,d+.35], p, P.beam.color, { cottageBeam:true, houseId:house.id }))); }
 export function addCottageWindows(group, house, spec) { const y = spec.height * .58, z = spec.depth / 2 + .11; for (const x of [-spec.width * .28, spec.width * .28]) { group.add(box(`cottage_${house.id}_window_frame_${x}`, [.62,.52,.08], [x,y,z], P.window.frame, { cottageWindow:true, houseId:house.id })); group.add(box(`cottage_${house.id}_window_glass_${x}`, [.44,.34,.085], [x,y,z+.01], P.window.glass, { cottageWindowGlass:true, houseId:house.id, visualOnly:true })); group.add(box(`cottage_${house.id}_window_sill_${x}`, [.7,.08,.16], [x,y-.31,z+.02], P.window.sill, { cottageWindow:true, houseId:house.id })); } }

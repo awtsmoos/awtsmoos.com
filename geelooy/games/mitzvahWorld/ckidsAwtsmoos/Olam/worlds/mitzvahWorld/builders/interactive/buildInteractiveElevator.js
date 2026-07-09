@@ -3,8 +3,8 @@
  * @file buildInteractiveElevator.js
  * @description Smart platform that moves to requested floors through parser-clear update binding.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { makeWall } from "../wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { makeWall } from "../wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function propsOf(def) { return def && def.props ? def.props : {}; }
 function bindMotion(olam, group, def, floorHeight, speed, floors) {
   if (!olam || !olam.tzimtzum || typeof olam.tzimtzum.onUpdate !== "function") return;

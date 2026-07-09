@@ -6,7 +6,7 @@
  * The pixel's final destiny. Wires the noise measurements into the light and 
  * color that our eyes perceive as "grass". 
  */
-import Constants from "./Constants.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import Constants from "./Constants.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 export default class GlslFragment {
     static getHeader() {

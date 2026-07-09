@@ -3,7 +3,7 @@
  * @file MitzvahRegionDirector.js
  * @description The region report is born once, cached, compacted, and handed to the living runtime.
  */
-import { REGION_PHASES, phaseReport } from "./RegionPhases.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { REGION_PHASES, phaseReport } from "./RegionPhases.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { buildMacroTerrainRecipe } from "./terrain/MacroTerrainRecipe.js?compact=true&v=awtsmoos-macro-terrain-20260614-bh2";
 import { buildBiomePlan } from "./biomes/BiomeDirector.js?compact=true&v=awtsmoos-biome-plan-20260614-bh2";
 import { buildRoadNetwork } from "./roads/RoadNetwork.js?compact=true&v=awtsmoos-road-network-20260614-bh2";

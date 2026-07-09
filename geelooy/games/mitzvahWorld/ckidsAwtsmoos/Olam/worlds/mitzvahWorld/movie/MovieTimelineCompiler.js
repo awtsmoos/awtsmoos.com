@@ -7,8 +7,8 @@
  * word, then a motion. Each beat is small, but together they make a scene able
  * to become a whole generated movie.
  */
-import { normalizeMovieProject, normalizeMovieScene } from "./MovieSceneSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { synthesizeSceneShots } from "./MovieShotLibrary.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { normalizeMovieProject, normalizeMovieScene } from "./MovieSceneSchema.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { synthesizeSceneShots } from "./MovieShotLibrary.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 /**
  * Creates a dialogue beat from text.

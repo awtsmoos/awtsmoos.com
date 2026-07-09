@@ -1,8 +1,8 @@
 // B"H
 /** Chai grass patch builder: textured lightweight blades, not old heavy tuft shader. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { ACTUAL_TEXTURES, namedTexture } from "/games/mitzvahWorld/geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { progressiveMaterialMap } from "/games/mitzvahWorld/geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { ACTUAL_TEXTURES, namedTexture } from "/games/mitzvahWorld/geelooy/libs/awtsmoosCinematicWorld/assets/ChaiForestStaticAssets.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { progressiveMaterialMap } from "/games/mitzvahWorld/geelooy/libs/awtsmoosCinematicWorld/materials/ProgressiveTextureLoader.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 const DUMMY = new THREE.Object3D();
 const COLOR = new THREE.Color();

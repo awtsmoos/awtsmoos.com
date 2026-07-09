@@ -1,8 +1,8 @@
 // B"H
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import AssetCache from '../../../../utils/assetCache/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import LoaderMonitor from './LoaderMonitor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import ProceduralTextureInterceptor from './ProceduralTextureInterceptor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import AssetCache from '../../../../utils/assetCache/index.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import LoaderMonitor from './LoaderMonitor.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import ProceduralTextureInterceptor from './ProceduralTextureInterceptor.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 const texturePromiseCache = new Map();
 

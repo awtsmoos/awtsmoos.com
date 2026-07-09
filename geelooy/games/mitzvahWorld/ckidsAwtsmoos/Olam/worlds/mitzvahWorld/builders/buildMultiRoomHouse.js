@@ -9,9 +9,9 @@
  * @module buildMultiRoomHouse
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { assembleRoom } from './RoomAssembler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { getMaterial } from '../materials/MaterialFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { assembleRoom } from './RoomAssembler.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { getMaterial } from '../materials/MaterialFactory.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 /**
  * @function buildMultiRoomHouse

@@ -1,8 +1,8 @@
 // B"H
 /** @file roofAndExterior.js @description High-quality Jewish cottage exterior with mezuzah, shutters, warm windows, clean roof, chimney, and planters. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { add, light, material } from "../geometryKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { add, light, material } from "../geometryKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { ENTRANCE_TRIM, OUTSIDE_DETAIL_BLOCKS } from "./houseShellPlan.js?compact=true&v=jewish-house-quality-20260621-bh1";
 
 const cube = (g, color, p, s, r = [0, 0, 0], mode = "stone", extra = {}) => add(g, "cube", color, p, s, r, { textureMode:mode, ...extra });

@@ -3,7 +3,7 @@
  * Chapter 33: Words Struck Like Lightning Without Wounds.
  */
 
-import { resolveDebateType } from '../data/debate/TorahDebateRules.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { resolveDebateType } from '../data/debate/TorahDebateRules.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export class DebateBattleRuntime {
   constructor({ playerHp = 36, npcHp = 36 } = {}) {

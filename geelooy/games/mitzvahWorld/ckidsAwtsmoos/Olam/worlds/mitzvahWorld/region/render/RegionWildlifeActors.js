@@ -6,10 +6,10 @@
  * may wear cheaper clothing. The Awtsmoos removes mobile shadow waste from
  * animals so crisp DPR is paid for visible edges, not hidden shadow casters.
  */
-import { ensureWildlifeCombat } from "../../../../../systems/creatures/WildlifeCombatAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureWildlifeCombat } from "../../../../../systems/creatures/WildlifeCombatAdapter.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { makeLootableCorpse, lootPayload } from "../../../../../systems/loot/LootRuntime.js?compact=true&v=final-lootable-corpse-20260705-bh1";
-import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { FLAGS, clearSpawn, countMeshes, radius, safe, speed } from "./RegionWildlifeData.js?compact=true&v=lod-house-octree-20260705-bh1";
 import { buildStableAnimal } from "./RegionStableAnimalShape.js?compact=true&v=full-revamp-realistic-animals-20260704-bh1";
 import { applyAnimalVisualLod } from "./wildlife/AnimalVisualLod.js?compact=true&v=mobile-crisp-passive-herd-lod-20260705-bh2";

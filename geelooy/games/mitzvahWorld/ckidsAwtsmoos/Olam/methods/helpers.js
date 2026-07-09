@@ -12,13 +12,13 @@
  * @failureModes Missing item/icon IDs resolve to null rather than throwing during boot.
  */
 import * as AWTSMOOS from '../../awtsmoosCkidsGames.js?compact=true&v=visible-root-binding-20260610-bh710';
-import Utils from '../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import ShlichusHandler from '../../shleechoosHandler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Utils from '../../utils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import ShlichusHandler from '../../shleechoosHandler.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import LoadersModule from './helpers/loaders/index.js?compact=true&v=visible-root-binding-20260610-bh710';
-import generateThreeJsMesh from './helpers/generateMesh.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import TransformsModule from './helpers/transforms.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import StateModule from './helpers/state.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import wheatIcon from '../../../icons/items/wheat.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import generateThreeJsMesh from './helpers/generateMesh.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import TransformsModule from './helpers/transforms.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import StateModule from './helpers/state.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import wheatIcon from '../../../icons/items/wheat.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 const itemIcons = { wheat: wheatIcon };
 

@@ -1,10 +1,10 @@
 // B"H
 /** @file RegionRoadRenderer.js @description Roads cling to terrain and use the fresh grainy material vessel. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { samplePolyline } from "./RegionPolyline.js?compact=true&v=awtsmoos-polyline-20260614-bh2";
 import { regionMaterial } from "./RegionMaterials.js?compact=true&v=awtsmoos-materials-20260614-bh2";
-import { groundY, groundNormal } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { groundY, groundNormal } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const ROAD_LIMIT = 28;
 const UP = new THREE.Vector3(0, 1, 0);
 function addRoad(root, olam, road, material, width, spacing, name) {

@@ -1,8 +1,8 @@
 // B"H
 /** @module buildHut @description Grainy textured grounded cottages with beams, door, windows, and honest walls. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { makeWall } from "./wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { materialWithTexture } from "../materials/ProceduralTextureKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { makeWall } from "./wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { materialWithTexture } from "../materials/ProceduralTextureKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function deco(group, name, mat, pos, scale){const m=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),mat);m.name=name;m.position.set(...pos);m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;m.userData={hutDecor:true,skipOctree:true,noOctree:true};group.add(m);return m;}
 function roof(group, w, d, h){const mat=materialWithTexture("wood",{size:384});const shape=new THREE.Shape();shape.moveTo(-w*.62,0);shape.lineTo(0,h*.64);shape.lineTo(w*.62,0);shape.lineTo(-w*.62,0);const geo=new THREE.ExtrudeGeometry(shape,{depth:d*1.22,bevelEnabled:false});geo.translate(0,0,-d*.61);const mesh=new THREE.Mesh(geo,mat);mesh.name="grainy_wooden_gable_roof";mesh.position.y=h;mesh.castShadow=true;mesh.receiveShadow=true;mesh.userData={isSolid:true,hutRoof:true};group.add(mesh);return mesh;}
 export async function buildHut(scene, physics, def, olam = null) {

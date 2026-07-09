@@ -1,6 +1,6 @@
 // B"H
 /** @file ChumashReaderController.js @description Inventory-readable Chumash controller for UI, debate, and tests. */
-import { CHUMASH_PASSAGES } from "../data/manifests/ChumashPassages.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CHUMASH_PASSAGES } from "../data/manifests/ChumashPassages.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 function passages(book) {
   return book && Array.isArray(book.passageIds) ? book.passageIds : [];

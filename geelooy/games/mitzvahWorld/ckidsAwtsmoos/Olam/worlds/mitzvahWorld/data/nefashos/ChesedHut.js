@@ -19,7 +19,7 @@
  */
 
 /**
- * @constant {import('../../nivrayimDefs.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1').NefeshDef} CHESED_HUT
+ * @constant {import('../../nivrayimDefs.js?compact=true&v=full-chain-cache-bust-20260708-bh10').NefeshDef} CHESED_HUT
  * @description
  *   The primary dwelling place.
  *   A vessel of warmth and protection, manifesting the attribute 

@@ -1,11 +1,11 @@
 // B"H
 /** @file RegionColliderRuntime.js @description Author final-position-ready merged collider geometry; octree insertion waits for scene-root finalization. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { mergeGeometries } from "/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { sealHardCollider, sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { parcelCollisionManifest, auditManifest } from "../parcels/ParcelCollisionManifest.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { houseColliderSlabs } from "./RegionHouseColliderPlan.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { mergeGeometries } from "/games/scripts/jsm/utils/BufferGeometryUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { sealHardCollider, sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { parcelCollisionManifest, auditManifest } from "../parcels/ParcelCollisionManifest.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { houseColliderSlabs } from "./RegionHouseColliderPlan.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function mat() { return new THREE.MeshBasicMaterial({ visible:false, color:0xff00ff, wireframe:true }); }
 function houseList(report) { return report && Array.isArray(report.houses) ? report.houses : []; }
 function parcelList(report) { const h = houseList(report); return Array.isArray(h.parcels) ? h.parcels : h.map(x => x.parcel).filter(Boolean); }

@@ -1,13 +1,13 @@
 // B"H
 /**
  * @module ProceduralTerrain
- * @description Visual terrain mesh is the ray-ground authority; it is never frustum-culled away on mobile.
+ * @description Visual terrain mesh is the ray-ground authority; hosted textures load without blocking the world.
  */
 import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import Domem from "../../chayim/domem/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { markVisualGroundAuthority } from "./core/GroundMeshAuthority.js?compact=true&v=visible-ground-authority-20260701-bh1";
 import TerrainGeometryEmanator from "./core/TerrainGeometryEmanator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?compact=true&v=real-repeating-grass-basic-never-vanish-20260708-bh8";
+import TerrainMaterialScribe from "./core/TerrainMaterialScribe.js?compact=true&v=hosted-ground-textures-20260708-bh2";
 import { colliderData, hiddenGroundMaterial, insertOctree, makeSlab, n, solidFlags, syncTransform, terrainData, triangleCount } from "./core/ProceduralTerrainHelpers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 
 export default class ProceduralTerrain extends Domem {
@@ -34,7 +34,7 @@ export default class ProceduralTerrain extends Domem {
     if (this.position) this.mesh.position.set(n(this.position.x), n(this.position.y), n(this.position.z));
     this.mesh.updateMatrixWorld(true);
     markVisualGroundAuthority(this.mesh, this, olam);
-    Object.assign(this.mesh.userData ||= {}, { neverCullTerrain:true, neverHideTerrain:true, repeatingGrassTexture:true });
+    Object.assign(this.mesh.userData ||= {}, { neverCullTerrain:true, neverHideTerrain:true, repeatingGrassTexture:true, hostedGroundTextureMix:true });
     this.publishTerrainLaw();
     await olam.hoyseef(this);
     if (this.isSolid) this.installCollisionMeshes();

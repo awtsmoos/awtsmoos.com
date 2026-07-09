@@ -7,8 +7,8 @@
  * ════════════════════════════════════════════════════════════════════════
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { makeWall, makePillar } from '../wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { makeWall, makePillar } from '../wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export async function buildTable(scene, physics, def, olam = null) {
   const { width = 2, depth = 1.2, height = 0.8, color = 0x5d4037 } = def.props || {};

@@ -4,7 +4,7 @@
  * @description Canonical worker boot URL resolver for the uppercase Olam tree.
  */
 
-export const OLAM_BOOT_CANONICAL_SEAL = "repair-ground-material-20260708-bh2";
+export const OLAM_BOOT_CANONICAL_SEAL = "worker-module-olam-index-fix-20260708-bh6";
 
 const CASE_FIXES = Object.freeze([
   ["/games/mitzvahWorld/ckidsAwtsmoos/olam/", "/games/mitzvahWorld/ckidsAwtsmoos/Olam/"],

@@ -7,7 +7,7 @@
  * ════════════════════════════════════════════════════════════════════════
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export async function buildFlower(scene, physics, def, olam = null) {
   const { 

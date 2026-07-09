@@ -1,6 +1,6 @@
 /* B"H - Single entry CSS aggregator for /apps/code
- * Chapter 601: Code inherits shared object-layer panels in addition to the
- * universal civilization covenant.
+ * Chapter 602: The topbar now holds one quiet crown per system instead of
+ * spilling portals and object tools across the editor sky.
  */
 @import url('../../../shared/civilization/tokens.css');
 @import url('../../../shared/civilization/primitives.css');
@@ -35,5 +35,8 @@
 @import url('./civilization/hud.css');
 @import url('./civilization/event-rain.css');
 @import url('./civilization/cockpit.css');
+@import url('./civilization/launcher.css');
+@import url('./session/account-panel.css');
+@import url('./shell/topbar.css');
 @import url('./effects.css');
 @import url('./visuals.css');

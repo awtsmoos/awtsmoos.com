@@ -3,7 +3,7 @@
  * @file OlamDynamicBoot.js
  * @description Dynamic boot bridge for case-safe angelic vessel loading.
  */
-import { AngelicInvoker } from "./AngelicInvoker.js?compact=true&v=repair-ground-material-20260708-bh2";
+import { AngelicInvoker } from "./AngelicInvoker.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
 
 /** @returns {Promise<object>} B"H validated worker system core. */
 export async function invokeAngelicVessels() {

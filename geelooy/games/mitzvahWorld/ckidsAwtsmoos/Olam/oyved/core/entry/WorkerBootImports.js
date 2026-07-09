@@ -3,10 +3,10 @@
  * @file WorkerBootImports.js
  * @description Absolute worker boot imports that cannot inherit lowercase Olam.
  */
-import { postPlainWorkerText } from "./PlainWorkerPost.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { plainWorkerErrorText } from "./PlainWorkerErrorText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { postPlainWorkerText } from "./PlainWorkerPost.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
+import { plainWorkerErrorText } from "./PlainWorkerErrorText.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
 
-export const WORKER_BOOT_IMPORT_SEAL = "repair-ground-material-20260708-bh2";
+export const WORKER_BOOT_IMPORT_SEAL = "worker-module-olam-index-fix-20260708-bh6";
 
 const ROOT = "/games/mitzvahWorld/ckidsAwtsmoos/Olam/oyved/core";
 const CASE_FIXES = Object.freeze([

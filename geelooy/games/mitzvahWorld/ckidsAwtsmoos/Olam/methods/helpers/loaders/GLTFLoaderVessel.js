@@ -4,11 +4,11 @@
  * @description Chapter 503: the remote garment descends through one monitored
  * gate. Fetch, cache, parse, inspect, and readiness all testify together.
  */
-import AssetCache from '../../../../utils/assetCache/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import LoaderMonitor from './LoaderMonitor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import LoaderStateMap from './LoaderStateMap.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { getRuntimeSubsystemRegistry } from '../../../runtime/readiness/RuntimeSubsystemRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { inspectGltf } from '../../../graphics/inspection/ModelInspectionReporter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import AssetCache from '../../../../utils/assetCache/index.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import LoaderMonitor from './LoaderMonitor.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import LoaderStateMap from './LoaderStateMap.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { getRuntimeSubsystemRegistry } from '../../../runtime/readiness/RuntimeSubsystemRegistry.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { inspectGltf } from '../../../graphics/inspection/ModelInspectionReporter.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 const GLTF_LOAD_TIMEOUT_MS = 30000, GLTF_FETCH_TIMEOUT_MS = 25000;
 const TRACE_SEAL = 'visible-root-binding-20260610-bh710';
 function trace(stage, payload = {}) {
@@ -44,7 +44,7 @@ async function fetchBlob(url) {
 }
 function compact(report) { return report?.summary || { meshes:0, skinnedMeshes:0, clips:0, cameras:0 }; }
 async function parse(cacheUrl, fetchUrl, blob, context) {
-  const { GLTFLoader } = await import('/games/scripts/jsm/loaders/GLTFLoader.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1');
+  const { GLTFLoader } = await import('/games/scripts/jsm/loaders/GLTFLoader.js?compact=true&v=full-chain-cache-bust-20260708-bh10');
   const loader = new GLTFLoader(); if (context?.loader?.dracoLoader) loader.setDRACOLoader(context.loader.dracoLoader);
   trace('parse-start', { cacheUrl, fetchUrlKind:blob ? 'blob-url' : 'direct-url' }); mark(cacheUrl, 72, 'loading', { phase:'parse-start' });
   const started = performance.now(), gltf = await withTimeout(loader.loadAsync(fetchUrl), cacheUrl);

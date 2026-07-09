@@ -5,10 +5,10 @@
  */
 import { LEVEL_ONE_LEARNING_PROMPTS, LEVEL_ONE_SEFORIM, LEVEL_ONE_SHLICHUS_MOVES, LEVEL_ONE_TORAH_SKILLS } from "../data/levelOne/LevelOneLearning.js?compact=true&v=full-shlichus-moves-20260622-bh1";
 import { QUEST_LEDGER } from "../data/manifests/QuestLedger.js?compact=true&v=full-shlichus-moves-20260622-bh1";
-import { MarketplaceRuntime } from "../economy/MarketplaceRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { RuntimeQuestAdapter } from "../runtime/RuntimeQuestAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { ensureWorldStateLedger } from "../runtime/WorldStateLedger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { NpcInteractionRuntime } from "../npcs/NpcInteractionRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { MarketplaceRuntime } from "../economy/MarketplaceRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { RuntimeQuestAdapter } from "../runtime/RuntimeQuestAdapter.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { ensureWorldStateLedger } from "../runtime/WorldStateLedger.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { NpcInteractionRuntime } from "../npcs/NpcInteractionRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 const KEY = "__awtsmoosLivingTorahQuestLoop";
 const NPC_ID = "melamed-r-shneur";

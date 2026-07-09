@@ -7,8 +7,8 @@
  * level, a quest, a dialogue, or a generated event; the director turns them into
  * movie packets while gameplay remains free.
  */
-import { MovieDirectorRuntime } from "./MovieDirectorRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { MITZVAH_MOVIE_PROJECT } from "./MitzvahMovieProject.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { MovieDirectorRuntime } from "./MovieDirectorRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { MITZVAH_MOVIE_PROJECT } from "./MitzvahMovieProject.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 const KEY = "__awtsmoosMovieGenerationRuntime";
 

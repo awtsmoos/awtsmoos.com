@@ -1,16 +1,16 @@
 // B"H
 /** @file WildlifeDecisionTree.js @description Ordered creature decisions from survival to story. */
-import { dataOf } from './LifeMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { predatorDecision } from './PredatorBehavior.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { preyDecision } from './PreyBehavior.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { herdDecision } from './HerdManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { birdDecision } from './BirdFlockManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { familyDecision, protectFamily } from './WildlifeFamilySystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { woundedDecision } from './WoundedBehavior.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { rareDecision } from './RareWildlifeManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { advancedBirdDecision } from './AdvancedBirdBehavior.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { territoryWaypoint } from './TerritorySystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { denTarget } from './DenNetwork.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { dataOf } from './LifeMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { predatorDecision } from './PredatorBehavior.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { preyDecision } from './PreyBehavior.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { herdDecision } from './HerdManager.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { birdDecision } from './BirdFlockManager.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { familyDecision, protectFamily } from './WildlifeFamilySystem.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { woundedDecision } from './WoundedBehavior.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { rareDecision } from './RareWildlifeManager.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { advancedBirdDecision } from './AdvancedBirdBehavior.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { territoryWaypoint } from './TerritorySystem.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { denTarget } from './DenNetwork.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 export function decideWildlifeAction(actor, ctx) {
   const data = dataOf(actor), species = data.species || 'rabbit';
   const wound = woundedDecision(actor, ctx.perception); if (wound) return wound;

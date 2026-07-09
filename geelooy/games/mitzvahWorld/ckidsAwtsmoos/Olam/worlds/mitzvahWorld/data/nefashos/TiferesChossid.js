@@ -19,7 +19,7 @@
  */
 
 /**
- * @constant {import('../../nivrayimDefs.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1').NefeshDef} TIFERES_CHOSSID
+ * @constant {import('../../nivrayimDefs.js?compact=true&v=full-chain-cache-bust-20260708-bh10').NefeshDef} TIFERES_CHOSSID
  * @description
  *   The definition of the traveler, the Chossid.
  *   The central figure of the Mitzvah World, a vessel of Tiferes

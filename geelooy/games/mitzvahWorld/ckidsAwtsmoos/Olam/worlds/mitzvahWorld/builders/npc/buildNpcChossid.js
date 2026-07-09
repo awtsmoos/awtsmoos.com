@@ -1,6 +1,6 @@
 // B"H
 /** @file buildNpcChossid.js @description NivrahFactory builder for visible chossid.glb NPCs with top-level scene props preserved. */
-import { buildChossidNpc } from "../../npcs/ChossidNpcBuilder.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { buildChossidNpc } from "../../npcs/ChossidNpcBuilder.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function propsOf(def) { return def && def.props ? def.props : {}; }
 function choose(value, fallback) { return value !== undefined && value !== null ? value : fallback; }
 function arrPosition(def, props) { return choose(def.position, choose(props.position, [0, 0, 0])); }

@@ -7,9 +7,9 @@
  * It transitions through the spiritual worlds based on the passage of time.
  * Now supercharged with the IntenseSkySystem, forging realistic scattering and lens flares.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import WeatherEffects from './WeatherEffects.js?compact=true&v=crisp-background-budget-20260621-bh2';
-import IntenseSkySystem from '../../dvarim/nature/sky/IntenseSkySystem.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1'; // B"H!
+import IntenseSkySystem from '../../dvarim/nature/sky/IntenseSkySystem.js?compact=true&v=full-chain-cache-bust-20260708-bh10'; // B"H!
 
 export default class Environment {
     constructor({ scene, olam }) {

@@ -4,8 +4,8 @@
  * The door must answer to the actual living chossid, whether the runtime stores
  * him as player.mesh, modelMesh, guf, collider.start, or a direct position.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { serialDoor } from "./DoorPersistence.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { serialDoor } from "./DoorPersistence.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const TEMP = new THREE.Vector3();
 export const playerEntity = olam => olam?.player || olam?.chossid || olam?.oyved || olam?.avatar || null;
 function finiteVec(v){return v&&Number.isFinite(Number(v.x))&&Number.isFinite(Number(v.z));}

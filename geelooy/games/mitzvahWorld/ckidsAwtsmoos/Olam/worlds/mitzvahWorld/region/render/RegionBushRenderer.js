@@ -1,7 +1,7 @@
 // B"H
 /** @file RegionBushRenderer.js @description Shrubs grow as grounded organic clusters, quality-aware and texture-aware. */
 import { makeInstancedLayer } from "./RegionInstancer.js?compact=true&v=awtsmoos-instancer-20260614-bh2";
-import { rand } from "./RegionRandom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rand } from "./RegionRandom.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { budgetedQualityCount } from "./RegionQuality.js?compact=true&v=awtsmoos-quality-20260614-bh2";
 function reportBushes(report) { return report && report.instances && Array.isArray(report.instances.bushes) ? report.instances.bushes : []; }
 function bushSpec(i) {

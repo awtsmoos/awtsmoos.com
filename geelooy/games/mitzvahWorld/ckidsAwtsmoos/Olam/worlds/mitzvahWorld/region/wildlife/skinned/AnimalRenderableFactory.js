@@ -1,7 +1,7 @@
 // B"H
 /** AnimalRenderableFactory.js — skinned bodies plus near colored anatomical details. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { ensureRenderBackend } from "../../../../../../rendering/RendererProvider.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { ensureRenderBackend } from "../../../../../../rendering/RendererProvider.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { normalizeAnimalSpecies, speciesProfile } from "../render/AnimalSpeciesProfiles.js?compact=true&v=realistic-generated-animals-20260706-bh1";
 import { createAnimalRigBlueprint } from "./AnimalRigBlueprints.js?compact=true&v=single-mesh-animals-20260621-bh1";
 import { createAnimalSurfaceBlueprint } from "./AnimalSurfaceBlueprint.js?compact=true&v=realistic-generated-animals-20260706-bh1";

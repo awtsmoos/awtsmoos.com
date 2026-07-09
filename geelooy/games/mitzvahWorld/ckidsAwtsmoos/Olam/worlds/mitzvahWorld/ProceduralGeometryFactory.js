@@ -1,6 +1,6 @@
 // B"H
 /** @file ProceduralGeometryFactory.js @description Deterministic procedural primitives, parser-clear seed handling. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 class RNG { constructor(seed = 123) { this.seed = seed >>> 0; } next() { this.seed = (1664525 * this.seed + 1013904223) >>> 0; return this.seed / 4294967296; } range(a, b) { return a + (b - a) * this.next(); } }
 function optSeed(options) { return options && options.seed !== undefined ? options.seed : 123; }
 function opt(options, key, fallback) { return options && options[key] !== undefined ? options[key] : fallback; }

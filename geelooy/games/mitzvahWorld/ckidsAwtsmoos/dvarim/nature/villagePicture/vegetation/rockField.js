@@ -1,8 +1,8 @@
 // B"H
 /** @file rockField.js @description Decorative instanced rocks, parser-clear and non-colliding. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { geometry, material } from "../geometryKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { geometry, material } from "../geometryKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const n = (v, f = 0) => Number.isFinite(Number(v)) ? Number(v) : f;
 const pulse = i => Math.abs(Math.sin(i * 71.17 + 3.13));
 function mark(mesh) { if (!mesh.userData) mesh.userData = {}; Object.assign(mesh.userData, { rockFieldVisualOnly:true, physics:"none", skipOctree:true, noOctree:true, skipRaycast:true }); }

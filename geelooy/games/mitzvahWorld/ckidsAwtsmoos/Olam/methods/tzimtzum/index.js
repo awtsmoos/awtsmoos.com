@@ -1,5 +1,5 @@
 
-import TzimtzumOrchestrator from "./orchestrator/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import TzimtzumOrchestrator from "./orchestrator/index.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 /**
  * @file index.js (Tzimtzum)

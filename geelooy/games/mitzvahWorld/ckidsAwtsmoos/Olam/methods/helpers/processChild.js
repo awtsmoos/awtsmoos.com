@@ -1,6 +1,6 @@
 
 // B"H
-import Utils from '../../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import Utils from '../../../utils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export default function processChild(child, nivra, olam, collections) {
     const { 

@@ -5,8 +5,8 @@
  * Raw plans become lived homes here. The Awtsmoos gives each house a family,
  * door, windows, interior, yard, collider law, and memory.
  */
-import { interiorFor } from "./HouseInteriorSpawner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { HOUSE_JOBS, STARTER_HOUSES, fallbackPosition, starterSource } from "./HouseStarterCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { interiorFor } from "./HouseInteriorSpawner.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { HOUSE_JOBS, STARTER_HOUSES, fallbackPosition, starterSource } from "./HouseStarterCatalog.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 function numberOr(value, fallback = 0) {
   const number = Number(value);

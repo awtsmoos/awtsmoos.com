@@ -1,6 +1,6 @@
 // B"H
 /** RegionWildlifeRenderer.js — first herd now exists immediately; remainder streams. */
-import { ensureRenderBackend } from "../../../../../rendering/RendererProvider.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { ensureRenderBackend } from "../../../../../rendering/RendererProvider.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { createWildlifeLifeRuntime } from "../wildlife/life/WildlifeLifeRuntime.js?compact=true&v=perf-tight-collision-20260703-bh3";
 import { allAnimalsFromReport, animalsFromReport, guardianWildlifeCadence } from "./RegionWildlifeData.js?compact=true&v=lod-house-octree-20260705-bh1";
 import { makeActor } from "./RegionWildlifeActors.js?compact=true&v=mobile-crisp-passive-herd-lod-20260705-bh2";

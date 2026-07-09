@@ -7,9 +7,9 @@
  */
 import { registerHouseRoot } from "../../../collision/HouseCollisionWorld.js?compact=true&v=perf-tight-collision-20260703-bh8";
 import { setDoorVisualState } from "./DoorAnimationRuntime.js?compact=true&v=door-roof-target-20260708-bh2";
-import { normalizeDoorState, saveDoorState } from "./DoorPersistence.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { normalizeDoorState, saveDoorState } from "./DoorPersistence.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { registerDoorEntry } from "./DoorInteractionRegistry.js?compact=true&v=door-wall-source-fix-20260708-bh4";
-import { dist2, doorEntries, playerPosition, publishDoorState, toast, worldPos } from "./DoorInteractionHelpers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { dist2, doorEntries, playerPosition, publishDoorState, toast, worldPos } from "./DoorInteractionHelpers.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { publishMultiRoomCollisionDiagnostics } from "../interior/MultiRoomHouseCollision.js?compact=true&v=lod-house-octree-20260705-bh1";
 const DOOR_REACH = 14;
 function applyColliderState(root, doorId, state) {

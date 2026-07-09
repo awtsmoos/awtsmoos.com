@@ -6,8 +6,8 @@
  * by GroundedColliderBuilder are already center-based, so this factory never
  * adds terrain height a second time.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { categorySpec } from "./ColliderCategoryRegistry.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { categorySpec } from "./ColliderCategoryRegistry.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 function num(value, fallback = 0) {
   return Number.isFinite(Number(value)) ? Number(value) : fallback;

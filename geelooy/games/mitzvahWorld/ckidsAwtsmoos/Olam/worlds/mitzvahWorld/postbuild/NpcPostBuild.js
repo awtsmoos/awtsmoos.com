@@ -1,6 +1,6 @@
 // B"H
 /** @file NpcPostBuild.js @description Ensures fallback visible NPCs exist without optional chaining. */
-import { createSimpleNpcMesh } from "./SimpleNpcMesh.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createSimpleNpcMesh } from "./SimpleNpcMesh.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function nameOf(item) { return String(item && item.name ? item.name : item && item.id ? item.id : "").toLowerCase(); }
 function typeOf(item) { return String(item && item.type ? item.type : "").toLowerCase(); }
 function countNpcs(nivrayim = []) { return nivrayim.filter(item => { const name = nameOf(item), type = typeOf(item); return name.includes("npc") || type.includes("npc") || type.includes("citizen") || type.includes("interactive"); }).length; }

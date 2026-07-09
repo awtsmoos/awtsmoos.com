@@ -13,7 +13,7 @@
  * @property {Object} props Builder-facing manifest data.
  */
 
-import { EMERALD_VOID_GENERATED_DISTRICT } from './EmeraldVoidGeneratedDistrict.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { EMERALD_VOID_GENERATED_DISTRICT } from './EmeraldVoidGeneratedDistrict.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export const EMERALD_VOID_STREET = [
   {

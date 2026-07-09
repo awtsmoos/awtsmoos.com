@@ -7,7 +7,7 @@ import { ensureVillageInteractionLayers } from "./VillageInteractionLayers.js?co
 import { ensureTreeRuntimeAudit } from "./TreeRuntimeAudit.js?compact=true&v=tree-runtime-audit-20260614-bh1";
 import { ensureFinalGroundingPass } from "./FinalGroundingPass.js?compact=true&v=final-grounding-20260614-bh1";
 import { ensureRuntimeVisualAudit } from "./RuntimeVisualAudit.js?compact=true&v=runtime-visual-audit-20260614-bh2";
-import { signalWorldFinalReady } from "../runtime/WorldFinalReadySignal.js?compact=true&v=awtsmoos-final-ready-20260614-bh2";
+import { signalWorldFinalReady } from "../runtime/WorldFinalReadySignal.js?compact=true&v=final-ready-grass-gate-fix-20260708-bh11";
 const KEY = "__awtsmoosVillageWorldPolishPass";
 function progress(stage, data = {}) { if (typeof globalThis !== "undefined" && typeof globalThis.postMessage === "function") globalThis.postMessage({ type:"worker_progress", stage:`postbuild:${stage}`, ...data }); }
 function message(error) { return error && error.message ? error.message : String(error); }

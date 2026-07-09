@@ -10,8 +10,8 @@
  * those empty vessels and fills them with a seed of zero-coordinates, 
  * satisfying the mathematical strictness of the GPU.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import Utils from "../../../utils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import Utils from "../../../utils.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 export default class Traversal {
     /**

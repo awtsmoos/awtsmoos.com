@@ -1,15 +1,15 @@
 // B"H
 /** Probe the static dependencies of OlamGraftingPlain without booting Olam. */
 const DEPS = [
-  ["loadingPlain", "../methods/loadingPlain.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
-  ["entityLogic", "../methods/entityLogic.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
-  ["hebrewLetters", "../methods/hebrewLetters.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
-  ["heesHawvoos", "../methods/heesHawvoos.js?compact=true&v=compact-engine-20260702-bh2"],
+  ["loadingPlain", "../methods/loadingPlain.js?compact=true&v=full-chain-cache-bust-20260708-bh10"],
+  ["entityLogic", "../methods/entityLogic.js?compact=true&v=full-chain-cache-bust-20260708-bh10"],
+  ["hebrewLetters", "../methods/hebrewLetters.js?compact=true&v=full-chain-cache-bust-20260708-bh10"],
+  ["heesHawvoos", "../methods/heesHawvoos.js?compact=true&v=full-chain-cache-bust-20260708-bh10"],
   ["HelpersBridge", "../methods/helpers.js?compact=true&v=visible-root-binding-20260610-bh710"],
   ["loadNivrayim", "../methods/loadNivrayim/index.js?compact=true&v=zone-reality-20260614-bh817"],
-  ["placeholderAndEntities", "../methods/placeholderAndEntities/index.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
-  ["hoyseef", "../methods/hoyseef.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
-  ["sealayk", "../methods/sealayk.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"],
+  ["placeholderAndEntities", "../methods/placeholderAndEntities/index.js?compact=true&v=full-chain-cache-bust-20260708-bh10"],
+  ["hoyseef", "../methods/hoyseef.js?compact=true&v=full-chain-cache-bust-20260708-bh10"],
+  ["sealayk", "../methods/sealayk.js?compact=true&v=full-chain-cache-bust-20260708-bh10"],
   ["bindAllListeners", "../eventListeners/index.js?compact=true&v=starter-contracts-20260628-bh9"],
   ["npcRuntime", "../npc/NpcInteractionRuntime.js?compact=true&v=npc-runtime-exports-20260616-bh1"]
 ];

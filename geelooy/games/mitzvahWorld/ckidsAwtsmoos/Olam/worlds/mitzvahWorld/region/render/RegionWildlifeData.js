@@ -3,7 +3,7 @@
  * @file RegionWildlifeData.js
  * @description Wildlife counts and numeric laws for fast first playable load.
  */
-import { rand } from "./RegionRandom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rand } from "./RegionRandom.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 export const COUNTS = Object.freeze({ rabbit:18, fox:6, deer:8, goat:6, cow:5, frog:12, bird:10 });
 export const TOTAL_PLAYABLE_WILDLIFE_LIMIT = 76;

@@ -6,10 +6,10 @@
  * index and partition budgets so predator/prey behavior remains alive without
  * turning passive herds into an O(n^2) movement-frame cost.
  */
-import { decisionFromWildlifeCombat } from "../../../../../systems/creatures/WildlifeCombatAdapter.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { decisionFromWildlifeCombat } from "../../../../../systems/creatures/WildlifeCombatAdapter.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { getDynamicActorPartition } from "../../runtime/DynamicActorPartition.js?compact=true&v=perf-tight-collision-20260703-bh3";
 import { animateAnimal } from "../wildlife/render/AnimalAnimator.js?compact=true&v=animal-lod-wire-20260622-bh1";
-import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { FAST, distance2, length2d, playerMesh } from "./RegionWildlifeData.js?compact=true&v=perf-tight-collision-20260703-bh4";
 
 function buildSpeciesBuckets(root) {

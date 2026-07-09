@@ -1,117 +1,18 @@
 // B"H
-/**
- * @file RegionTreeRenderer.js
- * @description Region trees route through the Awtsmoos procedural-core
- * generator, with wind ticks and trunk collider registration.
- */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { rand } from "./RegionRandom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { budgetedQualityCount } from "./RegionQuality.js?compact=true&v=awtsmoos-quality-20260614-bh2";
-import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { buildAdvancedTree, approvedTreeStats, registerTreeTrunkColliders } from "./AdvancedTreeOnly.js?compact=true&v=exclusive-procedural-core-tree-20260614-bh4";
-import { advanceProceduralTreeWind } from "../trees/ProceduralCoreTreeFactory.js?compact=true&v=fuller-procedural-core-trees-20260707-bh1";
-
-const ANCHORS = Object.freeze([
-  [18, 28, "olive", "mature"],
-  [-34, 42, "oak", "mature"],
-  [46, -18, "apple", "mature"],
-  [-62, -24, "oak", "ancient"],
-  [84, 64, "pine", "mature"],
-  [118, 86, "pine", "ancient"],
-  [-96, 18, "apple", "mature"],
-  [22, 96, "willow", "mature"],
-  [-128, 72, "oak", "ancient"],
-  [146, 26, "pine", "mature"],
-  [72, -72, "apple", "mature"],
-  [-42, -86, "olive", "mature"],
-  [166, -48, "pine", "mature"],
-  [-164, -38, "pine", "mature"]
-]);
-
-function reportTrees(report) {
-  return report?.instances && Array.isArray(report.instances.trees) ? report.instances.trees : [];
-}
-
-function fallback(count) {
-  return Array.from({ length:count }, (_, index) => {
-    const angle = index * 2.399963;
-    const radius = 44 + Math.sqrt(rand(index, 1)) * 272;
-    return {
-      x:-25 + Math.cos(angle) * radius,
-      z:32 + Math.sin(angle) * radius * 0.72,
-      kind:index % 4 === 0 ? "pine" : index % 7 === 0 ? "apple" : index % 11 === 0 ? "willow" : "oak",
-      age:index % 13 === 0 ? "ancient" : "mature"
-    };
-  });
-}
-
-function specs(report) {
-  const anchored = ANCHORS.map((anchor, index) => ({
-    x:anchor[0],
-    z:anchor[1],
-    kind:anchor[2],
-    age:anchor[3],
-    name:`starter_procedural_core_tree_${index}`,
-    starterAnchor:true
-  }));
-  return [...anchored, ...(reportTrees(report).length ? reportTrees(report) : fallback(180))];
-}
-
-function optionsFor(source, index) {
-  const kind = source.kind || source.species || "oak";
-  const ancient = source.age === "ancient";
-  const pine = kind === "pine";
-  return {
-    ...source,
-    name:source.name || `procedural_core_region_tree_${index}`,
-    x:Number(source.x) || 0,
-    z:Number(source.z) || 0,
-    kind,
-    age:source.age || "mature",
-    rotationY:rand(index, 9) * Math.PI * 2,
-    scale:ancient ? (pine ? 1.28 : 1.20) : pine ? .96 + rand(index, 10) * .34 : .82 + rand(index, 10) * .34,
-    groundLift:0.01
-  };
-}
-
-function addTree(root, olam, source, index) {
-  const tree = buildAdvancedTree(olam, optionsFor(source, index), index);
-  tree.userData.regionProceduralCoreTree = true;
-  tree.userData.skipRaycast = true;
-  root.add(tree);
-  return tree;
-}
-
-export function buildTreeRenderer(olam, report = {}) {
-  const all = specs(report);
-  const count = Math.min(84, Math.max(42, budgetedQualityCount(olam, 72, "treeDistance", 72)));
-  const root = new THREE.Group();
-  root.name = "living_region_procedural_core_tree_forest";
-  for (let index = 0; index < count; index++) addTree(root, olam, all[index % all.length], index);
-  const registered = registerTreeTrunkColliders(root, olam);
-  const audit = approvedTreeStats(root);
-  root.userData.colliderSources = [];
-  root.userData.tick = delta => advanceProceduralTreeWind(root, delta);
-  root.userData.stats = {
-    trees:count,
-    nearTrees:count,
-    approvedProceduralCoreTrees:audit.approvedTreeObjects,
-    drawCallsEstimate:count * 2,
-    lodForest:false,
-    proceduralCoreForest:true,
-    fullerTreeGenerator:true,
-    registeredTrunkColliders:registered.length,
-    colliderSources:0
-  };
-  if (olam) olam.__livingRegionProceduralTreeProof = { ...root.userData.stats, audit };
-  return sealRegionVisual(root, {
-    proceduralCoreForest:true,
-    onlyApprovedTreeSource:true,
-    manyTrees:true,
-    bboxGroundedTrees:true,
-    fullerTreeGenerator:true,
-    treeWindTick:true
-  });
-}
-
+/** @file RegionTreeRenderer.js @description Visible preset forest with mobile-safe count and no per-frame traversal. */
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { rand } from "./RegionRandom.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { buildAdvancedTree, approvedTreeStats, registerTreeTrunkColliders } from "./AdvancedTreeOnly.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+const ANCHORS=Object.freeze([[18,28,"olive","mature"],[-34,42,"oak","mature"],[46,-18,"apple","mature"],[-62,-24,"oak","ancient"],[84,64,"pine","mature"],[118,86,"pine","ancient"],[-96,18,"apple","mature"],[22,96,"willow","mature"],[-128,72,"oak","ancient"],[146,26,"pine","mature"],[72,-72,"apple","mature"],[-42,-86,"olive","mature"]]);
+const n=(v,f=0)=>Number.isFinite(Number(v))?Number(v):f;
+const isMobile=()=>globalThis.matchMedia?.("(pointer: coarse), (max-width: 820px)")?.matches||/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent||"");
+function proof(stage,fields={}){const p={stage,seal:"full-chain-cache-bust-20260708-bh10",...fields};globalThis.__AWTS_REGION_TREE_RENDERER_PROOF__ ||= [];globalThis.__AWTS_REGION_TREE_RENDERER_PROOF__.push(p);if(globalThis.__AWTS_REGION_TREE_RENDERER_PROOF__.length>32)globalThis.__AWTS_REGION_TREE_RENDERER_PROOF__.shift();if(globalThis.__AWTS_DEBUG_TREES__===true)console.info('B"H | REGION_TREE_RENDERER_PROOF',p);}
+function reportTrees(r){return r?.instances&&Array.isArray(r.instances.trees)?r.instances.trees:[];}
+function fallback(count){return Array.from({length:count},(_,i)=>{const a=i*2.399963,rad=34+Math.sqrt(rand(i,1))*185,k=["oak","pine","apple","willow","olive"][i%5];return{x:-25+Math.cos(a)*rad,z:32+Math.sin(a)*rad*.72,kind:k,age:i%9===0?"ancient":"mature",sourcePath:"RegionTreeRenderer/fallback"};});}
+function specs(reportData){const anchored=ANCHORS.map((a,i)=>({x:a[0],z:a[1],kind:a[2],age:a[3],name:`starter_procedural_core_tree_${i}`,starterAnchor:true,sourcePath:"RegionTreeRenderer/anchors"}));const generated=reportTrees(reportData).map((t,i)=>({...t,sourcePath:t.sourcePath||`region-report-tree-${i}`}));return[...anchored,...(generated.length?generated:fallback(48))];}
+function targetCount(){return isMobile()?14:28;}
+function optionsFor(source={},index=0){const kind=source.kind||source.species||["oak","pine","apple","willow","olive"][index%5],ancient=source.age==="ancient",pine=kind==="pine",x=n(source.x??source.position?.x),z=n(source.z??source.position?.z);return{...source,name:source.name||`procedural_core_region_tree_${index}`,x,y:source.y??source.position?.y,z,kind,age:source.age||"mature",rotationY:n(source.rotationY,rand(index,9)*Math.PI*2),scale:ancient?(pine?1.12:1.08):pine?.88+rand(index,10)*.18:.76+rand(index,10)*.2,groundLift:.01,sourcePath:source.sourcePath||"RegionTreeRenderer/optionsFor"};}
+function addTree(root,olam,source,index){const options=optionsFor(source,index),tree=buildAdvancedTree(olam,options,index);Object.assign(tree.userData||={}, {regionProceduralCoreTree:true,skipRaycast:true});tree.visible=true;tree.frustumCulled=true;root.add(tree);return tree;}
+export function buildTreeRenderer(olam,reportData={}){const all=specs(reportData),count=targetCount(),root=new THREE.Group();root.name="living_region_procedural_core_tree_forest";root.visible=true;root.frustumCulled=false;for(let i=0;i<count;i++)addTree(root,olam,all[i%all.length],i);const registered=registerTreeTrunkColliders(root,olam),audit=approvedTreeStats(root);root.userData.colliderSources=[];root.userData.tick=null;root.userData.stats={trees:count,nearTrees:count,approvedProceduralCoreTrees:audit.approvedTreeObjects,drawCallsEstimate:count*3,mobileBudget:isMobile(),proceduralCoreForest:true,registeredTrunkColliders:registered.length,colliderSources:0};if(olam)olam.__livingRegionProceduralTreeProof={...root.userData.stats,audit,attached:true,rootName:root.name};proof("forest-created",{count,registered:registered.length,audit});return sealRegionVisual(root,{proceduralCoreForest:true,onlyApprovedTreeSource:true,manyTrees:true,bboxGroundedTrees:true,fullerTreeGenerator:true,treeWindTick:false});}
 export default buildTreeRenderer;

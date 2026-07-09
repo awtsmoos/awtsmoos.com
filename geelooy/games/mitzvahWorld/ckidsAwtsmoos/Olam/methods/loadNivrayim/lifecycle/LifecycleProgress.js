@@ -1,6 +1,6 @@
 // B"H
 /** LifecycleProgress.js — tiny worker progress sparks for each awakening phase. */
-import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { postWorkerProgress } from "../../../oyved/core/protocol/WorkerProtocol.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 export function labelOf(nivra, i, total) { return `${i}/${total}:${nivra?.name || nivra?.constructor?.name || "Unknown"}:${nivra?.type || nivra?.constructor?.name || "no-type"}`; }
 export function mark(stage, data = {}) { const label = data.label ? `:${String(data.label).slice(0, 90)}` : ""; postWorkerProgress(`lifecycle:${stage}${label}`, data); }
 export function loadingPercent(index, total) { return 50 + (((index + 1) / Math.max(1, total)) * 50); }

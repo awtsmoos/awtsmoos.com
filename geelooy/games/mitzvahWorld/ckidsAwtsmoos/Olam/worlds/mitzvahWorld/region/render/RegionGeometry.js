@@ -1,6 +1,6 @@
 // B"H
 /** @file RegionGeometry.js @description Organic utility geometry without tree blobs or optional-chain parser storms. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const cache = new Map();
 function leafletGeometry() {
   const s = new THREE.Shape();

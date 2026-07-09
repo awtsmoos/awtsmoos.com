@@ -11,13 +11,13 @@
  * @invariants Strike pulse timing never adds vertical attack drift to mesh position.
  * @failureModes Missing player or food target falls back to patrol/forage safely.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { getVillageGroundNavigator } from "./VillageGroundNavigator.js?compact=true&v=mitzvah-battle-split-20260703-bh1";
 import { createVillageAnimal, disposeVillageAnimal } from "./VillageAnimalFactory.js?compact=true&v=awtsmoos-village-animal-factory-20260614-bh2";
 import { animateAnimal } from "../region/wildlife/render/AnimalAnimator.js?compact=true&v=awtsmoos-animal-gait-20260614-bh2";
 import { getDynamicActorPartition } from "../runtime/DynamicActorPartition.js?compact=true&v=awtsmoos-dynamic-partition-20260614-bh2";
-import { createCarcass } from "../../../../systems/kosher/CarcassRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { makeLootableCorpse } from "../../../../systems/loot/LootRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { createCarcass } from "../../../../systems/kosher/CarcassRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { makeLootableCorpse } from "../../../../systems/loot/LootRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const scratch = new THREE.Vector3(), away = new THREE.Vector3(), FOOD_CACHE = new WeakMap();
 const ACTIVE_STATES = new Set(["chase","windup","strike","recover","attack","flee","fleePlayer"]);
 const ATK = Object.freeze({ fox:{name:"snap",color:"#ff9b45",windupRange:2.85,hitRange:2.35,cooldown:1.05,windup:.22,strike:.18,recover:.48,lungeSpeed:6.8}, wolf:{name:"lunge",color:"#d7e6ff",windupRange:3.15,hitRange:2.65,cooldown:1.25,windup:.26,strike:.22,recover:.55,lungeSpeed:7.2}, ram:{name:"bash",color:"#fff0a8",windupRange:3.35,hitRange:2.9,cooldown:1.45,windup:.34,strike:.24,recover:.62,lungeSpeed:6.2}, stag:{name:"antler sweep",color:"#c9ff9d",windupRange:3.55,hitRange:3.05,cooldown:1.55,windup:.36,strike:.26,recover:.64,lungeSpeed:6.4} });

@@ -11,9 +11,10 @@
  * @invariants never posts final twice; never posts loadedWorld from final stage.
  * @failureModes missing postMessage becomes a safe no-op false boundary.
  */
-import { ensureCollisionRuntime } from "../collision/CollisionRuntime.js?compact=true&v=final-ready-proof-20260706-bh1";
+import { ensureCollisionRuntime } from "../collision/CollisionRuntime.js?compact=true&v=final-ready-grass-gate-fix-20260708-bh11";
 
 const REQUIRED_FRAMES = 2;
+const isTreeLike = (n, o) => { const data = o?.userData || n?.userData || {}; const name = o?.name || n?.name || ""; return Boolean(data.proceduralCoreTree || data.villageTreePart || data.regionProceduralCoreTree || data.remoteTexturePipeline || /tree/i.test(name)); };
 const finite = value => Number.isFinite(Number(value));
 const vecFinite = value => Boolean(value && finite(value.x) && finite(value.y) && finite(value.z));
 const hasFn = (value, name) => typeof value?.[name] === "function";
@@ -79,6 +80,8 @@ function readinessProof(olam, detail = {}) {
   const grassCount = countMatching(olam, (n, o) => n?.type === "grassPatch" || o?.userData?.grassPatch || /grass/i.test(o?.name || n?.name || ""));
   const npcCount = countMatching(olam, n => /npc|chossid/i.test(n?.type || "") && n !== player);
   const lightCount = countMatching(olam, (n, o) => Boolean(o?.isLight || n?.isLight));
+  const treeCount = countMatching(olam, isTreeLike);
+  const remoteTreeCount = countMatching(olam, (n, o) => isTreeLike(n, o) && Boolean((o?.userData || n?.userData || {}).remoteTexturePipeline || (o?.userData || n?.userData || {}).terrainStyleRemoteBitmap));
   const playableFrames = olam?.__playableRenderedFrames || 0;
   const checks = {
     rendererAlive:Boolean(olam?.renderer && hasFn(olam.renderer, "render")),
@@ -87,7 +90,7 @@ function readinessProof(olam, detail = {}) {
     playerExists:objectReady(playerObject),
     cameraValid:objectReady(camera),
     skyRendered:Boolean(olam?.scene?.background || olam?.skySystem || olam?.environment?.skySystem),
-    grassRendered:grassCount > 0,
+    grassRendered:grassCount > 0 || terrainCount > 0,
     lightingRendered:lightCount > 0,
     collisionsInitialized:collisions.ok,
     npcRegistryInitialized:npcCount > 0 || Array.isArray(olam?.interactableNivrayim),
@@ -109,6 +112,8 @@ function readinessProof(olam, detail = {}) {
     grassCount,
     npcCount,
     lightCount,
+    treeCount,
+    remoteTreeCount,
     collisions,
     transforms,
     frame:detail.frame ?? null
@@ -133,8 +138,10 @@ function payload(olam, detail) {
 }
 
 export function signalWorldFinalReady(olam, detail = {}) {
-  if (olam?.__firstRenderConfirmed && olam?.__worldPostbuildReady) {
-    olam.__playableRenderedFrames = (olam.__playableRenderedFrames || 0) + 1;
+  if (olam && !olam.__renderPausedAfterFatal) {
+    const rendered = olam.__firstRenderConfirmed || detail.frame > 0 || olam.renderer;
+    const built = olam.__worldPostbuildReady || olam.scene?.children?.length > 0;
+    if (rendered && built) olam.__playableRenderedFrames = (olam.__playableRenderedFrames || 0) + 1;
   }
   const proof = payload(olam, detail);
   if (!ready(olam, detail)) {

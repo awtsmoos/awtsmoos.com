@@ -1,7 +1,7 @@
 // B"H
 /** @file RegionMountainRenderer.js @description Distant visual ridges plus explicit cliff collider records, never mystery fences. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { groundY } from "./RegionGround.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { groundY } from "./RegionGround.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function mat(color) { return new THREE.MeshLambertMaterial({ color, transparent:false, opacity:1, depthWrite:true, depthTest:true }); }
 function ridgeMesh(name, points, height, color) { const shape = new THREE.Shape(); shape.moveTo(points[0][0], 0); points.forEach(p => shape.lineTo(p[0], p[1])); shape.lineTo(points[points.length-1][0], 0); shape.lineTo(points[0][0], 0); const g = new THREE.ExtrudeGeometry(shape, { depth:.9, bevelEnabled:false }); const m = new THREE.Mesh(g, mat(color)); m.name = name; m.scale.y = height; m.receiveShadow = true; m.userData = { mountainVisual:true, visualOnly:true, skipOctree:true, noOctree:true }; return m; }
 function makeRidge(index, z, width, height, color) { const pts=[]; for(let i=0;i<=14;i++){ const x=-width/2 + width*i/14; const y=.25 + Math.abs(Math.sin(i*.91+index))* .65 + Math.sin(i*1.7+index)*.18; pts.push([x,y]); } const mesh = ridgeMesh(`distant_mountain_ridge_${index}`, pts, height, color); mesh.position.set(0, groundY(null,0,z) - .2, z); return mesh; }

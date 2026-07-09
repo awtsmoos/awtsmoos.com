@@ -3,8 +3,8 @@
  * @file VillagePolishGround.js
  * @description Village polish drinks from the same GroundTruth law as roads, grass, colliders, trees, NPCs.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { groundY } from "../region/ground/GroundTruth.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { groundY } from "../region/ground/GroundTruth.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 export const ROAD_SPINE = Object.freeze([[-145,-42],[-112,-22],[-80,-8],[-45,2],[-10,10],[25,18],[62,31],[98,49],[135,72]]);
 export const LANDMARKS = Object.freeze({ square:[0,14], well:[-14,18], study:[-34,35], greatTree:[34,34], orchard:[86,54], gate:[-126,-30] });
 export function yAt(olam, x, z, fallback = 0) { return groundY(olam, x, z, fallback); }

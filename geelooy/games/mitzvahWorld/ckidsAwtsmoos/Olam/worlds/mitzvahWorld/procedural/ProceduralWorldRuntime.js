@@ -8,7 +8,7 @@
  * not replaced; this layer is a sidecar, gentle and fast.
  */
 import { GeometryEngine } from "../GeometryEngine.js?compact=true&v=awtsmoos-geometry-engine-20260614-bh2";
-import { normalizeProceduralWorld } from "./ProceduralWorldSchema.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { normalizeProceduralWorld } from "./ProceduralWorldSchema.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 const KEY = "__awtsmoosProceduralWorldRuntime";
 

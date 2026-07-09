@@ -12,7 +12,7 @@
 import { oyvedManagerLog } from "../log/MainTextLogger.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { workerMessageToText, isWorkerTextLog } from "./WorkerMessageText.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { recordWorkerProgress } from "../progress/WorkerProgressStore.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?compact=true&v=loading-proof-mobile-20260706-bh3";
+import LoadingProgress from "../../uiManager/logic/LoadingProgressBridge.js?compact=true&v=visible-fatal-loader-errors-20260708-bh5";
 
 const SEAL = "final-proof-bridge-20260705-bh4";
 const PLAYABLE_STAGE = /^(first-playable-frame|gameplay-ready|world_final_ready)$/i;
@@ -355,12 +355,28 @@ function niceError(text) {
 
 function quietError(data, label) {
   const text = workerMessageToText(data);
+  const kind = label || data?.type || "worker-error";
   oyvedManagerLog.error(text);
-  suppress(text, label || data?.type || "worker-error");
+  suppress(text, kind);
+  const fatal = /OYVED_IMPORT|Worker fatal|Module failed|SyntaxError|OlamVessel|missing \) after argument list|Olam boot failed/i.test(text);
+  if (fatal) {
+    LoadingProgress.showError?.(text, "Worker boot failed");
+    LoadingProgress.update?.({
+      stage:"worker:fatal-error",
+      action:"Load error detected",
+      subAction:text,
+      log:text,
+      error:text,
+      worker:50,
+      total:58
+    });
+    return;
+  }
   LoadingProgress.update?.({
     stage:"worker:recovering",
     action:niceError(text),
-    subAction:"details saved in console",
+    subAction:text,
+    log:text,
     worker:42
   });
 }

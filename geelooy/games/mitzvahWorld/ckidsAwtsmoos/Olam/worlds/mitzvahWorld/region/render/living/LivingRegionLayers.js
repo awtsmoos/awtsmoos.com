@@ -4,7 +4,7 @@
  * @description Small layer helpers; progress carries primitive house proof,
  * door-click proof, and room counts without circular THREE references.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { postWorkerProgress } from "../../../../../oyved/core/protocol/WorkerProtocol.js?compact=true&v=total-overhaul-path-fix-20260705-bh1";
 export const DEFERRED_LAYERS = Object.freeze(["mountains", "grass", "wheat", "flowers", "bushes", "rocks", "trees", "water", "farms", "parcels", "landmarks", "battleLayer", "visualReality", "botanicalReality", "ecologyReality"]);
 function primitiveStats(layer) { const s = layer?.userData?.stats || {}; return { skipped:Boolean(s.skipped), deferred:Boolean(s.deferred), cottages:s.cottages || 0, colliderSources:s.colliderSources || 0, clickableDoors:s.clickableDoors || 0, internalRooms:s.internalRooms || 0, interiorFloors:s.interiorFloors || 0, doorClickOpenProof:s.doorClickOpenProof || null, octreeProof:s.octreeProof || null, reason:s.reason || null }; }

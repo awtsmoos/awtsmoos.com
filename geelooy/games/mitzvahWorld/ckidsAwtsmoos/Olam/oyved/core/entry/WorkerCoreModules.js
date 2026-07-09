@@ -6,7 +6,7 @@
 import {
   importBootModule,
   importInterpreterModule
-} from "./WorkerBootImports.js?compact=true&v=repair-ground-material-20260708-bh2";
+} from "./WorkerBootImports.js?compact=true&v=worker-module-olam-index-fix-20260708-bh6";
 
 function requireNamedExport(module, exportName, label) {
   if (module && module[exportName]) return module[exportName];

@@ -7,7 +7,7 @@
  * Re-established at the path where the universe looks for it.
  * This file uses purely modular imports to ensure correct MIME types and stability.
  */
-import ShaderInjector from "./ShaderInjector.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ShaderInjector from "./ShaderInjector.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 export default class GrassShader {
     /**

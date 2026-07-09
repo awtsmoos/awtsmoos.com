@@ -5,7 +5,7 @@
  * Chapter 57: Mission and debate no longer conceal one another.
  */
 
-import { describeNpcRange } from './NpcRangeGate.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { describeNpcRange } from './NpcRangeGate.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 function npcId(data, npc) {
   return data.npcId || npc.name || npc.id || null;

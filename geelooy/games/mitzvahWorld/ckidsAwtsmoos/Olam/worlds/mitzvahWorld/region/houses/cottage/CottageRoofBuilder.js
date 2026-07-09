@@ -4,9 +4,9 @@
  * This is a visual roof made from real closed panels, not an extruded triangle
  * that leaves the house looking opened from mobile camera angles.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { COTTAGE_BRICK_PALETTE as P } from "../CottageBrickPalette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { cottageStyleProfile } from "./CottageStyleProfiles.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { COTTAGE_BRICK_PALETTE as P } from "../CottageBrickPalette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { cottageStyleProfile } from "./CottageStyleProfiles.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { materialWithTexture } from "../../../materials/ProceduralTextureKit.js?compact=true&v=ping-pong-crisp-textures-20260622-bh1";
 function basic(color){return new THREE.MeshLambertMaterial({color,transparent:false,opacity:1,depthWrite:true,depthTest:true,side:THREE.DoubleSide});}
 function roofMat(color){const m=materialWithTexture("brick",{size:256});m.color.set(color);m.name="solid_sloped_cottage_roof_material";m.side=THREE.DoubleSide;return m;}

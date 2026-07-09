@@ -6,7 +6,7 @@
  */
 import UniversePulsator from '../oyved/UniversePulsator.js?compact=true&v=worker-60fps-timer-20260702-bh1';
 import RenderTrace from './canvas/RenderTrace.js?compact=true&v=village-polish-20260612-bh811';
-import { signalWorldFinalReady } from '../worlds/mitzvahWorld/runtime/WorldFinalReadySignal.js?compact=true&v=zone-reality-20260614-bh817';
+import { signalWorldFinalReady } from '../worlds/mitzvahWorld/runtime/WorldFinalReadySignal.js?compact=true&v=final-ready-grass-gate-fix-20260708-bh11';
 import { getDynamicActorPartition } from '../worlds/mitzvahWorld/runtime/DynamicActorPartition.js?compact=true&v=awtsmoos-dynamic-partition-20260614-bh2';
 import { hardGroundPlayer } from './loadNivrayim/villageGrounding.js?compact=true&v=hard-player-grounding-20260701-bh1';
 import { DYNAMIC, FOCUS_EPS, NIVRA_CACHE_MS, NON_PLAYER_ENTITY_BUDGET, READY_SIGNAL_MS, SIMPLE_NPC_NEAR_SQ, STATIC, VANITY, WARN_LIMIT } from './heesHawvoos/HeesFrameConfig.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1';

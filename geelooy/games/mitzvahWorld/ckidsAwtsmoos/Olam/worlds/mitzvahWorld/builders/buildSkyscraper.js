@@ -9,11 +9,11 @@
  * ════════════════════════════════════════════════════════════════════════
  */
 
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { buildFloor } from './skyscraper/buildFloor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { buildCrown } from './skyscraper/buildCrown.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { makeStairs } from './wallUtils.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import { buildInteractiveElevator } from './interactive/buildInteractiveElevator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { buildFloor } from './skyscraper/buildFloor.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { buildCrown } from './skyscraper/buildCrown.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { makeStairs } from './wallUtils.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import { buildInteractiveElevator } from './interactive/buildInteractiveElevator.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export async function buildSkyscraper(scene, physics, def, olam = null) {
   const {

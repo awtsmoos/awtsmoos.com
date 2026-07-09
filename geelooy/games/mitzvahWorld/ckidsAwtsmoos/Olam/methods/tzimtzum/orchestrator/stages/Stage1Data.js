@@ -9,7 +9,7 @@
  * old menu/custom-world Blob script cannot merge enemy/NPC desert data into the
  * clean pipeline after the worker starts.
  */
-import defaultConfig from "../../../../../defaultConfig.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import defaultConfig from "../../../../../defaultConfig.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 export default class Stage1Data {
   /**

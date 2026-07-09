@@ -1,6 +1,6 @@
 // B"H
 /** WildlifeRootStats.js — one small ledger for visible animal proof. */
-import { sealRegionVisual } from "../RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { sealRegionVisual } from "../RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { FIRST_PLAYABLE_WILDLIFE_LIMIT, countMeshes, guardianWildlifeCadence } from "../RegionWildlifeData.js?compact=true&v=mitzvah-aggressive-split-20260703-bh1";
 import { restoreFlags } from "../RegionWildlifeActors.js?compact=true&v=animal-visual-lod-20260705-bh1";
 import { summarizeAnimalVisualLod } from "../wildlife/AnimalVisualLod.js?compact=true&v=animal-realism-split-20260705-bh1";

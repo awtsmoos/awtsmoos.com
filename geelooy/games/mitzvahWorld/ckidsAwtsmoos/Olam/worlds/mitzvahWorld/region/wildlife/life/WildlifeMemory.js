@@ -1,6 +1,6 @@
 // B"H
 /** @file WildlifeMemory.js @description Animals remember threat, food, water, den, herd, injury, and player history. */
-import { dataOf, posOf } from './LifeMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { dataOf, posOf } from './LifeMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 function ensure(actor){ const d=dataOf(actor); d.memory ||= { threats:[], food:[], water:[], tracks:[], injuries:[], player:[], den:null, herd:null, family:[] }; return d.memory; }
 function push(list,item,limit){ list.unshift({ at:Date.now(), ...item }); while(list.length>limit) list.pop(); }
 export function memoryOf(actor){ return ensure(actor); }

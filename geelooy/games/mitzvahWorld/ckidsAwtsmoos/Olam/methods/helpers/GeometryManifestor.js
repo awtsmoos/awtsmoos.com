@@ -16,8 +16,8 @@
  * geometry constructors (like BoxGeometry) are indeed present. If the ground
  * is missing, it is here that the lack of measurement would be revealed.
  */
-import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
-import GeometryManager from '../../math/GeometryManager.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import * as THREE from '/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
+import GeometryManager from '../../math/GeometryManager.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 
 export default class GeometryManifestor {
     /**

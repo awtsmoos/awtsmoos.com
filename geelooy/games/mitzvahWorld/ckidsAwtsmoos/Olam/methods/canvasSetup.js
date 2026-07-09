@@ -3,12 +3,12 @@
  * @module MasterCanvasSetup
  * @description Chapter 12: Quiet bh17 canvas setup.
  */
-import WebGLGuard from "./canvas/WebGLGuard.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import WebGLGuard from "./canvas/WebGLGuard.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import RendererFactory from "./canvas/RendererFactory.js?compact=true&v=high-performance-context-20260621-bh1";
-import ViewportSizer from "./canvas/ViewportSizer.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import ContextMonitor from "./canvas/ContextMonitor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import UIRectifier from "./ui/UIRectifier.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ViewportSizer from "./canvas/ViewportSizer.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import ContextMonitor from "./canvas/ContextMonitor.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import UIRectifier from "./ui/UIRectifier.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { resolvePixelRatio } from "../../divine_systems/render/core/PixelRatioGovernor.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 export default class MasterCanvasSetup {
   /** Accepts the transferred canvas and creates the renderer. */

@@ -1,9 +1,9 @@
 // B"H
 /** @file brickStructure.js @description One-buffer masonry walls, parser-clear and visual-only. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { material } from "../geometryKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { buildBrickWallRenderData } from "../../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/generators/brickWall/brickWallGenerator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { material } from "../geometryKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { PICTURE_COLORS as C } from "../palette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { buildBrickWallRenderData } from "../../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/generators/brickWall/brickWallGenerator.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 export const DEFAULT_STONE_PALETTE = Object.freeze([C.stone, 0xd9c9a6, 0xb4a486, 0xe9d9b8, 0xa8926f, 0xf2e4c2]);
 const n = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 function at(values, index, fallback = 0) { return Array.isArray(values) && values[index] !== undefined ? values[index] : fallback; }

@@ -1,87 +1,17 @@
 /**
  * B"H
  * @file nivra.js
- * Nivra class
+ * @description Parser-plain compact Nivra base class for worker boot.
  */
-import {
-    Kav, Heeoolee
-} from "./roochney.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"
-var nivrayimMade = 0;
-export default class Nivra extends Heeoolee{
-    /**
-     * varructs a new Nivra.
-     * 
-     * a Nivra doesn't necessarily have a model or path, can
-     * be abstract
-     * @param {string} name The name of the nivra.
-     * 
-     * @property {String} type the type of the creation, "domem" etc.
-     * @property {Object} serialized The basic object form of data of 
-     *  Nivra, used for importing, exporting and transferring data
-     * without including methods etc.
-     */
-    isReady = false;
-    type = "nivra";
-    serialized = {};
-    constructor(options) {
-        super();
-        if(!options) options = {};
-        this.name = options.name || "nivra_" + (nivrayimMade++);
-      
-        this.shlichus = options.shlichus || null;
-        this.placeholderName = options
-            .placeholderName || this.name;
-        if(typeof(options.on) == "object") {
-            Object.keys(options.on).forEach(q=>{
-                if(typeof(options.on[q]) == "function") 
-                    this.on(q, options.on[q]);
-
-                    
-            });
-        }
-        
-
-    }
-
-    async ready() {
-        this.ayshPeula("ready", this);
-        this.isReady = true;
-    }
-	
-	async afterBriyah() {
-		this.ayshPeula("afterBriyah", this)
-		
-	}
-
-    async hasShlichus() {
-        var d = this?.dialogue?.shlichuseem;
-        var res = await this.olam.ayshPeula(
-            "is shlichus available", d
-        )
-        return res;
-    }
-
-    serialize() {
-        this.serialized = {
-            ...this.serialized,
-            name: this.name
-        };
-        return this.serialized;
-    }
-    /**
-     * Starts the nivra. This function can be overridden by subclasses to provide
-     * nivra-specific behavior.
-     * 
-     * @param {Olam} olam The world in which this nivra is being started.
-     */
-    async heescheel(olam) {
-       this.ayshPeula("heescheel", this);
-        // This can be overridden by subclasses
-    }
-
-    
-    heesHawvoos(deltaTime) {
-        
-        
-    }
+import Heeoolee from "./heeooleey.js?compact=true&v=tree-nan-doorway-compact-20260708-bh2";
+let nivrayimMade = 0;
+export default class Nivra extends Heeoolee {
+  constructor(options = {}) { super(); this.isReady = false; this.type = "nivra"; this.serialized = {}; this.name = options.name || "nivra_" + nivrayimMade; nivrayimMade += 1; this.shlichus = options.shlichus || null; this.placeholderName = options.placeholderName || this.name; this.bindOptionEvents(options.on); }
+  bindOptionEvents(on) { if (!on || typeof on !== "object") return; Object.keys(on).forEach(key => { if (typeof on[key] === "function") this.on(key, on[key]); }); }
+  async ready() { this.ayshPeula("ready", this); this.isReady = true; }
+  async afterBriyah() { this.ayshPeula("afterBriyah", this); }
+  async hasShlichus() { const d = this.dialogue && this.dialogue.shlichuseem; if (!this.olam || typeof this.olam.ayshPeula !== "function") return false; return await this.olam.ayshPeula("is shlichus available", d); }
+  serialize() { const out = { ...(this.serialized || {}) }; out.name = this.name; this.serialized = out; return out; }
+  async heescheel(olam) { this.ayshPeula("heescheel", this, olam); }
+  heesHawvoos(deltaTime) {}
 }

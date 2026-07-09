@@ -1,5 +1,5 @@
 // B"H
-import { BOX, meshId } from "./GroundWorldMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { BOX, meshId } from "./GroundWorldMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 /**
  * Purpose: decide what meshes can speak as terrain.

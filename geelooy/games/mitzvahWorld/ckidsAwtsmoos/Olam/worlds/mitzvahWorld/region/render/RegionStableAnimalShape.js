@@ -6,7 +6,7 @@
  * one-mesh animal: one Mesh, one BufferGeometry, readable species metadata,
  * and explicit proof flags for Movie Maker and gameplay audits.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { createAwtsmoosProceduralAnimalMesh } from "../wildlife/render/AwtsmoosProceduralAnimalMesh.js?compact=true&v=one-mesh-awtsmoos-animal-20260707-bh1";
 
 const BOX = new THREE.Box3();

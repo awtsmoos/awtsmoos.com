@@ -1,6 +1,6 @@
 // B"H
 /** @file EnsureChossidNpcs.js @description Adds default villagers only when world flags allow them and no authored NPC exists. */
-import { CHOSSID_NPC_DEFS } from "./ChossidNpcDefs.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { CHOSSID_NPC_DEFS } from "./ChossidNpcDefs.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { buildChossidNpc } from "./ChossidNpcBuilder.js?compact=true&v=door-roof-target-20260708-bh1";
 import { countSpawnedNpcRoots } from "./SceneNpcScan.js?compact=true&v=awtsmoos-scene-npc-scan-20260614-bh2";
 import { getVisibleNpcPositions } from "./HouseNpcPositions.js?compact=true&v=awtsmoos-house-npc-positions-20260614-bh2";

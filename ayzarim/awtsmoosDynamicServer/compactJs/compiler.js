@@ -377,7 +377,10 @@ function inferExportNamesFromSource(source) {
 }
 
 function exportNamedReplacementEnd(record, node) {
-  if (!node.declaration) return node.end;
+  if (!node.declaration) {
+    const statementEnd = findStatementEnd(record.source, node.start);
+    return statementEnd > node.start ? statementEnd : node.end;
+  }
   const end = findDeclarationEnd(record.source, node.declaration);
   return end > node.start ? end : node.end;
 }
@@ -456,7 +459,7 @@ function replaceRemainingExportDeclarations(source) {
 
 function replaceRemainingExportLists(source) {
   const text = String(source || "");
-  return text.replace(/(^|[;\n])\s*export\s*\{([\s\S]*?)\}\s*;?/g, (_m, prefix, names) => {
+  return text.replace(/(^|[;\n])\s*export\s*\{([\s\S]*?)\}\s*(?:from\s*["'][^"']+["'])?\s*;?/g, (_m, prefix, names) => {
     const lines = names.split(",").map((part) => part.trim()).filter(Boolean).map((part) => {
       const alias = part.match(/^([A-Za-z_$][\w$]*)\s+as\s+([A-Za-z_$][\w$]*)$/);
       const local = alias ? alias[1] : part;

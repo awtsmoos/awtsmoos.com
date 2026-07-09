@@ -5,7 +5,7 @@
  * local (`GroundNavigator`) so no deferred module cache can ask for an undefined
  * class name when the battle layer wakes after first render.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { groundYAt } from "../../../methods/loadNivrayim/villageGrounding.js?compact=true&v=mitzvah-battle-split-20260703-bh1";
 
 const ray = new THREE.Ray();

@@ -1,12 +1,12 @@
 // B"H
 /** @file RegionGrassRenderer.js @description More grass by texture + tiered tufts, not pixel cost. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { makeInstancedLayer } from "./RegionInstancer.js?compact=true&v=awtsmoos-instancer-20260614-bh2";
-import { rand } from "./RegionRandom.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { rand } from "./RegionRandom.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { sealRegionVisual } from "./RegionSeal.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { budgetedQualityCount } from "./RegionQuality.js?compact=true&v=awtsmoos-quality-20260614-bh2";
 import { createProceduralCoreGrassField, advanceProceduralGrass } from "./ProceduralCoreGrassField.js?compact=true&v=mobile-bright-grass-20260707-bh1";
-import { grassExclusionsFromReport, auditGrassExclusions } from "./RegionGrassExclusion.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { grassExclusionsFromReport, auditGrassExclusions } from "./RegionGrassExclusion.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { regionMaterial } from "./RegionMaterials.js?compact=true&v=ping-pong-crisp-textures-20260622-bh2";
 
 const CARPETS = Object.freeze([[0,0,720,480,-.02],[-160,-70,260,170,-.014],[150,60,280,185,-.012],[0,145,360,135,-.016]]);

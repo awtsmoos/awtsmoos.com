@@ -1,9 +1,9 @@
 // B"H
 /** @file EmeraldVoidFeaturePostBuild.js @description Emerald house doors, mezuzos, NPC markers, desks, and counts without optional syntax. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { EMERALD_HOUSE_LOTS } from "../data/nefashos/EmeraldVoidStreet.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { EMERALD_VOID_GENERATED_DISTRICT } from "../data/nefashos/EmeraldVoidGeneratedDistrict.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { createDoorMesh } from "../doors/DoorMeshFactory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { EMERALD_HOUSE_LOTS } from "../data/nefashos/EmeraldVoidStreet.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { EMERALD_VOID_GENERATED_DISTRICT } from "../data/nefashos/EmeraldVoidGeneratedDistrict.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { createDoorMesh } from "../doors/DoorMeshFactory.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { createDoorState, toggleDoorState } from "../doors/DoorState.js?compact=true&v=awtsmoos-door-state-20260614-bh2";
 const FEATURES = [].concat(EMERALD_HOUSE_LOTS, EMERALD_VOID_GENERATED_DISTRICT);
 function materialLambert(color) { return new THREE.MeshLambertMaterial({ color }); }

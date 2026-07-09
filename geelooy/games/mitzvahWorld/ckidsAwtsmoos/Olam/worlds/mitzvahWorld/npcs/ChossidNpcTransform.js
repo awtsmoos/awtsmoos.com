@@ -1,13 +1,13 @@
 // B"H
 /** @file ChossidNpcTransform.js @description Single real GLB NPC transform, target proxy, animation, and two-tap dialogue bridge. */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { createChossidNpcInventory } from "./ChossidNpcInventory.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { applyChossidNpcStyle } from "./ChossidNpcStyle.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { attachChossidNpcAnimator } from "./ChossidNpcAnimator.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { applyNpcVisualLod, npcVisualTreeProof } from "../../../../systems/npc/NpcVisualLod.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { attachQuestMarker } from "../../../../systems/quests/QuestMarkers.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { handleQuestTalk, questDialoguePayload } from "../../../../systems/quests/QuestDialogueRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { npcInteractionDecision, selectNpcTarget } from "../../../../dvarim/npc/NpcTargetRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { createChossidNpcInventory } from "./ChossidNpcInventory.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { applyChossidNpcStyle } from "./ChossidNpcStyle.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { attachChossidNpcAnimator } from "./ChossidNpcAnimator.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { applyNpcVisualLod, npcVisualTreeProof } from "../../../../systems/npc/NpcVisualLod.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { attachQuestMarker } from "../../../../systems/quests/QuestMarkers.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { handleQuestTalk, questDialoguePayload } from "../../../../systems/quests/QuestDialogueRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { npcInteractionDecision, selectNpcTarget } from "../../../../dvarim/npc/NpcTargetRuntime.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const at=(list,i,f)=>list?.[i]!==undefined?list[i]:f,arr=(v,f)=>Array.isArray(v)?v:f;
 function scaleNpc(npc,scale){Array.isArray(scale)?npc.scale.set(at(scale,0,1),at(scale,1,1),at(scale,2,1)):npc.scale.setScalar(scale||1);}
 function pushUnique(list,item){if(Array.isArray(list)&&item&&!list.includes(item))list.push(item);}

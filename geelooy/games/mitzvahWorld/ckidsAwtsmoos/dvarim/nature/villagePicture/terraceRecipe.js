@@ -6,9 +6,9 @@
  * uneven stones, steps, and coping blocks like the picture, yet every block is
  * visual only and never joins the collision furnace.
  */
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { add } from "./geometryKit.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { PICTURE_COLORS as C } from "./palette.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { add } from "./geometryKit.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { PICTURE_COLORS as C } from "./palette.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 const STONES = [C.stone, 0xd2c3a1, 0x9f927d, C.stoneDark];
 

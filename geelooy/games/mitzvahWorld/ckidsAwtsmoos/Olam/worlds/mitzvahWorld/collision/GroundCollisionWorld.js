@@ -1,10 +1,10 @@
 // B"H
-import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import SpatialBubbleIndex from "./SpatialBubbleIndex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { DOWN, NORMAL_MATRIX, RAYCASTER, finite } from "./groundWorld/GroundWorldMath.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import * as THREE from "/games/scripts/build/three.module.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import SpatialBubbleIndex from "./SpatialBubbleIndex.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { DOWN, NORMAL_MATRIX, RAYCASTER, finite } from "./groundWorld/GroundWorldMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 import { terrainRecord } from "./groundWorld/GroundTerrainRegistry.js?compact=true&v=octree-dirty-fix-20260702-bh1";
 import { cachedHitValid, diagPayload, fallbackHit, publishReport } from "./groundWorld/GroundHitCache.js?compact=true&v=octree-ground-cache-20260702-bh1";
-import { surfaceIdentity } from "./groundWorld/GroundSurfaceIdentity.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { surfaceIdentity } from "./groundWorld/GroundSurfaceIdentity.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 const UP = new THREE.Vector3(0, 1, 0), RAY = new THREE.Ray(), V1 = new THREE.Vector3(), V2 = new THREE.Vector3();
 const tmpBox = new THREE.Box3(), tmpSize = new THREE.Vector3(), tmpMin = new THREE.Vector3();
 const num = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;

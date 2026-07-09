@@ -1,9 +1,9 @@
 // B"H
 /** @file RegionColliderGroundAudit.js @description Audits final-scene collider batching, center-ground terrain truth, and grass texture truth. */
-import { houseColliderSlabs } from "./RegionHouseColliderPlan.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { buildHousePlan } from "../houses/HousePlanner.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { auditGrassExclusions } from "./RegionGrassExclusion.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { auditFinalColliderBatchStats } from "./RegionFinalColliderBatch.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import { houseColliderSlabs } from "./RegionHouseColliderPlan.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { buildHousePlan } from "../houses/HousePlanner.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { auditGrassExclusions } from "./RegionGrassExclusion.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import { auditFinalColliderBatchStats } from "./RegionFinalColliderBatch.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 function slopeGroundY(_olam, x = 0, z = 0) { return 1.25 + x * 0.017 - z * 0.011; }
 function worldCenter(slab) { const yaw = slab.yaw || 0, lx = slab.center[0], lz = slab.center[2]; return { x:slab.x + Math.cos(yaw) * lx + Math.sin(yaw) * lz, z:slab.z - Math.sin(yaw) * lx + Math.cos(yaw) * lz }; }
 function expectedY(slab) { const p = worldCenter(slab); return slopeGroundY(null, p.x, p.z) + slab.center[1]; }

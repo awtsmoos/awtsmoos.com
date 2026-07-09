@@ -8,7 +8,7 @@
  * @module nivrayimDefs
  */
 
-import { TIFERES_CHOSSID } from './data/nefashos/TiferesChossid.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
+import { TIFERES_CHOSSID } from './data/nefashos/TiferesChossid.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
 import { LEVEL_ONE_VILLAGE_NIVRAYIM } from './data/levelOne/LevelOneVillage.js?compact=true&v=budgeted-village-20260707-bh1';
 
 /**

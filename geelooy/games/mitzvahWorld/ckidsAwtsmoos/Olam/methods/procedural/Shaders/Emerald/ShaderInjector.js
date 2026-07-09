@@ -3,9 +3,9 @@
 /**
  * @module EmeraldShaderInjector
  */
-import GlslVertex from "../Grass/GlslVertex.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1"; // Reuse worldpos logic
-import GlslNoise from "../Grass/GlslNoise.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import GlslFragment from "./GlslFragment.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import GlslVertex from "../Grass/GlslVertex.js?compact=true&v=full-chain-cache-bust-20260708-bh10"; // Reuse worldpos logic
+import GlslNoise from "../Grass/GlslNoise.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
+import GlslFragment from "./GlslFragment.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 export default class ShaderInjector {
     static inject(shader) {

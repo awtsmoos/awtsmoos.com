@@ -1,6 +1,6 @@
 
 // B"H
-import ShlichusHandler from "../../../shleechoosHandler.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
+import ShlichusHandler from "../../../shleechoosHandler.js?compact=true&v=full-chain-cache-bust-20260708-bh10";
 
 /**
  * @file utils.js
