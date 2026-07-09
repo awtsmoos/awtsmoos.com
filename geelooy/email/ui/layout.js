@@ -1,22 +1,22 @@
 // B"H
 /**
  * @module MailSocialLayout
- * @description The Awtsmoos gathers mail, profile identity, sender groups, and route buttons into one mobile shell.
+ * @description Chapter 709: mail becomes a chamber of Geelooy, not an exile.
+ * The shell supplies dock/search/drawer; mail keeps its sender groups and chat.
  */
 import { renderSidebar } from './sidebar.js';
 import { renderChat } from './chat.js';
 import { renderLoginOverlay, renderComposeModal } from './modals.js';
 import { bottomNavItems, topLinks } from './navItems.js';
-
 export function renderAppLayout(ui, root) {
   renderLoginOverlay(ui, root);
   renderComposeModal(ui, root);
-  ui.html({ parent: root, tag: 'div', shaym: 'socialMailShell', classList: ['mail-social-shell'], children: [
-    { tag: 'header', classList: ['mail-social-topbar'], children: [
+  ui.html({ parent: root, tag: 'div', shaym: 'socialMailShell', classList: ['mail-social-shell', 'geelooy-content-region'], children: [
+    { tag: 'header', classList: ['mail-social-topbar', 'geelooy-toolbar'], children: [
       { tag: 'div', classList: ['mail-title-lockup'], children: [
-        { tag: 'span', classList: ['mail-kicker'], textContent: 'Awtsmoos Mail' },
+        { tag: 'span', classList: ['mail-kicker', 'g-kicker'], textContent: 'Mail chamber' },
         { tag: 'strong', textContent: '✉️ Sender Groups' },
-        { tag: 'small', textContent: '👤 profile-aware inbox' }
+        { tag: 'small', textContent: 'profile-aware inbox inside Geelooy' }
       ]},
       { tag: 'nav', classList: ['mail-top-links'], attributes: { 'aria-label': 'Mail route shortcuts' }, children: topLinks() }
     ]},

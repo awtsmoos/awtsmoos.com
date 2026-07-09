@@ -1,4 +1,4 @@
-/* B"H — Heichelos listing entry: one calm graph of imports, no hidden dock. */
+/* B"H — Heichelos listing entry: legacy spaces first, shared palace law last. */
 @import "/style/social-system/tokens.css";
 @import "./spaces/tokens.css";
 @import "./spaces/reset.css";
@@ -13,3 +13,4 @@
 @import "./spaces/surface-polish.css";
 @import "./spaces/focus.css";
 @import "./spaces/mobile.css";
+@import "/style/geelooy-system/index.css";

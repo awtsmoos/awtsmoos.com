@@ -1,0 +1,41 @@
+/* B"H — dock: one viewport-fixed oath, never document-bound. */
+:where(.home-command-dock, .geelooy-bottom-nav, .spaces-bottom-nav, .profile-bottom-nav) {
+  backdrop-filter: blur(20px);
+  background: rgba(7, 16, 29, .9);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 24px;
+  bottom: max(.75rem, env(safe-area-inset-bottom));
+  box-shadow: var(--g-shadow-dark);
+  display: grid;
+  gap: .25rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  left: 50%;
+  max-width: min(92vw, 42rem);
+  padding: .45rem;
+  position: fixed;
+  right: auto;
+  top: auto;
+  transform: translateX(-50%);
+  width: max-content;
+  z-index: 2500;
+}
+:where(.home-command-dock a, .geelooy-bottom-nav a, .geelooy-bottom-nav button, .spaces-bottom-nav a, .profile-bottom-nav a) {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 17px;
+  color: var(--g-muted-dark);
+  display: grid;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 900;
+  justify-items: center;
+  min-height: 48px;
+  min-width: 5.2rem;
+  padding: .35rem .55rem;
+  text-decoration: none;
+}
+:where(.home-command-dock a[aria-current="page"], .geelooy-bottom-nav a[aria-current="page"], .spaces-bottom-nav a[aria-current="page"], .profile-bottom-nav a[aria-current="page"], .home-command-dock .is-create, .geelooy-bottom-nav .is-create, .spaces-bottom-nav .is-create, .profile-bottom-nav .is-create) {
+  background: linear-gradient(135deg, rgba(64, 216, 239, .22), rgba(213, 154, 53, .24));
+  color: #ffffff;
+}

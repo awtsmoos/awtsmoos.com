@@ -1,0 +1,48 @@
+/* B"H — search: one spotlight casts light through posts, people, mail, and commands. */
+:where(.g-search, .geelooy-search) {
+  align-items: center;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  display: flex;
+  gap: var(--g-space-2);
+  min-height: 48px;
+  padding: .35rem .5rem .35rem .9rem;
+}
+:where(.g-search input, .geelooy-search input) {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  flex: 1;
+  font: inherit;
+  min-width: 0;
+  outline: 0;
+}
+:where(.geelooy-spotlight) {
+  background: rgba(7, 16, 29, .98);
+  border: 1px solid var(--g-line-strong);
+  border-radius: var(--g-radius-lg);
+  box-shadow: var(--g-shadow-dark);
+  color: var(--g-ink-dark);
+  display: none;
+  inset: max(1rem, env(safe-area-inset-top)) 1rem auto;
+  margin-inline: auto;
+  max-width: 42rem;
+  padding: var(--g-space-4);
+  position: fixed;
+  z-index: 120;
+}
+:where([data-geelooy-spotlight-open="true"] .geelooy-spotlight) { display: block; }
+:where(.geelooy-spotlight-sources, .geelooy-spotlight-commands) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--g-space-2);
+  margin-top: var(--g-space-3);
+}
+:where(.geelooy-spotlight-commands a) {
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-sm);
+  color: inherit;
+  padding: .55rem .75rem;
+  text-decoration: none;
+}

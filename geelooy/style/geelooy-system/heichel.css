@@ -1,0 +1,55 @@
+/* B"H — Heichel chamber: readable library, calm controls. */
+.heichel-os-document .heichel-mobile-navigation { background: transparent; }
+.heichel-os-document .geelooy-heichel-hero {
+  background: radial-gradient(circle at 92% 0%, rgba(64, 216, 239, .18), transparent 20rem), linear-gradient(145deg, #172842, #0b1526);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: var(--g-radius-xl);
+  box-shadow: var(--g-shadow-dark);
+  color: var(--g-ink-dark);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  padding: clamp(1.2rem, 4vw, 2.2rem);
+}
+.heichel-os-document .geelooy-heichel-hero #heichel-main-title,
+.heichel-os-document #heichel-main-title {
+  color: #ffffff !important;
+  font-size: clamp(2.8rem, 8vw, 5.5rem);
+  letter-spacing: -.055em;
+  line-height: .9;
+  margin: .2rem 0 .65rem;
+  opacity: 1;
+  overflow-wrap: anywhere;
+  text-shadow: 0 .35rem 1.8rem rgba(0, 0, 0, .32);
+}
+:where(.hero-kicker, .series-label) { color: var(--g-gold); font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+:where(.hero-description) { color: var(--g-muted-dark); max-width: 56rem; }
+:where(.hero-stats) { display: flex; flex-wrap: wrap; gap: .55rem; }
+:where(.hero-stats span) {
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 999px;
+  color: #ffffff;
+  font-weight: 850;
+  padding: .55rem .8rem;
+}
+:where(.heichel-nav-panel, .heichel-os-world-panel) { padding: clamp(1rem, 3vw, 1.45rem); }
+:where(.dynamic-grid) { display: grid; gap: .85rem; }
+:where(.nav-card-actions) { align-items: start; display: flex; gap: .35rem; padding: .75rem; }
+:where(.series-expand-toggle, .card-menu-trigger) {
+  background: rgba(15, 29, 49, .06);
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  color: var(--g-ink);
+  min-height: 38px;
+  min-width: 38px;
+}
+:where(.card-menu-panel) {
+  background: #fff;
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-sm);
+  box-shadow: var(--g-shadow);
+  color: var(--g-ink);
+  padding: .35rem;
+}

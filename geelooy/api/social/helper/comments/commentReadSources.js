@@ -2,17 +2,18 @@
 /**
  * @file commentReadSources.js
  * @description
- * Comment reads ask the authoritative DosDB path language. For migrated
- * heichel comments, DosDB may internally route that path into AwtsmoosDB.
- *
- * Some old packed comment branches can expose their full object through
- * db.get(path) while getObjectKeys/getObjectKey metadata is empty or stale.
- * That is still the same authoritative AwtsmoosDB path, so it is a safe
- * fallback. The duplicate packed mirror remains disabled.
+ * Comment reads first ask DosDB, then — only when the old packed FS exposes a
+ * directory but DosDB cannot deserialize the alias file — read the exact
+ * AwtsmoosDB VirtualFS file directly. This restores old Tanach translation and
+ * commentary files such as `torah_translation_en.awtsmoosJSON` without changing
+ * any comment write path.
  */
 
+const path = require("path");
 const { getAliasCommentFilePath, getParentCommentsBasePath } = require("./commentPaths.js");
 const { NEW_SOURCE, OLD_SOURCE, attempt, readResponse } = require("./commentReadReport.js");
+const AwtsmoosDB = require("../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js");
+const awts = require("../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 
 function names(value) {
     const strip = name => String(name).replace(/\.awtsmoosJSON$/i, "");
@@ -32,8 +33,8 @@ function parseMap(value) {
     try { return JSON.parse(value); } catch { return null; }
 }
 
-async function readNamesSafe(db, path) {
-    try { return names(await db.get(path)); } catch { return []; }
+async function readNamesSafe(db, filePath) {
+    try { return names(await db.get(filePath)); } catch { return []; }
 }
 
 async function candidateAliases(context, basePath) {
@@ -79,18 +80,43 @@ function withVerse(row, verseSection) {
     return row && typeof row === "object" ? { ...row, verseSection: row.verseSection ?? row.dayuh?.verseSection ?? verseSection } : row;
 }
 
-async function getObjectKeySafe(db, path, key) {
-    if (typeof db.getObjectKey === "function") return await db.getObjectKey(path, key);
-    const obj = await db.get(path, { propertyMap: { [key]: true } });
+async function getObjectKeySafe(db, filePath, key) {
+    if (typeof db.getObjectKey === "function") return await db.getObjectKey(filePath, key);
+    const obj = await db.get(filePath, { propertyMap: { [key]: true } });
     return obj && obj[key];
 }
 
-async function getFullObjectSafe(db, path) {
+async function getFullObjectSafe(db, filePath) {
     try {
-        const obj = await db.get(path);
+        const obj = await db.get(filePath);
         return obj && typeof obj === "object" && !Array.isArray(obj) ? obj : null;
     } catch {
         return null;
+    }
+}
+
+function packedCommentsDbPath(context) {
+    const root = context.$i?.db?.directory;
+    if (!root || !context.heichelId) return null;
+    return path.join(root, "socialPacked", `social.heichel.${context.heichelId}.comments.fs.awtsdb`);
+}
+
+function directVirtualObject(context, filePath) {
+    const dbFile = packedCommentsDbPath(context);
+    if (!dbFile) return null;
+    const virtualPath = filePath.endsWith(".awtsmoosJSON") ? filePath : `${filePath}.awtsmoosJSON`;
+    let db;
+    try {
+        db = new AwtsmoosDB(dbFile, { compression: false, reuseFreedSpace: "verified", readOnly: true, processLockMode: "shared", lockMode: "shared" });
+        db.open();
+        const stat = db.fs.stat(virtualPath);
+        if (!stat?.exists || stat.type !== "file" || !stat.size) return null;
+        const buffer = db.fs.readRange(virtualPath, 0, stat.size);
+        return awts.deserializeBinary(buffer);
+    } catch {
+        return null;
+    } finally {
+        try { db?.pager?.close?.(); db?.processLock?.release?.(); } catch {}
     }
 }
 
@@ -108,46 +134,43 @@ function allRowsFromObjectKeyObject(obj) {
     return comments;
 }
 
-async function hasObjectKeySafe(db, path, key) {
-    const value = await getObjectKeySafe(db, path, key).catch(() => undefined);
+async function hasObjectKeySafe(context, filePath, key) {
+    const value = await getObjectKeySafe(context.$i.db, filePath, key).catch(() => undefined);
     if (value !== undefined && value !== null && !(Array.isArray(value) && value.length === 0)) return true;
-    const obj = await getFullObjectSafe(db, path);
-    const rows = rowsFromObjectKeyObject(obj, key);
-    return rows.length > 0;
+    const obj = await getFullObjectSafe(context.$i.db, filePath) || directVirtualObject(context, filePath);
+    return rowsFromObjectKeyObject(obj, key).length > 0;
 }
 
-async function readAuthorVerse(context, path, verseSection) {
+async function readAuthorVerse(context, filePath, verseSection) {
     try {
-        const data = await getObjectKeySafe(context.$i.db, path, verseSection);
-        if (Array.isArray(data) && data.length) {
-            return attempt({ ok: true, source: OLD_SOURCE, data: data.map(row => withVerse(row, verseSection)) });
-        }
+        const data = await getObjectKeySafe(context.$i.db, filePath, verseSection);
+        if (Array.isArray(data) && data.length) return attempt({ ok: true, source: OLD_SOURCE, data: data.map(row => withVerse(row, verseSection)) });
     } catch {}
-    const fallbackRows = rowsFromObjectKeyObject(await getFullObjectSafe(context.$i.db, path), verseSection);
-    return attempt({ ok: true, source: OLD_SOURCE, data: fallbackRows });
+    const obj = await getFullObjectSafe(context.$i.db, filePath) || directVirtualObject(context, filePath);
+    return attempt({ ok: true, source: OLD_SOURCE, data: rowsFromObjectKeyObject(obj, verseSection) });
 }
 
-async function readAuthorAllVerses(context, path) {
+async function readAuthorAllVerses(context, filePath) {
     try {
-        const verseSections = names(await context.$i.db.getObjectKeys(path));
+        const verseSections = names(await context.$i.db.getObjectKeys(filePath));
         const comments = [];
         for (const verseSection of verseSections) {
-            const rows = await getObjectKeySafe(context.$i.db, path, verseSection).catch(() => []);
+            const rows = await getObjectKeySafe(context.$i.db, filePath, verseSection).catch(() => []);
             if (Array.isArray(rows)) for (const row of rows) comments.push(withVerse(row, verseSection));
         }
         if (comments.length) return attempt({ ok: true, source: OLD_SOURCE, data: comments });
     } catch {}
-    const fallbackRows = allRowsFromObjectKeyObject(await getFullObjectSafe(context.$i.db, path));
-    return attempt({ ok: true, source: OLD_SOURCE, data: fallbackRows });
+    const obj = await getFullObjectSafe(context.$i.db, filePath) || directVirtualObject(context, filePath);
+    return attempt({ ok: true, source: OLD_SOURCE, data: allRowsFromObjectKeyObject(obj) });
 }
 
-async function readVerseSections(context, path) {
+async function readVerseSections(context, filePath) {
     try {
-        const direct = names(await context.$i.db.getObjectKeys(path));
+        const direct = names(await context.$i.db.getObjectKeys(filePath));
         if (direct.length) return attempt({ ok: true, source: OLD_SOURCE, data: direct });
     } catch {}
-    const fallback = names(await getFullObjectSafe(context.$i.db, path));
-    return attempt({ ok: true, source: OLD_SOURCE, data: fallback });
+    const obj = await getFullObjectSafe(context.$i.db, filePath) || directVirtualObject(context, filePath);
+    return attempt({ ok: true, source: OLD_SOURCE, data: names(obj) });
 }
 
 async function readAuthors(context, basePath, verseSection) {
@@ -159,7 +182,7 @@ async function readAuthors(context, basePath, verseSection) {
             if (verseSection === undefined) {
                 const sections = await readVerseSections(context, aliasPath);
                 if (sections.count > 0) authors.push(aliasId);
-            } else if (await hasObjectKeySafe(context.$i.db, aliasPath, verseSection)) authors.push(aliasId);
+            } else if (await hasObjectKeySafe(context, aliasPath, verseSection)) authors.push(aliasId);
         }
         return attempt({ ok: true, source: OLD_SOURCE, data: authors });
     } catch (error) {
@@ -178,27 +201,27 @@ function projectedResponse(context, data, source, primary, fallback, paths) {
 async function readCommentsWithSource(context) {
     const verseSection = resolveVerseSection(context.$i, context.verseSection);
     if (verseSection === undefined) return await readAllCommentsOfAliasWithSource(context);
-    const path = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: path, samePathFullObjectFallback: true, duplicateMirrorDisabled: true, verseSection };
-    const primary = await readAuthorVerse(context, path, verseSection);
+    const filePath = getAliasCommentFilePath(context);
+    const paths = { awtsmoosDbFsPath: filePath, directPackedFallback: true, duplicateMirrorDisabled: true, verseSection };
+    const primary = await readAuthorVerse(context, filePath, verseSection);
     if (primary.count > 0) return projectedResponse(context, primary.data, OLD_SOURCE, primary, null, paths);
     const disabled = disabledDuplicateMirror();
     return projectedResponse(context, [], "empty", primary, disabled, paths);
 }
 
 async function readAllCommentsOfAliasWithSource(context) {
-    const path = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: path, samePathFullObjectFallback: true, duplicateMirrorDisabled: true, allVerseSections: true };
-    const primary = await readAuthorAllVerses(context, path);
+    const filePath = getAliasCommentFilePath(context);
+    const paths = { awtsmoosDbFsPath: filePath, directPackedFallback: true, duplicateMirrorDisabled: true, allVerseSections: true };
+    const primary = await readAuthorAllVerses(context, filePath);
     if (primary.count > 0) return projectedResponse(context, primary.data, OLD_SOURCE, primary, null, paths);
     const disabled = disabledDuplicateMirror();
     return projectedResponse(context, [], "empty", primary, disabled, paths);
 }
 
 async function readVerseSectionsWithSource(context) {
-    const path = getAliasCommentFilePath(context);
-    const paths = { awtsmoosDbFsPath: path, samePathFullObjectFallback: true, duplicateMirrorDisabled: true };
-    const primary = await readVerseSections(context, path);
+    const filePath = getAliasCommentFilePath(context);
+    const paths = { awtsmoosDbFsPath: filePath, directPackedFallback: true, duplicateMirrorDisabled: true };
+    const primary = await readVerseSections(context, filePath);
     if (primary.count > 0) return readResponse({ data: primary.data, source: OLD_SOURCE, primary, paths });
     const disabled = disabledDuplicateMirror();
     return readResponse({ data: [], source: "empty", primary, fallback: disabled, paths });
@@ -207,7 +230,7 @@ async function readVerseSectionsWithSource(context) {
 async function readAuthorsWithSource(context) {
     const verseSection = resolveVerseSection(context.$i, context.verseSection);
     const basePath = getParentCommentsBasePath(context);
-    const paths = { awtsmoosDbFsPath: basePath, samePathFullObjectFallback: true, duplicateMirrorDisabled: true, verseSection };
+    const paths = { awtsmoosDbFsPath: basePath, directPackedFallback: true, duplicateMirrorDisabled: true, verseSection };
     const primary = await readAuthors(context, basePath, verseSection);
     if (primary.count > 0) return readResponse({ data: primary.data, source: OLD_SOURCE, primary, paths });
     const disabled = disabledDuplicateMirror();

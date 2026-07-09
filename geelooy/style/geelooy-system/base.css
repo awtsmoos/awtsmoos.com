@@ -1,0 +1,25 @@
+/* B"H — base: every chamber breathes from the same floor. */
+:where(.geelooy-home-document, .heichel-os-document, [data-profile]) {
+  background:
+    radial-gradient(circle at 10% -10%, rgba(64, 216, 239, .16), transparent 28rem),
+    radial-gradient(circle at 90% 0%, rgba(157, 124, 255, .15), transparent 24rem),
+    linear-gradient(180deg, #07101d 0%, #0b1523 48%, #101b2b 100%);
+  color: var(--g-ink-dark);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  text-rendering: geometricPrecision;
+}
+:where(.geelooy-home-document, .heichel-os-document, [data-profile]) * { box-sizing: border-box; }
+:where(.geelooy-home-document, .heichel-os-document, [data-profile]) a { color: inherit; }
+:where(.geelooy-home-document, .heichel-os-document, [data-profile]) img,
+:where(.geelooy-home-document, .heichel-os-document, [data-profile]) svg { max-width: 100%; }
+:where(.hidden, [hidden]) { display: none; }
+:where(.sr-only) {
+  block-size: 1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  inline-size: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}

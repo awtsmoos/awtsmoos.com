@@ -1,4 +1,4 @@
-/* B"H Heichel mobile navigation entry: old split covenant, future organs nested. */
+/* B"H Heichel visual covenant: every old organ stays nested under one final rule. */
 @import "/style/social-system/tokens.css";
 @import "/style/social-system/simple-events.css";
 @import "./tokens.css";
@@ -30,3 +30,4 @@
 @import "../revamped-partials/heichel-boot-states.css";
 @import "../revamped-partials/heichel-os-world.css";
 @import "./beauty/index.css";
+@import "./sovereign.css";

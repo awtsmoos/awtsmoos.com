@@ -2,11 +2,11 @@
 /**
  * @module SocialPostsRoutes
  * @description
- * Chapter 40: The post gate learned to ask for only the sparks required.
+ * Chapter 905: The post gate now recognizes a reflected chamber.
  *
- * The route accepts both `properties` and legacy `propertyMap`. Client code may
- * use either name, and DosDB receives one parsed property map. Thus post lists
- * can return summaries without dragging whole Talmud bodies through the gate.
+ * Normal series still read their own posts. Virtual series read through a small
+ * dereference layer, letting stable/friendly IDs aggregate canonical child
+ * series without duplicating post storage or breaking comment paths.
  */
 
 const {
@@ -25,6 +25,7 @@ const {
   er
 } = require('./helper/index.js');
 const { installSocialDbBridge } = require('./helper/packed/socialDbBridgeInstaller.js');
+const { getVirtualPostsInSeries, getVirtualPostFromSeries } = require('./helper/series/virtualSeries.js');
 
 function decodeCrumbPath(value = '') {
   try { return decodeURIComponent(Buffer.from(value, 'base64').toString('utf-8')); }
@@ -40,6 +41,20 @@ function parseMap(value) {
 
 function parseProperties($i) {
   return parseMap($i.$_GET?.properties || $i.$_GET?.propertyMap);
+}
+
+async function readPostsRoute({ $i, heichelId, seriesId, withDetails }) {
+  const properties = parseProperties($i);
+  const virtual = await getVirtualPostsInSeries({ $i, heichelId, seriesId, withDetails, properties });
+  if (virtual) return virtual;
+  return getPostsInSeries({ $i, heichelId, seriesId, withDetails, properties });
+}
+
+async function readPostRoute({ $i, heichelId, seriesId, postId }) {
+  const properties = parseProperties($i);
+  const virtual = await getVirtualPostFromSeries({ $i, heichelId, seriesId, postId, properties });
+  if (virtual) return virtual;
+  return getPostFromSeries({ $i, heichelId, seriesId, postId });
 }
 
 module.exports = ({ $i, userid } = {}) => {
@@ -78,15 +93,7 @@ module.exports = ({ $i, userid } = {}) => {
     },
 
     '/heichelos/:heichel/series/:series/posts': async v => {
-      if ($i.request.method === 'GET') {
-        return getPostsInSeries({
-          $i,
-          heichelId: v.heichel,
-          seriesId: v.series,
-          withDetails: $i.$_GET?.details === 'true',
-          properties: parseProperties($i)
-        });
-      }
+      if ($i.request.method === 'GET') return readPostsRoute({ $i, heichelId: v.heichel, seriesId: v.series, withDetails: $i.$_GET?.details === 'true' });
       if ($i.request.method !== 'POST') return er({ code: 'METHOD_NOT_ALLOWED' });
       $i.$_POST.seriesId = v.series;
       return addPostToSeries({ $i, heichelId: v.heichel, seriesId: v.series });
@@ -94,11 +101,11 @@ module.exports = ({ $i, userid } = {}) => {
 
     '/heichelos/:heichel/series/:series/posts/details': async v => {
       if ($i.request.method !== 'GET') return er({ code: 'METHOD_NOT_ALLOWED', method: $i.request.method });
-      return getPostsInSeries({ $i, heichelId: v.heichel, seriesId: v.series, withDetails: true, properties: parseProperties($i) });
+      return readPostsRoute({ $i, heichelId: v.heichel, seriesId: v.series, withDetails: true });
     },
 
     '/heichelos/:heichel/series/:series/post/:post': async v => {
-      if ($i.request.method === 'GET') return getPostFromSeries({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post });
+      if ($i.request.method === 'GET') return readPostRoute({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post });
       if ($i.request.method === 'PUT') return editPostInSeries({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post });
       if ($i.request.method !== 'DELETE') return er({ code: 'METHOD_NOT_ALLOWED' });
       if (!$i.$_DELETE) $i.$_DELETE = {};
@@ -107,23 +114,11 @@ module.exports = ({ $i, userid } = {}) => {
       return deletePostFromSeries({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post, userid });
     },
 
-    '/heichelos/:heichel/series/:series/post/:post/delete': async v => deletePostFromSeries({
-      $i,
-      heichelId: v.heichel,
-      seriesId: v.series,
-      postId: v.post,
-      userid
-    }),
+    '/heichelos/:heichel/series/:series/post/:post/delete': async v => deletePostFromSeries({ $i, heichelId: v.heichel, seriesId: v.series, postId: v.post, userid }),
 
     '/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal': async v => {
       if ($i.request.method !== 'GET') return er({ code: 'METHOD_NOT_ALLOWED' });
-      return getPostsByProperty({
-        $i,
-        heichelId: v.heichel,
-        seriesId: v.series,
-        propertyKey: decodeURIComponent(v.propKey || ''),
-        propertyValue: decodeURIComponent(v.propVal || '')
-      });
+      return getPostsByProperty({ $i, heichelId: v.heichel, seriesId: v.series, propertyKey: decodeURIComponent(v.propKey || ''), propertyValue: decodeURIComponent(v.propVal || '') });
     }
   };
 };

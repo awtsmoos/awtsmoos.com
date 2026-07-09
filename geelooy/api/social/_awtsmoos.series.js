@@ -2,10 +2,10 @@
 /**
  * @module SocialSeriesCompatibilityRoutes
  * @description Old series vessels are restored without erasing the new API.
- * The base file remains the full refactored implementation; this wrapper adds
- * aliases from the living git history and points root/ikar readers at `root`.
+ * Alternate groupings are full UI records beside the canonical tree.
  */
 const createBaseRoutes = require('./_awtsmoos.series.base.js');
+const { getAlternateGroups } = require('./helper/series/virtualSeries.js');
 const { makeNewSeries, editSeriesDetails, getSeries, getSubSeries, deleteSeriesFromHeichel, changeSubSeriesFromOneSeriesToAnother, editSubSeriesInSeries, addPostToSeries, deletePostFromSeries, er } = require('./helper/index.js');
 
 function body($i) { return $i.$_POST || $i.$_PUT || $i.$_DELETE || {}; }
@@ -15,21 +15,10 @@ function parent($i) { return body($i).parentSeriesId || body($i).seriesId || $i.
 function isPostLike($i) { const b = body($i); return b.postId || b.title || b.content || b.dayuh || b.type === 'post'; }
 function seriesDetails($i, h, s = 'root') { return getSeries({ $i, heichelId: h, seriesId: s, withDetails: true }); }
 function subSeries($i, h, s = 'root', withDetails = false) { return getSubSeries({ $i, heichelId: h, parentSeriesId: s, withDetails }); }
-function deleteSeriesCompat($i, h, seriesId, p = 'root') {
-  return deleteSeriesFromHeichel({ $i, heichelId: h, seriesId, parentSeriesId: p, userid: $i.userid });
-}
-function addContent($i, h) {
-  if (!$i.$_POST) $i.$_POST = {};
-  $i.$_POST.parentSeriesId = parent($i);
-  $i.$_POST.seriesId = $i.$_POST.seriesId || $i.$_POST.parentSeriesId;
-  return isPostLike($i) ? addPostToSeries({ $i, heichelId: h, seriesId: $i.$_POST.seriesId }) : makeNewSeries({ $i, heichelId: h });
-}
-function deleteContent($i, h) {
-  const b = body($i);
-  const p = b.parentSeriesId || b.seriesId || 'root';
-  if (b.postId || b.type === 'post') return deletePostFromSeries({ $i, heichelId: h, seriesId: p, postId: b.postId, userid: $i.userid });
-  return deleteSeriesCompat($i, h, b.subSeriesId || b.seriesId || b.id, p);
-}
+function deleteSeriesCompat($i, h, seriesId, p = 'root') { return deleteSeriesFromHeichel({ $i, heichelId: h, seriesId, parentSeriesId: p, userid: $i.userid }); }
+function addContent($i, h) { if (!$i.$_POST) $i.$_POST = {}; $i.$_POST.parentSeriesId = parent($i); $i.$_POST.seriesId = $i.$_POST.seriesId || $i.$_POST.parentSeriesId; return isPostLike($i) ? addPostToSeries({ $i, heichelId: h, seriesId: $i.$_POST.seriesId }) : makeNewSeries({ $i, heichelId: h }); }
+function deleteContent($i, h) { const b = body($i); const p = b.parentSeriesId || b.seriesId || 'root'; if (b.postId || b.type === 'post') return deletePostFromSeries({ $i, heichelId: h, seriesId: p, postId: b.postId, userid: $i.userid }); return deleteSeriesCompat($i, h, b.subSeriesId || b.seriesId || b.id, p); }
+function alternateGroups($i, heichelId, seriesId) { return getAlternateGroups({ $i, heichelId, seriesId, withDetails: true }); }
 
 module.exports = ({ $i, userid } = {}) => {
   const base = createBaseRoutes({ $i, userid });
@@ -41,10 +30,9 @@ module.exports = ({ $i, userid } = {}) => {
     '/heichelos/:heichel/series/root/subSeries': async v => subSeries($i, v.heichel, 'root', $i.$_GET?.details === 'true'),
     '/heichelos/:heichel/series/root/subSeries/details': async v => subSeries($i, v.heichel, 'root', true),
     '/heichelos/:heichel/series/root/breadcrumb': async () => [{ id: 'root', name: 'Root' }],
-    '/heichelos/:heichel/addContentToSeries': async v => {
-      if ($i.request.method !== 'POST') return er({ code: 'METHOD_NOT_ALLOWED' });
-      return addContent($i, v.heichel);
-    },
+    '/heichelos/:heichel/series/:series/alternateGroups': async v => alternateGroups($i, v.heichel, v.series),
+    '/heichelos/:heichel/series/:series/alternateGroups/details': async v => alternateGroups($i, v.heichel, v.series),
+    '/heichelos/:heichel/addContentToSeries': async v => { if ($i.request.method !== 'POST') return er({ code: 'METHOD_NOT_ALLOWED' }); return addContent($i, v.heichel); },
     '/heichelos/:heichel/deleteContentFromSeries': async v => deleteContent($i, v.heichel),
     '/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId': async v => deleteSeriesCompat($i, v.heichel, v.seriesId, $i.$_GET?.parentSeriesId || body($i).parentSeriesId || 'root'),
     '/heichelos/:heichel/series/:series/editSeriesDetails': async v => editSeriesDetails({ $i, heichelId: v.heichel, seriesId: v.series }),

@@ -1,0 +1,22 @@
+/* B"H — header: the roof stays dark, readable, and light-handed. */
+:where(.awtsmoosificationalisticaticalism, .heichel-mobile-topbar) {
+  backdrop-filter: blur(20px);
+  background: rgba(7, 16, 29, .84);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: var(--g-radius-md);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .22);
+  color: var(--g-ink-dark);
+}
+:where(.heichel-mobile-topbar) {
+  display: grid;
+  gap: var(--g-space-2);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  min-height: 58px;
+  padding: var(--g-space-2);
+  position: sticky;
+  top: max(.5rem, env(safe-area-inset-top));
+  z-index: 2200;
+}
+:where(.topbar-title strong) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+:where(.topbar-title small) { color: var(--g-muted-dark); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+:where(.topbar-icon, .home-bell-button, .menuBtn) { min-height: 44px; min-width: 44px; }

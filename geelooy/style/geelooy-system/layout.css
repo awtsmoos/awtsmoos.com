@@ -1,0 +1,25 @@
+/* B"H — layout: one shell, many rooms, no crushed mobile corridors. */
+:where(.geelooy-app-shell) {
+  min-height: 100dvh;
+  position: relative;
+}
+:where(.geelooy-content-region) {
+  margin-inline: auto;
+  max-width: var(--g-max);
+  width: min(100%, var(--g-max));
+}
+:where(.g-two-column) {
+  display: grid;
+  gap: var(--g-space-5);
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+}
+:where(.g-three-column) {
+  display: grid;
+  gap: var(--g-space-5);
+  grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr) minmax(14rem, 20rem);
+}
+:where(.g-sidebar) { position: sticky; top: 5rem; }
+@media (max-width: 860px) {
+  :where(.g-two-column, .g-three-column) { grid-template-columns: 1fr; }
+  :where(.g-sidebar) { position: static; }
+}

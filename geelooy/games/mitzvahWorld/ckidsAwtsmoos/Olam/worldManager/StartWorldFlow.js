@@ -5,7 +5,7 @@
  */
 import OlamWorkerManager from "../ikarOyvedManager.js?compact=true&v=final-proof-bridge-20260705-bh4";
 
-const SEAL = "plain-vessel-root-loader-3d-20260708-bh5";
+const SEAL = "case-correct-olam-import-20260706-bh3";
 const WORLD_FLOW_PATHS = Object.freeze({
   WORKER_ENTRY: `../oyved/index.js?compact=true&v=${SEAL}`,
   PLAYER_DATA: "desktop.folder/game data.folder/playerData.json"

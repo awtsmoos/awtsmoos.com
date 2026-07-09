@@ -1,0 +1,27 @@
+/* B"H — components: reusable atoms wear the same crown in every room. */
+:where(.g-chip, .geelooy-chip) {
+  align-items: center;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  display: inline-flex;
+  font-weight: 800;
+  gap: .4rem;
+  min-height: 34px;
+  padding: .35rem .75rem;
+}
+:where(.g-avatar, .geelooy-avatar) {
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--g-blue), var(--g-gold));
+  border-radius: 50%;
+  box-shadow: var(--g-shadow);
+  display: inline-grid;
+  min-width: 2.4rem;
+  place-items: center;
+}
+:where(.g-toolbar, .geelooy-toolbar) {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--g-space-2);
+  justify-content: space-between;
+}

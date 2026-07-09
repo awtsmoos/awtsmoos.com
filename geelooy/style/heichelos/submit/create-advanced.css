@@ -1,0 +1,45 @@
+/* B"H — advanced depth exists, but it no longer shouts first. */
+.simple-advanced-drawer { display: grid; gap: .75rem; }
+.simple-advanced-drawer summary {
+  cursor: pointer;
+  font-weight: 950;
+  list-style: none;
+}
+.simple-advanced-drawer summary::after { content: ' ↓'; color: var(--g-muted); }
+.simple-advanced-drawer[open] summary::after { content: ' ↑'; }
+.bulk-text { min-height: 8rem; resize: vertical; }
+.sections-area, .sub-sections-area { display: grid; gap: .75rem; margin-block: .75rem; }
+.section, .sub-section {
+  background: rgba(231,239,248,.65);
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-md);
+  display: grid;
+  gap: .55rem;
+  padding: .85rem;
+}
+.section h3, .sub-section h4 { margin: 0; }
+.subsection-manager { display: grid; gap: .55rem; }
+.modal {
+  align-items: center;
+  background: rgba(7,16,29,.68);
+  display: none;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 2700;
+}
+.modal.active, .modal[open] { display: flex; }
+.modal-card {
+  background: #fff;
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-lg);
+  box-shadow: var(--g-shadow-dark);
+  color: var(--g-ink);
+  max-width: 30rem;
+  padding: 1rem;
+  width: 100%;
+}
+.modal-close { float: right; }
+.drop-zone { border: 1px dashed var(--g-line-strong); border-radius: var(--g-radius-md); padding: 2rem 1rem; text-align: center; }
+.html-code-view { background: #050814 !important; color: #d1fae5 !important; font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important; }

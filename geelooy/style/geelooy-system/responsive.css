@@ -1,0 +1,17 @@
+/* B"H — responsive: mobile is not squeezed desktop. */
+@media (min-width: 860px) {
+  .heichel-os-document .geelooy-heichel-hero { grid-template-columns: minmax(0, 1fr) minmax(12rem, auto); }
+  .heichel-os-document .hero-stats { justify-content: flex-end; max-width: 18rem; }
+}
+@media (max-width: 640px) {
+  :where(.geelooy-home-shell, .heichel-mobile-navigation, .social-spaces-shell, .geelooy-profile-shell) {
+    padding: .65rem;
+    padding-bottom: calc(var(--g-dock-h) + 1.4rem + env(safe-area-inset-bottom));
+  }
+  :where(.home-search-row, .home-search-vessel, .series-search-row, .spaces-hero, .profile-identity-row) { grid-template-columns: 1fr; }
+  :where(.home-command-dock, .geelooy-bottom-nav, .spaces-bottom-nav, .profile-bottom-nav) { max-width: calc(100vw - 1rem); width: calc(100vw - 1rem); }
+  :where(.home-command-dock a, .geelooy-bottom-nav a, .geelooy-bottom-nav button, .spaces-bottom-nav a, .profile-bottom-nav a) { font-size: .7rem; min-width: 0; padding-inline: .15rem; }
+  :where(.nav-card) { grid-template-columns: 1fr; }
+  :where(.nav-card-media) { min-height: 3rem; }
+  :where(.nav-card-actions) { padding-top: 0; }
+}

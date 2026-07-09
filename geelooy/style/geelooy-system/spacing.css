@@ -1,0 +1,11 @@
+/* B"H — spacing: no chamber invents its own cubit. */
+:where(.g-stack) { display: grid; gap: var(--g-space-4); }
+:where(.g-stack[data-gap="sm"]) { gap: var(--g-space-2); }
+:where(.g-stack[data-gap="lg"]) { gap: var(--g-space-6); }
+:where(.g-cluster) { align-items: center; display: flex; flex-wrap: wrap; gap: var(--g-space-3); }
+:where(.g-section) { padding: clamp(1rem, 3vw, 2rem); }
+:where(.g-page-pad) {
+  padding: clamp(.85rem, 2vw, 1.35rem);
+  padding-bottom: calc(var(--g-dock-h) + max(1.25rem, env(safe-area-inset-bottom)));
+}
+:where(.g-readable) { margin-inline: auto; max-width: min(100%, 74ch); }

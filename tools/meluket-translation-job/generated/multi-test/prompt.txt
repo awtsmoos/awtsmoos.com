@@ -1,0 +1,25 @@
+B"H
+You are translating Sefer Hamaamarim Meluket from Hebrew/Yiddish/Aramaic-inflected Chassidic Hebrew into clear, faithful English.
+
+Return ONLY valid XML. No markdown. No commentary outside XML.
+Preserve all IDs exactly. For every <source> entry, emit exactly one matching <subSection> translation.
+Do not merge, skip, reorder, or invent entries.
+Keep Rebbe/chassidus terms faithful; do not flatten technical concepts.
+
+Required XML schema:
+<awtsmoosTranslationBatch heichel="ikar" alias="meluket_translation_en" batchId="multi-test-1783577472660">
+  <post seriesId="..." postId="...">
+    <section verseSection="0">
+      <subSection index="0" sourceHash="sha256..."><translation>English...</translation></subSection>
+    </section>
+  </post>
+</awtsmoosTranslationBatch>
+
+SOURCE_BATCH:
+<awtsmoosSourceBatch heichel="ikar" batchId="multi-test-1783577472660">
+  <source seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" verseSection="1" subSection="0" sourceHash="b248bf27a5c12b7853e8e567fc790759a593ad47c3693822c7981817d86349e9">פדה בשלום נפשי מקרב לי כי ברבים היו עמדי1,</source>
+  <source seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" verseSection="1" subSection="1" sourceHash="4d048ab285cc04139baebd83af6496523e8d267e4621dbfbbcedefcbf570ff1a">ומבאר בעל הגאולה במאמרו ד"ה זה</source>
+  <source seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" verseSection="2" subSection="1" sourceHash="57f6787add00b007ce91bf69e2eb3ccf3a4a03ce59add546cd9d4ec25754ba30">והנה6 בירור נה"ב ע"י שנה"א מתלבשת בנה"ב,</source>
+  <source seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" verseSection="3" subSection="1" sourceHash="f68869e9f7c49fd4479f10c0ff37da3d036193417d980a211376b3232ede7b4b">דאמיתית הענין דפדה בשלום נפשי הוא ע"י גילוי היחידה דוקא.</source>
+  <source seriesId="כסלו_meluket" postId="BH_POST_1766518915244_theRebbe_950" verseSection="4" subSection="1" sourceHash="ae3fa4cf0012a8b8297f3358e3e88a031a72380b46e803dd31e50b0140c83667">וצריך להבין,</source>
+</awtsmoosSourceBatch>

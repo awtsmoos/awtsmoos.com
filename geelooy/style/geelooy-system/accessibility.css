@@ -1,0 +1,14 @@
+/* B"H — accessibility: the light must be findable by keyboard and thumb. */
+:where(a, button, input, textarea, select, summary, [role="button"]):focus-visible {
+  outline: 2px solid var(--g-cyan);
+  outline-offset: 3px;
+  box-shadow: var(--g-focus);
+}
+:where(a, button, summary, [role="button"]) { -webkit-tap-highlight-color: rgba(64, 216, 239, .2); }
+@media (prefers-reduced-motion: no-preference) {
+  :where(a, button, .nav-card, .social-space-card, .home-post-card) { transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease; }
+  :where(a, button, .nav-card, .social-space-card, .home-post-card):hover { transform: translateY(-1px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms; scroll-behavior: auto; transition-duration: .001ms; }
+}

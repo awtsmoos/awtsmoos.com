@@ -1,0 +1,36 @@
+/* B"H — tokens: the palace stops arguing with itself. */
+:root {
+  --g-bg: #07101d;
+  --g-bg-soft: #0d1828;
+  --g-panel: rgba(255, 255, 255, .92);
+  --g-panel-dark: rgba(12, 23, 39, .88);
+  --g-panel-strong: #ffffff;
+  --g-ink: #0f1d31;
+  --g-ink-dark: #f8fbff;
+  --g-muted: #61718a;
+  --g-muted-dark: #b9c7d8;
+  --g-line: rgba(113, 143, 177, .25);
+  --g-line-strong: rgba(113, 143, 177, .42);
+  --g-gold: #d59a35;
+  --g-cyan: #40d8ef;
+  --g-blue: #5b8cff;
+  --g-violet: #9d7cff;
+  --g-success: #33c587;
+  --g-danger: #d94f5c;
+  --g-radius-xs: 10px;
+  --g-radius-sm: 14px;
+  --g-radius-md: 20px;
+  --g-radius-lg: 28px;
+  --g-radius-xl: 34px;
+  --g-space-1: .35rem;
+  --g-space-2: .6rem;
+  --g-space-3: .85rem;
+  --g-space-4: 1.15rem;
+  --g-space-5: 1.6rem;
+  --g-space-6: 2.2rem;
+  --g-max: 76rem;
+  --g-dock-h: 76px;
+  --g-shadow: 0 20px 60px rgba(4, 10, 20, .18);
+  --g-shadow-dark: 0 24px 70px rgba(0, 0, 0, .42);
+  --g-focus: 0 0 0 4px rgba(64, 216, 239, .24);
+}

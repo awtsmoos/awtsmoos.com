@@ -1,0 +1,27 @@
+/* B"H — dialogs: a small gate opens without swallowing the world. */
+:where(.g-dialog, .geelooy-dialog) {
+  background: var(--g-panel-strong);
+  border: 1px solid var(--g-line-strong);
+  border-radius: var(--g-radius-lg);
+  box-shadow: var(--g-shadow);
+  color: var(--g-ink);
+  max-width: min(92vw, 38rem);
+  padding: var(--g-space-5);
+}
+:where(.g-dialog::backdrop, .geelooy-dialog::backdrop) {
+  background: rgba(3, 9, 17, .62);
+  backdrop-filter: blur(10px);
+}
+:where(.g-drawer, .geelooy-drawer) {
+  background: rgba(9, 19, 34, .96);
+  border: 1px solid var(--g-line);
+  color: var(--g-ink-dark);
+  inset: 0 0 0 auto;
+  max-width: min(24rem, 92vw);
+  padding: var(--g-space-5);
+  position: fixed;
+  transform: translateX(105%);
+  transition: transform .22s ease;
+  z-index: 90;
+}
+:where([data-geelooy-drawer-open="true"] .geelooy-drawer) { transform: translateX(0); }

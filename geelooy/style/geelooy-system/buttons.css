@@ -1,0 +1,35 @@
+/* B"H — buttons: one covenant for pressable vessels. */
+:where(.home-action-card, .home-feed-create, .spaces-create, .space-actions a, .profile-primary-action, .profile-command-rail a, .profile-inline-actions a, .profile-inline-actions button, .awtsmoos-btn, .filter-chip, .card-menu-action, .breadcrumb-link, .home-empty-actions a, .spaces-empty-actions a, .btn-group-row button, .btn-group-governance button) {
+  align-items: center;
+  background: linear-gradient(135deg, rgba(64, 216, 239, .14), rgba(157, 124, 255, .16));
+  border: 1px solid var(--g-line-strong);
+  border-radius: var(--g-radius-sm);
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 850;
+  gap: .45rem;
+  justify-content: center;
+  min-height: 44px;
+  padding: .7rem .95rem;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+:where(.home-action-primary, .profile-primary-action, .spaces-create, .space-actions a:first-child, .awtsmoos-btn:not(.danger)) {
+  background: linear-gradient(135deg, var(--g-cyan), var(--g-blue));
+  border-color: rgba(255, 255, 255, .22);
+  color: #06101d;
+}
+:where(.is-create) {
+  background: linear-gradient(135deg, var(--g-gold), #ffd47b);
+  color: #211404;
+}
+:where(button:disabled, [aria-disabled="true"], .disabled) {
+  background: rgba(108, 122, 143, .18);
+  border-color: rgba(108, 122, 143, .38);
+  color: #7d8da5;
+  cursor: not-allowed;
+  opacity: 1;
+}
+:where(.danger, .awtsmoos-btn.danger) { color: #fff; background: linear-gradient(135deg, #b83242, var(--g-danger)); }

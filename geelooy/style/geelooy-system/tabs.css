@@ -1,0 +1,29 @@
+/* B"H — tabs: one active language. */
+:where(.home-feed-tabs, .tab-gates, .profile-tabs, .spaces-state-row) {
+  background: rgba(227, 237, 248, .82);
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-md);
+  display: flex;
+  gap: .35rem;
+  overflow-x: auto;
+  padding: .35rem;
+  scrollbar-width: none;
+}
+:where(.tab-gates) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+:where(.home-feed-tabs button, .tab-gates .tab, .profile-tabs button, .spaces-state-row span) {
+  background: transparent;
+  border: 0;
+  border-radius: var(--g-radius-sm);
+  color: #566980;
+  flex: 1 0 auto;
+  font: inherit;
+  font-weight: 900;
+  min-height: 44px;
+  padding: .65rem .85rem;
+  white-space: nowrap;
+}
+:where(.home-feed-tabs button.active, .tab-gates .tab.Active, .profile-tabs button.active, .profile-tabs button[aria-selected="true"], .spaces-state-row span:first-child) {
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(7, 16, 29, .1);
+  color: var(--g-ink);
+}

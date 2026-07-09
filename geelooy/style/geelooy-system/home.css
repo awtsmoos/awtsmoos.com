@@ -1,0 +1,29 @@
+/* B"H — home chamber: creative, not chaotic. */
+.geelooy-home-document .geelooy-home-shell {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: var(--g-space-3);
+}
+.geelooy-home-document .home-hero-panel { padding: clamp(1.25rem, 4vw, 2.4rem); }
+.geelooy-home-document .home-hero-panel h1 {
+  color: var(--g-ink-dark);
+  font-size: clamp(2.9rem, 9vw, 5.8rem);
+  letter-spacing: -.065em;
+  line-height: .92;
+  margin: .2rem 0 .8rem;
+  max-width: 12ch;
+}
+.geelooy-home-document .home-hero-panel h1 span {
+  background: linear-gradient(135deg, var(--g-cyan), var(--g-gold), var(--g-violet));
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+}
+.geelooy-home-document .home-action-grid { display: grid; gap: .65rem; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); }
+.geelooy-home-document .home-feed-panel,
+.geelooy-home-document .home-glance-panel,
+.geelooy-home-document .home-activity-panel { padding: clamp(1rem, 2.5vw, 1.35rem); }
+.geelooy-home-document .home-glance-grid { display: grid; gap: .65rem; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); }
+@media (min-width: 860px) {
+  .geelooy-home-document .geelooy-home-shell { grid-template-columns: minmax(0, .95fr) minmax(22rem, .85fr); }
+  .geelooy-home-document .home-feed-panel { grid-column: 2; grid-row: 1 / span 3; }
+}

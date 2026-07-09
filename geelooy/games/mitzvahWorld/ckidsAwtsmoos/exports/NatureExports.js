@@ -1,9 +1,9 @@
 // B"H
-/** Nature exports: cache-busted hosted terrain texture mixer plus village nature. */
-export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?compact=true&v=hosted-ground-textures-20260708-bh2";
+/** Nature exports: real terrain, cheap grass, real gameplay first. */
+export { default as ProceduralTerrain } from "../dvarim/terrain/ProceduralTerrain.js?compact=true&v=real-terrain-octree-visual-20260708-bh1";
 export { default as ProceduralSky } from "../dvarim/nature/ProceduralSky.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as Forest } from "../dvarim/nature/forest.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
-export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPlane.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
+export { default as VillageGroundPlane } from "../dvarim/nature/VillageGroundPlane.js?compact=true&v=real-gameplay-solid-grass-20260708-bh2";
 export { default as VillageSkyLayers } from "../dvarim/nature/VillageSkyLayers.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as VillageLightingRig } from "../dvarim/nature/VillageLightingRig.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as VillageBackdrop } from "../dvarim/nature/VillageBackdrop.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
@@ -11,7 +11,7 @@ export { default as VillageCottage } from "../dvarim/nature/VillageCottage.js?co
 export { default as VillageHeroTree } from "../dvarim/nature/VillageHeroTree.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as VillageForestField } from "../dvarim/nature/VillageForestField.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as VillageStonePath } from "../dvarim/nature/VillageStonePath.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
-export { default as VillageGrassField } from "../dvarim/nature/VillageGrassField.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
+export { default as VillageGrassField } from "../dvarim/nature/VillageGrassField.js?compact=true&v=cheap-real-grass-20260708-bh1";
 export { default as VillageRealismProp } from "../dvarim/nature/VillageRealismProp.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as VillagePictureProp } from "../dvarim/nature/VillagePictureProp.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";
 export { default as VillageHouseDoor } from "../dvarim/nature/VillageHouseDoor.js?compact=true&v=village-prop-no-self-hoyseef-20260708-bh7";

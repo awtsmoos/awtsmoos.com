@@ -1,7 +1,4 @@
-/* B"H profile dashboard entry: classic contract shell plus short-future chambers.
- * Chapter: the parent profile folder keeps its old covenant, while the new
- * simple event organs live in /future so every test and every page can breathe.
- */
+/* B"H profile dashboard entry: legacy organs first, shared palace law last. */
 @import "/style/social-system/tokens.css";
 @import "./profile/tokens.css";
 @import "/style/social-system/base.css";
@@ -18,6 +15,7 @@
 @import "./profile/future/simple-events.css";
 @import "./profile/future/responsive.css";
 @import "./profile/nav.css";
+@import "/style/geelooy-system/index.css";
 .geelooy-profile-shell,
 .profile-hero-card,
 .social-alias-card,

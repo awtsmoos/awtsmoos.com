@@ -1,25 +1,18 @@
 // B"H
-import { button, element, link, pill, textNode, trim } from './dom.js';
-
+import { renderUnifiedFeedCard } from '../../feed/renderFeedCard.js';
+import { button, element, link, pill, textNode } from './dom.js';
 export function renderObjectCard(object, onInspect) {
-  const card = element('article', 'home-post-card universal-object-card');
-  card.tabIndex = 0;
-  card.dataset.objectType = object.type;
-  card.dataset.objectId = object.id;
-  card.append(authorRow(object), typeRow(object), textNode(trim(object.summary, 260)), actionRow(object, onInspect));
-  card.addEventListener('click', event => { if (!event.target.closest('a,button')) onInspect(object); });
-  card.addEventListener('keydown', event => {
-    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onInspect(object); }
-  });
+  const card = renderUnifiedFeedCard(object, { onInspect, onSave: onInspect, onShare: onInspect });
+  const row = element('footer', 'object-action-row');
+  row.append(link('Open', object.href), button('Inspect', () => onInspect(object)));
+  card.append(row);
   return card;
 }
-
 export function statusCard(title, message, tone = '') {
-  const card = element('article', `home-post-card ${tone}`.trim());
+  const card = element('article', `home-post-card geelooy-feed-card ${tone}`.trim());
   card.append(authorRow({ title, author:'Geelooy', type:'status' }), textNode(message));
   return card;
 }
-
 export function emptyCard(mode, onOpenSearch) {
   const card = statusCard('No posts yet', `The ${mode} stream is quiet. Search the archive or create something new.`);
   const row = element('footer', 'object-action-row');
@@ -27,35 +20,20 @@ export function emptyCard(mode, onOpenSearch) {
   card.append(row);
   return card;
 }
-
 export function metricCard(label, value) {
   const card = element('article', 'civilization-metric-card');
   card.append(element('strong', '', compact(value)), element('small', '', label));
   return card;
 }
-
 function authorRow(object) {
   const row = element('div', 'post-author');
   row.append(element('span'), element('strong', '', object.title || 'Post'), element('small', '', object.author || 'Geelooy'));
   return row;
 }
-
-function typeRow(object) {
-  const row = element('div', 'object-type-row');
-  row.append(pill(object.type || 'post'), pill(object.mode || 'live'), pill(object.id));
-  return row;
-}
-
-function actionRow(object, onInspect) {
-  const row = element('footer', 'object-action-row');
-  row.append(link('Open', object.href), button('Inspect', () => onInspect(object)));
-  return row;
-}
-
 function compact(value) {
   if (Array.isArray(value)) return value.length;
   if (value && typeof value === 'object') return Object.keys(value).length;
   return value ?? 0;
 }
-
-/** B"H: each card is now a friendly door, not a debug relic. */
+export function feedTypePill(type) { return pill(type || 'object'); }
+/** B"H: the home renderer now bows to the universal feed card. */

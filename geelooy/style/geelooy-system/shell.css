@@ -1,0 +1,26 @@
+/* B"H — shell: one max width, one bottom safety covenant. */
+:where(.geelooy-home-shell, .heichel-mobile-navigation, .social-spaces-shell, .geelooy-profile-shell) {
+  margin-inline: auto;
+  max-width: var(--g-max);
+  padding: clamp(.8rem, 2vw, 1.35rem);
+  padding-bottom: calc(var(--g-dock-h) + max(1.4rem, env(safe-area-inset-bottom)));
+  width: min(100%, var(--g-max));
+}
+:where(.geelooy-home-shell, .heichel-mobile-navigation, .social-spaces-shell, .geelooy-profile-shell) {
+  display: grid;
+  gap: clamp(.9rem, 2vw, 1.35rem);
+}
+:where(.home-panel, .heichel-nav-panel, .heichel-os-world-panel, .spaces-hero, .profile-hero-card, .profile-command-panel) {
+  backdrop-filter: blur(18px);
+  background: var(--g-panel-dark);
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-lg);
+  box-shadow: var(--g-shadow-dark);
+  color: var(--g-ink-dark);
+}
+:where(.heichel-nav-panel, .heichel-os-world-panel, .social-space-card, .profile-command-panel) {
+  background: rgba(248, 251, 255, .94);
+  color: var(--g-ink);
+  box-shadow: var(--g-shadow);
+}
+:where(.geelooy-main-stage) { display: grid; gap: clamp(.9rem, 2vw, 1.35rem); }

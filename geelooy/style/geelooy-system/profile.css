@@ -1,0 +1,20 @@
+/* B"H — profile chamber: account pages belong to the same palace. */
+:where(.geelooy-profile-shell) { color: var(--g-ink-dark); }
+:where(.profile-hero-card) { padding: clamp(1.15rem, 3vw, 1.8rem); }
+:where(.profile-identity-row) { align-items: center; display: grid; gap: 1rem; grid-template-columns: auto minmax(0, 1fr) auto; }
+:where(.profile-avatar-orb) {
+  background: linear-gradient(135deg, var(--g-cyan), var(--g-violet));
+  border-radius: 22px;
+  color: #06101d;
+  display: grid;
+  font-size: 1.6rem;
+  font-weight: 950;
+  min-height: 4.3rem;
+  min-width: 4.3rem;
+  place-items: center;
+}
+:where(.profile-kicker) { color: var(--g-gold); font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+:where(.profile-command-rail, .profile-inline-actions, .profile-stat-grid, .profile-about-grid) { display: flex; flex-wrap: wrap; gap: .65rem; }
+:where(.profile-stat-grid, .profile-about-grid) { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+:where(.profile-command-panel) { padding: clamp(1rem, 3vw, 1.35rem); }
+:where(.profile-panel-body) { margin-top: var(--g-space-4); }

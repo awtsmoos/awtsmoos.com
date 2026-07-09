@@ -1,3 +1,3 @@
 // B"H
-/** Domem compatibility export; cache-busted to restored historical GLB clip mixer. */
-export { default } from "./domem/index.js?compact=true&v=history-animation-compact-top-20260708-bh10";
+/** Domem compatibility export; cache-busted to raw GLB AnimationMixer playback. */
+export { default } from "./domem/index.js?compact=true&v=real-raw-chossid-animation-20260708-bh1";

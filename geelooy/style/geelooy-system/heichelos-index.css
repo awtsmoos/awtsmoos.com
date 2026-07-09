@@ -1,0 +1,23 @@
+/* B"H — discovery chamber: cards now speak the same language as details. */
+:where(.social-spaces-shell) { color: var(--g-ink-dark); }
+:where(.spaces-hero) {
+  background: var(--g-panel-dark);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+:where(.spaces-hero h1) { font-size: clamp(2.2rem, 7vw, 4.4rem); line-height: .95; margin: .2rem 0; }
+:where(.spaces-grid) { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+:where(.social-space-card) { display: grid; gap: .9rem; padding: 1rem; }
+:where(.space-body) { display: flex; gap: .9rem; min-width: 0; }
+:where(.space-seal) {
+  background: linear-gradient(135deg, rgba(64, 216, 239, .2), rgba(213, 154, 53, .28));
+  border-radius: 18px;
+  display: grid;
+  flex: 0 0 3.4rem;
+  font-weight: 950;
+  height: 3.4rem;
+  place-items: center;
+}
+:where(.space-actions) { display: flex; flex-wrap: wrap; gap: .55rem; }

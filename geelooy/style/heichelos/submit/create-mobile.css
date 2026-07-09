@@ -1,0 +1,47 @@
+/* B"H — create mobile: thumb safe, no dock collision. */
+.mobile-create-nav {
+  backdrop-filter: blur(20px);
+  background: rgba(7,16,29,.9);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 24px;
+  bottom: max(.75rem, env(safe-area-inset-bottom));
+  box-shadow: var(--g-shadow-dark);
+  display: flex;
+  gap: .25rem;
+  left: 50%;
+  max-width: min(92vw, 38rem);
+  padding: .45rem;
+  position: fixed;
+  transform: translateX(-50%);
+  width: calc(100vw - 1rem);
+  z-index: 2500;
+}
+.mobile-create-nav a {
+  border-radius: 17px;
+  color: var(--g-muted-dark);
+  flex: 1;
+  font-size: .78rem;
+  font-weight: 900;
+  min-height: 46px;
+  padding: .65rem .35rem;
+  text-align: center;
+  text-decoration: none;
+}
+.mobile-create-nav .active, .mobile-create-nav [aria-current="page"] {
+  background: linear-gradient(135deg, rgba(64,216,239,.22), rgba(213,154,53,.24));
+  color: #fff;
+}
+.geelooy-is-navigating body { cursor: progress; }
+@media (min-width: 820px) {
+  .submit-page { grid-template-columns: minmax(0, 1fr) 17rem; align-items: start; }
+  .submit-hero, .composer-card { grid-column: 1 / -1; }
+  .simple-advanced-drawer { grid-column: 1; }
+  .status-card { grid-column: 2; grid-row: 3; }
+}
+@media (max-width: 720px) {
+  body.submit-shell { padding: 3.6rem .65rem calc(var(--g-dock-h) + 5.8rem); }
+  .composer-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .soft-btn { padding-inline: .45rem; }
+  .content-editor { min-height: 12rem; }
+  .publish-button { bottom: calc(var(--g-dock-h) + 1.4rem); left: .85rem; right: .85rem; width: auto; }
+}

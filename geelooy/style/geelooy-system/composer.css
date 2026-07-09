@@ -1,0 +1,25 @@
+/* B"H — composer: first a simple vessel, then hidden chambers for depth. */
+:where(.geelooy-composer) {
+  background: var(--g-panel-strong);
+  border: 1px solid var(--g-line-strong);
+  border-radius: var(--g-radius-lg);
+  box-shadow: var(--g-shadow);
+  color: var(--g-ink);
+  display: grid;
+  gap: var(--g-space-4);
+  padding: var(--g-space-5);
+}
+:where(.geelooy-composer textarea, .geelooy-composer input) {
+  border: 1px solid var(--g-line-strong);
+  border-radius: var(--g-radius-sm);
+  font: inherit;
+  min-height: 48px;
+  padding: .85rem 1rem;
+  width: 100%;
+}
+:where(.geelooy-composer details) {
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-sm);
+  padding: var(--g-space-3);
+}
+:where(.geelooy-composer summary) { cursor: pointer; font-weight: 800; }

@@ -1,0 +1,28 @@
+/* B"H — notifications: sparks gather in one quiet crown. */
+:where(.geelooy-notification-center) {
+  background: rgba(9, 19, 34, .94);
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-lg);
+  box-shadow: var(--g-shadow-dark);
+  color: var(--g-ink-dark);
+  display: grid;
+  gap: var(--g-space-3);
+  padding: var(--g-space-4);
+}
+:where(.geelooy-notice) {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-sm);
+  display: grid;
+  gap: .2rem;
+  padding: var(--g-space-3);
+}
+:where(.geelooy-toast-region) {
+  bottom: calc(var(--g-dock-h) + 1rem);
+  display: grid;
+  gap: var(--g-space-2);
+  position: fixed;
+  right: 1rem;
+  width: min(22rem, calc(100vw - 2rem));
+  z-index: 140;
+}

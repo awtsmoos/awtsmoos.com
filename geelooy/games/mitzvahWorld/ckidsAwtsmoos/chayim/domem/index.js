@@ -1,16 +1,16 @@
 // B"H
-/** Domem base class with cache-busted live GLB animation import. */
+/** Domem base class with raw chossid GLB animation import. */
 import Nivra from "../nivra.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import { Kav } from "../roochney.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import ChasveiAwtsmoos from '../../utils/ChasveiAwtsmoos.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1';
 import lifecycleMethods from "./methods/lifecycle.js?compact=true&v=domem-visible-ground-authority-20260701-bh1";
 import graphicsMethods from "./methods/graphics.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 import audioMethods from "./methods/audio.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import animationMethods from "./methods/animation.js?compact=true&v=stable-collision-animation-20260708-bh3";
+import animationMethods from "./methods/animation.js?compact=true&v=real-raw-chossid-animation-20260708-bh1";
 import serializationMethods from "./methods/serialization.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
 const numberOr = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 export default class Domem extends Nivra {
-  type = "domem"; animations = []; path = ""; position = new Kav(); rotation = new Kav(); scale = new Kav(); static = true; olam = null; heesHawveh = false; animationMixer; currentAnimationPlaying = null; golem = null; playAll = false; shaym = "BH_" + Math.floor(Math.random() * 827231) + 12312 + "_" + Date.now(); removed = false; entityData = {}; animationBlendDuration = 0.075; animationActionTimeScale = 1; _animationSpeedScale = 1.4;
+  type = "domem"; animations = []; path = ""; position = new Kav(); rotation = new Kav(); scale = new Kav(); static = true; olam = null; heesHawveh = false; animationMixer; currentAnimationPlaying = null; golem = null; playAll = false; shaym = "BH_" + Math.floor(Math.random() * 827231) + 12312 + "_" + Date.now(); removed = false; entityData = {}; animationBlendDuration = 0.075; animationActionTimeScale = 1; _animationSpeedScale = 1;
   get animationSpeedScale() { return this._animationSpeedScale; }
   set animationSpeedScale(v) { const speed = numberOr(v, this._animationSpeedScale || 1); if (this.animationMixer) this.animationMixer.timeScale = speed; this._animationSpeedScale = speed; }
   _visible = true; set visible(v) { this._visible = v; if (this.mesh) this.mesh.visible = v; } get visible() { return this._visible; }

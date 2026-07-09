@@ -1,4 +1,4 @@
-/* B"H — shared Geelooy product system. */
+/* B"H — shared Geelooy product system, now ending in the unified chamber law. */
 @import "/style/social-system/colors.css";
 @import "/style/social-system/spacing.css";
 @import "/style/social-system/typography.css";
@@ -16,3 +16,4 @@
 @import "/style/social-system/app-clean.css";
 @import "/style/social-system/future-surface.css";
 @import "/style/social-system/view-flow/index.css";
+@import "/style/geelooy-system/index.css?v=system-003";

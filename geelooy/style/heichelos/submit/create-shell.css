@@ -1,0 +1,53 @@
+/* B"H — create shell: one page, one obvious action. */
+html { color-scheme: dark; }
+body.submit-shell {
+  background: radial-gradient(circle at 12% -10%, rgba(64,216,239,.18), transparent 28rem), var(--g-bg);
+  color: var(--g-ink-dark);
+  margin: 0;
+  min-height: 100dvh;
+  padding: clamp(4rem, 8vw, 5.2rem) .85rem calc(var(--g-dock-h) + 6rem);
+}
+.submit-page {
+  display: grid;
+  gap: 1rem;
+  margin-inline: auto;
+  max-width: 58rem;
+  width: min(100%, 58rem);
+}
+.compact-card {
+  background: rgba(248, 251, 255, .95);
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-lg);
+  box-shadow: var(--g-shadow);
+  color: var(--g-ink);
+  padding: clamp(1rem, 3vw, 1.45rem);
+}
+.submit-hero {
+  background: linear-gradient(145deg, rgba(12,23,39,.94), rgba(23,40,66,.94));
+  color: var(--g-ink-dark);
+  display: grid;
+  gap: .75rem;
+}
+.submit-hero h1 {
+  color: #fff;
+  font-size: clamp(2.4rem, 8vw, 4.8rem);
+  letter-spacing: -.06em;
+  line-height: .92;
+  margin: 0;
+}
+.submit-hero p { color: var(--g-muted-dark); margin: 0; max-width: 42rem; }
+.eyebrow { color: var(--g-gold); font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+.target-summary {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 850;
+  padding: .55rem .8rem;
+  width: fit-content;
+}
+.text-link { color: var(--g-cyan); font-weight: 900; text-decoration: none; }
+.status-card { position: sticky; top: 1rem; }
+#submitStatusMessage { color: var(--g-muted); margin: 0; }
+#submitStatusMessage[data-tone="success"] { color: #08784f; }
+#submitStatusMessage[data-tone="error"] { color: #a91e32; }
