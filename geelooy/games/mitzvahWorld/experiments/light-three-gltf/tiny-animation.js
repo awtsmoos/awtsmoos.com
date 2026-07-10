@@ -5,7 +5,7 @@ import { resetTreeToBase } from './tiny-runtime.js';
 
 /** Animation: clips do not snap; they bow through a crossfade bridge. */
 const TARGET_SIZE = { translation: 3, rotation: 4, scale: 3, weights: 1 };
-const ID = () => { let n = 0; return (o) => (o.__awtsAnimId ||= ++n); };
+const ID = () => { let n = 0; return (o) => (o.AwtsmoosAnimId ||= ++n); };
 const objectId = ID();
 
 export function summarizeAnimations(doc) { return (doc.animations || []).map((a, index) => ({ index, name: a.name || `animation_${index}`, channels: (a.channels || []).length, samplers: (a.samplers || []).length, paths: [...new Set((a.channels || []).map((c) => c.target?.path).filter(Boolean))] })); }

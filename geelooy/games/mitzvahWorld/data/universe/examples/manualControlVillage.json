@@ -1,7 +1,0 @@
-{
-  "world": { "id": "manual_control_village", "title": "Manual Control Village" },
-  "regions": [{ "id": "square", "title": "Square", "manual": { "position": [0,0,0], "locked": false } }],
-  "buildings": [{ "id": "market_row", "title": "Market Row", "group": "village_market", "manual": { "position": [10,0,3], "rotation": [0,0.4,0], "scale": [1,1,1], "locked": false }, "procedural": { "recipe": "cottage" }, "modifiers": [{ "type": "array", "count": 4, "offset": [4,0,0] }] }],
-  "characters": [{ "id": "melamed_manual", "name": "Manual Melamed", "role": "melamed", "group": "teachers", "manual": { "position": [2,0,5], "locked": true, "lockReason": "story anchor" }, "modifiers": [{ "type": "transform", "position": [1,0,0] }] }],
-  "quests": [], "dialogues": [], "cutscenes": [], "episodes": []
-}

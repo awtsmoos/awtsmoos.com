@@ -1,9 +1,0 @@
-<svg xmlns='http://www.w3.org/2000/svg' width='900' height='520' viewBox='0 0 900 520'>
-<rect width='900' height='520' fill='#f7fbf8'/>
-<text x='20' y='24' font-size='18' font-family='Arial'>Long Run Final Frame</text>
-
-<circle cx='40' cy='40' r='5' fill='#00c853'/><text x='46' y='34' font-size='10'>player</text>
-<circle cx='64' cy='40' r='5' fill='#ffab00'/><text x='70' y='34' font-size='10'>goat</text>
-<circle cx='56' cy='40' r='5' fill='#2979ff'/><text x='62' y='34' font-size='10'>rebbe</text>
-<circle cx='80' cy='40' r='5' fill='#d50000'/><text x='86' y='34' font-size='10'>fox</text>
-</svg>

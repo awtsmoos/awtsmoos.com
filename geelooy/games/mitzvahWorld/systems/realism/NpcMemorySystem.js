@@ -1,4 +1,0 @@
-// B"H
-export function createNpcMemoryBook(){const memories=[];return{remember(memory){memories.push({...memory,createdAt:memory.createdAt??Date.now(),strength:Math.max(0,Math.min(1,memory.strength??.5))});return memories.at(-1)},relationship(id){return memories.filter(m=>m.actorId===id).reduce((n,m)=>n+(m.kind?.includes('help')?1:-.4)*m.strength,0)},goals(){const helped=memories.filter(m=>m.kind?.includes('help')).length;const danger=memories.filter(m=>m.kind?.includes('danger')).length;return[helped?'thank-player':'meet-player',danger?'seek-safety':'daily-work'].filter(Boolean)},report(){return{count:memories.length,goals:this.goals(),memories:memories.slice(-8)}}}}
-export function dialogueTone(book,actorId){const r=book.relationship(actorId);return r>.8?'warm-grateful':r<-.3?'wary':'respectful'}
-export default {createNpcMemoryBook,dialogueTone};

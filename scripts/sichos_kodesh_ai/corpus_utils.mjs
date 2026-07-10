@@ -1,5 +1,5 @@
 // B"H
-/** Shared corpus extraction helpers. */
+/** Shared corpus extraction and chunking helpers. */
 import fs from 'fs';
 import { SOURCE, extractFootnotes, isStructuralMarker } from './sample_picker.mjs';
 
@@ -14,25 +14,29 @@ export function loadCorpus() {
 }
 
 export function meaningfulSubsections(section) {
-  return (section?.subsections || []).map(item => {
+  return (section?.subsections || []).map((item, position) => {
     const text = cleanText(item?.text);
-    return { sourceSubsectionIndex: item?.index, text, footnotes: extractFootnotes(text) };
+    const sourceIndex = Number.isInteger(item?.index) ? item.index : position;
+    return { sourceSubsectionIndex: sourceIndex, text, footnotes: extractFootnotes(text) };
   }).filter(item => item.text && !isStructuralMarker(item.text) && !JUNK.test(item.text));
 }
 
 export function extractDocument(documentId, doc) {
   const fields = doc?.fields || {};
   const parsed = Array.isArray(fields.parsedMainText) ? fields.parsedMainText : [];
-  const sections = parsed.map((section, sectionIndex) => ({
-    sectionIndex,
-    sourceIndex: section?.index,
-    paragraphs: meaningfulSubsections(section).map((item, paragraphIndex) => ({
-      paragraphIndex,
-      sourceSubsectionIndex: item.sourceSubsectionIndex,
-      text: item.text,
-      footnotes: item.footnotes
-    }))
-  })).filter(section => section.paragraphs.length);
+  const sections = parsed.map((section, position) => {
+    const sourceIndex = Number.isInteger(section?.index) ? section.index : position;
+    return {
+      sectionIndex: sourceIndex,
+      sourceIndex,
+      paragraphs: meaningfulSubsections(section).map(item => ({
+        paragraphIndex: item.sourceSubsectionIndex,
+        sourceSubsectionIndex: item.sourceSubsectionIndex,
+        text: item.text,
+        footnotes: item.footnotes
+      }))
+    };
+  }).filter(section => section.paragraphs.length);
   const all = sections.flatMap(section => section.paragraphs);
   return {
     documentId,
@@ -57,20 +61,30 @@ export function classifyDocument(documentId, doc) {
   return { ...extracted, eligible: !reason, reason };
 }
 
+function sectionChars(section) {
+  return [...section.paragraphs.map(item => item.text).join(' ')].length;
+}
+
 export function chunkDocument(document, maxChars = 12000) {
+  if (!Number.isFinite(maxChars) || maxChars < 1) throw new Error('maxChars must be a positive number');
   const chunks = [];
   let current = [];
   let chars = 0;
   for (const section of document.sections) {
-    const sectionChars = [...section.paragraphs.map(item => item.text).join(' ')].length;
-    if (current.length && chars + sectionChars > maxChars) {
+    const size = sectionChars(section);
+    if (current.length && chars + size > maxChars) {
       chunks.push({ ...document, sections: current, combinedChars: chars });
       current = [];
       chars = 0;
     }
     current.push(section);
-    chars += sectionChars;
+    chars += size;
   }
   if (current.length) chunks.push({ ...document, sections: current, combinedChars: chars });
-  return chunks.map((chunk, index) => ({ ...chunk, chunkIndex: index, chunkCount: chunks.length }));
+  return chunks.map((chunk, index) => ({
+    ...chunk,
+    chunkIndex: index,
+    chunkCount: chunks.length,
+    exceedsTarget: chunk.combinedChars > maxChars
+  }));
 }

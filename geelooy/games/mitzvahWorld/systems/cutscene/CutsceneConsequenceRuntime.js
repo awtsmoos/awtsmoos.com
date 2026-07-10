@@ -1,4 +1,0 @@
-// B"H
-export function applyCutsceneConsequence(state = {}, c = {}) { const out = JSON.parse(JSON.stringify(state || {})); if (c.type === "remember") (out.memory ||= []).push(c.key); if (c.type === "forget") out.memory = (out.memory || []).filter(x => x !== c.key); if (c.type === "quest" || c.type === "objective") out.quests = { ...(out.quests || {}), [c.id]:c.state || c.text || "started" }; if (c.type === "relationship") out.relationships = { ...(out.relationships || {}), [c.target]:(out.relationships?.[c.target] || 0) + (c.delta || 0) }; if (c.type === "unlock") (out.unlocks ||= []).push(c.key); if (c.type === "flag") out.flags = { ...(out.flags || {}), [c.key]:c.value ?? true }; out.memory = [...new Set(out.memory || [])]; out.unlocks = [...new Set(out.unlocks || [])]; return out; }
-export function applyCutsceneConsequences(state = {}, consequences = []) { return consequences.reduce(applyCutsceneConsequence, state); }
-export default applyCutsceneConsequences;

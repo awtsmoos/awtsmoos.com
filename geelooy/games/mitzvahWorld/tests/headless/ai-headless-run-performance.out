@@ -1,5 +1,0 @@
-
-> simulate:headless
-> node tests/headless/runHeadlessSimulation.js --repeat=5
-
-B'H headless simulation failed: win.setTimeout is not a function

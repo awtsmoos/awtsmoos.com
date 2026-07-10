@@ -1,6 +1,0 @@
-// B"H
-/** @file AdvancedBirdBehavior.js @description Circle, land, peck, hop, takeoff, flap, glide. */
-import { around, dataOf, posOf } from './LifeMath.js?compact=true&v=full-chain-cache-bust-20260708-bh10';
-export function advancedBirdDecision(actor, schedule, perception, seed = 1) { if (dataOf(actor).species !== 'bird') return null; const p = posOf(actor); if (perception.nearestThreat) return { state:'takeoffAlarm', target:around(p, 34, seed) }; if (schedule.activity === 'sleepNest') return { state:'landNest', target:around(p, 5, seed) }; if (schedule.activity === 'returnNest') return { state:'glideHome', target:around(p, 16, seed) }; if (schedule.activity === 'flockFeed') return { state:'hopPeck', target:around(p, 8, seed) }; return { state:'circleGlide', target:around(p, 28, seed) }; }
-export function birdFlightAltitude(actor, base = 6) { const data = dataOf(actor), motion = data.motion || {}; if (data.state === 'landNest' || data.state === 'hopPeck') return .35; if (data.state === 'takeoffAlarm') return base + 4; return base + Math.sin((motion.animTime || 0) * 1.3 + (motion.phase || 0)) * 1.2; }
-export function advancedBirdSummary(actors = []) { return { advancedBirds:actors.filter(a => dataOf(a).species === 'bird').length }; }

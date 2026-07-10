@@ -1,7 +1,0 @@
-{
-  "packets": [
-    { "kind": "control", "id": "lock", "at": 0, "payload": { "action": "lock_player_control" } },
-    { "kind": "camera_focus", "id": "focus_woodsman", "at": 2, "payload": { "target": "woodsman" } },
-    { "kind": "dialogue", "id": "line", "at": 3, "payload": { "speaker": "woodsman", "text": "Welcome." } }
-  ]
-}

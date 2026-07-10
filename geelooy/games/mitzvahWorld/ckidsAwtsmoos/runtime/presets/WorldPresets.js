@@ -1,5 +1,0 @@
-// B"H
-/** @file WorldPresets.js @description Compact worlds that AI, Studio, Movie, and gameplay can all consume. */
-export function villageByTheRiverPreset() { return { name:"Village by the River", seed:"river-village-bh", village:{ name:"Ohr Village" }, river:{ name:"Nahar Ohr" }, synagogue:{ name:"Beis Ohr" }, forest:{ name:"Cedar Grove" }, farm:{ name:"Kindness Farm" }, road:{ name:"Pilgrim Road" }, animals:[{ species:"sheep", name:"Leah Sheep" }, { species:"cow", name:"Rivka Cow" }], npcs:[{ name:"Mendel", role:"teacher" }, { name:"Chana", role:"shopkeeper" }], regions:[{ name:"North Field", type:"harvest" }, { name:"River Bend", type:"fishing" }], quests:[{ id:"help_farm", title:"Help the farm before Shabbos" }] }; }
-export function mountainStudyHallPreset() { return { name:"Mountain Study Hall", seed:"mountain-study-bh", mountain:"Har Emunah", synagogue:"High Beis Medrash", animals:[{ species:"goat", name:"Ezra Goat" }, { species:"deer", name:"Ayal Deer" }], regions:[{ name:"Upper Path", type:"danger" }, { name:"Quiet Cave", type:"study" }] }; }
-export default { villageByTheRiverPreset, mountainStudyHallPreset };

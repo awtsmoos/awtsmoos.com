@@ -1,10 +1,5 @@
 // B"H
-/**
- * Strict XML parser for Sichos Kodesh translation tests.
- *
- * The Awtsmoos permits only translation, v, s, en, and the tiny sup crowns
- * that guard footnote sparks. Every expected crown must return unchanged.
- */
+/** Strict parser: translation > v[index] > s[index] > en, with sup only. */
 const HEBREW = /[\u0590-\u05FF]/;
 const MARKER_ONLY = /^(?:[א-ת]{1,3}[.)]|(?:סעיף|אות)\s+[א-ת]{1,3})$/u;
 
@@ -13,17 +8,36 @@ function unescapeXml(text = '') {
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 }
 
-function attr(open, name) {
-  const found = open.match(new RegExp(`${name}="([^"]*)"`));
-  return found ? found[1] : null;
+function exactIndex(open, tag) {
+  const match = open.match(new RegExp(`^<${tag}\\s+index="(\\d+)"\\s*>$`));
+  if (!match) throw new Error(`Malformed XML: ${tag} must have exactly one numeric index attribute`);
+  return Number(match[1]);
 }
 
-function innerEn(block) {
-  const paired = [...block.matchAll(/<en\s*>([\s\S]*?)<\/en>/g)];
-  const self = [...block.matchAll(/<en\s*\/>/g)];
-  const raw = paired.length ? paired[0][1].trim() : '';
-  const footnotes = [...raw.matchAll(/<sup\s*>(\d{1,3})<\/sup>/g)].map(match => match[1]);
-  return { count: paired.length + self.length, raw, value: unescapeXml(raw), footnotes };
+function assertOnlyWhitespace(value, context) {
+  if (String(value).trim()) throw new Error(`Malformed XML: unexpected content in ${context}`);
+}
+
+function extractExactBlocks(content, regex, context) {
+  const matches = [...content.matchAll(regex)];
+  let cursor = 0;
+  for (const match of matches) {
+    assertOnlyWhitespace(content.slice(cursor, match.index), context);
+    cursor = match.index + match[0].length;
+  }
+  assertOnlyWhitespace(content.slice(cursor), context);
+  return matches;
+}
+
+function parseEn(sInner) {
+  const match = sInner.match(/^\s*<en\s*>([\s\S]*?)<\/en>\s*$/);
+  const self = sInner.match(/^\s*<en\s*\/>\s*$/);
+  if (!match && !self) throw new Error('Malformed XML: each s must contain exactly one en');
+  const raw = match ? match[1].trim() : '';
+  const footnotes = [...raw.matchAll(/<sup\s*>(\d{1,3})<\/sup>/g)].map(item => item[1]);
+  const residual = raw.replace(/<sup\s*>\d{1,3}<\/sup>/g, '');
+  if (/<[^>]+>/.test(residual)) throw new Error('Malformed XML: only sup tags are allowed inside en');
+  return { raw, value: unescapeXml(raw), footnotes };
 }
 
 function expectedVs(sample) {
@@ -42,16 +56,20 @@ export function stripFences(text) {
 export function parseSichosXml(rawXml) {
   const xml = stripFences(rawXml);
   const root = xml.match(/^<translation>\s*([\s\S]*?)\s*<\/translation>$/);
-  if (!root) throw new Error('Malformed XML: missing exact <translation> root');
-  const sections = [...root[1].matchAll(/<v\b[^>]*>[\s\S]*?<\/v>/g)].map(vMatch => {
+  if (!root) throw new Error('Malformed XML: missing exact translation root');
+  const vMatches = extractExactBlocks(root[1], /<v\b[^>]*>[\s\S]*?<\/v>/g, 'translation');
+  const sections = vMatches.map(vMatch => {
     const block = vMatch[0];
-    const open = block.match(/<v\b[^>]*>/)?.[0] || '';
-    const sectionIndex = Number(attr(open, 'index'));
-    const paragraphs = [...block.matchAll(/<s\b[^>]*>[\s\S]*?<\/s>/g)].map(sMatch => {
+    const open = block.match(/^<v\b[^>]*>/)?.[0] || '';
+    const sectionIndex = exactIndex(open, 'v');
+    const inner = block.slice(open.length, -4);
+    const sMatches = extractExactBlocks(inner, /<s\b[^>]*>[\s\S]*?<\/s>/g, `v ${sectionIndex}`);
+    const paragraphs = sMatches.map(sMatch => {
       const sBlock = sMatch[0];
-      const sOpen = sBlock.match(/<s\b[^>]*>/)?.[0] || '';
-      const en = innerEn(sBlock);
-      return { index: Number(attr(sOpen, 'index')), english: en.value, englishRaw: en.raw, footnotes: en.footnotes, enTagCount: en.count };
+      const sOpen = sBlock.match(/^<s\b[^>]*>/)?.[0] || '';
+      const index = exactIndex(sOpen, 's');
+      const en = parseEn(sBlock.slice(sOpen.length, -4));
+      return { index, english: en.value, englishRaw: en.raw, footnotes: en.footnotes, enTagCount: 1 };
     });
     return { sectionIndex, paragraphs };
   });
@@ -67,13 +85,10 @@ function validateShape(sample, parsed, errors) {
     const actualV = parsed.sections[vPos];
     if (!actualV) return;
     if (actualV.sectionIndex !== v.sectionIndex) errors.push(`v order mismatch at ${vPos}`);
-    if (!Number.isFinite(actualV.sectionIndex)) errors.push(`missing v index at ${vPos}`);
     if (actualV.paragraphs.length !== v.paragraphs.length) errors.push(`s count mismatch in v ${v.sectionIndex}`);
     v.paragraphs.forEach((s, sPos) => {
       const actualS = actualV.paragraphs[sPos];
-      if (!actualS) return;
-      if (actualS.index !== s.paragraphIndex) errors.push(`s order mismatch ${v.sectionIndex}:${sPos}`);
-      if (!Number.isFinite(actualS.index)) errors.push(`missing s index ${v.sectionIndex}:${sPos}`);
+      if (actualS && actualS.index !== s.paragraphIndex) errors.push(`s order mismatch ${v.sectionIndex}:${sPos}`);
     });
   });
   const duplicates = actualKeys.filter((item, index) => actualKeys.indexOf(item) !== index);
@@ -86,23 +101,15 @@ function validateShape(sample, parsed, errors) {
 }
 
 function validateContent(sample, parsed, errors) {
-  const expectedByKey = new Map(expectedVs(sample).flatMap(v => v.paragraphs.map(s => [key(v.sectionIndex, s.paragraphIndex), s])));
+  const expected = new Map(expectedVs(sample).flatMap(v => v.paragraphs.map(s => [key(v.sectionIndex, s.paragraphIndex), s])));
   parsed.sections.forEach(v => v.paragraphs.forEach(s => {
     const id = key(v.sectionIndex, s.index);
-    const expected = expectedByKey.get(id);
-    if (s.enTagCount !== 1) errors.push(`en tag count ${s.enTagCount} at ${id}`);
     if (!s.english) errors.push(`empty English at ${id}`);
-    if (MARKER_ONLY.test(s.english.trim()) || (HEBREW.test(s.english) && s.english.trim().length <= 4)) errors.push(`structural Hebrew copied into English at ${id}`);
-    const expectedFootnotes = expected?.footnotes || [];
-    if (JSON.stringify(s.footnotes) !== JSON.stringify(expectedFootnotes)) {
-      errors.push(`footnotes mismatch at ${id}: expected [${expectedFootnotes.join(',')}] got [${s.footnotes.join(',')}]`);
-    }
+    if (MARKER_ONLY.test(s.english.trim()) || (HEBREW.test(s.english) && s.english.trim().length <= 4)) errors.push(`structural Hebrew copied at ${id}`);
+    const wanted = expected.get(id)?.footnotes || [];
+    if (JSON.stringify(s.footnotes) !== JSON.stringify(wanted)) errors.push(`footnotes mismatch at ${id}: expected [${wanted}] got [${s.footnotes}]`);
     const withoutSup = s.englishRaw.replace(/<sup\s*>\d{1,3}<\/sup>/g, '');
-    for (const number of expectedFootnotes) {
-      if (new RegExp(`(?<!\\d)${number}(?!\\d)`).test(withoutSup)) errors.push(`bare footnote ${number} outside sup at ${id}`);
-    }
-    const forbidden = withoutSup.match(/<\/?(?!sup\b)[a-zA-Z][^>]*>/g) || [];
-    forbidden.forEach(tag => errors.push(`unexpected tag ${tag} at ${id}`));
+    for (const number of wanted) if (new RegExp(`(?<!\\d)${number}(?!\\d)`).test(withoutSup)) errors.push(`bare footnote ${number} at ${id}`);
   }));
 }
 

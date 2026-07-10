@@ -1,7 +1,0 @@
-// B"H
-/** @file KlipahRuntimeFactory.js @description Distance-born Klipah entities carry level, risk, moves, stats, aura, and purification output. */
-import { klipahProfile } from "./KlipahCreatureCatalog.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-import { dangerForPosition } from "../../world/runtime/DistanceDangerRuntime.js?compact=true&v=visible-house-mesh-only-octree-20260708-bh1";
-export function createKlipahEntity(spec={}){ const position=spec.position||{x:0,z:0}, danger=dangerForPosition(position), level=spec.level||danger.level, profile=klipahProfile(spec.type||"darkMist",level); return { id:spec.id||`klipah_${profile.type}_${level}_${Math.round(danger.distance)}`, kind:"klipah", tags:["klipah",profile.type,profile.form,`level:${level}`], position, danger, level, ...profile, corruptionAura:{radius:6+level*1.5,strength:danger.risk,regionEffect:profile.effect}, purifiedResult:{effect:profile.purifiedEffect,trees:"regrow",music:"healed",animals:"return",weather:"clear",shops:"reopen"} }; }
-export function installKlipah(runtime,specs=[]){ const creatures=specs.map(createKlipahEntity); for(const creature of creatures) runtime?.registerEntity?.(creature); runtime.klipah={creatures,snapshot:()=>({count:creatures.length,levels:creatures.map(c=>c.level),risk:creatures.map(c=>c.danger.risk)})}; runtime?.markReady?.("klipah:runtime",{count:creatures.length,symbolic:true}); return creatures; }
-export default createKlipahEntity;

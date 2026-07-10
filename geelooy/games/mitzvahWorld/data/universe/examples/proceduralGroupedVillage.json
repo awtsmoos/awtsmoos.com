@@ -1,8 +1,0 @@
-{
-  "world": { "id": "procedural_grouped_village", "title": "Procedural Grouped Village" },
-  "regions": [{ "id": "north_field", "title": "North Field", "group": "fields" }],
-  "buildings": [{ "id": "cottage_seed", "title": "Cottage Seed", "group": "homes", "procedural": { "recipe": "cottage" }, "modifiers": [{ "type": "array", "count": 6, "offset": [5,0,2] }, { "type": "group", "group": "homes_row" }] }],
-  "props": [{ "id": "hero_tree_seed", "role": "landmark", "group": "nature", "procedural": { "recipe": "tree" }, "modifiers": [{ "type": "instance", "count": 3 }] }],
-  "characters": [{ "id": "villager_seed", "name": "Procedural Villager", "role": "farmer", "group": "villagers", "modifiers": [{ "type": "array", "count": 3, "offset": [1,0,1] }] }],
-  "quests": [], "dialogues": [], "cutscenes": [], "episodes": []
-}

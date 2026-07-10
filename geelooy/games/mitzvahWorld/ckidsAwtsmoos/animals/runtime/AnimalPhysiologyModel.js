@@ -1,5 +1,0 @@
-// B"H
-/** @file AnimalPhysiologyModel.js @description Body proportions, fat, muscle, horns, and age become gameplay data. */
-const BASE = { sheep:{ mass:70, height:.75 }, goat:{ mass:55, height:.7 }, cow:{ mass:520, height:1.45 }, deer:{ mass:90, height:1.05 }, gazelle:{ mass:35, height:.75 }, chicken:{ mass:2.5, height:.35 }, turkey:{ mass:9, height:.65 }, duck:{ mass:2.8, height:.28 }, goose:{ mass:5, height:.45 }, fish:{ mass:1, height:.1 }, dove:{ mass:.2, height:.12 }, pigeon:{ mass:.3, height:.14 } };
-export function animalPhysiology(species, genes = {}) { const b = BASE[species] || BASE.sheep; const age = genes.age || .5, fat = genes.bodyFat || .4, muscle = genes.muscle || .5; return { mass:+(b.mass * (.55 + age * .55) * (.8 + fat * .35)).toFixed(2), shoulderHeight:+(b.height * (.65 + age * .45)).toFixed(2), muscle, bodyFat:fat, hornScale:genes.hornScale || 0, breathingRate:+(18 + (1 - age) * 12).toFixed(1), strideLength:+(b.height * (.7 + muscle * .4)).toFixed(2) }; }
-export default animalPhysiology;

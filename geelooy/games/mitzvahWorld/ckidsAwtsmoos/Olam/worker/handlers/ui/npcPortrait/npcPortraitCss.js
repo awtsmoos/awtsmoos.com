@@ -1,3 +1,0 @@
-// B"H
-/** @file npcPortraitCss.js @description Chapter 439: Right-side NPC portrait card style. */
-export const PORTRAIT_CSS = `.emerald-npc-portrait{position:fixed;right:24px;bottom:120px;width:280px;z-index:2147482600;background:rgba(10,16,18,.82);border:2px solid rgba(216,170,61,.7);border-radius:18px;color:#fff8dd;padding:16px;font-family:Arial;box-shadow:0 14px 34px rgba(0,0,0,.45)}.emerald-npc-portrait h3{margin:0;color:#d8aa3d}.emerald-npc-face{width:82px;height:82px;border-radius:18px;background:linear-gradient(180deg,#ffe0ad,#5b2f18);border:2px solid #d8aa3d;margin:12px auto}.emerald-npc-stat{display:flex;justify-content:space-between;margin:7px 0}`;

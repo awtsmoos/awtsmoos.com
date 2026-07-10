@@ -1,6 +1,0 @@
-// B"H
-/** HerdHierarchy: herd leaders reduce AI cost by carrying group intention. */
-export function buildHerdHierarchy(animals=[]){const groups={};for(const a of animals){const k=a.herdId||`${a.species}_herd`;(groups[k]||=[]).push(a);}return Object.fromEntries(Object.entries(groups).map(([id,list])=>{const leader=list.slice().sort((a,b)=>(b.ageScore||0)-(a.ageScore||0))[0]||list[0];return[id,{id,species:leader?.species,leader:leader?.id,followers:list.filter(a=>a!==leader).map(a=>a.id),young:list.filter(a=>a.age==='young').map(a=>a.id),elders:list.filter(a=>a.age==='elder').map(a=>a.id),updateHz:list.length>8?1:4}];}));}
-export function herdIntent(herd,weather={}){if(weather.drought)return'migrate_to_water';if(herd.young?.length)return'protect_young';return'graze';}
-export class HerdHierarchy{constructor(){this.herds=new Map();this.links=[];}ensure(id){if(!this.herds.has(id))this.herds.set(id,{id,leader:null,followers:[],young:[],elders:[]});return this.herds.get(id);}link(a,b,kind='follower'){const h=this.ensure(b);if(kind==='leader')h.leader=a;else if(!h.followers.includes(a))h.followers.push(a);const row={a,b,kind,at:Date.now()};this.links.push(row);return row;}summary(){return{herds:this.herds.size,links:this.links.length};}}
-export default HerdHierarchy;

@@ -1,3 +1,0 @@
-// B"H
-/** @file playerVitalsPanel.js @description Chapter 416: Bottom-left player card with health and water bars. */
-export function playerVitalsPanel(player = {}) { return `<section class="ehud-panel ehud-player"><div class="ehud-vitals"><div class="ehud-avatar"></div><div><strong>${player.name || 'Player'} &nbsp; Level ${player.level || 1}</strong><div class="ehud-row"><span>❤</span><b>100/100</b><span class="ehud-bar"><i class="ehud-fill" style="width:100%;background:var(--ehud-red)"></i></span></div><div class="ehud-row"><span>◆</span><b>50/50</b><span class="ehud-bar"><i class="ehud-fill" style="width:100%;background:var(--ehud-blue)"></i></span></div></div></div></section>`; }

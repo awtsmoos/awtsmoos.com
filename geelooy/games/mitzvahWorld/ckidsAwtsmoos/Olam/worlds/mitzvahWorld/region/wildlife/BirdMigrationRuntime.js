@@ -1,4 +1,0 @@
-// B"H
-/** BirdMigrationRuntime: birds sell sky-life cheaply through flock intent. */
-export class BirdMigrationRuntime{constructor(){this.flocks=[];this.records=[];}seed(count=6){this.flocks=Array.from({length:count},(_,i)=>({id:`flock_${i}`,size:12+i*3,x:-180+i*70,z:120+(i%2)*45,altitude:28+i*4,intent:'circle',updateHz:1}));return this.flocks;}season(season='spring'){for(const f of this.flocks)f.intent=season==='winter'?'southbound':season==='spring'?'nesting':'foraging';return this.flocks;}remember(flock,route,weight=1){if(!this.flocks.length)this.seed(3);const row={flock,route,weight,at:Date.now()};this.records.push(row);return row;}summary(){return{flocks:this.flocks.length,birds:this.flocks.reduce((a,f)=>a+f.size,0),records:this.records.length,intents:[...new Set(this.flocks.map(f=>f.intent))]};}snapshot(){return this.summary();}}
-export default BirdMigrationRuntime;

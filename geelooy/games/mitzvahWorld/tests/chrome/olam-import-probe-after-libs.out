@@ -1,8 +1,0 @@
-{
-  "ok": false,
-  "crash": {
-    "message": "CDP timeout: Runtime.evaluate",
-    "stack": "Error: CDP timeout: Runtime.evaluate\n    at Timeout._onTimeout (file:///C:/Users/Yackov%20Yitzchak/Documents/WoW/BH/awtsmoos.com/geelooy/games/mitzvahWorld/tests/chrome/ChromeDevTools.js:36:16)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
-  },
-  "events": []
-}
