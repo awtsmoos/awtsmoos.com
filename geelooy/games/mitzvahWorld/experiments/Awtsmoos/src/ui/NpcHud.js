@@ -6,7 +6,7 @@ export class NpcHud {
   updatePlayer(data = {}) { this.player = { ...this.player, ...data }; this.render(); }
   showTarget(data) { this.target = data; this.render(); }
   clearTarget() { this.target = null; this.close(); this.render(); }
-  showDialogue(data) { this.showTarget(data); this.dialogueHost.dataset.open = 'true'; this.dialogueHost.innerHTML = `<section><header><b>${esc(data.face || '🧔')} ${esc(data.name)}</b><button data-close>×</button></header><p>B"H, choose a level vessel. The lava course has clubs to collect across the burning path.</p><button data-level="lava">🔥 Lava obstacle course • collect clubs</button><button data-level="stay">Stay here</button></section>`; }
+  showDialogue(data) { this.showTarget(data); this.dialogueHost.dataset.open = 'true'; this.dialogueHost.innerHTML = `<section><header><b>${esc(data.face || '🧔')} ${esc(data.name)}</b><button data-close>×</button></header><p>B"H, choose a level vessel. The lava course has brick jumps, gold coins, and a reset if you touch lava.</p><button data-level="lava">🔥 Lava obstacle course • collect gold coins</button><button data-level="stay">Stay here</button></section>`; }
   render() { this.host.innerHTML = `${playerCard(this.player)}${this.target ? targetCard(this.target) : ''}`; this.host.dataset.hasTarget = this.target ? 'true' : 'false'; }
   click(e) { const close = e.target.closest('[data-close]'), level = e.target.closest('[data-level]'); if (close || level?.dataset.level === 'stay') return this.close(); if (level?.dataset.level === 'lava') { this.bus.emit('level:lava', { from: this.target }); this.close(); } }
   close() { this.dialogueHost.dataset.open = 'false'; }

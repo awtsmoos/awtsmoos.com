@@ -1,7 +1,7 @@
 // B"H
-/** JumpPhysics: higher leap, honest fall, and slide when the slope is too steep. */
+/** JumpPhysics: a slightly higher leap, honest fall, and slide when slopes are too steep. */
 export class JumpPhysics {
-  constructor({ ground, footOffset, impulse = 6.25, gravity = 13.7, maxSlopeNormal = .72 }) { Object.assign(this, { ground, footOffset, impulse, gravity, maxSlopeNormal }); }
+  constructor({ ground, footOffset, impulse = 6.85, gravity = 13.7, maxSlopeNormal = .72 }) { Object.assign(this, { ground, footOffset, impulse, gravity, maxSlopeNormal }); }
   update(state, dt, jumpQueued) {
     const sample = this.ground.sample(state.x, state.z), floorY = sample.height + this.footOffset;
     state.groundKind = sample.kind; state.groundNormal = sample.normal; state.grounded = state.y <= floorY + .06 && state.velY <= .03;
