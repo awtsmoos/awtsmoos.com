@@ -1,7 +1,7 @@
 // B"H
-/** JumpPhysics: a slightly higher leap, honest fall, and slide when slopes are too steep. */
+/** JumpPhysics: a forgiving leap for lava, honest gravity, and steep-slope sliding. */
 export class JumpPhysics {
-  constructor({ ground, footOffset, impulse = 6.85, gravity = 13.7, maxSlopeNormal = .72 }) { Object.assign(this, { ground, footOffset, impulse, gravity, maxSlopeNormal }); }
+  constructor({ ground, footOffset, impulse = 7.35, gravity = 13.25, maxSlopeNormal = .72 }) { Object.assign(this, { ground, footOffset, impulse, gravity, maxSlopeNormal }); }
   update(state, dt, jumpQueued) {
     const sample = this.ground.sample(state.x, state.z), floorY = sample.height + this.footOffset;
     state.groundKind = sample.kind; state.groundNormal = sample.normal; state.grounded = state.y <= floorY + .06 && state.velY <= .03;
@@ -13,12 +13,12 @@ export class JumpPhysics {
   air(state, dt) {
     state.jumpClock += dt; state.velY -= this.gravity * dt; state.y += state.velY * dt;
     const floorY = this.ground.heightAt(state.x, state.z) + this.footOffset;
-    state.airPhase = state.velY >= -.25 && state.jumpClock < .40 ? 'jump' : 'fall';
+    state.airPhase = state.velY >= -.25 && state.jumpClock < .46 ? 'jump' : 'fall';
     if (state.y <= floorY) { state.y = floorY; state.velY = 0; state.grounded = true; state.airPhase = 'ground'; }
     return { slide: null };
   }
   slide(state, sample, dt) {
-    const n = sample.normal || { x:0, y:1, z:0 }, steep = n.y < this.maxSlopeNormal && n.y > .18, mag = Math.hypot(n.x, n.z);
+    const n = sample.normal || { x: 0, y: 1, z: 0 }, steep = n.y < this.maxSlopeNormal && n.y > .18, mag = Math.hypot(n.x, n.z);
     state.slopeState = steep ? 'slide' : 'walk'; if (!steep || mag < .001) return { slide: null };
     const speed = (this.maxSlopeNormal - n.y) * 10 + 1.1;
     return { slide: { x: n.x / mag * speed * dt, z: n.z / mag * speed * dt } };
