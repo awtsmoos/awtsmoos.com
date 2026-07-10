@@ -1,7 +1,9 @@
 // B"H
 /**
  * Output writer for the external artifact garden.
- * The repo keeps only the runner; the test fruits ripen outside the orchard wall.
+ *
+ * The repository keeps only the narrow runner. The fruits of the test ripen
+ * beyond its wall, where no production database hears the footsteps.
  */
 import fs from 'fs';
 import path from 'path';
@@ -21,7 +23,7 @@ export function writeText(file, value) {
 export function makeRunDir(root = DEFAULT_OUTPUT_ROOT) {
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   const dir = path.join(root, 'tests', `tiny-deepseek-${stamp}`);
-  for (const sub of ['raw', 'responses', 'output', 'logs', 'checkpoints']) {
+  for (const sub of ['raw', 'responses', 'output', 'logs', 'checkpoints', 'validation']) {
     fs.mkdirSync(path.join(dir, sub), { recursive: true });
   }
   return dir;
