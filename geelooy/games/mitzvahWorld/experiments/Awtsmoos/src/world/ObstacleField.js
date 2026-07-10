@@ -1,15 +1,18 @@
 // B"H
 import { createHouseDefs } from './House3D.js';
-import { createObstacleTestCourse } from './ObstacleTestCourse.js';
 
-/** Combines the preserved test course with measured production houses. */
+/** Production world contains measured houses only; the NPC is installed separately. */
 export function createObstacleField(assets = {}, groundSampler) {
 	const houses = createHouseDefs(assets, groundSampler);
-	const definitions = [
-		...createObstacleTestCourse(),
-		...houses
-	];
+	const definitions = [...houses];
 	definitions.assets = assets;
-	definitions.userData = houses.userData;
+	definitions.userData = {
+		...houses.userData,
+		startingZone: {
+			productionOnly: true,
+			testCourseObjects: 0,
+			npcInstalledSeparately: true
+		}
+	};
 	return definitions;
 }

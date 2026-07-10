@@ -6,10 +6,10 @@ import {
 import { TinyWebGLRenderer } from '../../../light-three-gltf/tiny-webgl-renderer.js';
 import { Aabb } from '../math/Aabb.js';
 import { AwtsmoosOctree } from '../collision/AwtsmoosOctree.js';
-import { UiEventSystem } from '../input/UiEventSystem.js';
-import { MobileJoystick } from '../input/MobileJoystick.js';
-import { JumpButton } from '../input/JumpButton.js';
 import { CameraOrbitController } from '../camera/CameraOrbitController.js';
+import { JumpButton } from '../input/JumpButton.js';
+import { MobileJoystick } from '../input/MobileJoystick.js';
+import { UiEventSystem } from '../input/UiEventSystem.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { createGroundSampler } from '../world/GroundPlacementSystem.js';
 import { createObstacleField } from '../world/ObstacleField.js';
@@ -21,7 +21,7 @@ import {
 import { WorldGround } from '../world/WorldGround.js';
 import { loadEretzAssets } from './EretzAssetLoader.js';
 
-/** Creates the static world before actors begin moving through it. */
+/** Creates the production world before actors begin moving through it. */
 export async function createEretzWorldFoundation(hosts) {
 	const scene = new Scene();
 	const camera = new PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 1600);
@@ -40,7 +40,12 @@ export async function createEretzWorldFoundation(hosts) {
 	const loaded = await loadEretzAssets();
 	const phaseOneGround = createGroundSampler({ terrainHeightAt: heightAt });
 	const obstacles = createObstacleField(loaded.assets, phaseOneGround);
-	const terrain = createTerrainPackage(obstacles, loaded.grassImage, null, phaseOneGround);
+	const terrain = createTerrainPackage(
+		obstacles,
+		loaded.grassImage,
+		loaded.assets.terrainMixImage,
+		phaseOneGround
+	);
 	const mainOctree = buildTriangleOctree(terrain.colliders);
 	const groundSampler = phaseOneGround.withOctree(mainOctree);
 	const ground = new WorldGround({ terrainHeightAt: terrain.heightAt, octree: mainOctree });
@@ -72,8 +77,6 @@ function buildTriangleOctree(colliders) {
 		{ x: 0, y: 0, z: 0 },
 		{ x: 780, y: 180, z: 780 }
 	));
-	for (const triangle of colliders) {
-		octree.insert(triangle);
-	}
+	for (const triangle of colliders) octree.insert(triangle);
 	return octree;
 }

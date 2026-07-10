@@ -1,77 +1,71 @@
 // B"H
+import { normalizeDoorFrame } from './HouseDoorGeometry.js';
 import {
-	entryRightRevealWorld,
-	normalizeDoorFrame
-} from './HouseDoorGeometry.js';
+	signedEntryMeasurements,
+	sourceFacePlacement
+} from './MezuzaPlacement.js';
 
-/** Places a fixed mezuzah on the right jamb seen while entering the house. */
-export function createMezuzaDef(specification, material = {}) {
+/** Creates one visible source-side mezuzah for an exterior or interior doorway. */
+export function createMezuzaDef(specification, material = {}, context = {}) {
 	const frame = normalizeDoorFrame(specification);
-	const caseWidth = Math.min(0.16, frame.wall.thickness * 0.2);
-	const caseHeight = Math.min(0.78, frame.opening.height * 0.24);
-	const caseDepth = 0.07;
-	const revealDepth = Math.min(frame.wall.thickness * 0.22, 0.16);
-	const jambInset = caseDepth / 2 + 0.035;
-	const point = entryRightRevealWorld(frame, jambInset, revealDepth);
-	const delta = {
-		x: point.x - frame.center.x,
-		y: 0,
-		z: point.z - frame.center.z
+	const dimensions = {
+		width: Math.min(0.18, frame.wall.thickness * 0.24),
+		height: Math.min(0.82, frame.opening.height * 0.24),
+		depth: 0.075
 	};
-	const dotFromOpeningCenter = dot(delta, frame.entry.right);
-	const worldPosition = {
-		x: point.x,
-		y: frame.opening.bottomY + frame.opening.height * 0.69,
-		z: point.z
-	};
-	const evidence = {
-		id: `${frame.doorId}-mezuza`,
-		doorId: frame.doorId,
-		wallId: frame.wallId,
-		houseId: frame.houseId,
-		entrySide: 'right',
-		enteringDirection: frame.basis.inward,
-		enteringRight: frame.entry.right,
-		localPosition: {
-			x: frame.entry.rightJambLocalX - jambInset,
-			y: worldPosition.y - frame.opening.bottomY,
-			z: -revealDepth
-		},
-		worldPosition,
-		position: { x: point.x, z: point.z },
-		revealDepth,
-		facingDirection: frame.entry.right,
-		forward: frame.entry.right,
-		dotFromOpeningCenter,
-		placement: 'inside-reveal',
-		facing: 'across-cavity',
-		hingeSide: frame.hinge.side,
-		verifiedBy: 'world-basis-test'
-	};
+	const placement = sourceFacePlacement(frame, dimensions);
+	const measurements = signedEntryMeasurements(frame, placement);
+	const evidence = createEvidence(frame, placement, measurements, context);
 	return {
 		id: evidence.id,
 		shape: 'box',
 		solid: false,
 		walkable: false,
 		noEdge: true,
-		color: material.color || '#b58a28',
+		color: material.color || '#b87514',
 		mapImage: material.mapImage || null,
 		textureUrl: material.textureUrl || null,
 		mapRepeat: [1, 1],
-		position: worldPosition,
+		position: placement.worldPosition,
 		size: {
-			x: caseWidth,
-			y: caseHeight,
-			z: caseDepth
+			x: dimensions.width,
+			y: dimensions.height,
+			z: dimensions.depth
 		},
-		rotation: {
-			y: frame.entry.acrossYaw,
-			z: -0.1
-		},
+		rotation: placement.rotation,
 		userData: { AwtsmoosMezuza: evidence }
 	};
 }
 
-function dot(left, right) {
-	return left.x * right.x + left.y * right.y + left.z * right.z;
+function createEvidence(frame, placement, measurements, context) {
+	return {
+		id: `${frame.doorId}-mezuza`,
+		doorId: frame.doorId,
+		wallId: frame.wallId,
+		houseId: frame.houseId,
+		doorwayKind: context.doorwayKind || 'exterior',
+		sourceRoomId: context.sourceRoomId || 'outside',
+		targetRoomId: context.targetRoomId || frame.houseId,
+		entrySide: 'right',
+		enteringDirection: frame.basis.inward,
+		enteringRight: frame.entry.right,
+		wallFaceDirection: frame.basis.outward,
+		localPosition: {
+			x: placement.localX,
+			y: placement.worldPosition.y - frame.opening.bottomY,
+			z: placement.sourceDepth
+		},
+		worldPosition: placement.worldPosition,
+		position: {
+			x: placement.worldPosition.x,
+			z: placement.worldPosition.z
+		},
+		slantRadians: placement.rotation.z,
+		dotFromOpeningCenter: measurements.rightDot,
+		sourceFaceDot: measurements.sourceDot,
+		facingDot: measurements.facingDot,
+		placement: 'source-side-exterior-face',
+		facing: 'visible-from-source-room',
+		verifiedBy: 'entry-right-and-source-face-world-basis'
+	};
 }

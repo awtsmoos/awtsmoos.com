@@ -12,7 +12,7 @@ import {
 const DISTRICT_SPECS = createFutureHouseSpecs(DEFAULT_HOUSE_SPEC);
 const ALL_SPECS = [DEFAULT_HOUSE_SPEC, ...DISTRICT_SPECS];
 
-/** Builds the district and preserves every measured diagnostic package. */
+/** Builds the district and preserves measured house and yard evidence. */
 export function createHouseDefs(assets = {}, groundSampler) {
 	const packages = ALL_SPECS.map((spec) => createModularHouse(assets, spec, groundSampler));
 	const definitions = packages.flatMap((packageDefinitions) => [...packageDefinitions]);
@@ -22,7 +22,11 @@ export function createHouseDefs(assets = {}, groundSampler) {
 		stairLayouts: packages.flatMap((item) => item.userData.stairLayouts),
 		mezuzahs: packages.flatMap((item) => item.userData.mezuzaStats),
 		anchors: packages.map((item) => item.userData.anchors),
-		rooms: packages.flatMap((item) => item.userData.roomDebug)
+		rooms: packages.flatMap((item) => item.userData.roomDebug),
+		yardGrass: packages
+			.map((item) => item.userData.yardGrassStats)
+			.filter(Boolean),
+		yardPatches: packages.flatMap((item) => item.userData.yardPatches || [])
 	};
 	return definitions;
 }
@@ -44,11 +48,17 @@ export function houseAnchors() {
 }
 
 export function houseDistrictHooks() {
-	return DISTRICT_SPECS.map((spec) => ({ spec, anchors: modularHouseAnchors(spec) }));
+	return DISTRICT_SPECS.map((spec) => ({
+		spec,
+		anchors: modularHouseAnchors(spec)
+	}));
 }
 
 export function houseAllAnchors() {
-	return { main: houseAnchors(), district: houseDistrictHooks().map((hook) => hook.anchors) };
+	return {
+		main: houseAnchors(),
+		district: houseDistrictHooks().map((hook) => hook.anchors)
+	};
 }
 
 export function houseAllSpecs() {
@@ -58,7 +68,15 @@ export function houseAllSpecs() {
 export function manualShape(id, material, position, vertices, faces, options = {}) {
 	const { yaw = 0, walkable = false, solid = true } = options;
 	return {
-		id, shape: 'manual', solid, walkable, ...material,
-		position, vertices, faces, rotation: { y: yaw }, yaw
+		id,
+		shape: 'manual',
+		solid,
+		walkable,
+		...material,
+		position,
+		vertices,
+		faces,
+		rotation: { y: yaw },
+		yaw
 	};
 }

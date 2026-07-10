@@ -1,8 +1,8 @@
 // B"H
-import { createStairCollisionRamp } from '../world/house/StairCollisionRamp.js';
+import { createStairSolidDefinition } from '../world/house/StairVisualGeometry.js';
 import { inspectStairTraversal } from '../world/house/StairTraversalProbe.js';
 
-/** Replays the real generated ramp through the real capsule mover on demand. */
+/** Replays the visible solid stair through the real capsule mover on demand. */
 export function inspectStairCollision(runtime, houseId, level = 1) {
 	const metadata = runtime.terrain.worldMetadata;
 	const house = metadata.houses?.find((item) => item.id === houseId);
@@ -10,13 +10,13 @@ export function inspectStairCollision(runtime, houseId, level = 1) {
 		item.houseId === houseId && item.toLevel === level
 	));
 	if (!house || !layout) {
-		return { houseId, level, error: 'stair-collision-not-found' };
+		return { houseId, level, error: 'solid-stair-not-found' };
 	}
-	const ramp = createStairCollisionRamp(layout, house);
+	const definition = createStairSolidDefinition(layout, house, {});
 	return {
 		houseId,
 		level,
-		...inspectStairTraversal(layout, house, ramp),
-		verification: 'real-capsule-mover-over-authored-ramp-triangles'
+		...inspectStairTraversal(layout, house, definition),
+		verification: 'real-capsule-mover-over-visible-stair-triangles'
 	};
 }

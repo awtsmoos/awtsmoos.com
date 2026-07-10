@@ -2,12 +2,13 @@
 import { inspectStairCollision } from './StairCollisionDiagnostics.js';
 import { inspectStairOpening } from './StairOpeningDiagnostics.js';
 
-/** Installs live proof surfaces that measure matrices, triangles, and motion. */
+/** Exposes live matrices, visible stair triangles, roads, yards, and terrain mixing. */
 export function installWorldDiagnostics(runtime) {
 	const stairStats = aggregateStairs(
 		runtime.terrain.stats.stairStats || [],
 		runtime.mainOctree.all([])
 	);
+	const metadata = runtime.terrain.worldMetadata;
 	const api = {
 		scene: runtime.scene,
 		camera: runtime.camera,
@@ -19,8 +20,12 @@ export function installWorldDiagnostics(runtime) {
 		stairStats,
 		roadStats: runtime.terrain.roadStats,
 		mezuzaStats: runtime.terrain.stats.mezuzaStats,
+		yardGrassStats: metadata.yardGrass || [],
+		startingZone: metadata.startingZone || null,
+		terrainMix: runtime.terrain.stats.terrainMix,
 		cameraStats: runtime.orbit.stats,
-		inspectDoor: (doorId) => runtime.doors.find((door) => door.def.id === doorId)?.debug() || null,
+		inspectDoor: (doorId) => runtime.doors
+			.find((door) => door.def.id === doorId)?.debug() || null,
 		inspectStairOpening: (houseId, level) => inspectStairOpening(runtime, houseId, level),
 		inspectStairCollision: (houseId, level) => inspectStairCollision(runtime, houseId, level)
 	};
@@ -29,11 +34,16 @@ export function installWorldDiagnostics(runtime) {
 }
 
 export function refreshWorldDiagnostics(runtime, api) {
+	const stats = runtime.renderer.stats || {};
 	api.cameraStats = runtime.orbit.stats;
 	api.rendererStats = {
-		draws: runtime.renderer.stats?.draws,
-		triangles: runtime.renderer.stats?.triangles,
-		errors: runtime.renderer.stats?.errors || []
+		draws: stats.draws,
+		triangles: stats.triangles,
+		errors: stats.errors || [],
+		mixedTerrain: stats.mixedTerrain || false,
+		mixMapRepeatMatches: stats.mixMapRepeatMatches || false,
+		reactiveGrassMeshes: stats.reactiveGrassMeshes || 0,
+		grassInteractor: stats.grassInteractor || null
 	};
 	api.state = runtime.state;
 }
@@ -44,7 +54,7 @@ function aggregateStairs(items, octreeTriangles) {
 	return {
 		items: measuredItems,
 		totalSteps: sum(measuredItems, 'totalSteps'),
-		octreeRamps: measuredItems.length,
+		octreeSolids: measuredItems.length,
 		octreeTriangles: sum(measuredItems, 'octreeTriangles'),
 		internalCollisionFaces: sum(measuredItems, 'internalCollisionFaces'),
 		landings: sum(measuredItems, 'landings'),
@@ -52,21 +62,21 @@ function aggregateStairs(items, octreeTriangles) {
 		maxRise: Math.max(0, ...measuredItems.map((item) => item.maxRise)),
 		minTreadDepth: Math.min(Infinity, ...measuredItems.map((item) => item.minTreadDepth)),
 		approachClearance: Math.min(Infinity, ...measuredItems.map((item) => item.approachClearance)),
-		allRampsExact: measuredItems.every((item) => item.rampTriangleCountExact),
-		allRampsWalkable: measuredItems.every((item) => item.slopeNormalY > 0.72),
+		allSolidsExact: measuredItems.every((item) => item.visibleTriangleCountExact),
+		visibleEqualsCollision: measuredItems.every((item) => item.visibleEqualsCollision),
 		capsuleFits: measuredItems.every((item) => item.capsuleFits)
 	};
 }
 
 function measureStair(item, triangleCounts) {
-	const collisionKind = `${item.id}-collision-ramp`;
+	const collisionKind = `${item.id}-solid-stairs`;
 	const octreeTriangles = triangleCounts.get(collisionKind) || 0;
 	return {
 		...item,
 		collisionKind,
 		octreeTriangles,
-		rampTriangleCountExact: octreeTriangles === item.rampTriangleCount,
-		verification: 'octree-triangle-kind; call inspectStairCollision for capsule-motion proof'
+		visibleTriangleCountExact: octreeTriangles === item.collisionTriangleCount,
+		verification: 'visible-stair-triangle-kind; inspectStairCollision proves three-lane motion'
 	};
 }
 

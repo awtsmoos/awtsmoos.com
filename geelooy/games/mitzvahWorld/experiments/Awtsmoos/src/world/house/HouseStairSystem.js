@@ -5,21 +5,21 @@ import {
 } from './HouseSpec.js';
 
 export const STAIR_RULES = Object.freeze({
-	maxRise: 0.26,
-	treadDepth: 0.68,
+	maxRise: 0.24,
+	treadDepth: 0.72,
 	minimumWidth: 2.8,
 	wallClearance: 0.7,
 	headroomExtra: 0.8
 });
 
-/** Plans visual treads, one ramp, and the upper opening from one measured run. */
+/** Plans real treads and risers below the player's configured step height. */
 export function planHouseStaircase(spec, fromLevel, toLevel) {
 	const fromY = floorTopY(spec, fromLevel);
 	const toY = floorTopY(spec, toLevel);
 	const totalRise = toY - fromY;
 	const stepCount = Math.ceil(totalRise / STAIR_RULES.maxRise);
 	const stepRise = totalRise / stepCount;
-	const treadDepth = Math.max(PLAYER_CAPSULE.radius * 1.6, STAIR_RULES.treadDepth);
+	const treadDepth = Math.max(PLAYER_CAPSULE.radius * 1.7, STAIR_RULES.treadDepth);
 	const width = Math.max(PLAYER_CAPSULE.radius * 6, STAIR_RULES.minimumWidth);
 	const run = stepCount * treadDepth;
 	const headroom = PLAYER_CAPSULE.height + STAIR_RULES.headroomExtra;
@@ -32,14 +32,13 @@ export function planHouseStaircase(spec, fromLevel, toLevel) {
 	const zMax = zMin + openingDepth;
 	const finalStepZ = zMin + treadDepth / 2;
 	const firstStepZ = finalStepZ + (stepCount - 1) * treadDepth;
-	const lowerLandingDepth = Math.max(PLAYER_CAPSULE.radius * 3, 1.3);
+	const lowerLandingDepth = Math.max(PLAYER_CAPSULE.radius * 3.5, 1.5);
 	const lowerLandingCenterZ = firstStepZ + treadDepth / 2 + lowerLandingDepth / 2;
 	const steps = Array.from({ length: stepCount }, (_, index) => Object.freeze({
 		index,
 		centerX,
 		centerZ: firstStepZ - index * treadDepth,
 		topY: fromY + (index + 1) * stepRise,
-		bottomY: fromY,
 		width,
 		depth: treadDepth
 	}));
@@ -79,25 +78,25 @@ export function planHouseStaircase(spec, fromLevel, toLevel) {
 }
 
 export function staircaseStats(layout) {
-	const slopeAngle = Math.atan2(layout.totalRise, layout.run);
+	const faceCount = layout.stepCount * 4 + 6;
 	return {
 		id: layout.id,
 		houseId: layout.houseId,
 		totalSteps: layout.stepCount,
 		landings: 1,
-		octreeSteps: 1,
+		octreeSteps: layout.stepCount,
 		openings: 1,
 		maxRise: layout.stepRise,
 		minTreadDepth: layout.treadDepth,
 		approachClearance: layout.lowerLanding.depth,
 		opening: layout.opening,
-		visualTriangleCount: (layout.stepCount * 4 + 5) * 2,
-		rampTriangleCount: 2,
+		visibleTriangleCount: faceCount * 2,
+		collisionTriangleCount: faceCount * 2,
 		internalCollisionFaces: 0,
-		slopeAngle,
-		slopeNormalY: Math.cos(slopeAngle),
-		collisionModel: 'continuous-two-triangle-ramp',
-		capsuleFits: layout.opening.width > PLAYER_CAPSULE.radius * 2 && layout.headroom > PLAYER_CAPSULE.height
+		collisionModel: 'visible-watertight-sawtooth-solid',
+		visibleEqualsCollision: true,
+		capsuleFits: layout.opening.width > PLAYER_CAPSULE.radius * 2
+			&& layout.headroom > PLAYER_CAPSULE.height
 	};
 }
 

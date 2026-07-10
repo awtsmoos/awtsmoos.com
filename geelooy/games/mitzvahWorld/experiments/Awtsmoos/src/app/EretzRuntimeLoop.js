@@ -4,7 +4,7 @@ import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 
-/** Runs only dynamic actors; all architecture remains static in the octree. */
+/** Runs dynamic actors and reveals the player's passage through living grass. */
 export function startEretzRuntime(runtime, diagnostics) {
 	const movement = new EretzMovementController(runtime);
 	let lastTime = performance.now();
@@ -12,9 +12,7 @@ export function startEretzRuntime(runtime, diagnostics) {
 		try {
 			const deltaTime = Math.min(0.05, Math.max(0.001, (now - lastTime) / 1000));
 			lastTime = now;
-			for (const door of runtime.doors) {
-				door.update(deltaTime);
-			}
+			for (const door of runtime.doors) door.update(deltaTime);
 			runtime.lava.update(runtime.state, runtime.ground, runtime.footOffset);
 			movement.update(deltaTime);
 			runtime.npc.update(deltaTime, runtime.state);
@@ -31,6 +29,7 @@ export function startEretzRuntime(runtime, diagnostics) {
 				runtime.mover.octree,
 				deltaTime
 			);
+			runtime.renderer.setInteractor(runtime.state, now / 1000);
 			runtime.renderer.render(runtime.scene, runtime.camera);
 			refreshStatusHud(runtime);
 			refreshWorldDiagnostics(runtime, diagnostics);

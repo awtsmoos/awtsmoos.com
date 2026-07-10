@@ -12,7 +12,7 @@ import {
 export const ROAD_WIDTH = 6.2;
 export const ROAD_SAFETY_MARGIN = 0.35;
 
-/** Builds a connected road whose centerline and final strip avoid static geometry. */
+/** Builds one curved, solid road network that reaches every house landing. */
 export function houseRoadSystem(assets, groundSampler, staticDefinitions = []) {
 	const anchors = roadAnchors();
 	const graph = createRoadGraph(anchors.houses);
@@ -27,46 +27,52 @@ export function houseRoadSystem(assets, groundSampler, staticDefinitions = []) {
 	const strip = createRoadStrip(routes, groundSampler, assets.yellowBrickImage, ROAD_WIDTH);
 	const routeHits = routeIntersections(planningField, routes);
 	const stripClearance = inspectRoadStripClearance(strip.visual, rawField);
-	const foldedSegments = routes.flatMap((route) => route.foldedSegments.map((index) => ({
-		routeId: route.id,
-		index
-	})));
-	const pathFailures = routes.filter((route) => route.pathfinding.failed).map((route) => route.id);
+	const foldedSegments = routes.flatMap((route) => (
+		route.foldedSegments.map((index) => ({ routeId: route.id, index }))
+	));
+	const pathFailures = routes
+		.filter((route) => route.pathfinding.failed)
+		.map((route) => route.id);
+	const terminalGaps = routes.flatMap((route) => [
+		{ routeId: route.id, end: 'from', distance: route.terminalDistances.from },
+		{ routeId: route.id, end: 'to', distance: route.terminalDistances.to }
+	]).filter((item) => item.distance > 0.01);
 	const stats = {
 		...graph.validation,
 		...strip.stats,
 		...stripClearance,
 		foldedSegments,
+		terminalGaps,
 		maxTurnAngle: maximumTurnAngle(routes),
 		connected: graph.validation.connected,
 		obstacleCount: rawField.obstacles.length,
 		planningClearance: planningField.clearance,
 		routeIntersections: routeHits,
 		pathFailures,
-		pathfindingMethod: 'eight-neighbor-a-star-with-clearance-safe-smoothing',
+		pathfindingMethod: 'a-star-clearance-curves-with-solid-junctions',
 		routeEvidence: routes.map((route) => ({ id: route.id, ...route.pathfinding }))
 	};
-	strip.visual.userData = {
-		AwtsmoosRoad: {
-			...stats,
-			textureLoaded: !!assets.yellowBrickImage,
-			textureFallback: assets.yellowBrickImage?.dataset?.fallback === 'true'
-		}
+	strip.visual.userData.AwtsmoosRoad = {
+		...stats,
+		textureLoaded: !!assets.yellowBrickImage,
+		textureFallback: assets.yellowBrickImage?.dataset?.fallback === 'true'
 	};
-	strip.collider.userData = { AwtsmoosRoadCollision: stats };
 	return {
 		anchors,
 		graph,
 		routes: routes.map((route) => route.id),
 		visual: strip.visual,
-		colliders: [strip.collider],
+		colliders: [strip.visual],
 		stats
 	};
 }
 
 export function roadAnchors() {
 	const all = houseAllAnchors();
-	return { houses: [all.main, ...all.district], plaza: { x: 31, z: -22 } };
+	return {
+		houses: [all.main, ...all.district],
+		plaza: { x: 31, z: -22 }
+	};
 }
 
 export function roadNetworkDef({ texture, groundSampler, routes = [] }) {

@@ -1,25 +1,28 @@
 // B"H
 import { createDoorWallSet } from './DoorWallSystem.js';
+import { createMezuzaDef } from './MezuzaSystem.js';
 import {
 	floorTopY,
 	localToWorld,
 	storyCeilingY
 } from './house/HouseSpec.js';
 
-/** Creates full-height depth partitions with true boolean doorway subtraction. */
+/** Creates full-height partitions with source-room-right doorway fixtures. */
 export function createInteriorRoomSet({ spec, materials }) {
 	const staticDefs = [];
 	const doorDefs = [];
+	const mezuzaDefs = [];
 	const debug = [];
 	for (let level = 0; level < spec.floors; level += 1) {
 		const floorY = floorTopY(spec, level);
 		const ceilingY = storyCeilingY(spec, level);
 		const partition = createPartition(spec, materials, level, floorY, ceilingY);
-		staticDefs.push(partition.wall);
+		staticDefs.push(partition.wall, partition.mezuza);
 		doorDefs.push(partition.door);
+		mezuzaDefs.push(partition.mezuza);
 		debug.push(partition.debug);
 	}
-	return { staticDefs, doorDefs, debug };
+	return { staticDefs, doorDefs, mezuzaDefs, debug };
 }
 
 function createPartition(spec, materials, level, floorY, ceilingY) {
@@ -28,6 +31,8 @@ function createPartition(spec, materials, level, floorY, ceilingY) {
 	const localX = interiorWidth * 0.17;
 	const point = localToWorld(spec, localX, 0);
 	const height = ceilingY - floorY;
+	const sourceRoomId = `${spec.id}-story-${level + 1}-original-room`;
+	const targetRoomId = `${spec.id}-story-${level + 1}-inner-room`;
 	const set = createDoorWallSet({
 		id: `${spec.id}-partition-${level + 1}`,
 		houseId: spec.id,
@@ -50,18 +55,31 @@ function createPartition(spec, materials, level, floorY, ceilingY) {
 		...materials.wall,
 		doorMaterial: materials.door
 	});
+	const mezuza = createMezuzaDef(set.spec, materials.mezuza, {
+		doorwayKind: 'interior',
+		sourceRoomId,
+		targetRoomId
+	});
 	return {
 		...set,
-		debug: {
-			id: set.wall.id,
-			axis: 'depth',
-			fullSpan: interiorDepth,
-			actualWidth: set.wall.size.x,
-			actualHeight: height,
-			doorOpening: set.wall.door,
-			touchesLeftBoundary: true,
-			touchesRightBoundary: true,
-			touchesCeiling: set.spec.center.y + set.spec.wall.height === ceilingY
-		}
+		mezuza,
+		debug: partitionDebug(set, height, interiorDepth, sourceRoomId, targetRoomId)
+	};
+}
+
+function partitionDebug(set, height, interiorDepth, sourceRoomId, targetRoomId) {
+	return {
+		id: set.wall.id,
+		axis: 'depth',
+		fullSpan: interiorDepth,
+		actualWidth: set.wall.size.x,
+		actualHeight: height,
+		doorOpening: set.wall.door,
+		sourceRoomId,
+		targetRoomId,
+		mezuzaId: `${set.door.id}-mezuza`,
+		touchesLeftBoundary: true,
+		touchesRightBoundary: true,
+		touchesCeiling: true
 	};
 }

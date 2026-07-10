@@ -1,12 +1,14 @@
 // B"H
 import {
 	MAX_SLOPE_NORMAL,
-	MAX_STEP
+	MAX_STEP,
+	PLAYER_RADIUS
 } from './EretzConstants.js';
+import { movementDelta, stepStateFor } from './EretzMovementInput.js';
 import {
-	movementDelta,
-	stepStateFor
-} from './EretzMovementInput.js';
+	applyWalkableStep,
+	findWalkableStep
+} from '../collision/StepUpResolver.js';
 
 export function updateHorizontalMotion(runtime, deltaTime) {
 	const delta = movementDelta(runtime, deltaTime);
@@ -16,15 +18,17 @@ export function updateHorizontalMotion(runtime, deltaTime) {
 		return;
 	}
 	const oldPosition = { x: state.x, y: state.y, z: state.z };
-	const target = runtime.ground.sample(state.x + delta.x, state.z + delta.z);
-	const difference = target.height + runtime.footOffset - state.y;
-	state.stepState = stepStateFor(state, target, difference);
-	if (state.stepState === 'up' || state.stepState === 'down') {
-		state.y = target.height + runtime.footOffset;
-	}
-	if (state.stepState === 'ledge') {
-		state.grounded = false;
-	}
+	const step = findWalkableStep({
+		ground: runtime.ground,
+		position: state,
+		delta,
+		footOffset: runtime.footOffset,
+		radius: PLAYER_RADIUS,
+		maxStep: MAX_STEP,
+		maxSlopeNormal: MAX_SLOPE_NORMAL
+	});
+	state.stepState = stepStateFor(state, step || fallbackGround(runtime, delta), step?.rise ?? 0);
+	applyWalkableStep(state, step, runtime.footOffset);
 	runtime.mover.move(state, delta, wallOptions(runtime, MAX_STEP, true));
 	if (headBlocked(runtime)) {
 		Object.assign(state, oldPosition, { stepState: 'head-block' });
@@ -70,6 +74,15 @@ export function resolveCeiling(runtime) {
 	state.airPhase = 'fall';
 }
 
+function fallbackGround(runtime, delta) {
+	const feetY = runtime.state.y - runtime.footOffset;
+	return runtime.ground.sample(
+		runtime.state.x + delta.x,
+		runtime.state.z + delta.z,
+		{ maxY: feetY + MAX_STEP + 0.025 }
+	);
+}
+
 function headBlocked(runtime) {
 	if (!runtime.state.grounded) {
 		return false;
@@ -84,11 +97,14 @@ function headBlocked(runtime) {
 
 function snapToWalkableGround(runtime) {
 	const state = runtime.state;
-	const landed = runtime.ground.sample(state.x, state.z);
+	const feetY = state.y - runtime.footOffset;
+	const landed = runtime.ground.sample(state.x, state.z, {
+		maxY: feetY + MAX_STEP + 0.025
+	});
 	const floorY = landed.height + runtime.footOffset;
 	if (
 		state.grounded
-		&& Math.abs(floorY - state.y) <= MAX_STEP
+		&& Math.abs(floorY - state.y) <= MAX_STEP + 0.02
 		&& landed.normal.y >= MAX_SLOPE_NORMAL
 	) {
 		state.y = floorY;

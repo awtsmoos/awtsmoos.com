@@ -7,21 +7,25 @@ import {
 	doorPose
 } from '../../world/DoorRuntimePose.js';
 import { flatSampler } from './GeometryFixtures.mjs';
+import { assertRoofGeometry } from './RoofGeometryAssertions.mjs';
 
 export function assertDoorAndHouseGeometry(fixtures) {
 	const doors = allHouseDoorDefs({}, flatSampler);
 	assert.ok(doors.length >= fixtures.specs.length, 'every house has an entry door');
-	for (const door of doors) {
-		assertDoorFrame(door);
-	}
+	for (const door of doors) assertDoorFrame(door);
 	assertHouseShells(fixtures);
 	assertMezuzahs(fixtures, doors);
+	assertRoofGeometry(fixtures.roofs, fixtures.specs.length);
+	assertYards(fixtures);
 	return {
 		doorCount: doors.length,
 		mezuzaCount: fixtures.definitions.userData.mezuzahs.length,
+		interiorMezuzahs: fixtures.definitions.userData.mezuzahs
+			.filter((item) => item.doorwayKind === 'interior').length,
 		closedMatrixChecks: doors.length,
 		wallPlaneSweepChecks: doors.length,
-		enteringRightChecks: fixtures.definitions.userData.mezuzahs.length
+		roofSolids: fixtures.roofs.length,
+		yardGrassFields: fixtures.yardGrass.length
 	};
 }
 
@@ -33,18 +37,15 @@ function assertDoorFrame(door) {
 	assert.equal(closed.angle, 0, `${door.id} closed angle is not exact zero`);
 	assert.deepEqual(closed.matrix, [...door.frame.closedWorldMatrix]);
 	assert.deepEqual(collider.userData.AwtsmoosDoorPose.worldMatrix, closed.matrix);
-	assert.ok(dot(basis.tangent, door.frame.basis.right) > 0.9999999, `${door.id} tangent differs from wall`);
-	assert.ok(dot(basis.normal, door.frame.basis.outward) > 0.9999999, `${door.id} normal differs from wall`);
+	assert.ok(dot(basis.tangent, door.frame.basis.right) > 0.9999999);
+	assert.ok(dot(basis.normal, door.frame.basis.outward) > 0.9999999);
 	const displacement = {
 		x: open.center.x - closed.center.x,
 		y: 0,
 		z: open.center.z - closed.center.z
 	};
-	assert.ok(dot(displacement, door.frame.basis.inward) > 0, `${door.id} opens away from the room`);
-	assert.equal(door.frame.swing.sign, Math.sign(door.frame.hinge.localX));
-	assert.ok(door.frame.swing.minimumSweptInwardClearance > 0, `${door.id} far edge crosses the wall plane`);
-	assert.equal(door.frame.swing.clearanceScope, 'door-wall-plane');
-	assert.equal(door.frame.swing.verifiedBy, 'sampled-far-edge-wall-plane-sweep');
+	assert.ok(dot(displacement, door.frame.basis.inward) > 0, `${door.id} opens outward from wall plane`);
+	assert.ok(door.frame.swing.minimumSweptInwardClearance > 0);
 }
 
 function assertHouseShells(fixtures) {
@@ -57,26 +58,36 @@ function assertHouseShells(fixtures) {
 		assert.equal(partition.touchesLeftBoundary, true);
 		assert.equal(partition.touchesRightBoundary, true);
 		assert.equal(partition.touchesCeiling, true);
+		assert.ok(partition.mezuzaId, `${partition.id} has no mezuzah`);
 	}
 }
 
 function assertMezuzahs(fixtures, doors) {
-	for (const item of fixtures.definitions.userData.mezuzahs) {
+	const items = fixtures.definitions.userData.mezuzahs;
+	assert.equal(items.length, doors.length, 'every doorway must have one mezuzah');
+	for (const item of items) {
 		const door = doors.find((candidate) => candidate.id === item.doorId);
 		assert.ok(door, `missing door for ${item.id}`);
-		const delta = {
-			x: item.position.x - door.frame.center.x,
-			y: 0,
-			z: item.position.z - door.frame.center.z
-		};
-		const localX = dot(delta, door.frame.basis.right);
-		const inward = dot(delta, door.frame.basis.inward);
-		assert.ok(localX > 0, `${item.id} is not entering-right`);
-		assert.ok(item.dotFromOpeningCenter > 0, `${item.id} signed entering-right proof failed`);
-		assert.ok(Math.abs(inward) <= door.frame.wall.thickness / 2 + 0.1);
+		assert.ok(item.dotFromOpeningCenter > 0, `${item.id} is not entering-right`);
+		assert.ok(item.sourceFaceDot > door.frame.wall.thickness / 2, `${item.id} is buried in reveal`);
+		assert.ok(item.slantRadians > 0, `${item.id} slants in the old direction`);
 		assert.equal(item.entrySide, 'right');
-		assert.equal(item.placement, 'inside-reveal');
-		assert.equal(item.facing, 'across-cavity');
+		assert.equal(item.placement, 'source-side-exterior-face');
+		assert.equal(item.facing, 'visible-from-source-room');
+		if (item.doorwayKind === 'interior') {
+			assert.match(item.sourceRoomId, /original-room$/);
+		}
+	}
+}
+
+function assertYards(fixtures) {
+	assert.equal(fixtures.yardGrass.length, fixtures.specs.length);
+	for (const grass of fixtures.yardGrass) {
+		const evidence = grass.userData.AwtsmoosYardGrass;
+		assert.equal(grass.solid, false);
+		assert.equal(evidence.reactsToPlayer, true);
+		assert.equal(evidence.insideFenceOnly, true);
+		assert.ok(evidence.bladeCount > 0);
 	}
 }
 

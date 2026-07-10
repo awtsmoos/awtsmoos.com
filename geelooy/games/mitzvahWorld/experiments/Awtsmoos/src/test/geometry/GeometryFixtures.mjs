@@ -7,11 +7,10 @@ import {
 } from '../../world/PathRoadSystem.js';
 import { createStoryFloorPieces } from '../../world/StoryFloorSystem.js';
 import { createHouseMaterials } from '../../world/house/HouseMaterials.js';
-import { createStairCollisionRamp } from '../../world/house/StairCollisionRamp.js';
 import { resolveHouseSpec } from '../../world/house/HouseSpec.js';
 import { planHouseStaircase } from '../../world/house/HouseStairSystem.js';
 import { inspectStairTraversal } from '../../world/house/StairTraversalProbe.js';
-import { createStairVisualDefinition } from '../../world/house/StairVisualGeometry.js';
+import { createStairSolidDefinition } from '../../world/house/StairVisualGeometry.js';
 import { createRoadGraph } from '../../world/road/RoadGraph.js';
 import { planRoadRoutes } from '../../world/road/RoadRoutePlanner.js';
 import { createRoadStrip } from '../../world/road/RoadStripGeometry.js';
@@ -23,7 +22,12 @@ import {
 
 export const flatSampler = Object.freeze({
 	heightAt(x, z) {
-		return { x, y: Math.sin(x * 0.001) * 0.01 + Math.cos(z * 0.001) * 0.01, z, source: 'test-sampler' };
+		return {
+			x,
+			y: Math.sin(x * 0.001) * 0.01 + Math.cos(z * 0.001) * 0.01,
+			z,
+			source: 'test-sampler'
+		};
 	}
 });
 
@@ -37,11 +41,13 @@ export function createGeometryFixtures() {
 	const anchors = houseAllAnchors();
 	const graph = createRoadGraph([anchors.main, ...anchors.district]);
 	const rawField = createStaticObstacleField(definitions, specs, ROAD_SAFETY_MARGIN);
-	const planningField = createStaticObstacleField(definitions, specs, ROAD_WIDTH / 2 + ROAD_SAFETY_MARGIN);
+	const planningField = createStaticObstacleField(
+		definitions,
+		specs,
+		ROAD_WIDTH / 2 + ROAD_SAFETY_MARGIN
+	);
 	const routes = planRoadRoutes(graph, planningField);
 	const road = createRoadStrip(routes, flatSampler, null, ROAD_WIDTH);
-	const roadClearance = inspectRoadStripClearance(road.visual, rawField);
-	const centerlineIntersections = routeIntersections(planningField, routes);
 	return {
 		definitions,
 		specs,
@@ -49,18 +55,19 @@ export function createGeometryFixtures() {
 		graph,
 		routes,
 		road,
-		roadClearance,
-		centerlineIntersections,
+		roadClearance: inspectRoadStripClearance(road.visual, rawField),
+		centerlineIntersections: routeIntersections(planningField, routes),
 		rawField,
-		planningField
+		planningField,
+		roofs: definitions.filter((item) => item.userData?.AwtsmoosRoof),
+		yardGrass: definitions.filter((item) => item.userData?.AwtsmoosYardGrass)
 	};
 }
 
 function stairPackage(spec, material) {
 	const layout = planHouseStaircase(spec, 0, 1);
 	const floors = createStoryFloorPieces({ spec, material, level: 1 });
-	const visual = createStairVisualDefinition(layout, spec, material);
-	const ramp = createStairCollisionRamp(layout, spec);
-	const traversal = inspectStairTraversal(layout, spec, ramp);
-	return { spec, layout, floors, visual, ramp, traversal };
+	const solid = createStairSolidDefinition(layout, spec, material);
+	const traversal = inspectStairTraversal(layout, spec, solid);
+	return { spec, layout, floors, solid, traversal };
 }
