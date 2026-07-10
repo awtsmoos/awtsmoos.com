@@ -14,6 +14,12 @@
 .Awtsmoos.local.json
 .Awtsmoos.config.local.json
 
+# The live Mitzvah World runtime is intentionally named Awtsmoos.
+# Keep this one revealed directory tracked even though generic local
+# tunnel folders named Awtsmoos stay ignored everywhere else.
+!geelooy/games/mitzvahWorld/experiments/Awtsmoos/
+!geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
+
 # AI planning / generated thought archives: all spellings and nesting.
 ai_thoughts/
 AI_THOUGHTS/
