@@ -4,6 +4,7 @@
  * @description Directs the real player and NPC models from actor timeline clips.
  */
 import { lerpPoint } from './MovieEasing.js';
+import { movieFloorAt } from './MovieFloorResolver.js';
 
 function animationName(runtime, target, requested) {
 	const player = target === 'player' ? runtime.player : runtime.npc.player;
@@ -18,16 +19,6 @@ function animationName(runtime, target, requested) {
 		talk: /hands-out|neutral|stand/i
 	};
 	return names.find((name) => expressions[requested]?.test(name)) || names[0] || '';
-}
-
-function worldFloor(runtime, x, z) {
-	const ground = runtime.groundSampler.heightAt(x, z).y;
-	const houses = runtime.terrain.stats.houseStats?.houses || [];
-	const house = houses.find((item) => (
-		Math.abs(x - item.x) <= item.width / 2 - 1
-		&& Math.abs(z - item.z) <= item.depth / 2 - 1
-	));
-	return house ? Math.max(ground, house.floorY + .2) : ground;
 }
 
 function desiredPoint(state) {
@@ -54,8 +45,8 @@ export class MovieActorDirector {
 	constructor(runtime) {
 		this.runtime = runtime;
 		this.currentAnimations = new Map();
-		this.npcFootOffset = runtime.npc.model.position.y
-			- runtime.groundSampler.heightAt(runtime.npc.x, runtime.npc.z).y;
+		const npcFloor = movieFloorAt(runtime, runtime.npc.x, runtime.npc.z).y;
+		this.npcFootOffset = runtime.npc.model.position.y - npcFloor;
 	}
 
 	apply(actorStates, deltaTime) {
@@ -72,7 +63,8 @@ export class MovieActorDirector {
 	applyPlayer(state) {
 		const { runtime } = this;
 		const point = desiredPoint(state);
-		const baseY = worldFloor(runtime, point.x, point.z) + runtime.footOffset;
+		const floor = movieFloorAt(runtime, point.x, point.z);
+		const baseY = floor.y + runtime.footOffset;
 		const jump = state.clip.action === 'jump'
 			? Math.sin(Math.PI * state.progress) * Number(state.clip.height || 2)
 			: 0;
@@ -84,6 +76,7 @@ export class MovieActorDirector {
 		runtime.state.moving = ['move', 'jump'].includes(state.clip.action);
 		runtime.state.runMode = state.clip.animation === 'run';
 		runtime.state.grounded = jump <= .001;
+		runtime.state.movieFloor = floor;
 		runtime.model.position.set(point.x, runtime.state.y, point.z);
 		runtime.model.quaternion.set(0, Math.sin(runtime.state.facing / 2), 0, Math.cos(runtime.state.facing / 2));
 		this.play('player', runtime.player, animationName(runtime, 'player', state.clip.animation));
@@ -92,7 +85,8 @@ export class MovieActorDirector {
 	applyNpc(state) {
 		const { runtime } = this;
 		const point = desiredPoint(state);
-		const y = worldFloor(runtime, point.x, point.z) + this.npcFootOffset;
+		const floor = movieFloorAt(runtime, point.x, point.z);
+		const y = floor.y + this.npcFootOffset;
 		runtime.npc.x = point.x;
 		runtime.npc.z = point.z;
 		runtime.npc.model.position.set(point.x, y, point.z);
