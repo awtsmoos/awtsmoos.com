@@ -2,7 +2,7 @@
 import { inspectStairCollision } from './StairCollisionDiagnostics.js';
 import { inspectStairOpening } from './StairOpeningDiagnostics.js';
 
-/** Exposes live matrices, visible stair triangles, roads, yards, and terrain mixing. */
+/** Exposes live matrices, geometry invariants, roads, yards, terrain, and forest truth. */
 export function installWorldDiagnostics(runtime) {
 	const stairStats = aggregateStairs(
 		runtime.terrain.stats.stairStats || [],
@@ -19,6 +19,7 @@ export function installWorldDiagnostics(runtime) {
 		houseStats: runtime.terrain.stats.houseStats,
 		stairStats,
 		roadStats: runtime.terrain.roadStats,
+		forestStats: runtime.terrain.stats.forestStats,
 		mezuzaStats: runtime.terrain.stats.mezuzaStats,
 		yardGrassStats: metadata.yardGrass || [],
 		startingZone: metadata.startingZone || null,
@@ -27,7 +28,8 @@ export function installWorldDiagnostics(runtime) {
 		inspectDoor: (doorId) => runtime.doors
 			.find((door) => door.def.id === doorId)?.debug() || null,
 		inspectStairOpening: (houseId, level) => inspectStairOpening(runtime, houseId, level),
-		inspectStairCollision: (houseId, level) => inspectStairCollision(runtime, houseId, level)
+		inspectStairCollision: (houseId, level) => inspectStairCollision(runtime, houseId, level),
+		inspectForestTree: (index) => inspectForestTree(runtime.terrain.forest, index)
 	};
 	window.Awtsmoos = api;
 	return api;
@@ -43,9 +45,29 @@ export function refreshWorldDiagnostics(runtime, api) {
 		mixedTerrain: stats.mixedTerrain || false,
 		mixMapRepeatMatches: stats.mixMapRepeatMatches || false,
 		reactiveGrassMeshes: stats.reactiveGrassMeshes || 0,
-		grassInteractor: stats.grassInteractor || null
+		grassInteractor: stats.grassInteractor || null,
+		forestDrawCalls: api.forestStats?.rendering?.drawCalls || 0,
+		forestTriangles: api.forestStats?.rendering?.triangles || 0
 	};
 	api.state = runtime.state;
+}
+
+function inspectForestTree(forest, index) {
+	const record = forest?.records?.find((item) => item.index === Number(index));
+	if (!record) return null;
+	return {
+		index: record.index,
+		preset: record.policy.name,
+		tier: record.policy.tier,
+		position: { x: record.x, y: record.y, z: record.z },
+		targetHeight: record.policy.targetHeight,
+		scale: record.scale,
+		generationMilliseconds: record.generationMilliseconds,
+		branchTriangles: record.tree.stats.branchTriangles,
+		leafTriangles: record.tree.stats.leafTriangles,
+		collisionTriangles: forest.stats.collision.perTree
+			.find((item) => item.index === record.index)?.triangles || 0
+	};
 }
 
 function aggregateStairs(items, octreeTriangles) {
@@ -82,9 +104,7 @@ function measureStair(item, triangleCounts) {
 
 function countTriangleKinds(triangles) {
 	const counts = new Map();
-	for (const triangle of triangles) {
-		counts.set(triangle.kind, (counts.get(triangle.kind) || 0) + 1);
-	}
+	for (const triangle of triangles) counts.set(triangle.kind, (counts.get(triangle.kind) || 0) + 1);
 	return counts;
 }
 

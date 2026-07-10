@@ -1,13 +1,16 @@
 {
-  "name": "@awtsmoos/procedural-core",
-  "version": "0.1.0",
-  "type": "module",
-  "private": true,
-  "description": "B\"H - Production reusable Awtsmoos procedural geometry, animation, physics, WebGL material, tree, hair, skeleton, and adapter core.",
-  "exports": {
-    ".": "./src/index.js",
-    "./three": "./src/adapters/three/index.js",
-    "./core/*": "./src/core/*"
-  },
-  "sideEffects": false
+	"name": "@awtsmoos/procedural-core",
+	"version": "0.1.0",
+	"type": "module",
+	"private": true,
+	"description": "B\"H - Production reusable Awtsmoos procedural geometry, animation, physics, WebGL material, tree, hair, skeleton, and adapter core.",
+	"scripts": {
+		"test": "node test/treePresets.test.mjs"
+	},
+	"exports": {
+		".": "./src/index.js",
+		"./three": "./src/adapters/three/index.js",
+		"./core/*": "./src/core/*"
+	},
+	"sideEffects": false
 }
