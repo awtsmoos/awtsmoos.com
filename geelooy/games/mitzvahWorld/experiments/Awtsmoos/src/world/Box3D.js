@@ -4,6 +4,8 @@ import { triangleNormal, v } from '../math/Geometry3D.js';
 import { trianglesFromIndexed } from '../collision/TriangleCollider.js';
 import { proceduralData } from './ProceduralBridge.js';
 
+const PROCEDURAL = ['doorway', 'cylinder', 'sphere', 'triPrism'];
+
 /** Primitive meshes: every face is wound outward so collision speaks plainly. */
 export function createPrimitiveMesh(def) {
   const data = primitiveData(def), g = new BufferGeometry();
@@ -11,15 +13,10 @@ export function createPrimitiveMesh(def) {
   g.setAttribute('normal', new BufferAttribute(new Float32Array(vertexNormals(data)), 3));
   g.setIndex(new BufferAttribute(new Uint16Array(data.indices), 1));
   const mesh = new Mesh(g, new MeshStandardMaterial({ name: def.id, color: colorArray(def.color) }));
-  mesh.name = def.id; mesh.userData.procedural = ['doorway', 'cylinder', 'sphere'].includes(def.shape); mesh.setBaseTransform(); return mesh;
+  mesh.name = def.id; mesh.userData.procedural = PROCEDURAL.includes(def.shape); mesh.setBaseTransform(); return mesh;
 }
-
-export function primitiveColliders(def) {
-  const data = primitiveData(def), floor = def.walkable === true ? undefined : false;
-  return trianglesFromIndexed(data.vertices, data.indices, { kind: def.id, solid: def.solid !== false, floor });
-}
-
-function primitiveData(def) { return ['doorway','cylinder','sphere'].includes(def.shape) ? proceduralData({ ...def, rgba: colorArray(def.color) }) : def.shape === 'diamond' ? diamondData(def) : boxData(def); }
+export function primitiveColliders(def) { const data = primitiveData(def), floor = def.walkable === true ? undefined : false; return trianglesFromIndexed(data.vertices, data.indices, { kind: def.id, solid: def.solid !== false, floor }); }
+function primitiveData(def) { return PROCEDURAL.includes(def.shape) ? proceduralData({ ...def, rgba: colorArray(def.color) }) : def.shape === 'diamond' ? diamondData(def) : boxData(def); }
 function boxData(def) {
   const s = def.size, hx = s.x / 2, hy = s.y / 2, hz = s.z / 2, m = { vertices: [], indices: [] };
   face(m, [[-hx,-hy,hz],[hx,-hy,hz],[hx,hy,hz],[-hx,hy,hz]]); face(m, [[hx,-hy,-hz],[-hx,-hy,-hz],[-hx,hy,-hz],[hx,hy,-hz]]);
