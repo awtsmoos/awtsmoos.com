@@ -3,32 +3,45 @@ import { cubeMesh } from '/libs/awtsmoos-procedural/src/mesh/primitives/box.js';
 import { sphereMesh } from '/libs/awtsmoos-procedural/src/mesh/primitives/round.js';
 import { v } from '../math/Geometry3D.js';
 
-export const PROCEDURAL_SOURCE = 'Awtsmoos-procedural:cube/sphere + local CSG doorway/cylinder/triPrism';
+export const PROCEDURAL_SOURCE = 'Awtsmoos-procedural: manual vertices/faces + cube/sphere + doorway/cylinder';
 
-/** Raw procedural meshes enter; the Awtsmoos asks each point where it stands. */
+/** ManualMesh API: pass vertices + faces, and the world receives exactly that shape. */
 export function proceduralData(def) {
   const raw = rawMesh(def), vertices = [];
   for (let i = 0; i < raw.positions.length; i += 3) vertices.push(worldPoint(def, raw.positions[i], raw.positions[i + 1], raw.positions[i + 2]));
   return { vertices, indices: raw.indices || [], colors: raw.colors || [] };
 }
+
+export function manualMesh({ vertices = [], faces = [], indices = [] }) {
+  const positions = vertices.flatMap(point);
+  const flatIndices = indices.length ? [...indices] : faces.flatMap(triangulateFace);
+  return { positions, indices: flatIndices };
+}
+
 function rawMesh(def) {
+  if (def.shape === 'manual') return manualMesh(def);
   if (def.shape === 'doorway') return booleanDoorwayMesh(def);
   if (def.shape === 'cylinder') return cleanCylinderMesh(def);
   if (def.shape === 'triPrism') return triPrismMesh(def);
   if (def.shape === 'sphere') return sphereMesh({ radius: def.radius || 1, rings: 10, segments: 20, color: def.rgba });
   return cubeMesh({ size: [1, 1, 1], color: def.rgba || [0.7, 0.7, 0.7, 1] });
 }
+
+function point(p) { return Array.isArray(p) ? [p[0], p[1], p[2]] : [p.x || 0, p.y || 0, p.z || 0]; }
+function triangulateFace(face) { const out = []; for (let i = 1; i < face.length - 1; i++) out.push(face[0], face[i], face[i + 1]); return out; }
+
 function triPrismMesh(def) {
-  const s = def.size || { x: 2, y: 1, z: .4 }, hx = s.x / 2, hy = s.y / 2, hz = s.z / 2, m = mesh();
-  const a = addV(m, -hx, -hy, hz), b = addV(m, hx, -hy, hz), c = addV(m, 0, hy, hz), d = addV(m, -hx, -hy, -hz), e = addV(m, hx, -hy, -hz), f = addV(m, 0, hy, -hz);
-  tri(m, a, b, c); tri(m, e, d, f); quadI(m, a, d, e, b); quadI(m, b, e, f, c); quadI(m, c, f, d, a); return m;
+  const s = def.size || { x: 2, y: 1, z: .4 }, hx = s.x / 2, hy = s.y / 2, hz = s.z / 2;
+  return manualMesh({ vertices: [[-hx, -hy, hz], [hx, -hy, hz], [0, hy, hz], [-hx, -hy, -hz], [hx, -hy, -hz], [0, hy, -hz]], faces: [[0, 1, 2], [4, 3, 5], [0, 3, 4, 1], [1, 4, 5, 2], [2, 5, 3, 0]] });
 }
+
 function booleanDoorwayMesh(def) {
   const s = def.size || { x: 7, y: 3, z: .7 }, d = def.door || { x: 2.2, y: 2.15 };
   const hx = s.x / 2, hy = s.y / 2, hz = s.z / 2, dx = d.x / 2, yt = -hy + d.y, m = mesh();
   for (const z of [hz, -hz]) { const back = z < 0; faceZ(m, -hx, -hy, -dx, hy, z, back); faceZ(m, dx, -hy, hx, hy, z, back); faceZ(m, -dx, yt, dx, hy, z, back); }
   faceX(m, -hx, -hy, hy, -hz, hz, false); faceX(m, hx, -hy, hy, -hz, hz, true); faceY(m, -hx, hx, hy, -hz, hz, true); faceY(m, -hx, -dx, -hy, -hz, hz, false); faceY(m, dx, hx, -hy, -hz, hz, false); faceX(m, -dx, -hy, yt, -hz, hz, true); faceX(m, dx, -hy, yt, -hz, hz, false); faceY(m, -dx, dx, yt, -hz, hz, false); return m;
 }
+
 function cleanCylinderMesh(def) {
   const radius = def.radius || 1, height = def.height || 1, n = Math.max(12, def.segments || 32), m = mesh();
   const topC = addV(m, 0, height / 2, 0), botC = addV(m, 0, -height / 2, 0), top = [], bot = [];
@@ -36,6 +49,7 @@ function cleanCylinderMesh(def) {
   for (let s = 0; s < n; s++) { const t = top[s], b = bot[s], nt = top[(s + 1) % n], nb = bot[(s + 1) % n]; tri(m, topC, nt, t); tri(m, botC, b, nb); tri(m, t, nb, b); tri(m, t, nt, nb); }
   return m;
 }
+
 function mesh() { return { positions: [], indices: [] }; }
 function addV(m, x, y, z) { m.positions.push(x, y, z); return m.positions.length / 3 - 1; }
 function tri(m, a, b, c) { m.indices.push(a, b, c); }

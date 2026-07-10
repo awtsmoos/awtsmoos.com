@@ -4,9 +4,9 @@ import { triangleNormal, v } from '../math/Geometry3D.js';
 import { trianglesFromIndexed } from '../collision/TriangleCollider.js';
 import { proceduralData } from './ProceduralBridge.js';
 
-const PROCEDURAL = ['doorway', 'cylinder', 'sphere', 'triPrism'];
+const PROCEDURAL = ['manual', 'doorway', 'cylinder', 'sphere', 'triPrism'];
 
-/** Primitive meshes: every face is wound outward so collision speaks plainly. */
+/** Primitive meshes: manual vertices or box-like vessels become visible solid forms. */
 export function createPrimitiveMesh(def) {
   const data = primitiveData(def), g = new BufferGeometry();
   g.setAttribute('position', new BufferAttribute(new Float32Array(flat(data.vertices)), 3));
