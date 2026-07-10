@@ -1,11 +1,11 @@
 // B"H
-/** TextureRepeat: repeat is one shader breath, not extra geometry. Now the grass screams detail. */
+/** TextureRepeat: high-detail repeat without falling into mobile shader precision chessboards. */
 export const REPEAT_HOOKS = Object.freeze({
-  terrainPixelsPerWorld: 1500,
-  dirtPixelsPerWorld: 840,
+  terrainPixelsPerWorld: 1000,
+  dirtPixelsPerWorld: 980,
   wallPanelWorld: 13,
   floorPanelWorld: 5,
-  roofPanelWorld: 8,
+  roofPanelWorld: 9,
   roadPanelWorld: 4.2
 });
 export function textureSize(image) {
@@ -24,9 +24,9 @@ export function materialTexture(color, image, repeat, options = {}) {
 }
 export function wallRepeat(w, h) { return exactRepeat(w, h, REPEAT_HOOKS.wallPanelWorld, 1, 8); }
 export function floorRepeat(w, d) { return exactRepeat(w, d, REPEAT_HOOKS.floorPanelWorld, 1, 24); }
-export function roofRepeat(w, d) { return exactRepeat(w, d, REPEAT_HOOKS.roofPanelWorld, 2, 18); }
+export function roofRepeat(w, d) { return exactRepeat(w, d, REPEAT_HOOKS.roofPanelWorld, 2, 16); }
 export function roadRepeat(width, length, image) { return [1, clamp(Math.round(Math.abs(length) / REPEAT_HOOKS.roadPanelWorld), 1, 72)]; }
-export function terrainRepeat(size, image) { return repeatFromPixels(size, size, image, REPEAT_HOOKS.terrainPixelsPerWorld, 360, 690); }
-export function mixRepeat(size, image) { return repeatFromPixels(size, size, image, REPEAT_HOOKS.dirtPixelsPerWorld, 150, 320); }
+export function terrainRepeat(size, image) { return repeatFromPixels(size, size, image, REPEAT_HOOKS.terrainPixelsPerWorld, 300, 460); }
+export function mixRepeat(size, image) { return repeatFromPixels(size, size, image, REPEAT_HOOKS.dirtPixelsPerWorld, 190, 330); }
 function policy(image, repeat, options) { return { originalPixels: textureSize(image), repeat, tileWorld: options.tileWorld || null, shaderWrap: true, fullResolution: true, oneDrawCall: true, hook: options.hook || null }; }
 function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v || lo)); }
