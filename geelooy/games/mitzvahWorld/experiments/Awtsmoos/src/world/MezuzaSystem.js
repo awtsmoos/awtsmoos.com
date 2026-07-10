@@ -1,17 +1,21 @@
 // B"H
-import { entryRightRevealWorld, normalizeDoorFrame } from './HouseDoorGeometry.js';
+import {
+	entryRightRevealWorld,
+	normalizeDoorFrame
+} from './HouseDoorGeometry.js';
 
 /**
- * Places the mezuzah inside the right-hand doorway reveal as seen by a person
- * entering the house. It is not attached to the exterior wall surface; it sits
- * within the cavity and remains visible from outside.
+ * Places the mezuzah on the entering person's right, inside the reveal. Its
+ * thin axis faces across the cavity toward the opposite jamb, not along the
+ * broad exterior wall where the old illusion placed it.
  */
 export function createMezuzaDef(specification, material = {}) {
 	const frame = normalizeDoorFrame(specification);
-	const width = 0.11;
-	const height = Math.min(0.72, frame.doorH * 0.27);
-	const depth = Math.min(0.08, frame.wallT * 0.22);
-	const point = entryRightRevealWorld(frame, 0.045);
+	const caseWidth = Math.min(0.16, frame.wall.thickness * 0.2);
+	const caseHeight = Math.min(0.78, frame.opening.height * 0.24);
+	const caseDepth = 0.07;
+	const point = entryRightRevealWorld(frame, caseDepth / 2 + 0.035);
+	const forward = frame.basis.right;
 	return {
 		id: `${frame.doorId}-mezuza`,
 		shape: 'box',
@@ -24,25 +28,30 @@ export function createMezuzaDef(specification, material = {}) {
 		mapRepeat: [1, 1],
 		position: {
 			x: point.x,
-			y: frame.floorY + frame.doorH * 0.66,
+			y: frame.opening.bottomY + frame.opening.height * 0.69,
 			z: point.z
 		},
 		size: {
-			x: width,
-			y: height,
-			z: depth
+			x: caseWidth,
+			y: caseHeight,
+			z: caseDepth
 		},
 		rotation: {
-			y: frame.yaw,
+			y: frame.entry.acrossYaw,
 			z: -0.1
 		},
 		userData: {
 			AwtsmoosMezuza: {
+				id: `${frame.doorId}-mezuza`,
 				doorId: frame.doorId,
-				jamb: 'entry-right-reveal',
-				placement: 'inside-door-cavity',
-				entryDirection: frame.entryDirection,
-				yaw: frame.yaw
+				wallId: frame.wallId,
+				houseId: frame.houseId,
+				entrySide: 'right',
+				placement: 'inside-reveal',
+				facing: 'across-cavity',
+				hingeSide: frame.hinge.side,
+				position: { x: point.x, z: point.z },
+				forward
 			}
 		}
 	};
