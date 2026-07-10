@@ -31,11 +31,15 @@ function readValidatedChunk(dir, chunk) {
   }
 }
 
+function translationBody(xml) {
+  const normalized = parseSichosXml(xml).xml;
+  const match = normalized.match(/^<translation>\s*([\s\S]*?)\s*<\/translation>$/);
+  if (!match) throw new Error('Unable to normalize translation chunk');
+  return match[1].trim();
+}
+
 export function combineXml(parts) {
-  const bodies = parts.map(xml => String(xml)
-    .replace(/^\s*<translation>\s*/i, '')
-    .replace(/\s*<\/translation>\s*$/i, '')
-    .trim());
+  const bodies = parts.map(translationBody);
   return `<translation>\n${bodies.join('\n')}\n</translation>`;
 }
 
@@ -49,7 +53,7 @@ async function translateChunk(chunk, options) {
       const parsed = parseSichosXml(response.xml);
       const validation = validateParsed(chunk, parsed);
       if (!validation.ok) throw new Error(validation.errors.join('\n'));
-      return { prompt, response, parsed, validation, attempt };
+      return { response, parsed, validation, attempt };
     } catch (error) {
       lastError = error;
       if (attempt === retries) break;
@@ -73,32 +77,43 @@ export async function runDocument(document, options = {}) {
   writeJson(path.join(documentDir, 'source.json'), document);
   const chunks = chunkDocument(document, maxChars);
   const results = [];
+
   for (const chunk of chunks) {
     const dir = chunkDir(documentDir, chunk.chunkIndex);
     fs.mkdirSync(dir, { recursive: true });
     const prompt = buildPrompt(chunk);
     writeJson(path.join(dir, 'source.json'), chunk);
     writeText(path.join(dir, 'prompt.txt'), prompt);
+
     if (dryRun) {
       results.push({ chunkIndex: chunk.chunkIndex, dryRun: true, chars: chunk.combinedChars, exceedsTarget: chunk.exceedsTarget });
       continue;
     }
+
     const reused = !force ? readValidatedChunk(dir, chunk) : null;
     if (reused) {
       results.push({ ...reused, reused: true });
       continue;
     }
+
     const translated = await translateChunk(chunk, { model, retries, retryBaseMs, client });
     const { response, parsed, validation, attempt } = translated;
     writeJson(path.join(dir, 'request.json'), response.sanitizedRequest || { model });
     writeJson(path.join(dir, 'raw-response.json'), response.rawResponse || {});
     writeText(path.join(dir, 'response.xml'), response.xml.trim());
-    const result = { chunkIndex: chunk.chunkIndex, validation, usage: response.usage, cost: estimateCost(response.usage), attempts: attempt + 1 };
+    const result = {
+      chunkIndex: chunk.chunkIndex,
+      validation,
+      usage: response.usage,
+      cost: estimateCost(response.usage),
+      attempts: attempt + 1
+    };
     writeJson(path.join(dir, 'parsed.json'), parsed);
     writeJson(path.join(dir, 'validation.json'), validation);
     writeJson(path.join(dir, 'result.json'), result);
     results.push(result);
   }
+
   if (!dryRun) {
     const parts = chunks.map(chunk => fs.readFileSync(path.join(chunkDir(documentDir, chunk.chunkIndex), 'response.xml'), 'utf8'));
     const stitchedXml = combineXml(parts);
@@ -108,6 +123,7 @@ export async function runDocument(document, options = {}) {
     writeJson(path.join(documentDir, 'translation.parsed.json'), stitchedParsed);
     writeJson(path.join(documentDir, 'translation.validation.json'), stitchedValidation);
   }
+
   const summary = { documentId: document.documentId, title: document.title, chunks: chunks.length, dryRun, results };
   writeJson(path.join(documentDir, 'summary.json'), summary);
   return summary;
