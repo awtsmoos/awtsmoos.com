@@ -3,8 +3,8 @@
 This directory now intentionally contains only the new raw **Awtsmoos** page and the modules reachable from it.
 
 ## Default page
-- Use: `/games/mitzvahWorld/index.htm`
-- Source file: `geelooy/games/mitzvahWorld/index.htm`
+- Use: `/games/mitzvahWorld/index.html`
+- Source file: `geelooy/games/mitzvahWorld/index.html`
 - Entry module: `experiments/Awtsmoos/src/app/createEretz3DDemo.js`
 
 ## Naming correction
