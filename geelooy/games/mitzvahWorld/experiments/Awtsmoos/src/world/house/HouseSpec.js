@@ -1,4 +1,6 @@
 // B"H
+import { measureHouseGround } from './HouseGroundMeasurement.js';
+
 export const PLAYER_CAPSULE = Object.freeze({ radius: 0.38, height: 1.72 });
 
 export const HOUSE_ARCHITECTURE = Object.freeze({
@@ -36,7 +38,7 @@ export function resolveHouseSpec(specification = {}, sampler) {
 	const storyHeight = Math.max(8.8, merged.storyHeight || HOUSE_ARCHITECTURE.storyHeight);
 	const floorThickness = merged.floorThickness || HOUSE_ARCHITECTURE.floorThickness;
 	const minimumWallHeight = floors * storyHeight + HOUSE_ARCHITECTURE.roofClearance;
-	const measured = measureGround(merged, sampler);
+	const measured = measureHouseGround(merged, sampler);
 	return Object.freeze({
 		...merged,
 		...measured,
@@ -84,36 +86,16 @@ export function worldToLocal(specification, x, z) {
 	};
 }
 
+/** Facing local -Z into the house, inward × up yields local +X: entry-right. */
 export function houseBasis(yaw) {
 	const cosine = Math.cos(yaw);
 	const sine = Math.sin(yaw);
+	const right = Object.freeze({ x: cosine, y: 0, z: sine });
 	return Object.freeze({
-		right: Object.freeze({ x: cosine, y: 0, z: sine }),
-		entryRight: Object.freeze({ x: -cosine, y: 0, z: -sine }),
+		right,
+		entryRight: right,
 		outward: Object.freeze({ x: -sine, y: 0, z: cosine }),
 		inward: Object.freeze({ x: sine, y: 0, z: -cosine }),
 		up: Object.freeze({ x: 0, y: 1, z: 0 })
 	});
-}
-
-function measureGround(specification, sampler) {
-	const fallback = specification.floorY ?? 0;
-	if (!sampler) {
-		return { floorY: fallback, groundMin: fallback, groundEvidence: [] };
-	}
-	const corners = [
-		[-specification.width / 2, -specification.depth / 2],
-		[specification.width / 2, -specification.depth / 2],
-		[-specification.width / 2, specification.depth / 2],
-		[specification.width / 2, specification.depth / 2]
-	];
-	const samples = corners.map(([x, z]) => {
-		const point = localToWorld(specification, x, z);
-		return sampler.heightAt(point.x, point.z);
-	});
-	return {
-		floorY: Math.max(...samples.map((sample) => sample.y)),
-		groundMin: Math.min(...samples.map((sample) => sample.y)),
-		groundEvidence: samples.map((sample) => sample.source)
-	};
 }

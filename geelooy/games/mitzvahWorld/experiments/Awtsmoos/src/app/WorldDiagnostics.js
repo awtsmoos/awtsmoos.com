@@ -1,7 +1,8 @@
 // B"H
+import { inspectStairCollision } from './StairCollisionDiagnostics.js';
 import { inspectStairOpening } from './StairOpeningDiagnostics.js';
 
-/** Installs the live proof surface used by mobile and browser verification. */
+/** Installs live proof surfaces that measure matrices, triangles, and motion. */
 export function installWorldDiagnostics(runtime) {
 	const stairStats = aggregateStairs(
 		runtime.terrain.stats.stairStats || [],
@@ -19,7 +20,9 @@ export function installWorldDiagnostics(runtime) {
 		roadStats: runtime.terrain.roadStats,
 		mezuzaStats: runtime.terrain.stats.mezuzaStats,
 		cameraStats: runtime.orbit.stats,
-		inspectStairOpening: (houseId, level) => inspectStairOpening(runtime, houseId, level)
+		inspectDoor: (doorId) => runtime.doors.find((door) => door.def.id === doorId)?.debug() || null,
+		inspectStairOpening: (houseId, level) => inspectStairOpening(runtime, houseId, level),
+		inspectStairCollision: (houseId, level) => inspectStairCollision(runtime, houseId, level)
 	};
 	window.Awtsmoos = api;
 	return api;
@@ -41,28 +44,29 @@ function aggregateStairs(items, octreeTriangles) {
 	return {
 		items: measuredItems,
 		totalSteps: sum(measuredItems, 'totalSteps'),
-		octreeSteps: sum(measuredItems, 'octreeSteps'),
+		octreeRamps: measuredItems.length,
 		octreeTriangles: sum(measuredItems, 'octreeTriangles'),
+		internalCollisionFaces: sum(measuredItems, 'internalCollisionFaces'),
 		landings: sum(measuredItems, 'landings'),
 		openings: sum(measuredItems, 'openings'),
 		maxRise: Math.max(0, ...measuredItems.map((item) => item.maxRise)),
 		minTreadDepth: Math.min(Infinity, ...measuredItems.map((item) => item.minTreadDepth)),
 		approachClearance: Math.min(Infinity, ...measuredItems.map((item) => item.approachClearance)),
-		allStepsInOctree: measuredItems.every((item) => item.allStepsInOctree),
+		allRampsExact: measuredItems.every((item) => item.rampTriangleCountExact),
+		allRampsWalkable: measuredItems.every((item) => item.slopeNormalY > 0.72),
 		capsuleFits: measuredItems.every((item) => item.capsuleFits)
 	};
 }
 
 function measureStair(item, triangleCounts) {
-	const octreeTriangles = triangleCounts.get(item.id) || 0;
-	const octreeSteps = octreeTriangles / 12;
-	const expectedColliderUnits = item.totalSteps + item.landings;
+	const collisionKind = `${item.id}-collision-ramp`;
+	const octreeTriangles = triangleCounts.get(collisionKind) || 0;
 	return {
 		...item,
+		collisionKind,
 		octreeTriangles,
-		octreeSteps,
-		expectedColliderUnits,
-		allStepsInOctree: octreeSteps === expectedColliderUnits
+		rampTriangleCountExact: octreeTriangles === item.rampTriangleCount,
+		verification: 'octree-triangle-kind; call inspectStairCollision for capsule-motion proof'
 	};
 }
 

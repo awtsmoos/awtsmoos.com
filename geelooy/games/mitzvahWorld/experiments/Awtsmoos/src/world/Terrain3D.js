@@ -22,10 +22,10 @@ export const DIRT_URLS = [TEXTURE_URLS.terrain.dirtGrass3, TEXTURE_URLS.terrain.
 export const REAL_GRASS_URL = GRASS_URLS[0];
 export const heightAt = terrainHeightAt;
 
-/** Builds terrain, roads, and static obstacles exactly once. */
+/** Builds obstacles first, then plans roads around their measured footprints. */
 export function createTerrainPackage(obstacles, grassImage, _unusedDirtImage, groundSampler) {
 	const terrain = createTerrainGeometry();
-	const road = houseRoadSystem(obstacles.assets || {}, groundSampler);
+	const road = houseRoadSystem(obstacles.assets || {}, groundSampler, obstacles);
 	const roadColliders = road.colliders.flatMap(primitiveColliders);
 	const obstacleColliders = obstacles.flatMap(primitiveColliders);
 	const group = new Group();

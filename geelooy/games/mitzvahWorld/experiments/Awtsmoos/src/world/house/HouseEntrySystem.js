@@ -45,7 +45,7 @@ export function createHouseEntry(spec, materials, sampler) {
 export function entryAnchors(spec) {
 	return {
 		door: localToWorld(spec, 0, spec.depth / 2 + 0.8),
-		landing: localToWorld(spec, 0, spec.depth / 2 + 2.2),
+		landing: localToWorld(spec, 0, spec.depth / 2 + 4.1),
 		gate: localToWorld(spec, 0, spec.depth / 2 + 8.2),
 		outward: spec.yaw
 	};

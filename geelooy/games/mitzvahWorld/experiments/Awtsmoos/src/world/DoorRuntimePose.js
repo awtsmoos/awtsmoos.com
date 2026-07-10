@@ -1,13 +1,10 @@
 // B"H
-import {
-	add,
-	scale,
-	v
-} from '../math/Geometry3D.js';
+import { v } from '../math/Geometry3D.js';
 import { doorHingeWorld } from './HouseDoorGeometry.js';
+import { worldMatrixFromYaw } from './DoorWorldMatrix.js';
 
 export function closedYaw(definition) {
-	return definition.closedYaw ?? definition.wallYaw ?? definition.yaw;
+	return definition.frame?.yaw ?? definition.closedYaw ?? definition.wallYaw ?? definition.yaw ?? 0;
 }
 
 export function hingeWorld(definition) {
@@ -15,25 +12,66 @@ export function hingeWorld(definition) {
 }
 
 export function currentAngle(definition, progress) {
+	if (progress <= 0) {
+		return 0;
+	}
+	const openAngle = definition.frame?.swing?.openAngle ?? definition.openAngle ?? -Math.PI * 0.58;
+	if (progress >= 1) {
+		return openAngle;
+	}
 	const eased = progress * progress * (3 - 2 * progress);
-	return (definition.openAngle ?? -Math.PI * 0.58) * eased;
+	return openAngle * eased;
+}
+
+/** Derives the complete visible and collider pose from one immutable frame. */
+export function doorPose(definition, progress = 0) {
+	const clamped = Math.max(0, Math.min(1, progress));
+	const angle = currentAngle(definition, clamped);
+	const yaw = closedYaw(definition) + angle;
+	if (clamped === 0 && definition.frame?.closedWorldMatrix) {
+		return {
+			progress: 0,
+			angle: 0,
+			yaw: closedYaw(definition),
+			center: { ...definition.frame.panel.closedCenter },
+			matrix: [...definition.frame.closedWorldMatrix]
+		};
+	}
+	const hinge = hingeWorld(definition);
+	const hingeSign = Math.sign(definition.frame?.hinge?.localX || -1);
+	const centerOffset = -hingeSign * definition.width / 2;
+	const center = {
+		x: hinge.x + Math.cos(yaw) * centerOffset,
+		y: definition.centerY,
+		z: hinge.z + Math.sin(yaw) * centerOffset
+	};
+	return {
+		progress: clamped,
+		angle,
+		yaw,
+		center,
+		matrix: worldMatrixFromYaw(center, yaw)
+	};
 }
 
 export function centerFor(definition, yaw) {
 	const hinge = hingeWorld(definition);
-	const right = v(Math.cos(yaw), 0, Math.sin(yaw));
-	const center = add(hinge, scale(right, definition.width / 2));
-	center.y = (hinge.y || 0) + definition.centerY;
-	return center;
+	const hingeSign = Math.sign(definition.frame?.hinge?.localX || -1);
+	const centerOffset = -hingeSign * definition.width / 2;
+	return {
+		x: hinge.x + Math.cos(yaw) * centerOffset,
+		y: definition.centerY,
+		z: hinge.z + Math.sin(yaw) * centerOffset
+	};
 }
 
 export function orientedBox(definition, progress) {
-	const yaw = closedYaw(definition) + currentAngle(definition, progress);
+	const pose = doorPose(definition, progress);
 	return {
-		center: centerFor(definition, yaw),
-		right: v(Math.cos(yaw), 0, Math.sin(yaw)),
+		center: pose.center,
+		right: v(Math.cos(pose.yaw), 0, Math.sin(pose.yaw)),
 		up: v(0, 1, 0),
-		forward: v(Math.sin(yaw), 0, -Math.cos(yaw)),
+		forward: v(-Math.sin(pose.yaw), 0, Math.cos(pose.yaw)),
 		half: {
 			x: definition.width / 2,
 			y: definition.height / 2,
@@ -43,18 +81,25 @@ export function orientedBox(definition, progress) {
 }
 
 export function colliderDefinition(definition, progress = 0) {
-	const yaw = closedYaw(definition) + currentAngle(definition, progress);
+	const pose = doorPose(definition, progress);
 	return {
 		id: `${definition.id}-door`,
 		shape: 'box',
 		solid: true,
 		walkable: false,
-		position: centerFor(definition, yaw),
+		position: pose.center,
 		size: {
 			x: definition.width,
 			y: definition.height,
 			z: definition.thickness
 		},
-		rotation: { y: yaw }
+		rotation: { y: pose.yaw },
+		userData: {
+			AwtsmoosDoorPose: {
+				progress: pose.progress,
+				angle: pose.angle,
+				worldMatrix: pose.matrix
+			}
+		}
 	};
 }

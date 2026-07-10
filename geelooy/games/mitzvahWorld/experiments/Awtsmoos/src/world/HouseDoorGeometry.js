@@ -1,27 +1,35 @@
 // B"H
+import {
+	chooseDoorSwing,
+	finiteNumber,
+	freezePoint
+} from './DoorFrameUtilities.js';
+import { worldMatrixFromYaw } from './DoorWorldMatrix.js';
 import { withDoorFrameAliases } from './HouseDoorLegacyAliases.js';
 import { houseBasis } from './house/HouseSpec.js';
 
-/** One immutable spatial frame shared by wall, panel, hinge, and mezuzah. */
+/** Creates the immutable doorway truth shared by wall, panel, collider, and mezuzah. */
 export function normalizeDoorFrame(specification = {}) {
-	if (specification.panel && specification.opening && specification.basis) {
+	if (specification.closedWorldMatrix && specification.panel && specification.opening) {
 		return specification;
 	}
-	const yaw = snapAngle(number(specification.yaw, 0));
+	const yaw = snapAngle(finiteNumber(specification.yaw, 0));
 	const basis = houseBasis(yaw);
-	const openingWidth = number(specification.doorW, number(specification.width, 2.4));
-	const openingHeight = number(specification.doorH, number(specification.height, 2.7));
-	const panelGap = number(specification.panelGap, 0.1);
+	const openingWidth = finiteNumber(specification.doorW, finiteNumber(specification.width, 2.4));
+	const openingHeight = finiteNumber(specification.doorH, finiteNumber(specification.height, 2.7));
+	const panelGap = finiteNumber(specification.panelGap, 0.1);
 	const panelWidth = openingWidth - panelGap;
-	const wallBottomY = number(specification.floorY, 0);
-	const openingBottomY = number(specification.openingBottomY, wallBottomY);
-	const closedDepth = number(specification.doorDepth, number(specification.depth, 0));
-	const center = Object.freeze({
-		x: number(specification.x, number(specification.position?.x, 0)),
-		y: wallBottomY,
-		z: number(specification.z, number(specification.position?.z, 0))
-	});
-	const hingePoint = framePoint({ center, basis }, -panelWidth / 2, closedDepth);
+	const panelHeight = openingHeight - panelGap;
+	const floorY = finiteNumber(specification.floorY, 0);
+	const openingBottomY = finiteNumber(specification.openingBottomY, floorY);
+	const closedDepth = finiteNumber(specification.doorDepth, finiteNumber(specification.depth, 0));
+	const center = freezePoint(specification.x ?? specification.position?.x, floorY, specification.z ?? specification.position?.z);
+	const hingeSide = specification.hingeSide || 'entry-left';
+	const hingeLocalX = hingeSide === 'entry-right' ? panelWidth / 2 : -panelWidth / 2;
+	const hingePoint = framePoint({ center, basis }, hingeLocalX, closedDepth);
+	const closedPoint = framePoint({ center, basis }, 0, closedDepth);
+	const closedCenter = freezePoint(closedPoint.x, openingBottomY + panelHeight / 2, closedPoint.z);
+	const swing = chooseDoorSwing(hingeLocalX, specification.openAngle, panelWidth);
 	const frame = {
 		id: specification.id || specification.doorId || 'Awtsmoos-door-frame',
 		houseId: specification.houseId || null,
@@ -31,9 +39,9 @@ export function normalizeDoorFrame(specification = {}) {
 		yaw,
 		basis,
 		wall: Object.freeze({
-			width: number(specification.wallW, 8),
-			height: number(specification.wallH, 3.5),
-			thickness: number(specification.wallT, 0.55)
+			width: finiteNumber(specification.wallW, 8),
+			height: finiteNumber(specification.wallH, 3.5),
+			thickness: finiteNumber(specification.wallT, 0.55)
 		}),
 		opening: Object.freeze({
 			width: openingWidth,
@@ -43,24 +51,27 @@ export function normalizeDoorFrame(specification = {}) {
 		}),
 		panel: Object.freeze({
 			width: panelWidth,
-			height: openingHeight - panelGap,
-			thickness: number(specification.doorThickness, number(specification.thickness, 0.22)),
+			height: panelHeight,
+			thickness: finiteNumber(specification.doorThickness, finiteNumber(specification.thickness, 0.22)),
 			closedDepth,
-			closedYaw: yaw
+			closedYaw: yaw,
+			closedCenter
 		}),
 		hinge: Object.freeze({
-			side: specification.hingeSide || 'entry-right',
-			localX: -panelWidth / 2,
-			worldPosition: Object.freeze({ ...hingePoint, y: 0 })
+			side: hingeSide,
+			localX: hingeLocalX,
+			worldPosition: freezePoint(hingePoint.x, openingBottomY, hingePoint.z)
 		}),
 		entry: Object.freeze({
 			outsideDirection: basis.outward,
 			insideDirection: basis.inward,
 			right: basis.entryRight,
-			rightJambLocalX: -openingWidth / 2,
+			rightJambLocalX: openingWidth / 2,
 			acrossYaw: yaw - Math.PI / 2
 		}),
-		openAngle: number(specification.openAngle, -Math.PI * 0.56),
+		swing,
+		openAngle: swing.openAngle,
+		closedWorldMatrix: Object.freeze(worldMatrixFromYaw(closedCenter, yaw)),
 		noEdge: !!specification.noEdge,
 		wallColor: specification.wallColor || '#ddd3c6',
 		doorColor: specification.doorColor || specification.color || '#8a5228'
@@ -83,9 +94,9 @@ export function doorHingeWorld(specification) {
 	return normalizeDoorFrame(specification).hinge.worldPosition;
 }
 
-export function entryRightRevealWorld(specification, inset = 0.055) {
+export function entryRightRevealWorld(specification, jambInset = 0.055, revealDepth = 0.04) {
 	const frame = normalizeDoorFrame(specification);
-	return framePoint(frame, frame.entry.rightJambLocalX + inset, 0);
+	return framePoint(frame, frame.entry.rightJambLocalX - jambInset, revealDepth);
 }
 
 export function normalizeAngle(value) {
@@ -96,8 +107,4 @@ export function snapAngle(value) {
 	const quarterTurn = Math.PI / 2;
 	const nearest = Math.round(value / quarterTurn) * quarterTurn;
 	return Math.abs(value - nearest) < 0.00000001 ? nearest : value;
-}
-
-function number(value, fallback) {
-	return Number.isFinite(value) ? value : fallback;
 }

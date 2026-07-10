@@ -4,19 +4,17 @@ import {
 	createPrimitiveMesh,
 	primitiveColliders
 } from './Box3D.js';
-import { v } from '../math/Geometry3D.js';
 import { colorArray } from './DoorCollisionGeometry.js';
+import { createDoorDebugEvidence } from './DoorDebugEvidence.js';
 import { DoorInteractionController } from './DoorInteractionController.js';
 import {
-	closedYaw,
 	colliderDefinition,
-	currentAngle,
-	hingeWorld,
+	doorPose,
 	orientedBox
 } from './DoorRuntimePose.js';
 import { tallDoorDef } from './DoorwaySpecs.js';
 
-/** Dynamic panel whose closed transform is identical to its owning wall frame. */
+/** One panel matrix governs sight, touch, and collision without stale yaw state. */
 export class DynamicDoor3D {
 	constructor(definition = tallDoorDef()) {
 		this.def = definition;
@@ -24,13 +22,13 @@ export class DynamicDoor3D {
 		this.state = 'closed';
 		this.hovered = false;
 		this.mesh = new Group();
-		this.mesh.name = `${definition.id}-hinge`;
+		this.mesh.name = `${definition.id}-panel-frame`;
 		this.panel = createPrimitiveMesh(panelDefinition(definition));
 		this.panel.name = `${definition.id}-dynamic-door`;
 		this.mesh.add(this.panel);
-		this.closedColliders = primitiveColliders(colliderDefinition(definition, 0));
 		this.interaction = new DoorInteractionController(this);
 		this.setPose();
+		this.closedColliders = [...this.currentColliders];
 	}
 
 	setInteractionContext(context = {}) {
@@ -54,16 +52,18 @@ export class DynamicDoor3D {
 	update(deltaTime) {
 		const direction = this.state === 'opening' ? 1 : this.state === 'closing' ? -1 : 0;
 		this.t = Math.max(0, Math.min(1, this.t + direction * deltaTime * 2.15));
-		if (this.t === 1) {
+		if (this.t >= 1) {
+			this.t = 1;
 			this.state = 'open';
-		} else if (this.t === 0) {
+		} else if (this.t <= 0) {
+			this.t = 0;
 			this.state = 'closed';
 		}
 		this.setPose();
 	}
 
 	activeColliders() {
-		return this.state === 'closed' ? this.closedColliders : [];
+		return this.currentColliders;
 	}
 
 	setHover(enabled) {
@@ -72,10 +72,18 @@ export class DynamicDoor3D {
 	}
 
 	setPose() {
-		const hinge = hingeWorld(this.def);
-		const yaw = closedYaw(this.def) + currentAngle(this.def, this.t);
-		this.mesh.position.set(hinge.x, hinge.y || 0, hinge.z);
-		this.mesh.quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
+		this.pose = doorPose(this.def, this.t);
+		this.mesh.matrix = new Float32Array(this.pose.matrix);
+		this.mesh.position.set(0, 0, 0);
+		this.mesh.quaternion.set(0, 0, 0, 1);
+		this.currentColliders = primitiveColliders(colliderDefinition(this.def, this.t));
+		this.refreshWorldMatrix();
+	}
+
+	refreshWorldMatrix() {
+		const parentMatrix = this.mesh.parent?.matrixWorld;
+		this.mesh.updateWorldMatrix(parentMatrix);
+		return this.mesh.matrixWorld;
 	}
 
 	obb() {
@@ -83,16 +91,7 @@ export class DynamicDoor3D {
 	}
 
 	debug() {
-		return {
-			id: this.def.id,
-			state: this.state,
-			closedYaw: closedYaw(this.def),
-			wallYaw: this.def.wallYaw,
-			colliders: this.closedColliders.length,
-			frame: this.def.frame,
-			obb: this.obb(),
-			interaction: this.interaction.debug()
-		};
+		return createDoorDebugEvidence(this);
 	}
 }
 
@@ -106,7 +105,7 @@ function panelDefinition(definition) {
 		mapImage: definition.mapImage || null,
 		textureUrl: definition.textureUrl || null,
 		mapRepeat: definition.mapRepeat || [1, 1],
-		position: v(definition.width / 2, definition.centerY, 0),
+		position: { x: 0, y: 0, z: 0 },
 		size: { x: definition.width, y: definition.height, z: definition.thickness },
 		rotation: { y: 0 }
 	};

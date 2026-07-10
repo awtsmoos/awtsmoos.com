@@ -20,7 +20,7 @@ import {
 	planHouseStaircase,
 	staircaseStats
 } from './house/HouseStairSystem.js';
-import { createStairDefinition } from './house/StairMeshBuilder.js';
+import { createStairDefinitions } from './house/StairMeshBuilder.js';
 
 export { DEFAULT_HOUSE_SPEC, HOUSE_ROOM_KINDS, createFutureHouseSpecs };
 
@@ -42,7 +42,7 @@ export function createModularHouse(assets = {}, specification = DEFAULT_HOUSE_SP
 		const layout = planHouseStaircase(spec, level - 1, level);
 		stairLayouts.push(layout);
 		definitions.push(...createStoryFloorPieces({ spec, material: materials.stone, level }));
-		definitions.push(createStairDefinition(layout, spec, materials.stone));
+		definitions.push(...createStairDefinitions(layout, spec, materials.stone));
 	}
 	if (spec.fence && groundSampler) {
 		definitions.push(...createFenceAlongPath({
