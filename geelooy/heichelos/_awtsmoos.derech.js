@@ -18,6 +18,7 @@ module.exports = async $i => {
         "/:heichel/submit": async v => await renderSubmit(v.heichel),
         "/:heichel/submitPost": async v => await $i.$ga("./heichel/submit/_awtsmoos.post.html", { heichel: v.heichel }),
         "/:heichel/post/:post": async vars => await renderPost(vars),
+        "/:heichel/series/:series/post/:post": async vars => await renderSeriesPost(vars),
         "/:heichel/series/:series/:index": async vars => await renderIndexedPost(vars),
         "/:heichel": async v => await renderHeichelShell(v.heichel)
     });
@@ -75,6 +76,10 @@ module.exports = async $i => {
         if (heichelDetails) heichelDetails.id = vars.heichel;
         if (post) { post.id = vars.post; post.heichel = heichelDetails; }
         return await $i.$ga("./post/_awtsmoos.post.html", { heichel: heichelDetails, post, alias: aliasDetails });
+    }
+
+    async function renderSeriesPost(vars) {
+        return await $i.$ga("./post/_awtsmoos.post.html", { heichel: vars.heichel, parentSeries: vars.series, postId: vars.post });
     }
 
     async function renderIndexedPost(vars) {

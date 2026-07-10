@@ -1,0 +1,13 @@
+{
+  "localRoot": "../../dayuhChadash",
+  "remoteRoot": "/srv/awtsmoos/dayuhChadash",
+  "host": "your-server.example.com",
+  "port": 22,
+  "username": "deploy",
+  "chunkBytes": 1048576,
+  "deleteExtraneous": false,
+  "excludes": [
+    "logs/**",
+    "tmp/**"
+  ]
+}

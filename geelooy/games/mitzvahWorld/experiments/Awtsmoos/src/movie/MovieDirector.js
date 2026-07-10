@@ -1,0 +1,104 @@
+// B"H
+/**
+ * @file MovieDirector.js
+ * @description Unifies NLE sampling, real world mutation, rendering, and preview time.
+ */
+import { MovieActorDirector } from './MovieActorDirector.js';
+import { MovieCameraDirector } from './MovieCameraDirector.js';
+import { MovieDoorDirector } from './MovieDoorDirector.js';
+import { MovieOverlay } from './MovieOverlay.js';
+import { MovieSceneDirector } from './MovieSceneDirector.js';
+import { MovieTimeline } from './MovieTimeline.js';
+
+export class MovieDirector {
+	constructor(runtime, project) {
+		this.runtime = runtime;
+		this.project = project;
+		this.timeline = new MovieTimeline(project);
+		this.actors = new MovieActorDirector(runtime);
+		this.cameras = new MovieCameraDirector(runtime);
+		this.doors = new MovieDoorDirector(runtime);
+		this.scenes = new MovieSceneDirector(runtime);
+		this.overlay = new MovieOverlay(project);
+		this.time = 0;
+		this.playing = false;
+		this.animationFrame = 0;
+		this.lastFrame = null;
+		this.resize();
+	}
+
+	resize() {
+		const { width, height } = this.project.resolution;
+		this.runtime.camera.aspect = width / height;
+		this.runtime.renderer.setSize(width, height);
+		this.overlay.canvas.width = width;
+		this.overlay.canvas.height = height;
+	}
+
+	seek(time, deltaTime = 1 / this.project.fps) {
+		this.time = Math.max(0, Math.min(this.project.duration, Number(time) || 0));
+		const snapshot = this.timeline.snapshot(this.time);
+		this.actors.apply(snapshot.byType.actor || [], deltaTime);
+		this.doors.apply(snapshot.byType.door || []);
+		const camera = (snapshot.byType.camera || []).at(-1) || null;
+		this.cameras.apply(camera);
+		const scene = this.scenes.apply((snapshot.byType.scene || []).at(-1) || null);
+		this.runtime.shadows.update({
+			state: this.runtime.state,
+			ground: this.runtime.ground,
+			npc: this.runtime.npc,
+			worldMode: this.runtime.worldMode
+		});
+		this.runtime.renderer.setInteractor(this.runtime.state, this.time);
+		this.runtime.renderer.render(this.runtime.scene, this.runtime.camera);
+		const dialogue = (snapshot.byType.dialogue || []).at(-1)?.clip || null;
+		this.lastFrame = {
+			time: this.time,
+			snapshot,
+			scene,
+			dialogue,
+			shot: this.cameras.currentShot,
+			renderer: this.runtime.renderer.stats
+		};
+		this.overlay.draw(this.runtime.renderer.canvas, this.lastFrame);
+		return this.lastFrame;
+	}
+
+	play(options = {}) {
+		this.pause();
+		this.playing = true;
+		const startAt = Math.max(0, Number(options.startAt ?? this.time));
+		const started = performance.now() - startAt * 1000;
+		let previous = startAt;
+		const frame = (now) => {
+			if (!this.playing) return;
+			const time = Math.min(this.project.duration, (now - started) / 1000);
+			const delta = Math.max(.001, Math.min(.1, time - previous || 1 / this.project.fps));
+			previous = time;
+			const state = this.seek(time, delta);
+			options.onFrame?.(state);
+			if (time >= this.project.duration) {
+				this.playing = false;
+				options.onEnd?.(state);
+				return;
+			}
+			this.animationFrame = requestAnimationFrame(frame);
+		};
+		this.animationFrame = requestAnimationFrame(frame);
+		return this;
+	}
+
+	pause() {
+		this.playing = false;
+		if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+		this.animationFrame = 0;
+		return this;
+	}
+
+	destroy() {
+		this.pause();
+		this.overlay.canvas.remove();
+	}
+}
+
+export default MovieDirector;

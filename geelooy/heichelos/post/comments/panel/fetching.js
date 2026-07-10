@@ -1,122 +1,102 @@
-/**
- * B"H
- * @module CommentFetchingEngine
- * @description
- * Chapter 211: The sidebar reads the new API directly.
- * No stale helper cache blocks the chamber. Alias discovery and per-alias
- * comments use the named post-comment routes under geelooy/api/social, while
- * unrolling still accepts arrays, maps, success wrappers, and old vessels.
- */
-
+// B"H
+/** Sidebar fetching: rich API first, imported corpus fallback, all verse comments when no paragraph is selected. */
 import { unrollApiResponse } from "../logic/unroller.js";
 import { data, getInlineAliases } from "../state.js";
-
-function normalizeDayuh(raw) {
+const whole = value => value == null || value === "" || value === "root" || value === "all";
+const unique = items => Array.from(new Set((items || []).filter(Boolean).map(String)));
+function dayuh(raw) {
     if (!raw) return {};
-    if (typeof raw === "string") {
-        try { return JSON.parse(raw) || {}; } catch { return {}; }
-    }
+    if (typeof raw === "string") { try { return JSON.parse(raw) || {}; } catch { return {}; } }
     return typeof raw === "object" ? raw : {};
 }
-
-function mainSub(value) {
-    return value === undefined || value === null || value === "" || value === "main" || value === "root";
+function context() {
+    return {
+        heichelId:window.post?.heichel?.id || window.heichelId || "ikar",
+        seriesId:window.post?.parentSeriesId || window.post?.seriesId || window.series?.id || "root",
+        postId:window.post?.id || ""
+    };
 }
-
-function wholeScroll(value) {
-    return value === undefined || value === null || value === "" || value === "root" || value === "all";
+function richBase() {
+    const c = context();
+    return `/api/social/heichelos/${c.heichelId}/series/${c.seriesId}/post/${c.postId}/comments`;
 }
-
-function uniqueAliases(items) {
-    return Array.from(new Set((items || []).filter(Boolean).map(String)));
-}
-
-function scopedAliasSeeds(verseAliases = []) {
-    return uniqueAliases([...verseAliases, ...getInlineAliases()]);
-}
-
-function postApiBase() {
-    return `/api/social/heichelos/${window.post.heichel.id}/series/${window.post.parentSeriesId}/post/${window.post.id}/comments`;
-}
-
-async function readJson(url) {
-    const response = await fetch(url, { cache: "no-store" });
-    const text = await response.text();
-    try { return JSON.parse(text); } catch { return text; }
-}
-
-function aliasQuery(verseSection) {
-    const params = new URLSearchParams();
-    if (!wholeScroll(verseSection)) params.set("verseSection", verseSection);
-    else params.set("all", "true");
-    params.set("_awt", String(Date.now()));
-    return params;
-}
-
-function commentsQuery(verseSection) {
-    const params = aliasQuery(verseSection);
-    params.set("map", "true");
-    return params;
-}
-
-function cacheKeyFor(verseSection) {
-    return wholeScroll(verseSection) ? "all-scroll" : `${verseSection}-verse-all`;
-}
-
-async function fetchVerseAliases(verseSection, forceFresh) {
-    const cacheKey = cacheKeyFor(verseSection);
-    if (!forceFresh && data.aliases?.[cacheKey]) return data.aliases[cacheKey].aliases;
+async function readJson(url, timeoutMs=5000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-        const url = `${postApiBase()}/aliases?${aliasQuery(verseSection)}`;
-        const result = await readJson(url);
-        const aliases = unrollApiResponse(result);
-        if (Array.isArray(aliases)) {
-            if (!data.aliases) data.aliases = {};
-            data.aliases[cacheKey] = { aliases, lastModified: Date.now() };
-            return aliases;
-        }
-    } catch (error) {
-        if (window.__awtsmoosInlineDebug) console.error("B\"H - Alias fetch rupture:", error);
+        const response = await fetch(url, { cache:"no-store", signal:controller.signal });
+        const text = await response.text();
+        try { return JSON.parse(text); } catch { return text; }
+    } finally { clearTimeout(timer); }
+}
+function richQuery(verse) {
+    const q = new URLSearchParams({ _awt:String(Date.now()) });
+    if (whole(verse)) q.set("all", "true"); else q.set("verseSection", verse);
+    return q;
+}
+function corpusQuery({ aliasId, verse, sub }) {
+    const q = new URLSearchParams(context());
+    if (aliasId) q.set("aliasId", aliasId);
+    if (!whole(verse)) q.set("verseSection", verse);
+    if (sub != null && sub !== "null" && sub !== "") q.set("subSection", sub);
+    return q;
+}
+function cacheKey(verse) { return whole(verse) ? "all-scroll" : `${verse}-verse-all`; }
+async function corpusAliases(verse) {
+    const payload = await readJson(`/api/social/search/rag/post-comments?${corpusQuery({ verse })}`, 20000);
+    return unique(unrollApiResponse(payload));
+}
+async function fetchVerseAliases(verse, fresh) {
+    const key = cacheKey(verse);
+    if (!fresh && data.aliases?.[key]) return data.aliases[key].aliases;
+    let aliases = [];
+    try { aliases = unrollApiResponse(await readJson(`${richBase()}/aliases?${richQuery(verse)}`)); } catch (_) {}
+    if (!Array.isArray(aliases) || !aliases.length) {
+        try { aliases = await corpusAliases(verse); } catch (_) { aliases = []; }
     }
-    return [];
+    aliases = unique([...(aliases || []), ...getInlineAliases()]);
+    if (!data.aliases) data.aliases = {};
+    data.aliases[key] = { aliases, lastModified:Date.now() };
+    return aliases;
 }
-
-export async function getAndSaveAliases(full = false, forceFresh = false, forcedIdx = null, forcedSub = undefined) {
-    if (!window.post || !window.post.heichel) return [];
-    const params = new URLSearchParams(location.search);
-    const verseSection = forcedIdx !== null ? forcedIdx : params.get("idx");
-    let subSection = forcedSub !== undefined ? forcedSub : params.get("sub");
-    if (subSection === null || subSection === "null") subSection = undefined;
-    const verseAliases = await fetchVerseAliases(verseSection, forceFresh);
-    const aliases = scopedAliasSeeds(verseAliases);
-    if (subSection === undefined || wholeScroll(verseSection)) return aliases;
-    const checks = await Promise.all(aliases.map(async aliasId => {
-        const relevant = await fetchRelevantComments(aliasId, verseSection, subSection, forceFresh);
-        return relevant.length ? aliasId : null;
-    }));
-    return uniqueAliases(checks);
-}
-
-export async function fetchRelevantComments(alias, cv, cs, forceFresh = false) {
-    const cacheKey = `${alias}:${cacheKeyFor(cv)}:${cs ?? "all"}`;
-    if (!forceFresh && data.commentCache?.[cacheKey]) return data.commentCache[cacheKey];
-    const result = await readJson(`${postApiBase()}/aliases/${encodeURIComponent(alias)}?${commentsQuery(cv)}`);
-    const allVerseComments = unrollApiResponse(result);
-    if (!Array.isArray(allVerseComments)) return [];
-    const filtered = wholeScroll(cv) ? allVerseComments : allVerseComments.filter(comment => {
-        const dayuh = normalizeDayuh(comment.dayuh);
-        const cVerse = dayuh.verseSection ?? comment.verseSection ?? cv;
-        const cSub = dayuh.subSection;
-        if (String(cVerse) !== String(cv)) return false;
-        if (cs === null || cs === undefined || cs === "null") return mainSub(cSub);
-        return String(cSub) === String(cs) || mainSub(cSub);
+function filterComments(rows, verse, sub) {
+    if (whole(verse)) return rows;
+    return rows.filter(comment => {
+        const meta = dayuh(comment.dayuh);
+        const commentVerse = meta.verseSection ?? comment.verseSection ?? verse;
+        const commentSub = meta.subSection ?? comment.subsection;
+        if (String(commentVerse) !== String(verse)) return false;
+        if (sub == null || sub === "null" || sub === "") return true;
+        return String(commentSub) === String(sub);
     });
+}
+async function corpusComments(alias, verse, sub) {
+    const payload = await readJson(`/api/social/search/rag/post-comments?${corpusQuery({ aliasId:alias, verse, sub })}`, 30000);
+    const rows = unrollApiResponse(payload);
+    return Array.isArray(rows) ? rows : [];
+}
+export async function getAndSaveAliases(full=false, fresh=false, forcedIdx=null, forcedSub=undefined) {
+    if (!window.post?.heichel) return [];
+    const url = new URLSearchParams(location.search);
+    const verse = forcedIdx !== null ? forcedIdx : url.get("idx");
+    let sub = forcedSub !== undefined ? forcedSub : url.get("sub");
+    if (sub === "null") sub = undefined;
+    const aliases = await fetchVerseAliases(verse, fresh);
+    if (sub === undefined || whole(verse)) return aliases;
+    const checks = await Promise.all(aliases.map(async alias => (await fetchRelevantComments(alias, verse, sub, fresh)).length ? alias : null));
+    return unique(checks);
+}
+export async function fetchRelevantComments(alias, verse, sub, fresh=false) {
+    const key = `${alias}:${cacheKey(verse)}:${sub ?? "all"}`;
+    if (!fresh && data.commentCache?.[key]) return data.commentCache[key];
+    let rows = [];
+    try { const q = richQuery(verse); q.set("map", "true"); rows = unrollApiResponse(await readJson(`${richBase()}/aliases/${encodeURIComponent(alias)}?${q}`)); } catch (_) {}
+    if (!Array.isArray(rows) || !rows.length) {
+        try { rows = await corpusComments(alias, verse, sub); } catch (_) { rows = []; }
+    }
+    const filtered = filterComments(Array.isArray(rows) ? rows : [], verse, sub);
     if (!data.commentCache) data.commentCache = {};
-    data.commentCache[cacheKey] = filtered;
+    data.commentCache[key] = filtered;
     return filtered;
 }
-
-export function clearSidebarCommentCache() {
-    data.commentCache = {};
-    data.aliases = {};
-}
+export function clearSidebarCommentCache() { data.commentCache = {}; data.aliases = {}; }

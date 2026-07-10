@@ -1,117 +1,51 @@
 // B"H
-/**
- * @module SocialRagComments
- * @description
- * The vector hit is a lantern, not the body. First it seeks the new corpus
- * shards written by the normal AwtsmoosDB runtime; if the shard is absent it
- * falls back to the old main packed DB through $i.db. CommentTree still wins
- * for Meluket because that is the newer living form.
- */
 const fs = require('fs');
 const path = require('path');
-const AwtsmoosDB = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
-const awts = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js');
+const DB = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB');
+const awts = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON');
 const richPaths = require('../../comments/richCommentPaths.js');
+const { loadImported } = require('../../comments/imported/orchestrator.js');
 const { dbRoot } = require('./paths.js');
-const shardCache = new Map();
+const { commentsForSegment } = require('./segmentComments.js');
+const { importedCoordinates } = require('./importedCoordinates.js');
+const cache = new Map();
 async function get($i, p) { try { return await $i.db.get(p); } catch { return null; } }
-function manifestPath($i) { return path.join(dbRoot($i), 'socialPacked', 'comment-corpus-shards.v2.manifest.json'); }
-function readManifest($i) { try { return JSON.parse(fs.readFileSync(manifestPath($i), 'utf8')); } catch { return null; } }
-function parseLegacyPath(p) {
-  const m = String(p || '').replace(/\.(awtsmoosJSON|json)$/i, '').match(/\/social\/heichelos\/([^/]+)\/comments\/atSeries\/([^/]+)\/atPost\/([^/]+)\/([^/.]+)/);
-  return m ? { heichelId: m[1], seriesId: m[2], postId: m[3], aliasId: m[4] } : null;
+function manifest($i) { try { return JSON.parse(fs.readFileSync(path.join(dbRoot($i), 'socialPacked/comment-corpus-shards.v2.manifest.json'), 'utf8')); } catch { return null; } }
+function open(file) { let db=cache.get(file); if(!db){db=new DB(file,{readOnly:true,wal:false,processLockMode:'shared',lockMode:'shared'});db.open();cache.set(file,db)} return db; }
+function object(file, virtualPath) { const db=open(file), p=String(virtualPath).replace(/\.(awtsmoosJSON|json)$/i,''); const s=db.fs.stat(p); return s?.exists&&s.type==='file'?awts.deserializeBinary(db.fs.readRange(p,0,s.size)):null; }
+function rawVerse(row, fallback) { return row?.verseSection ?? row?.dayuh?.verseSection ?? fallback ?? ''; }
+function rawSub(row) { return row?.dayuh?.subSection ?? row?.subSection ?? row?.subsection ?? ''; }
+function flatten(value) { const out=[]; for(const [verse,list] of Object.entries(value||{})) if(Array.isArray(list)) for(const row of list) out.push({...row,verseSection:rawVerse(row,verse)}); return out; }
+function slim(row, extra={}) {
+  if(!row)return null; const aliasId=row.aliasId||row.author||row.authorAliasId||row.dayuh?.aliasId||extra.aliasId||'';
+  const sourceVerse=rawVerse(row,extra.verseSection), sourceSub=rawSub(row);
+  const coords=extra.imported?importedCoordinates(row,sourceVerse):{sourceVerseSection:String(sourceVerse),sourceSubSection:sourceSub===''?'':String(sourceSub),verseSection:String(sourceVerse),subSection:sourceSub};
+  const subsectionId=coords.sourceSubSection===''?coords.sourceVerseSection:`${coords.sourceVerseSection}:${coords.sourceSubSection}`;
+  return {...row,id:row.id,aliasId,author:row.author||aliasId,heichelId:row.heichelId||extra.heichelId||'ikar',seriesId:row.seriesId||extra.seriesId||'',postId:row.postId||row.entityId||extra.postId||'',verseSection:coords.verseSection,subsection:coords.subSection,subsectionId,sourceVerseSection:coords.sourceVerseSection,sourceSubSection:coords.sourceSubSection,coordinateBasis:extra.imported?'source-one-based-reader-zero-based':'native-reader',parentType:row.parentType||extra.parentType||'post',dayuh:{...(row.dayuh||{}),verseSection:coords.verseSection,...(coords.subSection===''?{}:{subSection:coords.subSection}),sourceVerseSection:coords.sourceVerseSection,sourceSubSection:coords.sourceSubSection}};
 }
-function shardFor($i, legacyPath) {
-  const info = parseLegacyPath(legacyPath);
-  if (!info) return null;
-  const manifest = readManifest($i);
-  return (manifest?.shards || []).find(s => s.alias === info.aliasId && s.series && s.series[info.seriesId] && fs.existsSync(s.file)) || null;
+function shards($i, seriesId, aliasId) { return (manifest($i)?.shards||[]).filter(x=>fs.existsSync(x.file)&&(!seriesId||x.series?.[seriesId])&&(!aliasId||x.alias===aliasId)); }
+function legacyPath({heichelId,seriesId,postId,aliasId}) { return `/social/heichelos/${heichelId}/comments/atSeries/${seriesId}/atPost/${postId}/${aliasId}`; }
+function filter(rows, verse, sub) { return rows.filter(row=>(verse==null||verse===''||verse==='all'||[row.verseSection,row.sourceVerseSection].map(String).includes(String(verse)))&&(sub==null||sub===''||sub==='all'||[row.subsection,row.sourceSubSection].map(String).includes(String(sub)))); }
+async function importedRows({$i,heichelId,seriesId,postId,aliasId,verseSection,subSection}) {
+  const result=await loadImported({$i,heichelId,seriesId,postId,verseSection:verseSection==null?'':String(verseSection),subsectionId:subSection==null?'':String(subSection)});
+  return (result.rows||[]).filter(row=>!aliasId||String(row.aliasId)===String(aliasId));
 }
-function safeClose(db) { try { db.pager?.close?.(); } catch {} try { db.processLock?.release?.(); } catch {} }
-function readShardObject($i, legacyPath) {
-  const shard = shardFor($i, legacyPath);
-  if (!shard) return null;
-  let db = shardCache.get(shard.file);
-  if (!db) {
-    db = new AwtsmoosDB(shard.file, { debug: false, readOnly: true, wal: false, processLockMode: 'shared', lockMode: 'shared' });
-    db.open();
-    shardCache.set(shard.file, db);
-  }
-  const p = String(legacyPath || '').replace(/\.(awtsmoosJSON|json)$/i, '');
-  const st = db.fs.stat(p);
-  if (!st?.exists || st.type !== 'file') return null;
-  return { object: awts.deserializeBinary(db.fs.readRange(p, 0, st.size)), shard };
+async function findCommentsForPostAlias(ctx) {
+  const rows=[]; for(const shard of shards(ctx.$i,ctx.seriesId,ctx.aliasId)){const value=object(shard.file,legacyPath({...ctx,aliasId:shard.alias}));if(value)for(const row of flatten(value))rows.push(slim(row,{...ctx,aliasId:shard.alias,imported:true}));}
+  if(!rows.length) rows.push(...await importedRows(ctx));
+  return filter(rows,ctx.verseSection,ctx.subSection);
 }
-function verseOf(row, fallback) { return String(row?.verseSection ?? row?.dayuh?.verseSection ?? fallback ?? ''); }
-function subsectionRaw(row) { return row?.dayuh?.subSection ?? row?.subSection ?? row?.subsection ?? ''; }
-function subsectionId(row) {
-  if (row?.subsectionId) return row.subsectionId;
-  const verse = verseOf(row), sub = subsectionRaw(row);
-  if (sub === '' || sub == null) return verse || '';
-  return `${verse}:${sub}`;
+async function findAliasesForPost(ctx) {
+  const found=[]; for(const shard of shards(ctx.$i,ctx.seriesId)) if((await findCommentsForPostAlias({...ctx,aliasId:shard.alias})).length) found.push(shard.alias);
+  if(!found.length) found.push(...(await importedRows(ctx)).map(x=>x.aliasId));
+  return [...new Set(found.filter(Boolean))];
 }
-function flatten(obj) {
-  const out = [];
-  for (const [verseSection, rows] of Object.entries(obj || {})) {
-    if (!Array.isArray(rows)) continue;
-    for (const row of rows) out.push({ ...row, verseSection: verseOf(row, verseSection) });
-  }
-  return out;
+async function findCommentById(ctx) {
+  const rich=ctx.postId?await get(ctx.$i,richPaths.commentPath(ctx)):null; if(rich)return {success:slim(rich,ctx),source:'commentTree'};
+  for(const aliasId of await findAliasesForPost(ctx)){const row=(await findCommentsForPostAlias({...ctx,aliasId})).find(x=>String(x.id)===String(ctx.commentId));if(row)return {success:row,source:'imported'};}
+  return {error:{code:'COMMENT_NOT_FOUND',message:'Comment not found in CommentTree or imported corpus.'}};
 }
-function context(hit, id) { return { heichelId: hit.heichelId || 'ikar', postId: hit.postId, commentId: id }; }
-function slim(row, extra = {}) {
-  if (!row) return null;
-  const aliasId = row.aliasId || row.author || row.authorAliasId || row.dayuh?.aliasId || extra.aliasId || '';
-  const verseSection = verseOf(row, extra.verseSection);
-  const subRaw = subsectionRaw(row);
-  return {
-    id: row.id,
-    aliasId,
-    author: row.author || aliasId,
-    heichelId: row.heichelId || extra.heichelId || 'ikar',
-    seriesId: row.seriesId || extra.seriesId || '',
-    postId: row.postId || row.entityId || extra.postId || '',
-    verseSection,
-    verseNumber: verseSection,
-    subsection: subRaw,
-    subsectionId: subsectionId(row),
-    parentId: row.parentId || '',
-    parentType: row.parentType || extra.parentType || 'entity',
-    parentSectionId: row.parentSectionId || '',
-    isReply: Boolean(row.parentId),
-    content: row.content,
-    dayuh: row.dayuh || null
-  };
-}
-function fallbackMeta(hit, id) {
-  return { id, aliasId: hit.aliasId || hit.author || hit.commentAlias || '', heichelId: hit.heichelId || 'ikar', seriesId: hit.seriesId || '', postId: hit.postId || '', verseSection: hit.verseStart || hit.verseSection || '', parentType: hit.parentType || 'entity' };
-}
-async function legacyObject($i, hit) {
-  if (!hit.commentPath) return { object: null, source: 'missing', shard: null };
-  const shardHit = readShardObject($i, hit.commentPath);
-  if (shardHit?.object) return { object: shardHit.object, source: 'corpusShard', shard: shardHit.shard };
-  return { object: await get($i, hit.commentPath), source: 'legacyAliasObject', shard: null };
-}
-async function originalRowsForHit({ $i, hit, maxRows = 25 }) {
-  const ids = (hit.commentIds || [hit.firstCommentId, hit.lastCommentId]).filter(Boolean).slice(0, maxRows);
-  const legacy = await legacyObject($i, hit);
-  const byId = new Map(flatten(legacy.object).map(row => [row.id, row]));
-  const out = [];
-  for (const id of ids) {
-    const richPath = richPaths.commentPath(context(hit, id));
-    const rich = await get($i, richPath);
-    const legacyRow = byId.get(id) || null;
-    const row = rich || legacyRow || null;
-    const meta = fallbackMeta(hit, id);
-    const source = rich ? 'commentTree' : legacyRow ? legacy.source : 'missing';
-    out.push({ id, found: Boolean(row), source, sourcePath: rich ? richPath : hit.commentPath || '', shardFile: !rich && legacyRow ? legacy.shard?.file || '' : '', row: slim(row, meta), provenance: row ? slim(row, meta) : meta });
-  }
-  return out;
-}
-async function joinComments({ $i, hits, maxRows }) {
-  const out = [];
-  for (const hit of hits) out.push({ ...hit, comments: await originalRowsForHit({ $i, hit: hit.row, maxRows }) });
-  return out;
-}
-process.once('exit', () => { for (const db of shardCache.values()) safeClose(db); });
-module.exports = { originalRowsForHit, joinComments, subsectionId, readShardObject };
+async function originalRowsForHit({$i,hit,maxRows=25}) { const imported=await findCommentsForPostAlias({$i,heichelId:hit.heichelId||'ikar',seriesId:hit.seriesId,postId:hit.postId,aliasId:hit.aliasId}); const map=new Map(imported.map(x=>[x.id,x])); const ordered=(hit.commentIds||[hit.firstCommentId,hit.lastCommentId]).filter(Boolean).map(id=>map.get(id)).filter(Boolean); const selected=commentsForSegment(ordered,hit.text||hit.previewEnglish||'',maxRows); return Promise.all(selected.map(async item=>{const rich=await get($i,richPaths.commentPath({heichelId:hit.heichelId||'ikar',postId:hit.postId,commentId:item.id}));const row=rich?slim(rich,hit):item;return {id:item.id,found:Boolean(row),source:rich?'commentTree':'imported',row,segmentMatch:item.segmentMatch,overlap:item.overlap,provenance:row||{id:item.id,...hit}};})); }
+async function joinComments({$i,hits,maxRows}) { const out=[]; for(const hit of hits)out.push({...hit,comments:await originalRowsForHit({$i,hit:hit.row,maxRows})}); return out; }
+process.once('exit',()=>{for(const db of cache.values()){try{db.pager?.close?.()}catch{}try{db.processLock?.release?.()}catch{}}});
+module.exports={originalRowsForHit,joinComments,findCommentById,findCommentsForPostAlias,findAliasesForPost};

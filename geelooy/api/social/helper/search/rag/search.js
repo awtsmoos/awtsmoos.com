@@ -1,9 +1,8 @@
 // B"H
 /**
  * @module SocialRagSearch
- * @description A question enters local llama, becomes a vector, then searches
- * the fastest available shard. Timings reveal embedding, shard loading, vector
- * scoring, and live comment hydration.
+ * @description Searches vector shards, hydrates real comments, and returns both
+ * post-level passages and a flat relevance-sorted comment result stream.
  */
 const fs = require('fs');
 const path = require('path');
@@ -12,12 +11,13 @@ const { resolveShard, rowsOf } = require('./shards.js');
 const { sortHits } = require('./math.js');
 const { embedQuery } = require('./llama.js');
 const { joinComments } = require('./comments.js');
+const { buildCommentHits } = require('./commentRelevance.js');
 const { ragRoot } = require('./paths.js');
 const { now, timed } = require('./timer.js');
 const DIMS = 384;
 function cleanRow(row) {
   const { vec, embedding, vector, text, sampleContent, previewEnglish, ...rest } = row || {};
-  return { ...rest, vectorDimensions: (vec || embedding || vector || []).length };
+  return { ...rest, previewEnglish, sampleContent, text, vectorDimensions: (vec || embedding || vector || []).length };
 }
 function exists(p) { try { return fs.existsSync(p); } catch { return false; } }
 function sidecarFor($i, shard) {
@@ -61,8 +61,9 @@ async function ragSearch({ $i, lane, query, limit = 10, includeComments = true, 
   const emb = await timed('embeddingMs', timings, () => embedQuery({ $i, query, autoInstall }));
   const source = await timed('loadVectorsMs', timings, () => rowsForShard($i, shard));
   const hits = await timed('scoreVectorsMs', timings, async () => sortHits(source.rows, emb.vector, limit).map(hit => ({ ...hit, row: cleanRow(hit.row) })));
-  const finalHits = includeComments ? await timed('hydrateCommentsMs', timings, () => joinComments({ $i, hits, maxRows: maxCommentRows })) : hits;
+  const hydrated = includeComments ? await timed('hydrateCommentsMs', timings, () => joinComments({ $i, hits, maxRows: maxCommentRows })) : hits;
+  const commentHits = includeComments ? await timed('rankCommentsMs', timings, async () => buildCommentHits(hydrated, query, Math.min(120, Math.max(limit * maxCommentRows, limit)))) : [];
   timings.totalMs = Number((now() - totalStart).toFixed(3));
-  return { BH: 'B"H', query, shard, totalRows: source.rows.length, vectorSource: source.source, engine: 'llama-local-vector-rag', timings, embedder: emb.embedder, hits: finalHits };
+  return { BH: 'B"H', query, shard, totalRows: source.rows.length, vectorSource: source.source, engine: 'llama-local-vector-rag', timings, embedder: emb.embedder, hits: hydrated, commentHits };
 }
 module.exports = { ragSearch, rowsForShard, sidecarFor };

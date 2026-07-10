@@ -1,0 +1,10 @@
+{
+  "localRoot": "../../dayuhChadash",
+  "remoteRoot": "/root/dayuhChadash",
+  "host": "awtsmoos.com",
+  "port": 22,
+  "username": "root",
+  "chunkBytes": 1048576,
+  "deleteExtraneous": true,
+  "excludes": []
+}

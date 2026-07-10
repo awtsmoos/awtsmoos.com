@@ -1,50 +1,60 @@
 // B"H
-/**
- * @module SocialRagShards
- * @description Every corpus is a lane of one highway: Likkutei Sichos, Meluket,
- * and Sefer HaSichos reveal themselves from live packed AwtsmoosDB shards.
- */
 const fs = require('fs');
 const path = require('path');
 const AwtsmoosDB = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
 const { ragRoot, existingJson, stat } = require('./paths.js');
-function slug(name) { return path.basename(name, '.awtsdb').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase(); }
-function label(s) { return s.replace(/-/g, ' ').replace(/\b\w/g, m => m.toUpperCase()); }
-function aliases(id) {
-  const out = [id];
-  if (id.includes('meluket')) out.push('meluket', 'maamar-meluket');
-  if (id.includes('hasichos')) out.push('sefer-hasichos', 'dvar-hasichos', 'dr-hasichos');
-  if (id.includes('likkutei')) out.push('likkutei-sichos', 'likutei-sichos', 'ls');
-  return [...new Set(out)];
+
+function slug(name) {
+	return path.basename(name, '.awtsdb').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
 }
-function rowsOf(list) { const plain = list?.__resolve__?.(); return Array.isArray(plain) ? plain : Array.from({ length: Number(list?.length || 0) }, (_, i) => list[i]); }
+function label(value) {
+	return value.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+}
+function aliases(id) {
+	const values = [id];
+	if (id.includes('meluket')) values.push('meluket', 'maamar-meluket');
+	if (id.includes('hasichos')) values.push('sefer-hasichos', 'dvar-hasichos', 'dr-hasichos');
+	if (id.includes('likkutei')) values.push('likkutei-sichos', 'likutei-sichos', 'ls');
+	if (id.includes('sichos-kodesh')) values.push('sichos-kodesh', 'sichos-kodesh-english', 'sk');
+	return [...new Set(values)];
+}
+function rowsOf(list) {
+	const plain = list?.__resolve__?.();
+	return Array.isArray(plain) ? plain : Array.from({ length: Number(list?.length || 0) }, (_, index) => list[index]);
+}
 async function inspectShard(file) {
-  const db = new AwtsmoosDB(file, { debug: false, wal: false, readOnly: true, processLockMode: 'shared', lockMode: 'shared' });
-  await db.open();
-  try {
-    const names = Object.keys(db.root).filter(k => !k.startsWith('__'));
-    const listName = names.find(k => db.root[k] && typeof db.root[k].length === 'number');
-    const row = listName ? db.root[listName][0] : null;
-    return { listName, count: listName ? Number(db.root[listName].length || 0) : 0, sampleKeys: row ? Object.keys(row) : [] };
-  } finally { await db.close?.(); }
+	const db = new AwtsmoosDB(file, { debug: false, wal: false, readOnly: true, processLockMode: 'shared', lockMode: 'shared' });
+	await db.open();
+	try {
+		const names = Object.keys(db.root).filter(key => !key.startsWith('__'));
+		const listName = names.find(key => db.root[key] && typeof db.root[key].length === 'number');
+		const row = listName ? db.root[listName][0] : null;
+		return { listName, count: listName ? Number(db.root[listName].length || 0) : 0, sampleKeys: row ? Object.keys(row) : [] };
+	} finally {
+		await db.close?.();
+	}
 }
 async function availableShards({ $i }) {
-  const root = ragRoot($i), files = fs.existsSync(root) ? fs.readdirSync(root) : [];
-  const awts = files.filter(f => f.endsWith('.awtsdb') && !f.includes('smoke')).map(f => path.join(root, f));
-  const out = [];
-  for (const file of awts) {
-    try {
-      const id = slug(file), manifest = existingJson(file.replace(/\.awtsdb$/, '.fast-manifest.json')) || existingJson(file.replace(/\.awtsdb$/, '.BENTO.summary.json'));
-      const info = await inspectShard(file); if (!info.listName) continue;
-      const st = stat(file);
-      out.push({ id, aliases: aliases(id), title: manifest?.title || label(id), file, listName: info.listName, count: info.count, bytes: st?.size || 0, sampleKeys: info.sampleKeys });
-    } catch (e) { out.push({ id: slug(file), file, error: e.message }); }
-  }
-  return out.sort((a, b) => (b.count || 0) - (a.count || 0));
+	const root = ragRoot($i);
+	const files = fs.existsSync(root) ? fs.readdirSync(root) : [];
+	const shards = files.filter(file => file.endsWith('.awtsdb') && !file.includes('smoke')).map(file => path.join(root, file));
+	const output = [];
+	for (const file of shards) {
+		try {
+			const id = slug(file);
+			const manifest = existingJson(file.replace(/\.awtsdb$/, '.fast-manifest.json')) || existingJson(file.replace(/\.awtsdb$/, '.BENTO.summary.json'));
+			const info = await inspectShard(file);
+			if (!info.listName) continue;
+			output.push({ id, aliases: aliases(id), title: manifest?.title || label(id), file, ...info, bytes: stat(file)?.size || 0 });
+		} catch (error) {
+			output.push({ id: slug(file), file, error: error.message });
+		}
+	}
+	return output.sort((left, right) => (right.count || 0) - (left.count || 0));
 }
 async function resolveShard({ $i, lane }) {
-  const all = await availableShards({ $i });
-  const id = String(lane || '').toLowerCase();
-  return all.find(s => s.id === id || s.aliases?.includes(id) || s.id.includes(id)) || all[0] || null;
+	const all = await availableShards({ $i });
+	const id = String(lane || '').toLowerCase();
+	return all.find(shard => shard.id === id || shard.aliases?.includes(id) || shard.id.includes(id)) || all[0] || null;
 }
 module.exports = { rowsOf, availableShards, resolveShard };
