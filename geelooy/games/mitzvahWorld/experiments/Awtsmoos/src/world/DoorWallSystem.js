@@ -1,14 +1,125 @@
 // B"H
-import { doorPanelDepth,normalizeDoorFrame } from './HouseDoorGeometry.js';
+import {
+	doorPanelDepth,
+	normalizeDoorFrame
+} from './HouseDoorGeometry.js';
 
-/** One normalized frame produces the wall opening and the matching hinged panel. */
-export function createDoorWallSet(spec,material={}){const frame=normalizeDoorFrame(spec);return{wall:doorWallDef(frame,material),door:doorDefFromWall(frame,material.doorMaterial||{}),spec:frame};}
-export function doorWallDef(spec,material={}){
-  const s=normalizeDoorFrame(spec);
-  return{id:s.wallId,shape:'doorway',solid:true,walkable:false,noEdge:!!s.noEdge,color:material.color||s.wallColor,mapImage:material.mapImage||null,textureUrl:material.textureUrl||material.mapImage?.dataset?.url||material.mapImage?.src||null,mapRepeat:material.mapRepeat||[1,1],anisotropy:material.anisotropy??2,backfaceCull:!!material.backfaceCull,texturePolicy:material.texturePolicy||null,position:{x:s.x,y:s.floorY+s.wallH/2,z:s.z},size:{x:s.wallW,y:s.wallH,z:s.wallT},door:{x:s.doorW,y:s.doorH},yaw:s.yaw,rotation:{y:s.yaw},userData:{AwtsmoosDoorWallSpec:s}};
+/**
+ * Produces one boolean doorway wall and one perfectly aligned dynamic panel
+ * from the same normalized wall frame.
+ */
+export function createDoorWallSet(specification, material = {}) {
+	const frame = normalizeDoorFrame(specification);
+	return {
+		wall: createDoorWallDefinition(frame, material),
+		door: createDoorDefinition(frame, material.doorMaterial || {}),
+		spec: frame
+	};
 }
-export function doorDefFromWall(spec,material={}){
-  const s=normalizeDoorFrame(spec),gap=s.panelGap;
-  return{id:s.doorId,position:{x:s.x,y:0,z:s.z},yaw:s.yaw,width:s.doorW-gap,height:s.doorH-gap,thickness:s.doorThickness,centerY:s.floorY+(s.doorH-gap)/2,depth:doorPanelDepth(s),openAngle:s.openAngle,hingeSide:s.hingeSide,entryDirection:s.entryDirection,opening:{width:s.doorW,height:s.doorH,wall:s.wallId},color:material.color||s.doorColor,mapImage:material.mapImage||null,textureUrl:material.textureUrl||material.mapImage?.dataset?.url||material.mapImage?.src||null,mapRepeat:material.mapRepeat||[1,1],anisotropy:material.anisotropy??2,backfaceCull:!!material.backfaceCull,texturePolicy:material.texturePolicy||null,userData:{AwtsmoosDoorWallSpec:s}};
+
+/**
+ * Returns the procedural doorway definition consumed by the true CSG bridge.
+ */
+export function doorWallDef(specification, material = {}) {
+	return createDoorWallDefinition(
+		normalizeDoorFrame(specification),
+		material
+	);
 }
-export const normalize=normalizeDoorFrame;
+
+/**
+ * Returns the dynamic panel definition whose closed yaw and center plane come
+ * directly from the owning wall frame.
+ */
+export function doorDefFromWall(specification, material = {}) {
+	return createDoorDefinition(
+		normalizeDoorFrame(specification),
+		material
+	);
+}
+
+function createDoorWallDefinition(frame, material) {
+	return {
+		id: frame.wallId,
+		shape: 'doorway',
+		solid: true,
+		walkable: false,
+		noEdge: frame.noEdge,
+		color: material.color || frame.wallColor,
+		mapImage: material.mapImage || null,
+		textureUrl:
+			material.textureUrl ||
+			material.mapImage?.dataset?.url ||
+			material.mapImage?.src ||
+			null,
+		mapRepeat: material.mapRepeat || [1, 1],
+		anisotropy: material.anisotropy ?? 2,
+		backfaceCull: !!material.backfaceCull,
+		texturePolicy: material.texturePolicy || null,
+		position: {
+			x: frame.x,
+			y: frame.floorY + frame.wallH / 2,
+			z: frame.z
+		},
+		size: {
+			x: frame.wallW,
+			y: frame.wallH,
+			z: frame.wallT
+		},
+		door: {
+			x: frame.doorW,
+			y: frame.doorH
+		},
+		yaw: frame.yaw,
+		rotation: { y: frame.yaw },
+		userData: {
+			AwtsmoosDoorWallSpec: frame,
+			booleanOperation: 'difference',
+			booleanSource: 'awtsmoos-procedural-core-csg'
+		}
+	};
+}
+
+function createDoorDefinition(frame, material) {
+	const panelWidth = frame.doorW - frame.panelGap;
+	const panelHeight = frame.doorH - frame.panelGap;
+	return {
+		id: frame.doorId,
+		position: {
+			x: frame.x,
+			y: 0,
+			z: frame.z
+		},
+		yaw: frame.yaw,
+		width: panelWidth,
+		height: panelHeight,
+		thickness: frame.doorThickness,
+		centerY: frame.floorY + panelHeight / 2,
+		depth: doorPanelDepth(frame),
+		openAngle: frame.openAngle,
+		hingeSide: frame.hingeSide,
+		entryDirection: frame.entryDirection,
+		opening: {
+			width: frame.doorW,
+			height: frame.doorH,
+			wall: frame.wallId
+		},
+		color: material.color || frame.doorColor,
+		mapImage: material.mapImage || null,
+		textureUrl:
+			material.textureUrl ||
+			material.mapImage?.dataset?.url ||
+			material.mapImage?.src ||
+			null,
+		mapRepeat: material.mapRepeat || [1, 1],
+		anisotropy: material.anisotropy ?? 2,
+		backfaceCull: !!material.backfaceCull,
+		texturePolicy: material.texturePolicy || null,
+		userData: {
+			AwtsmoosDoorWallSpec: frame,
+			closedYawSource: 'owning-wall-frame'
+		}
+	};
+}
+
+export const normalize = normalizeDoorFrame;

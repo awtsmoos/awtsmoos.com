@@ -3,46 +3,569 @@ import { createDoorWallSet } from './DoorWallSystem.js';
 import { createFenceAlongPath } from './ProceduralFenceSystem.js';
 import { createInteriorRoomSet } from './InteriorRoomSystem.js';
 import { createMezuzaDef } from './MezuzaSystem.js';
-import { createStoryFloorPieces,stairwellOpening } from './StoryFloorSystem.js';
-import { materialTexture,REPEAT_HOOKS } from '../assets/TextureRepeat.js';
+import {
+	createStoryFloorPieces,
+	stairwellOpening
+} from './StoryFloorSystem.js';
+import {
+	materialTexture,
+	REPEAT_HOOKS
+} from '../assets/TextureRepeat.js';
 
-export const DEFAULT_HOUSE_SPEC=Object.freeze({id:'Awtsmoos-main-house',x:58,z:-64,yaw:0,width:60,depth:46,wallH:17,wallT:.9,doorW:2.7,doorH:3,roofRise:7,roofOver:3.4,floors:2,fence:true,storyHeight:7.4});
-export const HOUSE_ROOM_KINDS=Object.freeze(['main-house','west-learning-house','east-family-house','north-study-house','south-guest-house']);
+export const DEFAULT_HOUSE_SPEC = Object.freeze({
+	id: 'Awtsmoos-main-house',
+	x: 58,
+	z: -64,
+	yaw: 0,
+	width: 60,
+	depth: 46,
+	wallH: 17,
+	wallT: 0.9,
+	doorW: 2.7,
+	doorH: 3,
+	roofRise: 7,
+	roofOver: 3.4,
+	floors: 2,
+	fence: true,
+	storyHeight: 7.4
+});
 
-/** A measured house with real floor openings, doorway walls, and a front fence gate. */
-export function createModularHouse(assets={},spec=DEFAULT_HOUSE_SPEC,groundSampler){
-  const s=resolveSpec(spec,groundSampler),m=materials(assets),front=frontDoorSet(assets,s),rooms=createInteriorRoomSet({spec:s,materials:m,localToWorld});
-  const defs=[foundation(s,m),floor(s,m,0),backWall(s,m),leftWall(s,m),rightWall(s,m),front.wall,createMezuzaDef(front.spec,m.mezuza),roof(s,m),...entryStairs(s,m,groundSampler),...rooms.staticDefs];
-  if(s.floors>1)defs.push(...createStoryFloorPieces({spec:s,material:m.stone,level:1,box}),...interiorStairs(s,m,0,1));
-  if(s.floors>2)defs.push(...createStoryFloorPieces({spec:s,material:m.stone,level:2,box}),...interiorStairs(s,m,1,2));
-  if(s.fence&&groundSampler)defs.push(...createFenceAlongPath({id:`${s.id}-measured-fence`,segments:fenceSegments(s),groundSampler,material:{...m.fence,doubleSided:true}}));
-  defs.userData={doorDefs:[front.door,...rooms.doorDefs]};
-  return defs;
+export const HOUSE_ROOM_KINDS = Object.freeze([
+	'main-house',
+	'west-learning-house',
+	'east-family-house',
+	'north-study-house',
+	'south-guest-house'
+]);
+
+/**
+ * Builds one measured house from independent, readable systems. Doorway walls
+ * are true boolean meshes, room partitions span the clear interior width, and
+ * every upper floor is complete except for its shared stairwell opening.
+ */
+export function createModularHouse(
+	assets = {},
+	specification = DEFAULT_HOUSE_SPEC,
+	groundSampler
+) {
+	const spec = resolveSpec(specification, groundSampler);
+	const materials = createMaterials(assets);
+	const frontDoor = createFrontDoorSet(assets, spec);
+	const rooms = createInteriorRoomSet({
+		spec,
+		materials,
+		localToWorld
+	});
+	const definitions = [
+		createFoundation(spec, materials),
+		createGroundFloor(spec, materials),
+		createBackWall(spec, materials),
+		createLeftWall(spec, materials),
+		createRightWall(spec, materials),
+		frontDoor.wall,
+		createMezuzaDef(frontDoor.spec, materials.mezuza),
+		createRoof(spec, materials),
+		...createEntryStairs(spec, materials, groundSampler),
+		...rooms.staticDefs
+	];
+	for (let level = 1; level < spec.floors; level += 1) {
+		definitions.push(...createStoryFloorPieces({
+			spec,
+			material: materials.stone,
+			level,
+			box: createBox
+		}));
+		definitions.push(...createInteriorStairs(
+			spec,
+			materials,
+			level - 1,
+			level
+		));
+	}
+	if (spec.fence && groundSampler) {
+		definitions.push(...createFenceAlongPath({
+			id: `${spec.id}-measured-fence`,
+			segments: createFenceSegments(spec),
+			groundSampler,
+			material: {
+				...materials.fence,
+				doubleSided: true
+			}
+		}));
+	}
+	definitions.userData = {
+		doorDefs: [frontDoor.door, ...rooms.doorDefs],
+		roomDebug: rooms.debug
+	};
+	return definitions;
 }
-export function modularHouseDoorDefs(assets={},spec=DEFAULT_HOUSE_SPEC,groundSampler){const s=resolveSpec(spec,groundSampler),front=frontDoorSet(assets,s),rooms=createInteriorRoomSet({spec:s,materials:materials(assets),localToWorld});return[front.door,...rooms.doorDefs];}
-export function modularHouseDoorDef(assets={},spec=DEFAULT_HOUSE_SPEC,groundSampler){return modularHouseDoorDefs(assets,spec,groundSampler)[0];}
-export function modularHouseDoorWorld(spec=DEFAULT_HOUSE_SPEC){const s={...DEFAULT_HOUSE_SPEC,...spec};return localToWorld(s,0,s.depth/2-s.wallT/2);}
-export function modularHouseRoadStart(spec=DEFAULT_HOUSE_SPEC){const s={...DEFAULT_HOUSE_SPEC,...spec},p=localToWorld(s,0,s.depth/2+10);return{x:p.x,z:p.z};}
-export function modularHouseAnchors(spec=DEFAULT_HOUSE_SPEC){const s={...DEFAULT_HOUSE_SPEC,...spec};return{id:s.id,frontDoor:modularHouseRoadStart(s),frontStairs:localToWorld(s,0,s.depth/2+5.5),insideFoyer:localToWorld(s,0,s.depth/2-5),hallCenter:localToWorld(s,0,0),backRoom:localToWorld(s,0,-s.depth/2+7),leftRoom:localToWorld(s,-s.width/2+8,0),rightRoom:localToWorld(s,s.width/2-8,0),upstairsHook:{...localToWorld(s,-s.width*.24,s.depth*.2-8*.82),y:(s.floorY||0)+s.storyHeight}};}
-export function createFutureHouseSpecs(base=DEFAULT_HOUSE_SPEC){const b={...DEFAULT_HOUSE_SPEC,...base};return[
-{...b,id:'Awtsmoos-west-learning-house',x:-88,z:62,yaw:.18,width:46,depth:34,wallH:15,floors:2,storyHeight:6.6},
-{...b,id:'Awtsmoos-east-family-house',x:118,z:50,yaw:-.22,width:48,depth:36,wallH:16,floors:2,storyHeight:6.8},
-{...b,id:'Awtsmoos-north-study-house',x:-94,z:-72,yaw:-.12,width:44,depth:32,wallH:14,floors:2,storyHeight:6.3},
-{...b,id:'Awtsmoos-south-guest-house',x:160,z:-112,yaw:.16,width:42,depth:31,wallH:13,floors:1,storyHeight:6.2}
-];}
-function resolveSpec(spec,sampler){const s={...DEFAULT_HOUSE_SPEC,...spec};if(!sampler)return{...s,floorY:s.floorY??0,groundMin:s.floorY??0};const samples=[[-s.width/2,-s.depth/2],[s.width/2,-s.depth/2],[-s.width/2,s.depth/2],[s.width/2,s.depth/2]].map(([x,z])=>{const p=localToWorld(s,x,z);return sampler.heightAt(p.x,p.z);});return{...s,floorY:Math.max(...samples.map(v=>v.y)),groundMin:Math.min(...samples.map(v=>v.y)),groundEvidence:samples.map(v=>v.source)};}
-function frontDoorSet(assets,s){const p=modularHouseDoorWorld(s),m=materials(assets);return createDoorWallSet({id:`${s.id}-front`,wallId:`${s.id}-front-wall`,doorId:`${s.id}-front-door`,x:p.x,z:p.z,floorY:s.floorY,yaw:s.yaw,wallW:s.width,wallH:s.wallH,wallT:s.wallT,doorW:s.doorW,doorH:s.doorH,doorThickness:.24,panelGap:.08,openAngle:Math.PI*.54,noEdge:true},{...m.wall,doorMaterial:m.door});}
-function materials(a){return{wall:mat('#eee8d9',a.whiteBrickImage||a.brickImage,REPEAT_HOOKS.wallTileWorld),side:mat('#eee8d9',a.whiteBrickImage||a.brickImage,REPEAT_HOOKS.wallTileWorld),stone:mat('#c7bea9',a.stoneImage,REPEAT_HOOKS.floorTileWorld),door:mat('#7d4827',a.woodImage,2),roof:mat('#8a5b35',a.woodImage,REPEAT_HOOKS.roofTileWorld),fence:mat('#d8c0a0',a.woodImage,2),mezuza:mat('#b58a28',a.goldImage||a.woodImage,.5)};}
-function mat(color,image,tileWorld){return materialTexture(color,image,[1,1],{backfaceCull:true,tileWorld,projection:'cube-world',hook:'modular-house'});}
-function foundation(s,m){const depth=Math.max(.35,s.floorY-s.groundMin+.2);return box(`${s.id}-measured-foundation`,m.stone,s,0,s.floorY-depth/2,0,s.width,depth,s.depth,true);}
-function floor(s,m,level){return box(`${s.id}-floor-${level+1}`,m.stone,s,0,s.floorY+.08+level*s.storyHeight,0,s.width-s.wallT*2,.18,s.depth-s.wallT*2,true);}
-function backWall(s,m){return box(`${s.id}-back-wall`,m.wall,s,0,s.floorY+s.wallH/2,-s.depth/2+s.wallT/2,s.width,s.wallH,s.wallT);}
-function leftWall(s,m){return box(`${s.id}-left-wall`,m.side,s,-s.width/2+s.wallT/2,s.floorY+s.wallH/2,0,s.wallT,s.wallH,s.depth-s.wallT*2);}
-function rightWall(s,m){return box(`${s.id}-right-wall`,m.side,s,s.width/2-s.wallT/2,s.floorY+s.wallH/2,0,s.wallT,s.wallH,s.depth-s.wallT*2);}
-function entryStairs(s,m,sampler){if(!sampler)return[];const baseZ=s.depth/2+5.4,base=sampleLocal(s,sampler,0,baseZ),rise=Math.max(.08,s.floorY-base.y),count=Math.max(3,Math.min(6,Math.ceil(rise/.28))),stepD=.9,w=s.doorW+3.6,out=[];for(let i=0;i<count;i++){const t=i/(count-1),lz=baseZ-i*stepD,here=sampleLocal(s,sampler,0,lz),top=here.y+(s.floorY-here.y)*t;out.push(box(`${s.id}-entry-step-${i+1}`,m.stone,s,0,top-.12,lz,w,.24,stepD,true));}out.push(box(`${s.id}-door-landing`,m.stone,s,0,s.floorY+.09,s.depth/2+.25,w+.8,.18,2,true));return out;}
-function interiorStairs(s,m,from,to){const start=s.floorY+from*s.storyHeight,end=s.floorY+to*s.storyHeight,steps=8,opening=stairwellOpening(s,to),startZ=s.depth*.2,out=[];for(let i=0;i<steps;i++){const t=(i+1)/steps,lz=startZ+(opening.centerZ-startZ)*t;out.push(box(`${s.id}-inside-${from+1}-${to+1}-${i+1}`,m.stone,s,opening.centerX,start+(end-start)*t-.14,lz,1.8,.28,1,true));}out.push(box(`${s.id}-inside-${to+1}-landing`,m.stone,s,opening.centerX,end+.09,opening.centerZ,opening.width-.4,.18,opening.depth-.4,true));return out;}
-function roof(s,m){const hx=s.width/2+s.roofOver,hz=s.depth/2+s.roofOver,y=s.floorY+s.wallH,top=[0,y+s.roofRise,0],A=[-hx,y,hz],B=[hx,y,hz],C=[hx,y,-hz],D=[-hx,y,-hz],vertices=[A,B,top,B,C,top,C,D,top,D,A,top],uvs=vertices.flatMap(p=>[p[0]/REPEAT_HOOKS.roofTileWorld,p[2]/REPEAT_HOOKS.roofTileWorld]);return{id:`${s.id}-hip-roof`,shape:'manual',solid:false,walkable:false,noEdge:true,...m.roof,position:{x:s.x,y:0,z:s.z},vertices,faces:[[0,1,2],[3,4,5],[6,7,8],[9,10,11]],uvs,rotation:{y:s.yaw},yaw:s.yaw};}
-function fenceSegments(s){const pad=5,w=s.width/2+pad,d=s.depth/2+pad,gap=Math.max(5.2,s.doorW+3.2);const bl=localToWorld(s,-w,-d),br=localToWorld(s,w,-d),fr=localToWorld(s,w,d),fl=localToWorld(s,-w,d),gateL=localToWorld(s,-gap/2,d),gateR=localToWorld(s,gap/2,d);return[[bl,br],[br,fr],[fr,gateR],[gateL,fl],[fl,bl]];}
-function sampleLocal(s,sampler,x,z){const p=localToWorld(s,x,z),sample=sampler.heightAt(p.x,p.z);return{...p,y:sample.y,sample};}
-function box(id,material,s,lx,y,lz,sx,sy,sz,walkable=false){const p=localToWorld(s,lx,lz);return{id,shape:'box',solid:true,walkable,noEdge:true,...material,position:{x:p.x,y,z:p.z},size:{x:sx,y:sy,z:sz},rotation:{y:s.yaw}};}
-function localToWorld(s,x,z){const c=Math.cos(s.yaw),q=Math.sin(s.yaw);return{x:s.x+x*c-z*q,z:s.z+x*q+z*c};}
+
+/** Returns every dynamic door belonging to one house. */
+export function modularHouseDoorDefs(
+	assets = {},
+	specification = DEFAULT_HOUSE_SPEC,
+	groundSampler
+) {
+	const spec = resolveSpec(specification, groundSampler);
+	const materials = createMaterials(assets);
+	const frontDoor = createFrontDoorSet(assets, spec);
+	const rooms = createInteriorRoomSet({
+		spec,
+		materials,
+		localToWorld
+	});
+	return [frontDoor.door, ...rooms.doorDefs];
+}
+
+export function modularHouseDoorDef(
+	assets = {},
+	specification = DEFAULT_HOUSE_SPEC,
+	groundSampler
+) {
+	return modularHouseDoorDefs(
+		assets,
+		specification,
+		groundSampler
+	)[0];
+}
+
+export function modularHouseDoorWorld(specification = DEFAULT_HOUSE_SPEC) {
+	const spec = { ...DEFAULT_HOUSE_SPEC, ...specification };
+	return localToWorld(spec, 0, spec.depth / 2 - spec.wallT / 2);
+}
+
+export function modularHouseRoadStart(specification = DEFAULT_HOUSE_SPEC) {
+	const spec = { ...DEFAULT_HOUSE_SPEC, ...specification };
+	const point = localToWorld(spec, 0, spec.depth / 2 + 10);
+	return { x: point.x, z: point.z };
+}
+
+export function modularHouseAnchors(specification = DEFAULT_HOUSE_SPEC) {
+	const spec = { ...DEFAULT_HOUSE_SPEC, ...specification };
+	const opening = stairwellOpening(spec, 1);
+	return {
+		id: spec.id,
+		frontDoor: modularHouseRoadStart(spec),
+		frontStairs: localToWorld(spec, 0, spec.depth / 2 + 5.5),
+		insideFoyer: localToWorld(spec, 0, spec.depth / 2 - 5),
+		hallCenter: localToWorld(spec, 0, 0),
+		backRoom: localToWorld(spec, 0, -spec.depth / 2 + 7),
+		leftRoom: localToWorld(spec, -spec.width / 2 + 8, 0),
+		rightRoom: localToWorld(spec, spec.width / 2 - 8, 0),
+		upstairsHook: {
+			...localToWorld(spec, opening.centerX, opening.centerZ),
+			y: (spec.floorY || 0) + spec.storyHeight
+		}
+	};
+}
+
+export function createFutureHouseSpecs(base = DEFAULT_HOUSE_SPEC) {
+	const shared = { ...DEFAULT_HOUSE_SPEC, ...base };
+	return [
+		{
+			...shared,
+			id: 'Awtsmoos-west-learning-house',
+			x: -88,
+			z: 62,
+			yaw: 0.18,
+			width: 46,
+			depth: 34,
+			wallH: 15,
+			floors: 2,
+			storyHeight: 6.6
+		},
+		{
+			...shared,
+			id: 'Awtsmoos-east-family-house',
+			x: 118,
+			z: 50,
+			yaw: -0.22,
+			width: 48,
+			depth: 36,
+			wallH: 16,
+			floors: 2,
+			storyHeight: 6.8
+		},
+		{
+			...shared,
+			id: 'Awtsmoos-north-study-house',
+			x: -94,
+			z: -72,
+			yaw: -0.12,
+			width: 44,
+			depth: 32,
+			wallH: 14,
+			floors: 2,
+			storyHeight: 6.3
+		},
+		{
+			...shared,
+			id: 'Awtsmoos-south-guest-house',
+			x: 160,
+			z: -112,
+			yaw: 0.16,
+			width: 42,
+			depth: 31,
+			wallH: 13,
+			floors: 1,
+			storyHeight: 6.2
+		}
+	];
+}
+
+function resolveSpec(specification, sampler) {
+	const spec = { ...DEFAULT_HOUSE_SPEC, ...specification };
+	if (!sampler) {
+		return {
+			...spec,
+			floorY: spec.floorY ?? 0,
+			groundMin: spec.floorY ?? 0
+		};
+	}
+	const samples = [
+		[-spec.width / 2, -spec.depth / 2],
+		[spec.width / 2, -spec.depth / 2],
+		[-spec.width / 2, spec.depth / 2],
+		[spec.width / 2, spec.depth / 2]
+	].map(([x, z]) => {
+		const point = localToWorld(spec, x, z);
+		return sampler.heightAt(point.x, point.z);
+	});
+	return {
+		...spec,
+		floorY: Math.max(...samples.map((sample) => sample.y)),
+		groundMin: Math.min(...samples.map((sample) => sample.y)),
+		groundEvidence: samples.map((sample) => sample.source)
+	};
+}
+
+function createFrontDoorSet(assets, spec) {
+	const point = modularHouseDoorWorld(spec);
+	const materials = createMaterials(assets);
+	return createDoorWallSet({
+		id: `${spec.id}-front`,
+		wallId: `${spec.id}-front-wall`,
+		doorId: `${spec.id}-front-door`,
+		x: point.x,
+		z: point.z,
+		floorY: spec.floorY,
+		yaw: spec.yaw,
+		wallW: spec.width,
+		wallH: spec.wallH,
+		wallT: spec.wallT,
+		doorW: spec.doorW,
+		doorH: spec.doorH,
+		doorThickness: 0.24,
+		panelGap: 0.08,
+		doorDepth: 0,
+		openAngle: Math.PI * 0.54,
+		noEdge: true
+	}, {
+		...materials.wall,
+		doorMaterial: materials.door
+	});
+}
+
+function createMaterials(assets) {
+	return {
+		wall: createMaterial(
+			'#eee8d9',
+			assets.whiteBrickImage || assets.brickImage,
+			REPEAT_HOOKS.wallTileWorld
+		),
+		side: createMaterial(
+			'#eee8d9',
+			assets.whiteBrickImage || assets.brickImage,
+			REPEAT_HOOKS.wallTileWorld
+		),
+		stone: createMaterial(
+			'#c7bea9',
+			assets.stoneImage,
+			REPEAT_HOOKS.floorTileWorld
+		),
+		door: createMaterial('#7d4827', assets.woodImage, 2),
+		roof: createMaterial(
+			'#8a5b35',
+			assets.woodImage,
+			REPEAT_HOOKS.roofTileWorld
+		),
+		fence: createMaterial('#d8c0a0', assets.woodImage, 2),
+		mezuza: createMaterial(
+			'#b58a28',
+			assets.goldImage || assets.woodImage,
+			0.5
+		)
+	};
+}
+
+function createMaterial(color, image, tileWorld) {
+	return materialTexture(color, image, [1, 1], {
+		backfaceCull: true,
+		tileWorld,
+		projection: 'cube-world',
+		hook: 'modular-house'
+	});
+}
+
+function createFoundation(spec, materials) {
+	const depth = Math.max(0.35, spec.floorY - spec.groundMin + 0.2);
+	return createBox(
+		`${spec.id}-measured-foundation`,
+		materials.stone,
+		spec,
+		0,
+		spec.floorY - depth / 2,
+		0,
+		spec.width,
+		depth,
+		spec.depth,
+		true
+	);
+}
+
+function createGroundFloor(spec, materials) {
+	return createBox(
+		`${spec.id}-floor-1`,
+		materials.stone,
+		spec,
+		0,
+		spec.floorY + 0.08,
+		0,
+		spec.width - spec.wallT * 2,
+		0.18,
+		spec.depth - spec.wallT * 2,
+		true
+	);
+}
+
+function createBackWall(spec, materials) {
+	return createBox(
+		`${spec.id}-back-wall`,
+		materials.wall,
+		spec,
+		0,
+		spec.floorY + spec.wallH / 2,
+		-spec.depth / 2 + spec.wallT / 2,
+		spec.width,
+		spec.wallH,
+		spec.wallT
+	);
+}
+
+function createLeftWall(spec, materials) {
+	return createBox(
+		`${spec.id}-left-wall`,
+		materials.side,
+		spec,
+		-spec.width / 2 + spec.wallT / 2,
+		spec.floorY + spec.wallH / 2,
+		0,
+		spec.wallT,
+		spec.wallH,
+		spec.depth - spec.wallT * 2
+	);
+}
+
+function createRightWall(spec, materials) {
+	return createBox(
+		`${spec.id}-right-wall`,
+		materials.side,
+		spec,
+		spec.width / 2 - spec.wallT / 2,
+		spec.floorY + spec.wallH / 2,
+		0,
+		spec.wallT,
+		spec.wallH,
+		spec.depth - spec.wallT * 2
+	);
+}
+
+function createEntryStairs(spec, materials, sampler) {
+	if (!sampler) {
+		return [];
+	}
+	const baseZ = spec.depth / 2 + 5.4;
+	const base = sampleLocal(spec, sampler, 0, baseZ);
+	const rise = Math.max(0.08, spec.floorY - base.y);
+	const count = Math.max(3, Math.min(6, Math.ceil(rise / 0.28)));
+	const stepDepth = 0.9;
+	const width = spec.doorW + 3.6;
+	const definitions = [];
+	for (let index = 0; index < count; index += 1) {
+		const progress = index / (count - 1);
+		const localZ = baseZ - index * stepDepth;
+		const ground = sampleLocal(spec, sampler, 0, localZ);
+		const top = ground.y + (spec.floorY - ground.y) * progress;
+		definitions.push(createBox(
+			`${spec.id}-entry-step-${index + 1}`,
+			materials.stone,
+			spec,
+			0,
+			top - 0.12,
+			localZ,
+			width,
+			0.24,
+			stepDepth,
+			true
+		));
+	}
+	definitions.push(createBox(
+		`${spec.id}-door-landing`,
+		materials.stone,
+		spec,
+		0,
+		spec.floorY + 0.09,
+		spec.depth / 2 + 0.25,
+		width + 0.8,
+		0.18,
+		2,
+		true
+	));
+	return definitions;
+}
+
+/**
+ * Creates a stair run whose final tread and landing occupy the exact shared
+ * stairwell opening. The run approaches the opening rather than colliding with
+ * a solid slab.
+ */
+function createInteriorStairs(spec, materials, fromLevel, toLevel) {
+	const startY = spec.floorY + fromLevel * spec.storyHeight;
+	const endY = spec.floorY + toLevel * spec.storyHeight;
+	const opening = stairwellOpening(spec, toLevel);
+	const steps = 10;
+	const runDepth = Math.max(6.5, spec.storyHeight * 1.15);
+	const startZ = opening.centerZ + runDepth;
+	const definitions = [];
+	for (let index = 0; index < steps; index += 1) {
+		const progress = (index + 1) / steps;
+		const localZ = startZ + (opening.centerZ - startZ) * progress;
+		const topY = startY + (endY - startY) * progress;
+		definitions.push(createBox(
+			`${spec.id}-inside-${fromLevel + 1}-${toLevel + 1}-${index + 1}`,
+			materials.stone,
+			spec,
+			opening.centerX,
+			topY - 0.14,
+			localZ,
+			Math.min(2.2, opening.width - 0.7),
+			0.28,
+			Math.max(0.8, runDepth / steps + 0.08),
+			true
+		));
+	}
+	definitions.push(createBox(
+		`${spec.id}-inside-${toLevel + 1}-landing`,
+		materials.stone,
+		spec,
+		opening.centerX,
+		endY + 0.09,
+		opening.centerZ,
+		opening.width - 0.35,
+		0.18,
+		opening.depth - 0.35,
+		true
+	));
+	return definitions;
+}
+
+function createRoof(spec, materials) {
+	const halfWidth = spec.width / 2 + spec.roofOver;
+	const halfDepth = spec.depth / 2 + spec.roofOver;
+	const baseY = spec.floorY + spec.wallH;
+	const peak = [0, baseY + spec.roofRise, 0];
+	const a = [-halfWidth, baseY, halfDepth];
+	const b = [halfWidth, baseY, halfDepth];
+	const c = [halfWidth, baseY, -halfDepth];
+	const d = [-halfWidth, baseY, -halfDepth];
+	const vertices = [
+		a, b, peak,
+		b, c, peak,
+		c, d, peak,
+		d, a, peak
+	];
+	const uvs = vertices.flatMap((point) => [
+		point[0] / REPEAT_HOOKS.roofTileWorld,
+		point[2] / REPEAT_HOOKS.roofTileWorld
+	]);
+	return {
+		id: `${spec.id}-hip-roof`,
+		shape: 'manual',
+		solid: false,
+		walkable: false,
+		noEdge: true,
+		...materials.roof,
+		position: { x: spec.x, y: 0, z: spec.z },
+		vertices,
+		faces: [
+			[0, 1, 2],
+			[3, 4, 5],
+			[6, 7, 8],
+			[9, 10, 11]
+		],
+		uvs,
+		rotation: { y: spec.yaw },
+		yaw: spec.yaw
+	};
+}
+
+function createFenceSegments(spec) {
+	const padding = 5;
+	const halfWidth = spec.width / 2 + padding;
+	const halfDepth = spec.depth / 2 + padding;
+	const gateWidth = Math.max(5.2, spec.doorW + 3.2);
+	const backLeft = localToWorld(spec, -halfWidth, -halfDepth);
+	const backRight = localToWorld(spec, halfWidth, -halfDepth);
+	const frontRight = localToWorld(spec, halfWidth, halfDepth);
+	const frontLeft = localToWorld(spec, -halfWidth, halfDepth);
+	const gateLeft = localToWorld(spec, -gateWidth / 2, halfDepth);
+	const gateRight = localToWorld(spec, gateWidth / 2, halfDepth);
+	return [
+		[backLeft, backRight],
+		[backRight, frontRight],
+		[frontRight, gateRight],
+		[gateLeft, frontLeft],
+		[frontLeft, backLeft]
+	];
+}
+
+function sampleLocal(spec, sampler, x, z) {
+	const point = localToWorld(spec, x, z);
+	const sample = sampler.heightAt(point.x, point.z);
+	return { ...point, y: sample.y, sample };
+}
+
+function createBox(
+	id,
+	material,
+	spec,
+	localX,
+	y,
+	localZ,
+	sizeX,
+	sizeY,
+	sizeZ,
+	walkable = false
+) {
+	const point = localToWorld(spec, localX, localZ);
+	return {
+		id,
+		shape: 'box',
+		solid: true,
+		walkable,
+		noEdge: true,
+		...material,
+		position: { x: point.x, y, z: point.z },
+		size: { x: sizeX, y: sizeY, z: sizeZ },
+		rotation: { y: spec.yaw }
+	};
+}
+
+function localToWorld(spec, x, z) {
+	const cosine = Math.cos(spec.yaw);
+	const sine = Math.sin(spec.yaw);
+	return {
+		x: spec.x + x * cosine - z * sine,
+		z: spec.z + x * sine + z * cosine
+	};
+}

@@ -1,15 +1,49 @@
 // B"H
-import { entryRightJambWorld,normalizeDoorFrame } from './HouseDoorGeometry.js';
+import { entryRightRevealWorld, normalizeDoorFrame } from './HouseDoorGeometry.js';
 
-/** A measured mezuzah case rests on the right jamb as one enters the house. */
-export function createMezuzaDef(spec,material={}){
-  const frame=normalizeDoorFrame(spec),caseWidth=.13,caseHeight=Math.min(.78,frame.doorH*.29),caseDepth=.10;
-  const p=entryRightJambWorld(frame,caseWidth*.9);
-  return{
-    id:`${frame.doorId}-mezuza`,shape:'box',solid:false,walkable:false,noEdge:true,
-    color:material.color||'#b58a28',mapImage:material.mapImage||null,textureUrl:material.textureUrl||null,
-    mapRepeat:[1,1],position:{x:p.x,y:frame.floorY+frame.doorH*.67,z:p.z},
-    size:{x:caseWidth,y:caseHeight,z:caseDepth},rotation:{y:frame.yaw,z:-.10},
-    userData:{AwtsmoosMezuza:{doorId:frame.doorId,jamb:'entry-right',hingeSide:frame.hingeSide,entryDirection:frame.entryDirection,yaw:frame.yaw}}
-  };
+/**
+ * Places the mezuzah inside the right-hand doorway reveal as seen by a person
+ * entering the house. It is not attached to the exterior wall surface; it sits
+ * within the cavity and remains visible from outside.
+ */
+export function createMezuzaDef(specification, material = {}) {
+	const frame = normalizeDoorFrame(specification);
+	const width = 0.11;
+	const height = Math.min(0.72, frame.doorH * 0.27);
+	const depth = Math.min(0.08, frame.wallT * 0.22);
+	const point = entryRightRevealWorld(frame, 0.045);
+	return {
+		id: `${frame.doorId}-mezuza`,
+		shape: 'box',
+		solid: false,
+		walkable: false,
+		noEdge: true,
+		color: material.color || '#b58a28',
+		mapImage: material.mapImage || null,
+		textureUrl: material.textureUrl || null,
+		mapRepeat: [1, 1],
+		position: {
+			x: point.x,
+			y: frame.floorY + frame.doorH * 0.66,
+			z: point.z
+		},
+		size: {
+			x: width,
+			y: height,
+			z: depth
+		},
+		rotation: {
+			y: frame.yaw,
+			z: -0.1
+		},
+		userData: {
+			AwtsmoosMezuza: {
+				doorId: frame.doorId,
+				jamb: 'entry-right-reveal',
+				placement: 'inside-door-cavity',
+				entryDirection: frame.entryDirection,
+				yaw: frame.yaw
+			}
+		}
+	};
 }
