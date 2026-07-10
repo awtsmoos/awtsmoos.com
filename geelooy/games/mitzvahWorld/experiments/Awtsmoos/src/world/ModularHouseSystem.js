@@ -22,7 +22,7 @@ export function createFutureHouseSpecs(base=DEFAULT_HOUSE_SPEC){const b={...DEFA
 {...b,id:'Awtsmoos-west-learning-house',x:-88,z:62,yaw:.18,width:46,depth:34,wallH:15,floors:2,storyHeight:6.6},
 {...b,id:'Awtsmoos-east-family-house',x:118,z:50,yaw:-.22,width:48,depth:36,wallH:16,floors:2,storyHeight:6.8},
 {...b,id:'Awtsmoos-north-study-house',x:-94,z:-72,yaw:-.12,width:44,depth:32,wallH:14,floors:2,storyHeight:6.3},
-{...b,id:'Awtsmoos-south-guest-house',x:126,z:-78,yaw:.16,width:42,depth:31,wallH:13,floors:1,storyHeight:6.2}
+{...b,id:'Awtsmoos-south-guest-house',x:160,z:-112,yaw:.16,width:42,depth:31,wallH:13,floors:1,storyHeight:6.2}
 ];}
 function resolveSpec(spec,sampler){const s={...DEFAULT_HOUSE_SPEC,...spec};if(!sampler)return{...s,floorY:s.floorY??0,groundMin:s.floorY??0};const samples=[[-s.width/2,-s.depth/2],[s.width/2,-s.depth/2],[-s.width/2,s.depth/2],[s.width/2,s.depth/2]].map(([x,z])=>{const p=localToWorld(s,x,z);return sampler.heightAt(p.x,p.z);});return{...s,floorY:Math.max(...samples.map(v=>v.y)),groundMin:Math.min(...samples.map(v=>v.y)),groundEvidence:samples.map(v=>v.source)};}
 function frontDoorSet(assets,s){const p=modularHouseDoorWorld(s),m=materials(assets);return createDoorWallSet({id:`${s.id}-front`,wallId:`${s.id}-front-wall`,doorId:`${s.id}-front-door`,x:p.x,z:p.z,floorY:s.floorY,yaw:s.yaw,wallW:s.width,wallH:s.wallH,wallT:s.wallT,doorW:s.doorW,doorH:s.doorH,doorThickness:.24,panelGap:.08,doorDepth:s.wallT*.72,openAngle:Math.PI*.54,noEdge:true},{...m.wall,doorMaterial:m.door});}

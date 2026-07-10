@@ -1,5 +1,5 @@
 // B"H
-/** Recover existing English while repairing harmless response wrappers only. */
+/** Recover existing English while discarding footnote tags only. */
 import { parseSichosXml, stripFences } from './parse_xml.mjs';
 import { stripSupTags, validateForJob } from './translation_policy.mjs';
 
@@ -25,37 +25,13 @@ function rootCandidate(text) {
   return clean;
 }
 
-function escapeBareText(text) {
-  return String(text)
-    .replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[\da-f]+);)/gi, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-function wrapBareEnglish(xml) {
-  let changed = false;
-  const normalized = String(xml).replace(
-    /<s\b([^>]*)>([\s\S]*?)<\/s>/gi,
-    (whole, attributes, inner) => {
-      if (/<en\b/i.test(inner)) return whole;
-      const body = inner.trim();
-      if (/<[^>]+>/.test(body)) return whole;
-      changed = true;
-      return `<s${attributes}><en>${escapeBareText(body)}</en></s>`;
-    }
-  );
-  return { xml: normalized, changed };
-}
-
 function check(chunk, xml, method) {
   try {
-    const withoutSup = stripSupTags(xml);
-    const wrapped = wrapBareEnglish(withoutSup);
-    const parsed = parseSichosXml(wrapped.xml);
+    const cleaned = stripSupTags(xml);
+    const parsed = parseSichosXml(cleaned);
     const validation = validateForJob(chunk, parsed);
-    const recoveryMethod = wrapped.changed ? `${method}_bare_s_wrapped` : method;
     return validation.ok
-      ? { ok: true, xml: wrapped.xml, parsed, validation, method: recoveryMethod }
+      ? { ok: true, xml: cleaned, parsed, validation, method }
       : { ok: false, reason: 'validation_failed', errors: validation.errors };
   } catch (error) {
     return { ok: false, reason: 'parse_failed', error: error.message };
@@ -66,10 +42,7 @@ export function recoverExactChunk(chunk, responseText) {
   const root = rootCandidate(responseText);
   const exact = check(chunk, root, 'footnote_free_exact');
   if (exact.ok) return exact;
-
-  const withoutSup = stripSupTags(root);
-  const wrapped = wrapBareEnglish(withoutSup).xml;
-  const blocks = indexedBlocks(wrapped, 'v');
+  const blocks = indexedBlocks(root, 'v');
   if (blocks.duplicates.size) return { ok: false, reason: 'duplicate_v_indices' };
   const expected = chunk.sections.map(section => section.sectionIndex);
   if (!expected.every(index => blocks.map.has(index))) return exact;
