@@ -1,96 +1,71 @@
 // B"H
-/**
- * Sichos Kodesh XML prompt builder.
- *
- * The Awtsmoos gives each source subsection one narrow vessel. Footnote
- * sparks enter as fn and must emerge as sup, unchanged and in their place.
- */
+/** Build a narrowly indexed XML translation prompt with retry diagnostics. */
 export function escapeXml(text = '') {
-  return String(text)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+  return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 
 function annotateFootnotes(text, footnotes = []) {
   let output = escapeXml(text);
   for (const number of footnotes) {
-    const escaped = number.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escaped = String(number).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     output = output.replace(new RegExp(`(?<!\\d)${escaped}(?!\\d)`), `<fn>${number}</fn>`);
   }
   return output;
 }
-
-const GLOSSARY = [
-  'Preserve Torah and Chassidus terminology where appropriate.',
-  'Translate ה׳ as Hashem.',
-  'Translate הקב״ה as the Holy One, blessed be He.',
-  'Use consistent Rebbe terminology: the Rebbe, the Alter Rebbe, the Baal Shem Tov.',
-  'Do not modernize, simplify, flatten, or over-explain concepts.'
-].join('\n');
 
 export function sectionsOf(sample) {
   if (Array.isArray(sample.sections) && sample.sections.length) return sample.sections;
   return [{ sectionIndex: sample.sectionIndex, paragraphs: sample.paragraphs || [] }];
 }
 
-function sourceVs(sample) {
+function sourceXml(sample) {
   return sectionsOf(sample).map(section => {
-    const subsections = section.paragraphs.map(item => {
-      return `<s index="${item.paragraphIndex}">${annotateFootnotes(item.text, item.footnotes)}</s>`;
-    }).join('\n');
-    return `<v index="${section.sectionIndex}">\n${subsections}\n</v>`;
+    const body = section.paragraphs.map(item =>
+      `<s index="${item.paragraphIndex}">${annotateFootnotes(item.text, item.footnotes)}</s>`
+    ).join('\n');
+    return `<v index="${section.sectionIndex}">\n${body}\n</v>`;
   }).join('\n');
 }
 
-export function buildPrompt(sample) {
-  const indices = sectionsOf(sample).map(section => section.sectionIndex).join(', ');
+function exactManifest(sample) {
+  return sectionsOf(sample).map(section => {
+    const subsections = section.paragraphs.map(item => {
+      const notes = (item.footnotes || []).join(',') || 'none';
+      return `${section.sectionIndex}:${item.paragraphIndex}[${notes}]`;
+    });
+    return subsections.join(' ');
+  }).join('\n');
+}
+
+export function buildPrompt(sample, { retryFeedback = '' } = {}) {
+  const feedback = retryFeedback ? `\nPREVIOUS RESPONSE FAILED VALIDATION:\n${retryFeedback}\nCorrect only these failures.\n` : '';
   return `B"H
-Translate the following Sichos Kodesh Hebrew/Yiddish source to English.
+Translate only the source units below into English and return XML only.
+Do not translate any section not present in the source.
+Do not continue beyond the final listed subsection.
 
-Return XML only.
-No Markdown.
-No explanations.
-No chain of thought.
-No notes.
-No commentary.
+Exact required manifest, written as v:s[footnotes]:
+${exactManifest(sample)}
 
-These source units are subsections, not ordinary paragraphs.
-Preserve v order exactly.
-Preserve s order exactly.
-Never merge, split, omit, or reorder subsections.
-Return one <v> for each source <v>, in this exact order: ${indices}.
-Return one <s> for each source <s>, with the exact same index.
-
-Required deterministic XML shape:
-<translation>
-<v index="SOURCE_V_INDEX">
-<s index="SOURCE_S_INDEX"><en>English translation with <sup>23</sup> where required</en></s>
-</v>
-</translation>
-
-Every <s> must contain exactly one <en> tag.
-The only tag permitted inside <en> is <sup>.
-No sum, topics, people, notes, or extra tags.
-No attributes except index on v and s.
-
-Footnote law:
-Every source <fn>NUMBER</fn> is a footnote reference.
-Preserve every footnote number exactly and in order.
-Convert each <fn>NUMBER</fn> to <sup>NUMBER</sup> inside the corresponding <en>.
-Never omit, renumber, reorder, duplicate, or invent a footnote.
-Do not leave footnote numbers as bare text; they must be inside <sup> tags.
-
-Hebrew structural markers are not prose.
-Do not translate structural labels such as א., ב., ג., ד., א), ב), סעיף א, אות א.
-Do not echo such markers inside <en>.
-
-${GLOSSARY}
+Output law:
+- Exactly one <translation> root.
+- Exactly the listed v elements, in listed order.
+- Exactly the listed s elements, in listed order.
+- Every s contains exactly one en.
+- Only sup tags may appear inside en.
+- Convert every fn to a matching sup in the same subsection.
+- Preserve repeated footnote references; [104,104] requires two <sup>104</sup> tags.
+- Never invent, omit, move, reorder, or renumber footnotes.
+- No Markdown, prose outside XML, comments, summaries, topics, or people.
+- Preserve Torah and Chassidus terminology; use Hashem for ה׳.
+- Do not modernize, simplify, paraphrase, or echo structural Hebrew labels.
+${feedback}
+Required shape:
+<translation><v index="1"><s index="0"><en>English</en></s></v></translation>
 
 Source:
 <source title="${escapeXml(sample.title)}" documentId="${escapeXml(sample.documentId)}">
-${sourceVs(sample)}
+${sourceXml(sample)}
 </source>`;
 }

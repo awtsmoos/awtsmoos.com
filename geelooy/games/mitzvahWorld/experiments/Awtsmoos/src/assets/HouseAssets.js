@@ -1,50 +1,45 @@
 // B"H
-const TEXTURE_BASE = '/games/mitzvahWorld/assets/textures/';
-const HALF = 'https://awtsmoos-docs-base.web.app/half-resolution/';
+import { TEXTURE_PURPOSES, TEXTURE_URLS, publicTextureUrls } from './TextureCatalog.js';
 
-export const HOUSE_TEXTURE_URLS = {
-  brick: [`${TEXTURE_BASE}brick-wall.svg`],
-  gold: [`${TEXTURE_BASE}gold-coin.svg`],
-  wood: [`${HALF}tree%20bark%201.png`]
-};
-
-/** HouseAssets: public texture URLs first; fallback canvases only if a URL cannot load. */
+/** HouseAssets: load the user's public docs-base textures into named world vessels. */
 export async function loadHouseAssets(loadFirstImage) {
-  const [brick, gold, wood] = await Promise.all([
-    loadFirstImage(HOUSE_TEXTURE_URLS.brick, 1800),
-    loadFirstImage(HOUSE_TEXTURE_URLS.gold, 1800),
-    loadFirstImage(HOUSE_TEXTURE_URLS.wood, 1400)
+  const entries = await Promise.all([
+    one(loadFirstImage, 'whiteBrickImage', TEXTURE_PURPOSES.houseWall, 'white-brick-house-wall'),
+    one(loadFirstImage, 'redBrickImage', TEXTURE_PURPOSES.lavaPlatform, 'red-brick-lava-platform'),
+    one(loadFirstImage, 'redBrick1Image', TEXTURE_URLS.bricks.red1, 'red-brick-variant-1'),
+    one(loadFirstImage, 'redBrick2Image', TEXTURE_URLS.bricks.red2, 'red-brick-variant-2'),
+    one(loadFirstImage, 'yellowBrickImage', TEXTURE_PURPOSES.road, 'yellow-brick-road'),
+    one(loadFirstImage, 'goldImage', TEXTURE_PURPOSES.coin, 'gold-coin'),
+    one(loadFirstImage, 'stoneImage', TEXTURE_PURPOSES.houseFloor, 'stone-house-floor'),
+    one(loadFirstImage, 'woodImage', TEXTURE_PURPOSES.houseDoor, 'wood-door-roof'),
+    one(loadFirstImage, 'terrainMixImage', TEXTURE_PURPOSES.terrainMix, 'dirt-grass-3-terrain-mix')
   ]);
-  return {
-    brickImage: tag(brick || brickCanvas(), 'brick'),
-    goldImage: tag(gold || goldCanvas(), 'gold'),
-    woodImage: tag(wood || woodCanvas(), 'wood'),
-    lavaImage: tag(lavaCanvas(), 'lava'),
-    publicUrls: publicTextureUrls()
-  };
+  const assets = Object.fromEntries(entries);
+  assets.brickImage = assets.whiteBrickImage;
+  assets.lavaImage = lavaCanvas();
+  assets.publicUrls = publicTextureUrls();
+  return assets;
 }
-export function publicTextureUrls(origin = location.origin) {
-  return { brick: `${origin}${TEXTURE_BASE}brick-wall.svg`, gold: `${origin}${TEXTURE_BASE}gold-coin.svg`, wood: `${HALF}tree%20bark%201.png` };
+async function one(loadFirstImage, key, url, kind) {
+  const image = await loadFirstImage([url], 9000);
+  return [key, tag(image || fallbackCanvas(kind, url), kind, url)];
 }
-function tag(img, kind) { if (img?.dataset) img.dataset.kind = img.dataset.kind || kind; return img; }
-function brickCanvas(size = 512) {
-  const c = canvas(size, 'generated-brick-wall-canvas'), g = c.getContext('2d');
-  g.fillStyle = '#6e3d31'; g.fillRect(0, 0, size, size); const h = 44, w = 112;
-  for (let y = -h; y < size + h; y += h) for (let x = ((y / h) & 1) ? -w / 2 : 0; x < size + w; x += w) { g.fillStyle = '#b75b41'; round(g, x + 4, y + 4, w - 8, h - 8, 5); g.fill(); g.strokeStyle = '#2c201d'; g.lineWidth = 3; g.stroke(); }
-  c.dataset.kind = 'brick-fallback'; return c;
+function tag(img, kind, url) {
+  if (!img?.dataset) return img;
+  img.dataset.kind = kind;
+  img.dataset.url = img.src || img.dataset.url || url;
+  img.dataset.publicUrl = url;
+  img.dataset.loadedFromPublicUrl = img.src === url ? 'true' : 'false';
+  return img;
 }
-function goldCanvas(size = 512) {
-  const c = canvas(size, 'generated-gold-coin-canvas'), g = c.getContext('2d');
-  const grd = g.createRadialGradient(size*.35, size*.25, 20, size*.5, size*.5, size*.48); grd.addColorStop(0, '#fff7a8'); grd.addColorStop(.35, '#ffd84a'); grd.addColorStop(1, '#7a4a08');
-  g.fillStyle = grd; g.beginPath(); g.arc(size/2, size/2, size*.43, 0, Math.PI*2); g.fill(); c.dataset.kind = 'gold-fallback'; return c;
-}
-function woodCanvas(size = 512) {
-  const c = canvas(size, 'generated-wood-door-canvas'), g = c.getContext('2d'); const grd = g.createLinearGradient(0, 0, size, 0); grd.addColorStop(0, '#5f341a'); grd.addColorStop(.5, '#a26330'); grd.addColorStop(1, '#44230f'); g.fillStyle = grd; g.fillRect(0, 0, size, size); c.dataset.kind = 'wood-fallback'; return c;
+function fallbackCanvas(kind, url, size = 256) {
+  const c = document.createElement('canvas'), g = c.getContext('2d'); c.width = c.height = size; c.dataset.url = url; c.dataset.fallback = 'true';
+  g.fillStyle = kind.includes('gold') ? '#ffd84a' : kind.includes('red') ? '#b65a3e' : kind.includes('yellow') ? '#d6b63f' : kind.includes('stone') ? '#8b8677' : '#d8d0bd'; g.fillRect(0, 0, size, size);
+  return c;
 }
 export function lavaCanvas(size = 512) {
-  const c = canvas(size, 'generated-lava-canvas'), g = c.getContext('2d'); g.fillStyle = '#2b0700'; g.fillRect(0, 0, size, size);
+  const c = document.createElement('canvas'), g = c.getContext('2d'); c.width = c.height = size; c.dataset.url = 'generated-lava-canvas'; c.dataset.kind = 'lava';
+  g.fillStyle = '#2b0700'; g.fillRect(0, 0, size, size);
   for (let i = 0; i < 140; i++) { const x = (i * 97) % size, y = (i * 53) % size, r = 22 + (i % 7) * 9, grd = g.createRadialGradient(x, y, 0, x, y, r); grd.addColorStop(0, '#fff06a'); grd.addColorStop(.25, '#ff7b16'); grd.addColorStop(1, 'rgba(120,0,0,0)'); g.fillStyle = grd; g.fillRect(x - r, y - r, r * 2, r * 2); }
-  c.dataset.kind = 'lava'; return c;
+  return c;
 }
-function canvas(size, url) { const c = document.createElement('canvas'); c.width = c.height = size; c.dataset.url = url; return c; }
-function round(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r); g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath(); }
