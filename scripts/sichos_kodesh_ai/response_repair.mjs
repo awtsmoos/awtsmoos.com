@@ -1,6 +1,7 @@
 // B"H
-/** Recover only English already present in a model response; never translate. */
-import { parseSichosXml, stripFences, validateParsed } from './parse_xml.mjs';
+/** Recover existing English while discarding footnote tags only. */
+import { parseSichosXml, stripFences } from './parse_xml.mjs';
+import { stripSupTags, validateForJob } from './translation_policy.mjs';
 
 function indexedBlocks(text, tag) {
   const regex = new RegExp(`<${tag}\\b([^>]*)>([\\s\\S]*?)<\\/${tag}>`, 'gi');
@@ -24,30 +25,31 @@ function rootCandidate(text) {
   return clean;
 }
 
-export function recoverExactChunk(chunk, responseText) {
-  const root = rootCandidate(responseText);
+function check(chunk, xml, method) {
   try {
-    const parsed = parseSichosXml(root);
-    const validation = validateParsed(chunk, parsed);
-    if (validation.ok) return { ok: true, xml: parsed.xml, parsed, validation, method: 'exact' };
-  } catch {}
-
-  const blocks = indexedBlocks(root, 'v');
-  if (blocks.duplicates.size) return { ok: false, reason: 'duplicate_v_indices' };
-  const expected = chunk.sections.map(section => section.sectionIndex);
-  if (!expected.every(index => blocks.map.has(index))) return { ok: false, reason: 'missing_expected_v' };
-  const xml = `<translation>\n${expected.map(index => blocks.map.get(index)).join('\n')}\n</translation>`;
-  try {
-    const parsed = parseSichosXml(xml);
-    const validation = validateParsed(chunk, parsed);
-    if (validation.ok) return { ok: true, xml, parsed, validation, method: 'indexed_v_slice' };
-    return { ok: false, reason: 'validation_failed', errors: validation.errors };
+    const cleaned = stripSupTags(xml);
+    const parsed = parseSichosXml(cleaned);
+    const validation = validateForJob(chunk, parsed);
+    return validation.ok
+      ? { ok: true, xml: cleaned, parsed, validation, method }
+      : { ok: false, reason: 'validation_failed', errors: validation.errors };
   } catch (error) {
     return { ok: false, reason: 'parse_failed', error: error.message };
   }
 }
 
-export function conciseFailure(error, limit = 12) {
-  const lines = String(error?.message || error || '').split('\n').filter(Boolean);
-  return lines.slice(0, limit).join('\n');
+export function recoverExactChunk(chunk, responseText) {
+  const root = rootCandidate(responseText);
+  const exact = check(chunk, root, 'footnote_free_exact');
+  if (exact.ok) return exact;
+  const blocks = indexedBlocks(root, 'v');
+  if (blocks.duplicates.size) return { ok: false, reason: 'duplicate_v_indices' };
+  const expected = chunk.sections.map(section => section.sectionIndex);
+  if (!expected.every(index => blocks.map.has(index))) return exact;
+  const sliced = `<translation>\n${expected.map(index => blocks.map.get(index)).join('\n')}\n</translation>`;
+  return check(chunk, sliced, 'footnote_free_indexed_v_slice');
+}
+
+export function conciseFailure(error, limit = 8) {
+  return String(error?.message || error || '').split('\n').filter(Boolean).slice(0, limit).join('\n');
 }

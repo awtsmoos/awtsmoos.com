@@ -1,43 +1,25 @@
-<!--B"H-->
-<!DOCTYPE html>
-<?Awtsmoos
-    return $a("bh.html");
-?>
-
+<!-- B"H -->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Sefarim Library</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#13072b">
+  <title>Awtsmoos Sefarim Search</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./script.js" defer></script>
 </head>
 <body>
-    <div id="controls">
-        <div class="left">
-            
-            <div class="nav-main"></div>
-        </div>
-        <div class="right">
-
-            <button id="increase-font" onclick="changeFontSize(1)">+</button>
-            <button id="decrease-font" onclick="changeFontSize(-1)">-</button>
-        </div>
-
-    </div>
-    <div id="tooltip" class="hidden"></div>
-    <div id="container">
-       
-        
-        <div id="sefarim" class="pg g"></div>
-        <div id="portions" class="pg"></div>
-        <div id="section" class="pg"></div>
-
-        <div id="main-content-container" class="pg o">
-            <div id="main-content-header"></div> <!-- Header for reading section -->
-        
-            <div id="main-content"></div>
-        </div>
-        
-    </div>
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <main>
+    <nav><a href="/">Awtsmoos</a><a href="/heichelos/ikar?view=series">All Sefarim</a></nav>
+    <header class="hero"><span class="heroIcon">🔎</span><p>SEARCH THE LIVING LIBRARY</p><h1>Find a spark.</h1><small>Ask naturally, choose a series, read the matching comments, then open the original post online.</small></header>
+    <form id="searchForm">
+      <div class="searchBox"><span>🔎</span><input id="query" type="search" required autofocus autocomplete="off" placeholder="What does the Rebbe say about…?"><button>Search</button></div>
+      <label>Search in <select id="series"><option value="">Best available series</option><option value="likkuteiSichos">Likkutei Sichos</option><option value="seferHaSichos">Sefer HaSichos</option></select></label>
+    </form>
+    <p id="status" role="status"></p>
+    <section id="results" aria-live="polite"></section>
+  </main>
 </body>
 </html>

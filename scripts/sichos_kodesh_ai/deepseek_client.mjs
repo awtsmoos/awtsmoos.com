@@ -1,5 +1,5 @@
 // B"H
-/** DeepSeek client with fatal classification and cancellation support. */
+/** DeepSeek client with fatal classification, cancellation, and hard request timeout. */
 export class DeepSeekError extends Error {
   constructor(message, options = {}) {
     super(message);
@@ -17,19 +17,42 @@ function httpError(status, json, text) {
   });
 }
 
-export async function callDeepSeek({ prompt, model = 'deepseek-chat', signal }) {
+function linkedSignal(parent, timeoutMs) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(new Error('request_timeout')), timeoutMs);
+  const onAbort = () => controller.abort(parent?.reason || new Error('parent_aborted'));
+  if (parent) {
+    if (parent.aborted) onAbort();
+    else parent.addEventListener('abort', onAbort, { once: true });
+  }
+  return {
+    signal: controller.signal,
+    cleanup() {
+      clearTimeout(timeout);
+      if (parent) parent.removeEventListener('abort', onAbort);
+    }
+  };
+}
+
+export async function callDeepSeek({ prompt, model = 'deepseek-chat', signal, timeoutMs = 180000 }) {
   const apiKey = process.env.DEEPSEEK_API_KEY;
   if (!apiKey) throw new DeepSeekError('DEEPSEEK_API_KEY is not set', { code: 'missing_api_key', fatal: true });
   const body = { model, temperature: 0, messages: [{ role: 'user', content: prompt }] };
+  const linked = linkedSignal(signal, timeoutMs);
   let response;
   try {
     response = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify(body), signal
+      body: JSON.stringify(body), signal: linked.signal
     });
   } catch (error) {
-    if (error.name === 'AbortError') throw new DeepSeekError('DeepSeek request aborted', { code: 'aborted' });
+    if (signal?.aborted) throw new DeepSeekError('DeepSeek request aborted by swarm', { code: 'aborted' });
+    if (linked.signal.aborted) throw new DeepSeekError(`DeepSeek request timed out after ${timeoutMs}ms`, {
+      code: 'request_timeout', retryable: true
+    });
     throw new DeepSeekError(`DeepSeek network error: ${error.message}`, { code: 'network_error', retryable: true });
+  } finally {
+    linked.cleanup();
   }
   const text = await response.text();
   let json = null;

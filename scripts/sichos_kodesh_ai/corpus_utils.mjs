@@ -13,11 +13,44 @@ export function loadCorpus() {
   return JSON.parse(fs.readFileSync(SOURCE, 'utf8'));
 }
 
+function escapeRegex(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function supCounts(html = '') {
+  const counts = new Map();
+  for (const match of String(html).matchAll(/<sup\b[^>]*>\s*(\d+)\s*<\/sup>/gi)) {
+    counts.set(match[1], (counts.get(match[1]) || 0) + 1);
+  }
+  return counts;
+}
+
+function removeRightmostStandalone(text, number) {
+  const matches = [...String(text).matchAll(new RegExp(`(?<!\\d)${escapeRegex(number)}(?!\\d)`, 'g'))];
+  const match = matches.at(-1);
+  if (!match) return text;
+  return text.slice(0, match.index) + text.slice(match.index + match[0].length);
+}
+
+function promptTextFromHtmlEvidence(text, footnotes, available) {
+  let output = String(text);
+  for (const number of [...footnotes].reverse()) {
+    const remaining = available.get(number) || 0;
+    if (!remaining) continue;
+    output = removeRightmostStandalone(output, number);
+    available.set(number, remaining - 1);
+  }
+  return cleanText(output.replace(/\s+([,.;:!?])/g, '$1'));
+}
+
 export function meaningfulSubsections(section) {
+  const availableSup = supCounts(section?.html);
   return (section?.subsections || []).map((item, position) => {
     const text = cleanText(item?.text);
+    const footnotes = extractFootnotes(text);
     const sourceIndex = Number.isInteger(item?.index) ? item.index : position;
-    return { sourceSubsectionIndex: sourceIndex, text, footnotes: extractFootnotes(text) };
+    const promptText = promptTextFromHtmlEvidence(text, footnotes, availableSup);
+    return { sourceSubsectionIndex: sourceIndex, text, promptText, footnotes };
   }).filter(item => item.text && !isStructuralMarker(item.text) && !JUNK.test(item.text));
 }
 
@@ -33,6 +66,7 @@ export function extractDocument(documentId, doc) {
         paragraphIndex: item.sourceSubsectionIndex,
         sourceSubsectionIndex: item.sourceSubsectionIndex,
         text: item.text,
+        promptText: item.promptText,
         footnotes: item.footnotes
       }))
     };
