@@ -1,15 +1,14 @@
 // B"H
 import { tallDoorwayWallDef } from './DoorwaySpecs.js';
 import { createHouseDefs } from './House3D.js';
-import { lavaCourseDefs } from './LavaLevel.js';
 
-/** ObstacleField: static tests, the new house, and the lava course stones. */
-export function createObstacleField() {
+/** ObstacleField: main Eretz only; lava is a separate unload/load world. */
+export function createObstacleField(assets = {}) {
   return [
     box('long-rotated-wall', '#4b3b34', 0, 1, -6, 9, 2, .8, .42), box('thin-angle-wall', '#6d5c55', -4.2, .8, 1.3, .8, 1.6, 4.8, -.74),
     diamond('diamond-stone', '#6b7484', -2.2, .95, -2.4, 1.9, .25), box('small-climb-block', '#a77845', 2.2, .34, -1.8, 1.25, .42, 1.25, -.35, {}, true),
     doorway('literal-boolean-doorway-wall', '#5e4439', 0, 1.5, -13, 8.5, 3, .75, .08, { x: 2.35, y: 2.18 }), tallDoorwayWallDef(),
-    ...createHouseDefs(), ...lavaCourseDefs(),
+    ...createHouseDefs(assets),
     ...stairs('climb-staircase-a', -3.6, 6.4, -.5), ...stairs('climb-staircase-b', 6.6, 6.1, .72),
     platform('floating-step-one', '#8e764d', -6, .65, -9.2, 2.4, .42, 2.4, .35), platform('floating-step-two', '#9e885b', -8.8, 1.06, -11.4, 2.2, .42, 2.2, -.52),
     platform('gentle-ramp-walk-test', '#7c6442', 4.8, .52, -8.6, 5.0, .34, 1.7, -.7, { x: .25 }), platform('steep-burger-slide-hill', '#b8864f', -10.5, .86, 4.4, 5.4, .42, 3.3, .28, { x: .86 }),

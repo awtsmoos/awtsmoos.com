@@ -1,27 +1,25 @@
 // B"H
-/** Shader scrolls: skinned chossid plus obvious grass/dirt mix() patches. */
+/** Shader scrolls: real texture maps plus strong visible grass/dirt mix(). */
 export const fragmentShader = `
 precision mediump float;
 varying vec3 vNormal; varying vec4 vColor; varying vec2 vUv; varying vec3 vWorld;
 uniform vec4 uColor; uniform float uAlphaCutoff; uniform int uAlphaMode; uniform int uLit;
 uniform int uUseMap; uniform sampler2D uMap; uniform vec2 uMapRepeat;
 uniform int uUseMixMap; uniform sampler2D uMixMap; uniform vec2 uMixRepeat; uniform float uMixStrength;
-vec2 mirrorRepeat(vec2 uv, vec2 rep){ vec2 d=mod(uv*rep,2.0); return 1.0-abs(d-1.0); }
+vec2 repeatUv(vec2 uv, vec2 rep){ return fract(uv*rep); }
 float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
-float noise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),f.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),f.x),f.y); }
+float noise(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),f.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),f.x),f.y); }
 void main(){
-  vec4 texel=vec4(1.0); if(uUseMap==1) texel=texture2D(uMap,mirrorRepeat(vUv,uMapRepeat));
-  if(uUseMixMap==1){
-    vec4 dirt=texture2D(uMixMap,mirrorRepeat(vUv,uMixRepeat));
-    float broad=noise(vWorld.xz*.045+vec2(9.0,2.0));
-    float mid=noise(vWorld.xz*.115+vec2(1.7,8.3));
-    float speck=noise(vWorld.xz*.55+vec2(4.0,4.0));
+  vec4 texel=vec4(1.0); if(uUseMap==1) texel=texture2D(uMap,repeatUv(vUv,uMapRepeat));
+  if(uUseMixMap==1 && uMixStrength>0.001){
+    vec4 dirt=texture2D(uMixMap,repeatUv(vUv,uMixRepeat));
+    float broad=noise(vWorld.xz*.060+vec2(3.0,8.0));
+    float clump=noise(vWorld.xz*.165+vec2(13.0,2.0));
+    float path=1.0-smoothstep(.20,.62,abs(sin(vWorld.x*.14+noise(vWorld.xz*.05)*3.0)+cos(vWorld.z*.11)*.42));
     float slope=1.0-clamp(normalize(vNormal).y,0.0,1.0);
-    float trail=1.0-smoothstep(.16,.58,abs(sin(vWorld.x*.095+noise(vWorld.xz*.08)*2.2)+cos(vWorld.z*.075)*.28));
-    float mask=smoothstep(.44,.64,broad*.58+mid*.32+speck*.10+slope*.35+trail*.23);
-    vec3 earth=mix(dirt.rgb,vec3(.43,.31,.18),.18);
-    texel.rgb=mix(texel.rgb,earth,clamp(mask*uMixStrength,0.0,.88));
-    texel.a*=dirt.a;
+    float mask=clamp(.18 + smoothstep(.42,.56,broad*.55+clump*.35+path*.30+slope*.42),0.0,1.0);
+    vec3 earthy=mix(dirt.rgb,vec3(.33,.22,.12),.12);
+    texel.rgb=mix(texel.rgb,earthy,clamp(mask*uMixStrength,0.0,.96));
   }
   vec4 mixedColor=uColor*vColor*texel; if(uAlphaMode==1&&mixedColor.a<uAlphaCutoff)discard; if(mixedColor.a<=.003)discard;
   vec3 rgb=mixedColor.rgb; if(uLit==1){ vec3 normal=normalize(vNormal); vec3 key=normalize(vec3(-.45,.82,.35)); vec3 fill=normalize(vec3(.50,.25,-.80)); float k=max(dot(normal,key),0.0), f=max(dot(normal,fill),0.0)*.22, rim=pow(1.0-abs(normal.z),2.0)*.45; float lum=dot(rgb,vec3(.299,.587,.114)); vec3 lifted=mix(vec3(.045,.055,.070),rgb,smoothstep(.025,.25,lum)); rgb=lifted*(.38+k*.78+f)+vec3(.10,.16,.22)*rim; }
