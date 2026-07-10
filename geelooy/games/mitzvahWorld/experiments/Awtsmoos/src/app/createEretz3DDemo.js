@@ -32,10 +32,10 @@ import { loadHouseAssets } from '../assets/HouseAssets.js';
 const GLB = 'https://models-3122d.web.app/chossid.glb', SIDE_SIGN = -1, FACE_HEIGHT = 1.78;
 const MAX_STEP = .96, STEP_DOWN = .72, MAX_SLOPE_NORMAL = .72, WALK_SPEED = 3.7, RUN_SPEED = 8.85;
 
-/** Real 3D Awtsmoos: modular house, thick roads, multi-dirt terrain, easier lava. */
+/** Real 3D Awtsmoos: huge fast Eretz, cached doors, giant house, long lava. */
 export async function createEretz3DDemo({ canvas, joystickHost, jumpHost, hud, actionHost, inventoryHost, npcHost, dialogueHost }) {
-  const scene = new Scene(), camera = new PerspectiveCamera(45, innerWidth / innerHeight, .1, 800), renderer = new TinyWebGLRenderer({ canvas });
-  const bus = new AwtsmoosEventBus(), input = new UiEventSystem(canvas).install(bus), joystick = new MobileJoystick(joystickHost), jumpButton = new JumpButton(jumpHost), orbit = new CameraOrbitController(canvas, { distance: 10.8, pitch: .23, yaw: Math.PI, min: 2.4, max: 54 });
+  const scene = new Scene(), camera = new PerspectiveCamera(45, innerWidth / innerHeight, .1, 1600), renderer = new TinyWebGLRenderer({ canvas });
+  const bus = new AwtsmoosEventBus(), input = new UiEventSystem(canvas).install(bus), joystick = new MobileJoystick(joystickHost), jumpButton = new JumpButton(jumpHost), orbit = new CameraOrbitController(canvas, { distance: 16.5, pitch: .21, yaw: Math.PI, min: 2.4, max: 220 });
   const [grassImage, dirtImage, assets, playerGltf, npcGltf] = await Promise.all([loadFirstImage(GRASS_URLS, 5200), loadFirstImage(DIRT_URLS, 5200), loadHouseAssets(loadFirstImage), loadIsolatedGltf(GLB, 'player'), loadIsolatedGltf(GLB, 'npc')]);
   const terrain = createTerrainPackage(createObstacleField(assets), grassImage, dirtImage), mainOctree = buildTriangleOctree(terrain.colliders), ground = new WorldGround({ terrainHeightAt: terrain.heightAt, octree: mainOctree });
   scene.add(createSky3D()); scene.add(terrain.group);
@@ -71,6 +71,6 @@ function wireBus(bus, state, worldMode) { bus.on('mode:toggle-run', () => { stat
 function clipMap(names) { const pick = (re, fb) => names.find(n => re.test(n)) || fb; const stand = pick(/stand|idle/i, names[0] || ''), walk = pick(/walk/i, stand), run = pick(/run/i, walk), jump = pick(/jump|leap/i, stand); return { stand, walk, run, jump, fall: pick(/fall|air|drop/i, jump) }; }
 function placeModel(model, s) { model.position.set(s.x, s.renderY, s.z); model.quaternion.set(0, Math.sin(s.facing / 2), 0, Math.cos(s.facing / 2)); }
 function faceTarget(s) { return { x: s.x, y: s.renderY + s.faceHeight, z: s.z }; }
-function buildTriangleOctree(colliders) { const octree = new AwtsmoosOctree(Aabb.centerSize({ x: 0, y: 0, z: 0 }, { x: 190, y: 130, z: 190 })); for (const tri of colliders) octree.insert(tri); return octree; }
+function buildTriangleOctree(colliders) { const octree = new AwtsmoosOctree(Aabb.centerSize({ x: 0, y: 0, z: 0 }, { x: 780, y: 180, z: 780 })); for (const tri of colliders) octree.insert(tri); return octree; }
 async function loadFirstImage(urls, timeoutMs) { for (const url of urls) { const img = await loadImage(url, timeoutMs); if (img) return img; } return null; }
 function loadImage(src, timeoutMs = 2400) { return new Promise(resolve => { const img = new Image(); let done = false; const finish = v => { if (!done) { done = true; resolve(v); } }; const timer = setTimeout(() => finish(null), timeoutMs); img.crossOrigin = 'anonymous'; img.onload = () => { clearTimeout(timer); finish(img); }; img.onerror = () => { clearTimeout(timer); finish(null); }; img.src = src; }); }
