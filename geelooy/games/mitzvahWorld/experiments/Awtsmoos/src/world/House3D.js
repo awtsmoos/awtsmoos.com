@@ -1,17 +1,17 @@
 // B"H
-/** House3D: a larger brick manual house, a boolean front wall, and a real wood door. */
+/** House3D: bigger brick geometry whose wall, floor, and doorway all agree. */
 const HOUSE = { x: 18, y: 0, z: -20, yaw: -.16, w: 12.4, d: 9.4, h: 4.4 };
 export function createHouseDefs(assets = {}) {
-  const { x, y, z, yaw } = HOUSE, wall = textured('#8b5542', assets.brickImage, [3.8, 2.4]), wood = textured('#8a5228', assets.woodImage, [2.2, 1.6]);
+  const { x, y, z, yaw } = HOUSE, brick = textured('#d19170', assets.brickImage, [4.4, 2.8]), wood = textured('#a56432', assets.woodImage, [2.2, 1.6]);
   return [
-    manual('Awtsmoos-big-brick-three-wall-house', wall, { x, y, z }, yaw, wallShell()),
+    manual('Awtsmoos-big-brick-three-wall-house', brick, { x, y, z }, yaw, wallShell()),
     manual('Awtsmoos-big-house-one-piece-triangle-roof', wood, { x, y: y + HOUSE.h, z }, yaw, roofMesh(), false),
-    manual('Awtsmoos-big-house-walkable-floor', textured('#8b7355', assets.woodImage, [3.2, 3.2]), { x, y: y + .08, z }, yaw, floorMesh(), true),
-    doorway('Awtsmoos-house-front-boolean-doorway-wall', wall, x, y + 1.75, z + HOUSE.d / 2 + .42, HOUSE.w + .55, 3.5, .42, yaw, { x: 2.45, y: 2.7 })
+    manual('Awtsmoos-big-house-brick-walk-floor', textured('#c48664', assets.brickImage, [3.8, 3.8]), { x, y: y + .08, z }, yaw, floorMesh(), true),
+    doorway('Awtsmoos-house-front-boolean-doorway-wall', brick, x, y + 1.75, z + HOUSE.d / 2 + .42, HOUSE.w + .55, 3.5, .42, yaw, { x: 2.45, y: 2.7 })
   ];
 }
 export function houseDoorDef(assets = {}) {
-  return { id: 'Awtsmoos-house-front-wood-door', width: 2.35, height: 2.62, thickness: .22, centerY: 1.31, depth: .63, yaw: HOUSE.yaw, position: { x: HOUSE.x, y: 0, z: HOUSE.z + HOUSE.d / 2 + .42 }, opening: { width: 2.45, height: 2.7, wall: 'Awtsmoos-house-front-boolean-doorway-wall' }, color: '#7a421d', mapImage: assets.woodImage || null, textureUrl: assets.woodImage?.dataset?.url || assets.woodImage?.src || null, mapRepeat: [1.2, 1.8] };
+  return { id: 'Awtsmoos-house-front-wood-door', width: 2.35, height: 2.62, thickness: .22, centerY: 1.31, depth: .63, yaw: HOUSE.yaw, position: { x: HOUSE.x, y: 0, z: HOUSE.z + HOUSE.d / 2 + .42 }, opening: { width: 2.45, height: 2.7, wall: 'Awtsmoos-house-front-boolean-doorway-wall' }, color: '#9a5827', mapImage: assets.woodImage || null, textureUrl: assets.woodImage?.dataset?.url || assets.woodImage?.src || null, mapRepeat: [1.2, 1.8] };
 }
 export function manualShape(id, material, position, vertices, faces, { yaw = 0, walkable = false, solid = true } = {}) { return { id, shape: 'manual', solid, walkable, ...material, position, vertices, faces, rotation: { y: yaw }, yaw }; }
 function manual(id, material, position, yaw, data, walkable = false) { return manualShape(id, material, position, data.vertices, data.faces, { yaw, walkable, solid: true }); }

@@ -1,5 +1,5 @@
 // B"H
-/** Shader scrolls: real texture maps plus strong visible grass/dirt mix(). */
+/** Shader scrolls: bright sun, readable textures, and real grass/dirt mix(). */
 export const fragmentShader = `
 precision mediump float;
 varying vec3 vNormal; varying vec4 vColor; varying vec2 vUv; varying vec3 vWorld;
@@ -18,12 +18,19 @@ void main(){
     float path=1.0-smoothstep(.20,.62,abs(sin(vWorld.x*.14+noise(vWorld.xz*.05)*3.0)+cos(vWorld.z*.11)*.42));
     float slope=1.0-clamp(normalize(vNormal).y,0.0,1.0);
     float mask=clamp(.18 + smoothstep(.42,.56,broad*.55+clump*.35+path*.30+slope*.42),0.0,1.0);
-    vec3 earthy=mix(dirt.rgb,vec3(.33,.22,.12),.12);
+    vec3 earthy=mix(dirt.rgb,vec3(.36,.24,.13),.10);
     texel.rgb=mix(texel.rgb,earthy,clamp(mask*uMixStrength,0.0,.96));
   }
   vec4 mixedColor=uColor*vColor*texel; if(uAlphaMode==1&&mixedColor.a<uAlphaCutoff)discard; if(mixedColor.a<=.003)discard;
-  vec3 rgb=mixedColor.rgb; if(uLit==1){ vec3 normal=normalize(vNormal); vec3 key=normalize(vec3(-.45,.82,.35)); vec3 fill=normalize(vec3(.50,.25,-.80)); float k=max(dot(normal,key),0.0), f=max(dot(normal,fill),0.0)*.22, rim=pow(1.0-abs(normal.z),2.0)*.45; float lum=dot(rgb,vec3(.299,.587,.114)); vec3 lifted=mix(vec3(.045,.055,.070),rgb,smoothstep(.025,.25,lum)); rgb=lifted*(.38+k*.78+f)+vec3(.10,.16,.22)*rim; }
-  gl_FragColor=vec4(rgb,mixedColor.a);
+  vec3 rgb=mixedColor.rgb; if(uLit==1){
+    vec3 normal=normalize(vNormal);
+    vec3 sun=normalize(vec3(-.38,.91,.26)); vec3 fill=normalize(vec3(.55,.38,-.72));
+    float key=max(dot(normal,sun),0.0), f=max(dot(normal,fill),0.0), sky=normal.y*.5+.5;
+    vec3 warmSun=vec3(1.10,1.04,.86), coolSky=vec3(.55,.72,1.00);
+    rgb = rgb*(.72 + key*1.05)*mix(vec3(1.0),warmSun,key*.36) + rgb*(f*.24 + sky*.20)*coolSky;
+    rgb = mix(rgb, sqrt(max(rgb, vec3(0.0))), .16);
+  }
+  gl_FragColor=vec4(min(rgb,vec3(1.0)),mixedColor.a);
 }`;
 export const rigidVertexShader = `
 attribute vec3 aPosition; attribute vec3 aNormal; attribute vec4 aColor; attribute vec2 aUv;
