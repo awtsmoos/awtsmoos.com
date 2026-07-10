@@ -4,7 +4,7 @@ import { exactRepeat, materialTexture, roofRepeat, wallRepeat } from '../assets/
 export const DEFAULT_HOUSE_SPEC = Object.freeze({ id:'Awtsmoos-main-huge-house', x:48, z:-58, yaw:0, floorY:1.05, width:53.4, depth:43.2, wallH:17.7, wallT:.82, doorW:2.45, doorH:2.75, roofRise:8.2, roofOver:3.2, staticDoor:false });
 export const HOUSE_ROOM_KINDS = Object.freeze(['wash-house','far-family-house','side-study-house','small-courtyard-house']);
 
-/** ModularHouseSystem: measured houses; every wall and road anchor is derived from one spec. */
+/** ModularHouseSystem: roofs are face-duplicated, UV-clean, and lit by sane normals. */
 export function createModularHouse(assets = {}, spec = DEFAULT_HOUSE_SPEC) {
   const s=houseSpec(spec), mats=houseMaterials(assets,s), front=frontDoorSet(assets,s).wall, defs=[foundation(s,mats), floor(s,mats), backWall(s,mats), leftWall(s,mats), rightWall(s,mats), front, roof(s,mats), landing(s,mats), ramp(s,mats), stairMark(s,mats,1), stairMark(s,mats,2)];
   if (s.staticDoor) defs.push(staticDoor(s,mats));
@@ -30,12 +30,22 @@ function floor(s,m) { return box(`${s.id}-complete-walkable-first-floor`,stone(m
 function backWall(s,m) { return box(`${s.id}-back-wall-exact`,m.wall,s,0,s.floorY+s.wallH/2,-s.depth/2+s.wallT/2,s.width,s.wallH,s.wallT,false,true); }
 function leftWall(s,m) { return box(`${s.id}-left-wall-exact`,m.side,s,-s.width/2+s.wallT/2,s.floorY+s.wallH/2,0,s.wallT,s.wallH,s.depth-s.wallT*2,false,true); }
 function rightWall(s,m) { return box(`${s.id}-right-wall-exact`,m.side,s,s.width/2-s.wallT/2,s.floorY+s.wallH/2,0,s.wallT,s.wallH,s.depth-s.wallT*2,false,true); }
-function roof(s,m) { return manual(`${s.id}-huge-bright-gable-roof`,m.roof,s,roofMesh(s),false,true); }
+function roof(s,m) { const r=roofMesh(s); return manual(`${s.id}-clean-face-uv-gable-roof`,m.roof,s,r,false,true); }
 function landing(s,m) { return box(`${s.id}-wide-stone-landing-at-door`,stone(m,s.doorW+4.2,2.45),s,0,s.floorY-.08,s.depth/2+1.25,s.doorW+4.2,.22,2.45,true,true); }
 function ramp(s,m) { return box(`${s.id}-one-piece-fast-stair-ramp`,stone(m,s.doorW+4.8,5.8),s,0,.48,s.depth/2+4,s.doorW+4.8,.38,5.8,true,true,{x:-.18}); }
 function stairMark(s,m,i) { const w=s.doorW+4.4; return box(`${s.id}-thin-visual-step-marker-${i}`,{...stone(m,w,.18),backfaceCull:false},s,0,.16+i*.28,s.depth/2+1.9+i*1.1,w,.08,.18,false,true,{},false); }
-function staticDoor(s,m) { const d=modularHouseDoorWorld(s), out=localToWorld(s,0,s.depth/2+s.wallT*.05); return { id:`${s.id}-static-wood-door`, shape:'box', solid:false, walkable:false, noEdge:true, ...m.door, position:{x:out.x,y:s.floorY+s.doorH/2,z:out.z}, size:{x:s.doorW-.18,y:s.doorH-.08,z:.18}, rotation:{y:s.yaw} }; }
+function staticDoor(s,m) { const out=localToWorld(s,0,s.depth/2+s.wallT*.05); return { id:`${s.id}-static-wood-door`, shape:'box', solid:false, walkable:false, noEdge:true, ...m.door, position:{x:out.x,y:s.floorY+s.doorH/2,z:out.z}, size:{x:s.doorW-.18,y:s.doorH-.08,z:.18}, rotation:{y:s.yaw} }; }
 function box(id,material,s,lx,y,lz,sx,sy,sz,walkable,noEdge,rot={},solid=true) { const p=localToWorld(s,lx,lz); return { id, shape:'box', solid, walkable, noEdge, ...material, position:{x:p.x,y,z:p.z}, size:{x:sx,y:sy,z:sz}, rotation:{y:s.yaw,...rot} }; }
-function manual(id,material,s,data,walkable,noEdge) { return { id, shape:'manual', solid:true, walkable, noEdge, ...material, position:{x:s.x,y:0,z:s.z}, vertices:data.vertices, faces:data.faces, uvs:data.uvs||[], rotation:{y:s.yaw}, yaw:s.yaw }; }
-function roofMesh(s) { const hx=s.width/2+s.roofOver,hz=s.depth/2+s.roofOver,y=s.floorY+s.wallH,r=s.roofRise; return { vertices:[[-hx,y,hz],[hx,y,hz],[0,y+r,hz],[-hx,y,-hz],[hx,y,-hz],[0,y+r,-hz],[-hx+.8,y-.22,hz-.7],[hx-.8,y-.22,hz-.7],[-hx+.8,y-.22,-hz+.7],[hx-.8,y-.22,-hz+.7]], faces:[[0,3,5,2],[1,2,5,4],[0,1,4,3],[0,2,1],[3,4,5],[6,8,9,7]], uvs:[0,0,1,0,.5,1,0,0,1,0,.5,1,0,0,1,0,0,1,1,1] }; }
+function manual(id,material,s,data,walkable,noEdge) { return { id, shape:'manual', solid:true, walkable, noEdge, ...material, position:{x:s.x,y:0,z:s.z}, vertices:data.vertices, faces:data.faces, uvs:data.uvs, rotation:{y:s.yaw}, yaw:s.yaw }; }
+function roofMesh(s) {
+  const hx=s.width/2+s.roofOver, hz=s.depth/2+s.roofOver, y=s.floorY+s.wallH, r=s.roofRise;
+  const A=[-hx,y,hz], B=[hx,y,hz], C=[0,y+r,hz], D=[-hx,y,-hz], E=[hx,y,-hz], F=[0,y+r,-hz];
+  const verts=[], faces=[], uvs=[]; const add=(pts, uv)=>{ const o=verts.length; verts.push(...pts); uvs.push(...uv); faces.push(pts.map((_,i)=>o+i)); };
+  add([A,D,F,C],[0,0,1,0,1,1,0,1]);
+  add([B,C,F,E],[0,0,1,0,1,1,0,1]);
+  add([D,A,B,E],[0,0,1,0,1,1,0,1]);
+  add([A,C,B],[0,0,.5,1,1,0]);
+  add([D,E,F],[0,0,1,0,.5,1]);
+  return { vertices:verts, faces, uvs };
+}
 function localToWorld(s,x,z) { const c=Math.cos(s.yaw),q=Math.sin(s.yaw); return { x:s.x+x*c-z*q, z:s.z+x*q+z*c }; }
