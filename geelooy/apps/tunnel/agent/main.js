@@ -1,72 +1,78 @@
+#!/usr/bin/env node
 // B"H
-const { loadConfig, ROOT, HOME } = require('./lib/config.js');
-const { makeLogger } = require('./lib/log.js');
-const { startLocalApiServer } = require('./lib/local-api.js');
-const { openHostedControl } = require('./lib/open.js');
-const { TinyWebSocket } = require('./lib/ws.js');
-const { handleFs } = require('./tools/fs/index.js');
-const { handleCommand } = require('./tools/command/index.js');
-const { handleChrome } = require('./tools/chrome/index.js');
-const { handleRelay } = require('./tools/relay/index.js');
-const { handleStreaming } = require('./tools/streaming/index.js');
-const { AGENT_VERSION } = require('./tools/fs/actions.js');
-const { inlineLimit } = require('./lib/response-size.js');
-const { nativeRegistrationPacket } = require('./lib/registration.js');
-const L = require('./lib/runtime/limits.js');
-const K = require('./lib/runtime/kind.js');
-const Mem = require('./lib/runtime/memory.js');
-const Env = require('./lib/runtime/envelope.js');
-const C = require('./lib/runtime/correlation.js');
-const Send = require('./lib/runtime/safe-send.js');
-const Proxy = require('./lib/runtime/local-proxy.js');
-const Boot = require('./lib/runtime/boot-resume-loop.js');
-const Continue = require('./lib/runtime/continuation-loop.js');
-const Priority = require('./lib/runtime/priority.js');
-const Control = require('./lib/runtime/control-plane.js');
-const Updates = require('./lib/runtime/background-update.js');
-const Circuit = require('./lib/runtime/circuit-breaker.js');
-const Watchdog = require('./lib/runtime/watchdog.js');
-const ActionStream = require('./lib/runtime/action-stream.js');
-const Lag = require('./lib/runtime/event-loop-lag.js');
-const { createSupervisor } = require('./lib/runtime/worker-supervisor.js');
-const log = makeLogger(ROOT), identity = Control.createRuntimeIdentity(), workers = createSupervisor({ log });
-const lagMonitor = Lag.createLagMonitor({ intervalMs:2000, windowMs:30000 });
-const state = { activeWs:null, reconnectTimer:null, watchdogTimer:null, drainScheduled:false, reconnectAttempt:0, wasEverConnected:false, generation:0, lastSuccessfulActionAt:0, lanes:Priority.makeLaneState(), eventLoopLag:lagMonitor.snapshot() };
-function totalInflight(){ return Priority.inflightCount(state.lanes); }
-function totalQueued(){ return Priority.queuedCount(state.lanes); }
-function refreshLag(){ state.eventLoopLag = lagMonitor.snapshot(); return state.eventLoopLag; }
-function requestPayload(data = {}) { const p = requestPayloadCarrier(data); return { ...p, ...C.extractCorrelationScope({ ...data, payload:p }) }; }
-function requestPayloadCarrier(data = {}) { if (data.payload && typeof data.payload === 'object' && !Array.isArray(data.payload)) return data.payload; return C.decodeCarrier(data.payload, 'payload') || C.decodeCarrier(data.payload64, 'payload64') || {}; }
-function routedData(data = {}) { return { ...data, payload:requestPayload(data) }; }
-function laneStats(){ return Object.fromEntries(Priority.LANE_ORDER.map(l => [l, { inflight:state.lanes[l].inflight, queued:state.lanes[l].queue.length, maxInflight:L.LANE_LIMITS[l], advisoryTimeoutMs:L.LANE_TIMEOUT_MS[l] }])); }
-function stats(options = {}) { refreshLag(); const lanes = laneStats(), rawWorkers = workers.status(), base = { lanes, eventLoopLag:state.eventLoopLag, workers:rawWorkers, lastSuccessfulActionAt:state.lastSuccessfulActionAt, maxQueue:L.MAX_QUEUE }; const circuit = Circuit.snapshot(base); return { inflight:totalInflight(), queued:totalQueued(), maxInflight:L.MAX_INFLIGHT, maxQueue:L.MAX_QUEUE, controlQueueLimit:L.CONTROL_QUEUE_LIMIT, lanes, eventLoopLag:state.eventLoopLag, circuit, workers:workerStats(rawWorkers, options.workers === true), lastSuccessfulActionAt:state.lastSuccessfulActionAt, longLivedConnections:L.LONG_LIVED_CONNECTIONS, keepAliveMs:L.KEEPALIVE_MS }; }
-function workerStats(input = {}, detailed = false) { const active = input.active || {}, recent = Array.isArray(input.recent) ? input.recent : []; const out = { activeTotal:Number(input.activeTotal ?? Object.keys(active).length), activeLimit:Number(input.activeLimit || 0), activeTruncated:Boolean(input.activeTruncated), recentCompleted:input.recentCompleted || 0, recentFailed:input.recentFailed || 0, recentCancelled:input.recentCancelled || 0, recentLimit:Number(input.recentLimit || 0), supervisors:input.supervisors ? Object.keys(input.supervisors).length : 0 }; if (!detailed) return out; return { ...out, active:limitWorkerMap(active, 3), recent:recent.slice(0, 2).map(compactWorker) }; }
-function limitWorkerMap(active = {}, limit = 3) { return Object.fromEntries(Object.entries(active).slice(0, limit).map(([id, worker]) => [id, compactWorker(worker)])); }
-function compactWorker(worker = {}) { return { workerId:worker.workerId, jobId:worker.jobId, action:worker.action, state:worker.state, pid:worker.pid, startedAt:worker.startedAt, heartbeatAt:worker.heartbeatAt, heartbeatAgeMs:worker.heartbeatAgeMs, finishedAt:worker.finishedAt, exitCode:worker.exitCode, signal:worker.signal, cancelable:worker.cancelable }; }
-function snapshot(){ return { ...Mem.snapshot({ inflight:new Set(Array(totalInflight()).fill(0)), requestQueue:Array(totalQueued()).fill(0) }, L, inlineLimit), ...stats({ workers:true }) }; }
-setInterval(() => log('Memory:', JSON.stringify(snapshot())), 60000).unref();
-lagMonitor.start();
-function registerReady(ws, gen){ if (gen !== state.generation || !ws || ws.closed) return; const config = loadConfig(); Control.markSeen(ws); ws.sendJson(nativeRegistrationPacket({ config, agentVersion:AGENT_VERSION, runtime:Control.registrationRuntime(identity, gen), limits:{ maxInflight:L.MAX_INFLIGHT, strictOrdering:L.STRICT_ORDERING, maxQueue:L.MAX_QUEUE, laneLimits:L.LANE_LIMITS, laneTimeoutMs:L.LANE_TIMEOUT_MS, laneAdvisoryTimeoutMs:L.LANE_TIMEOUT_MS, requestMaxAgeMs:L.REQUEST_MAX_AGE_MS, keepAliveMs:L.KEEPALIVE_MS, longLivedConnections:L.LONG_LIVED_CONNECTIONS, maxProxyBytes:L.MAX_PROXY_BYTES, reconnectMinMs:L.RECONNECT_MIN_MS, reconnectMaxMs:L.RECONNECT_MAX_MS, watchdogMs:L.WATCHDOG_MS, staleMs:L.WATCHDOG_STALE_MS, inlineLimitBytes:inlineLimit(), priorityActions:[...Priority.PRIORITY_ACTIONS], lanes:Priority.LANE_ORDER, circuitBreaker:Circuit.DEFAULTS } })); state.wasEverConnected = true; state.reconnectAttempt = 0; state.lastSuccessfulActionAt = Date.now(); log('Tunnel registered ready:', config.tunnelName, 'root:', config.root || HOME, 'generation:', gen, 'pid:', identity.pid); Updates.scheduleSelfUpdate({ config, log, reason:'post_register_ready' }); }
-function enqueueRequest(ws, raw){ const data = routedData(raw), item = { ws, data, enqueuedAt:Date.now(), queueKeepalive:null }, payload = data.payload, lane = Priority.laneOf(item), s = stats(), gate = Circuit.canAccept(lane, s, Circuit.DEFAULTS, payload); streamEvent('action.received', payload, { lane }); if (!gate.ok) { streamEvent('action.error', payload, { lane, ok:false, status:gate.status || 503, error:gate.reason || gate.error || 'circuit_rejected' }); return Send.safeSend(ws, { type:'TUNNEL_RESPONSE', id:data.id, ...C.fields(payload), lane, ...gate, queueStats:s }); } if (!Priority.canQueue(state.lanes, lane, L)) { const error = lane === Priority.LANES.P0 ? 'agent_control_queue_full' : 'agent_queue_full'; streamEvent('action.error', payload, { lane, ok:false, status:429, error }); return Send.safeSend(ws, { type:'TUNNEL_RESPONSE', id:data.id, ...C.fields(payload), ok:false, status:429, error, lane, queueStats:s, recovery:{ retryAfterMs:1000, instruction:'Retry after queued work drains, or cancel stale workers.' } }); } streamEvent('action.queued', payload, { lane }); startQueueKeepalive(item, lane); Priority.enqueue(state.lanes, item); scheduleDrain(); }
-function startQueueKeepalive(item, lane){ sendProgress(item.ws, item.data, lane, item.enqueuedAt, 'queued_waiting_for_lane', { queuePosition:estimateQueuePosition(lane), queued:true }); item.queueKeepalive = setInterval(() => { if (!item.ws || !item.ws.opened) return clearQueueKeepalive(item); sendProgress(item.ws, item.data, lane, item.enqueuedAt, 'queued_waiting_for_lane', { queuePosition:estimateQueuePosition(lane), queued:true }); }, L.KEEPALIVE_MS); item.queueKeepalive.unref?.(); }
-function clearQueueKeepalive(item){ if (item?.queueKeepalive) { clearInterval(item.queueKeepalive); item.queueKeepalive = null; } }
-function estimateQueuePosition(lane){ return (state.lanes[lane]?.queue || []).length + 1; }
-function nextLane(){ for (const lane of Priority.LANE_ORDER) if (Priority.canStartLane(state.lanes, lane, L)) return lane; return ''; }
-function scheduleDrain(){ if (state.drainScheduled) return; state.drainScheduled = true; setImmediate(drainQueue); }
-function drainQueue(){ state.drainScheduled = false; const lane = nextLane(); if (!lane) return; const item = state.lanes[lane].queue.shift(); clearQueueKeepalive(item); if (item?.ws?.opened) runRequest(lane, item.ws, item.data, item.enqueuedAt); if (nextLane()) scheduleDrain(); }
-function sendProgress(ws, data, lane, enqueuedAt, phase, extra = {}) { const payload = requestPayload(data); streamEvent('action.progress', payload, { lane, queuedMs:Math.max(0, Date.now() - enqueuedAt), message:phase }); Send.safeSend(ws, { type:'TUNNEL_PROGRESS', id:data.id, ...C.fields(payload), action:payload.action || 'unknown', ok:true, phase, lane, queuedMs:Math.max(0, Date.now() - enqueuedAt), stillRunning:true, longLivedConnection:true, keepAliveMs:L.KEEPALIVE_MS, message:'B"H: request is still alive; the tunnel keeps the sight-line open instead of returning 504.', queueStats:stats(), ...extra }); }
-async function runRequest(lane, ws, raw, enqueuedAt){ const data = routedData(raw); state.lanes[lane].inflight += 1; let settled = false, advisorySent = false; const startedAt = Date.now(), advisoryMs = L.LANE_TIMEOUT_MS[lane] || 300000; streamEvent('action.started', data.payload, { lane, queuedMs:Math.max(0, startedAt - enqueuedAt) }); const keepalive = setInterval(() => { if (settled) return; const age = Date.now() - startedAt, phase = age >= advisoryMs ? 'lane_advisory_overtime' : 'lane_running'; advisorySent ||= age >= advisoryMs; if (ws?.opened) sendProgress(ws, data, lane, enqueuedAt, phase, { runtimeMs:age, advisoryTimeoutMs:advisoryMs, advisorySent }); }, L.KEEPALIVE_MS); keepalive.unref?.(); try { const payload = data.payload; let result = await dispatch(K.normalize(payload), payload, ws, data); result = await Continue.run({ result, payload, ws, data, dispatch, normalize:K.normalize }); if (!settled) { settled = true; clearInterval(keepalive); if (result && result.ok !== false) state.lastSuccessfulActionAt = Date.now(); streamEvent(result?.ok === false ? 'action.error' : 'action.completed', payload, { lane, ok:result?.ok !== false, runtimeMs:Date.now() - startedAt, result, status:result?.status, error:result?.error }); Send.safeSend(ws, Env.responseEnvelope(data, payload, { ...result, lane, longLivedConnection:true, advisoryOvertime:advisorySent }, enqueuedAt, stats)); release(lane); } } catch(e) { if (!settled) { settled = true; clearInterval(keepalive); streamEvent('action.error', data.payload, { lane, ok:false, status:500, error:e.message, runtimeMs:Date.now() - startedAt }); Send.safeSend(ws, { type:'TUNNEL_RESPONSE', id:data.id, ...C.fields(data.payload), ok:false, status:500, error:e.message, stack:e.stack, lane, longLivedConnection:true }); release(lane); } } }
-function streamEvent(phase, payload, extra = {}) { try { ActionStream.emit(loadConfig(), { phase, payload, ...extra }); } catch (_) {} }
-function release(lane){ state.lanes[lane].inflight = Math.max(0, state.lanes[lane].inflight - 1); scheduleDrain(); }
-async function dispatch(kind, payload, ws, data){ if (payload.kind === 'local_http_proxy') return Proxy.proxyLocalHttp(loadConfig(), data, ws, Send.safeSend, L.MAX_PROXY_BYTES); if (kind === 'fs') return await handleFs({ ...payload, kind }, ws); if (kind === 'command') return await handleCommand({ ...payload, kind }); if (kind === 'chrome') return await handleChrome({ ...payload, kind }); if (kind === 'relay') return await handleRelay({ ...payload, kind }, loadConfig()); if (kind === 'streaming') return await handleStreaming({ ...payload, kind }); return { ok:false, status:400, action:payload.action || 'unknown', error:'unknown_payload_kind', receivedKind:payload.kind, normalizedKind:kind }; }
-function reconnectDelayMs(){ const raw = Math.min(L.RECONNECT_MAX_MS, L.RECONNECT_MIN_MS * Math.pow(2, Math.max(0, state.reconnectAttempt - 1))); return Math.min(L.RECONNECT_MAX_MS, raw + Math.floor(Math.random() * Math.max(1, Math.floor(raw * 0.25)))); }
-function scheduleReconnect(reason){ clearTimeout(state.reconnectTimer); clearInterval(state.watchdogTimer); state.reconnectAttempt += 1; const delay = state.wasEverConnected ? reconnectDelayMs() : L.RECONNECT_MIN_MS; log('Tunnel reconnect scheduled:', reason || 'unknown', 'delayMs:', delay, JSON.stringify(snapshot())); state.reconnectTimer = setTimeout(connect, delay); state.reconnectTimer.unref?.(); }
-function closeActiveSocket(force = true){ if (!state.activeWs) return; try { state.activeWs.removeAllListeners(); } catch(_){} try { state.activeWs.close(force); } catch(_){} state.activeWs = null; }
-function startWatchdog(ws, gen){ clearInterval(state.watchdogTimer); state.watchdogTimer = setInterval(() => { if (gen !== state.generation || !ws || ws.closed) return; const staleMs = Date.now() - Number(ws.lastSeenAt || 0); if (ws.opened && staleMs < L.WATCHDOG_STALE_MS) return; const verdict = Watchdog.inspect({ ws, staleMs, stats, identity, lastSuccessfulActionAt:state.lastSuccessfulActionAt, policy:{ staleGraceMs:L.WATCHDOG_STALE_MS } }); log('Tunnel watchdog health:', JSON.stringify({ gen, opened:ws.opened, closed:ws.closed, ...verdict.health, staleMs })); if (!verdict.shouldReconnect) return; try { ws.close(true); } catch(_){} if (gen === state.generation) scheduleReconnect('watchdog_health_dead'); }, L.WATCHDOG_MS); state.watchdogTimer.unref?.(); }
-function exitBecauseNewerConnectionOwnsTunnel(){ clearTimeout(state.reconnectTimer); clearInterval(state.watchdogTimer); closeActiveSocket(true); log('Tunnel replaced by newer connection; exiting this older process.'); process.exit(0); }
-function connect(){ const gen = Control.nextGeneration(identity); state.generation = gen; closeActiveSocket(true); const config = loadConfig(), ws = new TinyWebSocket(config.relay); Control.markSeen(ws); state.activeWs = ws; startWatchdog(ws, gen); ws.on('open', () => registerReady(ws, gen)); ws.on('message', msg => { if (gen !== state.generation) return; Control.markSeen(ws); let data; try { data = JSON.parse(msg); } catch(_) { return; } if (data.type === 'TUNNEL_REPLACED') return exitBecauseNewerConnectionOwnsTunnel(); if (data.type === 'TUNNEL_REQUEST') enqueueRequest(ws, data); }); ws.once('close', () => { if (gen === state.generation) scheduleReconnect('close'); }); ws.on('error', err => { if (gen === state.generation) log('Tunnel error:', err.message); }); ws.connect(); }
-function main(){ const config = loadConfig(); log('B"H Awtsmoos split agent starting.'); log('Config root dir:', ROOT); log('Tunnel name:', config.tunnelName); log('Project root:', config.root || HOME); log('Limits:', JSON.stringify({ MAX_INFLIGHT:L.MAX_INFLIGHT, MAX_QUEUE:L.MAX_QUEUE, CONTROL_QUEUE_LIMIT:L.CONTROL_QUEUE_LIMIT, laneLimits:L.LANE_LIMITS, laneAdvisoryTimeoutMs:L.LANE_TIMEOUT_MS, keepAliveMs:L.KEEPALIVE_MS, longLivedConnections:L.LONG_LIVED_CONNECTIONS, REQUEST_MAX_AGE_MS:L.REQUEST_MAX_AGE_MS, MAX_PROXY_BYTES:L.MAX_PROXY_BYTES, RECONNECT_MIN_MS:L.RECONNECT_MIN_MS, RECONNECT_MAX_MS:L.RECONNECT_MAX_MS, WATCHDOG_MS:L.WATCHDOG_MS, WATCHDOG_STALE_MS:L.WATCHDOG_STALE_MS, inlineLimitBytes:inlineLimit(), priorityActions:[...Priority.PRIORITY_ACTIONS] })); startLocalApiServer({ log }); Boot.start(log); if (process.argv.includes('--open-control')) openHostedControl(config); connect(); }
-process.on('uncaughtException', err => log('Uncaught exception:', err.stack || err.message));
-process.on('unhandledRejection', err => log('Unhandled rejection:', err && (err.stack || err.message || String(err))));
-if (require.main === module) main();
-module.exports = { dispatch, runRequest, enqueueRequest, stats, snapshot, connect, main, sendProgress, requestPayload, routedData, scheduleDrain, drainQueue, state, lagMonitor };
+const D = require('./lib/runtime/main-dependencies.js');
+const { createMainComponents } = require('./lib/runtime/main-components.js');
+
+let components;
+
+function nextLane() {
+	return components.queue.nextLane();
+}
+
+function scheduleDrain() {
+	if (components.runtime.state.drainScheduled) return;
+	if (!nextLane()) return;
+	components.runtime.state.drainScheduled = true;
+	setImmediate(drainQueue);
+}
+
+function drainQueue() {
+	components.runtime.state.drainScheduled = false;
+	const lane = nextLane();
+	if (!lane) return;
+	const item = components.runtime.state.lanes[lane].queue.shift();
+	components.queue.clearQueueKeepalive(item);
+	if (item?.ws?.opened) {
+		components.runRequest(lane, item.ws, item.data, item.enqueuedAt).catch(error => {
+			components.log('warn', `runRequest failed: ${error.message}`);
+		});
+	}
+	if (nextLane()) scheduleDrain();
+}
+
+function release(lane) {
+	const laneState = components.runtime.state.lanes[lane];
+	if (laneState) laneState.inflight = Math.max(0, laneState.inflight - 1);
+	scheduleDrain();
+}
+
+components = createMainComponents(D, { release, scheduleDrain });
+
+const memoryTimer = setInterval(() => {
+	components.log('info', `Memory: ${JSON.stringify(components.runtime.snapshot())}`);
+}, 60000);
+memoryTimer.unref?.();
+components.runtime.lagMonitor.start();
+
+process.on('SIGINT', () => {
+	components.workers.stopAll('SIGTERM');
+	process.exit(0);
+});
+process.on('SIGTERM', () => {
+	components.workers.stopAll('SIGTERM');
+	process.exit(0);
+});
+
+if (require.main === module) {
+	components.startup.main().catch(error => {
+		components.log('error', error.stack || error.message);
+		process.exit(1);
+	});
+}
+
+module.exports = {
+	dispatch: components.dispatch,
+	runRequest: components.runRequest,
+	enqueueRequest: components.queue.enqueueRequest,
+	stats: components.runtime.stats,
+	snapshot: components.runtime.snapshot,
+	connect: components.connection.connect,
+	main: components.startup.main,
+	sendProgress: components.queue.sendProgress,
+	requestPayload: components.payload.requestPayload,
+	routedData: components.payload.routedData,
+	scheduleDrain,
+	drainQueue,
+	state: components.runtime.state,
+	lagMonitor: components.runtime.lagMonitor
+};

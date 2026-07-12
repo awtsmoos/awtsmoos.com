@@ -1,40 +1,36 @@
 // B"H
-const assert = require("assert");
-const fs = require("fs");
-const path = require("path");
+const assert = require('node:assert/strict');
+const Replacement = require('../lib/runtime/replacement-policy.js');
 
-/**
- * B"H
- * Chapter 611: Two messengers reached the same gate.
- * The older messenger must bow and leave. If both keep charging back into the
- * doorway, launchd and foreground shells make an endless duel. This test guards
- * the future installer bundle from restoring that storm.
- */
-const source = fs.readFileSync(path.resolve(__dirname, "../main.js"), "utf8");
-
-assert(
-  source.includes("TUNNEL_REPLACED"),
-  "main.js must explicitly handle the relay replacement message"
-);
-
-assert(
-  source.includes("exitBecauseNewerConnectionOwnsTunnel"),
-  "main.js should route replacement through a named exit policy helper"
-);
-
-assert(
-  source.includes("process.exit(0)"),
-  "the older duplicate process must exit cleanly after replacement"
-);
-
-assert(
-  !source.includes('scheduleReconnect("replaced_by_newer_connection")'),
-  "replacement must not schedule reconnect; that recreates the duplicate loop"
-);
-
-assert(
-  !source.includes("Tunnel replaced by newer connection; reconnecting."),
-  "old replacement log text should not return"
-);
-
-console.log(JSON.stringify({ ok: true, suite: "replacement-exit-policy" }, null, 2));
+/** B"H — The older duplicate closes, refuses reconnect, and exits exactly once. */
+(() => {
+	let cleared = 0;
+	let closed = 0;
+	let exitCode = null;
+	let timerCallback = null;
+	let unreferenced = false;
+	const receipt = Replacement.exitBecauseNewerConnectionOwnsTunnel({
+		reason: 'test_newer_owner',
+		delayMs: 0,
+		clearReconnect: () => { cleared += 1; },
+		close: () => { closed += 1; },
+		log: () => {},
+		exit: code => { exitCode = code; },
+		setTimer(callback, delayMs) {
+			assert.equal(delayMs, 0);
+			timerCallback = callback;
+			return { unref() { unreferenced = true; } };
+		}
+	});
+	assert.equal(Replacement.isReplacementMessage({ type: 'TUNNEL_REPLACED' }), true);
+	assert.equal(Replacement.isReplacementMessage({ type: 'TUNNEL_REQUEST' }), false);
+	assert.equal(receipt.action, 'exitBecauseNewerConnectionOwnsTunnel');
+	assert.equal(receipt.reason, 'test_newer_owner');
+	assert.equal(cleared, 1);
+	assert.equal(closed, 1);
+	assert.equal(unreferenced, true);
+	assert.equal(exitCode, null);
+	timerCallback();
+	assert.equal(exitCode, 0);
+	console.log(JSON.stringify({ ok: true, suite: 'replacement-exit-policy' }, null, 2));
+})();

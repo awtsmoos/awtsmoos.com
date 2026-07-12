@@ -25,8 +25,24 @@ async function runCommand(config, payload = {}) {
 }
 
 async function startAsync(config, payload) {
-  const job = await startCommandJob(config, { ...payload, action: "commandStart" });
-  return { ...job, action: "commandRun", mode: "async_job", syncOptIn: "Set sync:true only for tiny commands." };
+  const requestAction = String(payload.requestAction || payload.requestedAction || payload.action || "commandRun").trim() || "commandRun";
+  const job = await startCommandJob(config, {
+    ...payload,
+    action: "commandStart",
+    actualAction: "commandStart",
+    requestAction,
+    requestedAction: requestAction
+  });
+  return {
+    ...job,
+    action: requestAction,
+    requestAction,
+    requestedAction: requestAction,
+    actualAction: "commandStart",
+    actionMismatch: requestAction !== "commandStart",
+    mode: "async_job",
+    syncOptIn: "Set sync:true only for tiny commands."
+  };
 }
 
 async function runInline(config, payload) {
