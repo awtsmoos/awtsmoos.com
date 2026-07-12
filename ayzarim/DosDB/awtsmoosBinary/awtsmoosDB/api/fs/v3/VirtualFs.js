@@ -1,95 +1,109 @@
 // B"H
+
 /**
- * @file VirtualFs.js
- * @chapter The One Filesystem Beneath The Many Garments
+ * @file api/fs/v3/VirtualFs.js
+ * @chapter The Reader Walks The Filesystem Without Planting A Footprint
  * @description
- * Public VirtualFs v3 wrapper. It preserves the historical `db.fs.*` method
- * surface while using one exact-byte manifest. The constructor wraps `db.close()`
- * once, so dirty filesystem metadata is flushed exactly at the closing gate.
+ * Preserves the historical VirtualFs surface while separating read operations
+ * from mutation. Strict read-only mode never flushes, creates directories, or
+ * marks the manifest dirty.
  */
 
-const paths = require("./path");
-const store = require("./store");
-const { ensureDir } = require("./dir");
-const read = require("./read");
-const writeOps = require("./write");
-const deleteOps = require("./delete");
-const moveOps = require("./move");
-const statOps = require("./stat");
-const legacy = require("./legacy");
+const paths = require('./path');
+const store = require('./store');
+const { ensureDir } = require('./dir');
+const read = require('./read');
+const writeOps = require('./write');
+const deleteOps = require('./delete');
+const moveOps = require('./move');
+const statOps = require('./stat');
+const legacy = require('./legacy');
 
 class VirtualFs {
-  constructor(db) {
-    this.db = db;
-    this.cwd = "/";
-    this.patchClose();
-  }
+	constructor(db) {
+		this.db = db;
+		this.cwd = '/';
+		this.patchClose();
+	}
 
-  patchClose() {
-    if (!this.db || this.db.__fs3ClosePatched || typeof this.db.close !== "function") return;
-    const originalClose = this.db.close.bind(this.db);
-    this.db.close = (...args) => {
-      this.flush();
-      return originalClose(...args);
-    };
-    this.db.__fs3ClosePatched = true;
-  }
+	patchClose() {
+		if (!this.db || this.db.__fs3ClosePatched || typeof this.db.close !== 'function') return;
+		const originalClose = this.db.close.bind(this.db);
+		this.db.close = (...args) => {
+			if (!this.db.options?.readOnly) this.flush();
+			return originalClose(...args);
+		};
+		this.db.__fs3ClosePatched = true;
+	}
 
-  ready() { store.root(this.db); return this; }
-  flush() { return store.flush(this.db); }
-  pwd() { return this.cwd; }
+	assertWritable(operation) {
+		if (!this.db.options?.readOnly) return;
+		const error = new Error(`B"H strict read-only VirtualFs refused ${operation}`);
+		error.code = 'AWTSMOOS_DB_READONLY_WRITE';
+		throw error;
+	}
 
-  cd(p = "/") {
-    this.ready();
-    const next = paths.normalize(this.cwd, p);
-    ensureDir(this.db, next);
-    this.cwd = next;
-    return this.cwd;
-  }
+	ready() { store.root(this.db); return this; }
+	flush() { return this.db.options?.readOnly ? false : store.flush(this.db); }
+	pwd() { return this.cwd; }
 
-  mkdir(p) { this.ready(); ensureDir(this.db, paths.normalize(this.cwd, p)); return true; }
-  ls(p = ".") { this.ready(); return read.list(this, p); }
-  cat(p, options = {}) { this.ready(); return read.cat(this, p, options); }
-  readRange(p, offset = 0, length) { this.ready(); return read.readRange(this, p, offset, length); }
-  write(p, value) { this.ready(); return writeOps.write(this, p, value); }
-  append(p, value) { this.ready(); return writeOps.append(this, p, value); }
-  writeRange(p, offset, value) { this.ready(); return writeOps.writeRange(this, p, offset, value); }
-  rm(p, options = {}) { this.ready(); return deleteOps.rm(this, p, options); }
-  mv(from, to) { this.ready(); return moveOps.mv(this, from, to); }
-  cp(from, to) { this.ready(); return moveOps.cp(this, from, to); }
-  stat(p = ".") { this.ready(); return statOps.stat(this, p); }
-  exists(p = ".") { this.ready(); return statOps.exists(this, p); }
+	cd(requestedPath = '/') {
+		this.ready();
+		const next = paths.normalize(this.cwd, requestedPath);
+		if (this.db.options?.readOnly) {
+			const inode = store.pathToInode(this.db, next);
+			if (!inode || inode.type !== 'dir') throw new Error(`B"H VirtualFs directory not found: ${next}`);
+		} else {
+			ensureDir(this.db, next);
+		}
+		this.cwd = next;
+		return this.cwd;
+	}
 
-  grep(pattern, p = ".") {
-    this.ready();
-    const matcher = pattern instanceof RegExp ? pattern : new RegExp(String(pattern));
-    const found = [];
-    const walk = (fullPath) => {
-      const inode = store.pathToInode(this.db, fullPath);
-      if (inode && inode.type === "dir") return this.ls(fullPath).forEach(name => walk(paths.join(fullPath, name)));
-      const value = this.cat(fullPath);
-      const text = Buffer.isBuffer(value) ? value.toString("utf8") : String(value ?? "");
-      if (matcher.test(text)) found.push(fullPath);
-    };
-    walk(paths.normalize(this.cwd, p));
-    return found;
-  }
+	mkdir(filePath) { this.assertWritable('mkdir'); this.ready(); ensureDir(this.db, paths.normalize(this.cwd, filePath)); return true; }
+	ls(filePath = '.') { this.ready(); return read.list(this, filePath); }
+	cat(filePath, options = {}) { this.ready(); return read.cat(this, filePath, options); }
+	readRange(filePath, offset = 0, length) { this.ready(); return read.readRange(this, filePath, offset, length); }
+	write(filePath, value) { this.assertWritable('write'); this.ready(); return writeOps.write(this, filePath, value); }
+	append(filePath, value) { this.assertWritable('append'); this.ready(); return writeOps.append(this, filePath, value); }
+	writeRange(filePath, offset, value) { this.assertWritable('writeRange'); this.ready(); return writeOps.writeRange(this, filePath, offset, value); }
+	rm(filePath, options = {}) { this.assertWritable('rm'); this.ready(); return deleteOps.rm(this, filePath, options); }
+	mv(from, to) { this.assertWritable('mv'); this.ready(); return moveOps.mv(this, from, to); }
+	cp(from, to) { this.assertWritable('cp'); this.ready(); return moveOps.cp(this, from, to); }
+	stat(filePath = '.') { this.ready(); return statOps.stat(this, filePath); }
+	exists(filePath = '.') { this.ready(); return statOps.exists(this, filePath); }
 
-  migrateLegacyTree() {
-    this.ready();
-    const walk = (nodePath) => {
-      const node = legacy.legacyNode(this.db, nodePath);
-      if (node === undefined) return;
-      if (node && typeof node === "object" && !Buffer.isBuffer(node) && !node.__awtsmoosBlob) {
-        this.mkdir(nodePath);
-        for (const child of Object.keys(node)) walk(paths.join(nodePath, child));
-        return;
-      }
-      this.write(nodePath, legacy.legacyCat(this.db, nodePath));
-    };
-    walk("/");
-    return true;
-  }
+	grep(pattern, filePath = '.') {
+		this.ready();
+		const matcher = pattern instanceof RegExp ? pattern : new RegExp(String(pattern));
+		const found = [];
+		const walk = fullPath => {
+			const inode = store.pathToInode(this.db, fullPath);
+			if (inode?.type === 'dir') return this.ls(fullPath).forEach(name => walk(paths.join(fullPath, name)));
+			const value = this.cat(fullPath);
+			const text = Buffer.isBuffer(value) ? value.toString('utf8') : String(value ?? '');
+			if (matcher.test(text)) found.push(fullPath);
+		};
+		walk(paths.normalize(this.cwd, filePath));
+		return found;
+	}
+
+	migrateLegacyTree() {
+		this.assertWritable('migrateLegacyTree');
+		this.ready();
+		const walk = nodePath => {
+			const node = legacy.legacyNode(this.db, nodePath);
+			if (node === undefined) return;
+			if (node && typeof node === 'object' && !Buffer.isBuffer(node) && !node.__awtsmoosBlob) {
+				this.mkdir(nodePath);
+				for (const child of Object.keys(node)) walk(paths.join(nodePath, child));
+				return;
+			}
+			this.write(nodePath, legacy.legacyCat(this.db, nodePath));
+		};
+		walk('/');
+		return true;
+	}
 }
 
 module.exports = VirtualFs;

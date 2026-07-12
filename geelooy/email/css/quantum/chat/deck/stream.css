@@ -1,0 +1,66 @@
+/* B"H — The empty stream is a truthful charged doorway, never invented mail. */
+.void-logo {
+	position: relative;
+	display: grid;
+	width: min(100%, 32rem);
+	margin: auto;
+	place-items: center;
+	padding: 2.4rem 2rem;
+	border: 1px solid rgba(50, 231, 255, 0.12);
+	border-radius: 0.7rem 2rem 0.7rem 2rem;
+	background: linear-gradient(145deg, rgba(50, 231, 255, 0.035), rgba(139, 92, 255, 0.03), rgba(255, 194, 71, 0.025));
+	color: var(--mail-muted);
+	text-align: center;
+}
+
+.void-logo::before,
+.void-logo::after {
+	position: absolute;
+	content: "";
+	pointer-events: none;
+}
+
+.void-logo::before {
+	inset: 0.75rem;
+	border: 1px solid rgba(255, 255, 255, 0.035);
+	border-radius: 0.45rem 1.45rem 0.45rem 1.45rem;
+}
+
+.void-logo::after {
+	top: -1px;
+	left: 2rem;
+	width: 6rem;
+	height: 2px;
+	background: linear-gradient(90deg, var(--mail-cyan), transparent);
+	box-shadow: var(--mail-glow-cyan);
+}
+
+.void-logo h2,
+.void-logo p {
+	margin: 0.35rem 0;
+}
+
+.void-logo h2 {
+	color: var(--mail-text);
+	font-size: clamp(1.35rem, 3vw, 2rem);
+	letter-spacing: -0.04em;
+}
+
+.void-atom {
+	display: grid;
+	width: 5.5rem;
+	height: 5.5rem;
+	margin-bottom: 0.5rem;
+	place-items: center;
+	border: 1px solid rgba(50, 231, 255, 0.28);
+	border-radius: 0.55rem 1.8rem 0.55rem 1.8rem;
+	background: radial-gradient(circle, rgba(50, 231, 255, 0.16), rgba(139, 92, 255, 0.08), transparent);
+	color: var(--mail-cyan);
+	font-size: 2.7rem;
+	box-shadow: var(--mail-glow-cyan);
+	animation: quantum-atom 8s linear infinite;
+}
+
+@keyframes quantum-atom {
+	to { transform: rotate(360deg); filter: hue-rotate(360deg); }
+}

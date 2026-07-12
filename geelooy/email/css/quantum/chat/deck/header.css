@@ -1,0 +1,95 @@
+/* B"H — The active frequency names itself clearly and keeps its controls obvious. */
+.chat-header {
+	position: relative;
+	z-index: 30;
+	display: flex;
+	min-height: var(--header-h);
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.8rem;
+	padding: 0.68rem 0.9rem;
+	border-bottom: 1px solid rgba(50, 231, 255, 0.16);
+	background: linear-gradient(90deg, rgba(50, 231, 255, 0.07), rgba(2, 7, 15, 0.84) 35%, rgba(255, 194, 71, 0.035));
+	backdrop-filter: blur(18px) saturate(140%);
+}
+
+.chat-header::after {
+	position: absolute;
+	bottom: -1px;
+	left: 1rem;
+	width: 7rem;
+	height: 2px;
+	background: linear-gradient(90deg, var(--mail-cyan), transparent);
+	box-shadow: var(--mail-glow-cyan);
+	content: "";
+}
+
+.chat-heading-lockup {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	gap: 0.65rem;
+}
+
+.chat-heading-lockup > div { min-width: 0; }
+
+.chat-kicker {
+	margin: 0 0 0.2rem;
+	color: var(--mail-cyan);
+	font: 850 0.56rem/1 var(--font-mono);
+	letter-spacing: 0.15em;
+}
+
+.chat-title {
+	margin: 0;
+	overflow: hidden;
+	color: var(--mail-text);
+	font-size: clamp(1rem, 2vw, 1.25rem);
+	font-weight: 900;
+	letter-spacing: -0.025em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-shadow: 0 0 18px rgba(50, 231, 255, 0.24);
+}
+
+.chat-frequency-light {
+	display: grid;
+	width: 2.2rem;
+	height: 2.2rem;
+	flex: 0 0 2.2rem;
+	place-items: center;
+	border: 1px solid rgba(66, 245, 179, 0.35);
+	border-radius: 0.3rem 0.85rem 0.3rem 0.85rem;
+	background: rgba(66, 245, 179, 0.09);
+	color: var(--mail-emerald);
+	font: 900 0.46rem/1 var(--font-mono);
+	box-shadow: 0 0 18px rgba(66, 245, 179, 0.22);
+	animation: mail-live-pulse 1.8s ease-in-out infinite;
+}
+
+.back-button,
+.tool-btn {
+	display: grid !important;
+	width: 2.55rem;
+	height: 2.55rem;
+	min-height: 2.55rem !important;
+	place-items: center;
+	padding: 0 !important;
+	border: 1px solid rgba(50, 231, 255, 0.19) !important;
+	border-radius: 0.3rem 0.8rem 0.3rem 0.8rem !important;
+	background: rgba(255, 255, 255, 0.045) !important;
+	color: var(--mail-text) !important;
+	font-size: 1.05rem;
+	cursor: pointer;
+}
+
+.back-button { display: none !important; }
+
+.back-button:hover,
+.tool-btn:hover {
+	border-color: rgba(50, 231, 255, 0.45) !important;
+	background: rgba(50, 231, 255, 0.1) !important;
+	box-shadow: var(--mail-glow-cyan) !important;
+}
+
+.chat-tools { position: relative; }

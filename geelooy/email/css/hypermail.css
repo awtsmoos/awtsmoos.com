@@ -1,34 +1,85 @@
-/* B"H — final Email finish: calm grid, no spectacle. */
-.email-root, .mail-social-shell, #root { background: #f6f8fb !important; color: #111827 !important; }
-.app-container, .mail-social-frame {
-  border: 1px solid #dfe6ee !important;
-  border-radius: 22px !important;
-  box-shadow: 0 8px 26px rgba(15, 23, 42, .08) !important;
-  contain: layout paint;
+/* B"H — Final Quantum Mail authority: spectacle remains subordinate to truth and action. */
+.geelooy-mail-document .mail-quantum-frame,
+.geelooy-mail-document .sidebar,
+.geelooy-mail-document .chat-area,
+.geelooy-mail-document .composer-area {
+	color-scheme: dark;
 }
-.sidebar, .mail-main, .thread-panel, .chat-view, .chat-area, .chat-container { background: #fff !important; color: #111827 !important; }
-.sidebar *, .mail-main *, .thread-panel *, .chat-view *, .chat-area * { text-shadow: none !important; }
-.sidebar-header, .mail-sidebar-header, .chat-header, .mail-topbar { background: #fff !important; min-height: 64px !important; }
-.brand-title { align-items: center !important; display: flex !important; gap: .5rem !important; }
-.brand-title::before {
-  background: #f8fafc !important;
-  border: 1px solid #dfe6ee !important;
-  border-radius: 999px !important;
-  color: #64748b !important;
-  content: "Mail" !important;
-  font-size: .78rem !important;
-  padding: .25rem .55rem !important;
+
+.geelooy-mail-document .awtsmoosDrop .dropdown-content {
+	left: 0;
+	right: auto;
+	min-width: min(86vw, 20rem);
 }
-.fab-compose, .btn-primary, .send-button { background: #0f172a !important; border: 1px solid #0f172a !important; color: #fff !important; }
-.thread-list { content-visibility: auto; contain-intrinsic-size: 720px; }
-.thread-item { content-visibility: auto; contain: layout paint; contain-intrinsic-size: 88px; position: relative; }
-.thread-item::before { display: none !important; }
-.mail-folder-list button.active, .folder-button.active { padding-left: .7rem !important; }
-.mail-folder-list button.active::before, .folder-button.active::before, .nav-tab.active::before, .mail-tab.active::before { display: none !important; }
-.message, .mail-message, .bubble { box-shadow: none !important; }
-.composer, .composer-shell, .message-composer { box-shadow: 0 -4px 14px rgba(15, 23, 42, .04) !important; }
-input::placeholder, textarea::placeholder { color: #94a3b8 !important; }
-.overlay { background: rgba(15, 23, 42, .42) !important; }
-.modal-card { background: #fff !important; border: 1px solid #dfe6ee !important; border-radius: 18px !important; box-shadow: 0 12px 34px rgba(15, 23, 42, .12) !important; color: #111827 !important; }
-@media (min-width: 1101px) { .app-container, .mail-social-frame { grid-template-columns: 300px 410px minmax(0, 1fr) !important; } }
-@media (max-width: 760px) { .app-container, .mail-social-frame { border-radius: 0 !important; } .thread-item { border-radius: 16px !important; } }
+
+.geelooy-mail-document .mail-sidebar-profile-mount .profile-trigger {
+	width: 100%;
+	justify-content: flex-start;
+	border-radius: 0.25rem 0.75rem 0.25rem 0.75rem;
+}
+
+.geelooy-mail-document .mail-sidebar-profile-mount .profile-trigger .arrow {
+	margin-left: auto;
+}
+
+.geelooy-mail-document .mail-sidebar-profile-mount .dropdown-content {
+	top: calc(100% + 0.4rem);
+}
+
+.geelooy-mail-document input::placeholder,
+.geelooy-mail-document textarea::placeholder {
+	color: var(--mail-dim);
+}
+
+.geelooy-mail-document button:disabled {
+	cursor: not-allowed;
+	opacity: 0.58;
+}
+
+.geelooy-mail-document .sentiment-danger {
+	border-color: rgba(255, 84, 112, 0.55) !important;
+	box-shadow: 0 0 28px rgba(255, 84, 112, 0.12) !important;
+}
+
+.geelooy-mail-document .sentiment-positive {
+	border-color: rgba(66, 245, 179, 0.38) !important;
+}
+
+.geelooy-mail-document .sentiment-excited {
+	filter: saturate(1.12);
+}
+
+.geelooy-mail-document .sentiment-curious {
+	border-style: dashed !important;
+}
+
+.geelooy-mail-document .identity-modal-card .awtsmoosDrop,
+.geelooy-mail-document .identity-modal-card .profile-trigger {
+	width: 100%;
+}
+
+.geelooy-mail-document .identity-modal-card .profile-trigger {
+	justify-content: flex-start;
+}
+
+.geelooy-mail-document .identity-modal-card .profile-trigger .arrow {
+	margin-left: auto;
+}
+
+@media (max-width: 850px) {
+	.geelooy-mail-document .mail-sidebar-profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+		position: fixed;
+		inset: max(5.25rem, calc(env(safe-area-inset-top) + 5.25rem)) 0.5rem auto;
+		width: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-mail-document *,
+	.geelooy-mail-document *::before,
+	.geelooy-mail-document *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

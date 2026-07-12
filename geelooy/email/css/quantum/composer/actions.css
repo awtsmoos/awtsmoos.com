@@ -1,0 +1,115 @@
+/* B"H — The send action is unmistakable: one charged gold transmission gate. */
+.composer-action-row {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.55rem;
+}
+
+.send-btn,
+.send-transmission-btn {
+	position: relative;
+	min-width: 11rem;
+	min-height: 2.85rem !important;
+	padding: 0.68rem 1rem !important;
+	overflow: hidden;
+	border: 1px solid rgba(255, 222, 139, 0.68) !important;
+	border-radius: 0.85rem !important;
+	background: linear-gradient(115deg, var(--mail-gold), var(--mail-gold-hot)) !important;
+	color: #160900 !important;
+	font: 950 0.76rem/1 var(--font-mono);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	box-shadow: var(--mail-glow-gold) !important;
+	cursor: pointer;
+}
+
+.send-btn::before,
+.send-transmission-btn::before {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(105deg, transparent 25%, rgba(255, 255, 255, 0.62), transparent 72%);
+	content: "";
+	transform: translateX(-130%);
+	transition: transform 420ms ease;
+}
+
+.send-btn:hover::before,
+.send-transmission-btn:hover::before {
+	transform: translateX(130%);
+}
+
+.send-btn:hover,
+.send-transmission-btn:hover {
+	filter: brightness(1.08);
+	transform: translateY(-2px) scale(1.018) !important;
+}
+
+.send-btn:disabled,
+.send-transmission-btn:disabled {
+	cursor: progress;
+	filter: grayscale(0.6);
+	opacity: 0.62;
+}
+
+.mail-compose-error {
+	padding: 0.6rem 0.7rem;
+	border: 1px solid rgba(255, 84, 112, 0.34);
+	border-radius: 0.75rem;
+	background: rgba(255, 84, 112, 0.07);
+	color: #ff9bad;
+	font-size: 0.8rem;
+}
+
+.compose-modal-card {
+	width: min(100%, 40rem) !important;
+}
+
+.compose-modal-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin-bottom: 0.8rem;
+}
+
+.compose-modal-title,
+.modal-title {
+	margin: 0;
+	font-size: 1.25rem;
+}
+
+.close-modal {
+	display: grid !important;
+	width: 2.45rem;
+	height: 2.45rem;
+	min-height: 2.45rem !important;
+	place-items: center;
+	padding: 0 !important;
+	border: 1px solid rgba(255, 255, 255, 0.12) !important;
+	border-radius: 0.75rem !important;
+	background: rgba(255, 255, 255, 0.04) !important;
+	color: var(--mail-text) !important;
+}
+
+.identity-modal-card {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.identity-modal-copy {
+	color: var(--mail-muted);
+}
+
+.identity-dropdown-mount {
+	position: relative;
+	z-index: 2;
+}
+
+@media (max-width: 620px) {
+	.composer-action-row,
+	.send-btn,
+	.send-transmission-btn {
+		width: 100%;
+	}
+}

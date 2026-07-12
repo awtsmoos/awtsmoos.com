@@ -1,9 +1,10 @@
 // B"H
 /**
  * @file MitzvahWorldLauncher.js
- * @description Routes the threshold menu, direct world mode, and JSON movie mode.
+ * @description Routes menu, material diagnostic, direct world mode, and JSON movie mode.
  */
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
+import { launchMaterialDiagnostic } from '../diagnostics/MaterialDiagnosticMode.js';
 import { createMovieStudio } from '../movie/MovieStudio.js';
 import { hasMovieRequest, loadRequestedMovie } from '../movie/MovieProject.js';
 import { setGameHostsVisible, showMainMenu } from './MainMenu.js';
@@ -21,6 +22,10 @@ export async function launchMitzvahWorld(hosts, search = location.search) {
 			autoRender: params.get('autoRender') === '1'
 		});
 	};
+	if (params.get('mode') === 'materials') {
+		setGameHostsVisible(hosts, false);
+		return launchMaterialDiagnostic(hosts);
+	}
 	if (params.get('mode') === 'world') return openWorld();
 	if (hasMovieRequest(search)) return openMovie();
 	return showMainMenu(hosts, {
@@ -29,7 +34,8 @@ export async function launchMitzvahWorld(hosts, search = location.search) {
 			const sampleSearch = '?mode=movie&movie=sample30';
 			const project = await loadRequestedMovie(sampleSearch);
 			return createMovieStudio(hosts, project, { autoRender: false });
-		}
+		},
+		materials: async () => launchMaterialDiagnostic(hosts)
 	});
 }
 

@@ -1,55 +1,72 @@
-<!--B"H-->
+<!-- B"H -->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Nitzotz.io Worlds</title>
-  <link rel="stylesheet" href="./style.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<title>Nitzotz.io — Procedural Kabbalah Metropolis</title>
+	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <canvas id="game" aria-label="Nitzotz.io WebGL world"></canvas>
-  <canvas id="map" aria-label="spark radar"></canvas>
+	<canvas id="game" aria-label="Nitzotz.io procedural city arena"></canvas>
 
-  <section class="hud" aria-live="polite">
-    <div class="brand"><b>Nitzotz.io</b><span id="worldText"> Assiyah</span></div>
-    <div class="meters">
-      <label>Sparks <meter id="sparkMeter" min="0" max="1" value="0"></meter></label>
-      <label>Vessel <span id="sizeText">24</span></label>
-      <label>Time <span id="timeText">120</span></label>
-      <label>Sefirah <span id="sefText">Malchus</span></label>
-      <label>Combo <span id="comboText">x1.0</span></label>
-      <label>Best <span id="bestText">0</span></label>
-    </div>
-    <p id="message">B'H · hit BEGIN. Move, pulse, dodge giants, reveal worlds.</p>
-  </section>
+	<header class="hud" aria-live="polite">
+		<div class="brand-row">
+			<div class="brand"><b>Nitzotz.io</b><span id="levelText">Level 1</span></div>
+			<button id="pauseBtn" class="mini-button">PAUSE</button>
+		</div>
+		<div class="primary-stats">
+			<div class="stat timer"><small>TIME</small><strong id="timeText">100</strong></div>
+			<div class="stat"><small>RANK</small><strong id="rankText">1/5</strong></div>
+			<div class="stat"><small>MASS</small><strong id="massText">25</strong></div>
+		</div>
+		<section class="mission">
+			<div class="mission-main">
+				<small id="sefText">Malchus</small>
+				<strong id="objectiveText">Reach the target mass</strong>
+			</div>
+			<span id="progressText">25 / 390</span>
+			<meter id="sparkMeter" min="0" max="1" value="0"></meter>
+			<div class="bonus-line"><b id="bonusText">Clear the district</b><span id="bonusProgressText">0 / 16</span></div>
+		</section>
+		<div class="status-strip">
+			<span>Combo <b id="comboText">x1.0</b></span>
+			<span>Best <b id="bestText">0</b></span>
+			<span id="powerText">NO ACTIVE POWER</span>
+			<span id="districtText">BUILD A DISTRICT CHAIN</span>
+		</div>
+		<p id="message">B'H · enter the generated metropolis.</p>
+	</header>
 
-  <section id="overlay" class="overlay">
-    <div class="overlay-panel">
-      <p class="eyebrow">B'H · four worlds · one spark storm</p>
-      <h1 id="overlayTitle">Nitzotz.io Worlds</h1>
-      <p id="overlayText">Move fast. Eat smaller vessels. Dodge anything too huge until you grow.</p>
-      <div class="hero-actions">
-        <button id="startBtn" class="button primary">BEGIN</button>
-        <button id="restartBtn" class="button ghost">RESTART</button>
-      </div>
-      <div class="settings" aria-label="quality">
-        <button data-perf="low" class="button chip"><b>Smooth</b><span>safe FPS</span></button>
-        <button data-perf="medium" class="button chip"><b>Balanced</b><span>clear chaos</span></button>
-        <button data-perf="high" class="button chip"><b>Extreme</b><span>hard mode</span></button>
-      </div>
-      <div class="settings toggles" aria-label="effects">
-        <button id="hapticBtn" class="button chip"><b>Haptics</b><span>rumble</span></button>
-        <button id="postfxBtn" class="button chip"><b>PostFX</b><span>glow</span></button>
-      </div>
-      <div class="guide">
-        <span>WASD / arrows: move</span><span>Space: pulse</span><span>Enter: start</span><span>N: next world</span>
-      </div>
-    </div>
-  </section>
+	<aside class="right-rail">
+		<section class="leaderboard-card"><h2>City Ranking</h2><div id="leaderboard"></div></section>
+		<canvas id="map" aria-label="complete arena minimap"></canvas>
+		<div class="desktop-help"><b>WASD</b> MOVE · <b>SPACE</b> SURGE · <b>P</b> PAUSE</div>
+	</aside>
 
-  <div id="stick"><span>DRAG</span><i></i></div>
-  <button id="pulse"><b>PULSE</b><span>OHR</span></button>
-  <script type="module" src="./js/main.js?v=20260629_extreme_split"></script>
+	<section id="overlay" class="overlay">
+		<div class="overlay-panel">
+			<p class="eyebrow">B'H · real procedural models · persistent living city</p>
+			<h1 id="overlayTitle">Malchus Courtyard</h1>
+			<div id="overlayStars" class="stars">☆☆☆</div>
+			<p id="overlayText">Consume generated street objects, traffic, buildings, and landmarks.</p>
+			<div id="levelSelect" class="level-select"></div>
+			<div class="hero-actions">
+				<button id="startBtn" class="button primary">ENTER DISTRICT</button>
+				<button id="restartBtn" class="button ghost">REGENERATE</button>
+			</div>
+			<div class="settings" aria-label="quality">
+				<button data-perf="low" class="button chip"><b>Smooth</b><span>fewer models</span></button>
+				<button data-perf="medium" class="button chip"><b>Balanced</b><span>dense city</span></button>
+				<button data-perf="high" class="button chip"><b>Extreme</b><span>full metropolis</span></button>
+				<button id="hapticBtn" class="button chip"><b>Haptics</b><span>impact</span></button>
+				<button id="postfxBtn" class="button chip"><b>PostFX</b><span>cinematic</span></button>
+			</div>
+		</div>
+	</section>
+
+	<div id="stick"><span>MOVE</span><i></i></div>
+	<button id="pulse"><b>SURGE</b><span>OHR</span></button>
+	<script type="module" src="./js/main.js?v=20260712_procedural_metropolis"></script>
 </body>
 </html>

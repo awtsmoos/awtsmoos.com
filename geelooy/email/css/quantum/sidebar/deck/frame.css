@@ -1,0 +1,81 @@
+/* B"H — The sender deck is a compact frequency tower, not a second homepage. */
+.sidebar,
+.mail-quantum-sidebar {
+	display: flex;
+	height: 100%;
+	min-height: 0;
+	flex-direction: column;
+	overflow: hidden;
+	border-right: 1px solid rgba(50, 231, 255, 0.18);
+	background: radial-gradient(circle at 18% 0, rgba(50, 231, 255, 0.13), transparent 13rem), linear-gradient(180deg, rgba(6, 14, 25, 0.985), rgba(1, 4, 9, 0.995));
+	box-shadow: 14px 0 48px rgba(0, 0, 0, 0.36);
+}
+
+.sidebar::before,
+.sidebar::after {
+	position: absolute;
+	content: "";
+	pointer-events: none;
+}
+
+.sidebar::before {
+	inset: 0 0 auto;
+	height: 2px;
+	background: linear-gradient(90deg, var(--mail-cyan), transparent 54%, var(--mail-violet));
+	box-shadow: var(--mail-glow-cyan);
+}
+
+.sidebar::after {
+	inset: 0 0 0 auto;
+	width: 1px;
+	background: linear-gradient(transparent, rgba(50, 231, 255, 0.35) 15%, rgba(255, 194, 71, 0.22) 82%, transparent);
+}
+
+.mail-sidebar-header {
+	position: relative;
+	z-index: 120;
+	display: flex;
+	min-height: 5.7rem;
+	align-items: center;
+	padding: 0.75rem 0.85rem 0.65rem;
+	border-bottom: 1px solid rgba(50, 231, 255, 0.14);
+	background: linear-gradient(180deg, rgba(50, 231, 255, 0.085), transparent);
+	overflow: visible;
+}
+
+.mail-sidebar-identity {
+	display: grid;
+	width: 100%;
+	gap: 0.45rem;
+}
+
+.brand-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: var(--mail-text);
+	font: 900 0.9rem/1.1 var(--font-mono);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	text-shadow: 0 0 14px rgba(255, 194, 71, 0.32);
+}
+
+.brand-title::before {
+	width: 1.65rem;
+	height: 1px;
+	background: linear-gradient(90deg, var(--mail-gold), transparent);
+	content: "";
+}
+
+.brand-title::after {
+	display: inline-flex;
+	margin-left: auto;
+	padding: 0.2rem 0.38rem;
+	border: 1px solid rgba(66, 245, 179, 0.3);
+	border-radius: 0.2rem 0.6rem 0.2rem 0.6rem;
+	background: rgba(66, 245, 179, 0.08);
+	color: var(--mail-emerald);
+	content: "ONLINE";
+	font-size: 0.54rem;
+	letter-spacing: 0.12em;
+}

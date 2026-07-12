@@ -1,67 +1,25 @@
 // B"H
-const path = require("path");
-const FOUR_MINUTES_MS = 240000;
-const ONE_DAY_MS = 86400000;
-const SAFE_RELAY_WAIT_MS = Number(process.env.AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS || 5000);
-const PENDING_TTL_MS = Number(process.env.AWTSMOOS_TUNNEL_PENDING_TTL_MS || 24 * 60 * 60 * 1000);
-function bool(value) { return value === true || value === "true" || value === 1 || value === "1"; }
-function boundedTimeout(value) { const n = Number(value || FOUR_MINUTES_MS); return Number.isFinite(n) ? Math.max(1000, Math.min(Math.floor(n), ONE_DAY_MS)) : FOUR_MINUTES_MS; }
-function safeRelayWaitMs(value) { const n = Number(value || SAFE_RELAY_WAIT_MS); return Number.isFinite(n) ? Math.max(100, Math.min(Math.floor(n), 5000)) : SAFE_RELAY_WAIT_MS; }
-function closeOldTunnel(ctx, client, name) { const old = ctx.tunnels.get(name); if (!old || old === client) return; try { old.send({ type:"TUNNEL_REPLACED", name, message:"A newer tunnel agent registered with the same tunnel name." }); } catch {} try { old.socket.end(); } catch {} try { ctx.clients.delete(old); } catch {} }
-function handleTunnelRegister(ctx, client, data) { const name = String(data.name || "").trim(); if (!name) return; closeOldTunnel(ctx, client, name); Object.assign(client, { isTunnel:true, tunnelName:name, deviceName:data.deviceName || null, root:data.root || null, allowWrite:bool(data.allowWrite), allowSecrets:bool(data.allowSecrets), allowCommands:bool(data.allowCommands), agentVersion:data.agentVersion || null, tools:data.tools || null, chrome:data.chrome || null, command:data.command || null, vesselType:data.vesselType || data.kind || null, kind:data.kind || data.vesselType || null, registeredAt:Date.now() }); ctx.tunnels.set(name, client); client.send({ type:"TUNNEL_ACK", ok:true, name, replacedOlderConnection:true }); }
-function requestExpectation(id, name, payload = {}, timeoutMs) { const requestedAction = String(payload.action || ""); return { id, tunnelName:name, requestedTunnelName:payload.requestedTunnelName || payload.tunnelName || name, requestedAction, expectedVessel:payload.targetVessel || payload.vessel || "", expectedRouteReason:payload.targetVessel === "native-tunnel" ? "native" : "", controlRequestId:payload.controlRequestId || "", clientRequestId:payload.clientRequestId || "", agentSessionId:payload.agentSessionId || "", logicalAgentId:payload.logicalAgentId || "", projectRoot:payload.projectRoot || payload.root || "", nonce:payload.nonce || "", jobId:payload.jobId || payload.id || "", stream:payload.stream || "", cwd:payload.cwd || "", command:payload.command || "", path:requestedPaths(payload, requestedAction)[0] || "", paths:requestedPaths(payload, requestedAction), createdAt:Date.now(), timeoutMs }; }
-function allowedActionAlias(requestAction, actualAction) { if (!requestAction || !actualAction || requestAction === actualAction) return true; const aliases = { command:["commandRun","commandStart"], commandRun:["commandStart","commandRun"], commandStart:["commandStart","commandRun"], commandStatus:["commandStatus","commandStart"], commandWait:["commandWait"], commandJobOutputPage:["commandJobOutputPage"], commandOutputPage:["commandJobOutputPage"], commandCancel:["commandCancel"], commandJobCancel:["commandCancel"], taskStart:["taskReceipt","taskStart"], taskStatus:["taskReceipt","taskStatus"], taskComplete:["taskReceipt","taskComplete"], taskFail:["taskReceipt","taskFail"], taskAppendOutput:["taskReceipt","taskAppendOutput"], taskOutputPage:["taskOutputPage"] }; return (aliases[requestAction] || []).includes(actualAction); }
-function actualActionOf(data = {}) { return String(data.actualAction || data.action || ""); }
-function actualJobId(data = {}) { return data.jobId || data.statusPayload?.jobId || data.waitPayload?.jobId || data.stdoutPagePayload?.jobId || data.stderrPagePayload?.jobId || data.stdout?.jobId || data.stderr?.jobId || ""; }
-function actualStream(data = {}) { return data.stream || data.stdout?.stream || data.stderr?.stream || ""; }
-function valueMismatch(expectedValue, actualValue) { return !!expectedValue && actualValue !== undefined && actualValue !== null && actualValue !== "" && actualValue !== expectedValue; }
-function textMismatch(expectedValue, actualValue) { return !!expectedValue && actualValue !== undefined && actualValue !== null && actualValue !== "" && normalizeText(actualValue) !== normalizeText(expectedValue); }
-function missingOrMismatch(expectedValue, actualValue) { return !!expectedValue && actualValue !== expectedValue; }
-function normalizeText(value) { return String(value || "").replace(/\r\n/g, "\n").replace(/[\t ]+\n/g, "\n").trimEnd(); }
-function shouldCheckPath(action = "") { return /^(read|read64|readBytes|write|writeIfHash|stat|copy|move|delete|tree|list|find|grep|rg|touch|mkdirp|ensureFile|bulk|bulkWrite|bulkRead|readLines|readManyLines|connectedFiles|largeFiles|fileHashes|recentFiles)$/.test(String(action)); }
-function cleanPathValue(value) { if (typeof value !== "string") return ""; const trimmed = value.trim(); return !trimmed || trimmed === "." ? "" : path.normalize(trimmed); }
-function requestedPaths(payload = {}, action = "") { if (!shouldCheckPath(action)) return []; const raw = []; for (const key of ["path","p","absolutePath"]) raw.push(payload[key]); if (/^(copy|move)$/.test(action)) raw.push(payload.source, payload.dest, payload.to, payload.from); if (/^(read|read64|readBytes|stat|write|writeIfHash|delete|touch|ensureFile)$/.test(action)) raw.push(payload.source, payload.dest); return raw.map(cleanPathValue).filter(Boolean); }
-function actualPaths(data = {}) { return [data.path, data.absolutePath, data.source, data.dest, data.file?.path, data.file?.absolutePath, data.result?.path, data.result?.absolutePath].map(cleanPathValue).filter(Boolean); }
-function pathMatches(expectedPath, actualPath, root = "") { const expected = cleanPathValue(expectedPath), actual = cleanPathValue(actualPath); if (!expected || !actual) return false; if (path.isAbsolute(expected)) return path.resolve(actual) === path.resolve(expected); if (actual === expected || actual.endsWith(`${path.sep}${expected}`)) return true; return !!root && path.resolve(actual) === path.resolve(root, expected); }
-function pathMismatch(expected = {}, data = {}) { if (!shouldCheckPath(expected.requestedAction)) return false; const expectedPaths = Array.isArray(expected.paths) ? expected.paths : [expected.path].filter(Boolean); if (!expectedPaths.length) return false; const actual = actualPaths(data); if (!actual.length) return false; return expectedPaths.some(expectedPath => !actual.some(actualPath => pathMatches(expectedPath, actualPath, expected.projectRoot))); }
-function mismatchResponse(expected, data, flags) { return { BH:"B\"H", ok:false, status:409, error:"tunnel_response_correlation_mismatch", correlationMismatch:true, ...flags, expected, actual:{ id:data?.id || "", tunnelName:data?.tunnelName || data?.actualTunnelName || "", requestedTunnelName:data?.requestedTunnelName || "", vessel:data?.vessel || data?.targetVessel || "", routeReason:data?.routeReason || "", controlRequestId:data?.controlRequestId || "", clientRequestId:data?.clientRequestId || "", agentSessionId:data?.agentSessionId || "", logicalAgentId:data?.logicalAgentId || "", projectRoot:data?.projectRoot || data?.root || "", nonce:data?.nonce || "", jobId:actualJobId(data), stream:actualStream(data), cwd:data?.cwd || "", command:data?.command || "", path:data?.path || data?.absolutePath || "", paths:actualPaths(data), action:data?.action || "", actualAction:data?.actualAction || "", requestAction:data?.requestAction || "" } }; }
-function validateTunnelResponse(expected, data = {}) { if (!expected) return { ok:true }; const actualAction = actualActionOf(data), actualTunnel = data.tunnelName || data.actualTunnelName || "", actualVessel = data.vessel || data.targetVessel || "", routeReason = String(data.routeReason || ""); const flags = { wrongTunnel:valueMismatch(expected.tunnelName, actualTunnel), actionMismatch:!!expected.requestedAction && !!actualAction && !allowedActionAlias(expected.requestedAction, actualAction), controlRequestMismatch:missingOrMismatch(expected.controlRequestId, data.controlRequestId), clientRequestMismatch:missingOrMismatch(expected.clientRequestId, data.clientRequestId), agentSessionMismatch:missingOrMismatch(expected.agentSessionId, data.agentSessionId), logicalAgentMismatch:missingOrMismatch(expected.logicalAgentId, data.logicalAgentId), projectRootMismatch:missingOrMismatch(expected.projectRoot, data.projectRoot || data.root), nonceMismatch:missingOrMismatch(expected.nonce, data.nonce), vesselMismatch:valueMismatch(expected.expectedVessel, actualVessel), routeReasonMismatch:!!expected.expectedRouteReason && !!routeReason && !routeReason.includes(expected.expectedRouteReason), jobIdMismatch:valueMismatch(expected.jobId, actualJobId(data)), streamMismatch:/^command(Job)?OutputPage$/.test(expected.requestedAction) && valueMismatch(expected.stream, actualStream(data)), cwdMismatch:/^(command|commandRun|commandStart)$/.test(expected.requestedAction) && textMismatch(expected.cwd, data.cwd), commandMismatch:/^(command|commandRun|commandStart)$/.test(expected.requestedAction) && textMismatch(expected.command, data.command), pathMismatch:pathMismatch(expected, data) }; return Object.values(flags).some(Boolean) ? { ok:false, response:mismatchResponse(expected, data, flags) } : { ok:true }; }
-function timeoutEnvelope(expected, waitMs, timeoutMs) { const controlRequestId = expected.id; return { BH:"B\"H", ok:false, action:"tunnelRequestPending", status:202, pending:true, timeout:false, relayWaitTimedOut:true, waitedMs:waitMs, timeoutMs, tunnelName:expected.tunnelName, requestedAction:expected.requestedAction, controlRequestId, resumeToken:controlRequestId, next:{ action:"retryAction", tunnelName:expected.tunnelName, requestedAction:expected.requestedAction, controlRequestId, params:JSON.stringify({ controlRequestId, requestedAction:expected.requestedAction, autoPreview:false }) }, retryPayload:{ action:"retryAction", controlRequestId, requestedAction:expected.requestedAction, autoPreview:false }, message:"Tunnel request is still alive; poll retryAction with controlRequestId instead of treating this as failure." }; }
-function ensurePendingStore(ctx) { if (!ctx.completedTunnelRequests) ctx.completedTunnelRequests = new Map(); return ctx.completedTunnelRequests; }
-function rememberCompleted(ctx, id, data) { const store = ensurePendingStore(ctx); store.set(id, { data, at:Date.now() }); cleanupCompleted(store); }
-function cleanupCompleted(store) { const now = Date.now(); for (const [id, rec] of store.entries()) if (now - rec.at > PENDING_TTL_MS) store.delete(id); }
-function handleTunnelResponse(ctx, data) { const pending = ctx.pendingTunnelRequests.get(data.id); if (!pending) { if (data?.id) rememberCompleted(ctx, data.id, data); return; } const validation = validateTunnelResponse(pending.expected, data); ctx.pendingTunnelRequests.delete(data.id); pending.resolve(validation.ok ? data : validation.response); }
-function cleanRelayPayload(payload = {}) {
-  const out = { ...payload };
-  if (out.autoPreview === undefined) out.autoPreview = false;
-  if (out.relayWaitMs === undefined) out.relayWaitMs = SAFE_RELAY_WAIT_MS;
-  if (out.httpSafeWaitMs === undefined) out.httpSafeWaitMs = SAFE_RELAY_WAIT_MS;
-  return out;
-}
-function sendTunnelRequest(ctx, name, payload, timeout = FOUR_MINUTES_MS) {
-  const cleanPayload = cleanRelayPayload(payload || {});
-  const tunnel = ctx.tunnels.get(name);
-  if (!tunnel) return Promise.resolve({ BH:"B\"H", ok:false, status:202, pending:true, error:"no_tunnel_connected", tunnelName:name, requestedAction:cleanPayload.action || "", next:{ action:"awtsmoosMyDevice" } });
-  const id = cleanPayload.controlRequestId || Date.now() + "_" + Math.random().toString(36).slice(2);
-  const completed = ensurePendingStore(ctx).get(id);
-  if (completed) return Promise.resolve(completed.data);
-  const timeoutMs = boundedTimeout(timeout);
-  const waitMs = safeRelayWaitMs(cleanPayload.relayWaitMs || cleanPayload.httpSafeWaitMs);
-  return new Promise(resolve => {
-    let answered = false;
-    const expected = requestExpectation(id, name, { ...cleanPayload, controlRequestId:id }, timeoutMs);
-    const resolveOnce = data => { if (answered) return; answered = true; resolve(data); };
-    const timeoutTimer = setTimeout(() => resolveOnce(timeoutEnvelope(expected, waitMs, timeoutMs)), waitMs);
-    timeoutTimer.unref?.();
-    const expiryTimer = setTimeout(() => { ctx.pendingTunnelRequests.delete(id); }, timeoutMs);
-    expiryTimer.unref?.();
-    ctx.pendingTunnelRequests.set(id, {
-      expected,
-      resolve:data => { clearTimeout(timeoutTimer); clearTimeout(expiryTimer); ctx.pendingTunnelRequests.delete(id); resolveOnce(data); },
-      reject:error => { clearTimeout(timeoutTimer); clearTimeout(expiryTimer); ctx.pendingTunnelRequests.delete(id); resolveOnce({ BH:"B\"H", ok:false, status:202, pending:true, error:error.message, tunnelName:name, requestedAction:cleanPayload.action || "", next:{ action:"retryAction", controlRequestId:id, requestedAction:cleanPayload.action || "" } }); }
-    });
-    try { tunnel.send({ type:"TUNNEL_REQUEST", id, payload:{ ...cleanPayload, controlRequestId:id } }); }
-    catch (error) { const rec = ctx.pendingTunnelRequests.get(id); if (rec) rec.reject(error); }
-  });
-}
-module.exports = { handleTunnelRegister, handleTunnelResponse, sendTunnelRequest, cleanRelayPayload, requestExpectation, validateTunnelResponse, allowedActionAlias, boundedTimeout, safeRelayWaitMs, timeoutEnvelope, normalizeText, FOUR_MINUTES_MS, ONE_DAY_MS };
+
+const Constants = require("./tunnelRelay/constants.js");
+const Normalizers = require("./tunnelRelay/normalizers.js");
+const Register = require("./tunnelRelay/register.js");
+const Expectation = require("./tunnelRelay/expectation.js");
+const Validation = require("./tunnelRelay/validation.js");
+const State = require("./tunnelRelay/state.js");
+const Request = require("./tunnelRelay/request.js");
+
+/**
+ * B"H — The relay is now a clear doorway rather than a crowded chamber. Each
+ * concern has its own vessel: registration, expectation, validation, durable
+ * pending state, and request lifecycle. The public path remains unchanged so
+ * every old caller may enter while stricter correlation protects every agent.
+ */
+module.exports = {
+	...Constants,
+	...Normalizers,
+	...Register,
+	...Expectation,
+	...Validation,
+	...Request,
+	relayStateSnapshot: State.snapshot
+};

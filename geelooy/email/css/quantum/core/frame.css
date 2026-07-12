@@ -1,0 +1,113 @@
+/* B"H — Quantum Mail is one asymmetric instrument beneath the shared constellation. */
+.mail-quantum-shell.geelooy-content-region {
+	display: grid;
+	width: min(100%, 96rem);
+	height: 100dvh;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: 0.55rem;
+	padding-top: calc(var(--g-header-h) + 1.45rem);
+	padding-bottom: 0.75rem;
+}
+
+.mail-quantum-status {
+	display: grid;
+	grid-template-columns: auto auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.65rem;
+	min-height: 2.35rem;
+	padding: 0.4rem 0.75rem;
+	border: 1px solid rgba(50, 231, 255, 0.18);
+	border-radius: 0.4rem 1.1rem 0.4rem 1.1rem;
+	background: linear-gradient(90deg, rgba(50, 231, 255, 0.08), rgba(2, 6, 13, 0.88) 22%, rgba(255, 194, 71, 0.05));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.04), 0 14px 34px rgba(0, 0, 0, 0.24);
+	color: var(--mail-muted);
+	font: 700 0.68rem/1 var(--font-mono);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.mail-quantum-status strong {
+	color: var(--mail-text);
+	letter-spacing: 0.14em;
+}
+
+.mail-quantum-status small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mail-status-light {
+	padding: 0.28rem 0.48rem;
+	border: 1px solid rgba(66, 245, 179, 0.4);
+	border-radius: 0.25rem 0.7rem 0.25rem 0.7rem;
+	background: rgba(66, 245, 179, 0.1);
+	color: var(--mail-emerald);
+	box-shadow: 0 0 14px rgba(66, 245, 179, 0.22);
+	animation: mail-live-pulse 1.8s ease-in-out infinite;
+}
+
+.mail-status-code { color: var(--mail-cyan); }
+
+.app-container,
+.mail-quantum-frame {
+	position: relative;
+	display: grid;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+	overflow: hidden;
+	border: 1px solid rgba(50, 231, 255, 0.24);
+	border-radius: 1.2rem 3rem 1.2rem 3rem;
+	background: rgba(1, 3, 8, 0.94);
+	box-shadow: var(--mail-shadow), inset 0 1px rgba(255, 255, 255, 0.055), var(--mail-glow-cyan);
+	isolation: isolate;
+}
+
+.mail-quantum-frame::before,
+.mail-quantum-frame::after {
+	position: absolute;
+	z-index: 0;
+	content: "";
+	pointer-events: none;
+}
+
+.mail-quantum-frame::before {
+	inset: 0;
+	background: radial-gradient(circle at 18% 12%, rgba(50, 231, 255, 0.09), transparent 24rem), radial-gradient(circle at 84% 84%, rgba(255, 194, 71, 0.07), transparent 28rem);
+}
+
+.mail-quantum-frame::after {
+	top: 0;
+	right: 4rem;
+	width: 8rem;
+	height: 2px;
+	background: linear-gradient(90deg, transparent, var(--mail-gold), transparent);
+	box-shadow: var(--mail-glow-gold);
+}
+
+.mail-quantum-sidebar,
+.mail-quantum-chat {
+	position: relative;
+	z-index: 2;
+	min-width: 0;
+	min-height: 0;
+}
+
+.awtsmoos-filter-vessel { position: absolute; width: 0; height: 0; pointer-events: none; }
+
+@keyframes mail-live-pulse {
+	50% { box-shadow: 0 0 24px rgba(66, 245, 179, 0.48); filter: brightness(1.2); }
+}
+
+@media (max-width: 850px) {
+	.mail-quantum-shell.geelooy-content-region {
+		height: 100dvh;
+		padding-inline: 0.45rem;
+		padding-bottom: calc(4.9rem + env(safe-area-inset-bottom));
+	}
+	.mail-quantum-status { grid-template-columns: auto 1fr auto; }
+	.mail-quantum-status small { display: none; }
+	.mail-quantum-frame { grid-template-columns: minmax(0, 1fr); border-radius: 0.8rem 1.8rem 0.8rem 1.8rem; }
+}

@@ -1,0 +1,112 @@
+/* B"H — Mobile reaches the real river quickly without losing the constellation. */
+@media (max-width: 42rem) {
+	.g-home-hero {
+		min-height: 0;
+		gap: 0.85rem;
+		padding: 1.15rem;
+		border-radius: 1.7rem 0.65rem 1.7rem 0.65rem;
+	}
+
+	.g-home-hero::before {
+		inset: 0.65rem;
+		border-radius: 1.25rem 0.4rem 1.25rem 0.4rem;
+	}
+
+	.g-home-hero-copy {
+		padding-top: 5.8rem;
+	}
+
+	.g-home-hero-copy p:last-child {
+		font-size: 0.98rem;
+	}
+
+	.g-home-orbit {
+		top: 1.2rem;
+		right: 1.3rem;
+		width: 5.8rem;
+		opacity: 0.82;
+	}
+
+	.g-home-actions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-rows: repeat(2, minmax(6.4rem, auto));
+	}
+
+	.g-home-action,
+	.g-home-action.is-primary {
+		grid-column: auto;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: auto auto auto;
+		min-height: 6.4rem;
+		padding: 0.82rem;
+	}
+
+	.g-home-action.is-primary span {
+		grid-row: auto;
+	}
+
+	.g-home-torah-portal {
+		grid-template-columns: 2.5rem minmax(0, 1fr);
+		padding: 0.72rem;
+	}
+
+	.g-home-torah-portal > span {
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	.g-home-torah-portal small {
+		padding-right: 0;
+	}
+
+	.g-home-torah-portal::after {
+		display: none;
+	}
+
+	.g-feed-list::before {
+		left: 1.25rem;
+	}
+
+	.home-post-card,
+	.geelooy-feed-card,
+	.geelooy-feed-card:nth-child(even) {
+		width: calc(100% - 1.1rem);
+		margin-left: 1.1rem;
+	}
+
+	.geelooy-feed-card:nth-child(odd)::before,
+	.geelooy-feed-card:nth-child(even)::before {
+		left: -1.25rem;
+		right: auto;
+	}
+
+	.g-home-portal-search,
+	.g-home-torah-portal,
+	.notifications-console,
+	.g-search-form,
+	.g-app-filter,
+	.social-card-list,
+	.spaces-grid,
+	.notifications-list,
+	.g-search-results {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.g-page-hero {
+		padding: 1.25rem;
+	}
+
+	.g-page-hero .g-button {
+		width: 100%;
+	}
+
+	.space-body {
+		align-items: flex-start;
+	}
+}
+
+@media (max-width: 22rem) {
+	.g-home-actions {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

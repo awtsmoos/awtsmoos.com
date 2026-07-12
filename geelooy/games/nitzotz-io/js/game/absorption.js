@@ -1,39 +1,90 @@
 // B"H
+import { recordDirectorCapture } from '../director/director.js';
+import { dist, mix } from '../math.js';
 import { addText } from '../state.js';
-import { suctionStep } from '../engine/physics.js';
+import { canConsumeObject, insideCapture } from './collision.js';
+import { applyPowerup } from './powerups.js';
+import { feedHole } from './scoring.js';
 
-/** Absorb all vessels that are small enough; pull them during pulse. */
-export function absorbObjects(world, dt) {
-  for (const object of world.level.objects) tryAbsorb(world, object, dt);
+/** Objects bend, orbit, shrink, and descend before their mass becomes growth. */
+export function captureForHole(world, hole, dt, attract = false) {
+	if (hole.respawn > 0) return;
+	for (const object of world.level.objects) {
+		if (!canConsumeObject(hole, object)) continue;
+		const distance = dist(hole, object);
+		if (attract && distance < hole.r * 4.1 * world.rules.attractionScale) pull(world, object, hole, dt);
+		if (insideCapture(hole, object)) beginSink(object, hole);
+	}
 }
 
-/** Decide whether one object can be revealed by the player vessel. */
-export function canAbsorb(world, object) {
-  const boost = world.sefirah >= 2 ? 1.23 : 1.02;
-  return object.r < world.player.r * boost;
+export function advanceSinks(world, dt) {
+	for (const object of world.level.objects) {
+		if (!object.sinkOwner || object.taken) continue;
+		const hole = findHole(world, object.sinkOwner);
+		if (!hole || hole.respawn > 0) {
+			release(object);
+			continue;
+		}
+		object.sink = Math.min(1, object.sink + dt * (1.65 + hole.r * 0.005));
+		object.x = mix(object.x, hole.x, dt * (4 + object.sink * 8));
+		object.y = mix(object.y, hole.y, dt * (4 + object.sink * 8));
+		if (object.sink >= 1) finish(world, hole, object);
+	}
 }
 
-function tryAbsorb(world, object, dt) {
-  if (object.taken) return;
-  const player = world.player;
-  if (world.input.pulse > 0 && canAbsorb(world, object)) suctionStep(object, player, dt, world.level.worldIndex, 0.9 + world.sefirah * 0.22);
-  if (canAbsorb(world, object) && Math.hypot(player.x - object.x, player.y - object.y) < player.r * 0.9) reveal(world, object);
+function pull(world, object, hole, dt) {
+	const dx = hole.x - object.x;
+	const dy = hole.y - object.y;
+	const distance = Math.hypot(dx, dy) || 1;
+	const reach = hole.r * 4.1 * world.rules.attractionScale;
+	const force = (1 - Math.min(1, distance / reach)) * hole.r * 2.9;
+	object.x += dx / distance * force * dt;
+	object.y += dy / distance * force * dt;
+	object.rot += dt * 4.5;
 }
 
-function reveal(world, object) {
-  object.taken = true;
-  world.absorbers.push({ ...object, life: 0.65, ox: object.x, oy: object.y });
-  const player = world.player;
-  player.combo = world.sefirah >= 3 ? Math.min(6, player.combo + 0.18) : Math.max(1, player.combo);
-  player.comboT = 3.2;
-  const gain = Math.round(object.sparks * player.combo);
-  world.score += gain;
-  player.r += Math.sqrt(object.sparks) * 0.21;
-  player.h = player.r * 1.42;
-  player.speed = Math.max(260, player.speed - object.sparks * 0.0032);
-  player.glow = 1;
-  world.camera.shake = 0.2;
-  addText(world, object.x, object.y, object.z + object.h, `+${gain} x${player.combo.toFixed(1)}`);
-  world.message = `${object.hood}: ${object.name} +${gain}. Keep moving.`;
-  world.events.push(['reveal', object.sparks]);
+function beginSink(object, hole) {
+	object.sinkOwner = hole.id;
+	object.sink = Math.max(object.sink, 0.01);
+}
+
+function finish(world, hole, object) {
+	object.taken = true;
+	object.sinkOwner = null;
+	const massScale = hole.id === 'player' ? world.rules.captureMass : 1;
+	feedHole(hole, object.mass * massScale, object.sparks);
+	if (hole.id === 'player') recordPlayerCapture(world, object);
+}
+
+function recordPlayerCapture(world, object) {
+	world.score += Math.round(object.sparks * world.player.combo * world.rules.scoreScale);
+	world.player.combo = Math.min(10, world.player.combo + 0.16);
+	world.player.comboT = 3.6;
+	world.player.glow = 1;
+	world.camera.shake = Math.min(0.32, 0.08 + object.mass * 0.0018);
+	world.consumed[object.category] = (world.consumed[object.category] || 0) + 1;
+	updateDistrictChain(world, object);
+	if (object.power) applyPowerup(world, object.power);
+	else world.message = `${object.name} descended. Mass ${Math.round(world.player.mass)}.`;
+	addText(world, world.player.x, world.player.y, world.player.z + 30, `+${object.sparks}`);
+	world.events.push(['reveal', object.sparks]);
+	recordDirectorCapture(world, object);
+}
+
+function updateDistrictChain(world, object) {
+	world.districtChain = world.lastDistrict === object.district ? world.districtChain + 1 : 1;
+	world.lastDistrict = object.district;
+	if (world.districtChain % 10 !== 0) return;
+	world.score += 750 * (world.districtChain / 10);
+	if (Number.isFinite(world.timeLeft)) world.timeLeft = Math.min(world.level.time + 24, world.timeLeft + 2);
+	world.message = `${object.district} district chain ${world.districtChain}: time and sparks multiplied.`;
+}
+
+function release(object) {
+	object.sinkOwner = null;
+	object.sink = 0;
+}
+
+function findHole(world, id) {
+	return id === 'player' ? world.player : world.rivals.find(rival => rival.id === id);
 }

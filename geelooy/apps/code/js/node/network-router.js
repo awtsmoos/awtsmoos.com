@@ -1,76 +1,81 @@
 // B"H
-/**
- * B"H
- * Browser Node network router.
- * Small helper moved out of the manager so the virtual machine stays modular.
- */
+
+const HTTP_TIMEOUT_MS = 15000;
 
 export const NodeNetworkRouter = {
-    onListen(state, process, d) {
-        state.servers.set(String(d.port), {
-            pid: process.pid,
-            serverId: d.serverId,
-            protocol: 'net'
-        });
-        return `[Node] Server listening on port ${d.port}`;
-    },
+	onListen(state, process, data) {
+		const port = String(data.port);
+		const existing = state.servers.get(port);
+		if (existing && existing.pid !== process.pid) throw new Error(`node_port_in_use:${port}`);
+		state.servers.set(port, {
+			pid: process.pid,
+			serverId: data.serverId,
+			protocol: data.protocol || "net",
+			owner: process.owner,
+			startedAt: new Date().toISOString()
+		});
+		return `[Node] Server listening on port ${port}`;
+	},
 
-    routeHttp(state, port, req) {
-        return new Promise((resolve, reject) => {
-            const srv = state.servers.get(String(port));
-            if (!srv) return reject(new Error(`Connection Refused on port ${port}`));
+	routeHttp(state, port, request = {}) {
+		return new Promise((resolve, reject) => {
+			const server = state.servers.get(String(port));
+			if (!server) return reject(new Error(`Connection Refused on port ${port}`));
+			const process = state.processes.get(server.pid);
+			if (!process) return reject(new Error(`node_server_process_missing:${server.pid}`));
+			const requestId = crypto.randomUUID?.() || Math.random().toString(36).slice(2);
+			const timeoutMs = Number(request.timeoutMs || HTTP_TIMEOUT_MS);
+			const timer = setTimeout(() => {
+				state.pendingHttpReqs.delete(requestId);
+				reject(new Error(`node_http_timeout:${timeoutMs}`));
+			}, timeoutMs);
+			state.pendingHttpReqs.set(requestId, { resolve, reject, timer, pid: process.pid });
+			process.worker.postMessage({
+				type: "http-inbound",
+				serverId: server.serverId,
+				reqId: requestId,
+				method: request.method || "GET",
+				url: request.url || "/",
+				headers: request.headers || {},
+				body: request.body || ""
+			});
+		});
+	},
 
-            const reqId = Math.random().toString(36).slice(2);
-            state.pendingHttpReqs.entries ? state.pendingHttpReqs.set(reqId, { resolve, reject }) : null;
-            state.pendingHttpReqs.set(reqId, { resolve, reject });
+	onHttpOutbound(state, data) {
+		const pending = state.pendingHttpReqs.get(data.reqId);
+		if (!pending) return false;
+		clearTimeout(pending.timer);
+		state.pendingHttpReqs.delete(data.reqId);
+		pending.resolve({ status: data.status || 200, headers: data.headers || {}, data: data.data ?? "" });
+		return true;
+	},
 
-            const process = state.processes.get(srv.pid);
-            process.worker.postMessage({
-                type: 'http-inbound',
-                serverId: srv.serverId,
-                reqId,
-                method: req.method || 'GET',
-                url: req.url || '/',
-                headers: req.headers || {},
-                body: req.body || ''
-            });
-        });
-    },
+	routeWsOpen(state, port, request = {}) {
+		const server = state.servers.get(String(port));
+		if (!server) throw new Error(`Connection Refused on port ${port}`);
+		const process = state.processes.get(server.pid);
+		if (!process) throw new Error(`node_server_process_missing:${server.pid}`);
+		const id = request.id || crypto.randomUUID?.() || Math.random().toString(36).slice(2);
+		state.wsConnections.set(id, { ...request, pid: server.pid, serverId: server.serverId });
+		process.worker.postMessage({ type: "ws-inbound", serverId: server.serverId, id, url: request.url || "/", headers: request.headers || {} });
+		return { ok: true, id };
+	},
 
-    onHttpOutbound(state, d) {
-        const pending = state.pendingHttpReqs.get(d.reqId);
-        if (!pending) return false;
-        state.pendingHttpReqs.delete(d.reqId);
-        pending.resolve({ status: d.status || 200, headers: d.headers || {}, data: d.data ?? '' });
-        return true;
-    },
+	routeWsData(state, id, data) {
+		const connection = state.wsConnections.get(id);
+		if (!connection) return { ok: false, error: "ws_not_found", id };
+		state.processes.get(connection.pid)?.worker.postMessage({ type: "ws-client-data", id, data });
+		return { ok: true, id };
+	},
 
-    routeWsOpen(state, port, req) {
-        const srv = state.servers.get(String(port));
-        if (!srv) throw new Error(`Connection Refused on port ${port}`);
-
-        const id = req.id || Math.random().toString(36).slice(2);
-        state.wsConnections.set(id, { ...req, pid: srv.pid, serverId: srv.serverId });
-
-        const process = state.processes.get(srv.pid);
-        process.worker.postMessage({ type: 'ws-inbound', serverId: srv.serverId, id, url: req.url || '/', headers: req.headers || {} });
-        return { ok: true, id };
-    },
-
-    routeWsData(state, id, data) {
-        const conn = state.wsConnections.get(id);
-        if (!conn) return { ok: false, error: 'ws_not_found', id };
-        const process = state.processes.get(conn.pid);
-        process?.worker.postMessage({ type: 'ws-client-data', id, data });
-        return { ok: true, id };
-    },
-
-    routeWsClose(state, id) {
-        const conn = state.wsConnections.get(id);
-        if (!conn) return { ok: false, error: 'ws_not_found', id };
-        const process = state.processes.get(conn.pid);
-        process.worker.postMessage({ type: 'ws-client-close', id });
-        state.wsConnections.delete(id);
-        return { ok: true, id };
-    }
+	routeWsClose(state, id) {
+		const connection = state.wsConnections.get(id);
+		if (!connection) return { ok: false, error: "ws_not_found", id };
+		state.processes.get(connection.pid)?.worker.postMessage({ type: "ws-client-close", id });
+		state.wsConnections.delete(id);
+		return { ok: true, id };
+	}
 };
+
+export { HTTP_TIMEOUT_MS };

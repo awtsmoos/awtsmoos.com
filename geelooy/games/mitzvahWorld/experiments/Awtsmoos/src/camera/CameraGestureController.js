@@ -1,5 +1,9 @@
 // B"H
-/** Owns pointer and wheel gestures while the orbit controller owns geometry. */
+/**
+ * Owns desktop/multi-touch gestures while orbit owns geometry.
+ * Left drag: camera orbit only. Right drag: orbit and player facing through input state.
+ * Left+right: orbit aims the movement vector while input asks the body to advance.
+ */
 export class CameraGestureController {
 	constructor(canvas, orbit) {
 		this.canvas = canvas;
@@ -12,6 +16,7 @@ export class CameraGestureController {
 
 	bind() {
 		this.canvas.style.touchAction = 'none';
+		this.canvas.addEventListener('contextmenu', (event) => event.preventDefault());
 		this.canvas.addEventListener('pointerdown', (event) => this.down(event));
 		this.canvas.addEventListener('pointermove', (event) => this.move(event));
 		this.canvas.addEventListener('pointerup', (event) => this.up(event));
@@ -22,7 +27,7 @@ export class CameraGestureController {
 	down(event) {
 		this.canvas.setPointerCapture?.(event.pointerId);
 		this.pointers.set(event.pointerId, point(event));
-		this.pointers.size > 1 ? this.beginPinch() : this.beginSingle(point(event));
+		this.pointers.size > 1 ? this.beginPinch() : this.beginSingle(event);
 	}
 
 	up(event) {
@@ -30,7 +35,7 @@ export class CameraGestureController {
 		this.drag = null;
 		this.pinch = null;
 		if (this.pointers.size === 1) {
-			this.beginSingle([...this.pointers.values()][0]);
+			this.beginSingle({ ...[...this.pointers.values()][0], buttons: event.buttons });
 		}
 	}
 
@@ -53,8 +58,9 @@ export class CameraGestureController {
 
 	beginSingle(pointer) {
 		this.drag = {
-			x: pointer.x,
-			y: pointer.y,
+			x: pointer.clientX ?? pointer.x,
+			y: pointer.clientY ?? pointer.y,
+			buttons: pointer.buttons || 0,
 			yaw: this.orbit.yaw,
 			pitch: this.orbit.pitch
 		};
@@ -70,6 +76,12 @@ export class CameraGestureController {
 
 	updateDrag(event) {
 		if (!this.drag) {
+			this.beginSingle(event);
+		}
+		const buttons = event.buttons || this.drag.buttons;
+		const left = (buttons & 1) !== 0;
+		const right = (buttons & 2) !== 0;
+		if (!left && !right) {
 			return;
 		}
 		this.orbit.yaw = this.drag.yaw - (event.clientX - this.drag.x) * 0.007;

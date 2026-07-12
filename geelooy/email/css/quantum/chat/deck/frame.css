@@ -1,0 +1,64 @@
+/* B"H — The active thread is a deep readable channel, not a glowing obstruction. */
+.chat-area,
+.mail-quantum-chat {
+	position: relative;
+	display: grid;
+	min-width: 0;
+	min-height: 0;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	overflow: hidden;
+	background: radial-gradient(circle at 52% 22%, rgba(50, 231, 255, 0.06), transparent 24rem), linear-gradient(180deg, rgba(2, 7, 15, 0.9), rgba(1, 3, 7, 0.99));
+}
+
+.chat-area::before,
+.chat-area::after {
+	position: absolute;
+	z-index: 0;
+	content: "";
+	pointer-events: none;
+}
+
+.chat-area::before {
+	inset: 0;
+	background: linear-gradient(90deg, transparent 49.9%, rgba(50, 231, 255, 0.035) 50%, transparent 50.1%);
+}
+
+.chat-area::after {
+	top: 5.4rem;
+	right: 1.25rem;
+	width: 1px;
+	height: 6rem;
+	background: linear-gradient(var(--mail-gold), transparent);
+	box-shadow: var(--mail-glow-gold);
+}
+
+.chat-header,
+.messages-scroll,
+.composer-area {
+	position: relative;
+	z-index: 2;
+}
+
+.messages-scroll {
+	display: flex;
+	min-height: 0;
+	flex-direction: column;
+	gap: 0.78rem;
+	padding: 1.25rem clamp(1rem, 3vw, 2rem) 7.2rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+	scroll-behavior: smooth;
+	transition: opacity 190ms ease, transform 190ms cubic-bezier(0.16, 1, 0.3, 1), filter 190ms ease;
+}
+
+.messages-scroll.frequency-shifting {
+	opacity: 0.36;
+	filter: hue-rotate(42deg) blur(1px);
+	transform: scale(0.985) translateY(4px);
+}
+
+@media (max-width: 620px) {
+	.messages-scroll {
+		padding: 0.85rem 0.72rem 6.8rem;
+	}
+}

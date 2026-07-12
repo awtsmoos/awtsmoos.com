@@ -1,115 +1,51 @@
-/* B"H
- * Overlay: the gate must be so obvious that confusion has nowhere to stand.
- */
+/* B"H — The level gate presents the procedural metropolis as a cinematic chapter. */
 .overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 4;
-  display: grid;
-  place-items: center;
-  padding: 18px;
-  background: radial-gradient(circle at 50% 45%, rgba(71, 44, 159, 0.42), rgba(1, 2, 14, 0.94) 68%);
+	position: fixed;
+	inset: 0;
+	z-index: 5;
+	display: grid;
+	place-items: center;
+	padding: 20px;
+	background: radial-gradient(circle at 50% 38%, rgba(71, 53, 158, 0.48), rgba(1, 2, 10, 0.94) 72%);
 }
-
-.overlay.hidden {
-  display: none;
-}
-
+.overlay.hidden { display: none; }
 .overlay-panel {
-  width: min(780px, 92vw);
-  padding: clamp(24px, 4vw, 42px);
-  border: 1px solid rgba(255, 255, 255, 0.26);
-  border-radius: 34px;
-  background: linear-gradient(155deg, rgba(12, 8, 38, 0.95), rgba(4, 4, 20, 0.88));
-  text-align: center;
-  box-shadow: 0 0 90px rgba(120, 98, 255, 0.45), inset 0 0 70px rgba(255, 220, 92, 0.06);
+	width: min(1050px, 95vw);
+	max-height: 94vh;
+	overflow: auto;
+	padding: clamp(24px, 3.8vw, 46px);
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 38px;
+	background: linear-gradient(150deg, rgba(12, 10, 38, 0.97), rgba(3, 4, 16, 0.94));
+	text-align: center;
+	box-shadow: 0 0 120px rgba(114, 90, 255, 0.4), inset 0 0 70px rgba(255, 223, 108, 0.04);
 }
+.eyebrow { margin: 0 0 8px; color: var(--gold); font-size: 10px; font-weight: 950; letter-spacing: 0.19em; text-transform: uppercase; }
+.overlay h1 { margin: 0; font-size: clamp(42px, 6.3vw, 82px); line-height: 0.94; text-shadow: 0 0 35px rgba(126, 220, 255, 0.55); }
+.stars { margin-top: 12px; color: var(--gold); font-size: clamp(27px, 4vw, 44px); letter-spacing: 0.14em; }
+#overlayText { max-width: 760px; margin: 10px auto 18px; color: #dfebff; font-size: clamp(15px, 1.8vw, 19px); font-weight: 650; }
 
-.eyebrow {
-  margin: 0 0 8px;
-  color: var(--gold);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 12px;
+.level-select { display: grid; grid-template-columns: repeat(6, minmax(100px, 1fr)); gap: 8px; margin: 16px 0 20px; }
+.level-card {
+	display: grid;
+	gap: 4px;
+	min-height: 82px;
+	padding: 10px;
+	border-radius: 17px;
+	background: rgba(255, 255, 255, 0.07);
+	color: white;
 }
+.level-card b { color: var(--gold); font-size: 18px; }
+.level-card span { font-size: 11px; font-weight: 850; }
+.level-card em { color: #b8c8ec; font-size: 9px; font-style: normal; }
+.level-card.active { border-color: var(--gold); background: rgba(255, 223, 108, 0.12); box-shadow: 0 0 22px rgba(255, 223, 108, 0.18); }
+.level-card:disabled { cursor: not-allowed; opacity: 0.38; }
 
-.overlay h1 {
-  margin: 0;
-  font-size: clamp(44px, 8vw, 82px);
-  line-height: 0.92;
-  text-shadow: 0 0 34px rgba(122, 215, 255, 0.55);
-}
-
-#overlayText {
-  max-width: 620px;
-  margin: 18px auto 22px;
-  color: #eaf2ff;
-  font-size: clamp(16px, 2.4vw, 20px);
-  font-weight: 650;
-}
-
-.hero-actions,
-.settings,
-.guide {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.hero-actions {
-  margin-bottom: 16px;
-}
-
-.primary {
-  min-width: min(360px, 82vw);
-  padding: 18px 34px;
-  background: linear-gradient(90deg, #fff6a8, var(--gold), #ff9d4d);
-  color: #190d00;
-  font-size: clamp(22px, 4vw, 34px);
-  box-shadow: 0 0 34px rgba(255, 220, 92, 0.58);
-}
-
-.ghost {
-  padding: 15px 23px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.chip {
-  display: grid;
-  gap: 2px;
-  min-width: 132px;
-  padding: 12px 17px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.chip span {
-  font-size: 11px;
-  opacity: 0.72;
-  text-transform: uppercase;
-}
-
-.chip.active {
-  background: linear-gradient(135deg, rgba(255, 220, 92, 0.95), rgba(122, 215, 255, 0.88));
-  color: #130b00;
-  box-shadow: 0 0 24px rgba(255, 220, 92, 0.35);
-}
-
-.toggles {
-  margin-top: 12px;
-}
-
-.guide {
-  margin-top: 18px;
-  color: #d8e7ff;
-  font-size: 13px;
-}
-
-.guide span {
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-}
+.hero-actions, .settings { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.hero-actions { margin-bottom: 14px; }
+.primary { min-width: min(390px, 82vw); padding: 17px 30px; border-radius: 999px; background: linear-gradient(90deg, #fff5a3, var(--gold), #ff9e50); color: #1b0d00; font-size: clamp(21px, 3vw, 30px); box-shadow: 0 0 38px rgba(255, 223, 108, 0.5); }
+.ghost, .chip { border-radius: 999px; background: rgba(255, 255, 255, 0.08); color: white; }
+.ghost { padding: 14px 22px; }
+.chip { display: grid; gap: 2px; min-width: 126px; padding: 10px 15px; }
+.chip span { font-size: 9px; opacity: 0.7; text-transform: uppercase; }
+.chip.active { background: linear-gradient(135deg, rgba(255, 223, 108, 0.94), rgba(126, 220, 255, 0.88)); color: #130a00; }

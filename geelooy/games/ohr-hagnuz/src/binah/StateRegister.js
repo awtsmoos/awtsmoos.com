@@ -1,109 +1,62 @@
-
 /**
  * B"H
  * @class StateRegister
- * @chapter The Grand Scroll of Cosmic Memory (Binah)
- * @description
- * Understanding (Binah) provides the endless, expansive containers for the flash of Wisdom (Chochmah). 
- * Every atom, every inorganic rock (Aleph Beis Nun - "Even"), is constantly recreated every single instant 
- * from the absolute Nothingness by the 10 Utterances of the Awtsmoos. If those letters were removed, 
- * not only would the rock cease to exist, but time itself would unravel as if nothing had ever been.
- * 
- * Here we record the structural integrity of the Tzaddik's soul, now vastly expanded to hold the 
- * Sefirotic Intellect: Chochmah (Attack/Insight), Binah (Defense/Structure), and Daat (Critical Focus/Knowledge).
+ * @description Legacy API adapter over the one canonical State.
+ *
+ * Old modules may still speak ancient names, but their words now touch the same
+ * living player, map, inventory, missions, and light as the active engine.
  */
+import { State } from './State.js';
+import { legacyEtzChaim, legacyHeroStats } from '../state/legacy/LegacyStateProxies.js';
+
 export class StateRegister {
-    static ActiveRealm = 'OVERWORLD';
-    static CurrentMapId = 'Overworld_Main';
-    
-    // Physical resolution of each tile in pixels
-    static Resolution = 64;
-    static ResolutionMultiplier = 2;
-    static GameSpeedMultiplier = 1;
-    
-    // The kinetic state of the Tzaddik
-    static HeroPos = { 
-        cx: 12, cy: 7,    
-        dx: 12 * 64,      
-        dy: 7 * 64,       
-        dir: 'd',         
-        moving: false,    
-        stepTick: 0       
-    };
+	static get ActiveRealm() { return State.ActiveRealm; }
+	static set ActiveRealm(value) { State.ActiveRealm = value; }
+	static get CurrentMapId() { return State.MapId; }
+	static set CurrentMapId(value) { State.MapId = value; }
+	static get Resolution() { return State.Resolution; }
+	static set Resolution(value) { State.Resolution = value; }
+	static get GameSpeedMultiplier() { return State.FrameDeltaScale; }
+	static set GameSpeedMultiplier(value) { State.setFrameDeltaScale(value); }
+	static get HeroPos() { return State.Hero; }
+	static set HeroPos(value) { State.Hero = value; }
+	static get HeroPath() { return State.HeroPath; }
+	static set HeroPath(value) { State.HeroPath = value; }
+	static get PathTarget() { return State.PathTarget; }
+	static set PathTarget(value) { State.PathTarget = value; }
+	static get HeroStats() { return legacyHeroStats; }
+	static get EtzChaim() { return legacyEtzChaim; }
+	static get Equipment() { return State.Equipment; }
+	static set Equipment(value) { State.Equipment = value; }
+	static get Inventory() { return State.Inventory; }
+	static set Inventory(value) { State.Inventory = value; }
+	static get MaterialBag() { return State.Inventory.materialBag; }
+	static set MaterialBag(value) { State.Inventory.materialBag = value; }
+	static get Gelt() { return State.Inventory.money || 0; }
+	static set Gelt(value) { State.Inventory.money = value; }
+	static get ActiveShlichus() { return State.Missions.legacyActive; }
+	static set ActiveShlichus(value) { State.Missions.legacyActive = value; }
+	static get CompletedShlichus() { return State.Missions.legacyCompleted; }
+	static set CompletedShlichus(value) { State.Missions.legacyCompleted = value; }
+	static get TimeState() { return State.WorldState.time; }
+	static get Weather() { return State.WorldState.weather; }
+	static get Purity() { return State.WorldState.purity; }
+	static get Particles() { return State.BattleFx; }
+	static set Particles(value) { State.BattleFx = value; }
 
-    static HeroPath =[];
-    static PathTarget = null;
-    
-    // Spiritual Statistics
-    static HeroStats = { 
-        light: 100, 
-        maxLight: 100, 
-        level: 1, 
-        xp: 0, 
-        xpNeeded: 100,
-        sparkPoints: 0
-    };
-
-    // The Internal Sefirotic Structure (Skill Tree & Base Stats)
-    static EtzChaim = {
-        CHOCHMAH: 1, // Insight: Increases raw Attack Power & Critical chance
-        BINAH: 1,    // Structure: Increases Defense & Max Light Capacity
-        DAAT: 1,     // Knowledge/Connection: Increases Accuracy & Armor Penetration
-        CHESED: 0,   
-        GEVURAH: 0,  
-        TIFERET: 0,  
-        NETZACH: 0,  
-        HOD: 0,      
-        YESOD: 0     
-    };
-
-    // The Garments and Weapons (Kelim) of the Soul
-    static Equipment = {
-        garment: 'WHITE_LINEN',
-        weapon: 'WEAPON_NONE', // The Kli (Vessel) used to channel the light
-        niggun: 'NONE'
-    };
-
-    static Inventory = {
-        mishnah: ['M_AVOT_1'], 
-        kabbalah: [],
-        niggunim: ['NIGGUN_SIMCHA'],
-        essences: [] 
-    };
-
-    static MaterialBag =[];
-    static Outfits = { owned: ['WHITE_LINEN'], active: 'WHITE_LINEN' };
-    static Weapons = { owned: ['WEAPON_NONE'], active: 'WEAPON_NONE' };
-    static Gelt = 18; 
-    
-    static IsDialogueOpen = false;
-    static DialogBankId = null;
-    static VisibleText = "";
-    static BattleMenuState = 'ROOT';
-
-    static ActiveShlichus =[];
-    static CompletedShlichus =[];
-
-    static TimeState = {
-        isShabbos: false,
-        moonPhase: 1.0, 
-        timeOfDay: 'DAY' 
-    };
-
-    static Weather = {
-        type: 'CLEAR', 
-        intensity: 0.0
-    };
-
-    static Purity = {
-        level: 0, 
-        stepsRemaining: 0 
-    };
-
-    static Particles =[];
+	static ResolutionMultiplier = 2;
+	static IsDialogueOpen = false;
+	static DialogBankId = null;
+	static DialogNodeId = 'START';
+	static DialogLineIdx = 0;
+	static DialogOptionCursor = 0;
+	static VisibleText = '';
+	static VisibleDialogText = '';
+	static BattleMenuState = 'ROOT';
+	static DebateCategory = 'mishnah';
+	static EnemyStats = null;
+	static IsSettingsMenuOpen = false;
+	static SettingsSelectionIdx = 0;
+	static Outfits = { owned: ['WHITE_LINEN'], active: 'WHITE_LINEN' };
+	static Weapons = { owned: ['WEAPON_NONE'], active: 'WEAPON_NONE' };
 }
-
-window.AwtsmoosIntents = { 
-    U: 0, D: 0, L: 0, R: 0, 
-    A: 0, B: 0, START: 0, SEL: 0 
-};

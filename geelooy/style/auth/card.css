@@ -1,0 +1,72 @@
+/* B"H — The form card gathers account work into one calm chamber. */
+.login-shell {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	width: 100%;
+	min-height: 100svh;
+	place-items: center;
+	padding: max(5rem, env(safe-area-inset-top)) 1rem max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.login-card {
+	position: relative;
+	isolation: isolate;
+	width: min(100%, 31rem);
+	padding: clamp(1.4rem, 6vw, 2.7rem);
+	overflow: hidden;
+	border: 1px solid var(--auth-line);
+	border-radius: 1.7rem;
+	background: var(--auth-panel);
+	box-shadow: 0 34px 100px rgba(0, 0, 0, 0.48);
+	backdrop-filter: blur(24px) saturate(130%);
+}
+
+.login-card__glow {
+	position: absolute;
+	z-index: -1;
+	inset: -7rem -5rem auto auto;
+	width: 17rem;
+	height: 17rem;
+	border-radius: 50%;
+	background: var(--auth-gradient);
+	filter: blur(70px);
+	opacity: 0.2;
+}
+
+.login-kicker {
+	margin: 0 0 0.65rem;
+	color: var(--auth-cyan);
+	font-size: 0.74rem;
+	font-weight: 900;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+}
+
+h1,
+h2 {
+	margin: 0;
+	font-size: clamp(2.4rem, 10vw, 4rem);
+	line-height: 0.95;
+	letter-spacing: -0.06em;
+}
+
+.login-subtitle {
+	margin: 1rem 0 1.25rem;
+	color: var(--auth-muted);
+	font-size: 1.02rem;
+	line-height: 1.6;
+}
+
+.secondary-link {
+	display: inline-flex;
+	margin-bottom: 1.3rem;
+	color: var(--auth-cyan);
+	font-weight: 800;
+	text-decoration: none;
+}
+
+.secondary-link:hover {
+	text-decoration: underline;
+	text-underline-offset: 0.25em;
+}

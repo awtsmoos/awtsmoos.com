@@ -1,0 +1,87 @@
+/* B"H — Side chambers form one signal tower with three different obligations. */
+.g-home-aside { position: relative; }
+.g-side-card { padding: 1.2rem; border-radius: 0.7rem 1.8rem 0.7rem 1.8rem; }
+.g-side-card + .g-side-card::before {
+	position: absolute;
+	top: -1.25rem;
+	left: 2rem;
+	width: 1px;
+	height: 1.25rem;
+	background: linear-gradient(var(--g-cyan), var(--g-violet));
+	content: "";
+}
+.g-side-card h2 { margin: 0 0 0.9rem; font-size: 1.18rem; letter-spacing: -0.035em; }
+.g-trend-list,
+.g-route-list { display: grid; gap: 0.5rem; }
+.g-trend-list a,
+.g-route-list a {
+	display: flex;
+	min-height: 3.25rem;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.68rem 0.76rem;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 0.85rem 0.25rem 0.85rem 0.25rem;
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(79, 125, 255, 0.035));
+	transition: border-color 180ms var(--g-ease), transform 180ms var(--g-ease), box-shadow 180ms var(--g-ease);
+}
+.g-trend-list a:hover,
+.g-route-list a:hover,
+.g-trend-list a:focus-visible,
+.g-route-list a:focus-visible {
+	border-color: rgba(60, 236, 255, 0.34);
+	box-shadow: var(--g-glow);
+	transform: translateX(4px);
+}
+.g-trend-list small,
+.g-route-list small { color: var(--g-muted); }
+.g-route-list b {
+	display: inline-grid;
+	width: 1.75rem;
+	height: 1.75rem;
+	margin-right: 0.35rem;
+	place-items: center;
+	border-radius: 0.25rem 0.65rem 0.25rem 0.65rem;
+	background: rgba(60, 236, 255, 0.1);
+	color: var(--g-cyan);
+}
+.g-signal-chamber { padding-top: 6.25rem; }
+.g-signal-core {
+	position: absolute;
+	top: 0.85rem;
+	right: 0.85rem;
+	left: 0.85rem;
+	display: grid;
+	height: 4.4rem;
+	place-items: center;
+	overflow: hidden;
+	border: 1px solid rgba(60, 236, 255, 0.18);
+	border-radius: 0.45rem 1.2rem 0.45rem 1.2rem;
+	background: radial-gradient(circle at center, rgba(60, 236, 255, 0.14), rgba(139, 92, 255, 0.06), transparent 72%);
+}
+.g-signal-core span {
+	position: absolute;
+	width: 8rem;
+	height: 8rem;
+	border: 1px solid rgba(60, 236, 255, 0.2);
+	border-radius: 50%;
+	animation: g-signal-wave 3s ease-out infinite;
+}
+.g-signal-core span:nth-child(2) { animation-delay: 1.5s; }
+.g-signal-core b { color: var(--g-green); font: 900 0.72rem/1 var(--g-mono); letter-spacing: 0.18em; text-shadow: 0 0 12px rgba(72, 240, 182, 0.7); }
+.g-library-chamber { border-color: rgba(255, 72, 203, 0.22); }
+.g-create-chamber { background: linear-gradient(145deg, rgba(26, 17, 62, 0.94), rgba(7, 10, 24, 0.96)); }
+.clean-expander { margin-top: 0.65rem; border-top: 1px solid rgba(60, 236, 255, 0.12); padding-top: 0.65rem; }
+.clean-expander summary { color: var(--g-cyan); cursor: pointer; font: 800 0.72rem/1.2 var(--g-mono); letter-spacing: 0.06em; }
+.clean-expander nav { display: grid; gap: 0.35rem; padding-top: 0.55rem; }
+.clean-expander a { color: var(--g-muted); font-size: 0.82rem; }
+.clean-expander a:hover,
+.clean-expander a:focus-visible { color: var(--g-text); }
+@keyframes g-signal-wave {
+	from { opacity: 0.55; transform: scale(0.2); }
+	to { opacity: 0; transform: scale(1.25); }
+}
+@media (min-width: 72.01rem) and (min-height: 48rem) {
+	.g-home-aside { position: sticky; top: calc(var(--g-header-h) + 1.4rem); }
+}

@@ -3,18 +3,26 @@
 import { createMissionRoomsView } from "./missionRooms/view.js";
 import { createRoomController } from "./missionRooms/controller.js";
 
+let mountedController = null;
+
 /**
- * B"H
- * Chapter 706: The monolith bowed and became a doorway.
- *
- * Mission Rooms now exports the same public shape, while the chamber's body,
- * memory, bridge, rendering, and heartbeat controller live in smaller vessels.
+ * B"H — The room doorway is singular. Repeated feature mounts reuse one
+ * controller, one abortable listener set, and one bounded family of timers.
  */
 export function missionRooms() {
-  return createMissionRoomsView();
+	return createMissionRoomsView();
 }
 
 export function mountMissionRooms(getTunnelName) {
-  if (!document.getElementById("discoverRoomsBtn")) return;
-  createRoomController(getTunnelName).mount();
+	if (!document.getElementById("discoverRoomsBtn")) return null;
+	if (!mountedController) mountedController = createRoomController(getTunnelName);
+	mountedController.mount();
+	return mountedController;
+}
+
+export function unmountMissionRooms() {
+	if (!mountedController) return false;
+	mountedController.unmount();
+	mountedController = null;
+	return true;
 }

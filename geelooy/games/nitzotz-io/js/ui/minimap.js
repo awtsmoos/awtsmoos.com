@@ -1,40 +1,46 @@
 // B"H
 
-/** Draw a tactical minimap: gold is food, red is danger, white is you. */
+/** Draw the entire persistent arena: prey, threats, rivals, and the player. */
 export function drawMap(canvas, world) {
-  const ctx = canvas.getContext('2d');
-  const width = canvas.width = canvas.clientWidth * 2;
-  const height = canvas.height = canvas.clientHeight * 2;
-  const scale = width / (world.level.bounds * 2);
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = '#070417';
-  ctx.fillRect(0, 0, width, height);
-  drawObjects(ctx, width, height, scale, world);
-  dot(ctx, width / 2 + world.player.x * scale, height / 2 + world.player.y * scale, 6, '#ffffff');
-  drawFloaters(ctx, width, height, scale, world);
+	const context = canvas.getContext('2d');
+	const width = canvas.width = Math.max(1, canvas.clientWidth * 2);
+	const height = canvas.height = Math.max(1, canvas.clientHeight * 2);
+	const scale = width / (world.level.bounds * 2.18);
+	context.clearRect(0, 0, width, height);
+	context.fillStyle = '#05030f';
+	context.fillRect(0, 0, width, height);
+	drawBoundary(context, width, height);
+	drawObjects(context, width, height, scale, world);
+	for (const rival of world.rivals) {
+		if (rival.respawn <= 0) dot(context, point(width, rival.x, scale), point(height, rival.y, scale), Math.max(3, rival.r * scale), '#ff6b7a');
+	}
+	dot(context, point(width, world.player.x, scale), point(height, world.player.y, scale), Math.max(5, world.player.r * scale), '#ffffff');
 }
 
-function drawObjects(ctx, width, height, scale, world) {
-  for (const object of world.level.objects) {
-    if (object.taken) continue;
-    const edible = object.r < world.player.r * 1.2;
-    const danger = object.r > world.player.r * 1.4;
-    const color = edible ? '#ffdf6e' : danger ? '#ff5c5c' : '#6f84ff';
-    dot(ctx, width / 2 + object.x * scale, height / 2 + object.y * scale, edible ? 3.2 : 1.8, color);
-  }
+function drawObjects(context, width, height, scale, world) {
+	for (const object of world.level.objects) {
+		if (object.taken) continue;
+		const edible = object.r <= world.player.r * 0.72;
+		const color = edible ? '#ffda63' : object.r > world.player.r ? '#614d80' : '#6da9ff';
+		dot(context, point(width, object.x, scale), point(height, object.y, scale), edible ? 2.5 : 1.4, color);
+	}
 }
 
-function drawFloaters(ctx, width, height, scale, world) {
-  ctx.font = '20px system-ui';
-  for (const floater of world.floaters) {
-    ctx.fillStyle = `rgba(255, 240, 140, ${floater.life})`;
-    ctx.fillText(floater.text, width / 2 + floater.x * scale, height / 2 + floater.y * scale);
-  }
+function drawBoundary(context, width, height) {
+	context.strokeStyle = 'rgba(255,220,92,.55)';
+	context.lineWidth = 3;
+	context.beginPath();
+	context.arc(width / 2, height / 2, width * 0.46, 0, Math.PI * 2);
+	context.stroke();
 }
 
-function dot(ctx, x, y, radius, color) {
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.arc(x, y, radius, 0, Math.PI * 2);
-  ctx.fill();
+function point(size, coordinate, scale) {
+	return size / 2 + coordinate * scale;
+}
+
+function dot(context, x, y, radius, color) {
+	context.fillStyle = color;
+	context.beginPath();
+	context.arc(x, y, radius, 0, Math.PI * 2);
+	context.fill();
 }

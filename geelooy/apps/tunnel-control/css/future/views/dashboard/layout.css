@@ -1,0 +1,76 @@
+/* B"H */
+@layer awt.views {
+	.awt-dashboard {
+		display: grid;
+		gap: clamp(15px, 2vw, 24px);
+		align-items: start;
+		min-height: 100svh;
+		padding: clamp(16px, 3vw, 38px);
+		background: radial-gradient(circle at 10% -10%, rgba(47, 231, 122, .08), transparent 30%), radial-gradient(circle at 88% 4%, rgba(40, 124, 255, .12), transparent 32%), var(--awt-main-bg);
+		overflow: visible;
+	}
+
+	.awt-mission-hero {
+		display: grid;
+		gap: 10px;
+		max-width: 1120px;
+	}
+
+	.awt-mission-hero h2 {
+		margin: 0;
+		max-width: 1050px;
+		font-size: clamp(2.15rem, 5.3vw, 5.8rem);
+		line-height: .91;
+		letter-spacing: -.065em;
+	}
+
+	.awt-mission-hero p {
+		margin: 0;
+		max-width: 780px;
+		font-size: clamp(.98rem, 1.5vw, 1.17rem);
+	}
+
+	.awt-quick-actions {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+
+	.awt-quick-action {
+		min-height: 42px;
+		padding-inline: 15px;
+		border-radius: 999px;
+		font-weight: 850;
+	}
+
+	.awt-mission-status {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+		gap: 10px;
+	}
+
+	.awt-mission-stat {
+		min-width: 0;
+		padding: 13px 15px;
+		border: 1px solid var(--awt-line-soft);
+		border-radius: 17px;
+		background: rgba(255, 255, 255, .035);
+	}
+
+	.awt-mission-stat span {
+		display: block;
+		color: var(--awt-dim);
+		font-size: .68rem;
+		font-weight: 850;
+		letter-spacing: .12em;
+		text-transform: uppercase;
+	}
+
+	.awt-mission-stat strong {
+		display: block;
+		margin-top: 5px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}

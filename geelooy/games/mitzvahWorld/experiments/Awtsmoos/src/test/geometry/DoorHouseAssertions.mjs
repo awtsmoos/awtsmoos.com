@@ -12,7 +12,9 @@ import { assertRoofGeometry } from './RoofGeometryAssertions.mjs';
 export function assertDoorAndHouseGeometry(fixtures) {
 	const doors = allHouseDoorDefs({}, flatSampler);
 	assert.ok(doors.length >= fixtures.specs.length, 'every house has an entry door');
-	for (const door of doors) assertDoorFrame(door);
+	for (const door of doors) {
+		assertDoorFrame(door);
+	}
 	assertHouseShells(fixtures);
 	assertMezuzahs(fixtures, doors);
 	assertRoofGeometry(fixtures.roofs, fixtures.specs.length);
@@ -35,6 +37,7 @@ function assertDoorFrame(door) {
 	const collider = colliderDefinition(door, 0);
 	const basis = matrixBasis(closed.matrix);
 	assert.equal(closed.angle, 0, `${door.id} closed angle is not exact zero`);
+	assert.equal(door.frame.hinge.side, 'entry-right', `${door.id} hinge is not on entering-right`);
 	assert.deepEqual(closed.matrix, [...door.frame.closedWorldMatrix]);
 	assert.deepEqual(collider.userData.AwtsmoosDoorPose.worldMatrix, closed.matrix);
 	assert.ok(dot(basis.tangent, door.frame.basis.right) > 0.9999999);
@@ -69,11 +72,15 @@ function assertMezuzahs(fixtures, doors) {
 		const door = doors.find((candidate) => candidate.id === item.doorId);
 		assert.ok(door, `missing door for ${item.id}`);
 		assert.ok(item.dotFromOpeningCenter > 0, `${item.id} is not entering-right`);
-		assert.ok(item.sourceFaceDot > door.frame.wall.thickness / 2, `${item.id} is buried in reveal`);
+		assert.ok(item.sourceFaceDot > 0, `${item.id} is not on the outside/source side`);
+		assert.ok(item.upperThirdRatio >= 2 / 3, `${item.id} is not in the upper third`);
+		assert.ok(item.cavityDepthDot < 0, `${item.id} is not in the exterior reveal cavity`);
 		assert.ok(item.slantRadians > 0, `${item.id} slants in the old direction`);
 		assert.equal(item.entrySide, 'right');
-		assert.equal(item.placement, 'source-side-exterior-face');
-		assert.equal(item.facing, 'visible-from-source-room');
+		assert.equal(item.hingeIsEntryRight, true);
+		assert.equal(item.jambFace, 'entry-right-exterior-reveal-cavity');
+		assert.equal(item.placement, 'outside-right-doorpost-upper-third-reveal-cavity');
+		assert.equal(item.facing, 'visible-from-source-outside-entering-room');
 		if (item.doorwayKind === 'interior') {
 			assert.match(item.sourceRoomId, /original-room$/);
 		}
@@ -88,6 +95,7 @@ function assertYards(fixtures) {
 		assert.equal(evidence.reactsToPlayer, true);
 		assert.equal(evidence.insideFenceOnly, true);
 		assert.ok(evidence.bladeCount > 0);
+		assert.ok(evidence.tuftCount >= 150);
 	}
 }
 

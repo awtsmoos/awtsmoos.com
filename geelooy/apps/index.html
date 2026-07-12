@@ -1,50 +1,50 @@
-<!-- B"H
-Boruch Hashem. The Infinite Breath moves through this code.
--->
-<!DOCTYPE html>
+<!-- B"H — Curated Awtsmoos application directory. -->
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Awtsmoos Apps — The Shard Between Worlds</title>
-<link href="/style/home/headers.css?v=shared-chrome-003" rel="stylesheet" type="text/css">
-<link href="style.css" rel="stylesheet" type="text/css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Open Awtsmoos creative tools, studios, editors, and system utilities.">
+	<meta name="theme-color" content="#050914">
+	<title>Apps — Geelooy</title>
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=app-001">
+	<link rel="stylesheet" href="./style.css?v=app-001">
 </head>
-<body>
-<header class="awtsmoosificationalisticaticalism" aria-label="Awtsmoos global navigation">
-  <a class="home icon" href="/" aria-label="Awtsmoos home">B"H</a>
-  <strong class="header-brand">Apps</strong>
-  <div class="header-buttons">
-    <a class="btn" href="/profile">Profile</a>
-    <a class="btn" href="/email">Mail</a>
-    <button class="menuBtn" id="shared-menu-button" type="button" aria-controls="shared-sidebar" aria-expanded="false" aria-label="Open shared menu">☰</button>
-  </div>
-</header>
-<nav id="shared-sidebar" class="sidebarMitzvah offscreen" aria-label="Shared site menu">
-  <a href="/">Home</a><a href="/email">Mail</a><a href="/heichelos">Heichelos</a><a href="/sefarim">Sefarim</a><a href="/games">Games</a><a href="/profile">Profile</a><a href="/apps">Apps</a>
-</nav>
-<div class="all awtsmoospage">
-  <div class="main">
-    <div class="apps">
-      <h1 class="chrystalis-element chrystalis-title">Awtsmoos Apps</h1>
-      <nav class="chrystalis-nav">
-        <a href="./nesher-studio" class="chrystalis-element chrystalis-button">Nesher 🦅 (Live stream / Video Editing) Studio</a>
-        <a href="./mitzvah-pushkuh" class="chrystalis-element chrystalis-button">Mitzvah Pushkuh</a>
-        <a href="./rebbe" class="chrystalis-element chrystalis-button">Rebbe Audio</a>
-        <a href="./code" class="chrystalis-element chrystalis-button">Awtsmoos Code Editor</a>
-        <a href="./piano" class="chrystalis-element chrystalis-button">Piano / Synthesizer</a>
-        <a href="/os" class="chrystalis-element chrystalis-button">Awtsmoos OS</a>
-        <a href="./captions/video" class="chrystalis-element chrystalis-button">Awtsmoos Caption Maker</a>
-        <a href="./csv" class="chrystalis-element chrystalis-button">Awtsmoos CSV Editor</a>
-        <a href="./exe-emulator" class="chrystalis-element chrystalis-button">Awtsmoos EXE Emulator</a>
-        <a href="./audio-editor" class="chrystalis-element chrystalis-button">Awtsmoos Audio Editor</a>
-        <a href="./lyric-sync" class="chrystalis-element chrystalis-button">Awtsmoos Lyrics Sync</a>
-        <a href="./pdf-to-img" class="chrystalis-element chrystalis-button">PDF to Image(s) converter</a>
-      </nav>
-    </div>
-  </div>
-</div>
-<script src="/scripts/awtsmoos/sharedChrome.js?v=shared-chrome-003"></script>
-<script src="/register.js"></script>
+<body data-apps-page>
+	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="apps-title">
+		<section class="g-panel g-page-hero">
+			<div>
+				<p class="g-kicker">Creative constellation</p>
+				<h1 id="apps-title">Apps</h1>
+				<p>Choose a focused tool without leaving the wider Geelooy experience behind.</p>
+			</div>
+			<a class="g-button g-button-primary" href="/os">Open Awtsmoos OS</a>
+		</section>
+
+		<form class="g-app-filter" role="search" data-app-filter>
+			<label class="g-sr-only" for="app-search">Filter apps</label>
+			<input id="app-search" name="q" type="search" placeholder="Filter tools by name or purpose…" autocomplete="off">
+			<label class="g-sr-only" for="app-category">App category</label>
+			<select id="app-category" name="category"><option value="">All categories</option><option value="studio">Studios</option><option value="editor">Editors</option><option value="system">System</option><option value="media">Media</option></select>
+		</form>
+
+		<section class="g-grid" data-app-grid aria-live="polite">
+			<a class="g-card g-app-card" href="./nesher-studio" data-app-card data-category="studio media"><span class="g-app-icon">🦅</span><h2>Nesher Studio</h2><p>Live streaming and video production in one focused studio.</p><span class="g-chip">Studio</span></a>
+			<a class="g-card g-app-card" href="./code" data-app-card data-category="editor system"><span class="g-app-icon">⌘</span><h2>Awtsmoos Code</h2><p>Edit projects and work directly inside the virtual environment.</p><span class="g-chip">Developer</span></a>
+			<a class="g-card g-app-card" href="./rebbe" data-app-card data-category="media"><span class="g-app-icon">♫</span><h2>Rebbe Audio</h2><p>Search, play, and explore the Rebbe audio library.</p><span class="g-chip">Audio</span></a>
+			<a class="g-card g-app-card" href="./audio-editor" data-app-card data-category="editor media"><span class="g-app-icon">≋</span><h2>Audio Editor</h2><p>Cut, arrange, and process sound in the browser.</p><span class="g-chip">Editor</span></a>
+			<a class="g-card g-app-card" href="./video-editor" data-app-card data-category="editor media"><span class="g-app-icon">▶</span><h2>Video Editor</h2><p>Assemble clips and prepare visual media.</p><span class="g-chip">Editor</span></a>
+			<a class="g-card g-app-card" href="./piano" data-app-card data-category="studio media"><span class="g-app-icon">♬</span><h2>Piano & Synth</h2><p>Play, compose, and render music from a responsive instrument.</p><span class="g-chip">Music</span></a>
+			<a class="g-card g-app-card" href="./captions/video" data-app-card data-category="editor media"><span class="g-app-icon">CC</span><h2>Caption Maker</h2><p>Create timed captions for video and spoken media.</p><span class="g-chip">Accessibility</span></a>
+			<a class="g-card g-app-card" href="./csv" data-app-card data-category="editor system"><span class="g-app-icon">▤</span><h2>CSV Editor</h2><p>Inspect and update structured tabular data.</p><span class="g-chip">Data</span></a>
+			<a class="g-card g-app-card" href="./pdf-to-img" data-app-card data-category="media system"><span class="g-app-icon">▧</span><h2>PDF to Images</h2><p>Turn PDF pages into reusable image files.</p><span class="g-chip">Utility</span></a>
+			<a class="g-card g-app-card" href="./transcribe" data-app-card data-category="media"><span class="g-app-icon">✦</span><h2>Transcribe</h2><p>Convert recorded speech into editable text.</p><span class="g-chip">Speech</span></a>
+			<a class="g-card g-app-card" href="./wallet" data-app-card data-category="system"><span class="g-app-icon">◇</span><h2>Wallet</h2><p>Open the Awtsmoos wallet interface.</p><span class="g-chip">System</span></a>
+			<a class="g-card g-app-card" href="./tunnel-control" data-app-card data-category="system"><span class="g-app-icon">↔</span><h2>Tunnel Control</h2><p>Connect a local machine and supervise agent access.</p><span class="g-chip">System</span></a>
+		</section>
+		<p class="g-state" data-app-empty hidden>No apps match this filter.</p>
+	</main>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=app-001"></script>
+	<script type="module" src="./app.js?v=app-001"></script>
 </body>
 </html>

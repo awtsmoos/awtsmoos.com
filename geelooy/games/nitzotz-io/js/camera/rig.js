@@ -1,41 +1,38 @@
 // B"H
 import { clamp, mix } from '../math.js';
-import { cameraConfig } from './config.js';
-import { clearCameraEye } from './obstacles.js';
 
 /**
- * B"H
- * The orbit no longer dives into buildings; it circles with patience and air.
+ * Cinematic camera cranes into each district, leads player velocity on desktop,
+ * breathes while paused, and orbits completed arenas.
  */
 export function updateCamera(world, dt) {
-  const c = world.camera;
-  const p = world.player;
-  const cfg = cameraConfig(world.save.perf);
-  if (world.won) c.victory += dt;
-  const drift = world.won ? c.victory * 0.45 : inputDrift(world);
-  const distance = clamp(cfg.base + p.r * cfg.grow, cfg.min, cfg.max);
-  c.angle = mix(c.angle, drift, dt * 1.65);
-  c.distance = mix(c.distance, distance, dt * 1.6);
-  const raw = desiredEye(c, p, cfg, world.input.pulse > 0);
-  const eye = clearCameraEye(raw, p, world.level.objects, cfg);
-  c.x = mix(c.x, eye.x, dt * cfg.lerp);
-  c.y = mix(c.y, eye.y, dt * cfg.lerp);
-  c.z = mix(c.z, eye.z, dt * (cfg.lerp * 0.75));
-  c.targetZ = mix(c.targetZ ?? p.z + p.h * 0.6, p.z + p.h * 0.58, dt * 3);
-  c.shake = Math.max(0, c.shake - dt);
+	const camera = world.camera;
+	const player = world.player;
+	camera.idle += dt;
+	if (world.mode === 'playing') camera.intro = Math.max(0, camera.intro - dt);
+	if (world.won) camera.victory += dt;
+	const introRatio = clamp(camera.intro / 4.8, 0, 1);
+	const growthDistance = clamp(205 + player.r * 2.2, 250, 480);
+	const distance = growthDistance + introRatio * 620;
+	const height = clamp(720 + player.r * 7.8, 820, 1580) + introRatio * 820;
+	const orbit = orbitAngle(world, camera);
+	const leadX = player.vx * 0.36;
+	const leadY = player.vy * 0.36;
+	const desiredX = player.x + leadX + Math.sin(orbit) * distance * 0.32;
+	const desiredY = player.y + leadY - Math.cos(orbit) * distance;
+	camera.x = mix(camera.x, desiredX, dt * (introRatio ? 1.3 : 3.3));
+	camera.y = mix(camera.y, desiredY, dt * (introRatio ? 1.3 : 3.3));
+	camera.z = mix(camera.z, player.z + height, dt * (introRatio ? 1.15 : 2.8));
+	camera.targetX = mix(camera.targetX, player.x + leadX, dt * 4);
+	camera.targetY = mix(camera.targetY, player.y + leadY, dt * 4);
+	camera.targetZ = mix(camera.targetZ, player.z + Math.min(32, player.r * 0.18), dt * 4);
+	camera.distance = distance;
+	camera.shake = Math.max(0, camera.shake - dt);
 }
 
-function inputDrift(world) {
-  const x = world.input.x;
-  const y = world.input.y || -0.001;
-  return Math.atan2(x, -y) * 0.28;
-}
-
-function desiredEye(c, p, cfg, pulsing) {
-  const lift = cfg.height + p.r * cfg.lift + (pulsing ? 85 : 0);
-  return {
-    x: p.x - Math.sin(c.angle) * c.distance,
-    y: p.y - Math.cos(c.angle) * c.distance,
-    z: p.z + lift
-  };
+function orbitAngle(world, camera) {
+	if (world.won) return camera.victory * 0.38;
+	if (world.mode === 'ready') return camera.idle * 0.08;
+	if (world.mode === 'paused') return camera.idle * 0.035;
+	return camera.intro > 0 ? camera.intro * 0.18 : 0;
 }

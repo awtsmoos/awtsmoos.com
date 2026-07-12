@@ -1,0 +1,30 @@
+/* B"H */
+@layer awt.responsive {
+	@media (max-width: 760px) {
+		.awt-dashboard {
+			padding: 14px;
+		}
+
+		.awt-mission-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.awt-action-card.is-primary-mission {
+			grid-column: auto;
+		}
+
+		.awt-action-card {
+			min-height: 128px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.awt-action-card {
+			transition: none;
+		}
+
+		.awt-action-card:hover {
+			transform: none;
+		}
+	}
+}

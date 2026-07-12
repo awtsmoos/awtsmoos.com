@@ -1,0 +1,72 @@
+/* B"H — The Aleph is a coordinate beacon, small enough to guide rather than obstruct. */
+.g-home-orbit {
+	position: absolute;
+	top: 1.35rem;
+	right: calc(34% + 1.9rem);
+	display: grid;
+	width: clamp(6.25rem, 10vw, 8.5rem);
+	aspect-ratio: 1;
+	place-items: center;
+	pointer-events: none;
+}
+
+.g-home-orbit::before,
+.g-home-orbit::after {
+	position: absolute;
+	content: "";
+	pointer-events: none;
+}
+
+.g-home-orbit::before {
+	inset: 49% -2.2rem auto;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, rgba(60, 236, 255, 0.46), transparent);
+}
+
+.g-home-orbit::after {
+	inset: -2.2rem 49% auto;
+	width: 1px;
+	height: calc(100% + 4.4rem);
+	background: linear-gradient(transparent, rgba(255, 72, 203, 0.34), transparent);
+}
+
+.g-home-orbit i {
+	position: absolute;
+	inset: 0;
+	border: 1px solid rgba(60, 236, 255, 0.3);
+	border-radius: 48% 52% 36% 64%;
+	box-shadow: inset 0 0 26px rgba(139, 92, 255, 0.12), 0 0 24px rgba(60, 236, 255, 0.08);
+	animation: g-orbit-spin 14s linear infinite;
+}
+
+.g-home-orbit i:nth-child(2) {
+	inset: 13%;
+	border-color: rgba(255, 72, 203, 0.38);
+	border-radius: 62% 38% 54% 46%;
+	animation-direction: reverse;
+	animation-duration: 10s;
+}
+
+.g-home-orbit i:nth-child(3) {
+	inset: 27%;
+	border-color: rgba(139, 92, 255, 0.48);
+	animation-duration: 7s;
+}
+
+.g-home-orbit span {
+	display: grid;
+	width: 42%;
+	aspect-ratio: 1;
+	place-items: center;
+	border-radius: 0.45rem 1.1rem 0.45rem 1.1rem;
+	background: var(--g-gradient-hot);
+	color: #02050d;
+	box-shadow: var(--g-glow-hot);
+	font-size: clamp(1.2rem, 2.6vw, 1.8rem);
+	font-weight: 1000;
+	transform: rotate(8deg);
+}
+
+@keyframes g-orbit-spin {
+	to { transform: rotate(360deg); }
+}

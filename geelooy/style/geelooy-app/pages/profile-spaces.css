@@ -1,0 +1,106 @@
+/* B"H — Identity and community share one clear family of surfaces. */
+.geelooy-profile-shell,
+.social-spaces-shell {
+	display: grid;
+	gap: var(--g-space-5);
+	max-width: var(--g-content);
+}
+
+.profile-hero-card,
+.profile-command-panel,
+.spaces-hero,
+.home-command-galaxy {
+	padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.profile-identity-row,
+.spaces-hero {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.2rem;
+}
+
+.profile-avatar-orb,
+.space-seal,
+.geelooy-avatar {
+	display: grid;
+	width: 3.25rem;
+	height: 3.25rem;
+	flex: 0 0 auto;
+	place-items: center;
+	border: 1px solid var(--g-line-strong);
+	border-radius: 1rem;
+	background: var(--g-gradient-soft);
+	box-shadow: var(--g-glow);
+	font-weight: 900;
+}
+
+.profile-inline-actions,
+.profile-stat-grid,
+.profile-tabs,
+.spaces-state-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem;
+	margin-top: 1rem;
+}
+
+.profile-stat-grid article {
+	min-width: 8rem;
+	padding: 0.8rem;
+	border-radius: var(--g-radius-sm);
+	background: var(--g-surface-soft);
+}
+
+.profile-stat-grid strong,
+.profile-stat-grid span {
+	display: block;
+}
+
+.profile-stat-grid span {
+	color: var(--g-muted);
+	font-size: 0.78rem;
+}
+
+.profile-tab-panel.hidden,
+.profile-tab-panel[hidden] {
+	display: none;
+}
+
+.social-card-list,
+.spaces-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	gap: 1rem;
+}
+
+.social-space-card,
+.social-empty-card {
+	padding: 1.15rem;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-md);
+	background: var(--g-surface);
+}
+
+.space-body,
+.space-title-row,
+.space-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+
+.space-copy {
+	min-width: 0;
+	flex: 1;
+}
+
+.space-title-row,
+.space-actions {
+	justify-content: space-between;
+}
+
+.space-actions {
+	margin-top: 1rem;
+}

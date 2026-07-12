@@ -1,0 +1,81 @@
+/* B"H — Alias identity is the transmitter key; compose is the decisive emission. */
+.mail-profile-card {
+	display: grid;
+	grid-template-columns: 2.15rem minmax(0, 1fr);
+	align-items: center;
+	gap: 0.58rem;
+	padding: 0.46rem 0.52rem;
+	border: 1px solid rgba(50, 231, 255, 0.17);
+	border-radius: 0.35rem 0.95rem 0.35rem 0.95rem;
+	background: linear-gradient(100deg, rgba(50, 231, 255, 0.075), rgba(255, 255, 255, 0.025));
+}
+
+.mail-profile-card-icon {
+	display: grid;
+	width: 2.15rem;
+	height: 2.15rem;
+	place-items: center;
+	border-radius: 0.25rem 0.75rem 0.25rem 0.75rem;
+	background: linear-gradient(145deg, rgba(50, 231, 255, 0.22), rgba(139, 92, 255, 0.28));
+	box-shadow: var(--mail-glow-cyan);
+}
+
+.mail-profile-copy {
+	display: grid;
+	min-width: 0;
+	gap: 0.14rem;
+}
+
+.mail-profile-copy > small {
+	color: var(--mail-muted);
+	font: 700 0.58rem/1 var(--font-mono);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.mail-sidebar-profile-mount {
+	position: relative;
+	z-index: 130;
+	min-width: 0;
+}
+
+.mail-sidebar-profile-mount .awtsmoosDrop,
+.mail-sidebar-profile-mount .profile-trigger {
+	width: 100%;
+}
+
+.fab-compose {
+	position: relative;
+	min-height: 2.85rem;
+	margin: 0.7rem 0.85rem;
+	overflow: hidden;
+	border: 1px solid rgba(255, 194, 71, 0.58) !important;
+	border-radius: 0.4rem 1.1rem 0.4rem 1.1rem !important;
+	background: linear-gradient(112deg, var(--mail-gold), var(--mail-gold-hot) 70%, #ff7356) !important;
+	color: #120800 !important;
+	font: 950 0.72rem/1 var(--font-mono);
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	box-shadow: var(--mail-glow-gold) !important;
+	cursor: pointer;
+}
+
+.fab-compose::after {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(100deg, transparent 25%, rgba(255, 255, 255, 0.48), transparent 62%);
+	content: "";
+	transform: translateX(-130%);
+	transition: transform 420ms ease;
+}
+
+.fab-compose:hover,
+.fab-compose:focus-visible {
+	filter: brightness(1.08);
+	transform: translateY(-2px) translateX(2px) !important;
+}
+
+.fab-compose:hover::after,
+.fab-compose:focus-visible::after {
+	transform: translateX(130%);
+}

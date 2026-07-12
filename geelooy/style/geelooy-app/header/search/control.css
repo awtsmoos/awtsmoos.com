@@ -1,0 +1,89 @@
+/* B"H — The old pink-violet search orb returns as a real input portal. */
+.g-header-search,
+.geelooy-search {
+	position: relative;
+	display: grid;
+	min-width: 0;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.45rem;
+	min-height: 3.2rem;
+	padding: 0.38rem 0.42rem 0.38rem 0.48rem;
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: 999px;
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(116, 79, 255, 0.13));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.16), 0 16px 42px rgba(0, 0, 0, 0.28);
+	backdrop-filter: blur(18px) saturate(150%);
+	transition: 220ms var(--g-ease);
+}
+
+.g-header-search::before {
+	position: absolute;
+	inset: -1px;
+	z-index: -1;
+	border-radius: inherit;
+	background: linear-gradient(100deg, rgba(60, 236, 255, 0.5), transparent 28%, rgba(139, 92, 255, 0.5), rgba(255, 72, 203, 0.48));
+	content: "";
+	opacity: 0.4;
+}
+
+.g-header-search[data-open="true"],
+.g-header-search:focus-within {
+	border-color: rgba(60, 236, 255, 0.62);
+	background: linear-gradient(135deg, rgba(10, 26, 48, 0.98), rgba(35, 19, 75, 0.97));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.18), var(--g-glow-hot);
+	transform: translateY(-1px) scale(1.006);
+}
+
+.g-header-search input {
+	min-width: 0;
+	min-height: 2.35rem;
+	padding: 0 0.25rem;
+	border: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	color: var(--g-text);
+	font-weight: 700;
+	outline: 0;
+}
+
+.g-header-search input::placeholder {
+	color: #aeb8d0;
+}
+
+.g-search-orb,
+.g-search-submit {
+	display: grid;
+	width: 2.35rem;
+	height: 2.35rem;
+	place-items: center;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.18) !important;
+	border-radius: 50% !important;
+	cursor: pointer;
+}
+
+.g-search-orb {
+	background: linear-gradient(145deg, #ff62d0, #795dff) !important;
+	color: white !important;
+	box-shadow: 0 8px 24px rgba(131, 76, 255, 0.48), 0 0 18px rgba(255, 72, 203, 0.3);
+	animation: g-search-glow 3s ease-in-out infinite;
+}
+
+.g-search-submit {
+	background: rgba(255, 255, 255, 0.08) !important;
+	color: var(--g-cyan) !important;
+	transition: 180ms var(--g-ease);
+}
+
+.g-search-submit:hover {
+	background: rgba(60, 236, 255, 0.16) !important;
+	transform: rotate(8deg) scale(1.08);
+}
+
+@keyframes g-search-glow {
+	50% {
+		transform: translateY(-2px) rotate(-7deg);
+		box-shadow: 0 12px 34px rgba(255, 76, 190, 0.62), 0 0 30px rgba(60, 236, 255, 0.24);
+	}
+}

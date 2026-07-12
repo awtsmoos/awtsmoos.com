@@ -1,23 +1,4 @@
-/* B"H — Mail conversation pane. */
-.chat-view, .chat-area { background: #fff; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 0; position: relative; }
-.chat-header { align-items: center; background: #fff; border-bottom: 1px solid var(--mail-line); display: flex; gap: .75rem; min-height: var(--header-h); padding: .8rem 1rem; }
-.chat-header h1, .chat-title { color: var(--mail-text); font-size: 1rem; font-weight: 750; margin: 0; }
-.header-meta, .chat-subtitle { color: var(--mail-muted); font-size: .85rem; }
-.tool-btn, .back-button { background: var(--mail-soft); border: 1px solid var(--mail-line); border-radius: 999px; color: var(--mail-text); cursor: pointer; min-height: 38px; padding: .45rem .75rem; }
-.tool-btn:hover, .back-button:hover { border-color: var(--mail-line-strong); }
-.messages, .message-list, .chat-messages { background: #fff; display: grid; gap: .75rem; min-height: 0; overflow-y: auto; padding: 1rem 1rem 7rem; }
-.message, .mail-message, .msg-bubble, .bubble { background: var(--mail-soft); border: 1px solid var(--mail-line); border-radius: 16px; color: var(--mail-text); max-width: min(720px, 96%); padding: .9rem 1rem; }
-.message.own, .msg-bubble.own, .bubble.own { background: #eef6f5; justify-self: end; }
-.msg-content a { color: var(--mail-accent); text-decoration: underline; text-underline-offset: .16em; }
-.msg-content code { background: #eef2f7; border-radius: 6px; color: var(--mail-text); font-family: var(--font-mono); padding: .1rem .25rem; }
-.context-menu { background: #fff; border: 1px solid var(--mail-line); border-radius: 14px; box-shadow: var(--mail-shadow); color: var(--mail-text); padding: .35rem; position: fixed; z-index: 200; }
-.context-menu button { background: transparent; border: 0; border-radius: 10px; color: var(--mail-text); display: block; padding: .55rem .7rem; text-align: left; width: 100%; }
-.context-menu button:hover { background: var(--mail-soft); }
-.ctx-danger { color: var(--mail-danger) !important; }
-.iframe-wrapper { background: #fff; border: 1px solid var(--mail-line); border-radius: 14px; margin-top: .75rem; overflow: hidden; }
-.iframe-label { background: var(--mail-soft); border-bottom: 1px solid var(--mail-line); color: var(--mail-muted); font: 700 .72rem/1 var(--font-mono); padding: .4rem .55rem; }
-.ghost-bubble { background: var(--mail-soft) !important; border: 1px dashed var(--mail-line-strong) !important; color: var(--mail-muted) !important; }
-.swipe-icon { display: none; }
-.time-scrubber { border-right: 1px solid var(--mail-line); }
-.sonic-distortion, .void-logo > div:first-child { filter: none !important; }
-@media (max-width: 760px) { .chat-header { position: sticky; top: 0; z-index: 20; } }
+/* B"H — Quantum conversation styles arrive through focused modules. */
+@import "./quantum/chat/deck.css";
+@import "./quantum/chat/messages.css";
+@import "./quantum/chat/tools.css";

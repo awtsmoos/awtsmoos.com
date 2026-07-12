@@ -24,7 +24,7 @@ export function normalizeDoorFrame(specification = {}) {
 	const openingBottomY = finiteNumber(specification.openingBottomY, floorY);
 	const closedDepth = finiteNumber(specification.doorDepth, finiteNumber(specification.depth, 0));
 	const center = freezePoint(specification.x ?? specification.position?.x, floorY, specification.z ?? specification.position?.z);
-	const hingeSide = specification.hingeSide || 'entry-left';
+	const hingeSide = specification.hingeSide || 'entry-right';
 	const hingeLocalX = hingeSide === 'entry-right' ? panelWidth / 2 : -panelWidth / 2;
 	const hingePoint = framePoint({ center, basis }, hingeLocalX, closedDepth);
 	const closedPoint = framePoint({ center, basis }, 0, closedDepth);

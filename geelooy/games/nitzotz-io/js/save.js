@@ -1,40 +1,65 @@
 // B"H
-const KEY = 'nitzotz-worlds-save';
+const KEY = 'nitzotz-holeio-save-v2';
 
-/** Load the tiny local vessel of player preferences and best score. */
+/** Load durable progression while deeply upgrading every older save shape. */
 export function loadSave() {
-  try { return { ...defaults(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; }
-  catch { return defaults(); }
+	try {
+		return normalize(JSON.parse(localStorage.getItem(KEY) || '{}'));
+	} catch {
+		return defaults();
+	}
 }
 
-/** Preserve the run memory without ever blocking play. */
 export function saveGame(save) {
-  try { localStorage.setItem(KEY, JSON.stringify(save)); } catch {}
+	try {
+		localStorage.setItem(KEY, JSON.stringify(save));
+	} catch {}
 }
 
-/** Default mode is Extreme, because the user asked for the storm. */
 export function defaults() {
-  return { best: 0, completed: [], perf: 'high', haptics: true, postfx: true, uiScale: 1 };
+	return {
+		best: 0,
+		bestMass: 0,
+		stars: {},
+		unlocked: 0,
+		currentLevel: 0,
+		selectedMode: 'classic',
+		modeRecords: {},
+		achievements: {},
+		daily: {},
+		collection: {},
+		perf: 'high',
+		haptics: true,
+		postfx: true,
+		uiScale: 1
+	};
 }
 
-/** Translate internal perf keys into human button labels. */
 export function perfLabel(perf) {
-  return ({ low: 'Smooth', medium: 'Balanced', high: 'Extreme' })[perf] || 'Balanced';
+	return ({ low: 'Smooth', medium: 'Balanced', high: 'Extreme' })[perf] || 'Balanced';
 }
 
-/** Object density is the first difficulty dial and the first performance guard. */
 export function objectBudget(perf) {
-  if (perf === 'low') return 11;
-  if (perf === 'high') return 26;
-  return 19;
+	return ({ low: 260, medium: 430, high: 640 })[perf] || 430;
 }
 
-/** Extreme mode streams a wider ring; other modes stay easier to read. */
-export function streamRadius(perf) {
-  return perf === 'high' ? 2 : 1;
+export function streamRadius() {
+	return 0;
 }
 
-/** Difficulty pressure tightens the clock and raises punishment. */
-export function pressureFor(perf) {
-  return perf === 'high' ? 1.28 : perf === 'low' ? 0.82 : 1;
+export function pressureFor() {
+	return 1;
+}
+
+function normalize(raw) {
+	const base = defaults();
+	return {
+		...base,
+		...raw,
+		stars: { ...base.stars, ...(raw.stars || {}) },
+		modeRecords: { ...base.modeRecords, ...(raw.modeRecords || {}) },
+		achievements: { ...base.achievements, ...(raw.achievements || {}) },
+		daily: { ...base.daily, ...(raw.daily || {}) },
+		collection: { ...base.collection, ...(raw.collection || {}) }
+	};
 }

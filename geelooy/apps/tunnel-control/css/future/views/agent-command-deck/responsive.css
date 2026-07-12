@@ -1,0 +1,25 @@
+/* B"H */
+@layer awt.responsive {
+	@media (max-width: 1180px) {
+		.awt-command-deck-card {
+			grid-column: span 6;
+			min-height: 220px;
+		}
+	}
+
+	@media (max-width: 760px) {
+		.awt-command-deck-head {
+			grid-template-columns: 1fr;
+		}
+
+		.awt-command-deck-card {
+			grid-column: 1 / -1;
+			min-height: auto;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.awt-command-deck-card { transition: none; }
+		.awt-command-deck-card:hover { transform: none; }
+	}
+}

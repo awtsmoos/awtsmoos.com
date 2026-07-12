@@ -1,5 +1,7 @@
 // B"H
-import { step, start, restart, nextWorld } from './game.js';
+import { directorSummary, forceBoss, forceEvent } from './director/director.js';
+import { nextWorld, restart, selectMode, selectWorld, start, step, togglePause } from './game.js';
+import { cycleMode } from './game/progression.js';
 import { bindInput } from './input.js';
 import { createRenderer } from './renderer.js';
 import { createSound } from './sound.js';
@@ -13,44 +15,97 @@ const sound = createSound(world);
 const actions = createActions(world);
 const pollInput = bindInput(world, actions);
 const updateUI = bindUI(world, actions);
-let last = performance.now();
+let previous = performance.now();
 
-world.nextWorld = actions.nextWorld;
 installDebugVessel(world, renderer, actions);
 requestAnimationFrame(frame);
 
-/** The frame loop is the pulse of the whole little universe. */
 function frame(now) {
-  const dt = Math.min(0.033, (now - last) / 1000);
-  last = now;
-  world.lastDt = dt;
-  world.performance.frame += 1;
-  pollInput();
-  step(world, dt);
-  renderer.render(world);
-  updateUI();
-  while (world.events.length) sound.event(world.events.shift());
-  requestAnimationFrame(frame);
+	const delta = Math.min(0.033, (now - previous) / 1000);
+	previous = now;
+	world.lastDt = delta;
+	world.performance.frame += 1;
+	pollInput();
+	step(world, delta);
+	renderer.render(world);
+	updateUI();
+	while (world.events.length) sound.event(world.events.shift());
+	requestAnimationFrame(frame);
 }
 
-/** UI and keyboard share one simple navigation map. */
-function createActions(world) {
-  return {
-    primary() { if (world.mode === 'won') return nextWorld(world); if (world.mode === 'lost') return restart(); return start(world); },
-    start: () => start(world),
-    restart,
-    nextWorld: () => nextWorld(world)
-  };
+function createActions(activeWorld) {
+	return {
+		primary() {
+			if (activeWorld.mode === 'won') return nextWorld(activeWorld);
+			if (activeWorld.mode === 'lost') return restart(activeWorld);
+			return start(activeWorld);
+		},
+		start: () => start(activeWorld),
+		restart: () => restart(activeWorld),
+		nextWorld: () => nextWorld(activeWorld),
+		pause: () => togglePause(activeWorld),
+		selectLevel: index => selectWorld(activeWorld, index),
+		selectMode: id => selectMode(activeWorld, id),
+		cycleMode: () => cycleMode(activeWorld)
+	};
 }
 
-/** Debug vessel for runtime inspection from the browser console. */
-function installDebugVessel(world, renderer, actions) {
-  window.nitzotzDebug = {
-    world, renderer, actions,
-    start() { actions.start(); return this.sample(); },
-    move(x = 0, y = -1, pulse = 0) { world.input.x = x; world.input.y = y; world.input.pulse = pulse; return this.sample(); },
-    sample() {
-      return { mode: world.mode, world: world.level.name, score: world.score, target: world.level.target, camera: { ...world.camera }, player: { ...world.player }, danger: { ...world.danger }, objects: world.level.objects.length, message: world.message };
-    }
-  };
+function installDebugVessel(activeWorld, activeRenderer, activeActions) {
+	window.nitzotzDebug = {
+		world: activeWorld,
+		renderer: activeRenderer,
+		actions: activeActions,
+		start() {
+			activeActions.start();
+			return this.sample();
+		},
+		move(x = 0, y = -1, pulse = 0) {
+			activeWorld.input.x = x;
+			activeWorld.input.y = y;
+			activeWorld.input.pulse = pulse;
+			return this.sample();
+		},
+		selectMode(id) {
+			activeActions.selectMode(id);
+			return this.sample();
+		},
+		forceEvent(id = null) {
+			forceEvent(activeWorld, id);
+			return this.sample();
+		},
+		forceBoss() {
+			forceBoss(activeWorld);
+			return this.sample();
+		},
+		advance(seconds = 1) {
+			for (let elapsed = 0; elapsed < seconds; elapsed += 1 / 60) step(activeWorld, 1 / 60);
+			return this.sample();
+		},
+		sample() {
+			const remaining = activeWorld.level.objects.filter(object => !object.taken);
+			return sampleWorld(activeWorld, activeRenderer, remaining);
+		}
+	};
+}
+
+function sampleWorld(activeWorld, activeRenderer, remaining) {
+	return {
+		mode: activeWorld.mode,
+		gameMode: { id: activeWorld.gameMode.id, name: activeWorld.gameMode.name },
+		level: activeWorld.level.name,
+		mass: activeWorld.player.mass,
+		rank: activeWorld.rank,
+		time: activeWorld.timeLeft,
+		objects: activeWorld.level.objects.length,
+		remaining: remaining.length,
+		traffic: remaining.filter(object => object.traffic).length,
+		pedestrians: remaining.filter(object => object.pedestrian).length,
+		compositeModels: remaining.filter(object => object.shape.startsWith('model:')).length,
+		powerups: { ...activeWorld.powerups },
+		rivals: activeWorld.rivals.map(rival => ({ name: rival.name, archetype: rival.archetype.name, mass: rival.mass })),
+		director: directorSummary(activeWorld),
+		achievements: Object.keys(activeWorld.save.achievements).length,
+		webglError: activeRenderer.gl.getError(),
+		message: activeWorld.message
+	};
 }

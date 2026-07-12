@@ -1,0 +1,101 @@
+/* B"H — Quantum Mail lives in a black communications void beneath Geelooy. */
+.geelooy-mail-document {
+	min-height: 100dvh;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 14% 14%, rgba(50, 231, 255, 0.1), transparent 26rem),
+		radial-gradient(circle at 88% 7%, rgba(255, 194, 71, 0.11), transparent 28rem),
+		linear-gradient(145deg, #010205, #030712 56%, #010207) !important;
+	color: var(--mail-text);
+	font: 14px/1.5 var(--font-stack);
+}
+
+.geelooy-mail-document::before {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	background:
+		linear-gradient(rgba(50, 231, 255, 0.025) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(139, 92, 255, 0.025) 1px, transparent 1px);
+	background-size: 2.6rem 2.6rem;
+	content: "";
+	mask-image: radial-gradient(circle at 50% 45%, black, transparent 86%);
+	pointer-events: none;
+}
+
+.geelooy-mail-document::after {
+	position: fixed;
+	inset: 0;
+	z-index: 1;
+	background: linear-gradient(rgba(255, 255, 255, 0.018) 50%, rgba(0, 0, 0, 0.07) 50%);
+	background-size: 100% 3px;
+	content: "";
+	mix-blend-mode: screen;
+	opacity: 0.45;
+	pointer-events: none;
+}
+
+.geelooy-mail-document *,
+.geelooy-mail-document *::before,
+.geelooy-mail-document *::after {
+	box-sizing: border-box;
+}
+
+.geelooy-mail-document #root {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	min-height: 100dvh;
+}
+
+.geelooy-mail-document a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.geelooy-mail-document button,
+.geelooy-mail-document input,
+.geelooy-mail-document textarea,
+.geelooy-mail-document select {
+	font: inherit;
+}
+
+.geelooy-mail-document .hidden {
+	display: none !important;
+}
+
+.geelooy-mail-document .flex {
+	display: flex;
+}
+
+.geelooy-mail-document .items-center,
+.geelooy-mail-document .align-center {
+	align-items: center;
+}
+
+.geelooy-mail-document .space-between {
+	justify-content: space-between;
+}
+
+.geelooy-mail-document .gap-2 {
+	gap: 0.5rem;
+}
+
+.geelooy-mail-document ::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
+}
+
+.geelooy-mail-document ::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.geelooy-mail-document ::-webkit-scrollbar-thumb {
+	border-radius: 999px;
+	background: linear-gradient(var(--mail-cyan), var(--mail-violet));
+}
+
+.geelooy-mail-document :focus-visible {
+	outline: 3px solid rgba(50, 231, 255, 0.65);
+	outline-offset: 3px;
+}

@@ -1,0 +1,40 @@
+/* B"H — Responsive revelation: desktop frame, portrait hand, landscape hand. */
+@media (hover: none), (pointer: coarse), (max-width: 920px) {
+	#game-shell { padding: 0; }
+	#gameContainer { width: 100vw; height: 100dvh; min-height: 0; border: 0; border-radius: 0; }
+	#world-hud { height: calc(62px + var(--safe-top)); padding: calc(8px + var(--safe-top)) calc(12px + var(--safe-right)) 8px calc(12px + var(--safe-left)); gap: 8px; }
+	.hud-quest { display: none; }
+	#world-hud { grid-template-columns: 1fr auto; }
+	#location-name { font-size: 0.8rem; }
+	#world-viewport { inset: calc(62px + var(--safe-top)) 0 0; bottom: 0; }
+	#context-rail { display: none; }
+	#global-chat-box { top: calc(72px + var(--safe-top)); right: calc(8px + var(--safe-right)); width: min(220px, 58vw); max-height: 120px; opacity: 0.82; }
+	.chat-status { display: none; }
+	#chat-messages { max-height: 78px; }
+	#desktop-help { display: none; }
+	#dialogue-box { bottom: calc(118px + var(--safe-bottom)); width: calc(100% - 24px - var(--safe-left) - var(--safe-right)); max-height: 46dvh; overflow: auto; padding: 16px; }
+	.menu-screen { padding: calc(14px + var(--safe-top)) calc(12px + var(--safe-right)) calc(14px + var(--safe-bottom)) calc(12px + var(--safe-left)); }
+	.modal-content { max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 28px); border-radius: var(--radius-medium); }
+	.title-logo { font-size: clamp(2rem, 10vw, 3.4rem); }
+	.title-sigil { width: 72px; height: 72px; font-size: 2.8rem; }
+	.menu-grid, .grid-cards { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 430px) {
+	.hud-time { padding: 6px 9px; font-size: 0.66rem; }
+	#global-chat-box { display: none; }
+	.menu-grid, .grid-cards, .team-grid, .two-column-panel { grid-template-columns: 1fr; }
+	.menu-button { min-height: 48px; }
+}
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 920px) {
+	:root { --mobile-control-size: 116px; }
+	#world-hud { height: calc(48px + var(--safe-top)); }
+	#world-viewport { inset: calc(48px + var(--safe-top)) 0 0; }
+	.hud-kicker { display: none; }
+	#mobile-controls { left: auto; width: 280px; gap: 14px; }
+	#action-button { width: 76px; height: 76px; }
+	#dialogue-box { bottom: calc(14px + var(--safe-bottom)); width: min(580px, calc(100% - 310px)); left: 14px; transform: none; }
+	#dialogue-box.is-visible { animation: none; }
+	.battle-area { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.battle-musag-display { min-height: 150px; }
+	.musag-emoji { min-height: 62px; font-size: 3.5rem; }
+}

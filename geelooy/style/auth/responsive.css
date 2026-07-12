@@ -1,0 +1,27 @@
+/* B"H — The account doorway remains usable on every vessel. */
+@media (max-width: 30rem) {
+	.login-shell {
+		place-items: start center;
+		padding-inline: 0.75rem;
+	}
+
+	.login-card {
+		border-radius: 1.25rem;
+	}
+}
+
+@media (max-height: 38rem) and (orientation: landscape) {
+	.login-shell {
+		min-height: auto;
+		padding-block: 1.25rem;
+		padding-left: 4.25rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+	}
+}

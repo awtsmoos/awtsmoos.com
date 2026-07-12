@@ -1,16 +1,12 @@
-//B"H
-const state={offset:0,limit:25,aliasId:'',type:'',search:'',hasMore:false,loading:false,token:0};
-const form=document.getElementById('filters'),list=document.getElementById('list'),more=document.getElementById('more'),summary=document.getElementById('summary'),searchInput=form?.elements?.search;
-const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function setStatus(text,mode=''){summary.textContent=text;summary.dataset.mode=mode;}function stateRow(t,b){list.innerHTML=`<article class="notification state"><h2>${esc(t)}</h2><p>${esc(b)}</p></article>`;}
-async function api(path,options){const res=await fetch(`/api/social${path}`,options);const data=await res.json().catch(()=>({}));if(!res.ok||data.error)throw new Error(data.error?.message||res.statusText||'Request failed');return data;}
-function icon(type){return ({comment:'💬',mention:'@',submission_created:'✍',system:'⚙'}[type]||'•');}
-function row(n){const title=esc(n.title||n.type||'Notification'),body=esc(n.body||n.message||'A quiet movement was recorded.'),time=new Date(n.createdAt||Date.now()).toLocaleString(),link=n.actionUrl?`<p><a href="${esc(n.actionUrl)}">Open</a></p>`:'';const read=n.read?'read':'unread';const id=esc(n.id||n.notificationId||'');const mark=!n.read&&id?`<button type="button" data-mark-read="${id}">Mark read</button>`:'';return `<article class="notification ${read}"><span class="notification-icon" aria-hidden="true">${icon(n.type)}</span><h2>${title}</h2><p>${body}</p><small>${esc(n.type)} · ${esc(time)}</small><div class="notification-row-actions">${link}${mark}</div></article>`;}
-function params(){return new URLSearchParams({limit:String(state.limit),offset:String(state.offset),includeRead:'true',type:state.type,search:state.search});}
-function applyPage(page,reset){const items=page.items||[];const html=items.map(row).join('');if(reset)list.innerHTML=html;else list.insertAdjacentHTML('beforeend',html);if(!items.length&&reset)stateRow('No notifications found',state.search?'No bells matched this search.':'The chamber is quiet.');state.offset+=items.length;state.hasMore=Boolean(page.hasMore);more.hidden=!state.hasMore;setStatus(`${page.total||0} notifications${state.search?` matching “${state.search}”`:''}`);bindMarkRead();}
-async function load(reset=true){if(!state.aliasId||state.loading)return;const token=++state.token;state.loading=true;more.disabled=true;if(reset){state.offset=0;stateRow('Loading notifications…','The bells are being gathered page by page.');}setStatus('Loading…','loading');try{const data=await api(`/notifications/${encodeURIComponent(state.aliasId)}?${params()}`);if(token===state.token)applyPage(data.success||{items:[],total:0},reset);}catch(error){if(token===state.token){more.hidden=true;setStatus('Could not load notifications','error');stateRow('Notifications could not load',error.message);}}finally{if(token===state.token){state.loading=false;more.disabled=false;}}}
-function readForm(){const data=new FormData(form);Object.assign(state,{aliasId:data.get('aliasId')||'',type:data.get('type')||'',search:data.get('search')||''});}
-function debounce(fn,wait=300){let timer;return(...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),wait);};}
-async function hydrateDefaultAlias(){try{const data=await api('/alias/default');const alias=data?.success||'';if(alias&&!form.elements.aliasId.value){form.elements.aliasId.value=alias;readForm();load(true);}}catch{}}
-function bindMarkRead(){list.querySelectorAll('[data-mark-read]').forEach(btn=>btn.addEventListener('click',async()=>{btn.disabled=true;await api(`/notifications/${encodeURIComponent(state.aliasId)}/${encodeURIComponent(btn.dataset.markRead)}/read`,{method:'POST'});await load(true);}));}
-form.addEventListener('submit',event=>{event.preventDefault();readForm();load(true);});searchInput?.addEventListener('input',debounce(()=>{if(!state.aliasId)return;readForm();load(true);}));more.addEventListener('click',()=>load(false));document.getElementById('markAll').addEventListener('click',async()=>{if(!state.aliasId||state.loading)return;await api(`/notifications/${encodeURIComponent(state.aliasId)}/read/all`,{method:'POST'});await load(true);});hydrateDefaultAlias();
+// B"H
+/**
+ * @module GeelooyNotificationsEntry
+ * @description Opens the signal stream after the document is ready.
+ */
+import { bootNotifications } from './modules/controller.js';
+
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', () => bootNotifications(), { once: true });
+} else {
+	bootNotifications();
+}

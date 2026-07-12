@@ -1,14 +1,86 @@
 // B"H
-import { BufferAttribute, BufferGeometry, Mesh, MeshStandardMaterial, Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { normalize, v } from '../math/Geometry3D.js';
-const SUN = [-80, 66, -150];
+import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { TEXTURE_URLS } from '../assets/TextureCatalog.js';
+import { createSkyDome } from './sky/SkyDome.js';
+import {
+	createSkyDisc,
+	createSkyQuad,
+	createSkyRay
+} from './sky/SkyMeshFactory.js';
 
-/** Sky3D: reference-style white core, blue sky, geometric rays, no expensive postprocess. */
-export function createSky3D() { const g = new Group(); g.name = 'Awtsmoos_reference_sun_blue_sky_fast'; g.add(skyDome()); g.add(haze('low-bright-horizon-air', [0, 3, -170], 520, 74, [.92,.95,1,.15])); g.add(disc('sun-white-camera-core', SUN, 6.2, [1,1,.92,1])); g.add(sphere('sun-gold-clear-sphere', SUN, 5.6, [1,.84,.16,1])); g.add(disc('sun-overexposed-square-soft-glow', SUN, 13, [1,1,.86,.34])); g.add(disc('sun-cyan-lens-glow', [-96,58,-148], 11, [.25,1,1,.16])); for (let i=0;i<8;i++) g.add(ray(`sun-camera-ray-${i+1}`, SUN, i*Math.PI/8, i%2?90:62, i%2?6.2:4.2, [1,1,.93,.16])); return g; }
-function skyDome(radius=320,rings=18,segments=48){ const p=[],n=[],c=[],ind=[]; for(let r=0;r<=rings;r++)for(let s=0;s<=segments;s++){const t=r/rings,a=s/segments*Math.PI*2,phi=t*Math.PI*.56,y=Math.sin(phi)*radius-54,rr=Math.cos(phi)*radius;p.push(Math.cos(a)*rr,y,Math.sin(a)*rr);n.push(0,1,0);c.push(...skyColor(t,a));} for(let r=0;r<rings;r++)for(let s=0;s<segments;s++){const a=r*(segments+1)+s,b=a+1,d=a+segments+1,e=d+1;ind.push(a,d,b,b,d,e);} return mesh('mobile-fast-blue-atmosphere-dome',p,n,c,ind,[1,1,1,1]); }
-function skyColor(t,a){ const h=1-t, sun=Math.max(0,Math.cos(a+2.0))*Math.pow(h,2.4); return [.12+t*.20+h*.72+sun*.40,.38+t*.32+h*.46+sun*.28,.70+t*.28+h*.15+sun*.05,1]; }
-function disc(name,center,radius,color){ const c=v(center[0],center[1],center[2]),normal=normalize(v(-center[0],-center[1],-center[2])),right=normalize(v(normal.z,0,-normal.x)),up=normalize(v(normal.y*right.z,normal.z*right.x-normal.x*right.z,-normal.y*right.x)); const p=[c.x,c.y,c.z],n=[normal.x,normal.y,normal.z],colors=[...color],ind=[]; for(let i=0;i<=64;i++){const a=i/64*Math.PI*2;p.push(c.x+(right.x*Math.cos(a)+up.x*Math.sin(a))*radius,c.y+(right.y*Math.cos(a)+up.y*Math.sin(a))*radius,c.z+(right.z*Math.cos(a)+up.z*Math.sin(a))*radius);n.push(normal.x,normal.y,normal.z);colors.push(...color);if(i>0)ind.push(0,i,i+1);} return mesh(name,p,n,colors,ind,[1,1,1,color[3]??1]); }
-function sphere(name,center,radius,color){ const p=[],n=[],c=[],ind=[]; for(let y=0;y<=16;y++)for(let x=0;x<=32;x++){const u=x/32*Math.PI*2,vv=y/16*Math.PI,sx=Math.sin(vv)*Math.cos(u),sy=Math.cos(vv),sz=Math.sin(vv)*Math.sin(u);p.push(center[0]+sx*radius,center[1]+sy*radius,center[2]+sz*radius);n.push(sx,sy,sz);c.push(...color);} for(let y=0;y<16;y++)for(let x=0;x<32;x++){const a=y*33+x,b=a+1,d=a+33,e=d+1;ind.push(a,d,b,b,d,e);} return mesh(name,p,n,c,ind,color); }
-function haze(name,center,w,h,color){ const [x,y,z]=center,hw=w/2,hh=h/2; return mesh(name,[x-hw,y-hh,z,x+hw,y-hh,z,x+hw,y+hh,z,x-hw,y+hh,z],[0,0,1,0,0,1,0,0,1,0,0,1],[...color,...color,...color,...color],[0,1,2,0,2,3],[1,1,1,color[3]]); }
-function ray(name,center,a,len,width,color){ const c=v(center[0],center[1],center[2]),r=v(Math.cos(a),Math.sin(a),0),u=v(-Math.sin(a),Math.cos(a),0),p=[c.x-u.x*width,c.y-u.y*width,c.z,c.x+u.x*width,c.y+u.y*width,c.z,c.x+r.x*len+u.x*width*.18,c.y+r.y*len+u.y*width*.18,c.z,c.x+r.x*len-u.x*width*.18,c.y+r.y*len-u.y*width*.18,c.z],n=[0,0,1,0,0,1,0,0,1,0,0,1],co=[...color,...color,color[0],color[1],color[2],0,color[0],color[1],color[2],0]; return mesh(name,p,n,co,[0,1,2,0,2,3],[1,1,1,color[3]]); }
-function mesh(name,positions,normals,colors,indices,color){ const g=new BufferGeometry(); g.setAttribute('position',new BufferAttribute(new Float32Array(positions),3)); g.setAttribute('normal',new BufferAttribute(new Float32Array(normals),3)); g.setAttribute('color',new BufferAttribute(new Float32Array(colors),4)); g.setIndex(new BufferAttribute(new Uint16Array(indices),1)); const m=new Mesh(g,new MeshStandardMaterial({name,color})); m.name=name; m.material.transparent=(color[3]??1)<1; m.material.opacity=color[3]??1; m.material.alphaMode=m.material.transparent?'BLEND':'OPAQUE'; m.setBaseTransform(); return m; }
+const SUN_POSITION = Object.freeze([-96, 84, -150]);
+const CLOUD_COLOR = Object.freeze([0.78, 0.86, 0.96, 0.22]);
+const RAY_COLOR = Object.freeze([1, 0.88, 0.46, 0.14]);
+
+/**
+ * Builds the golden-hour atmospheric layer from cache-bound public materials.
+ * The sky is a living ceiling: water lends its blue depth, gold lends the sun its fire.
+ */
+export function createSky3D() {
+	const group = new Group();
+	group.name = 'Awtsmoos_hyper_real_sun_sky_clouds_fast';
+	group.add(createSkyDome(TEXTURE_URLS.water.bright));
+	group.add(createHorizonHaze());
+	group.add(createSkyDisc(
+		'sun-white-hot-core',
+		SUN_POSITION,
+		5.5,
+		[1, 0.96, 0.82, 1],
+		TEXTURE_URLS.metals.gold2
+	));
+	group.add(createSkyDisc(
+		'sun-golden-bloom-fresnel',
+		SUN_POSITION,
+		15,
+		[1, 0.68, 0.16, 0.32],
+		TEXTURE_URLS.metals.gold2
+	));
+	for (let index = 0; index < 9; index += 1) group.add(createSunRay(index));
+	for (let index = 0; index < 16; index += 1) group.add(createCloudBand(index));
+	group.userData.AwtsmoosSky = {
+		sun: SUN_POSITION,
+		style: 'gradient-atmosphere-haze-cloud-lens-cache-bound',
+		cloudTextureProxy: TEXTURE_URLS.water.bright,
+		shaderPolicy: 'sun-position-driven-gradient-with-transparent-cloud-planes'
+	};
+	return group;
+}
+
+function createHorizonHaze() {
+	return createSkyQuad(
+		'blue_gold_horizon_haze_not_white',
+		[0, 4, -175],
+		[540, 92],
+		[0.58, 0.72, 0.92, 0.22],
+		TEXTURE_URLS.water.bright
+	);
+}
+
+function createSunRay(index) {
+	const angle = index / 9 * Math.PI * 2;
+	const length = index % 2 ? 72 : 106;
+	const width = index % 2 ? 5.8 : 8.5;
+	return createSkyRay(
+		`sun_lens_ray_${index}`,
+		SUN_POSITION,
+		angle,
+		length,
+		width,
+		RAY_COLOR,
+		TEXTURE_URLS.metals.gold2
+	);
+}
+
+function createCloudBand(index) {
+	return createSkyQuad(
+		`soft_cloud_layer_${index}`,
+		[
+			-180 + index * 24,
+			48 + Math.sin(index * 1.7) * 10,
+			-120 - (index % 5) * 16
+		],
+		[28 + (index % 4) * 12, 7 + (index % 3) * 4],
+		CLOUD_COLOR,
+		TEXTURE_URLS.water.bright
+	);
+}

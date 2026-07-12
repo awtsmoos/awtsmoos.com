@@ -1,0 +1,112 @@
+/* B"H — Every thread row exposes sender, subject, snippet, and time in one scan. */
+.thread-item {
+	position: relative;
+	display: grid !important;
+	width: 100%;
+	min-height: 4.65rem !important;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 0.22rem;
+	padding: 0.66rem 0.72rem 0.66rem 0.9rem !important;
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, 0.075) !important;
+	border-radius: 0.35rem 0.9rem 0.35rem 0.9rem !important;
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(50, 231, 255, 0.02)) !important;
+	color: var(--mail-text) !important;
+	text-align: left;
+	cursor: pointer;
+	transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.thread-item::before {
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 3px;
+	background: linear-gradient(var(--mail-cyan), var(--mail-violet));
+	content: "";
+	opacity: 0.35;
+	transition: opacity 180ms ease, width 180ms ease;
+}
+
+.thread-item::after {
+	position: absolute;
+	right: 0.45rem;
+	bottom: 0.38rem;
+	width: 1.5rem;
+	height: 1px;
+	background: rgba(50, 231, 255, 0.26);
+	content: "";
+}
+
+.thread-item:hover,
+.thread-item.active {
+	border-color: rgba(50, 231, 255, 0.34) !important;
+	background: linear-gradient(110deg, rgba(50, 231, 255, 0.12), rgba(139, 92, 255, 0.08)) !important;
+	box-shadow: var(--mail-glow-cyan);
+	transform: translateX(4px) !important;
+}
+
+.thread-item:hover::before,
+.thread-item.active::before {
+	width: 5px;
+	opacity: 1;
+}
+
+.thread-content {
+	display: grid;
+	min-width: 0;
+	gap: 0.16rem;
+}
+
+.thread-top {
+	display: flex;
+	min-width: 0;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.55rem;
+}
+
+.thread-name,
+.thread-subject,
+.thread-snippet {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.thread-name {
+	color: var(--mail-text);
+	font-size: 0.82rem;
+	font-weight: 880;
+}
+
+.thread-time {
+	flex: 0 0 auto;
+	color: var(--mail-cyan);
+	font: 700 0.58rem/1 var(--font-mono);
+}
+
+.thread-subject {
+	color: #dce7f8;
+	font-size: 0.76rem;
+	font-weight: 760;
+}
+
+.thread-snippet {
+	color: var(--mail-muted);
+	font-size: 0.7rem;
+}
+
+.thread-empty-state {
+	display: grid;
+	gap: 0.42rem;
+	margin: 0.55rem;
+	padding: 0.9rem;
+	border: 1px dashed rgba(50, 231, 255, 0.28);
+	border-radius: 0.4rem 1rem 0.4rem 1rem;
+	background: linear-gradient(145deg, rgba(50, 231, 255, 0.045), rgba(139, 92, 255, 0.035));
+	color: var(--mail-muted);
+	text-align: center;
+}
+
+.thread-empty-state strong { color: var(--mail-text); }
+.thread-empty-state a { color: var(--mail-cyan); font-weight: 850; }

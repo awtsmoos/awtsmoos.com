@@ -1,0 +1,48 @@
+/* B"H */
+@layer awt.views {
+	.awt-turn-metrics {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.awt-turn-metrics article {
+		display: grid;
+		gap: 3px;
+		padding: 10px;
+		border: 1px solid rgba(255, 255, 255, .08);
+		border-radius: 14px;
+		background: rgba(255, 255, 255, .035);
+	}
+
+	.awt-turn-metrics span {
+		color: var(--awt-dim);
+		font-size: .65rem;
+		font-weight: 850;
+		letter-spacing: .08em;
+		text-transform: uppercase;
+	}
+
+	.awt-turn-danger {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 14px;
+		align-items: center;
+		padding: 12px 14px;
+		border: 1px solid rgba(255, 94, 115, .22);
+		border-radius: 18px;
+		background: rgba(255, 94, 115, .045);
+	}
+
+	.awt-turn-danger p {
+		margin: 4px 0 0;
+	}
+
+	.awt-turn-danger .warning {
+		border-color: rgba(255, 194, 87, .5);
+	}
+
+	.awt-turn-danger .danger {
+		border-color: rgba(255, 94, 115, .5);
+	}
+}

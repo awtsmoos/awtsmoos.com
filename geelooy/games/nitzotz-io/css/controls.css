@@ -1,70 +1,36 @@
-/* B"H
- * Touch controls: large, labeled, and impossible to miss under pressure.
- */
+/* B"H — Touch controls remain bold while desktop keeps the city unobstructed. */
 #stick {
-  position: fixed;
-  left: max(18px, env(safe-area-inset-left));
-  bottom: max(20px, env(safe-area-inset-bottom));
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 136px;
-  height: 136px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(122, 215, 255, 0.16), rgba(255, 255, 255, 0.06));
-  box-shadow: 0 0 40px rgba(93, 108, 255, 0.24);
-  touch-action: none;
+	position: fixed;
+	left: max(20px, env(safe-area-inset-left));
+	bottom: max(22px, env(safe-area-inset-bottom));
+	z-index: 4;
+	display: none;
+	place-items: center;
+	width: 126px;
+	height: 126px;
+	border: 1px solid rgba(255, 255, 255, 0.24);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(126, 220, 255, 0.2), rgba(255, 255, 255, 0.04));
+	box-shadow: 0 0 42px rgba(93, 108, 255, 0.26);
+	touch-action: none;
 }
-
-#stick span {
-  position: absolute;
-  top: 18px;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.14em;
-  opacity: 0.7;
-}
-
-#stick i {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue), var(--violet));
-  box-shadow: 0 0 30px rgba(122, 215, 255, 0.72);
-}
+#stick span { position: absolute; top: 15px; font-size: 9px; font-weight: 900; letter-spacing: 0.16em; }
+#stick i { width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--violet)); box-shadow: 0 0 30px rgba(126, 220, 255, 0.72); }
 
 #pulse {
-  position: fixed;
-  right: max(22px, env(safe-area-inset-right));
-  bottom: max(30px, env(safe-area-inset-bottom));
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 112px;
-  height: 112px;
-  border: 1px solid rgba(255, 255, 255, 0.56);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 25%, #fff8bd, var(--gold) 46%, #c77520 100%);
-  color: #210f00;
-  font-weight: 1000;
-  box-shadow: 0 0 42px rgba(255, 220, 92, 0.72);
+	position: fixed;
+	right: max(24px, env(safe-area-inset-right));
+	bottom: max(30px, env(safe-area-inset-bottom));
+	z-index: 4;
+	display: none;
+	place-items: center;
+	width: 100px;
+	height: 100px;
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 25%, #fff8bd, var(--gold) 46%, #c66f1c);
+	color: #210f00;
+	font-weight: 1000;
+	box-shadow: 0 0 42px rgba(255, 223, 108, 0.68);
 }
-
-#pulse span {
-  margin-top: -22px;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-}
-
-@media (max-width: 660px) {
-  #stick {
-    width: 112px;
-    height: 112px;
-  }
-
-  #pulse {
-    width: 92px;
-    height: 92px;
-  }
-}
+#pulse span { margin-top: -20px; font-size: 9px; letter-spacing: 0.16em; }

@@ -1,0 +1,64 @@
+/* B"H — Reply, menu, speech, and swipe actions stay compact and reachable. */
+.msg-actions {
+	display: flex;
+	gap: 0.2rem;
+	opacity: 0;
+	transition: opacity 150ms ease;
+}
+
+.msg-bubble:hover .msg-actions,
+.msg-bubble:focus-within .msg-actions {
+	opacity: 1;
+}
+
+.action-btn,
+.code-copy-btn {
+	display: grid !important;
+	min-width: 1.8rem;
+	height: 1.8rem;
+	min-height: 1.8rem !important;
+	place-items: center;
+	padding: 0 0.38rem !important;
+	border: 1px solid currentColor !important;
+	border-radius: 0.52rem !important;
+	background: rgba(0, 0, 0, 0.14) !important;
+	color: inherit !important;
+	font-size: 0.72rem !important;
+	cursor: pointer;
+	opacity: 0.72;
+}
+
+.action-btn:hover,
+.code-copy-btn:hover {
+	opacity: 1;
+	transform: translateY(-1px) !important;
+}
+
+.swipe-icon {
+	position: absolute;
+	display: grid;
+	width: 2.4rem;
+	height: 2.4rem;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--mail-cyan);
+	color: #010205;
+	font: 900 0.52rem/1 var(--font-mono);
+	box-shadow: var(--mail-glow-cyan);
+	opacity: 0;
+	transform: scale(0.4);
+}
+
+.msg-row.them .swipe-icon {
+	left: -3rem;
+}
+
+.msg-row.me .swipe-icon {
+	right: -3rem;
+}
+
+@media (max-width: 620px) {
+	.msg-actions {
+		opacity: 1;
+	}
+}

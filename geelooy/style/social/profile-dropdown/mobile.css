@@ -1,0 +1,37 @@
+/* B"H — Mobile identity opens as a full spectral sheet, never clipped. */
+@media (max-width: 43.75rem) {
+	.awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+		position: fixed;
+		inset: max(5.25rem, calc(env(safe-area-inset-top) + 5.25rem)) max(0.48rem, env(safe-area-inset-right)) auto max(0.48rem, env(safe-area-inset-left));
+		width: auto;
+		min-width: 0;
+		max-height: calc(100dvh - 6rem);
+		border-radius: 1.25rem;
+	}
+
+	.awtsmoosDrop .prim {
+		max-width: 5rem;
+	}
+
+	.awtsmoosDrop .profile-trigger {
+		padding-inline: 0.48rem;
+	}
+
+	.awtsmoosDrop .profile-menu-card {
+		gap: 0.55rem;
+	}
+}
+
+@media (max-width: 27rem) {
+	.awtsmoosDrop .profile-trigger .arrow {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoosDrop *,
+	.awtsmoosDrop *::before,
+	.awtsmoosDrop *::after {
+		transition-duration: 0.01ms !important;
+	}
+}

@@ -1,40 +1,40 @@
-<!-- B"H -->
+<!-- B"H — Geelooy signal center, connected to the real social API. -->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Notifications | Geelooy Signal Stream</title>
-  <meta name="description" content="Geelooy notifications: search, filter, and clear social signals for an alias.">
-  <meta name="theme-color" content="#050711">
-  <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-004">
-  <link rel="stylesheet" href="/style/social/notifications.css?v=social-os-003">
-  <script defer src="/notifications/app.js?v=social-os-002"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Search and manage comments, mentions, submissions, and system signals for a Geelooy alias.">
+	<meta name="theme-color" content="#050914">
+	<title>Signals — Geelooy</title>
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=app-001">
 </head>
-<body>
-  <a class="notifications-skip" href="#list">Skip to signal list</a>
-  <main class="notifications-page" aria-labelledby="notifications-title">
-    <section class="notifications-hero" aria-describedby="notifications-summary-copy">
-      <p class="notifications-kicker">Signal stream</p>
-      <h1 id="notifications-title">Notifications</h1>
-      <p id="notifications-summary-copy">Track comments, mentions, system pulses, and Heichel movements for any alias.</p>
-      <nav class="notifications-dock" aria-label="Connected routes">
-        <a href="/">Home</a><a href="/profile">Profile</a><a href="/email">Mail</a><a href="/heichelos">Heichelos</a>
-      </nav>
-    </section>
+<body data-notifications-page>
+	<a class="g-sr-only" href="#list">Skip to signal list</a>
+	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="notifications-title">
+		<section class="g-panel g-page-hero">
+			<div>
+				<p class="g-kicker">Signal center</p>
+				<h1 id="notifications-title">Notifications</h1>
+				<p>Comments, mentions, submissions, and system activity—automatically opened for your default alias.</p>
+			</div>
+			<button id="markAll" class="g-button" type="button">Mark all read</button>
+		</section>
 
-    <form id="filters" class="notifications-console" aria-label="Notification filters">
-      <label><span>Alias ID</span><input name="aliasId" autocomplete="off" placeholder="your-alias" required></label>
-      <label><span>Search</span><input name="search" type="search" autocomplete="off" placeholder="comment, mention, title..."></label>
-      <label><span>Type</span><select name="type"><option value="">All types</option><option value="submission_created">Submissions</option><option value="comment">Comments</option><option value="mention">Mentions</option><option value="system">System</option></select></label>
-      <div class="notifications-actions"><button type="submit">Load signals</button><button type="button" id="markAll">Mark all read</button></div>
-    </form>
+		<form id="filters" class="notifications-console" aria-label="Notification filters" aria-busy="false">
+			<label><span>Alias</span><input name="aliasId" autocomplete="off" placeholder="Default alias loads automatically" required></label>
+			<label><span>Search signals</span><input name="search" type="search" autocomplete="off" placeholder="Comment, mention, title…"></label>
+			<label><span>Type</span><select name="type"><option value="">All types</option><option value="submission_created">Submissions</option><option value="comment">Comments</option><option value="mention">Mentions</option><option value="system">System</option></select></label>
+			<button class="g-button g-button-primary" type="submit">Load signals</button>
+		</form>
 
-    <section id="summary" class="notifications-summary" aria-live="polite">Enter an alias ID to reveal the stream.</section>
-    <section id="list" class="notifications-list" aria-live="polite" aria-label="Notification results">
-      <article class="notification state"><h2>Awaiting alias</h2><p>The graph is quiet until an identity is chosen.</p></article>
-    </section>
-    <button id="more" class="notifications-more" hidden>Load more</button>
-  </main>
+		<section id="summary" class="notifications-summary" aria-live="polite">Finding your default alias…</section>
+		<section id="list" class="notifications-list" aria-live="polite" aria-label="Notification results">
+			<article class="notification state"><h2>Opening the signal stream</h2><p>Your default alias will load automatically.</p></article>
+		</section>
+		<button id="more" class="g-button" type="button" hidden>Load more</button>
+	</main>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=app-001"></script>
+	<script type="module" src="./app.js?v=app-001"></script>
 </body>
 </html>

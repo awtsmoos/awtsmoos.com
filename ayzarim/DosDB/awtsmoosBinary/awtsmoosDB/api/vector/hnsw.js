@@ -1,71 +1,109 @@
-
 // B"H
+
+/**
+ * @file api/vector/hnsw.js
+ * @chapter The Graph Grows Deterministically And Remembers Its Height
+ * @description Coordinates insertion and deletion while delegated modules own
+ * stable level selection, traversal, storage, registry, and neighbor operations.
+ */
+
+const VectorMath = require('./math.js');
+const VectorStorage = require('./storage.js');
 const HNSWRegistry = require('./hnsw/registry.js');
 const HNSWOps = require('./hnsw/ops.js');
-const Storage = require('./storage.js');
-const { getMetric } = require('./math.js');
-
-const M = 12, EF_CONSTRUCTION = 100, ML = 1 / Math.log(M);
+const deterministicLevel = require('./hnsw/level.js');
+const searchGraph = require('./hnsw/query.js');
 
 class HNSW {
-    constructor(db, regH, keyMapH, meta) {
-        this.db = db; this.registry = new HNSWRegistry(this, regH); this.keyMap = keyMapH; this.meta = meta;
-        this.storage = new Storage(db.allocator); this.metric = getMetric(meta.metric || 'cosine'); this.ops = new HNSWOps(this);
-        this.entryNodeID = meta.entryNodeID !== undefined ? meta.entryNodeID : -1;
-    }
-    insert(key, vector, payloadPtr) {
-        this.registry.init();
-        const existing = this.keyMap[String(key)];
-        if (existing !== undefined) { const old = this.registry.getNode(existing); if (old) { old.deleted = true; this.registry.saveNode(old); } }
-        const level = Math.floor(-Math.log(Math.random()) * ML), id = this.registry.count();
-        const node = { id, level, vector, neighbors: [], payloadPtr: payloadPtr || Buffer.alloc(16), deleted: false };
-        this.registry.saveNode(node); this.registry.addPtr(id, node.ptr); this.keyMap.set(String(key), id);
-        let curr = this.registry.getNode(this.entryNodeID);
-        if (!curr) { this.entryNodeID = id; if (this.onEntryPointChanged) this.onEntryPointChanged(id); return; }
-        let d = this.metric(vector, curr.vector), curL = curr.level;
-        for (let l = curL; l > level; l--) {
-            let changed = true;
-            while(changed) {
-                changed = false;
-                for(const nId of (curr.neighbors[l] || [])) {
-                    const n = this.registry.getNode(nId); if(!n) continue;
-                    const dist = this.metric(vector, n.vector); if(dist < d) { d = dist; curr = n; changed = true; }
-                }
-            }
-        }
-        for (let l = Math.min(level, curL); l >= 0; l--) {
-            const cand = this.ops.searchLayer(curr, vector, EF_CONSTRUCTION, l);
-            const sel = cand.slice(0, l === 0 ? 24 : 12);
-            node.neighbors[l] = [];
-            for (const c of sel) { node.neighbors[l].push(c.node.id); this.ops.connectNeighbor(c.node, id, l); }
-            if (cand.length > 0) curr = cand[0].node;
-        }
-        this.registry.saveNode(node);
-        if (curr && level > curr.level) { this.entryNodeID = id; if (this.onEntryPointChanged) this.onEntryPointChanged(id); }
-    }
-    delete(key) {
-        const id = this.keyMap[String(key)]; if (id === undefined) return;
-        const node = this.registry.getNode(id); if (node) { node.deleted = true; this.registry.saveNode(node); }
-        this.keyMap.delete(String(key));
-    }
-    search(queryVec, k) {
-        this.registry.init(); if (this.entryNodeID === -1) return [];
-        const entry = this.registry.getNode(this.entryNodeID); if (!entry) return [];
-        let curr = entry, d = this.metric(queryVec, entry.vector);
-        for (let l = entry.level; l > 0; l--) {
-            let changed = true;
-            while (changed) {
-                changed = false;
-                for (const nId of (curr.neighbors[l] || [])) {
-                    const n = this.registry.getNode(nId); if (!n) continue;
-                    const dist = this.metric(queryVec, n.vector); if (dist < d) { d = dist; curr = n; changed = true; }
-                }
-            }
-        }
-        const cand = this.ops.searchLayer(curr, queryVec, Math.max(k * 2, 100), 0);
-        const results = []; let count = 0; const LiveHandle = require('../liveHandle/index.js');
-        for (const c of cand) { if (!c.node.deleted && count < k) { results.push({ item: LiveHandle.resolvePointer(c.node.payloadPtr, this.db), score: c.dist }); count++; } }
-        return results;
-    }
+	constructor(db, registryHandle, keyMapHandle, metadata) {
+		this.db = db;
+		this.registry = new HNSWRegistry(this, registryHandle);
+		this.keyMap = keyMapHandle;
+		this.meta = metadata;
+		this.storage = new VectorStorage(db.allocator);
+		this.metric = VectorMath[metadata.metric] || VectorMath.cosine;
+		this.entryNodeID = metadata.entryNodeID ?? -1;
+		this.maxLevel = Number(metadata.maxLevel || 0);
+		this.M = 12;
+		this.M0 = 24;
+		this.efConstruction = 100;
+		this.efSearch = 50;
+		this.ml = 1 / Math.log(this.M);
+		this.ops = new HNSWOps(this);
+		this.onEntryPointChanged = null;
+	}
+
+	insert(key, vector, payloadPointer) {
+		const node = this.createNode(key, vector, payloadPointer);
+		if (this.entryNodeID < 0) return this.insertFirstNode(node);
+		let entry = this.registry.getNode(this.entryNodeID);
+		if (!entry) throw new Error('B"H HNSW entry node could not be loaded');
+		this.maxLevel = Math.max(this.maxLevel, Number(entry.level || 0));
+		for (let level = this.maxLevel; level > node.level; level--) {
+			entry = this.ops.searchLayer(entry, node.vector, 1, level)[0]?.node || entry;
+		}
+		this.registry.saveNode(node);
+		for (let level = Math.min(node.level, this.maxLevel); level >= 0; level--) {
+			entry = this.connectLevel(node, entry, level);
+		}
+		if (node.level > this.maxLevel) this.updateEntryPoint(node);
+		this.keyMap.set(String(key), node.id);
+		return node.id;
+	}
+
+	insertFirstNode(node) {
+		this.registry.saveNode(node);
+		this.updateEntryPoint(node);
+		this.keyMap.set(node.key, node.id);
+		return node.id;
+	}
+
+	connectLevel(node, entry, level) {
+		const candidates = this.ops.searchLayer(entry, node.vector, this.efConstruction, level);
+		const limit = level === 0 ? this.M0 : this.M;
+		const neighbors = candidates.slice(0, limit).map(candidate => candidate.node.id);
+		node.neighbors[level] = neighbors;
+		this.registry.saveNode(node);
+		for (const neighborId of neighbors) {
+			const neighbor = this.registry.getNode(neighborId);
+			if (neighbor) this.ops.connectNeighbor(neighbor, node.id, level);
+		}
+		return candidates[0]?.node || entry;
+	}
+
+	createNode(key, vector, payloadPointer) {
+		const textKey = String(key);
+		const level = deterministicLevel(textKey, this.ml);
+		return {
+			id: this.registry.count(),
+			key: textKey,
+			level,
+			vector,
+			payloadPtr: payloadPointer,
+			neighbors: Array.from({ length: level + 1 }, () => []),
+			deleted: false
+		};
+	}
+
+	updateEntryPoint(node) {
+		this.entryNodeID = node.id;
+		this.maxLevel = node.level;
+		if (this.onEntryPointChanged) this.onEntryPointChanged(node.id, node.level);
+	}
+
+	search(queryVector, count = 5) {
+		return searchGraph(this, queryVector, count);
+	}
+
+	delete(key) {
+		const id = this.keyMap.get(String(key));
+		if (id === undefined || id === null) return false;
+		const node = this.registry.getNode(Number(id));
+		if (!node) return false;
+		node.deleted = true;
+		this.registry.saveNode(node);
+		return true;
+	}
 }
+
 module.exports = HNSW;

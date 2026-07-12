@@ -1,0 +1,4 @@
+/* B"H — Sender-group and thread visuals are composed from focused modules. */
+@import "./threads/groups.css";
+@import "./threads/items.css";
+@import "./threads/mobile.css";

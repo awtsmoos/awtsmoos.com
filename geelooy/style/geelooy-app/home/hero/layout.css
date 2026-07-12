@@ -1,0 +1,110 @@
+/* B"H — Home is a spatial score: route identity, revelation, portals, then river. */
+.g-home {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.34fr);
+	gap: var(--g-space-5);
+	max-width: var(--g-content);
+}
+
+.g-home-main,
+.g-home-aside {
+	display: grid;
+	align-content: start;
+	gap: var(--g-space-5);
+}
+
+.g-home-hero {
+	display: grid;
+	min-height: 35rem;
+	grid-template-columns: minmax(0, 1.35fr) minmax(17rem, 0.65fr);
+	grid-template-areas:
+		"identity actions"
+		"copy actions"
+		"search actions"
+		"torah actions";
+	align-content: center;
+	gap: 0.85rem clamp(1.2rem, 3vw, 2.6rem);
+	padding: clamp(1.5rem, 3.4vw, 3.25rem);
+	border-radius: 2.8rem 1.1rem 2.8rem 1.1rem;
+}
+
+.g-home-hero::before {
+	position: absolute;
+	inset: 1rem;
+	border: 1px solid rgba(60, 236, 255, 0.08);
+	border-radius: 2.15rem 0.75rem 2.15rem 0.75rem;
+	content: "";
+	clip-path: polygon(0 0, 7rem 0, 7rem 1px, 100% 1px, 100% 100%, calc(100% - 7rem) 100%, calc(100% - 7rem) calc(100% - 1px), 0 calc(100% - 1px));
+	pointer-events: none;
+}
+
+.g-home-hero::after {
+	position: absolute;
+	inset: auto -10% -45% 38%;
+	height: 24rem;
+	border-radius: 50%;
+	background: var(--g-gradient-hot);
+	content: "";
+	filter: blur(105px);
+	opacity: 0.14;
+	pointer-events: none;
+}
+
+.home-app-header {
+	position: relative;
+	z-index: 3;
+	display: flex;
+	grid-area: identity;
+	align-items: center;
+	justify-content: space-between;
+	max-width: 30rem;
+	padding-right: 7.2rem;
+}
+
+.home-orb-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
+}
+
+.home-orb-logo,
+.home-bell-button {
+	display: grid;
+	width: 2.7rem;
+	height: 2.7rem;
+	place-items: center;
+	border: 1px solid rgba(60, 236, 255, 0.28);
+	border-radius: 0.35rem 0.9rem 0.35rem 0.9rem;
+	background: rgba(60, 236, 255, 0.08);
+	color: var(--g-cyan);
+	box-shadow: var(--g-glow);
+}
+
+.home-brand-copy { display: grid; gap: 0.12rem; }
+.home-brand-copy strong { letter-spacing: 0.04em; }
+.home-brand-copy small { color: var(--g-muted); font: 700 0.6rem/1.2 var(--g-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.home-brand-copy b { color: var(--g-cyan); }
+
+.g-home-hero-copy {
+	position: relative;
+	z-index: 2;
+	grid-area: copy;
+	max-width: 49rem;
+}
+
+.g-home-hero-copy::before {
+	display: block;
+	width: 5rem;
+	height: 2px;
+	margin-bottom: 1.1rem;
+	background: var(--g-gradient-hot);
+	box-shadow: var(--g-glow);
+	content: "";
+}
+
+.g-home-hero-copy p:last-child {
+	max-width: 43rem;
+	margin: 1rem 0 0;
+	color: var(--g-muted);
+	font-size: clamp(1rem, 1.65vw, 1.17rem);
+}

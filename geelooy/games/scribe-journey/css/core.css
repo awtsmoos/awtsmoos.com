@@ -1,59 +1,64 @@
-/* B"H - Core layout: the canvas vessel, stable on desktop and mobile. */
+/* B"H — The world vessel: stable proportions, sharp pixels, quiet depth. */
 * { box-sizing: border-box; }
-
-html,
+html, body { width: 100%; min-height: 100%; margin: 0; }
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    background: var(--bg-dark);
-    color: var(--neon-blue);
-    font-family: 'Share Tech Mono', monospace;
-    user-select: none;
-    -webkit-user-select: none;
+	overflow: hidden;
+	background: radial-gradient(circle at 50% 0%, #173a42, var(--night) 54%, #020709);
+	color: var(--ink);
+	font-family: var(--font-body);
+	-webkit-font-smoothing: antialiased;
 }
-
+button, input, select { font: inherit; }
+button { color: inherit; }
+#game-shell {
+	width: 100vw;
+	height: 100dvh;
+	display: grid;
+	place-items: center;
+	padding: 18px 20px 42px;
+}
 #gameContainer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 50% 45%, rgba(0, 243, 255, 0.08), transparent 35%),
-        linear-gradient(var(--grid-color) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
-        #000;
-    background-size: auto, 28px 28px, 28px 28px, auto;
+	position: relative;
+	width: var(--stage-width);
+	height: var(--stage-height);
+	min-height: 420px;
+	overflow: hidden;
+	border: 1px solid var(--border-bright);
+	border-radius: var(--radius-large);
+	background: #08171c;
+	box-shadow: var(--shadow), var(--glow), inset 0 0 0 1px rgba(255,255,255,0.05);
 }
-
+#gameContainer::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent 24%);
+	z-index: var(--layer-hud);
+}
+#world-viewport {
+	position: absolute;
+	inset: 74px 0 48px;
+	overflow: hidden;
+	background: #07131a;
+	z-index: var(--layer-world);
+}
 canvas {
-    display: block;
-    image-rendering: pixelated;
-    max-width: 100%;
-    max-height: 100%;
-    border: 1px solid rgba(0, 243, 255, 0.28);
-    box-shadow: 0 0 36px rgba(0, 243, 255, 0.16);
+	display: block;
+	width: 100%;
+	height: 100%;
+	image-rendering: pixelated;
+	touch-action: none;
 }
-
-@media (max-width: 768px), (pointer: coarse) {
-    html,
-    body,
-    #gameContainer {
-        height: 100dvh;
-    }
-
-    #gameContainer {
-        align-items: stretch;
-    }
-
-    canvas {
-        width: 100% !important;
-        height: 100% !important;
-        border: 0;
-        box-shadow: none;
-    }
+.world-vignette {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: radial-gradient(circle, transparent 58%, rgba(2,8,12,0.42));
+	mix-blend-mode: multiply;
 }
+button:focus-visible, input:focus-visible, select:focus-visible {
+	outline: 3px solid var(--gold);
+	outline-offset: 3px;
+}
+::selection { background: var(--cyan); color: var(--night); }

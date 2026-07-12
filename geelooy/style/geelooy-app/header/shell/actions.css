@@ -1,0 +1,42 @@
+/* B"H — Mail, profile, search, and menu portals remain charged and reachable. */
+.g-header-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.42rem;
+}
+
+.g-header-action {
+	display: inline-grid;
+	width: 2.85rem;
+	height: 2.85rem;
+	place-items: center;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 1rem;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035));
+	color: var(--g-text);
+	font-size: 1.08rem;
+	cursor: pointer;
+	transition: 180ms var(--g-ease);
+}
+
+.g-header-action:hover,
+.g-header-action[aria-current="page"] {
+	border-color: rgba(60, 236, 255, 0.55);
+	background: var(--g-gradient-soft);
+	box-shadow: var(--g-glow);
+	transform: translateY(-2px) rotate(-2deg);
+}
+
+.g-mail-portal {
+	color: var(--g-cyan);
+}
+
+.g-header-profile {
+	position: relative;
+	z-index: 4;
+}
+
+.g-mobile-search-button {
+	display: none;
+}

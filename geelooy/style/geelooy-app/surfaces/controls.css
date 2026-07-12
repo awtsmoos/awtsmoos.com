@@ -1,0 +1,70 @@
+/* B"H — Controls feel charged but remain unmistakably usable. */
+.g-button,
+.geelooy-app-shell button,
+.geelooy-app-shell .spaces-create,
+.geelooy-app-shell .profile-primary-action {
+	display: inline-flex;
+	min-height: 2.85rem;
+	align-items: center;
+	justify-content: center;
+	gap: 0.48rem;
+	padding: 0.68rem 1rem;
+	border: 1px solid rgba(60, 236, 255, 0.2);
+	border-radius: var(--g-radius-sm);
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(79, 125, 255, 0.08));
+	color: var(--g-text);
+	font-weight: 800;
+	cursor: pointer;
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
+	transition: 180ms var(--g-ease);
+}
+
+.g-button:hover,
+.geelooy-app-shell button:hover,
+.geelooy-app-shell .spaces-create:hover,
+.geelooy-app-shell .profile-primary-action:hover {
+	border-color: rgba(60, 236, 255, 0.48);
+	background: var(--g-gradient-soft);
+	box-shadow: var(--g-glow);
+	transform: translateY(-2px) scale(1.015);
+}
+
+.g-button-primary {
+	border-color: transparent !important;
+	background: var(--g-gradient-hot) !important;
+	color: #02050d !important;
+	box-shadow: 0 14px 38px rgba(79, 125, 255, 0.32), 0 0 28px rgba(255, 72, 203, 0.18) !important;
+}
+
+.g-field,
+.geelooy-app-shell input,
+.geelooy-app-shell select,
+.geelooy-app-shell textarea {
+	width: 100%;
+	min-height: 3.1rem;
+	padding: 0.75rem 0.92rem;
+	border: 1px solid rgba(60, 236, 255, 0.16);
+	border-radius: var(--g-radius-sm);
+	background: rgba(1, 5, 14, 0.74);
+	color: var(--g-text);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
+	outline: none;
+}
+
+.geelooy-app-shell textarea {
+	min-height: 7rem;
+	resize: vertical;
+}
+
+.g-field:focus,
+.geelooy-app-shell input:focus,
+.geelooy-app-shell select:focus,
+.geelooy-app-shell textarea:focus {
+	border-color: var(--g-cyan);
+	box-shadow: 0 0 0 4px rgba(60, 236, 255, 0.1), 0 0 32px rgba(139, 92, 255, 0.13);
+}
+
+.geelooy-app-shell input::placeholder,
+.geelooy-app-shell textarea::placeholder {
+	color: #7f8ba5;
+}

@@ -1,0 +1,76 @@
+/* B"H — Search is the lens; Torah is the exact-source gate beneath it. */
+.g-home-portal-search {
+	position: relative;
+	z-index: 3;
+	grid-area: search;
+	width: 100%;
+	max-width: 48rem;
+	border-radius: 0.55rem 1.5rem 0.55rem 1.5rem;
+	box-shadow: 0 20px 46px rgba(0, 0, 0, 0.25), var(--g-glow);
+}
+
+.g-home-portal-search::before {
+	position: absolute;
+	inset: -1px;
+	z-index: -1;
+	border-radius: inherit;
+	background: var(--g-gradient-hot);
+	content: "";
+	opacity: 0.3;
+	filter: blur(7px);
+}
+
+.g-home-torah-portal {
+	position: relative;
+	display: grid;
+	grid-area: torah;
+	width: 100%;
+	max-width: 48rem;
+	grid-template-columns: 2.8rem minmax(0, 1fr);
+	align-items: center;
+	gap: 0.8rem;
+	padding: 0.78rem 1rem;
+	overflow: hidden;
+	border: 1px solid rgba(255, 72, 203, 0.22);
+	border-radius: 1.15rem 0.4rem 1.15rem 0.4rem;
+	background: linear-gradient(100deg, rgba(255, 72, 203, 0.12), rgba(54, 211, 255, 0.08));
+	transition: border-color 180ms var(--g-ease), transform 180ms var(--g-ease), box-shadow 180ms var(--g-ease);
+}
+
+.g-home-torah-portal::after {
+	position: absolute;
+	right: 0.65rem;
+	bottom: 0.45rem;
+	color: rgba(60, 236, 255, 0.45);
+	content: "SOURCE // EXACT";
+	font: 700 0.52rem/1 var(--g-mono);
+	letter-spacing: 0.12em;
+}
+
+.g-home-torah-portal > span {
+	display: grid;
+	width: 2.8rem;
+	height: 2.8rem;
+	place-items: center;
+	border-radius: 0.35rem 0.95rem 0.35rem 0.95rem;
+	background: var(--g-gradient-hot);
+	color: #02050d;
+	box-shadow: var(--g-glow-hot);
+}
+
+.g-home-torah-portal strong,
+.g-home-torah-portal small {
+	display: block;
+}
+
+.g-home-torah-portal small {
+	padding-right: 6rem;
+	color: var(--g-muted);
+}
+
+.g-home-torah-portal:hover,
+.g-home-torah-portal:focus-visible {
+	border-color: rgba(60, 236, 255, 0.46);
+	box-shadow: var(--g-glow);
+	transform: translateY(-3px) translateX(3px);
+}

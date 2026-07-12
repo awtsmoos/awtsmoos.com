@@ -1,0 +1,54 @@
+/* B"H — Loading, empty, and error states tell the truth without hiding. */
+.g-state {
+	display: grid;
+	min-height: 12rem;
+	place-items: center;
+	padding: var(--g-space-6);
+	text-align: center;
+}
+
+.g-state > div {
+	max-width: 32rem;
+}
+
+.g-state-icon {
+	display: grid;
+	width: 4rem;
+	height: 4rem;
+	margin: 0 auto 1rem;
+	place-items: center;
+	border: 1px solid var(--g-line-strong);
+	border-radius: 1.35rem;
+	background: var(--g-gradient-soft);
+	box-shadow: var(--g-glow);
+	font-size: 1.6rem;
+}
+
+.loading {
+	position: relative;
+}
+
+.loading::after {
+	display: block;
+	width: 2.25rem;
+	height: 0.2rem;
+	margin-top: 1rem;
+	border-radius: var(--g-radius-pill);
+	background: var(--g-gradient);
+	content: "";
+	animation: g-loading 1.2s var(--g-ease) infinite alternate;
+}
+
+.error {
+	border-color: color-mix(in srgb, var(--g-danger) 52%, var(--g-line));
+}
+
+@keyframes g-loading {
+	from {
+		transform: translateX(-0.5rem) scaleX(0.65);
+	}
+
+	to {
+		transform: translateX(0.5rem) scaleX(1.05);
+	}
+}

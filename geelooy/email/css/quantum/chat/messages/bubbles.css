@@ -1,0 +1,88 @@
+/* B"H — Incoming cyan and outgoing gold carry direction in color and geometry. */
+.msg-row {
+	display: flex;
+	width: 100%;
+	margin-bottom: 0.35rem;
+	perspective: 900px;
+}
+
+.msg-row.me { justify-content: flex-end; }
+.msg-row.them { justify-content: flex-start; }
+
+.swipe-wrapper {
+	position: relative;
+	display: flex;
+	width: min(84%, 48rem);
+	align-items: center;
+	touch-action: pan-y;
+}
+
+.msg-row.me .swipe-wrapper { justify-content: flex-end; }
+
+.msg-bubble,
+.message-card {
+	position: relative;
+	min-width: 7rem;
+	max-width: 100%;
+	padding: 0.86rem 1rem;
+	overflow: hidden;
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
+	word-break: break-word;
+	transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.msg-bubble::before {
+	position: absolute;
+	top: 0;
+	width: 3rem;
+	height: 2px;
+	content: "";
+}
+
+.msg-row.them .msg-bubble {
+	border: 1px solid rgba(50, 231, 255, 0.24);
+	border-radius: 0.45rem 1.25rem 1.25rem 0.45rem;
+	background: linear-gradient(145deg, rgba(10, 23, 37, 0.97), rgba(3, 9, 17, 0.985));
+	color: #eaf7ff;
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34), 0 0 24px rgba(50, 231, 255, 0.07);
+}
+
+.msg-row.them .msg-bubble::before {
+	left: 0.8rem;
+	background: linear-gradient(90deg, var(--mail-cyan), transparent);
+}
+
+.msg-row.me .msg-bubble {
+	border: 1px solid rgba(255, 194, 71, 0.55);
+	border-radius: 1.25rem 0.45rem 0.45rem 1.25rem;
+	background: linear-gradient(135deg, rgba(255, 207, 98, 0.97), rgba(237, 146, 20, 0.95));
+	color: #160b00;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.38), var(--mail-glow-gold);
+}
+
+.msg-row.me .msg-bubble::before {
+	right: 0.8rem;
+	background: linear-gradient(90deg, transparent, #fff6c8);
+}
+
+.msg-bubble:hover { transform: translateY(-2px); }
+
+.ghost-bubble {
+	border: 1px dashed rgba(50, 231, 255, 0.5) !important;
+	background: rgba(50, 231, 255, 0.06) !important;
+	color: var(--mail-cyan) !important;
+	box-shadow: var(--mail-glow-cyan) !important;
+}
+
+.message-entry {
+	animation: quantum-message-entry 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes quantum-message-entry {
+	from { opacity: 0; filter: blur(2px); transform: translateY(12px); }
+	to { opacity: 1; filter: none; transform: none; }
+}
+
+@media (max-width: 620px) {
+	.swipe-wrapper { width: 94%; }
+}

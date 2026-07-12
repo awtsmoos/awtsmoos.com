@@ -1,43 +1,32 @@
 // B"H
-import { createAwtsmoosEngine } from './engine/engine.js';
-import { objectBudget, pressureFor, streamRadius } from './save.js';
+import { dailySeed } from './modes/daily.js';
+import { LEVELS, levelAt } from './levels/catalog.js';
+import { buildArena } from './levels/generator.js';
 
-export const WORLDS = [
-  ['Assiyah', 42, 1.0, 1.0],
-  ['Yetzirah', 188, 1.38, 1.08],
-  ['Beriah', 265, 1.86, 1.16],
-  ['Atzilus', 310, 2.48, 1.25]
-];
+export const WORLDS = LEVELS.map(level => [level.name, level.hue, level.targetMass, 1]);
 
-/** Build one world of the ascent with a visible target and real pressure. */
+/** Create one complete metropolis; Daily mode changes its seed, never its persistence. */
 export function createLevel(save, worldIndex = 0) {
-  const engine = createAwtsmoosEngine();
-  const world = WORLDS[worldIndex % WORLDS.length];
-  const pressure = pressureFor(save.perf) * world[3];
-  const streamer = engine.streamer(worldIndex, objectBudget(save.perf), streamRadius(save.perf));
-  const objects = streamer.update(0, 0);
-  return {
-    name: world[0],
-    worldIndex,
-    target: Math.round(8600 * world[2] * pressure),
-    time: Math.round(104 / pressure),
-    bounds: 6000,
-    clock: pressure,
-    objects,
-    streamer,
-    neighborhoods: hoods(objects),
-    hue: world[1],
-    engine: 'AwtsmoosEngine-0.5-extreme-split'
-  };
+	const config = levelAt(worldIndex);
+	const index = LEVELS.indexOf(config);
+	const seed = save.selectedMode === 'daily' ? dailySeed(config.seed) : config.seed;
+	const level = {
+		...config,
+		seed,
+		index,
+		worldIndex: index,
+		baseTargetMass: config.targetMass,
+		target: config.targetMass,
+		clock: 1,
+		objective: `Reach ${config.targetMass} mass before time expires`,
+		objects: []
+	};
+	level.objects = buildArena(level, save.perf);
+	level.totalObjects = level.objects.length;
+	level.engine = 'AwtsmoosProcedural-CompositeMetropolis-3.0';
+	return level;
 }
 
-/** Refresh streamed chunks around the living player. */
-export function updateLevelStream(level, x, y) {
-  level.objects = level.streamer.update(x, y);
-  level.neighborhoods = hoods(level.objects);
-  return level.objects;
-}
-
-function hoods(objects) {
-  return [...new Set(objects.map(object => object.hood))];
+export function updateLevelStream(level) {
+	return level.objects;
 }

@@ -1,64 +1,88 @@
 // B"H
-import { createLevel, WORLDS } from '../level.js';
+import { evaluateAchievements } from '../progression/achievements.js';
+import { recordRound } from '../progression/records.js';
+import { WORLDS } from '../level.js';
+import { nextModeId } from '../modes/catalog.js';
+import { objectiveMet } from '../modes/rules.js';
 import { saveGame } from '../save.js';
-import { SEFIROT, createCamera, createDanger, createPlayer } from '../state.js';
+import { resetToLevel } from './reset.js';
+import { playerRank } from './scoring.js';
 
-/** Open the run gate from the overlay into live play. */
 export function start(world) {
-  if (world.mode === 'playing') return;
-  world.mode = 'playing';
-  world.lost = false;
-  world.message = 'GO. Eat small vessels, pulse through lanes, dodge giants.';
-  world.events.push(['start']);
+	if (world.mode === 'playing') return;
+	world.mode = 'playing';
+	world.message = `${world.gameMode.name}: ${world.level.objective}.`;
+	world.events.push(['start']);
 }
 
-/** Hard reset: the cleanest retry after concealment. */
-export function restart() {
-  location.reload();
+export function togglePause(world) {
+	if (world.mode === 'playing') world.mode = 'paused';
+	else if (world.mode === 'paused') world.mode = 'playing';
 }
 
-/** Carry completion into the next world and reset the player vessel. */
+export function restart(world) {
+	resetToLevel(world, world.level.index, 'playing', 'The district has been regenerated.');
+}
+
 export function nextWorld(world) {
-  world.save.completed = [...new Set([...world.save.completed, world.level.name])];
-  saveGame(world.save);
-  const level = createLevel(world.save, world.level.worldIndex + 1);
-  Object.assign(world, resetRun(level), { mode: 'playing', save: world.save, message: `Entered ${level.name}. The ascent gets sharper.` });
-  world.events.push(['start']);
+	selectWorld(world, Math.min(WORLDS.length - 1, world.level.index + 1));
 }
 
-/** Upgrade the sefirah ladder as sparks cross thresholds. */
+export function selectWorld(world, index) {
+	const selected = Math.max(0, Math.min(world.save.unlocked, index));
+	world.save.currentLevel = selected;
+	saveGame(world.save);
+	resetToLevel(world, selected, 'ready', `Selected ${WORLDS[selected][0]}.`);
+}
+
+export function selectMode(world, id) {
+	world.save.selectedMode = id;
+	saveGame(world.save);
+	resetToLevel(world, world.level.index, 'ready', 'Arena rules transformed.');
+}
+
+export function cycleMode(world) {
+	selectMode(world, nextModeId(world.save.selectedMode));
+}
+
 export function upgrades(world) {
-  const next = Math.min(SEFIROT.length - 1, Math.floor(world.score / 1250));
-  if (next > world.sefirah) {
-    world.sefirah = next;
-    world.message = `Sefirah: ${SEFIROT[next][0]} — ${SEFIROT[next][1]}`;
-    world.events.push(['upgrade']);
-  }
+	world.rank = playerRank(world);
+	world.objectiveMet = objectiveMet(world);
+	world.bonusMet = bonusProgress(world) >= world.level.bonus.target;
 }
 
-/** Win only when the target is truly met. */
-export function win(world) {
-  if (world.won) return;
-  world.won = true;
-  world.mode = 'won';
-  world.save.best = Math.max(world.save.best, world.score);
-  world.save.completed = [...new Set([...world.save.completed, world.level.name])];
-  saveGame(world.save);
-  world.message = `${world.level.name} revealed. Next: ${WORLDS[(world.level.worldIndex + 1) % WORLDS.length][0]}.`;
-  world.events.push(['win']);
+export function bonusProgress(world) {
+	return world.consumed[world.level.bonus.category] || 0;
 }
 
-/** Loss is explicit and navigable, not a mysterious frozen ascent. */
+export function finishRound(world) {
+	if (world.mode !== 'playing') return;
+	upgrades(world);
+	if (!world.objectiveMet) return lose(world);
+	world.stars = 1 + Number(world.rank <= 2) + Number(world.bonusMet);
+	world.won = true;
+	world.mode = 'won';
+	persistResult(world, true);
+	world.message = `${world.level.name}: rank ${world.rank}, bonus ${world.bonusMet ? 'complete' : 'missed'}, ${world.stars} stars.`;
+	world.events.push(['win']);
+}
+
 export function lose(world) {
-  if (world.lost) return;
-  world.lost = true;
-  world.mode = 'lost';
-  world.save.best = Math.max(world.save.best, world.score);
-  saveGame(world.save);
-  world.message = `Concealment returned. Best saved: ${world.save.best}. Hit RETRY.`;
-  world.events.push(['lose']);
+	world.lost = true;
+	world.mode = 'lost';
+	persistResult(world, false);
+	world.message = `The round closed at ${Math.round(world.player.mass)} mass in ${world.gameMode.name}.`;
+	world.events.push(['lose']);
 }
 
-function resetRun(level) {
-  return { level, player: createPlayer(), camera: createCamera(), danger: createDanger(), input: { x: 0, y: 0, pulse: 0 }, particles: [], absorbers: [], floaters: [], score: 0, timeLeft: level.time, won: false, lost: false, sefirah: 0 };
+function persistResult(world, won) {
+	world.save.best = Math.max(world.save.best, world.score);
+	world.save.bestMass = Math.max(world.save.bestMass || 0, world.player.mass);
+	recordRound(world, won);
+	evaluateAchievements(world);
+	if (won) {
+		world.save.stars[world.level.key] = Math.max(world.save.stars[world.level.key] || 0, world.stars);
+		world.save.unlocked = Math.min(WORLDS.length - 1, Math.max(world.save.unlocked, world.level.index + 1));
+	}
+	saveGame(world.save);
 }

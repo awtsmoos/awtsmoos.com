@@ -1,33 +1,27 @@
-
 // B"H
 
 /**
  * @file core/idle/index.js
- * @chapter The Still Point Of The Engine
+ * @chapter The Outer Boundary Seals Every Deferred Ledger Exactly Once
  * @description
- * Central idle pipeline: superblock, index ops, search, optional fsync.
+ * Flushes allocator metadata before the superblock, then drains derived indexes,
+ * search buffers, and the pager. Batches therefore keep current in-memory free
+ * ranges without rewriting their seal during every inner mutation.
  */
 
 const shouldSkipForcedFsync = require('./fastGate.js');
 const drainIndexOps = require('./drainIndexOps.js');
 const flushSearch = require('./flushSearch.js');
 
-/**
- * @function waitForIdle
- * @description Performs DB idle boundary work.
- * @param {object} db - DB instance.
- * @param {object} [options={}] - Idle options.
- * @returns {void}
- */
 function waitForIdle(db, options = {}) {
-  if (db.turbo && typeof db.turbo.flush === 'function') db.turbo.flush();
-  db._flushSuperblock();
-  drainIndexOps(db);
-  flushSearch(db);
-
-  if (!shouldSkipForcedFsync(options)) {
-    db.pager.fsync(true);
-  }
+	if (db.turbo && typeof db.turbo.flush === 'function') db.turbo.flush();
+	if (db.allocator && typeof db.allocator.flushPendingFreeList === 'function') {
+		db.allocator.flushPendingFreeList();
+	}
+	db._flushSuperblock();
+	drainIndexOps(db);
+	flushSearch(db);
+	if (!shouldSkipForcedFsync(options)) db.pager.fsync(true);
 }
 
 module.exports = waitForIdle;

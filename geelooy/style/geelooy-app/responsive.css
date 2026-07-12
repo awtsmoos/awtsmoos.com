@@ -1,0 +1,4 @@
+/* B"H — Responsive rules stay divided by clear responsibility. */
+@import "./responsive/tablet.css";
+@import "./responsive/mobile.css";
+@import "./responsive/accessibility.css";

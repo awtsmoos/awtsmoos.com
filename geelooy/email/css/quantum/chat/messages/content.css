@@ -1,0 +1,65 @@
+/* B"H — Message content, subjects, code, and time remain effortless to read. */
+.msg-subject {
+	margin-bottom: 0.5rem;
+	padding-bottom: 0.45rem;
+	border-bottom: 1px solid currentColor;
+	font: 900 0.72rem/1.2 var(--font-mono);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.78;
+}
+
+.msg-content {
+	font-size: 0.96rem;
+	line-height: 1.58;
+}
+
+.msg-content p:first-child {
+	margin-top: 0;
+}
+
+.msg-content p:last-child {
+	margin-bottom: 0;
+}
+
+.msg-content a {
+	color: inherit;
+	font-weight: 850;
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
+}
+
+.msg-content code {
+	padding: 0.12rem 0.3rem;
+	border-radius: 0.35rem;
+	background: rgba(0, 0, 0, 0.22);
+	font-family: var(--font-mono);
+}
+
+.msg-content pre {
+	position: relative;
+	padding: 0.85rem;
+	overflow-x: auto;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 0.75rem;
+	background: rgba(0, 0, 0, 0.38);
+}
+
+.msg-footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.45rem;
+	margin-top: 0.55rem;
+}
+
+.msg-time {
+	font: 700 0.62rem/1 var(--font-mono);
+	opacity: 0.64;
+}
+
+.loading-text,
+.decrypting {
+	font-family: var(--font-mono);
+	text-shadow: 0 0 8px currentColor;
+}

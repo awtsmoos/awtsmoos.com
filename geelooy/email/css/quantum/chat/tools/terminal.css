@@ -1,0 +1,65 @@
+/* B"H — The keyboard terminal opens as a focused emerald protocol field. */
+.cmd-modal {
+	position: fixed;
+	z-index: 10000;
+	top: 20%;
+	left: 50%;
+	width: min(90%, 42rem);
+	padding: 1rem;
+	border: 1px solid rgba(66, 245, 179, 0.45);
+	border-radius: 1rem;
+	background: rgba(0, 5, 9, 0.98);
+	box-shadow: 0 0 60px rgba(66, 245, 179, 0.23);
+	transform: translateX(-50%);
+}
+
+.cmd-input {
+	width: 100%;
+	min-height: 3.2rem;
+	padding: 0.6rem 0.2rem;
+	border: 0;
+	border-bottom: 2px solid rgba(66, 245, 179, 0.38);
+	background: transparent;
+	color: var(--mail-emerald);
+	font: 1.1rem/1.4 var(--font-mono);
+	text-shadow: 0 0 12px rgba(66, 245, 179, 0.45);
+	outline: none;
+}
+
+.wormhole-loader {
+	display: none;
+}
+
+.wormhole-loader.is-active {
+	display: grid;
+	max-width: 26rem;
+	margin: auto;
+	place-items: center;
+	gap: 0.6rem;
+	color: var(--mail-cyan);
+	text-align: center;
+}
+
+.wormhole-loader span {
+	width: 5rem;
+	height: 5rem;
+	border: 3px solid transparent;
+	border-top-color: var(--mail-cyan);
+	border-right-color: var(--mail-violet);
+	border-radius: 50%;
+	box-shadow: var(--mail-glow-cyan);
+	animation: mail-wormhole 700ms linear infinite;
+}
+
+.wormhole-loader strong {
+	font: 950 0.85rem/1 var(--font-mono);
+	letter-spacing: 0.14em;
+}
+
+.wormhole-loader small {
+	color: var(--mail-muted);
+}
+
+@keyframes mail-wormhole {
+	to { transform: rotate(360deg); filter: hue-rotate(360deg); }
+}

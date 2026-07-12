@@ -1,0 +1,65 @@
+/* B"H — Signals and search expose their controls and results without fog. */
+.notifications-list,
+.g-search-results {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	gap: 1rem;
+}
+
+.notification,
+.g-search-result {
+	padding: 1.15rem;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-md);
+	background: var(--g-surface);
+}
+
+.notification-row-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	margin-top: 0.9rem;
+}
+
+.notifications-console,
+.g-search-form,
+.g-app-filter {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+	gap: 0.8rem;
+	padding: 1rem;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-md);
+	background: var(--g-surface);
+}
+
+.notifications-console label,
+.g-search-form label {
+	display: grid;
+	gap: 0.35rem;
+	color: var(--g-muted);
+	font-size: 0.78rem;
+	font-weight: 750;
+}
+
+.notifications-summary,
+.g-search-status {
+	padding: 0.8rem 1rem;
+	border-radius: var(--g-radius-sm);
+	background: var(--g-surface-soft);
+	color: var(--g-muted);
+}
+
+.notification.unread {
+	border-color: color-mix(in srgb, var(--g-violet) 55%, var(--g-line));
+	box-shadow: inset 3px 0 0 var(--g-violet);
+}
+
+.notification-icon {
+	display: grid;
+	width: 2.5rem;
+	height: 2.5rem;
+	place-items: center;
+	border-radius: 0.8rem;
+	background: var(--g-gradient-soft);
+}

@@ -1,0 +1,26 @@
+/* B"H — Failed frequency locks return a visible retry instead of silent console fog. */
+.mail-thread-error {
+	display: grid;
+	max-width: 30rem;
+	margin: auto;
+	gap: 0.7rem;
+	padding: 1.25rem;
+	border: 1px solid rgba(255, 84, 112, 0.36);
+	border-radius: 1rem;
+	background: rgba(255, 84, 112, 0.06);
+	color: var(--mail-muted);
+	text-align: center;
+}
+
+.mail-thread-error h2 {
+	margin: 0;
+	color: var(--mail-text);
+}
+
+.mail-thread-error button {
+	min-height: 2.7rem;
+	border: 1px solid rgba(255, 84, 112, 0.48) !important;
+	border-radius: 0.8rem !important;
+	background: rgba(255, 84, 112, 0.12) !important;
+	color: #ff9aad !important;
+}

@@ -1,30 +1,53 @@
 // B"H
-import { canAbsorb } from './absorption.js';
+import { evaluateAchievements } from '../progression/achievements.js';
+import { recordRivalDefeat } from '../progression/records.js';
+import { dist } from '../math.js';
+import { canConsumeHole } from './collision.js';
+import { feedHole, radiusForMass } from './scoring.js';
 
-/** Big unrevealed vessels now bite back, making the ascent genuinely harder. */
+/** Hole collisions create pressure and feed rival-defeat progression. */
 export function resolveHazards(world, dt) {
-  world.danger.cooldown = Math.max(0, world.danger.cooldown - dt);
-  world.danger.warn = Math.max(0, world.danger.warn - dt);
-  if (world.danger.cooldown > 0) return;
-  const threat = world.level.objects.find(object => isThreat(world, object));
-  if (threat) strike(world, threat);
+	world.danger.cooldown = Math.max(0, world.danger.cooldown - dt);
+	const holes = [world.player, ...world.rivals];
+	for (let left = 0; left < holes.length; left += 1) {
+		for (let right = left + 1; right < holes.length; right += 1) {
+			resolvePair(world, holes[left], holes[right]);
+		}
+	}
 }
 
-function isThreat(world, object) {
-  if (object.taken || canAbsorb(world, object)) return false;
-  const player = world.player;
-  const distance = Math.hypot(player.x - object.x, player.y - object.y);
-  return distance < player.r + object.r * 0.42;
+function resolvePair(world, a, b) {
+	if (dist(a, b) > Math.max(a.r, b.r) * 0.62) return;
+	if (canConsumeHole(a, b)) eatHole(world, a, b);
+	else if (canConsumeHole(b, a)) eatHole(world, b, a);
 }
 
-function strike(world, object) {
-  const penalty = Math.max(90, Math.round(object.sparks * 0.38));
-  world.score = Math.max(0, world.score - penalty);
-  world.timeLeft = Math.max(0, world.timeLeft - 3.4 * world.level.clock);
-  world.danger.cooldown = 0.85;
-  world.danger.hits += 1;
-  world.player.glow = 1;
-  world.camera.shake = 0.34;
-  world.message = `DANGER: ${object.name} is too huge. Lost ${penalty} sparks. Grow first.`;
-  world.events.push(['hazard', object.sparks]);
+function eatHole(world, big, small) {
+	if (small.respawn > 0) return;
+	feedHole(big, small.mass * 0.36, Math.round(small.mass * 9));
+	if (big.id === 'player' && small.id !== 'player') {
+		recordRivalDefeat(world);
+		world.message = `${small.name} the ${small.archetype.name} descended into your vessel.`;
+		evaluateAchievements(world);
+	}
+	if (small.id === 'player') {
+		world.score = Math.max(0, world.score - Math.round(small.mass * 12));
+		world.danger.hits += 1;
+		world.message = `${big.name} swallowed your vessel. Re-forming...`;
+		world.events.push(['hazard', small.mass]);
+	}
+	respawn(world, small);
+}
+
+function respawn(world, hole) {
+	const baseMass = hole.id === 'player' ? 25 : 20 + (hole.index || 0) * 1.4;
+	hole.mass = Math.max(baseMass, hole.mass * 0.48);
+	hole.r = radiusForMass(hole.mass);
+	const angle = world.director.elapsed * 0.37 + (hole.index || 0) * 1.7;
+	hole.x = Math.cos(angle) * world.level.bounds * 0.24;
+	hole.y = Math.sin(angle) * world.level.bounds * 0.24;
+	hole.vx = 0;
+	hole.vy = 0;
+	hole.respawn = 1.2;
+	hole.grace = 2.4;
 }

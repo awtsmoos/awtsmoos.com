@@ -1,0 +1,108 @@
+/* B"H */
+@layer awt.views {
+	/** B"H — A quiet frame for exact autonomy, budgets, and human gates. */
+	.awt-turn-control {
+		display: grid;
+		gap: 14px;
+		padding: clamp(16px, 2.5vw, 28px);
+		border: 1px solid rgba(113, 214, 255, .2);
+		border-radius: clamp(22px, 3vw, 34px);
+		background:
+			radial-gradient(circle at 0 0, rgba(108, 92, 231, .14), transparent 34%),
+			radial-gradient(circle at 100% 0, rgba(47, 231, 122, .1), transparent 36%),
+			linear-gradient(145deg, rgba(9, 24, 43, .94), rgba(5, 13, 27, .9));
+		box-shadow: 0 30px 80px rgba(0, 0, 0, .3);
+	}
+
+	.awt-turn-control.is-empty {
+		padding: 14px;
+		background: rgba(255, 255, 255, .025);
+		box-shadow: none;
+	}
+
+	.awt-turn-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 18px;
+		align-items: end;
+	}
+
+	.awt-turn-head h2 {
+		margin: 3px 0 7px;
+		font-size: clamp(1.55rem, 3vw, 3.4rem);
+		line-height: 1;
+		letter-spacing: -.045em;
+	}
+
+	.awt-turn-head p {
+		margin: 0;
+		max-width: 760px;
+	}
+
+	.awt-turn-state {
+		display: grid;
+		gap: 3px;
+		min-width: 210px;
+		padding: 12px 15px;
+		border: 1px solid rgba(255, 255, 255, .11);
+		border-radius: 18px;
+		background: rgba(255, 255, 255, .05);
+	}
+
+	.awt-turn-state span,
+	.awt-turn-state small {
+		color: var(--awt-dim);
+		font-size: .68rem;
+		font-weight: 850;
+		letter-spacing: .1em;
+		text-transform: uppercase;
+	}
+
+	.awt-turn-state.is-running { border-color: rgba(47, 231, 122, .4); }
+	.awt-turn-state.is-paused,
+	.awt-turn-state.is-budget-paused { border-color: rgba(255, 194, 87, .42); }
+	.awt-turn-state.is-stopped,
+	.awt-turn-state.is-drained { border-color: rgba(255, 94, 115, .4); }
+
+	.awt-turn-presets {
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.awt-turn-preset {
+		display: grid;
+		gap: 4px;
+		min-height: 72px;
+		padding: 10px 12px;
+		border-radius: 16px;
+		text-align: left;
+	}
+
+	.awt-turn-preset small { color: var(--awt-muted); }
+	.awt-turn-preset.is-active {
+		border-color: rgba(83, 255, 172, .48);
+		background: rgba(31, 170, 91, .12);
+	}
+
+	.awt-turn-progress {
+		height: 8px;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, .07);
+		overflow: hidden;
+	}
+
+	.awt-turn-progress span {
+		display: block;
+		height: 100%;
+		border-radius: inherit;
+		background: linear-gradient(90deg, var(--awt-green), var(--awt-cyan));
+		transition: width var(--awt-slow);
+	}
+
+	.awt-turn-body {
+		display: grid;
+		grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+		gap: 14px;
+	}
+}

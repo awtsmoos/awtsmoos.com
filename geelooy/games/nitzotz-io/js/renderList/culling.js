@@ -2,31 +2,29 @@
 import { quality } from '../performance.js';
 import { renderSettings } from './settings.js';
 
-/** B"H: The crowded world is filtered by distance, danger, and frame-breath. */
+/**
+ * Rendering culls by distance and frame budget while gameplay preserves the full
+ * object array. This is visibility management, never world replacement.
+ */
 export function visibleObjects(world) {
-  const cfg = renderSettings(world.save.perf, quality(world));
-  const player = world.player;
-  const camera = world.camera;
-  return world.level.objects
-    .filter(object => keepObject(object, player, camera, cfg))
-    .map(object => scoreObject(object, player))
-    .sort((a, b) => a.score - b.score)
-    .slice(0, cfg.maxObjects)
-    .map(entry => entry.object);
+	const config = renderSettings(world.save.perf, quality(world));
+	return world.level.objects
+		.filter(object => !object.taken && nearPlayer(world, object, config))
+		.map(object => ({ object, priority: priority(world, object) }))
+		.sort((a, b) => a.priority - b.priority)
+		.slice(0, config.maxObjects)
+		.map(entry => entry.object);
 }
 
-function keepObject(object, player, camera, cfg) {
-  if (object.taken) return false;
-  const dPlayer = Math.hypot(object.x - player.x, object.y - player.y);
-  if (dPlayer > cfg.drawDistance + object.r * 2) return false;
-  const dCamera = Math.hypot(object.x - camera.x, object.y - camera.y);
-  const nearCut = cfg.cameraCut + Math.max(object.sx, object.sz) * 0.35;
-  return dCamera > nearCut;
+function nearPlayer(world, object, config) {
+	const distance = Math.hypot(object.x - world.player.x, object.y - world.player.y);
+	return distance < config.drawDistance + object.r * 2;
 }
 
-function scoreObject(object, player) {
-  const distance = Math.hypot(object.x - player.x, object.y - player.y);
-  const edible = object.r < player.r * 1.2 ? -180 : 0;
-  const landmark = object.sparks > 250 ? -80 : 0;
-  return { object, score: distance + object.r * 1.5 + edible + landmark };
+function priority(world, object) {
+	const distance = Math.hypot(object.x - world.player.x, object.y - world.player.y);
+	const edible = object.r <= world.player.r * 0.72 ? -240 : 0;
+	const sinking = object.sinkOwner ? -500 : 0;
+	const landmark = object.mass > 70 ? -90 : 0;
+	return distance + object.r * 1.4 + edible + sinking + landmark;
 }

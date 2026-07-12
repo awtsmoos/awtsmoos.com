@@ -1,0 +1,15 @@
+/* B"H — Finite auth tokens clothe a simple account doorway. */
+:root {
+	color-scheme: dark;
+	--auth-bg: #050914;
+	--auth-panel: rgba(12, 21, 38, 0.88);
+	--auth-line: rgba(164, 190, 255, 0.2);
+	--auth-line-strong: rgba(164, 190, 255, 0.36);
+	--auth-text: #f7f9ff;
+	--auth-muted: #aebbd0;
+	--auth-cyan: #4bd5ff;
+	--auth-violet: #9b63ff;
+	--auth-magenta: #df54ff;
+	--auth-gradient: linear-gradient(135deg, var(--auth-cyan), var(--auth-violet) 55%, var(--auth-magenta));
+	--auth-font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}

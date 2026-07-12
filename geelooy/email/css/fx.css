@@ -1,73 +1,114 @@
-/* FX: Canvas, HUD, Animations */
+/* B"H — Quantum Mail effects intensify the deck without stealing interaction. */
 #particleCanvas {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 1;
-    mix-blend-mode: screen;
+	position: absolute;
+	z-index: 1;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	mix-blend-mode: screen;
+	opacity: 0.56;
+	pointer-events: none;
 }
 
-/* HUD */
 .holo-hud {
-    position: fixed; top: 10px; right: 10px;
-    font-family: 'Courier New', monospace; font-size: 0.7rem;
-    color: rgba(6, 182, 212, 0.9);
-    pointer-events: none; z-index: 9999;
-    text-shadow: 0 0 5px var(--neon-cyan);
-    background: rgba(0,0,0,0.6); padding: 8px; border-radius: 4px;
-    border: 1px solid rgba(6, 182, 212, 0.3);
+	position: fixed;
+	z-index: 3100;
+	top: 6rem;
+	right: 1rem;
+	padding: 0.55rem;
+	border: 1px solid rgba(50, 231, 255, 0.24);
+	border-radius: 0.6rem;
+	background: rgba(0, 3, 8, 0.82);
+	color: var(--mail-cyan);
+	font: 0.64rem/1.25 var(--font-mono);
+	text-shadow: 0 0 8px var(--mail-cyan);
+	pointer-events: none;
 }
-.hud-line { margin-bottom: 2px; }
-.good { color: #10b981; }
-.warn { color: #f59e0b; }
+
+.hud-line {
+	margin-bottom: 0.15rem;
+}
+
+.good {
+	color: var(--mail-emerald);
+}
+
+.warn {
+	color: var(--mail-gold);
+}
+
 .hud-scanline {
-    width: 100%; height: 2px; background: rgba(255,255,255,0.2);
-    animation: hudScan 3s linear infinite; margin-top: 4px;
-}
-@keyframes hudScan { from { transform: translateY(0); opacity:1; } to { transform: translateY(20px); opacity:0; } }
-
-/* SCROLLBARS */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--neon-cyan), var(--neon-emerald));
-    border-radius: 3px;
+	width: 100%;
+	height: 2px;
+	margin-top: 0.25rem;
+	background: rgba(255, 255, 255, 0.25);
+	animation: hud-scan 2.8s linear infinite;
 }
 
-/* WORMHOLE LOADER */
-.wormhole-loader {
-    text-align: center; color: var(--neon-fire); font-weight: 900; letter-spacing: 5px;
-    margin: 20px 0; animation: wormholePulse 1s infinite alternate;
-    text-shadow: 0 0 10px var(--neon-fire);
-}
-@keyframes wormholePulse { from { transform: scale(0.9); opacity: 0.5; } to { transform: scale(1.1); opacity: 1; } }
-
-/* DROP PORTAL */
 .drop-portal {
-    position: absolute; inset: 0; background: rgba(6, 182, 212, 0.2);
-    border: 5px dashed var(--neon-cyan); display: none;
-    z-index: 999; justify-content: center; align-items: center; pointer-events: none;
+	position: absolute;
+	z-index: 999;
+	inset: 0;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	border: 4px dashed var(--mail-cyan);
+	background: rgba(50, 231, 255, 0.14);
+	backdrop-filter: blur(8px);
+	pointer-events: none;
 }
-.dragging-over .drop-portal { display: flex; }
+
+.dragging-over .drop-portal {
+	display: flex;
+}
+
 .portal-text {
-    font-size: 2rem; font-weight: 900; color: #fff;
-    text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
-    animation: pulse 1s infinite;
+	padding: 1rem 1.25rem;
+	border-radius: 1rem;
+	background: rgba(0, 3, 8, 0.88);
+	color: var(--mail-text);
+	font: 950 1.2rem/1 var(--font-mono);
+	letter-spacing: 0.14em;
+	text-shadow: 0 0 22px var(--mail-cyan);
+	animation: portal-pulse 900ms ease-in-out infinite alternate;
 }
 
-/* SONIC BOOM DISTORTION */
-body.sonic-boom .app-container {
-    filter: blur(2px) contrast(1.5) chromatic-aberration(5px);
-    transform: scale(0.98); transition: 0.1s;
+body.sonic-boom .mail-quantum-frame {
+	filter: saturate(1.6) contrast(1.22) blur(1px);
+	transform: scale(0.994);
+	transition: 90ms ease;
 }
 
-/* CMD MODAL */
-.cmd-modal {
-    position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
-    width: 80%; max-width: 600px; padding: 20px;
-    background: rgba(0,0,0,0.95); border: 1px solid var(--neon-emerald);
-    box-shadow: 0 0 50px rgba(16, 185, 129, 0.5); z-index: 10000; border-radius: 8px;
+.laser-scan {
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 2px;
+	background: var(--mail-cyan);
+	box-shadow: 0 0 14px var(--mail-cyan);
+	animation: laser-copy 800ms ease both;
 }
-.cmd-input {
-    width: 100%; background: transparent; border: none; border-bottom: 2px solid #333;
-    color: var(--neon-emerald); font-family: monospace; font-size: 1.5rem; outline: none;
-    text-shadow: 0 0 10px var(--neon-emerald);
+
+.sonic-distortion {
+	filter: saturate(1.35) contrast(1.12);
+}
+
+@keyframes hud-scan {
+	from { opacity: 1; transform: translateY(0); }
+	to { opacity: 0; transform: translateY(1.1rem); }
+}
+
+@keyframes portal-pulse {
+	to { transform: scale(1.04); box-shadow: var(--mail-glow-cyan); }
+}
+
+@keyframes laser-copy {
+	to { left: 100%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hud-scanline,
+	.portal-text,
+	.laser-scan {
+		animation: none !important;
+	}
 }

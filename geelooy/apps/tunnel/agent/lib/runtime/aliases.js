@@ -1,27 +1,28 @@
 // B"H
+
 /**
- * B"H
- * Alias law: a path may have many doorways, but the returning messenger must
- * know which doorway the caller used. This table is the treaty for canonical
- * workers, envelope mismatch checks, and future schedulers.
+ * B"H — An alias is a doorway, not a disguise. Canonical workers may serve a
+ * request only when this treaty names them, while the response keeps the action
+ * the caller actually used for end-to-end correlation.
  */
 const aliases = {
-  command: ['commandRun', 'commandStart'],
-  commandRun: ['commandStart'],
-  commandStart: ['commandStart'],
-  commandStatus: ['commandStatus', 'commandStart'],
-  commandPoll: ['commandPoll', 'commandStatus', 'commandStart'],
-  commandJobStatus: ['commandJobStatus', 'commandStatus', 'commandStart'],
-  commandWait: ['commandWait', 'commandStatus', 'commandStart'],
-  commandJobWait: ['commandJobWait', 'commandWait', 'commandStatus', 'commandStart'],
-  commandJobOutputPage: ['commandJobOutputPage'],
-  commandOutputPage: ['commandOutputPage', 'commandJobOutputPage'],
-  commandCancel: ['commandCancel'],
-  commandJobCancel: ['commandJobCancel', 'commandCancel']
+	command: ["commandRun", "commandStart"],
+	commandRun: ["commandRun", "commandStart"],
+	shellCommand: ["shellCommand", "commandRun", "commandStart"],
+	commandStart: ["commandStart", "commandRun"],
+	commandStatus: ["commandStatus"],
+	commandPoll: ["commandPoll", "commandStatus"],
+	commandJobStatus: ["commandJobStatus", "commandStatus"],
+	commandWait: ["commandWait", "commandStatus"],
+	commandJobWait: ["commandJobWait", "commandWait", "commandStatus"],
+	commandJobOutputPage: ["commandJobOutputPage"],
+	commandOutputPage: ["commandOutputPage", "commandJobOutputPage"],
+	commandCancel: ["commandCancel"],
+	commandJobCancel: ["commandJobCancel", "commandCancel"]
 };
 
 function allowed(requestAction, actualAction) {
-  return requestAction === actualAction || (aliases[requestAction] || []).includes(actualAction);
+	return requestAction === actualAction || (aliases[requestAction] || []).includes(actualAction);
 }
 
 module.exports = { aliases, allowed };

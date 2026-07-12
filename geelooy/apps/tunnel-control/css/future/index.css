@@ -6,9 +6,16 @@
 @import url("./surfaces/glass.css") layer(awt.surfaces);
 @import url("./views/gate.css") layer(awt.views);
 @import url("./views/shell.css") layer(awt.views);
-@import url("./views/dashboard.css") layer(awt.views);
+@import url("./views/feature-compat.css") layer(awt.views);
+@import url("./views/dashboard/layout.css") layer(awt.views);
+@import url("./views/dashboard/cards.css") layer(awt.views);
+@import url("./views/agent-command-deck/layout.css") layer(awt.views);
+@import url("./views/agent-command-deck/cards.css") layer(awt.views);
 @import url("./views/mission-control-os.css") layer(awt.views);
 @import url("./views/mission-rooms-grid.css") layer(awt.views);
+@import url("./views/agent-controls/layout.css") layer(awt.views);
+@import url("./views/agent-controls/policy.css") layer(awt.views);
+@import url("./views/agent-controls/resources.css") layer(awt.views);
 @import url("./views/no-side-rails.css") layer(awt.views);
 @import url("./views/response-focus.css") layer(awt.views);
 @import url("./views/obedience-monitor.css") layer(awt.views);
@@ -31,3 +38,6 @@
 @import url("./interaction/states.css") layer(awt.states);
 @import url("./interaction/motion.css") layer(awt.motion);
 @import url("./core/responsive.css") layer(awt.responsive);
+@import url("./views/dashboard/responsive.css") layer(awt.responsive);
+@import url("./views/agent-command-deck/responsive.css") layer(awt.responsive);
+@import url("./views/agent-controls/responsive.css") layer(awt.responsive);

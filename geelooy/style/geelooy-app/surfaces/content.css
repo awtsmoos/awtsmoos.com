@@ -1,0 +1,79 @@
+/* B"H — Panels become dark crystal chambers with coherent spectral edges. */
+.g-panel,
+.geelooy-app-shell .home-panel,
+.geelooy-app-shell .profile-hero-card,
+.geelooy-app-shell .profile-command-panel,
+.geelooy-app-shell .spaces-hero,
+.geelooy-app-shell .home-command-galaxy {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	border: 1px solid rgba(60, 236, 255, 0.18);
+	border-radius: var(--g-radius-lg);
+	background:
+		linear-gradient(145deg, rgba(15, 28, 54, 0.88), rgba(4, 9, 22, 0.94)),
+		var(--g-surface);
+	box-shadow: var(--g-shadow-sm), inset 0 1px rgba(255, 255, 255, 0.07);
+	backdrop-filter: blur(22px) saturate(135%);
+}
+
+.g-panel::before,
+.g-card::before {
+	position: absolute;
+	z-index: -1;
+	inset: -40% 35% auto -25%;
+	height: 9rem;
+	border-radius: 50%;
+	background: linear-gradient(90deg, rgba(60, 236, 255, 0.24), rgba(139, 92, 255, 0.14));
+	content: "";
+	filter: blur(48px);
+	opacity: 0.45;
+	pointer-events: none;
+}
+
+.g-kicker,
+.geelooy-app-shell .profile-kicker,
+.geelooy-app-shell .spaces-kicker,
+.geelooy-app-shell .notifications-kicker {
+	margin: 0 0 0.5rem;
+	background: linear-gradient(90deg, var(--g-cyan), #b89cff, var(--g-magenta));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	font: 900 0.72rem/1 var(--g-mono);
+	letter-spacing: 0.17em;
+	text-transform: uppercase;
+}
+
+.g-title {
+	margin: 0;
+	font-size: clamp(2.5rem, 7vw, 6.8rem);
+	line-height: 0.88;
+	letter-spacing: -0.072em;
+	text-wrap: balance;
+}
+
+.g-gradient-text {
+	background: var(--g-gradient-hot);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	filter: drop-shadow(0 0 28px rgba(139, 92, 255, 0.26));
+}
+
+.g-muted {
+	color: var(--g-muted);
+}
+
+.g-chip {
+	display: inline-flex;
+	min-height: 2.15rem;
+	align-items: center;
+	padding: 0.35rem 0.7rem;
+	border: 1px solid rgba(60, 236, 255, 0.18);
+	border-radius: var(--g-radius-pill);
+	background: linear-gradient(135deg, rgba(60, 236, 255, 0.09), rgba(139, 92, 255, 0.11));
+	color: #dbe8ff;
+	font: 750 0.76rem/1 var(--g-mono);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+}

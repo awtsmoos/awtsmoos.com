@@ -1,148 +1,74 @@
-
 <!-- B"H -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Scribe's Journey: Echoes of Ein Sof</title>
-    <link rel="stylesheet" href="style.css">
-    <script>
-        window.onerror = function(msg, url, line, col, error) {
-            if(msg.includes("ResizeObserver")) return;
-            console.error(msg, url, line);
-            return false;
-        };
-    </script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#07131a">
+	<title>The Scribe's Journey: Echoes of Ein Sof</title>
+	<link rel="icon" href="data:,">
+	<link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="gameContainer">
-        <canvas id="gameCanvas"></canvas>
+<body data-game-mode="main-menu">
+	<main id="game-shell">
+		<section id="gameContainer" aria-label="The Scribe's Journey game">
+			<header id="world-hud" aria-live="polite">
+				<div class="hud-location"><span class="hud-kicker">CURRENT PATH</span><strong id="location-name">Malkuth Village</strong></div>
+				<div class="hud-time"><span aria-hidden="true">✦</span><span id="status-time">12:00</span></div>
+				<div class="hud-quest"><span class="hud-kicker">ACTIVE THREAD</span><strong id="quest-chip">Seek the hidden spark</strong></div>
+			</header>
 
-        <!-- World Echoes: in-world bot activity feed, not fake live multiplayer chat. -->
-        <div id="global-chat-box" aria-label="World Echoes activity feed">
-            <div class="chat-header" id="chat-header">
-                <span>World Echoes</span>
-                <span id="chat-toggle">[-]</span>
-            </div>
-            <div class="chat-status">Simulated travelers nearby; no fake humans.</div>
-            <div id="chat-messages"></div>
-        </div>
+			<div id="world-viewport">
+				<canvas id="gameCanvas" class="is-visible" aria-label="Exploration world"></canvas>
+				<div class="world-vignette" aria-hidden="true"></div>
+			</div>
 
-        <!-- Dialogue Box -->
-        <div id="dialogue-box">
-            <div id="dialogue-text"></div>
-            <div id="dialogue-choices"></div>
-            <div id="dialogue-continue-indicator" class="continue-indicator">[PRESS SPACE]</div>
-        </div>
+			<div id="context-rail" aria-live="polite">
+				<span class="context-key">E</span><span id="context-prompt">Explore. Speak. Reveal the hidden spark.</span>
+			</div>
 
-        <!-- Battle Screen -->
-        <div id="battle-screen" class="menu-screen">
-            <div class="battle-area">
-                <div id="opponent-display" class="battle-musag-display">
-                    <div class="musag-stats"><h4 id="opponent-name"></h4><span id="opponent-level" class="musag-level"></span></div>
-                    <div class="health-bar"><div id="opponent-hp-bar" class="health-bar-inner"></div></div>
-                    <div id="opponent-emoji" class="musag-emoji"></div>
-                </div>
-                <div id="player-display" class="battle-musag-display">
-                    <div class="musag-stats"><h4 id="player-name"></h4><span id="player-level" class="musag-level"></span></div>
-                    <div class="health-bar"><div id="player-hp-bar" class="health-bar-inner"></div></div>
-                    <div class="kavanah-bar"><div id="player-kavanah-bar" class="kavanah-bar-inner"></div></div>
-                    <div id="player-emoji" class="musag-emoji"></div>
-                </div>
-            </div>
-            <div class="battle-ui-box modal-content">
-                <div id="battle-log"></div>
-                <div id="battle-menu-container"></div>
-                <div id="battle-log-continue-indicator" class="continue-indicator">▼</div>
-            </div>
-        </div>
+			<aside id="global-chat-box" aria-label="World Echoes activity feed">
+				<button class="chat-header" id="chat-header" type="button"><span>World Echoes</span><span id="chat-toggle">[-]</span></button>
+				<p class="chat-status">Travelers of the simulated world; no fake humans.</p>
+				<div id="chat-messages"></div>
+			</aside>
 
-        <!-- Main Menu -->
-        <div id="main-menu" class="menu-screen is-visible">
-            <h2 class="extreme-pulse title-logo">The Scribe's Journey</h2>
-            <h3 class="subtitle-logo">Echoes of Ein Sof</h3>
-            <div class="title-actions">
-                <button class="menu-button" data-action="newGame">Begin Anew</button>
-                <button class="menu-button" data-action="loadGame" id="main-menu-load-game-button">Continue Chronicle</button>
-            </div>
-            <div class="version-copy">v2.7 Kabbalah Expansion</div>
-        </div>
-        
-        <!-- In-Game Menu -->
-        <div id="gameMenu" class="menu-screen">
-            <h2>Chronicle</h2>
-            <button class="menu-button" data-action="resume">Resume</button>
-            <button class="menu-button" data-action="inventory-screen">Satchel</button>
-            <button class="menu-button" data-action="shem-screen">Shem (Team)</button>
-            <button class="menu-button" data-action="crafting-screen">Tikkun (Crafting)</button>
-            <button class="menu-button" data-action="quest-log-screen">Tasks</button>
-            <button class="menu-button" data-action="saveGame" id="game-menu-save-game-button">Inscribe Chronicle</button>
-            <button class="menu-button" data-action="main-menu">Return to Title</button>
-        </div>
+			<section id="dialogue-box" aria-live="assertive">
+				<div id="dialogue-text"></div><div id="dialogue-choices"></div>
+				<div id="dialogue-continue-indicator" class="continue-indicator">PRESS E / SPACE</div>
+			</section>
 
-        <!-- Gemach Screen -->
-        <div id="gemach-screen" class="menu-screen">
-            <div class="modal-content gemach-content">
-                <h3>Gemach of Loving Kindness</h3>
-                <div class="gemach-balance-box">
-                    <div>Your Pockets: <span id="gemach-player-money">0</span>p</div>
-                    <div>Gemach Account: <span id="gemach-balance">0</span>p</div>
-                </div>
-                <div class="gemach-actions">
-                    <div class="gemach-action-group">
-                        <label>Deposit:</label>
-                        <button class="menu-button" data-action="gemachAction" data-type="deposit" data-amount="10">10p</button>
-                        <button class="menu-button" data-action="gemachAction" data-type="deposit" data-amount="100">100p</button>
-                    </div>
-                    <div class="gemach-action-group">
-                        <label>Withdraw:</label>
-                        <button class="menu-button" data-action="gemachAction" data-type="withdraw" data-amount="10">10p</button>
-                        <button class="menu-button" data-action="gemachAction" data-type="withdraw" data-amount="100">100p</button>
-                    </div>
-                </div>
-                <button class="modal-action-button" data-action="close-gemach">Exit Gemach</button>
-            </div>
-        </div>
+			<section id="battle-screen" class="menu-screen" aria-label="Battle">
+				<div class="battle-area">
+					<article id="opponent-display" class="battle-musag-display"><div class="musag-stats"><h4 id="opponent-name"></h4><span id="opponent-level"></span></div><div class="health-bar"><div id="opponent-hp-bar" class="health-bar-inner"></div></div><div id="opponent-emoji" class="musag-emoji"></div></article>
+					<article id="player-display" class="battle-musag-display"><div class="musag-stats"><h4 id="player-name"></h4><span id="player-level"></span></div><div class="health-bar"><div id="player-hp-bar" class="health-bar-inner"></div></div><div class="kavanah-bar"><div id="player-kavanah-bar" class="kavanah-bar-inner"></div></div><div id="player-emoji" class="musag-emoji"></div></article>
+				</div>
+				<div class="battle-ui-box modal-content"><div id="battle-log"></div><div id="battle-menu-container"></div><div id="battle-log-continue-indicator" class="continue-indicator">▼</div></div>
+			</section>
 
-        <!-- Inventory Screen -->
-        <div id="inventory-screen" class="menu-screen">
-            <div class="modal-content">
-                <h3>Satchel</h3>
-                <div id="inventory-list"></div>
-                <div id="player-money-display" class="money-display"></div>
-                <button class="modal-action-button" data-action="close-inventory">Close</button>
-            </div>
-        </div>
+			<section id="main-menu" class="menu-screen is-visible">
+				<div class="title-sigil" aria-hidden="true">א</div><p class="eyebrow">A MONSTER JOURNEY THROUGH THE SEFIROT</p>
+				<h1 class="title-logo">The Scribe's Journey</h1><p class="subtitle-logo">Echoes of Ein Sof</p>
+				<div class="title-actions"><button class="menu-button primary-button" data-action="newGame">Begin Anew</button><button class="menu-button" data-action="loadGame" id="main-menu-load-game-button">Continue Chronicle</button></div>
+				<p class="version-copy">Poemmon Edition · Kabbalah Adventure</p>
+			</section>
 
-        <!-- Quest Log Screen -->
-        <div id="quest-log-screen" class="menu-screen">
-            <div class="modal-content">
-                <h3>Tasks of the Scribe</h3>
-                <div id="quest-log-list"></div>
-                <button class="modal-action-button" data-action="close-questlog">Close</button>
-            </div>
-        </div>
+			<section id="gameMenu" class="menu-screen"><div class="modal-content menu-ledger"><h2>Chronicle</h2><div class="menu-grid">
+				<button class="menu-button" data-action="resume">Resume</button><button class="menu-button" data-action="inventory-screen">Satchel</button><button class="menu-button" data-action="shem-screen">Shem</button><button class="menu-button" data-action="crafting-screen">Tikkun</button><button class="menu-button" data-action="quest-log-screen">Tasks</button><button class="menu-button" data-action="bestiary-screen">Bestiary</button><button class="menu-button" data-action="mitzvah-screen">Mitzvah Tank</button><button class="menu-button" data-action="gates-screen">50 Gates</button><button class="menu-button" data-action="gates37-screen">37 Wisdom Gates</button><button class="menu-button" data-action="player-quest-screen">Quest Board</button><button class="menu-button" data-action="features-screen">Features</button><button class="menu-button" data-action="saveGame" id="game-menu-save-game-button">Inscribe</button>
+				</div><button class="modal-action-button" data-action="main-menu">Return to Title</button></div></section>
 
-        <div id="otzar-screen" class="menu-screen"></div>
-        <div id="toast-container"></div>
+			<section id="gemach-screen" class="menu-screen"><div class="modal-content"><h3>Gemach of Loving Kindness</h3><div class="balance-row"><span>Pockets <strong id="gemach-player-money">0</strong>p</span><span>Account <strong id="gemach-balance">0</strong>p</span></div><div class="button-row"><button class="menu-button" data-action="gemachAction" data-type="deposit" data-amount="10">Deposit 10</button><button class="menu-button" data-action="gemachAction" data-type="withdraw" data-amount="10">Withdraw 10</button></div><button class="modal-action-button" data-action="close-gemach">Exit</button></div></section>
+			<section id="inventory-screen" class="menu-screen"><div class="modal-content"><h3>Satchel</h3><div id="inventory-list" class="scroll-panel"></div><div id="player-money-display"></div><button class="modal-action-button" data-action="close-inventory">Close</button></div></section>
+			<section id="quest-log-screen" class="menu-screen"><div class="modal-content"><h3>Tasks of the Scribe</h3><div id="quest-log-list" class="scroll-panel"></div><button class="modal-action-button" data-action="close-questlog">Close</button></div></section>
+			<section id="otzar-screen" class="menu-screen"></section><div id="toast-container" aria-live="polite"></div>
+		</section>
 
-    </div>
-
-    <!-- Mobile Controls -->
-    <div id="mobile-controls" aria-label="Mobile controls">
-        <div class="joystick-pad" aria-label="Movement joystick">
-            <div class="control-button joy-up" id="control-up">▲</div>
-            <div class="control-button joy-left" id="control-left">◀</div>
-            <div class="joystick-core">✦</div>
-            <div class="control-button joy-right" id="control-right">▶</div>
-            <div class="control-button joy-down" id="control-down">▼</div>
-        </div>
-        <div class="action-cluster">
-            <div class="control-button" id="action-button">ACT</div>
-        </div>
-    </div>
-
-    <script type="module" src="js/main.js"></script>
+		<div id="desktop-help"><span><kbd>WASD</kbd> Move</span><span><kbd>Shift</kbd> Sprint</span><span><kbd>E</kbd> Act</span><span><kbd>Esc</kbd> Chronicle</span></div>
+		<div id="mobile-controls" aria-label="Mobile controls">
+			<div id="joystick-pad" class="joystick-pad" role="application" aria-label="Movement joystick"><button id="control-up" class="control-button joy-up" tabindex="-1" aria-hidden="true">▲</button><button id="control-left" class="control-button joy-left" tabindex="-1" aria-hidden="true">◀</button><button id="control-right" class="control-button joy-right" tabindex="-1" aria-hidden="true">▶</button><button id="control-down" class="control-button joy-down" tabindex="-1" aria-hidden="true">▼</button><div id="joystick-thumb" class="joystick-thumb">✦</div></div>
+			<button id="action-button" type="button"><span id="context-action-label">ACT</span><small>SPARK</small></button>
+		</div>
+	</main>
+	<script type="module" src="js/main.js"></script>
 </body>
 </html>

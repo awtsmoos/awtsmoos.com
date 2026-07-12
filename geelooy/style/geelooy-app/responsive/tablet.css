@@ -1,0 +1,56 @@
+/* B"H — Tablet collapses the score without collapsing its hierarchy. */
+@media (max-width: 72rem) {
+	.g-home {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.g-home-aside {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.g-home-hero {
+		min-height: 32rem;
+		grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
+	}
+}
+
+@media (max-width: 54rem) {
+	.g-home-aside {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.g-home-hero {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas:
+			"copy"
+			"search"
+			"torah"
+			"actions";
+	}
+
+	.g-home-actions {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-template-rows: minmax(7rem, auto);
+	}
+
+	.g-home-action.is-primary {
+		grid-column: auto;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: auto auto auto;
+	}
+
+	.g-home-action.is-primary span {
+		grid-row: auto;
+	}
+
+	.g-home-orbit {
+		opacity: 0.62;
+	}
+
+	.g-page-hero,
+	.profile-identity-row,
+	.spaces-hero {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}

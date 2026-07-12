@@ -1,0 +1,106 @@
+/* B"H — Visual and source editors stay clear beneath their holographic frame. */
+.composer-content {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	gap: 0.45rem;
+	padding: 0.55rem;
+}
+
+.visual-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem;
+	padding: 0.25rem;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	border-radius: 0.7rem;
+	background: rgba(255, 255, 255, 0.025);
+}
+
+.visual-toolbar button {
+	display: grid !important;
+	min-width: 2rem;
+	height: 2rem;
+	min-height: 2rem !important;
+	place-items: center;
+	padding: 0 0.35rem !important;
+	border: 1px solid transparent !important;
+	border-radius: 0.5rem !important;
+	background: transparent !important;
+	color: var(--mail-muted) !important;
+	cursor: pointer;
+}
+
+.visual-toolbar button:hover {
+	border-color: rgba(255, 194, 71, 0.26) !important;
+	background: rgba(255, 194, 71, 0.08) !important;
+	color: var(--mail-gold) !important;
+}
+
+.subject-wrapper {
+	display: block;
+}
+
+.subject-input,
+.message-input {
+	width: 100%;
+	border: 1px solid rgba(50, 231, 255, 0.14);
+	border-radius: 0.75rem;
+	background: rgba(0, 3, 8, 0.66);
+	color: var(--mail-text);
+	outline: none;
+}
+
+.subject-input {
+	min-height: 2.55rem;
+	padding: 0.58rem 0.72rem;
+	font-weight: 800;
+}
+
+.input-wrapper {
+	position: relative;
+}
+
+.message-input {
+	min-height: 5.5rem;
+	max-height: 16rem;
+	padding: 0.72rem 0.78rem;
+	overflow-y: auto;
+	font-size: 0.95rem;
+	line-height: 1.55;
+	resize: vertical;
+}
+
+.visual-editor:empty::before {
+	color: var(--mail-dim);
+	content: "Write a transmission across the living network…";
+	pointer-events: none;
+}
+
+.source-editor {
+	font-family: var(--font-mono);
+	font-size: 0.86rem;
+}
+
+.subject-input:focus,
+.message-input:focus {
+	border-color: var(--mail-cyan);
+	box-shadow: 0 0 0 3px rgba(50, 231, 255, 0.1), inset 0 0 28px rgba(50, 231, 255, 0.025);
+}
+
+.message-input::selection,
+.subject-input::selection {
+	background: rgba(255, 194, 71, 0.35);
+}
+
+@media (max-width: 620px) {
+	.visual-toolbar {
+		overflow-x: auto;
+		flex-wrap: nowrap;
+	}
+
+	.message-input {
+		min-height: 4.5rem;
+		max-height: 11rem;
+	}
+}

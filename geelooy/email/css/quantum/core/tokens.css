@@ -1,0 +1,34 @@
+/* B"H — Quantum Mail signal colors: void, gold, cyan, and living emerald. */
+:root {
+	--mail-void: #010205;
+	--mail-deep: #03060c;
+	--mail-panel: rgba(5, 10, 18, 0.93);
+	--mail-panel-strong: rgba(3, 7, 14, 0.98);
+	--mail-glass: rgba(8, 16, 27, 0.82);
+	--mail-line: rgba(65, 224, 255, 0.16);
+	--mail-line-strong: rgba(65, 224, 255, 0.38);
+	--mail-gold: #ffc247;
+	--mail-gold-hot: #ff9f1c;
+	--mail-cyan: #32e7ff;
+	--mail-emerald: #42f5b3;
+	--mail-violet: #8b5cff;
+	--mail-fire: #ff5470;
+	--mail-text: #f8fbff;
+	--mail-muted: #91a2bc;
+	--mail-dim: #58677d;
+	--mail-danger: var(--mail-fire);
+	--mail-accent: var(--mail-gold);
+	--text-secondary: var(--mail-muted);
+	--neon-cyan: var(--mail-cyan);
+	--neon-emerald: var(--mail-emerald);
+	--neon-fire: var(--mail-fire);
+	--mail-radius: 15px;
+	--mail-radius-lg: 24px;
+	--mail-shadow: 0 24px 72px rgba(0, 0, 0, 0.62);
+	--mail-glow-cyan: 0 0 20px rgba(50, 231, 255, 0.2), 0 0 60px rgba(50, 231, 255, 0.08);
+	--mail-glow-gold: 0 0 20px rgba(255, 194, 71, 0.24), 0 0 58px rgba(255, 159, 28, 0.09);
+	--sidebar-w: clamp(19rem, 25vw, 24rem);
+	--header-h: 4.4rem;
+	--font-stack: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}

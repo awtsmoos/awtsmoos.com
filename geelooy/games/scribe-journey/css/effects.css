@@ -1,76 +1,25 @@
-/* B"H - Effects only: overlays, pulses, shakes, floating text, and motion safety. */
-body::before,
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-}
-
-body::before {
-    z-index: var(--layer-vignette);
-    background: radial-gradient(circle at center, transparent 62%, rgba(0,0,0,0.58) 100%);
-}
-
-body::after {
-    z-index: var(--layer-scanlines);
-    opacity: 0.08;
-    background: linear-gradient(rgba(255,255,255,0) 50%, rgba(0,0,0,0.18) 50%);
-    background-size: 100% 4px;
-}
-
-.extreme-pulse {
-    animation: extremePulse 2s infinite alternate;
-}
-
-.screen-shake {
-    animation: shake 0.24s linear;
-}
-
+/* B"H — Effects remain servants of meaning, never noise that conquers play. */
 .floating-text {
-    position: absolute;
-    z-index: var(--layer-toast);
-    pointer-events: none;
-    font-weight: 700;
-    text-shadow: 0 0 8px #000, 0 0 14px currentColor;
-    animation: floatAway 0.8s ease-out forwards;
+	position: absolute;
+	left: 50%;
+	top: 48%;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+	color: var(--gold);
+	font: 700 1.2rem var(--font-display);
+	text-shadow: 0 2px 14px rgba(0,0,0,0.8);
+	z-index: var(--layer-dialogue);
+	animation: floatAway 900ms ease-out forwards;
 }
-
-.float-damage { color: var(--neon-red); }
-.float-crit { color: var(--neon-gold); font-size: 1.35rem; }
-.float-heal { color: var(--neon-green); }
-.float-info { color: var(--neon-blue); }
-
-.fx-debate-damage { filter: drop-shadow(0 0 12px #ff5555); }
-.fx-debate-crit { filter: drop-shadow(0 0 18px #ffd166); }
-.fx-debate-heal { filter: drop-shadow(0 0 16px #66ff99); }
-.fx-holy-fire { filter: drop-shadow(0 0 18px #ff9f1c); }
-.fx-bittul-crown { filter: drop-shadow(0 0 24px #f7e7a1); }
-.fx-capture-spark { filter: drop-shadow(0 0 18px #ffff00); }
-
-@keyframes extremePulse {
-    from { text-shadow: 2px 2px 0 var(--neon-pink), -1px -1px 0 var(--neon-blue), 0 0 14px rgba(0,243,255,0.24); }
-    to { text-shadow: 3px 3px 0 var(--neon-pink), -2px -2px 0 var(--neon-blue), 0 0 34px rgba(255,0,255,0.42); }
-}
-
-@keyframes shake {
-    0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(4px, -3px); }
-    50% { transform: translate(-4px, 3px); }
-    75% { transform: translate(3px, 4px); }
-}
-
-@keyframes floatAway {
-    from { transform: translate(-50%, 0) scale(1); opacity: 1; }
-    to { transform: translate(-50%, -42px) scale(1.08); opacity: 0; }
-}
-
+.floating-text[data-anchor='player'] { left: 65%; }
+.floating-text[data-anchor='opponent'] { left: 35%; }
+.screen-shake { animation: screenShake 180ms linear; }
+.is-gold { border-color: var(--gold) !important; box-shadow: 0 0 20px rgba(255,217,106,0.16); }
+.is-active { border-color: var(--cyan) !important; background: rgba(105,233,239,0.1) !important; }
+.is-dim { opacity: 0.48; filter: grayscale(0.65); }
+.is-complete { border-color: var(--green) !important; }
+@keyframes floatAway { to { transform: translate(-50%, -125%); opacity: 0; } }
+@keyframes screenShake { 25% { transform: translateX(-5px); } 55% { transform: translateX(4px); } 80% { transform: translateX(-2px); } }
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.001ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-    }
+	*, *::before, *::after { scroll-behavior: auto !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
 }

@@ -1,0 +1,120 @@
+/* B"H — Modals surface above the void as explicit holographic decisions. */
+.geelooy-mail-document .overlay {
+	position: fixed;
+	z-index: 9999;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	background: rgba(0, 2, 7, 0.78);
+	backdrop-filter: blur(14px) saturate(0.75);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 180ms ease;
+}
+
+.geelooy-mail-document .overlay.visible {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.geelooy-mail-document .modal-card {
+	position: relative;
+	width: min(100%, 34rem);
+	padding: 1.25rem;
+	border: 1px solid rgba(50, 231, 255, 0.34);
+	border-radius: 1.35rem;
+	background:
+		radial-gradient(circle at 85% 0, rgba(139, 92, 255, 0.2), transparent 14rem),
+		linear-gradient(145deg, rgba(7, 15, 28, 0.98), rgba(2, 5, 11, 0.99));
+	box-shadow: var(--mail-shadow), var(--mail-glow-cyan);
+	color: var(--mail-text);
+}
+
+.geelooy-mail-document .holo-border::before {
+	position: absolute;
+	inset: -1px;
+	z-index: -1;
+	border-radius: inherit;
+	background: conic-gradient(from 0deg, var(--mail-cyan), transparent 22%, var(--mail-violet), transparent 48%, var(--mail-gold), transparent 78%, var(--mail-cyan));
+	content: "";
+	filter: blur(1px);
+	animation: quantum-border-rotate 8s linear infinite;
+}
+
+.mail-modal-kicker {
+	margin: 0 0 0.45rem;
+	color: var(--mail-cyan);
+	font: 900 0.7rem/1 var(--font-mono);
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.geelooy-mail-document .styled-input {
+	width: 100%;
+	min-height: 2.9rem;
+	margin-bottom: 0.72rem;
+	padding: 0.7rem 0.8rem;
+	border: 1px solid rgba(50, 231, 255, 0.18);
+	border-radius: 0.8rem;
+	background: rgba(0, 3, 9, 0.85);
+	color: var(--mail-text);
+	outline: none;
+}
+
+.geelooy-mail-document .styled-input:focus {
+	border-color: var(--mail-cyan);
+	box-shadow: 0 0 0 3px rgba(50, 231, 255, 0.12), var(--mail-glow-cyan);
+}
+
+.geelooy-mail-document .btn-primary {
+	min-height: 2.85rem;
+	padding: 0.72rem 1rem;
+	border: 0;
+	border-radius: 0.85rem;
+	background: linear-gradient(120deg, var(--mail-cyan), var(--mail-violet));
+	color: #010205;
+	font-weight: 950;
+	cursor: pointer;
+	box-shadow: 0 12px 32px rgba(50, 231, 255, 0.18);
+}
+
+.quantum-confirm-card h3 {
+	margin: 0;
+	font-size: 1.65rem;
+}
+
+.quantum-confirm-card > p:not(.mail-modal-kicker) {
+	color: var(--mail-muted);
+}
+
+.quantum-confirm-actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.65rem;
+	margin-top: 1rem;
+}
+
+.quantum-confirm-actions button {
+	min-height: 2.8rem;
+	border-radius: 0.85rem;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.quantum-cancel {
+	border: 1px solid var(--mail-line);
+	background: rgba(255, 255, 255, 0.04);
+	color: var(--mail-text);
+}
+
+.quantum-purge {
+	border: 1px solid rgba(255, 84, 112, 0.55);
+	background: rgba(255, 84, 112, 0.16);
+	color: #ff99aa;
+}
+
+@keyframes quantum-border-rotate {
+	to { filter: hue-rotate(360deg) blur(1px); }
+}

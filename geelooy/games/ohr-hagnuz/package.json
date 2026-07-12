@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:rpg": "for t in tests/rpg/*.test.mjs src/tests/*.mjs; do echo \"===== $t =====\"; node \"$t\"; done",
+    "test:rpg": "node tests/run-rpg-tests.mjs",
     "test:retention": "node tests/rpg/allRemainingRetention.test.mjs"
   }
 }

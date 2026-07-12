@@ -1,118 +1,31 @@
-/* B"H
- * Chapter 580: The apps directory becomes a living launch garden while its old
- * selectors remain as roots for every existing page, now joined to the universal
- * civilization design covenant.
- */
-@import url('../shared/civilization/tokens.css');
-@import url('../shared/civilization/primitives.css');
-:root {
-  --apps-bg: #030713;
-  --apps-panel: rgba(8, 18, 34, .78);
-  --apps-glass: rgba(255, 255, 255, .06);
-  --apps-cyan: #00f6ff;
-  --apps-magenta: #ff48ff;
-  --apps-lime: #a8ff00;
-  --apps-text: #f6fbff;
-  --apps-muted: #9fb4d7;
-  --apps-border: rgba(0, 246, 255, .22);
-  --apps-shadow: 0 24px 80px rgba(0, 0, 0, .42), 0 0 34px rgba(0, 246, 255, .10);
+/* B"H — App cards are quiet doors, not a wall of unrelated buttons. */
+[data-app-grid] {
+	align-items: stretch;
 }
-html, body {
-  min-height: 100%;
-  margin: 0;
-  color: var(--apps-text);
-  background:
-    radial-gradient(circle at 12% 14%, rgba(0,246,255,.18), transparent 27%),
-    radial-gradient(circle at 86% 10%, rgba(255,72,255,.18), transparent 25%),
-    radial-gradient(circle at 50% 100%, rgba(168,255,0,.10), transparent 30%),
-    linear-gradient(135deg, #02040b, #071327 48%, #030713);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+.g-app-card {
+	position: relative;
+	transition: transform 180ms var(--g-ease), border-color 180ms var(--g-ease), box-shadow 180ms var(--g-ease);
 }
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: .18;
-  background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-  background-size: 54px 54px;
-  mask-image: radial-gradient(circle at center, black, transparent 76%);
+
+.g-app-card:hover {
+	border-color: var(--g-line-strong);
+	box-shadow: var(--g-shadow-lg), var(--g-glow);
+	transform: translateY(-4px);
 }
-.apps {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: clamp(18px, 5vw, 54px);
-  flex-direction: column;
-  gap: 18px;
-  min-height: 100vh;
-  box-sizing: border-box;
+
+.g-app-card .g-chip {
+	width: max-content;
+	margin-top: auto;
 }
-.chrystalis-title {
-  margin: 0 0 10px;
-  font-size: clamp(2rem, 8vw, 5.6rem);
-  color: var(--apps-text);
-  text-align: center;
-  font-weight: 950;
-  letter-spacing: -.08em;
-  text-shadow: 0 0 14px rgba(0,246,255,.48), 0 18px 55px rgba(0,0,0,.55);
+
+.g-app-card[hidden] {
+	display: none;
 }
-.chrystalis-title::after {
-  content: " Living App Civilization";
-  display: block;
-  margin-top: 8px;
-  color: var(--apps-lime);
-  font-size: clamp(.8rem, 2.2vw, 1.05rem);
-  letter-spacing: .22em;
-  text-transform: uppercase;
-}
-.chrystalis-nav {
-  width: min(1120px, 94vw);
-  max-height: min(72vh, 780px);
-  overflow: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 12px;
-  padding: clamp(14px, 3vw, 24px);
-  border: 1px solid var(--apps-border);
-  border-radius: 28px;
-  background: linear-gradient(135deg, rgba(0,246,255,.09), rgba(255,72,255,.06)), var(--apps-panel);
-  box-shadow: var(--apps-shadow);
-  backdrop-filter: blur(18px);
-}
-.chrystalis-element { display: flex; }
-a.chrystalis-element {
-  min-height: 84px;
-  align-items: center;
-  justify-content: center;
-  padding: 14px;
-  margin: 0;
-  font-size: clamp(1.05rem, 2.2vw, 1.45rem);
-  text-decoration: none;
-  text-align: center;
-  color: var(--apps-text);
-  border: 1px solid rgba(0,246,255,.18);
-  border-radius: 18px;
-  background: linear-gradient(160deg, rgba(255,255,255,.08), rgba(0,246,255,.035));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 12px 26px rgba(0,0,0,.28);
-  text-shadow: 0 0 12px rgba(0,246,255,.24);
-  backdrop-filter: blur(12px);
-  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease;
-}
-a.chrystalis-element:hover,
-a.chrystalis-element:focus-visible {
-  color: #fff;
-  border-color: rgba(255,72,255,.55);
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 20px 44px rgba(0,0,0,.38), 0 0 26px rgba(255,72,255,.22);
-  outline: none;
-}
-a.chrystalis-element:active { transform: translateY(-1px) scale(.99); }
-@media (max-width: 700px) {
-  .apps { padding: 16px; align-items: stretch; }
-  .chrystalis-nav { width: auto; max-height: none; grid-template-columns: 1fr; border-radius: 20px; }
-  a.chrystalis-element { min-height: 58px; justify-content: flex-start; }
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+
+[data-app-empty] {
+	margin: 0;
+	border: 1px dashed var(--g-line-strong);
+	border-radius: var(--g-radius-md);
+	color: var(--g-muted);
 }

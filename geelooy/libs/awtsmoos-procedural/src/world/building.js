@@ -1,19 +1,34 @@
-import { cubeMesh } from '../mesh/primitives.js';
+// B"H
+import { modelMesh } from '../models/catalog.js';
+import { transformMesh } from '../mesh/transform.js';
 
 /**
- * B"H
- * @chapter A tower wanted to become a purple scream; the clamp taught it humility.
+ * A building is now a generated architectural model, not one stretched cube.
+ * Legacy callers retain one function while gaining real façades and rooflines.
  */
-export function buildingMesh(opts = {}) {
-  const width = clamp(opts.width ?? 4, 0.5, 24);
-  const depth = clamp(opts.depth ?? 4, 0.5, 24);
-  const height = clamp(opts.height ?? 8, 1, opts.maxHeight ?? 60);
-  const x = opts.x ?? 0;
-  const z = opts.z ?? 0;
-  return cubeMesh({ center: [x, height / 2, z], size: [width, height, depth], color: opts.color ?? [0.55, 0.25, 0.9, 1] });
+export function buildingMesh(options = {}) {
+	const width = clamp(options.width ?? 6, 1, 32);
+	const depth = clamp(options.depth ?? 5, 1, 32);
+	const height = clamp(options.height ?? 9, 2, options.maxHeight ?? 80);
+	const style = options.style || styleFor(height);
+	const source = modelMesh(style, { seed: options.seed || `${style}-${width}-${height}-${depth}` });
+	return transformMesh(source, {
+		scale: [width / 6, height / nominalHeight(style), depth / 5],
+		translate: [options.x ?? 0, 0, options.z ?? 0]
+	});
 }
 
 export function clamp(value, min, max) {
-  if (!Number.isFinite(value)) return min;
-  return Math.max(min, Math.min(max, value));
+	if (!Number.isFinite(value)) return min;
+	return Math.max(min, Math.min(max, value));
+}
+
+function styleFor(height) {
+	if (height > 28) return 'tower';
+	if (height > 16) return 'studyHall';
+	return height > 9 ? 'shop' : 'townhouse';
+}
+
+function nominalHeight(style) {
+	return ({ townhouse: 7, shop: 5.5, studyHall: 9, tower: 14 })[style] || 7;
 }

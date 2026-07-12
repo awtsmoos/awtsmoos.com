@@ -1,0 +1,4 @@
+/* B"H — Quantum message visuals are composed from focused modules. */
+@import "./messages/bubbles.css";
+@import "./messages/content.css";
+@import "./messages/actions.css";

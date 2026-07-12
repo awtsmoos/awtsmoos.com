@@ -1,33 +1,116 @@
 // B"H
+
 /**
  * @file api/vector/index.js
- * @chapter The Read-Only Road Of Returning Sparks
- * @description nearest() must never create system metadata during a search.
- * It uses an existing HNSW graph if one already exists; otherwise it scans the
- * actual AwtsmoosDB list. Array-like DB vectors are accepted as real vectors.
+ * @chapter An Index Must Contain Nodes Before It May Claim To Answer
+ * @description
+ * Coordinates metadata, HNSW, exact fallback, bulk loading, strict indexed
+ * search, and graph audits. Rebuilds run inside one durability/free-list batch.
  */
+
 const HNSW = require('./hnsw.js');
-const constants = require('../../constants.js');
 const VectorReindexer = require('./reindexer.js');
+const VectorMetadata = require('./metadata.js');
+const VectorBulkLoader = require('./bulkLoader.js');
+const auditVectorIndex = require('./audit.js');
+const { pathOf, resolvePath } = require('./pathResolver.js');
+const { scanNearest, vectorOf } = require('./query.js');
+
 class VectorManager {
-  constructor(db) { this.db = db; this.indexes = new Map(); this.reindexer = new VectorReindexer(db); }
-  _hasSysVector() { return !!(this.db.root.__sys_vector__ || this.db.has(this.db.root, '__sys_vector__')); }
-  _ensureSysVector() { if (!this._hasSysVector()) this.db.root.__sys_vector__ = new this.db.Map(); }
-  _soul(h) { return h && (h[constants.SYMBOLS.INTERNALS] || h); }
-  _path(h) { const s = this._soul(h); if (typeof h === 'string') return h; if (s?.ensureResolved) s.ensureResolved(true); return s?.getPath ? s.getPath() : h; }
-  _safe(path) { return String(path || '').replace(/\./g, '_'); }
-  _plain(v) { if (v?.__resolve__) { try { return v.__resolve__(); } catch (_) {} } return v; }
-  _meta(sys, path) { const m = this._plain(sys && sys[path]); if (m?.regPath && m?.mapPath) return m; const safe = this._safe(path), regPath = `__reg_${safe}`, mapPath = `__map_${safe}`; return sys?.[regPath] && sys?.[mapPath] ? { dim: 384, metric: 'cosine', regPath, mapPath, entryNodeID: 0, synthesized: true } : null; }
-  enable(handle, options = {}) { this._ensureSysVector(); const sys = this.db.root.__sys_vector__, path = this._path(handle), safe = this._safe(path); if (!this._meta(sys, path)) { const regPath = `__reg_${safe}`, mapPath = `__map_${safe}`; sys[regPath] = new this.db.List(); sys[mapPath] = new this.db.Map(); sys.set(path, { dim: options.dimensions || 1536, metric: options.metric || 'cosine', regPath, mapPath, entryNodeID: 0 }); this.db.waitForIdle(); } if (this.db.sysCache) this.db.sysCache.vector.add(path); this.reindex(path); }
-  getIndex(path) { path = this._path(path); if (this.indexes.has(path)) return this.indexes.get(path); if (!this._hasSysVector()) return null; const sys = this.db.root.__sys_vector__, meta = this._meta(sys, path); if (!meta) return null; const reg = sys[meta.regPath], map = sys[meta.mapPath]; if (!reg || !map) return null; const hnsw = new HNSW(this.db, reg, map, meta); hnsw.onEntryPointChanged = id => { meta.entryNodeID = id; try { sys.set(path, meta); } catch (_) {} }; this.indexes.set(path, hnsw); return hnsw; }
-  insert(path, key, vector, payload) { const i = this.getIndex(path); if (i) i.insert(key, this._vector(vector), payload); }
-  delete(path, key) { const i = this.getIndex(path); if (i) i.delete(key); }
-  nearest(handle, queryVector, k = 5) { const q = this._vector(queryVector); const i = this.getIndex(handle); const graph = i ? i.search(q, k) : []; return graph.length ? graph : this._scanNearest(handle, q, k); }
-  _scanNearest(handle, q, k) { const out = []; for (const item of this._rows(handle)) { const v = this._vector(item?.vec || item?.embedding); if (!v) continue; out.push({ score: this._cosine(q, v), item }); } return out.sort((a, b) => b.score - a.score).slice(0, k); }
-  _rows(handle) { const resolved = this._resolvedArray(handle); if (resolved) return resolved; const len = Number(handle?.length || 0); if (len >= 0 && Number.isFinite(len)) { const out = []; for (let i = 0; i < len; i++) out.push(handle[i]); return out; } const out = []; try { for (const x of handle) out.push(x); } catch (_) {} return out; }
-  _resolvedArray(v) { try { const r = v?.__resolve__?.(); return Array.isArray(r) ? r : null; } catch (_) { return null; } }
-  _vector(v) { if (!v) return null; if (v instanceof Float32Array) return v; if (Array.isArray(v)) return new Float32Array(v); const len = Number(v.length || 0); if (!len || !Number.isFinite(len)) return null; const out = new Float32Array(len); for (let i = 0; i < len; i++) { const n = Number(v[i]); if (!Number.isFinite(n)) return null; out[i] = n; } return out; }
-  _cosine(a, b) { let d = 0, aa = 0, bb = 0, n = Math.min(a.length || 0, b.length || 0); for (let j = 0; j < n; j++) { d += a[j] * b[j]; aa += a[j] * a[j]; bb += b[j] * b[j]; } return d / ((Math.sqrt(aa) || 1) * (Math.sqrt(bb) || 1)); }
-  reindex(path) { const i = this.getIndex(path); if (!i) return; let cur = this.db.root; for (const p of String(path).split('.').filter(x => x !== 'root')) { cur = cur[p]; if (!cur) return; } this.reindexer.run(path, i, cur); }
+	constructor(db) {
+		this.db = db;
+		this.indexes = new Map();
+		this.reindexReports = new Map();
+		this.reindexer = new VectorReindexer(db);
+		this.metadata = new VectorMetadata(db);
+		this.bulkLoader = new VectorBulkLoader(this);
+	}
+
+	enable(handle, options = {}) {
+		const path = String(pathOf(handle));
+		const metadata = this.metadata.create(path, options);
+		if (this.db.sysCache) this.db.sysCache.vector.add(path);
+		this.indexes.delete(path);
+		if (options.reindex !== false) this.reindex(path, { requireUsable: true });
+		return metadata;
+	}
+
+	getIndex(handleOrPath) {
+		const path = String(pathOf(handleOrPath));
+		if (this.indexes.has(path)) return this.indexes.get(path);
+		const metadata = this.metadata.read(path);
+		if (!metadata) return null;
+		const root = this.metadata.root(false);
+		const registry = root && root[metadata.regPath];
+		const keyMap = root && root[metadata.mapPath];
+		if (!registry || !keyMap) return null;
+		const index = new HNSW(this.db, registry, keyMap, metadata);
+		index.onEntryPointChanged = id => {
+			metadata.entryNodeID = id;
+			try { root.set(path, metadata); } catch (_error) {}
+		};
+		this.indexes.set(path, index);
+		return index;
+	}
+
+	insert(path, key, vector, payload) {
+		const index = this.getIndex(path);
+		if (index) index.insert(key, vectorOf(vector), payload);
+	}
+
+	delete(path, key) {
+		const index = this.getIndex(path);
+		if (index) index.delete(key);
+	}
+
+	nearest(handle, queryVector, count = 5) {
+		const query = vectorOf(queryVector);
+		if (!query) return [];
+		const index = this.getIndex(handle);
+		const graph = index ? index.search(query, count) : [];
+		return graph.length ? graph : scanNearest(handle, query, count);
+	}
+
+	nearestIndexed(handle, queryVector, count = 5) {
+		const query = vectorOf(queryVector);
+		if (!query) throw vectorError('query is not a finite vector');
+		const status = this.indexStatus(handle);
+		if (!status.usable) throw vectorError(`index is not usable: ${status.path}`, publicStatus(status));
+		const results = status.index.search(query, count);
+		if (!results.length) throw vectorError(`index returned no live payloads: ${status.path}`, publicStatus(status));
+		return results;
+	}
+
+	reindex(handleOrPath, options = {}) {
+		const path = String(pathOf(handleOrPath));
+		const index = this.getIndex(path);
+		const handle = resolvePath(this.db, path);
+		const report = index && handle
+			? this.db.batch(() => this.reindexer.run(path, index, handle))
+			: { path, scanned: 0, indexed: 0, registryCount: 0, entryNodeID: -1 };
+		this.reindexReports.set(path, report);
+		if (options.requireUsable && report.scanned > 0 && !usableReport(report)) {
+			throw vectorError(`reindex produced an unusable graph: ${path}`, report);
+		}
+		return report;
+	}
+
+	indexStatus(handleOrPath) {
+		const path = String(pathOf(handleOrPath));
+		const index = this.getIndex(path);
+		const registryCount = index ? index.registry.count() : 0;
+		const entryNodeID = index ? index.entryNodeID : -1;
+		return { path, index, configured: Boolean(this.metadata.read(path)), registryCount, entryNodeID, usable: registryCount > 0 && entryNodeID >= 0 };
+	}
+
+	bulkLoad(handle, records, options = {}) { return this.bulkLoader.load(handle, records, options); }
+	configurations() { return this.metadata.configurations(); }
+	lastReindexReport(handleOrPath) { return this.reindexReports.get(String(pathOf(handleOrPath))) || null; }
+	auditIndex(handleOrPath) { return auditVectorIndex(this, handleOrPath); }
 }
+
+function usableReport(report) { return report.indexed > 0 && report.registryCount >= report.indexed && report.entryNodeID >= 0; }
+function publicStatus(status) { return { path: status.path, configured: status.configured, registryCount: status.registryCount, entryNodeID: status.entryNodeID, usable: status.usable }; }
+function vectorError(message, details) { const error = new Error(`B"H vector index error: ${message}`); error.code = 'AWTSMOOS_DB_VECTOR_INDEX_INVALID'; error.details = details; return error; }
+
 module.exports = VectorManager;

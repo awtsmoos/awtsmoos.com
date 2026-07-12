@@ -1,14 +1,41 @@
-/* B"H — Mail shell: shared base first, precise mail grid parts after, final armor last. */
-@import "/style/social-system/index.css";
-@import "./social-shell-parts/base.css";
-@import "./social-shell-parts/topbar.css";
-@import "./social-shell-parts/frame.css";
-@import "./social-shell-parts/sidebar-theme.css";
-@import "./social-shell-parts/thread-list.css";
-@import "./social-shell-parts/tabs.css";
-@import "./social-shell-parts/chat-theme.css";
-@import "./social-shell-parts/bottom-nav.css";
-@import "./social-shell-parts/empty.css";
-@import "./social-shell-parts/mobile.css";
-@import "./hypermail.css";
-@import "./view-flow/index.css";
+/* B"H — Quantum Mail bends the shared header toward gold without becoming another site. */
+.geelooy-mail-document .g-unusual-header {
+	border-color: rgba(255, 194, 71, 0.3);
+	border-radius: 1rem 2rem 1rem 2rem;
+	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.62), 0 0 44px rgba(255, 194, 71, 0.09), 0 0 38px rgba(50, 231, 255, 0.08);
+}
+
+.geelooy-mail-document .g-bh-jewel {
+	border-radius: 0.35rem 1rem 0.35rem 1rem;
+	background: linear-gradient(145deg, rgba(255, 194, 71, 0.25), rgba(50, 231, 255, 0.18), rgba(139, 92, 255, 0.18));
+	box-shadow: var(--mail-glow-gold);
+}
+
+.geelooy-mail-document .g-header-search {
+	border-color: rgba(255, 194, 71, 0.24);
+	border-radius: 0.45rem 1.2rem 0.45rem 1.2rem;
+}
+
+.geelooy-mail-document .g-mail-portal {
+	border-color: rgba(255, 194, 71, 0.62);
+	border-radius: 0.3rem 0.9rem 0.3rem 0.9rem;
+	background: rgba(255, 194, 71, 0.13);
+	color: var(--mail-gold);
+	box-shadow: var(--mail-glow-gold);
+}
+
+.geelooy-mail-document .g-dock a[href="/email"] {
+	background: linear-gradient(145deg, rgba(255, 194, 71, 0.2), rgba(50, 231, 255, 0.1));
+	color: var(--mail-gold);
+}
+
+@media (max-width: 850px) {
+	.geelooy-mail-document .g-unusual-header {
+		border-radius: 0.65rem 1.25rem 0.65rem 1.25rem;
+	}
+
+	.geelooy-mail-document .g-dock {
+		border-top-color: rgba(255, 194, 71, 0.22);
+		background: rgba(1, 3, 8, 0.97);
+	}
+}

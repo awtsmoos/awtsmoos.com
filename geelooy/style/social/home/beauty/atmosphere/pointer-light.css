@@ -1,1 +1,27 @@
-.geelooy-home-shell::after { display: none; }
+/* B"H — A local point of light follows the visitor without hijacking the window. */
+.geelooy-home-shell::after {
+	position: fixed;
+	z-index: 0;
+	top: var(--home-pointer-y, 32vh);
+	left: var(--home-pointer-x, 50vw);
+	width: 26rem;
+	height: 26rem;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(60, 236, 255, 0.09), rgba(139, 92, 255, 0.045) 38%, transparent 70%);
+	content: "";
+	filter: blur(16px);
+	opacity: 0;
+	pointer-events: none;
+	transform: translate(-50%, -50%);
+	transition: opacity 240ms ease;
+}
+
+.geelooy-home-shell[data-awtsmoos-pointer-bound="true"]::after {
+	opacity: 1;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+	.geelooy-home-shell::after {
+		display: none;
+	}
+}

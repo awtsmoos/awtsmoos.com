@@ -1,89 +1,61 @@
+// B"H
 
-//B"H
-
-// js/main.js
 import { initInput } from './input.js';
+import { createCanvasViewport } from './platform/canvasViewport.js';
+import { createShellState } from './platform/shellState.js';
+import { createVerificationBridge } from './platform/verificationBridge.js';
+import { addParticle, renderGameState, updateTimeVisuals } from './render.js';
 import { initUI } from './ui.js';
-import { renderGameState, updateTimeVisuals, addParticle } from './render.js';
 import * as GameEngine from './workers/gameWorker.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+function startScribeJourney() {
+	const canvas = document.getElementById('gameCanvas');
+	const viewportElement = document.getElementById('world-viewport');
+	const viewport = createCanvasViewport(canvas, viewportElement);
+	const shell = createShellState();
+	const verification = createVerificationBridge({ dispatch: GameEngine.dispatch, step: GameEngine.gameLoop });
+	let input = null;
 
-    const canvas = document.getElementById('gameCanvas');
-    const container = document.getElementById('gameContainer');
-    const ctx = canvas.getContext('2d');
-    
-    // Responsive Canvas Resizing
-    function resize() {
-        canvas.width = container.clientWidth;
-        canvas.height = container.clientHeight;
-        ctx.imageSmoothingEnabled = false; 
-    }
-    window.addEventListener('resize', resize);
-    resize();
+	function sendToEngine(action, payload = {}) {
+		if (action === 'input') GameEngine.dispatch(payload);
+		else GameEngine.dispatch({ action, ...payload });
+	}
 
-    // Inject extra menu buttons dynamically
-    const gameMenu = document.getElementById('gameMenu');
-    if (gameMenu && !document.querySelector('[data-action="bestiary-screen"]')) {
-        const createBtn = (text, action, color) => {
-            const btn = document.createElement('button');
-            btn.className = 'menu-button';
-            btn.dataset.action = action;
-            btn.textContent = text;
-            if(color) btn.classList.add('menu-button-accent');
-            return btn;
-        };
-        
-        const returnBtn = gameMenu.lastElementChild;
-        gameMenu.insertBefore(createBtn('Quest Board (NPC Mode)', 'player-quest-screen', '#00ff00'), returnBtn);
-        gameMenu.insertBefore(createBtn('666 Features Log', 'features-screen', '#ff55ff'), returnBtn);
-        gameMenu.insertBefore(createBtn('Sefer HaYetzira (Bestiary)', 'bestiary-screen'), returnBtn);
-        gameMenu.insertBefore(createBtn('Mitzvah Tank (Achievements)', 'mitzvah-screen'), returnBtn);
-        gameMenu.insertBefore(createBtn('50 Gates (Cheats)', 'gates-screen', '#ffaa00'), returnBtn);
-    }
+	const ui = initUI(sendToEngine);
+	input = initInput(sendToEngine);
+	const callbacks = {
+		onStateUpdate({ state }) {
+			verification.capture(state);
+			shell.updateState(state);
+			renderGameState(viewport.context, state);
+		},
+		onTimeUpdate(payload) {
+			shell.updateTime(payload);
+			updateTimeVisuals(viewport.context, payload.timeOfDay, payload.weather, payload.moonPhase, payload.isShabbat, payload.lightLevel, payload.maxLightLevel);
+		},
+		onUIUpdate(payload) {
+			shell.updateUI(payload);
+			ui.update(payload);
+			if (payload.screen && payload.screen !== 'game') input?.releaseAll();
+			if (payload.dialogue?.active) input?.releaseAll();
+			if (payload.fx?.type === 'particles') {
+				const width = canvas.__logicalWidth || canvas.clientWidth;
+				const height = canvas.__logicalHeight || canvas.clientHeight;
+				addParticle('spark', width / 2, height / 2, payload.fx.color, payload.fx.amount);
+			}
+		},
+		onToast(payload) {
+			ui.showToast(payload.message, payload.type);
+		}
+	};
 
-    const callbacks = {
-        onStateUpdate: (payload) => {
-            renderGameState(ctx, payload.state);
-        },
-        onTimeUpdate: (payload) => {
-            updateTimeVisuals(ctx, payload.timeOfDay, payload.weather, payload.moonPhase, payload.isShabbat, payload.lightLevel, payload.maxLightLevel);
-        },
-        onUIUpdate: (payload) => {
-            ui.update(payload);
-            // Handle Visual FX from worker
-            if (payload.fx) {
-                if (payload.fx.type === 'particles') {
-                    // Explode particles at player position
-                    for(let i=0; i<payload.fx.amount; i++) {
-                        addParticle('spark', canvas.width/2, canvas.height/2, payload.fx.color);
-                    }
-                }
-            }
-        },
-        onToast: (payload) => {
-            ui.showToast(payload.message, payload.type);
-        }
-    };
+	GameEngine.initGame(callbacks);
+	const loop = now => {
+		GameEngine.gameLoop(now);
+		requestAnimationFrame(loop);
+	};
+	requestAnimationFrame(loop);
+}
 
-    function sendToEngine(action, payload) {
-        if (action === 'input') {
-            GameEngine.dispatch(payload);
-        } else {
-            GameEngine.dispatch({ action, ...payload });
-        }
-    }
-
-    const ui = initUI(sendToEngine);
-    initInput(sendToEngine);
-
-    // Initialize Engine
-    GameEngine.initGame(callbacks);
-
-    // Start Loop
-    function loop(now) {
-        GameEngine.gameLoop(now);
-        requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-});
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startScribeJourney, { once: true });
+else startScribeJourney();

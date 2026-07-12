@@ -1,0 +1,2145 @@
+{
+  "capturedAt": "2026-07-12T14:39:41.223Z",
+  "target": {
+    "id": "03A456E556F2D6C4FC515F8EE76D0898",
+    "url": "http://127.0.0.1:8080/email/"
+  },
+  "metrics": {
+    "title": "Awtsmoos Quantum Mail — Geelooy",
+    "url": "http://127.0.0.1:8080/email/",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "documentSize": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "scrollHeight": 1000
+    },
+    "bodyClass": "geelooy-mail-document geelooy-app-shell geelooy-spectral-shell",
+    "text": "B\"H\nGeelooy\nMAIL\n⌕\n↵\n⌕\n✉\n◎\n@asdf\n⌄\n☰\nSkip to Quantum Mail\nMail Identity\n\nPreparing your default alias. You can switch aliases here.\n\nNew Transmission\n×\nRecipient\nSubject\nMessage Payload\nTransmit Message\nLIVE\nAWTSMOOS QUANTUM MAIL\nALIAS-AWARE TRANSMISSION NETWORK\nQMAIL // 002\n✉️ AWTSMOOS MAIL\n👤\nCURRENT PROFILE\n✍️ NEW TRANSMISSION\n🔎 SEARCH TRANSMISSIONS\n✨ All Senders\n0\n🪐 Awtsmoos\n0\n🌍 External\n0\n⭐ Priority\n0\n📩 Unread\n0\n🔖 Files\n0\nInbox\n0\nSent\n0\nDrafts\n0\nArchive\n0\nStarred\n0\nTrash\n0\nRequests\n0\nAll Mail\n0\nNo inbox transmissions.\nCompose, switch folders, or filter by sender category.\n✉️ Full Mail Route\nLIVE\n\nACTIVE FREQUENCY\n\nQuantum Stream\n⋮\n⚛\n\nNO FREQUENCY SELECTED\n\nAwaiting transmission\n\nChoose a sender group from the communications deck.\n\nVISUAL\nMARKDOWN\nHTML\nENTER: ↵\n🏷️\n⛶\n_\nB\nI\nH1\nH2\nSEND TRANSMISSION",
+    "counts": {
+      "links": 35,
+      "buttons": 61,
+      "forms": 7,
+      "articles": 0,
+      "dialogs": 1
+    },
+    "deadLinks": [],
+    "passwordOutsideForms": 0,
+    "overflow": [],
+    "landmarks": [
+      {
+        "tag": "BODY",
+        "id": "",
+        "className": "geelooy-mail-document geelooy-app-shell geelooy-spectral-shell",
+        "text": "B\"H\nGeelooy\nMAIL\n⌕\n↵\n⌕\n✉\n◎\n@asdf\n⌄\n☰\nSkip to Quantum Mail\nMail Identity\n\nPreparing your default alias. You can switch aliases here.\n\nNew Transmission\n×\nRecipient\nSubject\nMessage Payload\nTransmit Message\nLIVE\nAWTSMOOS QUA",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 1000
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "radial-gradient(circle at 14% 14%, rgba(50, 231, 255, 0.1), rgba(0, 0, 0, 0) 416px) repeat scroll 0% 0% / auto padding-box border-box, radial-gradient(circle at 88% 7%, rgba(255, 194, 71, 0.11), rgba(0, 0, 0, 0) 448px) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(145deg, rgb(1, 2, 5), rgb(3, 7, 18) 56%, rgb(1, 2, 7)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "HEADER",
+        "id": "",
+        "className": "awtsmoosificationalisticaticalism g-unusual-header",
+        "text": "B\"H\nGeelooy\nMAIL\n⌕\n↵\n⌕\n✉\n◎\n@asdf\n⌄\n☰",
+        "rect": {
+          "x": 96,
+          "y": 11.1875,
+          "width": 1248,
+          "height": 83.34375
+        },
+        "style": {
+          "display": "grid",
+          "position": "fixed",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(12, 24, 47, 0.92), rgba(3, 8, 18, 0.96)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "26.4px",
+          "boxShadow": "rgba(0, 0, 0, 0.62) 0px 24px 80px 0px, rgba(255, 194, 71, 0.08) 0px 0px 44px 0px, rgba(50, 231, 255, 0.08) 0px 0px 38px 0px"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "",
+        "className": "g-search-suggestions",
+        "text": "Search suggestions",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "absolute",
+          "background": "rgba(3, 8, 20, 0.98) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "21.6px",
+          "boxShadow": "rgba(0, 0, 0, 0.72) 0px 30px 90px 0px, rgba(60, 236, 255, 0.24) 0px 0px 18px 0px, rgba(139, 92, 255, 0.18) 0px 0px 52px 0px"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "className": "g-header-action g-mail-portal",
+        "text": "✉",
+        "rect": {
+          "x": 1099.48388671875,
+          "y": 27.28078842163086,
+          "width": 47.1572265625,
+          "height": 47.157169342041016
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 194, 71, 0.12) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "16px",
+          "boxShadow": "rgba(255, 194, 71, 0.24) 0px 0px 20px 0px, rgba(255, 159, 28, 0.09) 0px 0px 58px 0px"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "notLoggedIn",
+        "className": "notLoggedIn hidden",
+        "text": "👤\n\t\t\t\tSign in\n\t\t\t\t⌄\n\t\t\t\n\t\t\t\n\t\t\t\tLocal mode works now. Sign in when you want sync and publishing.\n\t\t\t\t\n\t\t\t\t\tLog in\n\t\t\t\t\tUsername\n\t\t\t\t\t\n\t\t\t\t\tPassword\n\t\t\t\t\t\n\t\t\t\t\tLog in\n\t\t\t\t\tCreate an account · Full login\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\tCr",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "loggedIn",
+        "className": "loggedIn",
+        "text": "◎\n@asdf\n⌄",
+        "rect": {
+          "x": 1152.578125,
+          "y": 30.0625,
+          "width": 127.71875,
+          "height": 45.59375
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "HEADER",
+        "id": "",
+        "className": "welcome",
+        "text": "Syncedasdf",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "aliasSection",
+        "className": "currentAlias",
+        "text": "Alias@asdf",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(60, 236, 255, 0.08), rgba(139, 92, 255, 0.1)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "16px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "NAV",
+        "id": "",
+        "className": "profile-menu-actions",
+        "text": "Manage aliases\n\t\t\t\t\tLog out",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "NAV",
+        "id": "shared-sidebar",
+        "className": "g-constellation-menu sidebarMitzvah",
+        "text": "✦Route constellationEvery chamber, one jump away⌂HomeYour feed and creative dashboard.◈SpacesCommunities, libraries, and series.+CreatePublish a post or open a creative flow.✉MailMessages and live conversations.◎ProfileA",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "absolute",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(8, 19, 40, 0.98), rgba(4, 7, 18, 0.99)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "24px",
+          "boxShadow": "rgba(0, 0, 0, 0.74) 0px 32px 100px 0px, rgba(255, 72, 203, 0.3) 0px 0px 28px 0px, rgba(79, 125, 255, 0.22) 0px 0px 72px 0px"
+        }
+      },
+      {
+        "tag": "HEADER",
+        "id": "",
+        "className": "g-constellation-heading",
+        "text": "✦Route constellationEvery chamber, one jump away",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "NAV",
+        "id": "",
+        "className": "g-dock",
+        "text": "⌂Home◈Spaces+Create✉Mail◎Profile",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "MAIN",
+        "id": "root",
+        "className": "",
+        "text": "Mail Identity\n\nPreparing your default alias. You can switch aliases here.\n\nNew Transmission\n×\nRecipient\nSubject\nMessage Payload\nTransmit Message\nLIVE\nAWTSMOOS QUANTUM MAIL\nALIAS-AWARE TRANSMISSION NETWORK\nQMAIL // 002\n✉️",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 1000
+        },
+        "style": {
+          "display": "block",
+          "position": "relative",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "notLoggedIn",
+        "className": "notLoggedIn hidden",
+        "text": "👤\n\t\t\t\tSign in\n\t\t\t\t⌄\n\t\t\t\n\t\t\t\n\t\t\t\tLocal mode works now. Sign in when you want sync and publishing.\n\t\t\t\t\n\t\t\t\t\tLog in\n\t\t\t\t\tUsername\n\t\t\t\t\t\n\t\t\t\t\tPassword\n\t\t\t\t\t\n\t\t\t\t\tLog in\n\t\t\t\t\tCreate an account · Full login\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\tCr",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "loggedIn",
+        "className": "loggedIn hidden",
+        "text": "◎\n\t\t\t\t@asdf\n\t\t\t\t⌄\n\t\t\t\n\t\t\t\n\t\t\t\tLocal\n\t\t\t\tAlias@asdf\n\t\t\t\tReconnect when you want this local work synced.\n\t\t\t\t⇄Switch alias⌄\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\tManage aliases\n\t\t\t\t\tLog out",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "HEADER",
+        "id": "",
+        "className": "welcome",
+        "text": "Local",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "aliasSection",
+        "className": "currentAlias",
+        "text": "Alias@asdf",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(60, 236, 255, 0.08), rgba(139, 92, 255, 0.1)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "16px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "NAV",
+        "id": "",
+        "className": "profile-menu-actions",
+        "text": "Manage aliases\n\t\t\t\t\tLog out",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "mail-compose-error hidden",
+        "text": "",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "static",
+          "background": "rgba(255, 84, 112, 0.07) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "",
+        "className": "mail-quantum-shell geelooy-content-region",
+        "text": "LIVE\nAWTSMOOS QUANTUM MAIL\nALIAS-AWARE TRANSMISSION NETWORK\nQMAIL // 002\n✉️ AWTSMOOS MAIL\n👤\nCURRENT PROFILE\n✍️ NEW TRANSMISSION\n🔎 SEARCH TRANSMISSIONS\n✨ All Senders\n0\n🪐 Awtsmoos\n0\n🌍 External\n0\n⭐ Priority\n0\n📩 Unread\n",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 1000
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "HEADER",
+        "id": "",
+        "className": "mail-quantum-status",
+        "text": "LIVE\nAWTSMOOS QUANTUM MAIL\nALIAS-AWARE TRANSMISSION NETWORK\nQMAIL // 002",
+        "rect": {
+          "x": 40,
+          "y": 103.1875,
+          "width": 1360,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(2, 6, 13, 0.82) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "14.4px",
+          "boxShadow": "rgba(255, 255, 255, 0.04) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-status-light",
+        "text": "LIVE",
+        "rect": {
+          "x": 52.515625,
+          "y": 110.90625,
+          "width": 47.90625,
+          "height": 22.140625
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "rgba(66, 245, 179, 0.1) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(66, 245, 179, 0.2) 0px 0px 14px 0px"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-status-code",
+        "text": "QMAIL // 002",
+        "rect": {
+          "x": 1295.8125,
+          "y": 116.375,
+          "width": 91.671875,
+          "height": 11.203125
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "app-container mail-quantum-frame",
+        "text": "✉️ AWTSMOOS MAIL\n👤\nCURRENT PROFILE\n✍️ NEW TRANSMISSION\n🔎 SEARCH TRANSMISSIONS\n✨ All Senders\n0\n🪐 Awtsmoos\n0\n🌍 External\n0\n⭐ Priority\n0\n📩 Unread\n0\n🔖 Files\n0\nInbox\n0\nSent\n0\nDrafts\n0\nArchive\n0\nStarred\n0\nTrash\n0\nRequests",
+        "rect": {
+          "x": 40,
+          "y": 149.578125,
+          "width": 1360,
+          "height": 838.421875
+        },
+        "style": {
+          "display": "grid",
+          "position": "relative",
+          "background": "rgba(1, 3, 8, 0.92) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "24px",
+          "boxShadow": "rgba(0, 0, 0, 0.62) 0px 24px 72px 0px, rgba(255, 255, 255, 0.055) 0px 1px 0px 0px inset, rgba(50, 231, 255, 0.2) 0px 0px 20px 0px, rgba(50, 231, 255, 0.08) 0px 0px 60px 0px"
+        }
+      },
+      {
+        "tag": "ASIDE",
+        "id": "",
+        "className": "sidebar mail-quantum-sidebar",
+        "text": "✉️ AWTSMOOS MAIL\n👤\nCURRENT PROFILE\n✍️ NEW TRANSMISSION\n🔎 SEARCH TRANSMISSIONS\n✨ All Senders\n0\n🪐 Awtsmoos\n0\n🌍 External\n0\n⭐ Priority\n0\n📩 Unread\n0\n🔖 Files\n0\nInbox\n0\nSent\n0\nDrafts\n0\nArchive\n0\nStarred\n0\nTrash\n0\nRequests",
+        "rect": {
+          "x": 41,
+          "y": 150.578125,
+          "width": 360,
+          "height": 836.421875
+        },
+        "style": {
+          "display": "flex",
+          "position": "relative",
+          "background": "radial-gradient(circle at 20% 0px, rgba(50, 231, 255, 0.12), rgba(0, 0, 0, 0) 240px) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(6, 14, 25, 0.98), rgba(1, 4, 9, 0.99)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "rgba(0, 0, 0, 0.34) 12px 0px 42px 0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "sidebar-header mail-sidebar-header",
+        "text": "✉️ AWTSMOOS MAIL\n👤\nCURRENT PROFILE",
+        "rect": {
+          "x": 41,
+          "y": 150.578125,
+          "width": 359,
+          "height": 117.421875
+        },
+        "style": {
+          "display": "flex",
+          "position": "relative",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(rgba(50, 231, 255, 0.075), rgba(0, 0, 0, 0)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "mail-sidebar-identity",
+        "text": "✉️ AWTSMOOS MAIL\n👤\nCURRENT PROFILE",
+        "rect": {
+          "x": 57,
+          "y": 166.578125,
+          "width": 327,
+          "height": 84.421875
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "mail-profile-card",
+        "text": "👤\nCURRENT PROFILE",
+        "rect": {
+          "x": 57,
+          "y": 194.609375,
+          "width": 327,
+          "height": 56.390625
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "16px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-profile-card-icon",
+        "text": "👤",
+        "rect": {
+          "x": 66.796875,
+          "y": 204.40625,
+          "width": 36.796875,
+          "height": 36.796875
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(50, 231, 255, 0.2), rgba(139, 92, 255, 0.25)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.8px",
+          "boxShadow": "rgba(50, 231, 255, 0.2) 0px 0px 20px 0px, rgba(50, 231, 255, 0.08) 0px 0px 60px 0px"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "mail-profile-copy",
+        "text": "CURRENT PROFILE",
+        "rect": {
+          "x": 113.984375,
+          "y": 216.09375,
+          "width": 260.21875,
+          "height": 13.421875
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "mail-sidebar-profile-mount",
+        "text": "",
+        "rect": {
+          "x": 113.984375,
+          "y": 229.515625,
+          "width": 260.21875,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "position": "relative",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "notLoggedIn",
+        "className": "notLoggedIn hidden",
+        "text": "👤\n\t\t\t\tSign in\n\t\t\t\t⌄\n\t\t\t\n\t\t\t\n\t\t\t\tLocal mode works now. Sign in when you want sync and publishing.\n\t\t\t\t\n\t\t\t\t\tLog in\n\t\t\t\t\tUsername\n\t\t\t\t\t\n\t\t\t\t\tPassword\n\t\t\t\t\t\n\t\t\t\t\tLog in\n\t\t\t\t\tCreate an account · Full login\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\tCr",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "loggedIn",
+        "className": "loggedIn hidden",
+        "text": "◎\n\t\t\t\t@asdf\n\t\t\t\t⌄\n\t\t\t\n\t\t\t\n\t\t\t\tLocal\n\t\t\t\tAlias@asdf\n\t\t\t\tReconnect when you want this local work synced.\n\t\t\t\t⇄Switch alias⌄\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\tManage aliases\n\t\t\t\t\tLog out",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "HEADER",
+        "id": "",
+        "className": "welcome",
+        "text": "Local",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "aliasSection",
+        "className": "currentAlias",
+        "text": "Alias@asdf",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(60, 236, 255, 0.08), rgba(139, 92, 255, 0.1)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "16px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "NAV",
+        "id": "",
+        "className": "profile-menu-actions",
+        "text": "Manage aliases\n\t\t\t\t\tLog out",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "",
+        "className": "mail-search-panel",
+        "text": "🔎 SEARCH TRANSMISSIONS",
+        "rect": {
+          "x": 41,
+          "y": 343.734375,
+          "width": 359,
+          "height": 76.6875
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "mail-sender-category-grid",
+        "text": "✨ All Senders\n0\n🪐 Awtsmoos\n0\n🌍 External\n0\n⭐ Priority\n0\n📩 Unread\n0\n🔖 Files\n0",
+        "rect": {
+          "x": 41,
+          "y": 420.421875,
+          "width": 359,
+          "height": 120.546875
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category active",
+        "text": "✨ All Senders\n0",
+        "rect": {
+          "x": 57,
+          "y": 419.421875,
+          "width": 104.9375,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(50, 231, 255, 0.12), rgba(139, 92, 255, 0.13)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(50, 231, 255, 0.2) 0px 0px 20px 0px, rgba(50, 231, 255, 0.08) 0px 0px 60px 0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "🪐 Awtsmoos\n0",
+        "rect": {
+          "x": 168.015625,
+          "y": 420.421875,
+          "width": 104.953125,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "🌍 External\n0",
+        "rect": {
+          "x": 279.046875,
+          "y": 420.421875,
+          "width": 104.9375,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "⭐ Priority\n0",
+        "rect": {
+          "x": 57,
+          "y": 477.734375,
+          "width": 104.9375,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "📩 Unread\n0",
+        "rect": {
+          "x": 168.015625,
+          "y": 477.734375,
+          "width": 104.953125,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "🔖 Files\n0",
+        "rect": {
+          "x": 279.046875,
+          "y": 477.734375,
+          "width": 104.9375,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "mail-folder-list",
+        "text": "Inbox\n0\nSent\n0\nDrafts\n0\nArchive\n0\nStarred\n0\nTrash\n0\nRequests\n0\nAll Mail\n0",
+        "rect": {
+          "x": 41,
+          "y": 540.96875,
+          "width": 359,
+          "height": 50.390625
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab active",
+        "text": "Inbox\n0",
+        "rect": {
+          "x": 57,
+          "y": 539.96875,
+          "width": 80.6875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 194, 71, 0.11) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 194, 71, 0.24) 0px 0px 20px 0px, rgba(255, 159, 28, 0.09) 0px 0px 58px 0px"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-folder-count",
+        "text": "0",
+        "rect": {
+          "x": 105.1875,
+          "y": 547.96875,
+          "width": 21.59375,
+          "height": 21.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Sent\n0",
+        "rect": {
+          "x": 143.765625,
+          "y": 540.96875,
+          "width": 76.046875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-folder-count",
+        "text": "0",
+        "rect": {
+          "x": 187.3125,
+          "y": 548.96875,
+          "width": 21.59375,
+          "height": 21.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Drafts\n0",
+        "rect": {
+          "x": 225.890625,
+          "y": 540.96875,
+          "width": 84.671875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-folder-count",
+        "text": "0",
+        "rect": {
+          "x": 278.0625,
+          "y": 548.96875,
+          "width": 21.59375,
+          "height": 21.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Archive\n0",
+        "rect": {
+          "x": 316.640625,
+          "y": 540.96875,
+          "width": 91.96875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-folder-count",
+        "text": "0",
+        "rect": {
+          "x": 376.109375,
+          "y": 548.96875,
+          "width": 21.59375,
+          "height": 21.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Starred\n0",
+        "rect": {
+          "x": 414.6875,
+          "y": 540.96875,
+          "width": 91.578125,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-folder-count",
+        "text": "0",
+        "rect": {
+          "x": 473.765625,
+          "y": 548.96875,
+          "width": 21.59375,
+          "height": 21.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Trash\n0",
+        "rect": {
+          "x": 512.34375,
+          "y": 540.96875,
+          "width": 81.25,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-folder-count",
+        "text": "0",
+        "rect": {
+          "x": 561.09375,
+          "y": 548.96875,
+          "width": 21.59375,
+          "height": 21.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Requests\n0",
+        "rect": {
+          "x": 599.671875,
+          "y": 540.96875,
+          "width": 101.6875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-folder-count",
+        "text": "0",
+        "rect": {
+          "x": 668.859375,
+          "y": 548.96875,
+          "width": 21.59375,
+          "height": 21.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "All Mail\n0",
+        "rect": {
+          "x": 707.4375,
+          "y": 540.96875,
+          "width": 90.359375,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "SPAN",
+        "id": "",
+        "className": "mail-folder-count",
+        "text": "0",
+        "rect": {
+          "x": 765.296875,
+          "y": 548.96875,
+          "width": 21.59375,
+          "height": 21.59375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "MAIN",
+        "id": "",
+        "className": "chat-area mail-quantum-chat",
+        "text": "LIVE\n\nACTIVE FREQUENCY\n\nQuantum Stream\n⋮\n⚛\n\nNO FREQUENCY SELECTED\n\nAwaiting transmission\n\nChoose a sender group from the communications deck.\n\nVISUAL\nMARKDOWN\nHTML\nENTER: ↵\n🏷️\n⛶\n_\nB\nI\nH1\nH2\nSEND TRANSMISSION",
+        "rect": {
+          "x": 401,
+          "y": 150.578125,
+          "width": 998,
+          "height": 836.421875
+        },
+        "style": {
+          "display": "grid",
+          "position": "relative",
+          "background": "radial-gradient(circle at 50% 25%, rgba(50, 231, 255, 0.055), rgba(0, 0, 0, 0) 400px) repeat scroll 0% 0% / auto padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(rgba(2, 7, 15, 0.88), rgba(1, 3, 7, 0.98)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "HEADER",
+        "id": "",
+        "className": "chat-header",
+        "text": "LIVE\n\nACTIVE FREQUENCY\n\nQuantum Stream\n⋮",
+        "rect": {
+          "x": 401,
+          "y": 150.578125,
+          "width": 998,
+          "height": 70.390625
+        },
+        "style": {
+          "display": "flex",
+          "position": "relative",
+          "background": "rgba(2, 7, 15, 0.78) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "className": "cmd-modal hidden",
+        "text": "Quantum Mail command terminal",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {
+          "display": "none",
+          "position": "fixed",
+          "background": "rgba(0, 5, 9, 0.98) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "16px",
+          "boxShadow": "rgba(66, 245, 179, 0.23) 0px 0px 60px 0px"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "",
+        "className": "messages-scroll",
+        "text": "⚛\n\nNO FREQUENCY SELECTED\n\nAwaiting transmission\n\nChoose a sender group from the communications deck.",
+        "rect": {
+          "x": 401,
+          "y": 220.96875,
+          "width": 998,
+          "height": 473.609375
+        },
+        "style": {
+          "display": "flex",
+          "position": "relative",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "P",
+        "id": "",
+        "className": "mail-modal-kicker",
+        "text": "NO FREQUENCY SELECTED",
+        "rect": {
+          "x": 810.375,
+          "y": 408,
+          "width": 179.234375,
+          "height": 11.203125
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "SECTION",
+        "id": "",
+        "className": "geelooy-toast-region",
+        "text": "Geelooy notifications",
+        "rect": {
+          "x": 0,
+          "y": 1000,
+          "width": 1440,
+          "height": 0
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      }
+    ],
+    "controls": [
+      {
+        "tag": "A",
+        "id": "",
+        "className": "g-header-brand home icon",
+        "text": "B\"H\nGeelooy\nMAIL",
+        "rect": {
+          "x": 107.390625,
+          "y": 28.859375,
+          "width": 124.328125,
+          "height": 48
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "g-search-orb",
+        "text": "⌕",
+        "rect": {
+          "x": 252.07888793945312,
+          "y": 29.581008911132812,
+          "width": 38.21722412109375,
+          "height": 46.1064453125
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgb(255, 98, 208), rgb(121, 93, 255)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "50%",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "id": "",
+        "className": "",
+        "text": "Search spaces, routes, and Torah",
+        "rect": {
+          "x": 297.171875,
+          "y": 28.0625,
+          "width": 686.28125,
+          "height": 49.59375
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "g-search-submit",
+        "text": "↵",
+        "rect": {
+          "x": 990.640625,
+          "y": 30.0625,
+          "width": 37.59375,
+          "height": 45.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "50%",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "g-header-action g-mobile-search-button",
+        "text": "⌕",
+        "rect": {
+          "x": 1047.953125,
+          "y": 30.0625,
+          "width": 45.59375,
+          "height": 45.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(255, 255, 255, 0.094), rgba(79, 125, 255, 0.08)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "className": "g-header-action g-mail-portal",
+        "text": "✉",
+        "rect": {
+          "x": 1099.48388671875,
+          "y": 27.28078842163086,
+          "width": 47.1572265625,
+          "height": 47.157169342041016
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 194, 71, 0.12) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "16px",
+          "boxShadow": "rgba(255, 194, 71, 0.24) 0px 0px 20px 0px, rgba(255, 159, 28, 0.09) 0px 0px 58px 0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "dropdownProfile",
+        "className": "profile-trigger",
+        "text": "◎\n@asdf\n⌄",
+        "rect": {
+          "x": 1152.578125,
+          "y": 30.0625,
+          "width": 127.71875,
+          "height": 45.59375
+        },
+        "style": {
+          "display": "inline-flex",
+          "position": "relative",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(135deg, rgba(60, 236, 255, 0.16), rgba(139, 92, 255, 0.22), rgba(255, 72, 203, 0.13)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.13) 0px 1px 0px 0px inset, rgba(139, 92, 255, 0.12) 0px 0px 22px 0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "g-header-action menuBtn g-menu-button",
+        "text": "☰",
+        "rect": {
+          "x": 1287.015625,
+          "y": 30.0625,
+          "width": 45.59375,
+          "height": 45.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(255, 255, 255, 0.094), rgba(79, 125, 255, 0.08)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "className": "g-sr-only",
+        "text": "Skip to Quantum Mail",
+        "rect": {
+          "x": -1,
+          "y": -1,
+          "width": 1,
+          "height": 1
+        },
+        "style": {
+          "display": "block",
+          "position": "absolute",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "close-modal",
+        "text": "×",
+        "rect": {
+          "x": 979.8125,
+          "y": 306.0625,
+          "width": 39.1875,
+          "height": 39.1875
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.04) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "id": "newTo",
+        "className": "styled-input",
+        "text": "",
+        "rect": {
+          "x": 421,
+          "y": 382.84375,
+          "width": 598,
+          "height": 49.171875
+        },
+        "style": {
+          "display": "inline-block",
+          "position": "static",
+          "background": "rgba(0, 3, 9, 0.85) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.8px",
+          "boxShadow": "rgba(255, 255, 255, 0.035) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "id": "newSub",
+        "className": "styled-input",
+        "text": "",
+        "rect": {
+          "x": 421,
+          "y": 468.328125,
+          "width": 598,
+          "height": 49.171875
+        },
+        "style": {
+          "display": "inline-block",
+          "position": "static",
+          "background": "rgba(0, 3, 9, 0.85) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.8px",
+          "boxShadow": "rgba(255, 255, 255, 0.035) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "TEXTAREA",
+        "id": "newBody",
+        "className": "styled-input compose-body-input",
+        "text": "",
+        "rect": {
+          "x": 421,
+          "y": 553.8125,
+          "width": 598,
+          "height": 73.96875
+        },
+        "style": {
+          "display": "inline-block",
+          "position": "static",
+          "background": "rgba(0, 3, 9, 0.85) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.8px",
+          "boxShadow": "rgba(255, 255, 255, 0.035) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "btn-primary",
+        "text": "Transmit Message",
+        "rect": {
+          "x": 421,
+          "y": 646.09375,
+          "width": 181.578125,
+          "height": 47.828125
+        },
+        "style": {
+          "display": "inline-flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(120deg, rgb(50, 231, 255), rgb(139, 92, 255)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "13.6px",
+          "boxShadow": "rgba(50, 231, 255, 0.18) 0px 12px 32px 0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "fab-compose",
+        "text": "✍️ NEW TRANSMISSION",
+        "rect": {
+          "x": 57,
+          "y": 281.59375,
+          "width": 327,
+          "height": 48.546875
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(120deg, rgb(255, 194, 71), rgb(255, 159, 28)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "16px",
+          "boxShadow": "rgba(255, 194, 71, 0.24) 0px 0px 20px 0px, rgba(255, 159, 28, 0.09) 0px 0px 58px 0px"
+        }
+      },
+      {
+        "tag": "INPUT",
+        "id": "mailSearchInput",
+        "className": "",
+        "text": "Search mail transmissions",
+        "rect": {
+          "x": 57,
+          "y": 361.015625,
+          "width": 327,
+          "height": 46.609375
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "rgba(0, 3, 8, 0.8) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "13.76px",
+          "boxShadow": "rgba(255, 255, 255, 0.035) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category active",
+        "text": "✨ All Senders\n0",
+        "rect": {
+          "x": 57,
+          "y": 419.421875,
+          "width": 104.9375,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(145deg, rgba(50, 231, 255, 0.12), rgba(139, 92, 255, 0.13)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(50, 231, 255, 0.2) 0px 0px 20px 0px, rgba(50, 231, 255, 0.08) 0px 0px 60px 0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "🪐 Awtsmoos\n0",
+        "rect": {
+          "x": 168.015625,
+          "y": 420.421875,
+          "width": 104.953125,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "🌍 External\n0",
+        "rect": {
+          "x": 279.046875,
+          "y": 420.421875,
+          "width": 104.9375,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "⭐ Priority\n0",
+        "rect": {
+          "x": 57,
+          "y": 477.734375,
+          "width": 104.9375,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "📩 Unread\n0",
+        "rect": {
+          "x": 168.015625,
+          "y": 477.734375,
+          "width": 104.953125,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-sender-category",
+        "text": "🔖 Files\n0",
+        "rect": {
+          "x": 279.046875,
+          "y": 477.734375,
+          "width": 104.9375,
+          "height": 51.234375
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "12.48px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab active",
+        "text": "Inbox\n0",
+        "rect": {
+          "x": 57,
+          "y": 539.96875,
+          "width": 80.6875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 194, 71, 0.11) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 194, 71, 0.24) 0px 0px 20px 0px, rgba(255, 159, 28, 0.09) 0px 0px 58px 0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Sent\n0",
+        "rect": {
+          "x": 143.765625,
+          "y": 540.96875,
+          "width": 76.046875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Drafts\n0",
+        "rect": {
+          "x": 225.890625,
+          "y": 540.96875,
+          "width": 84.671875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Archive\n0",
+        "rect": {
+          "x": 316.640625,
+          "y": 540.96875,
+          "width": 91.96875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Starred\n0",
+        "rect": {
+          "x": 414.6875,
+          "y": 540.96875,
+          "width": 91.578125,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Trash\n0",
+        "rect": {
+          "x": 512.34375,
+          "y": 540.96875,
+          "width": 81.25,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "Requests\n0",
+        "rect": {
+          "x": 599.671875,
+          "y": 540.96875,
+          "width": 101.6875,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mail-folder-tab",
+        "text": "All Mail\n0",
+        "rect": {
+          "x": 707.4375,
+          "y": 540.96875,
+          "width": 90.359375,
+          "height": 37.59375
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "A",
+        "id": "",
+        "className": "",
+        "text": "✉️ Full Mail Route",
+        "rect": {
+          "x": 80.859375,
+          "y": 707.515625,
+          "width": 279.28125,
+          "height": 24.796875
+        },
+        "style": {
+          "display": "block",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "0px",
+          "boxShadow": "none"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "tool-btn",
+        "text": "⋮",
+        "rect": {
+          "x": 1340.609375,
+          "y": 164.078125,
+          "width": 42.390625,
+          "height": 42.390625
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.043) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "13.6px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mode-tab active",
+        "text": "VISUAL",
+        "rect": {
+          "x": 424.859375,
+          "y": 713.640625,
+          "width": 85.28125,
+          "height": 39.578125
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(50, 231, 255, 0.08) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "10.4px",
+          "boxShadow": "rgba(50, 231, 255, 0.2) 0px 0px 20px 0px, rgba(50, 231, 255, 0.08) 0px 0px 60px 0px"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mode-tab",
+        "text": "MARKDOWN",
+        "rect": {
+          "x": 514.9375,
+          "y": 713.640625,
+          "width": 127.140625,
+          "height": 39.578125
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "10.4px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "mode-tab",
+        "text": "HTML",
+        "rect": {
+          "x": 646.875,
+          "y": 713.640625,
+          "width": 71.75,
+          "height": 39.578125
+        },
+        "style": {
+          "display": "flex",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "10.4px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "icon-btn win-ctrl",
+        "text": "ENTER: ↵",
+        "rect": {
+          "x": 1178.859375,
+          "y": 717.421875,
+          "width": 68.28125,
+          "height": 32
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "8.8px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "icon-btn win-ctrl",
+        "text": "🏷️",
+        "rect": {
+          "x": 1263.140625,
+          "y": 717.421875,
+          "width": 32,
+          "height": 32
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "8.8px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "icon-btn win-ctrl",
+        "text": "⛶",
+        "rect": {
+          "x": 1303.140625,
+          "y": 717.421875,
+          "width": 32,
+          "height": 32
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "8.8px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "icon-btn win-ctrl",
+        "text": "_",
+        "rect": {
+          "x": 1343.140625,
+          "y": 717.421875,
+          "width": 32,
+          "height": 32
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(255, 255, 255, 0.035) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "8.8px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "",
+        "text": "B",
+        "rect": {
+          "x": 429.390625,
+          "y": 775.6875,
+          "width": 32,
+          "height": 32
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "8px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "",
+        "text": "I",
+        "rect": {
+          "x": 465.390625,
+          "y": 775.6875,
+          "width": 32,
+          "height": 32
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "8px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "",
+        "text": "H1",
+        "rect": {
+          "x": 501.390625,
+          "y": 775.6875,
+          "width": 32,
+          "height": 32
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "8px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "",
+        "text": "H2",
+        "rect": {
+          "x": 537.390625,
+          "y": 775.6875,
+          "width": 34.09375,
+          "height": 32
+        },
+        "style": {
+          "display": "grid",
+          "position": "static",
+          "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "8px",
+          "boxShadow": "rgba(255, 255, 255, 0.07) 0px 1px 0px 0px inset"
+        }
+      },
+      {
+        "tag": "BUTTON",
+        "id": "",
+        "className": "send-btn send-transmission-btn",
+        "text": "SEND TRANSMISSION",
+        "rect": {
+          "x": 1156.828125,
+          "y": 915.0625,
+          "width": 218.78125,
+          "height": 48.546875
+        },
+        "style": {
+          "display": "flex",
+          "position": "relative",
+          "background": "rgba(0, 0, 0, 0) linear-gradient(115deg, rgb(255, 194, 71), rgb(255, 159, 28)) repeat scroll 0% 0% / auto padding-box border-box",
+          "borderRadius": "13.6px",
+          "boxShadow": "rgba(255, 194, 71, 0.24) 0px 0px 20px 0px, rgba(255, 159, 28, 0.09) 0px 0px 58px 0px"
+        }
+      }
+    ]
+  }
+}

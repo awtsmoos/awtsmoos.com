@@ -1,0 +1,10 @@
+/* B"H — System accessibility preferences remain sovereign. */
+@media (forced-colors: active) {
+	.g-panel,
+	.g-card,
+	.g-rail,
+	.g-topbar,
+	.g-dock {
+		border: 1px solid CanvasText;
+	}
+}

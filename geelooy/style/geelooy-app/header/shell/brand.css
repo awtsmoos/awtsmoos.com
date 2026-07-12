@@ -1,0 +1,51 @@
+/* B"H — The B"H jewel and route name anchor the restored header. */
+.g-header-brand {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	gap: 0.62rem;
+	padding-right: 0.35rem;
+}
+
+.g-bh-jewel {
+	position: relative;
+	display: grid;
+	width: 3rem;
+	height: 3rem;
+	flex: 0 0 3rem;
+	place-items: center;
+	border: 1px solid rgba(255, 255, 255, 0.22);
+	border-radius: 1rem;
+	background: linear-gradient(145deg, rgba(60, 236, 255, 0.24), rgba(139, 92, 255, 0.3), rgba(255, 72, 203, 0.18));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), var(--g-glow);
+	font-size: 0.9rem;
+	font-weight: 1000;
+	letter-spacing: -0.04em;
+}
+
+.g-bh-jewel::after {
+	position: absolute;
+	inset: 0.35rem;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 0.72rem;
+	content: "";
+	transform: rotate(12deg);
+}
+
+.g-header-brand-copy {
+	display: grid;
+	line-height: 1.05;
+}
+
+.g-header-brand-copy strong {
+	font-size: 1.05rem;
+	letter-spacing: -0.04em;
+}
+
+.g-header-brand-copy small {
+	margin-top: 0.28rem;
+	color: var(--g-cyan);
+	font: 700 0.62rem/1 var(--g-mono);
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}

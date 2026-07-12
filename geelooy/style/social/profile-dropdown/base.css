@@ -1,0 +1,108 @@
+/* B"H — The historical alias jewel returns with brighter spectral geometry. */
+.awtsmoosDrop {
+	position: relative;
+	z-index: 3110;
+	min-width: 0;
+	font-family: var(--g-font, Inter, ui-sans-serif, sans-serif);
+}
+
+.awtsmoosDrop .hidden {
+	display: none !important;
+}
+
+.awtsmoosDrop .profile-trigger,
+.awtsmoosDrop .menu-wide,
+.awtsmoosDrop .aliasId {
+	position: relative;
+	display: inline-flex;
+	min-height: 2.85rem;
+	align-items: center;
+	gap: 0.45rem;
+	padding: 0.5rem 0.72rem;
+	overflow: hidden;
+	border: 1px solid rgba(60, 236, 255, 0.28);
+	border-radius: 999px;
+	background: linear-gradient(135deg, rgba(60, 236, 255, 0.16), rgba(139, 92, 255, 0.22), rgba(255, 72, 203, 0.13));
+	color: #fff;
+	font-weight: 900;
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.13), 0 0 22px rgba(139, 92, 255, 0.12);
+	cursor: pointer;
+	transition: 180ms var(--g-ease, ease);
+}
+
+.awtsmoosDrop .profile-trigger::after,
+.awtsmoosDrop .menu-wide::after,
+.awtsmoosDrop .aliasId::after {
+	position: absolute;
+	inset: auto -30% -120% 30%;
+	height: 4rem;
+	border-radius: 50%;
+	background: linear-gradient(90deg, #3cecff, #8b5cff, #ff48cb);
+	content: "";
+	filter: blur(26px);
+	opacity: 0;
+	transition: 180ms ease;
+}
+
+.awtsmoosDrop .profile-trigger:hover,
+.awtsmoosDrop .menu-wide:hover,
+.awtsmoosDrop .aliasId:hover {
+	border-color: rgba(60, 236, 255, 0.62);
+	box-shadow: 0 0 22px rgba(60, 236, 255, 0.18), 0 0 38px rgba(255, 72, 203, 0.12);
+	transform: translateY(-2px) rotate(-0.8deg);
+}
+
+.awtsmoosDrop .profile-trigger:hover::after,
+.awtsmoosDrop .menu-wide:hover::after,
+.awtsmoosDrop .aliasId:hover::after {
+	opacity: 0.3;
+}
+
+.awtsmoosDrop .drop-icon,
+.awtsmoosDrop .mode-badge {
+	display: inline-grid;
+	place-items: center;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #3cecff, #8b5cff 60%, #ff48cb);
+	color: #02050d;
+	font-weight: 1000;
+	box-shadow: 0 0 18px rgba(60, 236, 255, 0.35);
+}
+
+.awtsmoosDrop .drop-icon {
+	width: 1.7rem;
+	height: 1.7rem;
+	flex: 0 0 1.7rem;
+}
+
+.awtsmoosDrop .mode-badge {
+	padding: 0.22rem 0.52rem;
+	font: 900 0.66rem/1 var(--g-mono, monospace);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.awtsmoosDrop .prim {
+	overflow: hidden;
+	max-width: 9rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awtsmoosDrop .arrow {
+	color: #b8c7e8;
+	transition: transform 180ms var(--g-ease, ease);
+}
+
+.awtsmoosDrop [aria-expanded="true"] .arrow {
+	transform: rotate(180deg);
+}
+
+.awtsmoos-dropdown-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 3090;
+	border: 0;
+	background: rgba(1, 3, 10, 0.64);
+	backdrop-filter: blur(8px) saturate(0.7);
+}
