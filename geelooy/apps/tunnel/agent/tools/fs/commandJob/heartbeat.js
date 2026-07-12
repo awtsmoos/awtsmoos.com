@@ -1,37 +1,39 @@
 // B"H
-/**
- * B"H
- * A heartbeat is a small poem every second: still here, still separate,
- * still serving the original action without freezing the kingly event loop.
- */
-function startHeartbeat({ config, jobId, live, Meta, payload = {} }) {
-  const timer = setInterval(() => heartbeat(config, jobId, live, Meta), heartbeatMs(payload));
-  timer.unref?.();
-  live.heartbeatTimer = timer;
-  return timer;
-}
+const Policy = require('./policy.js');
 
+const HEARTBEAT_MS = Number(process.env.AWTSMOOS_COMMAND_HEARTBEAT_MS || 15000);
+
+/** B"H — Heartbeats stop before finalization and cannot overwrite terminal truth. */
 function touch(live) {
-  if (!live?.meta?.worker) return '';
-  const at = new Date().toISOString();
-  live.meta.worker.heartbeatAt = at;
-  live.registry?.updateWorker(live.meta.worker.workerId, { heartbeatAt: at, state: live.meta.status || 'running' });
-  return at;
+	if (!live || live.finalizing || Policy.TERMINAL.has(live.meta?.status)) return false;
+	const at = new Date().toISOString();
+	live.meta.heartbeatAt = at;
+	live.meta.worker = { ...(live.meta.worker || {}), heartbeatAt: at };
+	live.meta.receipt = { ...(live.meta.receipt || {}), updatedAt: at };
+	live.registry?.updateWorker?.(live.meta.workerId, { heartbeatAt: at });
+	return true;
 }
 
-async function heartbeat(config, jobId, live, Meta) {
-  touch(live);
-  live.heartbeatWrites = Number(live.heartbeatWrites || 0) + 1;
-  if (live.heartbeatWrites % 2 === 0) await Meta.write(config, jobId, live.meta).catch(() => {});
+function startHeartbeat(args = {}) {
+	if (!args.live) return null;
+	const persist = async () => {
+		if (!touch(args.live)) return;
+		try {
+			const saved = await args.Meta.write(args.config, args.jobId, args.live.meta);
+			args.live.meta.revision = saved.revision;
+			args.live.heartbeatWrites = Number(args.live.heartbeatWrites || 0) + 1;
+			if (Policy.TERMINAL.has(saved.status)) stop(args.live);
+		} catch (_) {}
+	};
+	args.live.heartbeatTimer = setInterval(() => void persist(), HEARTBEAT_MS);
+	args.live.heartbeatTimer.unref?.();
+	return args.live.heartbeatTimer;
 }
 
 function stop(live) {
-  if (live?.heartbeatTimer) clearInterval(live.heartbeatTimer);
-  touch(live);
+	if (!live?.heartbeatTimer) return;
+	clearInterval(live.heartbeatTimer);
+	live.heartbeatTimer = null;
 }
 
-function heartbeatMs(payload = {}) {
-  return Math.max(250, Math.min(Number(payload.heartbeatMs || 1000), 5000));
-}
-
-module.exports = { startHeartbeat, touch, stop, heartbeatMs };
+module.exports = { HEARTBEAT_MS, startHeartbeat, stop, touch };

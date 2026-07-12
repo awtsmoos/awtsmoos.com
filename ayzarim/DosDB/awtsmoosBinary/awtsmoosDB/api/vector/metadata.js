@@ -2,10 +2,10 @@
 
 /**
  * @file api/vector/metadata.js
- * @chapter The Derived Graph Remembers Its Source, Not Its Old Coordinates
+ * @chapter The Derived Graph Remembers Its Source And Its Highest Gate
  * @description
- * Owns vector-index configuration and storage-vessel creation. Configuration is
- * enumerable so vacuum may rebuild every graph against destination pointers.
+ * Owns persisted vector configuration, registry/map vessels, entry node, and
+ * hierarchy height so reopened insertion and search resume the same graph shape.
  */
 
 class VectorMetadata {
@@ -33,12 +33,12 @@ class VectorMetadata {
 		const root = this.root(false);
 		if (!root) return null;
 		const direct = this.plain(root[path]);
-		if (direct?.regPath && direct?.mapPath) return direct;
-		const safe = String(path || '').replace(/\./g, '_');
+		if (direct?.regPath && direct?.mapPath) return normalize(direct);
+		const safe = safePath(path);
 		const regPath = `__reg_${safe}`;
 		const mapPath = `__map_${safe}`;
 		return root[regPath] && root[mapPath]
-			? { dim: 384, metric: 'cosine', regPath, mapPath, entryNodeID: 0, synthesized: true }
+			? normalize({ dim: 384, metric: 'cosine', regPath, mapPath, entryNodeID: 0, maxLevel: 0, synthesized: true })
 			: null;
 	}
 
@@ -46,19 +46,26 @@ class VectorMetadata {
 		const existing = this.read(path);
 		if (existing) return existing;
 		const root = this.root(true);
-		const safe = String(path).replace(/\./g, '_');
-		const metadata = {
+		const safe = safePath(path);
+		const metadata = normalize({
 			dim: Number(options.dimensions || options.dim || 1536),
 			metric: options.metric || 'cosine',
 			regPath: `__reg_${safe}`,
 			mapPath: `__map_${safe}`,
-			entryNodeID: -1
-		};
+			entryNodeID: -1,
+			maxLevel: 0
+		});
 		root[metadata.regPath] = new this.db.List();
 		root[metadata.mapPath] = new this.db.Map();
 		root.set(path, metadata);
 		this.db.waitForIdle();
 		return metadata;
+	}
+
+	write(path, metadata) {
+		const root = this.root(false);
+		if (!root) throw new Error(`B"H vector metadata root is missing: ${path}`);
+		root.set(String(path), normalize(metadata));
 	}
 
 	configurations() {
@@ -72,6 +79,17 @@ class VectorMetadata {
 		}
 		return output.sort((left, right) => left.path.localeCompare(right.path));
 	}
+}
+
+function safePath(path) { return String(path || '').replace(/\./g, '_'); }
+function normalize(metadata) {
+	return {
+		...metadata,
+		dim: Number(metadata.dim || 1536),
+		metric: metadata.metric || 'cosine',
+		entryNodeID: Number.isInteger(metadata.entryNodeID) ? metadata.entryNodeID : -1,
+		maxLevel: Number.isInteger(metadata.maxLevel) && metadata.maxLevel >= 0 ? metadata.maxLevel : 0
+	};
 }
 
 module.exports = VectorMetadata;

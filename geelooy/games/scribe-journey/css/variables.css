@@ -24,6 +24,9 @@
 	--safe-bottom: env(safe-area-inset-bottom, 0px);
 	--safe-left: env(safe-area-inset-left, 0px);
 	--mobile-control-size: clamp(132px, 38vw, 178px);
+	--ui-scale: 1;
+	--touch-scale: 1;
+	--touch-opacity: 0.82;
 	--layer-world: 1;
 	--layer-hud: 20;
 	--layer-context: 25;

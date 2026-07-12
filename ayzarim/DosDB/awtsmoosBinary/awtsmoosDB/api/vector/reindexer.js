@@ -2,11 +2,10 @@
 
 /**
  * @file api/vector/reindexer.js
- * @chapter The Graph Is Woven In Memory And Its Registry Is Sealed Once
+ * @chapter A Fresh Graph Reuses Intermediate Node Bodies Before Final Sealing
  * @description
- * Rebuilds HNSW from source payload pointers. Function-shaped LiveHandles are
- * valid records, dimensions are enforced, and registry persistence commits only
- * after every indexed node has been created successfully.
+ * Rebuilds only an empty HNSW generation, validates every vector dimension, and
+ * commits its registry once after all source records have been indexed.
  */
 
 const constants = require('../../constants.js');
@@ -24,13 +23,16 @@ class VectorReindexer {
 		soul.ensureResolved(true);
 		const report = initialReport(path);
 		if (!soul.ptr) return report;
+		if (index.registry.count() !== 0) {
+			throw reindexError(`graph is not empty: ${path}`);
+		}
 		const iterator = createSourceIterator(this.db, soul);
 		if (!iterator) return report;
-		const expectedDimensions = Number(index.meta?.dim || 0);
-		index.registry.beginBulk();
+		const dimensions = Number(index.meta?.dim || 0);
+		index.registry.beginBulk({ detached: true });
 
 		try {
-			for (const row of iterator) this.indexRow(index, row, expectedDimensions, report);
+			for (const row of iterator) this.indexRow(index, row, dimensions, report);
 			index.registry.commitBulk();
 		} catch (error) {
 			index.registry.abortBulk();
@@ -42,7 +44,7 @@ class VectorReindexer {
 		return report;
 	}
 
-	indexRow(index, row, expectedDimensions, report) {
+	indexRow(index, row, dimensions, report) {
 		report.scanned++;
 		const record = resolveRecord(this.db, row.pointer, row.value);
 		const vector = extractVector(record);
@@ -50,7 +52,7 @@ class VectorReindexer {
 			report.skipped++;
 			return;
 		}
-		if (expectedDimensions && vector.length !== expectedDimensions) {
+		if (dimensions && vector.length !== dimensions) {
 			report.invalidDimensions++;
 			return;
 		}
@@ -69,6 +71,12 @@ function initialReport(path) {
 		registryCount: 0,
 		entryNodeID: -1
 	};
+}
+
+function reindexError(message) {
+	const error = new Error(`B"H vector reindex error: ${message}`);
+	error.code = 'AWTSMOOS_DB_VECTOR_REINDEX_REQUIRES_EMPTY_GRAPH';
+	return error;
 }
 
 module.exports = VectorReindexer;

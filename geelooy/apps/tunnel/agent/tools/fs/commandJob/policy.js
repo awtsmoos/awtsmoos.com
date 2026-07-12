@@ -1,10 +1,7 @@
 // B"H
-const os = require('os');
+const os = require('node:os');
 
-/**
- * B"H — Wait remains bounded below the relay hard timeout, yet long enough for
- * ordinary one-second commands and close receipts to settle deterministically.
- */
+/** B"H — Terminal truth includes cleanup, identity, and admission failures. */
 const DEFAULT_PAGE_CHARS = 12000;
 const MAX_PAGE_CHARS = 50000;
 const STREAM_MAX_BYTES = Number(process.env.AWTSMOOS_COMMAND_STREAM_MAX_BYTES || 5 * 1024 * 1024);
@@ -13,8 +10,14 @@ const TTL_MS = Number(process.env.AWTSMOOS_COMMAND_JOB_TTL_MS || 30 * 60 * 1000)
 const DEFAULT_HTTP_SAFE_WAIT_MS = 3000;
 const MAX_HTTP_SAFE_WAIT_MS = 4500;
 const TERMINAL = new Set([
-	'completed','failed','timed_out','cancelled','cleanup_failed',
-	'stale_lost_worker','identity_unverified'
+	'completed',
+	'failed',
+	'timed_out',
+	'cancelled',
+	'cleanup_failed',
+	'stale_lost_worker',
+	'identity_unverified',
+	'rejected'
 ]);
 
 function boundedPageChars(value) {
@@ -47,17 +50,17 @@ function cleanId(value) {
 }
 
 module.exports = {
-	DEFAULT_PAGE_CHARS,
-	MAX_PAGE_CHARS,
-	STREAM_MAX_BYTES,
-	STORE_MAX_BYTES,
-	TTL_MS,
-	TERMINAL,
 	DEFAULT_HTTP_SAFE_WAIT_MS,
+	DEFAULT_PAGE_CHARS,
 	MAX_HTTP_SAFE_WAIT_MS,
+	MAX_PAGE_CHARS,
+	STORE_MAX_BYTES,
+	STREAM_MAX_BYTES,
+	TERMINAL,
+	TTL_MS,
 	boundedPageChars,
 	boundedTimeout,
-	waitCapMs,
+	cleanId,
 	defaultShell,
-	cleanId
+	waitCapMs
 };

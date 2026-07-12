@@ -1,12 +1,9 @@
 // B"H
 
+import { getRenderPreferences } from './renderPreferences.js';
 import { viewportOf } from './theme.js';
 
 const LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
-
-function prefersReducedMotion() {
-	return typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
 
 class Particle {
 	constructor(type, x, y, color) {
@@ -33,20 +30,23 @@ class Particle {
 export class ParticleField {
 	constructor() {
 		this.items = [];
-		this.reducedMotion = prefersReducedMotion();
 	}
 
 	add(type, x, y, color = '#ffffff', count = 1) {
-		const safeCount = this.reducedMotion ? Math.min(count, 2) : count;
+		const preferences = getRenderPreferences();
+		const densityCount = Math.round(count * preferences.particleDensity);
+		const safeCount = preferences.reducedMotion ? Math.min(densityCount, 2) : densityCount;
 		for (let index = 0; index < safeCount; index += 1) {
 			this.items.push(new Particle(type, x, y, color));
 		}
-		const limit = this.reducedMotion ? 50 : 150;
+		const limit = preferences.reducedMotion ? 40 : Math.round(150 * Math.max(0.25, preferences.particleDensity));
 		if (this.items.length > limit) this.items.splice(0, this.items.length - limit);
 	}
 
 	spawnWeather(ctx, weather, isInsane) {
-		if (this.reducedMotion || Math.random() > 0.36) return;
+		const preferences = getRenderPreferences();
+		if (!preferences.weatherEffects || preferences.reducedMotion || preferences.particleDensity <= 0) return;
+		if (Math.random() > 0.36 * Math.min(1.5, preferences.particleDensity)) return;
 		const viewport = viewportOf(ctx);
 		if (isInsane) this.add('letter', Math.random() * viewport.width, -20, '#8cf6a1');
 		else if (weather === 'rain') this.add('rain', Math.random() * viewport.width, -20, '#a8d8ff');

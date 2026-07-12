@@ -1,46 +1,37 @@
 // B"H
-/**
- * B"H
- * The bridge between command metadata and the global worker ledger.
- * It carries no shell power. It only translates a job into a visible worker
- * record so queueStats can tell the truth while work is still alive.
- */
-function registryRecord(meta = {}, pid = null) {
-  return {
-    workerId: meta.workerId,
-    jobId: meta.jobId,
-    action: meta.requestAction || meta.action,
-    actualAction: meta.actualAction,
-    kind: 'subprocess',
-    state: meta.status,
-    pid,
-    startedAt: meta.startedAt,
-    heartbeatAt: meta.worker?.heartbeatAt || meta.startedAt,
-    receiptId: meta.receiptId,
-    missionId: meta.session?.missionId || meta.cost?.missionId || '',
-    roomId: meta.session?.roomId || '',
-    agentSessionId: meta.session?.agentSessionId || '',
-    logicalAgentId: meta.session?.logicalAgentId || '',
-    conversationId: meta.session?.conversationId || '',
-    conversationName: meta.session?.conversationName || '',
-    leaseId: meta.session?.leaseId || '',
-    riskClass: 'long_running_command',
-    cancelable: true
-  };
+const Correlation = require('../../../lib/runtime/correlation.js');
+
+/** B"H — Registry records preserve process-family identity without exposing command text. */
+function registryRecord(meta = {}) {
+	const correlation = Correlation.extract(meta.correlation || meta);
+	return {
+		workerId: meta.workerId,
+		jobId: meta.jobId,
+		receiptId: meta.receiptId,
+		action: meta.receipt?.requestAction || 'commandRun',
+		kind: 'subprocess',
+		state: meta.status || 'running',
+		pid: meta.processIdentity?.pid || meta.pid || null,
+		processGroupId: meta.processIdentity?.processGroupId || meta.processGroupId || null,
+		birthToken: meta.processIdentity?.birthToken || meta.birthToken || '',
+		platform: meta.processIdentity?.platform || meta.platform || process.platform,
+		startedAt: meta.startedAt,
+		heartbeatAt: meta.heartbeatAt || meta.startedAt,
+		cancelable: true,
+		...correlation
+	};
 }
 
 function finishRegistry(registry, meta = {}) {
-  if (!registry || !meta.workerId) return null;
-  const patch = {
-    state: meta.status,
-    exitCode: meta.exitCode,
-    signal: meta.signal,
-    heartbeatAt: meta.worker?.heartbeatAt,
-    finishedAt: meta.finishedAt,
-    ...(meta.session || {})
-  };
-  if (meta.status === 'cancelled') return registry.cancelWorker(meta.workerId, patch);
-  return registry.finishWorker(meta.workerId, patch);
+	if (!registry || !meta.workerId) return;
+	registry.finishWorker(meta.workerId, {
+		state: meta.status,
+		finishedAt: meta.finishedAt || new Date().toISOString(),
+		exitCode: meta.exitCode,
+		signal: meta.signal,
+		cleanup: meta.cleanup || null,
+		heartbeatAt: meta.heartbeatAt || meta.updatedAt || meta.finishedAt
+	});
 }
 
-module.exports = { registryRecord, finishRegistry };
+module.exports = { finishRegistry, registryRecord };

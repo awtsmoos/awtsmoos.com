@@ -26,7 +26,20 @@ function questPayload() {
 	};
 }
 
-/** Delegates every screen action through one predictable message gate. */
+async function routeImport(input, sendToWorker) {
+	const file = input.files?.[0];
+	if (!file) return;
+	try {
+		const text = await file.text();
+		sendToWorker('importGame', { text, fileName: file.name });
+	} catch {
+		sendToWorker('importGame', { text: '', fileName: file.name });
+	} finally {
+		input.value = '';
+	}
+}
+
+/** Delegates every screen, setting, battle, and import action through one gate. */
 export function bindUIEvents(sendToWorker) {
 	document.body.addEventListener('click', event => {
 		const battleButton = event.target.closest('.battle-button');
@@ -49,6 +62,16 @@ export function bindUIEvents(sendToWorker) {
 		const action = button.dataset.action;
 		if (action === 'create_quest') sendToWorker('create_quest', questPayload());
 		else sendToWorker('uiAction', datasetPayload(button));
+	});
+
+	document.body.addEventListener('change', event => {
+		const input = event.target;
+		if (input.matches('[data-setting]')) {
+			const value = input.type === 'checkbox' ? input.checked : numericValue(input.value);
+			sendToWorker('updateSetting', { setting: input.dataset.setting, value });
+			return;
+		}
+		if (input.id === 'chronicle-import-input') routeImport(input, sendToWorker);
 	});
 
 	const chatHeader = document.getElementById('chat-header');

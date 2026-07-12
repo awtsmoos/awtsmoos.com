@@ -8,9 +8,13 @@ function capturePointer(element, pointerId) {
 	}
 }
 
+function vibrate(duration) {
+	if (document.body.dataset.haptics !== 'false') navigator.vibrate?.(duration);
+}
+
 /**
- * Binds the contextual action button with one press per pointer descent. The
- * button never repeats merely because a finger remains resting on it.
+ * Binds one contextual confirmation per pointer descent. Haptic preference is
+ * read at the instant of touch so a changed setting needs no listener rebuild.
  */
 export function bindActionButton(sendToEngine) {
 	const button = document.getElementById('action-button');
@@ -29,7 +33,7 @@ export function bindActionButton(sendToEngine) {
 		activePointer = event.pointerId;
 		capturePointer(button, event.pointerId);
 		button.classList.add('active');
-		navigator.vibrate?.(12);
+		vibrate(12);
 		sendToEngine('input', { type: 'press', key: 'Confirm' });
 	};
 

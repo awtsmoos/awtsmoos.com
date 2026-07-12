@@ -2,10 +2,10 @@
 
 /**
  * @file api/vector/hnsw/registryPointers.js
- * @chapter The Registry Reads Seals Before Resolving The Worlds They Address
+ * @chapter The Registry Writes Direct Seals And Never Hides Them In Buffers
  * @description
- * Reads raw sequence item pointers. Direct custom-node seals remain untouched,
- * while legacy Buffer-wrapped seals are resolved once for backward compatibility.
+ * Reads raw sequence item pointers, preserves legacy wrapped seals, writes direct
+ * pointers through the sequence engine, and retires old node bodies once.
  */
 
 const constants = require('../../../constants.js');
@@ -13,8 +13,8 @@ const SmartPointer = require('../../../utils/smartPointer.js');
 const Sequence = require('../../../structure/sequence/index.js');
 
 function read(hnsw, handle) {
-	const soul = writableSoul(handle);
-	const sequence = new Sequence(hnsw.db.allocator, soul.writer.common.resolveStructPtr());
+	const common = writerCommon(handle);
+	const sequence = new Sequence(hnsw.db.allocator, common.resolveStructPtr());
 	const output = [];
 	for (let index = 0; index < sequence.length(); index++) {
 		output.push(readItemPointer(hnsw, sequence.getPtr(index)));
@@ -33,16 +33,18 @@ function readItemPointer(hnsw, rawPointer) {
 }
 
 function replace(hnsw, handle, pointers) {
-	const soul = writableSoul(handle);
-	const common = soul.writer.common;
+	const common = writerCommon(handle);
 	const sequence = new Sequence(hnsw.db.allocator, common.resolveStructPtr());
 	sequence.bulkLoadPointers(pointers);
 	common.checkAutoCompact(sequence, constants.VAL_TYPE.SEQUENCE);
 }
 
-function persist(handle, id, pointer) {
-	if (id >= handle.length) handle.push(pointer);
-	else handle[id] = pointer;
+function persist(hnsw, handle, id, pointer) {
+	const common = writerCommon(handle);
+	const sequence = new Sequence(hnsw.db.allocator, common.resolveStructPtr());
+	if (id >= sequence.length()) sequence.push(pointer);
+	else sequence.set(id, pointer, { skipFree: true });
+	common.checkAutoCompact(sequence, constants.VAL_TYPE.SEQUENCE);
 }
 
 function release(hnsw, previous, current) {
@@ -54,11 +56,11 @@ function release(hnsw, previous, current) {
 	hnsw.db.allocator.free(oldLocation.offset, oldLocation.length);
 }
 
-function writableSoul(handle) {
+function writerCommon(handle) {
 	const soul = handle?.[constants.SYMBOLS.INTERNALS];
 	if (!soul?.writer?.common) throw new Error('B"H HNSW registry handle has no writable soul');
 	soul.ensureResolved(true);
-	return soul;
+	return soul.writer.common;
 }
 
 function normalize(value) {

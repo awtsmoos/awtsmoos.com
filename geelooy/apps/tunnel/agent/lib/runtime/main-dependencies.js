@@ -10,6 +10,8 @@ module.exports = {
 	handleChrome: require('../../tools/chrome/index.js').handleChrome,
 	handleRelay: require('../../tools/relay/index.js').handleRelay,
 	handleStreaming: require('../../tools/streaming/index.js').handleStreaming,
+	CommandScheduler: require('../../tools/fs/commandJob/scheduler.js'),
+	CommandReconciliation: require('../../tools/fs/commandJob/crossRootReconciler.js'),
 	DeviceStateRoot: require('../../tools/fs/deviceStateRoot.js'),
 	AGENT_VERSION: require('../../tools/fs/actions.js').AGENT_VERSION,
 	inlineLimit: require('../response-size.js').inlineLimit,
@@ -30,6 +32,7 @@ module.exports = {
 	Replacement: require('./replacement-policy.js'),
 	Circuit: require('./circuit-breaker.js'),
 	ActionStream: require('./action-stream.js'),
+	RetryRegistry: require('./request-retry-registry.js'),
 	Lag: require('./event-loop-lag.js'),
 	createSupervisor: require('./worker-supervisor.js').createSupervisor
 };

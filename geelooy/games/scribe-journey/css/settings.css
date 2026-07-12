@@ -1,0 +1,108 @@
+/* B"H — Settings: a quiet ledger for comfort, clarity, and recovery. */
+.settings-ledger {
+	width: min(860px, 100%);
+	max-height: min(92dvh, 760px);
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+.settings-heading,
+.settings-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+}
+.settings-heading h2 { margin: 0; }
+.settings-intro { margin: 8px 0 18px; color: var(--ink-muted); }
+.compact-button { width: auto; min-width: 88px; margin: 0; }
+#settings-form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+}
+.settings-group {
+	min-width: 0;
+	margin: 0;
+	padding: 14px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-medium);
+	background: var(--panel-soft);
+}
+.settings-group:last-child { grid-column: 1 / -1; }
+.settings-group legend {
+	padding: 0 8px;
+	color: var(--gold);
+	font-family: var(--font-display);
+	font-weight: 700;
+}
+.setting-toggle,
+.setting-range {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 12px;
+	min-height: 56px;
+	padding: 10px 4px;
+	border-bottom: 1px solid var(--border);
+}
+.setting-toggle:last-child,
+.setting-range:last-child { border-bottom: 0; }
+.setting-toggle span,
+.setting-range span { display: grid; gap: 2px; }
+.setting-toggle small,
+.setting-range small { color: var(--ink-muted); line-height: 1.3; }
+.setting-toggle input {
+	width: 24px;
+	height: 24px;
+	accent-color: var(--cyan);
+}
+.setting-range {
+	grid-template-columns: minmax(170px, 1fr) minmax(110px, 0.65fr) 52px;
+}
+.setting-range input { width: 100%; accent-color: var(--cyan); }
+.setting-range output {
+	font-family: var(--font-mono);
+	font-weight: 700;
+	text-align: right;
+	color: var(--cyan);
+}
+.chronicle-tools {
+	margin-top: 16px;
+	padding: 14px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-medium);
+	background: rgba(5, 18, 23, 0.7);
+}
+.chronicle-tools h3,
+.chronicle-tools p { margin: 0 0 8px; }
+.file-button {
+	display: inline-grid;
+	place-items: center;
+	cursor: pointer;
+	text-align: center;
+}
+.settings-status {
+	min-height: 1.5em;
+	margin: 12px 0;
+	color: var(--ink-muted);
+}
+.settings-status[data-type='success'] { color: var(--green); }
+.settings-status[data-type='error'] { color: var(--danger); }
+.settings-footer { border-top: 1px solid var(--border); padding-top: 14px; }
+.quiet-button { opacity: 0.86; }
+@media (max-width: 680px) {
+	#settings-form { grid-template-columns: 1fr; }
+	.settings-group:last-child { grid-column: auto; }
+	.setting-range { grid-template-columns: 1fr 72px; }
+	.setting-range span { grid-column: 1 / -1; }
+	.settings-heading,
+	.settings-footer { align-items: stretch; flex-direction: column; }
+	.settings-footer .menu-button,
+	.settings-footer .modal-action-button { width: 100%; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+	.settings-ledger { max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 20px); }
+	.settings-group { padding: 10px; }
+	.setting-toggle,
+	.setting-range { min-height: 44px; padding: 6px 2px; }
+}

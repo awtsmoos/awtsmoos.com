@@ -6,6 +6,7 @@ export const SETTINGS_VERSION = 1;
 export const DEFAULT_SETTINGS = Object.freeze({
 	haptics: true,
 	highContrast: false,
+	joystickSensitivity: 1,
 	leftHanded: false,
 	particleDensity: 1,
 	reducedMotion: false,
@@ -13,10 +14,12 @@ export const DEFAULT_SETTINGS = Object.freeze({
 	showCoordinates: false,
 	touchOpacity: 0.82,
 	touchScale: 1,
-	uiScale: 1
+	uiScale: 1,
+	weatherEffects: true
 });
 
 const RANGES = Object.freeze({
+	joystickSensitivity: [0.5, 1.5],
 	particleDensity: [0, 2],
 	touchOpacity: [0.45, 1],
 	touchScale: [0.8, 1.25],

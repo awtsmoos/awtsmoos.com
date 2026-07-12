@@ -1,49 +1,55 @@
 // B"H
-function commandWorker({
-  workerId, jobId, pid, state = 'running', timeoutMs, startedAt, heartbeatAt,
-  missionId = '', roomId = '', agentSessionId = '', logicalAgentId = '',
-  conversationId = '', conversationName = '', leaseId = '', agentLeaseId = ''
-} = {}) {
-  return clean({
-    workerId,
-    jobId,
-    kind: 'subprocess',
-    state,
-    pid: Number.isFinite(Number(pid)) ? Number(pid) : null,
-    isolation: 'stdio-stream-files',
-    timeoutMs: Number.isFinite(Number(timeoutMs)) ? Number(timeoutMs) : null,
-    missionId,
-    roomId,
-    agentSessionId,
-    logicalAgentId,
-    conversationId,
-    conversationName,
-    leaseId: leaseId || agentLeaseId,
-    startedAt,
-    heartbeatAt
-  });
+const PROTOCOL_VERSION = 'awtsmoos-worker-v1';
+
+/** B"H — Command workers carry family identity beside ordinary worker identity. */
+function commandWorker(args = {}) {
+	return compact({
+		protocol: PROTOCOL_VERSION,
+		workerId: args.workerId,
+		jobId: args.jobId,
+		kind: 'subprocess',
+		state: args.state || 'running',
+		pid: args.pid,
+		processGroupId: args.processGroupId,
+		birthToken: args.birthToken,
+		platform: args.platform,
+		isolation: args.isolation || 'process-group-stdio-stream-files',
+		timeoutMs: args.timeoutMs,
+		startedAt: args.startedAt,
+		heartbeatAt: args.heartbeatAt || args.startedAt,
+		finishedAt: args.finishedAt,
+		exitCode: args.exitCode,
+		signal: args.signal,
+		detached: args.detached === true,
+		cancelable: args.cancelable !== false
+	});
 }
-function commandFinalWorker(worker = {}, patch = {}) {
-  return clean({
-    ...worker,
-    state: patch.state || worker.state || 'completed',
-    heartbeatAt: patch.heartbeatAt || new Date().toISOString(),
-    finishedAt: patch.finishedAt || new Date().toISOString(),
-    exitCode: patch.exitCode ?? worker.exitCode ?? null,
-    signal: patch.signal || worker.signal || null
-  });
+
+function processWorker(args = {}) {
+	return compact({
+		protocol: PROTOCOL_VERSION,
+		workerId: args.workerId,
+		kind: args.kind || 'worker_process',
+		state: args.state || 'running',
+		pid: args.pid,
+		isolation: args.isolation || 'child_process_ipc',
+		startedAt: args.startedAt,
+		heartbeatAt: args.heartbeatAt || args.startedAt,
+		finishedAt: args.finishedAt,
+		exitCode: args.exitCode,
+		signal: args.signal,
+		cancelable: args.cancelable !== false
+	});
 }
-function evidenceFor(worker = {}, receipt = {}) {
-  const evidence = ['identity_preserved'];
-  if (receipt.receiptId) evidence.push('receipt_written');
-  if (worker.pid) evidence.push('process_spawned');
-  if (worker.kind === 'subprocess') evidence.push('subprocess_isolation');
-  if (worker.agentSessionId && receipt.agentSessionId === worker.agentSessionId) evidence.push('session_scoped');
-  if (worker.conversationId && receipt.conversationId === worker.conversationId) evidence.push('conversation_scoped');
-  return evidence;
+
+function compact(value) {
+	return Object.fromEntries(
+		Object.entries(value).filter(([, item]) => item !== undefined && item !== null && item !== '')
+	);
 }
-function clean(obj) {
-  for (const key of Object.keys(obj)) if (obj[key] === undefined || obj[key] === '') delete obj[key];
-  return obj;
-}
-module.exports = { commandWorker, commandFinalWorker, evidenceFor };
+
+module.exports = {
+	PROTOCOL_VERSION,
+	commandWorker,
+	processWorker
+};

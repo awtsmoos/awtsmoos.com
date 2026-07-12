@@ -5,10 +5,7 @@ export function radiusForMass(mass) {
 	return 18 + Math.sqrt(Math.max(0, mass)) * 2.1;
 }
 
-/**
- * Feed a hole and update all derived measurements in one place.
- * The Awtsmoos is not represented by geometry; the code only models gameplay.
- */
+/** Feed a hole and update all derived measurements in one place. */
 export function feedHole(hole, mass, score = mass) {
 	hole.mass += mass;
 	hole.score = (hole.score || 0) + score;
@@ -22,12 +19,13 @@ export function rankings(world) {
 		...world.rivals.map(rival => ({
 			id: rival.id,
 			name: rival.name,
+			archetype: rival.archetype.name,
 			mass: rival.mass,
 			score: rival.score,
 			player: false
 		}))
 	];
-	return entries.sort((a, b) => b.mass - a.mass || b.score - a.score);
+	return entries.sort((left, right) => right.mass - left.mass || right.score - left.score);
 }
 
 export function playerRank(world) {

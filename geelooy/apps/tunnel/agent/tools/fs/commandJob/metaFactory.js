@@ -1,78 +1,96 @@
 // B"H
+const Protocol = require('../../../lib/workers/worker-protocol.js');
+const Receipts = require('../../../lib/workers/worker-receipts.js');
+const Correlation = require('../../../lib/runtime/correlation.js');
 const Paths = require('./paths.js');
-const WorkerProtocol = require('../../../lib/workers/worker-protocol.js');
-const WorkerReceipts = require('../../../lib/workers/worker-receipts.js');
 
-/**
- * B"H
- * The metadata is the scroll placed beside the worker before it enters exile:
- * command, cwd, shell, receipt, cost, and original action name are written
- * first so even a crash leaves a truthful trail.
- */
-function createMeta({ jobId, command, cwd, shell, timeoutMs, config, payload = {}, ids = {} }) {
-  const startedAt = new Date().toISOString();
-  const requestAction = String(payload.requestAction || payload.originalAction || payload.action || 'commandStart');
-  const actualAction = String(payload.actualAction || 'commandStart');
-  const session = sessionScope(payload);
-  return {
-    BH: 'B"H',
-    jobId,
-    action: 'commandStart',
-    requestAction,
-    actualAction,
-    command,
-    cwd,
-    shell,
-    startedAt,
-    status: 'running',
-    exitCode: null,
-    signal: null,
-    timedOut: false,
-    stdoutChars: 0,
-    stderrChars: 0,
-    timeoutMs,
-    workerId: ids.workerId,
-    receiptId: ids.receiptId,
-    session,
-    worker: workerFor(ids.workerId, jobId, null, timeoutMs, startedAt, session),
-    receipt: receiptFor(ids, jobId, requestAction, actualAction, session, startedAt),
-    cost: costStart(timeoutMs, payload, session),
-    storage: { backend: 'device-file', outsideProject: true, folder: Paths.jobDir(config, jobId) }
-  };
+/** B"H — Metadata is born queued with immutable command and correlation identity. */
+function createMeta(args = {}) {
+	const startedAt = new Date().toISOString();
+	const correlation = Correlation.extract(args.payload || {});
+	const worker = Protocol.commandWorker({
+		workerId: args.workerId,
+		jobId: args.jobId,
+		state: 'queued',
+		timeoutMs: args.timeoutMs,
+		startedAt,
+		cancelable: true
+	});
+	const receipt = Receipts.created({
+		...args.ids,
+		action: 'commandStart',
+		requestAction: args.payload.requestAction || args.payload.action || 'commandStart',
+		actualAction: 'commandStart',
+		correlation
+	});
+	return {
+		schemaVersion: 2,
+		revision: 0,
+		jobId: args.jobId,
+		workerId: args.workerId,
+		receiptId: args.receiptId,
+		command: args.command,
+		cwd: args.cwd,
+		shell: args.shell,
+		timeoutMs: args.timeoutMs,
+		status: 'queued',
+		startedAt,
+		updatedAt: startedAt,
+		stdoutChars: 0,
+		stderrChars: 0,
+		processIdentity: null,
+		cleanup: null,
+		correlation,
+		worker,
+		receipt: { ...receipt, state: 'queued', updatedAt: startedAt },
+		storage: {
+			backend: 'device-file',
+			outsideProject: true,
+			folder: Paths.jobDir(args.config, args.jobId)
+		}
+	};
 }
 
-function attachPid(meta, pid) {
-  meta.worker = workerFor(meta.workerId, meta.jobId, pid, meta.timeoutMs, meta.startedAt, meta.session || {});
-  return meta;
+function attachPreliminary(meta, processIdentity) {
+	meta.processIdentity = structuredClone(processIdentity);
+	meta.pid = processIdentity.pid;
+	meta.processGroupId = processIdentity.processGroupId;
+	meta.platform = processIdentity.platform;
+	meta.status = 'spawning';
+	meta.updatedAt = new Date().toISOString();
+	meta.worker = Protocol.commandWorker({
+		...(meta.worker || {}),
+		state: 'spawning',
+		pid: processIdentity.pid,
+		processGroupId: processIdentity.processGroupId,
+		platform: processIdentity.platform
+	});
+	meta.receipt = { ...(meta.receipt || {}), state: 'spawning', updatedAt: meta.updatedAt };
+	return meta;
 }
 
-function workerFor(workerId, jobId, pid, timeoutMs, startedAt, session = {}) {
-  return WorkerProtocol.commandWorker({ workerId, jobId, pid, state: 'running', timeoutMs, startedAt, heartbeatAt: startedAt, ...session });
+function attachProcess(meta, processIdentity, state = 'running') {
+	meta.processIdentity = structuredClone(processIdentity);
+	meta.pid = processIdentity.pid;
+	meta.processGroupId = processIdentity.processGroupId;
+	meta.birthToken = processIdentity.birthToken;
+	meta.platform = processIdentity.platform;
+	meta.status = state;
+	meta.updatedAt = new Date().toISOString();
+	meta.worker = Protocol.commandWorker({
+		...(meta.worker || {}),
+		state,
+		pid: processIdentity.pid,
+		processGroupId: processIdentity.processGroupId,
+		birthToken: processIdentity.birthToken,
+		platform: processIdentity.platform,
+		timeoutMs: meta.timeoutMs,
+		startedAt: meta.startedAt,
+		heartbeatAt: meta.heartbeatAt || meta.startedAt,
+		cancelable: true
+	});
+	meta.receipt = Receipts.running(meta.receipt, meta.worker);
+	return meta;
 }
 
-function receiptFor(ids, jobId, requestAction, actualAction, session, startedAt) {
-  return WorkerReceipts.commandReceipt({ receiptId: ids.receiptId, jobId, workerId: ids.workerId, action: 'commandStart', requestAction, actualAction, state: 'running', createdAt: startedAt, ...session });
-}
-
-function costStart(timeoutMs, payload = {}, session = sessionScope(payload)) {
-  return { units: 1, wallMs: 0, outputBytes: 0, riskClass: 'long_running_command', timeoutMs, agentLeaseId: session.leaseId || '', missionId: session.missionId || '' };
-}
-
-function sessionScope(payload = {}) {
-  return clean({
-    missionId: payload.missionId || '',
-    roomId: payload.roomId || payload.missionRoomId || '',
-    agentSessionId: payload.agentSessionId || '',
-    logicalAgentId: payload.logicalAgentId || payload.agentId || payload.agentName || '',
-    conversationId: payload.conversationId || '',
-    conversationName: payload.conversationName || '',
-    leaseId: payload.leaseId || payload.agentLeaseId || ''
-  });
-}
-
-function clean(obj) {
-  for (const key of Object.keys(obj)) if (obj[key] === undefined || obj[key] === '') delete obj[key];
-  return obj;
-}
-
-module.exports = { createMeta, attachPid, costStart, sessionScope };
+module.exports = { attachPreliminary, attachProcess, createMeta };

@@ -16,9 +16,18 @@ function capturePointer(element, pointerId) {
 	}
 }
 
+function currentSensitivity() {
+	const value = Number(document.body.dataset.joystickSensitivity);
+	return Number.isFinite(value) ? Math.max(0.5, Math.min(1.5, value)) : 1;
+}
+
+function vibrate(duration) {
+	if (document.body.dataset.haptics !== 'false') navigator.vibrate?.(duration);
+}
+
 /**
- * Makes one touch surface behave like a dependable handheld joystick. Pointer
- * capture keeps the intention alive only while the same finger owns the vessel.
+ * Keeps one pointer in sole ownership of the directional intention. Sensitivity
+ * adjusts the dead zone while cancellation always releases the held direction.
  */
 export function bindPointerJoystick({ inputState }) {
 	const pad = document.getElementById('joystick-pad');
@@ -44,7 +53,8 @@ export function bindPointerJoystick({ inputState }) {
 		const travel = Math.min(radius * 0.34, distance);
 		thumb.style.setProperty('--stick-x', `${x / distance * travel}px`);
 		thumb.style.setProperty('--stick-y', `${y / distance * travel}px`);
-		applyDirection(directionFromVector(x, y, radius * 0.2));
+		const deadZone = radius * (0.3 - currentSensitivity() * 0.1);
+		applyDirection(directionFromVector(x, y, deadZone));
 	};
 
 	const release = event => {
@@ -61,7 +71,7 @@ export function bindPointerJoystick({ inputState }) {
 		activePointer = event.pointerId;
 		capturePointer(pad, event.pointerId);
 		updateFromPointer(event);
-		navigator.vibrate?.(8);
+		vibrate(8);
 	};
 	const onPointerMove = event => {
 		if (event.pointerId !== activePointer) return;

@@ -9,8 +9,9 @@ const { createRequestRunner } = require('./main-run-request.js');
 const { createRegistrationRuntime } = require('./main-registration.js');
 const { createConnectionRuntime } = require('./main-connection.js');
 const { createStartupRuntime } = require('./main-startup.js');
+const RetryControl = require('./main-retry-control.js');
 
-/** B"H — Components are wired once, while each responsibility remains small. */
+/** B"H — Components are wired once while each responsibility remains small. */
 function createMainComponents(D, callbacks) {
 	const loadConfig = createConfigLoader(D.config, {
 		DeviceStateRoot: D.DeviceStateRoot,
@@ -22,6 +23,7 @@ function createMainComponents(D, callbacks) {
 		Lag: D.Lag,
 		Priority: D.Priority,
 		workers,
+		CommandScheduler: D.CommandScheduler,
 		Limits: D.Limits,
 		Circuit: D.Circuit,
 		Memory: D.Memory,
@@ -29,6 +31,11 @@ function createMainComponents(D, callbacks) {
 	});
 	const payload = createPayloadRuntime(D.Correlation);
 	const streamEvent = createEventEmitter(D.ActionStream, loadConfig);
+	const retryControl = RetryControl.create({
+		Registry: D.RetryRegistry,
+		Send: D.Send,
+		Correlation: D.Correlation
+	});
 	const dispatch = createDispatch({
 		Proxy: D.Proxy,
 		loadConfig,
@@ -46,6 +53,7 @@ function createMainComponents(D, callbacks) {
 		routedData: payload.routedData,
 		requestPayload: payload.requestPayload,
 		streamEvent,
+		retryControl,
 		Priority: D.Priority,
 		Circuit: D.Circuit,
 		Limits: D.Limits,
@@ -58,6 +66,7 @@ function createMainComponents(D, callbacks) {
 		routedData: payload.routedData,
 		streamEvent,
 		sendProgress: queue.sendProgress,
+		retryControl,
 		dispatch,
 		Kind: D.Kind,
 		Continue: D.Continue,
@@ -94,6 +103,7 @@ function createMainComponents(D, callbacks) {
 		AGENT_VERSION: D.AGENT_VERSION,
 		Limits: D.Limits,
 		HistoryCleanup: D.HistoryCleanup,
+		CommandReconciliation: D.CommandReconciliation,
 		startLocalApiServer: D.startLocalApiServer,
 		Boot: D.Boot,
 		Updates: D.Updates,
@@ -101,7 +111,7 @@ function createMainComponents(D, callbacks) {
 		openHostedControl: D.openHostedControl,
 		shouldOpenControl: () => process.argv.includes('--open-control') && process.env.AWTSMOOS_SKIP_OPEN_CONTROL !== '1'
 	});
-	return { connection, dispatch, loadConfig, log, payload, queue, runRequest, runtime, startup, workers };
+	return { connection, dispatch, loadConfig, log, payload, queue, retryControl, runRequest, runtime, startup, workers };
 }
 
 module.exports = { createMainComponents };

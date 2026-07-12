@@ -6,6 +6,7 @@ import { drawCanvasStatus } from './rendering/hudRenderer.js';
 import { drawOverlays } from './rendering/overlayRenderer.js';
 import { ParticleField } from './rendering/particleField.js';
 import { drawPlayer } from './rendering/playerRenderer.js';
+import { getRenderPreferences, setRenderPreferences } from './rendering/renderPreferences.js';
 import { drawTerrain } from './rendering/terrainRenderer.js';
 import { prepareRenderingContext, viewportOf, WORLD_THEME } from './rendering/theme.js';
 
@@ -14,9 +15,7 @@ const visuals = { timeOfDay: 720, weather: 'clear', lightLevel: 1000, isShabbat:
 let shakeStrength = 0;
 let lastFrameAt = typeof performance === 'object' ? performance.now() : 0;
 
-function reducedMotionEnabled() {
-	return typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
+export { setRenderPreferences };
 
 export function updateTimeVisuals(ctx, timeOfDay = 720, weather = 'clear', moonPhase, isShabbat = false, lightLevel = 1000, maxLightLevel = 1000) {
 	Object.assign(visuals, { timeOfDay, weather, moonPhase, isShabbat, lightLevel, maxLightLevel });
@@ -27,12 +26,13 @@ export function addParticle(type, x, y, color = '#ffffff', count = 1) {
 }
 
 export function triggerShake(amount = 18) {
-	shakeStrength = reducedMotionEnabled() ? 0 : amount;
+	const preferences = getRenderPreferences();
+	shakeStrength = preferences.reducedMotion || !preferences.screenShake ? 0 : amount;
 }
 
 /**
- * Reveals the current world through ordered layers: ground, beings, traveler,
- * weather, and light. Each frame is renewed, yet no layer forgets its purpose.
+ * Each frame is renewed through ordered layers. Preference never erases meaning;
+ * it only changes how intensely the revelation moves around the traveler.
  */
 export function renderGameState(ctx, renderState) {
 	if (!ctx || !renderState?.player || renderState.mode === 'battle') return;

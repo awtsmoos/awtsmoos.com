@@ -1,8 +1,8 @@
 // B"H
 
 /**
- * B"H — Startup speaks only through derived runtime coordinates and returns a
- * receipt for cleanup, local control, mission memory, updates, and connection.
+ * B"H — Startup reconciles orphaned command families before accepting new work,
+ * then opens local control, mission memory, updates, and the relay sight-line.
  */
 function createStartupRuntime(dependencies) {
 	async function main() {
@@ -10,6 +10,16 @@ function createStartupRuntime(dependencies) {
 		logConfiguration(dependencies, config);
 		const cleanup = cleanupHistory(dependencies, config);
 		dependencies.log(cleanup.ok ? 'info' : 'warn', `B"H startup cleanup: ${JSON.stringify(cleanup.summary || cleanup)}`);
+		const commandReconciliation = await dependencies.CommandReconciliation.start(
+			config,
+			dependencies.log,
+			{
+				maxRoots: 32,
+				maxJobs: 512,
+				maxActions: 256,
+				maxBatches: 8
+			}
+		).catch(error => ({ ok: false, error: error.message }));
 		const localApiServer = startLocalApi(dependencies);
 		const boot = dependencies.Boot.start(dependencies.log);
 		const update = dependencies.Updates.scheduleSelfUpdate({
@@ -22,10 +32,11 @@ function createStartupRuntime(dependencies) {
 			? Boolean(dependencies.openHostedControl(config))
 			: false;
 		return {
-			ok: true,
+			ok: cleanup.ok !== false && commandReconciliation.ok !== false,
 			action: 'agentStartup',
 			tunnelName: config.tunnelName,
 			cleanup,
+			commandReconciliation,
 			localApiStarted: Boolean(localApiServer),
 			bootResumeEnabled: Boolean(boot),
 			updateScheduled: update !== false,

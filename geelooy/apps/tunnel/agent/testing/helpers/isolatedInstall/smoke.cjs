@@ -4,10 +4,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const AgentProcess = require('./agentProcess.cjs');
 const CommandSmoke = require('./commandSmoke.cjs');
+const CrashRestart = require('./crashRestartSmoke.cjs');
 const Paths = require('./paths.cjs');
 const Requests = require('./requests.cjs');
+const Soak = require('./soak.cjs');
 
-/** B"H — Installed files, filesystem, and command receipts are proven in temp. */
+/** B"H — Installed files, commands, crash recovery, soak, and relay control are proven. */
 function verifyInstall(installRoot) {
 	const [version, entryFile, ...files] = Paths.manifestLines();
 	assert.equal(entryFile, 'main.js');
@@ -23,18 +25,32 @@ function verifyInstall(installRoot) {
 
 async function smokeInstalled(options) {
 	fs.writeFileSync(path.join(options.projectRoot, 'seed.txt'), 'BHY seed');
-	const processRecord = AgentProcess.start(options);
+	let processRecord = AgentProcess.start(options);
 	try {
-		const registration = await AgentProcess.waitForRegistration(processRecord, options.relay);
+		const registration = await AgentProcess.waitForRegistration(
+			processRecord,
+			options.relay
+		);
 		assertRegistration(registration, options.projectRoot);
 		await proveFileRoundTrip(options.relay);
 		await proveConcurrentReads(options.relay, 25);
 		const commands = await CommandSmoke.run(options.relay);
+		const crashRestart = await CrashRestart.run(options, processRecord);
+		processRecord = crashRestart.processRecord;
+		const soakMs = Math.max(
+			0,
+			Number(process.env.AWTSMOOS_DISPOSABLE_SOAK_MS || 0)
+		);
+		const soak = soakMs > 0
+			? await Soak.run(options, processRecord, soakMs)
+			: null;
 		const output = processRecord.output();
 		return {
 			tunnelName: registration.name,
 			stressRequests: 25,
 			commands,
+			crashRestart: crashRestart.report,
+			soak,
 			stdoutTail: output.stdout.slice(-1000),
 			stderrTail: output.stderr.slice(-1000)
 		};
@@ -78,7 +94,11 @@ async function proveConcurrentReads(relay, count) {
 		});
 	}
 	for (let index = 0; index < count; index += 1) {
-		const response = await Requests.terminalResponse(relay, `stress-${index}`, 15000);
+		const response = await Requests.terminalResponse(
+			relay,
+			`stress-${index}`,
+			15000
+		);
 		assert.equal(response.ok, true);
 		assert.equal(response.content, 'BHY isolated');
 	}

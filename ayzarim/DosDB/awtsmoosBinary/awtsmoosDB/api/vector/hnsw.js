@@ -2,14 +2,15 @@
 
 /**
  * @file api/vector/hnsw.js
- * @chapter The Graph Grows Deterministically And Remembers Its Height
+ * @chapter The Graph Grows Deterministically And Removes Every Retired Name
  * @description Coordinates insertion and deletion while delegated modules own
- * stable level selection, traversal, storage, registry, and neighbor operations.
+ * levels, traversal, storage, registry, living key identity, and neighbor links.
  */
 
 const VectorMath = require('./math.js');
 const VectorStorage = require('./storage.js');
 const HNSWRegistry = require('./hnsw/registry.js');
+const HNSWKeyIndex = require('./hnsw/keyIndex.js');
 const HNSWOps = require('./hnsw/ops.js');
 const deterministicLevel = require('./hnsw/level.js');
 const searchGraph = require('./hnsw/query.js');
@@ -19,6 +20,7 @@ class HNSW {
 		this.db = db;
 		this.registry = new HNSWRegistry(this, registryHandle);
 		this.keyMap = keyMapHandle;
+		this.keys = new HNSWKeyIndex(keyMapHandle, this.registry);
 		this.meta = metadata;
 		this.storage = new VectorStorage(db.allocator);
 		this.metric = VectorMath[metadata.metric] || VectorMath.cosine;
@@ -47,14 +49,14 @@ class HNSW {
 			entry = this.connectLevel(node, entry, level);
 		}
 		if (node.level > this.maxLevel) this.updateEntryPoint(node);
-		this.keyMap.set(String(key), node.id);
+		this.keys.set(node.key, node.id);
 		return node.id;
 	}
 
 	insertFirstNode(node) {
 		this.registry.saveNode(node);
 		this.updateEntryPoint(node);
-		this.keyMap.set(node.key, node.id);
+		this.keys.set(node.key, node.id);
 		return node.id;
 	}
 
@@ -88,6 +90,8 @@ class HNSW {
 	updateEntryPoint(node) {
 		this.entryNodeID = node.id;
 		this.maxLevel = node.level;
+		this.meta.entryNodeID = node.id;
+		this.meta.maxLevel = node.level;
 		if (this.onEntryPointChanged) this.onEntryPointChanged(node.id, node.level);
 	}
 
@@ -96,12 +100,14 @@ class HNSW {
 	}
 
 	delete(key) {
-		const id = this.keyMap.get(String(key));
+		const textKey = String(key);
+		const id = this.keys.get(textKey);
 		if (id === undefined || id === null) return false;
 		const node = this.registry.getNode(Number(id));
 		if (!node) return false;
 		node.deleted = true;
 		this.registry.saveNode(node);
+		this.keys.remove(textKey);
 		return true;
 	}
 }

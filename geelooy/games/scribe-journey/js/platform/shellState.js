@@ -7,16 +7,19 @@ function titleFromMapId(mapId = '') {
 		.replace(/\b\w/g, character => character.toUpperCase()) || 'Unknown Path';
 }
 
-/**
- * Lets the DOM shell mirror the game without owning game truth. It receives
- * modes and places, then arranges the visible vessels around the living canvas.
- */
+function coordinateText(renderState) {
+	const player = renderState.player || {};
+	return `${renderState.currentMapId || 'unknown'} · ${Math.round(player.x || 0)}, ${Math.round(player.y || 0)} · ${player.direction || 'down'}`;
+}
+
+/** Mirrors game truth into readable DOM landmarks without owning that truth. */
 export function createShellState() {
 	const locationName = document.getElementById('location-name');
 	const timeLabel = document.getElementById('status-time');
 	const questChip = document.getElementById('quest-chip');
 	const contextPrompt = document.getElementById('context-prompt');
 	const actionLabel = document.getElementById('context-action-label');
+	const coordinateReadout = document.getElementById('coordinate-readout');
 
 	const setMode = mode => {
 		document.body.dataset.gameMode = mode || 'game';
@@ -27,6 +30,7 @@ export function createShellState() {
 		updateState(renderState) {
 			setMode(renderState.mode);
 			if (locationName) locationName.textContent = titleFromMapId(renderState.currentMapId);
+			if (coordinateReadout) coordinateReadout.textContent = coordinateText(renderState);
 		},
 		updateTime(payload) {
 			if (!timeLabel) return;

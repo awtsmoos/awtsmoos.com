@@ -36,34 +36,8 @@ function named(payload = {}, fallback, body = {}) {
 	return { ...body, action, requestAction: action, actualAction: action };
 }
 
-function pidOf(meta = {}) {
-	const number = Number(meta.pid || meta.worker?.pid || meta.process?.pid || 0);
-	return Number.isInteger(number) && number > 0 ? number : 0;
-}
-
-function pidAlive(pid) {
-	if (!pid) return false;
-	try {
-		process.kill(pid, 0);
-		return true;
-	} catch {
-		return false;
-	}
-}
-
-function killPid(pid) {
-	try { process.kill(pid, 'SIGTERM'); }
-	catch {}
-}
-
 function running(status) {
-	return status === 'running' || status === 'detached_running';
-}
-
-function closeStatus(meta, code) {
-	if (meta.status === 'cancelled') return 'cancelled';
-	if (code === 0) return 'completed';
-	return meta.timedOut ? 'timed_out' : 'failed';
+	return ['queued', 'spawning', 'running', 'detached_running', 'cancelling', 'cleaning'].includes(String(status || ''));
 }
 
 async function refreshCounts(config, jobId, meta) {
@@ -92,12 +66,8 @@ module.exports = {
 	Responses,
 	activeJobs,
 	allowed,
-	closeStatus,
 	getGlobalRegistry,
-	killPid,
 	named,
-	pidAlive,
-	pidOf,
 	refreshCounts,
 	resolveCwd,
 	running

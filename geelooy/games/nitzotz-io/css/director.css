@@ -1,0 +1,54 @@
+/* B"H — The director announces changing rules without obscuring the arena. */
+.director-strip span {
+	color: #c9d7ff;
+	font-size: 9px;
+	font-weight: 900;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+#modeText { color: var(--gold); border-color: rgba(255, 223, 108, 0.32); }
+#eventText.active { color: #7ef5ff; border-color: rgba(126, 245, 255, 0.45); box-shadow: 0 0 22px rgba(126, 245, 255, 0.16); }
+#bossText.active { color: #ff9ed6; border-color: rgba(255, 100, 190, 0.45); box-shadow: 0 0 25px rgba(255, 100, 190, 0.19); }
+
+.mode-gate {
+	margin: 14px 0;
+	padding: 14px;
+	border: 1px solid rgba(126, 220, 255, 0.2);
+	border-radius: 24px;
+	background: rgba(4, 7, 24, 0.62);
+}
+.mode-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	text-align: left;
+}
+.mode-heading div { display: grid; gap: 3px; }
+.mode-heading small { color: var(--gold); font-size: 9px; font-weight: 950; letter-spacing: 0.18em; }
+.mode-heading strong { color: #dcecff; font-size: 13px; }
+.mode-heading .ghost { padding: 9px 14px; font-size: 10px; }
+.mode-select {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 7px;
+	margin-top: 11px;
+}
+.mode-card {
+	display: grid;
+	gap: 3px;
+	min-height: 66px;
+	padding: 9px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.055);
+	color: white;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+.mode-card b { color: #f5f7ff; font-size: 11px; }
+.mode-card span { color: #aebeea; font-size: 8px; line-height: 1.25; }
+.mode-card em { color: var(--gold); font-size: 8px; font-style: normal; }
+.mode-card.active { border-color: var(--gold); background: rgba(255, 223, 108, 0.13); box-shadow: 0 0 20px rgba(255, 223, 108, 0.14); }
+.mode-card:disabled { cursor: not-allowed; opacity: 0.5; }

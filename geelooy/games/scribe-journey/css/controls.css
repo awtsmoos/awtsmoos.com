@@ -1,4 +1,4 @@
-/* B"H — Mobile controls: tactile, cancel-safe, and never larger than the world. */
+/* B"H — Mobile controls: tactile, preference-aware, and cancel-safe. */
 #mobile-controls {
 	position: fixed;
 	left: 0;
@@ -9,6 +9,7 @@
 	justify-content: space-between;
 	padding: 0 calc(16px + var(--safe-right)) 0 calc(16px + var(--safe-left));
 	pointer-events: none;
+	opacity: var(--touch-opacity);
 	z-index: var(--layer-controls);
 }
 .joystick-pad {
@@ -19,6 +20,8 @@
 	border-radius: 50%;
 	background: radial-gradient(circle, rgba(140,227,155,0.12), rgba(6,22,26,0.82) 66%);
 	box-shadow: 0 12px 34px rgba(0,0,0,0.4), inset 0 0 26px rgba(140,227,155,0.1);
+	scale: var(--touch-scale);
+	transform-origin: bottom left;
 	touch-action: none;
 	pointer-events: auto;
 }
@@ -67,11 +70,17 @@
 	font-weight: 700;
 	letter-spacing: 0.08em;
 	box-shadow: 0 0 24px rgba(255,217,106,0.25);
+	scale: var(--touch-scale);
+	transform-origin: bottom right;
 	touch-action: none;
 	pointer-events: auto;
 }
 #action-button small { font-size: 0.58rem; opacity: 0.72; }
 #action-button.active { transform: scale(0.94); background: var(--gold); color: #211b08; }
+body[data-left-handed='true'] #mobile-controls { flex-direction: row-reverse; }
+body[data-left-handed='true'] .joystick-pad { transform-origin: bottom right; }
+body[data-left-handed='true'] #action-button { transform-origin: bottom left; }
 @media (hover: none), (pointer: coarse), (max-width: 920px) {
-	body[data-game-mode='game'] #mobile-controls, body.has-dialogue #mobile-controls { display: flex; }
+	body[data-game-mode='game'] #mobile-controls,
+	body.has-dialogue #mobile-controls { display: flex; }
 }
