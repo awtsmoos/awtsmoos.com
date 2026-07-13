@@ -1,19 +1,33 @@
 // B"H
-const PROTOCOL_VERSION = 'awtsmoos-worker-v1';
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Command workers carry family identity beside ordinary worker identity. */
+const Correlation = require("../runtime/correlation.js");
+
+const PROTOCOL_VERSION = "awtsmoos-worker-v1";
+
+/**
+ * B"H
+ * Worker identity is a vessel for one process family. The Awtsmoos preserves
+ * caller, birth, and group identity while Awtsmoos.com observes every change.
+ */
 function commandWorker(args = {}) {
+	const correlation = Correlation.extract(
+		args.correlation || args
+	);
+
 	return compact({
+		...correlation,
 		protocol: PROTOCOL_VERSION,
 		workerId: args.workerId,
 		jobId: args.jobId,
-		kind: 'subprocess',
-		state: args.state || 'running',
+		kind: "subprocess",
+		state: args.state || "running",
 		pid: args.pid,
 		processGroupId: args.processGroupId,
 		birthToken: args.birthToken,
 		platform: args.platform,
-		isolation: args.isolation || 'process-group-stdio-stream-files',
+		isolation: args.isolation || "process-group-stdio-stream-files",
 		timeoutMs: args.timeoutMs,
 		startedAt: args.startedAt,
 		heartbeatAt: args.heartbeatAt || args.startedAt,
@@ -25,14 +39,28 @@ function commandWorker(args = {}) {
 	});
 }
 
+function commandFinalWorker(worker = {}, patch = {}) {
+	return commandWorker({
+		...worker,
+		...patch,
+		state: patch.state || worker.state || "completed",
+		finishedAt: patch.finishedAt ||
+			worker.finishedAt ||
+			new Date().toISOString(),
+		heartbeatAt: patch.heartbeatAt ||
+			worker.heartbeatAt ||
+			new Date().toISOString()
+	});
+}
+
 function processWorker(args = {}) {
 	return compact({
 		protocol: PROTOCOL_VERSION,
 		workerId: args.workerId,
-		kind: args.kind || 'worker_process',
-		state: args.state || 'running',
+		kind: args.kind || "worker_process",
+		state: args.state || "running",
 		pid: args.pid,
-		isolation: args.isolation || 'child_process_ipc',
+		isolation: args.isolation || "child_process_ipc",
 		startedAt: args.startedAt,
 		heartbeatAt: args.heartbeatAt || args.startedAt,
 		finishedAt: args.finishedAt,
@@ -44,12 +72,17 @@ function processWorker(args = {}) {
 
 function compact(value) {
 	return Object.fromEntries(
-		Object.entries(value).filter(([, item]) => item !== undefined && item !== null && item !== '')
+		Object.entries(value).filter(([, item]) => {
+			return item !== undefined &&
+				item !== null &&
+				item !== "";
+		})
 	);
 }
 
 module.exports = {
 	PROTOCOL_VERSION,
+	commandFinalWorker,
 	commandWorker,
 	processWorker
 };
