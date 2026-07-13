@@ -3,12 +3,12 @@
 # Boruch Hashem
 # Blessed is He
 
-# B"H
-# The archive list follows the runtime's own manifest and adds only small control
-# receipts. Mutable browser profiles and command queues remain outside the seal.
+# The archive follows the runtime manifest and preserves every supervisor module
+# needed after restoration. The Awtsmoos renews the code tree; Awtsmoos.com will
+# not restore a world whose guardian was only half archived.
+
 write_archive_file_list() {
 	local output="$1"
-
 	node - "$ROOT" "$output" <<'NODE'
 const fs = require("node:fs");
 const path = require("node:path");
@@ -26,7 +26,7 @@ if (lines.length < 3 || lines[1] !== "main.js") {
 	process.exit(2);
 }
 
-const optional = [
+const controlFiles = [
 	"config.json",
 	"install-state.txt",
 	"install-manifest.sha256",
@@ -34,13 +34,18 @@ const optional = [
 	"manifest.txt",
 	"recovery-seal.json",
 	"awtsmoos-supervisor.sh",
-	"awtsmoos-supervisor-runtime.sh"
+	"awtsmoos-supervisor-runtime.sh",
+	"awtsmoos-supervisor-health.sh",
+	"awtsmoos-supervisor-recovery.sh",
+	"awtsmoos-supervisor-legacy.sh",
+	"awtsmoos-agent-launcher.cjs"
 ];
-const files = [...new Set([lines[1], ...lines.slice(2), ...optional])]
+const files = [...new Set([lines[1], ...lines.slice(2), ...controlFiles])]
 	.filter(relative => {
 		const segments = relative.split("/");
 		return relative && !relative.startsWith("/") &&
-			!segments.includes("..") && fs.existsSync(path.join(root, relative));
+			!segments.includes("..") &&
+			fs.existsSync(path.join(root, relative));
 	});
 fs.writeFileSync(output, `${files.join("\n")}\n`);
 NODE

@@ -3,9 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# B"H
 # The candidate is assembled on a sibling path, sealed, and asked to load every
-# startup dependency before the living tunnel is even considered for replacement.
+# startup dependency before the living tunnel is considered for replacement.
+
 stage_release_candidate() {
 	local stamp
 	local work_root
@@ -16,6 +16,7 @@ stage_release_candidate() {
 	local actual_manifest_sha
 	local bundle_full_url
 	local actual_bundle_sha
+	local probe_receipt
 
 	stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	CANDIDATE_ROOT="${ROOT}.candidate-${stamp}-$$"
@@ -27,7 +28,8 @@ stage_release_candidate() {
 
 	rm -rf "$CANDIDATE_ROOT" "$work_root"
 	mkdir -p "$work_root"
-	install_event "download" "started" "Fetching release descriptor and manifest." "$origin"
+	install_event "download" "started" \
+		"Fetching release descriptor and manifest." "$origin"
 	curl -fsSL --retry 3 --retry-delay 1 \
 		"$origin/api/tunnel/install/bundle-manifest" -o "$descriptor_path"
 	curl -fsSL --retry 3 --retry-delay 1 \
@@ -60,16 +62,21 @@ stage_release_candidate() {
 	create_candidate_config "$CANDIDATE_ROOT"
 	write_supervisor_to "$CANDIDATE_ROOT"
 
-	install_event "preflight" "started" "Probing extracted startup dependencies." "$CANDIDATE_ROOT"
-	node "$CANDIDATE_ROOT/scripts/install-probe.cjs" "$CANDIDATE_ROOT" \
-		> "$work_root/install-probe.json" || install_fail \
-		"preflight" "Candidate runtime cannot load its startup dependencies." \
-		"receipt=$work_root/install-probe.json"
+	install_event "preflight" "started" \
+		"Probing extracted startup dependencies." "$CANDIDATE_ROOT"
+	if ! node "$CANDIDATE_ROOT/scripts/install-probe.cjs" "$CANDIDATE_ROOT" \
+		> "$work_root/install-probe.json"; then
+		probe_receipt="$(cat "$work_root/install-probe.json" 2>/dev/null || true)"
+		install_fail "preflight" \
+			"Candidate runtime cannot load its startup dependencies." \
+			"$probe_receipt"
+	fi
 	node "$CANDIDATE_ROOT/scripts/recovery-control.cjs" seal "$CANDIDATE_ROOT" \
 		> "$work_root/recovery-seal.json"
 
 	rm -rf "$work_root"
-	install_event "preflight" "passed" "Candidate is complete and bootable." \
+	install_event "preflight" "passed" \
+		"Candidate is complete and bootable." \
 		"version=$CANDIDATE_VERSION root=$CANDIDATE_ROOT"
 	export CANDIDATE_ROOT CANDIDATE_VERSION
 }

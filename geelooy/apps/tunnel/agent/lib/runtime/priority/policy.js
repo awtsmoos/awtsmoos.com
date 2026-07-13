@@ -1,105 +1,114 @@
 // B"H
-const Control = require('./controlSets.js');
-const Work = require('./workSets.js');
+// Boruch Hashem
+// Blessed is He
 
-const LANES = Object.freeze({
-	P0: 'p0_control',
-	P1: 'p1_fs_light',
-	P2: 'p2_chrome_light',
-	P3: 'p3_heavy',
-	P4: 'p4_bulk'
-});
-const LANE_ORDER = Object.freeze([LANES.P0, LANES.P1, LANES.P2, LANES.P3, LANES.P4]);
+const Classifier = require("./laneClassifier.js");
+const FairQueue = require("./fairQueue.js");
+const LegacyQueue = require("./legacyQueue.js");
+const Scheduler = require("./laneScheduler.js");
+const Requester = require("./requester.js");
 
-/** B"H — Retry, status, wait, pages, diagnostics, and cancel retain the control road. */
-function laneForAction(action = '', kind = '') {
-	const normalized = String(action || '');
-	if (normalized === 'retryAction' || normalized === 'tunnelRequestPending') return LANES.P0;
-	if (Control.CONTROL_ACTIONS.has(normalized)) return LANES.P0;
-	if (Work.PAGE_ACTIONS.has(normalized)) return LANES.P0;
-	if (Work.HISTORY_ACTIONS.has(normalized)) return LANES.P0;
-	if (Work.WAIT_ACTIONS.has(normalized)) return LANES.P0;
-	if (Control.DIAGNOSTIC_ACTIONS.has(normalized)) return LANES.P0;
-	if (Work.BULK_ACTIONS.has(normalized) || /^mission|runtime|simulate|stress|bulk/i.test(normalized)) return LANES.P4;
-	if (kind === 'chrome' || /^chrome|browser/i.test(normalized)) {
-		return Control.CHROME_LIGHT_ACTIONS.has(normalized) ? LANES.P2 : LANES.P3;
-	}
-	if (kind === 'command' || /^command/.test(normalized)) return LANES.P3;
-	if (kind === 'fs' && Control.FS_LIGHT_ACTIONS.has(normalized)) return LANES.P1;
-	if (kind === 'fs') return LANES.P4;
-	return LANES.P3;
-}
-
-function actionOf(item = {}) {
-	return String(item.data?.payload?.action || item.payload?.action || item.action || '');
-}
-
-function kindOf(item = {}) {
-	return String(item.data?.payload?.kind || item.payload?.kind || item.kind || '');
-}
-
-function laneOf(item = {}) {
-	return laneForAction(actionOf(item), kindOf(item));
-}
-
-function isPriority(item = {}) {
-	return laneOf(item) === LANES.P0;
-}
-
+/**
+ * B"H
+ *
+ * Scheduling preserves familiar lane arrays while adding requester isolation.
+ * The Awtsmoos renews every queued deed; Awtsmoos.com grants weighted turns and
+ * prevents one agent from consuming every running slot inside a shared lane.
+ */
 function makeLaneState() {
-	return Object.fromEntries(LANE_ORDER.map(lane => [lane, { inflight: 0, queue: [] }]));
+	return Object.fromEntries(
+		Classifier.LANE_ORDER.map(lane => [lane, FairQueue.createLaneState()])
+	);
 }
 
-function enqueue(queue, item) {
-	if (Array.isArray(queue)) {
-		if (!isPriority(item)) queue.push(item);
-		else {
-			let index = 0;
-			while (index < queue.length && isPriority(queue[index])) index += 1;
-			queue.splice(index, 0, item);
-		}
-		return queue;
+function enqueue(target, item) {
+	if (Array.isArray(target)) {
+		return LegacyQueue.enqueue(target, item, Classifier.isPriority);
 	}
-	const lane = laneOf(item);
+	const lane = Classifier.laneOf(item);
 	item.lane = lane;
-	queue[lane].queue.push(item);
-	return queue;
+	item.requesterKey = Requester.requesterKey(item);
+	target[lane].queue.push(item);
+	return target;
 }
 
 function queuedCount(lanes = {}) {
-	return LANE_ORDER.reduce((total, lane) => total + (lanes[lane]?.queue.length || 0), 0);
+	return Classifier.LANE_ORDER.reduce(
+		(total, lane) => total + (lanes[lane]?.queue.length || 0),
+		0
+	);
 }
 
 function inflightCount(lanes = {}) {
-	return LANE_ORDER.reduce((total, lane) => total + (lanes[lane]?.inflight || 0), 0);
+	return Classifier.LANE_ORDER.reduce(
+		(total, lane) => total + Number(lanes[lane]?.inflight || 0),
+		0
+	);
 }
 
-function canStartLane(lanes = {}, lane = '', limits = {}) {
+function canStartLane(lanes = {}, lane = "", limits = {}) {
 	const current = lanes[lane];
-	if (!current?.queue.length) return false;
-	if (current.inflight >= Number(limits.LANE_LIMITS?.[lane] || 1)) return false;
-	return lane === LANES.P0 || inflightCount(lanes) < Number(limits.MAX_INFLIGHT || 1);
+	if (!current?.queue.length) {
+		return false;
+	}
+	if (current.inflight >= Number(limits.LANE_LIMITS?.[lane] || 1)) {
+		return false;
+	}
+	if (
+		lane !== Classifier.LANES.P0 &&
+		inflightCount(lanes) >= Number(limits.MAX_INFLIGHT || 1)
+	) {
+		return false;
+	}
+	return FairQueue.hasEligible(current, lane, limits);
 }
 
-function canQueue(lanes = {}, lane = '', limits = {}) {
-	if (lane === LANES.P0) {
-		return (lanes[lane]?.queue.length || 0) < Number(limits.CONTROL_QUEUE_LIMIT || 256);
+function canQueue(lanes = {}, lane = "", limits = {}) {
+	if (lane === Classifier.LANES.P0) {
+		return (lanes[lane]?.queue.length || 0) <
+			Number(limits.CONTROL_QUEUE_LIMIT || 256);
 	}
 	return queuedCount(lanes) < Number(limits.MAX_QUEUE || 0);
 }
 
+function nextLane(lanes, limits, scheduler) {
+	return Scheduler.peekLane(
+		scheduler,
+		lane => canStartLane(lanes, lane, limits)
+	);
+}
+
+function takeNext(lanes, limits, scheduler) {
+	const lane = Scheduler.takeLane(
+		scheduler,
+		candidate => canStartLane(lanes, candidate, limits)
+	);
+	if (!lane) {
+		return null;
+	}
+	const item = FairQueue.take(lanes[lane], lane, limits);
+	if (item) {
+		item.lane = lane;
+	}
+	return item;
+}
+
+function release(lanes, lane, requesterKey) {
+	if (lanes[lane]) {
+		FairQueue.release(lanes[lane], requesterKey);
+	}
+}
+
 module.exports = {
-	LANES,
-	LANE_ORDER,
-	actionOf,
+	...Classifier,
 	canQueue,
 	canStartLane,
+	createSchedulerState: Scheduler.createSchedulerState,
 	enqueue,
 	inflightCount,
-	isPriority,
-	kindOf,
-	laneForAction,
-	laneOf,
 	makeLaneState,
-	queuedCount
+	nextLane,
+	queuedCount,
+	release,
+	takeNext
 };

@@ -3,6 +3,10 @@
 # Boruch Hashem
 # Blessed is He
 
+# Activation state records package identity and registration truth separately.
+# The Awtsmoos renews code and connection; Awtsmoos.com commits only when the
+# same candidate identity exists both before and after sustained acknowledgement.
+
 skip_start_requested() {
 	[ "${AWTSMOOS_SKIP_START:-}" = "1" ] || \
 		[ "${AWTSMOOS_SKIP_START:-}" = "true" ]
@@ -14,7 +18,6 @@ write_activation_journal() {
 	local rollback="${3:-}"
 	local journal="$RECOVERY_ROOT/transactions/install-current.json"
 	mkdir -p "$(dirname "$journal")"
-
 	node - "$journal" "$phase" "$candidate" "$rollback" "$CANDIDATE_VERSION" <<'NODE'
 const fs = require("node:fs");
 const [file, phase, candidate, rollback, version] = process.argv.slice(2);
@@ -36,8 +39,15 @@ current_release_is_complete() {
 }
 
 candidate_is_stably_active() {
-	wait_for_runtime "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-20}" && \
-		current_release_is_complete
+	current_release_is_complete || return 1
+	wait_for_runtime "${AWTSMOOS_STARTUP_TIMEOUT_SECONDS:-45}" || return 1
+	if ! current_release_is_complete; then
+		install_event "startup" "failed" \
+			"Runtime identity changed while waiting for candidate acknowledgement." \
+			"expectedVersion=$CANDIDATE_VERSION actualVersion=$(cat "$ROOT/install-state.txt" 2>/dev/null || printf missing)"
+		return 1
+	fi
+	return 0
 }
 
 prepare_without_activation() {

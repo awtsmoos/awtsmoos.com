@@ -16,61 +16,81 @@ BACKOFF_SECONDS=1
 MAX_BACKOFF_SECONDS=30
 CHILD_PID=""
 CHILD_OWNED=0
+CHILD_KIND="modern"
 
 mkdir -p "$ROOT" "$RECOVERY_ROOT/logs"
 source "$ROOT/awtsmoos-supervisor-runtime.sh"
+source "$ROOT/awtsmoos-supervisor-health.sh"
+source "$ROOT/awtsmoos-supervisor-recovery.sh"
+source "$ROOT/awtsmoos-supervisor-legacy.sh"
 acquire_supervisor_guard
 trap finish_supervisor INT TERM
 trap cleanup_supervisor EXIT
 
 while true; do
 	[ -f "$STOP_FILE" ] && finish_supervisor
-
+	START_SECONDS="$(date +%s)"
 	CHILD_PID="$(find_existing_agent)"
 	if supervisor_alive "$CHILD_PID"; then
 		CHILD_OWNED=0
+		CHILD_KIND="modern"
 		printf '%s\n' "$CHILD_PID" > "$PID_FILE"
 		supervisor_log "agent_adopted" "pid=$CHILD_PID"
 	else
 		RECOVERY_ENV="$(recovery_environment)" || true
 		eval "$RECOVERY_ENV"
-
 		if [ "${AWTSMOOS_RECOVERY_RESTORE:-0}" = "1" ]; then
 			if ! perform_external_restore; then
+				if start_legacy_bridge; then
+					monitor_legacy_bridge || true
+					stop_owned_child
+					sleep 2
+					continue
+				fi
+				supervisor_log "all_recovery_failed" "sleep=30"
 				sleep 30
 				continue
 			fi
-
-			RECOVERY_ENV="$(recovery_environment)" || true
-			eval "$RECOVERY_ENV"
 		fi
-
-		START_SECONDS="$(date +%s)"
 		start_new_agent
 	fi
 
-	monitor_agent
-	EXIT_CODE=1
+	if ! wait_child_registration; then
+		report_registration_failure \
+			"registration_$(supervisor_receipt_state)"
+		stop_owned_child
+		record_child_exit "$START_SECONDS" 70
+		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
+		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] || \
+			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
+		sleep "$BACKOFF_SECONDS"
+		continue
+	fi
 
+	confirm_pending_restore
+	reset_archive_offset
+	BACKOFF_SECONDS=1
+	monitor_registered_child
+	MONITOR_RESULT=$?
+	if [ "$MONITOR_RESULT" -eq 2 ]; then
+		report_registration_failure "registration_lost"
+		stop_owned_child
+		record_child_exit "$START_SECONDS" 71
+		continue
+	fi
+
+	EXIT_CODE=1
 	if [ "$CHILD_OWNED" = "1" ]; then
 		wait "$CHILD_PID" 2>/dev/null
 		EXIT_CODE=$?
 	fi
-
-	END_SECONDS="$(date +%s)"
-	RUNTIME_MS=$(( (END_SECONDS - ${START_SECONDS:-$END_SECONDS}) * 1000 ))
-	[ "$(cat "$PID_FILE" 2>/dev/null || true)" = "$CHILD_PID" ] && rm -f "$PID_FILE"
-	node "$ROOT/scripts/recovery-control.cjs" after-exit "$ROOT" "$RUNTIME_MS" "$EXIT_CODE" \
-		>> "$RECOVERY_LOG" 2>&1 || true
-	supervisor_log "agent_exited" "pid=$CHILD_PID code=$EXIT_CODE runtimeMs=$RUNTIME_MS"
-
-	if [ "$RUNTIME_MS" -ge 30000 ]; then
+	record_child_exit "$START_SECONDS" "$EXIT_CODE"
+	if [ $(( $(date +%s) - START_SECONDS )) -ge 30 ]; then
 		BACKOFF_SECONDS=1
 	else
 		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
-		[ "$BACKOFF_SECONDS" -gt "$MAX_BACKOFF_SECONDS" ] && \
+		[ "$BACKOFF_SECONDS" -le "$MAX_BACKOFF_SECONDS" ] || \
 			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
 	fi
-
 	sleep "$BACKOFF_SECONDS"
 done

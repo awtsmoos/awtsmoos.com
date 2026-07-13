@@ -3,43 +3,41 @@
 # Boruch Hashem
 # Blessed is He
 
-# B"H
-# A fresh install may displace only an incomplete directory, never a verified
-# living runtime. Its expected version, manifest, imports, and PID must all agree.
+# A fresh install may displace only an incomplete directory. The Awtsmoos
+# renews the first runtime; Awtsmoos.com still requires server acknowledgement
+# and restores every available predecessor before accepting disconnection.
+
 activate_fresh_install() {
 	local displaced=""
-	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-$(date -u +%Y%m%dT%H%M%SZ)"
-
+	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}"
 	if [ -e "$ROOT" ]; then
-		displaced="${ROOT}.incomplete-$(date -u +%Y%m%dT%H%M%SZ)"
+		displaced="${ROOT}.incomplete-${stamp}"
 		mv "$ROOT" "$displaced"
 	fi
-
 	if ! mv "$CANDIDATE_ROOT" "$ROOT"; then
 		[ -n "$displaced" ] && [ -e "$displaced" ] && mv "$displaced" "$ROOT"
-		install_fail "activate" "Could not place the verified candidate at the live path." "$ROOT"
+		install_fail "activate" \
+			"Could not place the verified candidate at the live path." "$ROOT"
 	fi
-
 	write_activation_journal "fresh_activated" "$ROOT" "$displaced"
 	if skip_start_requested; then
-		install_event "activate" "passed" "Fresh runtime installed without starting." "$ROOT"
+		install_event "activate" "passed" \
+			"Fresh runtime installed without starting." "$ROOT"
 		return 0
 	fi
-
 	start_supervisor
-	if ! candidate_is_stably_active; then
-		stop_existing_runtime || true
-		[ -e "$ROOT" ] && mv "$ROOT" "$failed"
-		if [ -n "$displaced" ] && [ -e "$displaced" ]; then
-			mv "$displaced" "$ROOT"
-			start_supervisor || true
-		fi
-		install_fail "startup" \
-			"Fresh runtime failed its version, manifest, import, or stability gate." \
-			"failed=$failed"
+	if candidate_is_stably_active; then
+		[ -n "$displaced" ] && rm -rf "$displaced"
+		install_event "startup" "passed" \
+			"Fresh runtime received TUNNEL_ACK." "$ROOT"
+		return 0
 	fi
-
-	[ -n "$displaced" ] && rm -rf "$displaced"
-	install_event "startup" "passed" \
-		"Fresh runtime matched the expected release and remained alive." "$ROOT"
+	if [ -n "$displaced" ] && [ -e "$displaced" ]; then
+		rollback_failed_activation "$displaced" "$failed"
+		return 0
+	fi
+	stop_existing_runtime || true
+	[ -e "$ROOT" ] && mv "$ROOT" "$failed"
+	recover_without_predecessor
 }

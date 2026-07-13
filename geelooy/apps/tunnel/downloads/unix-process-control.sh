@@ -3,18 +3,26 @@
 # Boruch Hashem
 # Blessed is He
 
-# B"H
-# Supervisor installation and stability waiting remain small public operations;
-# lower process discovery and termination live in unix-process-runtime.sh.
+# The supervisor is installed as a complete modular vessel. The Awtsmoos renews
+# one guardian and one child; Awtsmoos.com requires a sustained TUNNEL_ACK state,
+# never one transient receipt or a merely living PID.
+
 write_supervisor_to() {
 	local destination="$1"
-	cp -p "$AWTSMOOS_INSTALL_RUNTIME/unix-supervisor.sh" \
-		"$destination/awtsmoos-supervisor.sh"
-	cp -p "$AWTSMOOS_INSTALL_RUNTIME/unix-supervisor-runtime.sh" \
-		"$destination/awtsmoos-supervisor-runtime.sh"
-	chmod +x \
-		"$destination/awtsmoos-supervisor.sh" \
-		"$destination/awtsmoos-supervisor-runtime.sh"
+	mkdir -p "$destination"
+	for pair in \
+		"unix-supervisor.sh:awtsmoos-supervisor.sh" \
+		"unix-supervisor-runtime.sh:awtsmoos-supervisor-runtime.sh" \
+		"unix-supervisor-health.sh:awtsmoos-supervisor-health.sh" \
+		"unix-supervisor-recovery.sh:awtsmoos-supervisor-recovery.sh" \
+		"unix-supervisor-legacy.sh:awtsmoos-supervisor-legacy.sh" \
+		"unix-agent-launcher.cjs:awtsmoos-agent-launcher.cjs"; do
+		local source_name="${pair%%:*}"
+		local target_name="${pair##*:}"
+		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" \
+			"$destination/$target_name"
+		chmod +x "$destination/$target_name"
+	done
 }
 
 write_supervisor() {
@@ -26,32 +34,43 @@ start_supervisor() {
 	write_supervisor
 	rm -f "$ROOT/stop-supervisor"
 	recorded="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
-
 	if command_contains "$recorded" "$ROOT/awtsmoos-supervisor.sh"; then
 		return 0
 	fi
-
+	clear_connection_receipt
 	nohup "$ROOT/awtsmoos-supervisor.sh" "$ROOT" \
 		>> "$ROOT/supervisor-stdout.log" 2>&1 </dev/null &
 }
 
 wait_for_runtime() {
-	local timeout_seconds="${1:-15}"
-	local stable_seconds=0
+	local timeout_seconds="${1:-45}"
+	local stable_seconds="${AWTSMOOS_STABILITY_SECONDS:-4}"
 	local elapsed=0
-	local agent_pid
-
+	local stable=0
+	local agent_pid=""
+	local stable_pid=""
 	while [ "$elapsed" -lt "$timeout_seconds" ]; do
 		agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-		if command_contains "$agent_pid" "$ROOT/main.js"; then
-			stable_seconds=$(( stable_seconds + 1 ))
-			[ "$stable_seconds" -ge 8 ] && return 0
+		if runtime_pid_matches "$agent_pid" && \
+			runtime_registered "$agent_pid" 600000; then
+			if [ "$stable_pid" = "$agent_pid" ]; then
+				stable=$(( stable + 1 ))
+			else
+				stable_pid="$agent_pid"
+				stable=1
+			fi
+			if [ "$stable" -ge "$stable_seconds" ]; then
+				return 0
+			fi
 		else
-			stable_seconds=0
+			stable=0
+			stable_pid=""
 		fi
 		sleep 1
 		elapsed=$(( elapsed + 1 ))
 	done
-
+	install_event "startup" "failed" \
+		"Agent did not sustain a matching TUNNEL_ACK before the deadline." \
+		"state=$(connection_state_name) pid=${agent_pid:-missing} stableSeconds=$stable"
 	return 1
 }

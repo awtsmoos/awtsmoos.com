@@ -29,25 +29,37 @@ const LANE_LIMITS = Object.freeze({
 
 /**
  * B"H
- * The Awtsmoos opens the logical doorway without a fixed fleet count. Physical
- * execution remains divided into fair lanes so Awtsmoos.com accepts every
- * agent without asking one Mac to create infinite simultaneous subprocesses.
+ *
+ * The Awtsmoos opens every logical doorway while physical execution remains
+ * bounded. One requester receives nearly full lane speed, while one slot stays
+ * reserved whenever possible so another shliach can answer without waiting.
  */
+const REQUESTER_LANE_LIMITS = Object.freeze({
+	p0_control: requesterLimit("AWTSMOOS_P0_PER_REQUESTER", LANE_LIMITS.p0_control),
+	p1_fs_light: requesterLimit("AWTSMOOS_P1_PER_REQUESTER", LANE_LIMITS.p1_fs_light),
+	p2_chrome_light: requesterLimit("AWTSMOOS_P2_PER_REQUESTER", LANE_LIMITS.p2_chrome_light),
+	p3_heavy: requesterLimit("AWTSMOOS_P3_PER_REQUESTER", LANE_LIMITS.p3_heavy),
+	p4_bulk: requesterLimit("AWTSMOOS_P4_PER_REQUESTER", LANE_LIMITS.p4_bulk)
+});
+
 const MAX_INFLIGHT = STRICT_ORDERING
 	? 1
 	: optionalLimit(process.env.AWTSMOOS_MAX_INFLIGHT);
+const MAX_QUEUE = optionalLimit(process.env.AWTSMOOS_MAX_QUEUE);
+const CONTROL_QUEUE_LIMIT = optionalLimit(process.env.AWTSMOOS_P0_QUEUE);
 
-const MAX_QUEUE = optionalLimit(
-	process.env.AWTSMOOS_MAX_QUEUE
-);
-
-const CONTROL_QUEUE_LIMIT = optionalLimit(
-	process.env.AWTSMOOS_P0_QUEUE
-);
+function requesterLimit(environmentName, laneLimit) {
+	const fallback = laneLimit > 1 ? laneLimit - 1 : 1;
+	return Time.boundedNumber(
+		process.env[environmentName],
+		fallback,
+		1,
+		laneLimit
+	);
+}
 
 function optionalLimit(value) {
 	const text = String(value ?? "").trim().toLowerCase();
-
 	if (
 		!text ||
 		text === "0" ||
@@ -56,7 +68,6 @@ function optionalLimit(value) {
 	) {
 		return UNLIMITED;
 	}
-
 	return Time.boundedNumber(
 		text,
 		UNLIMITED,
@@ -66,9 +77,7 @@ function optionalLimit(value) {
 }
 
 function publicLimit(value) {
-	return Number.isFinite(value)
-		? value
-		: null;
+	return Number.isFinite(value) ? value : null;
 }
 
 function isUnlimited(value) {
@@ -87,6 +96,7 @@ module.exports = {
 	MAX_QUEUE,
 	CONTROL_QUEUE_LIMIT,
 	LANE_LIMITS,
+	REQUESTER_LANE_LIMITS,
 	LANE_TIMEOUT_MS: Time.LANE_TIMEOUT_MS,
 	REQUEST_MAX_AGE_MS: Time.boundedNumber(process.env.AWTSMOOS_REQUEST_MAX_AGE_MS, 7 * Time.DAY, Time.MINUTE, 30 * Time.DAY),
 	KEEPALIVE_MS: Time.boundedNumber(process.env.AWTSMOOS_TUNNEL_KEEPALIVE_MS, 25 * Time.SECOND, 5 * Time.SECOND, 5 * Time.MINUTE),

@@ -8,9 +8,11 @@ const { spawn } = require("node:child_process");
 const { installFixture } = require("./runtimeFixtureInstall.cjs");
 
 /**
- * B"H — Supervises the older isolated runtime while its construction remains in
- * a separate vessel. Awtsmoos.com can therefore test life, death, and adoption
- * without hiding package creation inside process management.
+ * B"H
+ *
+ * The fixture now waits for registered testimony, not a breathing child. The
+ * Awtsmoos renews the isolated process; Awtsmoos.com tests supervisor behavior
+ * without confusing PID existence with relay readiness.
  */
 class RuntimeFixture {
 	constructor(repositoryRoot, temporaryRoot) {
@@ -30,7 +32,12 @@ class RuntimeFixture {
 			path.join(this.runtimeRoot, "awtsmoos-supervisor.sh"),
 			[this.runtimeRoot],
 			{
-				env: { ...process.env, AWTSMOOS_RECOVERY_ROOT: this.recoveryRoot },
+				env: {
+					...process.env,
+					AWTSMOOS_INSTALL_ROOT: this.runtimeRoot,
+					AWTSMOOS_RECOVERY_ROOT: this.recoveryRoot,
+					AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: "5"
+				},
 				stdio: "ignore",
 				detached: true
 			}
@@ -42,24 +49,46 @@ class RuntimeFixture {
 	async waitForAgent(timeoutMs = 15000) {
 		const startedAt = Date.now();
 		while (Date.now() - startedAt < timeoutMs) {
-			const pidPath = path.join(this.runtimeRoot, "agent.pid");
-			if (fs.existsSync(pidPath)) {
-				const pid = Number(fs.readFileSync(pidPath, "utf8").trim());
-				try {
-					process.kill(pid, 0);
-					return pid;
-				} catch {
-					// The supervisor may be between attempts.
-				}
+			const receipt = this.readReceipt();
+			if (receipt && this.receiptIsLive(receipt)) {
+				return receipt.pid;
 			}
 			await new Promise(resolve => setTimeout(resolve, 200));
 		}
-		throw new Error("fixture_agent_start_timeout");
+		throw new Error("fixture_agent_registration_timeout");
+	}
+
+	readReceipt() {
+		try {
+			return JSON.parse(fs.readFileSync(
+				path.join(this.runtimeRoot, "connection-state.json"),
+				"utf8"
+			));
+		} catch {
+			return null;
+		}
+	}
+
+	receiptIsLive(receipt) {
+		if (receipt.state !== "registered" || !Number(receipt.pid)) {
+			return false;
+		}
+		try {
+			process.kill(Number(receipt.pid), 0);
+			return receipt.tunnelName === "awt-transaction-rollback-test";
+		} catch {
+			return false;
+		}
 	}
 
 	stop() {
-		fs.writeFileSync(path.join(this.runtimeRoot, "stop-supervisor"), "stop\n");
+		fs.writeFileSync(
+			path.join(this.runtimeRoot, "stop-supervisor"),
+			"stop\n"
+		);
 	}
 }
 
-module.exports = { RuntimeFixture };
+module.exports = {
+	RuntimeFixture
+};

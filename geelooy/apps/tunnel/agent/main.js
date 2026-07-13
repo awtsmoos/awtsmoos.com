@@ -1,8 +1,18 @@
 #!/usr/bin/env node
 // B"H
-const D = require('./lib/runtime/main-dependencies.js');
-const { createMainComponents } = require('./lib/runtime/main-components.js');
+// Boruch Hashem
+// Blessed is He
 
+const D = require("./lib/runtime/main-dependencies.js");
+const { createMainComponents } = require("./lib/runtime/main-components.js");
+
+/**
+ * B"H
+ *
+ * The main loop starts one fair request per event-loop turn. The Awtsmoos
+ * renews every lane and requester; Awtsmoos.com yields between starts so a
+ * large queue cannot monopolize JavaScript before control traffic is observed.
+ */
 let components;
 
 function nextLane() {
@@ -10,52 +20,66 @@ function nextLane() {
 }
 
 function scheduleDrain() {
-	if (components.runtime.state.drainScheduled) return;
-	if (!nextLane()) return;
+	if (components.runtime.state.drainScheduled) {
+		return;
+	}
+	if (!nextLane()) {
+		return;
+	}
 	components.runtime.state.drainScheduled = true;
 	setImmediate(drainQueue);
 }
 
 function drainQueue() {
 	components.runtime.state.drainScheduled = false;
-	const lane = nextLane();
-	if (!lane) return;
-	const item = components.runtime.state.lanes[lane].queue.shift();
+	const item = components.queue.takeNext();
+	if (!item) {
+		return;
+	}
 	components.queue.clearQueueKeepalive(item);
-	if (item?.ws?.opened) {
-		components.runRequest(lane, item.ws, item.data, item.enqueuedAt).catch(error => {
-			components.log('warn', `runRequest failed: ${error.message}`);
+	if (item.ws?.opened) {
+		components.runRequest(
+			item.lane,
+			item.ws,
+			item.data,
+			item.enqueuedAt,
+			item.requesterKey
+		).catch(error => {
+			components.log("warn", `runRequest failed: ${error.message}`);
 		});
+	} else {
+		components.queue.release(item.lane, item.requesterKey);
 	}
 	if (nextLane()) scheduleDrain();
 }
 
-function release(lane) {
-	const laneState = components.runtime.state.lanes[lane];
-	if (laneState) laneState.inflight = Math.max(0, laneState.inflight - 1);
-	scheduleDrain();
+function release(lane, requesterKey) {
+	components.queue.release(lane, requesterKey);
 }
 
-components = createMainComponents(D, { release, scheduleDrain });
+components = createMainComponents(D, {
+	release,
+	scheduleDrain
+});
 
 const memoryTimer = setInterval(() => {
-	components.log('info', `Memory: ${JSON.stringify(components.runtime.snapshot())}`);
+	components.log("info", `Memory: ${JSON.stringify(components.runtime.snapshot())}`);
 }, 60000);
 memoryTimer.unref?.();
 components.runtime.lagMonitor.start();
 
-process.on('SIGINT', () => {
-	components.workers.stopAll('SIGTERM');
+process.on("SIGINT", () => {
+	components.workers.stopAll("SIGTERM");
 	process.exit(0);
 });
-process.on('SIGTERM', () => {
-	components.workers.stopAll('SIGTERM');
+process.on("SIGTERM", () => {
+	components.workers.stopAll("SIGTERM");
 	process.exit(0);
 });
 
 if (require.main === module) {
 	components.startup.main().catch(error => {
-		components.log('error', error.stack || error.message);
+		components.log("error", error.stack || error.message);
 		process.exit(1);
 	});
 }

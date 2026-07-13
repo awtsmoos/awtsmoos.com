@@ -1,34 +1,35 @@
 // B"H
-const WorkerStats = require('./main-worker-stats.js');
+// Boruch Hashem
+// Blessed is He
+
+const WorkerStats = require("./main-worker-stats.js");
+const LaneStats = require("./main-lane-stats.js");
 
 /**
- * B"H — Runtime truth is one bounded snapshot. Replacement ownership is explicit
- * so an older agent cannot wander back into reconnect after yielding its name.
+ * B"H
+ *
+ * Runtime truth is one bounded snapshot. The Awtsmoos renews lane, requester,
+ * worker, and socket; Awtsmoos.com reports pressure without exposing private
+ * scheduling identities or allowing an older connection to reclaim ownership.
  */
 function createRuntimeState(dependencies) {
-	const lagMonitor = dependencies.Lag.createLagMonitor({ intervalMs: 2000, windowMs: 30000 });
+	const lagMonitor = dependencies.Lag.createLagMonitor({
+		intervalMs: 2000,
+		windowMs: 30000
+	});
 	const state = createState(dependencies, lagMonitor);
 
 	function totalInflight() {
-		return dependencies.Priority.inflightCount(state.lanes);
+		return LaneStats.totalInflight(dependencies, state);
 	}
 
 	function totalQueued() {
-		return dependencies.Priority.queuedCount(state.lanes);
-	}
-
-	function laneStats() {
-		return Object.fromEntries(dependencies.Priority.LANE_ORDER.map(lane => [lane, {
-			inflight: state.lanes[lane].inflight,
-			queued: state.lanes[lane].queue.length,
-			maxInflight: dependencies.Limits.LANE_LIMITS[lane],
-			advisoryTimeoutMs: dependencies.Limits.LANE_TIMEOUT_MS[lane]
-		}]));
+		return LaneStats.totalQueued(dependencies, state);
 	}
 
 	function stats(options = {}) {
 		state.eventLoopLag = lagMonitor.snapshot();
-		const lanes = laneStats();
+		const lanes = LaneStats.laneStats(dependencies, state);
 		const rawWorkers = dependencies.workers.status();
 		const base = {
 			lanes,
@@ -62,12 +63,24 @@ function createRuntimeState(dependencies) {
 			wasEverConnected: state.wasEverConnected
 		};
 		return {
-			...dependencies.Memory.snapshot(memoryState, dependencies.Limits, dependencies.inlineLimit),
+			...dependencies.Memory.snapshot(
+				memoryState,
+				dependencies.Limits,
+				dependencies.inlineLimit
+			),
 			...stats({ workers: true })
 		};
 	}
 
-	return { lagMonitor, laneStats, snapshot, state, stats, totalInflight, totalQueued };
+	return {
+		lagMonitor,
+		laneStats: () => LaneStats.laneStats(dependencies, state),
+		snapshot,
+		state,
+		stats,
+		totalInflight,
+		totalQueued
+	};
 }
 
 function createState(dependencies, lagMonitor) {
@@ -82,8 +95,12 @@ function createState(dependencies, lagMonitor) {
 		generation: 0,
 		lastSuccessfulActionAt: 0,
 		lanes: dependencies.Priority.makeLaneState(),
+		scheduler: dependencies.Priority.createSchedulerState(),
 		eventLoopLag: lagMonitor.snapshot()
 	};
 }
 
-module.exports = { createRuntimeState, createState };
+module.exports = {
+	createRuntimeState,
+	createState
+};

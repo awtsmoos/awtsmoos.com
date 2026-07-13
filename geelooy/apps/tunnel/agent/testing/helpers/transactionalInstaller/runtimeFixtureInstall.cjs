@@ -7,59 +7,61 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const Sources = require("../../../../../../api/tunnel/install/tools/zipSources.js");
 const Writer = require("../../../../../../api/tunnel/install/tools/zipWriter.js");
+const FixtureSource = require("./runtimeFixtureSource.cjs");
 
 /**
- * B"H — Builds one older, deliberately simple Chai runtime. Its main vessel
- * remains alive while the complete dependency tree proves archive compatibility.
+ * B"H
+ *
+ * The fixture installer assembles one complete registered predecessor. The
+ * Awtsmoos renews source, supervisor, and seal; Awtsmoos.com tests rollback
+ * against a truthful isolated runtime without touching the user's installation.
  */
 function installFixture(fixture, version) {
 	const source = Sources.descriptor(fixture.repositoryRoot);
 	const entries = source.entries.map(entry => entry.path === "main.js"
 		? {
 			path: entry.path,
-			data: Buffer.from("// B\\\"H\nsetInterval(() => {}, 1000);\n")
+			data: Buffer.from(FixtureSource.fixtureMainSource())
 		}
 		: entry);
 	const zipPath = path.join(fixture.temporaryRoot, "older-runtime.zip");
-
 	fs.mkdirSync(fixture.runtimeRoot, { recursive: true });
 	fs.writeFileSync(zipPath, Writer.buildZip(entries));
-	const extract = spawnSync("unzip", ["-oq", zipPath, "-d", fixture.runtimeRoot], {
-		encoding: "utf8"
-	});
-	if (extract.status !== 0) throw new Error(extract.stderr || "fixture_extract_failed");
-
-	const manifest = fs.readFileSync(path.join(
-		fixture.repositoryRoot,
-		"geelooy/apps/tunnel/agent/manifest.txt"
-	));
-	fs.writeFileSync(path.join(fixture.runtimeRoot, "installed-manifest.txt"), manifest);
-	fs.writeFileSync(path.join(fixture.runtimeRoot, "install-state.txt"), `${version}\n`);
-	fs.writeFileSync(
-		path.join(fixture.runtimeRoot, "install-manifest.sha256"),
-		`${source.manifestSha256}\n`
-	);
-	fs.writeFileSync(
-		path.join(fixture.runtimeRoot, "config.json"),
-		`${JSON.stringify({
-			tunnelName: "awt-transaction-rollback-test",
-			root: fixture.temporaryRoot,
-			localApi: { enabled: false }
-		}, null, 2)}\n`
-	);
-	fs.writeFileSync(path.join(fixture.runtimeRoot, "sentinel.txt"), "older-runtime\n");
+	extractRuntime(zipPath, fixture.runtimeRoot);
+	FixtureSource.writeRuntimeMetadata(fixture, source, version);
 	copySupervisorFiles(fixture);
 	seal(fixture.runtimeRoot);
 }
 
+function extractRuntime(zipPath, runtimeRoot) {
+	const extract = spawnSync("unzip", [
+		"-oq",
+		zipPath,
+		"-d",
+		runtimeRoot
+	], { encoding: "utf8" });
+	if (extract.status !== 0) {
+		throw new Error(extract.stderr || "fixture_extract_failed");
+	}
+}
+
 function copySupervisorFiles(fixture) {
-	const downloads = path.join(fixture.repositoryRoot, "geelooy/apps/tunnel/downloads");
-	for (const name of ["unix-supervisor.sh", "unix-supervisor-runtime.sh"]) {
-		const target = name === "unix-supervisor.sh"
-			? "awtsmoos-supervisor.sh"
-			: "awtsmoos-supervisor-runtime.sh";
-		fs.copyFileSync(path.join(downloads, name), path.join(fixture.runtimeRoot, target));
-		fs.chmodSync(path.join(fixture.runtimeRoot, target), 0o755);
+	const downloads = path.join(
+		fixture.repositoryRoot,
+		"geelooy/apps/tunnel/downloads"
+	);
+	const pairs = {
+		"unix-supervisor.sh": "awtsmoos-supervisor.sh",
+		"unix-supervisor-runtime.sh": "awtsmoos-supervisor-runtime.sh",
+		"unix-supervisor-health.sh": "awtsmoos-supervisor-health.sh",
+		"unix-supervisor-recovery.sh": "awtsmoos-supervisor-recovery.sh",
+		"unix-supervisor-legacy.sh": "awtsmoos-supervisor-legacy.sh",
+		"unix-agent-launcher.cjs": "awtsmoos-agent-launcher.cjs"
+	};
+	for (const [source, target] of Object.entries(pairs)) {
+		const destination = path.join(fixture.runtimeRoot, target);
+		fs.copyFileSync(path.join(downloads, source), destination);
+		fs.chmodSync(destination, 0o755);
 	}
 }
 
@@ -69,7 +71,11 @@ function seal(runtimeRoot) {
 		"seal",
 		runtimeRoot
 	], { encoding: "utf8" });
-	if (result.status !== 0) throw new Error(`${result.stdout}\n${result.stderr}`);
+	if (result.status !== 0) {
+		throw new Error(`${result.stdout}\n${result.stderr}`);
+	}
 }
 
-module.exports = { installFixture };
+module.exports = {
+	installFixture
+};

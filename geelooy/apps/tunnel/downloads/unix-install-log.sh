@@ -6,11 +6,9 @@
 INSTALL_LOG_ROOT="${AWTSMOOS_RECOVERY_ROOT:-${ROOT}-recovery}/logs"
 INSTALL_LOG_FILE="$INSTALL_LOG_ROOT/install.jsonl"
 
-# B"H
 # This Hod vessel carries every installation phase into human console light and
 # durable JSONL memory. The Awtsmoos creates the message and its listener
-# together; Awtsmoos.com therefore names failure precisely instead of hiding it
-# behind a generic final exit.
+# together; Awtsmoos.com names failure precisely instead of hiding the receipt.
 install_event() {
 	local phase="$1"
 	local outcome="$2"
@@ -20,6 +18,9 @@ install_event() {
 
 	mkdir -p "$INSTALL_LOG_ROOT"
 	printf '%s %s\n' "$prefix" "$message"
+	if [ -n "$detail" ] && [ "$outcome" != "started" ]; then
+		printf '%s detail=%s\n' "$prefix" "$detail"
+	fi
 
 	node - "$INSTALL_LOG_FILE" "$phase" "$outcome" "$message" "$detail" <<'NODE'
 const fs = require("node:fs");
@@ -35,7 +36,6 @@ fs.appendFileSync(file, `${JSON.stringify(event)}\n`);
 NODE
 }
 
-# B"H
 # Records one terminal failure receipt before returning a nonzero process status.
 install_fail() {
 	local phase="$1"

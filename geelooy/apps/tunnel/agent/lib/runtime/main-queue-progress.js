@@ -1,18 +1,25 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H — Progress receipts keep queued work visible without owning admission or
- * dispatch. The timer is bounded, unreferenced, and released before execution.
+ * B"H
+ *
+ * Progress receipts keep queued work visible without owning admission. The
+ * Awtsmoos renews the waiting request; Awtsmoos.com preserves retry identity
+ * while timers remain bounded, unreferenced, and cleared before execution.
  */
 function createQueueProgress(dependencies) {
 	function start(item, lane) {
-		send(item.ws, item.data, lane, item.enqueuedAt, 'queued_waiting_for_lane', {
+		send(item.ws, item.data, lane, item.enqueuedAt, "queued_waiting_for_lane", {
 			queuePosition: estimatePosition(lane),
 			queued: true
 		});
 		item.queueKeepalive = setInterval(() => {
-			if (!item.ws || !item.ws.opened) return clear(item);
-			send(item.ws, item.data, lane, item.enqueuedAt, 'queued_waiting_for_lane', {
+			if (!item.ws || !item.ws.opened) {
+				return clear(item);
+			}
+			send(item.ws, item.data, lane, item.enqueuedAt, "queued_waiting_for_lane", {
 				queuePosition: estimatePosition(lane),
 				queued: true
 			});
@@ -23,16 +30,22 @@ function createQueueProgress(dependencies) {
 	function send(ws, data, lane, enqueuedAt, phase, extra = {}) {
 		const payload = dependencies.requestPayload(data);
 		const queuedMs = Math.max(0, Date.now() - enqueuedAt);
-		dependencies.streamEvent('action.progress', payload, {
+		const progress = {
 			lane,
 			queuedMs,
+			phase,
+			...extra
+		};
+		dependencies.retryControl.progress(data, payload, progress);
+		dependencies.streamEvent("action.progress", payload, {
+			...progress,
 			message: phase
 		});
 		dependencies.Send.safeSend(ws, {
-			type: 'TUNNEL_PROGRESS',
+			type: "TUNNEL_PROGRESS",
 			id: data.id,
 			...dependencies.Correlation.fields(payload),
-			action: payload.action || 'unknown',
+			action: payload.action || "unknown",
 			ok: true,
 			phase,
 			lane,
@@ -40,14 +53,16 @@ function createQueueProgress(dependencies) {
 			stillRunning: true,
 			longLivedConnection: true,
 			keepAliveMs: dependencies.Limits.KEEPALIVE_MS,
-			message: 'B"H: request is still alive; the tunnel keeps the sight-line open instead of returning 504.',
+			message: 'B"H: request is alive and isolated behind its lane.',
 			queueStats: dependencies.stats(),
 			...extra
 		});
 	}
 
 	function clear(item) {
-		if (!item?.queueKeepalive) return;
+		if (!item?.queueKeepalive) {
+			return;
+		}
 		clearInterval(item.queueKeepalive);
 		item.queueKeepalive = null;
 	}
@@ -56,7 +71,13 @@ function createQueueProgress(dependencies) {
 		return (dependencies.state.lanes[lane]?.queue || []).length + 1;
 	}
 
-	return { clear, send, start };
+	return {
+		clear,
+		send,
+		start
+	};
 }
 
-module.exports = { createQueueProgress };
+module.exports = {
+	createQueueProgress
+};

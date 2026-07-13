@@ -1,59 +1,30 @@
 // B"H
-const { createConfigLoader } = require('./main-config.js');
-const { createPayloadRuntime } = require('./main-payload.js');
-const { createDispatch } = require('./main-dispatch.js');
-const { createRuntimeState } = require('./main-state.js');
-const { createEventEmitter } = require('./main-events.js');
-const { createQueueRuntime } = require('./main-queue.js');
-const { createRequestRunner } = require('./main-run-request.js');
-const { createRegistrationRuntime } = require('./main-registration.js');
-const { createConnectionRuntime } = require('./main-connection.js');
-const { createStartupRuntime } = require('./main-startup.js');
-const RetryControl = require('./main-retry-control.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Components are wired once while each responsibility remains small. */
+const { createQueueRuntime } = require("./main-queue.js");
+const { createRequestRunner } = require("./main-run-request.js");
+const { createRegistrationRuntime } = require("./main-registration.js");
+const { createConnectionRuntime } = require("./main-connection.js");
+const { createStartupRuntime } = require("./main-startup.js");
+const { createMainFoundation } = require("./main-components-foundation.js");
+
+/**
+ * B"H
+ *
+ * The final composition joins focused vessels without hiding ownership. The
+ * Awtsmoos renews queue, request, registration, connection, and startup;
+ * Awtsmoos.com keeps each boundary explicit and independently testable.
+ */
 function createMainComponents(D, callbacks) {
-	const loadConfig = createConfigLoader(D.config, {
-		DeviceStateRoot: D.DeviceStateRoot,
-		inlineLimit: D.inlineLimit
-	});
-	const log = D.makeLogger(loadConfig());
-	const workers = D.createSupervisor({ log, getConfig: loadConfig });
-	const runtime = createRuntimeState({
-		Lag: D.Lag,
-		Priority: D.Priority,
-		workers,
-		CommandScheduler: D.CommandScheduler,
-		Limits: D.Limits,
-		Circuit: D.Circuit,
-		Memory: D.Memory,
-		inlineLimit: D.inlineLimit
-	});
-	const payload = createPayloadRuntime(D.Correlation);
-	const streamEvent = createEventEmitter(D.ActionStream, loadConfig);
-	const retryControl = RetryControl.create({
-		Registry: D.RetryRegistry,
-		Send: D.Send,
-		Correlation: D.Correlation
-	});
-	const dispatch = createDispatch({
-		Proxy: D.Proxy,
-		loadConfig,
-		Send: D.Send,
-		maxProxyBytes: D.Limits.MAX_LOCAL_PROXY_BYTES,
-		handleFs: D.handleFs,
-		handleCommand: D.handleCommand,
-		handleChrome: D.handleChrome,
-		handleRelay: D.handleRelay,
-		handleStreaming: D.handleStreaming
-	});
+	const foundation = createMainFoundation(D);
 	const queue = createQueueRuntime({
-		state: runtime.state,
-		stats: runtime.stats,
-		routedData: payload.routedData,
-		requestPayload: payload.requestPayload,
-		streamEvent,
-		retryControl,
+		state: foundation.runtime.state,
+		stats: foundation.runtime.stats,
+		routedData: foundation.payload.routedData,
+		requestPayload: foundation.payload.requestPayload,
+		streamEvent: foundation.streamEvent,
+		retryControl: foundation.retryControl,
 		Priority: D.Priority,
 		Circuit: D.Circuit,
 		Limits: D.Limits,
@@ -61,45 +32,48 @@ function createMainComponents(D, callbacks) {
 		Correlation: D.Correlation
 	});
 	queue.setScheduleDrain(callbacks.scheduleDrain);
+
 	const runRequest = createRequestRunner({
-		state: runtime.state,
-		routedData: payload.routedData,
-		streamEvent,
+		state: foundation.runtime.state,
+		routedData: foundation.payload.routedData,
+		streamEvent: foundation.streamEvent,
 		sendProgress: queue.sendProgress,
-		retryControl,
-		dispatch,
+		retryControl: foundation.retryControl,
+		dispatch: foundation.dispatch,
 		Kind: D.Kind,
 		Continue: D.Continue,
 		Limits: D.Limits,
 		Send: D.Send,
 		Envelope: D.Envelope,
 		Correlation: D.Correlation,
-		stats: runtime.stats,
+		stats: foundation.runtime.stats,
 		release: callbacks.release
 	});
 	const registration = createRegistrationRuntime({
 		nativeRegistrationPacket: D.nativeRegistrationPacket,
 		AGENT_VERSION: D.AGENT_VERSION,
-		workers,
+		workers: foundation.workers,
 		Priority: D.Priority,
 		Limits: D.Limits,
 		Send: D.Send
 	});
 	const connection = createConnectionRuntime({
-		state: runtime.state,
-		loadConfig,
-		log,
+		state: foundation.runtime.state,
+		loadConfig: foundation.loadConfig,
+		log: foundation.log,
+		agentVersion: D.AGENT_VERSION,
 		TinyWebSocket: D.TinyWebSocket,
 		registerReady: registration.registerReady,
 		Control: D.Control,
 		Replacement: D.Replacement,
+		Receipt: D.ConnectionReceipt,
 		Send: D.Send,
-		stats: runtime.stats,
+		stats: foundation.runtime.stats,
 		enqueueRequest: queue.enqueueRequest
 	});
 	const startup = createStartupRuntime({
-		loadConfig,
-		log,
+		loadConfig: foundation.loadConfig,
+		log: foundation.log,
 		AGENT_VERSION: D.AGENT_VERSION,
 		Limits: D.Limits,
 		HistoryCleanup: D.HistoryCleanup,
@@ -109,9 +83,18 @@ function createMainComponents(D, callbacks) {
 		Updates: D.Updates,
 		connection,
 		openHostedControl: D.openHostedControl,
-		shouldOpenControl: () => process.argv.includes('--open-control') && process.env.AWTSMOOS_SKIP_OPEN_CONTROL !== '1'
+		shouldOpenControl: () => process.argv.includes("--open-control") &&
+			process.env.AWTSMOOS_SKIP_OPEN_CONTROL !== "1"
 	});
-	return { connection, dispatch, loadConfig, log, payload, queue, retryControl, runRequest, runtime, startup, workers };
+	return {
+		...foundation,
+		connection,
+		queue,
+		runRequest,
+		startup
+	};
 }
 
-module.exports = { createMainComponents };
+module.exports = {
+	createMainComponents
+};

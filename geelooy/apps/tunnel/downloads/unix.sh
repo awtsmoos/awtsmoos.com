@@ -4,6 +4,7 @@
 # Blessed is He
 
 set -Eeuo pipefail
+
 echo 'B"H Awtsmoos Tunnel Transactional Bootstrap'
 origin="${AWTSMOOS_INSTALL_ORIGIN:-https://awtsmoos.com}"
 origin="${origin%/}"
@@ -24,11 +25,16 @@ command -v curl >/dev/null 2>&1 || {
 helpers=(
 	unix-install-core.sh
 	unix-install-log.sh
+	unix-install-lock.sh
+	unix-log-retention.sh
 	unix-package-io.sh
 	unix-package-config.sh
 	unix-package-stage.sh
 	unix-process-runtime.sh
 	unix-process-control.sh
+	unix-connection-health.sh
+	unix-legacy-fallback.sh
+	unix-agent-launcher.cjs
 	unix-recovery-archive-list.sh
 	unix-recovery-retention.sh
 	unix-recovery-store.sh
@@ -41,7 +47,11 @@ helpers=(
 	unix-activation.sh
 	unix-cleanup.sh
 	unix-supervisor-runtime.sh
+	unix-supervisor-health.sh
+	unix-supervisor-recovery.sh
+	unix-supervisor-legacy.sh
 	unix-supervisor.sh
+	awtsmoos-tunnel-client.js
 )
 
 for helper in "${helpers[@]}"; do

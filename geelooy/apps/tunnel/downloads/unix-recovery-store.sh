@@ -3,14 +3,16 @@
 # Boruch Hashem
 # Blessed is He
 
+# The external recovery store survives replacement of the live runtime. The
+# Awtsmoos renews rescue tools outside the failing tree; Awtsmoos.com preserves
+# verified archives, identity config, and a final legacy bridge.
+
 runtime_probe_compatible() {
 	local runtime_root="$1"
-
 	if [ -f "$runtime_root/scripts/install-probe.cjs" ]; then
 		node "$runtime_root/scripts/install-probe.cjs" "$runtime_root" >/dev/null 2>&1
 		return $?
 	fi
-
 	node - "$runtime_root" <<'NODE' >/dev/null 2>&1
 const path = require("node:path");
 const root = process.argv[2];
@@ -22,14 +24,15 @@ NODE
 install_rescue_runtime() {
 	local recovery_bin="$RECOVERY_ROOT/bin"
 	mkdir -p "$recovery_bin"
-
 	for pair in \
 		"unix-recovery-rescue.sh:awtsmoos-recovery-rescue.sh" \
 		"unix-recovery-validation.sh:awtsmoos-recovery-validation.sh" \
-		"unix-recovery-candidates.sh:awtsmoos-recovery-candidates.sh"; do
+		"unix-recovery-candidates.sh:awtsmoos-recovery-candidates.sh" \
+		"awtsmoos-tunnel-client.js:awtsmoos-legacy-tunnel-client.js"; do
 		local source_name="${pair%%:*}"
 		local target_name="${pair##*:}"
-		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" "$recovery_bin/$target_name"
+		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" \
+			"$recovery_bin/$target_name"
 		chmod +x "$recovery_bin/$target_name"
 	done
 }
@@ -43,14 +46,12 @@ archive_known_good_runtime() {
 	local temporary
 	local destination
 	local file_list
-
 	[ -f "$ROOT/main.js" ] || return 0
 	if ! runtime_probe_compatible "$ROOT"; then
 		install_event "archive" "skipped" \
 			"Current runtime did not pass the compatibility probe." "$ROOT"
 		return 1
 	fi
-
 	version="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf '%s' unknown)"
 	stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	identifier="${stamp}-${version//[^0-9A-Za-z._-]/_}"
@@ -58,18 +59,16 @@ archive_known_good_runtime() {
 	destination="$versions_root/$identifier"
 	file_list="$temporary/files.txt"
 	mkdir -p "$temporary"
-
 	write_archive_file_list "$file_list" || {
 		rm -rf "$temporary"
 		return 1
 	}
-
 	if ! tar -cf "$temporary/runtime.tar" -C "$ROOT" -T "$file_list"; then
 		rm -rf "$temporary"
-		install_event "archive" "failed" "Could not create the known-good archive." "$ROOT"
+		install_event "archive" "failed" \
+			"Could not create the known-good archive." "$ROOT"
 		return 1
 	fi
-
 	write_archive_metadata "$temporary" "$version" "$reason"
 	rm -f "$file_list"
 	mv "$temporary" "$destination"
