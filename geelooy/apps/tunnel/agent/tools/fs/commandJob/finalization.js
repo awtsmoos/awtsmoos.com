@@ -1,14 +1,26 @@
 // B"H
-const Context = require('./context.js');
-const Idempotency = require('./idempotency.js');
-const Scheduler = require('./scheduler.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Every terminal cause enters one promise before it changes the process. */
+const Context = require("./context.js");
+const GarbageCadence = require("./gcCadence.js");
+const Idempotency = require("./idempotency.js");
+const Scheduler = require("./scheduler.js");
+
+/**
+ * B"H
+ * Every terminal cause enters one promise before it changes the process. The
+ * Awtsmoos lets cleanup breathe through one shared cadence, so a thousand
+ * completed workers do not summon a thousand recursive filesystem scans.
+ */
 function reserve(config, jobId, live, producer) {
 	if (live.finalizing) return live.finalizing;
 	live.finalizing = Promise.resolve()
 		.then(producer)
-		.catch(error => ({ status: 'failed', error: error.message }))
+		.catch(error => ({
+			status: "failed",
+			error: error.message
+		}))
 		.then(patch => finalizeLive(config, jobId, live, patch));
 	return live.finalizing;
 }
@@ -21,7 +33,10 @@ async function finalizeLive(config, jobId, live, patch = {}) {
 	const current = await Context.Meta.read(config, jobId);
 	const base = current && Context.Policy.TERMINAL.has(current.status)
 		? current
-		: { ...live.meta, ...(current || {}) };
+		: {
+			...live.meta,
+			...(current || {})
+		};
 	const finalMeta = Context.Policy.TERMINAL.has(base.status)
 		? base
 		: Context.Finalize.finalizeMeta({
@@ -34,7 +49,7 @@ async function finalizeLive(config, jobId, live, patch = {}) {
 	Context.RegistryBridge.finishRegistry(live.registry, saved);
 	Context.activeJobs.delete(jobId);
 	completeOwnership(saved);
-	Context.GarbageCollection.collect(config).catch(() => {});
+	void GarbageCadence.collect(config).catch(() => {});
 	return saved;
 }
 
@@ -63,9 +78,21 @@ function completeOwnership(meta = {}) {
 
 function cleanupOptions() {
 	return {
-		graceMs: Number(process.env.AWTSMOOS_COMMAND_CANCEL_GRACE_MS || 500),
-		pollMs: Number(process.env.AWTSMOOS_COMMAND_CANCEL_POLL_MS || 25)
+		graceMs: Number(
+			process.env.AWTSMOOS_COMMAND_CANCEL_GRACE_MS ||
+			500
+		),
+		pollMs: Number(
+			process.env.AWTSMOOS_COMMAND_CANCEL_POLL_MS ||
+			25
+		)
 	};
 }
 
-module.exports = { cleanupOptions, completeOwnership, finalizeDetached, finalizeLive, reserve };
+module.exports = {
+	cleanupOptions,
+	completeOwnership,
+	finalizeDetached,
+	finalizeLive,
+	reserve
+};

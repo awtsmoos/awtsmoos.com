@@ -17,17 +17,19 @@ async function run(options, currentProcess) {
 			report: { skipped: 'unix_process_group_only' }
 		};
 	}
-	const fixture = path.join(
-		options.installRoot,
-		'testing',
-		'fixtures',
-		'stubbornCommandFamily.cjs'
-	);
+	const familyScript = [
+		"const childProcess = require('node:child_process');",
+		"process.on('SIGTERM', () => {});",
+		"const child = childProcess.spawn(process.execPath, ['-e', \"process.on('SIGTERM',()=>{});setInterval(()=>{},1000)\"], { stdio: 'ignore' });",
+		"setTimeout(() => console.log(JSON.stringify({ ready: true, parentPid: process.pid, childPid: child.pid })), 150);",
+		"setInterval(() => {}, 1000);"
+	].join('');
+	const familyCommand = `${JSON.stringify(process.execPath)} -e ${JSON.stringify(familyScript)}`;
 	const started = await Requests.sendRequest(options.relay, 'crash-start', {
 		kind: 'command',
 		action: 'commandRun',
 		requestAction: 'commandRun',
-		command: `${JSON.stringify(process.execPath)} ${JSON.stringify(fixture)}`,
+		command: familyCommand,
 		cwd: options.projectRoot,
 		timeoutMs: 60000,
 		noMission: true

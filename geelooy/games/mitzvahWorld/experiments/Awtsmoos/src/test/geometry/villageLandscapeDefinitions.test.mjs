@@ -1,32 +1,40 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file villageLandscapeDefinitions.test.mjs
+ * @description Guards the measured landscape contract after the complete
+ * botanical revelation, keeping beauty and truth joined before the Awtsmoos.
+ */
 import assert from 'node:assert/strict';
 import { createVillageLandscapeDefinitions } from '../../world/village/VillageLandscapeSystem.js';
 
-const landscape = createVillageLandscapeDefinitions(groundHeight);
+const landscape = createVillageLandscapeDefinitions(groundHeight, 'high');
 const definitions = landscape.definitions;
 
 assert.deepEqual(landscape.stats, {
 	bushes: 24,
 	bushBatches: 3,
 	bushTriangles: 576,
-	flowerInstances: 72,
-	flowerBatches: 5,
+	flowerInstances: 113,
+	flowerSpecies: 113,
+	flowerBatches: 6,
+	flowerVertices: 7120,
+	flowerTriangles: 6130,
 	gardenBeds: 3,
-	shoreStones: 18
+	shoreStones: 18,
+	quality: 'high'
 });
-assert.equal(definitions.length, 29);
+assert.equal(definitions.length, 30);
 assert.equal(new Set(definitions.map((definition) => definition.id)).size, definitions.length);
 
-const bushBatches = definitions.filter((definition) => (
-	definition.userData?.family === 'village-bushes'
-));
-const gardenBeds = definitions.filter((definition) => (
-	definition.userData?.family === 'village-garden-bed'
-));
-const shoreStones = definitions.filter((definition) => (
-	definition.userData?.family === 'lake-shore-stone'
-));
+const botanicalBatches = family('village-botanical-garden');
+const bushBatches = family('village-bushes');
+const gardenBeds = family('village-garden-bed');
+const shoreStones = family('lake-shore-stone');
 
+assert.equal(botanicalBatches.length, 6);
 assert.equal(bushBatches.length, 3);
 assert.equal(gardenBeds.length, 3);
 assert.equal(shoreStones.length, 18);
@@ -38,12 +46,11 @@ for (const definition of [...gardenBeds, ...shoreStones]) {
 	assert.equal(definition.solid, true);
 	assert.equal(definition.userData.AwtsmoosLod.className, 'landmark');
 }
-
 for (const definition of definitions) {
 	assert.ok(definition.textureUrl, `${definition.id} should retain a real material URL`);
 	if (definition.vertices) {
 		for (const point of definition.vertices) {
-			assert.ok(point.every(Number.isFinite), `${definition.id} must have finite manual geometry`);
+			assert.ok(point.every(Number.isFinite), `${definition.id} must contain finite geometry`);
 		}
 	}
 }
@@ -53,19 +60,21 @@ console.log(JSON.stringify({
 	definitionCount: definitions.length,
 	stats: landscape.stats,
 	families: {
+		botanicalBatches: botanicalBatches.length,
 		bushBatches: bushBatches.length,
 		gardenBeds: gardenBeds.length,
 		shoreStones: shoreStones.length
 	}
 }, null, 2));
 
+function family(name) {
+	return definitions.filter((definition) => definition.userData?.family === name);
+}
+
 function assertObjectVector(value, label) {
 	assert.equal(Array.isArray(value), false, `${label} must not use the obsolete array contract`);
 	assert.ok(value && typeof value === 'object', `${label} must be an object`);
-	assert.ok(
-		['x', 'y', 'z'].every((axis) => Number.isFinite(value[axis])),
-		`${label} must contain finite x/y/z values`
-	);
+	assert.ok(['x', 'y', 'z'].every((axis) => Number.isFinite(value[axis])));
 }
 
 function groundHeight(x, z) {

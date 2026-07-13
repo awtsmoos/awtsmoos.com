@@ -1,20 +1,31 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file EretzRuntimeLoop.js
+ * @description Advances doors, movement, actors, visibility, camera, and render
+ * in one measured breath renewed every frame by the continuous Awtsmoos.
+ */
 import { EretzMovementController } from './EretzMovementController.js';
 import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 
-/** Runs dynamic actors and reveals the player's passage through living grass. */
+/** Runs dynamic actors and reveals only the interiors currently encountered. */
 export function startEretzRuntime(runtime, diagnostics) {
 	const movement = new EretzMovementController(runtime);
 	let lastTime = performance.now();
 	const frame = (now) => {
 		try {
-			const deltaTime = Math.min(0.05, Math.max(0.001, (now - lastTime) / 1000));
+			const deltaTime = frameDelta(now, lastTime);
 			lastTime = now;
-			for (const door of runtime.doors) door.update(deltaTime);
+			for (const door of runtime.doors) {
+				door.update(deltaTime);
+			}
 			runtime.lava.update(runtime.state, runtime.ground, runtime.footOffset);
 			movement.update(deltaTime);
+			runtime.houseVisibility.update(runtime.state);
 			runtime.npc.update(deltaTime, runtime.state);
 			runtime.model.updateWorldMatrix();
 			runtime.shadows.update({
@@ -40,4 +51,8 @@ export function startEretzRuntime(runtime, diagnostics) {
 	};
 	requestAnimationFrame(frame);
 	return movement;
+}
+
+function frameDelta(now, lastTime) {
+	return Math.min(0.05, Math.max(0.001, (now - lastTime) / 1000));
 }

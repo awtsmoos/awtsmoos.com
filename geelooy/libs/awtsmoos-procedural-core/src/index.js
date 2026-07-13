@@ -1,7 +1,11 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * B"H
  * @file index.js
- * @description Production entrypoint for the Awtsmoos procedural core.
+ * @description Production doorway into the Awtsmoos procedural core. Geometry,
+ * trees, people, and gardens emerge as distinct vessels from one coherent API.
  */
 export { generateProceduralGeometry } from './core/geometry/geometryGenerator.js';
 export { routePrimitive } from './core/geometry/generators/primitiveRouter.js';
@@ -38,6 +42,22 @@ export {
 	canonicalBarkType,
 	canonicalLeafType
 } from './core/geometry/generators/tree/treeMaterialCatalog.js';
+export {
+	BOTANICAL_ARCHETYPES,
+	BOTANICAL_QUALITY,
+	botanicalQuality
+} from './core/geometry/generators/botany/BotanicalArchetypes.js';
+export {
+	BOTANICAL_SPECIES,
+	getBotanicalSpecies,
+	listBotanicalSpecies,
+	searchBotanicalSpecies
+} from './core/geometry/generators/botany/BotanicalSpeciesCatalog.js';
+export {
+	generateBotanicalCluster,
+	generateBotanicalPlant
+} from './core/geometry/generators/botany/BotanicalGenerator.js';
+export { validateBotanicalGeometry } from './core/geometry/generators/botany/BotanicalValidation.js';
 export { createHairPatch } from './core/components/human/hairBuilder.js';
 export { createRiggedHuman, createRiggedHuman as generateHuman } from './core/components/human/humanGenerator.js';
 export { HUMAN_SKELETON_DATA } from './core/components/human/skeletonData.js';

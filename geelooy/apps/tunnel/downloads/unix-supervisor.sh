@@ -1,48 +1,113 @@
 #!/usr/bin/env bash
-# B"H Awtsmoos forever supervisor
+# B"H
+# Boruch Hashem
+# Blessed is He
+
 set -u
 
-ROOT="${AWTSMOOS_INSTALL_ROOT:-$HOME/.awtsmoos-tunnel}"
-ENTRY="${AWTSMOOS_ENTRY:-main.js}"
+ROOT="${1:-$HOME/.awtsmoos-tunnel}"
+RECOVERY_ROOT="${AWTSMOOS_RECOVERY_ROOT:-${ROOT}-recovery}"
+LOG="$ROOT/agent-supervisor.log"
+RECOVERY_LOG="$ROOT/recovery.log"
 PID_FILE="$ROOT/agent.pid"
-SUP_PID_FILE="$ROOT/supervisor.pid"
-LOG_FILE="$ROOT/agent-supervisor.log"
+SUPERVISOR_PID_FILE="$ROOT/supervisor.pid"
 STOP_FILE="$ROOT/stop-supervisor"
-MIN_SLEEP="${AWTSMOOS_SUPERVISOR_MIN_SLEEP:-1}"
-MAX_SLEEP="${AWTSMOOS_SUPERVISOR_MAX_SLEEP:-30}"
-mkdir -p "$ROOT"
-echo $$ > "$SUP_PID_FILE"
-rm -f "$STOP_FILE"
+BACKOFF_SECONDS=1
+MAX_BACKOFF_SECONDS=30
+
+mkdir -p "$ROOT" "$RECOVERY_ROOT"
+printf '%s\n' "$$" > "$SUPERVISOR_PID_FILE"
+
+cleanup() {
+	rm -f "$SUPERVISOR_PID_FILE"
+}
+
+stop_child() {
+	if [ -n "${CHILD_PID:-}" ] && kill -0 "$CHILD_PID" 2>/dev/null; then
+		kill "$CHILD_PID" 2>/dev/null || true
+		wait "$CHILD_PID" 2>/dev/null || true
+	fi
+	rm -f "$PID_FILE"
+}
+
+trap 'stop_child; cleanup; exit 0' INT TERM
+trap cleanup EXIT
 
 log() {
-	printf '[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$*" >> "$LOG_FILE"
+	printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*" >> "$LOG"
 }
 
-is_alive() {
-	[ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null
+recovery_environment() {
+	node "$ROOT/scripts/recovery-control.cjs" before-start "$ROOT" --shell 2>> "$RECOVERY_LOG"
 }
 
-find_agent_pid() {
-	LC_ALL=C ps axww -o pid= -o command= | awk -v self="$$" -v needle="$ROOT/$ENTRY" '$1!=self&&index($0,"node " needle)>0{print $1;exit}'
-}
-
-sleep_for="$MIN_SLEEP"
-while [ ! -f "$STOP_FILE" ]; do
-	pid=""
-	[ -f "$PID_FILE" ] && pid="$(cat "$PID_FILE" 2>/dev/null || true)"
-	if is_alive "$pid"; then sleep 2; continue; fi
-	extant="$(find_agent_pid)"
-	if is_alive "$extant"; then echo "$extant" > "$PID_FILE"; sleep 2; continue; fi
-	nohup node "$ROOT/$ENTRY" >> "$ROOT/agent.log" 2>&1 &
-	pid=$!
-	echo "$pid" > "$PID_FILE"
-	log "agent pid $pid started"
-	sleep "$sleep_for"
-	if is_alive "$pid"; then
-		sleep_for="$MIN_SLEEP"
-	else
-		sleep_for=$((sleep_for * 2))
-		[ "$sleep_for" -gt "$MAX_SLEEP" ] && sleep_for="$MAX_SLEEP"
+restore_if_required() {
+	if [ "${AWTSMOOS_RECOVERY_RESTORE:-0}" != "1" ]; then
+		return 0
 	fi
+	log "integrity failure requested tier-$AWTSMOOS_RECOVERY_TIER restore"
+	node "$ROOT/scripts/recovery-restore.cjs" \
+		"$ROOT" \
+		"$AWTSMOOS_RECOVERY_TIER" \
+		"$RECOVERY_ROOT" >> "$RECOVERY_LOG" 2>&1
+}
+
+while true; do
+	if [ -f "$STOP_FILE" ]; then
+		log "stop file observed"
+		rm -f "$STOP_FILE"
+		break
+	fi
+
+	RECOVERY_ENV="$(recovery_environment)" || true
+	eval "$RECOVERY_ENV"
+	if ! restore_if_required; then
+		log "restore failed; descending one tier"
+		node "$ROOT/scripts/recovery-control.cjs" \
+			report-failure "$ROOT" restore_failed restore >> "$RECOVERY_LOG" 2>&1 || true
+		sleep "$BACKOFF_SECONDS"
+		continue
+	fi
+
+	RECOVERY_ENV="$(recovery_environment)" || true
+	eval "$RECOVERY_ENV"
+	export AWTSMOOS_COMMAND_TIER
+	if [ -n "${AWTSMOOS_COMMAND_MAX_ACTIVE:-}" ]; then
+		export AWTSMOOS_COMMAND_MAX_ACTIVE
+	else
+		unset AWTSMOOS_COMMAND_MAX_ACTIVE 2>/dev/null || true
+	fi
+
+	START_SECONDS="$(date +%s)"
+	log "starting tier=$AWTSMOOS_RECOVERY_TIER"
+	node "$ROOT/main.js" >> "$ROOT/agent.log" 2>&1 &
+	CHILD_PID=$!
+	printf '%s\n' "$CHILD_PID" > "$PID_FILE"
+
+	while kill -0 "$CHILD_PID" 2>/dev/null; do
+		if [ -f "$STOP_FILE" ]; then
+			stop_child
+			break 2
+		fi
+		sleep 2
+	done
+
+	wait "$CHILD_PID" 2>/dev/null
+	EXIT_CODE=$?
+	END_SECONDS="$(date +%s)"
+	RUNTIME_MS=$(( (END_SECONDS - START_SECONDS) * 1000 ))
+	rm -f "$PID_FILE"
+	node "$ROOT/scripts/recovery-control.cjs" \
+		after-exit "$ROOT" "$RUNTIME_MS" "$EXIT_CODE" >> "$RECOVERY_LOG" 2>&1 || true
+	log "agent exited code=$EXIT_CODE runtimeMs=$RUNTIME_MS"
+
+	if [ "$RUNTIME_MS" -ge 30000 ]; then
+		BACKOFF_SECONDS=1
+	else
+		BACKOFF_SECONDS=$(( BACKOFF_SECONDS * 2 ))
+		if [ "$BACKOFF_SECONDS" -gt "$MAX_BACKOFF_SECONDS" ]; then
+			BACKOFF_SECONDS="$MAX_BACKOFF_SECONDS"
+		fi
+	fi
+	sleep "$BACKOFF_SECONDS"
 done
-log 'stop file present; supervisor exiting'

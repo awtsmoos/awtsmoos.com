@@ -12,6 +12,8 @@ async function reconcile(config, jobId, meta) {
 	await Context.refreshCounts(config, jobId, meta);
 	const live = Context.activeJobs.get(jobId);
 	if (live && !Context.Policy.TERMINAL.has(meta.status)) return mergeLive(meta, live);
+	// A queued command intentionally has no PID until the scheduler gives it a lane.
+	if (meta.status === 'queued') return meta;
 	if (!Context.running(meta.status) && meta.status !== 'spawning' && meta.status !== 'cancelling') {
 		return meta;
 	}
@@ -21,6 +23,7 @@ async function reconcile(config, jobId, meta) {
 		if (Context.Policy.TERMINAL.has(fresh.status)) return fresh;
 		const freshLive = Context.activeJobs.get(jobId);
 		if (freshLive) return mergeLive(fresh, freshLive);
+		if (fresh.status === 'queued') return fresh;
 		meta = fresh;
 	}
 	const expected = Identity.fromMeta(meta);
@@ -34,7 +37,11 @@ async function reconcile(config, jobId, meta) {
 		status: state,
 		staleRecovered: comparison.state === 'dead',
 		error: comparison.reason || comparison.state,
-		processComparison: comparison
+		processComparison: comparison,
+		worker: {
+			...(meta.worker || {}),
+			detached: true
+		}
 	});
 }
 

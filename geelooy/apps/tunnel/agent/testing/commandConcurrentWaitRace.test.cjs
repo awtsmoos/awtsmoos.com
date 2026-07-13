@@ -1,4 +1,5 @@
 // B"H
+process.env.AWTSMOOS_COMMAND_MAX_ACTIVE = "1";
 const assert = require("assert");
 const fsp = require("fs/promises");
 const os = require("os");

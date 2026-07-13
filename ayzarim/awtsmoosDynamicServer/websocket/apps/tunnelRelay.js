@@ -1,25 +1,29 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const Constants = require("./tunnelRelay/constants.js");
+const Envelopes = require("./tunnelRelay/envelopes.js");
+const Expectation = require("./tunnelRelay/expectation.js");
 const Normalizers = require("./tunnelRelay/normalizers.js");
 const Register = require("./tunnelRelay/register.js");
-const Expectation = require("./tunnelRelay/expectation.js");
-const Validation = require("./tunnelRelay/validation.js");
-const State = require("./tunnelRelay/state.js");
 const Request = require("./tunnelRelay/request.js");
+const State = require("./tunnelRelay/state.js");
+const Validation = require("./tunnelRelay/validation.js");
 
 /**
- * B"H — The relay is now a clear doorway rather than a crowded chamber. Each
- * concern has its own vessel: registration, expectation, validation, durable
- * pending state, and request lifecycle. The public path remains unchanged so
- * every old caller may enter while stricter correlation protects every agent.
+ * B"H
+ * The relay is a clear doorway whose small vessels remain publicly reachable.
+ * The Awtsmoos lets Awtsmoos.com preserve every historical caller while strict
+ * correlation, retry, state, normalization, and envelope laws evolve within.
  */
 module.exports = {
 	...Constants,
+	...Envelopes,
+	...Expectation,
 	...Normalizers,
 	...Register,
-	...Expectation,
-	...Validation,
 	...Request,
+	...Validation,
 	relayStateSnapshot: State.snapshot
 };

@@ -1,41 +1,51 @@
 // B"H
-const Context = require('./context.js');
-const { commandJobOutputPage } = require('./output.js');
-const { commandStatus } = require('./status.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Wait is bounded, repeatable, and returns terminal output only by opt-in. */
+const Context = require("./context.js");
+const { commandJobOutputPage } = require("./output.js");
+const { commandStatus } = require("./status.js");
+
+/**
+ * B"H
+ * A durable waiter may outlive the relay's short HTTP window. The Awtsmoos
+ * lets Awtsmoos.com return a pending receipt quickly while this bounded loop
+ * continues only for the caller's explicit command wait.
+ */
 async function commandWait(config = {}, payload = {}) {
-	const jobId = Context.Policy.cleanId(payload.jobId || payload.id || '');
+	const jobId = Context.Policy.cleanId(payload.jobId || payload.id || "");
 	if (!jobId) {
-		return Context.named(payload, 'commandWait', {
+		return Context.named(payload, "commandWait", {
 			ok: false,
-			error: 'missing_jobId',
-			status: 'missing_jobId'
+			error: "missing_jobId",
+			status: "missing_jobId"
 		});
 	}
+
 	const startedAt = Date.now();
-	const timeoutMs = Math.min(
-		Number(payload.waitTimeoutMs || payload.timeoutMs || Context.Policy.waitCapMs()),
-		Context.Policy.waitCapMs()
+	const timeoutMs = Context.Policy.boundedWaitMs(
+		payload.waitTimeoutMs || payload.timeoutMs
 	);
 	const intervalMs = Math.max(
 		25,
 		Math.min(Number(payload.pollIntervalMs || 1000), 30000)
 	);
 	let status = null;
+
 	while (Date.now() - startedAt <= timeoutMs) {
 		status = await commandStatus(config, {
 			...payload,
 			jobId,
-			action: 'commandStatus',
-			requestAction: 'commandStatus',
-			actualAction: 'commandStatus'
+			action: "commandStatus",
+			requestAction: "commandStatus",
+			actualAction: "commandStatus"
 		});
 		if (!status.ok || !Context.running(status.status)) {
 			return waitDone(config, payload, jobId, status, startedAt);
 		}
 		await Context.Meta.sleep(intervalMs);
 	}
+
 	return waitStillRunning(payload, jobId, status, startedAt, intervalMs);
 }
 
@@ -45,12 +55,13 @@ async function waitDone(config, payload, jobId, status, startedAt) {
 		payload.maxChars || Context.Policy.DEFAULT_PAGE_CHARS
 	);
 	const stdout = payload.inlineOutput === true
-		? await commandJobOutputPage(config, { jobId, stream: 'stdout', maxChars })
+		? await output(config, jobId, "stdout", maxChars)
 		: null;
 	const stderr = payload.inlineOutput === true
-		? await commandJobOutputPage(config, { jobId, stream: 'stderr', maxChars })
+		? await output(config, jobId, "stderr", maxChars)
 		: null;
-	return Context.named(payload, 'commandWait', {
+
+	return Context.named(payload, "commandWait", {
 		...status,
 		done: true,
 		waitedMs: Date.now() - startedAt,
@@ -59,23 +70,35 @@ async function waitDone(config, payload, jobId, status, startedAt) {
 	});
 }
 
+function output(config, jobId, stream, maxChars) {
+	return commandJobOutputPage(config, {
+		jobId,
+		stream,
+		maxChars
+	});
+}
+
 function waitStillRunning(payload, jobId, status, startedAt, intervalMs) {
-	return Context.named(payload, 'commandWait', {
+	return Context.named(payload, "commandWait", {
 		ok: true,
-		status: status?.status || 'running',
+		status: status?.status || "running",
 		done: false,
 		waitTimedOut: true,
 		waitedMs: Date.now() - startedAt,
 		lastStatus: status,
-		statusPayload: { action: 'commandStatus', jobId },
+		statusPayload: { action: "commandStatus", jobId },
 		nextWaitPayload: {
-			action: 'commandWait',
+			action: "commandWait",
 			jobId,
-			waitTimeoutMs: Context.Policy.waitCapMs(),
+			waitTimeoutMs: Context.Policy.commandWaitCapMs(),
 			pollIntervalMs: intervalMs,
 			inlineOutput: false
 		}
 	});
 }
 
-module.exports = { commandWait, waitDone, waitStillRunning };
+module.exports = {
+	commandWait,
+	waitDone,
+	waitStillRunning
+};

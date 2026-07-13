@@ -1,59 +1,87 @@
 // B"H
-/** Uploads skin attributes and joint transforms for one skinned draw. */
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file tiny-render-skin.js
+ * @description Binds skin attributes while each GPU path remembers only the
+ * truthful palette state appropriate to its own finite vessel before Awtsmoos.
+ */
+import { bindGeometryAttributes } from './tiny-render-buffers.js';
+import {
+	assignTextureSkin,
+	assignUniformSkin,
+	limitedJointCount
+} from './tiny-render-skin-upload.js';
+
+/** Binds one skinned draw against the current renderer frame. */
 export function bindSkin(renderer, locations, mesh, buffers) {
-	renderer.buffers.bindAttribute(
-		locations.joints,
-		buffers.jointsAttribute,
-		buffers.joints,
-		[0, 0, 0, 0]
+	const { gl } = renderer;
+	const skeleton = mesh.skeleton;
+	skeleton.updateCached(mesh.matrixWorld, renderer.frameToken);
+	recordPaletteWork(renderer, skeleton);
+	const jointCount = limitedJointCount(renderer, skeleton.jointCount);
+	if (jointCount <= 0) {
+		return false;
+	}
+	gl.uniform1i(locations.uniforms.uJointCount, jointCount);
+	const upload = shouldUploadPalette(renderer, skeleton);
+	if (renderer.jointMode === 'texture') {
+		assignTextureSkin(
+			renderer,
+			locations.uniforms,
+			skeleton,
+			jointCount,
+			upload
+		);
+	} else {
+		assignUniformSkin(
+			renderer,
+			locations.uniforms,
+			skeleton,
+			jointCount,
+			upload
+		);
+	}
+	recordGpuWork(renderer, jointCount, upload);
+	bindGeometryAttributes(
+		gl,
+		locations.attributes,
+		mesh.geometry,
+		buffers,
+		renderer.bufferStore,
+		{ includeSkin: true }
 	);
-	renderer.buffers.bindAttribute(
-		locations.weights,
-		buffers.weightsAttribute,
-		buffers.weights,
-		[1, 0, 0, 0]
-	);
-	const uploaded = mesh.skeleton.update(
-		mesh.matrixWorld || renderer.identityMatrix,
-		renderer.worldByNode || new Map()
-	);
-	renderer.stats.skinnedMeshes += 1;
-	renderer.stats.jointsUploaded += uploaded;
-	uploadJoints(renderer, mesh.skeleton, locations);
+	return true;
 }
 
-function uploadJoints(renderer, skeleton, locations) {
-	const gl = renderer.gl;
-	const count = skeleton.jointCount;
+function shouldUploadPalette(renderer, skeleton) {
 	if (renderer.jointMode === 'texture') {
-		gl.activeTexture(gl.TEXTURE0);
-		gl.bindTexture(gl.TEXTURE_2D, renderer.skinTexture);
-		gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-		gl.texImage2D(
-			gl.TEXTURE_2D,
-			0,
-			gl.RGBA,
-			4,
-			Math.max(1, count),
-			0,
-			gl.RGBA,
-			gl.FLOAT,
-			skeleton.jointMatrices
+		return renderer.skinTextureResidency.shouldUpload(
+			skeleton,
+			skeleton.paletteRevision
 		);
-		gl.uniform1i(locations.jointTexture, 0);
-		gl.uniform1f(locations.jointTextureHeight, Math.max(1, count));
+	}
+	return renderer.skinUniformBindings.shouldUpload({
+		frameToken: renderer.frameToken,
+		program: renderer.programs.skin,
+		skeleton,
+		revision: skeleton.paletteRevision
+	});
+}
+
+function recordPaletteWork(renderer, skeleton) {
+	const key = skeleton.lastPaletteRecomputed
+		? 'skinPaletteRecomputes'
+		: 'skinPaletteReuses';
+	renderer.stats[key] += 1;
+}
+
+function recordGpuWork(renderer, jointCount, upload) {
+	if (upload) {
+		renderer.stats.skinGpuUploads += 1;
+		renderer.stats.jointsUploaded += jointCount;
 		return;
 	}
-	if (count > renderer.maxUniformJoints) {
-		renderer.errors.push(`Joint uniform overflow: ${count} > ${renderer.maxUniformJoints}`);
-	}
-	gl.uniformMatrix4fv(
-		locations.jointMatrices,
-		false,
-		skeleton.jointMatrices.subarray(0, Math.min(count, renderer.maxUniformJoints) * 16)
-	);
+	renderer.stats.skinGpuUploadReuses += 1;
 }

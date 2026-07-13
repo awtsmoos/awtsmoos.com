@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # B"H
+# Boruch Hashem — Blessed is He
 set -euo pipefail
 
 origin="${AWTSMOOS_INSTALL_ORIGIN%/}"
@@ -41,7 +42,7 @@ trim_manifest_lines() {
 }
 
 manifest_hash() {
-	printf '%s' "$1" | node -e "const c=require('crypto');let d='';process.stdin.on('data',x=>d+=x);process.stdin.on('end',()=>console.log(c.createHash('sha256').update(d).digest('hex')));"
+	printf '%s\n' "$1" | node -e "const c=require('crypto');let d='';process.stdin.on('data',x=>d+=x);process.stdin.on('end',()=>console.log(c.createHash('sha256').update(d).digest('hex')));"
 }
 
 assert_safe_manifest_path() {
@@ -110,8 +111,8 @@ else
 	printf '%s\n' "$HASH" > "$MANIFEST_STATE"
 	printf '%s\n' "$LINES" > "$MANIFEST_COPY"
 fi
-cleanup_disposable_state "$project_root"
-cleanup_disposable_state "$(pwd)"
+cleanup_disposable_state "$project_root"; cleanup_disposable_state "$(pwd)"
+write_supervisor
 if [ "${AWTSMOOS_SKIP_START:-}" = '1' ] || [ "${AWTSMOOS_SKIP_START:-}" = 'true' ]; then echo 'AWTSMOOS_SKIP_START set; install verified without starting agent.'; exit 0; fi
 if [ "$UPDATED" = '1' ] || [ "${AWTSMOOS_RESTART:-}" = '1' ] || [ "${AWTSMOOS_RESTART:-}" = 'true' ]; then stop_existing_runtime; fi
 start_supervisor

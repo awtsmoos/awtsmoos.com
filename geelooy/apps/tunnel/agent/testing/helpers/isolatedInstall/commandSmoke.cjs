@@ -72,13 +72,7 @@ async function runIsolated(relay, count) {
 	const jobs = await Promise.all(Array.from({ length: count }, async (_, index) => {
 		return start(relay, `isolation-start-${index}`, nodeCommand(`console.log('ISOLATED_${index}')`));
 	}));
-	await Promise.all(jobs.map((job, index) => Requests.sendRequest(relay, `isolation-wait-${index}`, {
-		kind: 'command',
-		action: 'commandWait',
-		jobId: job.jobId,
-		waitTimeoutMs: 30000,
-		pollIntervalMs: 25
-	}, 40000).then(result => assert.equal(result.status, 'completed', JSON.stringify(result)))));
+	await Promise.all(jobs.map((job, index) => waitForCompleted(relay, job, index)));
 	await Promise.all(jobs.map((job, index) => Requests.sendRequest(relay, `isolation-output-${index}`, {
 		kind: 'command',
 		action: 'commandJobOutputPage',
@@ -87,6 +81,26 @@ async function runIsolated(relay, count) {
 		maxChars: 2000
 	}).then(result => assert.match(result.content, new RegExp(`ISOLATED_${index}`)))));
 	return count;
+}
+
+async function waitForCompleted(relay, job, index) {
+	const deadline = Date.now() + 60000;
+	let attempt = 0;
+	let result = null;
+	while (Date.now() < deadline) {
+		result = await Requests.sendRequest(relay, `isolation-wait-${index}-${attempt++}`, {
+			kind: 'command',
+			action: 'commandWait',
+			jobId: job.jobId,
+			waitTimeoutMs: 4500,
+			pollIntervalMs: 25
+		}, 8000);
+		if (result.status === 'completed') return result;
+		if (result.done && !['running', 'queued', 'spawning', 'detached_running'].includes(result.status)) {
+			assert.fail(JSON.stringify(result));
+		}
+	}
+	assert.fail(`command_wait_deadline:${JSON.stringify(result)}`);
 }
 
 function nodeCommand(script) {

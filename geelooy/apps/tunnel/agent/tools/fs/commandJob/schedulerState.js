@@ -2,18 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 
-const os = require("node:os");
+const ConcurrencyProfile = require("./concurrencyProfile.js");
 const FairQueue = require("./fairQueue.js");
 const Limits = require("./queueLimits.js");
 
-const defaultActive = Math.min(
-	64,
-	Math.max(
-		4,
-		(os.cpus?.().length || 1) * 2
-	)
-);
-
+const profile = ConcurrencyProfile.resolve();
 const state = {
 	active: new Map(),
 	queue: FairQueue.create({
@@ -24,18 +17,17 @@ const state = {
 			process.env.AWTSMOOS_COMMAND_MAX_QUEUED_PER_OWNER
 		)
 	}),
-	maxActive: Limits.positive(
-		process.env.AWTSMOOS_COMMAND_MAX_ACTIVE,
-		defaultActive
-	),
+	maxActive: profile.maxActive,
+	profile,
 	launching: false,
 	rejected: 0
 };
 
 /**
  * B"H
- * The scheduler state is one measured vessel. The Awtsmoos admits every
- * logical agent while Awtsmoos.com exposes honest physical execution capacity.
+ * One measured scheduler serves unlimited logical agents through fair durable
+ * admission. The Awtsmoos lets Awtsmoos.com expose the exact recovery tier and
+ * physical process capacity instead of hiding them behind accidental defaults.
  */
 function snapshot() {
 	const activeByOwner = countActiveOwners();
@@ -49,7 +41,10 @@ function snapshot() {
 			0,
 			state.maxActive - state.active.size
 		),
-		logicalAdmission: "unlimited_by_default",
+		logicalAdmission: state.profile.logicalAdmission,
+		concurrencyTier: state.profile.tier,
+		concurrencyProfile: state.profile.name,
+		concurrencySource: state.profile.source,
 		rejected: state.rejected,
 		...state.queue.snapshot()
 	};
@@ -88,6 +83,7 @@ function countActiveOwners() {
 module.exports = {
 	activeForOwner,
 	ownerOf,
+	profile,
 	snapshot,
 	state
 };

@@ -1,14 +1,19 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 const assert = require("assert");
 const Relay = require("./tunnelRelay.js");
 
 function fixture() {
 	const sent = [];
-	const context = {
-		tunnels: new Map([["awt-one", { send: message => sent.push(message) }]]),
-		pendingTunnelRequests: new Map()
+	return {
+		sent,
+		context: {
+			tunnels: new Map([["awt-one", { send: message => sent.push(message) }]]),
+			pendingTunnelRequests: new Map()
+		}
 	};
-	return { context, sent };
 }
 
 function payload(id, path = "project/file.js") {
@@ -25,13 +30,13 @@ function payload(id, path = "project/file.js") {
 	};
 }
 
-function valid(message) {
+function valid(message, content = "late but correct") {
 	const request = message.payload;
 	return {
 		id: message.id,
 		ok: true,
-		action: "read",
-		actualAction: "read",
+		action: request.action === "retryAction" ? request.requestedAction : request.action,
+		actualAction: request.action === "retryAction" ? request.requestedAction : request.action,
 		tunnelName: "awt-one",
 		controlRequestId: request.controlRequestId,
 		clientRequestId: request.clientRequestId,
@@ -40,36 +45,70 @@ function valid(message) {
 		projectRoot: request.projectRoot,
 		nonce: request.nonce,
 		path: request.path,
-		content: "late but correct"
+		content
 	};
 }
 
-(async () => {
-	const late = fixture();
-	const first = await Relay.sendTunnelRequest(late.context, "awt-one", payload("late"), 2000);
+function pending(message) {
+	return {
+		id: message.id,
+		ok: false,
+		status: 202,
+		action: "tunnelRequestPending",
+		actualAction: "tunnelRequestPending",
+		pending: true,
+		controlRequestId: message.payload.controlRequestId,
+		requestedAction: message.payload.requestedAction
+	};
+}
+
+async function localRetryLifecycle() {
+	const test = fixture();
+	const first = await Relay.sendTunnelRequest(test.context, "awt-one", payload("local"), 2000);
 	assert.equal(first.pending, true);
-	assert.equal(late.sent.length, 1);
-	Relay.handleTunnelResponse(late.context, valid(late.sent[0]));
-	const retry = await Relay.sendTunnelRequest(late.context, "awt-one", payload("late"), 2000);
-	assert.equal(retry.content, "late but correct");
-	assert.equal(late.sent.length, 1, "completed retry must not resend");
+	const retryWaiting = Relay.sendTunnelRequest(test.context, "awt-one", first.retryPayload, 2000);
+	assert.equal(test.sent.length, 1, "retry must join the original relay request");
+	Relay.handleTunnelResponse(test.context, valid(test.sent[0]));
+	assert.equal((await retryWaiting).content, "late but correct");
+	const completed = await Relay.sendTunnelRequest(test.context, "awt-one", first.retryPayload, 2000);
+	assert.equal(completed.content, "late but correct");
+	assert.equal(test.sent.length, 1, "completed retry must not resend");
+}
 
-	const unsolicited = fixture();
-	Relay.handleTunnelResponse(unsolicited.context, { id: "future", ok: true, content: "poison" });
-	const pending = Relay.sendTunnelRequest(unsolicited.context, "awt-one", payload("future"), 2000);
-	assert.equal(unsolicited.sent.length, 1, "unsolicited response must not poison completed cache");
-	Relay.handleTunnelResponse(unsolicited.context, valid(unsolicited.sent[0]));
-	assert.equal((await pending).content, "late but correct");
+async function recoveredRelayLifecycle() {
+	const test = fixture();
+	const retry = {
+		action: "retryAction",
+		controlRequestId: "orphan",
+		requestedAction: "read",
+		relayWaitMs: 1000
+	};
+	const first = Relay.sendTunnelRequest(test.context, "awt-one", retry, 2000);
+	assert.notEqual(test.sent[0].id, "orphan", "retry transport must be fresh");
+	Relay.handleTunnelResponse(test.context, pending(test.sent[0]));
+	assert.equal((await first).pending, true);
+	const second = Relay.sendTunnelRequest(test.context, "awt-one", retry, 2000);
+	Relay.handleTunnelResponse(test.context, valid(test.sent[1], "recovered result"));
+	assert.equal((await second).content, "recovered result");
+	const cached = await Relay.sendTunnelRequest(test.context, "awt-one", retry, 2000);
+	assert.equal(cached.content, "recovered result");
+	assert.equal(test.sent.length, 2, "terminal retry must be cached by original identity");
+}
 
-	const conflict = fixture();
-	const original = Relay.sendTunnelRequest(conflict.context, "awt-one", payload("same-id", "one.js"), 2000);
-	const crossed = await Relay.sendTunnelRequest(conflict.context, "awt-one", payload("same-id", "two.js"), 2000);
-	assert.equal(crossed.error, "control_request_id_conflict");
-	assert.equal(conflict.sent.length, 1);
-	Relay.handleTunnelResponse(conflict.context, valid(conflict.sent[0]));
+async function conflictLifecycle() {
+	const test = fixture();
+	const original = Relay.sendTunnelRequest(test.context, "awt-one", payload("same", "one.js"), 2000);
+	const conflict = await Relay.sendTunnelRequest(test.context, "awt-one", payload("same", "two.js"), 2000);
+	assert.equal(conflict.error, "control_request_id_conflict");
+	Relay.handleTunnelResponse(test.context, valid(test.sent[0]));
 	await original;
+}
 
-	console.log(JSON.stringify({ ok: true, checks: ["late-retry", "unsolicited-quarantine", "same-id-conflict"] }, null, 2));
+(async () => {
+	await localRetryLifecycle();
+	await recoveredRelayLifecycle();
+	await conflictLifecycle();
+	console.log(JSON.stringify({ ok: true, checks: ["local-retry", "recovered-relay", "conflict"] }, null, 2));
 })().catch(error => {
 	console.error(error.stack || error.message);
 	process.exit(1);

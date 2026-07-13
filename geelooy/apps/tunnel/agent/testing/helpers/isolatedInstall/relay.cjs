@@ -28,10 +28,15 @@ class Relay {
 	}
 
 	attach(socket) {
+		// B"H — Every reconnect begins a new HTTP upgrade and frame buffer.
+		// A restarted agent must never have its handshake parsed as a data frame.
 		this.socket = socket;
+		this.ready = false;
+		this.buffer = Buffer.alloc(0);
 		this.events.push({ event: 'connected' });
 		let headers = Buffer.alloc(0);
 		socket.on('data', chunk => {
+			if (socket !== this.socket) return;
 			if (this.ready) return this.consumeFrames(chunk);
 			headers = Buffer.concat([headers, chunk]);
 			const headerEnd = headers.indexOf('\r\n\r\n');
@@ -43,7 +48,14 @@ class Relay {
 			if (remaining.length) this.consumeFrames(remaining);
 		});
 		socket.on('error', error => this.errors.push(`socket:${error.message}`));
-		socket.on('close', () => this.events.push({ event: 'closed' }));
+		socket.on('close', () => {
+			this.events.push({ event: 'closed' });
+			if (this.socket === socket) {
+				this.ready = false;
+				this.socket = null;
+				this.buffer = Buffer.alloc(0);
+			}
+		});
 	}
 
 	acceptHandshake(socket, headers) {

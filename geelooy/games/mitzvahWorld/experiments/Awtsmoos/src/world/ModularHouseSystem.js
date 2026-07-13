@@ -1,16 +1,17 @@
 // B"H
-import { createYardGrassDefinition } from './grass/YardGrassGeometry.js';
-import { createFenceAlongPath } from './ProceduralFenceSystem.js';
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ModularHouseSystem.js
+ * @description Orchestrates measured dwellings while exterior and interior
+ * definitions remain distinct vessels within the undivided light of Awtsmoos.
+ */
 import { createInteriorRoomSet } from './InteriorRoomSystem.js';
-import { createStoryFloorPieces } from './StoryFloorSystem.js';
 import { createHouseEntry, entryAnchors } from './house/HouseEntrySystem.js';
-import {
-	createHouseFenceSegments,
-	createHouseYardPatches
-} from './house/HouseFenceSystem.js';
+import { assembleHouseDefinitions } from './house/HouseDefinitionAssembly.js';
 import { createHouseMaterials } from './house/HouseMaterials.js';
 import { createHousePackageMetadata } from './house/HousePackageMetadata.js';
-import { createHouseShell } from './house/HouseShellSystem.js';
 import {
 	DEFAULT_HOUSE_SPEC,
 	floorTopY,
@@ -22,56 +23,48 @@ import {
 	createFutureHouseSpecs
 } from './house/HouseDistrictSpecs.js';
 import { planHouseStaircase } from './house/HouseStairSystem.js';
-import { createStairDefinitions } from './house/StairMeshBuilder.js';
 
-export { DEFAULT_HOUSE_SPEC, HOUSE_ROOM_KINDS, createFutureHouseSpecs };
+export {
+	DEFAULT_HOUSE_SPEC,
+	HOUSE_ROOM_KINDS,
+	createFutureHouseSpecs
+};
 
-/** Orchestrates one measured house, its yards, stairs, fixtures, and fence. */
-export function createModularHouse(assets = {}, specification = DEFAULT_HOUSE_SPEC, groundSampler) {
+/** Creates one measured house package with explicit visibility classification. */
+export function createModularHouse(
+	assets = {},
+	specification = DEFAULT_HOUSE_SPEC,
+	groundSampler
+) {
 	const spec = resolveHouseSpec(specification, groundSampler);
 	const materials = createHouseMaterials(assets);
 	const entry = createHouseEntry(spec, materials, groundSampler);
 	const rooms = createInteriorRoomSet({ spec, materials });
-	const stairLayouts = [];
-	const yardPatches = spec.fence ? createHouseYardPatches(spec) : [];
-	const yardGrass = groundSampler && yardPatches.length
-		? createYardGrassDefinition(spec, yardPatches, groundSampler)
-		: null;
-	const definitions = [
-		...createHouseShell(spec, materials),
-		entry.wall,
-		entry.mezuza,
-		...entry.steps,
-		...rooms.staticDefs
-	];
-	for (let level = 1; level < spec.floors; level += 1) {
-		const layout = planHouseStaircase(spec, level - 1, level);
-		stairLayouts.push(layout);
-		definitions.push(...createStoryFloorPieces({ spec, material: materials.stone, level }));
-		definitions.push(...createStairDefinitions(layout, spec, materials.stone));
-	}
-	if (yardGrass) definitions.push(yardGrass);
-	if (spec.fence && groundSampler) {
-		definitions.push(...createFenceAlongPath({
-			id: `${spec.id}-measured-fence`,
-			segments: createHouseFenceSegments(spec),
-			groundSampler,
-			material: { ...materials.fence, doubleSided: true }
-		}));
-	}
-	definitions.userData = createHousePackageMetadata({
+	const assembly = assembleHouseDefinitions({
+		spec,
+		materials,
+		entry,
+		rooms,
+		groundSampler
+	});
+	assembly.definitions.userData = createHousePackageMetadata({
 		spec,
 		entry,
 		rooms,
-		stairLayouts,
-		yardGrass,
-		yardPatches,
+		stairLayouts: assembly.stairLayouts,
+		yardGrass: assembly.yardGrass,
+		yardPatches: assembly.yardPatches,
 		anchors: modularHouseAnchors(spec)
 	});
-	return definitions;
+	return assembly.definitions;
 }
 
-export function modularHouseDoorDefs(assets = {}, specification = DEFAULT_HOUSE_SPEC, groundSampler) {
+/** Creates entry and interior dynamic doors without rebuilding static meshes. */
+export function modularHouseDoorDefs(
+	assets = {},
+	specification = DEFAULT_HOUSE_SPEC,
+	groundSampler
+) {
 	const spec = resolveHouseSpec(specification, groundSampler);
 	const materials = createHouseMaterials(assets);
 	const entry = createHouseEntry(spec, materials, groundSampler);
@@ -79,7 +72,7 @@ export function modularHouseDoorDefs(assets = {}, specification = DEFAULT_HOUSE_
 	return [entry.door, ...rooms.doorDefs];
 }
 
-export function modularHouseDoorDef(assets = {}, specification = DEFAULT_HOUSE_SPEC, groundSampler) {
+export function modularHouseDoorDef(assets = {}, specification, groundSampler) {
 	return modularHouseDoorDefs(assets, specification, groundSampler)[0];
 }
 
@@ -99,7 +92,9 @@ export function modularHouseAnchors(specification = DEFAULT_HOUSE_SPEC) {
 		floorY: specification.floorY ?? 0
 	};
 	const entry = entryAnchors(spec);
-	const stair = spec.floors > 1 ? planHouseStaircase(spec, 0, 1) : null;
+	const stair = spec.floors > 1
+		? planHouseStaircase(spec, 0, 1)
+		: null;
 	return {
 		id: spec.id,
 		frontDoor: entry.door,
@@ -109,7 +104,10 @@ export function modularHouseAnchors(specification = DEFAULT_HOUSE_SPEC) {
 		hallCenter: localToWorld(spec, 0, 0),
 		backRoom: localToWorld(spec, 0, -spec.depth / 2 + 7),
 		upstairsHook: stair
-			? { ...localToWorld(spec, stair.opening.centerX, stair.opening.centerZ), y: floorTopY(spec, 1) }
+			? {
+				...localToWorld(spec, stair.opening.centerX, stair.opening.centerZ),
+				y: floorTopY(spec, 1)
+			}
 			: null
 	};
 }
